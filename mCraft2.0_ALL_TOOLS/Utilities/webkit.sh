@@ -1,0 +1,1 @@
+/usr/local/Cellar/ios-webkit-debug-proxy/1.3/bin/ios_webkit_debug_proxy -c $1:27753 -d
