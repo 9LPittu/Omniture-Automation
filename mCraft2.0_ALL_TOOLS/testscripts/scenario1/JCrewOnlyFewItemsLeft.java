@@ -1,12 +1,7 @@
 package testscripts.scenario1;
 import java.io.IOException;
 
-
-
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
-
-
 
 import com.cognizant.framework.IterationOptions;
 import com.cognizant.framework.Status;
