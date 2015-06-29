@@ -60,11 +60,18 @@ public class JCrewBackordered extends TestCase
 		
 		ElementsAction.act(jcrewPDP.size,"click","");
 		
-		ElementsAction.act(jcrewPDP.backOrdered,"verifytext","Backordered");		
-				
+		if(jcrewPDP.backOrdered.getText().substring(0,12).equalsIgnoreCase("BackOrdered:"))
+		{
+			report.updateTestCaseLog("Verified ", "Backordered", Status.PASS);
+		}
+		else
+		{
+			report.updateTestCaseLog("Not Verified ", "Backordered", Status.FAIL);
+		}
+		
 		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");
 		
-		ElementsAction.act(jcrewPDP.checkOut,"click","");		
+		//ElementsAction.act(jcrewPDP.checkOut,"click","");		
 	}
 	@Override
 	public void tearDown()

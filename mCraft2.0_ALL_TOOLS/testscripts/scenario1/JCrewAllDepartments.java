@@ -43,20 +43,17 @@ public class JCrewAllDepartments extends TestCase
 	public void executeTest()
 	{		
 		JCrewHomePage homePage = new JCrewHomePage();		
-		ElementsAction.act(homePage.hamburgerMenu, "click", "");
+		ElementsAction.act(homePage.hamburgerMenu, "click", "");						
 		
-		homePage.getDeptList();
-		
-		for(WebElement checkBox:homePage.getDeptList()){
+		for(WebElement allDepts:homePage.deptList){
 			int i=0;
-			checkBox = homePage.getDeptList().get(i);			
-			report.updateTestCaseLog("Verified","Department Found are " +checkBox.getText(),Status.PASS);
+			allDepts = homePage.deptList.get(i);						
+			report.updateTestCaseLog("Verified","Department Found are " +allDepts.getText().toString(),Status.PASS);			
 		}				
 	}	
 	@Override
 	public void tearDown()
 	{
 		// Nothing to do		
-	}	
-	
+	}		
 }

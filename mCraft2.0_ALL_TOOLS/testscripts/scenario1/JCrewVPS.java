@@ -59,7 +59,8 @@ public class JCrewVPS extends TestCase
 		ElementsAction.act(jcrewSubCategoryPage.getProductToSelect(subCategory,productName), "click", "");
 		
 		JCrewProductDetailPage jcrewPDP = new JCrewProductDetailPage();
-		ElementsAction.act(jcrewPDP.vpsMessage,"verifytext","VPS Message");
+		String strVPS = "Since this is a special, limited-edition item with a small quantity available, our Very Personal Stylists are on hand to help you purchase yours.\nCall 800 261 7422 or email erica@jcrew.com to order.";
+		ElementsAction.act(jcrewPDP.vpsMessage,"verifytext",strVPS);
 	}
 	@Override
 	public void tearDown()

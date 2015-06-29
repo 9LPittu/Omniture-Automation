@@ -43,12 +43,11 @@ public class JCrewAllDepartmentsHeader extends TestCase
 	{
 		
 		JCrewHomePage homePage = new JCrewHomePage();		
-		homePage.getDeptHeaderList();
-		
-		for(WebElement checkBox:homePage.getDeptHeaderList()){
+				
+		for(WebElement allDepts:homePage.deptHeaderList){
 			int i=0;
-			checkBox = homePage.getDeptHeaderList().get(i);			
-			report.updateTestCaseLog("Verified","Department Found in header are " +checkBox.getText(),Status.PASS);
+			allDepts = homePage.deptHeaderList.get(i);			
+			report.updateTestCaseLog("Verified","Department Found in header are " +allDepts.getText(),Status.PASS);
 		}	
 	}	
 	@Override

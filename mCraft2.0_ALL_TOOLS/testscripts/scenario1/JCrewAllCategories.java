@@ -48,13 +48,13 @@ public class JCrewAllCategories extends TestCase
 		
 		homePage.deptClick(dataTable.getData("General_Data","DepartmentName"));
 		
-		homePage.getCategoryList();
 		
-		for(WebElement checkBox:homePage.getCategoryList()){
+		for(WebElement checkBox:homePage.categoryList)
+		{
 			int i=0;
-			checkBox = homePage.getCategoryList().get(i);	
-			System.out.println(homePage.getCategoryList().get(i).getText());
-			//report.updateTestCaseLog("Verified","Categories Found are " +checkBox.getText().get(i),Status.PASS);
+			checkBox = homePage.categoryList.get(i);	
+			System.out.println(homePage.categoryList.get(i));
+			report.updateTestCaseLog("Verified","Categories Found are " +checkBox.getText().toString(),Status.PASS);
 		}	
 	}
 		

@@ -49,6 +49,7 @@ public class JCrewNoPDPSizeSelected extends TestCase
 		homePage.deptClick(dataTable.getData("General_Data","DepartmentName"));	
 		homePage.categoryClick(dataTable.getData("General_Data","CategoryName"));	
 		
+		ElementsAction.callMeToWait(1000);
 		JCrewSubCategoryPage jcrewSubCategoryPage = new JCrewSubCategoryPage();
 		int subCategory = Integer.parseInt(dataTable.getData("General_Data","Sub-Category"));
 		int productName = Integer.parseInt(dataTable.getData("General_Data","Product"));
@@ -59,16 +60,12 @@ public class JCrewNoPDPSizeSelected extends TestCase
 		ElementsAction.act(jcrewPDP.sizeErrMsg,"verifytext", "PLEASE SELECT A SIZE");					
 		ElementsAction.act(jcrewPDP.size,"click", "");
 		ElementsAction.act(jcrewPDP.addToBagBtn,"click", "");		
-		ElementsAction.callMeToWait(1000);		
-		ElementsAction.act(jcrewPDP.checkOut,"click", "");		
+		
+		//ElementsAction.act(jcrewPDP.checkOut,"click", "");		
 	}	
 	@Override
 	public void tearDown()
 	{
 		// Nothing to do		
-	}
-	
-	
-	
-	
+	}	
 }

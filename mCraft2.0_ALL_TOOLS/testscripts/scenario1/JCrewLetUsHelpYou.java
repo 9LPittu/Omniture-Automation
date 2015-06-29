@@ -42,22 +42,21 @@ public class JCrewLetUsHelpYou extends TestCase
 	public void executeTest()
 	{		
 		JCrewHomePage homePage = new JCrewHomePage();
-		/*this.sleep(10);
-		homePage.driver.findElement(By.linkText("@jcrew_help"));		
-		report.updateTestCaseLog("Verified","Very Personal Stylist Clicked Successfully ",Status.PASS);		
-		this.sleep(10);
-		report.updateTestCaseLog("Verified","VPS Site:" +homePage.driver.getCurrentUrl(),Status.PASS);
+		ElementsAction.act(homePage.getLetUsHelpYou(2), "click", "");
 		homePage.driver.navigate().back();
-		this.sleep(10);*/
-		homePage.hamburgerMenu.click();
-		homePage.getDeptList();
+		ElementsAction.callMeToWait(1000);		
 		
-		for(WebElement checkBox:homePage.getDeptList()){
-			int i=0;
-			checkBox = homePage.getDeptList().get(i);			
-			report.updateTestCaseLog("Verified","Department Found are" +checkBox.getText(),Status.PASS);
-		}		
+		ElementsAction.act(homePage.getLetUsHelpYou(3), "click", "");
+		homePage.driver.navigate().back();
+		ElementsAction.callMeToWait(1000);
 		
+		ElementsAction.act(homePage.getLetUsHelpYou(5), "click", "");
+		homePage.driver.navigate().back();
+		ElementsAction.callMeToWait(1000);		
+		
+		ElementsAction.act(homePage.getLetUsHelpYou(4), "click", "");
+		homePage.driver.navigate().back();
+		ElementsAction.callMeToWait(1000);					
 	}
 		
 	@Override
@@ -65,8 +64,4 @@ public class JCrewLetUsHelpYou extends TestCase
 	{
 		// Nothing to do		
 	}
-	
-	
-	
-	
 }

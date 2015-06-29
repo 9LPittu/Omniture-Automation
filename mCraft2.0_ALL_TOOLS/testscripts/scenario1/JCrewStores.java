@@ -51,9 +51,5 @@ public class JCrewStores extends TestCase
 	public void tearDown()
 	{
 		// Nothing to do		
-	}
-	
-	
-	
-	
+	}		
 }

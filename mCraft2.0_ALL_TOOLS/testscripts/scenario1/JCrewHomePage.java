@@ -57,9 +57,9 @@ public  class JCrewHomePage  {
 	@FindBy(className="is-important")
 	WebElement emailFail;
 	
-	//Let Us Help You - Objects
-	@FindBy(linkText="Very Personal Stylist")
-	WebElement vpsLink;
+	//Let Us Help You - Objects		
+	@FindBy(css="#global__footer>div>div.footer__row.footer__row--top>div>div.c-footer__help>ul>li:nth-child(3)>a")
+	WebElement FooterLetUsHelpyou;
 	
     //Social Icon - Objects
 	@FindBy(css="i.icon-footer.icon-social-facebook")
@@ -83,6 +83,14 @@ public  class JCrewHomePage  {
 	@FindBy(css="li.footer__social__item.footer-youtube > a.footer__social__link")
 	WebElement socialYoutube;
 	
+	@FindBy(css="#global__nav")
+	List<WebElement> deptList;
+	
+	@FindBy(className="department-nav__list")
+	List<WebElement> deptHeaderList;
+
+	@FindBy(className="global__nav")	
+	List<WebElement> categoryList;
 		
 	public void deptClick(String linkText)
 	{
@@ -111,19 +119,20 @@ public String getCurrentURL(){
 	return getURL;
 }
 
-public List<WebElement> getDeptList(){
-	List<WebElement> elementsList =  driver.findElements(By.cssSelector("#global__nav"));
-	return elementsList;
-}
-
-public List<WebElement> getDeptHeaderList(){
-	List<WebElement> elementsList =  driver.findElements(By.className("department-nav__list"));
-	return elementsList;
-}
-
 public List<WebElement> getCategoryList(){
 	List<WebElement> elementsList =  driver.findElements(By.className("global__nav"));
 	return elementsList;
 }
 
+public WebElement getLetUsHelpYou(int footerHelp)
+{
+	WebElement helpLinks = driver.findElement(By.cssSelector("#global__footer>div>div.footer__row.footer__row--top>div>div.c-footer__help>ul>li:nth-child("+footerHelp+")>a"));	
+	return helpLinks;
+}
+
+public WebElement getFooterLinks(int strFirst, int strSecond)
+{
+	WebElement footerLinks = driver.findElement(By.cssSelector("#global__footer>div>div.footer__row.footer__row--main>div>div:nth-child(2)>ul:nth-child("+strFirst+")>li:nth-child("+strSecond+")>a"));	
+	return footerLinks;
+}
 }

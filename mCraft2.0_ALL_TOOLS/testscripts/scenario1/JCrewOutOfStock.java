@@ -53,6 +53,7 @@ public class JCrewOutOfStock extends TestCase
 		homePage.deptClick(dataTable.getData("General_Data","DepartmentName"));				
 		homePage.categoryClick(dataTable.getData("General_Data","CategoryName"));	
 
+		ElementsAction.callMeToWait(1000);
 		JCrewSubCategoryPage jcrewSubCategoryPage = new JCrewSubCategoryPage();
 		int subCategory = Integer.parseInt(dataTable.getData("General_Data","Sub-Category"));
 		int productName = Integer.parseInt(dataTable.getData("General_Data","Product"));

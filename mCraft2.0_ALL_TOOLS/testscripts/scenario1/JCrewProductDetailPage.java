@@ -31,6 +31,10 @@ public class JCrewProductDetailPage {
 	@FindBy(css="#c-product__vps")
 	WebElement vpsMessage;
 	
+	@FindBy(css="#c-product__actions>div.product__message.message.message--box.message--is-final-sale")
+	WebElement isFinalSale;
+	
+	
 	@FindBy(css="#c-product__actions>div.product__message.message.message--box.message-box--is-overlay.message--no-size.is-important.is-emphasized.is-centered")
 	WebElement sizeErrMsg;
 

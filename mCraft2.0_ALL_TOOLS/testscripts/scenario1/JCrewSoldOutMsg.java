@@ -47,6 +47,7 @@ public class JCrewSoldOutMsg extends TestCase
 	    homePage.deptClick(dataTable.getData("General_Data","DepartmentName"));				
 		homePage.categoryClick(dataTable.getData("General_Data","CategoryName"));	
 		
+		ElementsAction.callMeToWait(1000);
 		JCrewSubCategoryPage jcrewSubCategoryPage = new JCrewSubCategoryPage();
 		int subCategory = Integer.parseInt(dataTable.getData("General_Data","Sub-Category"));
 		int productName = Integer.parseInt(dataTable.getData("General_Data","Product"));
@@ -55,12 +56,17 @@ public class JCrewSoldOutMsg extends TestCase
 		JCrewProductDetailPage jcrewPDP = new JCrewProductDetailPage();							
 		ElementsAction.act(jcrewPDP.size,"click","");		
 		ElementsAction.act(jcrewPDP.selectQuantity,"select","9");		
-		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");				
+		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");	
+		
+		ElementsAction.callMeToWait(1000);
 		ElementsAction.act(jcrewPDP.size,"click","");		
 		ElementsAction.act(jcrewPDP.selectQuantity,"select","9");			
-		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");		
-		ElementsAction.act(jcrewPDP.soldOutMsg,"verifytext","SOLDOUT MESSGAGE");				
-		ElementsAction.act(jcrewPDP.checkOut,"click","");
+		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");
+		if(jcrewPDP.soldOutMsg.getText().contains("because it is no longer available."))
+		{
+			report.updateTestCaseLog("Verified", "No Longer Available Message", Status.PASS );
+		}
+		//ElementsAction.act(jcrewPDP.checkOut,"click","");
 	}	
 	@Override
 	public void tearDown()

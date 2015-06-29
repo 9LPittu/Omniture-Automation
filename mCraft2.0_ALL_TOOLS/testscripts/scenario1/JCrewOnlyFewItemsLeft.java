@@ -16,15 +16,12 @@ import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
 
 
-
 /**
  * Test for login with valid user credentials
  * @author Cognizant
  */
 public class JCrewOnlyFewItemsLeft extends TestCase
 {
-	
-	
 	@Test()
 	public void runTC1() throws IOException
 	{ 
@@ -53,6 +50,7 @@ public class JCrewOnlyFewItemsLeft extends TestCase
 		homePage.deptClick(dataTable.getData("General_Data","DepartmentName"));
 		homePage.categoryClick(dataTable.getData("General_Data","CategoryName"));	
 
+		ElementsAction.callMeToWait(1000);
 		JCrewSubCategoryPage jcrewSubCategoryPage = new JCrewSubCategoryPage();
 		int subCategory = Integer.parseInt(dataTable.getData("General_Data","Sub-Category"));
 		int productName = Integer.parseInt(dataTable.getData("General_Data","Product"));
@@ -60,18 +58,13 @@ public class JCrewOnlyFewItemsLeft extends TestCase
 				
 		JCrewProductDetailPage jcrewPDP = new JCrewProductDetailPage();
 		ElementsAction.act(jcrewPDP.size,"click","");		
-		ElementsAction.act(jcrewPDP.size,"click","");			
 		ElementsAction.act(jcrewPDP.onlyFewItemsLeft,"verifytext","IN STOCK – ONLY A FEW LEFT");					
 		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");		
-		ElementsAction.act(jcrewPDP.checkOut,"click","");		
+		//ElementsAction.act(jcrewPDP.checkOut,"click","");		
 	}	
 	@Override
 	public void tearDown()
 	{
 		// Nothing to do		
 	}
-	
-	
-	
-	
 }
