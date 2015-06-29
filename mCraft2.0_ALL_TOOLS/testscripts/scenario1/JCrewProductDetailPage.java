@@ -7,6 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import allocator.Allocator;
+import supportlibraries.ElementsAction;
 import supportlibraries.SeleniumReport;
 
 
@@ -14,12 +16,8 @@ import supportlibraries.SeleniumReport;
 public class JCrewProductDetailPage {
 	
 	WebDriver driver;
-	
-	
 
-	public static String URL="";
-	
-	
+	public static String URL="";		
 	
 	@FindBy(xpath="//*[@id='c-product__sizes']/div/div/ul/li[1]/span")
 	WebElement size;
@@ -51,102 +49,17 @@ public class JCrewProductDetailPage {
 	@FindBy(css="#c-product__recommendations>div>ul>li:nth-child(1)>a>img")
 	WebElement customersAlsoLove;
 	
-
 	@FindBy(css="#btn__checkout")
 	WebElement checkOut;
 	
 	
-	public JCrewProductDetailPage(WebDriver driver){
-		 
-        this.driver = driver;
- 
-        //This initElements method will create all WebElements
- 
+	public JCrewProductDetailPage()
+	{	
+		if(Allocator.ToolName.equalsIgnoreCase("Selenium_Desktop"))
+			this.driver = ElementsAction.webdriver;
+		else if(Allocator.ToolName.equalsIgnoreCase("Appium"))
+			this.driver = ElementsAction.appiumdriver;
+		
         PageFactory.initElements(driver, this);
- 
-    }
-	
-	
-	
-	public WebElement getFirstSize(){
-		
-		return size;
-	}
-	
-public WebElement getAddToBagBtn(){
-		
-		return addToBagBtn;
-	}
-	
-
-
-public  String getBackorderedString(){
-	
-	String backorderedText =  this.backOrdered.getText();
-	
-	return backorderedText;
-}
-
-public  String getOutOfStockString(){
-	
-	String outofStockText =  this.outofStockText.getText();
-	
-	return outofStockText;
-}
-
-public  String getOnlyFewItemLeftString(){
-	
-	String OnlyFewItemsLeftText =  this.onlyFewItemsLeft.getText();
-	
-	return OnlyFewItemsLeftText;
-}
-
-public  String getVPSMessageString(){
-	
-	String VPSMessageString =  this.vpsMessage.getText();
-	
-	return VPSMessageString;
-}
-
-public  String getSizeErrMsg(){
-	
-	String sizeErrMsg =  this.sizeErrMsg.getText();
-	
-	return sizeErrMsg;
-}
-
-
-public  String getSoldOutMsg(){
-	
-	String soldOutMsg =  this.soldOutMsg.getText();
-	
-	return soldOutMsg;
-}
-
-public WebElement getCustomersAlsoLove(){
-	
-	return customersAlsoLove;
-}
-
-public WebElement getCheckout(){
-	
-	return checkOut;
-}
-
-
-public WebElement setQuantity(String qtyValue,SeleniumReport report){						
-
-	WebElement selectElement = null;	
-	try {		
-	System.out.println("testing");
-	WebElement selectQty = driver.findElement(By.xpath(".//*[@class='dropdown dropdown--quantity js-product__quantity']"));
-	Select qty = new Select(selectQty);
-	qty.selectByValue(qtyValue);
-	}
-	catch (Exception e){
-		//report.updateTestCaseLog(" Category " + linkText + " not Visible or problem accessing the element  ",linkText,Status.FAIL);
-	}
-	return selectElement;
-} 
-	 
+    }			 
 }

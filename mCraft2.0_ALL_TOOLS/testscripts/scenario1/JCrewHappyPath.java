@@ -5,8 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 
+
 import com.cognizant.framework.IterationOptions;
 import com.cognizant.framework.Status;
+
 
 
 import supportlibraries.DriverScript;
@@ -21,25 +23,17 @@ import supportlibraries.TestCase;
  */
 public class JCrewHappyPath extends TestCase
 {
-	
-	
 	@Test()
 	public void runTC1() throws IOException
 	{ 
-		// Modify the test parameters as required
-		
-	    	
-	     
+		// Modify the test parameters as required    
 	    testParameters.setCurrentTestDescription("Test for login with valid user credentials");
 		testParameters.setIterationMode(IterationOptions.RunOneIterationOnly);
 		
-		//testParameters.setBrowser(MobilePlatform.Web);
-		
+		//testParameters.setBrowser(MobilePlatform.Web);		
 		driverScript = new DriverScript(testParameters);
 		driverScript.setLinkScreenshotsToTestLog(true);
 		driverScript.driveTestExecution(); 
-		
-		
 	}
 	
 	@Override
@@ -53,44 +47,22 @@ public class JCrewHappyPath extends TestCase
 	public void executeTest()
 	{
 		
-		JCrewHomePage homePage = new JCrewHomePage(webdriver);
-		
-		homePage.hamburgerMenu.click();
-		report.updateTestCaseLog(" Verified ","Hamburger Menu Clicked Successfully",Status.PASS);
-				
-		String deptName = dataTable.getData("General_Data","DepartmentName");
-		homePage.getDepartmentByText(deptName,report).click();
-		report.updateTestCaseLog(" Verified","Department clicked Successfully",Status.PASS);
-		
-		homePage.getCategoryByText(dataTable.getData("General_Data","CategoryName"),report).click();
-		report.updateTestCaseLog(" Verified","Category Clicked Successfully",Status.PASS);
+		JCrewHomePage homePage = new JCrewHomePage();		
+		ElementsAction.act(homePage.hamburgerMenu,"click", "");			
+		homePage.deptClick(dataTable.getData("General_Data","DepartmentName"));		
+		homePage.categoryClick(dataTable.getData("General_Data","CategoryName"));	
 
-		
-		JCrewSubCategoryPage jcrewSubCategoryPage = new JCrewSubCategoryPage(webdriver);
-		
-		if(jcrewSubCategoryPage.getSubCategoryHeaderString().length() > 0 )
-			report.updateTestCaseLog("  Verified:  ", " Sub Category product header found is " +  jcrewSubCategoryPage.getSubCategoryHeaderString() ,Status.PASS); 
-		
-		
-		WebElement elementToClick = null; 
-		try {
-			int subCategory = Integer.parseInt(dataTable.getData("General_Data","Sub-Category"));
-			int productName = Integer.parseInt(dataTable.getData("General_Data","Product"));
-			elementToClick = jcrewSubCategoryPage.getProductToSelect(subCategory,productName);
-			elementToClick.click();
-		} catch (Exception e) {
-			report.updateTestCaseLog(" Failed" , "Single click  over the product " ,Status.FAIL);			
-			e.printStackTrace();						
-		}		
-		if(elementToClick!=null)
-			report.updateTestCaseLog(" Verified" , "Single click  over the product  " ,Status.PASS);
-		
-		JCrewProductDetailPage jcrewPDP = new JCrewProductDetailPage(webdriver);
-		jcrewPDP.getFirstSize().click();
-		report.updateTestCaseLog(" Verified: " , "Size Clicked Successfully  " ,Status.PASS);
-		
-		jcrewPDP.getAddToBagBtn().click();
-		report.updateTestCaseLog(" Verified: " , "Added Item to Bag Successfully" ,Status.PASS);
+		ElementsAction.callMeToWait(1000);
+			
+		JCrewSubCategoryPage jcrewSubCategoryPage = new JCrewSubCategoryPage();
+		int subCategory = Integer.parseInt(dataTable.getData("General_Data","Sub-Category"));
+		int productName = Integer.parseInt(dataTable.getData("General_Data","Product"));
+		ElementsAction.act(jcrewSubCategoryPage.getProductToSelect(subCategory,productName), "click", "");
+		   
+		JCrewProductDetailPage jcrewPDP = new JCrewProductDetailPage();
+		ElementsAction.act(jcrewPDP.size,"click", "");
+		ElementsAction.act(jcrewPDP.addToBagBtn,"click", "");		
+		ElementsAction.act(jcrewPDP.checkOut,"click", "");
 	}
 	
 	public void sleep(int seconds) 

@@ -17,25 +17,17 @@ import com.cognizant.framework.Status;
  */
 public class JCrewValidSignupEmail extends TestCase
 {
-	
-	
 	@Test()
 	public void runTC1() throws IOException
 	{ 
 		// Modify the test parameters as required
-		
-	    	
-	     
 	    testParameters.setCurrentTestDescription("Test for login with valid user credentials");
 		testParameters.setIterationMode(IterationOptions.RunOneIterationOnly);
 		
-		//testParameters.setBrowser(MobilePlatform.Web);
-		
+		//testParameters.setBrowser(MobilePlatform.Web);		
 		driverScript = new DriverScript(testParameters);
 		driverScript.setLinkScreenshotsToTestLog(true);
 		driverScript.driveTestExecution(); 
-		
-		
 	}
 	
 	@Override
@@ -47,41 +39,22 @@ public class JCrewValidSignupEmail extends TestCase
 	
 	@Override
 	public void executeTest()
-	{
+	{		
+		JCrewHomePage homePage = new JCrewHomePage();
 		
-
-		JCrewHomePage homePage = new JCrewHomePage(webdriver);
+		String emailText = dataTable.getData("General_Data","EmailID");		
+		ElementsAction.act(homePage.emailTextBox, "entertext", emailText);
 		
-		homePage.getEmailSetupTextBox(report);
-		report.updateTestCaseLog("Verified","Email Entered Successfully",Status.PASS);
+		ElementsAction.act(homePage.signupBtn, "click", "");				
 		
-		homePage.getSignup().click();
-		report.updateTestCaseLog("Verified","Email Signup Clicked Successfully",Status.PASS);
+		ElementsAction.callMeToWait(10);
 		
-		this.sleep(5);
-		
-		if(homePage.getEmailSuccess().getText().length()>0)
-		report.updateTestCaseLog("Verified","Invalid Email Address Verified:" + homePage.getEmailSuccess().getText(),Status.PASS);
-		
-		this.sleep(4);
-	}
-	
-	public void sleep(int seconds) 
-	{
-	    try {
-	        Thread.sleep(seconds * 1000);
-	    } catch (InterruptedException e) {
-
-	    }
+		ElementsAction.act(homePage.emailSuccess, "verifytext", "THANK YOU... Your email has been added to the crew.com email list. Stay tuned for news about special offers and more.");
 	}
 	
 	@Override
 	public void tearDown()
 	{
 		// Nothing to do		
-	}
-	
-	
-	
-	
+	}		
 }

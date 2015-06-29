@@ -2,10 +2,14 @@ package testscripts.scenario1;
 import java.io.IOException;
 
 
+
+
 import org.testng.annotations.Test;
 
 import com.cognizant.framework.IterationOptions;
 import com.cognizant.framework.Status;
+
+
 
 
 import supportlibraries.DriverScript;
@@ -18,16 +22,11 @@ import supportlibraries.TestCase;
  * @author Cognizant
  */
 public class JCrewInvalidSignupEmail extends TestCase
-{
-	
-	
+{		
 	@Test()
 	public void runTC1() throws IOException
 	{ 
-		// Modify the test parameters as required
-		
-	    	
-	     
+		// Modify the test parameters as required			    		     
 	    testParameters.setCurrentTestDescription("Test for login with valid user credentials");
 		testParameters.setIterationMode(IterationOptions.RunOneIterationOnly);
 		
@@ -35,9 +34,7 @@ public class JCrewInvalidSignupEmail extends TestCase
 		
 		driverScript = new DriverScript(testParameters);
 		driverScript.setLinkScreenshotsToTestLog(true);
-		driverScript.driveTestExecution(); 
-		
-		
+		driverScript.driveTestExecution(); 				
 	}
 	
 	@Override
@@ -49,32 +46,17 @@ public class JCrewInvalidSignupEmail extends TestCase
 	
 	@Override
 	public void executeTest()
-	{
+	{		
+		JCrewHomePage homePage = new JCrewHomePage();
 		
-
-		JCrewHomePage homePage = new JCrewHomePage(webdriver);
+		String emailText = dataTable.getData("General_Data","EmailID");		
+		ElementsAction.act(homePage.emailTextBox, "entertext", emailText);
 		
-		homePage.getEmailSetupTextBox(report);
-		report.updateTestCaseLog("Verified","Email Entered Successfully",Status.PASS);
+		ElementsAction.act(homePage.signupBtn, "click", "");				
 		
-		homePage.getSignup().click();
-		report.updateTestCaseLog("Verified","Email Signup Clicked Successfully",Status.PASS);
-		
-		this.sleep(5);
-		
-		if(homePage.getEmailFail().getText().length()>0)
-		report.updateTestCaseLog("Verified","Invalid Email Address Verified:" + homePage.getEmailFail().getText(),Status.PASS);
-		
-		this.sleep(4);
-	}
-	
-	public void sleep(int seconds) 
-	{
-	    try {
-	        Thread.sleep(seconds * 1000);
-	    } catch (InterruptedException e) {
-
-	    }
+		ElementsAction.callMeToWait(10);	
+						
+		ElementsAction.act(homePage.emailFail, "verifytext", "Please enter a valid email address.");			
 	}
 	
 	@Override

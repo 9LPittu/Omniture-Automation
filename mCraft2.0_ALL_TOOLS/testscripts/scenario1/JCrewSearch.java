@@ -13,33 +13,23 @@ import supportlibraries.DriverScript;
 import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
 
-
-
 /**
  * Test for login with valid user credentials
  * @author Cognizant
  */
 public class JCrewSearch extends TestCase
 {
-	
-	
 	@Test()
 	public void runTC1() throws IOException
 	{ 
 		// Modify the test parameters as required
-		
-	    	
-	     
 	    testParameters.setCurrentTestDescription("Test for login with valid user credentials");
 		testParameters.setIterationMode(IterationOptions.RunOneIterationOnly);
 		
-		//testParameters.setBrowser(MobilePlatform.Web);
-		
+		//testParameters.setBrowser(MobilePlatform.Web);		
 		driverScript = new DriverScript(testParameters);
 		driverScript.setLinkScreenshotsToTestLog(true);
 		driverScript.driveTestExecution(); 
-		
-		
 	}
 	
 	@Override
@@ -51,32 +41,21 @@ public class JCrewSearch extends TestCase
 	
 	@Override
 	public void executeTest()
-	{
+	{		
+		JCrewHomePage homePage = new JCrewHomePage();
 		
-
-		JCrewHomePage homePage = new JCrewHomePage(webdriver);
+		ElementsAction.act(homePage.menuSearch, "click", "");
 		
-		homePage.menuSearch.click();
-		report.updateTestCaseLog("Verified","Search Menu Clicked Successfully",Status.PASS);
+		ElementsAction.act(homePage.searchClose, "click", "");
+						
+		ElementsAction.act(homePage.menuSearch, "click", "");
+		
+		ElementsAction.callMeToWait(1000);
 		
 		String searchStr = dataTable.getData("General_Data","SearchKeyword");
-		homePage.getSearchTextBox(searchStr);	
-		report.updateTestCaseLog("Verified","Search Text Entered Successfully",Status.PASS);
-		
-		homePage.searchIcon.click();
-		report.updateTestCaseLog("Verified","Search Icon Clicked Successfully",Status.PASS);						
-
+		ElementsAction.act(homePage.searchTextBox, "entertext", searchStr);
 				
-		this.sleep(4);
-	}
-	
-	public void sleep(int seconds) 
-	{
-	    try {
-	        Thread.sleep(seconds * 1000);
-	    } catch (InterruptedException e) {
-
-	    }
+		ElementsAction.act(homePage.searchIcon, "click", "");
 	}
 	
 	@Override
