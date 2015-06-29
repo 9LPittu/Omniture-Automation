@@ -121,17 +121,17 @@ public abstract class ElementsAction  extends ReusableLibrary {
 		{
 			if(Element.isDisplayed())
 			{
-				if (action=="click")
+				if (action.equalsIgnoreCase("click"))
 				{
 					Element.click();
 					report.updateTestCaseLog("Clicked ", Element.getText(), Status.PASS);
 				}
-				else if (action=="clear")
+				else if (action.equalsIgnoreCase("clear"))
 				{
 					Element.clear();
 					report.updateTestCaseLog("Cleared ", Element.getText(), Status.PASS);
 				}
-				else if(action=="entertext")
+				else if(action.equalsIgnoreCase("entertext"))
 				{					
 					Element.sendKeys(Sendkeys);
 					report.updateTestCaseLog("Typed ", Element.getText(), Status.PASS);
@@ -142,12 +142,12 @@ public abstract class ElementsAction  extends ReusableLibrary {
 					select.selectByValue(Sendkeys);
 					report.updateTestCaseLog("Selected ", Element.getText(), Status.PASS);
 				}
-				else if(action=="submit")
+				else if(action.equalsIgnoreCase("submit"))
 				{
 					Element.submit();
 					report.updateTestCaseLog("Typed ", Element.getText(), Status.PASS);
 				}
-				else if(action=="verifytext")
+				else if(action.equalsIgnoreCase("verifytext"))
 				{					
 					if(Element.getText().equals(Sendkeys))
 					{					
@@ -162,8 +162,7 @@ public abstract class ElementsAction  extends ReusableLibrary {
 			}
 		}
 		catch(NoSuchElementException e)
-		{
-			System.out.println("here");
+		{			
 			report.updateTestCaseLog("Please verify  whether the entered element is Valid", "Element Not Present", Status.FAIL);
 		}
 	}
