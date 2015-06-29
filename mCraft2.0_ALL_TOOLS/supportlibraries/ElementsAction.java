@@ -115,6 +115,59 @@ public abstract class ElementsAction  extends ReusableLibrary {
 	 * @param sendkeys The parameter to be passed during execution
 	 */
 
+	public static void act(WebElement Element,String action,String Sendkeys)
+	{	
+		try
+		{
+			if(Element.isDisplayed())
+			{
+				if (action=="click")
+				{
+					Element.click();
+					report.updateTestCaseLog("Clicked ", Element.getText(), Status.PASS);
+				}
+				else if (action=="clear")
+				{
+					Element.clear();
+					report.updateTestCaseLog("Cleared ", Element.getText(), Status.PASS);
+				}
+				else if(action=="entertext")
+				{					
+					Element.sendKeys(Sendkeys);
+					report.updateTestCaseLog("Typed ", Element.getText(), Status.PASS);
+				}
+				else if(action.equalsIgnoreCase("select"))
+				{
+					Select select = new Select(Element);
+					select.selectByValue(Sendkeys);
+					report.updateTestCaseLog("Selected ", Element.getText(), Status.PASS);
+				}
+				else if(action=="submit")
+				{
+					Element.submit();
+					report.updateTestCaseLog("Typed ", Element.getText(), Status.PASS);
+				}
+				else if(action=="verifytext")
+				{					
+					if(Element.getText().equals(Sendkeys))
+					{					
+						report.updateTestCaseLog("Text Verified ", Element.getText(), Status.PASS);					
+					}
+					else
+					{
+						report.updateTestCaseLog("Text NOT Verified ", Element.getText(), Status.PASS);
+					}
+				}
+				
+			}
+		}
+		catch(NoSuchElementException e)
+		{
+			System.out.println("here");
+			report.updateTestCaseLog("Please verify  whether the entered element is Valid", "Element Not Present", Status.FAIL);
+		}
+	}
+	
 	public static void id(final String value,String action,String sendkeys)
 	{
 		// Here a value is getting set based on the action required
@@ -581,6 +634,73 @@ public abstract class ElementsAction  extends ReusableLibrary {
 				}
 			break;
 			case Selenium_Desktop:
+				present = "true";	
+				for(int i=0;isElementPresent(By.linkText(value))==false;i++)
+				{
+					if(i>=60)
+					{
+						present="false";
+						//report.updateTestCaseLog("Please verify  whether the entered element is Valid",value.toString(),Status.FAIL);
+						break;
+						//frameworkParameters.setStopExecution(true);
+						//throw new FrameworkException(value.toString(), "Please verify  whether the entered element is Valid");
+					}
+				}	
+
+				if(present.equals("true"))
+				{
+
+					switch(a)
+					{
+					case 1:
+						//Click
+
+						try {
+							webdriver.findElement(By.linkText(value)).click();
+							report.updateTestCaseLog("Clicked",value.toString(),Status.PASS);
+						} 
+
+						catch (Exception e)
+						{
+							//report.updateTestCaseLog(value.toString() +"Not Clicked",value.toString(),Status.FAIL);
+							throw new FrameworkException(value.toString() +"Not Clicked", "failed to click");
+						} 
+						break;
+
+					case 2:
+						//clear
+						webdriver.findElement(By.linkText(value)).clear();
+						report.updateTestCaseLog("cleared",value.toString(),Status.PASS);
+
+						break;
+					case 3:
+						//EnterValue
+						webdriver.findElement(By.linkText(value)).sendKeys(sendkeys);
+						report.updateTestCaseLog("  Typed :  :",value.toString(),Status.PASS);
+						break;
+					case 4:
+						//Dropdown Selection
+						Select select = new Select(webdriver.findElement(By.linkText(value)));
+						select.selectByVisibleText(sendkeys);
+						report.updateTestCaseLog("  selected the dropdown   ",value.toString(),Status.PASS);
+						break;
+					case 5:
+						//submit
+						webdriver.findElement(By.linkText(value)).submit();
+						report.updateTestCaseLog("  Submitted   ",value.toString(),Status.PASS);
+						break;
+					case 6:
+						webdriver.findElement(By.linkText(value)).isDisplayed();
+						report.updateTestCaseLog("  Verified    ",value.toString(),Status.PASS);
+						try{callMeToWait(3000);}catch(Exception e){}
+						break;
+					default :
+						report.updateTestCaseLog("  Please enter a valid integer input between 1-4!!!!!!!","",Status.FAIL);
+
+					}
+				}
+			break;
+				
 			case  RemoteWebDriver:
 			case MobileLabs:
 				present = "true";	
@@ -3175,6 +3295,8 @@ public abstract class ElementsAction  extends ReusableLibrary {
 		}
 	}*/
 
+	
+	
 	public static void findElementByLinkText(String value,String action,String sendkeys){
 
 		int a=0;
