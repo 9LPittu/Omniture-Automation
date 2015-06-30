@@ -59,17 +59,7 @@ public class JCrewHappyPath extends TestCase
 		ElementsAction.act(jcrewPDP.size,"click", "");
 		ElementsAction.act(jcrewPDP.addToBagBtn,"click", "");		
 		ElementsAction.act(jcrewPDP.checkOut,"click", "");
-	}
-	
-	public void sleep(int seconds) 
-	{
-	    try {
-	        Thread.sleep(seconds * 1000);
-	    } catch (InterruptedException e) {
-
-	    }
-	}
-	
+	}	
 	@Override
 	public void tearDown()
 	{
