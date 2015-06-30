@@ -1,21 +1,10 @@
 package testscripts.scenario1;
 import java.io.IOException;
 
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
-
-
-
-
-
 
 import com.cognizant.framework.IterationOptions;
 import com.cognizant.framework.Status;
-
-
-
-
-
 
 import functionallibraries.JCrewHomePage;
 import functionallibraries.JCrewProductDetailPage;
@@ -23,8 +12,6 @@ import functionallibraries.JCrewSubCategoryPage;
 import supportlibraries.DriverScript;
 import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
-
-
 
 /**
  * Test for login with valid user credentials
