@@ -24,7 +24,8 @@ public  class JCrewHomePage  {
 	public static String URL="";
 	
 	@FindBy(xpath=".//*[@class='js-primary-nav__link--menu primary-nav__link']")
-	public	WebElement hamburgerMenu;	
+	public WebElement hamburgerMenu;	
+	
 	
 	// Search Objects
 	@FindBy(xpath=".//*[@class='primary-nav__text primary-nav__text--search']")
@@ -43,7 +44,6 @@ public  class JCrewHomePage  {
 	@FindBy(css="span.primary-nav__text.primary-nav__text--stores")
 	public WebElement storesLink;
 	
-
 	@FindBy(name="subscribeEmail")
 	public WebElement emailTextBox;
 	
@@ -57,40 +57,26 @@ public  class JCrewHomePage  {
 	@FindBy(className="is-important")
 	public WebElement emailFail;
 	
-	//Let Us Help You - Objects		
-	@FindBy(css="#global__footer>div>div.footer__row.footer__row--top>div>div.c-footer__help>ul>li:nth-child(3)>a")
-	public WebElement FooterLetUsHelpyou;
 	
-    //Social Icon - Objects
-	@FindBy(css="i.icon-footer.icon-social-facebook")
-	public WebElement socialFacebook;
+	//Let Us Help You - Objects			
+	@FindBy(className="footer__help__link")
+	public List<WebElement> helpLinks;
 	
-	@FindBy(css="a.footer__social__link > i.icon-footer.icon-social-twitter")
-	public WebElement socialTwitter;
-	
-	@FindBy(css="i.icon-footer.icon-social-tumblr")
-	public WebElement socialTumblr;
-	
-	@FindBy(css="i.icon-footer.icon-social-pinterest")
-	public WebElement socialPinterest;
-	
-	@FindBy(css="i.icon-footer.icon-social-instagram")
-	public WebElement socialInstagram;	
-
-	@FindBy(css="i.icon-footer.icon-social-google")
-	public WebElement socialGoogle;
-
-	@FindBy(css="li.footer__social__item.footer-youtube > a.footer__social__link")
-	public WebElement socialYoutube;
-	
-	@FindBy(css="#global__nav")
+	//Social Icon
+	@FindBy(className="footer__social__link")
+	public List<WebElement> socialIcons;
+		
+ 	@FindBy(css="#global__nav")
 	public List<WebElement> deptList;
 	
 	@FindBy(className="department-nav__list")
-	public List<WebElement> deptHeaderList;
+	public WebElement deptHeaderList;
 
 	@FindBy(className="global__nav")	
 	public List<WebElement> categoryList;
+	
+	@FindBy(className="footer__item__link")
+	public List<WebElement> footerLinks;
 		
 	public void deptClick(String linkText)
 	{

@@ -1,6 +1,9 @@
 package testscripts.scenario1;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import com.cognizant.framework.IterationOptions;
@@ -42,53 +45,20 @@ public class JCrewGetToKnowUs extends TestCase
 	{		
 		JCrewHomePage homePage = new JCrewHomePage();		
 		
-		ElementsAction.act(homePage.socialFacebook,"click","");			
-		ElementsAction.callMeToWait(1000);
-		report.updateTestCaseLog("Verified","Facebook Site:" +homePage.driver.getCurrentUrl(),Status.PASS);
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);
+		List<WebElement> linkElement = homePage.socialIcons;
+		List<String>links = new ArrayList<String>();
 		
-		//Social - Twitter
-		ElementsAction.act(homePage.socialTwitter,"click","");
-		ElementsAction.callMeToWait(1000);		
-		report.updateTestCaseLog("Verified","Twitter Site:" +homePage.driver.getCurrentUrl(),Status.PASS);
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);
-		
-		//Social - Tumblr
-		ElementsAction.act(homePage.socialTumblr,"click","");
-		ElementsAction.callMeToWait(1000);
-		report.updateTestCaseLog("Verified","Tumbler Site:" +homePage.driver.getCurrentUrl(),Status.PASS);
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);
-		
-		//Social - Pinterest
-		ElementsAction.act(homePage.socialPinterest,"click","");		
-		ElementsAction.callMeToWait(1000);		
-		report.updateTestCaseLog("Verified","Pinterest Site:" +homePage.driver.getCurrentUrl(),Status.PASS);
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);
-		
-		//Social - Instagram
-		ElementsAction.act(homePage.socialInstagram,"click","");
-		ElementsAction.callMeToWait(1000);
-		report.updateTestCaseLog("Verified","Instagram Site:" +homePage.driver.getCurrentUrl(),Status.PASS);
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);
-		
-		//Social - Google
-		ElementsAction.act(homePage.socialGoogle,"click","");
-		ElementsAction.callMeToWait(1000);	
-		report.updateTestCaseLog("Verified","Google Site:" +homePage.driver.getCurrentUrl(),Status.PASS);
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);
-		
-		//Social - Youtube
-		ElementsAction.act(homePage.socialYoutube,"click","");
-		ElementsAction.callMeToWait(1000);
-		report.updateTestCaseLog("Verified","YouTube Site:" +homePage.driver.getCurrentUrl(),Status.PASS);
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);		
+		for(WebElement link:linkElement) 
+		{
+		  links.add(link.getAttribute("href"));
+		}
+		String strLinks = "";
+		for(String link:links) 
+		{
+			homePage.driver.get(link);			
+			strLinks = strLinks + " " +link.toString();			
+		}
+		report.updateTestCaseLog("Link ", strLinks.trim(), Status.PASS);		
 	}	
 	@Override
 	public void tearDown()

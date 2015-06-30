@@ -1,6 +1,9 @@
 package testscripts.scenario1;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import com.cognizant.framework.IterationOptions;
@@ -40,9 +43,10 @@ public class JCrewAllDepartmentsHeader extends TestCase
 	@Override
 	public void executeTest()
 	{		
-		JCrewHomePage homePage = new JCrewHomePage();							
-				
-		report.updateTestCaseLog("Verified","Department Found are "+homePage.deptHeaderList.get(0).getText(),Status.PASS);
+		JCrewHomePage homePage = new JCrewHomePage();									
+		
+		String strDept = homePage.deptHeaderList.getText();		
+		report.updateTestCaseLog("Verified","Departments are "+strDept.replace("\n", " "),Status.PASS);
 	}	
 	@Override
 	public void tearDown()

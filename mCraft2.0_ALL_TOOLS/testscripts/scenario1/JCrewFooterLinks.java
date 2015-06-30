@@ -1,6 +1,10 @@
 package testscripts.scenario1;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import com.cognizant.framework.IterationOptions;
@@ -41,23 +45,23 @@ public class JCrewFooterLinks extends TestCase
 	public void executeTest()
 	{		
 		JCrewHomePage homePage = new JCrewHomePage();			
-		ElementsAction.act(homePage.getFooterLinks(2, 1), "click", "");
-		ElementsAction.callMeToWait(1000);		
-		homePage.driver.navigate().back();
+		List<WebElement> linkElement = homePage.footerLinks;
+		List<String>links = new ArrayList<String>();
 		
-		ElementsAction.act(homePage.getFooterLinks(2, 2), "click", "");
-		ElementsAction.callMeToWait(1000);		
-		homePage.driver.navigate().back();
-		
-		
+		for(WebElement link:linkElement) 
+		{
+		  links.add(link.getAttribute("href"));
+		}
+
+		for(String link:links) 
+		{
+			homePage.driver.get(link);			
+			report.updateTestCaseLog("Link ", link, Status.PASS);
+		}
 	}	
 	@Override
 	public void tearDown()
 	{
 		// Nothing to do		
-	}
-	
-	
-	
-	
+	}		
 }

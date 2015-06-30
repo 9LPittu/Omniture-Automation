@@ -1,6 +1,9 @@
 package testscripts.scenario1;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import com.cognizant.framework.IterationOptions;
@@ -41,21 +44,21 @@ public class JCrewLetUsHelpYou extends TestCase
 	public void executeTest()
 	{		
 		JCrewHomePage homePage = new JCrewHomePage();
-		ElementsAction.act(homePage.getLetUsHelpYou(2), "click", "");
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);		
 		
-		ElementsAction.act(homePage.getLetUsHelpYou(3), "click", "");
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);
+		List<WebElement> linkElement = homePage.helpLinks;
+		List<String>links = new ArrayList<String>();
 		
-		ElementsAction.act(homePage.getLetUsHelpYou(5), "click", "");
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);		
-		
-		ElementsAction.act(homePage.getLetUsHelpYou(4), "click", "");
-		homePage.driver.navigate().back();
-		ElementsAction.callMeToWait(1000);					
+		for(WebElement link:linkElement) 
+		{
+		  links.add(link.getAttribute("href"));
+		}
+		String strLinks = "";
+		for(String link:links) 
+		{
+			homePage.driver.get(link);			
+			strLinks = strLinks + " " +link.toString();			
+		}
+		report.updateTestCaseLog("Link ", strLinks.trim(), Status.PASS);					
 	}
 		
 	@Override

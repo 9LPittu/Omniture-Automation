@@ -22,8 +22,6 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
-
 import allocator.Allocator;
 
 import com.cognizant.framework.FrameworkException;
@@ -33,9 +31,6 @@ import com.perfectomobile.httpclient.utils.FileUtils;
 import com.perfectomobile.selenium.MobileDriver;
 import com.perfectomobile.selenium.api.IMobileWebDriver;
 import com.perfectomobile.selenium.options.MobileBrowserType;
-
-
-
 
 
 public abstract class ElementsAction  extends ReusableLibrary {
@@ -48,7 +43,7 @@ public abstract class ElementsAction  extends ReusableLibrary {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+	public static String ElementValue;
 	public static AppiumDriver appiumdriver;
 	public static WebDriver webdriver;
 	public static IMobileWebDriver perfectodriver;
@@ -115,47 +110,48 @@ public abstract class ElementsAction  extends ReusableLibrary {
 	 * @param sendkeys The parameter to be passed during execution
 	 */
 
-	public static void act(WebElement Element,String action,String Sendkeys)
+	public static void act(WebElement Element,String action,String sendKeys)
 	{	
 		try
 		{
 			if(Element.isDisplayed())
 			{
+				ElementValue=Element.getText();				
 				if (action.equalsIgnoreCase("click"))
-				{
-					Element.click();
-					report.updateTestCaseLog("Clicked ", Element.getText(), Status.PASS);
+				{					
+					Element.click();									
+					report.updateTestCaseLog("Clicked ", ElementValue, Status.PASS);
 				}
 				else if (action.equalsIgnoreCase("clear"))
 				{
 					Element.clear();
-					report.updateTestCaseLog("Cleared ", Element.getText(), Status.PASS);
+					report.updateTestCaseLog("Cleared ", ElementValue, Status.PASS);
 				}
 				else if(action.equalsIgnoreCase("entertext"))
 				{					
-					Element.sendKeys(Sendkeys);
-					report.updateTestCaseLog("Typed ", Element.getText(), Status.PASS);
+					Element.sendKeys(sendKeys);
+					report.updateTestCaseLog("Typed ", ElementValue, Status.PASS);
 				}
 				else if(action.equalsIgnoreCase("select"))
 				{
 					Select select = new Select(Element);
-					select.selectByValue(Sendkeys);
-					report.updateTestCaseLog("Selected ", Element.getText(), Status.PASS);
+					select.selectByValue(sendKeys);
+					report.updateTestCaseLog("Selected ", ElementValue, Status.PASS);
 				}
 				else if(action.equalsIgnoreCase("submit"))
 				{
 					Element.submit();
-					report.updateTestCaseLog("Typed ", Element.getText(), Status.PASS);
+					report.updateTestCaseLog("Typed ", ElementValue, Status.PASS);
 				}
 				else if(action.equalsIgnoreCase("verifytext"))
 				{					
-					if(Element.getText().equals(Sendkeys))
+					if(Element.getText().equals(sendKeys))
 					{					
-						report.updateTestCaseLog("Text Verified ", Element.getText(), Status.PASS);					
+						report.updateTestCaseLog("Text Verified ", ElementValue, Status.PASS);					
 					}
 					else
 					{
-						report.updateTestCaseLog("Text NOT Verified ", Element.getText(), Status.PASS);
+						report.updateTestCaseLog("Text NOT Verified ", ElementValue, Status.PASS);
 					}
 				}
 				
@@ -164,6 +160,10 @@ public abstract class ElementsAction  extends ReusableLibrary {
 		catch(NoSuchElementException e)
 		{			
 			report.updateTestCaseLog("Please verify  whether the entered element is Valid", "Element Not Present", Status.FAIL);
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
 		}
 	}
 	
