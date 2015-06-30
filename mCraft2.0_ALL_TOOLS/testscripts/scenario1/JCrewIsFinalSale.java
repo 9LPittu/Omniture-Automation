@@ -68,7 +68,7 @@ public class JCrewIsFinalSale extends TestCase
 		
 		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");
 		
-		//ElementsAction.act(jcrewPDP.checkOut,"click","");		
+		ElementsAction.act(jcrewPDP.checkOut,"click","");		
 	}
 	@Override
 	public void tearDown()

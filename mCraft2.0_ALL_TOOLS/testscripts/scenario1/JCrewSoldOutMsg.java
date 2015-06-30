@@ -66,7 +66,7 @@ public class JCrewSoldOutMsg extends TestCase
 		{
 			report.updateTestCaseLog("Verified", "No Longer Available Message", Status.PASS );
 		}
-		//ElementsAction.act(jcrewPDP.checkOut,"click","");
+		ElementsAction.act(jcrewPDP.checkOut,"click","");
 	}	
 	@Override
 	public void tearDown()

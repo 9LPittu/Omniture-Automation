@@ -49,7 +49,7 @@ public class JCrewBackordered extends TestCase
 			
 		homePage.categoryClick(dataTable.getData("General_Data","CategoryName"));
 		
-		ElementsAction.callMeToWait(1000);
+		ElementsAction.callMeToWait(2000);
 			
 		JCrewSubCategoryPage jcrewSubCategoryPage = new JCrewSubCategoryPage();
 		int subCategory = Integer.parseInt(dataTable.getData("General_Data","Sub-Category"));
@@ -71,7 +71,7 @@ public class JCrewBackordered extends TestCase
 		
 		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");
 		
-		//ElementsAction.act(jcrewPDP.checkOut,"click","");		
+		ElementsAction.act(jcrewPDP.checkOut,"click","");		
 	}
 	@Override
 	public void tearDown()

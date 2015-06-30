@@ -44,12 +44,8 @@ public class JCrewAllDepartments extends TestCase
 	{		
 		JCrewHomePage homePage = new JCrewHomePage();		
 		ElementsAction.act(homePage.hamburgerMenu, "click", "");						
-		
-		for(WebElement allDepts:homePage.deptList){
-			int i=0;
-			allDepts = homePage.deptList.get(i);						
-			report.updateTestCaseLog("Verified","Department Found are " +allDepts.getText().toString(),Status.PASS);			
-		}				
+									
+		report.updateTestCaseLog("Verified","Department Found are "+homePage.deptList.get(0).getText(),Status.PASS);									
 	}	
 	@Override
 	public void tearDown()

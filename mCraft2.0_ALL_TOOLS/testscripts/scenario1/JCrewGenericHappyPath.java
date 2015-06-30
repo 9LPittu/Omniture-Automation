@@ -57,8 +57,8 @@ public class JCrewGenericHappyPath extends TestCase
 	   JCrewProductDetailPage jcrewPDP = new JCrewProductDetailPage();
 	   ElementsAction.act(jcrewPDP.size,"click", "");
 	   ElementsAction.act(jcrewPDP.addToBagBtn,"click", "");
-         
-	   //ElementsAction.act(jcrewPDP.checkOut,"click", "");	   
+
+	   ElementsAction.act(jcrewPDP.checkOut,"click", "");	   
 	}	
 	@Override
 	public void tearDown()

@@ -41,8 +41,8 @@ public class JCrewGetToKnowUs extends TestCase
 	public void executeTest()
 	{		
 		JCrewHomePage homePage = new JCrewHomePage();		
-		ElementsAction.cssSelector("i.icon-footer.icon-social-facebook", "click", "");
-		//ElementsAction.act(homePage.socialFacebook,"click","");			
+		
+		ElementsAction.act(homePage.socialFacebook,"click","");			
 		ElementsAction.callMeToWait(1000);
 		report.updateTestCaseLog("Verified","Facebook Site:" +homePage.driver.getCurrentUrl(),Status.PASS);
 		homePage.driver.navigate().back();

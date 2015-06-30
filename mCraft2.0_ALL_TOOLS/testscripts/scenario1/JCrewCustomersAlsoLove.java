@@ -60,7 +60,8 @@ public class JCrewCustomersAlsoLove extends TestCase
 		ElementsAction.callMeToWait(2000);
 		ElementsAction.act(jcrewPDP.customersAlsoLove,"click","");		
 		ElementsAction.act(jcrewPDP.size,"click","");						
-		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");										
+		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");	
+		ElementsAction.act(jcrewPDP.checkOut,"click","");
 	}	
 	@Override
 	public void tearDown()
