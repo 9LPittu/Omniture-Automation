@@ -1,1 +1,0 @@
-system_profiler SPUSBDataType | sed -n '/iPhone/,/Serial/p' | grep "Serial Number:" | awk -F ":" '{print $2}'

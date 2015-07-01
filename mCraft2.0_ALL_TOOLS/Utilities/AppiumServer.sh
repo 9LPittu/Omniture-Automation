@@ -1,1 +1,0 @@
-/usr/local/bin/node /Applications/Appium.app/Contents/Resources/node_modules/appium/lib/server/main.js
