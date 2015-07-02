@@ -39,15 +39,13 @@ public  class JCrewHomePage  {
 	
 	@FindBy(css="span.icon-searchtray.icon-searchtray-close")
 	public WebElement searchClose;
-	
-	//Stores
+		
 	@FindBy(css="span.primary-nav__text.primary-nav__text--stores")
 	public WebElement storesLink;
 	
 	@FindBy(name="subscribeEmail")
 	public WebElement emailTextBox;
-	
-	//Footer Section - Objects
+		
 	@FindBy(css="button.footer__signup__button.js-footer__submit-button")
 	public WebElement signupBtn;
 	
@@ -67,13 +65,13 @@ public  class JCrewHomePage  {
 	public List<WebElement> socialIcons;
 		
  	@FindBy(css="#global__nav")
-	public List<WebElement> deptList;
+	public WebElement deptList;
 	
 	@FindBy(className="department-nav__list")
 	public WebElement deptHeaderList;
 
 	@FindBy(className="global__nav")	
-	public List<WebElement> categoryList;
+	public WebElement categoryList;
 	
 	@FindBy(className="footer__item__link")
 	public List<WebElement> footerLinks;

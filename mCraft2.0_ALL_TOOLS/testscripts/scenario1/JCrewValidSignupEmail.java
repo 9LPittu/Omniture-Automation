@@ -51,8 +51,11 @@ public class JCrewValidSignupEmail extends TestCase
 		
 		ElementsAction.callMeToWait(1000);
 		
-		String strValidMsg = "THANK YOU...\nYour email has been added to the crew.com email list. Stay tuned for news about special offers and more.";
-		ElementsAction.act(homePage.emailSuccess, "verifytext", strValidMsg);
+		String strValidMsg = "THANK YOU...\nYour email has been added to the crew.com email list. Stay tuned for news about special offers and more.";		
+		if(homePage.emailSuccess.getText().equalsIgnoreCase(strValidMsg))
+		{
+			report.updateTestCaseLog("Verified", strValidMsg.replace("\n", ""), Status.PASS);
+		}
 	}
 	
 	@Override

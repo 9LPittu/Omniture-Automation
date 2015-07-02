@@ -1,10 +1,6 @@
 package testscripts.scenario1;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import com.cognizant.framework.IterationOptions;
@@ -47,9 +43,9 @@ public class JCrewAllDepartments extends TestCase
 	{		
 		JCrewHomePage homePage = new JCrewHomePage();		
 		ElementsAction.act(homePage.hamburgerMenu, "click", "");						
-
-		report.updateTestCaseLog("Verified","Department Found are "+homePage.deptList.get(0).getText(),Status.PASS);									
-		
+									
+		String strDept = homePage.deptList.getText();		
+		report.updateTestCaseLog("Verified","Departments are "+strDept.replace("\n", " "),Status.PASS);
 	}	
 	@Override
 	public void tearDown()

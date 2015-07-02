@@ -1,7 +1,6 @@
 package testscripts.scenario1;
 import java.io.IOException;
 
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import com.cognizant.framework.IterationOptions;
@@ -48,14 +47,8 @@ public class JCrewAllCategories extends TestCase
 		
 		homePage.deptClick(dataTable.getData("General_Data","DepartmentName"));
 		
-		
-		for(WebElement checkBox:homePage.categoryList)
-		{
-			int i=0;
-			checkBox = homePage.categoryList.get(i);	
-			System.out.println(homePage.categoryList.get(i));
-			report.updateTestCaseLog("Verified","Categories Found are " +checkBox.getText().toString(),Status.PASS);
-		}	
+		String strCategories = homePage.categoryList.getText();		
+		report.updateTestCaseLog("Verified","Departments are "+strCategories.replace("\n", " "),Status.PASS);
 	}
 		
 	@Override

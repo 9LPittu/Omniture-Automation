@@ -64,8 +64,7 @@ public class JCrewIsFinalSale extends TestCase
 			report.updateTestCaseLog("Verified ", "Is Final Sale", Status.PASS);
 		else		
 			report.updateTestCaseLog("Not Verified ", "Is Final Sale", Status.FAIL);
-		
-		
+				
 		ElementsAction.act(jcrewPDP.addToBagBtn,"click","");
 		
 		ElementsAction.act(jcrewPDP.checkOut,"click","");		
