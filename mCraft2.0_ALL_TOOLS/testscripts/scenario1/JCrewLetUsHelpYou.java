@@ -1,16 +1,13 @@
 package testscripts.scenario1;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.Test;
 
-import com.cognizant.framework.IterationOptions;
 import com.cognizant.framework.Status;
 
 import functionallibraries.JCrewHomePage;
-import supportlibraries.DriverScript;
 import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
 
@@ -20,19 +17,6 @@ import supportlibraries.TestCase;
  */
 public class JCrewLetUsHelpYou extends TestCase
 {
-	@Test()
-	public void runTC1() throws IOException
-	{ 
-		// Modify the test parameters as required
-	    testParameters.setCurrentTestDescription("Test for login with valid user credentials");
-		testParameters.setIterationMode(IterationOptions.RunOneIterationOnly);
-		
-		//testParameters.setBrowser(MobilePlatform.Web);		
-		driverScript = new DriverScript(testParameters);
-		driverScript.setLinkScreenshotsToTestLog(true);
-		driverScript.driveTestExecution(); 
-	}
-	
 	@Override
 	public void setUp()
 	{	
