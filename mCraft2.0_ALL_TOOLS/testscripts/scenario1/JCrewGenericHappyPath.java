@@ -41,16 +41,17 @@ public class JCrewGenericHappyPath extends TestCase
 	
 	@Override
 	public void executeTest()
-	{	
+	{			
        JCrewHomePage homePage=new JCrewHomePage();	       		
        ElementsAction.act(homePage.hamburgerMenu, "click", "");
 	   homePage.deptClick(dataTable.getData("General_Data","DepartmentName"));			
 	   homePage.categoryClick(dataTable.getData("General_Data","CategoryName"));						
 
-	   ElementsAction.callMeToWait(1000);
+	   ElementsAction.callMeToWait(5000);
 		
 	   JCrewSubCategoryPage jcrewSubCategoryPage = new JCrewSubCategoryPage();
 	   int subCategory = Integer.parseInt(dataTable.getData("General_Data","Sub-Category"));
+	  
 	   int productName = Integer.parseInt(dataTable.getData("General_Data","Product"));
 	   ElementsAction.act(jcrewSubCategoryPage.getProductToSelect(subCategory,productName), "click", "");
 		

@@ -40,8 +40,7 @@ public class JCrewAllCategories extends TestCase
 	
 	@Override
 	public void executeTest()
-	{
-		
+	{		
 		JCrewHomePage homePage = new JCrewHomePage();		
 		ElementsAction.act(homePage.hamburgerMenu, "click", "");
 		
@@ -55,6 +54,5 @@ public class JCrewAllCategories extends TestCase
 	public void tearDown()
 	{
 		// Nothing to do		
-	}	
-	
+	}		
 }
