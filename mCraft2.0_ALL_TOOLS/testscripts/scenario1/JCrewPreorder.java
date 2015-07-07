@@ -10,7 +10,6 @@ import supportlibraries.TestCase;
  
 
 /**
- * Test for login with valid user credentials
  * @author Cognizant
  */
 public class JCrewPreorder extends TestCase

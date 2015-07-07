@@ -7,7 +7,6 @@ import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
 
 /**
- * Test for login with valid user credentials
  * @author Cognizant
  */
 public class JCrewStores extends TestCase

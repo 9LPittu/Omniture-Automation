@@ -8,7 +8,6 @@ import functionallibraries.JCrewHomePage;
 
 
 /**
- * Test for login with valid user credentials
  * @author Cognizant
  */
 public class JCrewValidSignupEmail extends TestCase
