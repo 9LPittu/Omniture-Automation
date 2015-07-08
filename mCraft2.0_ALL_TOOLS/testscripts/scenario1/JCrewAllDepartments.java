@@ -9,13 +9,13 @@ import supportlibraries.TestCase;
  
 /**
  * @author Cognizant
- * Test Case for All Categories - Rally User Story - US9345
+ * Test Case for All Departments - Rally User Story - US9345
  */
 public class JCrewAllDepartments extends TestCase
 {
 	@Override
 	public void setUp() {
-		//Nothing to do	
+		ElementsAction.setDriver(report);	
 	}
 	
 	@Override

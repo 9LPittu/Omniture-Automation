@@ -16,7 +16,7 @@ public class JCrewIsFinalSale extends TestCase
 {	
 	@Override
 	public void setUp() {
-		//Nothing to do	
+		ElementsAction.setDriver(report);	
 	}
 	
 	@Override

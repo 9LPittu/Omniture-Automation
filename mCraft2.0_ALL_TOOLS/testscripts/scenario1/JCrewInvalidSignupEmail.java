@@ -7,13 +7,13 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
- * Test Case for Customers Also Love - Rally User Story - US8247
+ * Test Case for Email Signup - Rally User Story - US8247
  */
 public class JCrewInvalidSignupEmail extends TestCase
 {		
 	@Override
 	public void setUp() {
-		//Nothing to do	
+		ElementsAction.setDriver(report);	
 	}
 	
 	@Override

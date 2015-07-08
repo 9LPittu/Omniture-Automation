@@ -15,7 +15,7 @@ public class JCrewRefineBy extends TestCase
 {
 	@Override
 	public void setUp() {
-		//Nothing to do	
+		ElementsAction.setDriver(report);	
 	}
 	
 	@Override

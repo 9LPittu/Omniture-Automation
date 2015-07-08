@@ -16,7 +16,7 @@ public class JCrewOutOfStock extends TestCase
 {
 	@Override
 	public void setUp() {
-		//Nothing to do	
+		ElementsAction.setDriver(report);	
 	}
 	
 	@Override
@@ -41,6 +41,5 @@ public class JCrewOutOfStock extends TestCase
 	public void tearDown()
 	{
 		// Nothing to do		
-	}	
-	
+	}		
 }

@@ -1,18 +1,21 @@
 package testscripts.scenario1;
 
+import com.cognizant.framework.Status;
+
 import functionallibraries.JCrewHomePage;
 import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
- * Test Case for Sub Category Filters - Rally User Story - US11051
+ * Test Case for Search - Rally User Story - US12474 & US10940
+ * @param <WebElement>
  */
-public class JCrewSearch extends TestCase
+public class JCrewSearch<WebElement> extends TestCase
 {
 	@Override
 	public void setUp() {
-		//Nothing to do	
+		ElementsAction.setDriver(report);	
 	}
 	
 	@Override
@@ -20,18 +23,28 @@ public class JCrewSearch extends TestCase
 	{		
 		JCrewHomePage homePage = new JCrewHomePage();
 		
-		ElementsAction.act(homePage.menuSearch, "click", "");
-		
-		ElementsAction.act(homePage.searchClose, "click", "");
-						
-		ElementsAction.act(homePage.menuSearch, "click", "");
-		
 		ElementsAction.callMeToWait(1000);
+		ElementsAction.act(homePage.menuSearch, "click", "");		
 		
 		String searchStr = dataTable.getData("General_Data","SearchKeyword");
-		ElementsAction.act(homePage.searchTextBox, "entertext", searchStr);
-				
-		ElementsAction.act(homePage.searchIcon, "click", "");
+		ElementsAction.act(homePage.searchTextBox, "entertext", searchStr+"\n");
+		
+		report.updateTestCaseLog("Results Verified", homePage.searchResults.getText(), Status.PASS);
+		
+		int searchDept = Integer.parseInt(dataTable.getData("General_Data","SearchDept"));
+		homePage.getSearchDeptList(searchDept).click();
+		
+		if(searchDept==1)
+			ElementsAction.act(homePage.womenDeselect, "click", "");
+		else if(searchDept==2)
+			ElementsAction.act(homePage.menDeselect, "click", "");
+		else if(searchDept==3)
+			ElementsAction.act(homePage.girlsDeselect, "click", "");
+		else if(searchDept==4)
+			ElementsAction.act(homePage.boysDeselect, "click", "");
+		
+		ElementsAction.callMeToWait(2000);
+		report.updateTestCaseLog("Results Verified", homePage.searchResults.getText(), Status.PASS);
 	}
 	
 	@Override

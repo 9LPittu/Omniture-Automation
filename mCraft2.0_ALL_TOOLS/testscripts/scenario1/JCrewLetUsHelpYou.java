@@ -8,17 +8,18 @@ import org.openqa.selenium.WebElement;
 import com.cognizant.framework.Status;
 
 import functionallibraries.JCrewHomePage;
+import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
 
  /**
  * @author Cognizant
- * Test Case for Footer Links - Rally User Story - US8248
+ * Test Case for Let Us Help You - Rally User Story - US8248
  */
 public class JCrewLetUsHelpYou extends TestCase
 {
 	@Override
 	public void setUp() {
-		//Nothing to do	
+		ElementsAction.setDriver(report);	
 	}
 	
 	@Override

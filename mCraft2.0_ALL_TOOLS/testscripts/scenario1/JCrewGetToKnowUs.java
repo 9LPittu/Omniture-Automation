@@ -3,20 +3,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
+
 import com.cognizant.framework.Status;
 
 import functionallibraries.JCrewHomePage;
+import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
 
  /**
  * @author Cognizant
- * Test Case for Footer Links - Rally User Story - US8249
+ * Test Case for Get to Know Us - Rally User Story - US8249
  */
 public class JCrewGetToKnowUs extends TestCase
 {
 	@Override
 	public void setUp() {
-		//Nothing to do	
+		ElementsAction.setDriver(report);	
 	}
 	
 	@Override

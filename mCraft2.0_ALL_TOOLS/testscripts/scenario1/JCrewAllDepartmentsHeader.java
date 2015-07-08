@@ -2,6 +2,7 @@ package testscripts.scenario1;
 import com.cognizant.framework.Status;
 
 import functionallibraries.JCrewHomePage;
+import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
 
 /**
@@ -12,7 +13,7 @@ public class JCrewAllDepartmentsHeader extends TestCase
 {
 	@Override
 	public void setUp() {
-		//Nothing to do	
+		ElementsAction.setDriver(report);	
 	}
 	
 	@Override
