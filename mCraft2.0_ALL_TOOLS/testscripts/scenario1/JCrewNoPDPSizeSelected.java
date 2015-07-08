@@ -9,6 +9,7 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for No Size Selection - Rally User Story - US7728
  */
 public class JCrewNoPDPSizeSelected extends TestCase
 {	

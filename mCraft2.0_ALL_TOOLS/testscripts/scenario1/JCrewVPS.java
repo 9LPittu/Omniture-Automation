@@ -8,6 +8,7 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for VPS - Rally User Story - US10450
  */
 public class JCrewVPS extends TestCase
 {

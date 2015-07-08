@@ -9,6 +9,7 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for Only Few Items Left - Rally User Story - US7564
  */
 public class JCrewOnlyFewItemsLeft extends TestCase
 {

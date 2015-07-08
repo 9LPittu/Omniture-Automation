@@ -11,6 +11,7 @@ import supportlibraries.TestCase;
  
 /**
  * @author Cognizant
+ * Test Case for Sold Out Messages - Rally User Story - US7558
  */
 public class JCrewSoldOutMsg extends TestCase
 {

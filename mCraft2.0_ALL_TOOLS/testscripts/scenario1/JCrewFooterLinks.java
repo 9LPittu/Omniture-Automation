@@ -11,6 +11,7 @@ import supportlibraries.TestCase;
 
  /**
  * @author Cognizant
+ * Test Case for Footer Links - Rally User Story - US8248
  */
 public class JCrewFooterLinks extends TestCase
 {

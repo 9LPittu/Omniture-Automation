@@ -10,6 +10,7 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for Final Sale - Rally User Story - US7728
  */
 public class JCrewIsFinalSale extends TestCase
 {	

@@ -7,6 +7,7 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for Customers Also Love - Rally User Story - US8247
  */
 public class JCrewInvalidSignupEmail extends TestCase
 {		

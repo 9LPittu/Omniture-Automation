@@ -10,6 +10,7 @@ import supportlibraries.TestCase;
 
  /**
  * @author Cognizant
+ * Test Case for Footer Links - Rally User Story - US8249
  */
 public class JCrewGetToKnowUs extends TestCase
 {

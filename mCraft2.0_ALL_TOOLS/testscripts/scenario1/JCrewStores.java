@@ -8,6 +8,7 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for Stores Link - Rally User Story - US9354
  */
 public class JCrewStores extends TestCase
 {

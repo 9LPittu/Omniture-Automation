@@ -6,6 +6,7 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for Sub Category Filters - Rally User Story - US11051
  */
 public class JCrewSearch extends TestCase
 {

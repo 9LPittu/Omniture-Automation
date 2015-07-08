@@ -10,6 +10,7 @@ import functionallibraries.JCrewHomePage;
 
 /**
  * @author Cognizant
+ * Test Case for Customers Also Love - Rally User Story - US8247
  */
 public class JCrewValidSignupEmail extends TestCase
 {

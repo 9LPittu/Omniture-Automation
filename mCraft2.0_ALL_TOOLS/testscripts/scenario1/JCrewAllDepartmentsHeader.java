@@ -6,6 +6,7 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for Department Header - Rally User Story - US9788
  */
 public class JCrewAllDepartmentsHeader extends TestCase
 {

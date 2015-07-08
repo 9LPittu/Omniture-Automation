@@ -9,6 +9,7 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for Sub Category Filters - Rally User Story - US10683 
  */
 public class JCrewRefineBy extends TestCase
 {

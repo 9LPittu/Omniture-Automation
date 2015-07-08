@@ -9,6 +9,7 @@ import supportlibraries.TestCase;
  
 /**
  * @author Cognizant
+ * Test Case for All Categories - Rally User Story - US9345
  */
 public class JCrewAllCategories extends TestCase
 {

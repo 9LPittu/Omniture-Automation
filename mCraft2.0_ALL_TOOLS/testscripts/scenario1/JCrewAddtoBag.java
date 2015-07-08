@@ -8,7 +8,9 @@ import supportlibraries.TestCase;
 
 /**
  * @author Cognizant
+ * Test Case for Add to Bag - Rally User Story - US10609 
  */
+
 public class JCrewAddtoBag extends TestCase
 {		  			
 	@Override
