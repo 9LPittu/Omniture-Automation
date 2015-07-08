@@ -16,10 +16,8 @@ import supportlibraries.TestCase;
 public class JCrewFooterLinks extends TestCase
 {
 	@Override
-	public void setUp()
-	{	
-		ElementsAction.setDriver(report);
-		report.updateTestCaseLog("Invoke Application", "Invoke the application under test  ", Status.DONE);
+	public void setUp() {
+		//Nothing to do	
 	}
 	
 	@Override
@@ -40,6 +38,7 @@ public class JCrewFooterLinks extends TestCase
 			report.updateTestCaseLog("Link ", link, Status.PASS);
 		}
 	}	
+	
 	@Override
 	public void tearDown()
 	{

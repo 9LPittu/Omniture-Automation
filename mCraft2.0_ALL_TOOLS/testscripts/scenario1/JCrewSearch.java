@@ -12,10 +12,8 @@ import supportlibraries.TestCase;
 public class JCrewSearch extends TestCase
 {
 	@Override
-	public void setUp()
-	{	
-		ElementsAction.setDriver(report);
-		report.updateTestCaseLog("Invoke Application", "Invoke the application under test  ", Status.DONE);
+	public void setUp() {
+		//Nothing to do	
 	}
 	
 	@Override
@@ -42,8 +40,4 @@ public class JCrewSearch extends TestCase
 	{
 		// Nothing to do		
 	}
-	
-	
-	
-	
 }

@@ -13,10 +13,8 @@ import supportlibraries.TestCase;
 public class JCrewAllCategories extends TestCase
 {
 	@Override
-	public void setUp()
-	{	
-		ElementsAction.setDriver(report);
-		report.updateTestCaseLog("Invoke Application", "Invoke the application under test  ", Status.DONE);
+	public void setUp() {
+		//Nothing to do	
 	}
 	
 	@Override
@@ -35,5 +33,5 @@ public class JCrewAllCategories extends TestCase
 	public void tearDown()
 	{
 		// Nothing to do		
-	}		
+	}			
 }

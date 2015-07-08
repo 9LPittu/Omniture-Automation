@@ -5,7 +5,6 @@ import com.cognizant.framework.Status;
 import functionallibraries.JCrewHomePage;
 import functionallibraries.JCrewProductDetailPage;
 import functionallibraries.JCrewSubCategoryPage;
-
 import supportlibraries.ElementsAction;
 import supportlibraries.TestCase;
 
@@ -15,10 +14,8 @@ import supportlibraries.TestCase;
 public class JCrewHappyPath extends TestCase
 {
 	@Override
-	public void setUp()
-	{	
-		ElementsAction.setDriver(report);
-		report.updateTestCaseLog("Invoke Application", "Invoke the application under test  ", Status.DONE);
+	public void setUp() {
+		//Nothing to do	
 	}
 	
 	@Override
@@ -42,13 +39,10 @@ public class JCrewHappyPath extends TestCase
 		ElementsAction.act(jcrewPDP.addToBagBtn,"click", "");		
 		ElementsAction.act(jcrewPDP.checkOut,"click", "");
 	}	
+	
 	@Override
 	public void tearDown()
 	{
 		// Nothing to do		
 	}
-	
-	
-	
-	
 }
