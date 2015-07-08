@@ -26,7 +26,6 @@ public  class JCrewHomePage  {
 	@FindBy(xpath=".//*[@class='js-primary-nav__link--menu primary-nav__link']")
 	public WebElement hamburgerMenu;	
 	
-	
 	// Search Objects
 	@FindBy(xpath=".//*[@class='primary-nav__text primary-nav__text--search']")
 	public WebElement menuSearch;
@@ -34,8 +33,26 @@ public  class JCrewHomePage  {
 	@FindBy(xpath=".//*[@class='js-header__search__input header__search__input']")
 	public WebElement searchTextBox;
 	
-	@FindBy(className="header__search")
+	@FindBy(css="span.icon-searchtray.icon-searchtray-search")
 	public WebElement searchIcon;
+	
+	@FindBy(className="search__results--count")
+	public WebElement searchResults;	
+	
+	@FindBy(css="#c-search__filter>div>menu>div:nth-child(1)")
+	public WebElement searchDept;
+	
+	@FindBy(css="#c-search__filter>div>menu>div.js-search__filter.tab-menu--box.menu__search--women.is-selected")
+	public WebElement womenDeselect;
+
+	@FindBy(css="#c-search__filter>div>menu>div.js-search__filter.tab-menu--box.menu__search--men.is-selected")
+	public WebElement menDeselect;
+	
+	@FindBy(css="#c-search__filter>div>menu>div.js-search__filter.tab-menu--box.menu__search--girls.is-selected")
+	public WebElement girlsDeselect;
+	
+	@FindBy(css="#c-search__filter>div>menu>div.js-search__filter.tab-menu--box.menu__search--boys.is-selected")
+	public WebElement boysDeselect;
 	
 	@FindBy(css="span.icon-searchtray.icon-searchtray-close")
 	public WebElement searchClose;
@@ -103,9 +120,9 @@ public String getCurrentURL(){
 	return getURL;
 }
 
-public List<WebElement> getCategoryList(){
-	List<WebElement> elementsList =  driver.findElements(By.className("global__nav"));
-	return elementsList;
+public WebElement getSearchDeptList(int searchDept){
+	WebElement searchDeptList = driver.findElement(By.cssSelector("#c-search__filter>div>menu>div:nth-child("+searchDept+")"));	
+	return searchDeptList;
 }
 
 public WebElement getLetUsHelpYou(int footerHelp)
