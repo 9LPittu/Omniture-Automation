@@ -31,7 +31,7 @@ public class JCrewSubCategoryPage  {
 	@FindBy(css="h3.accordian__header.js-accordian__header")
 	public	WebElement refineBy;
 	
-	@FindBy(className="dropdown dropdown--quantity js-product__quantity")
+	@FindBy(css="#c-category__pagination>div>ul>li.pagination__item.pagination__item--page-select>select")
 	public	WebElement dropdownPagination;
 	
 	@FindBy(css="#c-category__pagination>div>ul>li.pagination__item.pagination__item--previous.js-pagination__item--previous>a")
