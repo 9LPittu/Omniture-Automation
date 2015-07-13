@@ -31,8 +31,9 @@ public class JCrewSearch<WebElement> extends TestCase
 		
 		report.updateTestCaseLog("Results Verified", homePage.searchResults.getText(), Status.PASS);
 		
+		ElementsAction.callMeToWait(5000);
 		int searchDept = Integer.parseInt(dataTable.getData("General_Data","SearchDept"));
-		homePage.getSearchDeptList(searchDept).click();
+		homePage.getSearchDeptList(searchDept);
 		
 		if(searchDept==1)
 			ElementsAction.act(homePage.womenDeselect, "click", "");

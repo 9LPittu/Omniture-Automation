@@ -1,5 +1,7 @@
 package testscripts.scenario1;
 
+import com.cognizant.framework.Status;
+
 import functionallibraries.JCrewHomePage;
 import functionallibraries.JCrewProductDetailPage;
 import functionallibraries.JCrewSubCategoryPage;
@@ -33,8 +35,11 @@ public class JCrewVPS extends TestCase
 		ElementsAction.act(jcrewSubCategoryPage.getProductToSelect(subCategory,productName), "click", "");
 		
 		JCrewProductDetailPage jcrewPDP = new JCrewProductDetailPage();
-		String strVPS = "Since this is a special, limited-edition item with a small quantity available, our Very Personal Stylists are on hand to help you purchase yours.\nCall 800 261 7422 or email erica@jcrew.com to order.";
-		ElementsAction.act(jcrewPDP.vpsMessage,"verifytext",strVPS);
+		String strVPS = "Since this is a special, limited-edition item with a small quantity available, our Very Personal Stylists are on hand to help you purchase yours.\nCall 800 261 7422 or email erica@jcrew.com to order.";		
+		if(jcrewPDP.vpsMessage.getText().equalsIgnoreCase(strVPS))
+		{
+			report.updateTestCaseLog("Verified", strVPS.replace("\n", ""), Status.PASS);
+		}						
 	}
 	
 	@Override
