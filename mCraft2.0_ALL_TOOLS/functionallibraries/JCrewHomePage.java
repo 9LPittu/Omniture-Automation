@@ -39,9 +39,6 @@ public  class JCrewHomePage  {
 	@FindBy(className="search__results--count")
 	public WebElement searchResults;	
 	
-	@FindBy(css="#c-search__filter>div>menu>div:nth-child(1)")
-	public WebElement searchDept;
-	
 	@FindBy(css="#c-search__filter>div>menu>div.js-search__filter.tab-menu--box.menu__search--women.is-selected")
 	public WebElement womenDeselect;
 
@@ -53,6 +50,13 @@ public  class JCrewHomePage  {
 	
 	@FindBy(css="#c-search__filter>div>menu>div.js-search__filter.tab-menu--box.menu__search--boys.is-selected")
 	public WebElement boysDeselect;
+	
+	@FindBy(css="#c-search__filter>div>menu>button")
+	public WebElement searchRefine;
+	
+	@FindBy(css="#c-search__filter>div>div.c-search__filter--refinement.modal-window.is-visible>div")
+	public WebElement refineClose;
+	
 	
 	@FindBy(css="span.icon-searchtray.icon-searchtray-close")
 	public WebElement searchClose;
@@ -121,7 +125,8 @@ public String getCurrentURL(){
 }
 
 public WebElement getSearchDeptList(int searchDept){
-	WebElement searchDeptList = driver.findElement(By.cssSelector("#c-search__filter>div>menu>div:nth-child("+searchDept+")"));	
+	WebElement searchDeptList = driver.findElement(By.cssSelector("#c-search__filter>div>menu>div:nth-child("+searchDept+")"));
+	searchDeptList.click();
 	return searchDeptList;
 }
 
