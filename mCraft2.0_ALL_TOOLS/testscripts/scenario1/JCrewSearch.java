@@ -35,6 +35,14 @@ public class JCrewSearch<WebElement> extends TestCase
 		int searchDept = Integer.parseInt(dataTable.getData("General_Data","SearchDept"));
 		homePage.getSearchDeptList(searchDept);
 		
+		ElementsAction.callMeToWait(2000);
+		ElementsAction.act(homePage.searchRefine,"click", "");
+		ElementsAction.callMeToWait(2000);
+		ElementsAction.act(homePage.refineClose,"click", "");
+		
+		ElementsAction.callMeToWait(2000);
+		report.updateTestCaseLog("Results Verified", homePage.searchResults.getText(), Status.PASS);
+		
 		if(searchDept==1)
 			ElementsAction.act(homePage.womenDeselect, "click", "");
 		else if(searchDept==2)
@@ -43,9 +51,6 @@ public class JCrewSearch<WebElement> extends TestCase
 			ElementsAction.act(homePage.girlsDeselect, "click", "");
 		else if(searchDept==4)
 			ElementsAction.act(homePage.boysDeselect, "click", "");
-		
-		ElementsAction.callMeToWait(2000);
-		report.updateTestCaseLog("Results Verified", homePage.searchResults.getText(), Status.PASS);
 	}
 	
 	@Override
