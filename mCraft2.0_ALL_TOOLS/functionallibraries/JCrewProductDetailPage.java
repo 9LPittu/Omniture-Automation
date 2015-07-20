@@ -32,6 +32,9 @@ public class JCrewProductDetailPage {
 	@FindBy(css="#c-product__actions>div.product__message.message.message--box.message--is-final-sale")
 	public WebElement isFinalSale;
 	
+	@FindBy(css="#c-product__size-fit>div>a")
+	public WebElement sizeChart;
+	
 	
 	@FindBy(css="#c-product__actions>div.product__message.message.message--box.message-box--is-overlay.message--no-size.is-important.is-emphasized.is-centered")
 	public WebElement sizeErrMsg;
