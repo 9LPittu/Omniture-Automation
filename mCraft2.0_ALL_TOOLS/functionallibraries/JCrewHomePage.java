@@ -54,7 +54,10 @@ public  class JCrewHomePage  {
 	@FindBy(css="#c-search__filter>div>menu>button")
 	public WebElement searchRefine;
 	
-	@FindBy(css="#c-search__filter>div>div.c-search__filter--refinement.modal-window.is-visible>div")
+	@FindBy(className="accordian__wrap accordian__wrap--search js-wrap")
+	public WebElement refineList;
+	
+	@FindBy(id="btn__search--done")
 	public WebElement refineClose;
 	
 	
