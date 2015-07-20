@@ -31,16 +31,18 @@ public class JCrewSearch<WebElement> extends TestCase
 		
 		report.updateTestCaseLog("Results Verified", homePage.searchResults.getText(), Status.PASS);
 		
-		ElementsAction.callMeToWait(5000);
+		ElementsAction.callMeToWait(2000);
 		int searchDept = Integer.parseInt(dataTable.getData("General_Data","SearchDept"));
 		homePage.getSearchDeptList(searchDept);
 		
-		ElementsAction.callMeToWait(2000);
+		ElementsAction.callMeToWait(1000);
 		ElementsAction.act(homePage.searchRefine,"click", "");
-		ElementsAction.callMeToWait(2000);
+		ElementsAction.callMeToWait(1000);
+		ElementsAction.act(homePage.refineList,"click", "");
+		ElementsAction.callMeToWait(1000);
 		ElementsAction.act(homePage.refineClose,"click", "");
 		
-		ElementsAction.callMeToWait(2000);
+		ElementsAction.callMeToWait(1000);
 		report.updateTestCaseLog("Results Verified", homePage.searchResults.getText(), Status.PASS);
 		
 		if(searchDept==1)

@@ -35,6 +35,7 @@ public class JCrewAddtoBag extends TestCase
 	   ElementsAction.act(jcrewSubCategoryPage.getProductToSelect(subCategory,productName), "click", "");
 		
 	   JCrewProductDetailPage jcrewPDP = new JCrewProductDetailPage();
+	   ElementsAction.act(jcrewPDP.sizeChart,"click", "");
 	   ElementsAction.act(jcrewPDP.size,"click", "");
 	   ElementsAction.act(jcrewPDP.addToBagBtn,"click", "");
 
