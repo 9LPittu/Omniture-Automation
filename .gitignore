@@ -1,3 +1,7 @@
+cucumber/*.png
+target
+*.iml
+.idea
 *.class
 *.DS_Store
 .project
