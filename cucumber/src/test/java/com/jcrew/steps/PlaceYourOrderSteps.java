@@ -5,6 +5,7 @@ import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.Then;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PlaceYourOrderSteps extends DriverFactory {
 
@@ -15,7 +16,7 @@ public class PlaceYourOrderSteps extends DriverFactory {
 
         placeYourOrderPage.user_places_its_order();
 
-        assertFalse("An error message should not be displayed as the billing values are fake",
+        assertTrue("An error message should be displayed as the billing values are fake",
                 placeYourOrderPage.containsErrors());
 
     }
