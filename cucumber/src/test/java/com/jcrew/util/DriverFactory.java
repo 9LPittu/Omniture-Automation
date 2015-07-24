@@ -50,6 +50,10 @@ public class DriverFactory {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
+            boolean isLocalEnvironment = propertyReader.isLocalEnvironment();
+            if (!isLocalEnvironment) {
+                capabilities.setCapability("phantomjs.binary.path", "./phantomjs");
+            }
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getUserAgent());
             int width = propertyReader.getWindowWidth();
             int height = propertyReader.getWindowHeight();

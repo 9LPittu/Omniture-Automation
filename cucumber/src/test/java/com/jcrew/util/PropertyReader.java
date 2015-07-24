@@ -78,4 +78,8 @@ public class PropertyReader {
     public String getHomePage() {
         return readProperty("homepage");
     }
+
+    public boolean isLocalEnvironment() {
+        return "false".equals(System.getProperty("isLocal"));
+    }
 }
