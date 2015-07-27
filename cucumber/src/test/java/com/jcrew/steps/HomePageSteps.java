@@ -30,4 +30,9 @@ public class HomePageSteps extends DriverFactory {
         assertTrue("Boys should be present", homePage.isBoysDepartmentPresent());
         assertTrue("Girls should be present", homePage.isGirlsDepartmentPresent());
     }
+
+    @Then("^Stores Link is present$")
+    public void stores_link_is_present() throws Throwable {
+        assertTrue("Stores link should be present", homePage.isStoresLinkPresent());
+    }
 }

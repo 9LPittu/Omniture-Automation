@@ -39,6 +39,9 @@ public class HomePage {
     @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Girls')]")
     private WebElement girlsDepartmentLink;
 
+    @FindBy(className = "primary-nav__text--stores")
+    private WebElement storesLink;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -88,5 +91,9 @@ public class HomePage {
 
     public boolean isGirlsDepartmentPresent() {
         return girlsDepartmentLink.isDisplayed();
+    }
+
+    public boolean isStoresLinkPresent() {
+        return storesLink.isDisplayed();
     }
 }

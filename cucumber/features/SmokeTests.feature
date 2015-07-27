@@ -7,3 +7,6 @@ Feature: Smoke Tests
 
   Scenario: Department Links
     Then Department Links are present
+
+  Scenario: Stores Link
+    Then Stores Link is present
