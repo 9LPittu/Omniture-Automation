@@ -67,6 +67,9 @@ public class HomePage {
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and contains(text(), 'Blog')]")
     private WebElement hamburgerMenuBlogLink;
 
+    @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/shirtsandtops']")
+    private WebElement womenShirtAndTopsCategoryLink;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -80,18 +83,28 @@ public class HomePage {
     public void selects_a_category() {
         closeModalWindowIfPresent();
 
-        new WebDriverWait(driver, 10).
-                until(ExpectedConditions.elementToBeClickable(firstCategoryDisplayed));
+        new WebDriverWait(driver, 10).until(
+                ExpectedConditions.elementToBeClickable(firstCategoryDisplayed));
 
         firstCategoryDisplayed.click();
 
+    }
+
+    public void click_on_shirts_and_tops_from_women_category_in_hamburger_menu() {
+        waitForVisibility(womenShirtAndTopsCategoryLink);
+        womenShirtAndTopsCategoryLink.click();
+    }
+
+    public void click_on_women_category_from_hamburger_menu() {
+        waitForVisibility(hamburgerMenuWomenLink);
+        hamburgerMenuWomenLink.click();
     }
 
 
     private void closeModalWindowIfPresent() {
         try {
 
-            new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(modalWindow));
+            waitForVisibility(modalWindow);
 
             closePopupLink.click();
 
@@ -134,44 +147,41 @@ public class HomePage {
     }
 
     public boolean isHamburgerMenuWomenLinkPresent() {
-        new WebDriverWait(driver, 10).
-                until(ExpectedConditions.visibilityOf(hamburgerMenuWomenLink));
+        waitForVisibility(hamburgerMenuWomenLink);
         return hamburgerMenuWomenLink.isDisplayed();
     }
 
     public boolean isHamburgerMenuMenLinkPresent() {
-        new WebDriverWait(driver, 10).
-                until(ExpectedConditions.visibilityOf(hamburgerMenuMenLink));
+        waitForVisibility(hamburgerMenuMenLink);
         return hamburgerMenuMenLink.isDisplayed();
     }
 
     public boolean isHamburgerMenuBoysLinkPresent() {
-        new WebDriverWait(driver, 10).
-                until(ExpectedConditions.visibilityOf(hamburgerMenuBoysLink));
+        waitForVisibility(hamburgerMenuBoysLink);
         return hamburgerMenuBoysLink.isDisplayed();
     }
 
     public boolean isHamburgerMenuGirlsLinkPresent() {
-        new WebDriverWait(driver, 10).
-                until(ExpectedConditions.visibilityOf(hamburgerMenuGirlsLink));
+        waitForVisibility(hamburgerMenuGirlsLink);
         return hamburgerMenuGirlsLink.isDisplayed();
     }
 
     public boolean isHamburgerMenuWeddingLinkPresent() {
-        new WebDriverWait(driver, 10).
-                until(ExpectedConditions.visibilityOf(hamburgerMenuWeddingLink));
+        waitForVisibility(hamburgerMenuWeddingLink);
         return hamburgerMenuWeddingLink.isDisplayed();
     }
 
     public boolean isHamburgerMenuSaleLinkPresent() {
-        new WebDriverWait(driver, 10).
-                until(ExpectedConditions.visibilityOf(hamburgerMenuSaleLink));
+        waitForVisibility(hamburgerMenuSaleLink);
         return hamburgerMenuSaleLink.isDisplayed();
     }
 
     public boolean isHamburgerMenuBlogLinkPresent() {
-        new WebDriverWait(driver, 10).
-                until(ExpectedConditions.visibilityOf(hamburgerMenuBlogLink));
+        waitForVisibility(hamburgerMenuBlogLink);
         return hamburgerMenuBlogLink.isDisplayed();
+    }
+
+    private void waitForVisibility(WebElement element) {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
     }
 }

@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.HomePage;
 import com.jcrew.util.DriverFactory;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -56,5 +57,17 @@ public class HomePageSteps extends DriverFactory {
        assertTrue("Wedding hamburger menu link should be present", homePage.isHamburgerMenuWeddingLinkPresent());
        assertTrue("Sale hamburger menu link should be present", homePage.isHamburgerMenuSaleLinkPresent());
        assertTrue("Blog hamburger menu link should be present", homePage.isHamburgerMenuBlogLinkPresent());
+    }
+
+    @And("^Selects Women Category from hamburger menu$")
+    public void selects_women_category_from_hamburger_menu() throws Throwable {
+        homePage.click_on_women_category_from_hamburger_menu();
+    }
+
+    @And("^Selects Shirts and Tops from Women Category in hamburger menu$")
+    public void selects_shirts_and_tops_from_hamburger_menu() throws Throwable {
+
+        homePage.click_on_shirts_and_tops_from_women_category_in_hamburger_menu();
+
     }
 }

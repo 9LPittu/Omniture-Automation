@@ -17,3 +17,9 @@ Feature: Smoke Tests
   Scenario: Hamburger Menu Links
     Given User clicks on hamburger menu
     Then Hamburger Menu Links are present
+
+  Scenario: Category Link
+    Given User clicks on hamburger menu
+    And Selects Women Category from hamburger menu
+    And Selects Shirts and Tops from Women Category in hamburger menu
+    Then User is in shirts and tops for women page

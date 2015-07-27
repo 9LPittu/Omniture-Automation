@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -33,6 +34,9 @@ public class SubcategoryPage {
 
     @FindBy(id = "qsLightBox")
     WebElement quickShopModal;
+
+    @FindBy(className = "product__grid")
+    WebElement productGrid;
 
     private Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
 
@@ -96,5 +100,10 @@ public class SubcategoryPage {
             isPresent = false;
         }
         return isPresent;
+    }
+
+    public boolean isProductGridPresent() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productGrid));
+        return productGrid.isDisplayed();
     }
 }

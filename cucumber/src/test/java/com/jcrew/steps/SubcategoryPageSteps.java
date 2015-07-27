@@ -3,23 +3,18 @@ package com.jcrew.steps;
 
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SubcategoryPageSteps extends DriverFactory {
 
-    private Logger logger = LoggerFactory.getLogger(SubcategoryPageSteps.class);
+    private SubcategoryPage subcategoryPage = new SubcategoryPage(driver);
 
     @When("^Adds a product to shopping bag$")
     public void adds_a_product_to_shopping_bag() throws Throwable {
-        SubcategoryPage subcategoryPage = new SubcategoryPage(driver);
 
         subcategoryPage.adds_a_product_to_shopping_bag();
 
@@ -31,7 +26,18 @@ public class SubcategoryPageSteps extends DriverFactory {
     @When("^Clicks on shopping bag link$")
     public void clicks_on_shopping_bag_link() throws Throwable {
 
-        new SubcategoryPage(driver).clicks_on_shopping_bag_link();
+        subcategoryPage.clicks_on_shopping_bag_link();
 
     }
+
+    @Then("^User is in shirts and tops for women page$")
+    public void user_is_in_shirts_and_tops_for_women_page() throws Throwable {
+
+        assertTrue("A Subcategory page should have a product grid", subcategoryPage.isProductGridPresent());
+
+        assertTrue("User should be in shirts and top page for women",
+                driver.getCurrentUrl().endsWith("/c/womens_category/shirtsandtops"));
+
+    }
+
 }
