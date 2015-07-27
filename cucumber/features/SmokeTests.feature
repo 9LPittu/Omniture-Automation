@@ -10,3 +10,6 @@ Feature: Smoke Tests
 
   Scenario: Stores Link
     Then Stores Link is present
+
+  Scenario: Hamburger Menu
+    Then Hamburger menu is present

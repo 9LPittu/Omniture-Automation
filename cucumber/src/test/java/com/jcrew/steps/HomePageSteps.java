@@ -35,4 +35,9 @@ public class HomePageSteps extends DriverFactory {
     public void stores_link_is_present() throws Throwable {
         assertTrue("Stores link should be present", homePage.isStoresLinkPresent());
     }
+
+    @Then("^Hamburger menu is present$")
+    public void hamburger_menu_is_present() throws Throwable {
+        assertTrue("Hamburger menu is present", homePage.isHamburgerMenuPresent());
+    }
 }

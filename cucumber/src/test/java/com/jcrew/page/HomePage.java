@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -41,6 +42,9 @@ public class HomePage {
 
     @FindBy(className = "primary-nav__text--stores")
     private WebElement storesLink;
+
+    @FindBy(className = "js-primary-nav__link--menu")
+    private WebElement hamburgerMenuLink;
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -95,5 +99,11 @@ public class HomePage {
 
     public boolean isStoresLinkPresent() {
         return storesLink.isDisplayed();
+    }
+
+    public boolean isHamburgerMenuPresent() {
+        boolean isIconDisplayed = hamburgerMenuLink.findElement(By.className("icon-header-menu")).isDisplayed();
+        boolean isMenuTextDisplayed = hamburgerMenuLink.findElement(By.className("primary-nav__text")).isDisplayed();
+        return isIconDisplayed && isMenuTextDisplayed;
     }
 }
