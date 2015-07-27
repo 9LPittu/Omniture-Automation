@@ -13,3 +13,7 @@ Feature: Smoke Tests
 
   Scenario: Hamburger Menu
     Then Hamburger menu is present
+
+  Scenario: Hamburger Menu Links
+    Given User clicks on hamburger menu
+    Then Hamburger Menu Links are present
