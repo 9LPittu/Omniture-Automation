@@ -4,3 +4,6 @@ Feature: Smoke Tests
 
   Scenario: JCrew Logo
     Then JCrew Logo is present
+
+  Scenario: Department Links
+    Then Department Links are present

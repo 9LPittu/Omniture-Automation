@@ -27,6 +27,18 @@ public class HomePage {
     @FindBy(id = "header__logo")
     private WebElement headerLogo;
 
+    @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Women')]")
+    private WebElement womenDepartmentLink;
+
+    @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Men')]")
+    private WebElement menDepartmentLink;
+
+    @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Boys')]")
+    private WebElement boysDepartmentLink;
+
+    @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Girls')]")
+    private WebElement girlsDepartmentLink;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -60,5 +72,21 @@ public class HomePage {
 
     public boolean isJCrewLogoPresent() {
         return headerLogo.isDisplayed();
+    }
+
+    public boolean isWomenDepartmentPresent() {
+        return womenDepartmentLink.isDisplayed();
+    }
+
+    public boolean isMenDepartmentPresent() {
+        return menDepartmentLink.isDisplayed();
+    }
+
+    public boolean isBoysDepartmentPresent() {
+        return boysDepartmentLink.isDisplayed();
+    }
+
+    public boolean isGirlsDepartmentPresent() {
+        return girlsDepartmentLink.isDisplayed();
     }
 }
