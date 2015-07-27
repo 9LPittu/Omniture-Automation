@@ -24,6 +24,9 @@ public class HomePage {
     @FindBy(className = "closePopup")
     private WebElement closePopupLink;
 
+    @FindBy(id = "header__logo")
+    private WebElement headerLogo;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -53,5 +56,9 @@ public class HomePage {
         } catch (WebDriverException wde) {
             logger.info("Initial window did not show up, continuing with tests");
         }
+    }
+
+    public boolean isJCrewLogoPresent() {
+        return headerLogo.isDisplayed();
     }
 }

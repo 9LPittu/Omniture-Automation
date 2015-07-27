@@ -27,7 +27,7 @@ public class StartingSteps  {
         driver = driverFactory.getDriver();
     }
 
-    @Given("^User is on home page$")
+    @Given("^User is on homepage$")
     public void user_is_on_home_page() throws Throwable {
         PropertyReader reader = PropertyReader.getPropertyReader();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
