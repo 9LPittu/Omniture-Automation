@@ -1,9 +1,6 @@
 package com.jcrew.page;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -70,11 +67,28 @@ public class HomePage {
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/shirtsandtops']")
     private WebElement womenShirtAndTopsCategoryLink;
 
+    @FindBy(className = "js-primary-nav__link--search")
+    private WebElement searchButton;
+
+    @FindBy(className = "header__search__input")
+    private WebElement searchInput;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
+    public void hit_enter_in_search_field() {
+        searchInput.sendKeys(Keys.ENTER);
+    }
+
+    public void input_search_term(String searchTerm) {
+        searchInput.sendKeys(searchTerm);
+    }
+
+    public void click_on_search_button() {
+        searchButton.click();
+    }
 
     public void click_on_hamburger_menu() {
         hamburgerMenuLink.click();

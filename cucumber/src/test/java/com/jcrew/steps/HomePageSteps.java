@@ -50,13 +50,13 @@ public class HomePageSteps extends DriverFactory {
 
     @Then("^Hamburger Menu Links are present$")
     public void hamburger_menu_links_are_present() throws Throwable {
-       assertTrue("Women hamburger menu link should be present", homePage.isHamburgerMenuWomenLinkPresent());
-       assertTrue("Men hamburger menu link should be present", homePage.isHamburgerMenuMenLinkPresent());
-       assertTrue("Boys hamburger menu link should be present", homePage.isHamburgerMenuBoysLinkPresent());
-       assertTrue("Girls hamburger menu link should be present", homePage.isHamburgerMenuGirlsLinkPresent());
-       assertTrue("Wedding hamburger menu link should be present", homePage.isHamburgerMenuWeddingLinkPresent());
-       assertTrue("Sale hamburger menu link should be present", homePage.isHamburgerMenuSaleLinkPresent());
-       assertTrue("Blog hamburger menu link should be present", homePage.isHamburgerMenuBlogLinkPresent());
+        assertTrue("Women hamburger menu link should be present", homePage.isHamburgerMenuWomenLinkPresent());
+        assertTrue("Men hamburger menu link should be present", homePage.isHamburgerMenuMenLinkPresent());
+        assertTrue("Boys hamburger menu link should be present", homePage.isHamburgerMenuBoysLinkPresent());
+        assertTrue("Girls hamburger menu link should be present", homePage.isHamburgerMenuGirlsLinkPresent());
+        assertTrue("Wedding hamburger menu link should be present", homePage.isHamburgerMenuWeddingLinkPresent());
+        assertTrue("Sale hamburger menu link should be present", homePage.isHamburgerMenuSaleLinkPresent());
+        assertTrue("Blog hamburger menu link should be present", homePage.isHamburgerMenuBlogLinkPresent());
     }
 
     @And("^Selects Women Category from hamburger menu$")
@@ -69,5 +69,20 @@ public class HomePageSteps extends DriverFactory {
 
         homePage.click_on_shirts_and_tops_from_women_category_in_hamburger_menu();
 
+    }
+
+    @And("^User presses search button$")
+    public void presses_search_button() throws Throwable {
+        homePage.click_on_search_button();
+    }
+
+    @And("^Enters (\\w+) to the search field$")
+    public void enters_a_search_term_to_the_input_field(String searchTerm) throws Throwable {
+        homePage.input_search_term(searchTerm);
+    }
+
+    @And("^Hits enter in search field$")
+    public void hits_enter_in_search_field() throws Throwable {
+        homePage.hit_enter_in_search_field();
     }
 }
