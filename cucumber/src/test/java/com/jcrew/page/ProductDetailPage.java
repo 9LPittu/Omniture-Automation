@@ -6,12 +6,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class ProductDetailPage {
+
+    private final WebDriver driver;
 
     private Logger logger = LoggerFactory.getLogger(ProductDetailPage.class);
 
@@ -39,7 +43,11 @@ public class ProductDetailPage {
     @FindBy(id = "global__footer")
     private WebElement footer;
 
+    @FindBy(className = "header__cart")
+    private WebElement miniCart;
+
     public ProductDetailPage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
@@ -104,5 +112,18 @@ public class ProductDetailPage {
             result = -1;
         }
         return result;
+    }
+
+    public boolean isMinicartDisplayed() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(miniCart));
+
+        WebElement cartDetails = miniCart.findElement(By.className("header__cart--details"));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(cartDetails));
+
+        String confirmationMessage = cartDetails.findElement(By.tagName("p")).getText();
+
+        logger.debug("Message from minicart is {}", confirmationMessage);
+
+        return "1 item has been added to your cart.".equals(confirmationMessage);
     }
 }

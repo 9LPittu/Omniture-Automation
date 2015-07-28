@@ -54,4 +54,9 @@ public class ProductDetailPageSteps extends DriverFactory {
                 numberOfItems, productDetailPage.getNumberOfItemsInBag());
 
     }
+
+    @Then("^A minicart modal should appear$")
+    public void a_minicart_modal_should_appear() throws Throwable {
+        assertTrue("Minicart should appear", productDetailPage.isMinicartDisplayed());
+    }
 }
