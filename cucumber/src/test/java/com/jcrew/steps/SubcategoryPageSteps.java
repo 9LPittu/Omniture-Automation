@@ -3,6 +3,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -40,4 +41,14 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     }
 
+    @And("^User hovers a product$")
+    public void user_hovers_a_product() throws Throwable {
+        subcategoryPage.hover_first_product_in_grid();
+    }
+
+    @Then("^Proper details are shown for the hovered product$")
+    public void proper_details_are_shown_for_the_hovered_product() throws Throwable {
+        assertTrue("All products should contain a name and a price", subcategoryPage.isFirstProductNameAndPriceValid());
+        assertTrue("All product variations should be valid", subcategoryPage.areFirstProductVariationsValid());
+    }
 }
