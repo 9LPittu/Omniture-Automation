@@ -215,4 +215,10 @@ public class SubcategoryPage {
         }
         return result;
     }
+
+    public void click_first_product_in_grid() {
+        WebElement firstProduct = productsFromGrid.get(0);
+        WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
+        productLink.click();
+    }
 }

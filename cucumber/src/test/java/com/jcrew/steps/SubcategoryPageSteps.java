@@ -56,4 +56,9 @@ public class SubcategoryPageSteps extends DriverFactory {
     public void product_array_should_be_displayed_with_correct_values() throws Throwable {
         assertTrue("All products should contain correct values", subcategoryPage.isProductArrayValid());
     }
+
+    @And("^Selects the first product from product grid list$")
+    public void Selects_the_first_product_from_product_grid_list() throws Throwable {
+        subcategoryPage.click_first_product_in_grid();
+    }
 }
