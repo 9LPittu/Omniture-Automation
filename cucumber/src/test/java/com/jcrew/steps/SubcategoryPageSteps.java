@@ -49,6 +49,11 @@ public class SubcategoryPageSteps extends DriverFactory {
     @Then("^Proper details are shown for the hovered product$")
     public void proper_details_are_shown_for_the_hovered_product() throws Throwable {
         assertTrue("All products should contain a name and a price", subcategoryPage.isFirstProductNameAndPriceValid());
-        assertTrue("All product variations should be valid", subcategoryPage.areFirstProductVariationsValid());
+        assertTrue("All product variations should be valid", subcategoryPage.areFirstProductColorVariationsValid());
+    }
+
+    @Then("^Product array should be displayed with correct values$")
+    public void product_array_should_be_displayed_with_correct_values() throws Throwable {
+        assertTrue("All products should contain correct values", subcategoryPage.isProductArrayValid());
     }
 }

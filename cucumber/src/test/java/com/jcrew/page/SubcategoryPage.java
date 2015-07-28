@@ -160,8 +160,13 @@ public class SubcategoryPage {
         return isPriceAndNameValidFor(product);
     }
 
-    public boolean areFirstProductVariationsValid() {
+    public boolean areFirstProductColorVariationsValid() {
         WebElement firstProductFromGrid = productsFromGrid.get(0);
+        return areProductColorVariationsValid(firstProductFromGrid);
+
+    }
+
+    private boolean areProductColorVariationsValid(WebElement firstProductFromGrid) {
         boolean result = false;
         try {
             String productCount = firstProductFromGrid.findElement(By.className("tile__detail--colors-count")).getText();
@@ -195,6 +200,19 @@ public class SubcategoryPage {
         }
 
         return result;
+    }
 
+    public boolean isProductArrayValid() {
+        boolean result = true;
+        for (WebElement product : productsFromGrid) {
+            boolean isCorrectlyDisplayed = isPriceAndNameValidFor(product) && areProductColorVariationsValid(product);
+            if (!isCorrectlyDisplayed) {
+                logger.debug("The product {} contains invalid details in product grid.",
+                        product.findElement(By.className("tile__detail--name")).getText());
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 }
