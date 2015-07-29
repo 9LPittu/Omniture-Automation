@@ -12,6 +12,7 @@ import java.io.IOException;
 
 public class DriverFactory {
 
+    private static final String PHANTOMJS_BINARY_PATH = "phantomjs.binary.path";
     protected static WebDriver driver;
     private Logger logger = LoggerFactory.getLogger(DriverFactory.class);
     public static final String[] PHANTOM_JS_ARGS = new String[]{"--web-security=false",
@@ -50,15 +51,20 @@ public class DriverFactory {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
-            boolean isLocalEnvironment = propertyReader.isLocalEnvironment();
-            if (!isLocalEnvironment) {
-                capabilities.setCapability("phantomjs.binary.path", "./phantomjs");
-            }
+            setPhantomJSBinaryPath(capabilities, propertyReader.isLocalEnvironment());
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getUserAgent());
             int width = propertyReader.getWindowWidth();
             int height = propertyReader.getWindowHeight();
             driver = new PhantomJSDriver(capabilities);
             driver.manage().window().setSize(new Dimension(width, height));
+        }
+    }
+
+    private void setPhantomJSBinaryPath(DesiredCapabilities capabilities, boolean isLocalEnvironment) {
+        if (isLocalEnvironment) {
+            capabilities.setCapability(PHANTOMJS_BINARY_PATH, "/usr/local/bin/phantomjs");
+        } else {
+            capabilities.setCapability(PHANTOMJS_BINARY_PATH, "./phantomjs");
         }
     }
 

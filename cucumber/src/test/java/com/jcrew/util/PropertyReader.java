@@ -80,6 +80,6 @@ public class PropertyReader {
     }
 
     public boolean isLocalEnvironment() {
-        return "true".equals(System.getProperty("isLocal", "false").toLowerCase());
+        return "true".equals(System.getenv("isLocal"));
     }
 }
