@@ -39,7 +39,8 @@ public class StartingSteps  {
 
         if (scenario.isFailed()) {
             File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(screenshot, new File(scenario.getName() + ".png"));
+            FileUtils.forceMkdir(new File("errors"));
+            FileUtils.copyFile(screenshot, new File("errors/" + scenario.getName() + ".png"));
 
         }
 
