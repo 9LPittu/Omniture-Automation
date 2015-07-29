@@ -83,6 +83,7 @@ public class HomePage {
     }
 
     public void input_search_term(String searchTerm) {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(searchInput));
         searchInput.sendKeys(searchTerm);
     }
 
