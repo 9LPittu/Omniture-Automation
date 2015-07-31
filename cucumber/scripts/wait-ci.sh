@@ -4,7 +4,7 @@ function waitForServerRestart {
 	RETRY_NUMBER=0
 	MAX_NUMBER_OF_RETRIES=18
 	echo 'Waiting for server to restart'
-	until $(curl --output /dev/null --silent --head --fail http://www.sidecar-brn-.jcrew.com); do
+	until $(curl --output /dev/null --silent --head --fail http://www.sidecar-brn-ci.jcrew.com); do
 		if [ ${RETRY_NUMBER} -ge ${MAX_NUMBER_OF_RETRIES} ]; then
 			echo 'Server startup timed out'
 			return 1
