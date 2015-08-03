@@ -38,10 +38,8 @@ public class StartingSteps  {
     public void quitDriver(Scenario scenario) throws IOException {
 
         if (scenario.isFailed()) {
-            File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.forceMkdir(new File("errors"));
-            FileUtils.copyFile(screenshot, new File("errors/" + scenario.getName() + ".png"));
-
+            final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            scenario.embed(screenshot, "image/png");
         }
 
         driverFactory.destroyDriver();
