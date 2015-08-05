@@ -54,8 +54,8 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     }
 
-    @Then("^A minicart modal should appear$")
-    public void a_minicart_modal_should_appear() throws Throwable {
-        assertTrue("Minicart should appear", productDetailPage.isMinicartDisplayed());
+    @Then("^A minicart modal should appear with message '([^\"]*)'$")
+    public void a_minicart_modal_should_appear_with_message(String message) throws Throwable {
+        assertEquals(message, productDetailPage.getMinicartMessage());
     }
 }

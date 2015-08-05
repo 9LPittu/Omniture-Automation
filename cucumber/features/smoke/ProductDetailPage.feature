@@ -15,5 +15,5 @@ Feature: Smoke Tests Product Detail Page
     And A size is selected
     And A wishlist button is present
     When Add to cart button is pressed
-    Then A minicart modal should appear
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
     Then Bag should have 1 item(s) added

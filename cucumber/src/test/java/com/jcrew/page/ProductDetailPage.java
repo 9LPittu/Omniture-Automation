@@ -114,16 +114,18 @@ public class ProductDetailPage {
         return result;
     }
 
-    public boolean isMinicartDisplayed() {
+    public String getMinicartMessage() {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(miniCart));
 
-        WebElement cartDetails = miniCart.findElement(By.className("header__cart--details"));
+
+        WebElement cartDetails = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.visibilityOf(
+                        miniCart.findElement(By.className("header__cart--details"))));
+
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(cartDetails));
 
         String confirmationMessage = cartDetails.findElement(By.tagName("p")).getText();
 
-        logger.debug("Message from minicart is {}", confirmationMessage);
-
-        return "1 item has been added to your cart.".equals(confirmationMessage);
+        return confirmationMessage;
     }
 }
