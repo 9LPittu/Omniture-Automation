@@ -1,3 +1,4 @@
+@SubcategoryPage
 Feature: Smoke Tests Subcategory Page
 
   Background:

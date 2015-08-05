@@ -1,3 +1,4 @@
+@PDP
 Feature: Smoke Tests Product Detail Page
 
   Background:

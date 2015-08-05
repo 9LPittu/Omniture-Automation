@@ -1,3 +1,4 @@
+@Home
 Feature: Smoke Tests Home Page
   Background:
     Given User is on homepage

@@ -1,3 +1,4 @@
+@Search
 Feature: Smoke Tests Search Page
 
   Background:
