@@ -6,9 +6,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "features",
+        features = "features/smoke",
+        tags = {"@Home,@PDP"},
         glue = {"com.jcrew.steps"},
-        format = {"pretty", "html:target/cucumber", "json:target/cucumber-report.json"}
+        format = {"json:target/cucumber-homepdpfeatures.json"}
 )
-public class CucumberRunnerTest {
+public class CucumberHomePDPFeaturesRunnerTest {
 }
