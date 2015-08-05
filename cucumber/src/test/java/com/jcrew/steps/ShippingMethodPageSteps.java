@@ -11,7 +11,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
     @When("^Selects a shipping method$")
     public void selects_a_shipping_method() throws Throwable {
 
-        ShippingMethodPage shippingMethodPage = new ShippingMethodPage(driver);
+        ShippingMethodPage shippingMethodPage = new ShippingMethodPage(getDriver());
 
         assertTrue("Economy UPS checkbox should be selected", shippingMethodPage.isEconomyUps());
 

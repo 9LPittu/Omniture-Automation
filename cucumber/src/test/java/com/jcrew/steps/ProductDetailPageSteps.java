@@ -2,7 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.util.DriverFactory;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -13,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ProductDetailPageSteps extends DriverFactory {
 
-    private ProductDetailPage productDetailPage = new ProductDetailPage(driver);
+    private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
 
 
     @Given("User is on a product detail page")

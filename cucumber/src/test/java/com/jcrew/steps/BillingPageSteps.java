@@ -15,12 +15,10 @@ import static org.junit.Assert.assertTrue;
 
 public class BillingPageSteps extends DriverFactory {
 
-
-
     @When("^Fills required payment data$")
     public void fills_required_payment_data() throws Throwable {
 
-        BillingPage billingPage = new BillingPage(driver);
+        BillingPage billingPage = new BillingPage(getDriver());
 
         billingPage.fill_required_payment_data();
 

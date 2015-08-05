@@ -13,6 +13,6 @@ public class ShoppingBagSteps extends DriverFactory {
 
     @When("^Wants to checkout$")
     public void wants_to_checkout_the_product() throws Throwable {
-        new ShoppingBagPage(driver).wants_to_checkout();
+        new ShoppingBagPage(getDriver()).wants_to_checkout();
     }
 }

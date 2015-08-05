@@ -9,7 +9,7 @@ public class CategoryPageSteps extends DriverFactory {
     @When("^Selects a subcategory$")
     public void selects_a_subcategory() throws Throwable {
 
-        new CategoryPage(driver).selects_a_subcategory();
+        new CategoryPage(getDriver()).selects_a_subcategory();
 
     }
 }

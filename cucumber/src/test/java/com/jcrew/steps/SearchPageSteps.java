@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 public class SearchPageSteps extends DriverFactory {
 
-    private SearchPage searchPage = new SearchPage(driver);
+    private SearchPage searchPage = new SearchPage(getDriver());
 
     @Given("User is in search results page")
     public void user_is_in_search_results_page() {

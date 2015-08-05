@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 public class SubcategoryPageSteps extends DriverFactory {
 
-    private SubcategoryPage subcategoryPage = new SubcategoryPage(driver);
+    private SubcategoryPage subcategoryPage = new SubcategoryPage(getDriver());
 
     @When("^Adds a product to shopping bag$")
     public void adds_a_product_to_shopping_bag() throws Throwable {
@@ -37,7 +37,7 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertTrue("A Subcategory page should have a product grid", subcategoryPage.isProductGridPresent());
 
         assertTrue("User should be in shirts and top page for women",
-                driver.getCurrentUrl().endsWith("/c/womens_category/shirtsandtops"));
+                getDriver().getCurrentUrl().endsWith("/c/womens_category/shirtsandtops"));
 
     }
 

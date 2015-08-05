@@ -14,7 +14,7 @@ public class CheckoutSelectionPageSteps extends DriverFactory {
 
     @When("^Selects to checkout as guest$")
     public void selects_to_checkout_as_guest() throws Throwable {
-        new CheckoutSelectionPage(driver).selects_to_checkout_as_guest();
+        new CheckoutSelectionPage(getDriver()).selects_to_checkout_as_guest();
 
     }
 

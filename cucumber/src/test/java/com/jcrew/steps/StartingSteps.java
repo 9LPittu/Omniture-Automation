@@ -6,17 +6,15 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 
-public class StartingSteps  {
+public class StartingSteps {
 
     private DriverFactory driverFactory;
     private WebDriver driver;
@@ -37,12 +35,14 @@ public class StartingSteps  {
     @After
     public void quitDriver(Scenario scenario) throws IOException {
 
-        if (scenario.isFailed()) {
+        if (driver != null && scenario.isFailed()) {
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.embed(screenshot, "image/png");
         }
 
-        driverFactory.destroyDriver();
+        if (driverFactory != null) {
+            driverFactory.destroyDriver();
+        }
     }
 
 }

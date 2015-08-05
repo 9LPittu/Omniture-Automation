@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class HomePageSteps extends DriverFactory {
 
-    private HomePage homePage = new HomePage(driver);
+    private HomePage homePage = new HomePage(getDriver());
 
     @When("^Selects a category$")
     public void selects_a_category() {
@@ -84,5 +84,15 @@ public class HomePageSteps extends DriverFactory {
     @And("^Hits enter in search field$")
     public void hits_enter_in_search_field() throws Throwable {
         homePage.hit_enter_in_search_field();
+    }
+
+    @And("^Goes to sign in page$")
+    public void goes_to_sign_in_page() throws Throwable {
+        homePage.click_on_sign_in_link();
+    }
+
+    @And("^Clicks sign in link from hamburger menu$")
+    public void clicks_sign_in_link_from_hamburger_menu() throws Throwable {
+        homePage.click_on_sign_in_link_from_hamburger_menu();
     }
 }
