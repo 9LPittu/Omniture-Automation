@@ -73,6 +73,12 @@ public class HomePage {
     @FindBy(className = "header__search__input")
     private WebElement searchInput;
 
+    @FindBy(css=".primary-nav__item--account > a")
+    private WebElement signInLink;
+
+    @FindBy(css = "#c-nav__userpanel > a")
+    private WebElement signInLinkFromHamburger;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -198,5 +204,14 @@ public class HomePage {
 
     private void waitForVisibility(WebElement element) {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void click_on_sign_in_link() {
+        signInLink.click();
+    }
+
+    public void click_on_sign_in_link_from_hamburger_menu() {
+        waitForVisibility(signInLinkFromHamburger);
+        signInLinkFromHamburger.click();
     }
 }

@@ -79,7 +79,12 @@ public class PropertyReader {
         return readProperty("homepage");
     }
 
-    public boolean isLocalEnvironment() {
-        return "true".equals(System.getenv("isLocal"));
+    public boolean isRemoteExecution() {
+        return "true".equals(System.getProperty("remote.execution"));
+    }
+
+
+    public String getSeleniumHubUrl() {
+        return readProperty("selenium.grid.hub.url");
     }
 }
