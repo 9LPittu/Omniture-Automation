@@ -95,4 +95,9 @@ public class HomePageSteps extends DriverFactory {
     public void clicks_sign_in_link_from_hamburger_menu() throws Throwable {
         homePage.click_on_sign_in_link_from_hamburger_menu();
     }
+
+    @And("^Clicks on search button for input field$")
+    public void clicks_on_search_button_from_field() throws Throwable {
+        homePage.click_on_search_button_for_input_field();
+    }
 }
