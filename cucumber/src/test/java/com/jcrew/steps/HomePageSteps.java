@@ -100,4 +100,10 @@ public class HomePageSteps extends DriverFactory {
     public void clicks_on_search_button_from_field() throws Throwable {
         homePage.click_on_search_button_for_input_field();
     }
+
+
+    @When("^User clicks on sweaters Subcategory from Women Category$")
+    public void user_clicks_on_sweaters_subcategory_from_women_category() throws Throwable {
+        homePage.click_on_sweaters_subcategory();
+    }
 }

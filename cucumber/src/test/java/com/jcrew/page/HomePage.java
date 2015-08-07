@@ -67,6 +67,9 @@ public class HomePage {
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/shirtsandtops']")
     private WebElement womenShirtAndTopsCategoryLink;
 
+    @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/sweaters']")
+    private WebElement womenSweatersCategoryLink;
+
     @FindBy(className = "js-primary-nav__link--search")
     private WebElement searchButton;
 
@@ -220,5 +223,9 @@ public class HomePage {
 
     public void click_on_search_button_for_input_field() {
         headerSearchButtonFind.click();
+    }
+
+    public void click_on_sweaters_subcategory() {
+        womenSweatersCategoryLink.click();
     }
 }

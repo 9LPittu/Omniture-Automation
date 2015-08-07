@@ -7,6 +7,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -60,5 +61,20 @@ public class SubcategoryPageSteps extends DriverFactory {
     @And("^Selects the first product from product grid list$")
     public void Selects_the_first_product_from_product_grid_list() throws Throwable {
         subcategoryPage.click_first_product_in_grid();
+    }
+
+    @Then("^User should be in sweaters page for women$")
+    public void user_should_be_in_sweaters_page_for_women() throws Throwable {
+        assertTrue("A Subcategory page should have a product grid", subcategoryPage.isProductGridPresent());
+
+        assertTrue("User should be in shirts and top page for women",
+                getDriver().getCurrentUrl().endsWith("/c/womens_category/sweaters"));
+
+    }
+
+    @And("^Category title for Sweaters should match below global promo$")
+    public void category_title_for_sweaters_should_match_below_global_promo() throws Throwable {
+        assertEquals("Sweaters should have been displayed blow global promo",
+                "SWEATERS", subcategoryPage.getCategoryTitleBelowGlobalPromo());
     }
 }

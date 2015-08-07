@@ -24,30 +24,33 @@ public class SubcategoryPage {
     private final WebDriver driver;
 
     @FindBy(css = "button.get-quickshop")
-    WebElement quickShopButton;
+    private WebElement quickShopButton;
 
     @FindBy(xpath = ".//*[@id='sizes1']/div[not(contains(@class, 'unavailable'))][1]")
-    WebElement availableSize;
+    private WebElement availableSize;
 
     @FindBy(className = "add-item")
-    WebElement addItem;
+    private WebElement addItem;
 
     @FindBy(className = "quickshop-close")
-    WebElement quickShopCloseButton;
+    private WebElement quickShopCloseButton;
 
     @FindBy(id = "globalHeaderShoppingBagBttn2")
-    WebElement shoppingBagLink;
+    private WebElement shoppingBagLink;
 
     @FindBy(id = "qsLightBox")
-    WebElement quickShopModal;
+    private WebElement quickShopModal;
 
     @FindBy(className = "product__grid")
-    WebElement productGrid;
+    private WebElement productGrid;
+
+    @FindBy(css= ".category__page-title > h2")
+    private WebElement categoryPageTitle;
 
     @FindAll(value = {
             @FindBy(xpath = ".//div[@class='c-product-tile']")
     })
-    List<WebElement> productsFromGrid;
+    private List<WebElement> productsFromGrid;
 
     private Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
 
@@ -220,5 +223,10 @@ public class SubcategoryPage {
         WebElement firstProduct = productsFromGrid.get(0);
         WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
         productLink.click();
+    }
+
+
+    public String getCategoryTitleBelowGlobalPromo() {
+        return categoryPageTitle.getText();
     }
 }
