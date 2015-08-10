@@ -4,6 +4,7 @@ package com.jcrew.steps;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -82,5 +83,20 @@ public class SubcategoryPageSteps extends DriverFactory {
     public void view_all_section_is_present_and_collapsed() throws Throwable {
         assertEquals("View All should be displayed", "VIEW ALL", subcategoryPage.getAccordianHeaderLabelText());
         assertTrue("See more icon should be displayed", subcategoryPage.isMoreIconDisplayed());
+    }
+
+    @Given("^User clicks on expand icon$")
+    public void user_clicks_on_expand_icon() throws Throwable {
+        subcategoryPage.click_expand_accordion_icon();
+    }
+
+    @Then("^Accordion should be expanded$")
+    public void accordion_should_be_expanded() throws Throwable {
+        assertTrue("Accordion menu should be expanded", subcategoryPage.isAccordionMenuVisible());
+    }
+
+    @And("^Collapse icon is displayed$")
+    public void collapse_icon_is_displayed() throws Throwable {
+        assertTrue("See less icon should be displayed", subcategoryPage.isLessIconDisplayed());
     }
 }

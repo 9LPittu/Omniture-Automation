@@ -7,8 +7,13 @@ Feature: Smoke Tests Category Page
     And User clicks on sweaters Subcategory from Women Category
     And User should be in sweaters page for women
 
-  Scenario: Test Subcategory Page
+  Scenario: Verify Subcategory Page
     Then Category title for Sweaters should match below global promo
 
-  Scenario: Test View All Option is collapsed
+  Scenario: Verify View All Option is collapsed
     Then View All Section is present and collapsed
+
+  Scenario: Verify view all option expands
+    Given User clicks on expand icon
+    Then Accordion should be expanded
+    And Collapse icon is displayed

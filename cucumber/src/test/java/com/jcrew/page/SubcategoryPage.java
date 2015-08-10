@@ -47,8 +47,8 @@ public class SubcategoryPage {
     @FindBy(css = ".category__page-title > h2")
     private WebElement categoryPageTitle;
 
-    @FindBy(className = "js-accordian__header")
-    private WebElement accordionHeader;
+    @FindBy(className = "accordian__wrap")
+    private WebElement accordionWrap;
 
     @FindAll(value = {
             @FindBy(xpath = ".//div[@class='c-product-tile']")
@@ -234,16 +234,37 @@ public class SubcategoryPage {
     }
 
     public String getAccordianHeaderLabelText() {
-        final WebElement accordionHeaderLabel = new WebDriverWait(driver, 10).until(
-                ExpectedConditions.visibilityOf(accordionHeader)).findElement(By.className("js-label"));
-
+        final WebElement accordionHeaderLabel = getAccordionElement(By.className("js-label"));
         return accordionHeaderLabel.getText();
     }
 
     public boolean isMoreIconDisplayed() {
-        final WebElement accordionHeaderIcon = new WebDriverWait(driver, 10).until(
-                ExpectedConditions.visibilityOf(accordionHeader)).findElement(By.className("icon-see-more"));
+        final WebElement accordionHeaderIcon = getAccordionElement(By.className("icon-see-more"));
+        return accordionHeaderIcon.isDisplayed();
+    }
 
+    private WebElement getAccordionElement(By element) {
+        final WebElement accordionWrap = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.visibilityOf(this.accordionWrap));
+
+        final WebElement expectedElement = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.visibilityOf(accordionWrap.findElement(element)));
+
+        return expectedElement;
+    }
+
+    public void click_expand_accordion_icon() {
+        getAccordionElement(By.className("icon-see-more")).click();
+    }
+
+    public boolean isAccordionMenuVisible() {
+        final WebElement accordionMenu = getAccordionElement(By.className("accordian__menu"));
+
+        return accordionMenu.isDisplayed();
+    }
+
+    public boolean isLessIconDisplayed() {
+        final WebElement accordionHeaderIcon = getAccordionElement(By.className("icon-see-less"));
         return accordionHeaderIcon.isDisplayed();
     }
 }
