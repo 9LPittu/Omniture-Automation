@@ -5,8 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SearchPage {
+
+    private final WebDriver driver;
 
     @FindBy(className = "header__search")
     private WebElement headerSearch;
@@ -18,7 +22,8 @@ public class SearchPage {
     private WebElement productGrid;
 
     public SearchPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+        this.driver = driver;
+        PageFactory.initElements(this.driver, this);
     }
 
 
@@ -27,6 +32,7 @@ public class SearchPage {
     }
 
     public boolean areResultsDisplayed() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productGrid));
         return !productGrid.findElements(By.className("c-product-tile")).isEmpty();
     }
 }

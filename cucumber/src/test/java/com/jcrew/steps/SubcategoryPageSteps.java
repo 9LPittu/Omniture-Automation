@@ -77,4 +77,10 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertEquals("Sweaters should have been displayed blow global promo",
                 "SWEATERS", subcategoryPage.getCategoryTitleBelowGlobalPromo());
     }
+
+    @Then("^View All Section is present and collapsed$")
+    public void view_all_section_is_present_and_collapsed() throws Throwable {
+        assertEquals("View All should be displayed", "VIEW ALL", subcategoryPage.getAccordianHeaderLabelText());
+        assertTrue("See more icon should be displayed", subcategoryPage.isMoreIconDisplayed());
+    }
 }

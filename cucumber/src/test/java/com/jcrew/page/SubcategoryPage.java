@@ -44,8 +44,11 @@ public class SubcategoryPage {
     @FindBy(className = "product__grid")
     private WebElement productGrid;
 
-    @FindBy(css= ".category__page-title > h2")
+    @FindBy(css = ".category__page-title > h2")
     private WebElement categoryPageTitle;
+
+    @FindBy(className = "js-accordian__header")
+    private WebElement accordionHeader;
 
     @FindAll(value = {
             @FindBy(xpath = ".//div[@class='c-product-tile']")
@@ -220,13 +223,27 @@ public class SubcategoryPage {
     }
 
     public void click_first_product_in_grid() {
-        WebElement firstProduct = productsFromGrid.get(0);
-        WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
+        final WebElement firstProduct = productsFromGrid.get(0);
+        final WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
         productLink.click();
     }
 
 
     public String getCategoryTitleBelowGlobalPromo() {
         return categoryPageTitle.getText();
+    }
+
+    public String getAccordianHeaderLabelText() {
+        final WebElement accordionHeaderLabel = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.visibilityOf(accordionHeader)).findElement(By.className("js-label"));
+
+        return accordionHeaderLabel.getText();
+    }
+
+    public boolean isMoreIconDisplayed() {
+        final WebElement accordionHeaderIcon = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.visibilityOf(accordionHeader)).findElement(By.className("icon-see-more"));
+
+        return accordionHeaderIcon.isDisplayed();
     }
 }
