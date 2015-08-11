@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.util.DriverFactory;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -57,5 +58,10 @@ public class ProductDetailPageSteps extends DriverFactory {
     @Then("^A minicart modal should appear with message '([^\"]*)'$")
     public void a_minicart_modal_should_appear_with_message(String message) throws Throwable {
         assertEquals(message, productDetailPage.getMinicartMessage());
+    }
+
+    @Given("^User clicks on item bag$")
+    public void user_clicks_on_item_bag() throws Throwable {
+        productDetailPage.click_item_bag();
     }
 }
