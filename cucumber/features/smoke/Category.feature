@@ -17,3 +17,13 @@ Feature: Smoke Tests Category Page
     Given User clicks on expand icon
     Then Accordion should be expanded
     And Collapse icon is displayed
+    
+  Scenario: Verify category sort
+    Given User clicks on expand icon
+    And Selects cardigans subcategory
+    Then cardigans option becomes bold
+    And Refine modal autocloses
+    And Array page displays cardigans
+    And Products displayed are from cardigans
+    
+    

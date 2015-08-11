@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -267,4 +268,37 @@ public class SubcategoryPage {
         final WebElement accordionHeaderIcon = getAccordionElement(By.className("icon-see-less"));
         return accordionHeaderIcon.isDisplayed();
     }
+
+    public void click_cardigans_subcategory() {
+        final WebElement cardiganSubcategory = getAccordionElement(By.xpath("//a[@data-safe-name='cardigans']"));
+        cardiganSubcategory.click();		
+    }
+
+    public boolean isAccordionMenuInvisible() {
+        final WebElement accordionWrap = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.visibilityOf(this.accordionWrap));
+
+        final WebElement accordionMenu = accordionWrap.findElement(By.className("accordian__menu"));
+
+        new WebDriverWait(driver, 10).until(
+                ExpectedConditions.invisibilityOfElementLocated(By.className("accordian__menu")));
+
+        return !accordionMenu.isDisplayed();
+    }
+
+    public String getArrayLabel() {
+        final WebElement arrayLabel = driver.findElement(By.id("c-product__list"));
+        return arrayLabel.findElement(By.tagName("h4")).getText();
+    }
+
+    public List<String> getProductsDisplayedHrefs()
+    {
+        List<WebElement> products = driver.findElements(By.className("c-product-tile"));
+        List<String> productsHref = new ArrayList<String>();
+        for (WebElement product: products) {
+            productsHref.add(product.findElement(By.tagName("a")).getAttribute("href"));
+        }
+        return productsHref;
+    }
+
 }

@@ -1,16 +1,17 @@
 package com.jcrew.steps;
 
-
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 public class SubcategoryPageSteps extends DriverFactory {
 
@@ -99,4 +100,37 @@ public class SubcategoryPageSteps extends DriverFactory {
     public void collapse_icon_is_displayed() throws Throwable {
         assertTrue("See less icon should be displayed", subcategoryPage.isLessIconDisplayed());
     }
+
+
+    @Given("^Selects cardigans subcategory$")
+    public void selects_cardigans_subcategory() throws Throwable {
+        subcategoryPage.click_cardigans_subcategory();
+    }
+
+    @Then("^cardigans option becomes bold$")
+    public void cardigans_option_becomes_bold() throws Throwable {
+        assertEquals("Cardigans should be displayed", "CARDIGANS", subcategoryPage.getAccordianHeaderLabelText());
+    }
+
+    @Then("^Refine modal autocloses$")
+    public void refine_modal_autocloses() throws Throwable {
+        assertTrue("Accordion menu should be expanded", subcategoryPage.isAccordionMenuInvisible());
+    }
+
+    @Then("^Array page displays cardigans$")
+    public void array_page_displays_cardigans() throws Throwable {
+        assertEquals("Cardigans array should be displayed","CARDIGANS",subcategoryPage.getArrayLabel());
+    }
+
+    @Then("^Products displayed are from cardigans$")
+    public void products_displayed_are_from_cardigans() throws Throwable {
+        List<String> productsDisplayedHrefs = subcategoryPage.getProductsDisplayedHrefs();
+
+        for(String prods: productsDisplayedHrefs)
+        {
+            assertTrue("product is not a Cardigan",prods.contains("/p/womens_category/sweaters/cardigans"));
+        }
+
+    }
+
 }
