@@ -46,6 +46,9 @@ public class ProductDetailPage {
     @FindBy(className = "header__cart")
     private WebElement miniCart;
 
+    @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
+    private WebElement itemBagLink;
+
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -127,5 +130,9 @@ public class ProductDetailPage {
         String confirmationMessage = cartDetails.findElement(By.tagName("p")).getText();
 
         return confirmationMessage;
+    }
+
+    public void click_item_bag() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(itemBagLink)).click();
     }
 }

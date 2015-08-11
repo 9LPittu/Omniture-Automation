@@ -10,14 +10,42 @@ public class ShoppingBagPage {
 
 
     @FindBy(id = "button-checkout")
-    WebElement checkoutLink;
+    private WebElement checkoutLink;
+
+    @FindBy(css = ".item-actions > .item-edit")
+    private WebElement editAction;
+
+    @FindBy(css = ".item-actions > .item-remove")
+    private WebElement removeAction;
+
+    @FindBy(css = ".item-group-price >.item-total")
+    private WebElement itemTotal;
+
+    @FindBy(css = ".summary-item > .summary-value")
+    private WebElement subtotalValue;
 
     public ShoppingBagPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
 
 
-    public void wants_to_checkout() {
+    public void click_checkout_button() {
         checkoutLink.click();
+    }
+
+    public boolean isEditButtonPresent() {
+        return editAction.isDisplayed();
+    }
+
+    public boolean isRemoveButtonPresent() {
+        return removeAction.isDisplayed();
+    }
+
+    public String getTotalAmountPage() {
+        return itemTotal.getText();
+    }
+
+    public String getSubtotalValue() {
+        return subtotalValue.getText();
     }
 }
