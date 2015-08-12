@@ -37,7 +37,6 @@ public class ShoppingBagPage {
 
 
     public void click_checkout_button() {
-        logger.error("URL for driver is {}", driver.getCurrentUrl());
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(checkoutLink));
 
