@@ -15,7 +15,7 @@ Feature: Checkout Process
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
 
-  Scenario: Guest checkout (Screenshot)
+  Scenario: Guest checkout Screenshot
     Given User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present

@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class StartingSteps {
 
-    public static final String TAKE_SCREENSHOT = "(Screenshot)";
+    public static final String TAKE_SCREENSHOT = "Screenshot";
     private final Logger logger = LoggerFactory.getLogger(StartingSteps.class);
     private DriverFactory driverFactory;
     private WebDriver driver;
