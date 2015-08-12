@@ -35,7 +35,7 @@ public class StartingSteps {
     @After
     public void quitDriver(Scenario scenario) throws IOException {
 
-        if (driver != null && scenario.isFailed()) {
+        if (driver != null && (scenario.isFailed() || scenario.getName().contains("(Scenario)"))) {
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.embed(screenshot, "image/png");
         }

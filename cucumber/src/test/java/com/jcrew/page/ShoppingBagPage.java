@@ -4,11 +4,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ShoppingBagPage {
 
+    private final Logger logger = LoggerFactory.getLogger(ShoppingBagPage.class);
 
+    private final WebDriver driver;
     @FindBy(id = "button-checkout")
     private WebElement checkoutLink;
 
@@ -25,12 +31,18 @@ public class ShoppingBagPage {
     private WebElement subtotalValue;
 
     public ShoppingBagPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+        this.driver = driver;
+        PageFactory.initElements(this.driver, this);
     }
 
 
     public void click_checkout_button() {
+        logger.error("URL for driver is {}", driver.getCurrentUrl());
+
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(checkoutLink));
+
         checkoutLink.click();
+
     }
 
     public boolean isEditButtonPresent() {

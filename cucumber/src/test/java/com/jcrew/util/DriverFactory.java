@@ -87,7 +87,12 @@ public class DriverFactory {
 
             int width = propertyReader.getWindowWidth();
             int height = propertyReader.getWindowHeight();
-            driver = new RemoteWebDriver(seleniumHubRemoteAddress, DesiredCapabilities.phantomjs());
+
+            final DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
+            capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
+            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getUserAgent());
+
+            driver = new RemoteWebDriver(seleniumHubRemoteAddress, capabilities);
             driver.manage().window().setSize(new Dimension(width, height));
 
         }
