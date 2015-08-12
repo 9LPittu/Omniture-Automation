@@ -21,4 +21,12 @@ Feature: Checkout Process
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are similar
     And Clicks on checkout
-    And Selects to checkout as guest
+#    And Selects to checkout as guest
+#    And Fills shipping address
+#    And Presses continue button on shipping address
+#    And Verifies is in shipping method page
+#    And Uses default value for shipping method
+#    And Uses default value for gifts option
+#    And Clicks continue button on shipping method page
+#    And Fills required payment data in billing page
+#    Then User places its order
