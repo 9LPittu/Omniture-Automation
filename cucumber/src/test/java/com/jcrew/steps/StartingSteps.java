@@ -9,6 +9,8 @@ import cucumber.api.java.en.Given;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 public class StartingSteps {
 
+    public static final String TAKE_SCREENSHOT = "(Screenshot)";
+    private final Logger logger = LoggerFactory.getLogger(StartingSteps.class);
     private DriverFactory driverFactory;
     private WebDriver driver;
 
@@ -35,7 +39,10 @@ public class StartingSteps {
     @After
     public void quitDriver(Scenario scenario) throws IOException {
 
-        if (driver != null && (scenario.isFailed() || scenario.getName().contains("(Scenario)"))) {
+        if (driver != null && (scenario.isFailed() || scenario.getName().contains(TAKE_SCREENSHOT))) {
+
+            logger.debug("Taking screenshot of scenario {}", scenario.getName());
+
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.embed(screenshot, "image/png");
         }
