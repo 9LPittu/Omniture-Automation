@@ -28,6 +28,9 @@ public class ShippingMethodPage {
     @FindBy(className = "shippingmethod-container")
     private WebElement shippingMethodContainer;
 
+    @FindBy(id = "global__footer")
+    private WebElement globalFooter;
+
     public ShippingMethodPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -54,5 +57,10 @@ public class ShippingMethodPage {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(shippingMethodContainer));
 
         return shippingMethodContainer.isDisplayed();
+    }
+
+    public boolean isPageLoaded() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(globalFooter));
+        return globalFooter.isDisplayed();
     }
 }

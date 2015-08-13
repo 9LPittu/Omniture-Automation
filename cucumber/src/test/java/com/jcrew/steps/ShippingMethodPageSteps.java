@@ -32,7 +32,9 @@ public class ShippingMethodPageSteps extends DriverFactory {
     @And("^Clicks continue button on shipping method page$")
     public void clicks_continue_button_on_shipping_method_page() throws Throwable {
 
-        shippingMethodPage.click_continue_button();
+        if (shippingMethodPage.isPageLoaded()) {
+            shippingMethodPage.click_continue_button();
+        }
 
     }
 }
