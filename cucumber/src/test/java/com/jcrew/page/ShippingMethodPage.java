@@ -22,7 +22,7 @@ public class ShippingMethodPage {
     @FindBy(id = "noGifts")
     private WebElement noGifts;
 
-    @FindBy(xpath = ".//*[@id='frmSelectShippingMethod']/section/div[2]/a")
+    @FindBy(className = "button-submit")
     private WebElement continueButton;
 
     @FindBy(className = "shippingmethod-container")
