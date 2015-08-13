@@ -6,11 +6,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class BillingPage {
 
+    private final WebDriver driver;
     private Faker faker = new Faker();
 
     @FindBy(id = "creditCardNumber")
@@ -41,10 +44,13 @@ public class BillingPage {
     WebElement billingOptionsSubmit;
 
     public BillingPage(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+        this.driver = driver;
+        PageFactory.initElements(this.driver, this);
     }
 
     public void fill_required_payment_data() {
+
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(creditCardNumber));
 
         creditCardNumber.sendKeys("4111-1111-1111-1111");
         securityCode.sendKeys("485");

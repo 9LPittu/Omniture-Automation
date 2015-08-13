@@ -37,14 +37,11 @@ public class ProductDetailPage {
     @FindBy(className = "product__name")
     private WebElement productName;
 
-    @FindBy(className = "js-cart-size")
-    private WebElement bagSize;
+    @FindBy(className = "primary-nav__item--bag")
+    private WebElement bagContainer;
 
     @FindBy(id = "global__footer")
     private WebElement footer;
-
-    @FindBy(className = "header__cart")
-    private WebElement miniCart;
 
     @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
     private WebElement itemBagLink;
@@ -106,28 +103,18 @@ public class ProductDetailPage {
     }
 
     public int getNumberOfItemsInBag() {
-        int result;
-        try {
-            String stringSize = bagSize.getText().replace("(", "").replace(")", "").trim();
-            result = Integer.parseInt(stringSize);
-        } catch (NumberFormatException nfe) {
-            result = -1;
-        }
-        return result;
+        WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
+        String bagSizeStr = bagSize.getText();
+        logger.debug("Bag Size is {}", bagSizeStr);
+        String stringSize = bagSizeStr.replace("(", "").replace(")", "").trim();
+        return Integer.parseInt(stringSize);
     }
 
     public String getMinicartMessage() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(miniCart));
-
-
-        WebElement cartDetails = new WebDriverWait(driver, 10).until(
-                ExpectedConditions.visibilityOf(
-                        miniCart.findElement(By.className("header__cart--details"))));
-
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(cartDetails));
-
-        String confirmationMessage = cartDetails.findElement(By.tagName("p")).getText();
-
+        final WebElement miniCart = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.presenceOfElementLocated(By.cssSelector(".header__cart--details > p")));
+        final String confirmationMessage = miniCart.getAttribute("innerHTML");
+        logger.debug("Confirmation message is {} ", confirmationMessage);
         return confirmationMessage;
     }
 
