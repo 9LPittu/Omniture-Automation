@@ -4,8 +4,6 @@ import com.jcrew.page.PlaceYourOrderPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.Then;
 
-import static org.junit.Assert.assertTrue;
-
 public class PlaceYourOrderSteps extends DriverFactory {
 
     @Then("^User places its order$")
@@ -15,8 +13,6 @@ public class PlaceYourOrderSteps extends DriverFactory {
 
         placeYourOrderPage.user_places_its_order();
 
-        assertTrue("An error message should be displayed as the billing values are fake",
-                placeYourOrderPage.containsErrors());
 
     }
 

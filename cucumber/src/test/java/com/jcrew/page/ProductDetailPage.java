@@ -80,11 +80,10 @@ public class ProductDetailPage {
 
         WebElement color = colors.get(0);
 
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(color));
+
         color.click();
 
-        if (color.getAttribute("class").contains("is-selected")) {
-            logger.debug("Second color was selected as expected");
-        }
     }
 
     public void select_size() {

@@ -1,5 +1,6 @@
 @Checkout
 Feature: Checkout Process
+
   Background:
     Given User is on homepage
     And User clicks on hamburger menu
@@ -15,10 +16,18 @@ Feature: Checkout Process
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
 
-  Scenario: Guest checkout
+  Scenario: Guest checkout Screenshot
     Given User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are similar
     And Clicks on checkout
     And Selects to checkout as guest
+    And Fills shipping address
+    And Presses continue button on shipping address
+    And Verifies is in shipping method page
+    And Uses default value for shipping method
+    And Uses default value for gifts option
+    And Clicks continue button on shipping method page
+    And Fills required payment data in billing page
+    Then User places its order
