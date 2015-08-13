@@ -10,3 +10,7 @@ Feature: Smoke Tests Search Page
     And Clicks on search button for input field
     Then User is in search results page
     And Search results are displayed
+    And Gender selectors are displayed
+    And Clicks on gender selector
+    Then User is in gender refine array page
+    And Refine button is displayed
