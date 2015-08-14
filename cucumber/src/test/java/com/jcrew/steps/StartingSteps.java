@@ -5,6 +5,7 @@ import com.jcrew.util.PropertyReader;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -22,6 +23,7 @@ public class StartingSteps {
     private final Logger logger = LoggerFactory.getLogger(StartingSteps.class);
     private DriverFactory driverFactory;
     private WebDriver driver;
+    private final PropertyReader reader = PropertyReader.getPropertyReader();
 
     @Before
     public void setupDriver() throws IOException {
@@ -31,8 +33,12 @@ public class StartingSteps {
 
     @Given("^User is on homepage$")
     public void user_is_on_home_page() throws Throwable {
-        PropertyReader reader = PropertyReader.getPropertyReader();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.get(reader.getHomePage());
+    }
+
+    @And("^User goes to homepage$")
+    public void User_goes_to_homepage() throws Throwable {
         driver.get(reader.getHomePage());
     }
 
