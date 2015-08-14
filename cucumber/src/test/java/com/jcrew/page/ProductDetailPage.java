@@ -85,12 +85,14 @@ public class ProductDetailPage {
 
     public void select_size() {
         List<WebElement> sizes = productSizesSection.findElements(By.className("sizes-list__item"));
-        WebElement size = sizes.get(0);
-
-        size.click();
-
-        if (size.getAttribute("class").contains("is-selected")) {
-            logger.debug("Size has been selected {}", size.findElement(By.tagName("span")).getText());
+        for (WebElement size : sizes) {
+            if (!size.getAttribute("class").contains("is-unavailable")) {
+                size.click();
+                if (size.getAttribute("class").contains("is-selected")) {
+                    logger.debug("Size has been selected {}", size.findElement(By.tagName("span")).getText());
+                }
+                break;
+            }
         }
     }
 
