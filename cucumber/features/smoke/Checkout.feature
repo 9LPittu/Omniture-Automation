@@ -15,14 +15,14 @@ Feature: Checkout Process
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
-
-  Scenario: Guest checkout Screenshot
-    Given User clicks on item bag
+    And User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are similar
     And Clicks on checkout
-    And Selects to checkout as guest
+
+  Scenario: Guest checkout Screenshot
+    Given Selects to checkout as guest
     And Fills shipping address
     And Presses continue button on shipping address
     And Verifies is in shipping method page
@@ -30,4 +30,17 @@ Feature: Checkout Process
     And Uses default value for gifts option
     And Clicks continue button on shipping method page
     And Fills required payment data in billing page
-    Then User places its order
+    And Clicks on place your order
+    Then User should be in order summary page
+
+  Scenario: Registered Checkout Mobile Not Signed User Screenshot
+    Given User provides username test1@test.net as and password as test1234
+    And Clicks sign in and checkout
+    Then Click save to wishlist and continue checkout if user is in merge bag page
+    And Validates billing section is present in review page
+    And Inputs credit card security code
+    And Validates shipping section is present in review page
+    And Clicks on place your order
+    Then User should be in order summary page
+
+
