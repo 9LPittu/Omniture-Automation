@@ -38,7 +38,7 @@ public class StartingSteps {
     }
 
     @And("^User goes to homepage$")
-    public void User_goes_to_homepage() throws Throwable {
+    public void user_goes_to_homepage() throws Throwable {
         driver.get(reader.getHomePage());
     }
 

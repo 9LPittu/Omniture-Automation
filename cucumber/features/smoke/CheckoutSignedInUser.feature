@@ -1,7 +1,7 @@
 @Checkout
 Feature: Checkout Process Signed in User
 
-  Scenario: Checkout signed in user Screenshot
+  Background:
     Given User is on homepage
     And Goes to sign in page
     When User provides login information
@@ -19,6 +19,22 @@ Feature: Checkout Process Signed in User
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
+
+  Scenario: Checkout signed in user Screenshot
+    Given User clicks on item bag
+    And Verifies edit button is present
+    And Verifies remove button is present
+    And Verifies that total amount and subtotal values are similar
+    And Clicks on checkout
+    And Validates billing section is present in review page
+    And Inputs credit card security code
+    And Validates shipping section is present in review page
+    And Clicks on place your order
+#    Then User should be in order summary page
+
+
+  Scenario: Express Checkout Screenshot
+    Given User goes to homepage
     And User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
