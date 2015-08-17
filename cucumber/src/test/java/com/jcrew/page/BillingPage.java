@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BillingPage {
 
+    public static final String NAME_ON_CARD = "John Doe";
     private final WebDriver driver;
     private Faker faker = new Faker();
 
@@ -62,7 +63,7 @@ public class BillingPage {
         Select expirationYearElement = new Select(expirationYear);
         expirationYearElement.selectByVisibleText("2024");
 
-        nameOnCard.sendKeys(faker.letterify(faker.name().fullName()));
+        nameOnCard.sendKeys(NAME_ON_CARD);
         emailReceipt.sendKeys(faker.internet().emailAddress());
 
     }
