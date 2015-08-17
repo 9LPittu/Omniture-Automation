@@ -32,4 +32,9 @@ public class LoginPageSteps extends DriverFactory {
     public void hits_sign_in_button() throws Throwable {
         loginPage.click_sign_in_button();
     }
+
+    @When("^User provides login information$")
+    public void user_provides_login_information() throws Throwable {
+        loginPage.enter_valid_username_and_password();
+    }
 }

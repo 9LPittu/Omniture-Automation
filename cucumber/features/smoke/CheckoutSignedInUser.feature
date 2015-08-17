@@ -4,8 +4,7 @@ Feature: Checkout Process Signed in User
   Scenario: Checkout signed in user Screenshot
     Given User is on homepage
     And Goes to sign in page
-    When User enters test_register_user@test.com as email
-    And User enters test1234 as password
+    When User provides login information
     And Hits sign in button
     And User goes to homepage
     And User clicks on hamburger menu

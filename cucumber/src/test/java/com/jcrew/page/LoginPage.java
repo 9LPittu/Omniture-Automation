@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.PropertyReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,5 +38,11 @@ public class LoginPage {
 
     public String getSignInErrorMessage() {
         return invalidSignInMessage.getText();
+    }
+
+    public void enter_valid_username_and_password() {
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        input_as_email(reader.readProperty("checkout.signed.in.username"));
+        input_as_password(reader.readProperty("checkout.signed.in.password"));
     }
 }
