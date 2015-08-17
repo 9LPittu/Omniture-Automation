@@ -34,7 +34,7 @@ Feature: Checkout Process
     Then User should be in order summary page
 
   Scenario: Registered Checkout Mobile Not Signed User Screenshot
-    Given User provides username test1@test.net as and password as test1234
+    Given User provides username and password
     And Clicks sign in and checkout
     Then Click save to wishlist and continue checkout if user is in merge bag page
     And Validates billing section is present in review page

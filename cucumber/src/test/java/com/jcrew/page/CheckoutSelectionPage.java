@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.PropertyReader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,9 +30,10 @@ public class CheckoutSelectionPage {
         checkoutAsGuestLink.click();
     }
 
-    public void set_username_and_password(String username, String password) {
-        usernameInputField.sendKeys(username);
-        passwordInputField.sendKeys(password);
+    public void set_username_and_password() {
+        final PropertyReader reader = PropertyReader.getPropertyReader();
+        usernameInputField.sendKeys(reader.getProperty("checkout.not.signed.in.username"));
+        passwordInputField.sendKeys(reader.getProperty("checkout.not.signed.in.password"));
     }
 
     public void click_sign_in_and_checkout() {

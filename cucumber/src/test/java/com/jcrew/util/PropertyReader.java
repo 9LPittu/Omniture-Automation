@@ -87,4 +87,8 @@ public class PropertyReader {
     public String getSeleniumHubUrl() {
         return readProperty("selenium.grid.hub.url");
     }
+
+    public String getProperty(String property) {
+        return readProperty(property);
+    }
 }

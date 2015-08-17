@@ -22,9 +22,9 @@ public class CheckoutSelectionPageSteps extends DriverFactory {
 
     }
 
-    @Given("^User provides username ([^\"]*) as and password as ([^\"]*)$")
-    public void user_provides_username_and_password(String username, String password) throws Throwable {
-        checkoutSelectionPage.set_username_and_password(username, password);
+    @Given("^User provides username and password$")
+    public void user_provides_username_and_password() throws Throwable {
+        checkoutSelectionPage.set_username_and_password();
     }
 
     @And("^Clicks sign in and checkout$")
