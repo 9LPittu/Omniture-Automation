@@ -2,16 +2,14 @@ package com.jcrew.steps;
 
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class SubcategoryPageSteps extends DriverFactory {
 
@@ -65,19 +63,20 @@ public class SubcategoryPageSteps extends DriverFactory {
         subcategoryPage.click_first_product_in_grid();
     }
 
-    @Then("^User should be in sweaters page for women$")
-    public void user_should_be_in_sweaters_page_for_women() throws Throwable {
-        assertTrue("A Subcategory page should have a product grid", subcategoryPage.isProductGridPresent());
+    @Then("^User should be in ([^\"]*) page for women$")
+    public void user_should_be_in_subcategory_page_for_women(String subcategory) throws Throwable {
+        assertTrue("A Subcategory page should have a product grid",
+                subcategoryPage.isProductGridPresent());
 
-        assertTrue("User should be in shirts and top page for women",
-                getDriver().getCurrentUrl().endsWith("/c/womens_category/sweaters"));
+        assertTrue("User should be in " + subcategoryPage + " page for women",
+                getDriver().getCurrentUrl().endsWith("/c/womens_category/" + subcategory));
 
     }
 
-    @And("^Category title for Sweaters should match below global promo$")
-    public void category_title_for_sweaters_should_match_below_global_promo() throws Throwable {
-        assertEquals("Sweaters should have been displayed blow global promo",
-                "SWEATERS", subcategoryPage.getCategoryTitleBelowGlobalPromo());
+    @And("^Category title for ([^\"]*) should match below global promo$")
+    public void category_title_for_subcategory_should_match_below_global_promo(String subcategory) throws Throwable {
+        assertEquals(subcategory + " should have been displayed blow global promo",
+                subcategory, subcategoryPage.getCategoryTitleBelowGlobalPromo());
     }
 
     @Then("^View All Section is present and collapsed$")
@@ -119,16 +118,15 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @Then("^Array page displays cardigans$")
     public void array_page_displays_cardigans() throws Throwable {
-        assertEquals("Cardigans array should be displayed","CARDIGANS",subcategoryPage.getArrayLabel());
+        assertEquals("Cardigans array should be displayed", "CARDIGANS", subcategoryPage.getArrayLabel());
     }
 
     @Then("^Products displayed are from cardigans$")
     public void products_displayed_are_from_cardigans() throws Throwable {
         List<String> productsDisplayedHrefs = subcategoryPage.getProductsDisplayedHrefs();
 
-        for(String prods: productsDisplayedHrefs)
-        {
-            assertTrue("product is not a Cardigan",prods.contains("/p/womens_category/sweaters/cardigans"));
+        for (String prods : productsDisplayedHrefs) {
+            assertTrue("product is not a Cardigan", prods.contains("/p/womens_category/sweaters/cardigans"));
         }
 
     }

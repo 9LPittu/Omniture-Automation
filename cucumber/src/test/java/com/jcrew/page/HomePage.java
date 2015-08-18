@@ -85,6 +85,9 @@ public class HomePage {
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement signInLinkFromHamburger;
 
+    @FindBy(className = "menu__nested")
+    private WebElement nestedMenu;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -230,7 +233,7 @@ public class HomePage {
         headerSearchButtonFind.click();
     }
 
-    public void click_on_sweaters_subcategory() {
-        womenSweatersCategoryLink.click();
+    public void click_on_subcategory(String subcategory) {
+        nestedMenu.findElement(By.linkText(subcategory)).click();
     }
 }

@@ -102,8 +102,8 @@ public class HomePageSteps extends DriverFactory {
     }
 
 
-    @When("^User clicks on sweaters Subcategory from Women Category$")
-    public void user_clicks_on_sweaters_subcategory_from_women_category() throws Throwable {
-        homePage.click_on_sweaters_subcategory();
+    @When("^User clicks on ([^\"]*) subcategory from Women Category$")
+    public void user_clicks_on_subcategory_from_women_category(String subcategory) throws Throwable {
+        homePage.click_on_subcategory(subcategory);
     }
 }
