@@ -271,7 +271,7 @@ public class SubcategoryPage {
 
     public void click_cardigans_subcategory() {
         final WebElement cardiganSubcategory = getAccordionElement(By.xpath("//a[@data-safe-name='cardigans']"));
-        cardiganSubcategory.click();		
+        cardiganSubcategory.click();
     }
 
     public boolean isAccordionMenuInvisible() {
@@ -291,14 +291,22 @@ public class SubcategoryPage {
         return arrayLabel.findElement(By.tagName("h4")).getText();
     }
 
-    public List<String> getProductsDisplayedHrefs()
-    {
+    public List<String> getProductsDisplayedHrefs() {
         List<WebElement> products = driver.findElements(By.className("c-product-tile"));
         List<String> productsHref = new ArrayList<String>();
-        for (WebElement product: products) {
+        for (WebElement product : products) {
             productsHref.add(product.findElement(By.tagName("a")).getAttribute("href"));
         }
         return productsHref;
     }
 
+    public boolean isCategoryHeaderPresent() {
+        boolean result;
+        try {
+            result = categoryPageTitle.isDisplayed();
+        } catch (NoSuchElementException nsee) {
+            result = false;
+        }
+        return result;
+    }
 }

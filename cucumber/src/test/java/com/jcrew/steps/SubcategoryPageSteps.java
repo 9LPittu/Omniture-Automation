@@ -123,7 +123,7 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @Then("^Products displayed are from cardigans$")
     public void products_displayed_are_from_cardigans() throws Throwable {
-        List<String> productsDisplayedHrefs = subcategoryPage.getProductsDisplayedHrefs();
+        final List<String> productsDisplayedHrefs = subcategoryPage.getProductsDisplayedHrefs();
 
         for (String prods : productsDisplayedHrefs) {
             assertTrue("product is not a Cardigan", prods.contains("/p/womens_category/sweaters/cardigans"));
@@ -131,4 +131,9 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     }
 
+    @Then("^Category header should not be present$")
+    public void category_header_should_not_be_present() throws Throwable {
+        assertTrue("Category header should not have been present but it is",
+                !subcategoryPage.isCategoryHeaderPresent());
+    }
 }
