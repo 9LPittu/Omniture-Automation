@@ -316,4 +316,28 @@ public class SubcategoryPage {
     public String getCategoryImageHeaderAlt() {
         return headerImage.getAttribute("alt");
     }
+
+    public boolean productTileExistFor(String product) {
+        WebElement productInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]"));
+        return productInTile.isDisplayed();
+    }
+
+    public String getPriceFor(String product) {
+        WebElement priceInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--list')]"));
+        return priceInTile.getText();
+    }
+
+    public String getAvailableColorsMessageFor(String product) {
+        WebElement priceInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--colors-count')]"));
+        return priceInTile.getText();
+    }
+
+    public boolean isImageDisplayedFor(String product) {
+        WebElement priceInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]/../../../div/a/img"));
+        return priceInTile.isDisplayed();
+    }
 }

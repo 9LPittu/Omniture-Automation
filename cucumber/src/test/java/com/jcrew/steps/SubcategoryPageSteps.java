@@ -143,4 +143,24 @@ public class SubcategoryPageSteps extends DriverFactory {
                 subcategoryPage.getCategoryImageHeaderAlt());
     }
 
+    @Then("^Verifies ([^\"]*) product is displayed$")
+    public void verifies_product_is_displayed(String product) throws Throwable {
+        assertTrue("Product should exist", subcategoryPage.productTileExistFor(product));
+    }
+
+    @And("^Verifies ([^\"]*) product price is ([^\"]*)$")
+    public void verifies_product_price(String product, String price) {
+        assertEquals("Price for product should be correct", price, subcategoryPage.getPriceFor(product));
+    }
+
+    @And("^Verifies ([^\"]*) colors available are (\\d+)$")
+    public void verifies_product_colors_available(String product, int colors) {
+        assertEquals("Colors expected should be " + colors,
+                "available in " + colors + " colors", subcategoryPage.getAvailableColorsMessageFor(product));
+    }
+
+    @And("^An image is displayed for ([^\"]*) product$")
+    public void image_is_displayed_for_product(String product) {
+        assertTrue("Image should be displayed for product", subcategoryPage.isImageDisplayedFor(product));
+    }
 }
