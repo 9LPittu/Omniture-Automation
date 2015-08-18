@@ -136,4 +136,11 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertTrue("Category header should not have been present but it is",
                 !subcategoryPage.isCategoryHeaderPresent());
     }
+
+    @And("^An image should be displayed for ([^\"]*)$")
+    public void an_image_should_be_displayed_for_category(String category) throws Throwable {
+        assertEquals("Image for category should have been displayed ", category,
+                subcategoryPage.getCategoryImageHeaderAlt());
+    }
+
 }

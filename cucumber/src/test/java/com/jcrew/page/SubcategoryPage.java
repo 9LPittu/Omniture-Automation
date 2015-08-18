@@ -56,6 +56,9 @@ public class SubcategoryPage {
     })
     private List<WebElement> productsFromGrid;
 
+    @FindBy(className = "header__image")
+    private WebElement headerImage;
+
     private Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
 
     public SubcategoryPage(WebDriver driver) {
@@ -308,5 +311,9 @@ public class SubcategoryPage {
             result = false;
         }
         return result;
+    }
+
+    public String getCategoryImageHeaderAlt() {
+        return headerImage.getAttribute("alt");
     }
 }
