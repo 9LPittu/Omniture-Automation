@@ -24,7 +24,7 @@ Feature: Checkout Process Signed in User
     Given User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
-    And Verifies that total amount and subtotal values are similar
+    And Verifies that total amount and subtotal values are numbers
     And Clicks on checkout
     And Validates billing section is present in review page
     And Inputs credit card security code
@@ -38,7 +38,7 @@ Feature: Checkout Process Signed in User
     And User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
-    And Verifies that total amount and subtotal values are similar
+    And Verifies that total amount and subtotal values are numbers
     And Clicks on checkout
     And Validates billing section is present in review page
     And Inputs credit card security code

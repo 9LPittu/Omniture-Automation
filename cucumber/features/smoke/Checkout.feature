@@ -18,11 +18,11 @@ Feature: Checkout Process
     And User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
-    And Verifies that total amount and subtotal values are similar
-    And Clicks on checkout
 
   Scenario: Guest checkout Screenshot
-    Given Selects to checkout as guest
+    Given Verifies that total amount and subtotal values are similar
+    And Clicks on checkout
+    And Selects to checkout as guest
     And Fills shipping address
     And Presses continue button on shipping address
     And Verifies is in shipping method page
@@ -34,7 +34,9 @@ Feature: Checkout Process
     Then User should be in order summary page
 
   Scenario: Registered Checkout Mobile Not Signed User Screenshot
-    Given User provides username and password
+    Given Verifies that total amount and subtotal values are numbers
+    And Clicks on checkout
+    And User provides username and password
     And Clicks sign in and checkout
     Then Click save to wishlist and continue checkout if user is in merge bag page
     And Validates billing section is present in review page
