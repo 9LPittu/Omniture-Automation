@@ -44,7 +44,7 @@ public class ShoppingBagSteps extends DriverFactory {
         String totalAmount = shoppingBagPage.getTotalAmountPage();
         String subtotalValue = shoppingBagPage.getSubtotalValue();
         Pattern totalAmountPattern = Pattern.compile("^\\$\\d(\\d)?\\.\\d\\d$");
-        Pattern subtotalAmountPattern = Pattern.compile("^\\$\\d(,\\d{3}|\\d)?\\.\\d\\d$");
+        Pattern subtotalAmountPattern = Pattern.compile("^\\$\\d{1,3}(,\\d{3}|\\d)?\\.\\d\\d$");
 
         Matcher totalAmountMatch = totalAmountPattern.matcher(totalAmount);
         Matcher subtotalAmountMatch = subtotalAmountPattern.matcher(subtotalValue);
