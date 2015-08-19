@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.HomePage;
+import com.jcrew.page.Navigation;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -12,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class HomePageSteps extends DriverFactory {
 
     private HomePage homePage = new HomePage(getDriver());
+    private Navigation navigation = new Navigation(getDriver());
 
     @When("^Selects a category$")
     public void selects_a_category() {
@@ -21,7 +23,7 @@ public class HomePageSteps extends DriverFactory {
 
     @Then("^JCrew Logo is present$")
     public void jcrew_logo_is_present() throws Throwable {
-        assertTrue("JCrew logo must be present", homePage.isJCrewLogoPresent());
+        assertTrue("JCrew logo must be present", navigation.isJCrewLogoPresent());
     }
 
 

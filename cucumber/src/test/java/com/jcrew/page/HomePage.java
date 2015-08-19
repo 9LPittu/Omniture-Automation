@@ -22,9 +22,6 @@ public class HomePage {
     @FindBy(className = "closePopup")
     private WebElement closePopupLink;
 
-    @FindBy(id = "header__logo")
-    private WebElement headerLogo;
-
     @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Women')]")
     private WebElement womenDepartmentLink;
 
@@ -135,10 +132,6 @@ public class HomePage {
         } catch (WebDriverException wde) {
             logger.info("Initial window did not show up, continuing with tests");
         }
-    }
-
-    public boolean isJCrewLogoPresent() {
-        return headerLogo.isDisplayed();
     }
 
     public boolean isWomenDepartmentPresent() {

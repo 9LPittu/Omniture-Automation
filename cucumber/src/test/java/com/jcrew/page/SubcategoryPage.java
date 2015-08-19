@@ -1,10 +1,7 @@
 package com.jcrew.page;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
@@ -58,6 +55,18 @@ public class SubcategoryPage {
 
     @FindBy(className = "header__image")
     private WebElement headerImage;
+
+    @FindBy(className = "c-header__main")
+    private WebElement mainMenu;
+
+    @FindBy(className = "header__promo__wrap--desktop")
+    private WebElement headerDesktopPromo;
+
+    @FindBy(className = "header__promo__wrap--mobile")
+    private WebElement headerMobilePromo;
+
+    @FindBy(className = "c-category__filters")
+    private WebElement refinement;
 
     private Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
 
@@ -353,5 +362,29 @@ public class SubcategoryPage {
                 "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--sale')]"));
 
         return wasPriceInTitle.getText();
+    }
+
+    public Point getMenuPosition() {
+        return mainMenu.getLocation();
+    }
+
+    public Point getDesktopPromoPosition() {
+        return headerDesktopPromo.getLocation();
+    }
+
+    public Point getMobilePromoPosition() {
+        return headerMobilePromo.getLocation();
+    }
+
+    public Point getRefinementPosition() {
+        return refinement.getLocation();
+    }
+
+    public Point getCategoryImagePosition() {
+        return headerImage.getLocation();
+    }
+
+    public boolean isDesktopPromoDisplayed() {
+        return headerDesktopPromo.isDisplayed();
     }
 }

@@ -7,3 +7,7 @@ Feature: Navigation Feature
     And Search Link is present
     And Stores Link is present
     And Bag Link is present
+    And JCrew Logo is present
+    And Category title for SWEATERS should match below global promo
+    And View All Section is present and collapsed
+    And Verifies position of elements is the expected

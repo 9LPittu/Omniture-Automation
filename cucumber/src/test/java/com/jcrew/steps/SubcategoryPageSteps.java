@@ -1,11 +1,13 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.Navigation;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.Point;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import static org.junit.Assert.*;
 public class SubcategoryPageSteps extends DriverFactory {
 
     private SubcategoryPage subcategoryPage = new SubcategoryPage(getDriver());
+    private Navigation navigation = new Navigation(getDriver());
 
     @When("^Adds a product to shopping bag$")
     public void adds_a_product_to_shopping_bag() throws Throwable {
@@ -174,5 +177,42 @@ public class SubcategoryPageSteps extends DriverFactory {
     public void verifies_product_color_availability(String product, String colorAvailability) {
         assertEquals("Expected colors did not match", colorAvailability,
                 subcategoryPage.getAvailableColorsMessageFor(product));
+    }
+
+    @And("^Verifies position of elements is the expected$")
+    public void verifies_position_of_elements_is_the_expected() throws Throwable {
+        final Point menuPosition = subcategoryPage.getMenuPosition();
+        final Point logoPosition = navigation.getLogoPosition();
+        final Point refinementPosition = subcategoryPage.getRefinementPosition();
+        final Point categoryImagePosition = subcategoryPage.getCategoryImagePosition();
+        final Point promoPosition;
+
+        boolean isDesktop = subcategoryPage.isDesktopPromoDisplayed();
+
+        if (isDesktop) {
+            promoPosition = subcategoryPage.getDesktopPromoPosition();
+        } else {
+            promoPosition = subcategoryPage.getMobilePromoPosition();
+        }
+
+        boolean result;
+
+        if (isDesktop) {
+            result = (promoPosition.getY() < menuPosition.getY())
+                    && (menuPosition.getY() < logoPosition.getY())
+                    && (logoPosition.getY() < refinementPosition.getY())
+                    && (refinementPosition.getY() < categoryImagePosition.getY());
+        } else {
+            result = (menuPosition.getY() < logoPosition.getY())
+                    && (logoPosition.getY() < promoPosition.getY())
+                    && (promoPosition.getY() < refinementPosition.getY())
+                    && (refinementPosition.getY() < categoryImagePosition.getY());
+        }
+
+        assertTrue("An element is out of order, expected is menu " + menuPosition.getY() +
+                ", logo " + logoPosition.getY() + ", promo " + promoPosition.getY() +
+                ". refinement " + refinementPosition.getY() + " and category image " +
+                categoryImagePosition.getY(), result);
+
     }
 }

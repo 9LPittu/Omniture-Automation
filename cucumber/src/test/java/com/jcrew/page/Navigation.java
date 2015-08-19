@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +20,9 @@ public class Navigation {
 
     @FindBy(className = "primary-nav__text--stores")
     private WebElement storesLink;
+
+    @FindBy(id = "header__logo")
+    private WebElement headerLogo;
 
 
     public Navigation(WebDriver driver) {
@@ -46,4 +50,11 @@ public class Navigation {
         return storesLink.isDisplayed();
     }
 
+    public boolean isJCrewLogoPresent() {
+        return headerLogo.isDisplayed();
+    }
+
+    public Point getLogoPosition() {
+        return headerLogo.getLocation();
+    }
 }
