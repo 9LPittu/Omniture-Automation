@@ -44,4 +44,10 @@ public class NavigationSteps extends DriverFactory {
         navigation.click_on_search_button();
     }
 
+
+    @Then("^Stores Link is present$")
+    public void stores_link_is_present() throws Throwable {
+        assertTrue("Stores link should be present", navigation.isStoresLinkPresent());
+    }
+
 }

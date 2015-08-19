@@ -37,9 +37,6 @@ public class HomePage {
     @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Girls')]")
     private WebElement girlsDepartmentLink;
 
-    @FindBy(className = "primary-nav__text--stores")
-    private WebElement storesLink;
-
     @FindBy(className = "js-primary-nav__link--menu")
     private WebElement hamburgerMenuLink;
 
@@ -158,10 +155,6 @@ public class HomePage {
 
     public boolean isGirlsDepartmentPresent() {
         return girlsDepartmentLink.isDisplayed();
-    }
-
-    public boolean isStoresLinkPresent() {
-        return storesLink.isDisplayed();
     }
 
     public boolean isHamburgerMenuPresent() {

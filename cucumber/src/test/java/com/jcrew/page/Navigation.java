@@ -17,6 +17,9 @@ public class Navigation {
     @FindBy(className = "js-primary-nav__link--search")
     private WebElement searchButton;
 
+    @FindBy(className = "primary-nav__text--stores")
+    private WebElement storesLink;
+
 
     public Navigation(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -35,10 +38,12 @@ public class Navigation {
         return searchButton.isDisplayed();
     }
 
-
     public void click_on_search_button() {
         searchButton.click();
     }
 
+    public boolean isStoresLinkPresent() {
+        return storesLink.isDisplayed();
+    }
 
 }
