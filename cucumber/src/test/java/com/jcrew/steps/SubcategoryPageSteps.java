@@ -153,12 +153,6 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertEquals("Price for product should be correct", price, subcategoryPage.getPriceFor(product));
     }
 
-    @And("^Verifies ([^\"]*) colors available are (\\d+)$")
-    public void verifies_product_colors_available(String product, int colors) {
-        assertEquals("Colors expected should be " + colors,
-                "available in " + colors + " colors", subcategoryPage.getAvailableColorsMessageFor(product));
-    }
-
     @And("^An image is displayed for ([^\"]*) product$")
     public void image_is_displayed_for_product(String product) {
         assertTrue("Image should be displayed for product", subcategoryPage.isImageDisplayedFor(product));
@@ -174,5 +168,11 @@ public class SubcategoryPageSteps extends DriverFactory {
     public void verifies_product_sale_price(String product, String price) {
         assertEquals("Sale price is not what was expected",
                 price, subcategoryPage.getSalePriceFor(product));
+    }
+
+    @And("^Verifies ([^\"]*) is (available in \\d+ colors)$")
+    public void verifies_product_color_availability(String product, String colorAvailability) {
+        assertEquals("Expected colors did not match", colorAvailability,
+                subcategoryPage.getAvailableColorsMessageFor(product));
     }
 }
