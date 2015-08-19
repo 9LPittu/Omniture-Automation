@@ -340,4 +340,18 @@ public class SubcategoryPage {
                 "' and contains(@class, 'tile__detail--name')]/../../../div/a/img"));
         return priceInTile.isDisplayed();
     }
+
+    public String getWasPriceFor(String product) {
+        WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--was')]"));
+
+        return wasPriceInTitle.getText();
+    }
+
+    public String getSalePriceFor(String product) {
+        WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--sale')]"));
+
+        return wasPriceInTitle.getText();
+    }
 }

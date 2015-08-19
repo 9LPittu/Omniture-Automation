@@ -148,8 +148,8 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertTrue("Product should exist", subcategoryPage.productTileExistFor(product));
     }
 
-    @And("^Verifies ([^\"]*) product price is ([^\"]*)$")
-    public void verifies_product_price(String product, String price) {
+    @And("^Verifies ([^\"]*) product list price is ([^\"]*)$")
+    public void verifies_product_list_price(String product, String price) {
         assertEquals("Price for product should be correct", price, subcategoryPage.getPriceFor(product));
     }
 
@@ -162,5 +162,17 @@ public class SubcategoryPageSteps extends DriverFactory {
     @And("^An image is displayed for ([^\"]*) product$")
     public void image_is_displayed_for_product(String product) {
         assertTrue("Image should be displayed for product", subcategoryPage.isImageDisplayedFor(product));
+    }
+
+    @And("^Verifies ([^\"]*) product price (was [^\"]*)$")
+    public void verifies_product_price_was(String product, String price) {
+        assertEquals("Was price is not the expected",
+                price, subcategoryPage.getWasPriceFor(product));
+    }
+
+    @And("^Verifies ([^\"]*) product sale price is (now [^\"]*)$")
+    public void verifies_product_sale_price(String product, String price) {
+        assertEquals("Sale price is not what was expected",
+                price, subcategoryPage.getSalePriceFor(product));
     }
 }
