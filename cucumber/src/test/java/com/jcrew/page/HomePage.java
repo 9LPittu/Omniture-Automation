@@ -70,16 +70,13 @@ public class HomePage {
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/sweaters']")
     private WebElement womenSweatersCategoryLink;
 
-    @FindBy(className = "js-primary-nav__link--search")
-    private WebElement searchButton;
-
     @FindBy(className = "header__search__input")
     private WebElement searchInput;
 
     @FindBy(className = "header__search__button--find")
     private WebElement headerSearchButtonFind;
 
-    @FindBy(css=".primary-nav__item--account > a")
+    @FindBy(css = ".primary-nav__item--account > a")
     private WebElement signInLink;
 
     @FindBy(css = "#c-nav__userpanel > a")
@@ -102,9 +99,6 @@ public class HomePage {
         searchInput.sendKeys(searchTerm);
     }
 
-    public void click_on_search_button() {
-        searchButton.click();
-    }
 
     public void click_on_hamburger_menu() {
         hamburgerMenuLink.click();

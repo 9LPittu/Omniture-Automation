@@ -66,14 +66,7 @@ public class HomePageSteps extends DriverFactory {
 
     @And("^Selects Shirts and Tops from Women Category in hamburger menu$")
     public void selects_shirts_and_tops_from_hamburger_menu() throws Throwable {
-
         homePage.click_on_shirts_and_tops_from_women_category_in_hamburger_menu();
-
-    }
-
-    @And("^User presses search button$")
-    public void presses_search_button() throws Throwable {
-        homePage.click_on_search_button();
     }
 
     @And("^Enters (\\w+) to the search field$")
@@ -106,4 +99,5 @@ public class HomePageSteps extends DriverFactory {
     public void user_clicks_on_subcategory_from_women_category(String subcategory) throws Throwable {
         homePage.click_on_subcategory(subcategory);
     }
+
 }

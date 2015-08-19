@@ -34,12 +34,12 @@ public class StartingSteps {
     @Given("^User is on homepage$")
     public void user_is_on_home_page() throws Throwable {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get(reader.getHomePage());
+        driver.get(reader.getEnvironment());
     }
 
     @And("^User goes to homepage$")
     public void user_goes_to_homepage() throws Throwable {
-        driver.get(reader.getHomePage());
+        driver.get(reader.getEnvironment());
     }
 
     @After

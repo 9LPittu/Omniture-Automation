@@ -75,8 +75,8 @@ public class PropertyReader {
         return height;
     }
 
-    public String getHomePage() {
-        return readProperty("homepage");
+    public String getEnvironment() {
+        return readProperty("environment");
     }
 
     public boolean isRemoteExecution() {
