@@ -2,17 +2,21 @@ package com.jcrew.steps;
 
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
+
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -54,7 +58,7 @@ public class StartingSteps {
         }
 
         if (driverFactory != null) {
-            driverFactory.destroyDriver();
+           // driverFactory.destroyDriver();
         }
     }
 

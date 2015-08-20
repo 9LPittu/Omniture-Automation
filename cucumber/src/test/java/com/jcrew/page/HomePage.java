@@ -216,4 +216,26 @@ public class HomePage {
     public void click_on_subcategory(String subcategory) {
         nestedMenu.findElement(By.linkText(subcategory)).click();
     }
+    
+  //  public void open_browser() {
+  //      driver.get("https://www.sidecar-brn-qa.jcrew.com/");
+ // }
+    
+    public void click_on_women_pdp_hamburger_menu() {
+        WebElement pdpmenu = driver.findElement(By.xpath("//*[@id='global__header']/div[2]/section/div[1]/div/div/ul[1]/li[1]/a"));
+        logger.info("verify menu from women pdp{}",pdpmenu.getText());
+        pdpmenu.click();
+    }
+    
+    public void click_on_back_link() {
+        WebElement backlink =driver.findElement(By.xpath("//*[@id='global__nav']/div/div[2]/button/div"));
+        waitForVisibility(backlink);
+        backlink.click();
+    }
+    
+    public void close_hamburger_menu() {
+        WebElement closeicon = driver.findElement(By.xpath("//*[@id='global__nav']/div/div[1]/div"));
+        logger.info("verifying acces to close icon{}",closeicon.getAttribute("id"));
+        closeicon.click();
+    } 
 }

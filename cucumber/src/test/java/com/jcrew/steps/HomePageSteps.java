@@ -3,11 +3,11 @@ package com.jcrew.steps;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.Navigation;
 import com.jcrew.util.DriverFactory;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 import static org.junit.Assert.assertTrue;
 
 public class HomePageSteps extends DriverFactory {
@@ -63,7 +63,9 @@ public class HomePageSteps extends DriverFactory {
 
     @And("^Selects Shirts and Tops from Women Category in hamburger menu$")
     public void selects_shirts_and_tops_from_hamburger_menu() throws Throwable {
+
         homePage.click_on_shirts_and_tops_from_women_category_in_hamburger_menu();
+
     }
 
     @And("^Enters (\\w+) to the search field$")
@@ -91,10 +93,24 @@ public class HomePageSteps extends DriverFactory {
         homePage.click_on_search_button_for_input_field();
     }
 
-
     @When("^User clicks on ([^\"]*) subcategory from Women Category$")
     public void user_clicks_on_subcategory_from_women_category(String subcategory) throws Throwable {
         homePage.click_on_subcategory(subcategory);
     }
-
+    
+ //   @And("^User comes back to homepage$") 
+  //  public void user_opens_the_browser() {
+        
+    //   homePage.open_browser();
+        
+   //}
+    @And("^User clicks on hamburger menu from women pdp$")
+    public void user_clicks_on_hamburger_menu_from_women_pdp() {
+        homePage.click_on_women_pdp_hamburger_menu();
+    }
+    
+    @And("^User clicks on back link$") 
+    public void user_clicks_on_back_link() {
+        homePage.click_on_back_link();
+    }
 }
