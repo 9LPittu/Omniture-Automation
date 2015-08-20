@@ -104,32 +104,33 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
 
-    @Given("^Selects cardigans subcategory$")
-    public void selects_cardigans_subcategory() throws Throwable {
-        subcategoryPage.click_cardigans_subcategory();
+    @Given("^Selects ([^\"]*) subcategory$")
+    public void selects_subcategory(String subcategory) throws Throwable {
+        subcategoryPage.click_subcategory(subcategory);
     }
 
-    @Then("^cardigans option becomes bold$")
-    public void cardigans_option_becomes_bold() throws Throwable {
-        assertEquals("Cardigans should be displayed", "CARDIGANS", subcategoryPage.getAccordianHeaderLabelText());
+    @Then("^([^\"]*) option becomes selected$")
+    public void subcategory_option_becomes_bold(String option) throws Throwable {
+        assertEquals("Cardigans should be bold", option, subcategoryPage.getAccordianHeaderLabelText());
     }
 
     @Then("^Refine modal autocloses$")
     public void refine_modal_autocloses() throws Throwable {
-        assertTrue("Accordion menu should be expanded", subcategoryPage.isAccordionMenuInvisible());
+        assertTrue("Accordion menu should not be expanded", subcategoryPage.isAccordionMenuInvisible());
     }
 
-    @Then("^Array page displays cardigans$")
-    public void array_page_displays_cardigans() throws Throwable {
-        assertEquals("Cardigans array should be displayed", "CARDIGANS", subcategoryPage.getArrayLabel());
+    @Then("^Array page displays ([^\"]*)$")
+    public void array_page_displays_subcategory(String subcategory) throws Throwable {
+        assertEquals("Cardigans array should be displayed", subcategory, subcategoryPage.getArrayLabel());
     }
 
-    @Then("^Products displayed are from cardigans$")
-    public void products_displayed_are_from_cardigans() throws Throwable {
+    @Then("^Products displayed are ([^\"]*) from ([^\"]*) category$")
+    public void products_displayed_are_from_subcategory(String subcategory, String category) throws Throwable {
         final List<String> productsDisplayedHrefs = subcategoryPage.getProductsDisplayedHrefs();
 
-        for (String prods : productsDisplayedHrefs) {
-            assertTrue("product is not a Cardigan", prods.contains("/p/womens_category/sweaters/cardigans"));
+        for (String product : productsDisplayedHrefs) {
+            assertTrue("product is not from " + subcategory + " href value is " + product,
+                    product.contains("/p/womens_category/" + category + "/" + subcategory));
         }
 
     }
@@ -214,5 +215,14 @@ public class SubcategoryPageSteps extends DriverFactory {
                 ". refinement " + refinementPosition.getY() + " and category image " +
                 categoryImagePosition.getY(), result);
 
+    }
+
+    @Then("^Verifies accordion menu contains same items as in sign post items$")
+    public void verifies_accordion_menu_contains_same_items_as_in_sign_post_items() throws Throwable {
+        List<String> postSignItems = subcategoryPage.getPostSignItems();
+        List<String> accordianItems = subcategoryPage.getAccordionItems();
+
+        postSignItems.add(0, "VIEW ALL");
+        assertEquals("Elements list should be the same", postSignItems, accordianItems);
     }
 }

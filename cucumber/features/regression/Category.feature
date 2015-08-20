@@ -33,3 +33,18 @@ Feature: Regression Tests Category Feature
     And Verifies Grosgrain ribbon top product sale price is now $29.99
     And Verifies Grosgrain ribbon top is available in 4 colors
     And An image is displayed for Grosgrain ribbon top product
+
+
+  Scenario: Check sign posts on category pages
+    Given User clicks on J.CREW IN GOOD COMPANY subcategory from Women Category
+    And User should be in ingoodcompany page for women
+    #  Post sign validation for accordion menu pending due to bug found where the accordion menu values displayed
+    #  did not match with the post signs set.
+    #Then Verifies accordion menu contains same items as in sign post items
+    Then User clicks on expand icon
+    And Selects woolrich subcategory
+    Then WOOLRICH option becomes selected
+    And Refine modal autocloses
+    And Array page displays WOOLRICH
+    And Products displayed are woolrich from ingoodcompany category
+
