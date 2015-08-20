@@ -24,6 +24,9 @@ public class Navigation {
     @FindBy(id = "header__logo")
     private WebElement headerLogo;
 
+    @FindBy(className = "icon-nav-close")
+    private WebElement closeHamburgerMenu;
+
 
     public Navigation(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -56,5 +59,13 @@ public class Navigation {
 
     public Point getLogoPosition() {
         return headerLogo.getLocation();
+    }
+
+    public void close_hamburger_menu() {
+        closeHamburgerMenu.click();
+    }
+
+    public void click_on_stores_link() {
+        storesLink.click();
     }
 }

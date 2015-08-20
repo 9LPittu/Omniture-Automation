@@ -8,6 +8,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.WebDriver;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class NavigationSteps extends DriverFactory {
@@ -50,4 +51,34 @@ public class NavigationSteps extends DriverFactory {
         assertTrue("Stores link should be present", navigation.isStoresLinkPresent());
     }
 
+    @And("^Closes hamburger menu$")
+    public void Closes_hamburger_menu() throws Throwable {
+        navigation.close_hamburger_menu();
+    }
+
+    @Then("^User presses back button$")
+    public void user_presses_back_button() throws Throwable {
+        getDriver().navigate().back();
+    }
+
+    @Then("^User is on ([^\"]*) page$")
+    public void user_is_on_page(String page) {
+        assertTrue("Browser was expected to be at " + page,
+                getDriver().getCurrentUrl().endsWith(page));
+    }
+
+    @Then("^User is on external page ([^\"]*)$")
+    public void user_is_on_external_page(String page) {
+        assertEquals("User is not in an expected page", page, getDriver().getCurrentUrl());
+    }
+
+    @Then("^User clicks on stores link$")
+    public void user_clicks_on_stores_link() throws Throwable {
+        navigation.click_on_stores_link();
+    }
+
+    @Then("^User should be in shopping bag page$")
+    public void user_should_be_in_shopping_bag_page() throws Throwable {
+        user_is_on_page("/checkout2/shoppingbag.jsp?sidecar=true");
+    }
 }

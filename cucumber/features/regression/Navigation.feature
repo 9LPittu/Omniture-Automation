@@ -11,3 +11,17 @@ Feature: Navigation Feature
     And Category title for SWEATERS should match below global promo
     And View All Section is present and collapsed
     And Verifies position of elements is the expected
+    Then User clicks on hamburger menu
+    And Closes hamburger menu
+    Then User presses search button
+    And Enters dresses to the search field
+    And Clicks on search button for input field
+    Then User is in search results page
+    Then User presses back button
+    And Category title for SWEATERS should match below global promo
+    Then User clicks on stores link
+    Then User is on external page https://stores.jcrew.com/
+    Then User presses back button
+    And Category title for SWEATERS should match below global promo
+    Then User clicks on item bag
+    Then User should be in shopping bag page

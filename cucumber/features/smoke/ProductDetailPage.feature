@@ -9,7 +9,7 @@ Feature: Smoke Tests Product Detail Page
     And Selects the first product from product grid list
 
   Scenario: Product Detail Page Validation
-    Given User is on a product detail page
+    Given User is in product detail page
     And A variation is selected
     And A color is selected
     And A size is selected

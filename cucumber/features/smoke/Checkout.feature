@@ -7,20 +7,21 @@ Feature: Checkout Process
     And Selects Women Category from hamburger menu
     And Selects Shirts and Tops from Women Category in hamburger menu
     And Selects the first product from product grid list
-    And User is on a product detail page
+    And User is in product detail page
     And A variation is selected
     And A color is selected
     And A size is selected
     And A wishlist button is present
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
-    And Bag should have 1 item(s) added
+
+
+  Scenario: Guest checkout Screenshot
+    Given Bag should have 1 item(s) added
     And User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
-
-  Scenario: Guest checkout Screenshot
-    Given Verifies that total amount and subtotal values are similar
+    And Verifies that total amount and subtotal values are similar
     And Clicks on checkout
     And Selects to checkout as guest
     And Fills shipping address
@@ -34,6 +35,10 @@ Feature: Checkout Process
     Then User should be in order summary page
 
   Scenario: Registered Checkout Mobile Not Signed User Screenshot
+    Given Bag should have item(s) added
+    And User clicks on item bag
+    And Verifies edit button is present
+    And Verifies remove button is present
     Given Verifies that total amount and subtotal values are numbers
     And Clicks on checkout
     And User provides username and password

@@ -2,7 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.util.DriverFactory;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -16,7 +15,7 @@ public class ProductDetailPageSteps extends DriverFactory {
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
 
 
-    @Given("User is on a product detail page")
+    @Given("User is in product detail page")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
         assertTrue("User should be in detail page",
                 productDetailPage.isProductDetailPage());
@@ -63,5 +62,10 @@ public class ProductDetailPageSteps extends DriverFactory {
     @Given("^User clicks on item bag$")
     public void user_clicks_on_item_bag() throws Throwable {
         productDetailPage.click_item_bag();
+    }
+
+    @Given("^Bag should have item\\(s\\) added$")
+    public void bag_should_have_item_s_added() throws Throwable {
+        assertTrue("It should contain at least one item", productDetailPage.getNumberOfItemsInBag() > 0 );
     }
 }
