@@ -68,6 +68,12 @@ public class SubcategoryPage {
     @FindBy(className = "c-category__filters")
     private WebElement refinement;
 
+    @FindBy(css = "header h4")
+    private List<WebElement> postSignElements;
+
+    @FindBy(css = "#c-category__filters .accordian__menu .accordian__menu__item .accordian__menu__link")
+    private List<WebElement> accordionElements;
+
     private Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
 
     public SubcategoryPage(WebDriver driver) {
@@ -281,9 +287,9 @@ public class SubcategoryPage {
         return accordionHeaderIcon.isDisplayed();
     }
 
-    public void click_cardigans_subcategory() {
-        final WebElement cardiganSubcategory = getAccordionElement(By.xpath("//a[@data-safe-name='cardigans']"));
-        cardiganSubcategory.click();
+    public void click_subcategory(String subcategory) {
+        final WebElement subcategoryElement = getAccordionElement(By.xpath("//a[@data-safe-name='" + subcategory + "']"));
+        subcategoryElement.click();
     }
 
     public boolean isAccordionMenuInvisible() {
@@ -386,5 +392,21 @@ public class SubcategoryPage {
 
     public boolean isDesktopPromoDisplayed() {
         return headerDesktopPromo.isDisplayed();
+    }
+
+    public List<String> getPostSignItems() {
+        List<String> postSignList = new ArrayList<>();
+        for (WebElement postSignElement : postSignElements) {
+            postSignList.add(postSignElement.getText());
+        }
+        return postSignList;
+    }
+
+    public List<String> getAccordionItems() {
+        List<String> accordionItemList = new ArrayList<>();
+        for (WebElement postSignElement : accordionElements) {
+            accordionItemList.add(postSignElement.getText());
+        }
+        return accordionItemList;
     }
 }

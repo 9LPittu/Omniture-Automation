@@ -21,9 +21,9 @@ Feature: Smoke Tests Category Page
   Scenario: Verify category sort
     Given User clicks on expand icon
     And Selects cardigans subcategory
-    Then cardigans option becomes bold
+    Then CARDIGANS option becomes selected
     And Refine modal autocloses
-    And Array page displays cardigans
-    And Products displayed are from cardigans
+    And Array page displays CARDIGANS
+    And Products displayed are cardigans from sweaters category
     
     
