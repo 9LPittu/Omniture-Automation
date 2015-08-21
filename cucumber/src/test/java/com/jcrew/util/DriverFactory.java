@@ -44,7 +44,6 @@ public class DriverFactory {
         final String browser = propertyReader.getBrowser();
         final WebDriver driver;
         if ("chrome".equals(browser)) {
-            System.setProperty("webdriver.chrome.driver", "C://Drivers//chromedriver.exe");
 
             driver = new ChromeDriver();
 
