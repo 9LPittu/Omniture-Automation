@@ -74,6 +74,9 @@ public class SubcategoryPage {
     @FindBy(css = "#c-category__filters .accordian__menu .accordian__menu__item .accordian__menu__link")
     private List<WebElement> accordionElements;
 
+    @FindBy(id = "c-category__navigation")
+    private WebElement endCapNavigationSection;
+
     private Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
 
     public SubcategoryPage(WebDriver driver) {
@@ -408,5 +411,74 @@ public class SubcategoryPage {
             accordionItemList.add(postSignElement.getText());
         }
         return accordionItemList;
+    }
+
+    public String getEndCapNavigationMenuHeader() {
+        return endCapNavigationSection.findElement(By.tagName("h4")).getText();
+    }
+
+    public List<String> getEndCapNavigationMenuOptions() {
+        List<String> menuOptions = new ArrayList<>();
+        for (WebElement menuOptionElement : endCapNavigationSection.findElements(By.tagName("h5"))) {
+            menuOptions.add(menuOptionElement.getAttribute("textContent"));
+        }
+        return menuOptions;
+    }
+
+    public boolean isEndCapMoreIconDisplayed() {
+        return endCapNavigationSection.findElement(By.className("icon-see-more")).isDisplayed();
+    }
+
+    public void click_expand_accordion_icon_for_drawer_option(String option) {
+        click_icon_type(option, "icon-see-more");
+    }
+
+    private void click_icon_type(String option, String iconType) {
+        String delimiter = getDelimiter(option);
+        final WebElement drawerOption = endCapNavigationSection.findElement(
+                By.xpath("//h5[text() = " + delimiter + option + delimiter + "]/i[contains(@class, '" +
+                        iconType + "')]"));
+        drawerOption.click();
+    }
+
+    public boolean isDrawerClosedForOption(String menuOption) {
+        String delimiter = getDelimiter(menuOption);
+        new WebDriverWait(driver, 10).until(
+                ExpectedConditions.invisibilityOfElementLocated(
+                        By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
+                                "]/../ul[contains(@class, 'accordian__menu')]")
+                )
+        );
+        WebElement drawerOption = endCapNavigationSection.findElement(
+                By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
+                        "]/../ul[contains(@class, 'accordian__menu')]"));
+
+        return !drawerOption.isDisplayed();
+    }
+
+    private String getDelimiter(String menuOption) {
+        return menuOption.contains("'") ? "\"" : "'";
+    }
+
+    public boolean isDrawerOpenForOption(String menuOption) {
+        String delimiter = getDelimiter(menuOption);
+        new WebDriverWait(driver, 10).until(
+                ExpectedConditions.visibilityOf(
+                        endCapNavigationSection.findElement(
+                                By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
+                                        "]/../ul[contains(@class, 'accordian__menu')]")
+                        )
+                )
+        );
+
+        WebElement drawerOption = endCapNavigationSection.findElement(
+                By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
+                        "]/../ul[contains(@class, 'accordian__menu')]"));
+
+        return drawerOption.isDisplayed();
+    }
+
+    public void click_collapse_accordion_icon_for_drawer_option(String option) {
+        click_icon_type(option, "icon-see-less");
     }
 }

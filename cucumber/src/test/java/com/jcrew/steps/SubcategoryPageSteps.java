@@ -8,12 +8,17 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.Point;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class SubcategoryPageSteps extends DriverFactory {
+
+    private Logger logger = LoggerFactory.getLogger(SubcategoryPageSteps.class);
 
     private SubcategoryPage subcategoryPage = new SubcategoryPage(getDriver());
     private Navigation navigation = new Navigation(getDriver());
@@ -219,10 +224,74 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @Then("^Verifies accordion menu contains same items as in sign post items$")
     public void verifies_accordion_menu_contains_same_items_as_in_sign_post_items() throws Throwable {
-        List<String> postSignItems = subcategoryPage.getPostSignItems();
-        List<String> accordianItems = subcategoryPage.getAccordionItems();
+        final List<String> postSignItems = subcategoryPage.getPostSignItems();
+        final List<String> accordianItems = subcategoryPage.getAccordionItems();
 
         postSignItems.add(0, "VIEW ALL");
         assertEquals("Elements list should be the same", postSignItems, accordianItems);
+    }
+
+    @Then("^Verifies end cap navigation menu to say ([^\"]*)$")
+    public void verifies_end_cap_navigation_menu_to_say(String header) throws Throwable {
+        assertEquals("Header is different from expected", header,
+                subcategoryPage.getEndCapNavigationMenuHeader());
+    }
+
+    @Then("^Verifies navigation draw options are ([^\"]*)$")
+    public void verifies_navigation_draw_options_are(String options) {
+        final String[] optionsAsArray = options.split(",");
+        final List<String> optionList = new ArrayList<>();
+        for (String option : optionsAsArray) {
+            optionList.add(option.trim());
+        }
+        assertEquals("Menu Options are different than expected", optionList,
+                subcategoryPage.getEndCapNavigationMenuOptions());
+    }
+
+    @Then("^Taps on ([^\"]*) drawer and opens and all other drawer options are closed$")
+    public void taps_on_drawer_and_opens_other_drawer_options_are_closed(String option) {
+        if (subcategoryPage.isEndCapMoreIconDisplayed()) {
+            subcategoryPage.click_expand_accordion_icon_for_drawer_option(option);
+            for (String menuOption : subcategoryPage.getEndCapNavigationMenuOptions()) {
+                if (!menuOption.equalsIgnoreCase(option)) {
+                    assertTrue(menuOption + " should have drawer closed",
+                            subcategoryPage.isDrawerClosedForOption(menuOption));
+                }
+            }
+        } else {
+            logger.info("Skipping as this test is meant for mobile only");
+        }
+    }
+
+    @And("^Verifies ([^\"]*) drawer is open$")
+    public void verifies_drawer_is_open(String menuOption) {
+        if (subcategoryPage.isEndCapMoreIconDisplayed()) {
+            assertTrue("Drawer should be open for option " + menuOption,
+                    subcategoryPage.isDrawerOpenForOption(menuOption));
+        } else {
+            logger.info("Skipping as this test is meant for mobile only");
+        }
+    }
+
+    @Then("^Taps on collapse button for ([^\"]*)")
+    public void taps_on_collapse_button_for_drawer(String menuOption) {
+        if (subcategoryPage.isEndCapMoreIconDisplayed()) {
+            subcategoryPage.click_collapse_accordion_icon_for_drawer_option(menuOption);
+        } else {
+            logger.info("Skipping as this test is meant for mobile only");
+        }
+    }
+
+    @And("^All drawers are closed$")
+    public void all_drawers_are_closed() throws Throwable {
+        if (subcategoryPage.isEndCapMoreIconDisplayed()) {
+            for (String menuOption : subcategoryPage.getEndCapNavigationMenuOptions()) {
+                assertTrue(menuOption + " should have drawer closed",
+                        subcategoryPage.isDrawerClosedForOption(menuOption));
+            }
+
+        } else {
+            logger.info("Skipping as this test is meant for mobile only");
+        }
     }
 }

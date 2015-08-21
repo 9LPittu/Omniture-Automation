@@ -48,3 +48,13 @@ Feature: Regression Tests Category Feature
     And Array page displays WOOLRICH
     And Products displayed are woolrich from ingoodcompany category
 
+  Scenario: Check End cap navigation
+    Given User goes to /c/womens_category/dresses page
+    Then Verifies end cap navigation menu to say SHOP WOMEN
+    And Verifies navigation draw options are What's New, Clothing, Shoes & Accessories, Sizings
+    Then Taps on What's New drawer and opens and all other drawer options are closed
+    And Verifies What's New drawer is open
+    Then Taps on Clothing drawer and opens and all other drawer options are closed
+    And Verifies Clothing drawer is open
+    Then Taps on collapse button for Clothing
+    And All drawers are closed
