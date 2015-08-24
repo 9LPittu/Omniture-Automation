@@ -8,7 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "features/smoke",
         tags = {"@VerifySignin","@Uncheck"},
-        glue = {"com.jcrew.steps"}
+        glue = {"com.jcrew.steps"},
+        format = {"json:target/cucumber-accountfeatures.json"}
 )
 
 public class AccountFeaturesRunnerTest {

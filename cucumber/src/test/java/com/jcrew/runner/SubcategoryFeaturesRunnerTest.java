@@ -8,7 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "features/smoke",
         tags = {"@Subcategory"},
-        glue = {"com.jcrew.steps"}
+        glue = {"com.jcrew.steps"},
+        format = {"json:target/cucumber-subcategoryfeatures.json"}
 )
 public class SubcategoryFeaturesRunnerTest {
 }

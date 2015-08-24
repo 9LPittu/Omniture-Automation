@@ -8,7 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "features/smoke",
         tags = {"@Home"},
-        glue = {"com.jcrew.steps"}
+        glue = {"com.jcrew.steps"},
+        format = {"json:target/cucumber-homefeatures.json"}
 )
 public class HomePageFeaturesRunnerTest {
 }
