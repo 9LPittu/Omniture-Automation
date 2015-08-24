@@ -8,8 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "features/smoke",
         tags = {"@Checkout"},
-        glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-checkoutfeatures.json"}
+        glue = {"com.jcrew.steps"}
 )
 public class CheckoutFeaturesRunnerTest {
 }

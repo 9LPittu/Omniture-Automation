@@ -8,8 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "features/smoke",
         tags = {"@Search"},
-        glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-searchfeatures.json"}
+        glue = {"com.jcrew.steps"}
 )
 public class SearchPageFeaturesRunnerTest {
 }

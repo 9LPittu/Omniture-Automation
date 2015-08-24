@@ -8,8 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "features/smoke",
         tags = {"@PDP"},
-        glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-pdpfeatures.json"}
+        glue = {"com.jcrew.steps"}
 )
 public class PDPeaturesRunnerTest {
 }
