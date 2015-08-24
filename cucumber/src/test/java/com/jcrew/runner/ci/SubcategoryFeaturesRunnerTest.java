@@ -1,4 +1,4 @@
-package com.jcrew.runner;
+package com.jcrew.runner.ci;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -7,9 +7,9 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/smoke",
-        tags = {"@Search"},
+        tags = {"@Subcategory"},
         glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-searchfeatures.json"}
+        format = {"json:target/cucumber-subcategoryfeatures.json"}
 )
-public class SearchPageFeaturesRunnerTest {
+public class SubcategoryFeaturesRunnerTest {
 }
