@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.HamburgerMenu;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.Navigation;
 import com.jcrew.util.DriverFactory;
@@ -14,12 +15,7 @@ public class HomePageSteps extends DriverFactory {
 
     private HomePage homePage = new HomePage(getDriver());
     private Navigation navigation = new Navigation(getDriver());
-
-    @When("^Selects a category$")
-    public void selects_a_category() {
-        homePage.selects_a_category();
-    }
-
+    private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
 
     @Then("^JCrew Logo is present$")
     public void jcrew_logo_is_present() throws Throwable {
@@ -27,44 +23,25 @@ public class HomePageSteps extends DriverFactory {
     }
 
 
-    @Then("^Department Links are present$")
-    public void department_links_are_present() throws Throwable {
-        assertTrue("Women should be present", homePage.isWomenDepartmentPresent());
-        assertTrue("Men should be present", homePage.isMenDepartmentPresent());
-        assertTrue("Boys should be present", homePage.isBoysDepartmentPresent());
-        assertTrue("Girls should be present", homePage.isGirlsDepartmentPresent());
-    }
-
     @Then("^Hamburger menu is present$")
     public void hamburger_menu_is_present() throws Throwable {
-        assertTrue("Hamburger menu is present", homePage.isHamburgerMenuPresent());
+        assertTrue("Hamburger menu is present", hamburgerMenu.isHamburgerMenuPresent());
     }
 
     @Given("^User clicks on hamburger menu$")
     public void user_clicks_on_hamburger_menu() throws Throwable {
-        homePage.click_on_hamburger_menu();
+        hamburgerMenu.click_on_hamburger_menu();
     }
 
-    @Then("^Hamburger Menu Links are present$")
-    public void hamburger_menu_links_are_present() throws Throwable {
-        assertTrue("Women hamburger menu link should be present", homePage.isHamburgerMenuWomenLinkPresent());
-        assertTrue("Men hamburger menu link should be present", homePage.isHamburgerMenuMenLinkPresent());
-        assertTrue("Boys hamburger menu link should be present", homePage.isHamburgerMenuBoysLinkPresent());
-        assertTrue("Girls hamburger menu link should be present", homePage.isHamburgerMenuGirlsLinkPresent());
-        assertTrue("Wedding hamburger menu link should be present", homePage.isHamburgerMenuWeddingLinkPresent());
-        assertTrue("Sale hamburger menu link should be present", homePage.isHamburgerMenuSaleLinkPresent());
-        assertTrue("Blog hamburger menu link should be present", homePage.isHamburgerMenuBlogLinkPresent());
-    }
-
-    @And("^Selects Women Category from hamburger menu$")
-    public void selects_women_category_from_hamburger_menu() throws Throwable {
-        homePage.click_on_women_category_from_hamburger_menu();
+    @And("^Selects ([^\"]*) Category from hamburger menu$")
+    public void selects_category_from_hamburger_menu(String category) throws Throwable {
+        hamburgerMenu.click_on_category(category);
     }
 
     @And("^Selects Shirts and Tops from Women Category in hamburger menu$")
     public void selects_shirts_and_tops_from_hamburger_menu() throws Throwable {
 
-        homePage.click_on_shirts_and_tops_from_women_category_in_hamburger_menu();
+        hamburgerMenu.click_on_shirts_and_tops_from_women_category_in_hamburger_menu();
 
     }
 
@@ -80,12 +57,7 @@ public class HomePageSteps extends DriverFactory {
 
     @And("^Goes to sign in page$")
     public void goes_to_sign_in_page() throws Throwable {
-        homePage.click_on_sign_in_link();
-    }
-
-    @And("^Clicks sign in link from hamburger menu$")
-    public void clicks_sign_in_link_from_hamburger_menu() throws Throwable {
-        homePage.click_on_sign_in_link_from_hamburger_menu();
+        hamburgerMenu.click_on_sign_in_link();
     }
 
     @And("^Clicks on search button for input field$")
@@ -105,11 +77,17 @@ public class HomePageSteps extends DriverFactory {
 
     @And("^User clicks on back link$")
     public void user_clicks_on_back_link() {
-        homePage.click_on_back_link();
+        hamburgerMenu.click_on_back_link();
     }
 
     @Then("^Verify user is in homepage$")
     public void verify_user_is_in_homepage() throws Throwable {
         assertTrue("Global Main Section should be displayed", homePage.isHomePage());
     }
+
+    @Then("^Verify ([^\"]*) Department Link is present$")
+    public void verify_department_link_is_present(String department) throws Throwable {
+        assertTrue(department + " link should have been present", navigation.isDepartmentLinkPresent(department));
+    }
+
 }

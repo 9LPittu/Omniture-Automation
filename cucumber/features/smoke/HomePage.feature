@@ -7,7 +7,10 @@ Feature: Smoke Tests Home Page
     Then JCrew Logo is present
 
   Scenario: Department Links
-    Then Department Links are present
+    Then Verify WOMEN Department Link is present
+    And Verify MEN Department Link is present
+    And Verify BOYS Department Link is present
+    And Verify GIRLS Department Link is present
 
   Scenario: Stores Link
     Then Stores Link is present
@@ -17,4 +20,10 @@ Feature: Smoke Tests Home Page
 
   Scenario: Hamburger Menu Links
     Given User clicks on hamburger menu
-    Then Hamburger Menu Links are present
+    Then Hamburger Menu WOMEN Link is present
+    And Hamburger Menu MEN Link is present
+    And Hamburger Menu BOYS Link is present
+    And Hamburger Menu GIRLS Link is present
+    And Hamburger Menu WEDDING Link is present
+    And Hamburger Menu SALE Link is present
+    And Hamburger Menu BLOG Link is present

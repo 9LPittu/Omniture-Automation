@@ -22,10 +22,10 @@ Feature: Verify Sign IN
     And User disables check box
     And Hits sign in button
     Then User is in My Account page
-    And User navigates to home page
+    And User goes to homepage
     And User clicks on hamburger menu
     And My Account link is present
-    And Selects Women Category from hamburger menu
+    And Selects WOMEN Category from hamburger menu
     And Selects Shirts and Tops from Women Category in hamburger menu
     And User clicks on hamburger menu
     And User clicks on back link

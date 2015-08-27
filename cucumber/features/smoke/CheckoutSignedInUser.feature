@@ -8,7 +8,7 @@ Feature: Checkout Process Signed in User
     And Hits sign in button
     And User goes to homepage
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
+    And Selects WOMEN Category from hamburger menu
     And Selects Shirts and Tops from Women Category in hamburger menu
     And Selects the first product from product grid list
     And User is in product detail page

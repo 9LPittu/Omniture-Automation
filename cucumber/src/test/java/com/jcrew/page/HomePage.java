@@ -13,8 +13,6 @@ public class HomePage {
     private final WebDriver driver;
     private Logger logger = LoggerFactory.getLogger(HomePage.class);
 
-    @FindBy(xpath = ".//*[@id='globalHeaderNav']/li[1]/a")
-    private WebElement firstCategoryDisplayed;
 
     @FindBy(id = "lightbox")
     private WebElement modalWindow;
@@ -22,47 +20,6 @@ public class HomePage {
     @FindBy(className = "closePopup")
     private WebElement closePopupLink;
 
-    @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Women')]")
-    private WebElement womenDepartmentLink;
-
-    @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Men')]")
-    private WebElement menDepartmentLink;
-
-    @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Boys')]")
-    private WebElement boysDepartmentLink;
-
-    @FindBy(xpath = "//*/span[@class='department-nav__text' and contains(text(), 'Girls')]")
-    private WebElement girlsDepartmentLink;
-
-    @FindBy(className = "js-primary-nav__link--menu")
-    private WebElement hamburgerMenuLink;
-
-    @FindBy(xpath = "//a[contains(@class, 'menu__link--forward') and contains(text(), 'Women')]")
-    private WebElement hamburgerMenuWomenLink;
-
-    @FindBy(xpath = "//a[contains(@class, 'menu__link--forward') and contains(text(), 'Men')]")
-    private WebElement hamburgerMenuMenLink;
-
-    @FindBy(xpath = "//a[contains(@class, 'menu__link--forward') and contains(text(), 'Boys')]")
-    private WebElement hamburgerMenuBoysLink;
-
-    @FindBy(xpath = "//a[contains(@class, 'menu__link--forward') and contains(text(), 'Girls')]")
-    private WebElement hamburgerMenuGirlsLink;
-
-    @FindBy(xpath = "//a[contains(@class, 'menu__link--forward') and contains(text(), 'Wedding')]")
-    private WebElement hamburgerMenuWeddingLink;
-
-    @FindBy(xpath = "//a[contains(@class, 'menu__link--forward') and contains(text(), 'sale')]")
-    private WebElement hamburgerMenuSaleLink;
-
-    @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and contains(text(), 'Blog')]")
-    private WebElement hamburgerMenuBlogLink;
-
-    @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/shirtsandtops']")
-    private WebElement womenShirtAndTopsCategoryLink;
-
-    @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/sweaters']")
-    private WebElement womenSweatersCategoryLink;
 
     @FindBy(className = "header__search__input")
     private WebElement searchInput;
@@ -70,11 +27,6 @@ public class HomePage {
     @FindBy(className = "header__search__button--find")
     private WebElement headerSearchButtonFind;
 
-    @FindBy(css = ".primary-nav__item--account > a")
-    private WebElement signInLink;
-
-    @FindBy(css = "#c-nav__userpanel > a")
-    private WebElement signInLinkFromHamburger;
 
     @FindBy(className = "menu__nested")
     private WebElement nestedMenu;
@@ -96,122 +48,6 @@ public class HomePage {
         searchInput.sendKeys(searchTerm);
     }
 
-
-    public void click_on_hamburger_menu() {
-        hamburgerMenuLink.click();
-    }
-
-    public void selects_a_category() {
-        closeModalWindowIfPresent();
-
-        new WebDriverWait(driver, 10).until(
-                ExpectedConditions.elementToBeClickable(firstCategoryDisplayed));
-
-        firstCategoryDisplayed.click();
-
-    }
-
-    public void click_on_shirts_and_tops_from_women_category_in_hamburger_menu() {
-        waitForVisibility(womenShirtAndTopsCategoryLink);
-        womenShirtAndTopsCategoryLink.click();
-    }
-
-    public void click_on_women_category_from_hamburger_menu() {
-        waitForVisibility(hamburgerMenuWomenLink);
-        hamburgerMenuWomenLink.click();
-    }
-
-
-    private void closeModalWindowIfPresent() {
-        try {
-
-            waitForVisibility(modalWindow);
-
-            closePopupLink.click();
-
-            new WebDriverWait(driver, 10).until(ExpectedConditions.not(
-                    ExpectedConditions.visibilityOf(modalWindow)));
-
-        } catch (WebDriverException wde) {
-            logger.info("Initial window did not show up, continuing with tests");
-        }
-    }
-
-    public boolean isWomenDepartmentPresent() {
-        return womenDepartmentLink.isDisplayed();
-    }
-
-    public boolean isMenDepartmentPresent() {
-        return menDepartmentLink.isDisplayed();
-    }
-
-    public boolean isBoysDepartmentPresent() {
-        return boysDepartmentLink.isDisplayed();
-    }
-
-    public boolean isGirlsDepartmentPresent() {
-        return girlsDepartmentLink.isDisplayed();
-    }
-
-    public boolean isHamburgerMenuPresent() {
-        boolean isIconDisplayed = hamburgerMenuLink.findElement(By.className("icon-header-menu")).isDisplayed();
-        boolean isMenuTextDisplayed = hamburgerMenuLink.findElement(By.className("primary-nav__text")).isDisplayed();
-        return isIconDisplayed && isMenuTextDisplayed;
-    }
-
-    public boolean isHamburgerMenuWomenLinkPresent() {
-        waitForVisibility(hamburgerMenuWomenLink);
-        return hamburgerMenuWomenLink.isDisplayed();
-    }
-
-    public boolean isHamburgerMenuMenLinkPresent() {
-        waitForVisibility(hamburgerMenuMenLink);
-        return hamburgerMenuMenLink.isDisplayed();
-    }
-
-    public boolean isHamburgerMenuBoysLinkPresent() {
-        waitForVisibility(hamburgerMenuBoysLink);
-        return hamburgerMenuBoysLink.isDisplayed();
-    }
-
-    public boolean isHamburgerMenuGirlsLinkPresent() {
-        waitForVisibility(hamburgerMenuGirlsLink);
-        return hamburgerMenuGirlsLink.isDisplayed();
-    }
-
-    public boolean isHamburgerMenuWeddingLinkPresent() {
-        waitForVisibility(hamburgerMenuWeddingLink);
-        return hamburgerMenuWeddingLink.isDisplayed();
-    }
-
-    public boolean isHamburgerMenuSaleLinkPresent() {
-        waitForVisibility(hamburgerMenuSaleLink);
-        return hamburgerMenuSaleLink.isDisplayed();
-    }
-
-    public boolean isHamburgerMenuBlogLinkPresent() {
-        waitForVisibility(hamburgerMenuBlogLink);
-        return hamburgerMenuBlogLink.isDisplayed();
-    }
-
-    private void waitForVisibility(WebElement element) {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
-    }
-
-    public void click_on_sign_in_link() {
-        if (signInLink.isDisplayed()) {
-            signInLink.click();
-        } else {
-            click_on_hamburger_menu();
-            click_on_sign_in_link_from_hamburger_menu();
-        }
-    }
-
-    public void click_on_sign_in_link_from_hamburger_menu() {
-        waitForVisibility(signInLinkFromHamburger);
-        signInLinkFromHamburger.click();
-    }
-
     public void click_on_search_button_for_input_field() {
         headerSearchButtonFind.click();
     }
@@ -222,20 +58,8 @@ public class HomePage {
 
     public void click_on_women_pdp_hamburger_menu() {
         WebElement pdpmenu = driver.findElement(By.xpath("//*[@id='global__header']/div[2]/section/div[1]/div/div/ul[1]/li[1]/a"));
-        logger.info("verify menu from women pdp{}",pdpmenu.getText());
+        logger.info("verify menu from women pdp{}", pdpmenu.getText());
         pdpmenu.click();
-    }
-    
-    public void click_on_back_link() {
-        WebElement backlink =driver.findElement(By.xpath("//*[@id='global__nav']/div/div[2]/button/div"));
-        waitForVisibility(backlink);
-        backlink.click();
-    }
-    
-    public void close_hamburger_menu() {
-        WebElement closeicon = driver.findElement(By.xpath("//*[@id='global__nav']/div/div[1]/div"));
-        logger.info("verifying acces to close icon{}", closeicon.getAttribute("id"));
-        closeicon.click();
     }
 
     public boolean isHomePage() {

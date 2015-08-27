@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.HamburgerMenu;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.LoginPage;
 import com.jcrew.util.DriverFactory;
@@ -12,7 +13,7 @@ import static org.junit.Assert.*;
 public class LoginPageSteps extends DriverFactory {
 
     private LoginPage loginPage = new LoginPage(getDriver());
-    private HomePage homePage = new HomePage(getDriver());
+    private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
 
     @When("User enters ([^\"]*) as email")
     public void user_enters_input_as_email(String email) {
@@ -48,7 +49,7 @@ public class LoginPageSteps extends DriverFactory {
 
     @And("^My Account link is present$")
     public void my_account_link_is_present() {
-        if (homePage.isHamburgerMenuWomenLinkPresent()) {
+        if (hamburgerMenu.isCategoryPresent("WOMEN")) {
 
             if (loginPage.isMyAccountLinkForMobileDisplayed()) {
                 assertTrue("My Account link should be present", loginPage.isMyAccountLinkForMobileDisplayed());
@@ -56,7 +57,7 @@ public class LoginPageSteps extends DriverFactory {
 
         } else {
 
-            homePage.close_hamburger_menu();
+            hamburgerMenu.close_hamburger_menu();
             assertTrue("My Account link should be present", loginPage.isMyAccountInDesktop());
         }
 

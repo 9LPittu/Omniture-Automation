@@ -4,7 +4,7 @@ Feature: Checkout Process
   Background:
     Given User is on homepage
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
+    And Selects WOMEN Category from hamburger menu
     And Selects Shirts and Tops from Women Category in hamburger menu
     And Selects the first product from product grid list
     And User is in product detail page
