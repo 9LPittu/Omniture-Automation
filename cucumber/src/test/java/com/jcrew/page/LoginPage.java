@@ -11,8 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 public class LoginPage {
 
     @FindBy(id = "sidecarUser")
@@ -34,7 +32,7 @@ public class LoginPage {
     private WebElement myaccountRef;
 
     @FindBy(css = "#c-nav__userpanel > a")
-    private WebElement myaccountlink;
+    private WebElement myAccountLink;
 
     @FindBy(className = "signin-form")
     private WebElement signInForm;
@@ -63,6 +61,7 @@ public class LoginPage {
     public String getSignInErrorMessage() {
         return invalidSignInMessage.getText();
     }
+
     public void enter_valid_username_and_password() {
         PropertyReader reader = PropertyReader.getPropertyReader();
         input_as_email(reader.readProperty("checkout.signed.in.username"));
@@ -73,21 +72,27 @@ public class LoginPage {
         return keepMeSignedInCheckBox.isEnabled();
     }
 
-    public boolean isMyAccountLinkPresent() {
+    public boolean isMyAccountLinkForMobileDisplayed() {
 
-        return myaccountlink.isDisplayed();
+        return myAccountLink.isDisplayed();
     }
 
     public boolean isMyAccountInDesktop() {
-        WebElement diffmyaccount = new WebDriverWait(driver, 10).
-                until(ExpectedConditions.elementToBeClickable(By.id("c-header__userpanelrecognized")));
-        diffmyaccount.click();
-        return diffmyaccount.findElement(By.xpath("//*[@id='c-nav__userpanel']/dl/dd[2]/a")).isDisplayed();
+        WebElement myAccountLinkFromDesktop = getMyAccountLinkForDesktop();
+        return myAccountLinkFromDesktop.isDisplayed();
 
     }
 
-    public void click_my_account_link() {
-        myaccountlink.click();
+    private WebElement getMyAccountLinkForDesktop() {
+        WebElement myAccountLinkMenu = new WebDriverWait(driver, 10).
+                until(ExpectedConditions.elementToBeClickable(By.id("c-header__userpanelrecognized")));
+        myAccountLinkMenu.click();
+
+        return myAccountLinkMenu.findElement(By.xpath("//*[@id='c-nav__userpanel']/dl/dd[2]/a"));
+    }
+
+    public void click_my_account_link_mobile() {
+        myAccountLink.click();
     }
 
     public void disable_checkbox() {
@@ -100,6 +105,11 @@ public class LoginPage {
 
     public boolean isSignInButtonEnabled() {
         return signInButton.isEnabled();
+    }
+
+    public void click_my_account_link_desktop() {
+        WebElement myAccountLinkFromDesktop = getMyAccountLinkForDesktop();
+        myAccountLinkFromDesktop.click();
     }
 }
 

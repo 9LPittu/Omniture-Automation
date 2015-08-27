@@ -3,14 +3,11 @@ package com.jcrew.steps;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.LoginPage;
 import com.jcrew.util.DriverFactory;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class LoginPageSteps extends DriverFactory {
 
@@ -53,8 +50,8 @@ public class LoginPageSteps extends DriverFactory {
     public void my_account_link_is_present() {
         if (homePage.isHamburgerMenuWomenLinkPresent()) {
 
-            if (loginPage.isMyAccountLinkPresent()) {
-                assertTrue("My Account link should be present", loginPage.isMyAccountLinkPresent());
+            if (loginPage.isMyAccountLinkForMobileDisplayed()) {
+                assertTrue("My Account link should be present", loginPage.isMyAccountLinkForMobileDisplayed());
             }
 
         } else {
@@ -67,7 +64,11 @@ public class LoginPageSteps extends DriverFactory {
 
     @When("^User clicks on My Account link$")
     public void clicks_on_my_account_link() {
-        loginPage.click_my_account_link();
+        if (loginPage.isMyAccountLinkForMobileDisplayed()) {
+            loginPage.click_my_account_link_mobile();
+        } else {
+            loginPage.click_my_account_link_desktop();
+        }
     }
 
     @And("^User disables check box$")
