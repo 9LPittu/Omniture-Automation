@@ -3,11 +3,11 @@ package com.jcrew.steps;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.Navigation;
 import com.jcrew.util.DriverFactory;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
 import static org.junit.Assert.assertTrue;
 
 public class HomePageSteps extends DriverFactory {
@@ -102,9 +102,14 @@ public class HomePageSteps extends DriverFactory {
     public void user_clicks_on_hamburger_menu_from_women_pdp() {
         homePage.click_on_women_pdp_hamburger_menu();
     }
-    
-    @And("^User clicks on back link$") 
+
+    @And("^User clicks on back link$")
     public void user_clicks_on_back_link() {
         homePage.click_on_back_link();
+    }
+
+    @Then("^Verify user is in homepage$")
+    public void verify_user_is_in_homepage() throws Throwable {
+        assertTrue("Global Main Section should be displayed", homePage.isHomePage());
     }
 }

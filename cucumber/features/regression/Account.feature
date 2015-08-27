@@ -49,3 +49,10 @@ Feature: Account Feature
     And Validates link GIFT CARD BALANCE is displayed in My Account Page
     And Validates link ADDRESS BOOK is displayed in My Account Page
     And Validates link ORDER HISTORY is displayed in My Account Page
+
+  Scenario: Create New Account
+    Given Goes to sign in page
+    And Clicks on create new account
+    And Fills required account data in create account page
+    And Clicks on create new account in create account page
+    Then Verify user is in homepage

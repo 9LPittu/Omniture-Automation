@@ -37,6 +37,9 @@ public class LoginPage {
     @FindBy(className = "signin-form")
     private WebElement signInForm;
 
+    @FindBy(className = "c-signin-unregistered")
+    private WebElement registerSection;
+
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
 
     private WebDriver driver;
@@ -110,6 +113,11 @@ public class LoginPage {
     public void click_my_account_link_desktop() {
         WebElement myAccountLinkFromDesktop = getMyAccountLinkForDesktop();
         myAccountLinkFromDesktop.click();
+    }
+
+    public void click_create_new_account() {
+        WebElement createNewAccountLink = registerSection.findElement(By.tagName("a"));
+        createNewAccountLink.click();
     }
 }
 

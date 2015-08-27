@@ -90,5 +90,10 @@ public class LoginPageSteps extends DriverFactory {
     public void Sign_in_button_should_be_deactivated() throws Throwable {
         assertFalse("Sign in button should have been deactivated", loginPage.isSignInButtonEnabled());
     }
+
+    @And("^Clicks on create new account$")
+    public void clicks_on_create_new_account() throws Throwable {
+        loginPage.click_create_new_account();
+    }
 }
 
