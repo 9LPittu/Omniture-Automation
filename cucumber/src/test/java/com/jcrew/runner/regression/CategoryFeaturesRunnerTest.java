@@ -9,7 +9,11 @@ import org.junit.runner.RunWith;
         features = {"features/regression"},
         tags = {"@Category"},
         glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-categoryregressionfeatures.json"}
+        format = {
+                "json:target/cucumber-categoryregressionfeatures.json",
+                "pretty",
+                "html:target/cucumber/categoryregressionfeatures"
+        }
 )
 public class CategoryFeaturesRunnerTest {
 }

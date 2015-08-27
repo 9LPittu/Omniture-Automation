@@ -9,7 +9,11 @@ import org.junit.runner.RunWith;
         features = "features/smoke",
         tags = {"@Subcategory"},
         glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-subcategoryfeatures.json"}
+        format = {
+                "json:target/cucumber-subcategorycifeatures.json",
+                "pretty",
+                "html:target/cucumber/subcategorycifeatures"
+        }
 )
 public class SubcategoryFeaturesRunnerTest {
 }

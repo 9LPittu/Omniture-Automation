@@ -9,7 +9,11 @@ import org.junit.runner.RunWith;
         features = "features/qa",
         tags = {"@VerifySignin","@Uncheck"},
         glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-accountfeatures.json"}
+        format = {
+                "json:target/cucumber-accountqafeatures.json",
+                "pretty",
+                "html:target/cucumber/accountqafeatures"
+        }
 )
 
 public class AccountFeaturesRunnerTest {

@@ -9,7 +9,11 @@ import org.junit.runner.RunWith;
         features = {"features/smoke"},
         tags = {"@Category"},
         glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-categoryfeatures.json"}
+        format = {
+                "json:target/cucumber-categorycifeatures.json",
+                "pretty",
+                "html:target/cucumber/categorycifeatures"
+        }
 )
 public class CategoryFeaturesRunnerTest {
 }

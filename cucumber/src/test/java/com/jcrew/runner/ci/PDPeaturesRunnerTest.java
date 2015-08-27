@@ -9,7 +9,11 @@ import org.junit.runner.RunWith;
         features = "features/smoke",
         tags = {"@PDP"},
         glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-pdpfeatures.json"}
+        format = {
+                "json:target/cucumber-pdpcifeatures.json",
+                "pretty",
+                "html:target/cucumber/pdpcifeatures"
+        }
 )
 public class PDPeaturesRunnerTest {
 }
