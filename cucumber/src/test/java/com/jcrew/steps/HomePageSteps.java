@@ -97,13 +97,7 @@ public class HomePageSteps extends DriverFactory {
     public void user_clicks_on_subcategory_from_women_category(String subcategory) throws Throwable {
         homePage.click_on_subcategory(subcategory);
     }
-    
- //   @And("^User comes back to homepage$") 
-  //  public void user_opens_the_browser() {
-        
-    //   homePage.open_browser();
-        
-   //}
+
     @And("^User clicks on hamburger menu from women pdp$")
     public void user_clicks_on_hamburger_menu_from_women_pdp() {
         homePage.click_on_women_pdp_hamburger_menu();

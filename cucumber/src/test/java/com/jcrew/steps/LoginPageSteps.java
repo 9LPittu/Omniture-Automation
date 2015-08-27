@@ -9,6 +9,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class LoginPageSteps extends DriverFactory {
@@ -51,13 +52,16 @@ public class LoginPageSteps extends DriverFactory {
     @And("^My Account link is present$")
     public void my_account_link_is_present() {
         if (homePage.isHamburgerMenuWomenLinkPresent()) {
-            if (loginPage.isMyAccountLinkPresent())
+
+            if (loginPage.isMyAccountLinkPresent()) {
                 assertTrue("My Account link should be present", loginPage.isMyAccountLinkPresent());
-        } else
+            }
+
+        } else {
+
             homePage.close_hamburger_menu();
-        //close hamburger
-        //check for my account in desktop version
-        assertTrue("My Account link should be present", loginPage.isMyAccountInDesktop());
+            assertTrue("My Account link should be present", loginPage.isMyAccountInDesktop());
+        }
 
     }
 
@@ -71,5 +75,19 @@ public class LoginPageSteps extends DriverFactory {
         loginPage.disable_checkbox();
     }
 
+    @And("^Changes focus to password field$")
+    public void changes_focus_to_password_field() throws Throwable {
+        loginPage.focus_password_field();
+    }
+
+    @Then("^An error message saying ([^\"]*) should appear$")
+    public void an_error_message_should_appear(String errorMessage) throws Throwable {
+        assertEquals("Unable to find expected message", errorMessage, loginPage.getSignInErrorMessage());
+    }
+
+    @And("^Sign in button should be deactivated$")
+    public void Sign_in_button_should_be_deactivated() throws Throwable {
+        assertFalse("Sign in button should have been deactivated", loginPage.isSignInButtonEnabled());
+    }
 }
 

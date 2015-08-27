@@ -30,14 +30,14 @@ public class LoginPage {
     @FindBy(id = "sidecarRemember")
     private WebElement keepMeSignedInCheckBox;
 
-    @FindBy(id = "main_inside")
-    private WebElement welcomeName;
-
     @FindBy(id = "c-nav__userpanel")
     private WebElement myaccountRef;
 
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement myaccountlink;
+
+    @FindBy(className = "signin-form")
+    private WebElement signInForm;
 
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
 
@@ -94,5 +94,12 @@ public class LoginPage {
         keepMeSignedInCheckBox.click();
     }
 
+    public void focus_password_field() {
+        passwordInput.sendKeys("");
+    }
+
+    public boolean isSignInButtonEnabled() {
+        return signInButton.isEnabled();
+    }
 }
 

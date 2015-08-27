@@ -19,3 +19,14 @@ Feature: Account Feature
     And Validates link GIFT CARD BALANCE is displayed in My Account Page
     And Validates link ADDRESS BOOK is displayed in My Account Page
     And Validates link ORDER HISTORY is displayed in My Account Page
+
+
+  Scenario: Deactivate State
+    Given Goes to sign in page
+    When User enters invalid as email
+    And Changes focus to password field
+    Then An error message saying Please enter a valid email address. should appear
+    And Sign in button should be deactivated
+    Then User enters test@example.org as email
+    And An error message saying Please enter a valid email password. should appear
+    And Sign in button should be deactivated
