@@ -73,11 +73,13 @@
             <artifactId>cucumber-jvm-deps</artifactId>
             <version>1.0.5</version>
         </dependency>
+
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
-            <version>0.1.0</version>
+            <version>0.2.1</version>
         </dependency>
+
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>gherkin</artifactId>
@@ -159,6 +161,26 @@
                     <threadCount>${junit.threadCount}</threadCount>
                     <parallel>${junit.parallel}</parallel>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>0.1.0</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>cucumber-jvm-example</projectName>
+                            <outputDirectory>${project.build.directory}/cucumber-html-reports</outputDirectory>
+                            <cucumberOutput>${project.build.directory}</cucumberOutput>
+                            <enableFlashCharts>false</enableFlashCharts>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
