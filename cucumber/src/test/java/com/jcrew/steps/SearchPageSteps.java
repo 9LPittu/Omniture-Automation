@@ -12,6 +12,7 @@ import org.openqa.selenium.TimeoutException;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class SearchPageSteps extends DriverFactory {
 
@@ -45,7 +46,6 @@ public class SearchPageSteps extends DriverFactory {
         List<String> gender_results = searchPage.areGenderSelectorsDisplayed();
         for (String gender_result : gender_results) {
             assertTrue("There should be gender selectors displayed", gender_result.equals("gender"));
-
         }
     }
 
@@ -94,4 +94,60 @@ public class SearchPageSteps extends DriverFactory {
     public void sort_by_option_should_be_selected(String sortByOption) throws Throwable {
         assertTrue(sortByOption + " should have been selected", searchPage.isSortByOptionSelected(sortByOption));
     }
+
+    @And("^Selects a product with no sale price$")
+    public void clicks_on_a_product_no_sale_price() {
+        assertTrue("Product should be selected", searchPage.click_on_the_product());
+    }
+
+    @And("^User is in corresponding valid pdp$")
+    public void user_is_in_valid_pdp() {
+        assertEquals("Product name is not the same", "Girls' Nellystella® Chloe dress", searchPage.getProductName());
+        assertEquals("Product price is not the same", "$124.00", searchPage.getProductPrice());
+    }
+
+    @And("^User is in valid pdp for sale product$")
+    public void user_is_in_valid_sale_pdp() {
+        assertEquals("Product name is not the same", "Girls' Loulie dress in poplin", searchPage.getProductName());
+        assertTrue("Product price is not the same", searchPage.getProductPrice().contains("$148.00"));
+        assertTrue("Product sale price is not the same", searchPage.getProductSalePrice().contains("$119.99"));
+    }
+
+    @And("^User scrolls down the page$")
+    public void user_scrolls_down() throws InterruptedException {
+        assertTrue("not scrolled down", searchPage.scroll_down_the_page());
+    }
+
+    @And("^User scrolls up the page$")
+    public void user_scrolls_up() {
+        assertTrue("not scrolled down", searchPage.scroll_up_the_page());
+
+    }
+
+    @Then("^Wait a little$")
+    public void wait_a_little() throws InterruptedException {
+        Thread.sleep(1200);
+
+    }
+
+    @And("^Product details are displayed$")
+    public void product_details_displayed() {
+        assertEquals("product name  is not the same", "Girls' tulle corsage dress", searchPage.getProductName());
+        // assertEquals("product price is not the same", "$98.00",searchPage.getProductPrice());
+    }
+
+    @And("^Search array with price variations displayed$")
+    public void search_array_with_price_variations_displayed() {
+
+        assertTrue("valid products should be displayed", searchPage.getPriceVariationInfo().contains("$179.99"));
+        //  assertEquals("valid products should be displayed","Petite Cathleen dress in Leavers lace", search_array.get(1));
+    }
+
+    @Given("User is in yellow dresses results page")
+    public void user_is_in_yellow_dresses_search_results_page() throws InterruptedException {
+        assertTrue("User should be in yellow dresses search results page", searchPage.isUpdatedSearchPage().contains("02982_YL5533"));
+
+    }
 }
+    
+

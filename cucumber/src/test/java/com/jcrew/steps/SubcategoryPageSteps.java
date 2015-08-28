@@ -68,7 +68,9 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @And("^Selects the first product from product grid list$")
     public void Selects_the_first_product_from_product_grid_list() throws Throwable {
+        
         subcategoryPage.click_first_product_in_grid();
+        
     }
 
     @Then("^User should be in ([^\"]*) page for women$")
@@ -155,6 +157,11 @@ public class SubcategoryPageSteps extends DriverFactory {
     @Then("^Verifies ([^\"]*) product is displayed$")
     public void verifies_product_is_displayed(String product) throws Throwable {
         assertTrue("Product should exist", subcategoryPage.productTileExistFor(product));
+    }
+    
+    @And("^yellow dresses search page is displayed")
+    public void yellow_dresses_results_displayed() {
+        assertTrue("yellow product should exist",subcategoryPage.yellowProductTileExist().equals("Nadia dress in silk chiffon"));
     }
 
     @And("^Verifies ([^\"]*) product list price is ([^\"]*)$")

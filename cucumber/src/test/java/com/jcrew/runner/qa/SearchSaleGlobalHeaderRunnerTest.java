@@ -1,5 +1,4 @@
 package com.jcrew.runner.qa;
-
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
@@ -7,15 +6,11 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/qa",
-        tags = {"@VerifySignin"},
+        tags = {"@SearchSaleGlobalHeader"},
         glue = {"com.jcrew.steps"},
-        format = {
-                "json:target/cucumber-accountqafeatures.json",
-                "pretty",
-                "html:target/cucumber/accountqafeatures"
-        }
+        format = {"json:target/cucumber-searchfeatures.json"}
 )
 
-public class AccountFeaturesRunnerTest {
+public class SearchSaleGlobalHeaderRunnerTest {
 
 }

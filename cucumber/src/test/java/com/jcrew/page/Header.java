@@ -11,7 +11,14 @@ public class Header {
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
 
+    @FindBy(className = "icon-searchtray-close")
+    private WebElement searchCloseIcon;
+
+    private WebDriver driver;
+
+
     public Header(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
@@ -19,7 +26,16 @@ public class Header {
         return headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
     }
 
-    public boolean isSearchBoxDisplayed() {
+    public boolean isSearchDrawerOpen() {
         return headerWrap.findElement(By.className("header__search__input")).isDisplayed();
     }
+
+    public void click_on_search_close_icon() {
+        searchCloseIcon.click();
+    }
+
+    public String getSearchDrawerTerm() {
+        return driver.getCurrentUrl();
+    }
+
 }

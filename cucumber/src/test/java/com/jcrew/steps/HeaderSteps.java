@@ -17,8 +17,8 @@ public class HeaderSteps extends DriverFactory {
         assertTrue(headerLink + " should have been present", header.isHeaderLinkPresent(headerLink));
     }
 
-    @And("^Search text box opens$")
-    public void Search_text_box_opens() throws Throwable {
-        assertTrue("Search box should have been displayed", header.isSearchBoxDisplayed());
+    @And("^Search drawer is open$")
+    public void search_drawer_is_open() throws Throwable {
+        assertTrue("Search box should have been displayed", header.isSearchDrawerOpen());
     }
 }

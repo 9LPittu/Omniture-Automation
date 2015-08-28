@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -244,9 +245,11 @@ public class SubcategoryPage {
         return result;
     }
 
-    public void click_first_product_in_grid() {
+    public void click_first_product_in_grid() throws InterruptedException {
         final WebElement firstProduct = productsFromGrid.get(0);
+        Thread.sleep(5000);
         final WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
+        Thread.sleep(5000);
         productLink.click();
     }
 
@@ -338,7 +341,16 @@ public class SubcategoryPage {
     public boolean productTileExistFor(String product) {
         WebElement productInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
                 "' and contains(@class, 'tile__detail--name')]"));
+        logger.info(productInTile.getText());
+       
         return productInTile.isDisplayed();
+    }
+    
+    public String yellowProductTileExist() {
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        WebElement yellow_product = productGrid.findElement(By.xpath("//*[@id='c-search__results']/div/div[3]/div[1]/div/div[2]/a/span[1]"));
+          logger.info(yellow_product.getText());
+                return yellow_product.getText();
     }
 
     public String getPriceFor(String product) {

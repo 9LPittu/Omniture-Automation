@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +95,19 @@ public class ProductDetailPage {
                 break;
             }
         }
+    }
+    
+    public void select_quantity() {
+        WebElement q = driver.findElement(By.id("c-product__quantity"));
+        WebElement quantity_select = q.findElement(By.tagName("select"));
+        logger.info(quantity_select.getAttribute("class"));
+     
+        new WebDriverWait(driver,10).until(ExpectedConditions.visibilityOf(quantity_select));
+        Select quantity = new Select(quantity_select);
+      
+        quantity.selectByIndex(2);
+        logger.info(quantity.toString());
+      
     }
 
     public boolean isWishlistButtonPresent() {

@@ -35,6 +35,11 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void a_size_is_selected() throws Throwable {
         productDetailPage.select_size();
     }
+    
+    @And("^Quantity is selected$")
+    public void quantity_is_selected() throws Throwable {
+        productDetailPage.select_quantity();
+    }
 
     @And("^A wishlist button is present$")
     public void a_wishlist_button_is_present() throws Throwable {

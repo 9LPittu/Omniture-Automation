@@ -45,7 +45,14 @@ public class HomePage {
 
     public void input_search_term(String searchTerm) {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(searchInput));
+        searchInput.clear();
         searchInput.sendKeys(searchTerm);
+    }
+    public void input_yellow_dresses() throws InterruptedException  {
+        searchInput.clear();
+        searchInput.sendKeys("yellow dresses ");
+        
+        
     }
 
     public void click_on_search_button_for_input_field() {

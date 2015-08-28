@@ -10,7 +10,7 @@ Feature: Header Tests
     And Hamburger Menu WOMEN Link is present
     Then Closes hamburger menu
     And User presses search button
-    And Search text box opens
+    And Search drawer is open
     Then User clicks on stores link
     And User is on external page https://stores.jcrew.com/
     Then User presses back button
