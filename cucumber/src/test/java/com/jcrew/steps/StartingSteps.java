@@ -7,13 +7,12 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -34,8 +33,25 @@ public class StartingSteps {
 
     @Given("^User is on homepage$")
     public void user_is_on_home_page() throws Throwable {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get(reader.getEnvironment());
+        int retry = 0;
+        boolean successfulLoad = false;
+        while (retry < 5 && !successfulLoad) {
+            try {
+                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                driver.get(reader.getEnvironment());
+                waitForPageToLoadUpToTheLastElementPriorScriptExecution();
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1 );
+                retry++;
+            }
+        }
+
+    }
+
+    private void waitForPageToLoadUpToTheLastElementPriorScriptExecution() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(
+                By.className("footer__copyright__link")));
     }
 
     @And("^User goes to homepage$")

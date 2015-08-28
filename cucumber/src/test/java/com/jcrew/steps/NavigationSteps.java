@@ -81,4 +81,9 @@ public class NavigationSteps extends DriverFactory {
     public void user_should_be_in_shopping_bag_page() throws Throwable {
         user_is_on_page("/checkout2/shoppingbag.jsp?sidecar=true");
     }
+
+    @Then("^Verify ([^\"]*) Department Link is present$")
+    public void verify_department_link_is_present(String department) throws Throwable {
+        assertTrue(department + " link should have been present", navigation.isDepartmentLinkPresent(department));
+    }
 }

@@ -84,10 +84,4 @@ public class HomePageSteps extends DriverFactory {
     public void verify_user_is_in_homepage() throws Throwable {
         assertTrue("Global Main Section should be displayed", homePage.isHomePage());
     }
-
-    @Then("^Verify ([^\"]*) Department Link is present$")
-    public void verify_department_link_is_present(String department) throws Throwable {
-        assertTrue(department + " link should have been present", navigation.isDepartmentLinkPresent(department));
-    }
-
 }
