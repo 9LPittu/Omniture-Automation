@@ -6,6 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Header {
 
     @FindBy(className = "header__primary-nav__wrap")
@@ -38,4 +41,15 @@ public class Header {
         return driver.getCurrentUrl();
     }
 
+    public List<String> getPrimaryNavigationLinkNames() {
+        List<String> primaryNavigationLinkNames = new ArrayList<>();
+
+        List<WebElement> headerWrapElements = headerWrap.findElements(By.className("primary-nav__link"));
+
+        for (WebElement headerElement : headerWrapElements) {
+            primaryNavigationLinkNames.add(headerElement.getText());
+        }
+
+        return primaryNavigationLinkNames;
+    }
 }
