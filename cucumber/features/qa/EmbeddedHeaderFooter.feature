@@ -7,3 +7,10 @@ Feature: Embedded Header Footer Scenarios
     And Verify STORES header link is displayed
     And Verify BAG header link is displayed
     And Verify MENU, SEARCH, STORES, BAG order is valid, ignore SIGN IN, MY ACCOUNT
+    And Verify LET US HELP YOU footer link is displayed
+    And Verify YOUR ORDERS footer link is displayed
+    And Verify THE J.CREW STYLE GUIDE footer link is displayed
+    And Verify ABOUT J.CREW footer link is displayed
+    And Verify OUR STORES footer link is displayed
+    And Verify OUR CARDS footer link is displayed
+    And Verify OUR BRANDS footer link is displayed
