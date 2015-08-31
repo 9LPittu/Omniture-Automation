@@ -26,7 +26,7 @@ public class HeaderSteps extends DriverFactory {
         assertTrue("Search box should have been displayed", header.isSearchDrawerOpen());
     }
 
-    @And("^Verify ([^\"]*) order is valid, ignore ([^\"]*)$")
+    @And("^Verify ([^\"]*) header links order is valid, ignore ([^\"]*)$")
     public void verify_order_is_valid(String headerLinks, String ignoredLinks) throws Throwable {
         String[] headerLinksArray = headerLinks.split(",");
         String[] ignoredLinksArray = ignoredLinks.split(",");
@@ -48,7 +48,7 @@ public class HeaderSteps extends DriverFactory {
 
         primaryNavigationLinkNames.removeAll(ignoredLinksList);
 
-        assertEquals(headerLinksList, primaryNavigationLinkNames);
+        assertEquals("Header Links order is not the expected", headerLinksList, primaryNavigationLinkNames);
 
     }
 }
