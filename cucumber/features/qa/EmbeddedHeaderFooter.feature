@@ -1,3 +1,4 @@
+@EmbeddedHeaderFooter
 Feature: Embedded Header Footer Scenarios
 
   Scenario: Home Page header footer links
@@ -15,3 +16,16 @@ Feature: Embedded Header Footer Scenarios
     And Verify OUR CARDS footer link is displayed
     And Verify OUR BRANDS footer link is displayed
     And Verify LET US HELP YOU, YOUR ORDERS, THE J.CREW STYLE GUIDE, ABOUT J.CREW, OUR STORES, OUR CARDS, OUR BRANDS footer links order is valid, ignore GET TO KNOW US
+    Then User clicks on hamburger menu
+    And Hamburger Menu WOMEN Link is present
+    Then Closes hamburger menu
+    And User presses search button
+    And Search drawer is open
+    Then User clicks on stores link
+    And User is in stores link
+    And User is on external page https://stores.jcrew.com/
+    Then User presses back button
+    And Verify user is in homepage
+    Then User clicks on item bag
+    And User should be in shopping bag page
+    And User is on /checkout2/shoppingbag.jsp?sidecar=true page

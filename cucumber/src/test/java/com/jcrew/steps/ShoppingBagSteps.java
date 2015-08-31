@@ -4,6 +4,7 @@ import com.jcrew.page.ShoppingBagPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.regex.Matcher;
@@ -20,6 +21,12 @@ public class ShoppingBagSteps extends DriverFactory {
     @When("^Clicks on checkout$")
     public void clicks_on_checkout() throws Throwable {
         shoppingBagPage.click_checkout_button();
+    }
+
+    @Then("^User should be in shopping bag page$")
+    public void user_should_be_in_shopping_bag_page() throws Throwable {
+        assertTrue("Article checkout should have been present",
+                shoppingBagPage.isArticleCheckoutPresent());
     }
 
     @And("^Verifies edit button is present$")

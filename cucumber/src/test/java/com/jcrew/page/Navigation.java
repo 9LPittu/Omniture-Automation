@@ -54,6 +54,7 @@ public class Navigation {
     }
 
     public void click_on_search_button() {
+        WebElement searchButton = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(this.searchButton));
         searchButton.click();
     }
 
@@ -71,6 +72,7 @@ public class Navigation {
     }
 
     public void close_hamburger_menu() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(closeHamburgerMenu));
         closeHamburgerMenu.click();
     }
 

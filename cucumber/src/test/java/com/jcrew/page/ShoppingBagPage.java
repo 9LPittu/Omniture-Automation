@@ -30,6 +30,9 @@ public class ShoppingBagPage {
     @FindBy(css = ".summary-item > .summary-value")
     private WebElement subtotalValue;
 
+    @FindBy(id = "checkout")
+    private WebElement articleCheckout;
+
     public ShoppingBagPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
@@ -58,5 +61,9 @@ public class ShoppingBagPage {
 
     public String getSubtotalValue() {
         return subtotalValue.getText();
+    }
+
+    public boolean isArticleCheckoutPresent() {
+        return articleCheckout.isDisplayed();
     }
 }
