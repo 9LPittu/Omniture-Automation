@@ -11,8 +11,8 @@ public class StoreLocatorSteps extends DriverFactory {
 
     private StoreLocatorPage storeLocator = new StoreLocatorPage(getDriver());
 
-    @And("^User is in stores link$")
-    public void user_is_in_stores_link() throws Throwable {
+    @And("^Verify user is on stores page$")
+    public void verify_user_is_on_stores_page() throws Throwable {
         assertTrue("Should have been in stores page", storeLocator.isFindByLocationPresent());
     }
 }

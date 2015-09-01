@@ -19,17 +19,41 @@ public class Footer {
     }
 
     public boolean isFooterLinkPresent(String footerLink) {
-        return footerWrapMain.findElement(By.xpath("//h6[text()='" + footerLink + "']")).isDisplayed();
+        return getFooterLinkElement(footerLink).isDisplayed();
 
+    }
+
+    private WebElement getFooterLinkElement(String footerLink) {
+        return footerWrapMain.findElement(By.xpath("//h6[text()='" + footerLink + "']"));
     }
 
     public List<String> getFooterHeaderNames() {
         List<WebElement> footerHeaderNamesElements = footerWrapMain.findElements(By.tagName("h6"));
         List<String> footerHeaderNamesText = new ArrayList<>();
 
-        for (WebElement footerHeaderElement: footerHeaderNamesElements) {
+        for (WebElement footerHeaderElement : footerHeaderNamesElements) {
             footerHeaderNamesText.add(footerHeaderElement.getText());
         }
         return footerHeaderNamesText;
+    }
+
+    public void click_on(String footerLink) {
+        getFooterLinkElement(footerLink).click();
+    }
+
+    public String getFooterSubText(String footerLink) {
+        WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
+        WebElement footerSubTextElement = listOfSubElements.findElement(By.className("footer__item__text"));
+        return footerSubTextElement.getText();
+    }
+
+    private WebElement getListOfSubElementsForFooterLink(String footerLink) {
+        WebElement footerLinkElement = getFooterLinkElement(footerLink);
+        return footerLinkElement.findElement(By.xpath("following-sibling::ul"));
+    }
+
+    public void click_sublink_from(String footerSubLink, String footerLink) {
+        WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
+        listOfSubElements.findElement(By.linkText(footerSubLink)).click();
     }
 }

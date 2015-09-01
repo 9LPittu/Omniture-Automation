@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.Footer;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,5 +42,21 @@ public class FooterSteps extends DriverFactory {
         footerHeaderNames.removeAll(ignoredLinksList);
         assertEquals("Footer Links order is not the expected", footerLinksList, footerHeaderNames);
 
+    }
+
+    @Then("^Click on footer link ([^\"]*)$")
+    public void click_on_footer_link(String footerLink) throws Throwable {
+        footer.click_on(footerLink);
+
+    }
+
+    @And("^Verify ([^\"]*) footer sub text is displayed for ([^\"]*) footer link$")
+    public void verify_footer_sub_text_is_displayed(String subText, String footerLink) throws Throwable {
+        assertEquals("sub text is not the same", subText, footer.getFooterSubText(footerLink));
+    }
+
+    @And("^Click on sublink ([^\"]*) from ([^\"]*) footer link$")
+    public void click_on_footer_sub_link(String footerSubLink, String footerLink) throws Throwable {
+        footer.click_sublink_from(footerSubLink, footerLink);
     }
 }
