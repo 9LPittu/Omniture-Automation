@@ -1,0 +1,22 @@
+package com.jcrew.page;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+/**
+ * Created by 9hvenaga on 9/1/2015.
+ */
+public class OrderStatusPage {
+    @FindBy(className = "orderstatus")
+    private WebElement orderStatusForm;
+
+    public OrderStatusPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
+    }
+
+    public boolean isOrderStatusPage() {
+        return orderStatusForm.isDisplayed();
+    }
+}
