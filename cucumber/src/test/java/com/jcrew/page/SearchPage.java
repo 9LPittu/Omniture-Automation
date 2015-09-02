@@ -91,7 +91,7 @@ public class SearchPage {
     }
 
     public boolean isRefineButtonDisplayed() {
-
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(refineButton));
         return refineButton.isDisplayed();
     }
 
