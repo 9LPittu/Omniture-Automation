@@ -64,11 +64,6 @@ Feature: Embedded Header Footer Category
     And Verify user is on request a catalog page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link THE J.CREW STYLE GUIDE
-    And Click on sublink browse one from THE J.CREW STYLE GUIDE footer link
-    And Verify user is on browse our style guide page
-    Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link ABOUT J.CREW
     And Click on sublink our story from ABOUT J.CREW footer link
     And Verify user is on about us page
