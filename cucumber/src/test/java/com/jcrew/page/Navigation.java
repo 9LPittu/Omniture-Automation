@@ -13,8 +13,8 @@ public class Navigation {
 
     private final WebDriver driver;
 
-    @FindBy(className = "c-header__promo")
-    private WebElement globalPromo;
+    @FindBy(className = "header__promo__wrap--mobile")
+    private WebElement headerPromoWrap;
 
     @FindBy(className = "primary-nav__item--bag")
     private WebElement bagSection;
@@ -41,7 +41,8 @@ public class Navigation {
     }
 
     public boolean isGlobalPromoDisplayed() {
-        return globalPromo.isDisplayed();
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerPromoWrap));
+        return headerPromoWrap.isDisplayed();
     }
 
     public boolean isBagLinkDisplaying() {
