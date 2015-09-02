@@ -75,11 +75,6 @@ public class HomePageSteps extends DriverFactory {
         homePage.click_on_search_button_for_input_field();
     }
 
-    @When("^User clicks on ([^\"]*) subcategory from Women Category$")
-    public void user_clicks_on_subcategory_from_women_category(String subcategory) throws Throwable {
-        homePage.click_on_subcategory(subcategory);
-    }
-
     @And("^User clicks on hamburger menu from women pdp$")
     public void user_clicks_on_hamburger_menu_from_women_pdp() {
         homePage.click_on_women_pdp_hamburger_menu();

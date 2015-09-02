@@ -15,6 +15,8 @@ public class HamburgerMenu {
     @FindBy(className = "js-primary-nav__link--menu")
     private WebElement hamburgerMenuLink;
 
+    @FindBy(className = "menu__nested")
+    private WebElement nestedMenu;
 
     @FindBy(css = ".primary-nav__item--account > a")
     private WebElement signInLink;
@@ -24,6 +26,9 @@ public class HamburgerMenu {
 
     @FindBy(className = "c-menu")
     private WebElement categoryMenu;
+
+    @FindBy(className = "menus--level2")
+    private WebElement menuLevel2;
 
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/shirtsandtops']")
     private WebElement womenShirtAndTopsCategoryLink;
@@ -96,4 +101,20 @@ public class HamburgerMenu {
         return categoryMenu.findElement(By.linkText(category));
     }
 
+    public void click_on_subcategory(String subcategory) {
+        getSubcategoryFromMenu(subcategory).click();
+    }
+
+    private WebElement getSubcategoryFromMenu(String subcategory) {
+        return nestedMenu.findElement(By.linkText(subcategory));
+    }
+
+    public boolean isSubcategoryMenuLinkPresent(String subcategory) {
+        return getSubcategoryFromMenu(subcategory).isDisplayed();
+    }
+
+    public void close_subcategory_hamburger_menu() {
+        WebElement closeIcon = menuLevel2.findElement(By.className("icon-nav-close"));
+        closeIcon.click();
+    }
 }

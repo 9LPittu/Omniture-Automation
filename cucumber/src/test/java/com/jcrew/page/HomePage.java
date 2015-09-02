@@ -27,10 +27,6 @@ public class HomePage {
     @FindBy(className = "header__search__button--find")
     private WebElement headerSearchButtonFind;
 
-
-    @FindBy(className = "menu__nested")
-    private WebElement nestedMenu;
-
     @FindBy(id = "global__main")
     private WebElement globalMain;
 
@@ -57,10 +53,6 @@ public class HomePage {
 
     public void click_on_search_button_for_input_field() {
         headerSearchButtonFind.click();
-    }
-
-    public void click_on_subcategory(String subcategory) {
-        nestedMenu.findElement(By.linkText(subcategory)).click();
     }
 
     public void click_on_women_pdp_hamburger_menu() {
