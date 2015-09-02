@@ -60,7 +60,9 @@ public class Footer {
 
     public void click_sublink_from(String footerSubLink, String footerLink) {
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
-        listOfSubElements.findElement(By.linkText(footerSubLink)).click();
+        WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(footerSublink));
+        footerSublink.click();
     }
 
 
