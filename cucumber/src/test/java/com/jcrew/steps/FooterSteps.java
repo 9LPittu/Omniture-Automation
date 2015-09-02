@@ -11,9 +11,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by 9hvenaga on 8/31/2015.
- */
 public class FooterSteps extends DriverFactory {
     private Footer footer = new Footer(getDriver());
 
@@ -58,5 +55,11 @@ public class FooterSteps extends DriverFactory {
     @And("^Click on sublink ([^\"]*) from ([^\"]*) footer link$")
     public void click_on_footer_sub_link(String footerSubLink, String footerLink) throws Throwable {
         footer.click_sublink_from(footerSubLink, footerLink);
+    }
+
+    @And("^Verify ([^\"]*) footer header legend is displayed$")
+    public void verify_footer_header_is_displayed(String footerHeader) throws Throwable {
+        assertEquals("Footer header should have been the same", footerHeader,
+                footer.getFooterHeaderLegend());
     }
 }

@@ -62,4 +62,9 @@ public class Footer {
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
         listOfSubElements.findElement(By.linkText(footerSubLink)).click();
     }
+
+
+    public String getFooterHeaderLegend() {
+        return footerWrapMain.findElement(By.tagName("legend")).getText();
+    }
 }
