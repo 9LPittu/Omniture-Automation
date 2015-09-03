@@ -1,12 +1,15 @@
 package com.jcrew.page;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,7 @@ public class Footer {
 
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
+    private Logger logger = LoggerFactory.getLogger(Footer.class);
 
     public Footer(WebDriver driver) {
         this.driver = driver;
@@ -29,7 +33,20 @@ public class Footer {
     }
 
     private WebElement getFooterLinkElement(String footerLink) {
-        return footerWrapMain.findElement(By.xpath("//h6[text()='" + footerLink + "']"));
+        WebElement footerLinkElement = null;
+        int attempts = 0;
+        while (attempts < 2) {
+            try {
+                footerLinkElement = footerWrapMain.findElement(By.xpath("//h6[text()='" + footerLink + "']"));
+                break;
+            } catch (StaleElementReferenceException e) {
+                logger.debug("Stale Element Exception was thrown, retry {} to click on footer element {}",
+                        attempts + 1, footerLink);
+            }
+            attempts++;
+        }
+
+        return footerLinkElement;
     }
 
     public List<String> getFooterHeaderNames() {
@@ -45,6 +62,7 @@ public class Footer {
     public void click_on(String footerLink) {
         getFooterLinkElement(footerLink).click();
     }
+
 
     public String getFooterSubText(String footerLink) {
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
