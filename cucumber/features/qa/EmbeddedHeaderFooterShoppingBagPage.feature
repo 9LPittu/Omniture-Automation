@@ -1,9 +1,11 @@
-@EmbeddedHeaderFooterCategoryPage
+@EmbeddedHeaderFooterShoppingBagPage
   
-Feature: Embedded Header Footer Category
+Feature: Embedded Header Footer Shopping Bag
 
-  Scenario: Category Page header footer links
+  Scenario: Shopping Bag Page header footer links
     Given User is on homepage
+    Then User clicks on item bag
+    And User should be in shopping bag page
     Then User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on KNITS & TEES subcategory from Women Category
@@ -21,8 +23,8 @@ Feature: Embedded Header Footer Category
     And Verify OUR BRANDS footer link is displayed
     And Verify LET US HELP YOU, YOUR ORDERS, THE J.CREW STYLE GUIDE, ABOUT J.CREW, OUR STORES, OUR CARDS, OUR BRANDS footer links order is valid, ignore GET TO KNOW US
     Then User clicks on hamburger menu
-    And Subcategory KNITS & TEES Hamburger Menu link is present
-    Then Closes subcategory hamburger menu
+    And Hamburger Menu WOMEN Link is present
+    Then Closes hamburger menu
     And User presses search button
     And Search drawer is open
     Then User clicks on stores link

@@ -1,12 +1,13 @@
-@EmbeddedHeaderFooterCategoryPage
+@EmbeddedHeaderFooterPDPPage
   
-Feature: Embedded Header Footer Category
+Feature: Embedded Header Footer PDP
 
-  Scenario: Category Page header footer links
+  Scenario: PDP Page header footer links
     Given User is on homepage
     Then User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on KNITS & TEES subcategory from Women Category
+    Then Selects the first product from product grid list
     Then Verify MENU header link is displayed
     And Verify SEARCH header link is displayed
     And Verify STORES header link is displayed
