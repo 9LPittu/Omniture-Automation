@@ -6,16 +6,16 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
-public class OrderSummaryPage {
+public class OrderConfirmationPage {
 
     @FindBy(id = "confirmation-number")
     private WebElement confirmationNumber;
 
-    public OrderSummaryPage(WebDriver driver) {
+    public OrderConfirmationPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
 
-    public boolean isOrderSummaryPage() {
+    public boolean isOrderConfirmationPage() {
         return confirmationNumber.isDisplayed();
     }
 
