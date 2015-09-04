@@ -23,7 +23,7 @@ Feature: Smoke Tests Category Page
     And Selects cardigans subcategory
     Then CARDIGANS option becomes selected
     And Refine modal autocloses
-    And Array page displays CARDIGANS
+#    And Array page displays CARDIGANS
     And Products displayed are cardigans from sweaters category
     
     
