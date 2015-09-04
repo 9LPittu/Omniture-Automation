@@ -44,6 +44,9 @@ public class BillingPage {
     @FindBy(id = "billing-options-submit")
     WebElement billingOptionsSubmit;
 
+    @FindBy(id = "credit-card-billing")
+    WebElement creditCardBilling;
+
     public BillingPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
@@ -78,5 +81,10 @@ public class BillingPage {
 
     public void submit_form() {
         billingOptionsSubmit.click();
+    }
+
+    public boolean isBillingPage() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(creditCardBilling));
+        return creditCardBilling.isDisplayed();
     }
 }

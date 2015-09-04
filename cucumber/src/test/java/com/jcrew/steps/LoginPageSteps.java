@@ -96,5 +96,11 @@ public class LoginPageSteps extends DriverFactory {
     public void clicks_on_create_new_account() throws Throwable {
         loginPage.click_create_new_account();
     }
+
+    @And("^Clicks on forgot password link$")
+    public void clicks_on_forgot_password_link() throws Throwable {
+        loginPage.click_forgot_password_link();
+    }
+
 }
 

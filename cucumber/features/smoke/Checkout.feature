@@ -32,7 +32,7 @@ Feature: Checkout Process
     And Clicks continue button on shipping method page
     And Fills required payment data in billing page
     And Clicks on place your order
-    Then User should be in order summary page
+    Then User should be in order confirmation page
 
   Scenario: Registered Checkout Mobile Not Signed User Screenshot
     Given Bag should have item(s) added
