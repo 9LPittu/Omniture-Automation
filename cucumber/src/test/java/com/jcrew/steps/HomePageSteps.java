@@ -49,7 +49,7 @@ public class HomePageSteps extends DriverFactory {
 
     }
 
-    @And("^Enters (\\w+) to the search field$")
+    @And("^Enters ([^\"]*) to the search field$")
     public void enters_a_search_term_to_the_input_field(String searchTerm) throws Throwable {
         homePage.input_search_term(searchTerm);
     }

@@ -82,8 +82,8 @@ public class SearchPageSteps extends DriverFactory {
 
     @And("([^\"]*) sort by options should appear")
     public void sort_by_options(String sortByOptions) {
-        String [] sortByOptionsAsArray = sortByOptions.split(",");
-        for (String sortByOption: sortByOptionsAsArray) {
+        String[] sortByOptionsAsArray = sortByOptions.split(",");
+        for (String sortByOption : sortByOptionsAsArray) {
             String trimmedSortByOption = sortByOption.trim();
             assertTrue("Sort by option " + trimmedSortByOption + " is not present ",
                     searchPage.isSortByOptionDisplayed(trimmedSortByOption));
@@ -124,16 +124,9 @@ public class SearchPageSteps extends DriverFactory {
 
     }
 
-    @Then("^Wait a little$")
-    public void wait_a_little() throws InterruptedException {
-        Thread.sleep(1200);
-
-    }
-
     @And("^Product details are displayed$")
-    public void product_details_displayed() {
-        assertEquals("product name  is not the same", "Girls' tulle corsage dress", searchPage.getProductName());
-        // assertEquals("product price is not the same", "$98.00",searchPage.getProductPrice());
+    public void product_details_are_displayed() {
+        assertEquals("product name is not the same", "Girls' tulle corsage dress", searchPage.getProductName());
     }
 
     @And("^Search array with price variations displayed$")
@@ -147,6 +140,19 @@ public class SearchPageSteps extends DriverFactory {
     public void user_is_in_yellow_dresses_search_results_page() throws InterruptedException {
         assertTrue("User should be in yellow dresses search results page", searchPage.isUpdatedSearchPage().contains("02982_YL5533"));
 
+    }
+
+    @And("^Verify amount of items displayed is (\\d+)$")
+    public void verify_amount_of_items_displayed_is(int itemNumber) throws Throwable {
+        assertEquals("Number of items should be " + itemNumber,
+                itemNumber, searchPage.getProductArrayCount());
+    }
+
+    @And("^Verify (\\d+) available colors for ([^\"]*) are displayed$")
+    public void verify_products_with_available_colors_for_product_id_are_displayed(int numberOfProducts, String productId) throws Throwable {
+
+        assertEquals("Number of colors for product did not match",
+                numberOfProducts, searchPage.getAllProductsDisplayedFor(productId).size());
     }
 }
     

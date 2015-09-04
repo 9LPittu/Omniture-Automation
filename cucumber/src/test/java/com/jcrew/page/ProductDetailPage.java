@@ -47,6 +47,9 @@ public class ProductDetailPage {
     @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
     private WebElement itemBagLink;
 
+    @FindBy(className = "product__price--sale")
+    private WebElement salePrice;
+
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -136,5 +139,9 @@ public class ProductDetailPage {
 
     public void click_item_bag() {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(itemBagLink)).click();
+    }
+
+    public String getSalePrice() {
+        return salePrice.getText();
     }
 }

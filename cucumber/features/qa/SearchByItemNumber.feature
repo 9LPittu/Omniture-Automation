@@ -3,35 +3,41 @@ Feature: Smoke Tests Search By Item Number Page
 
   Background:
     Given User is on homepage
-    
- Scenario: validating search results page display by item number
     And User presses search button
+
+  Scenario: validating search results page display by item number
     And Enters C3409 to the search field
     And Clicks on search button for input field
-    Then User is in search results page 
-  #  And search array with available colors displayed
+    Then User is in search results page
+    And Verify 2 available colors for C3409 are displayed
     And Enters 21421 to the search field
     And Clicks on search button for input field
-    Then User is in search results page
-    #And Search array with price variations displayed
-    #And Wait a little 
+    And User is in search results page
+    And Verify amount of items displayed is 2
+    And Verifies Silk cami product sale price is now $39.99
     And Enters dresses to the search field
     And Clicks on search button for input field
     Then User is in search results page
-    
- Scenario: single product result goes to pdp directly
-    And User presses search button
+
+  Scenario: single product result goes to pdp directly
     And Enters B8752 to the search field
     And Clicks on search button for input field
     And User is in product detail page
-    And Product details are displayed
-    And User presses search button
-    And Enters 08796 to the search field
+
+  Scenario: multiple products with sale price should display two items
+    And Enters 03140 to the search field
     And Clicks on search button for input field
     And User is in search results page
-    And Search array with price variations displayed
-    And User presses search button
-    And Enters 12245 to the search field
+    And Verify amount of items displayed is 2
+    And Verifies Nadia long dress in silk chiffon product sale price is now $249.99
+
+  Scenario: single product with sale price should go to pdp
+    And Enters 61170 to the search field
     And Clicks on search button for input field
     And User is in product detail page
-    And Product details are displayed
+    And Verify product sale price is now $73.00
+
+  Scenario: single product entering exact name should go to pdp
+    And Enters Carrie cami in tropical frond to the search field
+    And Clicks on search button for input field
+    And User is in product detail page

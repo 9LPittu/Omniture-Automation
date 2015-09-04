@@ -35,7 +35,7 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void a_size_is_selected() throws Throwable {
         productDetailPage.select_size();
     }
-    
+
     @And("^Quantity is selected$")
     public void quantity_is_selected() throws Throwable {
         productDetailPage.select_quantity();
@@ -71,6 +71,12 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Given("^Bag should have item\\(s\\) added$")
     public void bag_should_have_item_s_added() throws Throwable {
-        assertTrue("It should contain at least one item", productDetailPage.getNumberOfItemsInBag() > 0 );
+        assertTrue("It should contain at least one item", productDetailPage.getNumberOfItemsInBag() > 0);
+    }
+
+    @And("^Verify product sale price is ([^\"]*)$")
+    public void Verify_product_sale_price_is_now_$_(String salePrice) throws Throwable {
+        assertEquals("Sale price differs from what is expected",
+                salePrice, productDetailPage.getSalePrice());
     }
 }

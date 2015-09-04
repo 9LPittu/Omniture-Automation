@@ -60,6 +60,8 @@ public class SearchPage {
 
 
     public boolean isSearchPage() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerSearch));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(footer));
         return headerSearch.isDisplayed() && footer.isDisplayed();
     }
 
@@ -195,6 +197,22 @@ public class SearchPage {
 
     private void waitForVisibility(WebElement element) {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public int getProductArrayCount() {
+        return productGrid.findElements(By.className("c-product-tile")).size();
+    }
+
+    public List<String> getAllProductsDisplayedFor(String productId) {
+        List<WebElement> productTiles = driver.findElements(By.className("product-tile"));
+        List<String> products = new ArrayList<>();
+        for (WebElement productTile : productTiles) {
+            String dataProductAttribute = productTile.getAttribute("data-product");
+            if (dataProductAttribute.contains(productId) && dataProductAttribute.contains("color")) {
+                products.add(productTile.getText());
+            }
+        }
+        return products;
     }
 }
 
