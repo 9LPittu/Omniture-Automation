@@ -51,4 +51,9 @@ public class HeaderSteps extends DriverFactory {
         assertEquals("Header Links order is not the expected", headerLinksList, primaryNavigationLinkNames);
 
     }
+
+    @Then("^Clicks on JCrew Logo$")
+    public void clicks_on_JCrew_Logo() throws Throwable {
+        header.click_jcrew_logo();
+    }
 }

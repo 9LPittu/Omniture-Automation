@@ -25,9 +25,6 @@ public class Navigation {
     @FindBy(className = "primary-nav__text--stores")
     private WebElement storesLink;
 
-    @FindBy(id = "header__logo")
-    private WebElement headerLogo;
-
     @FindBy(className = "icon-nav-close")
     private WebElement closeHamburgerMenu;
 
@@ -61,15 +58,6 @@ public class Navigation {
 
     public boolean isStoresLinkPresent() {
         return storesLink.isDisplayed();
-    }
-
-    public boolean isJCrewLogoPresent() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerLogo));
-        return headerLogo.isDisplayed();
-    }
-
-    public Point getLogoPosition() {
-        return headerLogo.getLocation();
     }
 
     public void close_hamburger_menu() {
