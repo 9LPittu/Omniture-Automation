@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,6 +20,9 @@ public class Header {
     @FindBy(className = "icon-searchtray-close")
     private WebElement searchCloseIcon;
 
+    @FindBy(id = "header__logo")
+    private WebElement headerLogo;
+
     private WebDriver driver;
 
 
@@ -32,7 +36,7 @@ public class Header {
     }
 
     public boolean isSearchDrawerOpen() {
-        WebElement headerSearchInput =  new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
+        WebElement headerSearchInput = new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
         return headerSearchInput.isDisplayed();
     }
 
@@ -54,5 +58,18 @@ public class Header {
         }
 
         return primaryNavigationLinkNames;
+    }
+
+    public boolean isJCrewLogoPresent() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerLogo));
+        return headerLogo.isDisplayed();
+    }
+
+    public Point getLogoPosition() {
+        return headerLogo.getLocation();
+    }
+
+    public void click_jcrew_logo() {
+        headerLogo.click();
     }
 }

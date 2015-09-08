@@ -1,6 +1,6 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.Navigation;
+import com.jcrew.page.Header;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
@@ -21,7 +21,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     private Logger logger = LoggerFactory.getLogger(SubcategoryPageSteps.class);
 
     private SubcategoryPage subcategoryPage = new SubcategoryPage(getDriver());
-    private Navigation navigation = new Navigation(getDriver());
+    private Header header = new Header(getDriver());
 
     @When("^Adds a product to shopping bag$")
     public void adds_a_product_to_shopping_bag() throws Throwable {
@@ -68,9 +68,9 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @And("^Selects the first product from product grid list$")
     public void Selects_the_first_product_from_product_grid_list() throws Throwable {
-        
+
         subcategoryPage.click_first_product_in_grid();
-        
+
     }
 
     @Then("^User should be in ([^\"]*) page for women$")
@@ -158,10 +158,10 @@ public class SubcategoryPageSteps extends DriverFactory {
     public void verifies_product_is_displayed(String product) throws Throwable {
         assertTrue("Product should exist", subcategoryPage.productTileExistFor(product));
     }
-    
+
     @And("^yellow dresses search page is displayed")
     public void yellow_dresses_results_displayed() {
-        assertTrue("yellow product should exist",subcategoryPage.yellowProductTileExist().equals("Nadia dress in silk chiffon"));
+        assertTrue("yellow product should exist", subcategoryPage.yellowProductTileExist().equals("Nadia dress in silk chiffon"));
     }
 
     @And("^Verifies ([^\"]*) product list price is ([^\"]*)$")
@@ -195,7 +195,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     @And("^Verifies position of elements is the expected$")
     public void verifies_position_of_elements_is_the_expected() throws Throwable {
         final Point menuPosition = subcategoryPage.getMenuPosition();
-        final Point logoPosition = navigation.getLogoPosition();
+        final Point logoPosition = header.getLogoPosition();
         final Point refinementPosition = subcategoryPage.getRefinementPosition();
         final Point categoryImagePosition = subcategoryPage.getCategoryImagePosition();
         final Point promoPosition;

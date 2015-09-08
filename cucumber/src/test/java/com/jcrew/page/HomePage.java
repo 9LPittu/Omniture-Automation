@@ -27,8 +27,8 @@ public class HomePage {
     @FindBy(className = "header__search__button--find")
     private WebElement headerSearchButtonFind;
 
-    @FindBy(id = "global__main")
-    private WebElement globalMain;
+    @FindBy(id = "page__home")
+    private WebElement pageHome;
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -62,6 +62,7 @@ public class HomePage {
     }
 
     public boolean isHomePage() {
-        return globalMain.isDisplayed();
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(pageHome));
+        return pageHome.isDisplayed();
     }
 }
