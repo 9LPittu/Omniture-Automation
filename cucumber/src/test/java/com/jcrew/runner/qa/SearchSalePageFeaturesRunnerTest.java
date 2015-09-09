@@ -8,7 +8,9 @@ import org.junit.runner.RunWith;
         features = "features/qa",
         tags = {"@SearchSale"},
         glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-searchfeatures.json"}
+        format = {"json:target/cucumber-searchsalepagefeatures.json",
+                "pretty",
+                "html:target/cucumber/searchsalepagefeatures"}
 )
 
 

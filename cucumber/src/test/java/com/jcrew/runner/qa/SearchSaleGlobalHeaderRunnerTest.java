@@ -8,7 +8,9 @@ import org.junit.runner.RunWith;
         features = "features/qa",
         tags = {"@SearchSaleGlobalHeader"},
         glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-searchfeatures.json"}
+        format = {"json:target/cucumber-searchsaleglobalheaderfeatures.json",
+                "pretty",
+                "html:target/cucumber/searchsaleglobalheaderfeatures"}
 )
 
 public class SearchSaleGlobalHeaderRunnerTest {
