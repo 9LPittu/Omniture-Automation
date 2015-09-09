@@ -1,9 +1,6 @@
 package com.jcrew.page;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -102,9 +99,21 @@ public class SearchPage {
     }
 
     public boolean isRefinementDisplayed(String filterRefinement) {
-        final WebElement filterRefinementElement = searchFilterRefinementSection.
-                findElement(By.xpath(".//span[text()='" + filterRefinement + "' and @class='search__filter--label']"));
+        final WebElement filterRefinementElement = getRefinementElement(filterRefinement);
         return filterRefinementElement.isDisplayed();
+    }
+
+    private WebElement getRefinementElement(String filterRefinement) {
+        WebElement element = null;
+        try {
+            element = searchFilterRefinementSection.
+                    findElement(By.xpath(".//span[text()='" + filterRefinement + "' and @class='search__filter--label']"));
+        } catch (StaleElementReferenceException sere) {
+
+            element = searchFilterRefinementSection.
+                    findElement(By.xpath(".//span[text()='" + filterRefinement + "' and @class='search__filter--label']"));
+        }
+        return element;
     }
 
     public boolean isSortByOptionDisplayed(String sortByOption) {
@@ -175,30 +184,6 @@ public class SearchPage {
         return true;
     }
 
-    public String getPriceVariationInfo() {
-        WebElement item_sale_price = driver.findElement(By.xpath("//*[@id='c-search__results']/div/div[3]/div[2]/div/div[2]/a/span[3]"));
-        logger.info(item_sale_price.getText());
-        return item_sale_price.getText();
-    }
-
-
-    public String isUpdatedSearchPage() {
-        // List<WebElement> yellow_dresses = driver.findElements(By.tagName("img"));
-        //logger.info(yellow_dresses.get(0).getClass().toString());
-
-        for (WebElement yellow_dress : yellow_dresses) {
-            waitForVisibility(yellow_dress);
-            logger.info(yellow_dress.getText());
-        }
-        logger.info(yellow_dresses.get(0).getAttribute("src"));
-        return yellow_dresses.get(0).getAttribute("src");
-
-    }
-
-    private void waitForVisibility(WebElement element) {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
-    }
-
     public int getProductArrayCount() {
         return productGrid.findElements(By.className("c-product-tile")).size();
     }
@@ -213,6 +198,40 @@ public class SearchPage {
             }
         }
         return products;
+    }
+
+    public void click_refinement(String refinement) {
+        final WebElement filterRefinementElement = getRefinementElement(refinement);
+        filterRefinementElement.click();
+    }
+
+    public boolean isOptionSelectedForRefinementWithAccordionOpen(String option, String refinement) {
+        final WebElement optionElementLink = getOptionElementFromRefinement(option, refinement);
+        final WebElement optionCheckbox = optionElementLink.findElement(By.xpath("preceding-sibling::input"));
+        return optionCheckbox.isSelected();
+    }
+
+    private WebElement getOptionElementFromRefinement(String option, String refinement) {
+        final WebElement filterRefinementElement = getRefinementElement(refinement);
+        final WebElement accordionMenuForRefinement =
+                filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
+
+        return accordionMenuForRefinement.findElement(By.xpath(".//a[contains(text(), '" + option + "')]"));
+    }
+
+    public void select_option_from_refinement(String option, String refinement) {
+        final WebElement optionElementLink = getOptionElementFromRefinement(option, refinement);
+        optionElementLink.click();
+    }
+
+    public boolean isOptionSelectedForRefinementWithAccordionClosed(String optionSelected, String refinement) {
+
+        final WebElement filterRefinementElement = getRefinementElement(refinement + ":");
+        final WebElement selectedOption = filterRefinementElement.findElement(
+                By.xpath("../span[@class='search__filter--selected' and text() = '" + optionSelected + "']"));
+
+        return selectedOption.isDisplayed();
+
     }
 }
 

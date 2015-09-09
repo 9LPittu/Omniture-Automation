@@ -3,7 +3,6 @@ package com.jcrew.steps;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.SearchPage;
 import com.jcrew.util.DriverFactory;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -11,8 +10,7 @@ import org.openqa.selenium.TimeoutException;
 
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class SearchPageSteps extends DriverFactory {
 
@@ -102,7 +100,7 @@ public class SearchPageSteps extends DriverFactory {
 
     @And("^User is in corresponding valid pdp$")
     public void user_is_in_valid_pdp() {
-        assertEquals("Product name is not the same", "Girls' Nellystella® Chloe dress", searchPage.getProductName());
+        assertEquals("Product name is not the same", "Girls' Nellystellaï¿½ Chloe dress", searchPage.getProductName());
         assertEquals("Product price is not the same", "$124.00", searchPage.getProductPrice());
     }
 
@@ -129,23 +127,11 @@ public class SearchPageSteps extends DriverFactory {
         assertEquals("product name is not the same", "Girls' tulle corsage dress", searchPage.getProductName());
     }
 
-    @And("^Search array with price variations displayed$")
-    public void search_array_with_price_variations_displayed() {
-
-        assertTrue("valid products should be displayed", searchPage.getPriceVariationInfo().contains("$179.99"));
-        //  assertEquals("valid products should be displayed","Petite Cathleen dress in Leavers lace", search_array.get(1));
-    }
-
-    @Given("User is in yellow dresses results page")
-    public void user_is_in_yellow_dresses_search_results_page() throws InterruptedException {
-        assertTrue("User should be in yellow dresses search results page", searchPage.isUpdatedSearchPage().contains("02982_YL5533"));
-
-    }
-
     @And("^Verify amount of items displayed is (\\d+)$")
     public void verify_amount_of_items_displayed_is(int itemNumber) throws Throwable {
         assertEquals("Number of items should be " + itemNumber,
                 itemNumber, searchPage.getProductArrayCount());
+
     }
 
     @And("^Verify (\\d+) available colors for ([^\"]*) are displayed$")
@@ -153,6 +139,42 @@ public class SearchPageSteps extends DriverFactory {
 
         assertEquals("Number of colors for product did not match",
                 numberOfProducts, searchPage.getAllProductsDisplayedFor(productId).size());
+
+    }
+
+    @And("^Click on ([^\"]*) refinement$")
+    public void click_on_refinement(String refinement) throws Throwable {
+        searchPage.click_refinement(refinement);
+    }
+
+    @Then("^Validate ([^\"]*) option is selected under ([^\"]*) refinement$")
+    public void validate_option_is_selected_under_refinement(String option, String refinement) throws Throwable {
+
+        assertTrue(option + " Option should have been selected for refinement " + refinement,
+                searchPage.isOptionSelectedForRefinementWithAccordionOpen(option, refinement));
+
+    }
+
+    @Then("^Select ([^\"]*) option from ([^\"]*) refinement$")
+    public void select_option_from_refinement(String option, String refinement) throws Throwable {
+        searchPage.select_option_from_refinement(option, refinement);
+    }
+
+    @And("^Verify ([^\"]*) option is displayed as selected for ([^\"]*) refinement")
+    public void verify_option_is_unselected_and_option_is_displayed_as_selected_for(
+            String optionSelected, String refinement) throws Throwable {
+
+        assertTrue("Accordion should have displayed expected selected option",
+                searchPage.isOptionSelectedForRefinementWithAccordionClosed(optionSelected, refinement));
+
+    }
+
+    @Then("^Validate ([^\"]*) option is NOT selected under ([^\"]*) refinement$")
+    public void validate_option_is_not_selected_under_refinement(String option, String refinement) throws Throwable {
+
+        assertFalse(option + " Option should have been selected for refinement " + refinement,
+                searchPage.isOptionSelectedForRefinementWithAccordionOpen(option, refinement));
+
     }
 }
     
