@@ -1,15 +1,15 @@
-@EmbeddedHeaderFooterAccountAddressBookPage
-Feature: Embedded Header Footer Address Book Preferences Page
+@EmbeddedHeaderFooterAccountOrderHistoryPage
+Feature: Embedded Header Footer Order History Preferences Page
 
-  Scenario: Account Address Book Page Header Footer Links
+  Scenario: Account Order History Page Header Footer Links
     Given User is on homepage
     And Goes to sign in page
     When User enters test@example.org as email
     And User enters test1234 as password
     And Hits sign in button
     Then User is in My Account page
-    And User clicks on ADDRESS BOOK link in My Account Page
-    And User should be in address_book.jsp menu link page
+    And User clicks on ORDER HISTORY link in My Account Page
+    And User should be in reg_user_order_history.jsp menu link page
     Then Verify MENU header link is displayed
     And Verify SEARCH header link is displayed
     And Verify STORES header link is displayed
