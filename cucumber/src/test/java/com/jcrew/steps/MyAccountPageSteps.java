@@ -37,4 +37,9 @@ public class MyAccountPageSteps extends DriverFactory {
         assertTrue("User should have been in menu link " + page,
                 myAccountPage.isInMenuLinkPage(page));
     }
+
+    @Then("^User selects an order listed for review$")
+    public void user_selects_an_order_listed_for_review() throws Throwable {
+        myAccountPage.click_order_for_review();
+    }
 }
