@@ -1,10 +1,13 @@
-@EmbeddedHeaderFooterAccountRegistrationPage
-Feature: Embedded Header Footer Account Registration
+@EmbeddedHeaderFooterAccountPage
+Feature: Embedded Header Footer Account Landing Page
 
-  Scenario: Account Registration Header Footer Links
+  Scenario: Account Landing Page Header Footer Links
     Given User is on homepage
     And Goes to sign in page
-    And Clicks on create new account
+    When User enters test@example.org as email
+    And User enters test1234 as password
+    And Hits sign in button
+    Then User is in My Account page
     Then Verify MENU header link is displayed
     And Verify SEARCH header link is displayed
     And Verify STORES header link is displayed
