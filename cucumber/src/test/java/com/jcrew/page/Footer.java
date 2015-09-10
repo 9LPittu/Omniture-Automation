@@ -20,6 +20,10 @@ public class Footer {
 
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
+
+    @FindBy(className = "footer__row--bottom")
+    private  WebElement footerRowBottom;
+
     private Logger logger = LoggerFactory.getLogger(Footer.class);
 
     public Footer(WebDriver driver) {
@@ -86,5 +90,9 @@ public class Footer {
 
     public String getFooterHeaderLegend() {
         return footerWrapMain.findElement(By.tagName("legend")).getText();
+    }
+
+    public void click_bottom_link(String bottomLink) {
+        footerRowBottom.findElement(By.linkText(bottomLink)).click();
     }
 }

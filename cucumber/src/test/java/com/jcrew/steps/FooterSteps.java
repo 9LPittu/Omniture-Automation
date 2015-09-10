@@ -62,4 +62,9 @@ public class FooterSteps extends DriverFactory {
         assertEquals("Footer header should have been the same", footerHeader,
                 footer.getFooterHeaderLegend());
     }
+
+    @Then("^Click on ([^\"]*) bottom link from footer$")
+    public void click_on_bottom_link_from_footer(String bottomLink) throws Throwable {
+        footer.click_bottom_link(bottomLink);
+    }
 }
