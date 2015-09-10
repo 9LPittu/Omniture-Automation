@@ -1,15 +1,15 @@
-@EmbeddedHeaderFooterAccountCatalogPreferencesPage
-Feature: Embedded Header Footer Account Catalog Preferences Page
+@EmbeddedHeaderFooterAccountPaymentMethodsPage
+Feature: Embedded Header Footer Payment Methods Preferences Page
 
-  Scenario: Account Catalog Preferences Page Header Footer Links
+  Scenario: Account Payment Methods Page Header Footer Links
     Given User is on homepage
     And Goes to sign in page
     When User enters test@example.org as email
     And User enters test1234 as password
     And Hits sign in button
     Then User is in My Account page
-    And User clicks on CATALOG PREFERENCES link in My Account Page
-    And User should be in catalog_preferences.jsp menu link page
+    And User clicks on PAYMENT METHODS link in My Account Page
+    And User should be in payment_info.jsp menu link page
     Then Verify MENU header link is displayed
     And Verify SEARCH header link is displayed
     And Verify STORES header link is displayed
