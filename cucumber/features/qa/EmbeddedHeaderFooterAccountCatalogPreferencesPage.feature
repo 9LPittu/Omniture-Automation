@@ -1,7 +1,7 @@
-@EmbeddedHeaderFooterAccountEmailPreferencesPage
-Feature: Embedded Header Footer Account Email Preferences Page
+@EmbeddedHeaderFooterAccountCatalogPreferencesPage
+Feature: Embedded Header Footer Account Catalog Preferences Page
 
-  Scenario: Account Email Preferences Page Header Footer Links
+  Scenario: Account Catalog Preferences Page Header Footer Links
     Given User is on homepage
     And Goes to sign in page
     When User enters test@example.org as email
