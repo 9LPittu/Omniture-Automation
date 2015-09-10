@@ -8,14 +8,14 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/qa",
-        tags = {"@EmbeddedHeaderFooterAccountLandingPage"},
+        tags = {"@EmbeddedHeaderFooterAccountMyDetailsPage"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-embeddedheaderfooterqaaccountlandingpagefeatures.json",
+                "json:target/cucumber-embeddedheaderfooterqaaccountmydetailspagefeatures.json",
                 "pretty",
-                "html:target/cucumber/embeddedheaderfooterqaaccountlandingpagefeatures"
+                "html:target/cucumber/embeddedheaderfooterqaaccountmydetailspagefeatures"
         }
 )
 
-public class EmbeddedHeaderFooterAccountLandingPage {
+public class EmbeddedHeaderFooterAccountMyDetailsPage {
 }

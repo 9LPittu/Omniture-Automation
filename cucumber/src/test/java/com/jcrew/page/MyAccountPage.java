@@ -5,13 +5,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MyAccountPage {
+
+    public static final String ACCOUNT_PAGE_PREFIX = "account/";
+    private final WebDriver driver;
 
     @FindBy(id = "main_cont")
     private WebElement myAccountContainer;
 
     public MyAccountPage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
@@ -24,6 +30,18 @@ public class MyAccountPage {
     }
 
     public boolean isMenuLinkPresent(String link) {
-        return myAccountContainer.findElement(By.linkText(link)).isDisplayed();
+        return getMenuLink(link).isDisplayed();
+    }
+
+    private WebElement getMenuLink(String link) {
+        return myAccountContainer.findElement(By.linkText(link));
+    }
+
+    public void click_menu_link(String link) {
+        getMenuLink(link).click();
+    }
+
+    public boolean isInMenuLinkPage(String page) {
+        return new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains(ACCOUNT_PAGE_PREFIX + page));
     }
 }

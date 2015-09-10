@@ -26,4 +26,15 @@ public class MyAccountPageSteps extends DriverFactory {
     public void validates_link_is_displayed_in_My_Account_Page(String link) throws Throwable {
         assertTrue(link + " link should have been present", myAccountPage.isMenuLinkPresent(link));
     }
+
+    @Then("^User clicks on ([^\"]*) link in My Account Page$")
+    public void user_clicks_on_link_in_my_account_page(String link) throws Throwable {
+        myAccountPage.click_menu_link(link);
+    }
+
+    @And("^User should be in ([^\"]*) menu link page$")
+    public void User_should_be_in_page(String page) throws Throwable {
+        assertTrue("User should have been in menu link " + page,
+                myAccountPage.isInMenuLinkPage(page));
+    }
 }
