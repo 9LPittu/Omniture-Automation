@@ -35,7 +35,7 @@ public class SearchPage {
     @FindBy(id = "c-search__results")
     private WebElement searchResult;
 
-    @FindBy(className = "search__filter--refinement")
+    @FindBy(className = "c-search__filter--refinement")
     private WebElement searchFilterRefinementSection;
 
     @FindBy(className = "search__button--refine")
@@ -107,11 +107,13 @@ public class SearchPage {
         WebElement element = null;
         try {
             element = searchFilterRefinementSection.
-                    findElement(By.xpath(".//span[text()='" + filterRefinement + "' and @class='search__filter--label']"));
+                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
         } catch (StaleElementReferenceException sere) {
 
+            logger.info(searchFilterRefinementSection.getAttribute("innerHTML"));
+
             element = searchFilterRefinementSection.
-                    findElement(By.xpath(".//span[text()='" + filterRefinement + "' and @class='search__filter--label']"));
+                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
         }
         return element;
     }
@@ -140,12 +142,9 @@ public class SearchPage {
             }
         }
 
-        // String product_name = no_sale_products.get(0).findElement(By.xpath("//*[@id='c-search__results']/div/div[3]/div[2]/div/div[2]/a/span")).getText();
-        // String product_price = no_sale_products.get(0).findElement(By.xpath("//*[@id='c-search__results']/div/div[3]/div[2]/div/div[2]/span")).getText();
         no_sale_products.get(0).click();
-        // logger.info(product_name);
-        // logger.info(product_price);
-        return true;
+
+        return true;//??
 
     }
 
@@ -206,17 +205,27 @@ public class SearchPage {
     }
 
     public boolean isOptionSelectedForRefinementWithAccordionOpen(String option, String refinement) {
-        final WebElement optionElementLink = getOptionElementFromRefinement(option, refinement);
-        final WebElement optionCheckbox = optionElementLink.findElement(By.xpath("preceding-sibling::input"));
-        return optionCheckbox.isSelected();
+        try {
+            final WebElement optionElementLink = getOptionElementFromRefinement(option, refinement);
+            final WebElement optionCheckbox = optionElementLink.findElement(By.xpath("preceding-sibling::input"));
+            return optionCheckbox.isSelected();
+
+        } catch (StaleElementReferenceException sere) {
+            return isOptionSelectedForRefinementWithAccordionOpen(option, refinement);
+        }
     }
 
     private WebElement getOptionElementFromRefinement(String option, String refinement) {
-        final WebElement filterRefinementElement = getRefinementElement(refinement);
-        final WebElement accordionMenuForRefinement =
-                filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
+        try {
+            final WebElement filterRefinementElement = getRefinementElement(refinement);
+            final WebElement accordionMenuForRefinement =
+                    filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
 
-        return accordionMenuForRefinement.findElement(By.xpath(".//a[contains(text(), '" + option + "')]"));
+            return accordionMenuForRefinement.findElement(By.xpath(".//a[contains(text(), '" + option + "')]"));
+
+        } catch (StaleElementReferenceException sere) {
+            return getOptionElementFromRefinement(option, refinement);
+        }
     }
 
     public void select_option_from_refinement(String option, String refinement) {
@@ -226,12 +235,77 @@ public class SearchPage {
 
     public boolean isOptionSelectedForRefinementWithAccordionClosed(String optionSelected, String refinement) {
 
-        final WebElement filterRefinementElement = getRefinementElement(refinement + ":");
-        final WebElement selectedOption = filterRefinementElement.findElement(
-                By.xpath("../span[@class='search__filter--selected' and text() = '" + optionSelected + "']"));
+        WebElement selectedOption;
+
+        try {
+            selectedOption = getRefinementElement(refinement).findElement(
+                    By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]"));
+
+        } catch (StaleElementReferenceException sere) {
+
+            selectedOption = getRefinementElement(refinement).findElement(
+                    By.xpath("../span[@class='search__filter--selected' and contains(text(), '" + optionSelected + "')]"));
+
+        }
 
         return selectedOption.isDisplayed();
 
+    }
+
+    public void select_option_from_multiple_select_refinement(String option, String refinement) {
+        try {
+            final WebElement filterRefinementElement = getRefinementElement(refinement);
+            final WebElement accordionMenuForRefinement =
+                    filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
+            final WebElement optionElement = accordionMenuForRefinement.findElement(By.linkText(option));
+            optionElement.click();
+
+        } catch (StaleElementReferenceException sere) {
+            select_option_from_multiple_select_refinement(option, refinement);
+        }
+    }
+
+    public boolean isRefinementOpen(String refinement) {
+        final WebElement filterRefinementElement = getRefinementElement(refinement);
+        final WebElement drawerIcon = filterRefinementElement.findElement(By.xpath("following-sibling::i"));
+        return drawerIcon.getAttribute("class").contains("icon-see-less");
+    }
+
+    public void click_refinement_close_drawer(String refinement) {
+        try {
+            final WebElement filterRefinementElement = getRefinementElement(refinement);
+            final WebElement drawerIcon = filterRefinementElement.findElement(
+                    By.xpath("following-sibling::i[contains(@class, 'icon-see-less')]"));
+
+            drawerIcon.click();
+
+        } catch (StaleElementReferenceException sere) {
+
+            click_refinement_close_drawer(refinement);
+
+        }
+    }
+
+    public void click_refinement_menu_done_button() {
+        final WebElement doneButton = searchFilterRefinementSection.findElement(By.id("btn__search--done"));
+        doneButton.click();
+    }
+
+    public int getCurrentNumberOfResults() {
+        String text = searchResult.findElement(By.className("search__results--count")).getText();
+        Integer numberOfResults = Integer.valueOf(text.replace(" results", ""));
+
+        logger.debug("Number of results found are {}", numberOfResults);
+
+        return numberOfResults;
+    }
+
+    public boolean isBreadcrumbDisplayedFor(String option) {
+        WebElement breadcrumbElement = searchResult.findElement(
+                By.xpath(".//button[contains(@class, 'search__results--crumb') and contains(text(), '" + option
+                        + "')]"));
+
+        return breadcrumbElement.isDisplayed();
     }
 }
 

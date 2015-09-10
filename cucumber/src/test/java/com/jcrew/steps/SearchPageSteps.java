@@ -155,12 +155,17 @@ public class SearchPageSteps extends DriverFactory {
 
     }
 
-    @Then("^Select ([^\"]*) option from ([^\"]*) refinement$")
+    @Then("^Select ([^\"]*) single option from ([^\"]*) refinement$")
     public void select_option_from_refinement(String option, String refinement) throws Throwable {
         searchPage.select_option_from_refinement(option, refinement);
     }
 
-    @And("^Verify ([^\"]*) option is displayed as selected for ([^\"]*) refinement")
+        @Then("^Select ([^\"]*) multiple option from ([^\"]*) refinement$")
+    public void select_option_from_the_multiple_select_refinement(String option, String refinement) throws Throwable {
+        searchPage.select_option_from_multiple_select_refinement(option, refinement);
+    }
+
+    @And("^Verify ([^\"]*) value is displayed next to ([^\"]*) refinement")
     public void verify_option_is_unselected_and_option_is_displayed_as_selected_for(
             String optionSelected, String refinement) throws Throwable {
 
@@ -175,6 +180,33 @@ public class SearchPageSteps extends DriverFactory {
         assertFalse(option + " Option should have been selected for refinement " + refinement,
                 searchPage.isOptionSelectedForRefinementWithAccordionOpen(option, refinement));
 
+    }
+
+    @And("^Verify ([^\"]*) refinement drawer remains open$")
+    public void verify_refinement_drawer_remains_open(String refinement) throws Throwable {
+        assertTrue("Drawer should be open", searchPage.isRefinementOpen(refinement));
+    }
+
+    @Then("^Click on ([^\"]*) refinement close drawer icon$")
+    public void click_on_refinement_close_drawer_icon(String refinement) throws Throwable {
+        searchPage.click_refinement_close_drawer(refinement);
+    }
+
+    @Then("^Click on done button for refinement filter menu$")
+    public void click_on_done_button_for_refinement_filter_menu() throws Throwable {
+        searchPage.click_refinement_menu_done_button();
+    }
+
+    @Then("^Verify number of results is less than (\\d+)$")
+    public void verify_number_of_results_is_less_than(int resultNumber) throws Throwable {
+        assertTrue("Results should be less than " + resultNumber,
+                resultNumber > searchPage.getCurrentNumberOfResults());
+    }
+
+    @And("^Verify ([^\"]*) option breadcrumb is created$")
+    public void verify_option_breadcrumb_is_created(String option) throws Throwable {
+        assertTrue(option + " option breadcrumb should have been displayed",
+                searchPage.isBreadcrumbDisplayedFor(option));
     }
 }
     
