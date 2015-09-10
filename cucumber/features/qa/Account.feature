@@ -1,12 +1,10 @@
-@VerifySignin
-Feature: Verify Sign IN
+@Account
+Feature: Account Feature QA Suite
 
   Background:
     Given User is on homepage
-    
-  
+
   Scenario: sign in page should be verified and signed in
-    
     Given Goes to sign in page
     When User enters test@example.org as email
     And User enters test1234 as password
@@ -14,8 +12,7 @@ Feature: Verify Sign IN
     And Hits sign in button
     Then User is in My Account page
     
-  @Uncheck 
-  Scenario: validating user sign in state after unchecking keep me signed in 
+  Scenario: validating user sign in state after unchecking keep me signed in
     And Goes to sign in page
     When User enters test@example.org as email
     And User enters test1234 as password
