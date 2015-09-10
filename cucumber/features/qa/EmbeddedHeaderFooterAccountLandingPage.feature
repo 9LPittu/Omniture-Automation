@@ -1,4 +1,4 @@
-@EmbeddedHeaderFooterAccountPage
+@EmbeddedHeaderFooterAccountLandingPage
 Feature: Embedded Header Footer Account Landing Page
 
   Scenario: Account Landing Page Header Footer Links
