@@ -30,7 +30,7 @@ public class MacroSteps {
     public void verify_embedded_header_and_footer_are_visible_and_functional() throws Throwable {
         headerSteps.verify_header_link_is_displayed("MENU");
         headerSteps.verify_header_link_is_displayed("SEARCH");
-        headerSteps.verify_header_link_is_displayed("SEARCH");
+        headerSteps.verify_header_link_is_displayed("STORES");
         headerSteps.verify_header_link_is_displayed("BAG");
         headerSteps.verify_order_is_valid("MENU, SEARCH, STORES, BAG", "SIGN IN, MY ACCOUNT");
 
