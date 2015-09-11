@@ -29,12 +29,10 @@ Feature: Embedded Header Footer Category
     And Verify user is on stores page
     And User is on external page https://stores.jcrew.com/
     Then User presses back button
-    And Verify user is in homepage
     Then User clicks on item bag
     And User should be in shopping bag page
     And User is on /checkout2/shoppingbag.jsp?sidecar=true page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link LET US HELP YOU
     And Verify 800 562 0258 footer sub text is displayed for LET US HELP YOU footer link
     And Click on sublink our size charts from LET US HELP YOU footer link
@@ -44,62 +42,50 @@ Feature: Embedded Header Footer Category
     And Click on sublink very personal stylist from LET US HELP YOU footer link
     And Verify user is on personal stylist page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link YOUR ORDERS
     And Click on sublink order status from YOUR ORDERS footer link
     And Verify user is on order status page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link YOUR ORDERS
     And Click on sublink shipping & handling from YOUR ORDERS footer link
     And Verify user is on shipping & handling page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link YOUR ORDERS
     And Click on sublink returns & exchanges from YOUR ORDERS footer link
     And Verify user is on returns & exchanges page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link THE J.CREW STYLE GUIDE
     And Click on sublink request one from THE J.CREW STYLE GUIDE footer link
     And Verify user is on request a catalog page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link ABOUT J.CREW
     And Click on sublink our story from ABOUT J.CREW footer link
     And Verify user is on about us page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link ABOUT J.CREW
     And Click on sublink careers from ABOUT J.CREW footer link
     And Verify user is on careers page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link ABOUT J.CREW
     And Click on sublink social responsibility from ABOUT J.CREW footer link
     And Verify user is on social responsibility page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link OUR STORES
     And  Click on sublink store locator from OUR STORES footer link
     And Verify user is on help store locator page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link OUR CARDS
     And Click on sublink the j.crew credit card from OUR CARDS footer link
     And Verify user is on the j.crew credit card page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link OUR CARDS
     And Click on sublink the j.crew gift card from OUR CARDS footer link
     And Verify user is on the j.crew gift card page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link OUR BRANDS
     And Click on sublink j.crew factory from OUR BRANDS footer link
     And Verify user is on the j.crew factory page
     Then User presses back button
-    And Verify user is in homepage
     Then Click on footer link OUR BRANDS
     And Click on sublink madewell from OUR BRANDS footer link
     And Verify user is on the madewell page
