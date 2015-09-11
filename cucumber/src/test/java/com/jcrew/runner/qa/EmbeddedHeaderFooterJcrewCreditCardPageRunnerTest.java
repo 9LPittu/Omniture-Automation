@@ -11,13 +11,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/qa",
-        tags = {"@EmbeddedHeaderFooterShoppingBagPage"},
+        tags = {"@EmbeddedHeaderFooterJcrewCreditCardPage"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-embeddedheaderfooterqashoppingbagpagefeatures.json",
+                "json:target/cucumber-embeddedheaderfooterqajcrewcreditcardpagefeatures.json",
                 "pretty",
-                "html:target/cucumber/embeddedheaderfooterqashoppingbagpagefeatures"
+                "html:target/cucumber/embeddedheaderfooterqajcrewcreditcardpagefeatures"
         }
 )
-public class EmbeddedHeaderFooterShoppingBagPageRunnerTest {
+public class EmbeddedHeaderFooterJcrewCreditCardPageRunnerTest {
 }

@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
         tags = {"@EmbeddedHeaderFooterPDPPage"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-embeddedheaderfooterqapdpfeatures.json",
+                "json:target/cucumber-embeddedheaderfooterqapdppagefeatures.json",
                 "pretty",
-                "html:target/cucumber/embeddedheaderfooterqapdpfeatures"
+                "html:target/cucumber/embeddedheaderfooterqapdppagefeatures"
         }
 )
 public class EmbeddedHeaderFooterPDPPageRunnerTest {

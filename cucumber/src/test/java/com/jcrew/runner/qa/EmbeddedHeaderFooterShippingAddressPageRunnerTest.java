@@ -1,9 +1,5 @@
 package com.jcrew.runner.qa;
 
-/**
- * Created by 9hvenaga on 9/3/2015.
- */
-
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
@@ -14,9 +10,9 @@ import org.junit.runner.RunWith;
         tags = {"@EmbeddedHeaderFooterShippingAddressPage"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-embeddedheaderfooterqashippingaddressfeatures.json",
+                "json:target/cucumber-embeddedheaderfooterqashippingaddresspagefeatures.json",
                 "pretty",
-                "html:target/cucumber/embeddedheaderfooterqashippingaddressfeatures"
+                "html:target/cucumber/embeddedheaderfooterqashippingaddresspagefeatures"
         }
 )
 public class EmbeddedHeaderFooterShippingAddressPageRunnerTest {
