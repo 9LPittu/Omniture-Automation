@@ -24,11 +24,9 @@ Feature: Embedded Header Footer Homepage
     And Search drawer is open
     Then User clicks on stores link
     And Verify user is on stores page
-    And User is on external page https://stores.jcrew.com/
     Then User presses back button
     Then User clicks on item bag
     And User should be in shopping bag page
-    And User is on /checkout2/shoppingbag.jsp?sidecar=true page
     Then User presses back button
     Then Click on footer link LET US HELP YOU
     And Verify 800 562 0258 footer sub text is displayed for LET US HELP YOU footer link

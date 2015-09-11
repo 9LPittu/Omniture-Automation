@@ -64,11 +64,6 @@ public class ProductDetailPageSteps extends DriverFactory {
         assertEquals(message, productDetailPage.getMinicartMessage());
     }
 
-    @Given("^User clicks on item bag$")
-    public void user_clicks_on_item_bag() throws Throwable {
-        productDetailPage.click_item_bag();
-    }
-
     @Given("^Bag should have item\\(s\\) added$")
     public void bag_should_have_item_s_added() throws Throwable {
         assertTrue("It should contain at least one item", productDetailPage.getNumberOfItemsInBag() > 0);

@@ -36,6 +36,9 @@ public class HamburgerMenu {
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/sweaters']")
     private WebElement womenSweatersCategoryLink;
 
+    @FindBy(className = "icon-nav-close")
+    private WebElement closeHamburgerMenu;
+
     public HamburgerMenu(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -83,12 +86,6 @@ public class HamburgerMenu {
         backlink.click();
     }
 
-    public void close_hamburger_menu() {
-        WebElement closeicon = driver.findElement(By.xpath("//*[@id='global__nav']/div/div[1]/div"));
-        closeicon.click();
-    }
-
-
     public boolean isCategoryPresent(String category) {
         return getCategory(category).isDisplayed();
     }
@@ -117,4 +114,10 @@ public class HamburgerMenu {
         WebElement closeIcon = menuLevel2.findElement(By.className("icon-nav-close"));
         closeIcon.click();
     }
+
+    public void close_hamburger_menu() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(closeHamburgerMenu));
+        closeHamburgerMenu.click();
+    }
+
 }

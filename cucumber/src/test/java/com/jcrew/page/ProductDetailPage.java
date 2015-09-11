@@ -44,9 +44,6 @@ public class ProductDetailPage {
     @FindBy(id = "global__footer")
     private WebElement footer;
 
-    @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
-    private WebElement itemBagLink;
-
     @FindBy(className = "product__price--sale")
     private WebElement salePrice;
 
@@ -135,10 +132,6 @@ public class ProductDetailPage {
         final String confirmationMessage = miniCart.getAttribute("innerHTML");
         logger.debug("Confirmation message is {} ", confirmationMessage);
         return confirmationMessage;
-    }
-
-    public void click_item_bag() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(itemBagLink)).click();
     }
 
     public String getSalePrice() {
