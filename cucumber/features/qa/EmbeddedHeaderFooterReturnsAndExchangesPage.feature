@@ -1,4 +1,4 @@
-@EmbeddedHeaderFooterShippingAndHandlingPage
+@EmbeddedHeaderFooterReturnsAndExchangesPage
 Feature: Embedded Header Footer Shipping And Handling Page
 
   Scenario: Shipping And Handling Page Header Footer Links
