@@ -17,5 +17,5 @@ import org.junit.runner.RunWith;
         }
 )
 
-public class EmbeddedHeaderFooterAccountOrderDetailPage {
+public class EmbeddedHeaderFooterAccountOrderDetailPageRunnerTest {
 }

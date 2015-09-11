@@ -17,5 +17,5 @@ import org.junit.runner.RunWith;
         }
 )
 
-public class EmbeddedHeaderFooterAccountEmailPreferencesPage {
+public class EmbeddedHeaderFooterAccountEmailPreferencesPageRunnerTest {
 }

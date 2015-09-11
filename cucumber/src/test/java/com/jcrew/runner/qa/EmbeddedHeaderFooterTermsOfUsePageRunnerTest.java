@@ -1,5 +1,6 @@
 package com.jcrew.runner.qa;
 
+
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
@@ -7,13 +8,14 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/qa",
-        tags = {"@EmbeddedHeaderFooterPDPPage"},
+        tags = {"@EmbeddedHeaderFooterTermsOfUsePage"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-embeddedheaderfooterqapdpfeatures.json",
+                "json:target/cucumber-embeddedheaderfooterqatermsofusepagefeatures.json",
                 "pretty",
-                "html:target/cucumber/embeddedheaderfooterqapdpfeatures"
+                "html:target/cucumber/embeddedheaderfooterqatermsofusepagefeatures"
         }
 )
-public class EmbeddedHeaderFooterPDPPageRunner {
+
+public class EmbeddedHeaderFooterTermsOfUsePageRunnerTest {
 }

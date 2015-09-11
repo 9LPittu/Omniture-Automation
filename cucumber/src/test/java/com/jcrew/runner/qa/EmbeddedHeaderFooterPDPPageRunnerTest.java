@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/qa",
-        tags = {"@EmbeddedHeaderFooterCategoryPage"},
+        tags = {"@EmbeddedHeaderFooterPDPPage"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-embeddedheaderfooterqacategoryfeatures.json",
+                "json:target/cucumber-embeddedheaderfooterqapdpfeatures.json",
                 "pretty",
-                "html:target/cucumber/embeddedheaderfooterqacategoryfeatures"
+                "html:target/cucumber/embeddedheaderfooterqapdpfeatures"
         }
 )
-public class EmbeddedHeaderFooterCategoryPageRunner {
+public class EmbeddedHeaderFooterPDPPageRunnerTest {
 }
