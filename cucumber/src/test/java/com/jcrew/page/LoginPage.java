@@ -19,7 +19,7 @@ public class LoginPage {
     @FindBy(id = "sidecarPassword")
     private WebElement passwordInput;
 
-    @FindBy(className = "btn--signin")
+    @FindBy(className = "js-button-submit")
     private WebElement signInButton;
 
     @FindBy(className = "js-invalid-msg")
@@ -58,6 +58,7 @@ public class LoginPage {
     }
 
     public void click_sign_in_button() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(signInButton));
         signInButton.click();
     }
 
