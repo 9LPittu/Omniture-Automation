@@ -23,6 +23,15 @@ public class Header {
     @FindBy(id = "header__logo")
     private WebElement headerLogo;
 
+    @FindBy(className = "js-primary-nav__link--search")
+    private WebElement searchButton;
+
+    @FindBy(className = "primary-nav__text--stores")
+    private WebElement storesLink;
+
+    @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
+    private WebElement shoppingBagLink;
+
     private WebDriver driver;
 
 
@@ -72,4 +81,31 @@ public class Header {
     public void click_jcrew_logo() {
         headerLogo.click();
     }
+
+    public void click_on_search_button() {
+        WebElement searchButton = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(this.searchButton));
+        searchButton.click();
+    }
+
+    public boolean isSearchLinkDisplayed() {
+        return searchButton.isDisplayed();
+    }
+
+    public boolean isStoresLinkPresent() {
+        return storesLink.isDisplayed();
+    }
+
+    public void click_on_stores_link() {
+        storesLink.click();
+    }
+
+    public void click_item_bag() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(shoppingBagLink)).click();
+    }
+
+    public boolean isBagLinkDisplaying() {
+        return shoppingBagLink.isDisplayed();
+    }
+
+
 }

@@ -15,3 +15,13 @@ Feature: Smoke Tests Subcategory Page
     And User is in shirts and tops for women page
     And User hovers a product
     Then Proper details are shown for the hovered product
+
+
+    #Following Scenario was found to be an issue in CI, adding a test that will verify that it never happens again.
+  Scenario: Zero size should be valid
+    And User is in shirts and tops for women page
+    Then Click on product Indigo gauze popover to display PDP
+    And A color is selected
+    And 0 size is selected
+    Then Add to cart button is pressed
+    And A minicart modal should appear with message '1 item has been added to your cart.'

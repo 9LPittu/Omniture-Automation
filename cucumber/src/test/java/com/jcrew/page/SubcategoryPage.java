@@ -492,4 +492,11 @@ public class SubcategoryPage {
     public void click_collapse_accordion_icon_for_drawer_option(String option) {
         click_icon_type(option, "icon-see-less");
     }
+
+    public void click_on_product(String product) {
+        WebElement productLink = productGrid.findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]/.."));
+
+        productLink.click();
+    }
 }

@@ -1,11 +1,9 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.HamburgerMenu;
 import com.jcrew.page.Header;
 import com.jcrew.page.HomePage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -15,36 +13,12 @@ import static org.junit.Assert.assertTrue;
 public class HomePageSteps extends DriverFactory {
 
     private HomePage homePage = new HomePage(getDriver());
-    private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
     private Header header = new Header(getDriver());
 
 
     @Then("^JCrew Logo is present$")
     public void jcrew_logo_is_present() throws Throwable {
         assertTrue("JCrew logo must be present", header.isJCrewLogoPresent());
-    }
-
-
-    @Then("^Hamburger menu is present$")
-    public void hamburger_menu_is_present() throws Throwable {
-        assertTrue("Hamburger menu is present", hamburgerMenu.isHamburgerMenuPresent());
-    }
-
-    @Given("^User clicks on hamburger menu$")
-    public void user_clicks_on_hamburger_menu() throws Throwable {
-        hamburgerMenu.click_on_hamburger_menu();
-    }
-
-    @And("^Selects ([^\"]*) Category from hamburger menu$")
-    public void selects_category_from_hamburger_menu(String category) throws Throwable {
-        hamburgerMenu.click_on_category(category);
-    }
-
-    @And("^Selects Shirts and Tops from Women Category in hamburger menu$")
-    public void selects_shirts_and_tops_from_hamburger_menu() throws Throwable {
-
-        hamburgerMenu.click_on_shirts_and_tops_from_women_category_in_hamburger_menu();
-
     }
 
     @And("^Enters ([^\"]*) to the search field$")
@@ -63,10 +37,6 @@ public class HomePageSteps extends DriverFactory {
         homePage.hit_enter_in_search_field();
     }
 
-    @And("^Goes to sign in page$")
-    public void goes_to_sign_in_page() throws Throwable {
-        hamburgerMenu.click_on_sign_in_link();
-    }
 
     @And("^Clicks on search button for input field$")
     public void clicks_on_search_button_from_field() throws Throwable {
@@ -76,11 +46,6 @@ public class HomePageSteps extends DriverFactory {
     @And("^User clicks on hamburger menu from women pdp$")
     public void user_clicks_on_hamburger_menu_from_women_pdp() {
         homePage.click_on_women_pdp_hamburger_menu();
-    }
-
-    @And("^User clicks on back link$")
-    public void user_clicks_on_back_link() {
-        hamburgerMenu.click_on_back_link();
     }
 
     @Then("^Verify user is in homepage$")

@@ -44,9 +44,6 @@ public class ProductDetailPage {
     @FindBy(id = "global__footer")
     private WebElement footer;
 
-    @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
-    private WebElement itemBagLink;
-
     @FindBy(className = "product__price--sale")
     private WebElement salePrice;
 
@@ -137,11 +134,14 @@ public class ProductDetailPage {
         return confirmationMessage;
     }
 
-    public void click_item_bag() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(itemBagLink)).click();
-    }
-
     public String getSalePrice() {
         return salePrice.getText();
+    }
+
+    public void select_size(String productSize) {
+        WebElement productSizeElement = productSizesSection.findElement(
+                By.xpath(".//li[@data-name='" + productSize + "']"));
+
+        productSizeElement.click();
     }
 }

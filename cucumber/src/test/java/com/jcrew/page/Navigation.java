@@ -16,17 +16,6 @@ public class Navigation {
     @FindBy(className = "header__promo__wrap--mobile")
     private WebElement headerPromoWrap;
 
-    @FindBy(className = "primary-nav__item--bag")
-    private WebElement bagSection;
-
-    @FindBy(className = "js-primary-nav__link--search")
-    private WebElement searchButton;
-
-    @FindBy(className = "primary-nav__text--stores")
-    private WebElement storesLink;
-
-    @FindBy(className = "icon-nav-close")
-    private WebElement closeHamburgerMenu;
 
     @FindBy(className = "header__department-nav")
     private WebElement headerDepartmentNavigationSection;
@@ -42,32 +31,6 @@ public class Navigation {
         return headerPromoWrap.isDisplayed();
     }
 
-    public boolean isBagLinkDisplaying() {
-        return bagSection.isDisplayed();
-    }
-
-
-    public boolean isSearchLinkDisplayed() {
-        return searchButton.isDisplayed();
-    }
-
-    public void click_on_search_button() {
-        WebElement searchButton = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(this.searchButton));
-        searchButton.click();
-    }
-
-    public boolean isStoresLinkPresent() {
-        return storesLink.isDisplayed();
-    }
-
-    public void close_hamburger_menu() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(closeHamburgerMenu));
-        closeHamburgerMenu.click();
-    }
-
-    public void click_on_stores_link() {
-        storesLink.click();
-    }
 
     public boolean isDepartmentLinkPresent(String department) {
         return headerDepartmentNavigationSection.findElement(By.linkText(department)).isDisplayed();
