@@ -75,7 +75,7 @@ public class ProductDetailPageSteps extends DriverFactory {
                 salePrice, productDetailPage.getSalePrice());
     }
 
-    @And("^([^\"]*) size is selected$")
+    @And("^Size ([^\"]*) is selected$")
     public void size_is_selected(String productSize) throws Throwable {
         productDetailPage.select_size(productSize);
     }

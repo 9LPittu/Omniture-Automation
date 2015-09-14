@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -74,13 +75,14 @@ public class ProductDetailPage {
     }
 
     public void select_color() {
-        List<WebElement> colors = productColorsSection.findElements(By.className("colors-list__item"));
-
-        WebElement color = colors.get(0);
-
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(color));
-
-        color.click();
+        try {
+            List<WebElement> colors = productColorsSection.findElements(By.className("colors-list__item"));
+            WebElement color = colors.get(0);
+            new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(color));
+            color.click();
+        } catch (StaleElementReferenceException sele) {
+            select_color();
+        }
 
     }
 
