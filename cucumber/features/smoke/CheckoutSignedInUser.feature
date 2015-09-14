@@ -25,11 +25,11 @@ Feature: Checkout Process Signed in User
     And Verifies edit button is present
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are numbers
-    And Clicks on checkout
-    And Validates billing section is present in review page
-    And Inputs credit card security code
-    And Validates shipping section is present in review page
-    And Clicks on place your order
+#    And Clicks on checkout
+#    And Validates billing section is present in review page
+#    And Inputs credit card security code
+#    And Validates shipping section is present in review page
+#    And Clicks on place your order
 #    Then User should be in order summary page
 
 
@@ -39,9 +39,9 @@ Feature: Checkout Process Signed in User
     And Verifies edit button is present
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are numbers
-    And Clicks on checkout
-    And Validates billing section is present in review page
-    And Inputs credit card security code
-    And Validates shipping section is present in review page
-    And Clicks on place your order
+#    And Clicks on checkout
+#    And Validates billing section is present in review page
+#    And Inputs credit card security code
+#    And Validates shipping section is present in review page
+#    And Clicks on place your order
 #    Then User should be in order summary page
