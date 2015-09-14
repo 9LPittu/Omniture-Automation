@@ -137,4 +137,11 @@ public class ProductDetailPage {
     public String getSalePrice() {
         return salePrice.getText();
     }
+
+    public void select_size(String productSize) {
+        WebElement productSizeElement = productSizesSection.findElement(
+                By.xpath(".//li[@data-name='" + productSize + "']"));
+
+        productSizeElement.click();
+    }
 }

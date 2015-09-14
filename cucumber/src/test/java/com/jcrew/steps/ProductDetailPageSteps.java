@@ -74,4 +74,9 @@ public class ProductDetailPageSteps extends DriverFactory {
         assertEquals("Sale price differs from what is expected",
                 salePrice, productDetailPage.getSalePrice());
     }
+
+    @And("^([^\"]*) size is selected$")
+    public void size_is_selected(String productSize) throws Throwable {
+        productDetailPage.select_size(productSize);
+    }
 }

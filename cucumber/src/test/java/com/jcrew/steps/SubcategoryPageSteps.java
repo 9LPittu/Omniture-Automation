@@ -128,7 +128,7 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @Then("^Array page displays ([^\"]*)$")
     public void array_page_displays_subcategory(String subcategory) throws Throwable {
-        assertEquals("Cardigans array should be displayed", subcategory, subcategoryPage.getArrayLabel());
+        assertEquals(subcategory + " array should be displayed", subcategory, subcategoryPage.getArrayLabel());
     }
 
     @Then("^Products displayed are ([^\"]*) from ([^\"]*) category$")
@@ -300,5 +300,10 @@ public class SubcategoryPageSteps extends DriverFactory {
         } else {
             logger.info("Skipping as this test is meant for mobile only");
         }
+    }
+
+    @Then("^Click on product ([^\"]*) to display PDP$")
+    public void click_on_product_to_display_PDP(String product) throws Throwable {
+        subcategoryPage.click_on_product(product);
     }
 }
