@@ -22,6 +22,6 @@ Feature: Smoke Tests Subcategory Page
     And User is in shirts and tops for women page
     Then Click on product Indigo gauze popover to display PDP
     And A color is selected
-    And 0 size is selected
+    And Size 0 is selected
     Then Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
