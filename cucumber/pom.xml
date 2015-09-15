@@ -18,7 +18,7 @@
         <profile>
             <id>parallel</id>
             <properties>
-                <junit.threadCount>2</junit.threadCount>
+                <junit.threadCount>${thread.count}</junit.threadCount>
                 <junit.parallel>classes</junit.parallel>
             </properties>
         </profile>
