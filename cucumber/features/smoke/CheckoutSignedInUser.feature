@@ -20,28 +20,28 @@ Feature: Checkout Process Signed in User
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have item(s) added
 
-  Scenario: Checkout signed in user Screenshot
+  Scenario: Checkout signed in user
     Given User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are numbers
-#    And Clicks on checkout
-#    And Validates billing section is present in review page
-#    And Inputs credit card security code
-#    And Validates shipping section is present in review page
-#    And Clicks on place your order
+    And Clicks on checkout
+    And Validates billing section is present in review page
+    And Inputs credit card security code
+    And Validates shipping section is present in review page
+    And Clicks on place your order
 #    Then User should be in order summary page
 
 
-  Scenario: Express Checkout Screenshot
+  Scenario: Express Checkout
     Given User goes to homepage
     And User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are numbers
-#    And Clicks on checkout
-#    And Validates billing section is present in review page
-#    And Inputs credit card security code
-#    And Validates shipping section is present in review page
-#    And Clicks on place your order
+    And Clicks on checkout
+    And Validates billing section is present in review page
+    And Inputs credit card security code
+    And Validates shipping section is present in review page
+    And Clicks on place your order
 #    Then User should be in order summary page
