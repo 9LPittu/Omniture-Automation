@@ -1,4 +1,4 @@
-@Checkout
+@CheckoutSignedInUser
 Feature: Checkout Process Signed in User
 
   Background:

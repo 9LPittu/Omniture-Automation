@@ -95,6 +95,7 @@ public class SearchPage {
     }
 
     public void click_refine_button() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(refineButton));
         refineButton.click();
     }
 

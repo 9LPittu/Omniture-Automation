@@ -122,11 +122,6 @@ public class SearchPageSteps extends DriverFactory {
 
     }
 
-    @And("^Product details are displayed$")
-    public void product_details_are_displayed() {
-        assertEquals("product name is not the same", "Girls' tulle corsage dress", searchPage.getProductName());
-    }
-
     @And("^Verify amount of items displayed is (\\d+)$")
     public void verify_amount_of_items_displayed_is(int itemNumber) throws Throwable {
         assertEquals("Number of items should be " + itemNumber,

@@ -31,6 +31,7 @@ Feature: Checkout Process
     And Uses default value for gifts option
     And Clicks continue button on shipping method page
     And Fills required payment data in billing page
+    And Submits payment data in billing page
     And Clicks on place your order
 #    Then User should be in order confirmation page
 
