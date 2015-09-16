@@ -141,8 +141,11 @@ public class SearchPage {
                 no_sale_products.add(product_displayed);
             }
         }
+        logger.info("sale products{}", no_sale_products.size());
+        WebElement elem=no_sale_products.get(2);
 
-        no_sale_products.get(0).click();
+        logger.info("sale products text{}", elem.getText());
+        no_sale_products.get(2).findElement(By.className("product__image--small")).click();
 
         return true;//??
 

@@ -14,7 +14,7 @@ Feature: Checkout Process Signed in User
     And User is in product detail page
     And A variation is selected
     And A color is selected
-    And 2 size is selected
+    And A size is selected
     And A wishlist button is present
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'

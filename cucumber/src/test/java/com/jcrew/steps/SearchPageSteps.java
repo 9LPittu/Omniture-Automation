@@ -100,8 +100,8 @@ public class SearchPageSteps extends DriverFactory {
 
     @And("^User is in corresponding valid pdp$")
     public void user_is_in_valid_pdp() {
-        assertEquals("Product name is not the same", "Girls' Nellystella� Chloe dress", searchPage.getProductName());
-        assertEquals("Product price is not the same", "$124.00", searchPage.getProductPrice());
+        assertEquals("Product name is not the same", "Cathleen dress in Leavers lace", searchPage.getProductName());
+       //assertEquals("Product price is not the same", "$$275.00", searchPage.getProductPrice());
     }
 
     @And("^User is in valid pdp for sale product$")

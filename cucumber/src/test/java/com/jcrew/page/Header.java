@@ -53,6 +53,13 @@ public class Header {
         searchCloseIcon.click();
     }
 
+    public boolean    wait_on_search_close_icon() {
+        //searchCloseIcon
+
+              //  .visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
+         return new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(By.className("icon-searchtray-close")));
+    }
+
     public String getSearchDrawerTerm() {
         return driver.getCurrentUrl();
     }

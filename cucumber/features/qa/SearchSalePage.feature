@@ -17,6 +17,6 @@ Feature: Smoke Tests Search Sale Page
      And User is in corresponding valid pdp
      And A color is selected
      And A size is selected 
-     And Quantity is selected
+    # And Quantity is selected
      
     
