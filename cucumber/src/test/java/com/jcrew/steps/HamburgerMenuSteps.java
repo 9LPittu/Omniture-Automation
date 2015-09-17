@@ -18,15 +18,9 @@ public class HamburgerMenuSteps extends DriverFactory {
         assertTrue(category + " category should have been present", hamburgerMenu.isCategoryPresent(category));
     }
 
-    @Then("^Subcategory ([^\"]*) Hamburger Menu link is present$")
-    public void subcategory_hamburger_menu_link_is_present(String subcategory) {
-        assertTrue(subcategory + " should have been present",
-                hamburgerMenu.isSubcategoryMenuLinkPresent(subcategory));
-    }
-
-    @When("^User clicks on ([^\"]*) subcategory from Women Category$")
-    public void user_clicks_on_subcategory_from_women_category(String subcategory) throws Throwable {
-        hamburgerMenu.click_on_subcategory(subcategory);
+    @When("^User clicks on ([^\"]*) subcategory from ([^\"]*) Category$")
+    public void user_clicks_on_subcategory_from_category(String subcategory, String category) throws Throwable {
+        hamburgerMenu.click_on_subcategory(subcategory, category);
     }
 
     @Then("^Closes subcategory hamburger menu$")
