@@ -98,16 +98,19 @@ public class HamburgerMenu {
         return categoryMenu.findElement(By.linkText(category));
     }
 
-    public void click_on_subcategory(String subcategory) {
-        getSubcategoryFromMenu(subcategory).click();
+    public void click_on_subcategory(String subcategory, String category) {
+        getSubcategoryFromMenu(subcategory, category).click();
     }
 
-    private WebElement getSubcategoryFromMenu(String subcategory) {
-        return nestedMenu.findElement(By.linkText(subcategory));
+    private WebElement getSubcategoryFromMenu(String subcategory, String category) {
+        WebElement categoryElements = menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and text()='" +
+                category + "']/.."));
+        WebElement subcategoryElement = categoryElements.findElement(By.linkText(subcategory));
+        return subcategoryElement;
     }
 
     public boolean isSubcategoryMenuLinkPresent(String subcategory) {
-        return getSubcategoryFromMenu(subcategory).isDisplayed();
+        return getSubcategoryFromMenu(subcategory, "").isDisplayed();
     }
 
     public void close_subcategory_hamburger_menu() {

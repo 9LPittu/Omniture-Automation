@@ -75,8 +75,30 @@ public class ProductDetailPageSteps extends DriverFactory {
                 salePrice, productDetailPage.getSalePrice());
     }
 
-    @And("^Size ([^\"]*) is selected$")
+    @And("^Size ([^\"]*) is selected by user$")
     public void size_is_selected(String productSize) throws Throwable {
-        productDetailPage.select_size(productSize);
+            productDetailPage.select_size(productSize);
+    }
+
+    @And("^Color ([^\"]*) is selected by user$")
+    public void color_is_selected(String productColor) throws Throwable {
+        productDetailPage.select_color(productColor);
+    }
+
+    @Then("^Verify color ([^\"]*) is selected$")
+    public void verify_color_is_selected(String productColor) throws Throwable {
+        assertTrue(productColor + " color should have been selected",
+                productDetailPage.isProductColorSelected(productColor));
+    }
+
+    @And("^Verify size ([^\"]*) is selected$")
+    public void verify_size_is_selected(String productSize) throws Throwable {
+        assertTrue(productSize + " size should have been selected",
+                productDetailPage.isProductSizeSelected(productSize));
+    }
+
+    @And("^Verify update bag button is present$")
+    public void verify_update_bag_button_is_present() throws Throwable {
+       assertEquals("UPDATE BAG", productDetailPage.getAddToOrUpdateBagButtonText());
     }
 }

@@ -141,9 +141,37 @@ public class ProductDetailPage {
     }
 
     public void select_size(String productSize) {
-        WebElement productSizeElement = productSizesSection.findElement(
-                By.xpath(".//li[@data-name='" + productSize + "']"));
+        WebElement productSizeElement = getProductSizeElement(productSize);
 
         productSizeElement.click();
+    }
+
+    private WebElement getProductSizeElement(String productSize) {
+        return productSizesSection.findElement(
+                By.xpath(".//li[@data-name='" + productSize + "']"));
+    }
+
+    public void select_color(String productColor) {
+        WebElement productColorElement = getProductColorElement(productColor);
+        productColorElement.click();
+    }
+
+    private WebElement getProductColorElement(String productColor) {
+        return productColorsSection.findElement(
+                By.xpath(".//li[@data-name='" + productColor + "']"));
+    }
+
+    public boolean isProductColorSelected(String productColor) {
+        WebElement productColorElement = getProductColorElement(productColor);
+        return productColorElement.getAttribute("class").contains("is-selected");
+    }
+
+    public boolean isProductSizeSelected(String productSize) {
+        WebElement productSizeElement = getProductSizeElement(productSize);
+        return productSizeElement.getAttribute("class").contains("is-selected");
+    }
+
+    public String getAddToOrUpdateBagButtonText() {
+        return addToBag.getText();
     }
 }

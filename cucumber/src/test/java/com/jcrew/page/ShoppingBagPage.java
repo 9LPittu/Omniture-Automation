@@ -66,4 +66,9 @@ public class ShoppingBagPage {
     public boolean isArticleCheckoutPresent() {
         return articleCheckout.isDisplayed();
     }
+
+    public void click_edit_button() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(editAction));
+        editAction.click();
+    }
 }

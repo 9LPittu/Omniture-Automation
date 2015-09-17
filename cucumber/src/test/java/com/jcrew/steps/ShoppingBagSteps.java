@@ -60,4 +60,9 @@ public class ShoppingBagSteps extends DriverFactory {
         assertTrue("Subtotal amount should be a price value", subtotalAmountMatch.matches());
 
     }
+
+    @And("^Clicks edit button on item bag page$")
+    public void clicks_edit_button_on_item_bag_page() throws Throwable {
+        shoppingBagPage.click_edit_button();
+    }
 }
