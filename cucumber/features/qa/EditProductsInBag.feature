@@ -28,3 +28,18 @@ Feature: Edit Product In Bags Scenarios
     Then Verify color DEEP NAVY is selected
     And Verify size MEDIUM is selected
 
+  Scenario: Verify shopping bag page reflects changes made to edited item
+    Then Verify color HTHR IVORY is selected
+    And Verify size LARGE is selected
+    And Verify update bag button is present
+    Then Color DEEP NAVY is selected by user
+    And Size MEDIUM is selected by user
+    And Quantity 3 is selected by user
+    Then Verify color DEEP NAVY is selected
+    And Verify size MEDIUM is selected
+    Then Update Bag button is pressed
+    Then User should be in shopping bag page
+    And Verify color DEEP NAVY is displayed in shopping bag
+    And Verify size MEDIUM is displayed in shopping bag
+    And Verify 3 items are specified as quantity
+

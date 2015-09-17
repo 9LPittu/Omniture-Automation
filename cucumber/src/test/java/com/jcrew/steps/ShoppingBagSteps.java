@@ -65,4 +65,22 @@ public class ShoppingBagSteps extends DriverFactory {
     public void clicks_edit_button_on_item_bag_page() throws Throwable {
         shoppingBagPage.click_edit_button();
     }
+
+    @Then("^Verify color ([^\"]*) is displayed in shopping bag$")
+    public void verify_color_is_displayed_in_shopping_bag(String productColor) throws Throwable {
+        assertTrue(productColor + " color should have been displayed",
+                shoppingBagPage.isProductColorDisplayed(productColor));
+    }
+
+    @And("^Verify size ([^\"]*) is displayed in shopping bag$")
+    public void verify_size_is_displayed_in_shopping_bag(String productSize) throws Throwable {
+        assertTrue(productSize + " color should have been displayed",
+                shoppingBagPage.isProductSizeDisplayed(productSize));
+    }
+
+    @And("^Verify ([^\"]*) items are specified as quantity$")
+    public void verify_items_are_specified_as_quantity(String productQuantity) throws Throwable {
+        assertEquals("Product Quantity should be the same", productQuantity,
+                shoppingBagPage.getItemQuantity());
+    }
 }

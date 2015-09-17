@@ -99,16 +99,15 @@ public class ProductDetailPage {
         }
     }
 
-    public void select_quantity() {
+    public void select_quantity(String quantity) {
         WebElement q = driver.findElement(By.id("c-product__quantity"));
         WebElement quantity_select = q.findElement(By.tagName("select"));
         logger.info(quantity_select.getAttribute("class"));
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(quantity_select));
-        Select quantity = new Select(quantity_select);
+        Select quantitySelect = new Select(quantity_select);
 
-        quantity.selectByIndex(2);
-        logger.info(quantity.toString());
+        quantitySelect.selectByValue(quantity);
 
     }
 
@@ -173,5 +172,9 @@ public class ProductDetailPage {
 
     public String getAddToOrUpdateBagButtonText() {
         return addToBag.getText();
+    }
+
+    public void click_update_cart() {
+        addToBag.click();
     }
 }

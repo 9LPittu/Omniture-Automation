@@ -38,7 +38,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Quantity is selected$")
     public void quantity_is_selected() throws Throwable {
-        productDetailPage.select_quantity();
+        productDetailPage.select_quantity("2");
     }
 
     @And("^A wishlist button is present$")
@@ -77,7 +77,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Size ([^\"]*) is selected by user$")
     public void size_is_selected(String productSize) throws Throwable {
-            productDetailPage.select_size(productSize);
+        productDetailPage.select_size(productSize);
     }
 
     @And("^Color ([^\"]*) is selected by user$")
@@ -99,6 +99,16 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify update bag button is present$")
     public void verify_update_bag_button_is_present() throws Throwable {
-       assertEquals("UPDATE BAG", productDetailPage.getAddToOrUpdateBagButtonText());
+        assertEquals("UPDATE BAG", productDetailPage.getAddToOrUpdateBagButtonText());
+    }
+
+    @Then("^Update Bag button is pressed$")
+    public void Update_Bag_button_is_pressed() throws Throwable {
+        productDetailPage.click_update_cart();
+    }
+
+    @And("^Quantity ([^\"]*) is selected by user$")
+    public void Quantity_is_selected_by_user(String quantity) throws Throwable {
+        productDetailPage.select_quantity(quantity);
     }
 }
