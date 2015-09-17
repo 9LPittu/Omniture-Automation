@@ -5,7 +5,7 @@ Feature: Embedded Header Footer Shipping And Gift Options
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on BLAZERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
@@ -16,4 +16,4 @@ Feature: Embedded Header Footer Shipping And Gift Options
     And Selects to checkout as guest
     And Fills shipping address
     And Presses continue button on shipping address
-    Then Verify embedded header and footer are visible and functional
+    Then Verify embedded header and footer are visible and functional for checkout pages

@@ -22,8 +22,7 @@ public class MyAccountPage {
     }
 
     public boolean isInAccountPage() {
-        new WebDriverWait(driver, 50).until(ExpectedConditions.visibilityOf(myAccountContainer));
-
+        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(myAccountContainer));
         return myAccountContainer.isDisplayed();
     }
 
@@ -48,6 +47,7 @@ public class MyAccountPage {
     }
 
     public void click_order_for_review() {
+        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf( myAccountContainer.findElement(By.className("orderTableData"))));
         WebElement orderTableData = myAccountContainer.findElement(By.className("orderTableData"));
         WebElement orderReviewLink = orderTableData.findElement(By.tagName("a"));
         orderReviewLink.click();

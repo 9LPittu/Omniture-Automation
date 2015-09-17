@@ -1,10 +1,13 @@
 package com.jcrew.page;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,12 @@ public class ShoppingBagPage {
 
     @FindBy(id = "checkout")
     private WebElement articleCheckout;
+
+    @FindBy(className = "item-product")
+    private WebElement itemProductSection;
+
+    @FindBy(className = "item-qty")
+    private WebElement itemQuantity;
 
     public ShoppingBagPage(WebDriver driver) {
         this.driver = driver;
@@ -65,5 +74,38 @@ public class ShoppingBagPage {
 
     public boolean isArticleCheckoutPresent() {
         return articleCheckout.isDisplayed();
+    }
+
+    public void click_edit_button() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(editAction));
+        editAction.click();
+    }
+
+    public boolean isProductColorDisplayed(String productColor) {
+        WebElement productColorElement = getProductElementValue(productColor);
+
+        return productColorElement.isDisplayed();
+    }
+
+    private WebElement getProductElementValue(String element) {
+        return getDescriptionElementFor(ExpectedConditions.visibilityOf(
+                itemProductSection.findElement(By.xpath(".//span[contains(@class, 'notranslate') and " +
+                        "text()='" + element + "']"))));
+    }
+
+    private WebElement getDescriptionElementFor(ExpectedCondition<WebElement> isTrue) {
+        return new WebDriverWait(driver, 10).until(
+                isTrue);
+    }
+
+    public boolean isProductSizeDisplayed(String productSize) {
+        WebElement productSizeElement = getProductElementValue(productSize);
+        return productSizeElement.isDisplayed();
+    }
+
+    public String getItemQuantity() {
+        Select select = new Select(itemQuantity);
+        WebElement selectedOption = select.getFirstSelectedOption();
+        return selectedOption.getText();
     }
 }

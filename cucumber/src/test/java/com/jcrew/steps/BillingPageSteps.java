@@ -16,10 +16,6 @@ public class BillingPageSteps extends DriverFactory {
 
         billingPage.fill_required_payment_data();
 
-        assertTrue("Credit/Debit Payment should be selected", billingPage.isCreditDebitPayment());
-
-        assertTrue("Billing Address similar to Shipping Address should be selected",
-                billingPage.isBillingAndShippingAddressEqual());
     }
 
     @And("^Verify user is in billing page$")

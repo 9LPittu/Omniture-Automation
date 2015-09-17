@@ -99,16 +99,15 @@ public class ProductDetailPage {
         }
     }
 
-    public void select_quantity() {
+    public void select_quantity(String quantity) {
         WebElement q = driver.findElement(By.id("c-product__quantity"));
         WebElement quantity_select = q.findElement(By.tagName("select"));
         logger.info(quantity_select.getAttribute("class"));
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(quantity_select));
-        Select quantity = new Select(quantity_select);
+        Select quantitySelect = new Select(quantity_select);
 
-        quantity.selectByIndex(2);
-        logger.info(quantity.toString());
+        quantitySelect.selectByValue(quantity);
 
     }
 
@@ -141,9 +140,41 @@ public class ProductDetailPage {
     }
 
     public void select_size(String productSize) {
-        WebElement productSizeElement = productSizesSection.findElement(
-                By.xpath(".//li[@data-name='" + productSize + "']"));
+        WebElement productSizeElement = getProductSizeElement(productSize);
 
         productSizeElement.click();
+    }
+
+    private WebElement getProductSizeElement(String productSize) {
+        return productSizesSection.findElement(
+                By.xpath(".//li[@data-name='" + productSize + "']"));
+    }
+
+    public void select_color(String productColor) {
+        WebElement productColorElement = getProductColorElement(productColor);
+        productColorElement.click();
+    }
+
+    private WebElement getProductColorElement(String productColor) {
+        return productColorsSection.findElement(
+                By.xpath(".//li[@data-name='" + productColor + "']"));
+    }
+
+    public boolean isProductColorSelected(String productColor) {
+        WebElement productColorElement = getProductColorElement(productColor);
+        return productColorElement.getAttribute("class").contains("is-selected");
+    }
+
+    public boolean isProductSizeSelected(String productSize) {
+        WebElement productSizeElement = getProductSizeElement(productSize);
+        return productSizeElement.getAttribute("class").contains("is-selected");
+    }
+
+    public String getAddToOrUpdateBagButtonText() {
+        return addToBag.getText();
+    }
+
+    public void click_update_cart() {
+        addToBag.click();
     }
 }
