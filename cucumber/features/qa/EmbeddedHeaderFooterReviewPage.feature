@@ -6,7 +6,7 @@ Feature: Embedded Header Footer Review
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on BLAZERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
@@ -24,4 +24,4 @@ Feature: Embedded Header Footer Review
     And Fills required payment data in billing page
     And Submits payment data in billing page
     And Validates billing section is present in review page
-    Then Verify embedded header and footer are visible and functional
+    Then Verify embedded header and footer are visible and functional for checkout pages
