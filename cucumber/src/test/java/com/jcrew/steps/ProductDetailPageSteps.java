@@ -87,14 +87,13 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Then("^Verify color ([^\"]*) is selected$")
     public void verify_color_is_selected(String productColor) throws Throwable {
-        assertTrue(productColor + " color should have been selected",
-                productDetailPage.isProductColorSelected(productColor));
+        assertEquals("Color should have been selected", productColor, productDetailPage.getSelectedColor());
     }
 
     @And("^Verify size ([^\"]*) is selected$")
     public void verify_size_is_selected(String productSize) throws Throwable {
-        assertTrue(productSize + " size should have been selected",
-                productDetailPage.isProductSizeSelected(productSize));
+        assertEquals("Size should have been selected", productSize,
+                productDetailPage.getSelectedSize());
     }
 
     @And("^Verify update bag button is present$")
@@ -108,7 +107,18 @@ public class ProductDetailPageSteps extends DriverFactory {
     }
 
     @And("^Quantity ([^\"]*) is selected by user$")
-    public void Quantity_is_selected_by_user(String quantity) throws Throwable {
+    public void quantity_is_selected_by_user(String quantity) throws Throwable {
         productDetailPage.select_quantity(quantity);
+    }
+
+    @And("^Variation ([^\"]*) with list price ([^\"]*) is previously selected$")
+    public void variation_previously_selected(String variation, String price) throws Throwable {
+        assertEquals("Variation was not the expected",
+                variation, productDetailPage.getSelectedVariationName());
+    }
+
+    @And("^Verify ([^\"]*) items are specified as quantity$")
+    public void verify_items_are_specified_as_quantity(String quantity) throws Throwable {
+        assertEquals("Quantity is not what is expected", quantity, productDetailPage.getSelectedQuantity());
     }
 }

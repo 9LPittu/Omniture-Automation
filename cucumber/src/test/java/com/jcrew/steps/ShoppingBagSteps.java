@@ -78,7 +78,7 @@ public class ShoppingBagSteps extends DriverFactory {
                 shoppingBagPage.isProductSizeDisplayed(productSize));
     }
 
-    @And("^Verify ([^\"]*) items are specified as quantity$")
+    @And("^Verify ([^\"]*) items are specified as quantity in shopping bag$")
     public void verify_items_are_specified_as_quantity(String productQuantity) throws Throwable {
         assertEquals("Product Quantity should be the same", productQuantity,
                 shoppingBagPage.getItemQuantity());

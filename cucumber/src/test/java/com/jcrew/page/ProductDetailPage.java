@@ -39,6 +39,9 @@ public class ProductDetailPage {
     @FindBy(className = "product__name")
     private WebElement productName;
 
+    @FindBy(id = "c-product__quantity")
+    private WebElement productQuantitySection;
+
     @FindBy(className = "primary-nav__item--bag")
     private WebElement bagContainer;
 
@@ -55,6 +58,7 @@ public class ProductDetailPage {
 
 
     public boolean isProductDetailPage() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productName));
         boolean isProductDetailPage = productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
         return isProductDetailPage && footer.isDisplayed();
     }
@@ -100,15 +104,15 @@ public class ProductDetailPage {
     }
 
     public void select_quantity(String quantity) {
-        WebElement q = driver.findElement(By.id("c-product__quantity"));
-        WebElement quantity_select = q.findElement(By.tagName("select"));
-        logger.info(quantity_select.getAttribute("class"));
-
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(quantity_select));
-        Select quantitySelect = new Select(quantity_select);
-
+        Select quantitySelect = getQuantitySelector();
         quantitySelect.selectByValue(quantity);
 
+    }
+
+    private Select getQuantitySelector() {
+        WebElement quantitySelectWebElement = productQuantitySection.findElement(By.tagName("select"));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(quantitySelectWebElement));
+        return new Select(quantitySelectWebElement);
     }
 
     public boolean isWishlistButtonPresent() {
@@ -160,14 +164,14 @@ public class ProductDetailPage {
                 By.xpath(".//li[@data-name='" + productColor + "']"));
     }
 
-    public boolean isProductColorSelected(String productColor) {
-        WebElement productColorElement = getProductColorElement(productColor);
-        return productColorElement.getAttribute("class").contains("is-selected");
+    public String getSelectedColor() {
+        WebElement productColorElement = productColorsSection.findElement(By.className("is-selected"));
+        return productColorElement.getAttribute("data-name");
     }
 
-    public boolean isProductSizeSelected(String productSize) {
-        WebElement productSizeElement = getProductSizeElement(productSize);
-        return productSizeElement.getAttribute("class").contains("is-selected");
+    public String getSelectedSize() {
+        WebElement productSizeElement = productSizesSection.findElement(By.className("is-selected"));
+        return productSizeElement.getAttribute("data-name");
     }
 
     public String getAddToOrUpdateBagButtonText() {
@@ -176,5 +180,16 @@ public class ProductDetailPage {
 
     public void click_update_cart() {
         addToBag.click();
+    }
+
+    public String getSelectedVariationName() {
+        WebElement selectedElement = variationsListSection.findElement(By.className("is-selected"));
+        WebElement productVariationNameElement = selectedElement.findElement(By.className("product__variation--name"));
+        return productVariationNameElement.getText();
+    }
+
+    public String getSelectedQuantity() {
+        Select quantitySelect = getQuantitySelector();
+        return quantitySelect.getFirstSelectedOption().getText();
     }
 }
