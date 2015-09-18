@@ -32,6 +32,9 @@ public class Header {
     @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
     private WebElement shoppingBagLink;
 
+    @FindBy(css = ".icon-header.icon-header-bag.icon-bag")
+    private WebElement BagIcon;
+
     private WebDriver driver;
 
 
@@ -42,6 +45,13 @@ public class Header {
 
     public boolean isHeaderLinkPresent(String headerLink) {
         return headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
+    }
+    public boolean isHeaderBagIconPresent() {
+        System.out.println(BagIcon.getText());
+        return BagIcon.isDisplayed();
+    }
+    public String getBagIconLinkText() {
+        return driver.findElement(By.className("primary-nav__item--bag")).getText();
     }
 
     public boolean isSearchDrawerOpen() {

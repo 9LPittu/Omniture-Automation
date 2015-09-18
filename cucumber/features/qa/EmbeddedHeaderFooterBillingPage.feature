@@ -21,4 +21,4 @@ Feature: Embedded Header Footer Billing
     And Uses default value for gifts option
     And Clicks continue button on shipping method page
     And Verify user is in billing page
-    Then Verify embedded header and footer are visible and functional for checkout pages
+    Then Verify embedded header and footer are visible and functional

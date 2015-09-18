@@ -14,4 +14,4 @@ Feature: Embedded Header Footer Shipping Address
     And User clicks on item bag
     And Clicks on checkout
     And Selects to checkout as guest
-    Then Verify embedded header and footer are visible and functional for checkout pages
+    Then Verify embedded header and footer are visible and functional

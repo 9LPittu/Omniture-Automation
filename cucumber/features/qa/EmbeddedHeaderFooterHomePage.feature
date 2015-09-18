@@ -7,8 +7,8 @@ Feature: Embedded Header Footer Homepage
     Then Verify MENU header link is displayed
     And Verify SEARCH header link is displayed
     And Verify STORES header link is displayed
-    And Verify BAG header link is displayed
-    And Verify MENU, SEARCH, STORES, BAG header links order is valid, ignore SIGN IN, MY ACCOUNT
+    And Verify header bag icon is displayed
+    And Verify MENU, SEARCH, STORES header links including bag order is valid, ignore SIGN IN, MY ACCOUNT
 #    And Verify LET US HELP YOU footer link is displayed
 #    And Verify YOUR ORDERS footer link is displayed
 #    And Verify THE J.CREW STYLE GUIDE footer link is displayed
