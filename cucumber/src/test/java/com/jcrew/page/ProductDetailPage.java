@@ -192,4 +192,8 @@ public class ProductDetailPage {
         Select quantitySelect = getQuantitySelector();
         return quantitySelect.getFirstSelectedOption().getText();
     }
+
+    public String getWishlistButtonMessage() {
+        return wishList.getText();
+    }
 }

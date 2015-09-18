@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.util.DriverFactory;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -120,5 +121,11 @@ public class ProductDetailPageSteps extends DriverFactory {
     @And("^Verify ([^\"]*) items are specified as quantity$")
     public void verify_items_are_specified_as_quantity(String quantity) throws Throwable {
         assertEquals("Quantity is not what is expected", quantity, productDetailPage.getSelectedQuantity());
+    }
+
+    @And("^Verify update wishlist button is displayed$")
+    public void verify_update_wishlist_button_is_displayed() throws Throwable {
+        assertEquals("Expected wishlist button is not present", "UPDATE WISHLIST",
+                productDetailPage.getWishlistButtonMessage());
     }
 }
