@@ -6,11 +6,11 @@ Feature: Smoke Tests Home Page
   Scenario: JCrew Logo
     Then JCrew Logo is present
 
-  Scenario: Department Links
-    Then Verify WOMEN Department Link is present
-    And Verify MEN Department Link is present
-    And Verify BOYS Department Link is present
-    And Verify GIRLS Department Link is present
+#  Scenario: Department Links
+#    Then Verify WOMEN Department Link is present
+#    And Verify MEN Department Link is present
+#    And Verify BOYS Department Link is present
+#    And Verify GIRLS Department Link is present
 
   Scenario: Stores Link
     Then Stores Link is present
