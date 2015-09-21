@@ -23,7 +23,7 @@ Feature: Checkout Process
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are similar
     And Clicks on checkout
-    And Selects to checkout as guest
+#    And Selects to checkout as guest
 #    And Fills shipping address
 #    And Presses continue button on shipping address
 #    And Verifies is in shipping method page
@@ -42,13 +42,13 @@ Feature: Checkout Process
     And Verifies remove button is present
     Given Verifies that total amount and subtotal values are numbers
     And Clicks on checkout
-    And User provides username and password
-    And Clicks sign in and checkout
-    Then Click save to wishlist and continue checkout if user is in merge bag page
-    And Validates billing section is present in review page
-    And Inputs credit card security code
-    And Validates shipping section is present in review page
-    And Clicks on place your order
+#    And User provides username and password
+#    And Clicks sign in and checkout
+#    Then Click save to wishlist and continue checkout if user is in merge bag page
+#    And Validates billing section is present in review page
+#    And Inputs credit card security code
+#    And Validates shipping section is present in review page
+#    And Clicks on place your order
 #    Then User should be in order summary page
 
 
