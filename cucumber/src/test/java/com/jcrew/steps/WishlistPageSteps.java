@@ -3,6 +3,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.WishlistPage;
 import com.jcrew.util.DriverFactory;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
@@ -15,37 +16,29 @@ public class WishlistPageSteps extends DriverFactory {
 
 
     @And("^User should be in wishlist page$")
-    public void User_should_be_in_wishlist_page() throws Throwable {
+    public void user_should_be_in_wishlist_page() throws Throwable {
         assertTrue("User should have been in wishlist page", wishlistPage.isWishlistPage());
     }
 
-    @Then("^Verify color is ([^\"]*) in wishlist page$")
-    public void verify_color_is_in_wishlist_page(String productColor) throws Throwable {
-        assertEquals("Color should have been equal", productColor, wishlistPage.getSelectedItemProductColor());
-    }
-
-    @Then("^Verify size is ([^\"]*) in wishlist page$")
-    public void Verify_size_is_in_wishlist_page(String productSize) throws Throwable {
-        assertEquals("Size should have been equal", productSize, wishlistPage.getSelectedItemProductSize());
-    }
-
-    @Then("^Verify quantity is ([^\"]*) in wishlist page$")
-    public void Verify_quantity_is_in_wishlist_page(String productQuantity) throws Throwable {
-        assertEquals("Quantity should have been equal", productQuantity, wishlistPage.getSelectedItemProductQuantity());
-    }
-
-    @Then("^Click on product ([^\"]*) to display properties$")
-    public void Click_on_product_item_to_display_properties(String itemId) throws Throwable {
-        wishlistPage.click_product(itemId);
-    }
-
     @Then("^Click on home icon menu$")
-    public void Click_on_home_icon_menu() throws Throwable {
+    public void click_on_home_icon_menu() throws Throwable {
         wishlistPage.click_home_icon();
     }
 
     @And("^Click on edit wishlist product$")
-    public void Click_on_edit_wishlist_product() throws Throwable {
+    public void click_on_edit_wishlist_product() throws Throwable {
         wishlistPage.click_edit_product();
+    }
+
+    @And("^Verify product ([^\"]*) color is ([^\"]*) size is ([^\"]*) and quantity is ([^\"]*) in wishlist page$")
+    public void verify_product_attributes(String productName, String productColor, String productSize, String productQuantity) throws Throwable {
+        assertEquals("Color should have been equal", productColor, wishlistPage.getColorForProduct(productName));
+        assertEquals("Size should have been equal", productSize, wishlistPage.getSizeForProduct(productName));
+        assertEquals("Quantity should have been equal", productQuantity, wishlistPage.getQuantityForProduct(productName));
+    }
+
+    @Then("^Edit wishlist for product ([^\"]*)$")
+    public void edit_wishlist_for_product_Rustic_cotton_fisherman_sweater(String productName) throws Throwable {
+        wishlistPage.click_product(productName);
     }
 }

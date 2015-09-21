@@ -16,8 +16,6 @@ public class WishlistPage {
 
     private final WebDriver driver;
 
-    private Logger logger = LoggerFactory.getLogger(Logger.class);
-
     @FindBy(id = "wishlistName")
     private WebElement wishListName;
 
@@ -33,6 +31,8 @@ public class WishlistPage {
     @FindBy(id = "itemInfo")
     private WebElement itemInfo;
 
+    private Logger logger = LoggerFactory.getLogger(WishlistPage.class);
+
 
     public WishlistPage(WebDriver driver) {
         this.driver = driver;
@@ -45,24 +45,40 @@ public class WishlistPage {
         return wishListName.isDisplayed();
     }
 
-    public String getSelectedItemProductColor() {
-        return driver.findElement(By.id("colorValue")).getText();
-
+    public String getColorForProduct(String productName) {
+        WebElement productData = getProductData(productName);
+        return productData.getAttribute("data-color");
     }
 
-    public String getSelectedItemProductSize() {
-        return driver.findElement(By.id("sizeValue")).getText();
+    public String getSizeForProduct(String productName) {
+        WebElement productData = getProductData(productName);
+        return productData.getAttribute("data-size");
     }
 
-    public String getSelectedItemProductQuantity() {
-        return driver.findElement(By.id("quantityValue")).getText();
+    public String getQuantityForProduct(String productName) {
+        WebElement productData = getProductData(productName);
+        return productData.getAttribute("data-quantity");
     }
 
-    public void click_product(String itemId) {
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
-        javascriptExecutor.executeScript("if(!Utils.isTouch()) {window.ontouchstart = function(){};}");
-        WebElement wishedProduct = driver.findElement(By.id(itemId));
-        wishedProduct.click();
+    public void click_product(String productName) {
+        WebElement wishedProduct = getProductData(productName);
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("" +
+                "var currItemData    = $('#item" + wishedProduct.getAttribute("data-listid") + "').find('.item-data'),\n" +
+                "                  currProductCode = currItemData.attr('data-product-code'),\n" +
+                "                  currLineId      = currItemData.attr('data-listid'),\n" +
+                "                  currSku         = currItemData.attr('data-data-skuid'),     \n" +
+                "                  currColorName   = currItemData.attr('data-color'),\n" +
+                "                  currSize        = currItemData.attr('data-size'),\n" +
+                "                  currQuantity    = currItemData.attr('data-quantity'),\n" +
+                "                  queryString     = \"edit_wishlist_flag=true&wishListLineId=\" + currLineId + \"&selectedColorName=\" + currColorName.replace(' ', '+') + \"&selectedSize=\" + currSize.replace(' ', '+') + \"&selectedQuantity=\" + currQuantity,\n" +
+                "                  sidecarProductPageUrl = \"/r/bm-edit-product/\" + currProductCode + \"?\" + queryString;\n" +
+                "              window.location = sidecarProductPageUrl;");
+    }
+
+    private WebElement getProductData(String productName) {
+        return driver.findElement(By.xpath("//div[@data-itemtitle='" +
+                productName + "']"));
     }
 
     public void click_home_icon() {

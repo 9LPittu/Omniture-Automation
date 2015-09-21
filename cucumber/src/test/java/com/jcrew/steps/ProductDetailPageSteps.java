@@ -2,7 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.util.DriverFactory;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -127,5 +126,16 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_update_wishlist_button_is_displayed() throws Throwable {
         assertEquals("Expected wishlist button is not present", "UPDATE WISHLIST",
                 productDetailPage.getWishlistButtonMessage());
+    }
+
+    @And("^Wishlist button is pressed$")
+    public void wishlist_button_is_pressed() throws Throwable {
+        productDetailPage.click_wishlist();
+    }
+
+    @Then("^Verify update message for wishlist is displayed and go to wishlist page$")
+    public void verify_update_message_for_wishlist_is_displayed_and_go_to_wishlist_page() throws Throwable {
+        assertEquals("Expected message was not received", "ADDED TO WISHLIST", productDetailPage.getWishlistConfirmationMessage());
+        productDetailPage.go_to_wishlist();
     }
 }

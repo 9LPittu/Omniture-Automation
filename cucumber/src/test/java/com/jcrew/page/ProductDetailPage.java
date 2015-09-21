@@ -194,6 +194,22 @@ public class ProductDetailPage {
     }
 
     public String getWishlistButtonMessage() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(wishList));
         return wishList.getText();
+    }
+
+    public void click_wishlist() {
+        wishList.click();
+    }
+
+    public void go_to_wishlist() {
+        WebElement wishlistConfirmation = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.presenceOfElementLocated(By.className("wishlist-confirmation-text")));
+        wishlistConfirmation.findElement(By.tagName("a")).click();
+    }
+
+    public String getWishlistConfirmationMessage() {
+        return new WebDriverWait(driver, 10).until(ExpectedConditions.
+                presenceOfElementLocated(By.className("content-button-secondary-confirmation"))).getText();
     }
 }
