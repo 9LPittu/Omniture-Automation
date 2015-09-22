@@ -43,4 +43,6 @@ Feature: Ability to link to PDP from Wishlist
     And Wishlist button is pressed
     Then Verify update message for button wishlist is displayed
     Then Verify update wishlist button is displayed
+    Then Add to cart button is pressed
+    And A minicart modal should appear with message '1 item has been added to your cart.'
 
