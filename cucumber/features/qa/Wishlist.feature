@@ -42,4 +42,5 @@ Feature: Ability to link to PDP from Wishlist
     And Size MEDIUM is selected by user
     And Wishlist button is pressed
     Then Verify update message for button wishlist is displayed
+    Then Verify update wishlist button is displayed
 
