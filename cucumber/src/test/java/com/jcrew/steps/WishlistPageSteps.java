@@ -3,7 +3,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.WishlistPage;
 import com.jcrew.util.DriverFactory;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
@@ -40,5 +39,12 @@ public class WishlistPageSteps extends DriverFactory {
     @Then("^Edit wishlist for product ([^\"]*)$")
     public void edit_wishlist_for_product_Rustic_cotton_fisherman_sweater(String productName) throws Throwable {
         wishlistPage.click_product(productName);
+    }
+
+
+    @Then("^Verify update message for button wishlist is displayed$")
+    public void verify_update_message_for_button_wishlist_is_displayed() throws Throwable {
+        assertEquals("Button message after updating was not present", "ADDED TO WISHLIST",
+                wishlistPage.getUpdateWishlistMessage());
     }
 }

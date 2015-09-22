@@ -110,8 +110,8 @@ public class ProductDetailPage {
     }
 
     private Select getQuantitySelector() {
-        WebElement quantitySelectWebElement = productQuantitySection.findElement(By.tagName("select"));
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(quantitySelectWebElement));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productQuantitySection));
+        WebElement quantitySelectWebElement = productQuantitySection.findElement(By.className("dropdown--quantity"));
         return new Select(quantitySelectWebElement);
     }
 
@@ -160,8 +160,10 @@ public class ProductDetailPage {
     }
 
     private WebElement getProductColorElement(String productColor) {
-        return productColorsSection.findElement(
+        WebElement productColorElement = productColorsSection.findElement(
                 By.xpath(".//li[@data-name='" + productColor + "']"));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productColorElement));
+        return productColorElement;
     }
 
     public String getSelectedColor() {
@@ -190,7 +192,11 @@ public class ProductDetailPage {
 
     public String getSelectedQuantity() {
         Select quantitySelect = getQuantitySelector();
-        return quantitySelect.getFirstSelectedOption().getText();
+        String text = quantitySelect.getFirstSelectedOption().getText();
+        if ("".equals(text)) {
+            text = "1";
+        }
+        return text;
     }
 
     public String getWishlistButtonMessage() {

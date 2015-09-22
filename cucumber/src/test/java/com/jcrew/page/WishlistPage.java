@@ -88,4 +88,11 @@ public class WishlistPage {
     public void click_edit_product() {
         menuOptions.findElement(By.className("item-edit")).click();
     }
+
+    public String getUpdateWishlistMessage() {
+        WebElement updateWishlistMessage = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.visibilityOfElementLocated(By.className("content-button-secondary-confirmation")));
+
+        return updateWishlistMessage.getText();
+    }
 }

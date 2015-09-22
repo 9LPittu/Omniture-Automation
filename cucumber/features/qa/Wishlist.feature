@@ -17,36 +17,29 @@ Feature: Ability to link to PDP from Wishlist
     Given User is in product detail page
     Then Verify color DEEP NAVY is selected
     And Verify size MEDIUM is selected
-#    And Verify 1 items are specified as quantity
 
   Scenario: Corresponding PDP should be editable
     Given User is in product detail page
     Then Verify color DEEP NAVY is selected
     And Verify size MEDIUM is selected
-#    And Verify 1 items are specified as quantity
+    And Verify 1 items are specified as quantity
     And Verify update wishlist button is displayed
     Then Color HTHR IVORY is selected by user
     And Size LARGE is selected by user
-    And Quantity 3 is selected by user
     Then Verify color HTHR IVORY is selected
     And Verify size LARGE is selected
-#    And Verify 1 items are specified as quantity
 
   Scenario: Wishlist should update properly
     Given User is in product detail page
     Then Color HTHR IVORY is selected by user
     And Size LARGE is selected by user
-#    And Quantity 3 is selected by user
     And Wishlist button is pressed
     Then Verify update message for wishlist is displayed and go to wishlist page
     And Verify product Rustic cotton fisherman sweater color is HTHR IVORY size is LARGE and quantity is 1 in wishlist page
-    Then Click on home icon menu
-    And Click on edit wishlist product
+    Then Edit wishlist for product Rustic cotton fisherman sweater
     Then User is in product detail page
     Then Color DEEP NAVY is selected by user
     And Size MEDIUM is selected by user
-#    And Quantity 1 is selected by user
     And Wishlist button is pressed
-    Then Verify update message for wishlist is displayed and go to wishlist page
-    And Verify product Rustic cotton fisherman sweater color is DEEP NAVY size is MEDIUM and quantity is 1 in wishlist page
+    Then Verify update message for button wishlist is displayed
 
