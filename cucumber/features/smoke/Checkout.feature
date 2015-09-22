@@ -4,9 +4,9 @@ Feature: Checkout Process
   Background:
     Given User is on homepage
     And User clicks on hamburger menu
-    And Selects WOMEN Category from hamburger menu
-    And Selects Shirts and Tops from Women Category in hamburger menu
-    And Selects the first product from product grid list
+    And Selects MEN Category from hamburger menu
+    And User clicks on SWEATERS subcategory from Men Category
+    And Click on product Textured cotton beach sweater to display PDP
     And User is in product detail page
     And A variation is selected
     And A color is selected
