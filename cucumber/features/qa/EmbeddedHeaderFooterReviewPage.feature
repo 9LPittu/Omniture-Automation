@@ -24,4 +24,4 @@ Feature: Embedded Header Footer Review
     And Fills required payment data in billing page
     And Submits payment data in billing page
     And Validates billing section is present in review page
-    Then Verify embedded header and footer are visible and functional for checkout pages
+    Then Verify embedded header and footer are visible and functional

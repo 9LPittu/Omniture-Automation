@@ -16,4 +16,4 @@ Feature: Embedded Header Footer Shipping And Gift Options
     And Selects to checkout as guest
     And Fills shipping address
     And Presses continue button on shipping address
-    Then Verify embedded header and footer are visible and functional for checkout pages
+    Then Verify embedded header and footer are visible and functional

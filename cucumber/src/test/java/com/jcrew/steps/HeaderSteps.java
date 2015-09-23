@@ -27,6 +27,11 @@ public class HeaderSteps extends DriverFactory {
     public void verify_header_link_is_displayed(String headerLink) throws Throwable {
         assertTrue(headerLink + " should have been present", header.isHeaderLinkPresent(headerLink));
     }
+    @Then("^Verify header bag icon is displayed$")
+    public void verify_header_bag_icon_is_displayed() throws Throwable {
+        assertTrue("Bag icon should have been present", header.isHeaderBagIconPresent());
+    }
+
 
     @And("^Search drawer is open$")
     public void search_drawer_is_open() throws Throwable {
@@ -38,8 +43,8 @@ public class HeaderSteps extends DriverFactory {
         header.click_on_search_button();
     }
 
-    @And("^Verify ([^\"]*) header links order is valid, ignore ([^\"]*)$")
-    public void verify_order_is_valid(String headerLinks, String ignoredLinks) throws Throwable {
+    @And("^Verify ([^\"]*) header links including bag order is valid, ignore ([^\"]*)$")
+    public void verify_order_including_bag_is_valid(String headerLinks, String ignoredLinks) throws Throwable {
         String[] headerLinksArray = headerLinks.split(",");
         String[] ignoredLinksArray = ignoredLinks.split(",");
         List<String> ignoredLinksList = new ArrayList<>();
@@ -55,6 +60,9 @@ public class HeaderSteps extends DriverFactory {
             String headerLinkTrimmed = headerLink.trim();
             headerLinksList.add(headerLinkTrimmed);
         }
+           headerLinksList.add(header.getBagIconLinkText());
+        System.out.println(header.getBagIconLinkText());
+        System.out.println(headerLinksList);
 
         List<String> primaryNavigationLinkNames = header.getPrimaryNavigationLinkNames();
 

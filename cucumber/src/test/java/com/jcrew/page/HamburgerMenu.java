@@ -119,7 +119,7 @@ public class HamburgerMenu {
     }
 
     public void close_hamburger_menu() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(closeHamburgerMenu));
+        new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(closeHamburgerMenu));
         closeHamburgerMenu.click();
     }
 
