@@ -40,16 +40,6 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     }
 
-    @Then("^User is in shirts and tops for women page$")
-    public void user_is_in_shirts_and_tops_for_women_page() throws Throwable {
-
-        assertTrue("A Subcategory page should have a product grid", subcategoryPage.isProductGridPresent());
-
-        assertTrue("User should be in shirts and top page for women",
-                getDriver().getCurrentUrl().endsWith("/c/womens_category/shirtsandtops"));
-
-    }
-
     @And("^User hovers a product$")
     public void user_hovers_a_product() throws Throwable {
         subcategoryPage.hover_first_product_in_grid();
