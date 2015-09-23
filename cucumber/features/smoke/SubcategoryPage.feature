@@ -5,21 +5,21 @@ Feature: Smoke Tests Subcategory Page
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And Selects Shirts and Tops from Women Category in hamburger menu
+    And User clicks on SWEATERS subcategory from Women Category
 
 
   Scenario: Category Link
-    Then User is in shirts and tops for women page
+    And User should be in sweaters page for women
 
   Scenario: Product List Details
-    And User is in shirts and tops for women page
+    And User should be in sweaters page for women
     And User hovers a product
     Then Proper details are shown for the hovered product
 
 
     #Following Scenario was found to be an issue in CI, adding a test that will verify that it never happens again.
   Scenario: Zero size should be valid
-    And User is in shirts and tops for women page
+    And User should be in sweaters page for women
     Then Click on product Indigo gauze popover to display PDP
     And A color is selected
     And Size 0 is selected by user

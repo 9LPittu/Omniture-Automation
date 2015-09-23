@@ -44,11 +44,6 @@ public class HamburgerMenuSteps extends DriverFactory {
         hamburgerMenu.click_on_category(category);
     }
 
-    @And("^Selects Shirts and Tops from Women Category in hamburger menu$")
-    public void selects_shirts_and_tops_from_hamburger_menu() throws Throwable {
-        hamburgerMenu.click_on_shirts_and_tops_from_women_category_in_hamburger_menu();
-    }
-
     @And("^User clicks on back link$")
     public void user_clicks_on_back_link() {
         hamburgerMenu.click_on_back_link();

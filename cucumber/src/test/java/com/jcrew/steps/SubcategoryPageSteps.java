@@ -40,16 +40,6 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     }
 
-    @Then("^User is in shirts and tops for women page$")
-    public void user_is_in_shirts_and_tops_for_women_page() throws Throwable {
-
-        assertTrue("A Subcategory page should have a product grid", subcategoryPage.isProductGridPresent());
-
-        assertTrue("User should be in shirts and top page for women",
-                getDriver().getCurrentUrl().endsWith("/c/womens_category/shirtsandtops"));
-
-    }
-
     @And("^User hovers a product$")
     public void user_hovers_a_product() throws Throwable {
         subcategoryPage.hover_first_product_in_grid();
@@ -118,7 +108,7 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @Then("^([^\"]*) option becomes selected$")
     public void subcategory_option_becomes_bold(String option) throws Throwable {
-        assertEquals("Cardigans should be bold", option, subcategoryPage.getAccordianHeaderLabelText());
+        assertEquals(option + " should be bold", option, subcategoryPage.getAccordianHeaderLabelText());
     }
 
     @Then("^Refine modal autocloses$")
@@ -229,12 +219,17 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     }
 
-    @Then("^Verifies accordion menu contains same items as in sign post items$")
+    @Then("^Verifies accordion menu contains same items as in sign post items, first item should not be present in post sign$")
     public void verifies_accordion_menu_contains_same_items_as_in_sign_post_items() throws Throwable {
+        subcategoryPage.click_expand_accordion_icon();
         final List<String> postSignItems = subcategoryPage.getPostSignItems();
         final List<String> accordianItems = subcategoryPage.getAccordionItems();
 
-        postSignItems.add(0, "VIEW ALL");
+        // first item from accordion menu is view all and is not present as post sign by design
+        accordianItems.remove(0);
+        // second item from accordion menu is not present as a post sign by design
+        accordianItems.remove(0);
+
         assertEquals("Elements list should be the same", postSignItems, accordianItems);
     }
 

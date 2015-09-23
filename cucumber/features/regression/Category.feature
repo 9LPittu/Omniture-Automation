@@ -38,15 +38,13 @@ Feature: Regression Tests Category Feature
   Scenario: Check sign posts on category pages
     Given User clicks on J.CREW IN GOOD COMPANY subcategory from Women Category
     And User should be in ingoodcompany page for women
-    #  Post sign validation for accordion menu pending due to bug found where the accordion menu values displayed
-    #  did not match with the post signs set.
-    #Then Verifies accordion menu contains same items as in sign post items
-    Then User clicks on expand icon
-    And Selects woolrich subcategory
-    Then WOOLRICH option becomes selected
+    Then Verifies accordion menu contains same items as in sign post items, first item should not be present in post sign
+    And Selects vans subcategory
+    Then VANS option becomes selected
     And Refine modal autocloses
-    And Array page displays WOOLRICH
-    And Products displayed are woolrich from ingoodcompany category
+#    By design selected category no longer displays as post sign
+#    And Array page displays WOOLRICH
+    And Products displayed are vans from ingoodcompany category
 
   Scenario: Check End cap navigation
     Given User goes to /c/womens_category/dresses page

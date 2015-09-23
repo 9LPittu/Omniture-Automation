@@ -41,5 +41,5 @@ Feature: Edit Product In Bags Scenarios
     Then User should be in shopping bag page
     And Verify color DEEP NAVY is displayed in shopping bag
     And Verify size MEDIUM is displayed in shopping bag
-    And Verify 3 items are specified as quantity
+    And Verify 3 items are specified as quantity in shopping bag
 

@@ -4,8 +4,8 @@ Feature: Smoke Tests Product Detail Page
   Background:
     Given User is on homepage
     And User clicks on hamburger menu
-    And Selects WOMEN Category from hamburger menu
-    And Selects Shirts and Tops from Women Category in hamburger menu
+    And Selects MEN Category from hamburger menu
+    And User clicks on SWEATERS subcategory from Men Category
     And Selects the first product from product grid list
 
   Scenario: Product Detail Page Validation

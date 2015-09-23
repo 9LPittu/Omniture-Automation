@@ -39,6 +39,9 @@ public class ProductDetailPage {
     @FindBy(className = "product__name")
     private WebElement productName;
 
+    @FindBy(id = "c-product__quantity")
+    private WebElement productQuantitySection;
+
     @FindBy(className = "primary-nav__item--bag")
     private WebElement bagContainer;
 
@@ -55,6 +58,7 @@ public class ProductDetailPage {
 
 
     public boolean isProductDetailPage() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productName));
         boolean isProductDetailPage = productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
         return isProductDetailPage && footer.isDisplayed();
     }
@@ -100,15 +104,15 @@ public class ProductDetailPage {
     }
 
     public void select_quantity(String quantity) {
-        WebElement q = driver.findElement(By.id("c-product__quantity"));
-        WebElement quantity_select = q.findElement(By.tagName("select"));
-        logger.info(quantity_select.getAttribute("class"));
-
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(quantity_select));
-        Select quantitySelect = new Select(quantity_select);
-
+        Select quantitySelect = getQuantitySelector();
         quantitySelect.selectByValue(quantity);
 
+    }
+
+    private Select getQuantitySelector() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productQuantitySection));
+        WebElement quantitySelectWebElement = productQuantitySection.findElement(By.className("dropdown--quantity"));
+        return new Select(quantitySelectWebElement);
     }
 
     public boolean isWishlistButtonPresent() {
@@ -156,18 +160,20 @@ public class ProductDetailPage {
     }
 
     private WebElement getProductColorElement(String productColor) {
-        return productColorsSection.findElement(
+        WebElement productColorElement = productColorsSection.findElement(
                 By.xpath(".//li[@data-name='" + productColor + "']"));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productColorElement));
+        return productColorElement;
     }
 
-    public boolean isProductColorSelected(String productColor) {
-        WebElement productColorElement = getProductColorElement(productColor);
-        return productColorElement.getAttribute("class").contains("is-selected");
+    public String getSelectedColor() {
+        WebElement productColorElement = productColorsSection.findElement(By.className("is-selected"));
+        return productColorElement.getAttribute("data-name");
     }
 
-    public boolean isProductSizeSelected(String productSize) {
-        WebElement productSizeElement = getProductSizeElement(productSize);
-        return productSizeElement.getAttribute("class").contains("is-selected");
+    public String getSelectedSize() {
+        WebElement productSizeElement = productSizesSection.findElement(By.className("is-selected"));
+        return productSizeElement.getAttribute("data-name");
     }
 
     public String getAddToOrUpdateBagButtonText() {
@@ -176,5 +182,40 @@ public class ProductDetailPage {
 
     public void click_update_cart() {
         addToBag.click();
+    }
+
+    public String getSelectedVariationName() {
+        WebElement selectedElement = variationsListSection.findElement(By.className("is-selected"));
+        WebElement productVariationNameElement = selectedElement.findElement(By.className("product__variation--name"));
+        return productVariationNameElement.getText();
+    }
+
+    public String getSelectedQuantity() {
+        Select quantitySelect = getQuantitySelector();
+        String text = quantitySelect.getFirstSelectedOption().getText();
+        if ("".equals(text)) {
+            text = "1";
+        }
+        return text;
+    }
+
+    public String getWishlistButtonMessage() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(wishList));
+        return wishList.getText();
+    }
+
+    public void click_wishlist() {
+        wishList.click();
+    }
+
+    public void go_to_wishlist() {
+        WebElement wishlistConfirmation = new WebDriverWait(driver, 10).until(
+                ExpectedConditions.presenceOfElementLocated(By.className("wishlist-confirmation-text")));
+        wishlistConfirmation.findElement(By.tagName("a")).click();
+    }
+
+    public String getWishlistConfirmationMessage() {
+        return new WebDriverWait(driver, 10).until(ExpectedConditions.
+                presenceOfElementLocated(By.className("content-button-secondary-confirmation"))).getText();
     }
 }
