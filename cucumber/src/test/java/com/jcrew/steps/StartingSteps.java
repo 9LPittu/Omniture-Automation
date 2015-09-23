@@ -51,7 +51,7 @@ public class StartingSteps {
 
     private void waitForPageToLoadUpToTheLastElementPriorScriptExecution() {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(
-                By.className("footer__copyright__link")));
+                By.className("footer__help__menu")));
     }
 
     @And("^User goes to homepage$")
