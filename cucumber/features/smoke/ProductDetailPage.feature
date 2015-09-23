@@ -6,7 +6,7 @@ Feature: Smoke Tests Product Detail Page
     And User clicks on hamburger menu
     And Selects MEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
-    And Selects the first product from product grid list
+    And Click on product Rugged cotton sweatshirt sweater to display PDP
 
   Scenario: Product Detail Page Validation
     Given User is in product detail page
