@@ -6,7 +6,7 @@ Feature: Checkout Process
     And User clicks on hamburger menu
     And Selects MEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
-    And Click on product Textured cotton beach sweater to display PDP
+    And Click on product Rugged cotton sweatshirt sweater to display PDP
     And User is in product detail page
     And A variation is selected
     And A color is selected
