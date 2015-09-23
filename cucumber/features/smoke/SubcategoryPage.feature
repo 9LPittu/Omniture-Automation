@@ -9,7 +9,7 @@ Feature: Smoke Tests Subcategory Page
 
 
   Scenario: Category Link
-    Then
+    And User should be in sweaters page for women
 
   Scenario: Product List Details
     And User should be in sweaters page for women
