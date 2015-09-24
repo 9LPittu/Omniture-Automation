@@ -10,11 +10,16 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.appium.java_client.remote.MobileBrowserType;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
 
@@ -50,7 +55,10 @@ public class DriverFactory {
         } else if ("firefox".equals(browser)) {
 
             driver = new FirefoxDriver();
-
+        
+        } else if("androidchrome".equals(browser) || "androidbrowser".equals(browser) || "iossafari".equals(browser)){
+        	driver = getMobileDriver(propertyReader); 
+        	
         } else {
 
             DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -82,7 +90,10 @@ public class DriverFactory {
         } else if ("firefox".equals(browser)) {
 
             driver = new RemoteWebDriver(seleniumHubRemoteAddress, DesiredCapabilities.firefox());
-
+        
+        } else if("androidchrome".equals(browser) || "androidbrowser".equals(browser) || "iossafari".equals(browser)){
+        	driver = getMobileDriver(propertyReader); 
+        	
         } else {
 
             int width = propertyReader.getWindowWidth();
@@ -114,6 +125,92 @@ public class DriverFactory {
         }
         return driver;
     }
+    
+    public WebDriver getMobileDriver(PropertyReader propertyReader){
+    	
+   	 final String browser = propertyReader.getBrowser();
+   	 final String seleniumHubUrl = propertyReader.getSeleniumHubUrl();
+     String identifier = Thread.currentThread().getName();
+     WebDriver driver = driverMap.get(identifier);
+     DesiredCapabilities capabilities;
+   	
+   	try{    	    
+   	    switch(browser.toLowerCase()){
+   	    
+   		   case "androidchrome":
+   			   
+   			   capabilities = DesiredCapabilities.android();
+  				
+   			   capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,MobilePlatform.ANDROID);            				
+   			   capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,propertyReader.getProperty("device.name"));
+   			   capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+   			   capabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
+   			   capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
+   			   capabilities.setCapability("autoAcceptAlerts", true);
+   			   capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");   			   
+   			   
+   			   driver = new RemoteWebDriver(new URL(seleniumHubUrl),capabilities);
+  			   driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+  			   driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+      			   
+  			   break;
+   		   
+   		   case "androidbrowser":
+   			   
+   			   capabilities = DesiredCapabilities.android();
+  				
+   			   capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,MobilePlatform.ANDROID);            				
+   			   capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,propertyReader.getProperty("device.name"));
+   			   capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+   			   capabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
+   			   capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
+   			   capabilities.setCapability("autoAcceptAlerts", true);
+   			   
+   			   capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, MobileBrowserType.BROWSER);
+   			   
+   			   driver = new RemoteWebDriver(new URL(seleniumHubUrl),capabilities);
+  			   driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+  			   driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+      			   
+  			   break;
+      			   
+   		   case "iossafari":
+   			   
+   			   capabilities = DesiredCapabilities.iphone();
+  				
+   			   capabilities.setCapability("browserName", "safari");
+   			   capabilities.setCapability("platformName", "iOS");
+   			   capabilities.setCapability("deviceName", propertyReader.getProperty("device.name"));
+   			   capabilities.setCapability("platformVersion", propertyReader.getProperty("device.os.version"));
+   			   capabilities.setCapability("takesScreenshot", "true");
+   			   capabilities.setCapability("acceptSslCerts", "true");
+   			   capabilities.setCapability("autoAcceptAlerts", "true");
+   			   
+   			   //UDID is required in case of iOS real device
+   			    if(!propertyReader.getProperty("device.udid").trim().isEmpty()){
+   			    	capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+   			    }
+   			    
+   			    capabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");            				
+   			    capabilities.setCapability("safariAllowPopups", true);
+   			    capabilities.setCapability("safariOpenLinksInBackground", true);
+   			    capabilities.setCapability("newCommandTimeout", 60);
+   			    capabilities.setCapability("launchTimeout", 600000);
+   				
+   				driver = new RemoteWebDriver(new URL(seleniumHubUrl),capabilities);
+   				driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+   				driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+   				
+   				break;
+   	     }    	  
+      }
+      catch(Exception e){
+   	   e.printStackTrace();
+      }
+   	
+   	return driver;
+   }
+
 
     public void destroyDriver() {
         String identifier = Thread.currentThread().getName();

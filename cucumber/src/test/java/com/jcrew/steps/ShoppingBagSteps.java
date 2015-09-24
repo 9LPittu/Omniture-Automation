@@ -2,11 +2,16 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ShoppingBagPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Reporting;
+
+import cucumber.api.Scenario;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,10 +22,20 @@ public class ShoppingBagSteps extends DriverFactory {
 
 
     private final ShoppingBagPage shoppingBagPage = new ShoppingBagPage(getDriver());
+    
+    private Scenario scenario;
+    private Reporting reporting = new Reporting();
+    
+    @Before
+    public void getScenarioObject(Scenario s){
+      this.scenario = s;
+    }
 
     @When("^Clicks on checkout$")
     public void clicks_on_checkout() throws Throwable {
         shoppingBagPage.click_checkout_button();
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @Then("^User should be in shopping bag page$")
@@ -32,11 +47,15 @@ public class ShoppingBagSteps extends DriverFactory {
     @And("^Verifies edit button is present$")
     public void verifies_edit_button_is_present() throws Throwable {
         assertTrue(shoppingBagPage.isEditButtonPresent());
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @And("^Verifies remove button is present$")
     public void verifies_remove_button_is_present() throws Throwable {
         assertTrue(shoppingBagPage.isRemoveButtonPresent());
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @And("^Verifies that total amount and subtotal values are similar$")
@@ -82,5 +101,27 @@ public class ShoppingBagSteps extends DriverFactory {
     public void verify_items_are_specified_as_quantity(String productQuantity) throws Throwable {
         assertEquals("Product Quantity should be the same", productQuantity,
                 shoppingBagPage.getItemQuantity());
+    }
+    
+    @Then("change URL to mobile URL")
+    public void change_URL_To_Mobile_URL(){
+    	
+    	//Get the current URL and append the ?isMobile=true
+    	String currentURL = getDriver().getCurrentUrl().trim();
+    	String browserURL = currentURL.replaceAll("sidecar=true", "");
+    	browserURL = browserURL + "isMobile=true";
+    	
+    	//navigate to the mobile URL
+    	getDriver().navigate().to(browserURL);
+    	getDriver().manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+    	
+    	reporting.takeScreenshot(scenario);
+    }
+    
+    @Then("verify mobile page is displayed")
+    public void verify_mobile_page_displayed(){
+    	shoppingBagPage.verifyMobilePageDisplayed();
+    	
+    	reporting.takeScreenshot(scenario);
     }
 }

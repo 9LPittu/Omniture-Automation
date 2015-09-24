@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import static org.junit.Assert.assertTrue;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -107,5 +109,9 @@ public class ShoppingBagPage {
         Select select = new Select(itemQuantity);
         WebElement selectedOption = select.getFirstSelectedOption();
         return selectedOption.getText();
+    }
+    
+    public void verifyMobilePageDisplayed(){
+    	assertTrue("Mobile page should be displayed", checkoutLink.isDisplayed());
     }
 }

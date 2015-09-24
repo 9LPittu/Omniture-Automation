@@ -4,16 +4,27 @@ import com.jcrew.page.HamburgerMenu;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.LoginPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Reporting;
+
+import cucumber.api.Scenario;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 import static org.junit.Assert.*;
 
 public class LoginPageSteps extends DriverFactory {
 
     private LoginPage loginPage = new LoginPage(getDriver());
     private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
+    
+    private Scenario scenario;
+    private Reporting reporting = new Reporting();
+    
+    @Before
+    public void getScenarioObject(Scenario s){
+      this.scenario = s;
+    }
 
     @When("User enters ([^\"]*) as email")
     public void user_enters_input_as_email(String email) {
@@ -100,6 +111,20 @@ public class LoginPageSteps extends DriverFactory {
     @And("^Clicks on forgot password link$")
     public void clicks_on_forgot_password_link() throws Throwable {
         loginPage.click_forgot_password_link();
+    }
+    
+    @Then("click on sign in and checkout button")
+    public void click_on_sign_in_and_checkout_button() throws InterruptedException{
+    	loginPage.clickSignInCheckOut();
+    	
+    	reporting.takeScreenshot(scenario);
+    }
+    
+    @When("User provides mobile login credentials")
+    public void user_provides_mobile_login_credentials(){
+    	loginPage.enterMobileCredentials(); 
+    	
+    	reporting.takeScreenshot(scenario);
     }
 
 }

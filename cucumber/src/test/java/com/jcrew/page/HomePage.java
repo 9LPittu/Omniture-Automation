@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import java.util.List;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -65,5 +67,45 @@ public class HomePage {
     public boolean isHomePage() {
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(pageHome));
         return pageHome.isDisplayed();
+    }
+    
+    public void selectCategoryFromLeftNav(String category){
+    	try{
+			List<WebElement> elements = driver.findElements(By.className("menu__link--forward"));			
+			//new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfAllElements(elements));			
+			
+			Thread.sleep(10000);
+						
+			for(int i=0;i<elements.size();i++){			
+				String strLeftMenuItemName = elements.get(i).getText().toString();					
+				if(strLeftMenuItemName.equalsIgnoreCase(category)){
+					elements.get(i).click();
+					break;
+				}
+			}			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+    }
+    
+    public void  selectSubCategoryFromLeftNav(String subCategory){
+ 	   try{
+ 			List<WebElement> elements = driver.findElements(By.className("menu__link--has-href"));
+ 			//new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfAllElements(elements));
+ 			
+ 			Thread.sleep(10000);
+ 			for(int i=0;i<elements.size();i++){			
+ 				String strSubCategoryItemName = elements.get(i).getText().toString();					
+ 				if(strSubCategoryItemName.equalsIgnoreCase(subCategory)){
+ 					elements.get(i).click();
+ 					break;
+ 				}
+ 			}			
+ 		}
+ 		catch(Exception e){
+ 			e.printStackTrace();
+ 		}
+ 	   
     }
 }

@@ -3,10 +3,13 @@ package com.jcrew.steps;
 import com.jcrew.page.Header;
 import com.jcrew.page.HomePage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Reporting;
+
+import cucumber.api.Scenario;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -14,6 +17,14 @@ public class HomePageSteps extends DriverFactory {
 
     private HomePage homePage = new HomePage(getDriver());
     private Header header = new Header(getDriver());
+    
+    private Scenario scenario;
+    private Reporting reporting = new Reporting();
+    
+    @Before
+    public void getScenarioObject(Scenario s){
+    	this.scenario = s;
+    }
 
 
     @Then("^JCrew Logo is present$")
@@ -65,6 +76,19 @@ public class HomePageSteps extends DriverFactory {
     public void validate_search_term() {
         assertTrue("Dresses should be populated", header.getSearchDrawerTerm().contains("dresses"));
     }
-
-
+    
+    @Then("select \"([^\"]*)\" from left nav")
+    public void select_category_from_left_nav(String category){
+    	homePage.selectCategoryFromLeftNav(category);   	
+    	
+    	reporting.takeScreenshot(scenario);
+    }
+    
+    @Then("select \"([^\"]*)\" from subcategories")
+    public void select_subcategory_from_subcategories(String subCategory){
+    	homePage.selectSubCategoryFromLeftNav(subCategory);  	
+    	
+    	reporting.takeScreenshot(scenario);
+    }
+  
 }

@@ -2,11 +2,14 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Reporting;
+
+import cucumber.api.Scenario;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -14,6 +17,14 @@ import static org.junit.Assert.assertTrue;
 public class ProductDetailPageSteps extends DriverFactory {
 
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
+    
+    private Scenario scenario;
+    private Reporting reporting = new Reporting();
+    
+    @Before
+    public void getScenarioObject(Scenario s){
+      this.scenario = s;
+    }
 
 
     @Given("User is in product detail page")
@@ -41,16 +52,27 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void quantity_is_selected() throws Throwable {
         productDetailPage.select_quantity("2");
     }
+    
+    @Then("select a product from array page and select variation, color, size")
+    public void select_a_product_from_array_page_and_select_variation_color_size() throws InterruptedException{
+    	productDetailPage.selectProductWithVariationColorSize();
+    	
+    	reporting.takeScreenshot(scenario);
+    }
 
     @And("^A wishlist button is present$")
     public void a_wishlist_button_is_present() throws Throwable {
         assertTrue("A wishlist button should be displayed",
                 productDetailPage.isWishlistButtonPresent());
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @When("^Add to cart button is pressed$")
     public void add_to_cart_button_is_pressed() throws Throwable {
         productDetailPage.click_add_to_cart();
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @Then("^Bag should have (\\d+) item\\(s\\) added$")
@@ -63,11 +85,15 @@ public class ProductDetailPageSteps extends DriverFactory {
     @Then("^A minicart modal should appear with message '([^\"]*)'$")
     public void a_minicart_modal_should_appear_with_message(String message) throws Throwable {
         assertEquals(message, productDetailPage.getMinicartMessage());
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @Given("^Bag should have item\\(s\\) added$")
     public void bag_should_have_item_s_added() throws Throwable {
         assertTrue("It should contain at least one item", productDetailPage.getNumberOfItemsInBag() > 0);
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @And("^Verify product sale price is ([^\"]*)$")
@@ -202,5 +228,12 @@ public class ProductDetailPageSteps extends DriverFactory {
     @And("^Preorder button is pressed$")
     public void preorder_button_is_pressed() throws Throwable {
         productDetailPage.click_add_to_cart();
+    }
+
+    @Given("^item bag is clicked$")
+    public void item_bag_is_Clicked() throws Throwable {
+        productDetailPage.click_item_bag();
+        
+        reporting.takeScreenshot(scenario);
     }
 }

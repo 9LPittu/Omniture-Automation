@@ -30,8 +30,12 @@ public class PropertyReader {
     }
 
     private void loadProperties() throws IOException {
-        String environment = System.getProperty("environment", "ci");
-        String viewport = System.getProperty("viewport", "desktop");
+        
+    	String environment = System.getProperty("environment", "qa");
+        String viewport = System.getProperty("viewport", "iphonesimulator-safari");
+    	
+    	//String environment = System.getProperty("environment", "ci");
+        //String viewport = System.getProperty("viewport", "desktop");
         String configurationFile = environment + "-" + viewport + ".properties";
 
         logger.info("Configuration file to be used {}", configurationFile);
@@ -86,6 +90,10 @@ public class PropertyReader {
 
     public String getSeleniumHubUrl() {
         return readProperty("selenium.grid.hub.url");
+    }
+    
+    public String getScreenshotForEveryStep(){
+    	return readProperty("screenshot.every.step");
     }
 
     public String getProperty(String property) {
