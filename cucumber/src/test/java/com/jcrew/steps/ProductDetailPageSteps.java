@@ -7,13 +7,11 @@ import com.jcrew.util.Reporting;
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;
 import com.jcrew.util.StateHolder;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +23,9 @@ import static org.junit.Assert.*;
 public class ProductDetailPageSteps extends DriverFactory {
 
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
+
+    private Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
+    private StateHolder stateHolder = StateHolder.getInstance();
     
     private Scenario scenario;
     private Reporting reporting = new Reporting();
@@ -33,10 +34,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void getScenarioObject(Scenario s){
       this.scenario = s;
     }
-
-    private Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
-    private StateHolder stateHolder = StateHolder.getInstance();
-
 
     @Given("User is in product detail page")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
@@ -63,7 +60,7 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void quantity_is_selected() throws Throwable {
         productDetailPage.select_quantity("2");
     }
-    
+
     @And("^A wishlist button is present$")
     public void a_wishlist_button_is_present() throws Throwable {
         assertTrue("A wishlist button should be displayed",
@@ -335,6 +332,14 @@ public class ProductDetailPageSteps extends DriverFactory {
     @And("^A button saying '([^\"]*)' is displayed$")
     public void a_button_saying_is_displayed(String message) throws Throwable {
         assertEquals("Expected message was not displayed", message, productDetailPage.getButtonErrorMessage());
+    }
+
+
+    @Given("^item bag is clicked$")
+    public void item_bag_is_Clicked() throws Throwable {
+        productDetailPage.click_item_bag();
+        
+        reporting.takeScreenshot(scenario);
     }
 
 }
