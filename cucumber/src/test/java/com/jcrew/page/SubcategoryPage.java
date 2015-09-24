@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -252,15 +251,13 @@ public class SubcategoryPage {
         new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(productLink));
         productLink.click();
     }
+
     public void click_any_product_in_grid() {
         int min = 0;
         int max = productsFromGrid.size()-1;
         logger.info("no of products {}", max);
-        //Random rn = new Random();
-        //int randomNumber = Math.random(min, max);
         int range = (max - min) + 1;
         int randomNumber = (int)(Math.random() * range) + min;
-       // int randomNumber = min + rn.nextInt(max - min + 1);
         WebElement randomProductSelected = productsFromGrid.get(randomNumber).findElement(By.className("product-tile__link"));
         new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
         randomProductSelected.click();

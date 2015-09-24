@@ -27,6 +27,7 @@ public class HeaderSteps extends DriverFactory {
     public void verify_header_link_is_displayed(String headerLink) throws Throwable {
         assertTrue(headerLink + " should have been present", header.isHeaderLinkPresent(headerLink));
     }
+
     @Then("^Verify header bag icon is displayed$")
     public void verify_header_bag_icon_is_displayed() throws Throwable {
         assertTrue("Bag icon should have been present", header.isHeaderBagIconPresent());
@@ -60,9 +61,8 @@ public class HeaderSteps extends DriverFactory {
             String headerLinkTrimmed = headerLink.trim();
             headerLinksList.add(headerLinkTrimmed);
         }
-           headerLinksList.add(header.getBagIconLinkText());
-        System.out.println(header.getBagIconLinkText());
-        System.out.println(headerLinksList);
+
+        headerLinksList.add(header.getBagIconLinkText());
 
         List<String> primaryNavigationLinkNames = header.getPrimaryNavigationLinkNames();
 

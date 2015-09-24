@@ -32,9 +32,8 @@ public class SearchPage {
     @FindBy(xpath = "//div[@data-label='Women']")
     private WebElement womenSelector;
 
-    //final List<WebElement> gender_selectors = driver.findElements(By.xpath("//div[@data-group='gender']"));
     @FindBy(xpath = "//div[@data-group='gender']")
-    List<WebElement> gender_selectors;
+    List<WebElement> genderSelectors;
 
     @FindBy(id = "c-search__results")
     private WebElement searchResult;
@@ -47,15 +46,6 @@ public class SearchPage {
 
     @FindBy(className = "search__filter--sort")
     private WebElement searchFilterSortBySection;
-
-    @FindBy(xpath = "//*[@id='c-search__results']/div/div[3]/div[1]/div/div[1]/a/img")
-    List<WebElement> yellow_dresses;
-
-
-    //@FindBy(className = "c-product-tile")
-    //List<WebElement>
-
-    List<WebElement> no_sale_products = new ArrayList<WebElement>();
 
     public SearchPage(WebDriver driver) {
         this.driver = driver;
@@ -78,13 +68,12 @@ public class SearchPage {
     public List<String> areGenderSelectorsDisplayed() {
 
         logger.info("Validating web element presence {}", genderSelectorElement.getClass());
-        final List<String> gender_selector_attributes = new ArrayList<String>();
-        // final List<WebElement> gender_selectors = driver.findElements(By.xpath("//div[@data-group='gender']"));
-        for (WebElement gender_selector : gender_selectors) {
+        final List<String> genderSelectorAttributes = new ArrayList<String>();
+        for (WebElement gender_selector : genderSelectors) {
 
-            gender_selector_attributes.add(gender_selector.getAttribute("data-group"));
+            genderSelectorAttributes.add(gender_selector.getAttribute("data-group"));
         }
-        return gender_selector_attributes;
+        return genderSelectorAttributes;
     }
 
     public void click_on_gender_selector() {
@@ -92,10 +81,10 @@ public class SearchPage {
     }
 
     public void click_on_gender_selector(String gender) {
-        for (WebElement gender_selector : gender_selectors) {
-            logger.info("selected gender name is {}", gender_selector.getText());
-            if (gender_selector.getText().equalsIgnoreCase(gender)) {
-                gender_selector.click();
+        for (WebElement genderSelector : genderSelectors) {
+            logger.info("selected gender name is {}", genderSelector.getText());
+            if (genderSelector.getText().equalsIgnoreCase(gender)) {
+                genderSelector.click();
             }
         }
 
@@ -161,11 +150,11 @@ public class SearchPage {
             }
         }
         int min = 0;
-        int max = no_sale_products.size()-1;
+        int max = no_sale_products.size() - 1;
         logger.info("no of products {}", max);
 
         int range = (max - min) + 1;
-        int randomNumber = (int)(Math.random() * range) + min;
+        int randomNumber = (int) (Math.random() * range) + min;
         WebElement selectedNoSalePriceProduct = no_sale_products.get(randomNumber);
 
         WebElement selectedProductNameElement = selectedNoSalePriceProduct.findElement(By.className("tile__detail--name"));

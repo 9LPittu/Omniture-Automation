@@ -33,7 +33,7 @@ public class Header {
     private WebElement shoppingBagLink;
 
     @FindBy(css = ".icon-header.icon-header-bag.icon-bag")
-    private WebElement BagIcon;
+    private WebElement bagIcon;
 
     private WebDriver driver;
 
@@ -47,8 +47,7 @@ public class Header {
         return headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
     }
     public boolean isHeaderBagIconPresent() {
-        System.out.println(BagIcon.getText());
-        return BagIcon.isDisplayed();
+        return bagIcon.isDisplayed();
     }
     public String getBagIconLinkText() {
         return driver.findElement(By.className("primary-nav__item--bag")).getText();
@@ -61,13 +60,6 @@ public class Header {
 
     public void click_on_search_close_icon() {
         searchCloseIcon.click();
-    }
-
-    public boolean    wait_on_search_close_icon() {
-        //searchCloseIcon
-
-              //  .visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
-         return new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(By.className("icon-searchtray-close")));
     }
 
     public String getSearchDrawerTerm() {
