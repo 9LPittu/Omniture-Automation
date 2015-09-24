@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.HomePage;
+import com.jcrew.page.ProductDetailPage;
 import com.jcrew.page.SearchPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
@@ -16,6 +17,7 @@ public class SearchPageSteps extends DriverFactory {
 
     private SearchPage searchPage = new SearchPage(getDriver());
     private HomePage homePage = new HomePage(getDriver());
+    private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
 
     @Given("User is in search results page")
     public void user_is_in_search_results_page() {
@@ -52,6 +54,13 @@ public class SearchPageSteps extends DriverFactory {
         searchPage.click_on_gender_selector();
 
     }
+
+    @And("^User clicks on ([^\"]*) selector$")
+    public void user_clicks_on_gender_selector(String gender) {
+        searchPage.click_on_gender_selector(gender);
+
+    }
+
 
     @Then("^User is in gender refine array page$")
     public void user_is_in_gender_with_refine_button_page() {
@@ -91,24 +100,6 @@ public class SearchPageSteps extends DriverFactory {
     @And("^([^\"]*) sort by option should be selected$")
     public void sort_by_option_should_be_selected(String sortByOption) throws Throwable {
         assertTrue(sortByOption + " should have been selected", searchPage.isSortByOptionSelected(sortByOption));
-    }
-
-    @And("^Selects a product with no sale price$")
-    public void clicks_on_a_product_no_sale_price() {
-        assertTrue("Product should be selected", searchPage.click_on_the_product());
-    }
-
-    @And("^User is in corresponding valid pdp$")
-    public void user_is_in_valid_pdp() {
-        assertEquals("Product name is not the same", "Girls' Nellystella� Chloe dress", searchPage.getProductName());
-        assertEquals("Product price is not the same", "$124.00", searchPage.getProductPrice());
-    }
-
-    @And("^User is in valid pdp for sale product$")
-    public void user_is_in_valid_sale_pdp() {
-        assertEquals("Product name is not the same", "Girls' Loulie dress in poplin", searchPage.getProductName());
-        assertTrue("Product price is not the same", searchPage.getProductPrice().contains("$148.00"));
-        assertTrue("Product sale price is not the same", searchPage.getProductSalePrice().contains("$119.99"));
     }
 
     @And("^User scrolls down the page$")
@@ -155,7 +146,7 @@ public class SearchPageSteps extends DriverFactory {
         searchPage.select_option_from_refinement(option, refinement);
     }
 
-        @Then("^Select ([^\"]*) multiple option from ([^\"]*) refinement$")
+    @Then("^Select ([^\"]*) multiple option from ([^\"]*) refinement$")
     public void select_option_from_the_multiple_select_refinement(String option, String refinement) throws Throwable {
         searchPage.select_option_from_multiple_select_refinement(option, refinement);
     }
@@ -202,6 +193,13 @@ public class SearchPageSteps extends DriverFactory {
     public void verify_option_breadcrumb_is_created(String option) throws Throwable {
         assertTrue(option + " option breadcrumb should have been displayed",
                 searchPage.isBreadcrumbDisplayedFor(option));
+    }
+
+    @And("^User selects a product with no sale price and verifies is in corresponding valid pdp$")
+    public void User_selects_a_product_with_no_sale_price_and_verifies_is_in_corresponding_valid_pdp() throws Throwable {
+        String productName = searchPage.click_on_no_sale_price_product();
+        assertEquals("PDP and clicked product do not have the same name", productName,
+                productDetailPage.getProductNameFromPDP());
     }
 }
     

@@ -71,7 +71,7 @@ public class HamburgerMenu {
     }
 
     private void waitForVisibility(WebElement element) {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(element));
+        new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(element));
     }
 
     public void click_on_shirts_and_tops_from_women_category_in_hamburger_menu() {
@@ -105,6 +105,7 @@ public class HamburgerMenu {
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
         WebElement categoryElements = menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and text()='" +
                 category + "']/.."));
+
         WebElement subcategoryElement = categoryElements.findElement(By.linkText(subcategory));
         return subcategoryElement;
     }
@@ -119,7 +120,7 @@ public class HamburgerMenu {
     }
 
     public void close_hamburger_menu() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(closeHamburgerMenu));
+        new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(closeHamburgerMenu));
         closeHamburgerMenu.click();
     }
 

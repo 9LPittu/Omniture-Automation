@@ -51,6 +51,9 @@ public class ProductDetailPage {
     @FindBy(className = "product__price--sale")
     private WebElement salePrice;
 
+    @FindBy(id = "c-product__overview")
+    private WebElement product_details;
+
     @FindBy(id = "c-product__actions")
     private WebElement productActionsSection;
 
@@ -100,6 +103,23 @@ public class ProductDetailPage {
         }
 
     }
+    public void select_any_color() {
+
+        List<WebElement> colors = productColorsSection.findElements(By.className("colors-list__item"));
+        int min = 0;
+        int max = colors.size()-1;
+        logger.info("no of products {}", max);
+
+        int range = (max - min) + 1;
+        int randomNumber = (int)(Math.random() * range) + min;
+            WebElement color = colors.get(randomNumber);
+            new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(color));
+            color.click();
+        }
+
+
+
+
 
     public void select_size() {
         List<WebElement> sizes = productSizesSection.findElements(By.className("sizes-list__item"));
@@ -256,5 +276,28 @@ public class ProductDetailPage {
 
     public String getBodyMessage() {
         return messageBody.getText();
+    }
+
+    public String getProductNameFromPDP() {
+        // WebElement product_details = driver.findElement(By.id("c-product__overview"));
+        new WebDriverWait(driver, 10).until(
+                ExpectedConditions.visibilityOf(product_details));
+        String product_detail_name = product_details.findElement(By.tagName("h1")).getText();
+        //String product_detail_price = product_details.findElement(By.cssSelector("#c-product__overview > header > section.product__price > span")).getText();
+        logger.info(product_detail_name);
+        // logger.info(product_detail_price);
+        return product_detail_name;
+    }
+
+    public String getProductPrice() {
+        String product_detail_price = product_details.findElement(By.className("product__price--list")).getText();
+        logger.info(product_detail_price);
+        return product_detail_price;
+    }
+
+    public String getProductSalePrice() {
+        String product_detail_sale_price = product_details.findElement(By.className("product__price--sale")).getText();
+        logger.info(product_detail_sale_price);
+        return product_detail_sale_price;
     }
 }
