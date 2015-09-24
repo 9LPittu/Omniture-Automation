@@ -1,19 +1,17 @@
 @PDP
-Feature: Smoke Tests Product Detail Page
+Feature: Product Detail Page
 
-  Background:
+  Scenario: Product Detail Page Validation
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects MEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
     And Click on product Rugged cotton sweatshirt sweater to display PDP
-
-  Scenario: Product Detail Page Validation
-    Given User is in product detail page
-    And A variation is selected
+    Then User is in product detail page
+    When A variation is selected
     And A color is selected
     And A size is selected
     And A wishlist button is present
-    When Add to cart button is pressed
+    And Add to cart button is pressed
     Then A minicart modal should appear with message '1 item has been added to your cart.'
-    Then Bag should have 1 item(s) added
+    And Bag should have 1 item(s) added

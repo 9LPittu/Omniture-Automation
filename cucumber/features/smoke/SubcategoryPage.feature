@@ -1,21 +1,14 @@
 @Subcategory
-Feature: Smoke Tests Subcategory Page
+Feature: Subcategory Page
 
-  Background:
+  Scenario: Subcategory Page functionality
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SHIRTS & TOPS subcategory from Women Category
-
-
-  Scenario: Category Link
-    And User should be in shirtsandtops page for women
-
-  Scenario: Product List Details
     And User should be in shirtsandtops page for women
     And User hovers a product
     Then Proper details are shown for the hovered product
-
 
     #Following Scenario was found to be an issue in CI, adding a test that will verify that it never happens again.
   Scenario: Zero size should be valid
