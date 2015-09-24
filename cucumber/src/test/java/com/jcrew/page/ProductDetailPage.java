@@ -30,7 +30,7 @@ public class ProductDetailPage {
     @FindBy(className = "variations-list")
     private WebElement variationsListSection;
 
-    @FindBy(className = "c-product__colors")
+    @FindBy(id = "c-product__price-colors")
     private WebElement productColorsSection;
 
     @FindBy(id = "c-product__sizes")
@@ -50,6 +50,10 @@ public class ProductDetailPage {
 
     @FindBy(className = "product__price--sale")
     private WebElement salePrice;
+
+    @FindBy(id = "c-product__actions")
+    private WebElement productActionsSection;
+
 
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
@@ -116,7 +120,11 @@ public class ProductDetailPage {
     }
 
     public boolean isWishlistButtonPresent() {
-        return wishList.isDisplayed();
+        boolean result = false;
+        if (!productActionsSection.findElements(By.id("btn__add-to-bag")).isEmpty()) {
+            result = wishList.isDisplayed();
+        }
+        return result;
     }
 
     public void click_add_to_cart() {
@@ -218,4 +226,21 @@ public class ProductDetailPage {
         return new WebDriverWait(driver, 10).until(ExpectedConditions.
                 presenceOfElementLocated(By.className("content-button-secondary-confirmation"))).getText();
     }
+
+    public boolean isSizeSelectorSectionPresent() {
+        return !productSizesSection.findElements(By.className("product__sizes")).isEmpty();
+    }
+
+    public boolean isColorSelectorSectionPresent() {
+        return !productColorsSection.findElements(By.className("product__price-colors")).isEmpty();
+    }
+
+    public boolean isQuantitySelectorSectionPresent() {
+        return !productQuantitySection.findElements(By.className("product__quantity")).isEmpty();
+    }
+
+    public boolean isAddToBagButtonPresent() {
+        return !productActionsSection.findElements(By.id("btn__add-to-bag")).isEmpty();
+    }
+
 }

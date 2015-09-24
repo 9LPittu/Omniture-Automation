@@ -8,6 +8,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ProductDetailPageSteps extends DriverFactory {
@@ -137,5 +138,35 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_update_message_for_wishlist_is_displayed_and_go_to_wishlist_page() throws Throwable {
         assertEquals("Expected message was not received", "ADDED TO WISHLIST", productDetailPage.getWishlistConfirmationMessage());
         productDetailPage.go_to_wishlist();
+    }
+
+    @Then("^Size selector is not displayed$")
+    public void size_selector_is_not_displayed() throws Throwable {
+        assertFalse("Size selector should not be displayed",
+                productDetailPage.isSizeSelectorSectionPresent());
+    }
+
+    @And("^Color selector is not displayed$")
+    public void color_selector_is_not_displayed() throws Throwable {
+        assertFalse("Clor selector should not be displayed",
+                productDetailPage.isColorSelectorSectionPresent());
+    }
+
+    @And("^Quantity selector is not displayed$")
+    public void quantity_selector_is_not_displayed() throws Throwable {
+        assertFalse("Quantity selector should not be displayed",
+                productDetailPage.isQuantitySelectorSectionPresent());
+    }
+
+    @And("^Add to bag button is not displayed$")
+    public void add_to_bag_button_is_not_displayed() throws Throwable {
+        assertFalse("Add to bag button should not be displayed",
+                productDetailPage.isAddToBagButtonPresent());
+    }
+
+    @And("^Wishlist button is not displayed$")
+    public void wishlist_button_is_not_displayed() throws Throwable {
+        assertFalse("Add to bag button should not be displayed",
+                productDetailPage.isWishlistButtonPresent());
     }
 }
