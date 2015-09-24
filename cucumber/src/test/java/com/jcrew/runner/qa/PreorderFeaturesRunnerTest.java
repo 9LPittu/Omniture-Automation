@@ -14,6 +14,6 @@ import org.junit.runner.RunWith;
 )
 
 
-public class PreorderFeaturesRunnerTest1 {
+public class PreorderFeaturesRunnerTest {
 
 }
