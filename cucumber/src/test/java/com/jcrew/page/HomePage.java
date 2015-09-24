@@ -52,6 +52,7 @@ public class HomePage {
     }
 
     public void click_on_search_button_for_input_field() {
+        new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(headerSearchButtonFind));
         headerSearchButtonFind.click();
     }
 

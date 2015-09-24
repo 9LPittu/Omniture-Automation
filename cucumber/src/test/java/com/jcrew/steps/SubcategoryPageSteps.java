@@ -62,6 +62,12 @@ public class SubcategoryPageSteps extends DriverFactory {
         subcategoryPage.click_first_product_in_grid();
 
     }
+    @And("^Selects any product from product grid list$")
+    public void Selects_any_product_from_product_grid_list() throws Throwable {
+
+        subcategoryPage.click_any_product_in_grid();
+
+    }
 
     @Then("^User should be in ([^\"]*) page for women$")
     public void user_should_be_in_subcategory_page_for_women(String subcategory) throws Throwable {
