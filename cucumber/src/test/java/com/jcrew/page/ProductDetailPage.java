@@ -54,6 +54,9 @@ public class ProductDetailPage {
     @FindBy(id = "c-product__details")
     private WebElement productDetails;
 
+    @FindBy(id = "c-product__overview")
+    private WebElement productOverview;
+
     @FindBy(id = "c-product__actions")
     private WebElement productActionsSection;
 
@@ -208,7 +211,7 @@ public class ProductDetailPage {
         return productSizeElement.getAttribute("data-name");
     }
 
-    public String getAddToOrUpdateBagButtonText() {
+    public String getBagButtonText() {
         return addToBag.getText();
     }
 
@@ -277,8 +280,8 @@ public class ProductDetailPage {
 
     public String getProductNameFromPDP() {
         new WebDriverWait(driver, 10).until(
-                ExpectedConditions.visibilityOf(productDetails));
-        String product_detail_name = productDetails.findElement(By.tagName("h1")).getText();
+                ExpectedConditions.visibilityOf(productOverview));
+        String product_detail_name = productOverview.findElement(By.tagName("h1")).getText();
         logger.info(product_detail_name);
         return product_detail_name;
     }
@@ -293,5 +296,9 @@ public class ProductDetailPage {
         String product_detail_sale_price = productDetails.findElement(By.className("product__price--sale")).getText();
         logger.info(product_detail_sale_price);
         return product_detail_sale_price;
+    }
+
+    public boolean isPreOrderButtonDisplayed() {
+        return addToBag.isDisplayed();
     }
 }

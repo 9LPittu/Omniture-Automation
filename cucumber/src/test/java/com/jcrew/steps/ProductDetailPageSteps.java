@@ -99,7 +99,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify update bag button is present$")
     public void verify_update_bag_button_is_present() throws Throwable {
-        assertEquals("UPDATE BAG", productDetailPage.getAddToOrUpdateBagButtonText());
+        assertEquals("UPDATE BAG", productDetailPage.getBagButtonText());
     }
 
     @Then("^Update Bag button is pressed$")
@@ -185,5 +185,22 @@ public class ProductDetailPageSteps extends DriverFactory {
     @And("^Verifies product list price is ([^\"]*)$")
     public void Verifies_product_list_price_is_$_(String listPrice) throws Throwable {
         assertEquals("Expected price is not the same", listPrice, productDetailPage.getProductPrice());
+    }
+
+    @Then("^Verify product is a pre-order one$")
+    public void verify_product_is_a_pre_order_one() throws Throwable {
+        assertTrue("Product should have been a pre-order one",
+                productDetailPage.getProductNameFromPDP().endsWith("(pre-order)"));
+    }
+
+    @Then("^Preorder button is displayed$")
+    public void Preorder_button_is_displayed() throws Throwable {
+        assertTrue("Pre-order button should be displayed", productDetailPage.isPreOrderButtonDisplayed());
+        assertEquals("Name of the button is not pre order", "PRE-ORDER", productDetailPage.getBagButtonText());
+    }
+
+    @And("^Preorder button is pressed$")
+    public void preorder_button_is_pressed() throws Throwable {
+        productDetailPage.click_add_to_cart();
     }
 }

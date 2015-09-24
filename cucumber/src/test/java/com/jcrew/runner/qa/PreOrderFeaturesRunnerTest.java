@@ -6,14 +6,14 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/qa",
-        tags = {"@VeryPersonalStylist"},
+        tags = {"@Preorder"},
         glue = {"com.jcrew.steps"},
-        format = {"json:target/cucumber-verypersonalstylistfeatures.json",
+        format = {"json:target/cucumber-preorderfeatures.json",
                 "pretty",
-                "html:target/cucumber/verypersonalstylistfeatures"}
+                "html:target/cucumber/preorderfeatures"}
 )
 
 
-public class VeryPersonalStylistFeaturesRunnerTest {
+public class PreOrderFeaturesRunnerTest {
 
 }
