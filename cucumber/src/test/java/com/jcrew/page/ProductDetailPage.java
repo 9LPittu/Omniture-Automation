@@ -51,7 +51,7 @@ public class ProductDetailPage {
     @FindBy(className = "product__price--sale")
     private WebElement salePrice;
 
-    @FindBy(id = "c-product__overview")
+    @FindBy(id = "c-product__details")
     private WebElement productDetails;
 
     @FindBy(id = "c-product__actions")

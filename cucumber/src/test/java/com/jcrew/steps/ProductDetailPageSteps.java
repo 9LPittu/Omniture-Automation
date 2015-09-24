@@ -181,4 +181,9 @@ public class ProductDetailPageSteps extends DriverFactory {
         assertEquals("Body message is not the expected one",
                 messageBody, productDetailPage.getBodyMessage());
     }
+
+    @And("^Verifies product list price is ([^\"]*)$")
+    public void Verifies_product_list_price_is_$_(String listPrice) throws Throwable {
+        assertEquals("Expected price is not the same", listPrice, productDetailPage.getProductPrice());
+    }
 }

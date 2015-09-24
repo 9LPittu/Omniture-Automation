@@ -155,11 +155,6 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertTrue("Product should exist", subcategoryPage.productTileExistFor(product));
     }
 
-    @And("^yellow dresses search page is displayed")
-    public void yellow_dresses_results_displayed() {
-        assertTrue("yellow product should exist", subcategoryPage.yellowProductTileExist().equals("Nadia dress in silk chiffon"));
-    }
-
     @And("^Verifies ([^\"]*) product list price is ([^\"]*)$")
     public void verifies_product_list_price(String product, String price) {
         assertEquals("Price for product should be correct", price, subcategoryPage.getPriceFor(product));
