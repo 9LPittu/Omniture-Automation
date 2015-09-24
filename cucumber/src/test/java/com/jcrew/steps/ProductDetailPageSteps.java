@@ -169,4 +169,16 @@ public class ProductDetailPageSteps extends DriverFactory {
         assertFalse("Add to bag button should not be displayed",
                 productDetailPage.isWishlistButtonPresent());
     }
+
+    @Then("^Verify headline message for VPS product is '([^\"]*)'$")
+    public void verify_headline_message_for_vps_product(String messageHeadline) throws Throwable {
+        assertEquals("Headline message is not the expected one",
+                messageHeadline, productDetailPage.getHeadlineMessage());
+    }
+
+    @Then("^Verify body message for VPS product is '([^\"]*)'$")
+    public void verify_body_message_for_vps_product(String messageBody) throws Throwable {
+        assertEquals("Body message is not the expected one",
+                messageBody, productDetailPage.getBodyMessage());
+    }
 }

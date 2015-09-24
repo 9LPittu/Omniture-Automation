@@ -54,6 +54,13 @@ public class ProductDetailPage {
     @FindBy(id = "c-product__actions")
     private WebElement productActionsSection;
 
+    @FindBy(className = "message--headline")
+    private WebElement messageHeadline;
+
+
+    @FindBy(className = "message--body")
+    private WebElement messageBody;
+
 
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
@@ -243,4 +250,11 @@ public class ProductDetailPage {
         return !productActionsSection.findElements(By.id("btn__add-to-bag")).isEmpty();
     }
 
+    public String getHeadlineMessage() {
+        return messageHeadline.getText();
+    }
+
+    public String getBodyMessage() {
+        return messageBody.getText();
+    }
 }
