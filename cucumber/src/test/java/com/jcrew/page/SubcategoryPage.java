@@ -1,9 +1,10 @@
 package com.jcrew.page;
 
+import com.jcrew.util.StateHolder;
+import com.jcrew.util.Util;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
 
 public class SubcategoryPage {
 
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     private final WebDriver driver;
 
@@ -49,9 +51,7 @@ public class SubcategoryPage {
     @FindBy(className = "accordian__wrap")
     private WebElement accordionWrap;
 
-    @FindAll(value = {
-            @FindBy(xpath = ".//div[@class='c-product-tile']")
-    })
+    @FindBy(className = "c-product-tile")
     private List<WebElement> productsFromGrid;
 
     @FindBy(className = "header__image")
@@ -253,14 +253,81 @@ public class SubcategoryPage {
     }
 
     public void click_any_product_in_grid() {
-        int min = 0;
-        int max = productsFromGrid.size()-1;
-        logger.info("no of products {}", max);
-        int range = (max - min) + 1;
-        int randomNumber = (int)(Math.random() * range) + min;
-        WebElement randomProductSelected = productsFromGrid.get(randomNumber).findElement(By.className("product-tile__link"));
+        new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(productGrid));
+        int index = Util.randomIndex(productsFromGrid.size());
+        WebElement randomProductSelected = productsFromGrid.get(index);
+        stateHolder.put("productName", getProductName(randomProductSelected));
+        stateHolder.put("priceList", getPriceList(randomProductSelected));
+        stateHolder.put("variations", getVariations(randomProductSelected));
+        stateHolder.put("colorsCount", getColorsCount(randomProductSelected));
+        stateHolder.put("priceWas", getPriceWas(randomProductSelected));
+        stateHolder.put("priceSale", getPriceSale(randomProductSelected));
+
         new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
-        randomProductSelected.click();
+
+        WebElement productLink = randomProductSelected.findElement(By.className("product-tile__link"));
+
+        productLink.click();
+
+    }
+
+    private String getPriceSale(WebElement randomProductSelected) {
+        List<WebElement> priceWasElements = randomProductSelected.findElements(By.className("tile__detail--price--sale"));
+        String priceWas = null;
+        if (!priceWasElements.isEmpty()) {
+            priceWas = priceWasElements.get(0).getAttribute("innerHTML");
+        }
+        return priceWas;
+
+    }
+
+    private String getPriceWas(WebElement randomProductSelected) {
+        List<WebElement> priceWasElements = randomProductSelected.findElements(By.className("tile__detail--price--was"));
+        String priceWas = null;
+        if (!priceWasElements.isEmpty()) {
+            priceWas = priceWasElements.get(0).getAttribute("innerHTML");
+        }
+        return priceWas;
+    }
+
+    private String getPriceList(WebElement randomProductSelected) {
+        List<WebElement> priceListElements = randomProductSelected.findElements(By.className("tile__detail--price--list"));
+        String priceList = null;
+        if (!priceListElements.isEmpty()) {
+            priceList = priceListElements.get(0).getAttribute("innerHTML");
+        }
+        return priceList;
+    }
+
+    private String getProductName(WebElement randomProductSelected) {
+        List<WebElement> productNameElements = randomProductSelected.findElements(By.className("tile__detail--name"));
+        String productName = null;
+        if (!productNameElements.isEmpty()) {
+            productName = productNameElements.get(0).getAttribute("innerHTML");
+        }
+        return productName;
+    }
+
+    private String getColorsCount(WebElement randomProductSelected) {
+        List<WebElement> colorCountElements = randomProductSelected.findElements(By.className("tile__detail--colors-count"));
+        String colorCount = null;
+        if (!colorCountElements.isEmpty()) {
+            colorCount = colorCountElements.get(0).getAttribute("innerHTML");
+            colorCount = colorCount.replace("available in ", "");
+            colorCount = colorCount.replace(" colors", "");
+        }
+        return colorCount;
+    }
+
+    private String getVariations(WebElement randomProductSelected) {
+
+        List<WebElement> variationsElement = randomProductSelected.findElements(By.className("tile__detail--alsoin"));
+        String variations = null;
+        if (!variationsElement.isEmpty()) {
+            variations = variationsElement.get(0).getAttribute("innerHTML");
+            variations = variations.replace("also in: ", "");
+        }
+        return variations;
 
     }
 
@@ -353,15 +420,15 @@ public class SubcategoryPage {
         WebElement productInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
                 "' and contains(@class, 'tile__detail--name')]"));
         logger.info(productInTile.getText());
-       
+
         return productInTile.isDisplayed();
     }
-    
+
     public String yellowProductTileExist() {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         WebElement yellow_product = productGrid.findElement(By.xpath("//*[@id='c-search__results']/div/div[3]/div[1]/div/div[2]/a/span[1]"));
-          logger.info(yellow_product.getText());
-                return yellow_product.getText();
+        logger.info(yellow_product.getText());
+        return yellow_product.getText();
     }
 
     public String getPriceFor(String product) {
