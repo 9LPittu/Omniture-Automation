@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDetailPage {
@@ -27,8 +28,8 @@ public class ProductDetailPage {
     @FindBy(id = "btn__wishlist")
     private WebElement wishList;
 
-    @FindBy(className = "variations-list")
-    private WebElement variationsListSection;
+    @FindBy(id = "c-product__variations")
+    private WebElement productVariationSection;
 
     @FindBy(id = "c-product__price-colors")
     private WebElement productColorsSection;
@@ -81,7 +82,7 @@ public class ProductDetailPage {
     }
 
     public void select_variation() {
-        List<WebElement> variations = variationsListSection.findElements(By.tagName("input"));
+        List<WebElement> variations = productVariationSection.findElements(By.tagName("input"));
 
         WebElement variation = variations.get(0);
 
@@ -106,19 +107,21 @@ public class ProductDetailPage {
         }
 
     }
+
     public void select_any_color() {
 
         List<WebElement> colors = productColorsSection.findElements(By.className("colors-list__item"));
         int min = 0;
-        int max = colors.size()-1;
+        int max = colors.size() - 1;
         logger.info("no of products {}", max);
 
         int range = (max - min) + 1;
-        int randomNumber = (int)(Math.random() * range) + min;
-            WebElement color = colors.get(randomNumber);
-            new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(color));
-            color.click();
-        }
+        int randomNumber = (int) (Math.random() * range) + min;
+        WebElement color = colors.get(randomNumber);
+        new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(color));
+        color.click();
+
+    }
 
 
     public void select_size() {
@@ -220,7 +223,7 @@ public class ProductDetailPage {
     }
 
     public String getSelectedVariationName() {
-        WebElement selectedElement = variationsListSection.findElement(By.className("is-selected"));
+        WebElement selectedElement = productVariationSection.findElement(By.className("is-selected"));
         WebElement productVariationNameElement = selectedElement.findElement(By.className("product__variation--name"));
         return productVariationNameElement.getText();
     }
@@ -286,19 +289,42 @@ public class ProductDetailPage {
         return product_detail_name;
     }
 
-    public String getProductPrice() {
-        String product_detail_price = productDetails.findElement(By.className("product__price--list")).getText();
-        logger.info(product_detail_price);
-        return product_detail_price;
+    public String getProductPriceList() {
+        String productListPrice;
+        if (getVariationsNames().isEmpty()) {
+            productListPrice = productDetails.findElement(By.className("product__price--list")).getText();
+        } else {
+            productListPrice = productDetails.findElement(By.xpath("div/div/div[contains(@class, 'product__variation--wrap')" +
+                    "/span[contains(@class, 'product__price--list')]]")).getAttribute("innerHTML");
+        }
+        return productListPrice;
     }
 
-    public String getProductSalePrice() {
-        String product_detail_sale_price = productDetails.findElement(By.className("product__price--sale")).getText();
-        logger.info(product_detail_sale_price);
-        return product_detail_sale_price;
-    }
 
     public boolean isPreOrderButtonDisplayed() {
         return addToBag.isDisplayed();
+    }
+
+    public List<String> getVariationsNames() {
+        List<WebElement> variationsList = productVariationSection.findElements(By.className("product__variation--name"));
+        List<String> variationsListString = new ArrayList<>();
+        for (WebElement variation : variationsList) {
+            variationsListString.add(variation.getAttribute("innerHTML"));
+        }
+        return variationsListString;
+    }
+
+    public int getNumberOfColors() {
+        return productColorsSection.findElements(By.className("colors-list__item")).size();
+    }
+
+    public String getProductPriceSale() {
+        String productDetailSalePrice = productDetails.findElement(By.className("product__price--sale")).getText();
+        return productDetailSalePrice;
+    }
+
+    public String getProductPriceWas() {
+        String productDetailWasPrice = productDetails.findElement(By.className("product__price--list")).getText();
+        return productDetailWasPrice;
     }
 }

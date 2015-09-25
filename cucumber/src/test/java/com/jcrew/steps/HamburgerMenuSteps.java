@@ -58,4 +58,14 @@ public class HamburgerMenuSteps extends DriverFactory {
     public void closes_hamburger_menu() throws Throwable {
         hamburgerMenu.close_hamburger_menu();
     }
+
+    @And("^Chooses a random category$")
+    public void chooses_a_random_category() throws Throwable {
+        hamburgerMenu.click_random_category();
+    }
+
+    @And("^Chooses a random subcategory$")
+    public void chooses_a_random_subcategory() throws Throwable {
+        hamburgerMenu.click_random_subcategory();
+    }
 }

@@ -2,18 +2,23 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class ProductDetailPageSteps extends DriverFactory {
 
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
+    private Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
 
 
     @Given("User is in product detail page")
@@ -184,7 +189,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verifies product list price is ([^\"]*)$")
     public void Verifies_product_list_price_is_$_(String listPrice) throws Throwable {
-        assertEquals("Expected price is not the same", listPrice, productDetailPage.getProductPrice());
+        assertEquals("Expected price is not the same", listPrice, productDetailPage.getProductPriceList());
     }
 
     @Then("^Verify product is a pre-order one$")
@@ -202,5 +207,54 @@ public class ProductDetailPageSteps extends DriverFactory {
     @And("^Preorder button is pressed$")
     public void preorder_button_is_pressed() throws Throwable {
         productDetailPage.click_add_to_cart();
+    }
+
+    @Then("^Verify the product is the one it was selected$")
+    public void verify_the_product_is_the_one_it_was_selected() throws Throwable {
+        StateHolder stateHolder = StateHolder.getInstance();
+
+        String productName = stateHolder.get("productName");
+        String priceList = stateHolder.get("priceList");
+        String priceWas = stateHolder.get("priceWas");
+        String priceSale = stateHolder.get("priceSale");
+        String variations = stateHolder.get("variations");
+        String colorsCountString = stateHolder.get("colorsCount");
+
+
+        logger.debug("Product Name: {} ", productName);
+        logger.debug("Price List: {} ", priceList);
+        logger.debug("Variations: {} ", variations);
+        logger.debug("Colors Count: {} ", colorsCountString);
+
+        assertEquals("Product should be the selected one", productName.toLowerCase(), productDetailPage.getProductNameFromPDP().toLowerCase());
+
+        if (priceList != null) {
+            assertEquals("Price List should be the same", priceList, productDetailPage.getProductPriceList());
+        }
+
+        if (priceSale != null) {
+            assertEquals("Price Sale should be the same", priceSale, productDetailPage.getProductPriceSale());
+        }
+        if (priceWas != null) {
+            assertEquals("Price Was should be the same", priceWas, productDetailPage.getProductPriceWas());
+        }
+
+
+        if (variations != null) {
+            String[] variationsArray = variations.split(",");
+            List<String> variationsList = new ArrayList<>();
+            variationsList.add("Regular");
+            for (String variation : variationsArray) {
+                variationsList.add(variation.trim());
+            }
+            assertEquals("Variations should be the same", variationsList, productDetailPage.getVariationsNames());
+        }
+        int colorsCount = 1;
+        if (colorsCountString != null) {
+            colorsCount = Integer.parseInt(colorsCountString.trim());
+        }
+
+        assertEquals("Number of colors was not the expected", colorsCount, productDetailPage.getNumberOfColors());
+
     }
 }

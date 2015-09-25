@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.util.StateHolder;
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,8 +10,11 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+
 public class HamburgerMenu {
 
+    private StateHolder stateHolder = StateHolder.getInstance();
     private final WebDriver driver;
 
     @FindBy(className = "js-primary-nav__link--menu")
@@ -38,6 +43,8 @@ public class HamburgerMenu {
 
     @FindBy(className = "icon-nav-close")
     private WebElement closeHamburgerMenu;
+
+    private static final String[] CATEGORY_MENU = {"WOMEN", "MEN", "GIRLS", "BOYS"};
 
     public HamburgerMenu(WebDriver driver) {
         this.driver = driver;
@@ -103,11 +110,15 @@ public class HamburgerMenu {
     }
 
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
-        WebElement categoryElements = menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and text()='" +
-                category + "']/.."));
+        WebElement categoryElements = getMenuItemElementForCategory(category);
 
         WebElement subcategoryElement = categoryElements.findElement(By.linkText(subcategory));
         return subcategoryElement;
+    }
+
+    private WebElement getMenuItemElementForCategory(String category) {
+        return menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and text()='" +
+                category + "']/.."));
     }
 
     public boolean isSubcategoryMenuLinkPresent(String subcategory) {
@@ -124,4 +135,18 @@ public class HamburgerMenu {
         closeHamburgerMenu.click();
     }
 
+    public void click_random_category() {
+        int index = Util.randomIndex(CATEGORY_MENU.length);
+        WebElement category = getCategory(CATEGORY_MENU[(index)]);
+        stateHolder.put("category", category.getAttribute("innerHTML"));
+        category.click();
+    }
+
+    public void click_random_subcategory() {
+        String categorySelected = stateHolder.get("category");
+        WebElement menuItemElement = getMenuItemElementForCategory(categorySelected);
+        List<WebElement> menuItemLinks = menuItemElement.findElements(By.className("menu__link--has-href"));
+        int index = Util.randomIndex(menuItemLinks.size());
+        menuItemLinks.get(index).click();
+    }
 }
