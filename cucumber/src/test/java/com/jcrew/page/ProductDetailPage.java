@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.util.StateHolder;
+import com.jcrew.util.Util;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ProductDetailPage {
 
     private final WebDriver driver;
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private Logger logger = LoggerFactory.getLogger(ProductDetailPage.class);
 
@@ -64,9 +67,11 @@ public class ProductDetailPage {
     @FindBy(className = "message--headline")
     private WebElement messageHeadline;
 
-
     @FindBy(className = "message--body")
     private WebElement messageBody;
+
+    @FindBy(id = "c-product__variations")
+    private WebElement productVariations;
 
 
     public ProductDetailPage(WebDriver driver) {
@@ -84,14 +89,14 @@ public class ProductDetailPage {
     public void select_variation() {
         List<WebElement> variations = productVariationSection.findElements(By.tagName("input"));
 
-        WebElement variation = variations.get(0);
+        if (!variations.isEmpty()) {
+            WebElement variation = variations.get(0);
 
-        if (variation.isSelected()) {
-            logger.debug("Variation is already selected");
-
-        } else {
-
-            variation.click();
+            if (variation.isSelected()) {
+                logger.debug("Variation is already selected");
+            } else {
+                variation.click();
+            }
         }
 
     }
@@ -326,5 +331,42 @@ public class ProductDetailPage {
     public String getProductPriceWas() {
         String productDetailWasPrice = productDetails.findElement(By.className("product__price--list")).getText();
         return productDetailWasPrice;
+    }
+
+    public void select_random_variation() {
+        List<WebElement> variationsList = productVariations.findElements(By.className("product__variation"));
+        if (!variationsList.isEmpty()) {
+            int index = Util.randomIndex(variationsList.size());
+            WebElement variation = variationsList.get(index);
+            stateHolder.put("variation", variation.findElement(By.className("product__variation--name")).getText());
+            variation.click();
+        }
+    }
+
+    public void select_random_color() {
+        List<WebElement> colorsList = productColorsSection.findElements(By.className("colors-list__item"));
+        if (!colorsList.isEmpty()) {
+            int index = Util.randomIndex(colorsList.size());
+            WebElement color = colorsList.get(index);
+            stateHolder.put("color", color.getAttribute("data-name"));
+            color.click();
+        }
+    }
+
+    public void select_random_size() {
+        List<WebElement> allSizes = productSizesSection.findElements(By.className("sizes-list__item"));
+        List<WebElement> selectableSizes = new ArrayList<>();
+        for (WebElement size : allSizes) {
+            if (!size.getAttribute("class").contains("is-unavailable")) {
+                selectableSizes.add(size);
+            }
+        }
+
+        if (!selectableSizes.isEmpty()) {
+            int index = Util.randomIndex(selectableSizes.size());
+            WebElement size = selectableSizes.get(index);
+            stateHolder.put("size", size.getAttribute("data-name"));
+            size.click();
+        }
     }
 }
