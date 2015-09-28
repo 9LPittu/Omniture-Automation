@@ -143,7 +143,7 @@ public class SubcategoryPage {
     }
 
     public boolean isProductGridPresent() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productGrid));
+        new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(productGrid));
         return productGrid.isDisplayed();
     }
 
