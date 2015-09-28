@@ -147,6 +147,8 @@ public class HamburgerMenu {
         WebElement menuItemElement = getMenuItemElementForCategory(categorySelected);
         List<WebElement> menuItemLinks = menuItemElement.findElements(By.className("menu__link--has-href"));
         int index = Util.randomIndex(menuItemLinks.size());
-        menuItemLinks.get(index).click();
+        WebElement subcategory = menuItemLinks.get(index);
+        stateHolder.put("subcategory", subcategory.getAttribute("innerHTML"));
+        subcategory.click();
     }
 }
