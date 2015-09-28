@@ -7,6 +7,6 @@ Feature: Preorder Product Feature
     And Preorder button is displayed
     And A color is selected
     And A size is selected
-    // step for estimated ship date message needs to be created here.
+    #step for estimated ship date message needs to be created here.
     And Preorder button is pressed
     Then A minicart modal should appear with message '1 item has been added to your cart.'
