@@ -175,7 +175,7 @@ public class ProductDetailPage {
     }
 
     public String getMinicartMessage() {
-        final WebElement miniCart = new WebDriverWait(driver, 10).until(
+        final WebElement miniCart = new WebDriverWait(driver, 60).until(
                 ExpectedConditions.presenceOfElementLocated(By.cssSelector(".header__cart--details > p")));
         final String confirmationMessage = miniCart.getAttribute("innerHTML");
         logger.debug("Confirmation message is {} ", confirmationMessage);
