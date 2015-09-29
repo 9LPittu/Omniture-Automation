@@ -374,4 +374,9 @@ public class ProductDetailPage {
             size.click();
         }
     }
+
+    public String getButtonErrorMessage() {
+        return productActionsSection.findElement(By.className("product__message")).getText();
+    }
+
 }

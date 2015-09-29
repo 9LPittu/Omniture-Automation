@@ -307,4 +307,10 @@ public class ProductDetailPageSteps extends DriverFactory {
             assertEquals("Variations should be the same", variationsList, productDetailPage.getVariationsNames());
         }
     }
+
+    @And("^A button saying '([^\"]*)' is displayed$")
+    public void a_button_saying_is_displayed(String message) throws Throwable {
+        assertEquals("Expected message was not displayed", message, productDetailPage.getButtonErrorMessage());
+    }
+
 }

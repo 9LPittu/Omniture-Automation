@@ -15,6 +15,8 @@ Feature: Add to Bag
     And Verify variations listed are the expected ones
     And Selects any variation for the product if existent
     And Selects any color for the product
+    Then Add to cart button is pressed
+    And A button saying 'PLEASE SELECT A SIZE' is displayed
     And Selects any size for the product
     Then Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
@@ -25,5 +27,3 @@ Feature: Add to Bag
     And Verify size is the one selected from pdp page
     And Verify price is the same as the one displayed in pdp page
     And Verify variation is the one selected from pdp page
-
-#    And Verify the product added to bag is displayed in shopping bag with the selected values
