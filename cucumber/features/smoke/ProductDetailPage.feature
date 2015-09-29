@@ -8,7 +8,7 @@ Feature: Product Detail Page
     And User clicks on SWEATERS subcategory from Men Category
     And Click on product Rugged cotton sweatshirt sweater to display PDP
     Then User is in product detail page
-    When A variation is selected
+    And A variation is selected
     And A color is selected
     And A size is selected
     And A wishlist button is present

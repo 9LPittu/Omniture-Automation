@@ -70,7 +70,7 @@ public class StartingSteps {
 
     private void waitForPageToLoadUpToTheLastElementPriorScriptExecution() {
         new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfElementLocated(
-                By.className("footer__copyright__link")));
+                By.id("jchp-module35")));
     }
 
     @And("^User goes to homepage$")
