@@ -3,10 +3,7 @@ package com.jcrew.page;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -299,8 +296,16 @@ public class ProductDetailPage {
         if (getVariationsNames().isEmpty()) {
             productListPrice = productDetails.findElement(By.className("product__price--list")).getText();
         } else {
-            productListPrice = productDetails.findElement(By.xpath("div/div/div[contains(@class, 'product__variation--wrap')" +
-                    "/span[contains(@class, 'product__price--list')]]")).getAttribute("innerHTML");
+            try {
+                // running on mobile device
+                productListPrice = productDetails.findElement(By.xpath("div/div/div[contains(@class, 'product__variation--wrap')" +
+                        "/span[contains(@class, 'product__price--list')]]")).getAttribute("innerHTML");
+
+            } catch (NoSuchElementException nsee) {
+                // running in headless browser
+                productListPrice = productVariations.findElement(By.className("is-selected")).
+                        findElement(By.className("product__price--list")).getText();
+            }
         }
         return productListPrice;
     }

@@ -108,4 +108,9 @@ public class ShoppingBagPage {
         WebElement selectedOption = select.getFirstSelectedOption();
         return selectedOption.getText();
     }
+
+
+    public String getProductName() {
+        return itemProductSection.findElement(By.className("item-name")).getText();
+    }
 }
