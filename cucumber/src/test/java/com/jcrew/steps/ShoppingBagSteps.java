@@ -1,8 +1,10 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.ShoppingBagPage;
+import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -89,32 +91,38 @@ public class ShoppingBagSteps extends DriverFactory {
 
     @And("^Verify product name is the same as the one displayed in pdp page$")
     public void verify_product_name_is_the_same_as_the_one_displayed_in_pdp_page() throws Throwable {
-        String productName = stateHolder.get("productName").toUpperCase();
-        assertTrue(productName + " product is not the one displayed",
+        Product product = Util.getCurrentProduct();
+        String productName = product.getProductName().toUpperCase();
+        assertTrue(productName + " product is not the one displayed " + shoppingBagPage.getProductName(),
                 shoppingBagPage.getProductName().endsWith(productName));
+
     }
 
     @And("^Verify color is the one selected from pdp page$")
     public void verify_color_is_the_one_selected_from_pdp_page() throws Throwable {
-        String expectedColor = stateHolder.get("color");
+        Product product = Util.getCurrentProduct();
+        String expectedColor = product.getSelectedColor();
         assertTrue(expectedColor + " color is not displayed", shoppingBagPage.isProductColorDisplayed(expectedColor));
     }
 
     @And("^Verify size is the one selected from pdp page$")
     public void verify_size_is_the_one_selected_from_pdp_page() throws Throwable {
-        String expectedSize = stateHolder.get("size");
+        Product product = Util.getCurrentProduct();
+        String expectedSize = product.getSelectedSize();
         assertTrue(expectedSize + " size is not displayed", shoppingBagPage.isProductSizeDisplayed(expectedSize));
     }
 
     @And("^Verify price is the same as the one displayed in pdp page$")
     public void verify_price_is_the_same_as_the_one_displayed_in_pdp_page() throws Throwable {
-        String price = stateHolder.get("priceList") == null ? stateHolder.get("priceWas") : stateHolder.get("priceList");
+        Product product = Util.getCurrentProduct();
+        String price = product.getPriceList() == null ? product.getPriceSale() : product.getPriceList();
         assertEquals("Price should be the same", price, shoppingBagPage.getSubtotalValue());
     }
 
     @And("^Verify variation is the one selected from pdp page$")
     public void verify_variation_is_the_one_selected_from_pdp_page() throws Throwable {
-        String variation = stateHolder.get("variation");
+        Product product = Util.getCurrentProduct();
+        String variation = product.getSelectedVariation();
         if (variation != null) {
             String prefix = variation.toUpperCase();
             if (!"REGULAR".equalsIgnoreCase(prefix)) {

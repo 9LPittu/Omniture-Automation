@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.HamburgerMenu;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -12,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class HamburgerMenuSteps extends DriverFactory {
 
     private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("^Hamburger Menu ([^\"]*) Link is present$")
     public void hamburger_menu_category_link_is_present(String category) throws Throwable {
@@ -42,6 +44,7 @@ public class HamburgerMenuSteps extends DriverFactory {
     @And("^Selects ([^\"]*) Category from hamburger menu$")
     public void selects_category_from_hamburger_menu(String category) throws Throwable {
         hamburgerMenu.click_on_category(category);
+        stateHolder.put("category", category);
     }
 
     @And("^User clicks on back link$")

@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.apache.commons.lang3.StringUtils;
@@ -256,12 +257,23 @@ public class SubcategoryPage {
         new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(productGrid));
         int index = Util.randomIndex(productsFromGrid.size());
         WebElement randomProductSelected = productsFromGrid.get(index);
-        stateHolder.put("productName", getProductName(randomProductSelected));
-        stateHolder.put("priceList", getPriceList(randomProductSelected));
-        stateHolder.put("variations", getVariations(randomProductSelected));
-        stateHolder.put("colorsCount", getColorsCount(randomProductSelected));
-        stateHolder.put("priceWas", getPriceWas(randomProductSelected));
-        stateHolder.put("priceSale", getPriceSale(randomProductSelected));
+        Product product = new Product();
+        product.setProductName(getProductName(randomProductSelected));
+        product.setPriceList(getPriceList(randomProductSelected));
+        product.setVariations(getVariations(randomProductSelected));
+        product.setColorsCount(getColorsCount(randomProductSelected));
+        product.setPriceWas(getPriceWas(randomProductSelected));
+        product.setPriceSale(getPriceSale(randomProductSelected));
+
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
+
+        if (productList == null) {
+            productList = new ArrayList<>();
+        }
+
+        productList.add(product);
+
+        stateHolder.put("productList", productList);
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
 

@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HamburgerMenu {
@@ -81,14 +82,8 @@ public class HamburgerMenu {
         new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(element));
     }
 
-    public void click_on_shirts_and_tops_from_women_category_in_hamburger_menu() {
-        waitForVisibility(womenShirtAndTopsCategoryLink);
-        womenShirtAndTopsCategoryLink.click();
-    }
-
-
     public void click_on_back_link() {
-        WebElement backlink = driver.findElement(By.xpath("//*[@id='global__nav']/div/div[2]/button/div"));
+        WebElement backlink = driver.findElement(By.className("icon-nav-back-arrow"));
         waitForVisibility(backlink);
         backlink.click();
     }
@@ -117,8 +112,9 @@ public class HamburgerMenu {
     }
 
     private WebElement getMenuItemElementForCategory(String category) {
-        return menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and text()='" +
-                category + "']/.."));
+        return menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and " +
+                "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = " +
+                "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
 
     public boolean isSubcategoryMenuLinkPresent(String subcategory) {
@@ -143,11 +139,18 @@ public class HamburgerMenu {
     }
 
     public void click_random_subcategory() {
-        String categorySelected = stateHolder.get("category");
+        String categorySelected = (String) stateHolder.get("category");
         WebElement menuItemElement = getMenuItemElementForCategory(categorySelected);
         List<WebElement> menuItemLinks = menuItemElement.findElements(By.className("menu__link--has-href"));
-        int index = Util.randomIndex(menuItemLinks.size());
-        WebElement subcategory = menuItemLinks.get(index);
+        List<WebElement> selectableItems = new ArrayList<>();
+        for (WebElement menuItemLink : menuItemLinks) {
+            // currently subcategories containing feature are not working, skipping them for now.
+            if (!menuItemLink.getAttribute("href").contains("feature")) {
+                selectableItems.add(menuItemLink);
+            }
+        }
+        int index = Util.randomIndex(selectableItems.size());
+        WebElement subcategory = selectableItems.get(index);
         stateHolder.put("subcategory", subcategory.getAttribute("innerHTML"));
         subcategory.click();
     }

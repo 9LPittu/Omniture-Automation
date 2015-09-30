@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.apache.commons.lang3.StringUtils;
@@ -339,12 +340,21 @@ public class ProductDetailPage {
     }
 
     public void select_random_variation() {
-        List<WebElement> variationsList = productVariations.findElements(By.className("product__variation"));
-        if (!variationsList.isEmpty()) {
-            int index = Util.randomIndex(variationsList.size());
-            WebElement variation = variationsList.get(index);
-            stateHolder.put("variation", variation.findElement(By.className("product__variation--name")).getText());
-            variation.click();
+        try {
+            List<WebElement> variationsList = productVariations.findElements(By.className("product__variation"));
+            if (!variationsList.isEmpty()) {
+                int index = Util.randomIndex(variationsList.size());
+                WebElement variation = variationsList.get(index);
+
+                Product product = Util.getCurrentProduct();
+                product.setSelectedVariation(variation.findElement(By.className("product__variation--name")).getText());
+
+                variation.click();
+            }
+        } catch (StaleElementReferenceException sere) {
+            select_random_variation();
+        } catch (NoSuchElementException nsee) {
+            logger.debug("No variations section was found for the product selected");
         }
     }
 
@@ -353,8 +363,20 @@ public class ProductDetailPage {
         if (!colorsList.isEmpty()) {
             int index = Util.randomIndex(colorsList.size());
             WebElement color = colorsList.get(index);
-            stateHolder.put("color", color.getAttribute("data-name"));
+            Product product = Util.getCurrentProduct();
+            product.setSelectedColor(color.getAttribute("data-name"));
             color.click();
+            setSalePriceIfPresent(color, product);
+        }
+    }
+
+    private void setSalePriceIfPresent(WebElement color, Product product) {
+        try {
+            WebElement salePrice = color.findElement(By.xpath("../../../span[contains(@class, 'product__price--sale')]"));
+            product.setPriceSale(salePrice.getText());
+
+        } catch (NoSuchElementException nsee) {
+            logger.debug("There was no sale price for color: " + color.getAttribute("data-name"));
         }
     }
 
@@ -370,7 +392,8 @@ public class ProductDetailPage {
         if (!selectableSizes.isEmpty()) {
             int index = Util.randomIndex(selectableSizes.size());
             WebElement size = selectableSizes.get(index);
-            stateHolder.put("size", size.getAttribute("data-name"));
+            Product product = Util.getCurrentProduct();
+            product.setSelectedSize(size.getAttribute("data-name"));
             size.click();
         }
     }

@@ -26,12 +26,6 @@ public class HomePageSteps extends DriverFactory {
         homePage.input_search_term(searchTerm);
     }
 
-    @When("^Enters yellow dresses to the search field$")
-    public void enters_yellow_dresses_to_the_search_field() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        homePage.input_yellow_dresses();
-    }
-
     @And("^Hits enter in search field$")
     public void hits_enter_in_search_field() throws Throwable {
         homePage.hit_enter_in_search_field();
