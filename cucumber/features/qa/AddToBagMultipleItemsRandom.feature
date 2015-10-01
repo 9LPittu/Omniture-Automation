@@ -65,3 +65,5 @@ Feature: Multiple Items Random
 
     Then User clicks on item bag
     And User should be in shopping bag page
+    And Move to mobile site
+    Then Verify all selected products are displayed

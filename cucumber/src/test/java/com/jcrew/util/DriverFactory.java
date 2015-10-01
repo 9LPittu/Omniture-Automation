@@ -58,12 +58,13 @@ public class DriverFactory {
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getUserAgent());
 
-            int width = propertyReader.getWindowWidth();
-            int height = propertyReader.getWindowHeight();
             driver = new PhantomJSDriver(capabilities);
-            driver.manage().window().setSize(new Dimension(width, height));
 
         }
+
+        int width = propertyReader.getWindowWidth();
+        int height = propertyReader.getWindowHeight();
+        driver.manage().window().setSize(new Dimension(width, height));
 
         return driver;
 
@@ -85,18 +86,17 @@ public class DriverFactory {
 
         } else {
 
-            int width = propertyReader.getWindowWidth();
-            int height = propertyReader.getWindowHeight();
-
             final DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getUserAgent());
 
             driver = new RemoteWebDriver(seleniumHubRemoteAddress, capabilities);
-            driver.manage().window().setSize(new Dimension(width, height));
 
         }
 
+        int width = propertyReader.getWindowWidth();
+        int height = propertyReader.getWindowHeight();
+        driver.manage().window().setSize(new Dimension(width, height));
         return driver;
     }
 

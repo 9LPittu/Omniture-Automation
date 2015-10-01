@@ -42,6 +42,9 @@ public class ShoppingBagPage {
     @FindBy(className = "item-qty")
     private WebElement itemQuantity;
 
+    @FindBy(id = "order-listing")
+    private WebElement orderListing;
+
     public ShoppingBagPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
@@ -112,5 +115,13 @@ public class ShoppingBagPage {
 
     public String getProductName() {
         return itemProductSection.findElement(By.className("item-name")).getText();
+    }
+
+    public boolean isColorDisplayedForProduct(String productName, String selectedColor) {
+        WebElement productRoot = orderListing.findElement(By.xpath(".//a[contains(translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')," +
+                "translate(\"" + productName.replace(" (Pre-order)", "") + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../.."));
+
+        WebElement colorElement = productRoot.findElement(By.xpath(".//span[text() = '" + selectedColor + "']"));
+        return colorElement.isDisplayed();
     }
 }
