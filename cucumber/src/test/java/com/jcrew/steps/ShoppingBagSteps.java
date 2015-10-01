@@ -139,6 +139,8 @@ public class ShoppingBagSteps extends DriverFactory {
         for (Product product : productList) {
             assertTrue(product.getSelectedColor() + " color is not displayed for product " + product.getProductName(),
                     shoppingBagPage.isColorDisplayedForProduct(product.getProductName(), product.getSelectedColor()));
+            assertTrue(product.getSelectedSize() + " size is not displayed for product " + product.getProductName(),
+                    shoppingBagPage.isSizeDisplayedForProduct(product.getProductName(), product.getSelectedSize()));
         }
     }
 }

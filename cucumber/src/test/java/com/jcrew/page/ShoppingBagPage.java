@@ -118,10 +118,18 @@ public class ShoppingBagPage {
     }
 
     public boolean isColorDisplayedForProduct(String productName, String selectedColor) {
-        WebElement productRoot = orderListing.findElement(By.xpath(".//a[contains(translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')," +
-                "translate(\"" + productName.replace(" (Pre-order)", "") + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../.."));
+        return isGenericElementDisplayed(productName, selectedColor);
+    }
 
-        WebElement colorElement = productRoot.findElement(By.xpath(".//span[text() = '" + selectedColor + "']"));
-        return colorElement.isDisplayed();
+    public boolean isSizeDisplayedForProduct(String productName, String selectedSize) {
+        return isGenericElementDisplayed(productName, selectedSize);
+    }
+
+    private boolean isGenericElementDisplayed(String productName, String element) {
+        WebElement productRoot = orderListing.findElement(By.xpath(".//a[contains(translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')," +
+                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../.."));
+
+        WebElement selectedElement = productRoot.findElement(By.xpath(".//span[text() = '" + element + "']"));
+        return selectedElement.isDisplayed();
     }
 }
