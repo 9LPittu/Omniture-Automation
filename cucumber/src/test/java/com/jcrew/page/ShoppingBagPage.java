@@ -119,7 +119,7 @@ public class ShoppingBagPage {
 
     public boolean isColorDisplayedForProduct(String productName, String selectedColor) {
         WebElement productRoot = orderListing.findElement(By.xpath(".//a[contains(translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')," +
-                "translate('" + productName.replaceAll("'", "&quot;") + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../.."));
+                "translate(\"" + productName.replace(" (Pre-order)", "") + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../.."));
 
         WebElement colorElement = productRoot.findElement(By.xpath(".//span[text() = '" + selectedColor + "']"));
         return colorElement.isDisplayed();

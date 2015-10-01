@@ -9,6 +9,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,8 @@ public class HamburgerMenu {
     private WebElement closeHamburgerMenu;
 
     private static final String[] CATEGORY_MENU = {"WOMEN", "MEN", "GIRLS", "BOYS"};
+
+    private Logger logger = LoggerFactory.getLogger(HamburgerMenu.class);
 
     public HamburgerMenu(WebDriver driver) {
         this.driver = driver;
@@ -151,7 +155,9 @@ public class HamburgerMenu {
         }
         int index = Util.randomIndex(selectableItems.size());
         WebElement subcategory = selectableItems.get(index);
-        stateHolder.put("subcategory", subcategory.getAttribute("innerHTML"));
+        String subcategoryText = subcategory.getAttribute("innerHTML");
+        stateHolder.put("subcategory", subcategoryText);
+        logger.debug("Selected subcategory is {} from {} category", subcategoryText, categorySelected);
         subcategory.click();
     }
 }
