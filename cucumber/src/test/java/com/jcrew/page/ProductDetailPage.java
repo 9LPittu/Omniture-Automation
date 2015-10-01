@@ -32,9 +32,6 @@ public class ProductDetailPage {
     @FindBy(id = "c-product__variations")
     private WebElement productVariationSection;
 
-    @FindBy(id = "c-product__price-colors")
-    private WebElement productColorsSection;
-
     @FindBy(id = "c-product__sizes")
     private WebElement productSizesSection;
 
@@ -68,10 +65,6 @@ public class ProductDetailPage {
     @FindBy(className = "message--body")
     private WebElement messageBody;
 
-    @FindBy(id = "c-product__variations")
-    private WebElement productVariations;
-
-
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -101,7 +94,7 @@ public class ProductDetailPage {
 
     public void select_color() {
         try {
-            List<WebElement> colors = productColorsSection.findElements(By.className("colors-list__item"));
+            List<WebElement> colors = driver.findElement(By.id("c-product__price-colors")).findElements(By.className("colors-list__item"));
             WebElement color = colors.get(0);
             new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(color));
             color.click();
@@ -113,7 +106,7 @@ public class ProductDetailPage {
 
     public void select_any_color() {
 
-        List<WebElement> colors = productColorsSection.findElements(By.className("colors-list__item"));
+        List<WebElement> colors = driver.findElement(By.id("c-product__price-colors")).findElements(By.className("colors-list__item"));
         int min = 0;
         int max = colors.size() - 1;
         logger.info("no of products {}", max);
@@ -201,14 +194,14 @@ public class ProductDetailPage {
     }
 
     private WebElement getProductColorElement(String productColor) {
-        WebElement productColorElement = productColorsSection.findElement(
+        WebElement productColorElement = driver.findElement(By.id("c-product__price-colors")).findElement(
                 By.xpath(".//li[@data-name='" + productColor + "']"));
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productColorElement));
         return productColorElement;
     }
 
     public String getSelectedColor() {
-        WebElement productColorElement = productColorsSection.findElement(By.className("is-selected"));
+        WebElement productColorElement = driver.findElement(By.id("c-product__price-colors")).findElement(By.className("is-selected"));
         return productColorElement.getAttribute("data-name");
     }
 
@@ -265,7 +258,8 @@ public class ProductDetailPage {
     }
 
     public boolean isColorSelectorSectionPresent() {
-        return !productColorsSection.findElements(By.className("product__price-colors")).isEmpty();
+        return !driver.findElement(By.id("c-product__price-colors")).
+                findElements(By.className("product__price-colors")).isEmpty();
     }
 
     public boolean isQuantitySelectorSectionPresent() {
@@ -304,7 +298,7 @@ public class ProductDetailPage {
 
             } catch (NoSuchElementException nsee) {
                 // running in headless browser
-                productListPrice = productVariations.findElement(By.className("is-selected")).
+                productListPrice = driver.findElement(By.id("c-product__variations")).findElement(By.className("is-selected")).
                         findElement(By.className("product__price--list")).getText();
             }
         }
@@ -326,7 +320,8 @@ public class ProductDetailPage {
     }
 
     public int getNumberOfColors() {
-        return productColorsSection.findElements(By.className("colors-list__item")).size();
+        return driver.findElement(By.id("c-product__price-colors")).
+                findElements(By.className("colors-list__item")).size();
     }
 
     public String getProductPriceSale() {
@@ -341,7 +336,9 @@ public class ProductDetailPage {
 
     public void select_random_variation() {
         try {
-            List<WebElement> variationsList = productVariations.findElements(By.className("product__variation"));
+            List<WebElement> variationsList = driver.findElement(By.id("c-product__variations")).
+                    findElements(By.className("product__variation"));
+
             if (!variationsList.isEmpty()) {
                 int index = Util.randomIndex(variationsList.size());
                 WebElement variation = variationsList.get(index);
@@ -359,21 +356,35 @@ public class ProductDetailPage {
     }
 
     public void select_random_color() {
-        List<WebElement> colorsList = productColorsSection.findElements(By.className("colors-list__item"));
-        if (!colorsList.isEmpty()) {
-            int index = Util.randomIndex(colorsList.size());
-            WebElement color = colorsList.get(index);
-            Product product = Util.getCurrentProduct();
-            product.setSelectedColor(color.getAttribute("data-name"));
-            color.click();
-            setSalePriceIfPresent(color, product);
+        try {
+            List<WebElement> colorsList = new WebDriverWait(driver, 10).until(
+                    ExpectedConditions.visibilityOf(driver.findElement(By.id("c-product__price-colors")))).
+                    findElements(By.className("colors-list__item"));
+
+            if (!colorsList.isEmpty()) {
+                int index = Util.randomIndex(colorsList.size());
+                WebElement color = colorsList.get(index);
+                Product product = Util.getCurrentProduct();
+                product.setSelectedColor(color.getAttribute("data-name"));
+                color.click();
+                setSalePriceIfPresent(color, product);
+            }
+
+        } catch (StaleElementReferenceException sere) {
+            select_random_color();
         }
     }
 
     private void setSalePriceIfPresent(WebElement color, Product product) {
         try {
-            WebElement salePrice = color.findElement(By.xpath("../../../span[contains(@class, 'product__price--sale')]"));
+            WebElement salePrice = driver.findElement(By.id("c-product__price-colors")).
+                    findElement(By.cssSelector(".colors-list__item.is-selected")).
+                    findElement(By.xpath("../../../span[contains(@class, 'product__price--sale')]"));
             product.setPriceSale(salePrice.getText());
+
+        } catch (StaleElementReferenceException sere) {
+
+            setSalePriceIfPresent(color, product);
 
         } catch (NoSuchElementException nsee) {
             logger.debug("There was no sale price for color: " + color.getAttribute("data-name"));

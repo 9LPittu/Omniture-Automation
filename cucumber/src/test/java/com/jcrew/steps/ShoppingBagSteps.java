@@ -10,6 +10,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -129,6 +130,15 @@ public class ShoppingBagSteps extends DriverFactory {
                 assertTrue(prefix + " variation should have been displayed as part of the product name:",
                         shoppingBagPage.getProductName().startsWith(prefix));
             }
+        }
+    }
+
+    @Then("^Verify all selected products are displayed$")
+    public void verify_all_selected_products_are_displayed() throws Throwable {
+        final List<Product> productList = (List<Product>) stateHolder.get("productList");
+        for (Product product : productList) {
+            assertTrue(product.getSelectedColor() + " color is not displayed for product " + product.getProductName(),
+                    shoppingBagPage.isColorDisplayedForProduct(product.getProductName(), product.getSelectedColor()));
         }
     }
 }

@@ -303,12 +303,16 @@ public class SubcategoryPage {
     }
 
     private String getPriceList(WebElement randomProductSelected) {
-        List<WebElement> priceListElements = randomProductSelected.findElements(By.className("tile__detail--price--list"));
-        String priceList = null;
-        if (!priceListElements.isEmpty()) {
-            priceList = priceListElements.get(0).getAttribute("innerHTML");
+        try {
+            List<WebElement> priceListElements = randomProductSelected.findElements(By.className("tile__detail--price--list"));
+            String priceList = null;
+            if (!priceListElements.isEmpty()) {
+                priceList = priceListElements.get(0).getAttribute("innerHTML");
+            }
+            return priceList;
+        } catch (StaleElementReferenceException sere) {
+            return getPriceList(randomProductSelected);
         }
-        return priceList;
     }
 
     private String getProductName(WebElement randomProductSelected) {
@@ -585,8 +589,10 @@ public class SubcategoryPage {
     }
 
     public void click_on_product(String product) {
-        WebElement productLink = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/.."));
+        WebElement productLink = new WebDriverWait(driver, 60).
+                until(ExpectedConditions.visibilityOf(productGrid.
+                        findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]/.."))));
 
         productLink.click();
     }
