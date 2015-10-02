@@ -126,10 +126,18 @@ public class ShoppingBagPage {
     }
 
     private boolean isGenericElementDisplayed(String productName, String element) {
-        WebElement productRoot = orderListing.findElement(By.xpath(".//a[contains(translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')," +
-                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../.."));
-
+        WebElement productRoot = getProductRoot(productName);
         WebElement selectedElement = productRoot.findElement(By.xpath(".//span[text() = '" + element + "']"));
         return selectedElement.isDisplayed();
+    }
+
+    private WebElement getProductRoot(String productName) {
+        return orderListing.findElement(By.xpath(".//a[contains(translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')," +
+                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
+    }
+
+    public String getPriceDisplayedForProduct(String productName) {
+        WebElement productRoot = getProductRoot(productName);
+        return productRoot.findElement(By.className("item-price")).getText().trim();
     }
 }

@@ -124,13 +124,7 @@ public class ShoppingBagSteps extends DriverFactory {
     public void verify_variation_is_the_one_selected_from_pdp_page() throws Throwable {
         Product product = Util.getCurrentProduct();
         String variation = product.getSelectedVariation();
-        if (variation != null) {
-            String prefix = variation.toUpperCase();
-            if (!"REGULAR".equalsIgnoreCase(prefix)) {
-                assertTrue(prefix + " variation should have been displayed as part of the product name:",
-                        shoppingBagPage.getProductName().startsWith(prefix));
-            }
-        }
+        assertVariation(variation);
     }
 
     @Then("^Verify all selected products are displayed$")
@@ -141,6 +135,22 @@ public class ShoppingBagSteps extends DriverFactory {
                     shoppingBagPage.isColorDisplayedForProduct(product.getProductName(), product.getSelectedColor()));
             assertTrue(product.getSelectedSize() + " size is not displayed for product " + product.getProductName(),
                     shoppingBagPage.isSizeDisplayedForProduct(product.getProductName(), product.getSelectedSize()));
+
+            String price = product.getPriceList() == null ? product.getPriceSale() : product.getPriceList();
+            price = price.replaceAll("now", "").trim();
+            assertEquals("Price should be the same", price, shoppingBagPage.getPriceDisplayedForProduct(product.getProductName()));
+            String variation = product.getSelectedVariation();
+            assertVariation(variation);
+        }
+    }
+
+    private void assertVariation(String variation) {
+        if (variation != null) {
+            String prefix = variation.toUpperCase();
+            if (!"REGULAR".equalsIgnoreCase(prefix)) {
+                assertTrue(prefix + " variation should have been displayed as part of the product name:",
+                        shoppingBagPage.getProductName().startsWith(prefix));
+            }
         }
     }
 }
