@@ -30,7 +30,8 @@ Feature: Account Feature QA Suite
     And User clicks on hamburger menu
     And My Account link is present
     And Selects WOMEN Category from hamburger menu
-    And Selects Shirts and Tops from Women Category in hamburger menu
+    And Selects Shirts and Tops subcategory
+#        Selects Shirts and Tops from Women Category in hamburger menu
     And User should be in shirtsandtops page for women
     And User clicks on hamburger menu
     And User clicks on back link
