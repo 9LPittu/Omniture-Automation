@@ -42,8 +42,6 @@ Feature: Regression Tests Category Feature
     And Selects vans subcategory
     Then VANS option becomes selected
     And Refine modal autocloses
-#    By design selected category no longer displays as post sign
-#    And Array page displays WOOLRICH
     And Products displayed are vans from ingoodcompany category
 
   Scenario: Check End cap navigation

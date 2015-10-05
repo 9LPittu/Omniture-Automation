@@ -2,18 +2,38 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Reporting;
+
+import cucumber.api.Scenario;
+import cucumber.api.java.Before;
+import com.jcrew.util.StateHolder;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class ProductDetailPageSteps extends DriverFactory {
 
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
 
+    private Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
+    private StateHolder stateHolder = StateHolder.getInstance();
+    
+    private Scenario scenario;
+    private Reporting reporting = new Reporting();
+    
+    @Before
+    public void getScenarioObject(Scenario s){
+      this.scenario = s;
+    }
 
     @Given("User is in product detail page")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
@@ -45,11 +65,15 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void a_wishlist_button_is_present() throws Throwable {
         assertTrue("A wishlist button should be displayed",
                 productDetailPage.isWishlistButtonPresent());
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @When("^Add to cart button is pressed$")
     public void add_to_cart_button_is_pressed() throws Throwable {
         productDetailPage.click_add_to_cart();
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @Then("^Bag should have (\\d+) item\\(s\\) added$")
@@ -62,11 +86,15 @@ public class ProductDetailPageSteps extends DriverFactory {
     @Then("^A minicart modal should appear with message '([^\"]*)'$")
     public void a_minicart_modal_should_appear_with_message(String message) throws Throwable {
         assertEquals(message, productDetailPage.getMinicartMessage());
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @Given("^Bag should have item\\(s\\) added$")
     public void bag_should_have_item_s_added() throws Throwable {
         assertTrue("It should contain at least one item", productDetailPage.getNumberOfItemsInBag() > 0);
+        
+        reporting.takeScreenshot(scenario);
     }
 
     @And("^Verify product sale price is ([^\"]*)$")
@@ -98,7 +126,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify update bag button is present$")
     public void verify_update_bag_button_is_present() throws Throwable {
-        assertEquals("UPDATE BAG", productDetailPage.getAddToOrUpdateBagButtonText());
+        assertEquals("UPDATE BAG", productDetailPage.getBagButtonText());
     }
 
     @Then("^Update Bag button is pressed$")
@@ -138,4 +166,180 @@ public class ProductDetailPageSteps extends DriverFactory {
         assertEquals("Expected message was not received", "ADDED TO WISHLIST", productDetailPage.getWishlistConfirmationMessage());
         productDetailPage.go_to_wishlist();
     }
+
+    @Then("^Size selector is not displayed$")
+    public void size_selector_is_not_displayed() throws Throwable {
+        assertFalse("Size selector should not be displayed",
+                productDetailPage.isSizeSelectorSectionPresent());
+    }
+
+    @And("^Color selector is not displayed$")
+    public void color_selector_is_not_displayed() throws Throwable {
+        assertFalse("Clor selector should not be displayed",
+                productDetailPage.isColorSelectorSectionPresent());
+    }
+
+    @And("^Quantity selector is not displayed$")
+    public void quantity_selector_is_not_displayed() throws Throwable {
+        assertFalse("Quantity selector should not be displayed",
+                productDetailPage.isQuantitySelectorSectionPresent());
+    }
+
+    @And("^Add to bag button is not displayed$")
+    public void add_to_bag_button_is_not_displayed() throws Throwable {
+        assertFalse("Add to bag button should not be displayed",
+                productDetailPage.isAddToBagButtonPresent());
+    }
+
+    @And("^Wishlist button is not displayed$")
+    public void wishlist_button_is_not_displayed() throws Throwable {
+        assertFalse("Add to bag button should not be displayed",
+                productDetailPage.isWishlistButtonPresent());
+    }
+
+    @Then("^Verify headline message for VPS product is '([^\"]*)'$")
+    public void verify_headline_message_for_vps_product(String messageHeadline) throws Throwable {
+        assertEquals("Headline message is not the expected one",
+                messageHeadline, productDetailPage.getHeadlineMessage());
+    }
+
+    @Then("^Verify body message for VPS product is '([^\"]*)'$")
+    public void verify_body_message_for_vps_product(String messageBody) throws Throwable {
+        assertEquals("Body message is not the expected one",
+                messageBody, productDetailPage.getBodyMessage());
+    }
+
+    @And("^Verifies product list price is ([^\"]*)$")
+    public void Verifies_product_list_price_is_$_(String listPrice) throws Throwable {
+        assertEquals("Expected price is not the same", listPrice, productDetailPage.getProductPriceList());
+    }
+
+    @Then("^Verify product is a pre-order one$")
+    public void verify_product_is_a_pre_order_one() throws Throwable {
+        assertTrue("Product should have been a pre-order one",
+                productDetailPage.getProductNameFromPDP().endsWith("(pre-order)"));
+    }
+
+    @Then("^Preorder button is displayed$")
+    public void Preorder_button_is_displayed() throws Throwable {
+        assertTrue("Pre-order button should be displayed", productDetailPage.isPreOrderButtonDisplayed());
+        assertEquals("Name of the button is not pre order", "PRE-ORDER", productDetailPage.getBagButtonText());
+    }
+
+    @And("^Preorder button is pressed$")
+    public void preorder_button_is_pressed() throws Throwable {
+        productDetailPage.click_add_to_cart();
+    }
+
+    @And("^Selects any variation for the product if existent$")
+    public void selects_any_variation_for_the_product_if_existent() throws Throwable {
+        productDetailPage.select_random_variation();
+    }
+
+    @And("^Selects any color for the product$")
+    public void selects_any_color_for_the_product() throws Throwable {
+        productDetailPage.select_random_color();
+        assertNotNull("A color should have been selected", stateHolder.get("color"));
+    }
+
+    @And("^Selects any size for the product$")
+    public void selects_any_size_for_the_product() throws Throwable {
+        productDetailPage.select_random_size();
+        assertNotNull("A size should have been selected", stateHolder.get("size"));
+    }
+
+    @Then("^Verify product name is the one it was selected$")
+    public void verify_product_name_is_the_one_it_was_selected() throws Throwable {
+        String productName = stateHolder.get("productName");
+        logger.debug("Product Name: {} ", productName);
+
+        String subcategory = stateHolder.get("subcategory");
+
+        if (subcategory.equalsIgnoreCase("suiting")) {
+            // suiting products have appended a 'the ' at the beginning, removing it for later comparison.
+            productName = productName.replaceFirst("the ", "");
+        }
+
+        assertEquals("Product should be the selected one", productName.toLowerCase(), productDetailPage.getProductNameFromPDP().toLowerCase());
+
+
+    }
+
+    @And("^Verify amount of colors listed is correct$")
+    public void verify_amount_of_colors_listed_is_correct() throws Throwable {
+        String colorsCountString = stateHolder.get("colorsCount");
+        logger.debug("Colors Count: {} ", colorsCountString);
+
+        int colorsCount = 1;
+        if (colorsCountString != null) {
+            colorsCount = Integer.parseInt(colorsCountString.trim());
+        }
+
+        assertEquals("Number of colors was not the expected", colorsCount, productDetailPage.getNumberOfColors());
+
+    }
+
+    @And("^Verify price list is correct$")
+    public void verify_price_list_is_correct() throws Throwable {
+        String priceList = stateHolder.get("priceList");
+        logger.debug("Price List: {} ", priceList);
+        if (priceList != null) {
+            assertEquals("Price List should be the same", priceList, productDetailPage.getProductPriceList());
+        }
+    }
+
+    @And("^Verify price sale is correct$")
+    public void verify_price_sale_is_correct() throws Throwable {
+        String priceSale = stateHolder.get("priceSale");
+
+        logger.debug("Price Sale: {} ", priceSale);
+
+        if (priceSale != null) {
+            assertEquals("Price Sale should be the same", priceSale, productDetailPage.getProductPriceSale());
+        }
+
+    }
+
+    @And("^Verify price was is correct$")
+    public void verify_price_was_is_correct() throws Throwable {
+        String priceWas = stateHolder.get("priceWas");
+
+        logger.debug("Price Sale: {} ", priceWas);
+
+        if (priceWas != null) {
+            assertEquals("Price Was should be the same", priceWas, productDetailPage.getProductPriceWas());
+        }
+
+    }
+
+    @And("^Verify variations listed are the expected ones$")
+    public void verify_variations_listed_are_the_expected_ones() throws Throwable {
+        String variations = stateHolder.get("variations");
+
+        logger.debug("Variations: {} ", variations);
+
+        if (variations != null) {
+            String[] variationsArray = variations.split(",");
+            List<String> variationsList = new ArrayList<>();
+            variationsList.add("Regular");
+            for (String variation : variationsArray) {
+                variationsList.add(variation.trim());
+            }
+            assertEquals("Variations should be the same", variationsList, productDetailPage.getVariationsNames());
+        }
+    }
+
+    @And("^A button saying '([^\"]*)' is displayed$")
+    public void a_button_saying_is_displayed(String message) throws Throwable {
+        assertEquals("Expected message was not displayed", message, productDetailPage.getButtonErrorMessage());
+    }
+
+
+    @Given("^item bag is clicked$")
+    public void item_bag_is_Clicked() throws Throwable {
+        productDetailPage.click_item_bag();
+        
+        reporting.takeScreenshot(scenario);
+    }
+
 }

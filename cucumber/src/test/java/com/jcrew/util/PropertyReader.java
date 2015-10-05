@@ -87,6 +87,10 @@ public class PropertyReader {
     public String getSeleniumHubUrl() {
         return readProperty("selenium.grid.hub.url");
     }
+    
+    public String getScreenshotForEveryStep(){
+    	return readProperty("screenshot.every.step");
+    }
 
     public String getProperty(String property) {
         return readProperty(property);

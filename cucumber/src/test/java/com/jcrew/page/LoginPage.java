@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.PropertyReader;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -39,6 +40,17 @@ public class LoginPage {
 
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
+    
+    @FindBy(className="button-submit")
+    private WebElement signInCheckOut;
+    
+    //Mobile page controls
+    
+    @FindBy(id="loginUser")
+    private WebElement emailAddress;
+    
+    @FindBy(id="loginPassword")
+    private WebElement passwordField;
 
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
 
@@ -123,6 +135,38 @@ public class LoginPage {
 
     public void click_forgot_password_link() {
         signInForm.findElement(By.linkText("Forgot Password?")).click();
+    }
+    
+    public void enterMobileCredentials(){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+    	enterEmailAddress(reader.readProperty("checkout.signed.in.username"));
+    	enterPassword(reader.readProperty("checkout.signed.in.password"));
+    }
+    
+    public void enterEmailAddress(String email){
+    	emailAddress.clear();
+    	emailAddress.sendKeys(email);
+    }
+    
+    public void enterPassword(String password){
+    	passwordField.clear();
+    	passwordField.sendKeys(password);
+    }
+    
+    public void clickSignInCheckOut() throws InterruptedException{
+    	Thread.sleep(5000);
+    	signInCheckOut.click();
+    	Thread.sleep(5000);
+    	
+//    	if(itemBagLink.getText().contains("(")){    	
+//	    	if(addItemsToBagAndReviewOrder.isDisplayed()){
+//	    		addItemsToBagAndReviewOrder.click();
+//	    		
+//	    		if(checkOutNow.isDisplayed()){
+//	        		checkOutNow.click();
+//	        	}
+//	    	} 	
+//    	}
     }
 }
 

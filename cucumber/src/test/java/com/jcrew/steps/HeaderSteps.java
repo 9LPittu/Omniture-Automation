@@ -3,6 +3,10 @@ package com.jcrew.steps;
 
 import com.jcrew.page.Header;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Reporting;
+
+import cucumber.api.Scenario;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -15,7 +19,14 @@ import static org.junit.Assert.assertTrue;
 
 public class HeaderSteps extends DriverFactory {
     private Header header = new Header(getDriver());
-
+    
+    private Scenario scenario;
+    private Reporting reporting = new Reporting();
+    
+    @Before
+    public void getScenarioObject(Scenario s){
+    	this.scenario = s;
+    }
 
     @And("^Search Link is present$")
     public void search_link_is_present() throws Throwable {
@@ -27,6 +38,7 @@ public class HeaderSteps extends DriverFactory {
     public void verify_header_link_is_displayed(String headerLink) throws Throwable {
         assertTrue(headerLink + " should have been present", header.isHeaderLinkPresent(headerLink));
     }
+
     @Then("^Verify header bag icon is displayed$")
     public void verify_header_bag_icon_is_displayed() throws Throwable {
         assertTrue("Bag icon should have been present", header.isHeaderBagIconPresent());
@@ -60,9 +72,8 @@ public class HeaderSteps extends DriverFactory {
             String headerLinkTrimmed = headerLink.trim();
             headerLinksList.add(headerLinkTrimmed);
         }
-           headerLinksList.add(header.getBagIconLinkText());
-        System.out.println(header.getBagIconLinkText());
-        System.out.println(headerLinksList);
+
+        headerLinksList.add(header.getBagIconLinkText());
 
         List<String> primaryNavigationLinkNames = header.getPrimaryNavigationLinkNames();
 
@@ -89,7 +100,7 @@ public class HeaderSteps extends DriverFactory {
 
     @Given("^User clicks on item bag$")
     public void user_clicks_on_item_bag() throws Throwable {
-        header.click_item_bag();
+        header.click_item_bag();       
     }
 
     @And("^Bag Link is present$")

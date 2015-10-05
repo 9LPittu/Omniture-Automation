@@ -32,6 +32,9 @@ public class SearchPage {
     @FindBy(xpath = "//div[@data-label='Women']")
     private WebElement womenSelector;
 
+    @FindBy(xpath = "//div[@data-group='gender']")
+    List<WebElement> genderSelectors;
+
     @FindBy(id = "c-search__results")
     private WebElement searchResult;
 
@@ -43,12 +46,6 @@ public class SearchPage {
 
     @FindBy(className = "search__filter--sort")
     private WebElement searchFilterSortBySection;
-
-    @FindBy(xpath = "//*[@id='c-search__results']/div/div[3]/div[1]/div/div[1]/a/img")
-    List<WebElement> yellow_dresses;
-
-    @FindBy(id = "c-product__overview")
-    private WebElement product_details;
 
     public SearchPage(WebDriver driver) {
         this.driver = driver;
@@ -71,17 +68,26 @@ public class SearchPage {
     public List<String> areGenderSelectorsDisplayed() {
 
         logger.info("Validating web element presence {}", genderSelectorElement.getClass());
-        final List<String> gender_selector_attributes = new ArrayList<String>();
-        final List<WebElement> gender_selectors = driver.findElements(By.xpath("//div[@data-group='gender']"));
-        for (WebElement gender_selector : gender_selectors) {
+        final List<String> genderSelectorAttributes = new ArrayList<String>();
+        for (WebElement gender_selector : genderSelectors) {
 
-            gender_selector_attributes.add(gender_selector.getAttribute("data-group"));
+            genderSelectorAttributes.add(gender_selector.getAttribute("data-group"));
         }
-        return gender_selector_attributes;
+        return genderSelectorAttributes;
     }
 
     public void click_on_gender_selector() {
         womenSelector.click();
+    }
+
+    public void click_on_gender_selector(String gender) {
+        for (WebElement genderSelector : genderSelectors) {
+            logger.info("selected gender name is {}", genderSelector.getText());
+            if (genderSelector.getText().equalsIgnoreCase(gender)) {
+                genderSelector.click();
+            }
+        }
+
     }
 
     public boolean isRefinePage() {
@@ -90,7 +96,7 @@ public class SearchPage {
     }
 
     public boolean isRefineButtonDisplayed() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(refineButton));
+        new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(refineButton));
         return refineButton.isDisplayed();
     }
 
@@ -133,47 +139,34 @@ public class SearchPage {
         return sortByOptionCheckbox.isSelected();
     }
 
-    public boolean click_on_the_product() {
+    public String click_on_no_sale_price_product() {
+
         List<WebElement> products_displayed = productGrid.findElements(By.className("c-product-tile"));
+
         List<WebElement> no_sale_products = new ArrayList<WebElement>();
         for (WebElement product_displayed : products_displayed) {
             if (product_displayed.getText().contains("now") == false) {
-                logger.info("products with no sale price {}", product_displayed.getText());
                 no_sale_products.add(product_displayed);
             }
         }
-        logger.info("sale products{}", no_sale_products.size());
-        WebElement elem=no_sale_products.get(2);
+        int min = 0;
+        int max = no_sale_products.size() - 1;
+        logger.info("no of products {}", max);
 
-        logger.info("sale products text{}", elem.getText());
-        no_sale_products.get(2).findElement(By.className("product__image--small")).click();
+        int range = (max - min) + 1;
+        int randomNumber = (int) (Math.random() * range) + min;
+        WebElement selectedNoSalePriceProduct = no_sale_products.get(randomNumber);
 
-        return true;//??
+        WebElement selectedProductNameElement = selectedNoSalePriceProduct.findElement(By.className("tile__detail--name"));
 
+        String productName = selectedProductNameElement.getText();
+        logger.info("sale product selected now {}", productName);
+        new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(selectedNoSalePriceProduct.findElement(By.className("product__image--small"))));
+        selectedNoSalePriceProduct.findElement(By.className("product__image--small")).click();
+
+        return productName;
     }
 
-    public String getProductName() {
-        // WebElement product_details = driver.findElement(By.id("c-product__overview"));
-        new WebDriverWait(driver, 10).until(
-                ExpectedConditions.visibilityOf(product_details));
-        String product_detail_name = product_details.findElement(By.tagName("h1")).getText();
-        //String product_detail_price = product_details.findElement(By.cssSelector("#c-product__overview > header > section.product__price > span")).getText();
-        logger.info(product_detail_name);
-        // logger.info(product_detail_price);
-        return product_detail_name;
-    }
-
-    public String getProductPrice() {
-        String product_detail_price = product_details.findElement(By.className("product__price--list")).getText();
-        logger.info(product_detail_price);
-        return product_detail_price;
-    }
-
-    public String getProductSalePrice() {
-        String product_detail_sale_price = product_details.findElement(By.className("product__price--sale")).getText();
-        logger.info(product_detail_sale_price);
-        return product_detail_sale_price;
-    }
 
     public boolean scroll_down_the_page() {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
