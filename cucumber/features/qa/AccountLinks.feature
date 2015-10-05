@@ -4,7 +4,7 @@ Feature: Account Page
   Background:
     Given User is on homepage
 
-  Scenario Outline: sign in page should be verified and signed in
+  Scenario Outline: Validate All Menu Links in Account Page
     Given Goes to sign in page
     When User enters <Username> as email
     And User enters <Password> as password

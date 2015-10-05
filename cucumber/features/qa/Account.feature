@@ -14,6 +14,7 @@ Feature: Account Feature QA Suite
     And User clicks on SIGN OUT link in My Account Page
     Then Verify user is in homepage
     And User is signed out
+    And Verify BAG header link is displayed
 
     Examples:
       | Username          | Password |
