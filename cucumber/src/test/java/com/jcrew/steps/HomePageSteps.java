@@ -64,6 +64,7 @@ public class HomePageSteps extends DriverFactory {
     @Then("^Verify user is in homepage$")
     public void verify_user_is_in_homepage() throws Throwable {
         assertTrue("Global Main Section should be displayed", homePage.isHomePage());
+        reporting.takeScreenshot(scenario);
     }
 
     @And("^User clicks on search close icon")

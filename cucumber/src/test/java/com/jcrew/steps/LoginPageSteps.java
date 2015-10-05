@@ -1,7 +1,6 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.HamburgerMenu;
-import com.jcrew.page.HomePage;
 import com.jcrew.page.LoginPage;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.Reporting;
@@ -29,11 +28,13 @@ public class LoginPageSteps extends DriverFactory {
     @When("User enters ([^\"]*) as email")
     public void user_enters_input_as_email(String email) {
         loginPage.input_as_email(email);
+        reporting.takeScreenshot(scenario);
     }
 
     @And("User enters ([^\"]*) as password")
     public void user_enters_input_as_password(String password) {
         loginPage.input_as_password(password);
+        reporting.takeScreenshot(scenario);
     }
 
     @Then("^An error message should appear$")
@@ -45,6 +46,7 @@ public class LoginPageSteps extends DriverFactory {
     @And("^Hits sign in button$")
     public void hits_sign_in_button() throws Throwable {
         loginPage.click_sign_in_button();
+        reporting.takeScreenshot(scenario);
     }
 
     @When("^User provides login information$")
@@ -55,7 +57,7 @@ public class LoginPageSteps extends DriverFactory {
     @And("^Check box is enabled$")
     public void check_box_is_enabled() throws Throwable {
         assertTrue("keep me signed in should be enabled by default", loginPage.isCheckBoxEnabled());
-
+        reporting.takeScreenshot(scenario);
     }
 
     @And("^My Account link is present$")

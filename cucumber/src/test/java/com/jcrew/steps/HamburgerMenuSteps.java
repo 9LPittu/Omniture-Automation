@@ -65,6 +65,7 @@ public class HamburgerMenuSteps extends DriverFactory {
     @And("^Goes to sign in page$")
     public void goes_to_sign_in_page() throws Throwable {
         hamburgerMenu.click_on_sign_in_link();
+        reporting.takeScreenshot(scenario);
     }
 
     @And("^Closes hamburger menu$")
