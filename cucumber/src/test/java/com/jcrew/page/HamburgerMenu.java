@@ -160,4 +160,15 @@ public class HamburgerMenu {
         logger.debug("Selected subcategory is {} from {} category", subcategoryText, categorySelected);
         subcategory.click();
     }
+
+    public String getSignInMessage() {
+        String result = "";
+        if (signInLink.isDisplayed()) {
+            result = signInLink.getText();
+        } else {
+            click_on_hamburger_menu();
+            result = signInLinkFromHamburger.getText();
+        }
+        return result;
+    }
 }

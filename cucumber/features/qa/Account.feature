@@ -11,7 +11,9 @@ Feature: Account Feature QA Suite
     And Check box is enabled
     And Hits sign in button
     Then User is in My Account page
-    Then User clicks on SIGN OUT link in My Account Page
+    And User clicks on SIGN OUT link in My Account Page
+    Then Verify user is in homepage
+    And User is signed out
 
     Examples:
       | Username          | Password |

@@ -8,6 +8,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HamburgerMenuSteps extends DriverFactory {
@@ -70,5 +71,11 @@ public class HamburgerMenuSteps extends DriverFactory {
     @And("^Chooses a random subcategory$")
     public void chooses_a_random_subcategory() throws Throwable {
         hamburgerMenu.click_random_subcategory();
+    }
+
+    @And("^User is signed out$")
+    public void user_is_signed_out() throws Throwable {
+        assertEquals("Expected sign in message is not there",
+                "SIGN IN", hamburgerMenu.getSignInMessage());
     }
 }
