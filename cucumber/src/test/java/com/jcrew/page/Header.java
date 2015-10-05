@@ -54,7 +54,7 @@ public class Header {
     }
 
     public boolean isSearchDrawerOpen() {
-        WebElement headerSearchInput = new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
+        WebElement headerSearchInput = new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
         return headerSearchInput.isDisplayed();
     }
 

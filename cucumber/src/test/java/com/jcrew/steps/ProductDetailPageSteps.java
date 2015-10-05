@@ -37,7 +37,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^A color is selected$")
     public void a_color_is_selected() throws Throwable {
-        productDetailPage.select_color();
+        productDetailPage.select_any_color();
     }
 
     @And("^A size is selected$")
