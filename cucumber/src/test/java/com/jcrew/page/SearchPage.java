@@ -61,7 +61,7 @@ public class SearchPage {
 
 
     public boolean areResultsDisplayed() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productGrid));
+        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(productGrid));
         return !productGrid.findElements(By.className("c-product-tile")).isEmpty();
     }
 

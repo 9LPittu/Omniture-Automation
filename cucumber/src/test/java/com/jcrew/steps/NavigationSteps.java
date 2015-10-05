@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.Navigation;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.WebDriver;
@@ -47,5 +48,12 @@ public class NavigationSteps extends DriverFactory {
     @Then("^Verify ([^\"]*) Department Link is present$")
     public void verify_department_link_is_present(String department) throws Throwable {
         assertTrue(department + " link should have been present", navigation.isDepartmentLinkPresent(department));
+    }
+
+    @And("^Move to mobile site$")
+    public void move_to_mobile_site() throws Throwable {
+        String currentUrl = getDriver().getCurrentUrl();
+        String mobileSite = currentUrl + "&isMobile=true";
+        getDriver().get(mobileSite);
     }
 }

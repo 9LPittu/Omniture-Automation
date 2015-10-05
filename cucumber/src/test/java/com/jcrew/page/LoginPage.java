@@ -134,7 +134,7 @@ public class LoginPage {
     }
 
     public void click_forgot_password_link() {
-        signInForm.findElement(By.linkText("Forgot Password?")).click();
+        signInForm.findElement(By.linkText("I forgot my password!")).click();
     }
     
     public void enterMobileCredentials(){

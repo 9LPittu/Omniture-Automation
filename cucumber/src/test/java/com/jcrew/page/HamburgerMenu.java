@@ -9,7 +9,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class HamburgerMenu {
@@ -43,8 +48,10 @@ public class HamburgerMenu {
 
     @FindBy(className = "icon-nav-close")
     private WebElement closeHamburgerMenu;
-
+    
     private static final String[] CATEGORY_MENU = {"WOMEN", "MEN", "GIRLS", "BOYS"};
+
+    private Logger logger = LoggerFactory.getLogger(HamburgerMenu.class);
 
     public HamburgerMenu(WebDriver driver) {
         this.driver = driver;
@@ -81,14 +88,8 @@ public class HamburgerMenu {
         new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(element));
     }
 
-    public void click_on_shirts_and_tops_from_women_category_in_hamburger_menu() {
-        waitForVisibility(womenShirtAndTopsCategoryLink);
-        womenShirtAndTopsCategoryLink.click();
-    }
-
-
     public void click_on_back_link() {
-        WebElement backlink = driver.findElement(By.xpath("//*[@id='global__nav']/div/div[2]/button/div"));
+        WebElement backlink = driver.findElement(By.className("icon-nav-back-arrow"));
         waitForVisibility(backlink);
         backlink.click();
     }
@@ -117,9 +118,11 @@ public class HamburgerMenu {
     }
 
     private WebElement getMenuItemElementForCategory(String category) {
-        return menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and text()='" +
-                category + "']/.."));
+        return menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and " +
+                "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = " +
+                "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
+    
 
     public boolean isSubcategoryMenuLinkPresent(String subcategory) {
         return getSubcategoryFromMenu(subcategory, "").isDisplayed();
@@ -143,12 +146,21 @@ public class HamburgerMenu {
     }
 
     public void click_random_subcategory() {
-        String categorySelected = stateHolder.get("category");
+        String categorySelected = (String) stateHolder.get("category");
         WebElement menuItemElement = getMenuItemElementForCategory(categorySelected);
         List<WebElement> menuItemLinks = menuItemElement.findElements(By.className("menu__link--has-href"));
-        int index = Util.randomIndex(menuItemLinks.size());
-        WebElement subcategory = menuItemLinks.get(index);
-        stateHolder.put("subcategory", subcategory.getAttribute("innerHTML"));
+        List<WebElement> selectableItems = new ArrayList<>();
+        for (WebElement menuItemLink : menuItemLinks) {
+            // currently subcategories containing feature are not working, skipping them for now.
+            if (!menuItemLink.getAttribute("href").contains("feature")) {
+                selectableItems.add(menuItemLink);
+            }
+        }
+        int index = Util.randomIndex(selectableItems.size());
+        WebElement subcategory = selectableItems.get(index);
+        String subcategoryText = subcategory.getAttribute("innerHTML");
+        stateHolder.put("subcategory", subcategoryText);
+        logger.debug("Selected subcategory is {} from {} category", subcategoryText, categorySelected);
         subcategory.click();
     }
 }

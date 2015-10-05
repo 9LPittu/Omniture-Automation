@@ -1,13 +1,10 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetailPage;
+import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
-import com.jcrew.util.Reporting;
-
-import cucumber.api.Scenario;
-import cucumber.api.java.Before;
 import com.jcrew.util.StateHolder;
-
+import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -23,17 +20,9 @@ import static org.junit.Assert.*;
 public class ProductDetailPageSteps extends DriverFactory {
 
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
-
     private Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
     private StateHolder stateHolder = StateHolder.getInstance();
-    
-    private Scenario scenario;
-    private Reporting reporting = new Reporting();
-    
-    @Before
-    public void getScenarioObject(Scenario s){
-      this.scenario = s;
-    }
+
 
     @Given("User is in product detail page")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
@@ -48,7 +37,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^A color is selected$")
     public void a_color_is_selected() throws Throwable {
-        productDetailPage.select_color();
+        productDetailPage.select_any_color();
     }
 
     @And("^A size is selected$")
@@ -65,15 +54,11 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void a_wishlist_button_is_present() throws Throwable {
         assertTrue("A wishlist button should be displayed",
                 productDetailPage.isWishlistButtonPresent());
-        
-        reporting.takeScreenshot(scenario);
     }
 
     @When("^Add to cart button is pressed$")
     public void add_to_cart_button_is_pressed() throws Throwable {
         productDetailPage.click_add_to_cart();
-        
-        reporting.takeScreenshot(scenario);
     }
 
     @Then("^Bag should have (\\d+) item\\(s\\) added$")
@@ -86,15 +71,11 @@ public class ProductDetailPageSteps extends DriverFactory {
     @Then("^A minicart modal should appear with message '([^\"]*)'$")
     public void a_minicart_modal_should_appear_with_message(String message) throws Throwable {
         assertEquals(message, productDetailPage.getMinicartMessage());
-        
-        reporting.takeScreenshot(scenario);
     }
 
     @Given("^Bag should have item\\(s\\) added$")
     public void bag_should_have_item_s_added() throws Throwable {
         assertTrue("It should contain at least one item", productDetailPage.getNumberOfItemsInBag() > 0);
-        
-        reporting.takeScreenshot(scenario);
     }
 
     @And("^Verify product sale price is ([^\"]*)$")
@@ -239,26 +220,31 @@ public class ProductDetailPageSteps extends DriverFactory {
     @And("^Selects any color for the product$")
     public void selects_any_color_for_the_product() throws Throwable {
         productDetailPage.select_random_color();
-        assertNotNull("A color should have been selected", stateHolder.get("color"));
+        Product product = Util.getCurrentProduct();
+        assertNotNull("A color should have been selected", product.getSelectedColor());
     }
 
     @And("^Selects any size for the product$")
     public void selects_any_size_for_the_product() throws Throwable {
         productDetailPage.select_random_size();
-        assertNotNull("A size should have been selected", stateHolder.get("size"));
+        Product product = Util.getCurrentProduct();
+        assertNotNull("A size should have been selected", product.getSelectedSize());
     }
 
     @Then("^Verify product name is the one it was selected$")
     public void verify_product_name_is_the_one_it_was_selected() throws Throwable {
-        String productName = stateHolder.get("productName");
+        Product product = Util.getCurrentProduct();
+        String productName = product.getProductName();
         logger.debug("Product Name: {} ", productName);
 
-        String subcategory = stateHolder.get("subcategory");
+        String subcategory = (String) stateHolder.get("subcategory");
 
         if (subcategory.equalsIgnoreCase("suiting")) {
             // suiting products have appended a 'the ' at the beginning, removing it for later comparison.
             productName = productName.replaceFirst("the ", "");
         }
+
+        productName = productName.replaceAll("&amp;", "&");
 
         assertEquals("Product should be the selected one", productName.toLowerCase(), productDetailPage.getProductNameFromPDP().toLowerCase());
 
@@ -267,7 +253,8 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify amount of colors listed is correct$")
     public void verify_amount_of_colors_listed_is_correct() throws Throwable {
-        String colorsCountString = stateHolder.get("colorsCount");
+        Product product = Util.getCurrentProduct();
+        String colorsCountString = product.getColorsCount();
         logger.debug("Colors Count: {} ", colorsCountString);
 
         int colorsCount = 1;
@@ -281,7 +268,9 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify price list is correct$")
     public void verify_price_list_is_correct() throws Throwable {
-        String priceList = stateHolder.get("priceList");
+        Product product = Util.getCurrentProduct();
+        String priceList = product.getPriceList();
+
         logger.debug("Price List: {} ", priceList);
         if (priceList != null) {
             assertEquals("Price List should be the same", priceList, productDetailPage.getProductPriceList());
@@ -290,7 +279,8 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify price sale is correct$")
     public void verify_price_sale_is_correct() throws Throwable {
-        String priceSale = stateHolder.get("priceSale");
+        Product product = Util.getCurrentProduct();
+        String priceSale = product.getPriceSale();
 
         logger.debug("Price Sale: {} ", priceSale);
 
@@ -302,7 +292,8 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify price was is correct$")
     public void verify_price_was_is_correct() throws Throwable {
-        String priceWas = stateHolder.get("priceWas");
+        Product product = Util.getCurrentProduct();
+        String priceWas = product.getPriceWas();
 
         logger.debug("Price Sale: {} ", priceWas);
 
@@ -314,7 +305,8 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify variations listed are the expected ones$")
     public void verify_variations_listed_are_the_expected_ones() throws Throwable {
-        String variations = stateHolder.get("variations");
+        Product product = Util.getCurrentProduct();
+        String variations = product.getVariations();
 
         logger.debug("Variations: {} ", variations);
 
@@ -332,14 +324,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     @And("^A button saying '([^\"]*)' is displayed$")
     public void a_button_saying_is_displayed(String message) throws Throwable {
         assertEquals("Expected message was not displayed", message, productDetailPage.getButtonErrorMessage());
-    }
-
-
-    @Given("^item bag is clicked$")
-    public void item_bag_is_Clicked() throws Throwable {
-        productDetailPage.click_item_bag();
-        
-        reporting.takeScreenshot(scenario);
     }
 
 }

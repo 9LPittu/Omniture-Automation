@@ -22,6 +22,8 @@ Feature: Add to Bag
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
     Then User clicks on item bag
+    And User should be in shopping bag page
+    And Move to mobile site
     And Verify product name is the same as the one displayed in pdp page
     And Verify color is the one selected from pdp page
     And Verify size is the one selected from pdp page

@@ -2,27 +2,18 @@ package com.jcrew.steps;
 
 import com.jcrew.page.HamburgerMenu;
 import com.jcrew.util.DriverFactory;
-import com.jcrew.util.Reporting;
-
-import cucumber.api.Scenario;
-import cucumber.api.java.Before;
+import com.jcrew.util.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
 import static org.junit.Assert.assertTrue;
 
 public class HamburgerMenuSteps extends DriverFactory {
 
     private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
-    
-    private Scenario scenario;
-    private Reporting reporting = new Reporting();
-    
-    @Before
-    public void getScenarioObject(Scenario s){
-    	this.scenario = s;
-    }
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("^Hamburger Menu ([^\"]*) Link is present$")
     public void hamburger_menu_category_link_is_present(String category) throws Throwable {
@@ -48,13 +39,12 @@ public class HamburgerMenuSteps extends DriverFactory {
     @Given("^User clicks on hamburger menu$")
     public void user_clicks_on_hamburger_menu() throws Throwable {
         hamburgerMenu.click_on_hamburger_menu();
-        
-        reporting.takeScreenshot(scenario);
     }
 
     @And("^Selects ([^\"]*) Category from hamburger menu$")
     public void selects_category_from_hamburger_menu(String category) throws Throwable {
         hamburgerMenu.click_on_category(category);
+        stateHolder.put("category", category);
     }
 
     @And("^User clicks on back link$")
@@ -65,7 +55,6 @@ public class HamburgerMenuSteps extends DriverFactory {
     @And("^Goes to sign in page$")
     public void goes_to_sign_in_page() throws Throwable {
         hamburgerMenu.click_on_sign_in_link();
-        reporting.takeScreenshot(scenario);
     }
 
     @And("^Closes hamburger menu$")
