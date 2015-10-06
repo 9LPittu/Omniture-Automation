@@ -5,7 +5,9 @@ import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
+import cucumber.api.java.AfterStep;
 import cucumber.api.java.Before;
+import cucumber.api.java.BeforeStep;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.*;
@@ -77,6 +79,16 @@ public class StartingSteps {
         }
 
         stateHolder.clear();
+    }
+
+    @BeforeStep
+    public void beforeStep(Scenario s) {
+        logger.info("Executing before every step {}", s.getName());
+    }
+
+    @AfterStep
+    public void afterStep(Scenario s) {
+        logger.info("Executing after every step {}", s.getName());
     }
 
 }
