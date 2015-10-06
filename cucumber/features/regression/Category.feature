@@ -31,7 +31,7 @@ Feature: Regression Tests Category Feature
     Then Verifies Grosgrain ribbon top product is displayed
     And Verifies Grosgrain ribbon top product price was $98.00
     And Verifies Grosgrain ribbon top product sale price is now $29.99
-    And Verifies Grosgrain ribbon top is available in 4 colors
+    And Verifies Grosgrain ribbon top is available in 2 colors
     And An image is displayed for Grosgrain ribbon top product
 
 
