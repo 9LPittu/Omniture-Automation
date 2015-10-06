@@ -5,7 +5,9 @@ import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
+import cucumber.api.java.AfterStep;
 import cucumber.api.java.Before;
+import cucumber.api.java.BeforeStep;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.*;
@@ -44,7 +46,7 @@ public class StartingSteps {
                 waitForPageToLoadUpToTheLastElementPriorScriptExecution();
                 successfulLoad = true;
             } catch (TimeoutException te) {
-                logger.debug("Page did not load retry: {}", retry + 1 );
+                logger.debug("Page did not load retry: {}", retry + 1);
                 retry++;
             }
         }
@@ -77,6 +79,25 @@ public class StartingSteps {
         }
 
         stateHolder.clear();
+    }
+
+    @BeforeStep
+    public void beforeStep(Scenario s) {
+        logger.info("Executing before every step {}", s.getName());
+    }
+
+    @AfterStep
+    public void afterStep(Scenario scenario) {
+        try {
+
+            if (driver != null && "true".equalsIgnoreCase(System.getProperty("take.step.screenshot"))) {
+                byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                scenario.embed(screenshot, "image/png");
+            }
+
+        } catch (Exception e) {
+            logger.error("An exception happened when taking step screenshot", e);
+        }
     }
 
 }

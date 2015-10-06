@@ -6,6 +6,7 @@ import com.jcrew.util.PropertyReader;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
 import static org.junit.Assert.assertEquals;
@@ -42,7 +43,7 @@ public class NavigationSteps extends DriverFactory {
 
     @Then("^User is on external page ([^\"]*)$")
     public void user_is_on_external_page(String page) {
-        assertEquals("User is not in an expected page", page, getDriver().getCurrentUrl());
+        Assert.assertEquals("User is not in an expected page", page, getDriver().getCurrentUrl());
     }
 
     @Then("^Verify ([^\"]*) Department Link is present$")

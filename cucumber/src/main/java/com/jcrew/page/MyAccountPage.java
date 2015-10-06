@@ -10,10 +10,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MyAccountPage {
 
-    public static final String ACCOUNT_PAGE_PREFIX = "account/";
     private final WebDriver driver;
 
-    @FindBy(id = "main_wrapper")
+    @FindBy(id = "main_inside")
     private WebElement myAccountContainer;
 
     public MyAccountPage(WebDriver driver) {
@@ -43,11 +42,12 @@ public class MyAccountPage {
     }
 
     public boolean isInMenuLinkPage(String page) {
-        return new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains(ACCOUNT_PAGE_PREFIX + page));
+        return new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains(page));
     }
 
     public void click_order_for_review() {
-        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf( myAccountContainer.findElement(By.className("orderTableData"))));
+        new WebDriverWait(driver, 180).until(
+                ExpectedConditions.visibilityOf(myAccountContainer.findElement(By.className("orderTableData"))));
         WebElement orderTableData = myAccountContainer.findElement(By.className("orderTableData"));
         WebElement orderReviewLink = orderTableData.findElement(By.tagName("a"));
         orderReviewLink.click();
