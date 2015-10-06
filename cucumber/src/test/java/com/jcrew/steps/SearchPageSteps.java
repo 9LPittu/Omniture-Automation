@@ -97,7 +97,7 @@ public class SearchPageSteps extends DriverFactory {
         }
     }
 
-    @And("^([^\"]*) sort by option should be selected$")
+    @And("^([^\"]*) should be selected by default$")
     public void sort_by_option_should_be_selected(String sortByOption) throws Throwable {
         assertTrue(sortByOption + " should have been selected", searchPage.isSortByOptionSelected(sortByOption));
     }
