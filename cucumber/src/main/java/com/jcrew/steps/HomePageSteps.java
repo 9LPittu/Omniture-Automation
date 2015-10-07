@@ -21,7 +21,7 @@ public class HomePageSteps extends DriverFactory {
     private Header header = new Header(getDriver());
     
     private Scenario scenario;
-    private Reporting reporting = new Reporting();
+
     
     @Before
     public void getScenarioObject(Scenario s){
@@ -58,7 +58,7 @@ public class HomePageSteps extends DriverFactory {
     @Then("^Verify user is in homepage$")
     public void verify_user_is_in_homepage() throws Throwable {
         assertTrue("Global Main Section should be displayed", homePage.isHomePage());
-        reporting.takeScreenshot(scenario);
+
     }
 
     @And("^User clicks on search close icon")
@@ -78,14 +78,14 @@ public class HomePageSteps extends DriverFactory {
     public void select_category_from_left_nav(String category){
     	homePage.selectCategoryFromLeftNav(category);   	
     	
-    	reporting.takeScreenshot(scenario);
+
     }
     
     @Then("select \"([^\"]*)\" from subcategories")
     public void select_subcategory_from_subcategories(String subCategory){
     	homePage.selectSubCategoryFromLeftNav(subCategory);  	
     	
-    	reporting.takeScreenshot(scenario);
+
     }
     
     @And("^Enter backorder item from database to the search field")

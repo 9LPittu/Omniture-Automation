@@ -16,7 +16,7 @@ public class MyAccountPageSteps extends DriverFactory {
     private MyAccountPage myAccountPage = new MyAccountPage(getDriver());
 
     private Scenario scenario;
-    private Reporting reporting = new Reporting();
+
 
     @Before
     public void getScenarioObject(Scenario s){
@@ -26,7 +26,7 @@ public class MyAccountPageSteps extends DriverFactory {
     @Then("^User is in My Account page$")
     public void user_is_in_My_Account_page() throws Throwable {
         assertTrue("User should be in My Account Page", myAccountPage.isInAccountPage());
-        reporting.takeScreenshot(scenario);
+
     }
 
     @And("^Verifies page displays My Account title$")
@@ -42,7 +42,7 @@ public class MyAccountPageSteps extends DriverFactory {
     @Then("^User clicks on ([^\"]*) link in My Account Page$")
     public void user_clicks_on_link_in_my_account_page(String link) throws Throwable {
         myAccountPage.click_menu_link(link);
-        reporting.takeScreenshot(scenario);
+
     }
 
     @And("^User should be in ([^\"]*) menu link page$")

@@ -16,7 +16,7 @@ public class OrderConfirmationPageSteps extends DriverFactory {
 	private final OrderConfirmationPage orderConfirmation = new OrderConfirmationPage(getDriver());
 	
 	private Scenario scenario;
-	private Reporting reporting = new Reporting();
+
     
 	@Before
 	public void getScenarioObject(Scenario s){
@@ -31,8 +31,8 @@ public class OrderConfirmationPageSteps extends DriverFactory {
     @And("verify order number is generated")
 	public void verify_order_number_generated() throws InterruptedException{
 		assertTrue("Order number should be generated", orderConfirmation.verifyOrderNumberGenerated());
-		Thread.sleep(20000);
+
 		
-		reporting.takeScreenshot(scenario);
+
 	}	
 }

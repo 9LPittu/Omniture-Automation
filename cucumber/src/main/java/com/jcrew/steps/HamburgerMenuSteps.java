@@ -19,7 +19,7 @@ public class HamburgerMenuSteps extends DriverFactory {
     private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
     private StateHolder stateHolder = StateHolder.getInstance();
     private Scenario scenario;
-    private Reporting reporting = new Reporting();
+
 
     @Before
     public void getScenarioObject(Scenario s){
@@ -66,7 +66,7 @@ public class HamburgerMenuSteps extends DriverFactory {
     @And("^Goes to sign in page$")
     public void goes_to_sign_in_page() throws Throwable {
         hamburgerMenu.click_on_sign_in_link();
-        reporting.takeScreenshot(scenario);
+
     }
 
     @And("^Closes hamburger menu$")

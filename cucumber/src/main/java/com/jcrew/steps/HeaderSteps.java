@@ -21,7 +21,7 @@ public class HeaderSteps extends DriverFactory {
     private Header header = new Header(getDriver());
     
     private Scenario scenario;
-    private Reporting reporting = new Reporting();
+
     
     @Before
     public void getScenarioObject(Scenario s){

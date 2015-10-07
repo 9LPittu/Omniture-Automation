@@ -15,7 +15,7 @@ public class ReviewPageSteps extends DriverFactory {
     private final ReviewPage reviewPage = new ReviewPage(getDriver());
     
     private Scenario scenario;
-    private Reporting reporting = new Reporting();
+
     
     @Before
     public void getScenarioObject(Scenario s){
@@ -46,27 +46,27 @@ public class ReviewPageSteps extends DriverFactory {
     public void verify_shipping_address_section(){
     	assertTrue("Shipping address section should be displayed", reviewPage.isShippingDetailsSectionDisplayed());
     	
-    	reporting.takeScreenshot(scenario);
+
     }
     
     @Then("verify billing address section is displayed")
     public void verify_billing_address_section(){
     	assertTrue("Billing address section should be displayed", reviewPage.isBillingDetailsSectionDisplayed());
     	
-    	reporting.takeScreenshot(scenario);
+
     }
     
     @And("enter credit card security code as \"([^\"]*)\"")
     public void enter_security_code(String securityCode){
     	reviewPage.enter_credit_card_security_code(securityCode);
     	
-    	reporting.takeScreenshot(scenario);
+
     }
     
     @And("click on place your order button")
     public void click_place_your_order() throws InterruptedException{
     	reviewPage.clickPlaceYourOrder();
     	
-    	reporting.takeScreenshot(scenario);
+
     }
 }
