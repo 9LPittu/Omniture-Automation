@@ -87,7 +87,7 @@ public class HamburgerMenu {
     }
 
     public void click_on_back_link() {
-        WebElement backlink = driver.findElement(By.className("icon-nav-back-arrow"));
+        WebElement backlink = menuLevel2.findElement(By.className("icon-arrow-back"));
         waitForVisibility(backlink);
         backlink.click();
     }
