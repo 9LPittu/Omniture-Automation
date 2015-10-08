@@ -83,7 +83,6 @@ public class StartingSteps {
 
     @BeforeStep
     public void beforeStep(Scenario s) {
-        logger.info("Executing before every step {}", s.getName());
     }
 
     @AfterStep

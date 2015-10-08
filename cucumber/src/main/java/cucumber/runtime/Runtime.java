@@ -265,8 +265,6 @@ public class Runtime implements UnreportedStepExecutor {
     public void runStep(String featurePath, Step step, Reporter reporter, I18n i18n) {
         StepDefinitionMatch match;
 
-        logger.debug("Running Step {}", step.getName());
-
         try {
             match = glue.stepDefinitionMatch(featurePath, step, i18n);
         } catch (AmbiguousStepDefinitionsException e) {

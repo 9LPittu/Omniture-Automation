@@ -154,6 +154,7 @@ public class SubcategoryPage {
     }
 
     private List<WebElement> getProductTileElements() {
+        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(productGrid));
         return new WebDriverWait(driver, 180).
                     until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
     }
