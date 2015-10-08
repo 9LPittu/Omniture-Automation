@@ -1,8 +1,8 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TermsOfUsePage {
     private final WebDriver driver;
@@ -13,6 +13,6 @@ public class TermsOfUsePage {
 
 
     public boolean isTermsOfUsePage() {
-        return new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains("termsofuse.jsp"));
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("termsofuse.jsp"));
     }
 }

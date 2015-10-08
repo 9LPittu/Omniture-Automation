@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -58,7 +59,7 @@ public class LoginPage {
     }
 
     public void click_sign_in_button() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(signInButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         signInButton.click();
     }
 
@@ -88,7 +89,7 @@ public class LoginPage {
     }
 
     private WebElement getMyAccountLinkForDesktop() {
-        WebElement myAccountLinkMenu = new WebDriverWait(driver, 10).
+        WebElement myAccountLinkMenu = Util.createWebDriverWait(driver).
                 until(ExpectedConditions.elementToBeClickable(By.id("c-header__userpanelrecognized")));
         myAccountLinkMenu.click();
 

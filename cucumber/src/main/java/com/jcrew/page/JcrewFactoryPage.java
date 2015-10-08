@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +19,6 @@ public class JcrewFactoryPage {
     }
 
     public Boolean isJcrewFactoryPage() {
-        return new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains("factory.jcrew.com"));
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("factory.jcrew.com"));
     }
 }

@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -40,19 +41,13 @@ public class HomePage {
     }
 
     public void input_search_term(String searchTerm) {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(searchInput));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
         searchInput.clear();
         searchInput.sendKeys(searchTerm);
     }
-    public void input_yellow_dresses() throws InterruptedException  {
-        searchInput.clear();
-        searchInput.sendKeys("yellow dresses ");
-        
-        
-    }
 
     public void click_on_search_button_for_input_field() {
-        new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(headerSearchButtonFind));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearchButtonFind));
         headerSearchButtonFind.click();
     }
 
@@ -63,7 +58,7 @@ public class HomePage {
     }
 
     public boolean isHomePage() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(pageHome));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pageHome));
         return pageHome.isDisplayed();
     }
 }

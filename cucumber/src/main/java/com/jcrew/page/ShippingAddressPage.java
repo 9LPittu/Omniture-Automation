@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.github.javafaker.Faker;
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -68,7 +69,7 @@ public class ShippingAddressPage {
     }
 
     public String getSelectedCityAndState() {
-        WebElement cityStateElement = (new WebDriverWait(driver, 10)).
+        WebElement cityStateElement = (Util.createWebDriverWait(driver)).
                 until(ExpectedConditions.visibilityOf(dropdownUsCityState));
 
         Select cityStateSelect = new Select(cityStateElement);

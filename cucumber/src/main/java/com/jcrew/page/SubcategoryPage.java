@@ -9,7 +9,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,7 +93,7 @@ public class SubcategoryPage {
         quickShopCloseButton.click();
 
         try {
-            new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(
+            Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(
                     By.id("qsLightBox")));
 
         } catch (NoSuchElementException nsee) {
@@ -106,7 +105,7 @@ public class SubcategoryPage {
     public void clicks_on_shopping_bag_link() throws Throwable {
 
         String subcategoryUrl = driver.getCurrentUrl();
-        new WebDriverWait(driver, 10).
+        Util.createWebDriverWait(driver).
                 until(ExpectedConditions.visibilityOf(shoppingBagLink));
 
         shoppingBagLink.click();
@@ -141,7 +140,7 @@ public class SubcategoryPage {
     }
 
     public boolean isProductGridPresent() {
-        new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(productGrid));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         return productGrid.isDisplayed();
     }
 
@@ -154,8 +153,8 @@ public class SubcategoryPage {
     }
 
     private List<WebElement> getProductTileElements() {
-        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(productGrid));
-        return new WebDriverWait(driver, 180).
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
+        return Util.createWebDriverWait(driver).
                     until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
     }
 
@@ -253,12 +252,12 @@ public class SubcategoryPage {
     public void click_first_product_in_grid() throws InterruptedException {
         final WebElement firstProduct = getProductTileElements().get(0);
         final WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
-        new WebDriverWait(driver, 180).until(ExpectedConditions.elementToBeClickable(productLink));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
         productLink.click();
     }
 
     public void click_any_product_in_grid() {
-        new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(productGrid));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         int index = Util.randomIndex(getProductTileElements().size());
         WebElement randomProductSelected = getProductTileElements().get(index);
         Product product = new Product();
@@ -279,7 +278,7 @@ public class SubcategoryPage {
 
         stateHolder.put("productList", productList);
 
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
 
         WebElement productLink = randomProductSelected.findElement(By.className("product-tile__link"));
 
@@ -367,10 +366,10 @@ public class SubcategoryPage {
     }
 
     private WebElement getAccordionElement(By element) {
-        final WebElement accordionWrap = new WebDriverWait(driver, 10).until(
+        final WebElement accordionWrap = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(this.accordionWrap));
 
-        final WebElement expectedElement = new WebDriverWait(driver, 10).until(
+        final WebElement expectedElement = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(accordionWrap.findElement(element)));
 
         return expectedElement;
@@ -397,12 +396,12 @@ public class SubcategoryPage {
     }
 
     public boolean isAccordionMenuInvisible() {
-        final WebElement accordionWrap = new WebDriverWait(driver, 10).until(
+        final WebElement accordionWrap = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(this.accordionWrap));
 
         final WebElement accordionMenu = accordionWrap.findElement(By.className("accordian__menu"));
 
-        new WebDriverWait(driver, 10).until(
+        Util.createWebDriverWait(driver).until(
                 ExpectedConditions.invisibilityOfElementLocated(By.className("accordian__menu")));
 
         return !accordionMenu.isDisplayed();
@@ -553,7 +552,7 @@ public class SubcategoryPage {
 
     public boolean isDrawerClosedForOption(String menuOption) {
         String delimiter = getDelimiter(menuOption);
-        new WebDriverWait(driver, 10).until(
+        Util.createWebDriverWait(driver).until(
                 ExpectedConditions.invisibilityOfElementLocated(
                         By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
                                 "]/../ul[contains(@class, 'accordian__menu')]")
@@ -572,7 +571,7 @@ public class SubcategoryPage {
 
     public boolean isDrawerOpenForOption(String menuOption) {
         String delimiter = getDelimiter(menuOption);
-        new WebDriverWait(driver, 10).until(
+        Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(
                         endCapNavigationSection.findElement(
                                 By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
@@ -593,8 +592,8 @@ public class SubcategoryPage {
     }
 
     public void click_on_product(String product) {
-        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(productGrid));
-        WebElement productLink = new WebDriverWait(driver, 60).
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
+        WebElement productLink = Util.createWebDriverWait(driver).
                 until(ExpectedConditions.visibilityOf(productGrid.
                         findElement(By.xpath("//span[text()='" + product +
                 "' and contains(@class, 'tile__detail--name')]/.."))));

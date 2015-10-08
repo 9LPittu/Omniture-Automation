@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.github.javafaker.Faker;
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -54,7 +55,7 @@ public class BillingPage {
 
     public void fill_required_payment_data() {
 
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(creditCardNumber));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardNumber));
 
         creditCardNumber.sendKeys("4111-1111-1111-1111");
         securityCode.sendKeys("485");
@@ -84,7 +85,7 @@ public class BillingPage {
     }
 
     public boolean isBillingPage() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(creditCardBilling));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
         return creditCardBilling.isDisplayed();
     }
 }

@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -70,7 +71,7 @@ public class Footer {
 
     public String getFooterSubText(String footerLink) {
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
-        WebElement footerSubTextElement = new WebDriverWait(driver, 10).until(
+        WebElement footerSubTextElement = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(listOfSubElements.findElement(By.className("footer__item__text"))));
         return footerSubTextElement.getText();
     }
@@ -83,7 +84,7 @@ public class Footer {
     public void click_sublink_from(String footerSubLink, String footerLink) {
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
         WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(footerSublink));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublink));
         footerSublink.click();
     }
 

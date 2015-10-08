@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,7 @@ public class WishlistPage {
 
 
     public boolean isWishlistPage() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(wishListName));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(wishListName));
         return wishListName.isDisplayed();
     }
 
@@ -90,7 +90,7 @@ public class WishlistPage {
     }
 
     public String getUpdateWishlistMessage() {
-        WebElement updateWishlistMessage = new WebDriverWait(driver, 10).until(
+        WebElement updateWishlistMessage = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOfElementLocated(By.className("content-button-secondary-confirmation")));
 
         return updateWishlistMessage.getText();

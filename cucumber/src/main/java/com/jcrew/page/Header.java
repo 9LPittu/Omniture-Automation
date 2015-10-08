@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -54,7 +55,7 @@ public class Header {
     }
 
     public boolean isSearchDrawerOpen() {
-        WebElement headerSearchInput = new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
+        WebElement headerSearchInput = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
         return headerSearchInput.isDisplayed();
     }
 
@@ -79,7 +80,7 @@ public class Header {
     }
 
     public boolean isJCrewLogoPresent() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerLogo));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerLogo));
         return headerLogo.isDisplayed();
     }
 
@@ -92,7 +93,7 @@ public class Header {
     }
 
     public void click_on_search_button() {
-        WebElement searchButton = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(this.searchButton));
+        WebElement searchButton = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(this.searchButton));
         searchButton.click();
     }
 
@@ -109,7 +110,7 @@ public class Header {
     }
 
     public void click_item_bag() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(shoppingBagLink)).click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shoppingBagLink)).click();
     }
 
     public boolean isBagLinkDisplaying() {

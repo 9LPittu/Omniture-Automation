@@ -83,7 +83,7 @@ public class HamburgerMenu {
     }
 
     private void waitForVisibility(WebElement element) {
-        new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(element));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
     }
 
     public void click_on_back_link() {

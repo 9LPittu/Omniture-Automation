@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.Util;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.AfterStep;
@@ -12,7 +13,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,7 @@ public class StartingSteps {
         boolean successfulLoad = false;
         while (retry < 5 && !successfulLoad) {
             try {
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
                 driver.get(reader.getEnvironment());
                 waitForPageToLoadUpToTheLastElementPriorScriptExecution();
                 successfulLoad = true;
@@ -54,7 +54,7 @@ public class StartingSteps {
     }
 
     private void waitForPageToLoadUpToTheLastElementPriorScriptExecution() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(
                 By.className("footer__help__menu")));
     }
 

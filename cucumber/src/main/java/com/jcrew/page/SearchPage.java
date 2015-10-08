@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -54,14 +55,14 @@ public class SearchPage {
 
 
     public boolean isSearchPage() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerSearch));
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(footer));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearch));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footer));
         return headerSearch.isDisplayed() && footer.isDisplayed();
     }
 
 
     public boolean areResultsDisplayed() {
-        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(productGrid));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         return !productGrid.findElements(By.className("c-product-tile")).isEmpty();
     }
 
@@ -96,12 +97,12 @@ public class SearchPage {
     }
 
     public boolean isRefineButtonDisplayed() {
-        new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(refineButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(refineButton));
         return refineButton.isDisplayed();
     }
 
     public void click_refine_button() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(refineButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(refineButton));
         refineButton.click();
     }
 
@@ -161,7 +162,7 @@ public class SearchPage {
 
         String productName = selectedProductNameElement.getText();
         logger.info("sale product selected now {}", productName);
-        new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(selectedNoSalePriceProduct.findElement(By.className("product__image--small"))));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(selectedNoSalePriceProduct.findElement(By.className("product__image--small"))));
         selectedNoSalePriceProduct.findElement(By.className("product__image--small")).click();
 
         return productName;

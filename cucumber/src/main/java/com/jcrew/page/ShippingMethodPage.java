@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -38,7 +39,7 @@ public class ShippingMethodPage {
 
     public void click_continue_button() {
 
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(continueButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(continueButton));
 
         continueButton.click();
 
@@ -54,12 +55,12 @@ public class ShippingMethodPage {
 
 
     public boolean isShippingMethodPage() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(shippingMethodContainer));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodContainer));
         return shippingMethodContainer.isDisplayed();
     }
 
     public boolean isPageLoaded() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(footerRowBottom));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerRowBottom));
         return footerRowBottom.isDisplayed();
     }
 }

@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -53,7 +54,7 @@ public class ShoppingBagPage {
 
     public void click_checkout_button() {
 
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(checkoutLink));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutLink));
 
         checkoutLink.click();
 
@@ -80,7 +81,7 @@ public class ShoppingBagPage {
     }
 
     public void click_edit_button() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(editAction));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(editAction));
         editAction.click();
     }
 
@@ -97,7 +98,7 @@ public class ShoppingBagPage {
     }
 
     private WebElement getDescriptionElementFor(ExpectedCondition<WebElement> isTrue) {
-        return new WebDriverWait(driver, 10).until(
+        return Util.createWebDriverWait(driver).until(
                 isTrue);
     }
 

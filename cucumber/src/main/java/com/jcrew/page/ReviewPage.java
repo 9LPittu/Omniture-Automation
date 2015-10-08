@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,7 +34,7 @@ public class ReviewPage {
 
     public void user_places_its_order() {
 
-        new WebDriverWait(driver, 10).
+        Util.createWebDriverWait(driver).
                 until(ExpectedConditions.elementToBeClickable(placeYourOrder));
 
         placeYourOrder.click();

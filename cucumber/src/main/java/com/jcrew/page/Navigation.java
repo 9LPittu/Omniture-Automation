@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -27,7 +28,7 @@ public class Navigation {
     }
 
     public boolean isGlobalPromoDisplayed() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerPromoWrap));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerPromoWrap));
         return headerPromoWrap.isDisplayed();
     }
 

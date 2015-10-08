@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,7 +22,7 @@ public class MyAccountPage {
     }
 
     public boolean isInAccountPage() {
-        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(myAccountContainer));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         return myAccountContainer.isDisplayed();
     }
 
@@ -42,11 +43,11 @@ public class MyAccountPage {
     }
 
     public boolean isInMenuLinkPage(String page) {
-        return new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains(page));
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
     }
 
     public void click_order_for_review() {
-        new WebDriverWait(driver, 180).until(
+        Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(myAccountContainer.findElement(By.className("orderTableData"))));
         WebElement orderTableData = myAccountContainer.findElement(By.className("orderTableData"));
         WebElement orderReviewLink = orderTableData.findElement(By.tagName("a"));
