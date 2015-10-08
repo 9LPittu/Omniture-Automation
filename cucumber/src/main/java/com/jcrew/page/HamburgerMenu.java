@@ -44,8 +44,8 @@ public class HamburgerMenu {
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/sweaters']")
     private WebElement womenSweatersCategoryLink;
 
-    @FindBy(className = "icon-close")
-    private WebElement closeHamburgerMenu;
+    @FindBy(className = "menus--level1")
+    private WebElement menuLevel1;
 
     private static final String[] CATEGORY_MENU = {"WOMEN", "MEN", "GIRLS", "BOYS"};
 
@@ -131,8 +131,7 @@ public class HamburgerMenu {
     }
 
     public void close_hamburger_menu() {
-        new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(closeHamburgerMenu));
-        closeHamburgerMenu.click();
+        menuLevel1.findElement(By.className("icon-close")).click();
     }
 
     public void click_random_category() {
