@@ -196,7 +196,7 @@ public class ProductDetailPage {
     private WebElement getProductColorElement(String productColor) {
         WebElement productColorElement = driver.findElement(By.id("c-product__price-colors")).findElement(
                 By.xpath(".//li[@data-name='" + productColor + "']"));
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(productColorElement));
+        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(productColorElement));
         return productColorElement;
     }
 
