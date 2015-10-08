@@ -44,7 +44,7 @@ public class HamburgerMenu {
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/sweaters']")
     private WebElement womenSweatersCategoryLink;
 
-    @FindBy(className = "icon-nav-close")
+    @FindBy(className = "icon-close")
     private WebElement closeHamburgerMenu;
 
     private static final String[] CATEGORY_MENU = {"WOMEN", "MEN", "GIRLS", "BOYS"};
@@ -126,7 +126,7 @@ public class HamburgerMenu {
     }
 
     public void close_subcategory_hamburger_menu() {
-        WebElement closeIcon = menuLevel2.findElement(By.className("icon-nav-close"));
+        WebElement closeIcon = menuLevel2.findElement(By.className("icon-close"));
         closeIcon.click();
     }
 
