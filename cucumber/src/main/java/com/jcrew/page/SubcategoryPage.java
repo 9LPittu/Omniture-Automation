@@ -52,9 +52,6 @@ public class SubcategoryPage {
     @FindBy(className = "accordian__wrap")
     private WebElement accordionWrap;
 
-    @FindBy(className = "c-product-tile")
-    private List<WebElement> productsFromGrid;
-
     @FindBy(className = "header__image")
     private WebElement headerImage;
 
@@ -150,9 +147,15 @@ public class SubcategoryPage {
 
     public void hover_first_product_in_grid() {
         Actions action = new Actions(driver);
+        List<WebElement> productsFromGrid = getProductTileElements();
         WebElement firstProductFromGrid = productsFromGrid.get(0);
         action.moveToElement(firstProductFromGrid);
         action.perform();
+    }
+
+    private List<WebElement> getProductTileElements() {
+        return new WebDriverWait(driver, 180).
+                    until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
     }
 
     private boolean isPriceAndNameValidFor(WebElement product) {
@@ -186,12 +189,12 @@ public class SubcategoryPage {
     }
 
     public boolean isFirstProductNameAndPriceValid() {
-        WebElement product = productsFromGrid.get(0);
+        WebElement product = getProductTileElements().get(0);
         return isPriceAndNameValidFor(product);
     }
 
     public boolean areFirstProductColorVariationsValid() {
-        WebElement firstProductFromGrid = productsFromGrid.get(0);
+        WebElement firstProductFromGrid = getProductTileElements().get(0);
         return areProductColorVariationsValid(firstProductFromGrid);
 
     }
@@ -234,7 +237,7 @@ public class SubcategoryPage {
 
     public boolean isProductArrayValid() {
         boolean result = true;
-        for (WebElement product : productsFromGrid) {
+        for (WebElement product : getProductTileElements()) {
             boolean isCorrectlyDisplayed = isPriceAndNameValidFor(product) && areProductColorVariationsValid(product);
             if (!isCorrectlyDisplayed) {
                 logger.debug("The product {} contains invalid details in product grid.",
@@ -247,7 +250,7 @@ public class SubcategoryPage {
     }
 
     public void click_first_product_in_grid() throws InterruptedException {
-        final WebElement firstProduct = productsFromGrid.get(0);
+        final WebElement firstProduct = getProductTileElements().get(0);
         final WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
         new WebDriverWait(driver, 180).until(ExpectedConditions.elementToBeClickable(productLink));
         productLink.click();
@@ -255,8 +258,8 @@ public class SubcategoryPage {
 
     public void click_any_product_in_grid() {
         new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(productGrid));
-        int index = Util.randomIndex(productsFromGrid.size());
-        WebElement randomProductSelected = productsFromGrid.get(index);
+        int index = Util.randomIndex(getProductTileElements().size());
+        WebElement randomProductSelected = getProductTileElements().get(index);
         Product product = new Product();
         product.setProductName(getProductName(randomProductSelected));
         product.setPriceList(getPriceList(randomProductSelected));
