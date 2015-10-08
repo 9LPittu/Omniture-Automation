@@ -20,7 +20,7 @@ public class LoginPage {
     @FindBy(id = "sidecarPassword")
     private WebElement passwordInput;
 
-    @FindBy(className = "js-button-submit")
+    @FindBy(tagName = "button")
     private WebElement signInButton;
 
     @FindBy(className = "js-invalid-msg")
