@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
         tags = {"@BackOrderSearch"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-searchregressionfeatures.json",
+                "json:target/cucumber-backordersearchregressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/searchregressionfeatures"
+                "html:target/cucumber/backordersearchregressionfeatures"
         }
 )
 public class BackOrderSearchFeaturesRunnerTest {
