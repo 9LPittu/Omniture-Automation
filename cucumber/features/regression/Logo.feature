@@ -18,7 +18,7 @@ Feature: Logo as homepage link
 
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
@@ -43,7 +43,7 @@ Feature: Logo as homepage link
 
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
@@ -66,7 +66,7 @@ Feature: Logo as homepage link
 
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
@@ -87,7 +87,7 @@ Feature: Logo as homepage link
 
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
@@ -105,7 +105,7 @@ Feature: Logo as homepage link
 
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
@@ -120,7 +120,7 @@ Feature: Logo as homepage link
 
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
@@ -133,7 +133,7 @@ Feature: Logo as homepage link
 
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
@@ -146,7 +146,7 @@ Feature: Logo as homepage link
 
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected

@@ -74,7 +74,7 @@ public class ProductDetailPage {
     public boolean isProductDetailPage() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
         boolean isProductDetailPage = productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
-        return isProductDetailPage && footer.isDisplayed();
+        return isProductDetailPage && productDetails.isDisplayed();
     }
 
     public void select_variation() {

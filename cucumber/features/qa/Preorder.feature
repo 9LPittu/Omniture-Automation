@@ -2,7 +2,7 @@
 Feature: Preorder Product Feature
 
   Scenario:
-    Given User goes to /p/womens_category/shoes/wedges/seville-wedge-espadrilles/C6037 page
+    Given User goes to /p/womens_category/sweaters/pullover/striped-leather-panel-swing-sweater/C9220 page
     Then Verify product is a pre-order one
     And Preorder button is displayed
     And A color is selected
