@@ -56,8 +56,8 @@ public class SearchPage {
 
     public boolean isSearchPage() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearch));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footer));
-        return headerSearch.isDisplayed() && footer.isDisplayed();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchResult));
+        return headerSearch.isDisplayed() && searchResult.isDisplayed();
     }
 
 

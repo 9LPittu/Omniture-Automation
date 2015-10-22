@@ -37,7 +37,7 @@ Feature: Smoke Tests Search By Item Number Page
     And User is in product detail page
     And Verify product sale price is now $73.00
 
-  Scenario: single product entering exact name should go to pdp
-    And Enters Carrie cami in tropical frond to the search field
-    And Clicks on search button for input field
-    And User is in product detail page
+  #Scenario: single product entering exact name should go to pdp
+   # And Enters Carrie cami in tropical frond to the search field
+   # And Clicks on search button for input field
+   # And User is in product detail page

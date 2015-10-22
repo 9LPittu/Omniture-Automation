@@ -18,7 +18,9 @@ public class Header {
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
 
-    @FindBy(className = "icon-searchtray-close")
+
+
+    @FindBy(className = "icon-close")
     private WebElement searchCloseIcon;
 
     @FindBy(id = "header__logo")
@@ -60,7 +62,10 @@ public class Header {
     }
 
     public void click_on_search_close_icon() {
-        searchCloseIcon.click();
+        WebElement searchIconClose = headerWrap.findElement(By.className("icon-searchtray"));
+       // WebElement searchIconClose = driver.findElement(By.xpath("//*[@id=\"global__header\"]/div[1]/section/div[1]/div/div/div[1]/div/div/a[2]/span"));
+      //  searchCloseIcon.click();
+        searchIconClose.click();
     }
 
     public String getSearchDrawerTerm() {
