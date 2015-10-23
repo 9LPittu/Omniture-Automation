@@ -16,6 +16,9 @@ public class MyAccountPage {
     @FindBy(id = "main_inside")
     private WebElement myAccountContainer;
 
+    @FindBy(id = "main_cont")
+    private WebElement myAccountContent;
+
     public MyAccountPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -27,7 +30,7 @@ public class MyAccountPage {
     }
 
     public String getMyAccountHeader() {
-        return myAccountContainer.findElement(By.tagName("h2")).getText();
+        return myAccountContent.findElement(By.tagName("h2")).getText();
     }
 
     public boolean isMenuLinkPresent(String link) {

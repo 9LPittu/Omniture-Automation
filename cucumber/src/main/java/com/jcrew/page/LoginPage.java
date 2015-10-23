@@ -97,7 +97,7 @@ public class LoginPage {
     }
 
     public void click_my_account_link_mobile() {
-        myAccountLink.click();
+        myaccountRef.findElement(By.tagName("a")).click();
     }
 
     public void disable_checkbox() {

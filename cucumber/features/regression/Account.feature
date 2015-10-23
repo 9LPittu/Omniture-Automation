@@ -28,7 +28,7 @@ Feature: Account Feature
     Then An error message saying Please enter a valid email address. should appear
     And Sign in button should be deactivated
     Then User enters test@example.org as email
-    And An error message saying Please enter a valid email password. should appear
+    And An error message saying Whoops, that's not right... Please try your password again. should appear
     And Sign in button should be deactivated
 
   Scenario: My Account Logged in User Link
@@ -36,6 +36,7 @@ Feature: Account Feature
     When User enters test@example.org as email
     And User enters test1234 as password
     And Hits sign in button
+    Then User is in My Account page
     Then User goes to homepage
     Then User clicks on hamburger menu
     And My Account link is present
