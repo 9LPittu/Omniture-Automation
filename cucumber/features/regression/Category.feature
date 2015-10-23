@@ -37,7 +37,7 @@ Feature: Regression Tests Category Feature
     Then Verifies Grosgrain ribbon top product is displayed
     And Verifies Grosgrain ribbon top product price was $98.00
     And Verifies Grosgrain ribbon top product sale price is now $29.99
-    And Verifies Grosgrain ribbon top is available in 4 colors
+    And Verifies Grosgrain ribbon top is available in 2 colors
     And An image is displayed for Grosgrain ribbon top product
 
 
@@ -52,7 +52,7 @@ Feature: Regression Tests Category Feature
 
   Scenario: Check End cap navigation
     Given User goes to /c/womens_category/dresses page
-    Then Verifies end cap navigation menu to say SHOP WOMEN
+    Then Verifies end cap navigation menu to say shop women
     And Verifies navigation draw options are What's New, Clothing, Shoes & Accessories, Sizings
     Then Taps on What's New drawer and opens and all other drawer options are closed
     And Verifies What's New drawer is open
