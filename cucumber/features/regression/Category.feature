@@ -11,6 +11,12 @@ Feature: Regression Tests Category Feature
     And User should be in shirtsandtops page for women
     Then Category header should not be present
 
+  Scenario: Check Category Header Title should be Present
+    Given User clicks on SWEATERS subcategory from Women Category
+    And User should be in sweaters page for women
+    Then Category header should be present
+
+
   Scenario: Check category header image
     Given User clicks on SWEATERS subcategory from Women Category
     Then User should be in sweaters page for women
@@ -21,7 +27,7 @@ Feature: Regression Tests Category Feature
     And User should be in shirtsandtops page for women
     Then Verifies Carrie cami product is displayed
     And Verifies Carrie cami product list price is $98.00
-    And Verifies Carrie cami is available in 7 colors
+    And Verifies Carrie cami is available in 9 colors
     And An image is displayed for Carrie cami product
 
 
