@@ -1,5 +1,6 @@
 package com.jcrew.util;
 
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -73,16 +74,36 @@ public class DriverFactory {
     private WebDriver createRemoteDriver(PropertyReader propertyReader) throws MalformedURLException {
         final WebDriver driver;
         final String browser = propertyReader.getBrowser();
-        final String seleniumHubUrl = propertyReader.getSeleniumHubUrl();
-        final URL seleniumHubRemoteAddress = new URL(seleniumHubUrl);
 
         if ("chrome".equals(browser)) {
 
-            driver = new RemoteWebDriver(seleniumHubRemoteAddress, DesiredCapabilities.chrome());
+            driver = getDesktopWebDriver(propertyReader, DesiredCapabilities.chrome());
 
         } else if ("firefox".equals(browser)) {
 
-            driver = new RemoteWebDriver(seleniumHubRemoteAddress, DesiredCapabilities.firefox());
+            driver = getDesktopWebDriver(propertyReader, DesiredCapabilities.firefox());
+
+        } else if ("iossafari".equals(browser)) {
+
+            DesiredCapabilities capabilities = DesiredCapabilities.iphone();
+
+            capabilities.setCapability("browserName", "safari");
+            capabilities.setCapability("platformName", "iOS");
+            capabilities.setCapability("deviceName", propertyReader.getProperty("device.name"));
+            capabilities.setCapability("platformVersion", propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability("takesScreenshot", "true");
+            capabilities.setCapability("acceptSslCerts", "true");
+            capabilities.setCapability("autoAcceptAlerts", "true");
+            capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            capabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
+            capabilities.setCapability("safariAllowPopups", true);
+            capabilities.setCapability("safariOpenLinksInBackground", true);
+            capabilities.setCapability("newCommandTimeout", 60);
+            capabilities.setCapability("launchTimeout", 600000);
+
+            final URL seleniumHubRemoteAddress = getSeleniumRemoteAddress(propertyReader);
+
+            driver = new RemoteWebDriver(seleniumHubRemoteAddress, capabilities);
 
         } else {
 
@@ -90,10 +111,23 @@ public class DriverFactory {
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getUserAgent());
 
-            driver = new RemoteWebDriver(seleniumHubRemoteAddress, capabilities);
+            driver = getDesktopWebDriver(propertyReader, capabilities);
+            int width = propertyReader.getWindowWidth();
+            int height = propertyReader.getWindowHeight();
+            driver.manage().window().setSize(new Dimension(width, height));
 
         }
+        return driver;
+    }
 
+    private URL getSeleniumRemoteAddress(PropertyReader propertyReader) throws MalformedURLException {
+        final String seleniumHubUrl = propertyReader.getSeleniumHubUrl();
+        return new URL(seleniumHubUrl);
+    }
+
+    private WebDriver getDesktopWebDriver(PropertyReader propertyReader, DesiredCapabilities desiredCapabilities) throws MalformedURLException {
+        final URL seleniumHubRemoteAddress = getSeleniumRemoteAddress(propertyReader);
+        final WebDriver driver = new RemoteWebDriver(seleniumHubRemoteAddress, desiredCapabilities);
         int width = propertyReader.getWindowWidth();
         int height = propertyReader.getWindowHeight();
         driver.manage().window().setSize(new Dimension(width, height));
@@ -118,7 +152,13 @@ public class DriverFactory {
     public void destroyDriver() {
         String identifier = Thread.currentThread().getName();
         WebDriver driver = driverMap.remove(identifier);
+
+
         if (driver != null) {
+            for (Cookie cookie : driver.manage().getCookies()) {
+                driver.manage().deleteCookie(cookie);
+            }
+            driver.manage().deleteAllCookies();
             driver.quit();
         }
     }
