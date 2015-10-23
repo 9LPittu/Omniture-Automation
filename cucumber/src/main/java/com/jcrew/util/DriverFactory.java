@@ -1,5 +1,7 @@
 package com.jcrew.util;
 
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
@@ -101,9 +103,21 @@ public class DriverFactory {
             capabilities.setCapability("newCommandTimeout", 60);
             capabilities.setCapability("launchTimeout", 600000);
 
-            final URL seleniumHubRemoteAddress = getSeleniumRemoteAddress(propertyReader);
+            driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
-            driver = new RemoteWebDriver(seleniumHubRemoteAddress, capabilities);
+        } else if ("androidchrome".equals(browser)) {
+            DesiredCapabilities capabilities = DesiredCapabilities.android();
+
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty("device.name"));
+            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
+            capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
+            capabilities.setCapability("autoAcceptAlerts", true);
+            capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
+            capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+
+            driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
         } else {
 
