@@ -52,7 +52,7 @@ public class HomePageSteps extends DriverFactory {
 
         header.click_on_search_close_icon();
 
-        assertFalse("Search drawer should be closed", header.isSearchDrawerOpen());
+        assertTrue("Search drawer should be closed", header.isSearchDrawerClosed());
     }
 
     @And("^Dresses is populated")

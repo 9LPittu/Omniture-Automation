@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ public class Header {
 
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
-
 
 
     @FindBy(className = "icon-close")
@@ -49,9 +47,11 @@ public class Header {
     public boolean isHeaderLinkPresent(String headerLink) {
         return headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
     }
+
     public boolean isHeaderBagIconPresent() {
         return bagIcon.isDisplayed();
     }
+
     public String getBagIconLinkText() {
         return driver.findElement(By.className("primary-nav__item--bag")).getText();
     }
@@ -61,10 +61,13 @@ public class Header {
         return headerSearchInput.isDisplayed();
     }
 
+    public boolean isSearchDrawerClosed() {
+        boolean result = Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("header__search__input")));
+        return result;
+    }
+
     public void click_on_search_close_icon() {
-        WebElement searchIconClose = headerWrap.findElement(By.className("icon-searchtray"));
-       // WebElement searchIconClose = driver.findElement(By.xpath("//*[@id=\"global__header\"]/div[1]/section/div[1]/div/div/div[1]/div/div/a[2]/span"));
-      //  searchCloseIcon.click();
+        WebElement searchIconClose = headerWrap.findElement(By.className("js-header__search__button--close"));
         searchIconClose.click();
     }
 
