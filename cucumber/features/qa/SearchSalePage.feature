@@ -1,5 +1,5 @@
 @SearchSale
-Feature: Smoke Tests Search Sale Page
+Feature: Regression Tests Search Sale Page
 
   Background:
     Given User is on homepage
@@ -9,7 +9,7 @@ Feature: Smoke Tests Search Sale Page
     And Enters <search_term> to the search field
     And Clicks on search button for input field
     Then User is in search results page
-    And Selects any product from product grid list
+    And Selects the first product from product grid list
     And User is in product detail page
 
     Examples:
