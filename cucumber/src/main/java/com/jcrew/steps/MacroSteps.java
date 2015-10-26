@@ -52,10 +52,10 @@ public class MacroSteps {
         headerSteps.presses_search_button();
         headerSteps.search_drawer_is_open();
 
-        headerSteps.user_clicks_on_stores_link();
-        storeLocatorSteps.verify_user_is_on_stores_page();
+       // headerSteps.user_clicks_on_stores_link();
+       // storeLocatorSteps.verify_user_is_on_stores_page();
 
-        navigationSteps.user_presses_back_button();
+       // navigationSteps.user_presses_back_button();
         headerSteps.user_clicks_on_item_bag();
         shoppingBagSteps.user_should_be_in_shopping_bag_page();
 
