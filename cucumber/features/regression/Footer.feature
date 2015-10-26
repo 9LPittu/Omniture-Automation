@@ -1,4 +1,4 @@
-@Footer
+#@Footer
 Feature: Footer Tests
   Scenario: Verify Footer Tests
     Given User is on homepage
