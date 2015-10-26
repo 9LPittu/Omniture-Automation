@@ -28,9 +28,6 @@ public class HomePage {
     @FindBy(className = "header__search__button--find")
     private WebElement headerSearchButtonFind;
 
-    @FindBy(id = "page__home")
-    private WebElement pageHome;
-
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -51,14 +48,9 @@ public class HomePage {
         headerSearchButtonFind.click();
     }
 
-    public void click_on_women_pdp_hamburger_menu() {
-        WebElement pdpmenu = driver.findElement(By.xpath("//*[@id='global__header']/div[2]/section/div[1]/div/div/ul[1]/li[1]/a"));
-        logger.info("verify menu from women pdp{}", pdpmenu.getText());
-        pdpmenu.click();
-    }
-
     public boolean isHomePage() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pageHome));
+        final WebElement pageHome = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.presenceOfElementLocated(By.id("page__home")));
         return pageHome.isDisplayed();
     }
 }
