@@ -106,7 +106,7 @@ public class LoginPage {
     }
 
     public void focus_password_field() {
-        passwordInput.sendKeys("");
+        passwordInput.sendKeys(" ");
     }
 
     public boolean isSignInButtonEnabled() {
