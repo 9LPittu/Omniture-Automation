@@ -2,7 +2,6 @@ package com.jcrew.page;
 
 import com.github.javafaker.Faker;
 import com.jcrew.util.Util;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -38,7 +37,7 @@ public class ShippingAddressPage {
     @FindBy(id = "phoneNumSA")
     private WebElement phoneNumSA;
 
-    @FindBy(xpath = ".//*[@id='shipping-address']/div/a")
+    @FindBy(className = "button-submit")
     private WebElement continueCheckout;
 
     @FindBy(id = "dropdown-us-city-state")

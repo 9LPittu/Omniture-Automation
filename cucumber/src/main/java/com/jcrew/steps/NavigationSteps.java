@@ -43,7 +43,7 @@ public class NavigationSteps extends DriverFactory {
 
     @Then("^User is on external page ([^\"]*)$")
     public void user_is_on_external_page(String page) {
-        Assert.assertEquals("User is not in an expected page", page, getDriver().getCurrentUrl());
+        assertTrue("User is not in an expected page " + page, navigation.isCurrentUrl(page));
     }
 
     @Then("^Verify ([^\"]*) Department Link is present$")
