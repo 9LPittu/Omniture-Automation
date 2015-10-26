@@ -307,6 +307,7 @@ public class ProductDetailPage {
 
 
     public boolean isPreOrderButtonDisplayed() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
         return addToBag.isDisplayed();
     }
 
