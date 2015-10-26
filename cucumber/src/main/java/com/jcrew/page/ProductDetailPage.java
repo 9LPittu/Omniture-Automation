@@ -174,6 +174,7 @@ public class ProductDetailPage {
     }
 
     public String getSalePrice() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(salePrice));
         return salePrice.getText();
     }
 
