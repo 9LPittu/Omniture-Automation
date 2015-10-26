@@ -464,7 +464,7 @@ public class SubcategoryPage {
 
     public boolean isImageDisplayedFor(String product) {
         WebElement priceInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]//img[contains(@class, 'js-product__image')"));
+                "' and contains(@class, 'tile__detail--name')]/../../..//img[contains(@class, 'js-product__image')]"));
         return priceInTile.isDisplayed();
     }
 
