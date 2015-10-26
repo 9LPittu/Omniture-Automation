@@ -251,7 +251,7 @@ public class SubcategoryPage {
 
     public void click_first_product_in_grid() throws InterruptedException {
         final WebElement firstProduct = getProductTileElements().get(0);
-        final WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
+        final WebElement productLink = firstProduct.findElement(By.className("js-product__image"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
         productLink.click();
     }

@@ -64,6 +64,7 @@ public class LoginPage {
     }
 
     public String getSignInErrorMessage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(invalidSignInMessage));
         return invalidSignInMessage.getText();
     }
 
