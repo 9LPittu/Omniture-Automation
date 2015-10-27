@@ -4,7 +4,7 @@ Feature: Category Page
   Scenario: Category page is functional
     Given User is on homepage
     And User clicks on hamburger menu
-    And Selects WOMEN Category from hamburger menu
+    And Selects Women Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
     And User should be in sweaters page for women
     Then Category title for SWEATERS should match below global promo

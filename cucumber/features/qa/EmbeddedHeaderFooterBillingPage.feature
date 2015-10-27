@@ -4,7 +4,7 @@ Feature: Embedded Header Footer Billing
   Scenario: Billing Page Header Footer Links
     Given User is on homepage
     And User clicks on hamburger menu
-    And Selects WOMEN Category from hamburger menu
+    And Selects Women Category from hamburger menu
     And User clicks on BLAZERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page

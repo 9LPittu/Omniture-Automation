@@ -8,7 +8,7 @@ Feature: Edit Product In Bags Signed In Scenarios
     And User enters test1234 as password
     And Hits sign in button
     Then User clicks on hamburger menu
-    And Selects MEN Category from hamburger menu
+    And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
     And Click on product Marled lambswool sweater to display PDP
     And User is in product detail page

@@ -8,7 +8,7 @@ Feature: Checkout Process Signed in User
     And Hits sign in button
     And User goes to homepage
     And User clicks on hamburger menu
-    And Selects MEN Category from hamburger menu
+    And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
     And Click on product Rugged cotton sweatshirt sweater to display PDP
     And User is in product detail page
