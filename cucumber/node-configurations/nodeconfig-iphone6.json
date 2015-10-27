@@ -26,6 +26,7 @@
 		"hub": "http://nyc-wdevtool-03:4444/grid/register",
 		"hubPort": 4444,
 		"hubHost": "nyc-wdevtool-03",
-		"role": "node"
+		"role": "node",
+		"udid":"34970ff754b558185a64f6671bb1c94c137f29bf"
 		}
 }
