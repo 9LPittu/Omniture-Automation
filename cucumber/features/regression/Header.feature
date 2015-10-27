@@ -13,7 +13,7 @@ Feature: Header Tests
     And Search drawer is open
     Then User clicks on stores link
     And User is on external page https://stores.jcrew.com/
-    Then User presses back button
+    Then User goes to homepage
     And Verify user is in homepage
     Then User clicks on item bag
     And User is on /checkout2/shoppingbag.jsp?sidecar=true page

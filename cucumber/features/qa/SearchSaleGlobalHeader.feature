@@ -1,13 +1,10 @@
 @SearchSaleGlobalHeader
-Feature: Smoke Tests Search Sale Global Header Page
+Feature: Regression Tests Search Sale Global Header Page
 
   Background:
     Given User is on homepage
     And User presses search button
-   # And Enters dresses to the search field
-   # And Clicks on search button for input field
-   # Then User is in search results page
-    
+
   Scenario Outline: validation of search drawer stays open by default
     And Enters <search term> to the search field
     And Clicks on search button for input field

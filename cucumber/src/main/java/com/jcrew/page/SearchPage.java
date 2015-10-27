@@ -5,7 +5,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -233,20 +232,16 @@ public class SearchPage {
 
     public boolean isOptionSelectedForRefinementWithAccordionClosed(String optionSelected, String refinement) {
 
-        WebElement selectedOption;
-
+        boolean result;
         try {
-            selectedOption = getRefinementElement(refinement).findElement(
+            WebElement selectedOption = getRefinementElement(refinement).findElement(
                     By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]"));
-
+            result = selectedOption.isDisplayed();
         } catch (StaleElementReferenceException sere) {
-
-            selectedOption = getRefinementElement(refinement).findElement(
-                    By.xpath("../span[@class='search__filter--selected' and contains(text(), '" + optionSelected + "')]"));
-
+            result = isOptionSelectedForRefinementWithAccordionClosed(optionSelected, refinement);
         }
 
-        return selectedOption.isDisplayed();
+        return result;
 
     }
 

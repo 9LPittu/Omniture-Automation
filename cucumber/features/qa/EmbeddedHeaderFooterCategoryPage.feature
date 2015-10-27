@@ -6,7 +6,7 @@ Feature: Embedded Header Footer Category
     Given User is on homepage
     Then User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
-    And User clicks on KNITS & TEES subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And User clicks on hamburger menu
     And User clicks on back link
     And Closes hamburger menu

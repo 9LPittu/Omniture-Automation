@@ -64,6 +64,7 @@ public class LoginPage {
     }
 
     public String getSignInErrorMessage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(invalidSignInMessage));
         return invalidSignInMessage.getText();
     }
 
@@ -97,7 +98,7 @@ public class LoginPage {
     }
 
     public void click_my_account_link_mobile() {
-        myAccountLink.click();
+        myaccountRef.findElement(By.tagName("a")).click();
     }
 
     public void disable_checkbox() {
@@ -105,7 +106,7 @@ public class LoginPage {
     }
 
     public void focus_password_field() {
-        passwordInput.sendKeys("");
+        passwordInput.sendKeys(" ");
     }
 
     public boolean isSignInButtonEnabled() {

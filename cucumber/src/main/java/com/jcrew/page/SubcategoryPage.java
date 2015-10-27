@@ -155,7 +155,7 @@ public class SubcategoryPage {
     private List<WebElement> getProductTileElements() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         return Util.createWebDriverWait(driver).
-                    until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
+                until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
     }
 
     private boolean isPriceAndNameValidFor(WebElement product) {
@@ -251,7 +251,7 @@ public class SubcategoryPage {
 
     public void click_first_product_in_grid() throws InterruptedException {
         final WebElement firstProduct = getProductTileElements().get(0);
-        final WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
+        final WebElement productLink = firstProduct.findElement(By.className("js-product__image"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
         productLink.click();
     }
@@ -464,7 +464,7 @@ public class SubcategoryPage {
 
     public boolean isImageDisplayedFor(String product) {
         WebElement priceInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/../../../div/a/img"));
+                "' and contains(@class, 'tile__detail--name')]/../../..//img[contains(@class, 'js-product__image')]"));
         return priceInTile.isDisplayed();
     }
 
@@ -476,10 +476,16 @@ public class SubcategoryPage {
     }
 
     public String getSalePriceFor(String product) {
-        WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--sale')]"));
+        String result;
+        try {
+            WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
+                    "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--sale')]"));
 
-        return wasPriceInTitle.getText();
+            result = wasPriceInTitle.getText();
+        } catch (StaleElementReferenceException sere) {
+            result = getSalePriceFor(product);
+        }
+        return result;
     }
 
     public Point getMenuPosition() {
@@ -596,7 +602,7 @@ public class SubcategoryPage {
         WebElement productLink = Util.createWebDriverWait(driver).
                 until(ExpectedConditions.visibilityOf(productGrid.
                         findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/.."))));
+                                "' and contains(@class, 'tile__detail--name')]/.."))));
 
         productLink.click();
     }

@@ -1,13 +1,18 @@
 @Logo
 Feature: Logo as homepage link
-  Scenario: Verify logo redirects to homepage
+
+  Background:
     Given User is on homepage
+
+  Scenario: Verify logo redirects to homepage in category page
     Then JCrew Logo is present
     Then User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
     Then Clicks on JCrew Logo
     And Verify user is in homepage
+
+  Scenario: Verify logo redirects to homepage in pdp page
     Then User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
@@ -15,7 +20,7 @@ Feature: Logo as homepage link
     Then Clicks on JCrew Logo
     And Verify user is in homepage
 
-
+  Scenario: Verify logo redirects to homepage in Order Confirmation Page
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
@@ -40,7 +45,7 @@ Feature: Logo as homepage link
     Then Clicks on JCrew Logo
     And Verify user is in homepage
 
-
+  Scenario: Verify logo redirects to homepage in Review Order Page
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
@@ -63,7 +68,7 @@ Feature: Logo as homepage link
     Then Clicks on JCrew Logo
     And Verify user is in homepage
 
-
+  Scenario: Verify logo redirects to homepage in billing page
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
@@ -84,7 +89,7 @@ Feature: Logo as homepage link
     Then Clicks on JCrew Logo
     And Verify user is in homepage
 
-
+  Scenario: Verify logo redirects to homepage in shipping method page
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
@@ -103,6 +108,7 @@ Feature: Logo as homepage link
     And Verify user is in homepage
 
 
+  Scenario: Verify logo redirects to homepage in shipping address page
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
@@ -118,6 +124,7 @@ Feature: Logo as homepage link
     And Verify user is in homepage
 
 
+  Scenario: Verify logo redirects to homepage in select checkout type page
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
@@ -131,19 +138,8 @@ Feature: Logo as homepage link
     Then Clicks on JCrew Logo
     And Verify user is in homepage
 
-    And User clicks on hamburger menu
-    And Selects WOMEN Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
-    And Selects the first product from product grid list
-    And User is in product detail page
-    And A color is selected
-    And A size is selected
-    And Add to cart button is pressed
-    And User clicks on item bag
-    And Clicks on checkout
-    Then Clicks on JCrew Logo
-    And Verify user is in homepage
 
+  Scenario: Verify logo redirects to homepage in shopping bag page
     And User clicks on hamburger menu
     And Selects WOMEN Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category

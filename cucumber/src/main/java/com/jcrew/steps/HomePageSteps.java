@@ -37,11 +37,6 @@ public class HomePageSteps extends DriverFactory {
         homePage.click_on_search_button_for_input_field();
     }
 
-    @And("^User clicks on hamburger menu from women pdp$")
-    public void user_clicks_on_hamburger_menu_from_women_pdp() {
-        homePage.click_on_women_pdp_hamburger_menu();
-    }
-
     @Then("^Verify user is in homepage$")
     public void verify_user_is_in_homepage() throws Throwable {
         assertTrue("Global Main Section should be displayed", homePage.isHomePage());
@@ -52,7 +47,7 @@ public class HomePageSteps extends DriverFactory {
 
         header.click_on_search_close_icon();
 
-        assertFalse("Search drawer should be closed", header.isSearchDrawerOpen());
+        assertTrue("Search drawer should be closed", header.isSearchDrawerClosed());
     }
 
     @And("^Dresses is populated")

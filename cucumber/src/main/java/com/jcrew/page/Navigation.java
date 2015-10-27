@@ -36,4 +36,8 @@ public class Navigation {
     public boolean isDepartmentLinkPresent(String department) {
         return headerDepartmentNavigationSection.findElement(By.linkText(department)).isDisplayed();
     }
+
+    public boolean isCurrentUrl(String page) {
+        return driver.getCurrentUrl().startsWith(page);
+    }
 }
