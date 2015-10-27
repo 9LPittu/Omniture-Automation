@@ -1,0 +1,10 @@
+#real device testing
+
+#iphone 6
+appium -U 34970ff754b558185a64f6671bb1c94c137f29bf --nodeconfig /Users/qalab/nodeconfig-iphone6.json --no-reset --session-override --dont-stop-app-on-reset -p 4720 --command-timeout 240
+
+#samsung note 3
+appium --udid 282bb4a7 --nodeconfig /Users/qalab/nodeconfig-samsungnote3.json --no-reset --session-override --dont-stop-app-on-reset -p 4726 -bp 4786 --chromedriver-port 4796 --command-timeout 240
+
+#samsung galaxy s5
+appium --udid 639d9694 --nodeconfig /Users/qalab/nodeconfig-samsungs5.json --no-reset --session-override --dont-stop-app-on-reset -p 4725 -bp 4785 --chromedriver-port 4795 --command-timeout 240
