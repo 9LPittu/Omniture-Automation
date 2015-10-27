@@ -1,7 +1,6 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.HamburgerMenu;
-import com.jcrew.page.HomePage;
 import com.jcrew.page.LoginPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
@@ -102,5 +101,9 @@ public class LoginPageSteps extends DriverFactory {
         loginPage.click_forgot_password_link();
     }
 
+    @And("^Login page is loaded$")
+    public void login_page_is_loaded() throws Throwable {
+        assertTrue("Login page was not loaded properly", loginPage.isPageLoaded());
+    }
 }
 
