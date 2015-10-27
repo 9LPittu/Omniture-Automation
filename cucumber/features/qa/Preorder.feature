@@ -1,7 +1,7 @@
 @Preorder
 Feature: Preorder Product Feature
 
-  Scenario:
+  Scenario: Verify preorder button is displayed
     Given User goes to /p/womens_category/sweaters/pullover/striped-leather-panel-swing-sweater/C9220 page
     Then Verify product is a pre-order one
     And Preorder button is displayed

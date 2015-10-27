@@ -23,7 +23,7 @@ Feature: Embedded Header Footer Homepage
     And Search drawer is open
     Then User clicks on stores link
     And Verify user is on stores page
-    Then User presses back button
+    Then User goes to homepage
     Then User clicks on item bag
     And User should be in shopping bag page
 #        Then User presses back button

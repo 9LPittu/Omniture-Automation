@@ -174,6 +174,7 @@ public class ProductDetailPage {
     }
 
     public String getSalePrice() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(salePrice));
         return salePrice.getText();
     }
 
@@ -307,6 +308,7 @@ public class ProductDetailPage {
 
 
     public boolean isPreOrderButtonDisplayed() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
         return addToBag.isDisplayed();
     }
 

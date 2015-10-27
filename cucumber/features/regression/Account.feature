@@ -23,6 +23,7 @@ Feature: Account Feature
 
   Scenario: Deactivate State
     Given Goes to sign in page
+    And Login page is loaded
     When User enters invalid as email
     And Changes focus to password field
     Then An error message saying Please enter a valid email address. should appear

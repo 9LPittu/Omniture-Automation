@@ -3,12 +3,12 @@ package com.jcrew.page;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,7 +106,7 @@ public class LoginPage {
     }
 
     public void focus_password_field() {
-        passwordInput.sendKeys("");
+        passwordInput.sendKeys(" ");
     }
 
     public boolean isSignInButtonEnabled() {
@@ -125,6 +125,19 @@ public class LoginPage {
 
     public void click_forgot_password_link() {
         signInForm.findElement(By.linkText("I forgot my password!")).click();
+    }
+
+    public boolean isPageLoaded() {
+        boolean result;
+        try {
+            result = Util.createWebDriverWait(driver).until(
+                    ExpectedConditions.elementToBeClickable(signInButton)).isDisplayed();
+        } catch (StaleElementReferenceException sere) {
+
+            result = isPageLoaded();
+        }
+
+        return result;
     }
 }
 
