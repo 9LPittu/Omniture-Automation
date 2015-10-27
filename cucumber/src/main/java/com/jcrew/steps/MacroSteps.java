@@ -46,7 +46,7 @@ public class MacroSteps {
         //          "GET TO KNOW US");
 
         hamburgerMenuSteps.user_clicks_on_hamburger_menu();
-        hamburgerMenuSteps.hamburger_menu_category_link_is_present("WOMEN");
+        hamburgerMenuSteps.hamburger_menu_category_link_is_present("Women");
         hamburgerMenuSteps.closes_hamburger_menu();
 
         headerSteps.presses_search_button();

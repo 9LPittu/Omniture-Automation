@@ -101,7 +101,7 @@ public class Header {
     }
 
     public void click_on_search_button() {
-        WebElement searchButton = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(this.searchButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(searchButton));
         searchButton.click();
     }
 
