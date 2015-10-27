@@ -1,4 +1,4 @@
-@Logo
+#@Logo
 Feature: Logo as homepage link
 
   Background:
