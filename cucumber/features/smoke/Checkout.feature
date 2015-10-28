@@ -1,4 +1,4 @@
-@Checkout
+#@Checkout
 Feature: Checkout Process
 
   Background:
