@@ -32,7 +32,7 @@ Feature: Account Feature QA Suite
     And User goes to homepage
     And User clicks on hamburger menu
     And My Account link is present
-    And Selects WOMEN Category from hamburger menu
+    And Selects Women Category from hamburger menu
     And User clicks on SHIRTS & TOPS subcategory from Women Category
     And User should be in shirtsandtops page for women
     And User clicks on hamburger menu

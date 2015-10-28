@@ -5,7 +5,7 @@ Feature: Embedded Header Footer Category
   Scenario: Category Page header footer links
     Given User is on homepage
     Then User clicks on hamburger menu
-    And Selects WOMEN Category from hamburger menu
+    And Selects Women Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
     And User clicks on hamburger menu
     And User clicks on back link

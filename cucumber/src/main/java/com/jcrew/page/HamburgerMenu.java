@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,7 +100,9 @@ public class HamburgerMenu {
     }
 
     private WebElement getCategory(String category) {
-        return categoryMenu.findElement(By.linkText(category));
+        WebElement element = categoryMenu.findElement(By.xpath(".//a[text()='" + category + "']"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
+        return element;
     }
 
     public void click_on_subcategory(String subcategory, String category) {
@@ -131,7 +132,9 @@ public class HamburgerMenu {
     }
 
     public void close_hamburger_menu() {
-        menuLevel1.findElement(By.className("icon-close")).click();
+        WebElement iconClose = menuLevel1.findElement(By.className("icon-close"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(iconClose));
+        iconClose.click();
     }
 
     public void click_random_category() {
