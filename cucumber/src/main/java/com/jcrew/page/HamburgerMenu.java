@@ -176,6 +176,7 @@ public class HamburgerMenu {
             result = signInLink.getText();
         } else {
             click_on_hamburger_menu();
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInLinkFromHamburger));
             result = signInLinkFromHamburger.getText();
         }
         return result;
