@@ -46,7 +46,7 @@ public class HamburgerMenu {
     @FindBy(className = "menus--level1")
     private WebElement menuLevel1;
 
-    private static final String[] CATEGORY_MENU = {"WOMEN", "MEN", "GIRLS", "BOYS"};
+    private static final String[] CATEGORY_MENU = {"Women", "Men", "Girls", "Boys"};
 
     private Logger logger = LoggerFactory.getLogger(HamburgerMenu.class);
 

@@ -17,7 +17,7 @@ Feature: Embedded Header Footer Homepage
 #    And Verify OUR BRANDS footer link is displayed
 #    And Verify LET US HELP YOU, YOUR ORDERS, THE J.CREW STYLE GUIDE, ABOUT J.CREW, OUR CARDS, OUR BRANDS footer links order is valid, ignore GET TO KNOW US
     Then User clicks on hamburger menu
-    And Hamburger Menu WOMEN Link is present
+    And Hamburger Menu Women Link is present
     Then Closes hamburger menu
     And User presses search button
     And Search drawer is open

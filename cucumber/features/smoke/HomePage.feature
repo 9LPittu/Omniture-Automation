@@ -7,10 +7,10 @@ Feature: Home Page
     And Stores Link is present
     And Hamburger menu is present
     When User clicks on hamburger menu
-    Then Hamburger Menu WOMEN Link is present
-    And Hamburger Menu MEN Link is present
-    And Hamburger Menu BOYS Link is present
-    And Hamburger Menu GIRLS Link is present
-    And Hamburger Menu WEDDING Link is present
-    And Hamburger Menu SALE Link is present
-    And Hamburger Menu BLOG Link is present
+    Then Hamburger Menu Women Link is present
+    And Hamburger Menu Men Link is present
+    And Hamburger Menu Boys Link is present
+    And Hamburger Menu Girls Link is present
+    And Hamburger Menu Wedding Link is present
+    And Hamburger Menu Sale Link is present
+    And Hamburger Menu Blog Link is present
