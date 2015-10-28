@@ -4,6 +4,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -79,11 +80,15 @@ public class DriverFactory {
 
         if ("chrome".equals(browser)) {
 
-            driver = getDesktopWebDriver(propertyReader, DesiredCapabilities.chrome());
+            DesiredCapabilities chrome = DesiredCapabilities.chrome();
+            chrome.setPlatform(Platform.WINDOWS);
+            driver = getDesktopWebDriver(propertyReader, chrome);
 
         } else if ("firefox".equals(browser)) {
 
-            driver = getDesktopWebDriver(propertyReader, DesiredCapabilities.firefox());
+            DesiredCapabilities firefox = DesiredCapabilities.firefox();
+            firefox.setPlatform(Platform.WINDOWS);
+            driver = getDesktopWebDriver(propertyReader, firefox);
 
         } else if ("iossafari".equals(browser)) {
 
@@ -107,6 +112,7 @@ public class DriverFactory {
 
         } else if ("androidchrome".equals(browser)) {
             DesiredCapabilities capabilities = DesiredCapabilities.android();
+            capabilities.setPlatform(Platform.ANDROID);
 
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty("device.name"));
