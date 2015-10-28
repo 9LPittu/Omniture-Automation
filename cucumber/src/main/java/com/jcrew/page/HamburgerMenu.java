@@ -19,8 +19,14 @@ public class HamburgerMenu {
     private StateHolder stateHolder = StateHolder.getInstance();
     private final WebDriver driver;
 
-    @FindBy(className = "js-primary-nav__link--menu")
+    //@FindBy(className = "js-primary-nav__link--menu")
+    @FindBy(className = "header__primary-nav__wrap")
+    
+    //@FindBy(linkText = "menu")
     private WebElement hamburgerMenuLink;
+    
+    @FindBy(className="js-primary-nav__link--menu")
+    private WebElement hamburgerMenu;
 
     @FindBy(className = "menu__nested")
     private WebElement nestedMenu;
@@ -57,13 +63,13 @@ public class HamburgerMenu {
 
 
     public void click_on_hamburger_menu() {
-        waitForVisibility(hamburgerMenuLink);
-        hamburgerMenuLink.click();
+        waitForVisibility(hamburgerMenu);
+    	hamburgerMenu.click();
     }
 
     public boolean isHamburgerMenuPresent() {
-        boolean isIconDisplayed = hamburgerMenuLink.findElement(By.className("icon-header-menu")).isDisplayed();
-        boolean isMenuTextDisplayed = hamburgerMenuLink.findElement(By.className("primary-nav__text")).isDisplayed();
+        boolean isIconDisplayed = hamburgerMenuLink.findElement(By.className("icon-header-menu")).isDisplayed();    	
+        boolean isMenuTextDisplayed = hamburgerMenuLink.findElement(By.className("primary-nav__item--menu")).isDisplayed();        
         return isIconDisplayed && isMenuTextDisplayed;
     }
 
@@ -110,9 +116,10 @@ public class HamburgerMenu {
     }
 
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
-        WebElement categoryElements = getMenuItemElementForCategory(category);
+       WebElement categoryElements = getMenuItemElementForCategory(category);
 
-        WebElement subcategoryElement = categoryElements.findElement(By.linkText(subcategory));
+       WebElement subcategoryElement = categoryElements.findElement(By.linkText(subcategory));
+        
         return subcategoryElement;
     }
 

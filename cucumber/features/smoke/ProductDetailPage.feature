@@ -5,7 +5,7 @@ Feature: Product Detail Page
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Men Category
+    And User clicks on DENIM subcategory from Men Category
     And Click on product Marled lambswool sweater to display PDP
     Then User is in product detail page
     When A variation is selected

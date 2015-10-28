@@ -141,6 +141,13 @@
             <version>1.7.7</version>
         </dependency>
 
+        <dependency>
+        	<groupId>com.sun</groupId>
+        	<artifactId>tools</artifactId>
+        	<scope>system</scope>
+        	<systemPath>${JAVA_HOME}\lib\tools.jar</systemPath>
+        	<version>1.8.0</version>
+        </dependency>
     </dependencies>
 
     <build>

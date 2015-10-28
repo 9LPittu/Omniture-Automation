@@ -17,6 +17,7 @@ Feature: Regression Tests Search Sale Page
       | skirts      |
       | shoes       |
 
+  
   Scenario Outline: corresponding pdp should be displayed and functional
     And Enters <search_term> to the search field
     And Clicks on search button for input field
