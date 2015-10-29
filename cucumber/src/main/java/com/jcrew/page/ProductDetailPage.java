@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -415,4 +414,8 @@ public class ProductDetailPage {
         return productActionsSection.findElement(By.className("product__message")).getText();
     }
 
+    public boolean isBagButtonText(String text) {
+        return Util.createWebDriverWait(driver).until(
+                ExpectedConditions.textToBePresentInElement(addToBag, text));
+    }
 }

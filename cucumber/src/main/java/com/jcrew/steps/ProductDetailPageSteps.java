@@ -107,7 +107,8 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify update bag button is present$")
     public void verify_update_bag_button_is_present() throws Throwable {
-        assertEquals("UPDATE BAG", productDetailPage.getBagButtonText());
+        assertTrue("Element should have had UPDATE BAG value set",
+                productDetailPage.isBagButtonText("UPDATE BAG"));
     }
 
     @Then("^Update Bag button is pressed$")
