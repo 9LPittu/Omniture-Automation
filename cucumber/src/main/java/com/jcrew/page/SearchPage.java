@@ -251,7 +251,9 @@ public class SearchPage {
             final WebElement accordionMenuForRefinement =
                     filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
             final WebElement optionElement = accordionMenuForRefinement.findElement(By.linkText(option));
-            optionElement.click();
+            if (!optionElement.isSelected()) {
+                optionElement.click();
+            }
 
         } catch (StaleElementReferenceException sere) {
             select_option_from_multiple_select_refinement(option, refinement);

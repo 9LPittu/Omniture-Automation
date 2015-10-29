@@ -415,8 +415,7 @@ public class ProductDetailPage {
                 ExpectedConditions.textToBePresentInElement(addToBag, text));
     }
 
-    public boolean isWishlistConfirmationMessage(String message) {
-        return Util.createWebDriverWait(driver).until(ExpectedConditions.
-                textToBePresentInElementLocated(By.className("content-button-secondary-confirmation"), message));
+    public boolean isWishlistConfirmationMessageDisplayed() {
+        return productActionsSection.findElement(By.className("content-button-secondary-confirmation")).isDisplayed();
     }
 }
