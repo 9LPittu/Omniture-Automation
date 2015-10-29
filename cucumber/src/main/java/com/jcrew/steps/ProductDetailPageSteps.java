@@ -145,7 +145,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Then("^Verify update message for wishlist is displayed and go to wishlist page$")
     public void verify_update_message_for_wishlist_is_displayed_and_go_to_wishlist_page() throws Throwable {
-        assertEquals("Expected message was not received", "ADDED TO WISHLIST", productDetailPage.getWishlistConfirmationMessage());
+        assertTrue("Expected message was not received", productDetailPage.isWishlistConfirmationMessage("ADDED TO WISHLIST"));
         productDetailPage.go_to_wishlist();
     }
 

@@ -47,4 +47,9 @@ public class WishlistPageSteps extends DriverFactory {
         assertEquals("Button message after updating was not present", "ADDED TO WISHLIST",
                 wishlistPage.getUpdateWishlistMessage());
     }
+
+    @And("^Deletes all previous wishlist items from the list$")
+    public void deletes_all_previous_wishlist_items_from_the_list() throws Throwable {
+        wishlistPage.delete_current_products();
+    }
 }

@@ -249,11 +249,6 @@ public class ProductDetailPage {
         wishlistConfirmation.findElement(By.tagName("a")).click();
     }
 
-    public String getWishlistConfirmationMessage() {
-        return Util.createWebDriverWait(driver).until(ExpectedConditions.
-                presenceOfElementLocated(By.className("content-button-secondary-confirmation"))).getText();
-    }
-
     public boolean isSizeSelectorSectionPresent() {
         return !productSizesSection.findElements(By.className("product__sizes")).isEmpty();
     }
@@ -418,5 +413,10 @@ public class ProductDetailPage {
     public boolean isBagButtonText(String text) {
         return Util.createWebDriverWait(driver).until(
                 ExpectedConditions.textToBePresentInElement(addToBag, text));
+    }
+
+    public boolean isWishlistConfirmationMessage(String message) {
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.
+                textToBePresentInElementLocated(By.className("content-button-secondary-confirmation"), message));
     }
 }

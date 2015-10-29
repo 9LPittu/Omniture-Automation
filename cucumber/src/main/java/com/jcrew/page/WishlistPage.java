@@ -95,4 +95,16 @@ public class WishlistPage {
 
         return updateWishlistMessage.getText();
     }
+
+    public void delete_current_products() {
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript(
+                "var params = $.parseJSON(globalObj.wishlist.itemsArrayJson).header;" +
+                        "params.deleteItems = params.sortOrder;" +
+                        "$.ajax({ url: \"/userwishlist/ajax/wishlist_ajax_update.jsp\",\n" +
+                        "         dataType: \"json\"," +
+                        "         data: params" +
+                        "});"
+        );
+    }
 }
