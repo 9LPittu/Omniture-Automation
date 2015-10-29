@@ -184,8 +184,9 @@ public class ProductDetailPage {
     }
 
     private WebElement getProductSizeElement(String productSize) {
-        return productSizesSection.findElement(
-                By.xpath(".//li[@data-name='" + productSize + "']"));
+        return Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productSizesSection.findElement(
+                        By.xpath(".//li[@data-name='" + productSize + "']"))));
     }
 
     public void select_color(String productColor) {
