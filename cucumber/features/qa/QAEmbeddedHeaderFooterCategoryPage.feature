@@ -3,11 +3,5 @@
 Feature: Embedded Header Footer Category
 
   Scenario: Category Page header footer links
-    Given User is on homepage
-    Then User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
-    And User clicks on hamburger menu
-    And User clicks on back link
-    And Closes hamburger menu
+    Given User goes to /c/womens_category/sweaters page
     Then Verify embedded header and footer are visible and functional
