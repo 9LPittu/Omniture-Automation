@@ -24,6 +24,9 @@ public class Header {
     @FindBy(id = "header__logo")
     private WebElement headerLogo;
 
+    @FindBy(className = "c-header__breadcrumb")
+    private WebElement breadcrumbSection;
+
     @FindBy(className = "js-primary-nav__link--search")
     private WebElement searchButton;
 
@@ -126,4 +129,9 @@ public class Header {
     }
 
 
+    public void click_breadcrumb(String breadcrumb) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbSection));
+        WebElement breadcrumbElement = breadcrumbSection.findElement(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
+        breadcrumbElement.click();
+    }
 }

@@ -29,7 +29,7 @@ Feature: Account Feature QA Suite
     And User disables check box
     And Hits sign in button
     Then User is in My Account page
-    And User goes to homepage
+    And Clicks on J.Crew Breadcrumb
     And User clicks on hamburger menu
     And My Account link is present
     And Selects Women Category from hamburger menu

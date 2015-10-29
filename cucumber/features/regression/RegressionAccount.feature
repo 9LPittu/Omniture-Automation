@@ -38,7 +38,7 @@ Feature: Account Feature
     And User enters test1234 as password
     And Hits sign in button
     Then User is in My Account page
-    And Clicks on JCrew Logo
+    And Clicks on J.Crew Breadcrumb
     Then Verify user is in homepage
     Then User clicks on hamburger menu
     And My Account link is present

@@ -9,7 +9,7 @@ Feature: Logo as homepage link
     Then User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
-    Then Clicks on JCrew Logo
+    Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
 
   Scenario: Verify logo redirects to homepage in pdp page
@@ -17,7 +17,7 @@ Feature: Logo as homepage link
     And Selects Women Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
-    Then Clicks on JCrew Logo
+    Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
 
   Scenario: Verify logo redirects to homepage in Order Confirmation Page
@@ -42,7 +42,7 @@ Feature: Logo as homepage link
     And Submits payment data in billing page
     And Clicks on place your order
     And User should be in order confirmation page
-    Then Clicks on JCrew Logo
+    Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
 
   Scenario: Verify logo redirects to homepage in Review Order Page
@@ -65,7 +65,7 @@ Feature: Logo as homepage link
     And Clicks continue button on shipping method page
     And Fills required payment data in billing page
     And Submits payment data in billing page
-    Then Clicks on JCrew Logo
+    Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
 
   Scenario: Verify logo redirects to homepage in billing page
@@ -86,7 +86,7 @@ Feature: Logo as homepage link
     And Uses default value for shipping method
     And Uses default value for gifts option
     And Clicks continue button on shipping method page
-    Then Clicks on JCrew Logo
+    Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
 
   Scenario: Verify logo redirects to homepage in shipping method page
@@ -104,7 +104,7 @@ Feature: Logo as homepage link
     And Fills shipping address
     And Presses continue button on shipping address
     And Verifies is in shipping method page
-    Then Clicks on JCrew Logo
+    Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
 
 
@@ -120,7 +120,7 @@ Feature: Logo as homepage link
     And User clicks on item bag
     And Clicks on checkout
     And Selects to checkout as guest
-    Then Clicks on JCrew Logo
+    Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
 
 
@@ -135,7 +135,7 @@ Feature: Logo as homepage link
     And Add to cart button is pressed
     And User clicks on item bag
     And Clicks on checkout
-    Then Clicks on JCrew Logo
+    Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
 
 
@@ -149,6 +149,6 @@ Feature: Logo as homepage link
     And A size is selected
     And Add to cart button is pressed
     And User clicks on item bag
-    Then Clicks on JCrew Logo
+    Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
 

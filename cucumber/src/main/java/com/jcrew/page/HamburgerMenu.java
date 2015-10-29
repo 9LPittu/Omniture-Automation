@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -19,13 +20,10 @@ public class HamburgerMenu {
     private StateHolder stateHolder = StateHolder.getInstance();
     private final WebDriver driver;
 
-    //@FindBy(className = "js-primary-nav__link--menu")
     @FindBy(className = "header__primary-nav__wrap")
-    
-    //@FindBy(linkText = "menu")
     private WebElement hamburgerMenuLink;
-    
-    @FindBy(className="js-primary-nav__link--menu")
+
+    @FindBy(className = "js-primary-nav__link--menu")
     private WebElement hamburgerMenu;
 
     @FindBy(className = "menu__nested")
@@ -63,18 +61,23 @@ public class HamburgerMenu {
 
 
     public void click_on_hamburger_menu() {
-        waitForVisibility(hamburgerMenu);
-    	hamburgerMenu.click();
+        try {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(hamburgerMenu));
+            hamburgerMenu.click();
+
+        } catch (StaleElementReferenceException sele) {
+            click_on_hamburger_menu();
+        }
     }
 
     public boolean isHamburgerMenuPresent() {
-        boolean isIconDisplayed = hamburgerMenuLink.findElement(By.className("icon-header-menu")).isDisplayed();    	
-        boolean isMenuTextDisplayed = hamburgerMenuLink.findElement(By.className("primary-nav__item--menu")).isDisplayed();        
+        boolean isIconDisplayed = hamburgerMenuLink.findElement(By.className("icon-header-menu")).isDisplayed();
+        boolean isMenuTextDisplayed = hamburgerMenuLink.findElement(By.className("primary-nav__item--menu")).isDisplayed();
         return isIconDisplayed && isMenuTextDisplayed;
     }
 
     public void click_on_sign_in_link_from_hamburger_menu() {
-        waitForVisibility(signInLinkFromHamburger);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(signInLinkFromHamburger));
         signInLinkFromHamburger.click();
     }
 
@@ -87,13 +90,9 @@ public class HamburgerMenu {
         }
     }
 
-    private void waitForVisibility(WebElement element) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
-    }
-
     public void click_on_back_link() {
         WebElement backlink = menuLevel2.findElement(By.className("icon-arrow-back"));
-        waitForVisibility(backlink);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(backlink));
         backlink.click();
     }
 
@@ -116,10 +115,10 @@ public class HamburgerMenu {
     }
 
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
-       WebElement categoryElements = getMenuItemElementForCategory(category);
+        WebElement categoryElements = getMenuItemElementForCategory(category);
 
-       WebElement subcategoryElement = categoryElements.findElement(By.linkText(subcategory));
-        
+        WebElement subcategoryElement = categoryElements.findElement(By.linkText(subcategory));
+
         return subcategoryElement;
     }
 
