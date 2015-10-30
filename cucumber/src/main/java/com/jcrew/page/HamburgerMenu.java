@@ -91,9 +91,9 @@ public class HamburgerMenu {
     }
 
     public void click_on_back_link() {
-        WebElement backlink = menuLevel2.findElement(By.className("icon-arrow-back"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(backlink));
-        backlink.click();
+        WebElement backLink = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-arrow-back"))));
+        backLink.click();
     }
 
     public boolean isCategoryPresent(String category) {
