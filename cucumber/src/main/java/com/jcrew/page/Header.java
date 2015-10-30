@@ -1,10 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -48,7 +45,13 @@ public class Header {
     }
 
     public boolean isHeaderLinkPresent(String headerLink) {
-        return headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
+        boolean result;
+        try {
+            result = headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
+        } catch (StaleElementReferenceException sere) {
+            result = isHeaderLinkPresent(headerLink);
+        }
+        return result;
     }
 
     public boolean isHeaderBagIconPresent() {
