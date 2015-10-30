@@ -11,7 +11,9 @@ Feature: Ability to link to PDP from Wishlist
     And User clicks on WISHLIST link in My Account Page
     And User should be in wishlist page
     And Deletes all previous wishlist items from the list
-    And User goes to /p/womens_category/sweaters/Pullover/jeweled-wool-backzip-sweater/E1600 page
+    And User presses search button
+    And Enters E1600 to the search field
+    And Clicks on search button for input field
     And Color BLACK is selected by user
     And Size LARGE is selected by user
     And Wishlist button is pressed
