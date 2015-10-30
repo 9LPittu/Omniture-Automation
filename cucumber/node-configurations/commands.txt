@@ -1,4 +1,8 @@
+#iphone simulator
+appium --nodeconfig /Users/qalab/nodeconfig-iphone6simulator.json --command-timeout 240
+
 #real device testing
+
 
 #iphone 6
 appium -U 34970ff754b558185a64f6671bb1c94c137f29bf --nodeconfig /Users/qalab/nodeconfig-iphone6.json --no-reset --session-override --dont-stop-app-on-reset --port 4720 -bp 4790 --command-timeout 240
