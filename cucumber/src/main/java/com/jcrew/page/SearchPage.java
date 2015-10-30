@@ -235,15 +235,18 @@ public class SearchPage {
 
         boolean result;
         try {
-            WebElement selectedOption = getRefinementElement(refinement).findElement(
-                    By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]"));
-            result = selectedOption.isDisplayed();
+            result = Util.createWebDriverWait(driver).until(
+                    ExpectedConditions.visibilityOf(
+                            getRefinementElement(refinement).findElement(
+                                    By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]")
+                            )
+                    )
+            ).isDisplayed();
         } catch (StaleElementReferenceException sere) {
             result = isOptionSelectedForRefinementWithAccordionClosed(optionSelected, refinement);
         }
 
         return result;
-
     }
 
     public void select_option_from_multiple_select_refinement(String option, String refinement) {
@@ -252,9 +255,8 @@ public class SearchPage {
             final WebElement accordionMenuForRefinement =
                     filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
             final WebElement optionElement = accordionMenuForRefinement.findElement(By.linkText(option));
-            if (!optionElement.isSelected()) {
-                optionElement.click();
-            }
+
+            optionElement.click();
 
         } catch (StaleElementReferenceException sere) {
             select_option_from_multiple_select_refinement(option, refinement);
