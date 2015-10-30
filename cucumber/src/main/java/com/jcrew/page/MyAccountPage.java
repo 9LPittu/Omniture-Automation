@@ -34,7 +34,7 @@ public class MyAccountPage {
     }
 
     public boolean isMenuLinkPresent(String link) {
-        return getMenuLink(link).isDisplayed();
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(getMenuLink(link))).isDisplayed();
     }
 
     private WebElement getMenuLink(String link) {
