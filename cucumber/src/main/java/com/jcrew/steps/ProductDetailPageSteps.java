@@ -240,7 +240,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
         String subcategory = (String) stateHolder.get("subcategory");
 
-        if (subcategory.equalsIgnoreCase("suiting")) {
+        if ("suiting".equalsIgnoreCase(subcategory)) {
             // suiting products have appended a 'the ' at the beginning, removing it for later comparison.
             productName = productName.replaceFirst("the ", "");
         }

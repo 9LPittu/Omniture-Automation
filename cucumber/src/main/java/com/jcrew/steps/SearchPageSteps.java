@@ -3,12 +3,15 @@ package com.jcrew.steps;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.page.SearchPage;
+import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.TimeoutException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -18,6 +21,7 @@ public class SearchPageSteps extends DriverFactory {
     private SearchPage searchPage = new SearchPage(getDriver());
     private HomePage homePage = new HomePage(getDriver());
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     @Given("User is in search results page")
     public void user_is_in_search_results_page() {
@@ -195,11 +199,16 @@ public class SearchPageSteps extends DriverFactory {
                 searchPage.isBreadcrumbDisplayedFor(option));
     }
 
-    @And("^User selects a product with no sale price and verifies is in corresponding valid pdp$")
-    public void User_selects_a_product_with_no_sale_price_and_verifies_is_in_corresponding_valid_pdp() throws Throwable {
+    @And("^User selects a product with no sale price$")
+    public void user_selects_a_product_with_no_sale_price() throws Throwable {
         String productName = searchPage.click_on_no_sale_price_product();
-        assertEquals("PDP and clicked product do not have the same name", productName,
-                productDetailPage.getProductNameFromPDP());
+        Product product = new Product();
+        product.setProductName(productName);
+        List<Product> productList = new ArrayList<>();
+        productList.add(product);
+
+        stateHolder.put("productList", productList);
+
     }
 }
     
