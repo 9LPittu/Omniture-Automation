@@ -15,7 +15,6 @@ Feature: Checkout Process Signed in User
     And A variation is selected
     And A color is selected
     And A size is selected
-    And A wishlist button is present
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have item(s) added
@@ -26,12 +25,6 @@ Feature: Checkout Process Signed in User
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are numbers
     And Clicks on checkout
-#    And Validates billing section is present in review page
-#    And Inputs credit card security code
-#    And Validates shipping section is present in review page
-#    And Clicks on place your order
-#    Then User should be in order summary page
-
 
   Scenario: Express Checkout
     Given User goes to homepage
@@ -40,8 +33,3 @@ Feature: Checkout Process Signed in User
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are numbers
     And Clicks on checkout
-#    And Validates billing section is present in review page
-#    And Inputs credit card security code
-#    And Validates shipping section is present in review page
-#    And Clicks on place your order
-#    Then User should be in order summary page

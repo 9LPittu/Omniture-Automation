@@ -144,6 +144,7 @@ public class ProductDetailPage {
     }
 
     public void click_add_to_cart() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
         addToBag.click();
     }
 
