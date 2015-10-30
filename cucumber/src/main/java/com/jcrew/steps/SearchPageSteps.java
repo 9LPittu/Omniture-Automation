@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.HomePage;
 import com.jcrew.page.ProductDetailPage;
+import com.jcrew.page.SalePage;
 import com.jcrew.page.SearchPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
@@ -16,6 +17,7 @@ import static org.junit.Assert.*;
 public class SearchPageSteps extends DriverFactory {
 
     private SearchPage searchPage = new SearchPage(getDriver());
+    private SalePage salePage = new SalePage(getDriver());
     private HomePage homePage = new HomePage(getDriver());
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
 
@@ -24,6 +26,11 @@ public class SearchPageSteps extends DriverFactory {
 
         assertTrue("User should be in search page", searchPage.isSearchPage());
 
+    }
+
+    @And("User is in sale results page")
+    public void user_is_in_sale_results_page() {
+        assertTrue("User should be in sale result page", salePage.isSalePage());
     }
 
     @And("^Search results are displayed$")
