@@ -107,7 +107,8 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify update bag button is present$")
     public void verify_update_bag_button_is_present() throws Throwable {
-        assertEquals("UPDATE BAG", productDetailPage.getBagButtonText());
+        assertTrue("Element should have had UPDATE BAG value set",
+                productDetailPage.isBagButtonText("UPDATE BAG"));
     }
 
     @Then("^Update Bag button is pressed$")
@@ -144,7 +145,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Then("^Verify update message for wishlist is displayed and go to wishlist page$")
     public void verify_update_message_for_wishlist_is_displayed_and_go_to_wishlist_page() throws Throwable {
-        assertEquals("Expected message was not received", "ADDED TO WISHLIST", productDetailPage.getWishlistConfirmationMessage());
+        assertTrue("Expected message was not received", productDetailPage.isWishlistConfirmationMessageDisplayed());
         productDetailPage.go_to_wishlist();
     }
 
@@ -239,7 +240,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
         String subcategory = (String) stateHolder.get("subcategory");
 
-        if (subcategory.equalsIgnoreCase("suiting")) {
+        if ("suiting".equalsIgnoreCase(subcategory)) {
             // suiting products have appended a 'the ' at the beginning, removing it for later comparison.
             productName = productName.replaceFirst("the ", "");
         }

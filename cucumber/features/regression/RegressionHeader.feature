@@ -7,7 +7,7 @@ Feature: Header Tests
     And Verify STORES header link is displayed
     And Verify BAG header link is displayed
     Then User clicks on hamburger menu
-    And Hamburger Menu WOMEN Link is present
+    And Hamburger Menu Women Link is present
     Then Closes hamburger menu
     And User presses search button
     And Search drawer is open

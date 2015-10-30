@@ -17,11 +17,13 @@ Feature: Regression Tests Search Sale Page
       | skirts      |
       | shoes       |
 
+  
   Scenario Outline: corresponding pdp should be displayed and functional
     And Enters <search_term> to the search field
     And Clicks on search button for input field
     Then User is in search results page
-    And User selects a product with no sale price and verifies is in corresponding valid pdp
+    And User selects a product with no sale price
+    And Verify product name is the one it was selected
     And A color is selected
     And A size is selected
 

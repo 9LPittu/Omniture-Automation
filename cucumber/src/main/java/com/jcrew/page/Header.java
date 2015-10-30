@@ -1,10 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -23,6 +20,9 @@ public class Header {
 
     @FindBy(id = "header__logo")
     private WebElement headerLogo;
+
+    @FindBy(className = "c-header__breadcrumb")
+    private WebElement breadcrumbSection;
 
     @FindBy(className = "js-primary-nav__link--search")
     private WebElement searchButton;
@@ -45,7 +45,13 @@ public class Header {
     }
 
     public boolean isHeaderLinkPresent(String headerLink) {
-        return headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
+        boolean result;
+        try {
+            result = headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
+        } catch (StaleElementReferenceException sere) {
+            result = isHeaderLinkPresent(headerLink);
+        }
+        return result;
     }
 
     public boolean isHeaderBagIconPresent() {
@@ -101,7 +107,7 @@ public class Header {
     }
 
     public void click_on_search_button() {
-        WebElement searchButton = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(this.searchButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(searchButton));
         searchButton.click();
     }
 
@@ -126,4 +132,9 @@ public class Header {
     }
 
 
+    public void click_breadcrumb(String breadcrumb) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbSection));
+        WebElement breadcrumbElement = breadcrumbSection.findElement(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
+        breadcrumbElement.click();
+    }
 }

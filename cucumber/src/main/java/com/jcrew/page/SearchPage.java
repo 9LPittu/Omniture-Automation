@@ -161,7 +161,8 @@ public class SearchPage {
 
         String productName = selectedProductNameElement.getText();
         logger.info("sale product selected now {}", productName);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(selectedNoSalePriceProduct.findElement(By.className("product__image--small"))));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+                selectedNoSalePriceProduct.findElement(By.className("product__image--small"))));
         selectedNoSalePriceProduct.findElement(By.className("product__image--small")).click();
 
         return productName;
@@ -234,15 +235,18 @@ public class SearchPage {
 
         boolean result;
         try {
-            WebElement selectedOption = getRefinementElement(refinement).findElement(
-                    By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]"));
-            result = selectedOption.isDisplayed();
+            result = Util.createWebDriverWait(driver).until(
+                    ExpectedConditions.visibilityOf(
+                            getRefinementElement(refinement).findElement(
+                                    By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]")
+                            )
+                    )
+            ).isDisplayed();
         } catch (StaleElementReferenceException sere) {
             result = isOptionSelectedForRefinementWithAccordionClosed(optionSelected, refinement);
         }
 
         return result;
-
     }
 
     public void select_option_from_multiple_select_refinement(String option, String refinement) {
@@ -251,6 +255,7 @@ public class SearchPage {
             final WebElement accordionMenuForRefinement =
                     filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
             final WebElement optionElement = accordionMenuForRefinement.findElement(By.linkText(option));
+
             optionElement.click();
 
         } catch (StaleElementReferenceException sere) {

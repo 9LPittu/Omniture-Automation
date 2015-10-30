@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,31 +91,22 @@ public class ProductDetailPage {
 
     }
 
-    public void select_color() {
+    public void select_any_color() {
         try {
             List<WebElement> colors = driver.findElement(By.id("c-product__price-colors")).findElements(By.className("colors-list__item"));
-            WebElement color = colors.get(0);
+            int min = 0;
+            int max = colors.size() - 1;
+            logger.info("no of products {}", max);
+
+            int range = (max - min) + 1;
+            int randomNumber = (int) (Math.random() * range) + min;
+            WebElement color = colors.get(randomNumber);
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(color));
             color.click();
-        } catch (StaleElementReferenceException sele) {
-            select_color();
+
+        } catch (StaleElementReferenceException sere) {
+            select_any_color();
         }
-
-    }
-
-    public void select_any_color() {
-
-        List<WebElement> colors = driver.findElement(By.id("c-product__price-colors")).findElements(By.className("colors-list__item"));
-        int min = 0;
-        int max = colors.size() - 1;
-        logger.info("no of products {}", max);
-
-        int range = (max - min) + 1;
-        int randomNumber = (int) (Math.random() * range) + min;
-        WebElement color = colors.get(randomNumber);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(color));
-        color.click();
-
     }
 
 
@@ -154,6 +144,7 @@ public class ProductDetailPage {
     }
 
     public void click_add_to_cart() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
         addToBag.click();
     }
 
@@ -185,8 +176,9 @@ public class ProductDetailPage {
     }
 
     private WebElement getProductSizeElement(String productSize) {
-        return productSizesSection.findElement(
-                By.xpath(".//li[@data-name='" + productSize + "']"));
+        return Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productSizesSection.findElement(
+                        By.xpath(".//li[@data-name='" + productSize + "']"))));
     }
 
     public void select_color(String productColor) {
@@ -247,11 +239,6 @@ public class ProductDetailPage {
         WebElement wishlistConfirmation = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.presenceOfElementLocated(By.className("wishlist-confirmation-text")));
         wishlistConfirmation.findElement(By.tagName("a")).click();
-    }
-
-    public String getWishlistConfirmationMessage() {
-        return Util.createWebDriverWait(driver).until(ExpectedConditions.
-                presenceOfElementLocated(By.className("content-button-secondary-confirmation"))).getText();
     }
 
     public boolean isSizeSelectorSectionPresent() {
@@ -415,4 +402,12 @@ public class ProductDetailPage {
         return productActionsSection.findElement(By.className("product__message")).getText();
     }
 
+    public boolean isBagButtonText(String text) {
+        return Util.createWebDriverWait(driver).until(
+                ExpectedConditions.textToBePresentInElement(addToBag, text));
+    }
+
+    public boolean isWishlistConfirmationMessageDisplayed() {
+        return productActionsSection.findElement(By.className("content-button-secondary-confirmation")).isDisplayed();
+    }
 }

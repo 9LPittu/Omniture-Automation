@@ -96,4 +96,9 @@ public class HeaderSteps extends DriverFactory {
     public void Bag_Link_is_present() throws Throwable {
         assertTrue("Bag Link should be displaying", header.isBagLinkDisplaying());
     }
+
+    @And("^Clicks on ([^\"]*) Breadcrumb$")
+    public void clicks_on_breadcrumb(String breadcrumb) throws Throwable {
+        header.click_breadcrumb(breadcrumb);
+    }
 }

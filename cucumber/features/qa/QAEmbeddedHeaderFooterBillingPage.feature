@@ -1,11 +1,10 @@
-@EmbeddedHeaderFooterOrderConfirmationPage
-Feature: Embedded Header Footer Order Confirmation
+@EmbeddedHeaderFooterBillingPage
+Feature: Embedded Header Footer Billing
 
-
-  Scenario: Order Confirmation Page Header Footer Links
+  Scenario: Billing Page Header Footer Links
     Given User is on homepage
     And User clicks on hamburger menu
-    And Selects WOMEN Category from hamburger menu
+    And Selects Women Category from hamburger menu
     And User clicks on BLAZERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
@@ -21,8 +20,5 @@ Feature: Embedded Header Footer Order Confirmation
     And Uses default value for shipping method
     And Uses default value for gifts option
     And Clicks continue button on shipping method page
-    And Fills required payment data in billing page
-    And Submits payment data in billing page
-    And Clicks on place your order
-    And User should be in order confirmation page
+    And Verify user is in billing page
     Then Verify embedded header and footer are visible and functional
