@@ -62,7 +62,7 @@ public class HamburgerMenu {
 
     public void click_on_hamburger_menu() {
         try {
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(hamburgerMenu));
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
             hamburgerMenu.click();
 
         } catch (StaleElementReferenceException sele) {
