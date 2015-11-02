@@ -93,17 +93,15 @@ public class ProductDetailPage {
 
     public void select_any_color() {
         try {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(By.id("c-product__price-colors")));
             List<WebElement> colors = driver.findElement(By.id("c-product__price-colors")).findElements(By.className("colors-list__item"));
-            int min = 0;
-            int max = colors.size() - 1;
-            logger.info("no of products {}", max);
-
-            int range = (max - min) + 1;
-            int randomNumber = (int) (Math.random() * range) + min;
+            int range = colors.size();
+            int randomNumber = (int) (Math.random() * range);
             WebElement color = colors.get(randomNumber);
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(color));
-            color.click();
 
+            logger.info("no of colors {}", range);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(color));
+            color.click();
         } catch (StaleElementReferenceException sere) {
             select_any_color();
         }
