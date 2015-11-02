@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -71,6 +72,8 @@ public class ProductDetailPage {
 
 
     public boolean isProductDetailPage() {
+    	
+    	driver.navigate().refresh();
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
         boolean isProductDetailPage = productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
         return isProductDetailPage;
@@ -169,13 +172,13 @@ public class ProductDetailPage {
         return salePrice.getText();
     }
 
-    public void select_size(String productSize) {
+    public void select_size(String productSize) throws InterruptedException {
         WebElement productSizeElement = getProductSizeElement(productSize);
-
-        productSizeElement.click();
+        productSizeElement.click();        
     }
 
-    private WebElement getProductSizeElement(String productSize) {
+    private WebElement getProductSizeElement(String productSize) throws InterruptedException {
+    	
         return Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(productSizesSection.findElement(
                         By.xpath(".//li[@data-name='" + productSize + "']"))));
