@@ -32,7 +32,7 @@ public class Runtime implements UnreportedStepExecutor {
         Arrays.sort(PENDING_EXCEPTIONS);
     }
 
-    final UndefinedStepsTracker undefinedStepsTracker = new UndefinedStepsTracker();
+    private final UndefinedStepsTracker undefinedStepsTracker = new UndefinedStepsTracker();
     private final Stats stats;
     private final Glue glue;
     private final RuntimeOptions runtimeOptions;
@@ -176,12 +176,13 @@ public class Runtime implements UnreportedStepExecutor {
     }
 
     private boolean hasErrors() {
+        boolean hasErrors = false;
         for (Throwable error : errors) {
             if (!isPending(error)) {
-                return true;
+                hasErrors = true;
             }
         }
-        return false;
+        return hasErrors;
     }
 
     public List<String> getSnippets() {

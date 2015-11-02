@@ -22,14 +22,14 @@ import java.util.Map;
 
 public class DriverFactory {
 
-    private static Map<String, WebDriver> driverMap = new HashMap<>();
-    private Logger logger = LoggerFactory.getLogger(DriverFactory.class);
     public static final String[] PHANTOM_JS_ARGS = new String[]{"--web-security=false",
             "--ssl-protocol=any",
             "--local-to-remote-url-access=true",
             "--disk-cache=true",
             "--ignore-ssl-errors=true"
     };
+    private static final Map<String, WebDriver> driverMap = new HashMap<>();
+    private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
 
     private WebDriver createNewDriverInstance() throws IOException {
 

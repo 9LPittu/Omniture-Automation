@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertyReader {
@@ -13,9 +12,8 @@ public class PropertyReader {
     public static final int DESKTOP_DEFAULT_WIDTH = 1200;
     private static final int DESKTOP_DEFAULT_HEIGHT = 800;
     private static final PropertyReader propertyReader = new PropertyReader();
-    private Properties properties = new Properties();
-    private InputStream inputStream = null;
-    private Logger logger = LoggerFactory.getLogger(PropertyReader.class);
+    private final Properties properties = new Properties();
+    private final Logger logger = LoggerFactory.getLogger(PropertyReader.class);
 
     private PropertyReader() {
         try {
@@ -36,7 +34,7 @@ public class PropertyReader {
 
         logger.info("Configuration file to be used {}", configurationFile);
 
-        inputStream = new FileInputStream(configurationFile);
+        FileInputStream inputStream = new FileInputStream(configurationFile);
         properties.load(inputStream);
     }
 

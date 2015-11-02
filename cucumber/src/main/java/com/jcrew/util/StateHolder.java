@@ -5,15 +5,15 @@ import java.util.Map;
 
 public class StateHolder {
 
-    private static StateHolder stateHolder = new StateHolder();
+    private static final StateHolder stateHolder = new StateHolder();
     private static final Map<String, Map<String, Object>> stateHolderMap = new HashMap<>();
-
-    public static StateHolder getInstance() {
-        return stateHolder;
-    }
 
     private StateHolder() {
 
+    }
+
+    public static StateHolder getInstance() {
+        return stateHolder;
     }
 
     public void put(String key, Object value) {

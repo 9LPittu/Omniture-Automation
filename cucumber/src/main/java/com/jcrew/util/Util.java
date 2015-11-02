@@ -9,9 +9,8 @@ import java.util.List;
 
 public class Util {
 
-    private static StateHolder stateHolder = StateHolder.getInstance();
-
-    public static int DEFAULT_TIMEOUT = 180;
+    public static final int DEFAULT_TIMEOUT = 180;
+    private static final StateHolder stateHolder = StateHolder.getInstance();
 
     public static int randomIndex(int size) {
         return (int) (Math.random() * (size - 1));

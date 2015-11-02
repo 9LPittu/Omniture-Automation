@@ -24,17 +24,18 @@ import java.util.regex.Pattern;
 import static cucumber.runtime.io.MultiLoader.packageName;
 
 public class JavaBackend implements Backend {
-    public static final ThreadLocal<JavaBackend> INSTANCE = new ThreadLocal<JavaBackend>();
+    public static final ThreadLocal<JavaBackend> INSTANCE = new ThreadLocal<>();
     private final SnippetGenerator snippetGenerator = new SnippetGenerator(createSnippet());
     private final ObjectFactory objectFactory;
     private final ClassFinder classFinder;
     private final MethodScanner methodScanner;
+    private final List<Class<? extends GlueBase>> glueBaseClasses = new ArrayList<>();
     private Glue glue;
-    private List<Class<? extends GlueBase>> glueBaseClasses = new ArrayList<Class<? extends GlueBase>>();
+
     /**
      * The constructor called by reflection by default.
      *
-     * @param resourceLoader
+     * @param resourceLoader resource loader
      */
     public JavaBackend(ResourceLoader resourceLoader) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -61,10 +62,11 @@ public class JavaBackend implements Backend {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         try {
             classLoader.loadClass("cucumber.runtime.java8.LambdaGlueBase");
-            return new Java8Snippet();
         } catch (ClassNotFoundException thatsOk) {
-            return new JavaSnippet();
+            // That's OK
         }
+
+        return new Java8Snippet();
     }
 
     @Override

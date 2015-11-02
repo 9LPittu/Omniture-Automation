@@ -9,11 +9,11 @@ import gherkin.formatter.model.Step;
 import java.util.*;
 
 public class RuntimeGlue implements Glue {
-    final Map<String, StepDefinition> stepDefinitionsByPattern = new TreeMap<String, StepDefinition>();
-    final List<HookDefinition> beforeHooks = new ArrayList<HookDefinition>();
-    final List<HookDefinition> afterHooks = new ArrayList<HookDefinition>();
-    final List<HookDefinition> beforeStepHooks = new ArrayList<>();
-    final List<HookDefinition> afterStepHooks = new ArrayList<>();
+    private final Map<String, StepDefinition> stepDefinitionsByPattern = new TreeMap<String, StepDefinition>();
+    private final List<HookDefinition> beforeHooks = new ArrayList<HookDefinition>();
+    private final List<HookDefinition> afterHooks = new ArrayList<HookDefinition>();
+    private final List<HookDefinition> beforeStepHooks = new ArrayList<>();
+    private final List<HookDefinition> afterStepHooks = new ArrayList<>();
 
     private final UndefinedStepsTracker tracker;
     private final LocalizedXStreams localizedXStreams;
@@ -79,16 +79,16 @@ public class RuntimeGlue implements Glue {
     @Override
     public StepDefinitionMatch stepDefinitionMatch(String featurePath, Step step, I18n i18n) {
         List<StepDefinitionMatch> matches = stepDefinitionMatches(featurePath, step);
+        StepDefinitionMatch firstMatch = null;
         try {
             if (matches.size() == 0) {
                 tracker.addUndefinedStep(step, i18n);
-                return null;
-            }
-            if (matches.size() == 1) {
-                return matches.get(0);
+            } else if (matches.size() == 1) {
+                firstMatch = matches.get(0);
             } else {
                 throw new AmbiguousStepDefinitionsException(matches);
             }
+            return firstMatch;
         } finally {
             tracker.storeStepKeyword(step, i18n);
         }
