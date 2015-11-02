@@ -9,7 +9,7 @@ import java.util.Properties;
 public class InventoryDAO {
 
 
-    public static final String UPDATE_BACKORDER_ITEM = "Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 50, sellable_oo_qty = 10 , BR_FLAG = 'Y' where variant = 'B0517WN29172'";
+    public static final String UPDATE_BACKORDER_ITEM = "Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 35, sellable_oo_qty = 10 , BR_FLAG = 'Y' where variant = 'B0517WN29172'";
 
     public ResultSet GetData(String strQuery) {
 
