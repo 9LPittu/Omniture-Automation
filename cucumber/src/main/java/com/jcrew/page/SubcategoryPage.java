@@ -600,7 +600,6 @@ public class SubcategoryPage {
     }
 
     public void click_on_product(String product) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         WebElement productLink = Util.createWebDriverWait(driver).
                 until(ExpectedConditions.visibilityOf(productGrid.
                         findElement(By.xpath("//span[text()='" + product +
