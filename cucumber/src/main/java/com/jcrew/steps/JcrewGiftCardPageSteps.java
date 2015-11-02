@@ -6,9 +6,6 @@ import cucumber.api.java.en.And;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by 9hvenaga on 9/1/2015.
- */
 public class JcrewGiftCardPageSteps extends DriverFactory {
 
     @And("^Verify user is on the j.crew gift card page$")

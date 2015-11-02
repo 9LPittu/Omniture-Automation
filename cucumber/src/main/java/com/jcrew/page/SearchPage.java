@@ -33,6 +33,7 @@ public class SearchPage {
     private WebElement womenSelector;
 
     @FindBy(xpath = "//div[@data-group='gender']")
+    private
     List<WebElement> genderSelectors;
 
     @FindBy(id = "c-search__results")
@@ -111,7 +112,7 @@ public class SearchPage {
     }
 
     private WebElement getRefinementElement(String filterRefinement) {
-        WebElement element = null;
+        WebElement element;
         try {
             element = searchFilterRefinementSection.
                     findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
@@ -145,7 +146,7 @@ public class SearchPage {
 
         List<WebElement> no_sale_products = new ArrayList<WebElement>();
         for (WebElement product_displayed : products_displayed) {
-            if (product_displayed.getText().contains("now") == false) {
+            if (!product_displayed.getText().contains("now")) {
                 no_sale_products.add(product_displayed);
             }
         }

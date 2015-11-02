@@ -7,7 +7,7 @@ import cucumber.api.java.en.And;
 
 public class CreateAccountPageSteps extends DriverFactory {
 
-    private CreateAccountPage createAccountPage = new CreateAccountPage(getDriver());
+    private final CreateAccountPage createAccountPage = new CreateAccountPage(getDriver());
 
     @And("^Fills required account data in create account page$")
     public void fills_required_account_data_in_create_account_page() throws Throwable {

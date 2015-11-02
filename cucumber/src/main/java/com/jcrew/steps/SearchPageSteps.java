@@ -18,10 +18,10 @@ import static org.junit.Assert.*;
 
 public class SearchPageSteps extends DriverFactory {
 
-    private SearchPage searchPage = new SearchPage(getDriver());
-    private HomePage homePage = new HomePage(getDriver());
+    private final SearchPage searchPage = new SearchPage(getDriver());
+    private final HomePage homePage = new HomePage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
-    private StateHolder stateHolder = StateHolder.getInstance();
 
     @Given("User is in search results page")
     public void user_is_in_search_results_page() {

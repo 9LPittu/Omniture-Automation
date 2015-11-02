@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class MyAccountPageSteps extends DriverFactory {
 
-    private MyAccountPage myAccountPage = new MyAccountPage(getDriver());
+    private final MyAccountPage myAccountPage = new MyAccountPage(getDriver());
 
     @Then("^User is in My Account page$")
     public void user_is_in_My_Account_page() throws Throwable {

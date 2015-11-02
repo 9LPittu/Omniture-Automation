@@ -12,14 +12,10 @@ public class PropertyReader {
 
     public static final int DESKTOP_DEFAULT_WIDTH = 1200;
     private static final int DESKTOP_DEFAULT_HEIGHT = 800;
+    private static final PropertyReader propertyReader = new PropertyReader();
     private Properties properties = new Properties();
     private InputStream inputStream = null;
     private Logger logger = LoggerFactory.getLogger(PropertyReader.class);
-    private static final PropertyReader propertyReader = new PropertyReader();
-
-    public static PropertyReader getPropertyReader() {
-        return propertyReader;
-    }
 
     private PropertyReader() {
         try {
@@ -27,6 +23,10 @@ public class PropertyReader {
         } catch (IOException e) {
             logger.error("Unable to load configuration file.");
         }
+    }
+
+    public static PropertyReader getPropertyReader() {
+        return propertyReader;
     }
 
     private void loadProperties() throws IOException {
@@ -55,7 +55,7 @@ public class PropertyReader {
 
     public int getWindowWidth() {
         String widthString = readProperty("window.width");
-        int width = 0;
+        int width;
         try {
             width = Integer.parseInt(widthString);
         } catch (NumberFormatException nfe) {
@@ -66,7 +66,7 @@ public class PropertyReader {
 
     public int getWindowHeight() {
         String heightString = readProperty("window.height");
-        int height = 0;
+        int height;
         try {
             height = Integer.parseInt(heightString);
         } catch (NumberFormatException nfe) {

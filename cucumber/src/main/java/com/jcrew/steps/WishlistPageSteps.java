@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class WishlistPageSteps extends DriverFactory {
 
-    private WishlistPage wishlistPage = new WishlistPage(getDriver());
+    private final WishlistPage wishlistPage = new WishlistPage(getDriver());
 
 
     @And("^User should be in wishlist page$")

@@ -17,42 +17,30 @@ import java.util.List;
 
 public class HamburgerMenu {
 
-    private StateHolder stateHolder = StateHolder.getInstance();
+    private static final String[] CATEGORY_MENU = {"Women", "Men", "Girls", "Boys"};
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private final WebDriver driver;
-
+    private final Logger logger = LoggerFactory.getLogger(HamburgerMenu.class);
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement hamburgerMenuLink;
-
     @FindBy(className = "js-primary-nav__link--menu")
     private WebElement hamburgerMenu;
-
     @FindBy(className = "menu__nested")
     private WebElement nestedMenu;
-
     @FindBy(css = ".primary-nav__item--account > a")
     private WebElement signInLink;
-
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement signInLinkFromHamburger;
-
     @FindBy(className = "c-menu")
     private WebElement categoryMenu;
-
     @FindBy(className = "menus--level2")
     private WebElement menuLevel2;
-
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/shirtsandtops']")
     private WebElement womenShirtAndTopsCategoryLink;
-
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/sweaters']")
     private WebElement womenSweatersCategoryLink;
-
     @FindBy(className = "menus--level1")
     private WebElement menuLevel1;
-
-    private static final String[] CATEGORY_MENU = {"Women", "Men", "Girls", "Boys"};
-
-    private Logger logger = LoggerFactory.getLogger(HamburgerMenu.class);
 
     public HamburgerMenu(WebDriver driver) {
         this.driver = driver;
@@ -76,7 +64,7 @@ public class HamburgerMenu {
         return isIconDisplayed && isMenuTextDisplayed;
     }
 
-    public void click_on_sign_in_link_from_hamburger_menu() {
+    private void click_on_sign_in_link_from_hamburger_menu() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(signInLinkFromHamburger));
         signInLinkFromHamburger.click();
     }
@@ -117,9 +105,7 @@ public class HamburgerMenu {
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
         WebElement categoryElements = getMenuItemElementForCategory(category);
 
-        WebElement subcategoryElement = categoryElements.findElement(By.linkText(subcategory));
-
-        return subcategoryElement;
+        return categoryElements.findElement(By.linkText(subcategory));
     }
 
     private WebElement getMenuItemElementForCategory(String category) {
@@ -170,7 +156,7 @@ public class HamburgerMenu {
     }
 
     public String getSignInMessage() {
-        String result = "";
+        String result;
         if (signInLink.isDisplayed()) {
             result = signInLink.getText();
         } else {

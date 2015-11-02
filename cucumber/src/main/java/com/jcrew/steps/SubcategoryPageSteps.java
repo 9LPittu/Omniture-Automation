@@ -18,10 +18,10 @@ import static org.junit.Assert.*;
 
 public class SubcategoryPageSteps extends DriverFactory {
 
-    private Logger logger = LoggerFactory.getLogger(SubcategoryPageSteps.class);
+    private final Logger logger = LoggerFactory.getLogger(SubcategoryPageSteps.class);
 
-    private SubcategoryPage subcategoryPage = new SubcategoryPage(getDriver());
-    private Header header = new Header(getDriver());
+    private final SubcategoryPage subcategoryPage = new SubcategoryPage(getDriver());
+    private final Header header = new Header(getDriver());
 
     @When("^Adds a product to shopping bag$")
     public void adds_a_product_to_shopping_bag() throws Throwable {

@@ -5,15 +5,13 @@ import com.jcrew.page.HomePage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class HomePageSteps extends DriverFactory {
 
-    private HomePage homePage = new HomePage(getDriver());
-    private Header header = new Header(getDriver());
+    private final HomePage homePage = new HomePage(getDriver());
+    private final Header header = new Header(getDriver());
 
 
     @Then("^JCrew Logo is present$")

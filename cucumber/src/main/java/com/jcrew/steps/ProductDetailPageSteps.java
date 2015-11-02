@@ -19,9 +19,9 @@ import static org.junit.Assert.*;
 
 public class ProductDetailPageSteps extends DriverFactory {
 
-    private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
-    private Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
-    private StateHolder stateHolder = StateHolder.getInstance();
+    private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
+    private final Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
 
     @Given("User is in product detail page")

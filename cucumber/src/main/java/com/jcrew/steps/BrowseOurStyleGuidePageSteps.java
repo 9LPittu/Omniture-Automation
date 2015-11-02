@@ -7,7 +7,7 @@ import cucumber.api.java.en.And;
 import static org.junit.Assert.assertTrue;
 
 public class BrowseOurStyleGuidePageSteps extends DriverFactory {
-    BrowseOurStyleGuidePage browseOurStyleGuidePage = new BrowseOurStyleGuidePage(getDriver());
+    private final BrowseOurStyleGuidePage browseOurStyleGuidePage = new BrowseOurStyleGuidePage(getDriver());
 
     @And("^Verify user is on browse our style guide page$")
     public void verify_user_is_on_browse_our_style_guide_page() throws Throwable {

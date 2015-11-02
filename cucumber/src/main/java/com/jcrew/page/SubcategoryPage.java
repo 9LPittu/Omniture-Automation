@@ -20,69 +20,51 @@ import java.util.regex.Pattern;
 
 public class SubcategoryPage {
 
-    private StateHolder stateHolder = StateHolder.getInstance();
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final WebDriver driver;
-
+    private final Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
     @FindBy(css = "button.get-quickshop")
     private WebElement quickShopButton;
-
     @FindBy(xpath = ".//*[@id='sizes1']/div[not(contains(@class, 'unavailable'))][1]")
     private WebElement availableSize;
-
     @FindBy(className = "add-item")
     private WebElement addItem;
-
     @FindBy(className = "quickshop-close")
     private WebElement quickShopCloseButton;
-
     @FindBy(id = "globalHeaderShoppingBagBttn2")
     private WebElement shoppingBagLink;
-
     @FindBy(id = "qsLightBox")
     private WebElement quickShopModal;
-
     @FindBy(className = "product__grid")
     private WebElement productGrid;
-
     @FindBy(css = ".category__page-title > h2")
     private WebElement categoryPageTitle;
-
     @FindBy(className = "accordian__wrap")
     private WebElement accordionWrap;
-
     @FindBy(className = "header__image")
     private WebElement headerImage;
-
     @FindBy(className = "c-header__main")
     private WebElement mainMenu;
-
     @FindBy(className = "header__promo__wrap--desktop")
     private WebElement headerDesktopPromo;
-
     @FindBy(className = "header__promo__wrap--mobile")
     private WebElement headerMobilePromo;
-
     @FindBy(className = "c-category__filters")
     private WebElement refinement;
-
     @FindBy(css = "header h4")
     private List<WebElement> postSignElements;
-
     @FindBy(css = "#c-category__filters .accordian__menu .accordian__menu__item .accordian__menu__link")
     private List<WebElement> accordionElements;
-
     @FindBy(id = "c-category__navigation")
     private WebElement endCapNavigationSection;
-
-    private Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
 
     public SubcategoryPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public void adds_a_product_to_shopping_bag() throws Throwable {
+    public void adds_a_product_to_shopping_bag() {
 
         quickShopButton.click();
 
@@ -102,7 +84,7 @@ public class SubcategoryPage {
 
     }
 
-    public void clicks_on_shopping_bag_link() throws Throwable {
+    public void clicks_on_shopping_bag_link() {
 
         String subcategoryUrl = driver.getCurrentUrl();
         Util.createWebDriverWait(driver).
@@ -205,7 +187,7 @@ public class SubcategoryPage {
             String productCount = firstProductFromGrid.findElement(By.className("tile__detail--colors-count")).getText();
             Pattern p = Pattern.compile("available in (\\d)+ colors");
             Matcher matcher = p.matcher(productCount);
-            int numberOfVariationsInText = 0;
+            int numberOfVariationsInText;
 
             if (matcher.matches()) {
 
@@ -249,7 +231,7 @@ public class SubcategoryPage {
         return result;
     }
 
-    public void click_first_product_in_grid() throws InterruptedException {
+    public void click_first_product_in_grid() {
         final WebElement firstProduct = getProductTileElements().get(0);
         final WebElement productLink = firstProduct.findElement(By.className("product__image--small"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
@@ -369,10 +351,8 @@ public class SubcategoryPage {
         final WebElement accordionWrap = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(this.accordionWrap));
 
-        final WebElement expectedElement = Util.createWebDriverWait(driver).until(
+        return Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(accordionWrap.findElement(element)));
-
-        return expectedElement;
     }
 
     public void click_expand_accordion_icon() {

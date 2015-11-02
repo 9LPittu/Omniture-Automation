@@ -6,15 +6,13 @@ import com.jcrew.util.PropertyReader;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class NavigationSteps extends DriverFactory {
 
-    private Navigation navigation = new Navigation(getDriver());
+    private final Navigation navigation = new Navigation(getDriver());
 
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable {

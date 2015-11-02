@@ -3,7 +3,6 @@ package com.jcrew.page;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -21,7 +20,7 @@ public class ProductDetailPage {
     private final WebDriver driver;
     private final StateHolder stateHolder = StateHolder.getInstance();
 
-    private Logger logger = LoggerFactory.getLogger(ProductDetailPage.class);
+    private final Logger logger = LoggerFactory.getLogger(ProductDetailPage.class);
 
     @FindBy(id = "btn__add-to-bag")
     private WebElement addToBag;
@@ -74,8 +73,7 @@ public class ProductDetailPage {
     public boolean isProductDetailPage() {    	
     	
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
-        boolean isProductDetailPage = productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
-        return isProductDetailPage;
+        return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
     }
 
     public void select_variation() {
@@ -174,8 +172,8 @@ public class ProductDetailPage {
         productSizeElement.click();        
     }
 
-    private WebElement getProductSizeElement(String productSize) throws InterruptedException {
-    	
+    private WebElement getProductSizeElement(String productSize) {
+
         return Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(productSizesSection.findElement(
                         By.xpath(".//li[@data-name='" + productSize + "']"))));
@@ -314,13 +312,11 @@ public class ProductDetailPage {
     }
 
     public String getProductPriceSale() {
-        String productDetailSalePrice = productDetails.findElement(By.className("product__price--sale")).getText();
-        return productDetailSalePrice;
+        return productDetails.findElement(By.className("product__price--sale")).getText();
     }
 
     public String getProductPriceWas() {
-        String productDetailWasPrice = productDetails.findElement(By.className("product__price--list")).getText();
-        return productDetailWasPrice;
+        return productDetails.findElement(By.className("product__price--list")).getText();
     }
 
     public void select_random_variation() {

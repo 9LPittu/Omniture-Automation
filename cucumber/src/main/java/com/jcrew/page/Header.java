@@ -11,32 +11,23 @@ import java.util.List;
 
 public class Header {
 
+    private final WebDriver driver;
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
-
-
     @FindBy(className = "icon-close")
     private WebElement searchCloseIcon;
-
     @FindBy(id = "header__logo")
     private WebElement headerLogo;
-
     @FindBy(className = "c-header__breadcrumb")
     private WebElement breadcrumbSection;
-
     @FindBy(className = "js-primary-nav__link--search")
     private WebElement searchButton;
-
     @FindBy(className = "primary-nav__text--stores")
     private WebElement storesLink;
-
     @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
     private WebElement shoppingBagLink;
-
     @FindBy(css = ".icon-header.icon-header-bag.icon-bag")
     private WebElement bagIcon;
-
-    private WebDriver driver;
 
 
     public Header(WebDriver driver) {
@@ -68,8 +59,7 @@ public class Header {
     }
 
     public boolean isSearchDrawerClosed() {
-        boolean result = Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("header__search__input")));
-        return result;
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("header__search__input")));
     }
 
     public void click_on_search_close_icon() {

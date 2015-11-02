@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class FooterSteps extends DriverFactory {
-    private Footer footer = new Footer(getDriver());
+    private final Footer footer = new Footer(getDriver());
 
     @And("^Verify ([^\"]*) footer link is displayed$")
     public void verify_footer_link_is_displayed(String footerLink) throws Throwable {

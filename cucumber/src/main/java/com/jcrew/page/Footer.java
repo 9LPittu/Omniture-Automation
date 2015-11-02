@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,14 +17,11 @@ import java.util.List;
 public class Footer {
 
     private final WebDriver driver;
-
+    private final Logger logger = LoggerFactory.getLogger(Footer.class);
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
-
     @FindBy(className = "footer__row--bottom")
     private  WebElement footerRowBottom;
-
-    private Logger logger = LoggerFactory.getLogger(Footer.class);
 
     public Footer(WebDriver driver) {
         this.driver = driver;

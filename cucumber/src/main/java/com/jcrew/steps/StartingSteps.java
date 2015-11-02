@@ -24,10 +24,10 @@ public class StartingSteps {
 
     private static final String TAKE_SCREENSHOT = "Screenshot";
     private final Logger logger = LoggerFactory.getLogger(StartingSteps.class);
+    private final PropertyReader reader = PropertyReader.getPropertyReader();
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
     private WebDriver driver;
-    private final PropertyReader reader = PropertyReader.getPropertyReader();
-    private StateHolder stateHolder = StateHolder.getInstance();
 
     @Before
     public void setupDriver() throws IOException {

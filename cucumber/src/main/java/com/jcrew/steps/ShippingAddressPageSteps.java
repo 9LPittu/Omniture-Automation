@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class ShippingAddressPageSteps extends DriverFactory {
 
-    private ShippingAddressPage shippingAddressPage = new ShippingAddressPage(getDriver());
+    private final ShippingAddressPage shippingAddressPage = new ShippingAddressPage(getDriver());
 
     @When("^Fills shipping address")
     public void fills_shipping_address() throws Throwable {

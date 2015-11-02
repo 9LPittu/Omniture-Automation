@@ -11,8 +11,8 @@ import static org.junit.Assert.*;
 
 public class LoginPageSteps extends DriverFactory {
 
-    private LoginPage loginPage = new LoginPage(getDriver());
-    private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
+    private final LoginPage loginPage = new LoginPage(getDriver());
+    private final HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
 
     @When("User enters ([^\"]*) as email")
     public void user_enters_input_as_email(String email) {

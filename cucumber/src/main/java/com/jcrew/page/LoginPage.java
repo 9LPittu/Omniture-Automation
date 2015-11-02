@@ -14,36 +14,26 @@ import org.slf4j.LoggerFactory;
 
 public class LoginPage {
 
+    private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
+    private final WebDriver driver;
     @FindBy(id = "sidecarUser")
     private WebElement emailInput;
-
     @FindBy(id = "sidecarPassword")
     private WebElement passwordInput;
-
     @FindBy(tagName = "button")
     private WebElement signInButton;
-
     @FindBy(className = "js-invalid-msg")
     private WebElement invalidSignInMessage;
-
     @FindBy(id = "sidecarRemember")
     private WebElement keepMeSignedInCheckBox;
-
     @FindBy(id = "c-nav__userpanel")
     private WebElement myaccountRef;
-
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement myAccountLink;
-
     @FindBy(className = "signin-form")
     private WebElement signInForm;
-
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
-
-    private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
-
-    private WebDriver driver;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;

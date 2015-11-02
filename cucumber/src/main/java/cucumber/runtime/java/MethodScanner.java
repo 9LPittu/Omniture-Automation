@@ -74,17 +74,15 @@ class MethodScanner {
     }
 
     private Collection<Class<? extends Annotation>> findCucumberAnnotationClasses() {
-        Collection<Class<? extends Annotation>> descendants = classFinder.getDescendants(Annotation.class, "cucumber.api");
-        return descendants;
+        return classFinder.getDescendants(Annotation.class, "cucumber.api");
     }
 
     private boolean isHookAnnotation(Annotation annotation) {
         Class<? extends Annotation> annotationClass = annotation.annotationType();
-        boolean isHook = annotationClass.equals(Before.class) ||
+        return annotationClass.equals(Before.class) ||
                 annotationClass.equals(After.class) ||
                 annotationClass.equals(BeforeStep.class) ||
                 annotationClass.equals(AfterStep.class);
-        return isHook;
     }
 
     private boolean isStepdefAnnotation(Annotation annotation) {

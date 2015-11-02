@@ -2,50 +2,58 @@ package com.jcrew.page;
 
 import com.github.javafaker.Faker;
 import com.jcrew.util.Util;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class BillingPage {
 
-    public static final String NAME_ON_CARD = "John Doe";
+    private static final String NAME_ON_CARD = "John Doe";
     private final WebDriver driver;
-    private Faker faker = new Faker();
+    private final Faker faker = new Faker();
 
     @FindBy(id = "creditCardNumber")
+    private
     WebElement creditCardNumber;
 
     @FindBy(id = "securityCode")
+    private
     WebElement securityCode;
 
     @FindBy(id = "expirationMonth")
+    private
     WebElement expirationMonth;
 
     @FindBy(id = "expirationYear")
+    private
     WebElement expirationYear;
 
     @FindBy(id = "nameOnCard")
+    private
     WebElement nameOnCard;
 
     @FindBy(id = "emailReceipt")
+    private
     WebElement emailReceipt;
 
     @FindBy(id = "creditDebitPayment")
+    private
     WebElement creditDebitPayment;
 
     @FindBy(id = "address-1")
+    private
     WebElement billingShippingAddressEqual;
 
     @FindBy(id = "billing-options-submit")
+    private
     WebElement billingOptionsSubmit;
 
     @FindBy(id = "credit-card-billing")
+    private
     WebElement creditCardBilling;
 
     public BillingPage(WebDriver driver) {

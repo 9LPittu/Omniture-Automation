@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class CategoryPage {
+class CategoryPage {
 
 
     @FindBy(id = "dresses")
@@ -17,7 +17,7 @@ public class CategoryPage {
         PageFactory.initElements(driver, this);
     }
 
-    public void selects_a_subcategory() throws Throwable {
+    public void selects_a_subcategory() {
 
         subcategory.click();
 

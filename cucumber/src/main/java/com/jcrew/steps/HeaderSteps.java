@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HeaderSteps extends DriverFactory {
-    private Header header = new Header(getDriver());
+    private final Header header = new Header(getDriver());
 
 
     @And("^Search Link is present$")

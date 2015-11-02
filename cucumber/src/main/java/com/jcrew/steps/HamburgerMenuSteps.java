@@ -13,8 +13,8 @@ import static org.junit.Assert.assertTrue;
 
 public class HamburgerMenuSteps extends DriverFactory {
 
-    private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
-    private StateHolder stateHolder = StateHolder.getInstance();
+    private final HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("^Hamburger Menu ([^\"]*) Link is present$")
     public void hamburger_menu_category_link_is_present(String category) throws Throwable {

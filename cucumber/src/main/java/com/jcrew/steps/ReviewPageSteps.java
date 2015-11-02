@@ -2,7 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ReviewPage;
 import com.jcrew.util.DriverFactory;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
