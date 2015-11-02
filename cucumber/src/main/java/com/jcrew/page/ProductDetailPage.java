@@ -71,9 +71,8 @@ public class ProductDetailPage {
     }
 
 
-    public boolean isProductDetailPage() {
+    public boolean isProductDetailPage() {    	
     	
-    	driver.navigate().refresh();
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
         boolean isProductDetailPage = productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
         return isProductDetailPage;

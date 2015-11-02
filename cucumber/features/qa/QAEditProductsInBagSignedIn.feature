@@ -10,14 +10,14 @@ Feature: Edit Product In Bags Signed In Scenarios
     Then User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
-    And Click on product Lambswool sweater to display PDP
+    And Click on product Marled lambswool sweater to display PDP
     And User is in product detail page
-    And Color DEEP NAVY is selected by user
+    And Color MARLED CHILI is selected by user
     And Size SMALL is selected by user
-    #And A size is selected
+    And A size is selected
     And Add to cart button is pressed
     And User clicks on item bag
     And Clicks edit button on item bag page
-    Then Verify color DEEP NAVY is selected
+    Then Verify color MARLED CHILI is selected
     And Verify size SMALL is selected
 

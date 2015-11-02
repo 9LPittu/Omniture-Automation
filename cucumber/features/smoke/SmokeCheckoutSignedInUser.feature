@@ -10,7 +10,7 @@ Feature: Checkout Process Signed in User
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
-    And Click on product Lambswool sweater to display PDP
+    And Click on product Marled lambswool sweater to display PDP
     And User is in product detail page
     And A variation is selected
     And A color is selected
