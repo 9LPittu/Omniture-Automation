@@ -79,7 +79,7 @@ public class LoginPage {
     }
 
     public boolean isMyAccountLinkForMobileDisplayed() {
-
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountLink));
         return myAccountLink.isDisplayed();
     }
 

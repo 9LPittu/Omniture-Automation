@@ -49,17 +49,11 @@ public class LoginPageSteps extends DriverFactory {
     @And("^My Account link is present$")
     public void my_account_link_is_present() {
         if (hamburgerMenu.isCategoryPresent("Women")) {
-
-            if (loginPage.isMyAccountLinkForMobileDisplayed()) {
-                assertTrue("My Account link should be present", loginPage.isMyAccountLinkForMobileDisplayed());
-            }
-
+            assertTrue("My Account link should be present", loginPage.isMyAccountLinkForMobileDisplayed());
         } else {
-
             hamburgerMenu.close_hamburger_menu();
             assertTrue("My Account link should be present", loginPage.isMyAccountInDesktop());
         }
-
     }
 
     @When("^User clicks on My Account link$")
