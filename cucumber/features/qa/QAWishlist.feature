@@ -4,7 +4,7 @@ Feature: Ability to link to PDP from Wishlist
   Scenario: Wishlist should update properly
     Given User is on homepage
     And Goes to sign in page
-    And User enters wishlist@test.org as email
+    And User enters wishlist1@test.org as email
     And User enters test1234 as password
     And Hits sign in button
     When User is in My Account page

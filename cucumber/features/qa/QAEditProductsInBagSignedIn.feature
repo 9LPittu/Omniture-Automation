@@ -4,7 +4,7 @@ Feature: Edit Product In Bags Signed In Scenarios
   Scenario: Verify Redirect to PDP Scenario Signed In User
     Given User is on homepage
     And Goes to sign in page
-    And User enters wishlist@test.org as email
+    And User enters wishlist1@test.org as email
     And User enters test1234 as password
     And Hits sign in button
     Then User clicks on hamburger menu
