@@ -154,12 +154,10 @@ public class ProductDetailPage {
         return Integer.parseInt(stringSize);
     }
 
-    public String getMinicartMessage() {
-        final WebElement miniCart = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.presenceOfElementLocated(By.cssSelector(".header__cart--details > p")));
-        final String confirmationMessage = miniCart.getAttribute("innerHTML");
-        logger.debug("Confirmation message is {} ", confirmationMessage);
-        return confirmationMessage;
+    public boolean showsMinicartMessage(String message) {
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.textToBePresentInElementLocated(By.className("header__cart--details"), message));
+        return true;
     }
 
     public String getSalePrice() {

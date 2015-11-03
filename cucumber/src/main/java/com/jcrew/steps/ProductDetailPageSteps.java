@@ -70,7 +70,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Then("^A minicart modal should appear with message '([^\"]*)'$")
     public void a_minicart_modal_should_appear_with_message(String message) throws Throwable {
-        assertEquals(message, productDetailPage.getMinicartMessage());
+        assertTrue("Modal with message should appear", productDetailPage.showsMinicartMessage(message));
     }
 
     @Given("^Bag should have item\\(s\\) added$")
