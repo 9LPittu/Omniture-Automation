@@ -11,14 +11,15 @@ import cucumber.api.java.Before;
 import cucumber.api.java.BeforeStep;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 
 public class StartingSteps {
 
@@ -43,7 +44,7 @@ public class StartingSteps {
             try {
                 driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
                 driver.get(reader.getEnvironment());
-                waitForPageToLoadUpToTheLastElementPriorScriptExecution();
+                Util.waitForPageFullyLoaded(driver);
                 successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);
@@ -51,11 +52,6 @@ public class StartingSteps {
             }
         }
 
-    }
-
-    private void waitForPageToLoadUpToTheLastElementPriorScriptExecution() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(
-                By.className("footer__help__menu")));
     }
 
     @And("^User goes to homepage$")
