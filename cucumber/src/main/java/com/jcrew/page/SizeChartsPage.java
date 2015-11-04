@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class SizeChartsPage {
 
-    @FindBy(id="us-sizes")
+    @FindBy(className = "size-charts")
     private WebElement sizesElement;
 
     public SizeChartsPage(WebDriver driver) {

@@ -2,85 +2,75 @@
 Feature: Footer Tests
   Scenario: Verify Footer Tests
     Given User is on homepage
-    Then Verify LET US HELP YOU footer link is displayed
-    And Verify YOUR ORDERS footer link is displayed
-    And Verify THE J.CREW STYLE GUIDE footer link is displayed
-    And Verify ABOUT J.CREW footer link is displayed
-    And Verify OUR STORES footer link is displayed
-    And Verify OUR CARDS footer link is displayed
-    And Verify OUR BRANDS footer link is displayed
-    And Verify LIKE BEING FIRST footer header legend is displayed
-    And Verify LET US HELP YOU, YOUR ORDERS, THE J.CREW STYLE GUIDE, ABOUT J.CREW, OUR STORES, OUR CARDS, OUR BRANDS footer links order is valid, ignore GET TO KNOW US
-    Then Click on footer link LET US HELP YOU
-    And Verify 800 562 0258 footer sub text is displayed for LET US HELP YOU footer link
-    And Click on sublink our size charts from LET US HELP YOU footer link
+    Then Verify Let Us Help You footer link is displayed
+    And Verify Our Cards footer link is displayed
+    And Verify Our Stores footer link is displayed
+    And Verify Our Brands footer link is displayed
+    And Verify About J.Crew footer link is displayed
+    And Verify LIKE BEING FIRST? footer header legend is displayed
+#    And Verify 800 562 0258 footer contact link is displayed
+    And Click on sublink Size Charts from Let Us Help You footer link
     And Verify user is on size charts page
     Then User presses back button
-    Then  Click on footer link LET US HELP YOU
-    And Click on sublink very personal stylist from LET US HELP YOU footer link
-    And Verify user is on personal stylist page
-    Then User presses back button
+#    And Click on footer link Very Personal Stylist
+#    And Verify user is on personal stylist page
+#    Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link YOUR ORDERS
-    And Click on sublink order status from YOUR ORDERS footer link
+    Then Click on footer link Let Us Help You
+    Then Click on sublink Order Status from Let Us Help You footer link
     And Verify user is on order status page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link YOUR ORDERS
-    And Click on sublink shipping & handling from YOUR ORDERS footer link
+    Then Click on footer link Let Us Help You
+    And Click on sublink Shipping & Handling from Let Us Help You footer link
     And Verify user is on shipping & handling page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link YOUR ORDERS
-    And Click on sublink returns & exchanges from YOUR ORDERS footer link
+    Then Click on footer link Let Us Help You
+    And Click on sublink Returns & Exchanges from Let Us Help You footer link
     And Verify user is on returns & exchanges page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link THE J.CREW STYLE GUIDE
-    And Click on sublink request one from THE J.CREW STYLE GUIDE footer link
+    Then Click on footer link Let Us Help You
+    And Click on sublink Request A Style Guide from Let Us Help You footer link
     And Verify user is on request a catalog page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link THE J.CREW STYLE GUIDE
-    And Click on sublink browse one from THE J.CREW STYLE GUIDE footer link
-    And Verify user is on browse our style guide page
-    Then User presses back button
-    And Verify user is in homepage
-    Then Click on footer link ABOUT J.CREW
-    And Click on sublink our story from ABOUT J.CREW footer link
+    Then Click on footer link About J.Crew
+    And Click on sublink Our Story from About J.Crew footer link
     And Verify user is on about us page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link ABOUT J.CREW
-    And Click on sublink careers from ABOUT J.CREW footer link
+    Then Click on footer link About J.Crew
+    And Click on sublink Careers from About J.Crew footer link
     And Verify user is on careers page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link ABOUT J.CREW
-    And Click on sublink social responsibility from ABOUT J.CREW footer link
+    Then Click on footer link About J.Crew
+    And Click on sublink Social Responsibility from About J.Crew footer link
     And Verify user is on social responsibility page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link OUR STORES
-    And  Click on sublink store locator from OUR STORES footer link
+    Then Click on footer link Our Stores
+    And  Click on sublink Store Locator from Our Stores footer link
     And Verify user is on help store locator page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link OUR CARDS
-    And Click on sublink the j.crew credit card from OUR CARDS footer link
+    Then Click on footer link Our Cards
+    And Click on sublink The J.Crew Credit Card from Our Cards footer link
     And Verify user is on the j.crew credit card page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link OUR CARDS
-    And Click on sublink the j.crew gift card from OUR CARDS footer link
+    Then Click on footer link Our Cards
+    And Click on sublink The J.Crew Gift Card from Our Cards footer link
     And Verify user is on the j.crew gift card page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link OUR BRANDS
-    And Click on sublink j.crew factory from OUR BRANDS footer link
-    And Verify user is on the j.crew factory page
+    Then Click on footer link Our Brands
+    And Click on sublink J.Crew Factory from Our Brands footer link
+    And Verify user is on the J.Crew Factory page
     Then User presses back button
     And Verify user is in homepage
-    Then Click on footer link OUR BRANDS
-    And Click on sublink madewell from OUR BRANDS footer link
-    And Verify user is on the madewell page
+    Then Click on footer link Our Brands
+    And Click on sublink Madewell from Our Brands footer link
+    And Verify user is on the Madewell page

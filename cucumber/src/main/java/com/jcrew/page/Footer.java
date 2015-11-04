@@ -34,20 +34,12 @@ public class Footer {
     }
 
     private WebElement getFooterLinkElement(String footerLink) {
-        WebElement footerLinkElement = null;
-        int attempts = 0;
-        while (attempts < 2) {
-            try {
-                footerLinkElement = footerWrapMain.findElement(By.xpath("//h6[text()='" + footerLink + "']"));
-                break;
-            } catch (StaleElementReferenceException e) {
-                logger.debug("Stale Element Exception was thrown, retry {} to click on footer element {}",
-                        attempts + 1, footerLink);
-            }
-            attempts++;
+        try {
+            return footerWrapMain.findElement(By.xpath("//h6[text()='" + footerLink + "']"));
+        } catch (StaleElementReferenceException e) {
+            logger.debug("Stale Element Exception was thrown, retry to click on footer element {}", footerLink);
+            return getFooterLinkElement(footerLink);
         }
-
-        return footerLinkElement;
     }
 
     public List<String> getFooterHeaderNames() {
