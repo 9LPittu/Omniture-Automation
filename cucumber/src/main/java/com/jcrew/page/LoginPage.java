@@ -116,9 +116,10 @@ public class LoginPage {
     }
 
     public void click_forgot_password_link() {
+        WebElement forgotPasswordLink = signInForm.findElement(By.linkText("I forgot my password!"));
         Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(signInForm.findElement(By.linkText("I forgot my password!"))));
-                        signInForm.findElement(By.linkText("I forgot my password!")).click();
+                ExpectedConditions.elementToBeClickable(forgotPasswordLink));
+         forgotPasswordLink.click();
     }
 
     public boolean isPageLoaded() {
