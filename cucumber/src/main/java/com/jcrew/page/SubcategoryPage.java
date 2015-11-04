@@ -356,7 +356,10 @@ public class SubcategoryPage {
     }
 
     public void click_expand_accordion_icon() {
-        getAccordionElement(By.className("icon-see-more")).click();
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.elementToBeClickable(getAccordionElement(By.className("icon-see-more"))));
+
+                        getAccordionElement(By.className("icon-see-more")).click();
     }
 
     public boolean isAccordionMenuVisible() {
