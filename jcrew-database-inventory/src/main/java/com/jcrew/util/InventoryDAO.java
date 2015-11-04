@@ -72,7 +72,7 @@ public class InventoryDAO {
     }
 
     public int addInventory() throws SQLException, ClassNotFoundException, IOException {
-       // String strQuery = UPDATE_BACKORDER_ITEM;
+        String strBackorderQuery = UPDATE_BACKORDER_ITEM;
        // String strQuery = UPDATE_PARTICULAR_COLOR_SIZE_SOLDOUT_ITEM;
        // String strQuery = UPDATE_SOLDOUT_ITEM;
        // String strQuery = UPDATE_NOT_AVAILABLE_TO_SHIP_ITEM;
@@ -80,10 +80,12 @@ public class InventoryDAO {
         //String strQuery = UPDATE_OUT_OF_STOCK_VPS_ITEM;
        // String strQuery = UPDATE_FINAL_SALE_ITEM;
         //String strQuery = UPDATE_ITEM_WITH_ONLY_ONE_VARIATION;
+        String stritemwithonlyonesaleskuQuery = UPDATE_ITEM_WITH_ONLY_ONE_SALE_SKU;
         String strQuery = UPDATE_ITEM_TEST_DATA;
         Connection conn = getConnectionToDatabase();
         Statement statement = createTheStatement(conn);
-        int rowsUpdated = executeQueryToAddInventory(statement, strQuery);
+        int rowsUpdated = executeQueryToAddInventory(statement, strBackorderQuery);
+
         closeConnection(conn);
         return rowsUpdated;
     }
