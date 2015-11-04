@@ -69,10 +69,8 @@ public class ProductDetailPage {
         PageFactory.initElements(driver, this);
     }
 
-
-    public boolean isProductDetailPage() {    	
-    	
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+    public boolean isProductDetailPage() {
+        Util.waitForPageFullyLoaded(driver);
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
     }
 
@@ -88,7 +86,6 @@ public class ProductDetailPage {
                 variation.click();
             }
         }
-
     }
 
     public void select_any_color() {

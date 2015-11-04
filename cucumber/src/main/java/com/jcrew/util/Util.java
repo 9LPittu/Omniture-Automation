@@ -1,7 +1,9 @@
 package com.jcrew.util;
 
 
+import com.google.common.base.Predicate;
 import com.jcrew.pojo.Product;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -24,5 +26,13 @@ public class Util {
 
     public static WebDriverWait createWebDriverWait(WebDriver driver) {
         return new WebDriverWait(driver, DEFAULT_TIMEOUT);
+    }
+
+    public static void waitForPageFullyLoaded(WebDriver driver) {
+        createWebDriverWait(driver).until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver driver) {
+                return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+            }
+        });
     }
 }
