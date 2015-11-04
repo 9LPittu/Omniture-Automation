@@ -9,7 +9,19 @@ import java.util.Properties;
 public class InventoryDAO {
 
 
-    public static final String UPDATE_BACKORDER_ITEM = "Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 35, sellable_oo_qty = 10 , BR_FLAG = 'Y' where variant = 'B0517WN29172'";
+    public static final String UPDATE_BACKORDER_ITEM = "Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 50, sellable_oo_qty = 10 , BR_FLAG = 'Y' where variant = 'C8972GY66892'";
+    public static final String UPDATE_PARTICULAR_COLOR_SIZE_SOLDOUT_ITEM = "Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 1, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant = 'E3029ST14778'";
+    public static final String UPDATE_SOLDOUT_ITEM = "Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant like 'e4308%'";
+    public static final String UPDATE_NOT_AVAILABLE_TO_SHIP_ITEM = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0 , sellable_br_qty = 0, sellable_oo_qty = 20, br_flag = 'Y', po_number = '123456', po_date = '15-Dec-15' where variant = 'B0517WN29172'";
+    public static final String UPDATE_PRE_ORDER_ITEM = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0 , sellable_br_qty = 0, sellable_oo_qty  = 10, br_flag = 'Y', po_number = '123456', po_date = '15-Dec-15' where variant like 'C9220%'";
+    public static final String UPDATE_OUT_OF_STOCK_VPS_ITEM = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant like '18040%'";
+    public static final String UPDATE_FINAL_SALE_ITEM = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant like 'B9447%'";
+    public static final String UPDATE_ITEM_WITH_ONLY_ONE_VARIATION = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant = ''";
+    public static final String UPDATE_ITEM_WITH_ONLY_ONE_SALE_SKU = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant = ''";
+    public static final String UPDATE_ITEM_WITH_MORE_THAN_ONE_SKU = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant = ''";
+    public static final String UPDATE_ITEM_WITH_MULTIPLE_COLORS_FULL_SKU = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant = ''";
+    public static final String UPDATE_ITEM_WITH_MULTIPLE_COLORS_SALE_SKU = "update JCBRNQA_STORE.jc_web_inventory  set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant = ''";
+    public static final String UPDATE_ITEM_TEST_DATA = "update JCBRNQA_STORE.jc_web_inventory  set sellable_oh_qty = 30, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant LIKE  'E0786EF2854s'";
 
     public ResultSet GetData(String strQuery) {
 
@@ -59,6 +71,22 @@ public class InventoryDAO {
         return rowsUpdated;
     }
 
+    public int addInventory() throws SQLException, ClassNotFoundException, IOException {
+       // String strQuery = UPDATE_BACKORDER_ITEM;
+       // String strQuery = UPDATE_PARTICULAR_COLOR_SIZE_SOLDOUT_ITEM;
+       // String strQuery = UPDATE_SOLDOUT_ITEM;
+       // String strQuery = UPDATE_NOT_AVAILABLE_TO_SHIP_ITEM;
+       // String strQuery = UPDATE_PRE_ORDER_ITEM;
+        //String strQuery = UPDATE_OUT_OF_STOCK_VPS_ITEM;
+       // String strQuery = UPDATE_FINAL_SALE_ITEM;
+        //String strQuery = UPDATE_ITEM_WITH_ONLY_ONE_VARIATION;
+        String strQuery = UPDATE_ITEM_TEST_DATA;
+        Connection conn = getConnectionToDatabase();
+        Statement statement = createTheStatement(conn);
+        int rowsUpdated = executeQueryToAddInventory(statement, strQuery);
+        closeConnection(conn);
+        return rowsUpdated;
+    }
 
     public Connection getConnectionToDatabase() throws ClassNotFoundException, SQLException, IOException {
             Class.forName("oracle.jdbc.driver.OracleDriver");
