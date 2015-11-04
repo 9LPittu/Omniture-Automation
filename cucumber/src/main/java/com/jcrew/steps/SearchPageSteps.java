@@ -5,9 +5,11 @@ import com.jcrew.page.ProductDetailPage;
 import com.jcrew.page.SalePage;
 import com.jcrew.page.SearchPage;
 import com.jcrew.util.DriverFactory;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+
 import org.openqa.selenium.TimeoutException;
 
 import java.util.List;
@@ -30,7 +32,7 @@ public class SearchPageSteps extends DriverFactory {
 
     @And("User is in sale results page")
     public void user_is_in_sale_results_page() {
-        assertTrue("User should be in sale result page", salePage.isSalePage());
+        //assertTrue("User should be in sale result page", salePage.isSalePage());
     }
 
     @And("^Search results are displayed$")
@@ -208,6 +210,46 @@ public class SearchPageSteps extends DriverFactory {
         assertEquals("PDP and clicked product do not have the same name", productName,
                 productDetailPage.getProductNameFromPDP());
     }
-}
     
-
+    @And("^User selects ([^\"]*) category$")
+    public void User_selects_sale_category(String saleCategory) throws Throwable{
+    	salePage.selectSaleCategory(saleCategory);
+    }
+    
+    @Then("^verify SALE page is displayed$")
+    public void verify_sale_page_displayed(){
+    	assertTrue("Sale page should be displayed",salePage.isSalePageDisplayed());
+    }
+    
+    @And("^verify REFINE button is displayed$")
+    public void verify_refine_button_displayed(){
+    	assertTrue("Refine button should be displayed",salePage.isRefineButtonDisplayed());
+    }
+    
+    @And("^verify default filter name displayed is ([^\"]*)$")
+    public void verify_default_filter_displayed(String category){
+    	assertTrue("Selected category name should be displayed",salePage.verifySelectedCategory(category));
+    }
+    
+    @Then("^click on REFINE button$")
+    public void click_refine_button(){
+    	salePage.clickRefineButton();
+    }
+    
+    @And("^verify refinement page is displayed$")
+    public void verify_refinement_page_displayed(){
+    	salePage.verifyRefinementPageDisplayed();
+    }
+    
+    @Then("^verify NEW IN SALE checkbox is selected by default$")
+    public void verify_new_in_sale_checkbox_selected_default(){
+    	salePage.verifyNewInSaleCheckboxSelectedByDefault();
+    }
+    
+    @Then("^verify ([^\"]*) displayed on refinement page$")
+    public void verify_filternames_on_refinement_Page(String filterNames){
+    	
+    	
+    }
+    
+}
