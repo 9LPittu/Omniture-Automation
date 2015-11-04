@@ -4,7 +4,7 @@ Feature: Checkout Process Signed in User
   Background:
     Given User is on homepage
     And Goes to sign in page
-    When User provides login information
+    And User provides login information
     And Hits sign in button
     And User goes to homepage
     And User clicks on hamburger menu
@@ -20,14 +20,14 @@ Feature: Checkout Process Signed in User
     And Bag should have item(s) added
 
   Scenario: Checkout signed in user
-    Given User clicks on item bag
+    When User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are numbers
     And Clicks on checkout
 
   Scenario: Express Checkout
-    Given User goes to homepage
+    When User goes to homepage
     And User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
