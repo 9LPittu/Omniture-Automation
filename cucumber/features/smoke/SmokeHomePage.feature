@@ -3,7 +3,7 @@ Feature: Home Page
 
   Scenario: Home page is functional
     Given User is on homepage
-    Then JCrew Logo is present
+    And JCrew Logo is present
     And Stores Link is present
     And Hamburger menu is present
     When User clicks on hamburger menu

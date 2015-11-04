@@ -151,4 +151,3 @@ Feature: Logo as homepage link
     And User clicks on item bag
     Then Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
-

@@ -5,14 +5,14 @@ Feature: Category Page
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
-    And User should be in sweaters page for women
-    Then Category title for SWEATERS should match below global promo
+    When User clicks on SWEATERS subcategory from Women Category
+    Then User should be in sweaters page for women
+    And Category title for SWEATERS should match below global promo
     And View All Section is present and collapsed
-    When User clicks on expand icon
-    Then Accordion should be expanded
+    And User clicks on expand icon
+    And Accordion should be expanded
     And Collapse icon is displayed
-    When Selects cardigans subcategory
-    Then CARDIGANS option becomes selected
+    And Selects cardigans subcategory
+    And CARDIGANS option becomes selected
     And Refine modal autocloses
     And Products displayed are cardigans from sweaters category
