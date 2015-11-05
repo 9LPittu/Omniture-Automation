@@ -88,19 +88,17 @@ public class SalePage {
     	return newInSaleCheckBox.isSelected();
     }
     
-    public boolean verifyFilterNamesDisplayed(String filterNames){
+    public boolean verifyFilterNameDisplayed(String filterName){
     	
-    	boolean blnResult = false;
-    	String[] arrFilterNames =  filterNames.split(";");
+    	boolean blnFlag = false;
     	
-    	if((filterLabel.size()) != arrFilterNames.length){
-    		blnResult = false;
+    	for(int i=0;i<filterLabel.size();i++){
+    		if(filterLabel.get(i).getText().trim().toLowerCase().equals(filterName.trim().toLowerCase())){
+    			blnFlag = true;
+    			break;
+    		}
     	}
     	
-    	for(int i=0;i<arrFilterNames.length;i++){
-    		
-    	}
-    	
-    	return blnResult;
+    	return blnFlag;
     }
 }

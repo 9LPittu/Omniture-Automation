@@ -41,7 +41,7 @@ public class StartingSteps {
         boolean successfulLoad = false;
         while (retry < 5 && !successfulLoad) {
             try {
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
                 driver.get(reader.getEnvironment());
                 waitForPageToLoadUpToTheLastElementPriorScriptExecution();
                 successfulLoad = true;

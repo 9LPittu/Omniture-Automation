@@ -247,9 +247,8 @@ public class SearchPageSteps extends DriverFactory {
     }
     
     @Then("^verify ([^\"]*) displayed on refinement page$")
-    public void verify_filternames_on_refinement_Page(String filterNames){
-    	
-    	
+    public void verify_filternames_on_refinement_Page(String filterName){    	
+    	assertTrue("Filter should be displayed on the refinement page", salePage.verifyFilterNameDisplayed(filterName));
     }
     
 }

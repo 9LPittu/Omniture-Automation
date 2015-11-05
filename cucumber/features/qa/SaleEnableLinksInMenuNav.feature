@@ -18,7 +18,10 @@ Feature: Sale Enable Links in Menu Nav
   	And verify default filter name displayed is <Category>
   	Then click on REFINE button
   	And verify refinement page is displayed
-  	Then verify <FilterNames> displayed on refinement page   	
+  	Then verify Category filter displayed on refinement page
+  	Then verify Size filter displayed on refinement page
+  	Then verify Color filter displayed on refinement page  	
+  	Then verify Price filter displayed on refinement page
   	Then verify NEW IN SALE checkbox is selected by default
   Examples:
   |Category|FilterNames|
