@@ -96,7 +96,6 @@ public class ProductDetailPage {
             int randomNumber = (int) (Math.random() * range);
             WebElement color = colors.get(randomNumber);
 
-            logger.info("no of colors {}", range);
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(color));
             color.click();
         } catch (StaleElementReferenceException sere) {
@@ -139,14 +138,13 @@ public class ProductDetailPage {
     }
 
     public void click_add_to_cart() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
         addToBag.click();
     }
 
     public int getNumberOfItemsInBag() {
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
         String bagSizeStr = bagSize.getAttribute("innerHTML");
-        logger.debug("Bag Size is {}", bagSizeStr);
         String stringSize = bagSizeStr.replace("(", "").replace(")", "").trim();
         return Integer.parseInt(stringSize);
     }
@@ -263,7 +261,6 @@ public class ProductDetailPage {
         Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(productOverview));
         String product_detail_name = productOverview.findElement(By.tagName("h1")).getText();
-        logger.info(product_detail_name);
         return product_detail_name;
     }
 
