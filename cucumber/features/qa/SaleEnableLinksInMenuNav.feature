@@ -12,20 +12,24 @@ Feature: Sale Enable Links in Menu Nav
     #And User is in search results page
     
   Scenario Outline: Sale category links functional validation
-  	And User selects <Category> category
+  	And User selects <SaleCategory> category
   	Then verify SALE page is displayed
   	And verify REFINE button is displayed
-  	And verify default filter name displayed is <Category>
+  	And verify default filter name displayed is <SaleCategory>
   	Then click on REFINE button
   	And verify refinement page is displayed
-  	Then verify Category filter displayed on refinement page
-  	Then verify Size filter displayed on refinement page
-  	Then verify Color filter displayed on refinement page  	
-  	Then verify Price filter displayed on refinement page
-  	Then verify NEW IN SALE checkbox is selected by default
+  	Then verify CATEGORY filter displayed on refinement page
+  	Then verify SIZE filter displayed on refinement page
+  	Then verify COLOR filter displayed on refinement page  	
+  	Then verify PRICE filter displayed on refinement page  	
+  	Then verify accordion drawer is displayed when CATEGORY filter is clicked
+  	Then verify accordion drawer is displayed when SIZE filter is clicked
+  	Then verify accordion drawer is displayed when COLOR filter is clicked
+  	Then verify accordion drawer is displayed when PRICE filter is clicked
+  	Then verify NEW IN SALE checkbox is selected by default  	
   Examples:
-  |Category|FilterNames|
-  |Women|Category;Size;Color;Price;New In Sale|
-  #|Men|
-  #|Boys|
-  #|Girls|
+  |SaleCategory|
+  |Women|
+  |Men|
+  |Boys|
+  |Girls|

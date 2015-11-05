@@ -101,4 +101,31 @@ public class SalePage {
     	
     	return blnFlag;
     }
+    
+    public boolean verifyAccordianDrawerOpenedWhenFilterClicked(String filter){
+    	
+    	boolean blnFlag = false;   	
+    	
+    	for(int i=0;i<filterLabel.size();i++){
+    		if(filterLabel.get(i).getText().trim().toLowerCase().equals(filter.trim().toLowerCase())){
+    			filterLabel.get(i).click();
+    			blnFlag = true;
+    			break;
+    		}
+    	}
+    	
+    	if(blnFlag){    	
+	    	try{	    			
+	    		WebElement accordianMenu = driver.findElement(By.xpath("//a[@data-group='" + filter.toLowerCase() + "' and text()='View All']"));	    		
+	    		if(accordianMenu.isDisplayed()){
+	    			blnFlag = true;
+	    		}
+	    	}
+	    	catch(Exception e){
+	    		blnFlag = false;
+	    	}
+    	}
+    	
+    	return blnFlag;
+    }
 }

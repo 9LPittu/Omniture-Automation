@@ -246,9 +246,14 @@ public class SearchPageSteps extends DriverFactory {
     	salePage.verifyNewInSaleCheckboxSelectedByDefault();
     }
     
-    @Then("^verify ([^\"]*) displayed on refinement page$")
+    @Then("^verify ([^\"]*) filter displayed on refinement page$")
     public void verify_filternames_on_refinement_Page(String filterName){    	
     	assertTrue("Filter should be displayed on the refinement page", salePage.verifyFilterNameDisplayed(filterName));
+    }
+    
+    @Then("^verify accordion drawer is displayed when ([^\"]*) filter is clicked$")
+    public void verify_accordion_drawer_displayed_when_filter_clicked(String filter){
+    	assertTrue("Accordian drawer should be displayed when clicked on filter",salePage.verifyAccordianDrawerOpenedWhenFilterClicked(filter));
     }
     
 }
