@@ -24,6 +24,7 @@ public class MyAccountPage {
     }
 
     public boolean isInAccountPage() {
+        Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         return myAccountContainer.isDisplayed();
     }

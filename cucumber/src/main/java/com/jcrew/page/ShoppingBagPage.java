@@ -52,11 +52,10 @@ public class ShoppingBagPage {
 
 
     public void click_checkout_button() {
-
+        Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutLink));
 
         checkoutLink.click();
-
     }
 
     public boolean isEditButtonPresent() {
@@ -80,6 +79,7 @@ public class ShoppingBagPage {
     }
 
     public void click_edit_button() {
+        Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(editAction));
         editAction.click();
     }
