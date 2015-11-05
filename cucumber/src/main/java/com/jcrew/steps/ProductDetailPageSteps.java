@@ -9,8 +9,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,6 @@ import static org.junit.Assert.*;
 public class ProductDetailPageSteps extends DriverFactory {
 
     private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
-    private final Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
 
 
@@ -236,8 +233,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_product_name_is_the_one_it_was_selected() throws Throwable {
         Product product = Util.getCurrentProduct();
         String productName = product.getProductName();
-        logger.debug("Product Name: {} ", productName);
-
         String subcategory = (String) stateHolder.get("subcategory");
 
         if ("suiting".equalsIgnoreCase(subcategory)) {
@@ -256,7 +251,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_amount_of_colors_listed_is_correct() throws Throwable {
         Product product = Util.getCurrentProduct();
         String colorsCountString = product.getColorsCount();
-        logger.debug("Colors Count: {} ", colorsCountString);
 
         int colorsCount = 1;
         if (colorsCountString != null) {
@@ -272,7 +266,6 @@ public class ProductDetailPageSteps extends DriverFactory {
         Product product = Util.getCurrentProduct();
         String priceList = product.getPriceList();
 
-        logger.debug("Price List: {} ", priceList);
         if (priceList != null) {
             assertEquals("Price List should be the same", priceList, productDetailPage.getProductPriceList());
         }
@@ -282,8 +275,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_price_sale_is_correct() throws Throwable {
         Product product = Util.getCurrentProduct();
         String priceSale = product.getPriceSale();
-
-        logger.debug("Price Sale: {} ", priceSale);
 
         if (priceSale != null) {
             assertEquals("Price Sale should be the same", priceSale, productDetailPage.getProductPriceSale());
@@ -296,8 +287,6 @@ public class ProductDetailPageSteps extends DriverFactory {
         Product product = Util.getCurrentProduct();
         String priceWas = product.getPriceWas();
 
-        logger.debug("Price Sale: {} ", priceWas);
-
         if (priceWas != null) {
             assertEquals("Price Was should be the same", priceWas, productDetailPage.getProductPriceWas());
         }
@@ -308,8 +297,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_variations_listed_are_the_expected_ones() throws Throwable {
         Product product = Util.getCurrentProduct();
         String variations = product.getVariations();
-
-        logger.debug("Variations: {} ", variations);
 
         if (variations != null) {
             String[] variationsArray = variations.split(",");

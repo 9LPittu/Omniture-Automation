@@ -16,7 +16,6 @@ Feature: Regression Tests Category Feature
     And User should be in sweaters page for women
     Then Category header should be present
 
-
   Scenario: Check category header image
     Given User clicks on SWEATERS subcategory from Women Category
     Then User should be in sweaters page for women
@@ -39,7 +38,6 @@ Feature: Regression Tests Category Feature
     And Verifies Grosgrain ribbon top product sale price is now $29.99
     And Verifies Grosgrain ribbon top is available in 2 colors
     And An image is displayed for Grosgrain ribbon top product
-
 
   Scenario: Check sign posts on category pages
     Given User clicks on J.CREW IN GOOD COMPANY subcategory from Women Category
