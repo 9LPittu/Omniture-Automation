@@ -98,6 +98,7 @@ public class HamburgerMenu {
 
     public void click_on_subcategory(String subcategory, String category) {
         getSubcategoryFromMenu(subcategory, category).click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("category"));
     }
 
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
