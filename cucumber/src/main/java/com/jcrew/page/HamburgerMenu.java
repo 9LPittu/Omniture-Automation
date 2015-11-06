@@ -103,9 +103,13 @@ public class HamburgerMenu {
     }
 
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
-        WebElement categoryElements = getMenuItemElementForCategory(category);
+        WebElement categories = getMenuItemElementForCategory(category);
+        WebElement categoryLink = categories.findElement(By.linkText(subcategory));
 
-        return categoryElements.findElement(By.linkText(subcategory));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(categoryLink));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryLink));
+
+        return categoryLink;
     }
 
     private WebElement getMenuItemElementForCategory(String category) {
