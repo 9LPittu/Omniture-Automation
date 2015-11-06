@@ -43,6 +43,10 @@ public class StartingSteps {
             try {
                 driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
                 driver.get(reader.getEnvironment());
+                System.out.println(driver.getCurrentUrl());
+                if(driver.getCurrentUrl().contains("enableResponsive")) {
+                    driver.findElement(By.linkText("click to browse")).click();
+                }
                 waitForPageToLoadUpToTheLastElementPriorScriptExecution();
                 successfulLoad = true;
             } catch (TimeoutException te) {
@@ -75,7 +79,7 @@ public class StartingSteps {
         }
 
         if (driverFactory != null) {
-            driverFactory.destroyDriver();
+          //  driverFactory.destroyDriver();
         }
 
         stateHolder.clear();
