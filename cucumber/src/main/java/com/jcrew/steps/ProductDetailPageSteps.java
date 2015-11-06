@@ -20,7 +20,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
 
-
     @Given("User is in product detail page")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
         assertTrue("User should be in detail page",
