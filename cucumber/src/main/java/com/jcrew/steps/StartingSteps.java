@@ -63,6 +63,12 @@ public class StartingSteps {
         driver.get(reader.getEnvironment());
     }
 
+    @And("^User bag is cleared$")
+    public void user_bag_is_cleared() {
+        driver.navigate().to(reader.getEnvironment() + "/CleanPersistentCart.jsp");
+        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "Cart Removed from DB"));
+    }
+
     @After
     public void quitDriver(Scenario scenario) throws IOException {
 

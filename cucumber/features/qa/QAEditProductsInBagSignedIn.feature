@@ -7,6 +7,9 @@ Feature: Edit Product In Bags Signed In Scenarios
     And User enters wishlist1@test.org as email
     And User enters test1234 as password
     And Hits sign in button
+    And User is on homepage
+    And User bag is cleared
+    And User goes to homepage
     Then User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
