@@ -14,7 +14,6 @@ Feature: Edit Product In Bags Signed In Scenarios
     And User is in product detail page
     And Color MARLED CHILI is selected by user
     And Size SMALL is selected by user
-    And A size is selected
     And Add to cart button is pressed
     And User clicks on item bag
     And Clicks edit button on item bag page
