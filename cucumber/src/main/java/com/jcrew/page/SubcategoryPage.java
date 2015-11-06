@@ -161,8 +161,6 @@ public class SubcategoryPage {
             }
         }
 
-        logger.debug("Price found for product with name {} is {}", productName, productPrice);
-
         if (StringUtils.isBlank(productPrice) || StringUtils.isBlank(productName)) {
             result = false;
         }
@@ -422,7 +420,6 @@ public class SubcategoryPage {
     public boolean productTileExistFor(String product) {
         WebElement productInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
                 "' and contains(@class, 'tile__detail--name')]"));
-        logger.info(productInTile.getText());
 
         return productInTile.isDisplayed();
     }
@@ -430,7 +427,6 @@ public class SubcategoryPage {
     public String yellowProductTileExist() {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         WebElement yellow_product = productGrid.findElement(By.xpath("//*[@id='c-search__results']/div/div[3]/div[1]/div/div[2]/a/span[1]"));
-        logger.info(yellow_product.getText());
         return yellow_product.getText();
     }
 

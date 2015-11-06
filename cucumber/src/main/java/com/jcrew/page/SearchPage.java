@@ -67,8 +67,6 @@ public class SearchPage {
     }
 
     public List<String> areGenderSelectorsDisplayed() {
-
-        logger.info("Validating web element presence {}", genderSelectorElement.getClass());
         final List<String> genderSelectorAttributes = new ArrayList<String>();
         for (WebElement gender_selector : genderSelectors) {
 
@@ -83,7 +81,6 @@ public class SearchPage {
 
     public void click_on_gender_selector(String gender) {
         for (WebElement genderSelector : genderSelectors) {
-            logger.info("selected gender name is {}", genderSelector.getText());
             if (genderSelector.getText().equalsIgnoreCase(gender)) {
                 genderSelector.click();
             }
@@ -152,8 +149,6 @@ public class SearchPage {
         }
         int min = 0;
         int max = no_sale_products.size() - 1;
-        logger.info("no of products {}", max);
-
         int range = (max - min) + 1;
         int randomNumber = (int) (Math.random() * range) + min;
         WebElement selectedNoSalePriceProduct = no_sale_products.get(randomNumber);
