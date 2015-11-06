@@ -44,6 +44,7 @@ public class StartingSteps {
                 driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
                 driver.get(reader.getEnvironment());
                 waitForPageToLoadUpToTheLastElementPriorScriptExecution();
+                Util.waitForPageFullyLoaded(driver);
                 successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);
