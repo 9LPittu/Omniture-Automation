@@ -48,21 +48,12 @@ public class LoginPageSteps extends DriverFactory {
 
     @And("^My Account link is present$")
     public void my_account_link_is_present() {
-        if (hamburgerMenu.isCategoryPresent("Women")) {
-            assertTrue("My Account link should be present", loginPage.isMyAccountLinkForMobileDisplayed());
-        } else {
-            hamburgerMenu.close_hamburger_menu();
-            assertTrue("My Account link should be present", loginPage.isMyAccountInDesktop());
-        }
+        assertTrue("My Account link should be present", loginPage.isMyAccountLinkForMobileDisplayed());
     }
 
     @When("^User clicks on My Account link$")
     public void clicks_on_my_account_link() {
-        if (loginPage.isMyAccountLinkForMobileDisplayed()) {
-            loginPage.click_my_account_link_mobile();
-        } else {
-            loginPage.click_my_account_link_desktop();
-        }
+        loginPage.click_my_account_link_mobile();
     }
 
     @And("^User disables check box$")

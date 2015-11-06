@@ -47,12 +47,10 @@ public class HamburgerMenu {
         PageFactory.initElements(driver, this);
     }
 
-
     public void click_on_hamburger_menu() {
         try {
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
             hamburgerMenu.click();
-
         } catch (StaleElementReferenceException sele) {
             click_on_hamburger_menu();
         }
@@ -106,7 +104,6 @@ public class HamburgerMenu {
         WebElement categories = getMenuItemElementForCategory(category);
         WebElement categoryLink = categories.findElement(By.linkText(subcategory));
 
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(categoryLink));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryLink));
 
         return categoryLink;

@@ -19,7 +19,6 @@ public class Navigation {
     @FindBy(className = "header__department-nav")
     private WebElement headerDepartmentNavigationSection;
 
-
     public Navigation(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -36,6 +35,7 @@ public class Navigation {
     }
 
     public boolean isCurrentUrl(String page) {
-        return driver.getCurrentUrl().startsWith(page);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        return true;
     }
 }
