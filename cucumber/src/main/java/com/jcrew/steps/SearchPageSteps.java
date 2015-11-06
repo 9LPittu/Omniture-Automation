@@ -256,4 +256,18 @@ public class SearchPageSteps extends DriverFactory {
     	assertTrue("Accordian drawer should be displayed when clicked on filter",salePage.verifyAccordianDrawerOpenedWhenFilterClicked(filter));
     }
     
+    @Then("^verify ([^\"]*) accordion drawer is not displayed$")
+    public void verifyAccordianDrawerNotDisplayed(String filter){
+    	assertTrue("Accordian drawer should not displayed for the " + filter + " filter",salePage.verifyAccordianNotDisplayed(filter));
+    }
+    
+    @Then("^verify first sort option is ([^\"]*)$")
+    public void verify_first_sort_option(String firstSortOption){
+    	assertTrue("Verify Sort section first option is NEW IN SALE",salePage.verifySortSectionFirstOption(firstSortOption));
+    }
+    
+    @Then("^verify first option NEW IN SALE is selected by default$")
+    public void verify_first_sort_option_selected_by_default(){
+    	assertTrue("Verify sort section first option NEW IN SALE is selected by default", salePage.verifyNewInSaleCheckboxSelectedByDefault());
+    }
 }

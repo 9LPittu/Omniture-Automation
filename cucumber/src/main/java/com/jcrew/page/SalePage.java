@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Created by 9hvenaga on 10/29/2015.
+ * Created by vbonker on 11/04/2015.
  */
 public class SalePage {
 
@@ -41,6 +41,12 @@ public class SalePage {
     
     @FindBys({@FindBy(className="search__filter--label")})
     private List<WebElement> filterLabel;
+    
+    @FindBy(xpath=".//section[contains(@class,'search__filter--sort')]/descendant::div[1]/a")
+    private WebElement sortSectionFirstOption;
+    
+    @FindBy(xpath=".//section[contains(@class,'search__filter--sort')]/descendant::div[1]/input")
+    private WebElement sortSectionFirstOptionCheckBox;
 
     public SalePage(WebDriver driver) {
         this.driver = driver;
@@ -126,6 +132,64 @@ public class SalePage {
 	    	}
     	}
     	
+    	return blnFlag;
+    }
+    
+    public boolean verifyAccordianNotDisplayed(String filter){
+    	
+    	boolean blnFlag = false;
+    	
+    	try{
+    		WebElement accordianMenu = driver.findElement(By.xpath("//a[@data-group='" + filter.toLowerCase() + "' and text()='View All']"));	    		
+    		if(!accordianMenu.isDisplayed()){
+    			blnFlag = true;
+    		}
+    		else{
+    			blnFlag = false;
+    		}
+    	}
+    	catch(Exception e){
+    		blnFlag = true;
+    	}
+    	
+    	return blnFlag;
+    }
+    
+    public boolean verifySortSectionFirstOption(String firstSortOption){
+    	
+    	boolean blnFlag = false;
+    	
+    	try{
+    		if(sortSectionFirstOption.getText().trim().toLowerCase().equals(firstSortOption.toLowerCase())){
+        		blnFlag = true;
+        	}
+        	else{
+        		blnFlag = false;
+        	}
+    	}
+    	catch(Exception e){
+    		blnFlag = false;
+    	}
+    	    	
+    	return blnFlag;
+    }
+    
+    public boolean verifySortSectionFirstOptionIsSelectedByDefault(){
+    	
+    	boolean blnFlag = false;
+    	
+    	try{
+    		if(sortSectionFirstOptionCheckBox.isSelected()){
+        		blnFlag = true;
+        	}
+        	else{
+        		blnFlag = false;
+        	}
+    	}
+    	catch(Exception e){
+    		blnFlag = false;
+    	}
+    	    	
     	return blnFlag;
     }
 }

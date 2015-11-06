@@ -27,6 +27,9 @@ Feature: Sale Enable Links in Menu Nav
   	Then verify accordion drawer is displayed when COLOR filter is clicked
   	Then verify accordion drawer is displayed when PRICE filter is clicked
   	Then verify NEW IN SALE checkbox is selected by default  	
+  	Then verify CATEGORY accordion drawer is not displayed
+  	Then verify SIZE accordion drawer is not displayed
+  	Then verify COLOR accordion drawer is not displayed
   Examples:
   |SaleCategory|
   |Women|
