@@ -50,7 +50,6 @@ Feature: Regression Tests Category Feature
 
   Scenario: Check End cap navigation
     Given User goes to /c/womens_category/dresses page
-    Then Verifies end cap navigation menu to say shop women
     And Verifies navigation draw options are What's New, Clothing, Shoes & Accessories, Sizings
     Then Taps on What's New drawer and opens and all other drawer options are closed
     And Verifies What's New drawer is open
