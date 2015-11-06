@@ -9,7 +9,7 @@ Feature: Search By Item Number Regression Tests
     And Enters C3409 to the search field
     And Clicks on search button for input field
     Then User is in search results page
-    And Verify 2 available colors for C3409 are displayed
+    And Verify 3 available colors for C3409 are displayed
     And Enters e3896 to the search field
     And Clicks on search button for input field
     And User is in search results page
