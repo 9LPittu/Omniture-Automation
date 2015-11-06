@@ -3,10 +3,11 @@ package com.jcrew.steps;
 import com.jcrew.page.Navigation;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.Assert.assertTrue;
 
@@ -17,10 +18,9 @@ public class NavigationSteps extends DriverFactory {
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable {
         PropertyReader reader = PropertyReader.getPropertyReader();
-        String environment = reader.getEnvironment();
-        WebDriver driver = getDriver();
-        String testingPage = environment + uri;
-        driver.navigate().to(testingPage);
+
+        getDriver().navigate().to(reader.getEnvironment() + uri);
+        Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(uri));
     }
 
     @Then("^Validate global promo is displaying on top of the page$")
