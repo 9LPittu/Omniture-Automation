@@ -14,7 +14,7 @@ Feature: Checkout Process
     And A wishlist button is present
     When Add to cart button is pressed
     Then A minicart modal should appear with message '1 item has been added to your cart.'
-    And Bag should have 1 item(s) added
+    And Bag should have item\s\ added
 
   Scenario: Guest checkout
     When User clicks on item bag
