@@ -42,10 +42,7 @@ public class StartingSteps {
         while (retry < 5 && !successfulLoad) {
             try {
                 driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-                driver.get(reader.getEnvironment());
-                if(driver.getCurrentUrl().contains("enableResponsive")) {
-                    driver.findElement(By.linkText("click to browse")).click();
-                }
+                getIntialPage();
                 waitForPageToLoadUpToTheLastElementPriorScriptExecution();
                 Util.waitForPageFullyLoaded(driver);
                 successfulLoad = true;
@@ -54,12 +51,21 @@ public class StartingSteps {
                 retry++;
             }
         }
-
     }
 
     private void waitForPageToLoadUpToTheLastElementPriorScriptExecution() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(
                 By.className("footer__help__menu")));
+    }
+
+    private void getIntialPage() {
+        String env = reader.getEnvironment();
+        if (env.contains("aka-int-www")) {
+            driver.get(env + "/enableResponsive_sm.jsp");
+            driver.findElement(By.linkText("click to browse")).click();
+        } else {
+            driver.get(env);
+        }
     }
 
     @And("^User goes to homepage$")
