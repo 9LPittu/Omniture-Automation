@@ -270,4 +270,30 @@ public class SearchPageSteps extends DriverFactory {
     public void verify_first_sort_option_selected_by_default(){
     	assertTrue("Verify sort section first option NEW IN SALE is selected by default", salePage.verifyNewInSaleCheckboxSelectedByDefault());
     }
+    
+    @Then("^verify other sort by options are unchecked when ([^\"]*) is selected$")
+    public void verify_other_sort_options_unchecked(String sortByOption){
+    	assertTrue("Verify other sort options are unchecked when " + sortByOption + " is selected",salePage.verifyOtherSortOptionsUnchecked(sortByOption));
+    }
+    
+    @Then("^verify ([^\"]*) is displayed as sort option$")
+    public void verifySortOptionsDisplayed(String sortOption){
+    	assertTrue("Verify the sort option " + sortOption + " is displayed",salePage.verifySortOptionsDisplayed(sortOption));
+    }
+    
+   @Then("^select ([^\"]*) checkbox$")
+   public void select_sort_checkbox(String sortOption){
+	   salePage.selectSortOptionCheckbox(sortOption);
+   }
+   
+   @Then("^click on DONE button on Refine page$")
+   public void click_DONE_Button(){
+	   salePage.clickDoneButton();
+   }
+   
+   @Then("^Then verify sale prices are sorted correctly when ([^\"]*) is selected$")
+   public void verify_Sale_Prices_Sorting(String sortOption){
+	   assertTrue("Verify sale prices are sorted correctly when " + sortOption + " is selected", salePage.verifySalePricesAreSorted(sortOption));
+   }
+   
 }
