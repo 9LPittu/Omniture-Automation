@@ -33,7 +33,5 @@ public class InventoryDAOTest {
         when(connection.createStatement()).thenReturn(statement);
 
         assertEquals("Should have updated expected number of rows", 1, inventoryDAO.addInventoryToBackOrderedItem());
-
-        //assertEquals("Should have updated expected number of rows", 1, inventoryDAO.addInventoryToSoldOutItem("SOLD OUT"));
     }
 }

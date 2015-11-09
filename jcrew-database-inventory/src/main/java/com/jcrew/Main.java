@@ -9,7 +9,6 @@ import java.sql.SQLException;
 public class Main {
 
     public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
-        System.out.println("jo");
         InventoryDAO inventoryDAO = new InventoryDAO();
         //System.out.println(inventoryDAO.addInventoryToBackOrderedItem());
         System.out.println(inventoryDAO.addInventory());
@@ -17,4 +16,3 @@ public class Main {
 
     }
 }
-
