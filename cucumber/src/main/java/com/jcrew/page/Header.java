@@ -121,7 +121,6 @@ public class Header {
         return shoppingBagLink.isDisplayed();
     }
 
-
     public void click_breadcrumb(String breadcrumb) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbSection));
         WebElement breadcrumbElement = breadcrumbSection.findElement(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
