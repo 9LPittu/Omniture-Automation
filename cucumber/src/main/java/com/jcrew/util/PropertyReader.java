@@ -77,6 +77,10 @@ public class PropertyReader {
         return readProperty("environment");
     }
 
+    public String getSteelEnvironment() {
+        return readProperty("steelenvironment");
+    }
+
     public boolean isRemoteExecution() {
         return "true".equals(System.getProperty("remote.execution"));
     }

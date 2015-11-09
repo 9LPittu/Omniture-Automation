@@ -18,8 +18,11 @@ public class NavigationSteps extends DriverFactory {
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable {
         PropertyReader reader = PropertyReader.getPropertyReader();
-
-        getDriver().navigate().to(reader.getEnvironment() + uri);
+        if(reader.getEnvironment().contains("enableResponsive")) {
+            getDriver().navigate().to(reader.getSteelEnvironment() + uri);
+        } else {
+            getDriver().navigate().to(reader.getEnvironment() + uri);
+        }
         Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(uri));
     }
 
