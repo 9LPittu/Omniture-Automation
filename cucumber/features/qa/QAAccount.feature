@@ -29,7 +29,9 @@ Feature: Account Feature QA Suite
     And User disables check box
     And Hits sign in button
     Then User is in My Account page
-    And Clicks on J.Crew Breadcrumb
+    And User bag is cleared
+    And User goes to homepage
+    And Clicks on JCrew Logo
     And User clicks on hamburger menu
     And My Account link is present
     And Selects Women Category from hamburger menu
@@ -40,8 +42,6 @@ Feature: Account Feature QA Suite
     And My Account link is present
 
     Examples:
-      | Username         | Password |
-      | test@example.org | test1234 |
-      | account@test.org | test1234 |
-
-    
+      | Username          | Password |
+      | test@example.org  | test1234 |
+      | test2@example.org | test1234 |
