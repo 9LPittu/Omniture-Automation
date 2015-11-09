@@ -291,7 +291,7 @@ public class SearchPageSteps extends DriverFactory {
 	   salePage.clickDoneButton();
    }
    
-   @Then("^Then verify sale prices are sorted correctly when ([^\"]*) is selected$")
+   @Then("^verify sale prices are sorted correctly when ([^\"]*) is selected$")   
    public void verify_Sale_Prices_Sorting(String sortOption){
 	   assertTrue("Verify sale prices are sorted correctly when " + sortOption + " is selected", salePage.verifySalePricesAreSorted(sortOption));
    }
