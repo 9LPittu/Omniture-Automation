@@ -1,4 +1,4 @@
-@SaleEnablelinks
+#@SaleEnablelinks
 Feature: Sale Enable Links in Menu Nav
 
   Background:
