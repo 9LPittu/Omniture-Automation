@@ -24,7 +24,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     private final Header header = new Header(getDriver());
 
     @When("^Adds a product to shopping bag$")
-    public void adds_a_product_to_shopping_bag() throws Throwable {
+    public void adds_a_product_to_shopping_bag() {
 
         subcategoryPage.adds_a_product_to_shopping_bag();
 
@@ -34,43 +34,43 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @When("^Clicks on shopping bag link$")
-    public void clicks_on_shopping_bag_link() throws Throwable {
+    public void clicks_on_shopping_bag_link() {
 
         subcategoryPage.clicks_on_shopping_bag_link();
 
     }
 
     @And("^User hovers a product$")
-    public void user_hovers_a_product() throws Throwable {
+    public void user_hovers_a_product() {
         subcategoryPage.hover_first_product_in_grid();
     }
 
     @Then("^Proper details are shown for the hovered product$")
-    public void proper_details_are_shown_for_the_hovered_product() throws Throwable {
+    public void proper_details_are_shown_for_the_hovered_product() {
         assertTrue("All products should contain a name and a price", subcategoryPage.isFirstProductNameAndPriceValid());
         assertTrue("All product variations should be valid", subcategoryPage.areFirstProductColorVariationsValid());
     }
 
     @Then("^Product array should be displayed with correct values$")
-    public void product_array_should_be_displayed_with_correct_values() throws Throwable {
+    public void product_array_should_be_displayed_with_correct_values() {
         assertTrue("All products should contain correct values", subcategoryPage.isProductArrayValid());
     }
 
     @And("^Selects the first product from product grid list$")
-    public void Selects_the_first_product_from_product_grid_list() throws Throwable {
+    public void Selects_the_first_product_from_product_grid_list() {
 
         subcategoryPage.click_first_product_in_grid();
 
     }
     @And("^Selects any product from product grid list$")
-    public void Selects_any_product_from_product_grid_list() throws Throwable {
+    public void Selects_any_product_from_product_grid_list() {
 
         subcategoryPage.click_any_product_in_grid();
 
     }
 
     @Then("^User should be in ([^\"]*) page for women$")
-    public void user_should_be_in_subcategory_page_for_women(String subcategory) throws Throwable {
+    public void user_should_be_in_subcategory_page_for_women(String subcategory) {
         assertTrue("A Subcategory page should have a product grid",
                 subcategoryPage.isProductGridPresent());
 
@@ -80,83 +80,82 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @And("^Category title for ([^\"]*) should match below global promo$")
-    public void category_title_for_subcategory_should_match_below_global_promo(String subcategory) throws Throwable {
+    public void category_title_for_subcategory_should_match_below_global_promo(String subcategory) {
         assertEquals(subcategory + " should have been displayed blow global promo",
                 subcategory, subcategoryPage.getCategoryTitleBelowGlobalPromo());
     }
 
     @Then("^View All Section is present and collapsed$")
-    public void view_all_section_is_present_and_collapsed() throws Throwable {
+    public void view_all_section_is_present_and_collapsed() {
         assertEquals("View All should be displayed", "VIEW ALL", subcategoryPage.getAccordianHeaderLabelText());
         assertTrue("See more icon should be displayed", subcategoryPage.isMoreIconDisplayed());
     }
 
     @Given("^User clicks on expand icon$")
-    public void user_clicks_on_expand_icon() throws Throwable {
+    public void user_clicks_on_expand_icon() {
         subcategoryPage.click_expand_accordion_icon();
     }
 
     @Then("^Accordion should be expanded$")
-    public void accordion_should_be_expanded() throws Throwable {
+    public void accordion_should_be_expanded() {
         assertTrue("Accordion menu should be expanded", subcategoryPage.isAccordionMenuVisible());
     }
 
     @And("^Collapse icon is displayed$")
-    public void collapse_icon_is_displayed() throws Throwable {
+    public void collapse_icon_is_displayed() {
         assertTrue("See less icon should be displayed", subcategoryPage.isLessIconDisplayed());
     }
 
 
     @Given("^Selects ([^\"]*) subcategory$")
-    public void selects_subcategory(String subcategory) throws Throwable {
+    public void selects_subcategory(String subcategory) {
         subcategoryPage.click_subcategory(subcategory);
     }
 
     @Then("^([^\"]*) option becomes selected$")
-    public void subcategory_option_becomes_bold(String option) throws Throwable {
+    public void subcategory_option_becomes_bold(String option) {
         assertEquals(option + " should be bold", option, subcategoryPage.getAccordianHeaderLabelText());
     }
 
     @Then("^Refine modal autocloses$")
-    public void refine_modal_autocloses() throws Throwable {
+    public void refine_modal_autocloses() {
         assertTrue("Accordion menu should not be expanded", subcategoryPage.isAccordionMenuInvisible());
     }
 
     @Then("^Array page displays ([^\"]*)$")
-    public void array_page_displays_subcategory(String subcategory) throws Throwable {
+    public void array_page_displays_subcategory(String subcategory) {
         assertEquals(subcategory + " array should be displayed", subcategory, subcategoryPage.getArrayLabel());
     }
 
     @Then("^Products displayed are ([^\"]*) from ([^\"]*) category$")
-    public void products_displayed_are_from_subcategory(String subcategory, String category) throws Throwable {
+    public void products_displayed_are_from_subcategory(String subcategory, String category) {
         final List<String> productsDisplayedHrefs = subcategoryPage.getProductsDisplayedHrefs();
 
         for (String product : productsDisplayedHrefs) {
             assertTrue("product is not from " + subcategory + " href value is " + product,
                     product.contains("/p/womens_category/" + category + "/" + subcategory));
         }
-
     }
 
     @Then("^Category header should not be present$")
-    public void category_header_should_not_be_present() throws Throwable {
+    public void category_header_should_not_be_present() {
         assertTrue("Category header should not have been present but it is",
                 !subcategoryPage.isCategoryHeaderPresent());
     }
     @Then("^Category header should be present$")
-    public void category_header_should_be_present() throws Throwable {
+    public void category_header_should_be_present() {
         assertTrue("Category header should not have been present but it is",
                 subcategoryPage.isCategoryHeaderPresent());
     }
 
     @And("^An image should be displayed for ([^\"]*)$")
-    public void an_image_should_be_displayed_for_category(String category) throws Throwable {
+    public void an_image_should_be_displayed_for_category(String category) {
         assertEquals("Image for category should have been displayed ", category,
                 subcategoryPage.getCategoryImageHeaderAlt());
     }
 
     @Then("^Verifies ([^\"]*) product is displayed$")
-    public void verifies_product_is_displayed(String product) throws Throwable {
+    public void verifies_product_is_displayed(String product) {
         assertTrue("Product should exist", subcategoryPage.productTileExistFor(product));
     }
 
@@ -189,7 +188,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @And("^Verifies position of elements is the expected$")
-    public void verifies_position_of_elements_is_the_expected() throws Throwable {
+    public void verifies_position_of_elements_is_the_expected() {
         final Point menuPosition = subcategoryPage.getMenuPosition();
         final Point logoPosition = header.getLogoPosition();
         final Point refinementPosition = subcategoryPage.getRefinementPosition();
@@ -226,7 +225,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @Then("^Verifies accordion menu contains same items as in sign post items, first item should not be present in post sign$")
-    public void verifies_accordion_menu_contains_same_items_as_in_sign_post_items() throws Throwable {
+    public void verifies_accordion_menu_contains_same_items_as_in_sign_post_items() {
         subcategoryPage.click_expand_accordion_icon();
         final List<String> postSignItems = subcategoryPage.getPostSignItems();
         final List<String> accordianItems = subcategoryPage.getAccordionItems();
@@ -240,7 +239,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @Then("^Verifies end cap navigation menu to say ([^\"]*)$")
-    public void verifies_end_cap_navigation_menu_to_say(String header) throws Throwable {
+    public void verifies_end_cap_navigation_menu_to_say(String header) {
         assertEquals("Header is different from expected", header,
                 subcategoryPage.getEndCapNavigationMenuHeader());
     }
@@ -291,7 +290,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @And("^All drawers are closed$")
-    public void all_drawers_are_closed() throws Throwable {
+    public void all_drawers_are_closed() {
         if (subcategoryPage.isEndCapMoreIconDisplayed()) {
             for (String menuOption : subcategoryPage.getEndCapNavigationMenuOptions()) {
                 assertTrue(menuOption + " should have drawer closed",
@@ -304,7 +303,38 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @Then("^Click on product ([^\"]*) to display PDP$")
-    public void click_on_product_to_display_PDP(String product) throws Throwable {
+    public void click_on_product_to_display_PDP(String product) {
         subcategoryPage.click_on_product(product);
     }
+
+//    @Then("^([^\"]*) subcategory page is displayed properly")
+//    public void is_category_displayed_properly(String subcategory) {
+//        assertTrue("A Subcategory page should have a product grid", subcategoryPage.isProductGridPresent());
+//        assertTrue("User should be in " + subcategoryPage + " page for women",
+//                getDriver().getCurrentUrl().endsWith("/c/womens_category/" + subcategory.toLowerCase()));
+//        assertEquals(subcategory + " should have been displayed blow global promo",
+//                subcategory, subcategoryPage.getCategoryTitleBelowGlobalPromo());
+//        assertEquals("View All should be displayed", "VIEW ALL", subcategoryPage.getAccordianHeaderLabelText());
+//        assertTrue("See more icon should be displayed", subcategoryPage.isMoreIconDisplayed());
+//    }
+
+//    @When("^User refines by ([^\"]*)$")
+//    public void user_selects_subcategory(String subcategory) {
+//        subcategoryPage.click_expand_accordion_icon();
+//        assertTrue("Accordion menu should be expanded", subcategoryPage.isAccordionMenuVisible());
+//        assertTrue("See less icon should be displayed", subcategoryPage.isLessIconDisplayed());
+//        subcategoryPage.click_subcategory(subcategory);
+//        assertEquals(subcategory + " should be bold", subcategory.toUpperCase(), subcategoryPage.getAccordianHeaderLabelText());
+//        assertTrue("Accordion menu should not be expanded", subcategoryPage.isAccordionMenuInvisible());
+//    }
+
+//    @Then("^([^\"]*) products are displayed")
+//    public void filter_products_are_displayed(String filter) {
+//        final List<String> productsDisplayedHrefs = subcategoryPage.getProductsDisplayedHrefs();
+//
+//        for (String product : productsDisplayedHrefs) {
+//            assertTrue("product is not from " + filter + " href value is " + product,
+//                    product.contains(filter));
+//        }
+//    }
 }
