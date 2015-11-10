@@ -18,7 +18,7 @@
         <profile>
             <id>parallel</id>
             <properties>
-                <junit.threadCount>{thread.count}</junit.threadCount>
+                <junit.threadCount>${thread.count}</junit.threadCount>
                 <junit.parallel>classes</junit.parallel>
             </properties>
         </profile>
@@ -140,16 +140,6 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.7</version>
         </dependency>
-
-        <dependency>
-        	<groupId>com.sun</groupId>
-        	<artifactId>tools</artifactId>
-        	<version>1.8.0</version>
-        	<systemPath>${JAVA_HOME}\lib\tools.jar</systemPath>
-        	<optional>true</optional>
-        	<scope>system</scope>
-        </dependency>
-
 
     </dependencies>
 
