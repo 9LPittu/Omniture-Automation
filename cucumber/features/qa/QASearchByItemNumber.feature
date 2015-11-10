@@ -20,7 +20,7 @@ Feature: Search By Item Number Regression Tests
     Then User is in search results page
 
   Scenario: single product result goes to pdp directly
-    And Enters B8752 to the search field
+    And Enters e4859 to the search field
     And Clicks on search button for input field
     And User is in product detail page
 
