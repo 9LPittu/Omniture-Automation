@@ -3,26 +3,23 @@ package com.jcrew.steps;
 import com.jcrew.page.Navigation;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import org.junit.Assert;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class NavigationSteps extends DriverFactory {
 
-    private Navigation navigation = new Navigation(getDriver());
+    private final Navigation navigation = new Navigation(getDriver());
 
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable {
         PropertyReader reader = PropertyReader.getPropertyReader();
-        String environment = reader.getEnvironment();
-        WebDriver driver = getDriver();
-        String testingPage = environment + uri;
-        driver.navigate().to(testingPage);
+        getDriver().navigate().to(reader.getEnvironment() + uri);
+        Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(uri));
     }
 
     @Then("^Validate global promo is displaying on top of the page$")
@@ -43,7 +40,7 @@ public class NavigationSteps extends DriverFactory {
 
     @Then("^User is on external page ([^\"]*)$")
     public void user_is_on_external_page(String page) {
-        Assert.assertEquals("User is not in an expected page", page, getDriver().getCurrentUrl());
+        assertTrue("User is not in an expected page " + page, navigation.isCurrentUrl(page));
     }
 
     @Then("^Verify ([^\"]*) Department Link is present$")

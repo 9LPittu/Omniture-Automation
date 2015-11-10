@@ -5,9 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-/**
- * Created by 9hvenaga on 9/1/2015.
- */
 public class CareersPage {
 
     @FindBy(xpath = "//h1[text()='Careers at J.Crew']")

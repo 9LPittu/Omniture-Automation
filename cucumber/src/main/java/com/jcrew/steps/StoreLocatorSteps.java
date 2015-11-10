@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 public class StoreLocatorSteps extends DriverFactory {
 
-    private StoreLocatorPage storeLocator = new StoreLocatorPage(getDriver());
+    private final StoreLocatorPage storeLocator = new StoreLocatorPage(getDriver());
 
     @And("^Verify user is on stores page$")
     public void verify_user_is_on_stores_page() throws Throwable {

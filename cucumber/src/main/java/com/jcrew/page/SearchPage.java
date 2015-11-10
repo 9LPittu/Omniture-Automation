@@ -1,10 +1,10 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +33,7 @@ public class SearchPage {
     private WebElement womenSelector;
 
     @FindBy(xpath = "//div[@data-group='gender']")
+    private
     List<WebElement> genderSelectors;
 
     @FindBy(id = "c-search__results")
@@ -54,20 +55,18 @@ public class SearchPage {
 
 
     public boolean isSearchPage() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerSearch));
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(footer));
-        return headerSearch.isDisplayed() && footer.isDisplayed();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearch));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchResult));
+        return headerSearch.isDisplayed() && searchResult.isDisplayed();
     }
 
 
     public boolean areResultsDisplayed() {
-        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(productGrid));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         return !productGrid.findElements(By.className("c-product-tile")).isEmpty();
     }
 
     public List<String> areGenderSelectorsDisplayed() {
-
-        logger.info("Validating web element presence {}", genderSelectorElement.getClass());
         final List<String> genderSelectorAttributes = new ArrayList<String>();
         for (WebElement gender_selector : genderSelectors) {
 
@@ -82,7 +81,6 @@ public class SearchPage {
 
     public void click_on_gender_selector(String gender) {
         for (WebElement genderSelector : genderSelectors) {
-            logger.info("selected gender name is {}", genderSelector.getText());
             if (genderSelector.getText().equalsIgnoreCase(gender)) {
                 genderSelector.click();
             }
@@ -96,12 +94,12 @@ public class SearchPage {
     }
 
     public boolean isRefineButtonDisplayed() {
-        new WebDriverWait(driver, 20).until(ExpectedConditions.elementToBeClickable(refineButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(refineButton));
         return refineButton.isDisplayed();
     }
 
     public void click_refine_button() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(refineButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(refineButton));
         refineButton.click();
     }
 
@@ -111,7 +109,7 @@ public class SearchPage {
     }
 
     private WebElement getRefinementElement(String filterRefinement) {
-        WebElement element = null;
+        WebElement element;
         try {
             element = searchFilterRefinementSection.
                     findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
@@ -145,14 +143,12 @@ public class SearchPage {
 
         List<WebElement> no_sale_products = new ArrayList<WebElement>();
         for (WebElement product_displayed : products_displayed) {
-            if (product_displayed.getText().contains("now") == false) {
+            if (!product_displayed.getText().contains("now")) {
                 no_sale_products.add(product_displayed);
             }
         }
         int min = 0;
         int max = no_sale_products.size() - 1;
-        logger.info("no of products {}", max);
-
         int range = (max - min) + 1;
         int randomNumber = (int) (Math.random() * range) + min;
         WebElement selectedNoSalePriceProduct = no_sale_products.get(randomNumber);
@@ -161,7 +157,8 @@ public class SearchPage {
 
         String productName = selectedProductNameElement.getText();
         logger.info("sale product selected now {}", productName);
-        new WebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(selectedNoSalePriceProduct.findElement(By.className("product__image--small"))));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+                selectedNoSalePriceProduct.findElement(By.className("product__image--small"))));
         selectedNoSalePriceProduct.findElement(By.className("product__image--small")).click();
 
         return productName;
@@ -232,21 +229,20 @@ public class SearchPage {
 
     public boolean isOptionSelectedForRefinementWithAccordionClosed(String optionSelected, String refinement) {
 
-        WebElement selectedOption;
-
+        boolean result;
         try {
-            selectedOption = getRefinementElement(refinement).findElement(
-                    By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]"));
-
+            result = Util.createWebDriverWait(driver).until(
+                    ExpectedConditions.visibilityOf(
+                            getRefinementElement(refinement).findElement(
+                                    By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]")
+                            )
+                    )
+            ).isDisplayed();
         } catch (StaleElementReferenceException sere) {
-
-            selectedOption = getRefinementElement(refinement).findElement(
-                    By.xpath("../span[@class='search__filter--selected' and contains(text(), '" + optionSelected + "')]"));
-
+            result = isOptionSelectedForRefinementWithAccordionClosed(optionSelected, refinement);
         }
 
-        return selectedOption.isDisplayed();
-
+        return result;
     }
 
     public void select_option_from_multiple_select_refinement(String option, String refinement) {
@@ -255,6 +251,7 @@ public class SearchPage {
             final WebElement accordionMenuForRefinement =
                     filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
             final WebElement optionElement = accordionMenuForRefinement.findElement(By.linkText(option));
+
             optionElement.click();
 
         } catch (StaleElementReferenceException sere) {

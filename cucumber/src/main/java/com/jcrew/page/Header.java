@@ -1,41 +1,33 @@
 package com.jcrew.page;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.jcrew.util.Util;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Header {
 
+    private final WebDriver driver;
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
-
-    @FindBy(className = "icon-searchtray-close")
+    @FindBy(className = "icon-close")
     private WebElement searchCloseIcon;
-
     @FindBy(id = "header__logo")
     private WebElement headerLogo;
-
+    @FindBy(className = "c-header__breadcrumb")
+    private WebElement breadcrumbSection;
     @FindBy(className = "js-primary-nav__link--search")
     private WebElement searchButton;
-
     @FindBy(className = "primary-nav__text--stores")
     private WebElement storesLink;
-
     @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
     private WebElement shoppingBagLink;
-
     @FindBy(css = ".icon-header.icon-header-bag.icon-bag")
     private WebElement bagIcon;
-
-    private WebDriver driver;
 
 
     public Header(WebDriver driver) {
@@ -44,22 +36,35 @@ public class Header {
     }
 
     public boolean isHeaderLinkPresent(String headerLink) {
-        return headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
+        boolean result;
+        try {
+            result = headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
+        } catch (StaleElementReferenceException sere) {
+            result = isHeaderLinkPresent(headerLink);
+        }
+        return result;
     }
+
     public boolean isHeaderBagIconPresent() {
         return bagIcon.isDisplayed();
     }
+
     public String getBagIconLinkText() {
         return driver.findElement(By.className("primary-nav__item--bag")).getText();
     }
 
     public boolean isSearchDrawerOpen() {
-        WebElement headerSearchInput = new WebDriverWait(driver, 30).until(ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
+        WebElement headerSearchInput = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
         return headerSearchInput.isDisplayed();
     }
 
+    public boolean isSearchDrawerClosed() {
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("header__search__input")));
+    }
+
     public void click_on_search_close_icon() {
-        searchCloseIcon.click();
+        WebElement searchIconClose = headerWrap.findElement(By.className("js-header__search__button--close"));
+        searchIconClose.click();
     }
 
     public String getSearchDrawerTerm() {
@@ -79,7 +84,7 @@ public class Header {
     }
 
     public boolean isJCrewLogoPresent() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(headerLogo));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerLogo));
         return headerLogo.isDisplayed();
     }
 
@@ -92,7 +97,7 @@ public class Header {
     }
 
     public void click_on_search_button() {
-        WebElement searchButton = new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(this.searchButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(searchButton));
         searchButton.click();
     }
 
@@ -109,12 +114,16 @@ public class Header {
     }
 
     public void click_item_bag() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(shoppingBagLink)).click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(shoppingBagLink)).click();
     }
 
     public boolean isBagLinkDisplaying() {
         return shoppingBagLink.isDisplayed();
     }
 
-
+    public void click_breadcrumb(String breadcrumb) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbSection));
+        WebElement breadcrumbElement = breadcrumbSection.findElement(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
+        breadcrumbElement.click();
+    }
 }

@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +9,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,11 +52,10 @@ public class ShoppingBagPage {
 
 
     public void click_checkout_button() {
-
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(checkoutLink));
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutLink));
 
         checkoutLink.click();
-
     }
 
     public boolean isEditButtonPresent() {
@@ -80,7 +79,8 @@ public class ShoppingBagPage {
     }
 
     public void click_edit_button() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(editAction));
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(editAction));
         editAction.click();
     }
 
@@ -97,7 +97,7 @@ public class ShoppingBagPage {
     }
 
     private WebElement getDescriptionElementFor(ExpectedCondition<WebElement> isTrue) {
-        return new WebDriverWait(driver, 10).until(
+        return Util.createWebDriverWait(driver).until(
                 isTrue);
     }
 

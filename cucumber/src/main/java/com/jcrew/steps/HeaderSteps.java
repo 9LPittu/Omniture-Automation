@@ -3,10 +3,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.Header;
 import com.jcrew.util.DriverFactory;
-import com.jcrew.util.Reporting;
-
-import cucumber.api.Scenario;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -18,15 +14,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HeaderSteps extends DriverFactory {
-    private Header header = new Header(getDriver());
-    
-    private Scenario scenario;
+    private final Header header = new Header(getDriver());
 
-    
-    @Before
-    public void getScenarioObject(Scenario s){
-    	this.scenario = s;
-    }
 
     @And("^Search Link is present$")
     public void search_link_is_present() throws Throwable {
@@ -100,11 +89,16 @@ public class HeaderSteps extends DriverFactory {
 
     @Given("^User clicks on item bag$")
     public void user_clicks_on_item_bag() throws Throwable {
-        header.click_item_bag();       
+        header.click_item_bag();
     }
 
     @And("^Bag Link is present$")
     public void Bag_Link_is_present() throws Throwable {
         assertTrue("Bag Link should be displaying", header.isBagLinkDisplaying());
+    }
+
+    @And("^Clicks on ([^\"]*) Breadcrumb$")
+    public void clicks_on_breadcrumb(String breadcrumb) throws Throwable {
+        header.click_breadcrumb(breadcrumb);
     }
 }

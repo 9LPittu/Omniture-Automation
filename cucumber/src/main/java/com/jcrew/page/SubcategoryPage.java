@@ -9,7 +9,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,72 +20,51 @@ import java.util.regex.Pattern;
 
 public class SubcategoryPage {
 
-    private StateHolder stateHolder = StateHolder.getInstance();
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final WebDriver driver;
-
+    private final Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
     @FindBy(css = "button.get-quickshop")
     private WebElement quickShopButton;
-
     @FindBy(xpath = ".//*[@id='sizes1']/div[not(contains(@class, 'unavailable'))][1]")
     private WebElement availableSize;
-
     @FindBy(className = "add-item")
     private WebElement addItem;
-
     @FindBy(className = "quickshop-close")
     private WebElement quickShopCloseButton;
-
     @FindBy(id = "globalHeaderShoppingBagBttn2")
     private WebElement shoppingBagLink;
-
     @FindBy(id = "qsLightBox")
     private WebElement quickShopModal;
-
     @FindBy(className = "product__grid")
     private WebElement productGrid;
-
     @FindBy(css = ".category__page-title > h2")
     private WebElement categoryPageTitle;
-
     @FindBy(className = "accordian__wrap")
     private WebElement accordionWrap;
-
-    @FindBy(className = "c-product-tile")
-    private List<WebElement> productsFromGrid;
-
     @FindBy(className = "header__image")
     private WebElement headerImage;
-
     @FindBy(className = "c-header__main")
     private WebElement mainMenu;
-
     @FindBy(className = "header__promo__wrap--desktop")
     private WebElement headerDesktopPromo;
-
     @FindBy(className = "header__promo__wrap--mobile")
     private WebElement headerMobilePromo;
-
     @FindBy(className = "c-category__filters")
     private WebElement refinement;
-
     @FindBy(css = "header h4")
     private List<WebElement> postSignElements;
-
     @FindBy(css = "#c-category__filters .accordian__menu .accordian__menu__item .accordian__menu__link")
     private List<WebElement> accordionElements;
-
     @FindBy(id = "c-category__navigation")
     private WebElement endCapNavigationSection;
-
-    private Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
 
     public SubcategoryPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public void adds_a_product_to_shopping_bag() throws Throwable {
+    public void adds_a_product_to_shopping_bag() {
 
         quickShopButton.click();
 
@@ -97,7 +75,7 @@ public class SubcategoryPage {
         quickShopCloseButton.click();
 
         try {
-            new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(
+            Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(
                     By.id("qsLightBox")));
 
         } catch (NoSuchElementException nsee) {
@@ -106,10 +84,10 @@ public class SubcategoryPage {
 
     }
 
-    public void clicks_on_shopping_bag_link() throws Throwable {
+    public void clicks_on_shopping_bag_link() {
 
         String subcategoryUrl = driver.getCurrentUrl();
-        new WebDriverWait(driver, 10).
+        Util.createWebDriverWait(driver).
                 until(ExpectedConditions.visibilityOf(shoppingBagLink));
 
         shoppingBagLink.click();
@@ -144,15 +122,22 @@ public class SubcategoryPage {
     }
 
     public boolean isProductGridPresent() {
-        new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(productGrid));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         return productGrid.isDisplayed();
     }
 
     public void hover_first_product_in_grid() {
         Actions action = new Actions(driver);
+        List<WebElement> productsFromGrid = getProductTileElements();
         WebElement firstProductFromGrid = productsFromGrid.get(0);
         action.moveToElement(firstProductFromGrid);
         action.perform();
+    }
+
+    private List<WebElement> getProductTileElements() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
+        return Util.createWebDriverWait(driver).
+                until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
     }
 
     private boolean isPriceAndNameValidFor(WebElement product) {
@@ -176,8 +161,6 @@ public class SubcategoryPage {
             }
         }
 
-        logger.debug("Price found for product with name {} is {}", productName, productPrice);
-
         if (StringUtils.isBlank(productPrice) || StringUtils.isBlank(productName)) {
             result = false;
         }
@@ -186,12 +169,12 @@ public class SubcategoryPage {
     }
 
     public boolean isFirstProductNameAndPriceValid() {
-        WebElement product = productsFromGrid.get(0);
+        WebElement product = getProductTileElements().get(0);
         return isPriceAndNameValidFor(product);
     }
 
     public boolean areFirstProductColorVariationsValid() {
-        WebElement firstProductFromGrid = productsFromGrid.get(0);
+        WebElement firstProductFromGrid = getProductTileElements().get(0);
         return areProductColorVariationsValid(firstProductFromGrid);
 
     }
@@ -202,7 +185,7 @@ public class SubcategoryPage {
             String productCount = firstProductFromGrid.findElement(By.className("tile__detail--colors-count")).getText();
             Pattern p = Pattern.compile("available in (\\d)+ colors");
             Matcher matcher = p.matcher(productCount);
-            int numberOfVariationsInText = 0;
+            int numberOfVariationsInText;
 
             if (matcher.matches()) {
 
@@ -234,7 +217,7 @@ public class SubcategoryPage {
 
     public boolean isProductArrayValid() {
         boolean result = true;
-        for (WebElement product : productsFromGrid) {
+        for (WebElement product : getProductTileElements()) {
             boolean isCorrectlyDisplayed = isPriceAndNameValidFor(product) && areProductColorVariationsValid(product);
             if (!isCorrectlyDisplayed) {
                 logger.debug("The product {} contains invalid details in product grid.",
@@ -246,17 +229,17 @@ public class SubcategoryPage {
         return result;
     }
 
-    public void click_first_product_in_grid() throws InterruptedException {
-        final WebElement firstProduct = productsFromGrid.get(0);
-        final WebElement productLink = firstProduct.findElement(By.className("product-tile__link"));
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(productLink));
+    public void click_first_product_in_grid() {
+        final WebElement firstProduct = getProductTileElements().get(0);
+        final WebElement productLink = firstProduct.findElement(By.className("product__image--small"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
         productLink.click();
     }
 
     public void click_any_product_in_grid() {
-        new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(productGrid));
-        int index = Util.randomIndex(productsFromGrid.size());
-        WebElement randomProductSelected = productsFromGrid.get(index);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
+        int index = Util.randomIndex(getProductTileElements().size());
+        WebElement randomProductSelected = getProductTileElements().get(index);
         Product product = new Product();
         product.setProductName(getProductName(randomProductSelected));
         product.setPriceList(getPriceList(randomProductSelected));
@@ -275,7 +258,7 @@ public class SubcategoryPage {
 
         stateHolder.put("productList", productList);
 
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
 
         WebElement productLink = randomProductSelected.findElement(By.className("product-tile__link"));
 
@@ -363,17 +346,19 @@ public class SubcategoryPage {
     }
 
     private WebElement getAccordionElement(By element) {
-        final WebElement accordionWrap = new WebDriverWait(driver, 10).until(
+        final WebElement accordionWrap = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(this.accordionWrap));
 
-        final WebElement expectedElement = new WebDriverWait(driver, 10).until(
+        return Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(accordionWrap.findElement(element)));
-
-        return expectedElement;
     }
 
     public void click_expand_accordion_icon() {
-        getAccordionElement(By.className("icon-see-more")).click();
+        WebElement seeMoreIcon = getAccordionElement(By.className("icon-see-more"));
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.elementToBeClickable(seeMoreIcon));
+
+        seeMoreIcon.click();
     }
 
     public boolean isAccordionMenuVisible() {
@@ -393,12 +378,12 @@ public class SubcategoryPage {
     }
 
     public boolean isAccordionMenuInvisible() {
-        final WebElement accordionWrap = new WebDriverWait(driver, 10).until(
+        final WebElement accordionWrap = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(this.accordionWrap));
 
         final WebElement accordionMenu = accordionWrap.findElement(By.className("accordian__menu"));
 
-        new WebDriverWait(driver, 10).until(
+        Util.createWebDriverWait(driver).until(
                 ExpectedConditions.invisibilityOfElementLocated(By.className("accordian__menu")));
 
         return !accordionMenu.isDisplayed();
@@ -435,7 +420,6 @@ public class SubcategoryPage {
     public boolean productTileExistFor(String product) {
         WebElement productInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
                 "' and contains(@class, 'tile__detail--name')]"));
-        logger.info(productInTile.getText());
 
         return productInTile.isDisplayed();
     }
@@ -443,7 +427,6 @@ public class SubcategoryPage {
     public String yellowProductTileExist() {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         WebElement yellow_product = productGrid.findElement(By.xpath("//*[@id='c-search__results']/div/div[3]/div[1]/div/div[2]/a/span[1]"));
-        logger.info(yellow_product.getText());
         return yellow_product.getText();
     }
 
@@ -460,8 +443,10 @@ public class SubcategoryPage {
     }
 
     public boolean isImageDisplayedFor(String product) {
-        WebElement priceInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/../../../div/a/img"));
+        WebElement priceInTile = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productGrid.findElement(By.xpath("//span[text()='" + product +
+                        "' and contains(@class, 'tile__detail--name')]/../../..//img[contains(@class, 'js-product__image')]")))
+        );
         return priceInTile.isDisplayed();
     }
 
@@ -473,10 +458,16 @@ public class SubcategoryPage {
     }
 
     public String getSalePriceFor(String product) {
-        WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--sale')]"));
+        String result;
+        try {
+            WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
+                    "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--sale')]"));
 
-        return wasPriceInTitle.getText();
+            result = wasPriceInTitle.getText();
+        } catch (StaleElementReferenceException sere) {
+            result = getSalePriceFor(product);
+        }
+        return result;
     }
 
     public Point getMenuPosition() {
@@ -549,7 +540,7 @@ public class SubcategoryPage {
 
     public boolean isDrawerClosedForOption(String menuOption) {
         String delimiter = getDelimiter(menuOption);
-        new WebDriverWait(driver, 10).until(
+        Util.createWebDriverWait(driver).until(
                 ExpectedConditions.invisibilityOfElementLocated(
                         By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
                                 "]/../ul[contains(@class, 'accordian__menu')]")
@@ -568,7 +559,7 @@ public class SubcategoryPage {
 
     public boolean isDrawerOpenForOption(String menuOption) {
         String delimiter = getDelimiter(menuOption);
-        new WebDriverWait(driver, 10).until(
+        Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(
                         endCapNavigationSection.findElement(
                                 By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
@@ -589,10 +580,11 @@ public class SubcategoryPage {
     }
 
     public void click_on_product(String product) {
-        WebElement productLink = new WebDriverWait(driver, 60).
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
+        WebElement productLink = Util.createWebDriverWait(driver).
                 until(ExpectedConditions.visibilityOf(productGrid.
                         findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/.."))));
+                                "' and contains(@class, 'tile__detail--name')]/.."))));
 
         productLink.click();
     }

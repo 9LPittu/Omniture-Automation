@@ -13,8 +13,6 @@ import cucumber.runtime.snippets.FunctionNameGenerator;
 import cucumber.runtime.snippets.Snippet;
 import cucumber.runtime.snippets.SnippetGenerator;
 import gherkin.formatter.model.Step;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -26,30 +24,18 @@ import java.util.regex.Pattern;
 import static cucumber.runtime.io.MultiLoader.packageName;
 
 public class JavaBackend implements Backend {
-    public static final ThreadLocal<JavaBackend> INSTANCE = new ThreadLocal<JavaBackend>();
+    public static final ThreadLocal<JavaBackend> INSTANCE = new ThreadLocal<>();
     private final SnippetGenerator snippetGenerator = new SnippetGenerator(createSnippet());
-
-    private Snippet createSnippet() {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        try {
-            classLoader.loadClass("cucumber.runtime.java8.LambdaGlueBase");
-            return new Java8Snippet();
-        } catch (ClassNotFoundException thatsOk) {
-            return new JavaSnippet();
-        }
-    }
-
     private final ObjectFactory objectFactory;
     private final ClassFinder classFinder;
-
     private final MethodScanner methodScanner;
+    private final List<Class<? extends GlueBase>> glueBaseClasses = new ArrayList<>();
     private Glue glue;
-    private List<Class<? extends GlueBase>> glueBaseClasses = new ArrayList<Class<? extends GlueBase>>();
 
     /**
      * The constructor called by reflection by default.
      *
-     * @param resourceLoader
+     * @param resourceLoader resource loader
      */
     public JavaBackend(ResourceLoader resourceLoader) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -70,6 +56,17 @@ public class JavaBackend implements Backend {
         this.objectFactory = objectFactory;
         this.classFinder = classFinder;
         methodScanner = new MethodScanner(classFinder);
+    }
+
+    private Snippet createSnippet() {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        try {
+            classLoader.loadClass("cucumber.runtime.java8.LambdaGlueBase");
+        } catch (ClassNotFoundException thatsOk) {
+            // That's OK
+        }
+
+        return new Java8Snippet();
     }
 
     @Override

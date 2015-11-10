@@ -7,7 +7,7 @@ import cucumber.api.java.en.And;
 import static org.junit.Assert.assertTrue;
 
 public class ForgotPasswordPageSteps extends DriverFactory {
-    ForgotPasswordPage forgotPasswordPage = new ForgotPasswordPage(getDriver());
+    private final ForgotPasswordPage forgotPasswordPage = new ForgotPasswordPage(getDriver());
 
     @And("^Verify user is in forgot password page$")
     public void verify_user_is_in_forgot_password_page() throws Throwable {

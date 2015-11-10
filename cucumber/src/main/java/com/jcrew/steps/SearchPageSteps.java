@@ -2,25 +2,25 @@ package com.jcrew.steps;
 
 import com.jcrew.page.HomePage;
 import com.jcrew.page.ProductDetailPage;
-import com.jcrew.page.SalePage;
 import com.jcrew.page.SearchPage;
+import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
-
+import com.jcrew.util.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-
 import org.openqa.selenium.TimeoutException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class SearchPageSteps extends DriverFactory {
 
-    private SearchPage searchPage = new SearchPage(getDriver());
-    private SalePage salePage = new SalePage(getDriver());
-    private HomePage homePage = new HomePage(getDriver());
+    private final SearchPage searchPage = new SearchPage(getDriver());
+    private final HomePage homePage = new HomePage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
 
     @Given("User is in search results page")
@@ -28,11 +28,6 @@ public class SearchPageSteps extends DriverFactory {
 
         assertTrue("User should be in search page", searchPage.isSearchPage());
 
-    }
-
-    @And("User is in sale results page")
-    public void user_is_in_sale_results_page() {
-        //assertTrue("User should be in sale result page", salePage.isSalePage());
     }
 
     @And("^Search results are displayed$")
@@ -106,7 +101,7 @@ public class SearchPageSteps extends DriverFactory {
         }
     }
 
-    @And("^([^\"]*) should be selected by default$")
+    @And("^([^\"]*) sort by option should be selected$")
     public void sort_by_option_should_be_selected(String sortByOption) throws Throwable {
         assertTrue(sortByOption + " should have been selected", searchPage.isSortByOptionSelected(sortByOption));
     }
@@ -204,96 +199,17 @@ public class SearchPageSteps extends DriverFactory {
                 searchPage.isBreadcrumbDisplayedFor(option));
     }
 
-    @And("^User selects a product with no sale price and verifies is in corresponding valid pdp$")
-    public void User_selects_a_product_with_no_sale_price_and_verifies_is_in_corresponding_valid_pdp() throws Throwable {
+    @And("^User selects a product with no sale price$")
+    public void user_selects_a_product_with_no_sale_price() throws Throwable {
         String productName = searchPage.click_on_no_sale_price_product();
-        assertEquals("PDP and clicked product do not have the same name", productName,
-                productDetailPage.getProductNameFromPDP());
+        Product product = new Product();
+        product.setProductName(productName);
+        List<Product> productList = new ArrayList<>();
+        productList.add(product);
+
+        stateHolder.put("productList", productList);
+
     }
-    
-    @And("^User selects ([^\"]*) category$")
-    public void User_selects_sale_category(String saleCategory) throws Throwable{
-    	salePage.selectSaleCategory(saleCategory);
-    }
-    
-    @Then("^verify SALE page is displayed$")
-    public void verify_sale_page_displayed(){
-    	assertTrue("Sale page should be displayed",salePage.isSalePageDisplayed());
-    }
-    
-    @And("^verify REFINE button is displayed$")
-    public void verify_refine_button_displayed(){
-    	assertTrue("Refine button should be displayed",salePage.isRefineButtonDisplayed());
-    }
-    
-    @And("^verify default filter name displayed is ([^\"]*)$")
-    public void verify_default_filter_displayed(String category){
-    	assertTrue("Selected category name should be displayed",salePage.verifySelectedCategory(category));
-    }
-    
-    @Then("^click on REFINE button$")
-    public void click_refine_button(){
-    	salePage.clickRefineButton();
-    }
-    
-    @And("^verify refinement page is displayed$")
-    public void verify_refinement_page_displayed(){
-    	salePage.verifyRefinementPageDisplayed();
-    }
-    
-    @Then("^verify NEW IN SALE checkbox is selected by default$")
-    public void verify_new_in_sale_checkbox_selected_default(){
-    	salePage.verifyNewInSaleCheckboxSelectedByDefault();
-    }
-    
-    @Then("^verify ([^\"]*) filter displayed on refinement page$")
-    public void verify_filternames_on_refinement_Page(String filterName){    	
-    	assertTrue("Filter should be displayed on the refinement page", salePage.verifyFilterNameDisplayed(filterName));
-    }
-    
-    @Then("^verify accordion drawer is displayed when ([^\"]*) filter is clicked$")
-    public void verify_accordion_drawer_displayed_when_filter_clicked(String filter){
-    	assertTrue("Accordian drawer should be displayed when clicked on filter",salePage.verifyAccordianDrawerOpenedWhenFilterClicked(filter));
-    }
-    
-    @Then("^verify ([^\"]*) accordion drawer is not displayed$")
-    public void verifyAccordianDrawerNotDisplayed(String filter){
-    	assertTrue("Accordian drawer should not displayed for the " + filter + " filter",salePage.verifyAccordianNotDisplayed(filter));
-    }
-    
-    @Then("^verify first sort option is ([^\"]*)$")
-    public void verify_first_sort_option(String firstSortOption){
-    	assertTrue("Verify Sort section first option is NEW IN SALE",salePage.verifySortSectionFirstOption(firstSortOption));
-    }
-    
-    @Then("^verify first option NEW IN SALE is selected by default$")
-    public void verify_first_sort_option_selected_by_default(){
-    	assertTrue("Verify sort section first option NEW IN SALE is selected by default", salePage.verifyNewInSaleCheckboxSelectedByDefault());
-    }
-    
-    @Then("^verify other sort by options are unchecked when ([^\"]*) is selected$")
-    public void verify_other_sort_options_unchecked(String sortByOption){
-    	assertTrue("Verify other sort options are unchecked when " + sortByOption + " is selected",salePage.verifyOtherSortOptionsUnchecked(sortByOption));
-    }
-    
-    @Then("^verify ([^\"]*) is displayed as sort option$")
-    public void verifySortOptionsDisplayed(String sortOption){
-    	assertTrue("Verify the sort option " + sortOption + " is displayed",salePage.verifySortOptionsDisplayed(sortOption));
-    }
-    
-   @Then("^select ([^\"]*) checkbox$")
-   public void select_sort_checkbox(String sortOption){
-	   salePage.selectSortOptionCheckbox(sortOption);
-   }
-   
-   @Then("^click on DONE button on Refine page$")
-   public void click_DONE_Button(){
-	   salePage.clickDoneButton();
-   }
-   
-   @Then("^verify sale prices are sorted correctly when ([^\"]*) is selected$")   
-   public void verify_Sale_Prices_Sorting(String sortOption){
-	   assertTrue("Verify sale prices are sorted correctly when " + sortOption + " is selected", salePage.verifySalePricesAreSorted(sortOption));
-   }
-   
 }
+    
+

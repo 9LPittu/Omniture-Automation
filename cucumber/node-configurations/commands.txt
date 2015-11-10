@@ -1,0 +1,23 @@
+#iphone simulator
+appium --nodeconfig /Users/qalab/nodeconfig-iphone6simulator.json --command-timeout 240
+
+#real device testing
+
+
+#iphone 6
+appium -U 34970ff754b558185a64f6671bb1c94c137f29bf --nodeconfig /Users/qalab/nodeconfig-iphone6.json --no-reset --session-override --dont-stop-app-on-reset --port 4720 -bp 4790 --command-timeout 240
+
+#samsung note 3
+appium --udid 282bb4a7 --nodeconfig /Users/qalab/nodeconfig-samsungnote3.json --no-reset --session-override --dont-stop-app-on-reset -p 4726 -bp 4786 --chromedriver-port 4796 --command-timeout 240
+
+#samsung note 4
+appium --udid 31c8c46b --nodeconfig /Users/qalab/nodeconfig-samsungnote4.json --no-reset --session-override --dont-stop-app-on-reset -p 4726 -bp 4786 --chromedriver-port 4796 --command-timeout 240
+
+#samsung galaxy s5
+appium --udid 639d9694 --nodeconfig /Users/qalab/nodeconfig-samsungs5.json --no-reset --session-override --dont-stop-app-on-reset -p 4725 -bp 4785 --chromedriver-port 4795 --command-timeout 240
+
+#firefox
+java -jar selenium-server-standalone-2.48.2.jar -port 9004 -browser browserName=firefox,maxInstances=5,platform=WINDOWS -role node -hub http://nyc-wdevtool-03:4444/grid/register
+
+#chrome
+java -jar selenium-server-standalone-2.48.2.jar -port 9005 -browser browserName=chrome,maxInstances=5,platform=WINDOWS -role node -hub http://nyc-wdevtool-03:4444/grid/register -Dwebdriver.chrome.driver=chromedriver.exe

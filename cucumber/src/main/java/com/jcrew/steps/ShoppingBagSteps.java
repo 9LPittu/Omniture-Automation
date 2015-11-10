@@ -21,7 +21,7 @@ public class ShoppingBagSteps extends DriverFactory {
 
 
     private final ShoppingBagPage shoppingBagPage = new ShoppingBagPage(getDriver());
-    private StateHolder stateHolder = StateHolder.getInstance();
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
 
     @When("^Clicks on checkout$")

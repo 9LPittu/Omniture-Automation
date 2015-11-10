@@ -1,20 +1,19 @@
 package com.jcrew.page;
 
 import com.github.javafaker.Faker;
-import org.openqa.selenium.By;
+import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ShippingAddressPage {
 
     private final WebDriver driver;
 
-    private Faker faker = new Faker();
+    private final Faker faker = new Faker();
 
     @FindBy(id = "firstNameSA")
     private WebElement firstNameSA;
@@ -37,7 +36,7 @@ public class ShippingAddressPage {
     @FindBy(id = "phoneNumSA")
     private WebElement phoneNumSA;
 
-    @FindBy(xpath = ".//*[@id='shipping-address']/div/a")
+    @FindBy(className = "button-submit")
     private WebElement continueCheckout;
 
     @FindBy(id = "dropdown-us-city-state")
@@ -68,7 +67,7 @@ public class ShippingAddressPage {
     }
 
     public String getSelectedCityAndState() {
-        WebElement cityStateElement = (new WebDriverWait(driver, 10)).
+        WebElement cityStateElement = (Util.createWebDriverWait(driver)).
                 until(ExpectedConditions.visibilityOf(dropdownUsCityState));
 
         Select cityStateSelect = new Select(cityStateElement);

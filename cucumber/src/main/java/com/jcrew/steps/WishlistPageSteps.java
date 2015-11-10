@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class WishlistPageSteps extends DriverFactory {
 
-    private WishlistPage wishlistPage = new WishlistPage(getDriver());
+    private final WishlistPage wishlistPage = new WishlistPage(getDriver());
 
 
     @And("^User should be in wishlist page$")
@@ -46,5 +46,10 @@ public class WishlistPageSteps extends DriverFactory {
     public void verify_update_message_for_button_wishlist_is_displayed() throws Throwable {
         assertEquals("Button message after updating was not present", "ADDED TO WISHLIST",
                 wishlistPage.getUpdateWishlistMessage());
+    }
+
+    @And("^Deletes all previous wishlist items from the list$")
+    public void deletes_all_previous_wishlist_items_from_the_list() throws Throwable {
+        wishlistPage.delete_current_products();
     }
 }

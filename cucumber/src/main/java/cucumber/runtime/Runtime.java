@@ -14,7 +14,6 @@ import gherkin.formatter.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 
@@ -26,17 +25,15 @@ public class Runtime implements UnreportedStepExecutor {
     private static final String[] PENDING_EXCEPTIONS = new String[]{
             "org.junit.internal.AssumptionViolatedException"
     };
+    private static final Object DUMMY_ARG = new Object();
+    private static final byte ERRORS = 0x1;
 
     static {
         Arrays.sort(PENDING_EXCEPTIONS);
     }
 
-    private static final Object DUMMY_ARG = new Object();
-    private static final byte ERRORS = 0x1;
-
+    private final UndefinedStepsTracker undefinedStepsTracker = new UndefinedStepsTracker();
     private final Stats stats;
-    final UndefinedStepsTracker undefinedStepsTracker = new UndefinedStepsTracker();
-
     private final Glue glue;
     private final RuntimeOptions runtimeOptions;
 
@@ -89,6 +86,13 @@ public class Runtime implements UnreportedStepExecutor {
         return reflections.instantiateSubclasses(Backend.class, "cucumber.runtime", new Class[]{ResourceLoader.class}, new Object[]{resourceLoader});
     }
 
+    public static boolean isPending(Throwable t) {
+        if (t == null) {
+            return false;
+        }
+        return t.getClass().isAnnotationPresent(Pending.class) || Arrays.binarySearch(PENDING_EXCEPTIONS, t.getClass().getName()) >= 0;
+    }
+
     public void addError(Throwable error) {
         errors.add(error);
     }
@@ -96,7 +100,7 @@ public class Runtime implements UnreportedStepExecutor {
     /**
      * This is the main entry point. Used from CLI, but not from JUnit.
      */
-    public void run() throws IOException {
+    public void run() {
         // Make sure all features parse before initialising any reporters/formatters
         List<CucumberFeature> features = runtimeOptions.cucumberFeatures(resourceLoader);
 
@@ -172,12 +176,13 @@ public class Runtime implements UnreportedStepExecutor {
     }
 
     private boolean hasErrors() {
+        boolean hasErrors = false;
         for (Throwable error : errors) {
             if (!isPending(error)) {
-                return true;
+                hasErrors = true;
             }
         }
-        return false;
+        return hasErrors;
     }
 
     public List<String> getSnippets() {
@@ -265,8 +270,6 @@ public class Runtime implements UnreportedStepExecutor {
     public void runStep(String featurePath, Step step, Reporter reporter, I18n i18n) {
         StepDefinitionMatch match;
 
-        logger.debug("Running Step {}", step.getName());
-
         try {
             match = glue.stepDefinitionMatch(featurePath, step, i18n);
         } catch (AmbiguousStepDefinitionsException e) {
@@ -320,13 +323,6 @@ public class Runtime implements UnreportedStepExecutor {
         runBeforeStepHooks();
         match.runStep(i18n);
         runAfterStepHooks();
-    }
-
-    public static boolean isPending(Throwable t) {
-        if (t == null) {
-            return false;
-        }
-        return t.getClass().isAnnotationPresent(Pending.class) || Arrays.binarySearch(PENDING_EXCEPTIONS, t.getClass().getName()) >= 0;
     }
 
     private void addStepToCounterAndResult(Result result) {

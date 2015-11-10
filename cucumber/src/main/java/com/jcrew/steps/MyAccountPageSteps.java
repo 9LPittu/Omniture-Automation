@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class MyAccountPageSteps extends DriverFactory {
 
-    private MyAccountPage myAccountPage = new MyAccountPage(getDriver());
+    private final MyAccountPage myAccountPage = new MyAccountPage(getDriver());
 
     private Scenario scenario;
 

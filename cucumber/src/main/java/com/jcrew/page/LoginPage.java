@@ -1,60 +1,39 @@
 package com.jcrew.page;
 
 import com.jcrew.util.PropertyReader;
-
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LoginPage {
 
+    private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
+    private final WebDriver driver;
     @FindBy(id = "sidecarUser")
     private WebElement emailInput;
-
     @FindBy(id = "sidecarPassword")
     private WebElement passwordInput;
-
-    @FindBy(className = "js-button-submit")
+    @FindBy(tagName = "button")
     private WebElement signInButton;
-
     @FindBy(className = "js-invalid-msg")
     private WebElement invalidSignInMessage;
-
     @FindBy(id = "sidecarRemember")
     private WebElement keepMeSignedInCheckBox;
-
     @FindBy(id = "c-nav__userpanel")
     private WebElement myaccountRef;
-
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement myAccountLink;
-
     @FindBy(className = "signin-form")
     private WebElement signInForm;
-
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
-    
-    @FindBy(className="button-submit")
-    private WebElement signInCheckOut;
-    
-    //Mobile page controls
-    
-    @FindBy(id="loginUser")
-    private WebElement emailAddress;
-    
-    @FindBy(id="loginPassword")
-    private WebElement passwordField;
-
-    private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
-
-    private WebDriver driver;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -70,11 +49,12 @@ public class LoginPage {
     }
 
     public void click_sign_in_button() {
-        new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(signInButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         signInButton.click();
     }
 
     public String getSignInErrorMessage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(invalidSignInMessage));
         return invalidSignInMessage.getText();
     }
 
@@ -89,7 +69,7 @@ public class LoginPage {
     }
 
     public boolean isMyAccountLinkForMobileDisplayed() {
-
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountLink));
         return myAccountLink.isDisplayed();
     }
 
@@ -100,7 +80,7 @@ public class LoginPage {
     }
 
     private WebElement getMyAccountLinkForDesktop() {
-        WebElement myAccountLinkMenu = new WebDriverWait(driver, 10).
+        WebElement myAccountLinkMenu = Util.createWebDriverWait(driver).
                 until(ExpectedConditions.elementToBeClickable(By.id("c-header__userpanelrecognized")));
         myAccountLinkMenu.click();
 
@@ -108,7 +88,9 @@ public class LoginPage {
     }
 
     public void click_my_account_link_mobile() {
-        myAccountLink.click();
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.elementToBeClickable(myaccountRef.findElement(
+                        By.xpath("//a[text()='MY ACCOUNT']")))).click();
     }
 
     public void disable_checkbox() {
@@ -116,7 +98,7 @@ public class LoginPage {
     }
 
     public void focus_password_field() {
-        passwordInput.sendKeys("");
+        passwordInput.sendKeys(" ");
     }
 
     public boolean isSignInButtonEnabled() {
@@ -134,39 +116,23 @@ public class LoginPage {
     }
 
     public void click_forgot_password_link() {
-        signInForm.findElement(By.linkText("I forgot my password!")).click();
+        WebElement forgotPasswordLink = signInForm.findElement(By.linkText("I forgot my password!"));
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.elementToBeClickable(forgotPasswordLink));
+         forgotPasswordLink.click();
     }
-    
-    public void enterMobileCredentials(){
-    	PropertyReader reader = PropertyReader.getPropertyReader();
-    	enterEmailAddress(reader.readProperty("checkout.signed.in.username"));
-    	enterPassword(reader.readProperty("checkout.signed.in.password"));
-    }
-    
-    public void enterEmailAddress(String email){
-    	emailAddress.clear();
-    	emailAddress.sendKeys(email);
-    }
-    
-    public void enterPassword(String password){
-    	passwordField.clear();
-    	passwordField.sendKeys(password);
-    }
-    
-    public void clickSignInCheckOut() throws InterruptedException{
-    	Thread.sleep(5000);
-    	signInCheckOut.click();
-    	Thread.sleep(5000);
-    	
-//    	if(itemBagLink.getText().contains("(")){    	
-//	    	if(addItemsToBagAndReviewOrder.isDisplayed()){
-//	    		addItemsToBagAndReviewOrder.click();
-//	    		
-//	    		if(checkOutNow.isDisplayed()){
-//	        		checkOutNow.click();
-//	        	}
-//	    	} 	
-//    	}
+
+    public boolean isPageLoaded() {
+        boolean result;
+        try {
+            result = Util.createWebDriverWait(driver).until(
+                    ExpectedConditions.elementToBeClickable(signInButton)).isDisplayed();
+        } catch (StaleElementReferenceException sere) {
+
+            result = isPageLoaded();
+        }
+
+        return result;
     }
 }
 

@@ -3,38 +3,25 @@ package com.jcrew.steps;
 import com.jcrew.page.HamburgerMenu;
 import com.jcrew.page.LoginPage;
 import com.jcrew.util.DriverFactory;
-import com.jcrew.util.Reporting;
-
-import cucumber.api.Scenario;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
 import static org.junit.Assert.*;
 
 public class LoginPageSteps extends DriverFactory {
 
-    private LoginPage loginPage = new LoginPage(getDriver());
-    private HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
-    private Scenario scenario;
-
-
-    
-    @Before
-    public void getScenarioObject(Scenario s){
-      this.scenario = s;
-    }
+    private final LoginPage loginPage = new LoginPage(getDriver());
+    private final HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
 
     @When("User enters ([^\"]*) as email")
     public void user_enters_input_as_email(String email) {
         loginPage.input_as_email(email);
-
     }
 
     @And("User enters ([^\"]*) as password")
     public void user_enters_input_as_password(String password) {
         loginPage.input_as_password(password);
-
     }
 
     @Then("^An error message should appear$")
@@ -46,7 +33,6 @@ public class LoginPageSteps extends DriverFactory {
     @And("^Hits sign in button$")
     public void hits_sign_in_button() throws Throwable {
         loginPage.click_sign_in_button();
-
     }
 
     @When("^User provides login information$")
@@ -62,27 +48,12 @@ public class LoginPageSteps extends DriverFactory {
 
     @And("^My Account link is present$")
     public void my_account_link_is_present() {
-        if (hamburgerMenu.isCategoryPresent("WOMEN")) {
-
-            if (loginPage.isMyAccountLinkForMobileDisplayed()) {
-                assertTrue("My Account link should be present", loginPage.isMyAccountLinkForMobileDisplayed());
-            }
-
-        } else {
-
-            hamburgerMenu.close_hamburger_menu();
-            assertTrue("My Account link should be present", loginPage.isMyAccountInDesktop());
-        }
-
+        assertTrue("My Account link should be present", loginPage.isMyAccountLinkForMobileDisplayed());
     }
 
     @When("^User clicks on My Account link$")
     public void clicks_on_my_account_link() {
-        if (loginPage.isMyAccountLinkForMobileDisplayed()) {
-            loginPage.click_my_account_link_mobile();
-        } else {
-            loginPage.click_my_account_link_desktop();
-        }
+        loginPage.click_my_account_link_mobile();
     }
 
     @And("^User disables check box$")
@@ -114,20 +85,10 @@ public class LoginPageSteps extends DriverFactory {
     public void clicks_on_forgot_password_link() throws Throwable {
         loginPage.click_forgot_password_link();
     }
-    
-    @Then("click on sign in and checkout button")
-    public void click_on_sign_in_and_checkout_button() throws InterruptedException{
-    	loginPage.clickSignInCheckOut();
-    	
 
+    @And("^Login page is loaded$")
+    public void login_page_is_loaded() throws Throwable {
+        assertTrue("Login page was not loaded properly", loginPage.isPageLoaded());
     }
-    
-    @When("User provides mobile login credentials")
-    public void user_provides_mobile_login_credentials(){
-    	loginPage.enterMobileCredentials(); 
-    	
-
-    }
-
 }
 

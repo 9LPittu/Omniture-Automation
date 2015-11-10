@@ -1,11 +1,11 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class ReviewPage {
@@ -42,7 +42,7 @@ public class ReviewPage {
 
     public void user_places_its_order() {
 
-        new WebDriverWait(driver, 10).
+        Util.createWebDriverWait(driver).
                 until(ExpectedConditions.elementToBeClickable(placeYourOrder));
 
         placeYourOrder.click();

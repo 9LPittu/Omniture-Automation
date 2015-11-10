@@ -9,8 +9,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +17,8 @@ import static org.junit.Assert.*;
 
 public class ProductDetailPageSteps extends DriverFactory {
 
-    private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
-    private Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
-    private StateHolder stateHolder = StateHolder.getInstance();
-
+    private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @Given("User is in product detail page")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
@@ -70,7 +66,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Then("^A minicart modal should appear with message '([^\"]*)'$")
     public void a_minicart_modal_should_appear_with_message(String message) throws Throwable {
-        assertEquals(message, productDetailPage.getMinicartMessage());
+        assertTrue("Modal with message should appear", productDetailPage.showsMinicartMessage(message));
     }
 
     @Given("^Bag should have item\\(s\\) added$")
@@ -107,7 +103,8 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^Verify update bag button is present$")
     public void verify_update_bag_button_is_present() throws Throwable {
-        assertEquals("UPDATE BAG", productDetailPage.getBagButtonText());
+        assertTrue("Element should have had UPDATE BAG value set",
+                productDetailPage.isBagButtonText("UPDATE BAG"));
     }
 
     @Then("^Update Bag button is pressed$")
@@ -144,7 +141,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Then("^Verify update message for wishlist is displayed and go to wishlist page$")
     public void verify_update_message_for_wishlist_is_displayed_and_go_to_wishlist_page() throws Throwable {
-        assertEquals("Expected message was not received", "ADDED TO WISHLIST", productDetailPage.getWishlistConfirmationMessage());
+        assertTrue("Expected message was not received", productDetailPage.isWishlistConfirmationMessageDisplayed());
         productDetailPage.go_to_wishlist();
     }
 
@@ -235,11 +232,9 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_product_name_is_the_one_it_was_selected() throws Throwable {
         Product product = Util.getCurrentProduct();
         String productName = product.getProductName();
-        logger.debug("Product Name: {} ", productName);
-
         String subcategory = (String) stateHolder.get("subcategory");
 
-        if (subcategory.equalsIgnoreCase("suiting")) {
+        if ("suiting".equalsIgnoreCase(subcategory)) {
             // suiting products have appended a 'the ' at the beginning, removing it for later comparison.
             productName = productName.replaceFirst("the ", "");
         }
@@ -255,7 +250,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_amount_of_colors_listed_is_correct() throws Throwable {
         Product product = Util.getCurrentProduct();
         String colorsCountString = product.getColorsCount();
-        logger.debug("Colors Count: {} ", colorsCountString);
 
         int colorsCount = 1;
         if (colorsCountString != null) {
@@ -271,7 +265,6 @@ public class ProductDetailPageSteps extends DriverFactory {
         Product product = Util.getCurrentProduct();
         String priceList = product.getPriceList();
 
-        logger.debug("Price List: {} ", priceList);
         if (priceList != null) {
             assertEquals("Price List should be the same", priceList, productDetailPage.getProductPriceList());
         }
@@ -281,8 +274,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_price_sale_is_correct() throws Throwable {
         Product product = Util.getCurrentProduct();
         String priceSale = product.getPriceSale();
-
-        logger.debug("Price Sale: {} ", priceSale);
 
         if (priceSale != null) {
             assertEquals("Price Sale should be the same", priceSale, productDetailPage.getProductPriceSale());
@@ -295,8 +286,6 @@ public class ProductDetailPageSteps extends DriverFactory {
         Product product = Util.getCurrentProduct();
         String priceWas = product.getPriceWas();
 
-        logger.debug("Price Sale: {} ", priceWas);
-
         if (priceWas != null) {
             assertEquals("Price Was should be the same", priceWas, productDetailPage.getProductPriceWas());
         }
@@ -307,8 +296,6 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_variations_listed_are_the_expected_ones() throws Throwable {
         Product product = Util.getCurrentProduct();
         String variations = product.getVariations();
-
-        logger.debug("Variations: {} ", variations);
 
         if (variations != null) {
             String[] variationsArray = variations.split(",");

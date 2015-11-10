@@ -6,9 +6,6 @@ import cucumber.api.java.en.And;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by 9hvenaga on 9/1/2015.
- */
 public class SocialResponsibilityPageSteps extends DriverFactory {
 
 

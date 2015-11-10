@@ -1,12 +1,12 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MyAccountPage {
 
@@ -15,22 +15,26 @@ public class MyAccountPage {
     @FindBy(id = "main_inside")
     private WebElement myAccountContainer;
 
+    @FindBy(id = "main_cont")
+    private WebElement myAccountContent;
+
     public MyAccountPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
     public boolean isInAccountPage() {
-        new WebDriverWait(driver, 180).until(ExpectedConditions.visibilityOf(myAccountContainer));
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         return myAccountContainer.isDisplayed();
     }
 
     public String getMyAccountHeader() {
-        return myAccountContainer.findElement(By.tagName("h2")).getText();
+        return myAccountContent.findElement(By.tagName("h2")).getText();
     }
 
     public boolean isMenuLinkPresent(String link) {
-        return getMenuLink(link).isDisplayed();
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(getMenuLink(link))).isDisplayed();
     }
 
     private WebElement getMenuLink(String link) {
@@ -42,11 +46,11 @@ public class MyAccountPage {
     }
 
     public boolean isInMenuLinkPage(String page) {
-        return new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains(page));
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
     }
 
     public void click_order_for_review() {
-        new WebDriverWait(driver, 180).until(
+        Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(myAccountContainer.findElement(By.className("orderTableData"))));
         WebElement orderTableData = myAccountContainer.findElement(By.className("orderTableData"));
         WebElement orderReviewLink = orderTableData.findElement(By.tagName("a"));
