@@ -1,4 +1,4 @@
-#@SortOptions
+@SortOptions
 Feature: Sort Options
 
   Background:

@@ -14,7 +14,7 @@ public class Reporting {
             final PropertyReader propertyReader = PropertyReader.getPropertyReader();
             WebDriver driver = new DriverFactory().getDriver();
             if ("yes".equalsIgnoreCase(propertyReader.getScreenshotForEveryStep())) {
-                byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+               byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
             }
         } catch (Exception e) {

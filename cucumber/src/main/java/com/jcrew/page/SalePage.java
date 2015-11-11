@@ -304,7 +304,7 @@ public class SalePage {
     		String salePriceVal = salePrice.get(i).getText().toLowerCase();
     		salePriceVal = salePriceVal.replaceAll("now", "");
     		salePriceVal = salePriceVal.replaceAll("select colors", "");
-    		salePriceVal = salePriceVal.replaceAll(new Util().getCurrencySymbol(), "");
+    		//salePriceVal = salePriceVal.replaceAll(new Util().getCurrencySymbol(), "");
     		arrSalePrices[i]= salePriceVal.trim();    		
     	}
     	

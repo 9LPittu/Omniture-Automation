@@ -89,4 +89,8 @@ public class PropertyReader {
     public String getProperty(String property) {
         return readProperty(property);
     }
+
+    public String getScreenshotForEveryStep() {
+        return "yes";
+    }
 }

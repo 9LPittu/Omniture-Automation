@@ -1,10 +1,10 @@
-#@SaleEnablelinks
+@SaleEnablelinks
 Feature: Sale Enable Links in Menu Nav
 
   Background:
     Given User is on homepage
     And User clicks on hamburger menu
-    And Selects SALE Category from hamburger menu
+    And Selects sale Category from hamburger menu
 
   #Scenario: New in Sale link functional validation
     #And User clicks on NEW IN SALE subcategory from sale Category
@@ -33,6 +33,6 @@ Feature: Sale Enable Links in Menu Nav
   Examples:
   |SaleCategory|
   |Women|
-  |Men|
-  |Boys|
-  |Girls|
+ # |Men|
+ # |Boys|
+  #|Girls|
