@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class DriverFactory {
 
-    public static final String[] PHANTOM_JS_ARGS = new String[]{"--web-security=false",
+    private static final String[] PHANTOM_JS_ARGS = new String[]{"--web-security=false",
             "--ssl-protocol=any",
             "--local-to-remote-url-access=true",
             "--disk-cache=true",

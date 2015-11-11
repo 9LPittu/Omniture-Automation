@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class PropertyReader {
 
-    public static final int DESKTOP_DEFAULT_WIDTH = 1200;
+    private static final int DESKTOP_DEFAULT_WIDTH = 1200;
     private static final int DESKTOP_DEFAULT_HEIGHT = 800;
     private static final PropertyReader propertyReader = new PropertyReader();
     private final Properties properties = new Properties();
