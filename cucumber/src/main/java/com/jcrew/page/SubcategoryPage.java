@@ -181,7 +181,11 @@ public class SubcategoryPage {
 
     private boolean areProductColorVariationsValid(WebElement firstProductFromGrid) {
         boolean result = false;
-        try {
+        if(firstProductFromGrid.findElements(By.className("colors-list__item")).isEmpty()) {
+            logger.debug("Color count not found for product with name {}, there should not be variations",
+                    firstProductFromGrid.findElement(By.className("tile__detail--name")).getText());
+            result = true;
+        } else {
             String productCount = firstProductFromGrid.findElement(By.className("tile__detail--colors-count")).getText();
             Pattern p = Pattern.compile("available in (\\d)+ colors");
             Matcher matcher = p.matcher(productCount);
@@ -200,16 +204,7 @@ public class SubcategoryPage {
                         getAttribute("data-colors-count"));
 
                 result = numberOfVariationsInText == numberOfVariationsDisplayed;
-
             }
-
-
-        } catch (NoSuchElementException nsee) {
-
-            logger.debug("Color count not found for product with name {}, there should not be variations",
-                    firstProductFromGrid.findElement(By.className("tile__detail--name")).getText());
-
-            result = firstProductFromGrid.findElements(By.className("colors-list__item")).isEmpty();
         }
 
         return result;
