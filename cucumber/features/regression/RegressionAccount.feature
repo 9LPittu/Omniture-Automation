@@ -19,7 +19,7 @@ Feature: Account Feature
     And Validates link GIFT CARD BALANCE is displayed in My Account Page
     And Validates link ADDRESS BOOK is displayed in My Account Page
     And Validates link ORDER HISTORY is displayed in My Account Page
-    And Clicks on J.Crew Breadcrumb
+    And Clicks on JCrew Logo
     Then Verify user is in homepage
     Then User clicks on hamburger menu
     And My Account link is present
