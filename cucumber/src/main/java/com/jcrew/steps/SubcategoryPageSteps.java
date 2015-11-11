@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.Header;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -22,6 +23,7 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     private final SubcategoryPage subcategoryPage = new SubcategoryPage(getDriver());
     private final Header header = new Header(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @When("^Adds a product to shopping bag$")
     public void adds_a_product_to_shopping_bag() {
@@ -79,6 +81,18 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     }
 
+    @Then("^User should be in subcategory page$")
+    public void user_should_be_in_subcategory_page_for_women() {
+        String subcategory = stateHolder.get("subcategory").toString();
+        String expectedSubcategory = subcategoryPage.getCategoryTitleBelowGlobalPromo();
+
+        assertTrue("A Subcategory page should have a product grid",
+                subcategoryPage.isProductGridPresent());
+
+        assertTrue("Page title should be: " + subcategory + " and was: " + expectedSubcategory,
+                subcategory.equalsIgnoreCase(expectedSubcategory));
+    }
+
     @And("^Category title for ([^\"]*) should match below global promo$")
     public void category_title_for_subcategory_should_match_below_global_promo(String subcategory) {
         assertEquals(subcategory + " should have been displayed blow global promo",
@@ -106,6 +120,10 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertTrue("See less icon should be displayed", subcategoryPage.isLessIconDisplayed());
     }
 
+    @Given("^Chooses a random filter$")
+    public void selects_subcategory() {
+        subcategoryPage.click_random_filter();
+    }
 
     @Given("^Selects ([^\"]*) subcategory$")
     public void selects_subcategory(String subcategory) {
@@ -114,6 +132,12 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @Then("^([^\"]*) option becomes selected$")
     public void subcategory_option_becomes_bold(String option) {
+        assertEquals(option + " should be bold", option, subcategoryPage.getAccordianHeaderLabelText());
+    }
+
+    @Then("filter becomes selected$")
+    public void filter_option_becomes_bold() {
+        String option = stateHolder.get("filter").toString();
         assertEquals(option + " should be bold", option, subcategoryPage.getAccordianHeaderLabelText());
     }
 
@@ -135,6 +159,13 @@ public class SubcategoryPageSteps extends DriverFactory {
             assertTrue("product is not from " + subcategory + " href value is " + product,
                     product.contains("/p/womens_category/" + category + "/" + subcategory));
         }
+    }
+
+    @Then("^Products displayed match subcategory$")
+    public void products_displayed_are_from_subcategory() {
+        final String filter = stateHolder.get("filter").toString();
+
+        assertEquals("Selected filter is correct", filter, subcategoryPage.getAccordianHeaderLabelText());
     }
 
     @Then("^Category header should not be present$")
@@ -307,34 +338,4 @@ public class SubcategoryPageSteps extends DriverFactory {
         subcategoryPage.click_on_product(product);
     }
 
-//    @Then("^([^\"]*) subcategory page is displayed properly")
-//    public void is_category_displayed_properly(String subcategory) {
-//        assertTrue("A Subcategory page should have a product grid", subcategoryPage.isProductGridPresent());
-//        assertTrue("User should be in " + subcategoryPage + " page for women",
-//                getDriver().getCurrentUrl().endsWith("/c/womens_category/" + subcategory.toLowerCase()));
-//        assertEquals(subcategory + " should have been displayed blow global promo",
-//                subcategory, subcategoryPage.getCategoryTitleBelowGlobalPromo());
-//        assertEquals("View All should be displayed", "VIEW ALL", subcategoryPage.getAccordianHeaderLabelText());
-//        assertTrue("See more icon should be displayed", subcategoryPage.isMoreIconDisplayed());
-//    }
-
-//    @When("^User refines by ([^\"]*)$")
-//    public void user_selects_subcategory(String subcategory) {
-//        subcategoryPage.click_expand_accordion_icon();
-//        assertTrue("Accordion menu should be expanded", subcategoryPage.isAccordionMenuVisible());
-//        assertTrue("See less icon should be displayed", subcategoryPage.isLessIconDisplayed());
-//        subcategoryPage.click_subcategory(subcategory);
-//        assertEquals(subcategory + " should be bold", subcategory.toUpperCase(), subcategoryPage.getAccordianHeaderLabelText());
-//        assertTrue("Accordion menu should not be expanded", subcategoryPage.isAccordionMenuInvisible());
-//    }
-
-//    @Then("^([^\"]*) products are displayed")
-//    public void filter_products_are_displayed(String filter) {
-//        final List<String> productsDisplayedHrefs = subcategoryPage.getProductsDisplayedHrefs();
-//
-//        for (String product : productsDisplayedHrefs) {
-//            assertTrue("product is not from " + filter + " href value is " + product,
-//                    product.contains(filter));
-//        }
-//    }
 }

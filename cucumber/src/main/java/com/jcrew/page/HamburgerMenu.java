@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HamburgerMenu {
@@ -141,16 +140,9 @@ public class HamburgerMenu {
         String categorySelected = (String) stateHolder.get("category");
         WebElement menuItemElement = getMenuItemElementForCategory(categorySelected);
         List<WebElement> menuItemLinks = menuItemElement.findElements(By.className("menu__link--has-href"));
-        List<WebElement> selectableItems = new ArrayList<>();
-        for (WebElement menuItemLink : menuItemLinks) {
-            // currently subcategories containing feature are not working, skipping them for now.
-            if (!menuItemLink.getAttribute("href").contains("feature")) {
-                selectableItems.add(menuItemLink);
-            }
-        }
-        int index = Util.randomIndex(selectableItems.size());
-        WebElement subcategory = selectableItems.get(index);
-        String subcategoryText = subcategory.getAttribute("innerHTML");
+        WebElement subcategory = menuItemLinks.get(Util.randomIndex(menuItemLinks.size()));
+        String subcategoryText = subcategory.getText();
+
         stateHolder.put("subcategory", subcategoryText);
         logger.debug("Selected subcategory is {} from {} category", subcategoryText, categorySelected);
         subcategory.click();

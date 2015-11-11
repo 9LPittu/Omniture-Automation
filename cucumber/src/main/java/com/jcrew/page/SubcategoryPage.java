@@ -372,6 +372,15 @@ public class SubcategoryPage {
         subcategoryElement.click();
     }
 
+    public void click_random_filter() {
+        final List<WebElement> filters = accordionWrap.findElements(By.className("accordian__menu__link"));
+        final WebElement filter = filters.get(Util.randomIndex(filters.size() - 1) + 1);
+
+        stateHolder.put("filter", filter.getText());
+        filter.click();
+    }
+
+
     public boolean isAccordionMenuInvisible() {
         final WebElement accordionWrap = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(this.accordionWrap));
