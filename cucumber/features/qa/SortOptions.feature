@@ -1,4 +1,4 @@
-#@SortOptions
+@SortOptions
 Feature: Sort Options
 
   Background:
@@ -42,9 +42,21 @@ Feature: Sort Options
   	Then verify SALE page is displayed
   	Then click on REFINE button
   	And verify refinement page is displayed
-  	Then select PRICE: LOW to HIGH checkbox
+  	Then select PRICE: LOW TO HIGH checkbox
   	Then click on DONE button on Refine page
-  	Then verify sale prices are sorted correctly when PRICE: LOW to HIGH is selected
+  	Then verify sale prices are sorted correctly when PRICE: LOW TO HIGH is selected
   Examples:
   |SaleCategory|
   |Women|	
+  
+  Scenario Outline: Price: High to Low in sort by options is functional
+  	And User selects <SaleCategory> category
+  	Then verify SALE page is displayed
+  	Then click on REFINE button
+  	And verify refinement page is displayed
+  	Then select PRICE: HIGH TO LOW checkbox
+  	Then click on DONE button on Refine page
+  	Then verify sale prices are sorted correctly when PRICE: HIGH TO LOW is selected
+  Examples:
+  |SaleCategory|
+  |Women|
