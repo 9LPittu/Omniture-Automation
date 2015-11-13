@@ -91,7 +91,7 @@ public class HamburgerMenu {
     }
 
     private WebElement getCategory(String category) {
-        WebElement element = categoryMenu.findElement(By.xpath(".//a[text()='" + category + "']"));
+        WebElement element = categoryMenu.findElement(By.xpath(".//a[text()='" + category.toLowerCase() + "']"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
         return element;
     }

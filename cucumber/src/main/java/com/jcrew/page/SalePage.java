@@ -294,7 +294,7 @@ public class SalePage {
     
     public void clickDoneButton() throws InterruptedException{
     	
-    	Thread.sleep(1000);
+    	Thread.sleep(2000);
     	driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
     	 	
     	int intCounter = 0;
@@ -311,9 +311,7 @@ public class SalePage {
     				break;
     			}    			
     		}
-    	}
-    	
-    	
+    	}	
     }
     
     public boolean verifySalePricesAreSorted(String sortOrder){
@@ -347,6 +345,7 @@ public class SalePage {
 			
 			System.out.println("Current Sale Price:" + currentSalePriceVal);
 			System.out.println("Next Sale Price:" + nextSalePriceVal);
+			System.out.println("");
 			
 			if(sortOrder.toLowerCase().contains("low to high")){
 				if(currentSalePriceVal <= nextSalePriceVal){
