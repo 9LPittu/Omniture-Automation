@@ -4,7 +4,7 @@ Feature: Checkout Process
   Background:
     Given User is on homepage
     And User clicks on hamburger menu
-    And Chooses a random category
+    And Selects Men Category from hamburger menu
     And Chooses a random subcategory
     And Selects any product from product grid list
     And User is in product detail page

@@ -4,7 +4,7 @@ Feature: Subcategory Page
   Scenario: Subcategory Page functionality
     Given User is on homepage
     And User clicks on hamburger menu
-    And Chooses a random category
+    And Selects Women Category from hamburger menu
     And Chooses a random subcategory
     And User should be in subcategory page
     When User hovers a product

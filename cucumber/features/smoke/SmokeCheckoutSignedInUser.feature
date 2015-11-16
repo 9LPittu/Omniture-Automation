@@ -10,7 +10,7 @@ Feature: Checkout Process Signed in User
     And User bag is cleared
     And User goes to homepage
     And User clicks on hamburger menu
-    And Chooses a random category
+    And Selects Men Category from hamburger menu
     And Chooses a random subcategory
     And Selects any product from product grid list
     And User is in product detail page
