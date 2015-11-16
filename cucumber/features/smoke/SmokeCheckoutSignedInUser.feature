@@ -8,7 +8,7 @@ Feature: Checkout Process Signed in User
     And Hits sign in button
     And User is on homepage
     And User bag is cleared
-    And User goes to homepage
+    And User is on homepage
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     And Chooses a random subcategory
