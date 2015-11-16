@@ -62,9 +62,8 @@ public class ShoppingBagSteps extends DriverFactory {
         Matcher totalAmountMatch = totalAmountPattern.matcher(totalAmount);
         Matcher subtotalAmountMatch = subtotalAmountPattern.matcher(subtotalValue);
 
-        assertTrue("Total amount should be a price value", totalAmountMatch.matches());
-        assertTrue("Subtotal amount should be a price value", subtotalAmountMatch.matches());
-
+        assertTrue("Total amount should be a price value: " + totalAmount, totalAmountMatch.matches());
+        assertTrue("Subtotal amount should be a price value: " + subtotalValue, subtotalAmountMatch.matches());
     }
 
     @And("^Clicks edit button on item bag page$")
