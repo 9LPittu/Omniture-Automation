@@ -66,9 +66,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
     @And("^Selects any product from product grid list$")
     public void Selects_any_product_from_product_grid_list() {
-
         subcategoryPage.click_any_product_in_grid();
-
     }
 
     @Then("^User should be in ([^\"]*) page for women$")
@@ -82,7 +80,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @Then("^User should be in subcategory page$")
-    public void user_should_be_in_subcategory_page_for_women() {
+    public void user_should_be_in_subcategory_page() {
         String subcategory = stateHolder.get("subcategory").toString();
         String expectedSubcategory = subcategoryPage.getCategoryTitleBelowGlobalPromo();
 
@@ -182,6 +180,12 @@ public class SubcategoryPageSteps extends DriverFactory {
     @And("^An image should be displayed for ([^\"]*)$")
     public void an_image_should_be_displayed_for_category(String category) {
         assertEquals("Image for category should have been displayed ", category,
+                subcategoryPage.getCategoryImageHeaderAlt());
+    }
+
+    @And("^An image for subcategory should be displayed$")
+    public void an_image_should_be_displayed_for_subcategory() {
+        assertEquals("Image for category should have been displayed ", stateHolder.get("subcategory").toString(),
                 subcategoryPage.getCategoryImageHeaderAlt());
     }
 
