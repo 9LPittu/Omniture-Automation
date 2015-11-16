@@ -4,9 +4,9 @@ Feature: Checkout Process
   Background:
     Given User is on homepage
     And User clicks on hamburger menu
-    And Chooses a random category
-    And Chooses a random subcategory
-    And Selects any product from product grid list
+    And Selects Men Category from hamburger menu
+    And User clicks on SWEATERS subcategory from Men Category
+    And Click on product Marled lambswool sweater to display PDP
     And User is in product detail page
     And A variation is selected
     And A color is selected

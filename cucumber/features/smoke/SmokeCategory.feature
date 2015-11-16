@@ -4,7 +4,7 @@ Feature: Category Page
   Scenario: Category page is functional
     Given User is on homepage
     And User clicks on hamburger menu
-    And Chooses a random category
+    And Selects Women Category from hamburger menu
     When Chooses a random subcategory
     Then User should be in subcategory page
     And View All Section is present and collapsed

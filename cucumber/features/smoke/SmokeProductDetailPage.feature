@@ -4,9 +4,9 @@ Feature: Product Detail Page
   Scenario: Product Detail Page Validation
     Given User is on homepage
     And User clicks on hamburger menu
-    And Chooses a random category
-    And Chooses a random subcategory
-    And Selects any product from product grid list
+    And Selects Men Category from hamburger menu
+    And User clicks on SWEATERS subcategory from Men Category
+    When Click on product Marled lambswool sweater to display PDP
     Then User is in product detail page
     And A variation is selected
     And A color is selected
