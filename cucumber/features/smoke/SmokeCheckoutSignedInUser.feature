@@ -11,7 +11,7 @@ Feature: Checkout Process Signed in User
     And User is on homepage
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
-    And Chooses a random subcategory
+    When User clicks on SWEATERS subcategory from Men Category
     And Selects any product from product grid list
     And User is in product detail page
     And A variation is selected
