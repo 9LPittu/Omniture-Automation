@@ -6,7 +6,6 @@ Feature: Subcategory Page
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on SWEATERS subcategory from Women Category
-    And Chooses a random subcategory
     And User should be in subcategory page
     When User hovers a product
     Then Proper details are shown for the hovered product
