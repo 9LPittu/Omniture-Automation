@@ -56,11 +56,10 @@ public class ShoppingBagSteps extends DriverFactory {
     public void Verifies_that_total_amount_and_subtotal_values_are_numbers() throws Throwable {
         String totalAmount = shoppingBagPage.getTotalAmountPage();
         String subtotalValue = shoppingBagPage.getSubtotalValue();
-        Pattern totalAmountPattern = Pattern.compile("^\\$\\d(\\d)?\\.\\d\\d$");
-        Pattern subtotalAmountPattern = Pattern.compile("^\\$\\d{1,3}(,\\d{3}|\\d)?\\.\\d\\d$");
+        Pattern pricePattern = Pattern.compile("^\\$\\d{1,3}(,\\d{3}|\\d)?\\.\\d\\d$");
 
-        Matcher totalAmountMatch = totalAmountPattern.matcher(totalAmount);
-        Matcher subtotalAmountMatch = subtotalAmountPattern.matcher(subtotalValue);
+        Matcher totalAmountMatch = pricePattern.matcher(totalAmount);
+        Matcher subtotalAmountMatch = pricePattern.matcher(subtotalValue);
 
         assertTrue("Total amount should be a price value: " + totalAmount, totalAmountMatch.matches());
         assertTrue("Subtotal amount should be a price value: " + subtotalValue, subtotalAmountMatch.matches());
