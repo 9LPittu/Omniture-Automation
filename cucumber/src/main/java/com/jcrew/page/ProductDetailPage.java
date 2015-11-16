@@ -83,6 +83,7 @@ public class ProductDetailPage {
             if (variation.isSelected()) {
                 logger.debug("Variation is already selected");
             } else {
+                Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(variation));
                 variation.click();
             }
         }
