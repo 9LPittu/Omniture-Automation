@@ -232,16 +232,13 @@ public class SubcategoryPage {
     }
 
     public void click_any_product_in_grid() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
-        int index = Util.randomIndex(getProductTileElements().size());
-        WebElement randomProductSelected = getProductTileElements().get(index);
+        List<WebElement> products = getProductTileElements();
+        int index = Util.randomIndex(products.size());
+        WebElement randomProductSelected = products.get(index);
         Product product = new Product();
         product.setProductName(getProductName(randomProductSelected));
-        product.setPriceList(getPriceList(randomProductSelected));
-        product.setVariations(getVariations(randomProductSelected));
-        product.setColorsCount(getColorsCount(randomProductSelected));
-        product.setPriceWas(getPriceWas(randomProductSelected));
-        product.setPriceSale(getPriceSale(randomProductSelected));
+
+        logger.debug("Selected product is {}", product.getProductName());
 
         List<Product> productList = (List<Product>) stateHolder.get("productList");
 
@@ -250,15 +247,11 @@ public class SubcategoryPage {
         }
 
         productList.add(product);
-
         stateHolder.put("productList", productList);
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
-
         WebElement productLink = randomProductSelected.findElement(By.className("product-tile__link"));
-
         productLink.click();
-
     }
 
     private String getPriceSale(WebElement randomProductSelected) {
