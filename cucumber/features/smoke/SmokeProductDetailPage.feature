@@ -3,6 +3,8 @@ Feature: Product Detail Page
 
   Scenario: Product Detail Page Validation
     Given User is on homepage
+    And User bag is cleared
+    And User is on homepage
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     When User clicks on SWEATERS subcategory from Men Category
