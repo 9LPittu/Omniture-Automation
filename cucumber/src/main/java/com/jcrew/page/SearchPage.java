@@ -39,6 +39,9 @@ public class SearchPage {
     @FindBy(id = "c-search__results")
     private WebElement searchResult;
 
+    @FindBy(className = "search__filter--gender")
+    private WebElement genderTag;
+
     @FindBy(className = "c-search__filter--refinement")
     private WebElement searchFilterRefinementSection;
 
@@ -89,8 +92,7 @@ public class SearchPage {
     }
 
     public boolean isRefinePage() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchResult));
-        return searchResult.isDisplayed();
+        return genderTag.isDisplayed();
     }
 
     public boolean isRefineButtonDisplayed() {

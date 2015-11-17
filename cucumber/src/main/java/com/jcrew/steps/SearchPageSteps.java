@@ -62,7 +62,6 @@ public class SearchPageSteps extends DriverFactory {
     @And("^User clicks on ([^\"]*) selector$")
     public void user_clicks_on_gender_selector(String gender) {
         searchPage.click_on_gender_selector(gender);
-
     }
 
 
