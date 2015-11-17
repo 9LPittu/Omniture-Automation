@@ -89,7 +89,6 @@ public class SearchPage {
     }
 
     public boolean isRefinePage() {
-
         return searchResult.isDisplayed();
     }
 

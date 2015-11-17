@@ -105,7 +105,7 @@ public class HamburgerMenu {
         WebElement categories = getMenuItemElementForCategory(category);
         WebElement categoryLink = categories.findElement(By.linkText(subcategory));
 
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(categoryLink));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryLink));
         return categoryLink;
     }
 
