@@ -89,6 +89,7 @@ public class SearchPage {
     }
 
     public boolean isRefinePage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchResult));
         return searchResult.isDisplayed();
     }
 
