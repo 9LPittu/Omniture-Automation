@@ -86,6 +86,63 @@ public class InventoryDAO {
         closeConnection(conn);
     }
 
+    public void addInventory(String[] testdata) throws SQLException, ClassNotFoundException, IOException {
+        String strBackOrderQuery = updateBackOrderItem(testdata[0]);
+        String strparticularSoldOutQuery = updateParticularColorSizeSoldOutItem(testdata[1]);
+        String strSoldOutQuery = updateSoldOutItem(testdata[2]);
+        String strShipWarningMessageQuery = updateNotAvailableToShip(testdata[3]);
+        String strPreOrderQuery = UPDATE_PRE_ORDER_ITEM;
+        String strVPSOutOfStockQuery = UPDATE_OUT_OF_STOCK_VPS_ITEM;
+        String strFinalSaleQuery = UPDATE_FINAL_SALE_ITEM;
+        String strItemWithOnlyOneVariationQuery = UPDATE_ITEM_WITH_ONLY_ONE_VARIATION;
+        String strItemWithOnlyOneSaleSkuQuery = UPDATE_ITEM_WITH_ONLY_ONE_SALE_SKU;
+        String strTestDataQuery = UPDATE_ITEM_TEST_DATA;
+        String strItemWithMoreThanOneSku = UPDATE_ITEM_WITH_MORE_THAN_ONE_SKU;
+        String strItemWithMultipleColorsFullSku = UPDATE_ITEM_WITH_MULTIPLE_COLORS_FULL_SKU;
+        String strItemWithMultipleColorsSaleSku = UPDATE_ITEM_WITH_MULTIPLE_COLORS_SALE_SKU;
+        Connection conn = getConnectionToDatabase();
+        Statement statement = createTheStatement(conn);
+
+        System.out.println("back order item: "+executeQueryToAddInventory(statement, strBackOrderQuery));
+        System.out.println("particular Sold out item: "+executeQueryToAddInventory(statement, strparticularSoldOutQuery));
+        System.out.println("Sold out : "+executeQueryToAddInventory(statement, strSoldOutQuery));
+        System.out.println("Ship warning: "+executeQueryToAddInventory(statement, strShipWarningMessageQuery));
+        System.out.println("Pre order: "+executeQueryToAddInventory(statement, strPreOrderQuery));
+        System.out.println("VPS Out of Stock: "+executeQueryToAddInventory(statement, strVPSOutOfStockQuery));
+        System.out.println("Final Sale : "+executeQueryToAddInventory(statement, strFinalSaleQuery));
+        System.out.println("Item with only one variation: "+executeQueryToAddInventory(statement,strItemWithOnlyOneVariationQuery));
+        System.out.println("One sale sku: "+executeQueryToAddInventory(statement,strItemWithOnlyOneSaleSkuQuery));
+        System.out.println("Test Data : "+executeQueryToAddInventory(statement,strTestDataQuery));
+        System.out.println("Item with more than one sku: "+executeQueryToAddInventory(statement,strItemWithMoreThanOneSku));
+        System.out.println("Item with multiple colors full sku: "+executeQueryToAddInventory(statement,strItemWithMultipleColorsFullSku));
+        System.out.println("Item with multiple colors Sale sku: "+executeQueryToAddInventory(statement,strItemWithMultipleColorsSaleSku));
+
+        closeConnection(conn);
+    }
+
+    public String updateBackOrderItem(String backOrderItem) {
+         String strBackOrderQuery = "Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 50, sellable_oo_qty = 10 , BR_FLAG = 'Y' where variant = '"+backOrderItem+"'";
+         return strBackOrderQuery;
+    }
+
+    public String  updateParticularColorSizeSoldOutItem(String particularSoldOutItem) {
+        String strParticularSoldOutItemQuery = "Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 1, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant = '"+particularSoldOutItem+"'";
+        return strParticularSoldOutItemQuery;
+    }
+
+    public String updateSoldOutItem(String soldOutItem) {
+        String strSoldOutItemQuery ="Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where product ='"+soldOutItem+"'";
+        return strSoldOutItemQuery;
+    }
+
+    public String updateNotAvailableToShip(String notAvailableToShipItem) {
+        String strNotAvailableToShipQuery = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0 , sellable_br_qty = 0, sellable_oo_qty = 20, br_flag = 'Y', po_number = '123456', po_date = '15-Dec-15' where variant = '"+notAvailableToShipItem+"'";
+        return strNotAvailableToShipQuery;
+    }
+
+
+
+
     public Connection getConnectionToDatabase() throws ClassNotFoundException, SQLException, IOException {
             Class.forName("oracle.jdbc.driver.OracleDriver");
 
