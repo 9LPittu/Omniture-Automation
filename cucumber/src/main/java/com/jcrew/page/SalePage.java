@@ -1,7 +1,12 @@
 package com.jcrew.page;
 
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.*;
@@ -267,24 +272,46 @@ public class SalePage {
     	return blnFlag;
     }
     
-    public void selectSortOptionCheckbox(String sortOption){
+    public void selectSortOptionCheckbox(String sortOption){   	
+    	
     	
     	//select the sort option
     	switch(sortOption.toLowerCase()){
     		case "new in sale":
     			newInSaleCheckBox.click();
+    			new WebDriverWait(driver,60).until(ExpectedConditions.elementSelectionStateToBe(newInSaleCheckBox, true));
     			break;
     		case "price: low to high":
     			priceLowToHighCheckBox.click();
+    			new WebDriverWait(driver,60).until(ExpectedConditions.elementSelectionStateToBe(priceLowToHighCheckBox, true));
     			break;
     		case "price: high to low":
     			priceHighToLowCheckBox.click();
+    			new WebDriverWait(driver,60).until(ExpectedConditions.elementSelectionStateToBe(priceHighToLowCheckBox, true));    			
     			break;
     	}
     }
     
-    public void clickDoneButton(){
-    	refinePageDoneButton.click();
+    public void clickDoneButton() throws InterruptedException{
+    	
+    	Thread.sleep(2000);
+    	driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
+    	 	
+    	int intCounter = 0;
+    	while(true){
+    		if(((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete")){
+    			refinePageDoneButton.click();
+    			break;
+    		}
+    		else{
+    			Thread.sleep(1000);
+    			intCounter++;
+    			if(intCounter>=60){
+    				System.out.println("Time out Reached");
+    				break;
+    			}    			
+    		}
+    	}	
     }
     
     public boolean verifySalePricesAreSorted(String sortOrder){
@@ -297,33 +324,59 @@ public class SalePage {
     	}
     	
     	//Initialize the String array 
-    	String[] arrSalePrices = new String[salePrice.size()];    	
-    	
-    	//Capture all the prices into String array
+    	String[] arrSalePrices = new String[salePrice.size()];    	   	
+    			
+    	//Capture all the prices into string array
     	for(int i=0;i<salePrice.size();i++){
+<<<<<<< HEAD
     		String salePriceVal = salePrice.get(i).getText().toLowerCase();
     		salePriceVal = salePriceVal.replaceAll("now", "");
     		salePriceVal = salePriceVal.replaceAll("select colors", "");
     		//salePriceVal = salePriceVal.replaceAll(new Util().getCurrencySymbol(), "");
     		arrSalePrices[i]= salePriceVal.trim();    		
+=======
+    		String salePriceVal = salePrice.get(i).getText().toLowerCase();    		    		    		
+    		salePriceVal = salePriceVal.replaceAll("[^0-9\\.]", "");    		
+    		arrSalePrices[i]= salePriceVal.trim();
+>>>>>>> d9180584514138d143933edf756dc71ec54b56fb
     	}
     	
-    	//Verify the prices are sorted correctly
-    	if(sortOrder.toLowerCase().contains("low to high")){
-    		for(int i=0;i<arrSalePrices.length;i++){
-    			double currentSalePriceVal = Double.parseDouble(arrSalePrices[i]);
-    			double nextSalePriceVal = Double.parseDouble(arrSalePrices[i+1]);
-    			
-    			if(currentSalePriceVal <=nextSalePriceVal){
-    				blnFlag = true;
-    			}
-    			else{
-    				blnFlag = false;
-    				break;
-    			}
-    			
-    		}
-    	}
+    	//Verify the prices are sorted correctly    	
+		for(int i=0;i<arrSalePrices.length;i++){
+			
+			if(i+1 == arrSalePrices.length){
+				break;
+			}
+			
+			double currentSalePriceVal = Double.parseDouble(arrSalePrices[i]);    			
+			double nextSalePriceVal = Double.parseDouble(arrSalePrices[i+1]);
+			
+			System.out.println("Current Sale Price:" + currentSalePriceVal);
+			System.out.println("Next Sale Price:" + nextSalePriceVal);
+			System.out.println("");
+			
+			if(sortOrder.toLowerCase().contains("low to high")){
+				if(currentSalePriceVal <= nextSalePriceVal){
+					blnFlag = true;
+				}
+				else{
+					blnFlag = false;
+					break;				
+				}	
+			}
+			else{
+				if(sortOrder.toLowerCase().contains("high to low")){
+					if(currentSalePriceVal >= nextSalePriceVal){
+						blnFlag = true;
+					}
+					else{
+						blnFlag = false;
+						break;
+					}
+				}
+			}	
+			
+		}		
     	
     	return blnFlag;
     }
