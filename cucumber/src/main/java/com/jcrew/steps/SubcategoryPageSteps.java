@@ -60,10 +60,9 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @And("^Selects the first product from product grid list$")
     public void Selects_the_first_product_from_product_grid_list() {
-
         subcategoryPage.click_first_product_in_grid();
-
     }
+
     @And("^Selects any product from product grid list$")
     public void Selects_any_product_from_product_grid_list() {
         subcategoryPage.click_any_product_in_grid();

@@ -6,7 +6,7 @@ Feature: Checkout Process
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     When User clicks on SWEATERS subcategory from Men Category
-    And Selects any product from product grid list
+    And Selects the first product from product grid list
     And User is in product detail page
     And A variation is selected
     And A color is selected
