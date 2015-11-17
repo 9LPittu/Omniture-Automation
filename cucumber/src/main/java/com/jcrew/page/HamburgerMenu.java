@@ -91,7 +91,7 @@ public class HamburgerMenu {
 
     private WebElement getCategory(String category) {
         WebElement element = categoryMenu.findElement(By.xpath(".//a[text()='" + category + "']"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
         return element;
     }
 
