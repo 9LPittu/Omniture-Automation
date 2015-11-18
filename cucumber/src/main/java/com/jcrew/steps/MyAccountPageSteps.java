@@ -2,9 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.MyAccountPage;
 import com.jcrew.util.DriverFactory;
-import com.jcrew.util.Reporting;
-import cucumber.api.Scenario;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
