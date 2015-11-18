@@ -57,7 +57,6 @@ Feature: Multiple Items Random
     Then User goes to homepage
     And User presses search button
     And Enters sweaters to the search field
-    #and enters random search term to the search field
     And Clicks on search button for input field
     Then Search results are displayed
     And Selects any product from product grid list
