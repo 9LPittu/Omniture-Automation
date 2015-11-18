@@ -7,8 +7,8 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
 public class OrderConfirmationPageSteps extends DriverFactory {
-	
-	private final OrderConfirmationPage orderConfirmation = new OrderConfirmationPage(getDriver());
+
+    private final OrderConfirmationPage orderConfirmation = new OrderConfirmationPage(getDriver());
 
     @Then("User should be in order confirmation page")
     public void user_should_be_in_order_confirmation_page() {

@@ -30,7 +30,6 @@ public class MyAccountPageSteps extends DriverFactory {
     @Then("^User clicks on ([^\"]*) link in My Account Page$")
     public void user_clicks_on_link_in_my_account_page(String link) throws Throwable {
         myAccountPage.click_menu_link(link);
-
     }
 
     @And("^User should be in ([^\"]*) menu link page$")
