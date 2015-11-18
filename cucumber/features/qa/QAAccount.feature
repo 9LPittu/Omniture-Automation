@@ -46,4 +46,4 @@ Feature: Account Feature QA Suite
     Examples:
       | Username          | Password |
       | test@example.org  | test1234 |
-      #| test2@example.org | test1234 |
+      | test2@example.org | test1234 |
