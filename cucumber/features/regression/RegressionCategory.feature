@@ -22,18 +22,21 @@ Feature: Regression Tests Category Feature
     Then User should be in sweaters page for women
     And An image should be displayed for SWEATERS
 
-  #Scenario: Check Product Tiles
-    #Given User clicks on SHIRTS & TOPS subcategory from Women Category
-    #And User should be in shirtsandtops page for women
-    #Then Verifies product information is displayed
-    #Then Verifies product image is displayed
+  Scenario: Check Product Information
+    Given User clicks on SHIRTS & TOPS subcategory from Women Category
+    And User should be in shirtsandtops page for women
+    Then Verifies product information is displayed
+    Then Verifies product image is displayed
 
-  #Scenario: Check Product Tiles for Sale Variations
-    #Given User clicks on SHIRTS & TOPS subcategory from Women Category
-    #And User should be in shirtsandtops page for women
-    #Then Verifies product information is displayed
-    #Then Verifies product variation information is displayed
-    #Then Verifies product image is displayed
+#  TODO: Needs to be data driven
+#  Scenario: Check Product Tiles for Sale Variations
+#    Given User clicks on SHIRTS & TOPS subcategory from Women Category
+#    And User should be in shirtsandtops page for women
+#    Then Verifies Grosgrain ribbon top product is displayed
+#    And Verifies Grosgrain ribbon top product price was $98.00
+#    And Verifies Grosgrain ribbon top product sale price is now $29.99
+#    And Verifies Grosgrain ribbon top is available in 2 colors
+#    And An image is displayed for Grosgrain ribbon top product
 
   Scenario: Check sign posts on category pages
     Given User clicks on J.CREW IN GOOD COMPANY subcategory from Women Category

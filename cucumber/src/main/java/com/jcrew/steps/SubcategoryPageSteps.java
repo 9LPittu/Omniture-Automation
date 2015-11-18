@@ -193,6 +193,17 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertTrue("Product should exist", subcategoryPage.productTileExistFor(product));
     }
 
+    @Then("^Verifies product information is displayed$")
+    public void verifies_product_information_is_displayed() {
+        assertTrue("Product name and price are valid", subcategoryPage.isFirstProductNameAndPriceValid());
+        assertTrue("Procut colors are valid", subcategoryPage.areFirstProductColorVariationsValid());
+    }
+
+    @And("^Verifies product image is displayed$")
+    public void image_is_displayed_for_first_product() {
+        assertTrue("Image should be displayed for product", subcategoryPage.isImageDisplayedForProduct());
+    }
+
     @And("^Verifies ([^\"]*) product list price is ([^\"]*)$")
     public void verifies_product_list_price(String product, String price) {
         assertEquals("Price for product should be correct", price, subcategoryPage.getPriceFor(product));
