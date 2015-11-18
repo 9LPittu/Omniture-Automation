@@ -8,7 +8,7 @@ import cucumber.api.Scenario;
 
 public class Reporting {
 
-<<<<<<< HEAD
+
     public void takeScreenshot(Scenario scenario) {
 
         try {
@@ -22,7 +22,7 @@ public class Reporting {
             e.printStackTrace();
         }
     }
-=======
+
 //    public void takeScreenshot(Scenario scenario) {
 //
 //        try {
@@ -36,5 +36,5 @@ public class Reporting {
 //            e.printStackTrace();
 //        }
 //    }
->>>>>>> d9180584514138d143933edf756dc71ec54b56fb
+
 }

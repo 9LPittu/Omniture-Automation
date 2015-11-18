@@ -327,18 +327,12 @@ public class SalePage {
     	String[] arrSalePrices = new String[salePrice.size()];    	   	
     			
     	//Capture all the prices into string array
-    	for(int i=0;i<salePrice.size();i++){
-<<<<<<< HEAD
-    		String salePriceVal = salePrice.get(i).getText().toLowerCase();
-    		salePriceVal = salePriceVal.replaceAll("now", "");
-    		salePriceVal = salePriceVal.replaceAll("select colors", "");
-    		//salePriceVal = salePriceVal.replaceAll(new Util().getCurrencySymbol(), "");
-    		arrSalePrices[i]= salePriceVal.trim();    		
-=======
+    	for(int i=0;i<salePrice.size();i++){    		    		
+
     		String salePriceVal = salePrice.get(i).getText().toLowerCase();    		    		    		
     		salePriceVal = salePriceVal.replaceAll("[^0-9\\.]", "");    		
     		arrSalePrices[i]= salePriceVal.trim();
->>>>>>> d9180584514138d143933edf756dc71ec54b56fb
+
     	}
     	
     	//Verify the prices are sorted correctly    	
