@@ -77,7 +77,6 @@ public class ReviewPage {
     }
     
     public void clickPlaceYourOrder() throws InterruptedException{
-    	Thread.sleep(5000);
-    	placeYourOrderButton.click();
+        placeYourOrderButton.click();
     }
 }
