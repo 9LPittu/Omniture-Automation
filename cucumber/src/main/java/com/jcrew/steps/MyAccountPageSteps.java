@@ -15,18 +15,9 @@ public class MyAccountPageSteps extends DriverFactory {
 
     private final MyAccountPage myAccountPage = new MyAccountPage(getDriver());
 
-    private Scenario scenario;
-
-
-    @Before
-    public void getScenarioObject(Scenario s){
-        this.scenario = s;
-    }
-
     @Then("^User is in My Account page$")
     public void user_is_in_My_Account_page() throws Throwable {
         assertTrue("User should be in My Account Page", myAccountPage.isInAccountPage());
-
     }
 
     @And("^Verifies page displays My Account title$")
