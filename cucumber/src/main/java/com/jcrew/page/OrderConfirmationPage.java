@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,7 +31,7 @@ public class OrderConfirmationPage {
     }
     
     public boolean verifyOrderNumberGenerated(){
-		 new WebDriverWait(driver,30).until(ExpectedConditions.visibilityOf(orderNumber));
+		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(orderNumber));
 		 
 		 if(orderNumber.isDisplayed()){
 			 logger.debug("Order number is generated. Order number is {}", orderNumber.getText().trim());
