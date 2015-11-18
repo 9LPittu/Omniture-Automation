@@ -19,7 +19,7 @@ public class InventoryDAO {
     public static final String UPDATE_ITEM_WITH_MORE_THAN_ONE_SKU = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant like 'E3835%'";
     public static final String UPDATE_ITEM_WITH_MULTIPLE_COLORS_FULL_SKU = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 50, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant like 'C3409%'";
     public static final String UPDATE_ITEM_WITH_MULTIPLE_COLORS_SALE_SKU = "update JCBRNQA_STORE.jc_web_inventory  set sellable_oh_qty = 50, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant like 'E3896%'";
-    public static final String UPDATE_ITEM_TEST_DATA = "update JCBRNQA_STORE.jc_web_inventory  set sellable_oh_qty = 50, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where variant = 'E0786EF2854M'";
+
 
     public ResultSet GetData(String strQuery) {
 
@@ -62,7 +62,6 @@ public class InventoryDAO {
         String strFinalSaleQuery = UPDATE_FINAL_SALE_ITEM;
         String strItemWithOnlyOneVariationQuery = UPDATE_ITEM_WITH_ONLY_ONE_VARIATION;
         String strItemWithOnlyOneSaleSkuQuery = UPDATE_ITEM_WITH_ONLY_ONE_SALE_SKU;
-        String strTestDataQuery = UPDATE_ITEM_TEST_DATA;
         String strItemWithMoreThanOneSku = UPDATE_ITEM_WITH_MORE_THAN_ONE_SKU;
         String strItemWithMultipleColorsFullSku = UPDATE_ITEM_WITH_MULTIPLE_COLORS_FULL_SKU;
         String strItemWithMultipleColorsSaleSku = UPDATE_ITEM_WITH_MULTIPLE_COLORS_SALE_SKU;
@@ -78,7 +77,6 @@ public class InventoryDAO {
         System.out.println("Final Sale : "+executeQueryToAddInventory(statement, strFinalSaleQuery));
         System.out.println("Item with only one variation: "+executeQueryToAddInventory(statement,strItemWithOnlyOneVariationQuery));
         System.out.println("One sale sku: "+executeQueryToAddInventory(statement,strItemWithOnlyOneSaleSkuQuery));
-        System.out.println("Test Data : "+executeQueryToAddInventory(statement,strTestDataQuery));
         System.out.println("Item with more than one sku: "+executeQueryToAddInventory(statement,strItemWithMoreThanOneSku));
         System.out.println("Item with multiple colors full sku: "+executeQueryToAddInventory(statement,strItemWithMultipleColorsFullSku));
         System.out.println("Item with multiple colors Sale sku: "+executeQueryToAddInventory(statement,strItemWithMultipleColorsSaleSku));
@@ -91,15 +89,14 @@ public class InventoryDAO {
         String strparticularSoldOutQuery = updateParticularColorSizeSoldOutItem(testdata[1]);
         String strSoldOutQuery = updateSoldOutItem(testdata[2]);
         String strShipWarningMessageQuery = updateNotAvailableToShip(testdata[3]);
-        String strPreOrderQuery = UPDATE_PRE_ORDER_ITEM;
-        String strVPSOutOfStockQuery = UPDATE_OUT_OF_STOCK_VPS_ITEM;
-        String strFinalSaleQuery = UPDATE_FINAL_SALE_ITEM;
-        String strItemWithOnlyOneVariationQuery = UPDATE_ITEM_WITH_ONLY_ONE_VARIATION;
-        String strItemWithOnlyOneSaleSkuQuery = UPDATE_ITEM_WITH_ONLY_ONE_SALE_SKU;
-        String strTestDataQuery = UPDATE_ITEM_TEST_DATA;
-        String strItemWithMoreThanOneSku = UPDATE_ITEM_WITH_MORE_THAN_ONE_SKU;
-        String strItemWithMultipleColorsFullSku = UPDATE_ITEM_WITH_MULTIPLE_COLORS_FULL_SKU;
-        String strItemWithMultipleColorsSaleSku = UPDATE_ITEM_WITH_MULTIPLE_COLORS_SALE_SKU;
+        String strPreOrderQuery = updatePreOrderItem(testdata[4]);
+        String strVPSOutOfStockQuery = updateVPSOutOfStockItem(testdata[5]);
+        String strFinalSaleQuery = updateFinalSaleItem(testdata[6]);
+        String strItemWithOnlyOneVariationQuery = updateItemWithOnlyOneVariation(testdata[7]);
+        String strItemWithOnlyOneSaleSkuQuery = updateItemWithOnlyOneSaleSku(testdata[8]);
+        String strItemWithMoreThanOneSku = updateItemWithMoreThanOneSku(testdata[9]);
+        String strItemWithMultipleColorsFullSku = updateItemWithMultipleColorsFullSku(testdata[10]);
+        String strItemWithMultipleColorsSaleSku = updateItemWithMultipleColorsSaleSku(testdata[11]);
         Connection conn = getConnectionToDatabase();
         Statement statement = createTheStatement(conn);
 
@@ -112,7 +109,6 @@ public class InventoryDAO {
         System.out.println("Final Sale : "+executeQueryToAddInventory(statement, strFinalSaleQuery));
         System.out.println("Item with only one variation: "+executeQueryToAddInventory(statement,strItemWithOnlyOneVariationQuery));
         System.out.println("One sale sku: "+executeQueryToAddInventory(statement,strItemWithOnlyOneSaleSkuQuery));
-        System.out.println("Test Data : "+executeQueryToAddInventory(statement,strTestDataQuery));
         System.out.println("Item with more than one sku: "+executeQueryToAddInventory(statement,strItemWithMoreThanOneSku));
         System.out.println("Item with multiple colors full sku: "+executeQueryToAddInventory(statement,strItemWithMultipleColorsFullSku));
         System.out.println("Item with multiple colors Sale sku: "+executeQueryToAddInventory(statement,strItemWithMultipleColorsSaleSku));
@@ -139,6 +135,51 @@ public class InventoryDAO {
         String strNotAvailableToShipQuery = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0 , sellable_br_qty = 0, sellable_oo_qty = 20, br_flag = 'Y', po_number = '123456', po_date = '15-Dec-15' where variant = '"+notAvailableToShipItem+"'";
         return strNotAvailableToShipQuery;
     }
+
+    public String updatePreOrderItem(String preOrderItem)  {
+        String preOrderItemQuery = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0 , sellable_br_qty = 0, sellable_oo_qty  = 10, br_flag = 'Y', po_number = '123456', po_date = '15-Dec-15' product =  '"+preOrderItem+"'";
+        return preOrderItemQuery;
+    }
+
+    public String updateVPSOutOfStockItem(String VPSItem) {
+        String VPSItemQuery = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where product = '"+VPSItem+"'";
+        return VPSItemQuery;
+    }
+
+    public String updateFinalSaleItem(String finalSaleItem) {
+        String finalSaleItemQuery = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where product = '" + finalSaleItem + "'";
+        return finalSaleItemQuery;
+    }
+
+    public String updateItemWithOnlyOneVariation(String itemWithOnlyOneVariation) {
+        String itemWithOnlyOneVariationQuery = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 50, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where product = '"+itemWithOnlyOneVariation+"'";
+        return itemWithOnlyOneVariationQuery;
+    }
+
+    public String updateItemWithOnlyOneSaleSku(String itemWithOnlyOneSaleSku) {
+        String itemWithOnlyOneSaleSkuQuery = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where product ='"+itemWithOnlyOneSaleSku+"'";
+        return itemWithOnlyOneSaleSkuQuery;
+    }
+
+    public String  updateItemWithMoreThanOneSku(String itemWithMoreThanOneSku) {
+        String itemWithMoreThanOneSkuQuery = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 20, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where product = '"+itemWithMoreThanOneSku+"'";
+        return itemWithMoreThanOneSkuQuery;
+    }
+
+    public String updateItemWithMultipleColorsFullSku(String itemWithMultipleColorsFullSku)  {
+
+        String itemWithMultipleColorsFullSkuQuery = "update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 50, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where product = '"+itemWithMultipleColorsFullSku+"'";
+        return itemWithMultipleColorsFullSkuQuery;
+    }
+
+    public String updateItemWithMultipleColorsSaleSku(String itemWithMultipleColorsSaleSku) {
+        String itemWithMultipleColorsSaleSkuQuery = "update JCBRNQA_STORE.jc_web_inventory  set sellable_oh_qty = 50, sellable_oh_rtl = 0, sellable_br_qty = 0, sellable_oo_qty = 0 where product = '"+itemWithMultipleColorsSaleSku+"'";
+        return itemWithMultipleColorsSaleSkuQuery;
+    }
+
+
+
+
 
 
 
