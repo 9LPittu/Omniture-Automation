@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 
 public class OrderConfirmationPage {
 	
-	 private final WebDriver driver;
-	 private Logger logger = LoggerFactory.getLogger(OrderConfirmationPage.class);
+	private final WebDriver driver;
+	private Logger logger = LoggerFactory.getLogger(OrderConfirmationPage.class);
 
     @FindBy(id = "confirmation-number")
     private WebElement confirmationNumber;
