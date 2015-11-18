@@ -6,8 +6,7 @@ Feature: Account Feature
 
   Scenario: Sign In
     Given Goes to sign in page
-    When User enters test@example.org as email
-    And User enters test1234 as password
+    When User provides login information
     And Check box is enabled
     And Hits sign in button
     Then User is in My Account page

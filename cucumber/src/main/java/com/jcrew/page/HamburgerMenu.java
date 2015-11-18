@@ -91,13 +91,14 @@ public class HamburgerMenu {
     }
 
     private WebElement getCategory(String category) {
-        WebElement element = categoryMenu.findElement(By.xpath(".//a[text()='" + category.toLowerCase() + "']"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+        WebElement element = categoryMenu.findElement(By.xpath(".//a[text()='" + category + "']"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
         return element;
     }
 
     public void click_on_subcategory(String subcategory, String category) {
         getSubcategoryFromMenu(subcategory, category).click();
+        stateHolder.put("subcategory", subcategory);
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("category"));
     }
 
@@ -105,7 +106,7 @@ public class HamburgerMenu {
         WebElement categories = getMenuItemElementForCategory(category);
         WebElement categoryLink = categories.findElement(By.linkText(subcategory));
 
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(categoryLink));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryLink));
         return categoryLink;
     }
 
@@ -141,16 +142,9 @@ public class HamburgerMenu {
         String categorySelected = (String) stateHolder.get("category");
         WebElement menuItemElement = getMenuItemElementForCategory(categorySelected);
         List<WebElement> menuItemLinks = menuItemElement.findElements(By.className("menu__link--has-href"));
-        List<WebElement> selectableItems = new ArrayList<>();
-        for (WebElement menuItemLink : menuItemLinks) {
-            // currently subcategories containing feature are not working, skipping them for now.
-            if (!menuItemLink.getAttribute("href").contains("feature")) {
-                selectableItems.add(menuItemLink);
-            }
-        }
-        int index = Util.randomIndex(selectableItems.size());
-        WebElement subcategory = selectableItems.get(index);
-        String subcategoryText = subcategory.getAttribute("innerHTML");
+        WebElement subcategory = menuItemLinks.get(Util.randomIndex(menuItemLinks.size()));
+        String subcategoryText = subcategory.getText();
+
         stateHolder.put("subcategory", subcategoryText);
         logger.debug("Selected subcategory is {} from {} category", subcategoryText, categorySelected);
         subcategory.click();

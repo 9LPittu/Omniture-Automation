@@ -64,6 +64,8 @@ public class SubcategoryPage {
         PageFactory.initElements(driver, this);
     }
 
+    private WebElement getFirstProduct() { return getProductTileElements().get(0); }
+
     public void adds_a_product_to_shopping_bag() {
 
         quickShopButton.click();
@@ -128,9 +130,7 @@ public class SubcategoryPage {
 
     public void hover_first_product_in_grid() {
         Actions action = new Actions(driver);
-        List<WebElement> productsFromGrid = getProductTileElements();
-        WebElement firstProductFromGrid = productsFromGrid.get(0);
-        action.moveToElement(firstProductFromGrid);
+        action.moveToElement(getFirstProduct());
         action.perform();
     }
 
@@ -169,19 +169,20 @@ public class SubcategoryPage {
     }
 
     public boolean isFirstProductNameAndPriceValid() {
-        WebElement product = getProductTileElements().get(0);
-        return isPriceAndNameValidFor(product);
+        return isPriceAndNameValidFor(getFirstProduct());
     }
 
     public boolean areFirstProductColorVariationsValid() {
-        WebElement firstProductFromGrid = getProductTileElements().get(0);
-        return areProductColorVariationsValid(firstProductFromGrid);
-
+        return areProductColorVariationsValid(getFirstProduct());
     }
 
     private boolean areProductColorVariationsValid(WebElement firstProductFromGrid) {
         boolean result = false;
-        try {
+        if(firstProductFromGrid.findElements(By.className("colors-list__item")).isEmpty()) {
+            logger.debug("Color count not found for product with name {}, there should not be variations",
+                    firstProductFromGrid.findElement(By.className("tile__detail--name")).getText());
+            result = true;
+        } else {
             String productCount = firstProductFromGrid.findElement(By.className("tile__detail--colors-count")).getText();
             Pattern p = Pattern.compile("available in (\\d)+ colors");
             Matcher matcher = p.matcher(productCount);
@@ -200,16 +201,7 @@ public class SubcategoryPage {
                         getAttribute("data-colors-count"));
 
                 result = numberOfVariationsInText == numberOfVariationsDisplayed;
-
             }
-
-
-        } catch (NoSuchElementException nsee) {
-
-            logger.debug("Color count not found for product with name {}, there should not be variations",
-                    firstProductFromGrid.findElement(By.className("tile__detail--name")).getText());
-
-            result = firstProductFromGrid.findElements(By.className("colors-list__item")).isEmpty();
         }
 
         return result;
@@ -230,23 +222,19 @@ public class SubcategoryPage {
     }
 
     public void click_first_product_in_grid() {
-        final WebElement firstProduct = getProductTileElements().get(0);
-        final WebElement productLink = firstProduct.findElement(By.className("product__image--small"));
+        final WebElement productLink = getFirstProduct().findElement(By.className("product__image--small"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
         productLink.click();
     }
 
     public void click_any_product_in_grid() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
-        int index = Util.randomIndex(getProductTileElements().size());
-        WebElement randomProductSelected = getProductTileElements().get(index);
+        List<WebElement> products = getProductTileElements();
+        int index = Util.randomIndex(products.size());
+        WebElement randomProductSelected = products.get(index);
         Product product = new Product();
         product.setProductName(getProductName(randomProductSelected));
-        product.setPriceList(getPriceList(randomProductSelected));
-        product.setVariations(getVariations(randomProductSelected));
-        product.setColorsCount(getColorsCount(randomProductSelected));
-        product.setPriceWas(getPriceWas(randomProductSelected));
-        product.setPriceSale(getPriceSale(randomProductSelected));
+
+        logger.debug("Selected product is {}", product.getProductName());
 
         List<Product> productList = (List<Product>) stateHolder.get("productList");
 
@@ -255,47 +243,11 @@ public class SubcategoryPage {
         }
 
         productList.add(product);
-
         stateHolder.put("productList", productList);
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
-
         WebElement productLink = randomProductSelected.findElement(By.className("product-tile__link"));
-
         productLink.click();
-
-    }
-
-    private String getPriceSale(WebElement randomProductSelected) {
-        List<WebElement> priceWasElements = randomProductSelected.findElements(By.className("tile__detail--price--sale"));
-        String priceWas = null;
-        if (!priceWasElements.isEmpty()) {
-            priceWas = priceWasElements.get(0).getAttribute("innerHTML");
-        }
-        return priceWas;
-
-    }
-
-    private String getPriceWas(WebElement randomProductSelected) {
-        List<WebElement> priceWasElements = randomProductSelected.findElements(By.className("tile__detail--price--was"));
-        String priceWas = null;
-        if (!priceWasElements.isEmpty()) {
-            priceWas = priceWasElements.get(0).getAttribute("innerHTML");
-        }
-        return priceWas;
-    }
-
-    private String getPriceList(WebElement randomProductSelected) {
-        try {
-            List<WebElement> priceListElements = randomProductSelected.findElements(By.className("tile__detail--price--list"));
-            String priceList = null;
-            if (!priceListElements.isEmpty()) {
-                priceList = priceListElements.get(0).getAttribute("innerHTML");
-            }
-            return priceList;
-        } catch (StaleElementReferenceException sere) {
-            return getPriceList(randomProductSelected);
-        }
     }
 
     private String getProductName(WebElement randomProductSelected) {
@@ -305,29 +257,6 @@ public class SubcategoryPage {
             productName = productNameElements.get(0).getAttribute("innerHTML");
         }
         return productName;
-    }
-
-    private String getColorsCount(WebElement randomProductSelected) {
-        List<WebElement> colorCountElements = randomProductSelected.findElements(By.className("tile__detail--colors-count"));
-        String colorCount = null;
-        if (!colorCountElements.isEmpty()) {
-            colorCount = colorCountElements.get(0).getAttribute("innerHTML");
-            colorCount = colorCount.replace("available in ", "");
-            colorCount = colorCount.replace(" colors", "");
-        }
-        return colorCount;
-    }
-
-    private String getVariations(WebElement randomProductSelected) {
-
-        List<WebElement> variationsElement = randomProductSelected.findElements(By.className("tile__detail--alsoin"));
-        String variations = null;
-        if (!variationsElement.isEmpty()) {
-            variations = variationsElement.get(0).getAttribute("innerHTML");
-            variations = variations.replace("also in: ", "");
-        }
-        return variations;
-
     }
 
 
@@ -377,6 +306,15 @@ public class SubcategoryPage {
         subcategoryElement.click();
     }
 
+    public void click_random_filter() {
+        final List<WebElement> filters = accordionWrap.findElements(By.className("accordian__menu__link"));
+        final WebElement filter = filters.get(Util.randomIndex(filters.size() - 1) + 1);
+
+        stateHolder.put("filter", filter.getText());
+        filter.click();
+    }
+
+
     public boolean isAccordionMenuInvisible() {
         final WebElement accordionWrap = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(this.accordionWrap));
@@ -396,7 +334,7 @@ public class SubcategoryPage {
 
     public List<String> getProductsDisplayedHrefs() {
         List<WebElement> products = driver.findElements(By.className("c-product-tile"));
-        List<String> productsHref = new ArrayList<String>();
+        List<String> productsHref = new ArrayList<>();
         for (WebElement product : products) {
             productsHref.add(product.findElement(By.tagName("a")).getAttribute("href"));
         }
@@ -413,21 +351,13 @@ public class SubcategoryPage {
         return result;
     }
 
-    public String getCategoryImageHeaderAlt() {
-        return headerImage.getAttribute("alt");
-    }
+    public String getCategoryImageHeaderAlt() { return headerImage.getAttribute("alt"); }
 
     public boolean productTileExistFor(String product) {
         WebElement productInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
                 "' and contains(@class, 'tile__detail--name')]"));
 
         return productInTile.isDisplayed();
-    }
-
-    public String yellowProductTileExist() {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        WebElement yellow_product = productGrid.findElement(By.xpath("//*[@id='c-search__results']/div/div[3]/div[1]/div/div[2]/a/span[1]"));
-        return yellow_product.getText();
     }
 
     public String getPriceFor(String product) {
@@ -443,6 +373,15 @@ public class SubcategoryPage {
     }
 
     public boolean isImageDisplayedFor(String product) {
+        WebElement priceInTile = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productGrid.findElement(By.xpath("//span[text()='" + product +
+                        "' and contains(@class, 'tile__detail--name')]/../../..//img[contains(@class, 'js-product__image')]")))
+        );
+        return priceInTile.isDisplayed();
+    }
+
+    public boolean isImageDisplayedForProduct() {
+        String product = getFirstProduct().findElement(By.className("tile__detail--name")).getText();
         WebElement priceInTile = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(productGrid.findElement(By.xpath("//span[text()='" + product +
                         "' and contains(@class, 'tile__detail--name')]/../../..//img[contains(@class, 'js-product__image')]")))

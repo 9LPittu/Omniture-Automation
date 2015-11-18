@@ -15,5 +15,5 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber/pdpcifeatures"
         }
 )
-public class PDPeaturesRunnerTest {
+public class PDPFeaturesRunnerTest {
 }

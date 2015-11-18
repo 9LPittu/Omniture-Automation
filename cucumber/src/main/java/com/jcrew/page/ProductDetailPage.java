@@ -83,6 +83,7 @@ public class ProductDetailPage {
             if (variation.isSelected()) {
                 logger.debug("Variation is already selected");
             } else {
+                Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(variation));
                 variation.click();
             }
         }
@@ -160,7 +161,7 @@ public class ProductDetailPage {
         return salePrice.getText();
     }
 
-    public void select_size(String productSize) throws InterruptedException {
+    public void select_size(String productSize) {
         WebElement productSizeElement = getProductSizeElement(productSize);
         productSizeElement.click();        
     }
@@ -260,8 +261,7 @@ public class ProductDetailPage {
     public String getProductNameFromPDP() {
         Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(productOverview));
-        String product_detail_name = productOverview.findElement(By.tagName("h1")).getText();
-        return product_detail_name;
+        return productOverview.findElement(By.tagName("h1")).getText();
     }
 
     public String getProductPriceList() {

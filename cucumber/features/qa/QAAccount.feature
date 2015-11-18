@@ -40,8 +40,10 @@ Feature: Account Feature QA Suite
     And User clicks on hamburger menu
     And User clicks on back link
     And My Account link is present
+    And User clicks on My Account link
+    And User is in My Account page
 
     Examples:
       | Username          | Password |
       | test@example.org  | test1234 |
-      | test2@example.org | test1234 |
+      #| test2@example.org | test1234 |

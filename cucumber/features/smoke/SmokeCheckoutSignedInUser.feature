@@ -8,11 +8,11 @@ Feature: Checkout Process Signed in User
     And Hits sign in button
     And User is on homepage
     And User bag is cleared
-    And User goes to homepage
+    And User is on homepage
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Men Category
-    And Click on product Marled lambswool sweater to display PDP
+    When User clicks on SWEATERS subcategory from Men Category
+    And Selects the first product from product grid list
     And User is in product detail page
     And A variation is selected
     And A color is selected

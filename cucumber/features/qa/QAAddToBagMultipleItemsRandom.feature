@@ -4,7 +4,8 @@ Feature: Multiple Items Random
   Scenario: Add to bag multiple items
     Given User is on homepage
     Then User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
+   #And Selects Women Category from hamburger menu
+    And Chooses a random category
     And Chooses a random subcategory
     And Selects any product from product grid list
     And Selects any variation for the product if existent
@@ -16,7 +17,8 @@ Feature: Multiple Items Random
 
     Then User clicks on hamburger menu
     And User clicks on back link
-    And Selects Men Category from hamburger menu
+    #And Selects Men Category from hamburger menu
+    And Chooses a random category
     And Chooses a random subcategory
     And Selects any product from product grid list
     And Selects any variation for the product if existent
@@ -28,7 +30,8 @@ Feature: Multiple Items Random
 
     Then User clicks on hamburger menu
     And User clicks on back link
-    And Selects Girls Category from hamburger menu
+   # And Selects Girls Category from hamburger menu
+    And Chooses a random category
     And Chooses a random subcategory
     And Selects any product from product grid list
     And Selects any variation for the product if existent
@@ -40,7 +43,8 @@ Feature: Multiple Items Random
 
     Then User clicks on hamburger menu
     And User clicks on back link
-    And Selects Boys Category from hamburger menu
+   # And Selects Boys Category from hamburger menu
+    And Chooses a random category
     And Chooses a random subcategory
     And Selects any product from product grid list
     And Selects any variation for the product if existent
@@ -53,6 +57,7 @@ Feature: Multiple Items Random
     Then User goes to homepage
     And User presses search button
     And Enters sweaters to the search field
+    #and enters random search term to the search field
     And Clicks on search button for input field
     Then Search results are displayed
     And Selects any product from product grid list
