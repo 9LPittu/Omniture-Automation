@@ -231,8 +231,10 @@ public class ProductDetailPageSteps extends DriverFactory {
     @Then("^Verify product name is the one it was selected$")
     public void verify_product_name_is_the_one_it_was_selected() throws Throwable {
         String productName = Util.getCurrentProduct().getProductName();
+        String currentName = productDetailPage.getProductNameFromPDP();
 
-        assertTrue("Product should be the selected one", productDetailPage.getProductNameFromPDP().contains(productName));
+        assertTrue("Product should be the selected one. Expected: " + productName + ", got: " + currentName,
+                currentName.contains(productName));
     }
 
     @And("^Verify amount of colors listed is correct$")
