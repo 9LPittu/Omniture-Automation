@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.Util;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,8 +38,12 @@ public class ShippingMethodPage {
     }
 
     public void click_continue_button() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(continueButton));
-        continueButton.click();
+        try {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(continueButton));
+            continueButton.click();
+        } catch(StaleElementReferenceException e) {
+            click_continue_button();
+        }
     }
 
     public boolean isEconomyUps() {
