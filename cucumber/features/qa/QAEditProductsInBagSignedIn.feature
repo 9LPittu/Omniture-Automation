@@ -1,4 +1,5 @@
-@EditProductsInBagSignedIn
+# TODO: Data driven
+#@EditProductsInBagSignedIn
 Feature: Edit Product In Bags Signed In Scenarios
 
   Scenario: Verify Redirect to PDP Scenario Signed In User

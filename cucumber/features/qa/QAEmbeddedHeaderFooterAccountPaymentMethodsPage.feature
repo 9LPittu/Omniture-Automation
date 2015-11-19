@@ -4,8 +4,7 @@ Feature: Embedded Header Footer Payment Methods Preferences Page
   Scenario: Account Payment Methods Page Header Footer Links
     Given User is on homepage
     And Goes to sign in page
-    When User enters account@test.org as email
-    And User enters test1234 as password
+    When User provides login information
     And Hits sign in button
     Then User is in My Account page
     And User clicks on PAYMENT METHODS link in My Account Page

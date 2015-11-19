@@ -79,12 +79,4 @@ public class HamburgerMenuSteps extends DriverFactory {
                 "SIGN IN", hamburgerMenu.getSignInMessage());
     }
 
-//    @When("^User selects ([^\"]*) for ([^\"]*)")
-//    public void select_subcategory(String subcategory, String category) {
-//        hamburgerMenu.click_on_hamburger_menu();
-//        hamburgerMenu.click_on_category(category);
-//        stateHolder.put("category", category);
-//        hamburgerMenu.click_on_subcategory(subcategory, category);
-//    }
-
 }

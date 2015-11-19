@@ -15,5 +15,5 @@ Feature: Search Sale Typerface Design Updates Page
 
     Examples:
       |search term|
-      |skirts  |
+      |skirts     |
       |shoes      |

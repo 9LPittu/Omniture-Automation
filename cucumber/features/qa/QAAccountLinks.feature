@@ -4,10 +4,9 @@ Feature: Account Page
   Background:
     Given User is on homepage
 
-  Scenario Outline: Validate All Menu Links in Account Page
+  Scenario: Validate All Menu Links in Account Page
     Given Goes to sign in page
-    When User enters <Username> as email
-    And User enters <Password> as password
+    And User provides login information
     And Check box is enabled
     And Hits sign in button
     Then User is in My Account page
@@ -28,7 +27,3 @@ Feature: Account Page
     And User should be in reg_user_order_history.jsp menu link page
     And User clicks on WISHLIST link in My Account Page
     And User should be in /wishlist menu link page
-
-    Examples:
-      | Username         | Password |
-      | test@example.org | test1234 |

@@ -42,4 +42,9 @@ public class FooterSteps extends DriverFactory {
     public void click_on_bottom_link_from_footer(String bottomLink) throws Throwable {
         footer.click_bottom_link(bottomLink);
     }
+
+    @Then("^([^\"]*) header from footer is visible$")
+    public void click_con_header_from_footer(String text) throws Throwable {
+        assertTrue("Contact us header is visible", footer.isTopHeaderVisible(text));
+    }
 }
