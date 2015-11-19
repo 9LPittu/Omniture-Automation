@@ -67,12 +67,8 @@ public class HamburgerMenu {
     }
 
     public void click_on_sign_in_link() {
-        if (signInLink.isDisplayed()) {
-            signInLink.click();
-        } else {
-            click_on_hamburger_menu();
-            click_on_sign_in_link_from_hamburger_menu();
-        }
+        click_on_hamburger_menu();
+        click_on_sign_in_link_from_hamburger_menu();
     }
 
     public void click_on_back_link() {

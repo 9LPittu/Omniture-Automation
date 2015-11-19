@@ -80,7 +80,7 @@ public class SubcategoryPage {
                     By.id("qsLightBox")));
 
         } catch (NoSuchElementException nsee) {
-            logger.info("Modal element is not present, this is expected to happen");
+            logger.debug("Modal element is not present, this is expected to happen");
         }
 
     }
@@ -103,7 +103,7 @@ public class SubcategoryPage {
 
             String href = shoppingBagLink.getAttribute("href");
 
-            logger.info("click did not work, we may be using phantomjs and the link for shopping link bag does not " +
+            logger.debug("click did not work, we may be using phantomjs and the link for shopping link bag does not " +
                     "work as expected for this browser, redirecting to shopping bag page {}", href);
 
             driver.get(href);

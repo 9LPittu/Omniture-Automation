@@ -116,9 +116,6 @@ public class SearchPage {
             element = searchFilterRefinementSection.
                     findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
         } catch (StaleElementReferenceException sere) {
-
-            logger.info(searchFilterRefinementSection.getAttribute("innerHTML"));
-
             element = searchFilterRefinementSection.
                     findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
         }
@@ -158,7 +155,7 @@ public class SearchPage {
         WebElement selectedProductNameElement = selectedNoSalePriceProduct.findElement(By.className("tile__detail--name"));
 
         String productName = selectedProductNameElement.getText();
-        logger.info("sale product selected now {}", productName);
+        logger.debug("sale product selected now {}", productName);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
                 selectedNoSalePriceProduct.findElement(By.className("product__image--small"))));
         selectedNoSalePriceProduct.findElement(By.className("product__image--small")).click();
