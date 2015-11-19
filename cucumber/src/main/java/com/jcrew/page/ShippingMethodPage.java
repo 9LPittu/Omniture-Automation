@@ -37,11 +37,8 @@ public class ShippingMethodPage {
     }
 
     public void click_continue_button() {
-
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(continueButton));
-
         continueButton.click();
-
     }
 
     public boolean isEconomyUps() {
@@ -55,11 +52,11 @@ public class ShippingMethodPage {
 
     public boolean isShippingMethodPage() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodContainer));
-        return shippingMethodContainer.isDisplayed();
+        return true;
     }
 
     public boolean isPageLoaded() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerRowBottom));
-        return footerRowBottom.isDisplayed();
+        return true;
     }
 }
