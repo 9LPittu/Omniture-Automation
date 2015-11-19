@@ -22,6 +22,8 @@ public class Footer {
     private WebElement footerWrapMain;
     @FindBy(className = "footer__row--bottom")
     private  WebElement footerRowBottom;
+    @FindBy(className = "footer__row--top")
+    private  WebElement footerRowTop;
 
     public Footer(WebDriver driver) {
         this.driver = driver;
@@ -40,16 +42,6 @@ public class Footer {
             logger.debug("Stale Element Exception was thrown, retry to click on footer element {}", footerLink);
             return getFooterLinkElement(footerLink);
         }
-    }
-
-    public List<String> getFooterHeaderNames() {
-        List<WebElement> footerHeaderNamesElements = footerWrapMain.findElements(By.tagName("h6"));
-        List<String> footerHeaderNamesText = new ArrayList<>();
-
-        for (WebElement footerHeaderElement : footerHeaderNamesElements) {
-            footerHeaderNamesText.add(footerHeaderElement.getText());
-        }
-        return footerHeaderNamesText;
     }
 
     public void click_on(String footerLink) {
@@ -81,6 +73,9 @@ public class Footer {
         return footerWrapMain.findElement(By.tagName("legend")).getText();
     }
 
+    public boolean isTopHeaderVisible(String text) {
+        return footerRowTop.findElement(By.xpath("//h6[text()='" + text + "']")).isDisplayed();
+    }
     public void click_bottom_link(String bottomLink) {
         footerRowBottom.findElement(By.linkText(bottomLink)).click();
     }

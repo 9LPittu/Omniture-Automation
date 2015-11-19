@@ -1,4 +1,5 @@
-@AddToBagRandom
+# TODO: Needs review, randomness!
+#@AddToBagRandom
 Feature: Add to Bag
 
   Scenario: Random product

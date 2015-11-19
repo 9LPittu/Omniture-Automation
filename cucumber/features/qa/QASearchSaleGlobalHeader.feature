@@ -1,4 +1,5 @@
-@SearchSaleGlobalHeader
+#TODO: Data driven
+# @SearchSaleGlobalHeader
 Feature: Regression Tests Search Sale Global Header Page
 
   Background:

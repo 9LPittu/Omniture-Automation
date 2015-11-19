@@ -1,4 +1,5 @@
-@AddToBagMultipleItemsRandom
+# TODO: Needs review, too many steps and most of them random!
+#@AddToBagMultipleItemsRandom
 Feature: Multiple Items Random
 
   Scenario: Add to bag multiple items
