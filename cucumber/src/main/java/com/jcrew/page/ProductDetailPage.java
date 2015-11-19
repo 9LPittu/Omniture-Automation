@@ -89,35 +89,6 @@ public class ProductDetailPage {
         }
     }
 
-    public void select_any_color() {
-        try {
-            Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(By.id("c-product__price-colors")));
-            List<WebElement> colors = driver.findElement(By.id("c-product__price-colors")).findElements(By.className("colors-list__item"));
-            int range = colors.size();
-            int randomNumber = (int) (Math.random() * range);
-            WebElement color = colors.get(randomNumber);
-
-            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(color));
-            color.click();
-        } catch (StaleElementReferenceException sere) {
-            select_any_color();
-        }
-    }
-
-
-    public void select_size() {
-        List<WebElement> sizes = productSizesSection.findElements(By.className("sizes-list__item"));
-        for (WebElement size : sizes) {
-            if (!size.getAttribute("class").contains("is-unavailable")) {
-                size.click();
-                if (size.getAttribute("class").contains("is-selected")) {
-                    logger.debug("Size has been selected {}", size.findElement(By.tagName("span")).getText());
-                }
-                break;
-            }
-        }
-    }
-
     public void select_quantity(String quantity) {
         Select quantitySelect = getQuantitySelector();
         quantitySelect.selectByValue(quantity);
