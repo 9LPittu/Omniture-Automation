@@ -43,7 +43,11 @@ public class Header {
     }
 
     public boolean isHeaderBagIconPresent() {
-        return bagIcon.isDisplayed();
+        try {
+            return bagIcon.isDisplayed();
+        } catch (StaleElementReferenceException sere) {
+            return isHeaderBagIconPresent();
+        }
     }
 
     public String getBagIconLinkText() {
