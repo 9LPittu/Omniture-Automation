@@ -33,12 +33,12 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @And("^A color is selected$")
     public void a_color_is_selected() throws Throwable {
-        productDetailPage.select_any_color();
+        productDetailPage.select_random_color();
     }
 
     @And("^A size is selected$")
     public void a_size_is_selected() throws Throwable {
-        productDetailPage.select_size();
+        productDetailPage.select_random_size();
     }
 
     @And("^Quantity is selected$")
@@ -230,20 +230,9 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Then("^Verify product name is the one it was selected$")
     public void verify_product_name_is_the_one_it_was_selected() throws Throwable {
-        Product product = Util.getCurrentProduct();
-        String productName = product.getProductName();
-        String subcategory = (String) stateHolder.get("subcategory");
+        String productName = Util.getCurrentProduct().getProductName();
 
-        if ("suiting".equalsIgnoreCase(subcategory)) {
-            // suiting products have appended a 'the ' at the beginning, removing it for later comparison.
-            productName = productName.replaceFirst("the ", "");
-        }
-
-        productName = productName.replaceAll("&amp;", "&");
-
-        assertEquals("Product should be the selected one", productName.toLowerCase(), productDetailPage.getProductNameFromPDP().toLowerCase());
-
-
+        assertTrue("Product should be the selected one", productDetailPage.getProductNameFromPDP().contains(productName));
     }
 
     @And("^Verify amount of colors listed is correct$")
