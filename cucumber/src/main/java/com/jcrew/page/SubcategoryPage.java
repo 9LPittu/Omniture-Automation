@@ -221,8 +221,10 @@ public class SubcategoryPage {
     }
 
     public void click_first_product_in_grid() {
-        final WebElement productLink = getFirstProduct().findElement(By.className("product__image--small"));
+        final WebElement product     = getFirstProduct();
+        final WebElement productLink = product.findElement(By.className("product__image--small"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
+        saveProduct(product);
         productLink.click();
     }
 
@@ -230,19 +232,7 @@ public class SubcategoryPage {
         List<WebElement> products = getProductTileElements();
         int index = Util.randomIndex(products.size());
         WebElement randomProductSelected = products.get(index);
-        Product product = new Product();
-        product.setProductName(getProductName(randomProductSelected));
-
-        logger.debug("Selected product is {}", product.getProductName());
-
-        List<Product> productList = (List<Product>) stateHolder.get("productList");
-
-        if (productList == null) {
-            productList = new ArrayList<>();
-        }
-
-        productList.add(product);
-        stateHolder.put("productList", productList);
+        saveProduct(randomProductSelected);
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
         WebElement productLink = randomProductSelected.findElement(By.className("product-tile__link"));
@@ -525,5 +515,20 @@ public class SubcategoryPage {
                                 "' and contains(@class, 'tile__detail--name')]/.."))));
 
         productLink.click();
+    }
+
+    private void saveProduct(WebElement productElement) {
+        Product product = new Product();
+        product.setProductName(getProductName(productElement));
+
+        logger.debug("Selected product is {}", product.getProductName());
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
+
+        if (productList == null) {
+            productList = new ArrayList<>();
+        }
+
+        productList.add(product);
+        stateHolder.put("productList", productList);
     }
 }
