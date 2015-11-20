@@ -1,4 +1,5 @@
-@VeryPersonalStylist
+#TODO: Data driven
+#@VeryPersonalStylist
 Feature: Very Personal Stylist Product Feature
   
   Scenario: Very Personal Stylist Product Validation

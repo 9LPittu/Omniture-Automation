@@ -36,21 +36,26 @@ public class Header {
     }
 
     public boolean isHeaderLinkPresent(String headerLink) {
-        boolean result;
-        try {
-            result = headerWrap.findElement(By.linkText(headerLink)).isDisplayed();
-        } catch (StaleElementReferenceException sere) {
-            result = isHeaderLinkPresent(headerLink);
-        }
-        return result;
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(headerWrap.findElement(By.linkText(headerLink))));
+
+        return true;
     }
 
     public boolean isHeaderBagIconPresent() {
-        return bagIcon.isDisplayed();
+        try {
+            return bagIcon.isDisplayed();
+        } catch (StaleElementReferenceException sere) {
+            return isHeaderBagIconPresent();
+        }
     }
 
     public String getBagIconLinkText() {
-        return driver.findElement(By.className("primary-nav__item--bag")).getText();
+        try {
+            return driver.findElement(By.className("primary-nav__item--bag")).getText();
+        } catch (StaleElementReferenceException sere) {
+            return getBagIconLinkText();
+        }
     }
 
     public boolean isSearchDrawerOpen() {

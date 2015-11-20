@@ -1,4 +1,5 @@
-@Wishlist
+#TODO: Data driven
+#@Wishlist
 Feature: Ability to link to PDP from Wishlist
 
   Scenario: Wishlist should update properly

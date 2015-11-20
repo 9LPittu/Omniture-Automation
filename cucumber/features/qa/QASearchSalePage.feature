@@ -24,11 +24,7 @@ Feature: Regression Tests Search Sale Page
     Then User is in search results page
     And User selects a product with no sale price
     And Verify product name is the one it was selected
-    And A color is selected
-    And A size is selected
 
     Examples:
       | search_term |
       | skirts      |
-
-    

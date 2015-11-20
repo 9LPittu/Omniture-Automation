@@ -1,14 +1,15 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.HomePage;
-import com.jcrew.page.ProductDetailPage;
 import com.jcrew.page.SearchPage;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+
 import org.openqa.selenium.TimeoutException;
 
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class SearchPageSteps extends DriverFactory {
     private final SearchPage searchPage = new SearchPage(getDriver());
     private final HomePage homePage = new HomePage(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
-    private ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
 
     @Given("User is in search results page")
     public void user_is_in_search_results_page() {
@@ -207,8 +207,6 @@ public class SearchPageSteps extends DriverFactory {
         productList.add(product);
 
         stateHolder.put("productList", productList);
-
     }
 }
     
-

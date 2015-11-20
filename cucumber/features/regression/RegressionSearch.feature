@@ -26,8 +26,7 @@ Feature: Search Regression Suite
     And Validate View All option is NOT selected under Size refinement
     And Verify xx-small value is displayed next to Size refinement
     Then Select x-small multiple option from Size refinement
-    Then Select small multiple option from Size refinement
-    And Verify 3 selected value is displayed next to Size refinement
+    And Verify 2 selected value is displayed next to Size refinement
     And Verify Size refinement drawer remains open
 
   Scenario: Search Refine multi select, multiple selections
@@ -37,9 +36,8 @@ Feature: Search Regression Suite
     And Validate View All option is NOT selected under Size refinement
     And Verify xx-small value is displayed next to Size refinement
     Then Select x-small multiple option from Size refinement
-    Then Select small multiple option from Size refinement
     Then Click on Size refinement close drawer icon
-    And Verify 3 selected value is displayed next to Size refinement
+    And Verify 2 selected value is displayed next to Size refinement
 
   Scenario: Search Refine Breadcrumbs and results
     Given Click on Size refinement
@@ -48,12 +46,10 @@ Feature: Search Regression Suite
     And Validate View All option is NOT selected under Size refinement
     And Verify xx-small value is displayed next to Size refinement
     Then Select x-small multiple option from Size refinement
-    Then Select small multiple option from Size refinement
     Then Click on Size refinement close drawer icon
-    And Verify 3 selected value is displayed next to Size refinement
+    And Verify 2 selected value is displayed next to Size refinement
     Then Click on done button for refinement filter menu
     Then Verify number of results is less than 100
     And Verify xx-small option breadcrumb is created
     And Verify x-small option breadcrumb is created
-    And Verify small option breadcrumb is created
 

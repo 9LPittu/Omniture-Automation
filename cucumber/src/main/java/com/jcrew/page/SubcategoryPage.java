@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,7 +80,7 @@ public class SubcategoryPage {
                     By.id("qsLightBox")));
 
         } catch (NoSuchElementException nsee) {
-            logger.info("Modal element is not present, this is expected to happen");
+            logger.debug("Modal element is not present, this is expected to happen");
         }
 
     }
@@ -104,7 +103,7 @@ public class SubcategoryPage {
 
             String href = shoppingBagLink.getAttribute("href");
 
-            logger.info("click did not work, we may be using phantomjs and the link for shopping link bag does not " +
+            logger.debug("click did not work, we may be using phantomjs and the link for shopping link bag does not " +
                     "work as expected for this browser, redirecting to shopping bag page {}", href);
 
             driver.get(href);
@@ -222,8 +221,10 @@ public class SubcategoryPage {
     }
 
     public void click_first_product_in_grid() {
-        final WebElement productLink = getFirstProduct().findElement(By.className("product__image--small"));
+        final WebElement product     = getFirstProduct();
+        final WebElement productLink = product.findElement(By.className("product__image--small"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
+        saveProduct(product);
         productLink.click();
     }
 
@@ -231,19 +232,7 @@ public class SubcategoryPage {
         List<WebElement> products = getProductTileElements();
         int index = Util.randomIndex(products.size());
         WebElement randomProductSelected = products.get(index);
-        Product product = new Product();
-        product.setProductName(getProductName(randomProductSelected));
-
-        logger.debug("Selected product is {}", product.getProductName());
-
-        List<Product> productList = (List<Product>) stateHolder.get("productList");
-
-        if (productList == null) {
-            productList = new ArrayList<>();
-        }
-
-        productList.add(product);
-        stateHolder.put("productList", productList);
+        saveProduct(randomProductSelected);
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
         WebElement productLink = randomProductSelected.findElement(By.className("product-tile__link"));
@@ -465,15 +454,10 @@ public class SubcategoryPage {
         return endCapNavigationSection.findElement(By.className("icon-see-more")).isDisplayed();
     }
 
-    public void click_expand_accordion_icon_for_drawer_option(String option) {
-        click_icon_type(option, "icon-see-more");
-    }
-
-    private void click_icon_type(String option, String iconType) {
+    public void click_accordion_option(String option) {
         String delimiter = getDelimiter(option);
         final WebElement drawerOption = endCapNavigationSection.findElement(
-                By.xpath("//h5[text() = " + delimiter + option + delimiter + "]/i[contains(@class, '" +
-                        iconType + "')]"));
+                By.xpath("//h5[text() = " + delimiter + option + delimiter + "]"));
         drawerOption.click();
     }
 
@@ -514,10 +498,6 @@ public class SubcategoryPage {
         return drawerOption.isDisplayed();
     }
 
-    public void click_collapse_accordion_icon_for_drawer_option(String option) {
-        click_icon_type(option, "icon-see-less");
-    }
-
     public void click_on_product(String product) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         WebElement productLink = Util.createWebDriverWait(driver).
@@ -526,5 +506,20 @@ public class SubcategoryPage {
                                 "' and contains(@class, 'tile__detail--name')]/.."))));
 
         productLink.click();
+    }
+
+    private void saveProduct(WebElement productElement) {
+        Product product = new Product();
+        product.setProductName(getProductName(productElement));
+
+        logger.debug("Selected product is {}", product.getProductName());
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
+
+        if (productList == null) {
+            productList = new ArrayList<>();
+        }
+
+        productList.add(product);
+        stateHolder.put("productList", productList);
     }
 }

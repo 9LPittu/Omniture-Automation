@@ -68,7 +68,7 @@ public class HeaderSteps extends DriverFactory {
 
         primaryNavigationLinkNames.removeAll(ignoredLinksList);
 
-        assertEquals("Header Links order is not the expected", headerLinksList, primaryNavigationLinkNames);
+        assertEquals("Header Links order is not correct.", headerLinksList, primaryNavigationLinkNames);
 
     }
 

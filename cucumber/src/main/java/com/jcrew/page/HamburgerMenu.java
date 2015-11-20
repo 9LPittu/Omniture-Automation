@@ -62,17 +62,13 @@ public class HamburgerMenu {
     }
 
     private void click_on_sign_in_link_from_hamburger_menu() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(signInLinkFromHamburger));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInLinkFromHamburger));
         signInLinkFromHamburger.click();
     }
 
     public void click_on_sign_in_link() {
-        if (signInLink.isDisplayed()) {
-            signInLink.click();
-        } else {
-            click_on_hamburger_menu();
-            click_on_sign_in_link_from_hamburger_menu();
-        }
+        click_on_hamburger_menu();
+        click_on_sign_in_link_from_hamburger_menu();
     }
 
     public void click_on_back_link() {

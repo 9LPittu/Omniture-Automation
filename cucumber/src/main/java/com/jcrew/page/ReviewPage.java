@@ -25,6 +25,15 @@ public class ReviewPage {
 
     @FindBy(id = "shipping-details")
     private WebElement shippingSection;
+    
+    @FindBy(css = "div.billing-address.notranslate")
+    private WebElement billingAddress;
+    
+    @FindBy(css = "div.shipping-address.notranslate")
+    private WebElement shippingAddress;
+    
+    @FindBy(className="item-link-submit")
+    public WebElement placeYourOrderButton;
 
     public ReviewPage(WebDriver driver) {
         this.driver = driver;
@@ -53,5 +62,21 @@ public class ReviewPage {
 
     public boolean isShippingSectionDisplayed() {
         return shippingSection.isDisplayed();
+    }
+    
+    public boolean isShippingDetailsSectionDisplayed(){
+    	return shippingAddress.isDisplayed();
+    }
+    
+    public boolean isBillingDetailsSectionDisplayed(){
+    	return billingAddress.isDisplayed();
+    }
+    
+    public void enter_credit_card_security_code(String creditCardSecurityCode) {
+        securityCode.sendKeys(creditCardSecurityCode);
+    }
+    
+    public void clickPlaceYourOrder() throws InterruptedException{
+        placeYourOrderButton.click();
     }
 }
