@@ -454,15 +454,10 @@ public class SubcategoryPage {
         return endCapNavigationSection.findElement(By.className("icon-see-more")).isDisplayed();
     }
 
-    public void click_expand_accordion_icon_for_drawer_option(String option) {
-        click_icon_type(option, "icon-see-more");
-    }
-
-    private void click_icon_type(String option, String iconType) {
+    public void click_accordion_option(String option) {
         String delimiter = getDelimiter(option);
         final WebElement drawerOption = endCapNavigationSection.findElement(
-                By.xpath("//h5[text() = " + delimiter + option + delimiter + "]/i[contains(@class, '" +
-                        iconType + "')]"));
+                By.xpath("//h5[text() = " + delimiter + option + delimiter + "]"));
         drawerOption.click();
     }
 
@@ -501,10 +496,6 @@ public class SubcategoryPage {
                         "]/../ul[contains(@class, 'accordian__menu')]"));
 
         return drawerOption.isDisplayed();
-    }
-
-    public void click_collapse_accordion_icon_for_drawer_option(String option) {
-        click_icon_type(option, "icon-see-less");
     }
 
     public void click_on_product(String product) {

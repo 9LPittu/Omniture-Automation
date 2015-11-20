@@ -302,7 +302,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     @Then("^Taps on ([^\"]*) drawer and opens and all other drawer options are closed$")
     public void taps_on_drawer_and_opens_other_drawer_options_are_closed(String option) {
         if (subcategoryPage.isEndCapMoreIconDisplayed()) {
-            subcategoryPage.click_expand_accordion_icon_for_drawer_option(option);
+            subcategoryPage.click_accordion_option(option);
             for (String menuOption : subcategoryPage.getEndCapNavigationMenuOptions()) {
                 if (!menuOption.equalsIgnoreCase(option)) {
                     assertTrue(menuOption + " should have drawer closed",
@@ -327,7 +327,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     @Then("^Taps on collapse button for ([^\"]*)")
     public void taps_on_collapse_button_for_drawer(String menuOption) {
         if (subcategoryPage.isEndCapMoreIconDisplayed()) {
-            subcategoryPage.click_collapse_accordion_icon_for_drawer_option(menuOption);
+            subcategoryPage.click_accordion_option(menuOption);
         } else {
             logger.info("Skipping as this test is meant for mobile only");
         }
