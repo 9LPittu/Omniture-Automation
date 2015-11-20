@@ -6,10 +6,10 @@ Feature: Search By Item Number Regression Tests
     And User presses search button
 
   Scenario: validating search results page display by item number
-    And Enters C3409 to the search field
+    And Enters C9122 to the search field
     And Clicks on search button for input field
     Then User is in search results page
-    And Verify 3 available colors for C3409 are displayed
+    And Verify 9 available colors for C9122 are displayed
     And Enters e3896 to the search field
     And Clicks on search button for input field
     And User is in search results page
@@ -20,7 +20,7 @@ Feature: Search By Item Number Regression Tests
     Then User is in search results page
 
   Scenario: single product result goes to pdp directly
-    And Enters e4859 to the search field
+    And Enters A9932 to the search field
     And Clicks on search button for input field
     And User is in product detail page
 
