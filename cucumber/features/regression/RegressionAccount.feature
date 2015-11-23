@@ -4,7 +4,18 @@ Feature: Account Feature
   Background:
     Given User is on homepage
 
-  Scenario: Sign In
+  Scenario: Validating sign in page and login with valid credential, sign out
+    And Goes to sign in page
+    And User provides login information
+    And Check box is enabled
+    And Hits sign in button
+    Then User is in My Account page
+    And User clicks on SIGN OUT link in My Account Page
+    Then Verify user is in homepage
+    And User is signed out
+    And Verify BAG header link is displayed
+
+  Scenario: Successful sign in and account section validation
     Given Goes to sign in page
     When User provides login information
     And Check box is enabled
@@ -25,7 +36,31 @@ Feature: Account Feature
     And User clicks on My Account link
     Then User is in My Account page
 
-  Scenario: Deactivate State
+  Scenario: account page link validation
+    Given Goes to sign in page
+    And User provides login information
+    And Check box is enabled
+    And Hits sign in button
+    Then User is in My Account page
+    And User clicks on MY DETAILS link in My Account Page
+    And User should be in account_detail.jsp menu link page
+    And User clicks on EMAIL PREFERENCES link in My Account Page
+    And User should be in email_preferences.jsp menu link page
+    And User clicks on CATALOG PREFERENCES link in My Account Page
+    And User should be in catalog_preferences.jsp menu link page
+    And User clicks on PAYMENT METHODS link in My Account Page
+    And User should be in payment_info.jsp menu link page
+    And User clicks on GIFT CARD BALANCE link in My Account Page
+    And User should be in checkout/giftcard_balance1.jsp menu link page
+    And User presses back button
+    And User clicks on ADDRESS BOOK link in My Account Page
+    And User should be in address_book.jsp menu link page
+    And User clicks on ORDER HISTORY link in My Account Page
+    And User should be in reg_user_order_history.jsp menu link page
+    And User clicks on WISHLIST link in My Account Page
+    And User should be in /wishlist menu link page
+
+  Scenario: Error message validation for incorrect user (both error)
     Given Goes to sign in page
     And Login page is loaded
     When User enters invalid as email
@@ -37,6 +72,7 @@ Feature: Account Feature
     And Sign in button should be deactivated
 
   Scenario: Create New Account
+    #incomplete; script need to be updated for validation
     Given Goes to sign in page
     And Clicks on create new account
     And Fills required account data in create account page
