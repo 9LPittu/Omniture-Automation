@@ -8,7 +8,7 @@ public class MacroSteps {
     private final HamburgerMenuSteps hamburgerMenuSteps = new HamburgerMenuSteps();
     private final ShoppingBagSteps shoppingBagSteps = new ShoppingBagSteps();
 
-    @Then("^Verify embedded header and footer are visible and functional$")
+    @Then("^Verify embedded headers are visible and functional$")
     public void verify_embedded_header_and_footer_are_visible_and_functional() throws Throwable {
         headerSteps.verify_header_link_is_displayed("MENU");
         headerSteps.verify_header_link_is_displayed("SEARCH");

@@ -1,19 +1,25 @@
 package com.jcrew.runner.regression;
 
+/**
+ * Created by 9hvenaga on 11/23/2015.
+ */
+
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression"},
-        tags = {"@Logo"},
+        features = "features/regression",
+        tags = {"@PDP"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-logoregressionfeatures.json",
+                "json:target/cucumber-pdpregressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/logoregressionfeatures"
+                "html:target/cucumber/pdpregressionfeatures"
         }
 )
-public class LogoFeaturesRunnerTest {
+
+public class PDPFeaturesRunnerTest
+{
 }

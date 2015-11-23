@@ -1,7 +1,7 @@
 #TODO: Data driven
 #@VeryPersonalStylist
 Feature: Very Personal Stylist Product Feature
-  
+
   Scenario: Very Personal Stylist Product Validation
     Given User goes to /p/womens_category/jewelry/jewelryshop/garden-party-statement-earrings/C8678 page
     Then Size selector is not displayed
