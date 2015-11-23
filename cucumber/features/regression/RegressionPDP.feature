@@ -1,12 +1,10 @@
-# TODO: Needs review, too many steps and most of them random!
-#@AddToBagMultipleItemsRandom
+@PDP
 Feature: Multiple Items Random
 
-  Scenario: Add to bag multiple items
+  Scenario: Multiple item add to bag on guest user mode validate products on shopping bag
     Given User is on homepage
     Then User clicks on hamburger menu
-   #And Selects Women Category from hamburger menu
-    And Chooses a random category
+    And Selects Women Category from hamburger menu
     And Chooses a random subcategory
     And Selects any product from product grid list
     And Selects any variation for the product if existent
@@ -18,8 +16,7 @@ Feature: Multiple Items Random
 
     Then User clicks on hamburger menu
     And User clicks on back link
-    #And Selects Men Category from hamburger menu
-    And Chooses a random category
+    And Selects Men Category from hamburger menu
     And Chooses a random subcategory
     And Selects any product from product grid list
     And Selects any variation for the product if existent
@@ -31,8 +28,7 @@ Feature: Multiple Items Random
 
     Then User clicks on hamburger menu
     And User clicks on back link
-   # And Selects Girls Category from hamburger menu
-    And Chooses a random category
+    And Selects Girls Category from hamburger menu
     And Chooses a random subcategory
     And Selects any product from product grid list
     And Selects any variation for the product if existent
@@ -44,8 +40,7 @@ Feature: Multiple Items Random
 
     Then User clicks on hamburger menu
     And User clicks on back link
-   # And Selects Boys Category from hamburger menu
-    And Chooses a random category
+    And Selects Boys Category from hamburger menu
     And Chooses a random subcategory
     And Selects any product from product grid list
     And Selects any variation for the product if existent
@@ -72,3 +67,14 @@ Feature: Multiple Items Random
     And User should be in shopping bag page
     And Move to mobile site
     Then Verify all selected products are displayed
+
+   #incomplete, also needs test data
+  Scenario: Verify preorder button is displayed
+    Given User goes to /p/womens_category/sweaters/pullover/striped-leather-panel-swing-sweater/C9220 page
+    Then Verify product is a pre-order one
+    And Preorder button is displayed
+    And A color is selected
+    And A size is selected
+      #step for estimated ship date message needs to be created here.
+    And Preorder button is pressed
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
