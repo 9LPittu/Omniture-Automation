@@ -1,11 +1,11 @@
-package com.jcrew.runner.qa;
+package com.jcrew.runner.regression;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "features/qa",
+        features = "features/regression",
         tags = {"@Wishlist"},
         glue = {"com.jcrew.steps"},
         format = {"json:target/cucumber-wishlistfeatures.json",
