@@ -144,7 +144,6 @@ Feature: Embedded Header Validations
     Then User clicks on item bag
     And User should be in shopping bag page
 
-
   Scenario: Order Confirmation Page Header Links
     Given User is on homepage
     And User clicks on hamburger menu
@@ -236,7 +235,6 @@ Feature: Embedded Header Validations
     Then User clicks on item bag
     And User should be in shopping bag page
     Then Verify embedded headers are visible and functional
-
 
   Scenario: Wishlist Page Header Footer Links
     Given User is on homepage

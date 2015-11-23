@@ -1,9 +1,9 @@
-@Bag
+# TODO: Data driven
+#@Bag
 Feature: Edit Product In Bags Scenarios
 
   Background:
     Given User is on homepage
-
 
   Scenario: Edit link redirects user to PDP
     And User clicks on hamburger menu

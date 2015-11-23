@@ -1,4 +1,5 @@
-@PDP
+# TODO: We need to review how to handle all that randomness
+#@PDP
 Feature: Multiple Items Random
 
   Scenario: Multiple item add to bag on guest user mode validate products on shopping bag
@@ -68,13 +69,13 @@ Feature: Multiple Items Random
     And Move to mobile site
     Then Verify all selected products are displayed
 
-   #incomplete, also needs test data
-  Scenario: Verify preorder button is displayed
-    Given User goes to /p/womens_category/sweaters/pullover/striped-leather-panel-swing-sweater/C9220 page
-    Then Verify product is a pre-order one
-    And Preorder button is displayed
-    And A color is selected
-    And A size is selected
-      #step for estimated ship date message needs to be created here.
-    And Preorder button is pressed
-    Then A minicart modal should appear with message '1 item has been added to your cart.'
+#   TODO: incomplete, also needs test data
+#  Scenario: Verify preorder button is displayed
+#    Given User goes to /p/womens_category/sweaters/pullover/striped-leather-panel-swing-sweater/C9220 page
+#    Then Verify product is a pre-order one
+#    And Preorder button is displayed
+#    And A color is selected
+#    And A size is selected
+#    # step for estimated ship date message needs to be created here.
+#    And Preorder button is pressed
+#    Then A minicart modal should appear with message '1 item has been added to your cart.'

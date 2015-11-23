@@ -5,43 +5,43 @@ Feature: Search Regression Suite
     Given User is on homepage
     And User presses search button
 
-    Scenario:sale price and full price item search
-    And Enters C9122 to the search field
-    And Clicks on search button for input field
-    Then User is in search results page
-    And Verify 9 available colors for C9122 are displayed
-    And Enters e3896 to the search field
-    And Clicks on search button for input field
-    And User is in search results page
-    And Verify amount of items displayed is 2
-    And Verifies Tall perforated drapey crepe dress product sale price is now $119.99
-    And Enters dresses to the search field
-    And Clicks on search button for input field
-    Then User is in search results page
+#    TODO: Data driven
+#    Scenario:sale price and full price item search
+#    And Enters C9122 to the search field
+#    And Clicks on search button for input field
+#    Then User is in search results page
+#    And Verify 9 available colors for C9122 are displayed
+#    And Enters e3896 to the search field
+#    And Clicks on search button for input field
+#    And User is in search results page
+#    And Verify amount of items displayed is 2
+#    And Verifies Tall perforated drapey crepe dress product sale price is now $119.99
+#    And Enters dresses to the search field
+#    And Clicks on search button for input field
+#    Then User is in search results page
 
-  Scenario: single product result goes to pdp directly
-    And Enters A9932 to the search field
-    And Clicks on search button for input field
-    And User is in product detail page
+#  Scenario: single product result goes to pdp directly
+#    And Enters A9932 to the search field
+#    And Clicks on search button for input field
+#    And User is in product detail page
+#
+#  Scenario: multiple products with sale price should display two items
+#    And Enters e3835 to the search field
+#    And Clicks on search button for input field
+#    And User is in search results page
+#    And Verify amount of items displayed is 2
+#    And Verifies Petite perforated drapey crepe dress product sale price is now $119.99
+#
+#  Scenario: single product with sale price should go to pdp
+#    And Enters b7701 to the search field
+#    And Clicks on search button for input field
+#    And User is in product detail page
+#    And Verify product sale price is now $325.00
 
-  Scenario: multiple products with sale price should display two items
-    And Enters e3835 to the search field
-    And Clicks on search button for input field
-    And User is in search results page
-    And Verify amount of items displayed is 2
-    And Verifies Petite perforated drapey crepe dress product sale price is now $119.99
-
-  Scenario: single product with sale price should go to pdp
-    And Enters b7701 to the search field
-    And Clicks on search button for input field
-    And User is in product detail page
-    And Verify product sale price is now $325.00
-
-  #Scenario: single product entering exact name should go to pdp
-   # And Enters Carrie cami in tropical frond to the search field
-   # And Clicks on search button for input field
-   # And User is in product detail page
-
+#  Scenario: single product entering exact name should go to pdp
+#    And Enters Carrie cami in tropical frond to the search field
+#    And Clicks on search button for input field
+#    And User is in product detail page
 
   Scenario: Search Refine Single Select
     And Enters dresses to the search field
@@ -141,7 +141,6 @@ Feature: Search Regression Suite
       | search_term |
       | skirts      |
       | shoes       |
-
 
   Scenario Outline: search term should display search array & validate with regular priced product
     And Enters <search_term> to the search field

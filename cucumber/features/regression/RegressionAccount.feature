@@ -29,7 +29,7 @@ Feature: Account Feature
     And Validates link GIFT CARD BALANCE is displayed in My Account Page
     And Validates link ADDRESS BOOK is displayed in My Account Page
     And Validates link ORDER HISTORY is displayed in My Account Page
-    And Clicks on JCrew Logo
+    And Clicks on J.Crew Breadcrumb
     Then Verify user is in homepage
     Then User clicks on hamburger menu
     And My Account link is present
@@ -71,8 +71,8 @@ Feature: Account Feature
     And An error message saying Whoops, that's not right... Please try your password again. should appear
     And Sign in button should be deactivated
 
+  # TODO: incomplete; script need to be updated for validation
   Scenario: Create New Account
-    #incomplete; script need to be updated for validation
     Given Goes to sign in page
     And Clicks on create new account
     And Fills required account data in create account page
