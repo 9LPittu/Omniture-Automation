@@ -1,5 +1,4 @@
-#TODO: Data driven
-#@Wishlist
+@Wishlist
 Feature: Ability to link to PDP from Wishlist
 
   Scenario: Wishlist should update properly
@@ -12,33 +11,25 @@ Feature: Ability to link to PDP from Wishlist
     And User should be in wishlist page
     And Deletes all previous wishlist items from the list
     And User presses search button
-    And Enters E1600 to the search field
+    And Enters A1447 to the search field
     And Clicks on search button for input field
     And Color BLACK is selected by user
-    And Size LARGE is selected by user
+    And Size 6 is selected by user
     And Wishlist button is pressed
     Then Verify update message for wishlist is displayed and go to wishlist page
-    And Verify product Jeweled wool back-zip sweater color is BLACK size is LARGE and quantity is 1 in wishlist page
-    Then Edit wishlist for product Jeweled wool back-zip sweater
+    And Verify product Marlie dress in classic faille color is BLACK size is 6 and quantity is 1 in wishlist page
+    Then Edit wishlist for product Marlie dress in classic faille
     Given User is in product detail page
     Then Verify color BLACK is selected
-    And Verify size LARGE is selected
+    And Verify size 6 is selected
     And Verify 1 items are specified as quantity
     And Verify update wishlist button is displayed
-    Then Color HTHR STONE is selected by user
-    And Size MEDIUM is selected by user
-    Then Verify color HTHR STONE is selected
-    And Verify size MEDIUM is selected
+    Then Color SEA SPRAY is selected by user
+    And Size 8 is selected by user
     And Wishlist button is pressed
     Then Verify update message for wishlist is displayed and go to wishlist page
-    And Verify product Jeweled wool back-zip sweater color is HTHR STONE size is MEDIUM and quantity is 1 in wishlist page
-    Then Edit wishlist for product Jeweled wool back-zip sweater
+    And Verify product Marlie dress in classic faille color is SEA SPRAY size is 8 and quantity is 1 in wishlist page
+    Then Edit wishlist for product Marlie dress in classic faille
     Then User is in product detail page
-    Then Color HTHR STONE is selected by user
-    And Size MEDIUM is selected by user
-    And Wishlist button is pressed
-    Then Verify update message for button wishlist is displayed
-    Then Verify update wishlist button is displayed
     Then Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
-

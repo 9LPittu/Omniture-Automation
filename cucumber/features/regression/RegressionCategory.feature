@@ -6,12 +6,6 @@ Feature: Regression Tests Category Feature
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
 
-# TODO: Needs to be data driven
-#  Scenario: Check Category Header Title Not Present
-#    Given User clicks on SHIRTS & TOPS subcategory from Women Category
-#    And User should be in shirtsandtops page for women
-#    Then Category header should not be present
-
   Scenario: Check Category Header Title should be Present
     Given User clicks on SWEATERS subcategory from Women Category
     And User should be in sweaters page for women
@@ -28,15 +22,13 @@ Feature: Regression Tests Category Feature
     Then Verifies product information is displayed
     Then Verifies product image is displayed
 
-#  TODO: Needs to be data driven
-#  Scenario: Check Product Tiles for Sale Variations
-#    Given User clicks on SHIRTS & TOPS subcategory from Women Category
-#    And User should be in shirtsandtops page for women
-#    Then Verifies Grosgrain ribbon top product is displayed
-#    And Verifies Grosgrain ribbon top product price was $98.00
-#    And Verifies Grosgrain ribbon top product sale price is now $29.99
-#    And Verifies Grosgrain ribbon top is available in 2 colors
-#    And An image is displayed for Grosgrain ribbon top product
+  Scenario: Check Product Tiles for Sale Variations
+    Given User clicks on DRESSES subcategory from Women Category
+    And User should be in dresses page for women
+    Then Verifies Lace sheath dress product is displayed
+    And Verifies Lace sheath dress product price was $148.00
+    And Verifies Lace sheath dress product sale price is now $119.99
+    And Verifies product image is displayed
 
   Scenario: Check sign posts on category pages
     Given User clicks on J.CREW IN GOOD COMPANY subcategory from Women Category
