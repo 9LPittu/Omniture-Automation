@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class VeryPersonalStylistPage {
 
-    @FindBy(id = "navContainer-sticky-wrapper")
+    @FindBy(className = "helpText")
     private WebElement navigationContainerStickyWrapper;
 
     public VeryPersonalStylistPage(WebDriver driver) {

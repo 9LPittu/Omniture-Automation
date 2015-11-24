@@ -1,12 +1,14 @@
 @PDP
 Feature: Product Detail Page
 
-  Scenario: Product Detail Page Validation
+  Background:
     Given User is on homepage
     And User bag is cleared
     And User is on homepage
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
+
+  Scenario: Product Detail Page Validation
     When User clicks on SWEATERS subcategory from Men Category
     And Selects the first product from product grid list
     Then User is in product detail page

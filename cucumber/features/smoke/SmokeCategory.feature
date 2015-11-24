@@ -1,23 +1,22 @@
 @Category
 Feature: Category Page
 
-  Scenario: Sub category page is functional
+  Background:
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
+
+  Scenario: Sub category page is functional
     When User clicks on SWEATERS subcategory from Women Category
     Then User should be in subcategory page
 
   Scenario: Filter for subcategory works
-    Given User is on homepage
-    And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
     When User clicks on SWEATERS subcategory from Women Category
-    And View All Section is present and collapsed
-    And User clicks on expand icon
-    And Accordion should be expanded
+    Then View All Section is present and collapsed
+    When User clicks on expand icon
+    Then Accordion should be expanded
     And Collapse icon is displayed
-    And Chooses a random filter
-    And filter becomes selected
+    When Chooses a random filter
+    Then filter becomes selected
     And Refine modal autocloses
     And Products displayed match subcategory
