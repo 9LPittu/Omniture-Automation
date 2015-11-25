@@ -1,4 +1,4 @@
-@VeryPersonalStylist
+#@VeryPersonalStylist
 Feature: Very Personal Stylist Product Feature
 
   Background:

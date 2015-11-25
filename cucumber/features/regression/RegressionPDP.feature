@@ -41,15 +41,15 @@ Feature: Multiple Items Random
     And Selects the first product from product grid list
     And User is in product detail page
 
-  Scenario: Verify preorder button is displayed
-    When User presses search button
-    And Enters 49923 to the search field
-    And Hits enter in search field
-    And Selects the first product from product grid list
-    Then Verify product is a pre-order one
-    And Preorder button is displayed
-    And A color is selected
-    And A size is selected
-    # step for estimated ship date message needs to be created here.
-    When Preorder button is pressed
-    Then A minicart modal should appear with message '1 item has been added to your cart.'
+#  Scenario: Verify preorder button is displayed
+#    When User presses search button
+#    And Enters 49923 to the search field
+#    And Hits enter in search field
+#    And Selects the first product from product grid list
+#    Then Verify product is a pre-order one
+#    And Preorder button is displayed
+#    And A color is selected
+#    And A size is selected
+#    # step for estimated ship date message needs to be created here.
+#    When Preorder button is pressed
+#    Then A minicart modal should appear with message '1 item has been added to your cart.'
