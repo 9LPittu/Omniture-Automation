@@ -1,7 +1,7 @@
 @Search
 Feature: Smoke Tests Search Page
 
-  Scenario: Search functionality
+  Background:
     Given User is on homepage
     And User presses search button
     And Enters dresses to the search field
@@ -9,6 +9,8 @@ Feature: Smoke Tests Search Page
     And User is in search results page
     And Search results are displayed
     And Gender selectors are displayed
+
+  Scenario: Search functionality
     When Clicks on gender selector
     And User is in gender refine array page
     Then Refine button is displayed

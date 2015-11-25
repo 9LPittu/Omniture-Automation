@@ -1,9 +1,11 @@
 @Home
 Feature: Home Page
 
-  Scenario: Home page is functional
+  Background:
     Given User is on homepage
-    And JCrew Logo is present
+
+  Scenario: Home page is functional
+    Then JCrew Logo is present
     And Stores Link is present
     And Hamburger menu is present
     When User clicks on hamburger menu
@@ -14,3 +16,4 @@ Feature: Home Page
     And Hamburger Menu Wedding Link is present
     And Hamburger Menu sale Link is present
     And Hamburger Menu Blog Link is present
+

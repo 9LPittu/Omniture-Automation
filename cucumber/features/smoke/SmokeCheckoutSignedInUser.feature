@@ -11,7 +11,7 @@ Feature: Checkout Process Signed in User
     And User is on homepage
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
-    When User clicks on SWEATERS subcategory from Men Category
+    And User clicks on SWEATERS subcategory from Men Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A variation is selected
@@ -23,14 +23,14 @@ Feature: Checkout Process Signed in User
 
   Scenario: Checkout signed in user
     When User clicks on item bag
-    And Verifies edit button is present
+    Then Verifies edit button is present
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are numbers
     And Clicks on checkout
 
   Scenario: Express Checkout
     When User goes to homepage
-    And User clicks on item bag
+    Then User clicks on item bag
     And Verifies edit button is present
     And Verifies remove button is present
     And Verifies that total amount and subtotal values are numbers

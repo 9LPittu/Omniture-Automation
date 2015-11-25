@@ -4,9 +4,6 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
-/**
- * Created by 9hvenaga on 11/23/2015.
- */
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/regression",
@@ -16,7 +13,6 @@ import org.junit.runner.RunWith;
                 "pretty",
                 "html:target/cucumber/verypersonalstylistfeatures"}
 )
-
 
 public class VeryPersonalStylistFeaturesRunnerTest {
 }

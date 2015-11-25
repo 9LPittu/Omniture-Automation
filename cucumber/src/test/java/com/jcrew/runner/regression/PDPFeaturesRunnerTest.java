@@ -1,9 +1,5 @@
 package com.jcrew.runner.regression;
 
-/**
- * Created by 9hvenaga on 11/23/2015.
- */
-
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
