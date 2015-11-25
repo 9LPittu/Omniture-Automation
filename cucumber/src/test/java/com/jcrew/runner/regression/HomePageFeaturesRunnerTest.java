@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
         tags = {"@Home"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-homecifeatures.json",
+                "json:target/cucumber-homeregressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/homecifeatures"
+                "html:target/cucumber/homeregressionfeatures"
         }
 )
 public class HomePageFeaturesRunnerTest {
