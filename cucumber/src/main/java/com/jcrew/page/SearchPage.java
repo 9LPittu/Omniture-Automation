@@ -70,7 +70,7 @@ public class SearchPage {
     }
 
     public List<String> areGenderSelectorsDisplayed() {
-        final List<String> genderSelectorAttributes = new ArrayList<String>();
+        final List<String> genderSelectorAttributes = new ArrayList<>();
         for (WebElement gender_selector : genderSelectors) {
 
             genderSelectorAttributes.add(gender_selector.getAttribute("data-group"));
@@ -125,7 +125,7 @@ public class SearchPage {
     public boolean isSortByOptionDisplayed(String sortByOption) {
         final WebElement filterRefinementElement = searchFilterSortBySection.
                 findElement(By.xpath(".//a[text()='" + sortByOption + "' and contains(@class, 'search__refinement--link')]"));
-        return filterRefinementElement.isDisplayed();
+        return filterRefinementElement.isEnabled();
     }
 
 
@@ -140,7 +140,7 @@ public class SearchPage {
 
         List<WebElement> products_displayed = productGrid.findElements(By.className("c-product-tile"));
 
-        List<WebElement> no_sale_products = new ArrayList<WebElement>();
+        List<WebElement> no_sale_products = new ArrayList<>();
         for (WebElement product_displayed : products_displayed) {
             if (!product_displayed.getText().contains("now")) {
                 no_sale_products.add(product_displayed);
