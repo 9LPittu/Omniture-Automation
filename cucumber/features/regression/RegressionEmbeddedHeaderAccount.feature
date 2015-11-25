@@ -36,11 +36,6 @@ Feature: Embedded Header Validations
     And User should be in reg_user_order_history.jsp menu link page
     Then Verify embedded headers are visible and functional
 
-  Scenario: Account Order History Page Header Links
-    And User clicks on ORDER HISTORY link in My Account Page
-    And User should be in reg_user_order_history.jsp menu link page
-    Then Verify embedded headers are visible and functional
-
   Scenario: Account Payment Methods Page Header Links
     And User clicks on PAYMENT METHODS link in My Account Page
     And User should be in payment_info.jsp menu link page
