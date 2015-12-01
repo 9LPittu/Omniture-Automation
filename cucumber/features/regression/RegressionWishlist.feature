@@ -15,6 +15,7 @@ Feature: Ability to link to PDP from Wishlist
     When User presses search button
     And Enters A1447 to the search field
     And Clicks on search button for input field
+    And Search drawer is open
     And Color BLACK is selected by user
     And Size 6 is selected by user
     And Wishlist button is pressed

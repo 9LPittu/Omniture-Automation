@@ -1,5 +1,5 @@
 @EmbeddedHeader
-Feature: Embedded Header Validations
+Feature: Account Embedded Header Validations
 
   Background:
     Given User is on homepage

@@ -463,17 +463,12 @@ public class SubcategoryPage {
 
     public boolean isDrawerClosedForOption(String menuOption) {
         String delimiter = getDelimiter(menuOption);
+        By locator = By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
+                "]/../ul[contains(@class, 'accordian__menu')]");
         Util.createWebDriverWait(driver).until(
-                ExpectedConditions.invisibilityOfElementLocated(
-                        By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
-                                "]/../ul[contains(@class, 'accordian__menu')]")
-                )
-        );
-        WebElement drawerOption = endCapNavigationSection.findElement(
-                By.xpath("//h5[text() = " + delimiter + menuOption + delimiter +
-                        "]/../ul[contains(@class, 'accordian__menu')]"));
+                ExpectedConditions.invisibilityOfElementLocated(locator));
 
-        return !drawerOption.isDisplayed();
+        return true;
     }
 
     private String getDelimiter(String menuOption) {

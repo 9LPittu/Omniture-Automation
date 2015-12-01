@@ -48,8 +48,10 @@ public class HamburgerMenu {
 
     public void click_on_hamburger_menu() {
         try {
+            Util.waitForPageFullyLoaded(driver);
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
             hamburgerMenu.click();
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(categoryMenu));
         } catch (StaleElementReferenceException sele) {
             click_on_hamburger_menu();
         }
@@ -109,10 +111,6 @@ public class HamburgerMenu {
         return menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and " +
                 "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = " +
                 "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
-    }
-
-    public boolean isSubcategoryMenuLinkPresent(String subcategory) {
-        return getSubcategoryFromMenu(subcategory, "").isDisplayed();
     }
 
     public void close_subcategory_hamburger_menu() {
