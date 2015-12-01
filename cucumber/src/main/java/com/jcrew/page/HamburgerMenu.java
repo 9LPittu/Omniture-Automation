@@ -48,10 +48,8 @@ public class HamburgerMenu {
 
     public void click_on_hamburger_menu() {
         try {
-            Util.waitForPageFullyLoaded(driver);
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
             hamburgerMenu.click();
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(categoryMenu));
         } catch (StaleElementReferenceException sele) {
             click_on_hamburger_menu();
         }

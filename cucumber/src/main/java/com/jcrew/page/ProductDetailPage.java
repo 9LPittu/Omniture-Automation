@@ -325,9 +325,6 @@ public class ProductDetailPage {
 
     private void setSalePriceIfPresent(WebElement color, Product product) {
         try {
-            WebElement salePrice = driver.findElement(By.id("c-product__price-colors")).
-                    findElement(By.cssSelector(".colors-list__item.is-selected")).
-                    findElement(By.xpath("../../../span[contains(@class, 'product__price--sale')]"));
             product.setPriceSale(salePrice.getText());
 
         } catch (StaleElementReferenceException sere) {

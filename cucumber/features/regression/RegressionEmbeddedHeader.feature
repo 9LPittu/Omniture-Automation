@@ -120,6 +120,7 @@ Feature: Embedded Header Validations
     And Selects to checkout as guest
     And Fills shipping address
     And Presses continue button on shipping address
+    And Verifies is in shipping method page
     Then Verify embedded headers are visible and functional
 
   Scenario: Shopping Bag Page header footer links
