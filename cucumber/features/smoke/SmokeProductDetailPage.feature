@@ -12,7 +12,6 @@ Feature: Product Detail Page
     When User clicks on SWEATERS subcategory from Men Category
     And Selects the first product from product grid list
     Then User is in product detail page
-    And A variation is selected
     And A color is selected
     And A size is selected
     And A wishlist button is present

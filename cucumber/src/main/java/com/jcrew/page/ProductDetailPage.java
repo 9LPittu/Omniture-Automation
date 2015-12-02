@@ -282,27 +282,6 @@ public class ProductDetailPage {
         return productDetails.findElement(By.className("product__price--list")).getText();
     }
 
-    public void select_random_variation() {
-        try {
-            List<WebElement> variationsList = driver.findElement(By.id("c-product__variations")).
-                    findElements(By.className("product__variation"));
-
-            if (!variationsList.isEmpty()) {
-                int index = Util.randomIndex(variationsList.size());
-                WebElement variation = variationsList.get(index);
-
-                Product product = Util.getCurrentProduct();
-                product.setSelectedVariation(variation.findElement(By.className("product__variation--name")).getText());
-
-                variation.click();
-            }
-        } catch (StaleElementReferenceException sere) {
-            select_random_variation();
-        } catch (NoSuchElementException nsee) {
-            logger.debug("No variations section was found for the product selected");
-        }
-    }
-
     public void select_random_color() {
         try {
             List<WebElement> colorsList = Util.createWebDriverWait(driver).until(

@@ -10,7 +10,6 @@ Feature: Checkout Process
     And User clicks on SWEATERS subcategory from Men Category
     And Selects the first product from product grid list
     And User is in product detail page
-    And A variation is selected
     And A color is selected
     And A size is selected
     And A wishlist button is present

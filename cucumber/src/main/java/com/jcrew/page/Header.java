@@ -119,7 +119,8 @@ public class Header {
     }
 
     public void click_item_bag() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(shoppingBagLink)).click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(shoppingBagLink));
+        shoppingBagLink.click();
     }
 
     public boolean isBagLinkDisplaying() {

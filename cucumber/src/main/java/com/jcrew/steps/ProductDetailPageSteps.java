@@ -209,11 +209,6 @@ public class ProductDetailPageSteps extends DriverFactory {
         productDetailPage.click_add_to_cart();
     }
 
-    @And("^Selects any variation for the product if existent$")
-    public void selects_any_variation_for_the_product_if_existent() throws Throwable {
-        productDetailPage.select_random_variation();
-    }
-
     @And("^Selects any color for the product$")
     public void selects_any_color_for_the_product() throws Throwable {
         productDetailPage.select_random_color();
