@@ -10,4 +10,4 @@ Feature: Subcategory Page
 
   Scenario: Subcategory Page functionality
     When User hovers a product
-    Then Proper details are shown for the hovered product
+    Then Verifies product information is displayed

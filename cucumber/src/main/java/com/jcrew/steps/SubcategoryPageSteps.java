@@ -47,12 +47,6 @@ public class SubcategoryPageSteps extends DriverFactory {
         subcategoryPage.hover_first_product_in_grid();
     }
 
-    @Then("^Proper details are shown for the hovered product$")
-    public void proper_details_are_shown_for_the_hovered_product() {
-        assertTrue("All products should contain a name and a price", subcategoryPage.isFirstProductNameAndPriceValid());
-        assertTrue("All product variations should be valid", subcategoryPage.areFirstProductColorVariationsValid());
-    }
-
     @Then("^Product array should be displayed with correct values$")
     public void product_array_should_be_displayed_with_correct_values() {
         assertTrue("All products should contain correct values", subcategoryPage.isProductArrayValid());
@@ -195,7 +189,6 @@ public class SubcategoryPageSteps extends DriverFactory {
     @Then("^Verifies product information is displayed$")
     public void verifies_product_information_is_displayed() {
         assertTrue("Product name and price are valid", subcategoryPage.isFirstProductNameAndPriceValid());
-        assertTrue("Procut colors are valid", subcategoryPage.areFirstProductColorVariationsValid());
     }
 
     @And("^Verifies product image is displayed$")
