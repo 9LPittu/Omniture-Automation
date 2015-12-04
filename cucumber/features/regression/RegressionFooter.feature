@@ -4,13 +4,36 @@ Feature: Footer Tests
   Background:
     Given User is on homepage
 
-  Scenario: Verify Footer Tests
+   #tc-01 and tc-02
+  Scenario: Verification of Footer section in the page
+    Then Contact Us header from footer is visible
+    And twitter icon is displayed
+    And phone icon is displayed
+    And vps icon is displayed
     Then Verify Let Us Help You footer link is displayed
     And Verify Our Cards footer link is displayed
     And Verify Our Stores footer link is displayed
     And Verify Our Brands footer link is displayed
     And Verify About J.Crew footer link is displayed
     And Verify LIKE BEING FIRST? footer header legend is displayed
+    And Verify email field is displayed
+    And Verify Get To Know Us footer link is displayed
+    And Verify facebook icon is displayed under Get To Know Us section
+    And Verify twitter icon is displayed under Get To Know Us section
+    And Verify tumblr icon is displayed under Get To Know Us section
+    And Verify pinterest icon is displayed under Get To Know Us section
+    And Verify instagram icon is displayed under Get To Know Us section
+    And Verify google icon is displayed under Get To Know Us section
+    And Verify youtube icon is displayed under Get To Know Us section
+    # tc-03 goes here--And Verify Content Grouping Order is valid
+
+  Scenario:
+
+
+
+
+
+
 
   Scenario: Size Charts
     When Click on footer link Let Us Help You

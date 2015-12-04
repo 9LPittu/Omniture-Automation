@@ -76,6 +76,33 @@ public class Footer {
     public boolean isTopHeaderVisible(String text) {
         return footerRowTop.findElement(By.xpath("//h6[text()='" + text + "']")).isDisplayed();
     }
+
+    public boolean isIconAndTextDisplayed(String icon) {
+        List<WebElement> contactUsIconsList = footerRowTop.findElements(By.className("footer__help__menu"));
+        boolean iconDisplayed = false;
+        for(WebElement contactUsIcon: contactUsIconsList) {
+            //Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(contactUsIcon.findElement(By.cssSelector("a[href*='"+icon+"']"))));
+            System.out.println(contactUsIcon.getText());
+             iconDisplayed =contactUsIcon.findElement(By.className("footer__help__item--"+icon)).isDisplayed();
+        }
+        return iconDisplayed;
+    }
+
+    public boolean isSocialIconDisplayed(String socialIcon) {
+        List<WebElement> socialNetworkIconsList = footerWrapMain.findElements(By.className("footer__social__menu"));
+        boolean iconDisplayed = false;
+        for(WebElement socialNetworkIcon: socialNetworkIconsList) {
+            //Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(contactUsIcon.findElement(By.cssSelector("a[href*='"+icon+"']"))));
+            iconDisplayed =socialNetworkIcon.findElement(By.className("footer-"+socialIcon)).isDisplayed();
+        }
+        return iconDisplayed;
+    }
+
+    public boolean isEmailFieldDisplayed()  {
+        return footerWrapMain.findElement(By.tagName("input")).isDisplayed();
+    }
+
+
     public void click_bottom_link(String bottomLink) {
         footerRowBottom.findElement(By.linkText(bottomLink)).click();
     }

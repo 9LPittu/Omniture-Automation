@@ -47,4 +47,20 @@ public class FooterSteps extends DriverFactory {
     public void click_con_header_from_footer(String text) throws Throwable {
         assertTrue("Contact us header is visible", footer.isTopHeaderVisible(text));
     }
+
+    @And("^([^\"]*) icon is displayed$")
+    public void verify_icon_and_text_is_displayed(String icon) {
+        assertTrue(icon+ "should be displayed+", footer.isIconAndTextDisplayed(icon));
+
+    }
+
+    @And("Verify email field is displayed$")
+    public void verify_email_field_is_displayed() {
+        assertTrue("Email field should be displayed", footer.isEmailFieldDisplayed());
+    }
+
+    @And("Verify ([^\"]*) icon is displayed under Get To Know Us section")
+    public void verify_social_icons_are_displayed(String socialIcon) {
+        assertTrue("Social network icon should be displayed", footer.isSocialIconDisplayed(socialIcon));
+    }
 }
