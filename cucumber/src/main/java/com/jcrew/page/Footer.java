@@ -24,6 +24,8 @@ public class Footer {
     private  WebElement footerRowBottom;
     @FindBy(className = "footer__row--top")
     private  WebElement footerRowTop;
+    @FindBy(className = "js-footer__menu")
+    private List<WebElement> subLinks;
 
     public Footer(WebDriver driver) {
         this.driver = driver;
@@ -66,6 +68,14 @@ public class Footer {
         WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublink));
         footerSublink.click();
+    }
+
+    public boolean isSubLinkDisplayed(String sublink) {
+        boolean subLinkDisplayed = false;
+        for(WebElement subLink: subLinks) {
+            subLinkDisplayed = subLink.findElement(By.xpath("//a[text()='" + sublink + "']")).isDisplayed();
+        }
+            return subLinkDisplayed;
     }
 
 

@@ -27,43 +27,89 @@ Feature: Footer Tests
     And Verify youtube icon is displayed under Get To Know Us section
     # tc-03 goes here--And Verify Content Grouping Order is valid
 
-  Scenario:
-
-
-
-
-
-
-
-  Scenario: Size Charts
+  Scenario: Verification of Let Us Help You links display
     When Click on footer link Let Us Help You
-    And Click on sublink Size Charts from Let Us Help You footer link
-    Then Verify user is on size charts page
+    And Accordion should be expanded
+    And Order Status sublink is displayed
+    And Shipping & Handling sublink is displayed
+    And Returns & Exchanges sublink is displayed
+    And International Orders sublink is displayed
+    And Size Charts sublink is displayed
+    And Contact Us sublink is displayed
+    And Request A Style Guide sublink is displayed
 
-  Scenario: Very Personal Stylist
-    When Click on footer link Let Us Help You
-    And Click on sublink Request A Style Guide from Let Us Help You footer link
-    And Verify user is on personal stylist page
-
-  Scenario: Order Status
+  Scenario: Verification of Let Us Help You Order Status link functionality
     When Click on footer link Let Us Help You
     And Click on sublink Order Status from Let Us Help You footer link
     Then Verify user is on order status page
+    And User is on /help/order_status.jsp?sidecar=true page
 
-  Scenario: Shipping & Handling
+  Scenario: Verification of Let Us Help You Shipping & Handling link functionality
     Then Click on footer link Let Us Help You
     And Click on sublink Shipping & Handling from Let Us Help You footer link
     And Verify user is on shipping & handling page
+    And User is on /help/shipping_handling.jsp?sidecar=true page
 
-   Scenario: Returns And Exchanges
+  Scenario: Verification of Let Us Help You Returns And Exchanges link functionality
     Then Click on footer link Let Us Help You
     And Click on sublink Returns & Exchanges from Let Us Help You footer link
     And Verify user is on returns & exchanges page
+    And User is on /help/returns_exchanges.jsp?sidecar=true page
 
-  Scenario: Request A Style Guide
+  Scenario: Verification of Let Us Help You International Orders link functionality
+    Then Click on footer link Let Us Help You
+    And Click on sublink International Orders from Let Us Help You footer link
+    #And Verify user is on returns & exchanges page
+    And User is on /help/international_orders.jsp?sidecar=true page
+
+  Scenario: Verification of Let Us Help You Size Charts link functionality
+    Then Click on footer link Let Us Help You
+    And Click on sublink Size Charts from Let Us Help You footer link
+    And User is on /r/size-charts page
+
+  Scenario: Verification of Let Us Help You Contact Us link functionality
+    Then Click on footer link Let Us Help You
+    And Click on sublink Contact Us from Let Us Help You footer link
+    And User is on /footie/contactus.jsp?sidecar=true page
+
+  Scenario: Verification of Let Us Help You Request A Style Guide link functionality
     Then Click on footer link Let Us Help You
     And Click on sublink Request A Style Guide from Let Us Help You footer link
     And Verify user is on request a catalog page
+
+  Scenario: Verification of Our Cards links display
+    When Click on footer link Our Cards
+    And Accordion should be expanded
+    # And The J.Crew Credit Card sublink is displayed
+    #And The J.Crew Gift Card sublink is displayed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
    Scenario: Our Story
     Then Click on footer link About J.Crew

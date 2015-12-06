@@ -26,6 +26,10 @@ public class FooterSteps extends DriverFactory {
     public void verify_footer_sub_text_is_displayed(String subText, String footerLink) throws Throwable {
         assertEquals("sub text is not the same", subText, footer.getFooterSubText(footerLink));
     }
+    @And("^([^\"]*) sublink is displayed$")
+    public void verify_sublink_is_displayed(String sublink) {
+        assertTrue(sublink+" should be displayed", footer.isSubLinkDisplayed(sublink));
+    }
 
     @And("^Click on sublink ([^\"]*) from ([^\"]*) footer link$")
     public void click_on_footer_sub_link(String footerSubLink, String footerLink) throws Throwable {
