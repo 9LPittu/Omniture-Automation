@@ -60,11 +60,12 @@ public class StartingSteps {
 
     private void getIntialPage() {
         String env = reader.getEnvironment();
-        if (env.contains("aka-int-www") &&
-                !reader.getBrowser().contains("ios") && !reader.getBrowser().contains("android")) {
-
+        if (env.contains("aka-int-www")) {
             driver.get(env + "/enableResponsive_sm.jsp");
-            driver.findElement(By.linkText("click to browse")).click();
+
+            if (!reader.getBrowser().contains("ios") && !reader.getBrowser().contains("android")) {
+                driver.findElement(By.linkText("click to browse")).click();
+            }
         } else {
             driver.get(env);
         }
