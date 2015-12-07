@@ -22,5 +22,5 @@ java -jar selenium-server-standalone-2.48.2.jar -port 9004 -browser browserName=
 #chrome
 java -jar selenium-server-standalone-2.48.2.jar -port 9005 -browser browserName=chrome,maxInstances=5,platform=WINDOWS -role node -hub http://nyc-wdevtool-03:4444/grid/register -Dwebdriver.chrome.driver=chromedriver.exe
 
-#iphone 6
+#iphone 6 plus
 appium -U e2ce88f865ff8116c6b01754e73e79a79690199e --nodeconfig /Users/qalab/nodeconfig-iphone6plus.json --no-reset --session-override --dont-stop-app-on-reset --port 4720 -bp 4790 --command-timeout 240
