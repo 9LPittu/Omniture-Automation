@@ -131,9 +131,9 @@ public class SearchPage {
 
     public boolean isSortByOptionSelected(String sortByOption) {
         final WebElement sortByOptionCheckbox = searchFilterSortBySection.findElement(
-                By.xpath(".//a[text()='" + sortByOption + "' and contains(@class, 'search__refinement--link')]/../input"));
+                By.xpath(".//a[text()='" + sortByOption + "' and contains(@class, 'search__refinement--link') and contains(@class, 'is-selected')]"));
 
-        return sortByOptionCheckbox.isSelected();
+        return sortByOptionCheckbox.isDisplayed();
     }
 
     public String click_on_no_sale_price_product() {
