@@ -63,7 +63,7 @@ public class StartingSteps {
         if (env.contains("aka-int-www")) {
             driver.get(env + "/enableResponsive_sm.jsp");
 
-            if (!reader.getBrowser().contains("ios") && !reader.getBrowser().contains("android")) {
+            if (!reader.getProperty("browser").contains("ios") && !reader.getProperty("browser").contains("android")) {
                 driver.findElement(By.linkText("click to browse")).click();
             }
         } else {
