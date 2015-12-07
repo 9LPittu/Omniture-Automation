@@ -58,8 +58,8 @@ public class StartingSteps {
                 By.className("footer__help__menu")));
     }
 
-    private void getIntialPage() {
-        String env = reader.getEnvironment();
+    public void getIntialPage() {
+        String env = reader.getProperty("environment");
         if (env.contains("aka-int-www")) {
             driver.get(env + "/enableResponsive_sm.jsp");
 
@@ -73,12 +73,12 @@ public class StartingSteps {
 
     @And("^User goes to homepage$")
     public void user_goes_to_homepage() throws Throwable {
-        driver.get(reader.getEnvironment());
+        driver.get(reader.getProperty("environment"));
     }
 
     @And("^User bag is cleared$")
     public void user_bag_is_cleared() {
-        driver.navigate().to(reader.getEnvironment() + "/CleanPersistentCart.jsp");
+        driver.navigate().to(reader.getProperty("environment") + "/CleanPersistentCart.jsp");
         Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "Cart Removed from DB"));
     }
 
