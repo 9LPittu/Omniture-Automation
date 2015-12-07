@@ -31,7 +31,7 @@ public class PropertyReader {
         String environment = System.getProperty("environment", "ci");
         String viewport = System.getProperty("viewport", "desktop");
     	String configurationFile = environment + "-" + viewport + ".properties";
-
+    	
         logger.info("Configuration file to be used {}", configurationFile);
 
         FileInputStream inputStream = new FileInputStream(configurationFile);

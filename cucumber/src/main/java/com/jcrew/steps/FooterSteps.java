@@ -2,9 +2,9 @@ package com.jcrew.steps;
 
 import com.jcrew.page.Footer;
 import com.jcrew.util.DriverFactory;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -66,5 +66,60 @@ public class FooterSteps extends DriverFactory {
     @And("Verify ([^\"]*) icon is displayed under Get To Know Us section")
     public void verify_social_icons_are_displayed(String socialIcon) {
         assertTrue("Social network icon should be displayed", footer.isSocialIconDisplayed(socialIcon));
+    }
+    
+    @Then("^user should see email subscription field under LIKE BEING FIRST section$")
+    public void verify_email_subscription_displayed_under_like_being_first_section(){
+    	assertTrue("Email subscription field under LIKE BEING FIRST section", footer.isEmailDisplayedUnderLikeBeingFirstSection());
+    }
+    
+    @And("^user should see default text in email field as \'([^\"]*)\'$")
+    public void verify_default_text_in_email_field(String defaultText){
+    	assertTrue("Default text in the email field should be " + defaultText, footer.isEmailFieldMatchesWithDefaultText(defaultText));
+    }
+    
+    @Then("^enter email address as \"([^\"]*)\" in email field$")
+    public void enter_email_address_in_footer_email_field(String emailAddress){
+    	footer.enterEmailAddressInFooterEmailField(emailAddress);
+    }
+    
+    @And("^click on signup button in footer$")
+    public void click_signup_button_in_footer(){
+    	footer.clickSignUpButtonInFooter();
+    }
+    
+    @Then("^user should see message as \"([^\"]*)\"$")
+    public void message_displayed_footer_signup(String message) throws InterruptedException{
+    	assertTrue("Message should be displayed as " + message, footer.isMessageDisplayedCorrectlyDuringFooterSignUp(message));
+    }
+    
+    @Then("^user should see Ship To section in footer$")
+    public void verify_ship_to_section_is_displayed(){
+    	assertTrue("SHIP TO section should be displayed in the footer",footer.isShipToSectionDisplayed());
+    }
+    
+    @And("^verify country name is displayed in the ship to section of footer$")
+    public void verify_country_name_displayed_in_footer(){
+    	assertTrue("Country name should be displayed in the footer",footer.isCountryNameDisplayedInFooter());
+    }
+    
+    @And("^verify change link is displayed in the ship to section of footer$")
+    public void verify_change_link_displayed_in_footer(){
+    	assertTrue("Change link should be displayed in the footer",footer.isChangeLinkDisplayedInFooter());
+    }
+    
+    @Then("^click on change link from footer$")
+    public void click_change_link_in_footer(){
+    	footer.clickChangeLinkInFooter();
+    }
+    
+    @And("^select country as \"([^\"]*)\"$")
+    public void select_country_from_footer(String country){
+    	footer.selectCountry(country);
+    }
+    
+    @Then("^user should see \"([^\"]*)\" in footer$")
+    public void verify_country_name_in_footer(String country){
+    	assertTrue("Country name should be displayed as " + country, footer.isChangedCountryNameDsiplayedInFooter(country));
     }
 }

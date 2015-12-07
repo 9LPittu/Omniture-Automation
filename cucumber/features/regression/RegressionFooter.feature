@@ -156,42 +156,28 @@ Feature: Footer Tests
     And Click on sublink Madewell from Our Brands footer link
     And Verify user is on the madewell page
     And User is on external page https://www.madewell.com/index.jsp?srcCode=JCFooter
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   
+  #US13389_TC12 
+  Scenario: Verify email subscription field  is displaying under Like being First section
+   	Then user should see email subscription field under LIKE BEING FIRST section
+   	And user should see default text in email field as 'Enter your email.'
+   	Then enter email address as "invalidemail" in email field
+   	And click on signup button in footer
+   	Then user should see message as "Please enter a valid email address."
+   	Then enter email address as "test@gmail.com" in email field
+   	And click on signup button in footer
+   	Then user should see message as "THANK YOU...Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
   
+  #US13389_TC13   	
+  Scenario Outline: Ship To section is visible and functional in footer
+    Then user should see Ship To section in footer
+    And verify country name is displayed in the ship to section of footer
+    And verify change link is displayed in the ship to section of footer
+    Then click on change link from footer
+    And User is on /intl/context_chooser.jsp?sidecar=true page
+    And select country as "<country>"
+    Then user should see "<country>" in footer
+    Examples:
+      |country|
+      |Canada|  
+   

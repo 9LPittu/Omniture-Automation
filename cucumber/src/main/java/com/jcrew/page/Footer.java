@@ -1,6 +1,8 @@
 package com.jcrew.page;
 
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -18,15 +20,38 @@ public class Footer {
 
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(Footer.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
+    
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
+    
     @FindBy(className = "footer__row--bottom")
     private  WebElement footerRowBottom;
+    
     @FindBy(className = "footer__row--top")
     private  WebElement footerRowTop;
+    
     @FindBy(className = "js-footer__menu")
     private List<WebElement> subLinks;
-
+    
+    @FindBy(xpath="//legend[@class='footer__header' and text()='like being first?']/following-sibling::input[@name='subscribeEmail']")
+    private WebElement emailField;
+      
+    @FindBy(className="footer__signup__button")
+    private WebElement footerSignUpButton;
+    
+    @FindBy(className="js-footer__signup__copy")
+    private WebElement footerSignUpMessage;
+    
+    @FindBy(className="footer__country-context")
+    private WebElement shipToSectionInFooter;
+    
+    @FindBy(xpath=".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']")
+    private WebElement countryNameInFooter;
+    
+    @FindBy(xpath=".//div[@class='footer__country-context']/descendant::a[@class='footer__country-context__link']")
+    private WebElement changeLinkInFooter;
+     
     public Footer(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -115,5 +140,65 @@ public class Footer {
 
     public void click_bottom_link(String bottomLink) {
         footerRowBottom.findElement(By.linkText(bottomLink)).click();
+    }
+    
+    public boolean isEmailDisplayedUnderLikeBeingFirstSection(){    	
+    	return emailField.isDisplayed();
+    }
+    
+    public boolean isEmailFieldMatchesWithDefaultText(String defaultText){
+    	String emailFieldDefaultText = emailField.getAttribute("placeholder").trim();
+    	return emailFieldDefaultText.equalsIgnoreCase(defaultText);
+    }
+    
+    public void enterEmailAddressInFooterEmailField(String emailAddress){
+    	emailField.clear();
+    	emailField.sendKeys(emailAddress);
+    }
+    
+    public void clickSignUpButtonInFooter(){
+    	footerSignUpButton.click();
+    }
+    
+    public boolean isMessageDisplayedCorrectlyDuringFooterSignUp(String message) throws InterruptedException{    	
+    	Thread.sleep(500);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSignUpMessage));		
+		String actualMessage = footerSignUpMessage.getText().toLowerCase();
+		actualMessage = actualMessage.replace("\n", "");
+		System.out.println("Message displayed:" + actualMessage);	
+		return actualMessage.contains(message.toLowerCase());    	
+    }
+    
+    public boolean isShipToSectionDisplayed(){
+    	return shipToSectionInFooter.isDisplayed();
+    }
+    
+    public boolean isCountryNameDisplayedInFooter(){
+    	return countryNameInFooter.isDisplayed();
+    }
+    
+    public boolean isChangeLinkDisplayedInFooter(){
+    	return changeLinkInFooter.isDisplayed();
+    }
+    
+    public void clickChangeLinkInFooter(){
+    	changeLinkInFooter.click();
+    }
+    
+    public void selectCountry(String country){
+    	List<WebElement> countryNames = driver.findElements(By.className("submitCountryChange"));
+    	for(int i=0;i<countryNames.size();i++){
+    		WebElement countryName = countryNames.get(i);
+    		if(countryName.getText().equalsIgnoreCase(country)){
+    			countryName.click();
+    			break;
+    		}
+    	}
+    }
+    
+    public boolean isChangedCountryNameDsiplayedInFooter(String country){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(countryNameInFooter, country.toUpperCase()));
+    	String currentCountryName = countryNameInFooter.getText().trim();
+    	return currentCountryName.equalsIgnoreCase(country);
     }
 }

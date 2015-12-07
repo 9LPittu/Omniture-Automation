@@ -91,7 +91,7 @@ public class StartingSteps {
         }
 
         if (driverFactory != null) {
-            //driverFactory.destroyDriver();
+            driverFactory.destroyDriver();
         }
 
         stateHolder.clear();
