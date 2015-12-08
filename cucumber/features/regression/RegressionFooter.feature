@@ -181,3 +181,65 @@ Feature: Footer Tests
       |country|
       |Canada|  
    
+  #US13389_TC14  
+  Scenario: Social sharing Icons should be visible in footer on home page
+    And Verify facebook icon is displayed under Get To Know Us section
+    And Verify twitter icon is displayed under Get To Know Us section
+    And Verify tumblr icon is displayed under Get To Know Us section
+    And Verify pinterest icon is displayed under Get To Know Us section
+    And Verify instagram icon is displayed under Get To Know Us section
+    And Verify google icon is displayed under Get To Know Us section
+    And Verify youtube icon is displayed under Get To Know Us section
+    And user should see social sharing section header name as "GET TO KNOW US"
+  
+  Scenario: Verify facebook icon in social sharing section is functional
+    And click on facebook icon in social sharing section
+    And User is on external page https://www.facebook.com/jcrew
+  
+  Scenario: Verify twitter icon in social sharing section is functional
+    And click on twitter icon in social sharing section
+    And User is on external page https://twitter.com/jcrew
+
+  Scenario: Verify tumblr icon in social sharing section is functional
+    And click on tumblr icon in social sharing section
+    And User is on external page http://jcrew.tumblr.com/
+
+  Scenario: Verify pinterest icon in social sharing section is functional
+    And click on pinterest icon in social sharing section
+    And User is on external page https://www.pinterest.com/jcrew/
+
+  Scenario: Verify instagram icon in social sharing section is functional
+    And click on instagram icon in social sharing section
+    And User is on external page https://instagram.com/jcrew/
+
+  Scenario: Verify google icon in social sharing section is functional
+    And click on google icon in social sharing section
+    And User is on external page https://plus.google.com/+JCrew/posts
+
+  Scenario: Verify youtube icon in social sharing section is functional
+    And click on youtube icon in social sharing section
+    And User is on external page https://www.youtube.com/user/jcrewinsider
+  
+  #US13389_TC15  
+  Scenario: Verify legal links are displayed in footer section of all sidecar  pages
+  	And user should see legal links section in the footer
+  	And user should see "TERMS OF USE" in the legal links section of footer
+  	And user should see "PRIVACY POLICY" in the legal links section of footer
+  	And user should see "© 2015 J.Crew" in the legal links section of footer
+  
+  Scenario: Verify TERMS OF USE legal link is functional in footer section of all sidecar pages
+    And click on "TERMS OF USE" in the legal links section of footer
+    And User is on external page https://www.jcrew.com/footer/termsofuse.jsp
+    
+  Scenario: Verify PRIVACY POLICY legal link is functional in footer section of all sidecar pages
+    And click on "PRIVACY POLICY" in the legal links section of footer
+    And User is on external page https://www.jcrew.com/help/privacy_policy.jsp
+    
+  Scenario: Verify copyright text in the legal links section is not link
+  	And "2015 J.Crew" should not be displayed as a link
+    
+  #US13389_TC16
+  Scenario: Verify visit full site is displayed and functional in footer section of all sidecar  pages
+   	And user should see visit full site displayed after legal links in footer section
+   	And click on view full site link
+   	And User is on www.jcrew.com page 

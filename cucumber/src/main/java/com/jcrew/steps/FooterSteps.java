@@ -122,4 +122,44 @@ public class FooterSteps extends DriverFactory {
     public void verify_country_name_in_footer(String country){
     	assertTrue("Country name should be displayed as " + country, footer.isChangedCountryNameDsiplayedInFooter(country));
     }
+    
+    @And("^user should see social sharing section header name as \"([^\"]*)\"$")
+    public void verify_social_sharing_section_header_name(String headerName){
+    	assertTrue("Social sharing section header name should be displayed as " + headerName,footer.isSocialSharingSectionHeaderNameDisplayedCorrectly(headerName));
+    }
+    
+    @And("^click on ([^\"]*) icon in social sharing section$")
+    public void click_social_sharing_icon(String socialSharingIconName){
+    	footer.clickSocialSharingIcon(socialSharingIconName);
+    }
+    
+    @And("^user should see visit full site displayed after legal links in footer section$")
+    public void verify_visit_full_site_displayed_after_legal_links(){
+    	assertTrue("User should see visit full site displayed after legal links in footer section",footer.isViewFullSiteDisplayedAfterLegalLinks());
+    }
+    
+    @And("^click on view full site link$")
+    public void click_view_full_site(){
+    	footer.clickViewFullSite();
+    }
+    
+    @And("^user should see legal links section in the footer$")
+    public void verify_legal_links_displayed_in_footer(){
+    	assertTrue("User should see legal links section in the footer",footer.isLegalLinksSectionDisplayed());
+    }
+    
+    @And("^user should see \"([^\"]*)\" in the legal links section of footer$")
+    public void verify_link_displayed_in_legal_links_section(String linkName){
+    	assertTrue("User should see " + linkName + " in the legal links section of footer", footer.isLinkDisplayedInLegalLinksSection(linkName));
+    }
+    
+    @And("^click on \"([^\"]*)\" in the legal links section of footer$")
+    public void click_link_in_legal_links_section(String linkName){
+    	footer.clickLinkInLegalLinksSection(linkName);
+    }
+    
+    @And("^\"([^\"]*)\" should not be displayed as a link$")
+    public void verify_link_is_not_displayed(String text){
+    	assertTrue("User should not see " + text + " as a link",footer.isLinkNotDisplayedInLegalLinksSection(text));
+    }
 }

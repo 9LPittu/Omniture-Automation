@@ -51,6 +51,9 @@ public class Footer {
     
     @FindBy(xpath=".//div[@class='footer__country-context']/descendant::a[@class='footer__country-context__link']")
     private WebElement changeLinkInFooter;
+    
+    @FindBy(className="footer__header--social")
+    private WebElement socialSharingHeader;
      
     public Footer(WebDriver driver) {
         this.driver = driver;
@@ -200,5 +203,65 @@ public class Footer {
     	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(countryNameInFooter, country.toUpperCase()));
     	String currentCountryName = countryNameInFooter.getText().trim();
     	return currentCountryName.equalsIgnoreCase(country);
+    }
+    
+    public boolean isSocialSharingSectionHeaderNameDisplayedCorrectly(String headerName){
+    	return socialSharingHeader.getText().trim().equalsIgnoreCase(headerName);
+    }
+    
+    public void clickSocialSharingIcon(String socialSharingIconName){
+    	WebElement socialSharingIcon = driver.findElement(By.xpath("//ul[@class='footer__social__menu']/descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]"));
+    	socialSharingIcon.click();
+    }
+    
+    public boolean isViewFullSiteDisplayedAfterLegalLinks(){
+    	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/following-sibling::div[@class='c-footer__fullsite']"));
+    	return viewFullSite.isDisplayed();
+    }
+    
+    public void clickViewFullSite(){
+    	WebElement viewFullSiteLink  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/following-sibling::div/a[@class='footer__fullsite__link']"));
+    	viewFullSiteLink.click();
+    }
+    
+    public boolean isLegalLinksSectionDisplayed(){
+    	WebElement legalLinksSection = driver.findElement(By.className("footer__copyright__menu"));
+    	return legalLinksSection.isDisplayed();
+    }
+    
+    public boolean isLinkDisplayedInLegalLinksSection(String expectedLinkName){
+    	
+    	boolean blnFlag = false;
+    	
+    	List<WebElement> legalSectionLinks = driver.findElements(By.className("footer__copyright__link"));
+    	
+    	for(WebElement legalSectionLink:legalSectionLinks){
+    		String legalSectionLinkName = legalSectionLink.getText().trim();
+    		if(legalSectionLinkName.equalsIgnoreCase(expectedLinkName)){
+    			blnFlag = true;
+    			break;
+    		}
+    	}
+    	
+    	return blnFlag;
+    }
+    
+    public void clickLinkInLegalLinksSection(String linkName){
+    	List<WebElement> legalSectionLinks = driver.findElements(By.className("footer__copyright__link"));
+    	
+    	for(WebElement legalSectionLink:legalSectionLinks){
+    		String legalSectionLinkName = legalSectionLink.getText().trim();
+    		if(legalSectionLinkName.equalsIgnoreCase(linkName)){
+    			legalSectionLink.click();
+    			break;
+    		}
+    	}
+    }
+    
+    public boolean isLinkNotDisplayedInLegalLinksSection(String text){    	
+    	WebElement element = driver.findElement(By.xpath("//*[contains(text(),'" + text + "')]"));    	
+    	String tagName = element.getTagName();
+    	
+    	return !tagName.equalsIgnoreCase("a");
     }
 }
