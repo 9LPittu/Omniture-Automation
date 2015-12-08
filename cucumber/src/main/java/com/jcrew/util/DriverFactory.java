@@ -35,8 +35,6 @@ public class DriverFactory {
 
         final WebDriver driver;
         final PropertyReader propertyReader = PropertyReader.getPropertyReader();
-        final int width = Integer.parseInt(propertyReader.getProperty("window.width"));
-        final int height = Integer.parseInt(propertyReader.getProperty("window.height"));
 
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
@@ -44,13 +42,15 @@ public class DriverFactory {
             driver = createLocalDriver(propertyReader);
         }
 
-        driver.manage().window().setSize(new Dimension(width, height));
         return driver;
     }
 
     private WebDriver createLocalDriver(PropertyReader propertyReader) {
         final String browser = propertyReader.getProperty("browser");
         final WebDriver driver;
+        final int width = Integer.parseInt(propertyReader.getProperty("window.width"));
+        final int height = Integer.parseInt(propertyReader.getProperty("window.height"));
+
         if ("chrome".equals(browser)) {
 
             driver = new ChromeDriver();
@@ -60,8 +60,8 @@ public class DriverFactory {
             driver = new FirefoxDriver();
 
         } else {
-
             DesiredCapabilities capabilities = new DesiredCapabilities();
+
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
@@ -70,6 +70,7 @@ public class DriverFactory {
 
         }
 
+        driver.manage().window().setSize(new Dimension(width, height));
         return driver;
     }
 
@@ -125,12 +126,15 @@ public class DriverFactory {
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
         } else {
-
             final DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
+            final int width = Integer.parseInt(propertyReader.getProperty("window.width"));
+            final int height = Integer.parseInt(propertyReader.getProperty("window.height"));
+
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = getDesktopWebDriver(propertyReader, capabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
         }
         return driver;
     }
