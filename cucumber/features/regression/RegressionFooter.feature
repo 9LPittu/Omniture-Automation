@@ -26,7 +26,19 @@ Feature: Footer Tests
     And Verify google icon is displayed under Get To Know Us section
     And Verify youtube icon is displayed under Get To Know Us section
 
-    # tc-03 goes here--And Verify Content Grouping Order is valid
+  #US13389_TC03   
+  Scenario: Verify content groupings are displayed in footer section of all sidecar  pages
+  	Then Verify Let Us Help You footer link is displayed
+  	And user should see "Let Us Help You" content grouping in collapsed mode
+    And Verify Our Cards footer link is displayed
+    And user should see "Our Cards" content grouping in collapsed mode
+    And Verify Our Stores footer link is displayed
+    And user should see "Our Stores" content grouping in collapsed mode
+    And Verify Our Brands footer link is displayed
+    And user should see "Our Brands" content grouping in collapsed mode
+    And Verify About J.Crew footer link is displayed
+    And user should see "About J.Crew" content grouping in collapsed mode    
+    
    #tc-04 starts below
   Scenario: Verification of Let Us Help You links display
     When Click on footer link Let Us Help You
@@ -156,7 +168,18 @@ Feature: Footer Tests
     And Click on sublink Madewell from Our Brands footer link
     And Verify user is on the madewell page
     And User is on external page https://www.madewell.com/index.jsp?srcCode=JCFooter
-   
+  
+  #US13389_TC11  
+  Scenario: Verify Tapping twice on the drawer opens and closes the drawer in  content groupings
+    And user taps on "Our Brands" content grouping
+    Then user should see "Our Brands" content grouping drawer should be opened
+    And user taps on "Our Brands" content grouping
+    Then user should see "Our Brands" content grouping drawer should be closed
+    And user taps on "Our Brands" content grouping
+    And user taps on "Our Cards" content grouping
+    Then user should see "Our Brands" content grouping drawer should be closed
+    Then user should see "Our Cards" content grouping drawer should be opened
+    
   #US13389_TC12 
   Scenario: Verify email subscription field  is displaying under Like being First section
    	Then user should see email subscription field under LIKE BEING FIRST section
@@ -199,47 +222,47 @@ Feature: Footer Tests
   Scenario: Verify twitter icon in social sharing section is functional
     And click on twitter icon in social sharing section
     And User is on external page https://twitter.com/jcrew
-
+  
   Scenario: Verify tumblr icon in social sharing section is functional
     And click on tumblr icon in social sharing section
     And User is on external page http://jcrew.tumblr.com/
-
+  
   Scenario: Verify pinterest icon in social sharing section is functional
     And click on pinterest icon in social sharing section
     And User is on external page https://www.pinterest.com/jcrew/
-
+  
   Scenario: Verify instagram icon in social sharing section is functional
     And click on instagram icon in social sharing section
-    And User is on external page https://instagram.com/jcrew/
-
+    And User is on external page https://www.instagram.com/jcrew/
+  
   Scenario: Verify google icon in social sharing section is functional
     And click on google icon in social sharing section
-    And User is on external page https://plus.google.com/+JCrew/posts
-
+    And User is on external page https://plus.google.com/+JCrew
+  
   Scenario: Verify youtube icon in social sharing section is functional
     And click on youtube icon in social sharing section
     And User is on external page https://www.youtube.com/user/jcrewinsider
   
-  #US13389_TC15  
+  #US13389_TC15 
   Scenario: Verify legal links are displayed in footer section of all sidecar  pages
   	And user should see legal links section in the footer
   	And user should see "TERMS OF USE" in the legal links section of footer
   	And user should see "PRIVACY POLICY" in the legal links section of footer
-  	And user should see "© 2015 J.Crew" in the legal links section of footer
+  	And user should see "2015 J.Crew" in the legal links section of footer
   
   Scenario: Verify TERMS OF USE legal link is functional in footer section of all sidecar pages
-    And click on "TERMS OF USE" in the legal links section of footer
-    And User is on external page https://www.jcrew.com/footer/termsofuse.jsp
+    And click on "TERMS OF USE" in the legal links section of footer    
+    And User is on /footer/termsofuse.jsp?sidecar=true page
     
   Scenario: Verify PRIVACY POLICY legal link is functional in footer section of all sidecar pages
     And click on "PRIVACY POLICY" in the legal links section of footer
-    And User is on external page https://www.jcrew.com/help/privacy_policy.jsp
-    
+    And User is on /help/privacy_policy.jsp?sidecar=true page
+  
   Scenario: Verify copyright text in the legal links section is not link
   	And "2015 J.Crew" should not be displayed as a link
     
-  #US13389_TC16
+  #US13389_TC16  
   Scenario: Verify visit full site is displayed and functional in footer section of all sidecar  pages
    	And user should see visit full site displayed after legal links in footer section
    	And click on view full site link
-   	And User is on www.jcrew.com page 
+   	And User is on /index.jsp?sidecar=false page

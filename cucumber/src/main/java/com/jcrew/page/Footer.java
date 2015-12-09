@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Predicate;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
@@ -10,11 +11,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Footer {
 
@@ -233,11 +236,11 @@ public class Footer {
     	
     	boolean blnFlag = false;
     	
-    	List<WebElement> legalSectionLinks = driver.findElements(By.className("footer__copyright__link"));
+    	List<WebElement> legalSectionLinks = driver.findElements(By.className("footer__copyright__item"));
     	
     	for(WebElement legalSectionLink:legalSectionLinks){
     		String legalSectionLinkName = legalSectionLink.getText().trim();
-    		if(legalSectionLinkName.equalsIgnoreCase(expectedLinkName)){
+    		if(legalSectionLinkName.toLowerCase().contains(expectedLinkName.toLowerCase())){
     			blnFlag = true;
     			break;
     		}
@@ -263,5 +266,38 @@ public class Footer {
     	String tagName = element.getTagName();
     	
     	return !tagName.equalsIgnoreCase("a");
+    }
+    
+    public boolean isContentGroupingDisplayedInCollapsed(String contentGroupingName){
+    	WebElement element = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/descendant::i[contains(@class,'icon-see-more')]"));
+    	return element.isDisplayed();
+    }
+    
+    public void clickContentGrouping(String contentGrouping){
+    	WebElement element = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGrouping + "')]"));
+    	element.click();
+    }
+    
+    public boolean isContentGroupingDrawerOpened(String contentGroupingName){
+    	WebElement element = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div[contains(@class,'is-expanded')]"));
+    	return element.isDisplayed();
+    }
+    
+    public boolean isContentGroupingDrawerClosed(String contentGroupingName){
+    	
+    	boolean isDrawerClosed = false;
+    	
+    	try{
+    		//here intentionally using implicit wait & WebDriverWait rather than using Util method to minimize the execution duration
+    		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    		new WebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div[contains(@class,'is-expanded')]"))));
+    		isDrawerClosed = false;
+    	}
+    	catch(Exception e){
+    		isDrawerClosed = true;
+    	}
+    	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	return isDrawerClosed;
     }
 }

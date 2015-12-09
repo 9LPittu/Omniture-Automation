@@ -162,4 +162,24 @@ public class FooterSteps extends DriverFactory {
     public void verify_link_is_not_displayed(String text){
     	assertTrue("User should not see " + text + " as a link",footer.isLinkNotDisplayedInLegalLinksSection(text));
     }
+    
+    @And("^user should see \"([^\"]*)\" content grouping in collapsed mode$")
+    public void verify_content_grouping_in_collapsed_mode(String contentGroupingName){
+    	assertTrue("User should see " + contentGroupingName + " in collapsed mode",footer.isContentGroupingDisplayedInCollapsed(contentGroupingName));
+    }
+    
+    @And("^user taps on \"([^\"]*)\" content grouping$")
+    public void click_content_grouping(String contentGrouping){
+    	footer.clickContentGrouping(contentGrouping);
+    }
+    
+    @Then("^user should see \"([^\"]*)\" content grouping drawer should be opened$")
+    public void verify_content_grouping_drawer_is_opened(String contentGroupingName){
+    	assertTrue("User should see " + contentGroupingName + " content grouping drawer should be opened",footer.isContentGroupingDrawerOpened(contentGroupingName));
+    }
+    
+    @Then("^user should see \"([^\"]*)\" content grouping drawer should be closed$")
+    public void verify_content_grouping_drawer_closed(String contentGroupingName){
+    	assertTrue("User should see " + contentGroupingName + " content grouping drawer should be closed",footer.isContentGroupingDrawerClosed(contentGroupingName));
+    }
 }
