@@ -77,6 +77,7 @@ public class DriverFactory {
     private WebDriver createRemoteDriver(PropertyReader propertyReader) throws MalformedURLException {
         final WebDriver driver;
         final String browser = propertyReader.getProperty("browser");
+        logger.debug(browser);
 
         if ("chrome".equals(browser)) {
 
