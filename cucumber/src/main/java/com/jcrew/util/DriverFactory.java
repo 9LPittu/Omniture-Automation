@@ -126,6 +126,7 @@ public class DriverFactory {
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
         } else {
+            logger.debug(browser);
             final DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
             final int width = Integer.parseInt(propertyReader.getProperty("window.width"));
             final int height = Integer.parseInt(propertyReader.getProperty("window.height"));
