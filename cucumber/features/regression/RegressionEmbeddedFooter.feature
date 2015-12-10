@@ -1,5 +1,5 @@
 @EmbeddedFooter
-Feature: Embedded Header Validations
+Feature: Embedded Footer Validations
 
   Background:
     Given User is on homepage
