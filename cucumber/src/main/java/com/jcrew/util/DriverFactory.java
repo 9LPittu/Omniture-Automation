@@ -174,15 +174,17 @@ public class DriverFactory {
 
     public void destroyDriver() {
         String identifier = Thread.currentThread().getName();
-        WebDriver driver = driverMap.remove(identifier);
+        WebDriver driver = driverMap.get(identifier);
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
+        for (Cookie cookie : driver.manage().getCookies()) {
+            driver.manage().deleteCookie(cookie);
+        }
+        driver.manage().deleteAllCookies();
 
-        if (driver != null) {
-            for (Cookie cookie : driver.manage().getCookies()) {
-                driver.manage().deleteCookie(cookie);
-            }
-            driver.manage().deleteAllCookies();
+        if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
             driver.quit();
+            driverMap.remove(identifier);
         }
     }
 }

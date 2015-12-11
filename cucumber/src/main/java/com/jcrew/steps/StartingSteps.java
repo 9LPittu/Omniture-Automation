@@ -11,7 +11,10 @@ import cucumber.api.java.Before;
 import cucumber.api.java.BeforeStep;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,21 +39,11 @@ public class StartingSteps {
     }
 
     @Given("^User is on homepage$")
-    public void user_is_on_home_page() throws Throwable {
-        int retry = 0;
-        boolean successfulLoad = false;
-        while (retry < 5 && !successfulLoad) {
-            try {
-                driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-                getIntialPage();
-                waitForPageToLoadUpToTheLastElementPriorScriptExecution();
-                Util.waitForPageFullyLoaded(driver);
-                successfulLoad = true;
-            } catch (TimeoutException te) {
-                logger.debug("Page did not load retry: {}", retry + 1);
-                retry++;
-            }
-        }
+    public void user_is_on_home_page() {
+        driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        getIntialPage();
+        waitForPageToLoadUpToTheLastElementPriorScriptExecution();
+        Util.waitForPageFullyLoaded(driver);
     }
 
     private void waitForPageToLoadUpToTheLastElementPriorScriptExecution() {
