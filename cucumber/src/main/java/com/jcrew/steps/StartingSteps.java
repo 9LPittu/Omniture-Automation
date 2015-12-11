@@ -62,7 +62,7 @@ public class StartingSteps {
         String env = reader.getProperty("environment");
         if (env.contains("aka-int-www")) {
             driver.get(env + "/enableResponsive_sm.jsp");
-
+            Util.waitForPageFullyLoaded(driver);
             if (!reader.getProperty("browser").contains("ios") && !reader.getProperty("browser").contains("android")) {
                 driver.findElement(By.linkText("click to browse")).click();
             }
@@ -79,7 +79,7 @@ public class StartingSteps {
     @And("^User bag is cleared$")
     public void user_bag_is_cleared() {
         driver.navigate().to(reader.getProperty("environment") + "/CleanPersistentCart.jsp");
-        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "Cart Removed from DB"));
+        Util.waitForPageFullyLoaded(driver);
     }
 
     @After
