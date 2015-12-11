@@ -16,6 +16,7 @@
     "nodeTimeout":120,
     "cleanUpCycle":2000,
     "timeout":2000000,
+    "browserTimeout": 4000000,
     "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
     "url":"http://10.20.220.13:4720/wd/hub",
     "maxSession": 5,
