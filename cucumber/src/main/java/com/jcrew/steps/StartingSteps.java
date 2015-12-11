@@ -53,7 +53,7 @@ public class StartingSteps {
 
     public void getIntialPage() {
         String env = reader.getProperty("environment");
-        if (env.contains("aka-int-www")) {
+        if ((env.contains("aka-int-www"))||(env.contains("or"))||(env.contains("argent"))) {
             driver.get(env + "/enableResponsive_sm.jsp");
             Util.waitForPageFullyLoaded(driver);
             if (!reader.getProperty("browser").contains("ios") && !reader.getProperty("browser").contains("android")) {
