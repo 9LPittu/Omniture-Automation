@@ -34,7 +34,6 @@ Feature: Edit Product In Bags Scenarios
     And Add to cart button is pressed
     And User clicks on item bag
     When Clicks edit button on item bag page
-    And Quantity 3 is selected by user
     And Update Bag button is pressed
     Then User should be in shopping bag page
     And Verify color BLACK is displayed in shopping bag

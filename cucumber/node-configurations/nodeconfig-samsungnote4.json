@@ -2,7 +2,7 @@
   "capabilities": [
     {
       "browserName": "chrome",
-      "version": "4.4.2",
+      "version": "5.0.1",
       "maxInstances": 5,
       "platform": "ANDROID",
       "platformName": "Android",
@@ -27,6 +27,6 @@
     "hubPort": 4444,
     "hubHost": "nyc-wdevtool-03",
     "role": "node",
-    "udid": "282bb4a7"
+    "udid": "31c8c46b"
   }
 }
