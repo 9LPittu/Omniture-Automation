@@ -76,7 +76,7 @@ public class StartingSteps {
                     if (clickToBrowseLink.isDisplayed())
                         clickToBrowseLink.click();
                 } catch (Exception E) {
-
+                logger.debug(E.getMessage());
                 }
             }
         } else {
