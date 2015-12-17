@@ -64,15 +64,13 @@ public class StartingSteps {
           logger.debug("Opening enable responsive jsp");
             driver.get(env + "/enableResponsive_sm.jsp");
             driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-            WebElement clickToBrowseLink;
+            WebElement clickToBrowseLink =  driver.findElement(By.linkText("click to browse"));
             if (!reader.getProperty("browser").contains("ios") && !reader.getProperty("browser").contains("android")) {
                 logger.debug("Click to browse");
-                clickToBrowseLink = driver.findElement(By.linkText("click to browse"));
                 clickToBrowseLink.click();
             }
             else {
                 try {
-                    clickToBrowseLink = driver.findElement(By.linkText("click to browse"));
                     if (clickToBrowseLink.isDisplayed())
                         clickToBrowseLink.click();
                 } catch (Exception E) {
