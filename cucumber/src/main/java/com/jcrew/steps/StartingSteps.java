@@ -63,18 +63,26 @@ public class StartingSteps {
         if ((env.contains("aka-int-www"))||(env.contains("or"))||(env.contains("argent"))) {
           logger.debug("Opening enable responsive jsp");
             driver.get(env + "/enableResponsive_sm.jsp");
-            WebElement clickToBrowseLink = driver.findElement(By.linkText("click to browse"));
+            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+            WebElement clickToBrowseLink;
             if (!reader.getProperty("browser").contains("ios") && !reader.getProperty("browser").contains("android")) {
                 logger.debug("Click to browse");
+                clickToBrowseLink = driver.findElement(By.linkText("click to browse"));
                 clickToBrowseLink.click();
             }
             else {
-                if(clickToBrowseLink.isDisplayed())
-                    clickToBrowseLink.click();
+                try {
+                    clickToBrowseLink = driver.findElement(By.linkText("click to browse"));
+                    if (clickToBrowseLink.isDisplayed())
+                        clickToBrowseLink.click();
+                } catch (Exception E) {
+
+                }
             }
         } else {
             driver.get(env);
         }
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @And("^User goes to homepage$")
