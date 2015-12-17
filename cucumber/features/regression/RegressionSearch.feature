@@ -30,11 +30,10 @@ Feature: Search Regression Suite
     Then User is in gender refine array page
     When Refine button is clicked
     And Click on Category refinement
-    Then Validate View All option is selected under Category refinement
     And Select collection single option from Category refinement
     And Verify collection value is displayed next to Category refinement
     When Click on Category refinement
-    Then Validate View All option is NOT selected under Category refinement
+
 
   Scenario: Search Refine multi select, single select
     When Enters dresses to the search field
@@ -44,9 +43,7 @@ Feature: Search Regression Suite
     And User is in gender refine array page
     When Refine button is clicked
     And Click on Size refinement
-    Then Validate View All option is selected under Size refinement
     When Select xx-small multiple option from Size refinement
-    Then Validate View All option is NOT selected under Size refinement
     And Verify xx-small value is displayed next to Size refinement
     When Select x-small multiple option from Size refinement
     Then Verify 2 selected value is displayed next to Size refinement
@@ -60,7 +57,6 @@ Feature: Search Regression Suite
     Then User is in gender refine array page
     When Refine button is clicked
     And Click on Size refinement
-    Then Validate View All option is selected under Size refinement
     When Select xx-small multiple option from Size refinement
     Then Validate View All option is NOT selected under Size refinement
     And Verify xx-small value is displayed next to Size refinement
@@ -76,9 +72,7 @@ Feature: Search Regression Suite
     Then User is in gender refine array page
     When Refine button is clicked
     And Click on Size refinement
-    Then Validate View All option is selected under Size refinement
     When Select xx-small multiple option from Size refinement
-    Then Validate View All option is NOT selected under Size refinement
     And Verify xx-small value is displayed next to Size refinement
     When Select x-small multiple option from Size refinement
     And Click on Size refinement close drawer icon
