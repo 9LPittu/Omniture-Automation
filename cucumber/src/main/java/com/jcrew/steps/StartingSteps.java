@@ -57,10 +57,25 @@ public class StartingSteps {
     }
 
     public void getIntialPage() {
-        logger.debug("Opening enable responsive jsp");
-        driver.get(reader.getProperty("environment") + "/enableResponsive_sm.jsp");
-        logger.debug("Click to browse");
-        driver.findElement(By.linkText("click to browse")).click();
+        String env = reader.getProperty("environment");
+        String browser = reader.getProperty("browser");
+        Boolean isTestEnvironment = env.contains("ci") || env.contains("qa");
+        Boolean isDeviceBrowser = browser.contains("iphone") || browser.contains("android");
+        
+        if (isTestEnvironment) {
+            logger.debug("Opening homepage without going to /try-sidecar first");
+            driver.get(env);
+        } else {
+            logger.debug("Opening /try-sidecar web page");
+            driver.get(env + "/try-sidecar");
+            
+            if (!isDeviceBrowser) {
+                logger.debug("Click to browse button is expected and will be clicked");
+                driver.findElement(By.linkText("click to browse")).click();
+            }
+            
+            logger.debug("Redirecting to homepage is expected");
+        }
     }
 
     @And("^User goes to homepage$")
