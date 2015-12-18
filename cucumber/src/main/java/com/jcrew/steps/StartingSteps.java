@@ -40,7 +40,6 @@ public class StartingSteps {
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {
             try {
-                driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
                 getIntialPage();
                 waitForPageToLoadUpToTheLastElementPriorScriptExecution();
                 Util.waitForPageFullyLoaded(driver);
@@ -58,29 +57,10 @@ public class StartingSteps {
     }
 
     public void getIntialPage() {
-        String env = reader.getProperty("environment");
-
-        if ((env.contains("aka-int-www"))||(env.contains("or"))||(env.contains("argent"))) {
-          logger.debug("Opening enable responsive jsp");
-            driver.get(env + "/enableResponsive_sm.jsp");
-            driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-            WebElement clickToBrowseLink =  driver.findElement(By.linkText("click to browse"));
-            if (!reader.getProperty("browser").contains("ios") && !reader.getProperty("browser").contains("android")) {
-                logger.debug("Click to browse");
-                clickToBrowseLink.click();
-            }
-            else {
-                try {
-                    if (clickToBrowseLink.isDisplayed())
-                        clickToBrowseLink.click();
-                } catch (Exception E) {
-                logger.debug(E.getMessage());
-                }
-            }
-        } else {
-            driver.get(env);
-        }
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        logger.debug("Opening enable responsive jsp");
+        driver.get(reader.getProperty("environment") + "/enableResponsive_sm.jsp");
+        logger.debug("Click to browse");
+        driver.findElement(By.linkText("click to browse")).click();
     }
 
     @And("^User goes to homepage$")
