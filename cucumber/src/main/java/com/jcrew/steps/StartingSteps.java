@@ -58,25 +58,18 @@ public class StartingSteps {
 
     public void getIntialPage() {
         String env = reader.getProperty("environment");
-        String browser = reader.getProperty("browser");
-        Boolean isTestEnvironment = env.contains("ci") || env.contains("qa");
-        Boolean isDeviceBrowser = browser.contains("iphone") || browser.contains("android");
-        
-        if (isTestEnvironment) {
-            logger.debug("Opening homepage without going to /try-sidecar first");
-            driver.get(env);
+        logger.debug("current url is"+env);
+
+        if ((env.contains("aka-int-www")) || (env.contains("or")) || (env.contains("argent"))) {
+            logger.debug("Opening enable responsive page");
+            driver.get(env + "/enableResponsive_sm.jsp");
+            driver.findElement(By.linkText("click to browse")).click();
+
         } else {
-            logger.debug("Opening /try-sidecar web page");
-            driver.get(env + "/try-sidecar");
-            
-            if (!isDeviceBrowser) {
-                logger.debug("Click to browse button is expected and will be clicked");
-                driver.findElement(By.linkText("click to browse")).click();
-            }
-            
-            logger.debug("Redirecting to homepage is expected");
+            driver.get(env);
         }
     }
+
 
     @And("^User goes to homepage$")
     public void user_goes_to_homepage() throws Throwable {
