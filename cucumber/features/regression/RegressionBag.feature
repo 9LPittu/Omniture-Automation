@@ -8,7 +8,7 @@ Feature: Edit Product In Bags Scenarios
     When User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on DRESSES subcategory from Women Category
-    And Click on product Marlie dress in classic faille to display PDP
+    And Click on product Striped eyelet dress to display PDP
     And User is in product detail page
     And Color BLACK is selected by user
     And Size 6 is selected by user
@@ -18,16 +18,16 @@ Feature: Edit Product In Bags Scenarios
     Then Verify color BLACK is selected
     And Verify size 6 is selected
     And Verify update bag button is present
-    When Color CORAL SUNSET is selected by user
+    When Color TROPICAL FOREST is selected by user
     And Size 2 is selected by user
-    Then Verify color CORAL SUNSET is selected
+    Then Verify color TROPICAL FOREST is selected
     And Verify size 2 is selected
 
   Scenario: Verify shopping bag page reflects changes made to edited item
     When User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on DRESSES subcategory from Women Category
-    And Click on product Marlie dress in classic faille to display PDP
+    And Click on product Striped eyelet dress to display PDP
     Then User is in product detail page
     And Color BLACK is selected by user
     And Size 6 is selected by user
@@ -38,7 +38,7 @@ Feature: Edit Product In Bags Scenarios
     Then User should be in shopping bag page
     And Verify color BLACK is displayed in shopping bag
     And Verify size 6 is displayed in shopping bag
-    And Verify 3 items are specified as quantity in shopping bag
+    And Verify 1 items are specified as quantity in shopping bag
 
   Scenario: signed in Edit link redirects user to PDP
     When Goes to sign in page
@@ -50,7 +50,7 @@ Feature: Edit Product In Bags Scenarios
     When User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on DRESSES subcategory from Women Category
-    And Click on product Marlie dress in classic faille to display PDP
+    And Click on product Striped eyelet dress to display PDP
     Then User is in product detail page
     And Color BLACK is selected by user
     And Size 6 is selected by user
