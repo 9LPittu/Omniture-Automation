@@ -25,9 +25,9 @@ Feature: Regression Tests Category Feature
   Scenario: Check Product Tiles for Sale Variations
     When User clicks on DRESSES subcategory from Women Category
     Then User should be in dresses page for women
-    And Verifies Lace sheath dress product is displayed
-    And Verifies Lace sheath dress product price was $148.00
-    And Verifies Lace sheath dress product sale price is now $119.99
+    And Verifies Knotted maxi dress product is displayed
+    And Verifies Knotted maxi dress product price was $110.00
+    And Verifies Knotted maxi dress product sale price is now $90.00
     And Verifies product image is displayed
 
   Scenario: Check sign posts on category pages
