@@ -134,6 +134,7 @@ public class DriverFactory {
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
         } else {
+            logger.debug(browser);
             final DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
