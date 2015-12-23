@@ -50,10 +50,14 @@ public class PropertyReader {
         return readProperty(property);
     }
 
+    public boolean hasProperty(String key) {
+        return properties.containsKey(key);
+    }
+
     private String readProperty(String key) {
         String value = properties.getProperty(key);
 
-        if (value == null) {
+        if (!hasProperty(key)) {
             throw new RuntimeException("Property '" + key + "' is not defined in environment or viewport file");
         }
 

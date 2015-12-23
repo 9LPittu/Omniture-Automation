@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-
 public class StartingSteps {
 
     private static final String TAKE_SCREENSHOT = "Screenshot";
@@ -36,12 +35,11 @@ public class StartingSteps {
     }
 
     @Given("^User is on homepage$")
-    public void user_is_on_home_page() throws Throwable {
+    public void user_is_on_home_page() {
         int retry = 0;
         boolean successfulLoad = false;
-        while (retry < 5 && !successfulLoad) {
+        while (retry < 2 && !successfulLoad) {
             try {
-                driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
                 getIntialPage();
                 waitForPageToLoadUpToTheLastElementPriorScriptExecution();
                 Util.waitForPageFullyLoaded(driver);
@@ -60,16 +58,18 @@ public class StartingSteps {
 
     public void getIntialPage() {
         String env = reader.getProperty("environment");
-        if (env.contains("aka-int-www")) {
-            driver.get(env + "/enableResponsive_sm.jsp");
+        logger.debug("current url is"+env);
 
-            if (!reader.getProperty("browser").contains("ios") && !reader.getProperty("browser").contains("android")) {
-                driver.findElement(By.linkText("click to browse")).click();
-            }
+        if ((env.contains("aka-int-www")) || (env.contains("or")) || (env.contains("argent"))) {
+            logger.debug("Opening enable responsive page");
+            driver.get(env + "/enableResponsive_sm.jsp");
+            driver.findElement(By.linkText("click to browse")).click();
+
         } else {
             driver.get(env);
         }
     }
+
 
     @And("^User goes to homepage$")
     public void user_goes_to_homepage() throws Throwable {
@@ -79,7 +79,7 @@ public class StartingSteps {
     @And("^User bag is cleared$")
     public void user_bag_is_cleared() {
         driver.navigate().to(reader.getProperty("environment") + "/CleanPersistentCart.jsp");
-        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("body"), "Cart Removed from DB"));
+        Util.waitForPageFullyLoaded(driver);
     }
 
     @After

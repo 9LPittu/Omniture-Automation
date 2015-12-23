@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class DriverFactory {
 
+
     private static final String[] PHANTOM_JS_ARGS = new String[]{"--web-security=false",
             "--ssl-protocol=any",
             "--local-to-remote-url-access=true",
@@ -29,12 +30,22 @@ public class DriverFactory {
             "--ignore-ssl-errors=true"
     };
     private static final Map<String, WebDriver> driverMap = new HashMap<>();
+    private final int DEFAULT_WINDOW_WIDTH = 400;
+    private final int DEFAULT_WINDOW_HEIGHT = 667;
     private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
+
+    private int width = DEFAULT_WINDOW_WIDTH;
+    private int height = DEFAULT_WINDOW_HEIGHT;
 
     private WebDriver createNewDriverInstance() throws IOException {
 
         final WebDriver driver;
         final PropertyReader propertyReader = PropertyReader.getPropertyReader();
+
+        if (propertyReader.hasProperty("window.width") && propertyReader.hasProperty("window.height")) {
+            width = Integer.parseInt(propertyReader.getProperty("window.width"));
+            height = Integer.parseInt(propertyReader.getProperty("window.height"));
+        }
 
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
@@ -48,8 +59,6 @@ public class DriverFactory {
     private WebDriver createLocalDriver(PropertyReader propertyReader) {
         final String browser = propertyReader.getProperty("browser");
         final WebDriver driver;
-        final int width = Integer.parseInt(propertyReader.getProperty("window.width"));
-        final int height = Integer.parseInt(propertyReader.getProperty("window.height"));
 
         if ("chrome".equals(browser)) {
 
@@ -67,7 +76,6 @@ public class DriverFactory {
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = new PhantomJSDriver(capabilities);
-
         }
 
         driver.manage().window().setSize(new Dimension(width, height));
@@ -128,14 +136,10 @@ public class DriverFactory {
         } else {
             logger.debug(browser);
             final DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
-            final int width = Integer.parseInt(propertyReader.getProperty("window.width"));
-            final int height = Integer.parseInt(propertyReader.getProperty("window.height"));
-
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = getDesktopWebDriver(propertyReader, capabilities);
-            driver.manage().window().setSize(new Dimension(width, height));
         }
         return driver;
     }
@@ -148,12 +152,15 @@ public class DriverFactory {
     private WebDriver getDesktopWebDriver(PropertyReader propertyReader, DesiredCapabilities desiredCapabilities) throws MalformedURLException {
         final URL seleniumHubRemoteAddress = getSeleniumRemoteAddress(propertyReader);
         final WebDriver driver = new RemoteWebDriver(seleniumHubRemoteAddress, desiredCapabilities);
+
+        driver.manage().window().setSize(new Dimension(width, height));
         return driver;
     }
 
     public WebDriver getDriver() {
         String identifier = Thread.currentThread().getName();
         WebDriver driver = driverMap.get(identifier);
+
         if (driver == null) {
             try {
                 driver = createNewDriverInstance();
@@ -168,15 +175,19 @@ public class DriverFactory {
 
     public void destroyDriver() {
         String identifier = Thread.currentThread().getName();
-        WebDriver driver = driverMap.remove(identifier);
+        WebDriver driver = driverMap.get(identifier);
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
-
-        if (driver != null) {
+        if (!"androidchrome".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
                 driver.manage().deleteCookie(cookie);
             }
             driver.manage().deleteAllCookies();
+        }
+
+        if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
             driver.quit();
+            driverMap.remove(identifier);
         }
     }
 }
