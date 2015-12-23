@@ -8,14 +8,14 @@ import org.openqa.selenium.support.PageFactory;
 
 public class SizeChartsPage {
 
-    @FindBy(id = "us-sizes")
-    private WebElement sizesElement;
+    @FindBy(id = "page__size-charts")
+    private WebElement sizeChartsContainer;
 
     public SizeChartsPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
 
     public boolean isSizeChartPage() {
-        return sizesElement.isDisplayed();
+        return sizeChartsContainer.isDisplayed();
     }
 }
