@@ -33,4 +33,35 @@ public class ShippingAddressPageSteps extends DriverFactory {
     public void presses_continue_button_on_shipping_address() throws Throwable {
         shippingAddressPage.presses_continue_button_on_shipping_address();
     }
+    
+    @And("^enter first name as \"([^\"]*)\" on shipping address page$")
+    public void enter_first_name_on_shipping_address_page(String firstName){
+    	shippingAddressPage.enterFirstNameOnShippingAddressPage(firstName);
+    }
+    
+    @And("^enter last name as \"([^\"]*)\" on shipping address page$")
+    public void enter_last_name_on_shipping_address_page(String lastName){
+    	shippingAddressPage.enterLastNameOnShippingAddressPage(lastName);
+    }
+    
+    @And("^enter address line1 as \"([^\"]*)\"$")
+    public void enter_address_line1_on_shipping_address_page(String addressLine1){    	
+    	shippingAddressPage.enterAddressLine1OnShippingAddressPage(addressLine1);    	
+    }
+    
+    @And("^enter address line2 as \"([^\"]*)\"$")
+    public void enter_address_line2_on_shipping_address_page(String addressLine2){    	
+    	shippingAddressPage.enterAddressLine2OnShippingAddressPage(addressLine2);    	    	
+    }
+    
+    @And("^enter zip code as \"([^\"]*)\"$")
+    public void enter_zip_code_on_shipping_address_page(String zipCode){
+    	shippingAddressPage.enterZipCodeOnShippingAddressPage(zipCode);
+    }
+    
+    @And("^enter phone number as \"([^\"]*)\"$")
+    public void enter_phone_number_on_shipping_address_page(String phoneNumber){
+    	shippingAddressPage.enterPhoneNumberOnShippingAddressPage(phoneNumber);
+    }  
+    
 }

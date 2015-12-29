@@ -30,4 +30,9 @@ public class ReviewPageSteps extends DriverFactory {
     public void validates_shipping_section_is_present_in_review_page() throws Throwable {
         assertTrue("Shipping section should be displayed", reviewPage.isShippingSectionDisplayed());
     }
+    
+    @And("^items count should be ([^\"]*) on the review page$")
+    public void verify_items_count_on_review_page(String itemsCount){
+    	assertTrue("Items count on review page should be " + itemsCount, reviewPage.isItemsCountMatchesOnReviewPage(itemsCount));
+    }
 }

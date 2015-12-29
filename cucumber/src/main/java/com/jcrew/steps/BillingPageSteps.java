@@ -27,4 +27,14 @@ public class BillingPageSteps extends DriverFactory {
     public void Submits_payment_data_in_billing_page() throws Throwable {
         billingPage.submit_form();
     }
+    
+    @And("^enter \"([^\"]*)\" details on billing page$")    
+    public void enter_credit_card_details(String cardName){
+    	billingPage.enterCreditCardDetails(cardName);
+    }
+    
+    @And("^enter email address as \"([^\"]*)\"$")
+    public void enter_email_address_on_billing_page(String emailAddress){
+    	billingPage.enterEmailAddressOnBillingPage(emailAddress);
+    }
 }

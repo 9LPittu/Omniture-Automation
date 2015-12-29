@@ -1,7 +1,10 @@
 package com.jcrew.page;
 
+import java.util.concurrent.TimeUnit;
+
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +19,8 @@ public class LoginPage {
 
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
     private final WebDriver driver;
+    private int methodExecutionCntr = 1;
+    
     @FindBy(id = "sidecarUser")
     private WebElement emailInput;
     @FindBy(id = "sidecarPassword")
@@ -34,6 +39,9 @@ public class LoginPage {
     private WebElement signInForm;
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
+    
+    @FindBy(xpath=".//*[@id='frmGuestCheckOut']/a")
+    private WebElement checkoutAsGuestButton;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -133,6 +141,27 @@ public class LoginPage {
         }
 
         return result;
+    }
+    
+    public void clickCheckoutAsGuest() throws InterruptedException{
+    	
+    	driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);    	
+    	while(methodExecutionCntr<=5){
+    		try{
+        		if(checkoutAsGuestButton.isDisplayed()){        			
+        			break;
+        		}
+        	}
+        	catch(Exception e){
+        		methodExecutionCntr++;        		
+        		clickCheckoutAsGuest();
+        	}
+    	}
+    	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutAsGuestButton));  	
+    	checkoutAsGuestButton.click();
     }
 }
 

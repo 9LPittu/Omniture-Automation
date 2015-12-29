@@ -36,4 +36,9 @@ public class ShippingMethodPageSteps extends DriverFactory {
         }
 
     }
+    
+    @And("^select shipping method on shipping & gift options page$")
+    public void select_shipping_method_at_random(){
+    	shippingMethodPage.selectShippingMethod();
+    }
 }

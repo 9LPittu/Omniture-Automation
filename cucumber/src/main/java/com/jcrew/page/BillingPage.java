@@ -1,7 +1,9 @@
 package com.jcrew.page;
 
 import com.github.javafaker.Faker;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -95,5 +97,31 @@ public class BillingPage {
     public boolean isBillingPage() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
         return creditCardBilling.isDisplayed();
+    }
+    
+    public void enterCreditCardDetails(String cardName){
+    	TestDataReader testDataReader = new TestDataReader();
+    	String creditCardDetails = testDataReader.getData(cardName);   	
+
+    	//Enter credit card number
+    	creditCardNumber.sendKeys(creditCardDetails.split(";")[0]);
+    	
+    	//Enter security code
+    	securityCode.sendKeys(creditCardDetails.split(";")[1]);
+    	
+    	//select expiration month
+    	Select expirationMonthElement = new Select(expirationMonth);
+        expirationMonthElement.selectByVisibleText(creditCardDetails.split(";")[2]);
+
+    	//select expiration year
+        Select expirationYearElement = new Select(expirationYear);
+        expirationYearElement.selectByVisibleText(creditCardDetails.split(";")[3]);
+        
+        //Enter name on card
+        nameOnCard.sendKeys(creditCardDetails.split(";")[4]);
+    }
+    
+    public void enterEmailAddressOnBillingPage(String emailAddress){
+    	emailReceipt.sendKeys(emailAddress);
     }
 }

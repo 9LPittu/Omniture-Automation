@@ -44,6 +44,9 @@ public class ShoppingBagPage {
 
     @FindBy(id = "order-listing")
     private WebElement orderListing;
+    
+    @FindBy(className="js-cart-size")
+    private WebElement cartSize;
 
     public ShoppingBagPage(WebDriver driver) {
         this.driver = driver;
@@ -140,5 +143,18 @@ public class ShoppingBagPage {
     public String getPriceDisplayedForProduct(String productName) {
         WebElement productRoot = getProductRoot(productName);
         return productRoot.findElement(By.className("item-price")).getText().trim();
+    }
+    
+    public boolean isPageTitleContains(String pageTitle){
+    	return driver.getTitle().trim().toLowerCase().contains(pageTitle.toLowerCase());
+    }
+    
+    public boolean isBagItemsCountMatches(int itemsCount){
+    	String bagItemsCount = cartSize.getText().trim();
+    	bagItemsCount = bagItemsCount.replace("(", "");
+    	bagItemsCount = bagItemsCount.replace(")", "");
+    	int actualItemsCount = Integer.parseInt(bagItemsCount);
+    	
+    	return actualItemsCount == itemsCount;
     }
 }

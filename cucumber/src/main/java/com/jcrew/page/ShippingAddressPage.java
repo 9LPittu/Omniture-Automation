@@ -80,4 +80,28 @@ public class ShippingAddressPage {
     public boolean isBillingAndShippingSameAddress() {
         return sameBillingAndShippingAddress.isSelected();
     }
+    
+    public void enterFirstNameOnShippingAddressPage(String firstName){
+    	firstNameSA.sendKeys(firstName);
+    }
+    
+    public void enterLastNameOnShippingAddressPage(String lastName){
+    	lastNameSA.sendKeys(lastName);
+    }
+    
+    public void enterAddressLine1OnShippingAddressPage(String addressLine1){
+    	address1.sendKeys(addressLine1);
+    }
+    
+    public void enterAddressLine2OnShippingAddressPage(String addressLine2){
+    	address2.sendKeys(addressLine2);
+    }
+    
+    public void enterZipCodeOnShippingAddressPage(String zipCode){
+    	zipcode.sendKeys(zipCode);
+    }
+    
+    public void enterPhoneNumberOnShippingAddressPage(String phoneNumber){
+    	phoneNumSA.sendKeys(phoneNumber);
+    }
 }

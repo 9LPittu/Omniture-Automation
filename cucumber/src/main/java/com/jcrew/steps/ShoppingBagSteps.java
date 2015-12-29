@@ -151,4 +151,14 @@ public class ShoppingBagSteps extends DriverFactory {
             }
         }
     }
+    
+    @Then("^page title should contain \"([^\"]*)\"$")
+    public void verify_page_title(String pageTitle){
+    	assertTrue("Page title should contain " + pageTitle, shoppingBagPage.isPageTitleContains(pageTitle));
+    }
+    
+    @And("^items count should be displayed as (\\d+) in the bag$")
+    public void verify_bag_items_count(int itemsCount){
+    	assertTrue("Items count in the bag should be displayed as " + itemsCount,shoppingBagPage.isBagItemsCountMatches(itemsCount));
+    }
 }

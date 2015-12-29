@@ -1,6 +1,8 @@
 package com.jcrew.page;
 
 import com.jcrew.util.Util;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -78,5 +80,9 @@ public class ReviewPage {
     
     public void clickPlaceYourOrder() throws InterruptedException{
         placeYourOrderButton.click();
+    }
+    
+    public boolean isItemsCountMatchesOnReviewPage(String itemsCount){    	
+    	return driver.findElements(By.cssSelector(".item-row.clearfix")).size() == Integer.parseInt(itemsCount);
     }
 }

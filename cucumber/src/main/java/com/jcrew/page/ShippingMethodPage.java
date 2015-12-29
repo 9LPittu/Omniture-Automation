@@ -1,10 +1,15 @@
 package com.jcrew.page;
 
+import java.util.List;
+
 import com.jcrew.util.Util;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -31,6 +36,9 @@ public class ShippingMethodPage {
 
     @FindBy(className = "footer__row--bottom")
     private WebElement footerRowBottom;
+    
+    @FindBys({@FindBy(name="shippingMethod")})
+    public WebElement shippingMethodsRadioButtons;
 
     public ShippingMethodPage(WebDriver driver) {
         this.driver = driver;
@@ -63,5 +71,11 @@ public class ShippingMethodPage {
     public boolean isPageLoaded() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerRowBottom));
         return true;
+    }
+    
+    public void selectShippingMethod(){
+    	List<WebElement> shippingMethodsRadioButtons = driver.findElements(By.name("shippingMethod"));
+    	WebElement shippingMethod = shippingMethodsRadioButtons.get(Util.randomIndex(shippingMethodsRadioButtons.size()));
+    	shippingMethod.click();
     }
 }

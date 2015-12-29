@@ -1,6 +1,10 @@
 package com.jcrew.page;
 
+import java.util.concurrent.TimeUnit;
+
 import com.jcrew.util.Util;
+
+import org.junit.rules.Timeout;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +17,7 @@ public class OrderConfirmationPage {
 	
 	private final WebDriver driver;
 	private Logger logger = LoggerFactory.getLogger(OrderConfirmationPage.class);
+	private int methodExecutionCntr = 1;
 
     @FindBy(id = "confirmation-number")
     private WebElement confirmationNumber;
@@ -26,7 +31,26 @@ public class OrderConfirmationPage {
     }
 
     public boolean isOrderConfirmationPage() {
-        return confirmationNumber.isDisplayed();
+    	
+    	boolean blnFlag = false;    	
+    	driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+    	
+    	while(methodExecutionCntr<=5){
+    		try{
+        		if(confirmationNumber.isDisplayed()){
+        			blnFlag = true;
+        			break;
+        		}
+        	}
+        	catch(Exception e){
+        		methodExecutionCntr++;        		
+        		isOrderConfirmationPage();
+        	}
+    	}
+    	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	
+        return blnFlag;
     }
     
     public boolean verifyOrderNumberGenerated(){
@@ -36,10 +60,9 @@ public class OrderConfirmationPage {
 			 logger.debug("Order number is generated. Order number is {}", orderNumber.getText().trim());
 		 }
 		 else{
-			 logger.debug("Order number is generated. Order number is {}");
+			 logger.debug("Order number is not generated. Order number is {}");
 		 }
 		 
 		 return orderNumber.isDisplayed();
 	 }
-
 }

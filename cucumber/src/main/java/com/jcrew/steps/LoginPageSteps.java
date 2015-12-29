@@ -3,10 +3,11 @@ package com.jcrew.steps;
 import com.jcrew.page.HamburgerMenu;
 import com.jcrew.page.LoginPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Util;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 import static org.junit.Assert.*;
 
 public class LoginPageSteps extends DriverFactory {
@@ -89,6 +90,11 @@ public class LoginPageSteps extends DriverFactory {
     @And("^Login page is loaded$")
     public void login_page_is_loaded() throws Throwable {
         assertTrue("Login page was not loaded properly", loginPage.isPageLoaded());
+    }
+    
+    @And("^click on CHECK OUT AS A GUEST button$")    
+    public void click_checkout_as_guest_button() throws InterruptedException{    	  	
+    	loginPage.clickCheckoutAsGuest();
     }
 }
 
