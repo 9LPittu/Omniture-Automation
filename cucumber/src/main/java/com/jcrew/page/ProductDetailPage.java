@@ -63,6 +63,9 @@ public class ProductDetailPage {
 
     @FindBy(className = "message--body")
     private WebElement messageBody;
+    
+    @FindBy(css=".btn--link.btn--checkout.btn--primary")
+    private WebElement minicartCheckout;
 
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
@@ -346,5 +349,9 @@ public class ProductDetailPage {
 
     public boolean isWishlistConfirmationMessageDisplayed() {
         return productActionsSection.findElement(By.className("content-button-secondary-confirmation")).isDisplayed();
+    }
+    
+    public void clickMinicartCheckout(){
+    	minicartCheckout.click();
     }
 }

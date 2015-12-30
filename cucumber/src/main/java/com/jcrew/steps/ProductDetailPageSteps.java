@@ -298,5 +298,9 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void a_button_saying_is_displayed(String message) throws Throwable {
         assertEquals("Expected message was not displayed", message, productDetailPage.getButtonErrorMessage());
     }
-
+    
+    @And("^click on checkout from minicart modal$")
+    public void click_checkout_from_minicart_modal(){
+    	productDetailPage.clickMinicartCheckout();
+    }
 }

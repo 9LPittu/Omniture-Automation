@@ -19,7 +19,6 @@ public class LoginPage {
 
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
     private final WebDriver driver;
-    private int methodExecutionCntr = 1;
     
     @FindBy(id = "sidecarUser")
     private WebElement emailInput;
@@ -42,6 +41,15 @@ public class LoginPage {
     
     @FindBy(xpath=".//*[@id='frmGuestCheckOut']/a")
     private WebElement checkoutAsGuestButton;
+    
+    @FindBy(id="loginUser")
+    private WebElement emailAddressField;
+    
+    @FindBy(id="loginPassword")
+    private WebElement passwordField;
+    
+    @FindBy(css=".button-general.button-submit")
+    private WebElement signInAndCheckOut;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -146,22 +154,24 @@ public class LoginPage {
     public void clickCheckoutAsGuest() throws InterruptedException{
     	
     	driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);    	
-    	while(methodExecutionCntr<=5){
-    		try{
-        		if(checkoutAsGuestButton.isDisplayed()){        			
-        			break;
-        		}
-        	}
-        	catch(Exception e){
-        		methodExecutionCntr++;        		
-        		clickCheckoutAsGuest();
-        	}
-    	}
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	
+
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutAsGuestButton));  	
     	checkoutAsGuestButton.click();
+    	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    }
+    
+    public void enterEmailAddressOnSignInPage(String emailAddress){
+    	driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+    	emailAddressField.sendKeys(emailAddress);
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    }
+    
+    public void enterPasswordOnSignInPage(String password){
+    	passwordField.sendKeys(password);
+    }
+    
+    public void click_signInAndCheckOut(){
+    	signInAndCheckOut.click();
     }
 }
-
