@@ -1,4 +1,4 @@
-#@RegressionCheckout
+@RegressionCheckout
 Feature: Checkout Process
 
   Background:
@@ -57,7 +57,6 @@ Feature: Checkout Process
     |firstname|lastname|addressline1|addressline2|zipcode|phonenumber|
     |John|Lewis|904 Oak Gln||92168|123456789|
   
-  @RegressionCheckout
   Scenario: Registered user checkout
     And User is on homepage
     And User clicks on hamburger menu
