@@ -1,6 +1,10 @@
 package com.jcrew.page;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import com.jcrew.util.Util;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -55,5 +59,30 @@ public class MyAccountPage {
         WebElement orderTableData = myAccountContainer.findElement(By.className("orderTableData"));
         WebElement orderReviewLink = orderTableData.findElement(By.tagName("a"));
         orderReviewLink.click();
+    }
+    
+    public void clickLinkOnMyAccountPage(String myAccountLinkName){
+    	List<WebElement> myAccountLeftNavLinks = driver.findElements(By.className("my_account_lefnav"));
+    	for(WebElement myAccountLeftNavLink:myAccountLeftNavLinks){
+    		if(myAccountLeftNavLink.getText().trim().equalsIgnoreCase(myAccountLinkName)){
+    			myAccountLeftNavLink.click();
+    			break;
+    		}
+    	}    	
+    }
+    
+    public void deleteNonDefaultCreditCards(){
+    	try{
+    		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+    		List<WebElement> deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
+        	while(deleteButtons.size()>=2){    		
+        		deleteButtons.get(1).click();        		
+        		deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(deleteButtons));
+        	}
+    	}
+    	catch(Exception e){
+    		driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	}
     }
 }

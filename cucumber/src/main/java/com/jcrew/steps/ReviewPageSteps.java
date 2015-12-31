@@ -35,4 +35,9 @@ public class ReviewPageSteps extends DriverFactory {
     public void verify_items_count_on_review_page(String itemsCount){
     	assertTrue("Items count on review page should be " + itemsCount, reviewPage.isItemsCountMatchesOnReviewPage(itemsCount));
     }
+    
+    @And("^select \"([^\"]*)\" breadcrumb item$")
+    public void select_breadcrumb_item(String breadcrumbItemName){
+    	reviewPage.selectBreadcrumbItem(breadcrumbItemName);
+    }
 }

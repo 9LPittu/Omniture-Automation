@@ -57,6 +57,12 @@ public class BillingPage {
     @FindBy(id = "credit-card-billing")
     private
     WebElement creditCardBilling;
+    
+    @FindBy(xpath="//span[@class='form-label' and text()='Add New Card']")
+    private WebElement addNewCardOnBillingPage;
+    
+    @FindBy(xpath="//a[@id='submit-new-shipping-address' and text()='Save & Continue']")
+    private WebElement saveContinueButtonOnBillingPage;
 
     public BillingPage(WebDriver driver) {
         this.driver = driver;
@@ -123,5 +129,13 @@ public class BillingPage {
     
     public void enterEmailAddressOnBillingPage(String emailAddress){
     	emailReceipt.sendKeys(emailAddress);
+    }
+    
+    public void clickAddNewCardOnBillingPage(){
+    	addNewCardOnBillingPage.click();
+    }
+    
+    public void clickSaveAndContinueButton(){
+    	saveContinueButtonOnBillingPage.click();
     }
 }

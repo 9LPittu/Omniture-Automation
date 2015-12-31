@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import java.util.List;
+
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -84,5 +86,17 @@ public class ReviewPage {
     
     public boolean isItemsCountMatchesOnReviewPage(String itemsCount){    	
     	return driver.findElements(By.cssSelector(".item-row.clearfix")).size() == Integer.parseInt(itemsCount);
+    }
+    
+    public void selectBreadcrumbItem(String breadcrumbItemName){
+    	WebElement breadcrumbElement = driver.findElement(By.id("breadCrumbs"));
+    	List<WebElement> breadcrumbItems = breadcrumbElement.findElements(By.xpath("//ul/li/a[@class='crumbs-link']"));
+    	
+    	for(WebElement breadcrumbItem:breadcrumbItems){
+    		if(breadcrumbItem.getText().trim().equalsIgnoreCase(breadcrumbItemName)){
+    			breadcrumbItem.click();
+    			break;
+    		}
+    	}
     }
 }

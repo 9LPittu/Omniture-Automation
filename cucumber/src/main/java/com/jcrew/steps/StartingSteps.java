@@ -63,11 +63,19 @@ public class StartingSteps {
         if ((env.contains("aka-int-www")) || (env.contains("or")) || (env.contains("argent"))) {
             logger.debug("Opening enable responsive page");
             driver.get(env + "/enableResponsive_sm.jsp");
-            driver.findElement(By.linkText("click to browse")).click();
+            try{
+            	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            	driver.findElement(By.linkText("click to browse")).click();
+            }
+            catch(Exception e){
+            	logger.debug("click to browse link is not displayed");
+            }
 
         } else {
             driver.get(env);
         }
+        
+        driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     }
 
 

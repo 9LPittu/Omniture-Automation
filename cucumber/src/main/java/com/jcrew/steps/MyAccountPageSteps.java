@@ -42,4 +42,14 @@ public class MyAccountPageSteps extends DriverFactory {
     public void user_selects_an_order_listed_for_review() throws Throwable {
         myAccountPage.click_order_for_review();
     }
+    
+    @And("^click on \"([^\"]*)\" link in My Account page")
+    public void click_my_account_link(String myAccountLinkName){
+    	myAccountPage.clickLinkOnMyAccountPage(myAccountLinkName);
+    }
+    
+    @And("^delete non-default credit cards$")
+    public void delete_non_default_credit_cards(){
+    	myAccountPage.deleteNonDefaultCreditCards();
+    }
 }

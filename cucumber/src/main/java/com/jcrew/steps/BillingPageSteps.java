@@ -37,4 +37,14 @@ public class BillingPageSteps extends DriverFactory {
     public void enter_email_address_on_billing_page(String emailAddress){
     	billingPage.enterEmailAddressOnBillingPage(emailAddress);
     }
+    
+    @And("^click 'Add New Card' on billing page$")
+    public void click_add_new_card_on_billing_page(){
+    	billingPage.clickAddNewCardOnBillingPage();
+    }
+    
+    @And("^click on 'SAVE & CONTINUE' button$")
+    public void click_save_continue_button(){
+    	billingPage.clickSaveAndContinueButton();
+    }
 }
