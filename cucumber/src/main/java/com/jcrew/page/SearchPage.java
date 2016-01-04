@@ -92,6 +92,7 @@ public class SearchPage {
     }
 
     public boolean isRefinePage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(genderTag));
         return genderTag.isDisplayed();
     }
 
