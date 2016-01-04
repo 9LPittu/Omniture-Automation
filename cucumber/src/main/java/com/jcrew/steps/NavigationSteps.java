@@ -60,7 +60,7 @@ public class NavigationSteps extends DriverFactory {
     @And("^page url should contain ([^\"]*)$")
     public void page_url_contains(String url) {
     	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(url));
-    	System.out.println(getDriver().getCurrentUrl());
+    	System.out.println("Page URL is " + getDriver().getCurrentUrl());
         assertTrue("Page URL should contain " + url,
                 getDriver().getCurrentUrl().contains(url));
     }

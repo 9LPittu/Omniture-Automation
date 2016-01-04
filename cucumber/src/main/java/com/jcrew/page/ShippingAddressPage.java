@@ -44,7 +44,37 @@ public class ShippingAddressPage {
 
     @FindBy (id = "sameBillShip")
     private WebElement sameBillingAndShippingAddress;
-
+    
+    @FindBy(xpath=".//*[@id='address-new']/span[2]")
+    private WebElement addNewShippingAddress;
+    
+    @FindBy(id="firstNameAM")
+    private WebElement addNewShippingAddress_FirstName;
+    
+    @FindBy(id="lastNameAM")
+    private WebElement addNewShippingAddress_LastName;
+    
+    @FindBy(id="address1")
+    private WebElement addNewShippingAddress_address1;
+    
+    @FindBy(id="address2")
+    private WebElement addNewShippingAddress_address2;
+    
+    @FindBy(id="zipcode")
+    private WebElement addNewShippingAddress_zipcode;
+    
+    @FindBy(id="phoneNumAM")
+    private WebElement addNewShippingAddress_PhoneNumber;
+    
+    @FindBy(xpath="//a[@id='submit-new-shipping-address' and text()='Save & Continue']")
+    private WebElement addNewShippingAddress_SaveAndContinue;
+    
+    @FindBy(id="modal-qas")
+    private WebElement qasVerificationPopUp;
+    
+    @FindBy(xpath=".//a[@class='button-submit' and text()='Use Address as Entered']")
+    private WebElement checkYourAddress_UseAddressAsEntered;
+    
     public ShippingAddressPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -103,5 +133,45 @@ public class ShippingAddressPage {
     
     public void enterPhoneNumberOnShippingAddressPage(String phoneNumber){
     	phoneNumSA.sendKeys(phoneNumber);
+    }
+    
+    public void clickAddNewShippingAddress(){
+    	addNewShippingAddress.click();
+    }
+    
+    public void enterFirstNameOnNewShippingAddressForm(){
+    	addNewShippingAddress_FirstName.sendKeys(faker.name().firstName());
+    }
+    
+    public void enterLastNameOnNewShippingAddressForm(){
+    	addNewShippingAddress_LastName.sendKeys(faker.name().lastName());
+    }
+    
+    public void enterAddressLine1OnAddNewShippingAddressForm(String address1){
+    	addNewShippingAddress_address1.sendKeys(address1);
+    }
+    
+    public void enterAddressLine2OnAddNewShippingAddressForm(String address2){
+    	addNewShippingAddress_address2.sendKeys(address2);
+    }
+    
+    public void enterZipCodeOnAddNewShippingAddressForm(String zipCode){
+    	addNewShippingAddress_zipcode.sendKeys(zipCode);
+    }
+    
+    public void enterPhoneNumberOnAddNewShippingAddressForm(){
+    	addNewShippingAddress_PhoneNumber.sendKeys(faker.phoneNumber().phoneNumber());
+    }
+    
+    public void clickSaveAndContinueInAddNewShippingAddressForm(){
+    	addNewShippingAddress_SaveAndContinue.click();
+    }
+    
+    public boolean isQASVerificationPopUpDisplayed(){
+    	return qasVerificationPopUp.isDisplayed();
+    }
+    
+    public void clickUseAddressAsEnteredButton(){
+    	checkYourAddress_UseAddressAsEntered.click();
     }
 }

@@ -64,7 +64,7 @@ public class StartingSteps {
             logger.debug("Opening enable responsive page");
             driver.get(env + "/enableResponsive_sm.jsp");
             try{
-            	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            	driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
             	driver.findElement(By.linkText("click to browse")).click();
             }
             catch(Exception e){

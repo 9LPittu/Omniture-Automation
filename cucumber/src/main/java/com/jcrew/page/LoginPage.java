@@ -50,6 +50,9 @@ public class LoginPage {
     
     @FindBy(css=".button-general.button-submit")
     private WebElement signInAndCheckOut;
+    
+    @FindBy(id = "main_inside")
+    private WebElement myAccountContainer;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -67,6 +70,7 @@ public class LoginPage {
     public void click_sign_in_button() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         signInButton.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
     }
 
     public String getSignInErrorMessage() {

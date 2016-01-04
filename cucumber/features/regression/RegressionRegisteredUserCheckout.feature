@@ -18,6 +18,7 @@ Feature: Registered User Checkout Process
     And delete non-default credit cards
     And click on "SIGN OUT" link in My Account page
     
+    #Add item to the bag
     And User is on homepage
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu

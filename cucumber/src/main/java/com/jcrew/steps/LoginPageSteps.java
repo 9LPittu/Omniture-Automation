@@ -110,5 +110,5 @@ public class LoginPageSteps extends DriverFactory {
     @And("^click on SIGN IN & CHECK OUT button$")
     public void enter_sign_in_and_check_out_button(){
     	loginPage.click_signInAndCheckOut();
-    }
+    }  
 }

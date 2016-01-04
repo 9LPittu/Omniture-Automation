@@ -41,4 +41,9 @@ public class ShippingMethodPageSteps extends DriverFactory {
     public void select_shipping_method_at_random(){
     	shippingMethodPage.selectShippingMethod();
     }
+    
+    @And("^validate shipping methods displayed on the page$")
+    public void validate_shipping_methods(){
+    	assertTrue("Validate the shipping methods displayed", shippingMethodPage.isShippingMethodsDisplayedCorrectly());
+    }
 }

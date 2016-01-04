@@ -2,8 +2,11 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ShippingAddressPage;
 import com.jcrew.util.DriverFactory;
+
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
 import org.openqa.selenium.TimeoutException;
 
 import static org.junit.Assert.*;
@@ -62,6 +65,55 @@ public class ShippingAddressPageSteps extends DriverFactory {
     @And("^enter phone number as \"([^\"]*)\"$")
     public void enter_phone_number_on_shipping_address_page(String phoneNumber){
     	shippingAddressPage.enterPhoneNumberOnShippingAddressPage(phoneNumber);
-    }  
+    }
     
+    @And("^click on 'ADD NEW SHIPPING ADDRESS' on Shipping Address page$")
+    public void click_add_new_shipping_address(){
+    	shippingAddressPage.clickAddNewShippingAddress();
+    }
+    
+    @And("^enter first name in the Add New Shipping Address form$")    
+    public void enter_first_name_in_new_shipping_address_form(){
+    	shippingAddressPage.enterFirstNameOnNewShippingAddressForm();
+    }
+    
+    @And("^enter last name in the Add New Shipping Address form$")    
+    public void enter_last_name_in_new_shipping_address_form(){
+    	shippingAddressPage.enterLastNameOnNewShippingAddressForm();
+    }
+    
+    @And("^enter \"([^\"]*)\" address line1 in the Add New Shipping Address form$")
+    public void enter_address1_in_add_new_shipping_address_form(String addressLine1){
+    	shippingAddressPage.enterAddressLine1OnAddNewShippingAddressForm(addressLine1);
+    }
+    
+    @And("^enter \"([^\"]*)\" address line2 in the Add New Shipping Address form$")
+    public void enter_address2_in_add_new_shipping_address_form(String addressLine2){
+    	shippingAddressPage.enterAddressLine2OnAddNewShippingAddressForm(addressLine2);
+    }
+    
+    @And("^enter \"([^\"]*)\" zipcode in the Add New Shipping Address form$")
+    public void enter_zipcode_in_add_new_shipping_address_form(String zipCode){
+    	shippingAddressPage.enterZipCodeOnAddNewShippingAddressForm(zipCode);
+    }
+    
+    @And("^enter phone number in the Add New Shipping Address form$")
+    public void enter_phone_number_in_add_new_shipping_address_Form(){
+    	shippingAddressPage.enterPhoneNumberOnAddNewShippingAddressForm();
+    }
+    
+    @Then("^click on 'SAVE & CONTINUE' button in the Add New Shipping Address form$")
+    public void click_save_and_continue_button_in_add_new_shipping_address_form(){
+    	shippingAddressPage.clickSaveAndContinueInAddNewShippingAddressForm();
+    }
+    
+    @Then("^user should see QAS verification window$")
+    public void user_should_see_qas_verification_window(){
+    	assertTrue("User should see QAS Verification window",shippingAddressPage.isQASVerificationPopUpDisplayed());
+    }
+    
+    @And("^click on 'USE ADDRESS AS ENTERED' button$")
+    public void click_use_address_as_entered_button(){
+    	shippingAddressPage.clickUseAddressAsEnteredButton();
+    }
 }

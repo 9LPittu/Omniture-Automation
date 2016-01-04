@@ -2,9 +2,9 @@ package com.jcrew.steps;
 
 import com.jcrew.page.MyAccountPage;
 import com.jcrew.util.DriverFactory;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -43,9 +43,14 @@ public class MyAccountPageSteps extends DriverFactory {
         myAccountPage.click_order_for_review();
     }
     
-    @And("^click on \"([^\"]*)\" link in My Account page")
+    @And("^click on \"([^\"]*)\" link in My Account page$")
     public void click_my_account_link(String myAccountLinkName){
     	myAccountPage.clickLinkOnMyAccountPage(myAccountLinkName);
+    }
+    
+    @And("^delete non-default addresses$")
+    public void delete_non_default_addresses(){
+    	myAccountPage.deleteNonDefaultAddresses();
     }
     
     @And("^delete non-default credit cards$")

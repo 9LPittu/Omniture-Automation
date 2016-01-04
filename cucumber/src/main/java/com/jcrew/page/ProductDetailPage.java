@@ -120,6 +120,7 @@ public class ProductDetailPage {
 
     public int getNumberOfItemsInBag() {
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(bagSize));
         String bagSizeStr = bagSize.getAttribute("innerHTML");
         String stringSize = bagSizeStr.replace("(", "").replace(")", "").trim();
         return Integer.parseInt(stringSize);

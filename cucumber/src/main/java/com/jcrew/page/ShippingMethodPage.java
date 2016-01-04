@@ -1,7 +1,10 @@
 package com.jcrew.page;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -38,7 +41,10 @@ public class ShippingMethodPage {
     private WebElement footerRowBottom;
     
     @FindBys({@FindBy(name="shippingMethod")})
-    public WebElement shippingMethodsRadioButtons;
+    private WebElement shippingMethodsRadioButtons;
+    
+    @FindBy(className="footer__country-context__country")
+    private WebElement countryName;
 
     public ShippingMethodPage(WebDriver driver) {
         this.driver = driver;
@@ -77,5 +83,39 @@ public class ShippingMethodPage {
     	List<WebElement> shippingMethodsRadioButtons = driver.findElements(By.name("shippingMethod"));
     	WebElement shippingMethod = shippingMethodsRadioButtons.get(Util.randomIndex(shippingMethodsRadioButtons.size()));
     	shippingMethod.click();
+    }
+    
+    public boolean isShippingMethodsDisplayedCorrectly(){
+    	
+    	String expectedShippingMethods = null;
+    	TestDataReader testDataReader = new TestDataReader();
+    	
+    	String country = countryName.getText().trim();
+    	
+    	switch(country.toLowerCase()){
+    		case "united states":
+    			expectedShippingMethods = testDataReader.getData("USA_Shipping_Methods");
+    			break;
+    	}
+    	
+    	//Add all expected shipping methods to List
+    	String[] arrShippingMethods=expectedShippingMethods.split(";");
+    	List<String> lstExpectedShippingMethods = new ArrayList<String>();
+    	for(String expectedShippingMethod:arrShippingMethods){
+    		lstExpectedShippingMethods.add(expectedShippingMethod.toLowerCase());
+    	}
+    	
+    	//Add all actual shipping methods from application to List
+    	List<WebElement> actualShippingMethods = driver.findElements(By.className("method-group"));
+    	List<String> lstActualShippingMethods = new ArrayList<String>();
+    	for(WebElement actualShippingMethod:actualShippingMethods){
+    		lstActualShippingMethods.add(actualShippingMethod.getText().trim().toLowerCase().split("\\r?\\n")[0]);
+    	}
+    	
+    	//Sort the lists
+    	Collections.sort(lstExpectedShippingMethods);
+    	Collections.sort(lstActualShippingMethods);
+    	
+    	return lstActualShippingMethods.equals(lstExpectedShippingMethods);
     }
 }
