@@ -15,8 +15,8 @@ public class Main {
         final Properties propertyReader = new Properties();
         final Properties databaseReader = new Properties();
         propertyReader.load(new FileReader(args[0] + "QAtestdata.properties"));
-        propertyReader.load(new FileReader(args[0] + "database.properties"));
+        databaseReader.load(new FileReader(args[0] + "database.properties"));
 
-        inventoryDAO.addInventory(propertyReader);
+        inventoryDAO.addInventory(propertyReader, databaseReader);
     }
 }
