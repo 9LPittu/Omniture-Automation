@@ -1,0 +1,33 @@
+{
+  "capabilities":
+  [
+    {
+      "browserName": "safari",
+      "version": "9.1",
+      "maxInstances": 5,
+      "platform": "MAC",
+      "platformName": "iOS",
+      "platformVersion": "9.1",
+      "deviceName": "iPhone"
+    }
+  ],
+  "configuration":
+  {
+    "nodeTimeout":120,
+    "cleanUpCycle":2000,
+    "timeout":2000000,
+    "browserTimeout": 4000000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url":"http://10.20.236.47:4720/wd/hub",
+    "maxSession": 5,
+    "port": 4720,
+    "host": "10.20.236.47",
+    "register": true,
+    "registerCycle": 5000,
+    "hub": "http://nyc-wdevtool-03:4444/grid/register",
+    "hubPort": 4444,
+    "hubHost": "nyc-wdevtool-03",
+    "role": "node",
+    "udid":"4fad8716a5c46a439882c05ec3b0168adbe91937"
+  }
+}
