@@ -9,8 +9,6 @@ import java.util.Properties;
 
 public class PropertyReader {
 
-    private static final int DESKTOP_DEFAULT_WIDTH = 1200;
-    private static final int DESKTOP_DEFAULT_HEIGHT = 800;
     private static final PropertyReader propertyReader = new PropertyReader();
     private final Properties properties = new Properties();
     private final Logger logger = LoggerFactory.getLogger(PropertyReader.class);
@@ -30,64 +28,39 @@ public class PropertyReader {
     private void loadProperties() throws IOException {
         String environment = System.getProperty("environment", "ci");
         String viewport = System.getProperty("viewport", "desktop");
-    	String configurationFile = environment + "-" + viewport + ".properties";
-    	
-        logger.info("Configuration file to be used {}", configurationFile);
 
-        FileInputStream inputStream = new FileInputStream(configurationFile);
-        properties.load(inputStream);
+    	  String environmentFile = environment + ".properties";
+        String viewportFile = viewport + ".properties";
+
+        logger.info("Environment configuration file to be used {}", environmentFile);
+        logger.info("Viewport configuration file to be used {}", viewportFile);
+
+        FileInputStream environmentInput = new FileInputStream(environmentFile);
+        properties.load(environmentInput);
+
+        FileInputStream viewportInput = new FileInputStream(viewportFile);
+        properties.load(viewportInput);
     }
 
-    public String readProperty(String key) {
-        return properties.getProperty(key);
-    }
-
-
-    public String getBrowser() {
-        return readProperty("browser");
-    }
-
-    public String getUserAgent() {
-        return readProperty("user.agent");
-    }
-
-    public int getWindowWidth() {
-        String widthString = readProperty("window.width");
-        int width;
-        try {
-            width = Integer.parseInt(widthString);
-        } catch (NumberFormatException nfe) {
-            width = DESKTOP_DEFAULT_WIDTH;
-        }
-        return width;
-    }
-
-    public int getWindowHeight() {
-        String heightString = readProperty("window.height");
-        int height;
-        try {
-            height = Integer.parseInt(heightString);
-        } catch (NumberFormatException nfe) {
-            height = DESKTOP_DEFAULT_HEIGHT;
-        }
-        return height;
-    }
-
-    public String getEnvironment() {
-        return readProperty("environment");
-    }
-
-    public boolean isRemoteExecution() {
-        return "true".equals(System.getProperty("remote.execution"));
-    }
-
-
-    public String getSeleniumHubUrl() {
-        return readProperty("selenium.grid.hub.url");
+    public boolean isSystemPropertyTrue(String key) {
+        return "true".equals(System.getProperty(key));
     }
 
     public String getProperty(String property) {
         return readProperty(property);
     }
 
+    public boolean hasProperty(String key) {
+        return properties.containsKey(key);
+    }
+
+    private String readProperty(String key) {
+        String value = properties.getProperty(key);
+
+        if (!hasProperty(key)) {
+            throw new RuntimeException("Property '" + key + "' is not defined in environment or viewport file");
+        }
+
+        return value;
+    }
 }

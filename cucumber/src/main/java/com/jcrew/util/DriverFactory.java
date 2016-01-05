@@ -22,6 +22,7 @@ import java.util.Map;
 
 public class DriverFactory {
 
+
     private static final String[] PHANTOM_JS_ARGS = new String[]{"--web-security=false",
             "--ssl-protocol=any",
             "--local-to-remote-url-access=true",
@@ -29,13 +30,24 @@ public class DriverFactory {
             "--ignore-ssl-errors=true"
     };
     private static final Map<String, WebDriver> driverMap = new HashMap<>();
+    private final int DEFAULT_WINDOW_WIDTH = 400;
+    private final int DEFAULT_WINDOW_HEIGHT = 667;
     private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
+
+    private int width = DEFAULT_WINDOW_WIDTH;
+    private int height = DEFAULT_WINDOW_HEIGHT;
 
     private WebDriver createNewDriverInstance() throws IOException {
 
         final WebDriver driver;
         final PropertyReader propertyReader = PropertyReader.getPropertyReader();
-        if (propertyReader.isRemoteExecution()) {
+
+        if (propertyReader.hasProperty("window.width") && propertyReader.hasProperty("window.height")) {
+            width = Integer.parseInt(propertyReader.getProperty("window.width"));
+            height = Integer.parseInt(propertyReader.getProperty("window.height"));
+        }
+
+        if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
         } else {
             driver = createLocalDriver(propertyReader);
@@ -45,8 +57,9 @@ public class DriverFactory {
     }
 
     private WebDriver createLocalDriver(PropertyReader propertyReader) {
-        final String browser = propertyReader.getBrowser();
+        final String browser = propertyReader.getProperty("browser");
         final WebDriver driver;
+
         if ("chrome".equals(browser)) {
 
             driver = new ChromeDriver();
@@ -56,27 +69,22 @@ public class DriverFactory {
             driver = new FirefoxDriver();
 
         } else {
-
             DesiredCapabilities capabilities = new DesiredCapabilities();
+
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
-            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getUserAgent());
+            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = new PhantomJSDriver(capabilities);
-
         }
 
-        int width = propertyReader.getWindowWidth();
-        int height = propertyReader.getWindowHeight();
         driver.manage().window().setSize(new Dimension(width, height));
-
         return driver;
-
     }
 
     private WebDriver createRemoteDriver(PropertyReader propertyReader) throws MalformedURLException {
         final WebDriver driver;
-        final String browser = propertyReader.getBrowser();
+        final String browser = propertyReader.getProperty("browser");
 
         if ("chrome".equals(browser)) {
 
@@ -126,30 +134,25 @@ public class DriverFactory {
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
         } else {
-
+            logger.debug(browser);
             final DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
-            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getUserAgent());
+            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = getDesktopWebDriver(propertyReader, capabilities);
-            int width = propertyReader.getWindowWidth();
-            int height = propertyReader.getWindowHeight();
-            driver.manage().window().setSize(new Dimension(width, height));
-
         }
         return driver;
     }
 
     private URL getSeleniumRemoteAddress(PropertyReader propertyReader) throws MalformedURLException {
-        final String seleniumHubUrl = propertyReader.getSeleniumHubUrl();
+        final String seleniumHubUrl = propertyReader.getProperty("selenium.grid.hub.url");
         return new URL(seleniumHubUrl);
     }
 
     private WebDriver getDesktopWebDriver(PropertyReader propertyReader, DesiredCapabilities desiredCapabilities) throws MalformedURLException {
         final URL seleniumHubRemoteAddress = getSeleniumRemoteAddress(propertyReader);
         final WebDriver driver = new RemoteWebDriver(seleniumHubRemoteAddress, desiredCapabilities);
-        int width = propertyReader.getWindowWidth();
-        int height = propertyReader.getWindowHeight();
+
         driver.manage().window().setSize(new Dimension(width, height));
         return driver;
     }
@@ -157,6 +160,7 @@ public class DriverFactory {
     public WebDriver getDriver() {
         String identifier = Thread.currentThread().getName();
         WebDriver driver = driverMap.get(identifier);
+
         if (driver == null) {
             try {
                 driver = createNewDriverInstance();
@@ -171,15 +175,19 @@ public class DriverFactory {
 
     public void destroyDriver() {
         String identifier = Thread.currentThread().getName();
-        WebDriver driver = driverMap.remove(identifier);
+        WebDriver driver = driverMap.get(identifier);
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
-
-        if (driver != null) {
+        if (!"androidchrome".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
                 driver.manage().deleteCookie(cookie);
             }
             driver.manage().deleteAllCookies();
+        }
+
+        if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
             driver.quit();
+            driverMap.remove(identifier);
         }
     }
 }

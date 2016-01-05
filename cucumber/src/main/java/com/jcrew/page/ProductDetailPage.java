@@ -71,6 +71,7 @@ public class ProductDetailPage {
 
     public boolean isProductDetailPage() {
         Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
     }
 
@@ -171,6 +172,7 @@ public class ProductDetailPage {
     }
 
     public void click_update_cart() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
         addToBag.click();
     }
 

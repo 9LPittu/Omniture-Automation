@@ -16,4 +16,3 @@ Feature: Home Page
     And Hamburger Menu Wedding Link is present
     And Hamburger Menu sale Link is present
     And Hamburger Menu Blog Link is present
-

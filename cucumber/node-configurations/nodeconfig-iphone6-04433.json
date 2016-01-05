@@ -2,14 +2,13 @@
 	"capabilities":
 	[
 		{
-		"browserName": "chrome",
-		"version": "4.4.2",
+		"browserName": "safari",
+		"version": "9.2",
 		"maxInstances": 5,
-		"platform": "ANDROID",
-		"platformName": "Android",
-		"platformVersion": "4.4.2",
-		"deviceName": "282bb4a7",
-		"udid": "282bb4a7"
+		"platform": "MAC",
+		"platformName": "iOS",
+		"platformVersion": "9.2",
+		"deviceName": "J's iPhone"
 	}
 	],
 	"configuration":
@@ -19,16 +18,16 @@
 		"timeout":2000000,
 		  "browserTimeout": 4000000,
 		"proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy", 
-		"url":"http://10.20.220.13:4726/wd/hub",
+		"url":"http://10.20.236.47:4720/wd/hub",
 		"maxSession": 5,
-		"port": 4726,
-		"host": "10.20.220.13",
+		"port": 4720,
+		"host": "10.20.236.47",
 		"register": true,
 		"registerCycle": 5000,
 		"hub": "http://nyc-wdevtool-03:4444/grid/register",
 		"hubPort": 4444,
 		"hubHost": "nyc-wdevtool-03",
 		"role": "node",
-		"udid": "282bb4a7"
+		"udid":"34970ff754b558185a64f6671bb1c94c137f29bf"
 		}
 }
