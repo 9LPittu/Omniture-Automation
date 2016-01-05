@@ -63,6 +63,42 @@ public class BillingPage {
     
     @FindBy(xpath="//a[@id='submit-new-shipping-address' and text()='Save & Continue']")
     private WebElement saveContinueButtonOnBillingPage;
+    
+    @FindBy(xpath=".//*[@id='address-new']/span[2]")
+    private WebElement addNewBillingAddress;
+    
+    @FindBy(id="countryAM")
+    private WebElement addNewBillingAddress_Country;
+    
+    @FindBy(id="firstNameAM")
+    private WebElement addNewBillingAddress_FirstName;
+    
+    @FindBy(id="lastNameAM")
+    private WebElement addNewBillingAddress_LastName;
+    
+    @FindBy(id="address1")
+    private WebElement addNewBillingAddress_address1;
+    
+    @FindBy(id="address2")
+    private WebElement addNewBillingAddress_address2;
+    
+    @FindBy(id="zipcode")
+    private WebElement addNewBillingAddress_zipcode;
+    
+    @FindBy(css=".form-dropdown.city-state-id")
+    private WebElement addNewBillingAddress_CityStateDropdown;
+    
+    @FindBy(id="phoneNumAM")
+    private WebElement addNewBillingAddress_PhoneNumber;
+    
+    @FindBy(xpath="//a[@id='submit-new-shipping-address' and text()='Save']")
+    private WebElement addNewBillingAddress_Save;
+    
+    @FindBy(id="modal-qas")
+    private WebElement qasVerificationPopUp;
+    
+    @FindBy(xpath=".//a[@class='button-submit' and text()='Use Address as Entered']")
+    private WebElement checkYourAddress_UseAddressAsEntered;
 
     public BillingPage(WebDriver driver) {
         this.driver = driver;
@@ -137,5 +173,51 @@ public class BillingPage {
     
     public void clickSaveAndContinueButton(){
     	saveContinueButtonOnBillingPage.click();
+    }
+    
+    public void clickAddNewBillingAddress(){
+    	addNewBillingAddress.click();
+    }
+    
+    public void selectCountryOnNewBillingAddressForm(String country){
+    	Select list = new Select(addNewBillingAddress_Country);
+    	list.selectByVisibleText(country);
+    }
+    
+    public void enterFirstNameOnNewBillingAddressForm(){
+    	addNewBillingAddress_FirstName.sendKeys(faker.name().firstName());
+    }
+    
+    public void enterLastNameOnNewBillingAddressForm(){
+    	addNewBillingAddress_LastName.sendKeys(faker.name().lastName());
+    }
+    
+    public void enterAddressLine1OnAddNewBillingAddressForm(String address1){
+    	addNewBillingAddress_address1.sendKeys(address1);
+    }
+    
+    public void enterAddressLine2OnAddNewBillingAddressForm(String address2){
+    	addNewBillingAddress_address2.sendKeys(address2);
+    }
+    
+    public void enterZipCodeOnAddNewBillingAddressForm(String zipCode){
+    	addNewBillingAddress_zipcode.sendKeys(zipCode);
+    }
+    
+    public void enterPhoneNumberOnAddNewBillingAddressForm(){
+    	addNewBillingAddress_PhoneNumber.sendKeys(faker.phoneNumber().phoneNumber());
+    }
+    
+    public void clickSaveInAddNewBillingAddressForm(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewBillingAddress_CityStateDropdown));
+    	addNewBillingAddress_Save.click();
+    }
+    
+    public boolean isQASVerificationPopUpDisplayed(){
+    	return qasVerificationPopUp.isDisplayed();
+    }
+    
+    public void clickUseAddressAsEnteredButton(){
+    	checkYourAddress_UseAddressAsEntered.click();
     }
 }

@@ -111,12 +111,12 @@ public class ShippingAddressPage {
         return sameBillingAndShippingAddress.isSelected();
     }
     
-    public void enterFirstNameOnShippingAddressPage(String firstName){
-    	firstNameSA.sendKeys(firstName);
+    public void enterFirstNameOnShippingAddressPage(){
+    	firstNameSA.sendKeys(faker.name().firstName());
     }
     
-    public void enterLastNameOnShippingAddressPage(String lastName){
-    	lastNameSA.sendKeys(lastName);
+    public void enterLastNameOnShippingAddressPage(){
+    	lastNameSA.sendKeys(faker.name().lastName());
     }
     
     public void enterAddressLine1OnShippingAddressPage(String addressLine1){
@@ -131,8 +131,8 @@ public class ShippingAddressPage {
     	zipcode.sendKeys(zipCode);
     }
     
-    public void enterPhoneNumberOnShippingAddressPage(String phoneNumber){
-    	phoneNumSA.sendKeys(phoneNumber);
+    public void enterPhoneNumberOnShippingAddressPage(){
+    	phoneNumSA.sendKeys(faker.phoneNumber().phoneNumber());
     }
     
     public void clickAddNewShippingAddress(){

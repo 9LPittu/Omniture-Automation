@@ -37,34 +37,34 @@ public class ShippingAddressPageSteps extends DriverFactory {
         shippingAddressPage.presses_continue_button_on_shipping_address();
     }
     
-    @And("^enter first name as \"([^\"]*)\" on shipping address page$")
-    public void enter_first_name_on_shipping_address_page(String firstName){
-    	shippingAddressPage.enterFirstNameOnShippingAddressPage(firstName);
+    @And("^enter first name on shipping address page$")
+    public void enter_first_name_on_shipping_address_page(){
+    	shippingAddressPage.enterFirstNameOnShippingAddressPage();
     }
     
-    @And("^enter last name as \"([^\"]*)\" on shipping address page$")
-    public void enter_last_name_on_shipping_address_page(String lastName){
-    	shippingAddressPage.enterLastNameOnShippingAddressPage(lastName);
+    @And("^enter last name on shipping address page$")
+    public void enter_last_name_on_shipping_address_page(){
+    	shippingAddressPage.enterLastNameOnShippingAddressPage();
     }
     
-    @And("^enter address line1 as \"([^\"]*)\"$")
+    @And("^enter address line1 as \"([^\"]*)\" on shipping address page$")
     public void enter_address_line1_on_shipping_address_page(String addressLine1){    	
     	shippingAddressPage.enterAddressLine1OnShippingAddressPage(addressLine1);    	
     }
     
-    @And("^enter address line2 as \"([^\"]*)\"$")
+    @And("^enter address line2 as \"([^\"]*)\" on shipping address page$")
     public void enter_address_line2_on_shipping_address_page(String addressLine2){    	
     	shippingAddressPage.enterAddressLine2OnShippingAddressPage(addressLine2);    	    	
     }
     
-    @And("^enter zip code as \"([^\"]*)\"$")
+    @And("^enter zip code as \"([^\"]*)\" on shipping address page$")
     public void enter_zip_code_on_shipping_address_page(String zipCode){
     	shippingAddressPage.enterZipCodeOnShippingAddressPage(zipCode);
     }
     
-    @And("^enter phone number as \"([^\"]*)\"$")
-    public void enter_phone_number_on_shipping_address_page(String phoneNumber){
-    	shippingAddressPage.enterPhoneNumberOnShippingAddressPage(phoneNumber);
+    @And("^enter phone number on shipping address page$")
+    public void enter_phone_number_on_shipping_address_page(){
+    	shippingAddressPage.enterPhoneNumberOnShippingAddressPage();
     }
     
     @And("^click on 'ADD NEW SHIPPING ADDRESS' on Shipping Address page$")
@@ -82,17 +82,17 @@ public class ShippingAddressPageSteps extends DriverFactory {
     	shippingAddressPage.enterLastNameOnNewShippingAddressForm();
     }
     
-    @And("^enter \"([^\"]*)\" address line1 in the Add New Shipping Address form$")
+    @And("^enter \"([^\"]*)\" as address line1 in the Add New Shipping Address form$")
     public void enter_address1_in_add_new_shipping_address_form(String addressLine1){
     	shippingAddressPage.enterAddressLine1OnAddNewShippingAddressForm(addressLine1);
     }
     
-    @And("^enter \"([^\"]*)\" address line2 in the Add New Shipping Address form$")
+    @And("^enter \"([^\"]*)\" as address line2 in the Add New Shipping Address form$")
     public void enter_address2_in_add_new_shipping_address_form(String addressLine2){
     	shippingAddressPage.enterAddressLine2OnAddNewShippingAddressForm(addressLine2);
     }
     
-    @And("^enter \"([^\"]*)\" zipcode in the Add New Shipping Address form$")
+    @And("^enter \"([^\"]*)\" as zipcode in the Add New Shipping Address form$")
     public void enter_zipcode_in_add_new_shipping_address_form(String zipCode){
     	shippingAddressPage.enterZipCodeOnAddNewShippingAddressForm(zipCode);
     }
@@ -107,12 +107,12 @@ public class ShippingAddressPageSteps extends DriverFactory {
     	shippingAddressPage.clickSaveAndContinueInAddNewShippingAddressForm();
     }
     
-    @Then("^user should see QAS verification window$")
+    @Then("^user should see QAS verification window in the shipping address page$")
     public void user_should_see_qas_verification_window(){
     	assertTrue("User should see QAS Verification window",shippingAddressPage.isQASVerificationPopUpDisplayed());
     }
     
-    @And("^click on 'USE ADDRESS AS ENTERED' button$")
+    @And("^click on 'USE ADDRESS AS ENTERED' button in the shipping address page$")
     public void click_use_address_as_entered_button(){
     	shippingAddressPage.clickUseAddressAsEnteredButton();
     }

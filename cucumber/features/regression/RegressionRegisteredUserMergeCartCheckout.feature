@@ -64,15 +64,15 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And select "SHIPPING ADDRESS" breadcrumb item
     And click on 'ADD NEW SHIPPING ADDRESS' on Shipping Address page
     And page url should contain /checkout2/shipping.jsp
-    And enter first name in the Add New Shipping Address form    
+    And enter first name in the Add New Shipping Address form        
     And enter last name in the Add New Shipping Address form
-    And enter "<address1>" address line1 in the Add New Shipping Address form
-    And enter "<address2>" address line2 in the Add New Shipping Address form
-    And enter "<zipcode>" zipcode in the Add New Shipping Address form
+    And enter "<address1>" as address line1 in the Add New Shipping Address form
+    And enter "<address2>" as address line2 in the Add New Shipping Address form
+    And enter "<zipcode>" as zipcode in the Add New Shipping Address form
     And enter phone number in the Add New Shipping Address form
     Then click on 'SAVE & CONTINUE' button in the Add New Shipping Address form
-    Then user should see QAS verification window
-    And click on 'USE ADDRESS AS ENTERED' button
+    Then user should see QAS verification window in the shipping address page    
+    And click on 'USE ADDRESS AS ENTERED' button in the shipping address page
     And page url should contain /checkout2/shippingmethod.jsp
     And Verifies is in shipping method page
     And validate shipping methods displayed on the page    
