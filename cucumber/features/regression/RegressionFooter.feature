@@ -259,7 +259,7 @@ Feature: Footer Tests
     And User is on /help/privacy_policy.jsp?sidecar=true page
   
   Scenario: Verify copyright text in the legal links section is not link
-  	And "2015 J.Crew" should not be displayed as a link
+  	And "2016 J.Crew" should not be displayed as a link
     
   #US13389_TC16  
   Scenario: Verify visit full site is displayed and functional in footer section of all sidecar  pages
