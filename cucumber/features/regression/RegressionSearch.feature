@@ -58,7 +58,6 @@ Feature: Search Regression Suite
     When Refine button is clicked
     And Click on Size refinement
     When Select xx-small multiple option from Size refinement
-    Then Validate View All option is NOT selected under Size refinement
     And Verify xx-small value is displayed next to Size refinement
     When Select x-small multiple option from Size refinement
     And Click on Size refinement close drawer icon
