@@ -47,6 +47,9 @@ public class ShoppingBagPage {
     
     @FindBy(className="js-cart-size")
     private WebElement cartSize;
+    
+    @FindBy(className="breadcrumb__link")
+    private WebElement breadcrumbLink;
 
     public ShoppingBagPage(WebDriver driver) {
         this.driver = driver;
@@ -156,5 +159,9 @@ public class ShoppingBagPage {
     	int actualItemsCount = Integer.parseInt(bagItemsCount);
     	
     	return actualItemsCount == itemsCount;
+    }
+    
+    public boolean isBreadcrumbTextMatches(String breadcrumbText){
+    	return breadcrumbLink.getText().trim().equalsIgnoreCase(breadcrumbText);
     }
 }

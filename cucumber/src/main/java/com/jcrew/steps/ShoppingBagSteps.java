@@ -161,4 +161,9 @@ public class ShoppingBagSteps extends DriverFactory {
     public void verify_bag_items_count(int itemsCount){
     	assertTrue("Items count in the bag should be displayed as " + itemsCount,shoppingBagPage.isBagItemsCountMatches(itemsCount));
     }
+    
+    @And("^breadcrumb should display \"([^\"]*)\"$")
+    public void verify_breadcrumb_text(String text){
+    	assertTrue("Breadcrumb should display the text as " + text, shoppingBagPage.isBreadcrumbTextMatches(text));
+    }
 }
