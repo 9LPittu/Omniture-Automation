@@ -1,10 +1,11 @@
-@Footer
+#@Footer
 Feature: Footer Tests
 
   Background:
     Given User is on homepage
 
    #tc-01 and tc-02
+   #US13389_TC14
   Scenario: Verification of Footer section in the page
     Then Contact Us header from footer is visible
     And twitter icon is displayed
@@ -26,7 +27,7 @@ Feature: Footer Tests
     And Verify google icon is displayed under Get To Know Us section
     And Verify youtube icon is displayed under Get To Know Us section
 
-  #US13389_TC03   
+  #US13389_TC03    
   Scenario: Verify content groupings are displayed in footer section of all sidecar  pages
   	Then Verify Let Us Help You footer link is displayed
   	And user should see "Let Us Help You" content grouping in collapsed mode
@@ -180,41 +181,34 @@ Feature: Footer Tests
     Then user should see "Our Brands" content grouping drawer should be closed
     Then user should see "Our Cards" content grouping drawer should be opened
     
-  #US13389_TC12 
-  Scenario: Verify email subscription field  is displaying under Like being First section
+  #US13389_TC12  
+  Scenario: Verify email subscription field  is displaying under Like being First section and verify email subscription in the footer with invalid email address
    	Then user should see email subscription field under LIKE BEING FIRST section
    	And user should see default text in email field as 'Enter your email.'
    	Then enter email address as "invalidemail" in email field
    	And click on signup button in footer
-   	Then user should see message as "Please enter a valid email address."
-   	Then enter email address as "test@gmail.com" in email field
+   	Then user should see message as "Please enter a valid email address."   	
+  
+  Scenario: Verify email subscription in the footer with valid email address
+  	Then enter email address as "test@gmail.com" in email field
    	And click on signup button in footer
    	Then user should see message as "THANK YOU...Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
-  
-  #US13389_TC13   	
+   	
+  #US13389_TC13
+  @Footer
   Scenario Outline: Ship To section is visible and functional in footer
     Then user should see Ship To section in footer
     And verify country name is displayed in the ship to section of footer
     And verify change link is displayed in the ship to section of footer
     Then click on change link from footer
     And User is on /intl/context_chooser.jsp?sidecar=true page
-    And select country as "<country>"
-    Then user should see "<country>" in footer
+    #And select country as "<country>"
+    #Then user should see "<country>" in footer
     Examples:
       |country|
       |Canada|  
    
-  #US13389_TC14  
-  Scenario: Social sharing Icons should be visible in footer on home page
-    And Verify facebook icon is displayed under Get To Know Us section
-    And Verify twitter icon is displayed under Get To Know Us section
-    And Verify tumblr icon is displayed under Get To Know Us section
-    And Verify pinterest icon is displayed under Get To Know Us section
-    And Verify instagram icon is displayed under Get To Know Us section
-    And Verify google icon is displayed under Get To Know Us section
-    And Verify youtube icon is displayed under Get To Know Us section
-    And user should see social sharing section header name as "GET TO KNOW US"
-  
+  #US13389_TC14
   Scenario: Verify facebook icon in social sharing section is functional
     And click on facebook icon in social sharing section
     And User is on external page https://www.facebook.com/jcrew

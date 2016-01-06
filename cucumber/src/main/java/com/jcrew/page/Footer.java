@@ -168,11 +168,12 @@ public class Footer {
     
     public boolean isMessageDisplayedCorrectlyDuringFooterSignUp(String message) throws InterruptedException{    	
 
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSignUpMessage));		
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSignUpMessage));
+    	Thread.sleep(1000);
 		String actualMessage = footerSignUpMessage.getText().toLowerCase();
 		actualMessage = actualMessage.replace("\n", "");
-		System.out.println("Message displayed:" + actualMessage);	
-		return actualMessage.contains(message.toLowerCase());    	
+		System.out.println("Message displayed:" + actualMessage);
+		return actualMessage.contains(message.toLowerCase());
     }
     
     public boolean isShipToSectionDisplayed(){

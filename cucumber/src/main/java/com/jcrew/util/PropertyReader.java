@@ -26,10 +26,10 @@ public class PropertyReader {
     }
 
     private void loadProperties() throws IOException {
-        String environment = System.getProperty("environment", "ci");
-        String viewport = System.getProperty("viewport", "desktop");
+        String environment = System.getProperty("environment", "steel");
+        String viewport = System.getProperty("viewport", "mobile-firefox");
 
-    	  String environmentFile = environment + ".properties";
+    	String environmentFile = environment + ".properties";
         String viewportFile = viewport + ".properties";
 
         logger.info("Environment configuration file to be used {}", environmentFile);
