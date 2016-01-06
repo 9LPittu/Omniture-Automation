@@ -93,7 +93,6 @@ Feature: Footer Tests
   #tc-05
   Scenario: Verification of Our Cards links display
     When Click on footer link Our Cards
-    And Accordion should be expanded
     And The J.Crew Credit Card sublink is displayed
     And The J.Crew Gift Card sublink is displayed
 
@@ -112,7 +111,6 @@ Feature: Footer Tests
   #tc-06
   Scenario: Verification of Our Stores links display and functional
     When Click on footer link Our Stores
-    #And Accordion should be expanded
     And Store Locator sublink is displayed
     And Click on sublink Store Locator from Our Stores footer link
     And Verify user is on help store locator page
@@ -121,7 +119,6 @@ Feature: Footer Tests
     #tc-07
   Scenario: Verification of About J.Crew links display
     When Click on footer link About J.Crew
-  #And Accordion should be expanded
     And Our Story sublink is displayed
     And Careers sublink is displayed
     And Social Responsibility sublink is displayed
@@ -154,7 +151,6 @@ Feature: Footer Tests
     #tc-08
   Scenario: Verification of Our Brands links display
     When Click on footer link Our Brands
-    #And Accordion should be expanded
     And J.Crew Factory sublink is displayed
     And Madewell sublink is displayed
 
