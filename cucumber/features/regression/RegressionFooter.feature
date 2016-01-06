@@ -8,9 +8,9 @@ Feature: Footer Tests
    #US13389_TC14
   Scenario: Verification of Footer section in the page
     Then Contact Us header from footer is visible
-    And twitter icon is displayed
-    And phone icon is displayed
-    And vps icon is displayed
+    And Contact Us section twitter icon is displayed
+    And Contact Us section phone icon is displayed
+    And Contact Us section vps icon is displayed
     Then Verify Let Us Help You footer link is displayed
     And Verify Our Cards footer link is displayed
     And Verify Our Stores footer link is displayed

@@ -52,7 +52,7 @@ public class FooterSteps extends DriverFactory {
         assertTrue("Contact us header is visible", footer.isTopHeaderVisible(text));
     }
 
-    @And("^([^\"]*) icon is displayed$")
+    @And("Contact Us section ([^\"]*) icon is displayed$")
     public void verify_icon_and_text_is_displayed(String icon) {
         assertTrue(icon+ "should be displayed+", footer.isIconAndTextDisplayed(icon));
 
