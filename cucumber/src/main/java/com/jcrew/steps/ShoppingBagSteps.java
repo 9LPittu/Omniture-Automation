@@ -164,6 +164,6 @@ public class ShoppingBagSteps extends DriverFactory {
     
     @And("^breadcrumb should display \"([^\"]*)\"$")
     public void verify_breadcrumb_text(String text){
-    	assertTrue("Breadcrumb should display the text as " + text, shoppingBagPage.isBreadcrumbTextMatches(text));
+    	assertTrue("Breadcrumb should display the text as " + text, shoppingBagPage.isBreadcrumbTextContains(text));
     }
 }

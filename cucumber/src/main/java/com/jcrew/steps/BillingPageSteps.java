@@ -94,9 +94,9 @@ public class BillingPageSteps extends DriverFactory {
     	billingPage.clickSaveInAddNewBillingAddressForm();
     }
     
-    @Then("^user should see QAS verification window in the Billing page$")
+    @Then("^user should see QAS verification in the Billing page$")
     public void user_should_see_qas_verification_window_in_billing_page(){
-    	assertTrue("User should see QAS Verification window",billingPage.isQASVerificationPopUpDisplayed());
+    	assertTrue("User should see QAS Verification window",billingPage.isQASVerificationDisplayed());
     }
     
     @And("^click on 'USE ADDRESS AS ENTERED' button in the Billing page$")

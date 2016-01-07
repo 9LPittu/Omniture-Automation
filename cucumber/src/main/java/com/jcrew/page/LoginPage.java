@@ -39,7 +39,7 @@ public class LoginPage {
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
     
-    @FindBy(xpath=".//*[@id='frmGuestCheckOut']/a")
+    @FindBy(xpath=".//*[@id='frmGuestCheckOut']/descendant::a[text()='Check Out as a Guest']")
     private WebElement checkoutAsGuestButton;
     
     @FindBy(id="loginUser")

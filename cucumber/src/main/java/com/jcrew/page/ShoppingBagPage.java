@@ -1,6 +1,10 @@
 package com.jcrew.page;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import com.jcrew.util.Util;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -48,7 +52,7 @@ public class ShoppingBagPage {
     @FindBy(className="js-cart-size")
     private WebElement cartSize;
     
-    @FindBy(className="breadcrumb__link")
+    @FindBy(css=".icon-header.icon-header-logo")
     private WebElement breadcrumbLink;
 
     public ShoppingBagPage(WebDriver driver) {
@@ -161,7 +165,19 @@ public class ShoppingBagPage {
     	return actualItemsCount == itemsCount;
     }
     
-    public boolean isBreadcrumbTextMatches(String breadcrumbText){
-    	return breadcrumbLink.getText().trim().equalsIgnoreCase(breadcrumbText);
+    public boolean isBreadcrumbTextContains(String breadcrumbText){
+    	boolean blnResult = false;
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".item-link.item-first")));
+    	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    	try{
+    		blnResult =  breadcrumbLink.getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
+    	}
+    	catch(Exception e){
+    		List<WebElement> breadcrumbLinks = driver.findElements(By.className("breadcrumb__link"));
+    		blnResult =  breadcrumbLinks.get(0).getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
+    	}
+    	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	return blnResult;
     }
 }

@@ -1,7 +1,10 @@
 package com.jcrew.page;
 
+import java.util.concurrent.TimeUnit;
+
 import com.github.javafaker.Faker;
 import com.jcrew.util.Util;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,7 +35,7 @@ public class ShippingAddressPage {
 
     @FindBy(id = "zipcode")
     private WebElement zipcode;
-
+    
     @FindBy(id = "phoneNumSA")
     private WebElement phoneNumSA;
 
@@ -69,8 +72,8 @@ public class ShippingAddressPage {
     @FindBy(xpath="//a[@id='submit-new-shipping-address' and text()='Save & Continue']")
     private WebElement addNewShippingAddress_SaveAndContinue;
     
-    @FindBy(id="modal-qas")
-    private WebElement qasVerificationPopUp;
+    @FindBy(id="qasPageTitle")
+    private WebElement qasVerification;
     
     @FindBy(xpath=".//a[@class='button-submit' and text()='Use Address as Entered']")
     private WebElement checkYourAddress_UseAddressAsEntered;
@@ -157,21 +160,57 @@ public class ShippingAddressPage {
     
     public void enterZipCodeOnAddNewShippingAddressForm(String zipCode){
     	addNewShippingAddress_zipcode.sendKeys(zipCode);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(dropdownUsCityState));
     }
     
     public void enterPhoneNumberOnAddNewShippingAddressForm(){
     	addNewShippingAddress_PhoneNumber.sendKeys(faker.phoneNumber().phoneNumber());
     }
     
-    public void clickSaveAndContinueInAddNewShippingAddressForm(){
+    public void clickSaveAndContinueInAddNewShippingAddressForm(){    	
     	addNewShippingAddress_SaveAndContinue.click();
     }
     
-    public boolean isQASVerificationPopUpDisplayed(){
-    	return qasVerificationPopUp.isDisplayed();
+    public boolean isQASVerificationDisplayed(){
+    	int attempts = 0;
+    	boolean result = false;
+    	
+    	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+    	while(attempts<30){
+    		try{
+	    		if(qasVerification.isDisplayed()){
+	    			result = true;
+	    			break;
+	    		}
+    		}
+    		catch(Exception e){
+    			attempts++;
+    		}
+    	}
+    	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	return result;
     }
     
-    public void clickUseAddressAsEnteredButton(){
+    public void clickUseAddressAsEnteredButton(){  
+    	
+    	int attempts = 0;
+    	
+    	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+    	while(attempts<30){
+    		try{
+	    		if(checkYourAddress_UseAddressAsEntered.isDisplayed()){	    			
+	    			break;
+	    		}
+    		}
+    		catch(Exception e){
+    			attempts++;
+    		}
+    	}
+    	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	checkYourAddress_UseAddressAsEntered.click();
     }
 }

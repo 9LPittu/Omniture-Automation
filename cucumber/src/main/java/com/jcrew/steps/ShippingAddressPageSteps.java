@@ -107,9 +107,9 @@ public class ShippingAddressPageSteps extends DriverFactory {
     	shippingAddressPage.clickSaveAndContinueInAddNewShippingAddressForm();
     }
     
-    @Then("^user should see QAS verification window in the shipping address page$")
-    public void user_should_see_qas_verification_window(){
-    	assertTrue("User should see QAS Verification window",shippingAddressPage.isQASVerificationPopUpDisplayed());
+    @Then("^user should see QAS verification in the shipping address page$")
+    public void user_should_see_qas_verification(){
+    	assertTrue("User should see QAS verification",shippingAddressPage.isQASVerificationDisplayed());
     }
     
     @And("^click on 'USE ADDRESS AS ENTERED' button in the shipping address page$")

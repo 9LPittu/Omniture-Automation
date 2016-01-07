@@ -28,9 +28,10 @@ Feature: Guest User Checkout Process
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
-    Then page title should contain "Shopping Bag"
-    And breadcrumb should display "J.Crew"    
+    Then page title should contain "Shopping Bag"        
     And items count should be displayed as 2 in the bag
+    And Move to mobile site
+    And breadcrumb should display "J.Crew"
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
     And click on CHECK OUT AS A GUEST button
@@ -70,10 +71,11 @@ Feature: Guest User Checkout Process
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
-    Then page title should contain "Shopping Bag"
-    And breadcrumb should display "J.Crew"
+    Then page title should contain "Shopping Bag"    
     And items count should be displayed as 2 in the bag
-    And Clicks on checkout
+    And Move to mobile site
+    And breadcrumb should display "J.Crew"
+    And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
     And click on CHECK OUT AS A GUEST button
     And enter first name on shipping address page    
@@ -83,7 +85,7 @@ Feature: Guest User Checkout Process
     And enter zip code as "<shipping_zipcode>" on shipping address page
     And enter phone number on shipping address page             
     And Presses continue button on shipping address
-    Then user should see QAS verification window in the shipping address page
+    Then user should see QAS verification in the shipping address page    
     And click on 'USE ADDRESS AS ENTERED' button in the shipping address page    
     And Verifies is in shipping method page
     And select shipping method on shipping & gift options page
@@ -100,7 +102,7 @@ Feature: Guest User Checkout Process
     And enter "<billing_zipcode>" as zipcode in the Add New Billing Address form    
     And enter phone number in the Add New Billing Address form
     Then click on 'SAVE' button in the Add New Billing Address form        
-    Then user should see QAS verification window in the Billing page
+    Then user should see QAS verification in the Billing page    
     And click on 'USE ADDRESS AS ENTERED' button in the Billing page 
     And Submits payment data in billing page
     And page url should contain /checkout2/billing.jsp
