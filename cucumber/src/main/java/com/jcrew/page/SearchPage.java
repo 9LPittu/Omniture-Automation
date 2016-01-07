@@ -79,6 +79,7 @@ public class SearchPage {
     }
 
     public void click_on_gender_selector() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(womenSelector));
         womenSelector.click();
     }
 
