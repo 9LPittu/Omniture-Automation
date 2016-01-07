@@ -220,11 +220,13 @@ public class Footer {
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){
     	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/following-sibling::div[@class='c-footer__fullsite']"));
-    	return viewFullSite.isDisplayed();
+        return viewFullSite.isDisplayed();
     }
     
     public void clickViewFullSite(){
-    	WebElement viewFullSiteLink  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/following-sibling::div/a[@class='footer__fullsite__link']"));
+
+        WebElement viewFullSiteLink = driver.findElement(By.xpath("//*[@id=\"global__footer\"]/div/div[3]/div/div/a"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(viewFullSiteLink));
     	viewFullSiteLink.click();
     }
     
