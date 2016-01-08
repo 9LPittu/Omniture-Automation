@@ -225,7 +225,6 @@ public class Footer {
     
     public void clickViewFullSite(){
 
-       // WebElement viewFullSiteLink = driver.findElement(By.xpath("//*[@id=\"global__footer\"]/div/div[3]/div/div/a"));
         WebElement viewFullSiteLink = driver.findElement(By.xpath("//a[text()='View full site']"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(viewFullSiteLink));
     	viewFullSiteLink.click();
