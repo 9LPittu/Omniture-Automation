@@ -37,7 +37,13 @@ public class ReviewPage {
     private WebElement shippingAddress;
     
     @FindBy(className="item-link-submit")
-    public WebElement placeYourOrderButton;
+    private WebElement placeYourOrderButton;
+    
+    @FindBy(xpath=".//*[@id='billing-details']/h2/a")
+    private WebElement reviewPage_BillingDetailsSection_ChangeButton;
+    
+    @FindBy(xpath=".//*[@id='shipping-details']/h2/a")
+    private WebElement reviewPage_ShippingDetailsSection_ChangeButton;
 
     public ReviewPage(WebDriver driver) {
         this.driver = driver;
@@ -98,5 +104,13 @@ public class ReviewPage {
     			break;
     		}
     	}
+    }
+    
+    public void clickChangeButtonOfShippingDetailsOnReviewPage(){
+    	reviewPage_ShippingDetailsSection_ChangeButton.click();
+    }
+    
+    public void clickChangeButtonOfBillingDetailsOnReviewPage(){
+    	reviewPage_BillingDetailsSection_ChangeButton.click();
     }
 }

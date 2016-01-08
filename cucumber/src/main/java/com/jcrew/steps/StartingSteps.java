@@ -88,6 +88,7 @@ public class StartingSteps {
     public void user_bag_is_cleared() {
         driver.navigate().to(reader.getProperty("environment") + "/CleanPersistentCart.jsp");
         Util.waitForPageFullyLoaded(driver);
+        
     }
 
     @After

@@ -40,4 +40,14 @@ public class ReviewPageSteps extends DriverFactory {
     public void select_breadcrumb_item(String breadcrumbItemName){
     	reviewPage.selectBreadcrumbItem(breadcrumbItemName);
     }
+    
+    @And("^click on 'CHANGE' button of 'SHIPPING DETAILS' section on 'Review' page$")
+    public void click_changes_button_shipping_details_section_review_page(){
+    	reviewPage.clickChangeButtonOfShippingDetailsOnReviewPage();
+    }
+    
+    @And("^click on 'CHANGE' button of 'BILLING DETAILS' section on 'Review' page$")
+    public void click_changes_button_billing_details_section_review_page(){
+    	reviewPage.clickChangeButtonOfBillingDetailsOnReviewPage();
+    }
 }

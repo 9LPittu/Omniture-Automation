@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ProductDetailPage {
 
@@ -120,6 +122,22 @@ public class ProductDetailPage {
 
     public int getNumberOfItemsInBag() {
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
+        
+        int attempts = 0;    	
+    	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+    	while(attempts<30){
+    		try{
+	    		if(bagSize.isDisplayed()){	    			
+	    			break;
+	    		}
+    		}
+    		catch(Exception e){
+    			attempts++;
+    		}
+    	}
+    	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(bagSize));
         String bagSizeStr = bagSize.getAttribute("innerHTML");
         String stringSize = bagSizeStr.replace("(", "").replace(")", "").trim();

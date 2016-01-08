@@ -44,6 +44,7 @@ Feature: Registered User Checkout Process
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
+    And Move to mobile site
     And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
@@ -71,6 +72,7 @@ Feature: Registered User Checkout Process
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
+    And Move to mobile site
     And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
@@ -79,7 +81,7 @@ Feature: Registered User Checkout Process
     And enter password as "jcrew@123"
     And click on SIGN IN & CHECK OUT button
     And page url should contain /checkout2/signin.jsp
-    And select "BILLING" breadcrumb item
+    And click on 'CHANGE' button of 'BILLING DETAILS' section on 'Review' page
     And click 'Add New Card' on billing page
     And enter "Visa_Card1" details on billing page
     And click on 'SAVE & CONTINUE' button

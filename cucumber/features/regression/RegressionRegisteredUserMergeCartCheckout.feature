@@ -50,6 +50,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
+    And Move to mobile site
     And breadcrumb should display "J.Crew"
     And items count should be displayed as 1 in the bag
     And Clicks on checkout
@@ -57,12 +58,14 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And enter email address as "express_user@jcrew.com" on sign in page    
     And enter password as "jcrew@123"
     And click on SIGN IN & CHECK OUT button
-    And page url should contain /checkout2/signin.jsp    
+    And page url should contain /checkout2/signin.jsp
+    And user should see 'SAVE TO WISHLIST & CONTINUE' button on the page
+    And user should see 'ADD ITEMS TO BAG & REVIEW ORDER' button on the page
     And click on ADD ITEMS TO BAG & REVIEW ORDER button
     And page url should contain /checkout2/mergebags.jsp
     And Clicks on checkout    
     And Bag should have 2 item(s) added
-    And select "SHIPPING ADDRESS" breadcrumb item
+    And click on 'CHANGE' button of 'SHIPPING DETAILS' section on 'Review' page
     And click on 'ADD NEW SHIPPING ADDRESS' on Shipping Address page
     And page url should contain /checkout2/shipping.jsp
     And enter first name in the Add New Shipping Address form        
@@ -72,7 +75,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And enter "<zipcode>" as zipcode in the Add New Shipping Address form
     And enter phone number in the Add New Shipping Address form
     Then click on 'SAVE & CONTINUE' button in the Add New Shipping Address form
-    Then user should see QAS verification window in the shipping address page    
+    Then user should see QAS verification in the shipping address page    
     And click on 'USE ADDRESS AS ENTERED' button in the shipping address page
     And page url should contain /checkout2/shippingmethod.jsp
     And Verifies is in shipping method page

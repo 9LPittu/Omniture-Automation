@@ -66,6 +66,9 @@ public class ShippingAddressPage {
     @FindBy(id="zipcode")
     private WebElement addNewShippingAddress_zipcode;
     
+    @FindBy(id="dropdown-us-city-state")
+    private WebElement cityStateDropdown;
+    
     @FindBy(id="phoneNumAM")
     private WebElement addNewShippingAddress_PhoneNumber;
     
@@ -132,6 +135,7 @@ public class ShippingAddressPage {
     
     public void enterZipCodeOnShippingAddressPage(String zipCode){
     	zipcode.sendKeys(zipCode);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(cityStateDropdown));
     }
     
     public void enterPhoneNumberOnShippingAddressPage(){
