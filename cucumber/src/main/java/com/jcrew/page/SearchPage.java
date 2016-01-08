@@ -42,7 +42,7 @@ public class SearchPage {
     @FindBy(className = "search__filter--gender")
     private WebElement genderTag;
 
-    @FindBy(className = "c-search__filter--refinement")
+    @FindBy(className = "search__filter--refinement")
     private WebElement searchFilterRefinementSection;
 
     @FindBy(className = "search__button--refine")
@@ -211,16 +211,13 @@ public class SearchPage {
     }
 
     private WebElement getOptionElementFromRefinement(String option, String refinement) {
-        try {
-            final WebElement filterRefinementElement = getRefinementElement(refinement);
-            final WebElement accordionMenuForRefinement =
-                    filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
 
-            return accordionMenuForRefinement.findElement(By.xpath(".//a[contains(text(), '" + option + "')]"));
+        final WebElement filterRefinementElement = getRefinementElement(refinement);
+        final WebElement accordionMenuForRefinement =
+                filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
 
-        } catch (StaleElementReferenceException sere) {
-            return getOptionElementFromRefinement(option, refinement);
-        }
+        return accordionMenuForRefinement.findElement(By.xpath(".//a[contains(text(), '" + option + "')]"));
+
     }
 
     public void select_option_from_refinement(String option, String refinement) {
@@ -231,17 +228,10 @@ public class SearchPage {
     public boolean isOptionSelectedForRefinementWithAccordionClosed(String optionSelected, String refinement) {
 
         boolean result;
-        try {
-            result = Util.createWebDriverWait(driver).until(
-                    ExpectedConditions.visibilityOf(
-                            getRefinementElement(refinement).findElement(
-                                    By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]")
-                            )
-                    )
-            ).isDisplayed();
-        } catch (StaleElementReferenceException sere) {
-            result = isOptionSelectedForRefinementWithAccordionClosed(optionSelected, refinement);
-        }
+
+        result = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.presenceOfElementLocated(By.cssSelector(".search__filter--selected"))
+                ).isDisplayed();
 
         return result;
     }
