@@ -79,7 +79,7 @@ public class SearchPage {
     }
 
     public void click_on_gender_selector() {
-        womenSelector.click();
+                womenSelector.click();
     }
 
     public void click_on_gender_selector(String gender) {

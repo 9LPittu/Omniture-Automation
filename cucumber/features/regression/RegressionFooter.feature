@@ -207,11 +207,11 @@ Feature: Footer Tests
   #US13389_TC14
   Scenario: Verify facebook icon in social sharing section is functional
     And click on facebook icon in social sharing section
-    And User is on external page https://www.facebook.com/jcrew
+    And User is on external page https://m.facebook.com/jcrew
   
   Scenario: Verify twitter icon in social sharing section is functional
     And click on twitter icon in social sharing section
-    And User is on external page https://twitter.com/jcrew
+    And User is on external page https://mobile.twitter.com/jcrew
   
   Scenario: Verify tumblr icon in social sharing section is functional
     And click on tumblr icon in social sharing section
@@ -231,7 +231,7 @@ Feature: Footer Tests
   
   Scenario: Verify youtube icon in social sharing section is functional
     And click on youtube icon in social sharing section
-    And User is on external page https://www.youtube.com/user/jcrewinsider
+    And User is on external page https://m.youtube.com/user/jcrewinsider
   
   #US13389_TC15 
   Scenario: Verify legal links are displayed in footer section of all sidecar  pages
