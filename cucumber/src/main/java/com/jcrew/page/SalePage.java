@@ -35,6 +35,7 @@ public class SalePage {
 
         private final Logger logger = LoggerFactory.getLogger(SalePage.class);
         private final StateHolder stateHolder = StateHolder.getInstance();
+        private final PropertyReader reader = PropertyReader.getPropertyReader();
 
         private final WebDriver driver;
 
@@ -108,6 +109,13 @@ public class SalePage {
 
         public boolean isSalePageDisplayed(){
             return saleHeader.isDisplayed();
+        }
+
+        public boolean isSaleLandingPage() {
+            System.out.println(driver.getCurrentUrl());
+            String saleLandingUrl =reader.getProperty("environment")+"/r/sale";
+            return driver.getCurrentUrl().equals(saleLandingUrl);
+
         }
 
         public boolean isRefineButtonDisplayed(){

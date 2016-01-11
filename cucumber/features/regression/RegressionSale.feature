@@ -37,10 +37,10 @@ Feature: Sale Regression Suite
 
   Examples:
     |SaleCategory|URL|
-    |WOMEN|/r/search/?N=21+17|
-    |MEN  |/r/search/?N=21+16|
-    |BOYS |/r/search/?N=21+18|
-    |GIRLS|/r/search/?N=21+19|
+    |women|/r/search/?N=21+17|
+   # |MEN  |/r/search/?N=21+16|
+   # |BOYS |/r/search/?N=21+18|
+   # |GIRLS|/r/search/?N=21+19|
   
   Scenario: Pagination is functional on sale page
     And User clicks on WOMEN subcategory from sale Category
@@ -127,3 +127,16 @@ Feature: Sale Regression Suite
   Examples:
     |SaleCategory|
     |WOMEN|
+
+  #US15452_TC001
+  Scenario Outline:  'Sale' in menu nav should link to Sale Landing page
+     And User is in sale landing page
+     And User
+
+
+    Examples:
+    |gender|
+    |WOMEN|
+
+
+

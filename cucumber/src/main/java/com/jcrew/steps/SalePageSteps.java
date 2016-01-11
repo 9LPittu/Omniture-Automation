@@ -15,6 +15,11 @@ public class SalePageSteps extends DriverFactory {
     @Then("^User is in Sale results page$")
     public void verify_sale_page_displayed(){
         assertTrue("Sale page should be displayed",salePage.isSalePageDisplayed());
+            }
+
+    @And("^User is in sale landing page$")
+    public void verify_sale_landing_page(){
+        assertTrue("User should be in sale landing page",salePage.isSaleLandingPage());
     }
 
     @And("^verify REFINE button is displayed$")
