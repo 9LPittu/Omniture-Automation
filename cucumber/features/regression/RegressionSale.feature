@@ -129,14 +129,18 @@ Feature: Sale Regression Suite
     |WOMEN|
 
   #US15452_TC001
-  Scenario Outline:  'Sale' in menu nav should link to Sale Landing page
+  Scenario: 'Sale' in menu nav should link to Sale Landing page
      And User is in sale landing page
-     And User
 
+   #US15452_TC002 not implemented yet
 
-    Examples:
-    |gender|
-    |WOMEN|
+    #US15452_TC003 & US15452_TC004
+  Scenario: 'Sale' in top nav should direct to Sale Landing Page
+    And User goes to homepage
+    And User clicks on sale link from top nav
+    And User is in sale landing page
+    And User clicks on WOMEN subcategory from sale Category
+    Then User is in Sale results page
 
 
 

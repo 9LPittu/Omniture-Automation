@@ -131,4 +131,9 @@ public class SalePageSteps extends DriverFactory {
     public void validate_correct_page_displayed_when_page_number_changed(){
     	assertTrue("user should be displayed with correct page when page number is changed", salePage.isCorrectPageDisplayedWhenPageNumberChanged());
     }
+
+    @And("^User clicks on sale link from top nav$")
+    public void click_on_sale_link_from_top_nav() {
+        salePage.clickSaleLinkFromTopNav();
+    }
 }

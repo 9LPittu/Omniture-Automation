@@ -331,4 +331,10 @@ public class SalePage {
         	
         	return !currentPageFirstItemName.equalsIgnoreCase(firstPageFirstItemName);
         }
+
+        public void clickSaleLinkFromTopNav() {
+            //List<WebElement> topNavList = driver.findElements(By.className("header__department-nav"));
+            driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = 'sale']")).click();
+
+        }
 }
