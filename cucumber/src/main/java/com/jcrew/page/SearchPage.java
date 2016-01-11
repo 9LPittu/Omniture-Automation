@@ -42,8 +42,11 @@ public class SearchPage {
     @FindBy(className = "search__filter--gender")
     private WebElement genderTag;
 
-    @FindBy(className = "c-search__filter--refinement")
+    @FindBy(className = "search__filter--refinement")
     private WebElement searchFilterRefinementSection;
+
+    @FindBy(className = "search__filter--actions")
+    private WebElement searchFilterRefinementActions;
 
     @FindBy(className = "search__button--refine")
     private WebElement refineButton;
@@ -79,7 +82,8 @@ public class SearchPage {
     }
 
     public void click_on_gender_selector() {
-                womenSelector.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(womenSelector));
+        womenSelector.click();
     }
 
     public void click_on_gender_selector(String gender) {
@@ -210,16 +214,13 @@ public class SearchPage {
     }
 
     private WebElement getOptionElementFromRefinement(String option, String refinement) {
-        try {
-            final WebElement filterRefinementElement = getRefinementElement(refinement);
-            final WebElement accordionMenuForRefinement =
-                    filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
 
-            return accordionMenuForRefinement.findElement(By.xpath(".//a[contains(text(), '" + option + "')]"));
+        final WebElement filterRefinementElement = getRefinementElement(refinement);
+        final WebElement accordionMenuForRefinement =
+                filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
 
-        } catch (StaleElementReferenceException sere) {
-            return getOptionElementFromRefinement(option, refinement);
-        }
+        return accordionMenuForRefinement.findElement(By.xpath(".//a[contains(text(), '" + option + "')]"));
+
     }
 
     public void select_option_from_refinement(String option, String refinement) {
@@ -229,33 +230,28 @@ public class SearchPage {
 
     public boolean isOptionSelectedForRefinementWithAccordionClosed(String optionSelected, String refinement) {
 
-        boolean result;
-        try {
-            result = Util.createWebDriverWait(driver).until(
-                    ExpectedConditions.visibilityOf(
-                            getRefinementElement(refinement).findElement(
-                                    By.xpath("../span[@class='search__filter--selected' and contains(text(),'" + optionSelected + "')]")
-                            )
-                    )
-            ).isDisplayed();
-        } catch (StaleElementReferenceException sere) {
-            result = isOptionSelectedForRefinementWithAccordionClosed(optionSelected, refinement);
-        }
+        By selectedFilter = By.xpath(".//span[@class='search__filter--selected' and contains(text(),'"
+                + optionSelected + "')]");
 
-        return result;
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(selectedFilter));
+
+        return true;
     }
 
     public void select_option_from_multiple_select_refinement(String option, String refinement) {
+        final WebElement filterRefinementElement = getRefinementElement(refinement);
+        final WebElement accordionMenuForRefinement =
+                filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
+        final WebElement optionElement = accordionMenuForRefinement.findElement(By.linkText(option));
+
         try {
-            final WebElement filterRefinementElement = getRefinementElement(refinement);
-            final WebElement accordionMenuForRefinement =
-                    filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
-            final WebElement optionElement = accordionMenuForRefinement.findElement(By.linkText(option));
 
             optionElement.click();
 
         } catch (StaleElementReferenceException sere) {
-            select_option_from_multiple_select_refinement(option, refinement);
+            logger.debug("Stale Element Reference Exception when trying to click " +
+                    "linkText({}), retrying... ", option);
+            Util.clickWithStaleRetry(optionElement);
         }
     }
 
@@ -266,23 +262,29 @@ public class SearchPage {
     }
 
     public void click_refinement_close_drawer(String refinement) {
+        final WebElement filterRefinementElement = getRefinementElement(refinement);
+        final WebElement drawerIcon = filterRefinementElement.findElement(
+                By.xpath("following-sibling::i[contains(@class, 'icon-see-less')]"));
+
         try {
-            final WebElement filterRefinementElement = getRefinementElement(refinement);
-            final WebElement drawerIcon = filterRefinementElement.findElement(
-                    By.xpath("following-sibling::i[contains(@class, 'icon-see-less')]"));
 
             drawerIcon.click();
 
         } catch (StaleElementReferenceException sere) {
-
-            click_refinement_close_drawer(refinement);
-
+            logger.debug("Stale Element Reference Exception when trying to click  " +
+                    "following-sibling::i[contains(@class, 'icon-see-less')], retrying... ");
+            Util.clickWithStaleRetry(drawerIcon);
         }
     }
 
     public void click_refinement_menu_done_button() {
-        final WebElement doneButton = searchFilterRefinementSection.findElement(By.id("btn__search--done"));
-        doneButton.click();
+        final WebElement doneButton = searchFilterRefinementActions.findElement(By.id("btn__search--done"));
+        try {
+            doneButton.click();
+        }catch (StaleElementReferenceException staleException){
+            logger.debug("Stale Element Reference Exception when trying to click btn__search--done, retrying... ");
+            Util.clickWithStaleRetry(doneButton);
+        }
     }
 
     public int getCurrentNumberOfResults() {
@@ -295,11 +297,11 @@ public class SearchPage {
     }
 
     public boolean isBreadcrumbDisplayedFor(String option) {
-        WebElement breadcrumbElement = searchResult.findElement(
-                By.xpath(".//button[contains(@class, 'search__results--crumb') and contains(text(), '" + option
-                        + "')]"));
+        By breadCrumbLocator = By.xpath(".//button[contains(@class, 'search__results--crumb') and contains(text(), '" + option + "')]");
 
-        return breadcrumbElement.isDisplayed();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(breadCrumbLocator));
+
+        return true;
     }
 }
 

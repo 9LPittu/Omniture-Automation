@@ -15,7 +15,7 @@ Feature: Search Regression Suite
     And Clicks on search button for input field
     And User is in search results page
     Then Verify amount of items displayed is 2
-    And Verifies Silk cami product sale price is now $49.99
+    #And Verifies Silk cami product sale price is now $39.99
 
   Scenario: single product with sale price should go to pdp
     When Enters A0640 to the search field
