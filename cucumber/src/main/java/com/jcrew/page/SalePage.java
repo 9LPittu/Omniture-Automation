@@ -108,6 +108,7 @@ public class SalePage {
         }
 
         public boolean isSalePageDisplayed(){
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleHeader));
             return saleHeader.isDisplayed();
         }
 
@@ -333,8 +334,10 @@ public class SalePage {
         }
 
         public void clickSaleLinkFromTopNav() {
-            //List<WebElement> topNavList = driver.findElements(By.className("header__department-nav"));
             driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = 'sale']")).click();
+        }
 
+        public void clickOnSaleDept(String dept) {
+            driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']")).click();
         }
 }

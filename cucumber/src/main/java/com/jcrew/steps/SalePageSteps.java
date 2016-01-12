@@ -136,4 +136,9 @@ public class SalePageSteps extends DriverFactory {
     public void click_on_sale_link_from_top_nav() {
         salePage.clickSaleLinkFromTopNav();
     }
+
+    @And("^User clicks on sale department ([^\"]*)$")
+    public void click_on_sale_dept(String dept) {
+        salePage.clickOnSaleDept(dept);
+    }
 }

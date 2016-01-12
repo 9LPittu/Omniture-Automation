@@ -37,10 +37,10 @@ Feature: Sale Regression Suite
 
   Examples:
     |SaleCategory|URL|
-    |women|/r/search/?N=21+17|
-   # |MEN  |/r/search/?N=21+16|
-   # |BOYS |/r/search/?N=21+18|
-   # |GIRLS|/r/search/?N=21+19|
+    |WOMEN|/r/search/?N=21+17|
+    |MEN  |/r/search/?N=21+16|
+    |BOYS |/r/search/?N=21+18|
+    |GIRLS|/r/search/?N=21+19|
   
   Scenario: Pagination is functional on sale page
     And User clicks on WOMEN subcategory from sale Category
@@ -128,19 +128,33 @@ Feature: Sale Regression Suite
     |SaleCategory|
     |WOMEN|
 
-  #US15452_TC001
+  #US15452_TC001 & US15452_TC002
   Scenario: 'Sale' in menu nav should link to Sale Landing page
      And User is in sale landing page
 
-   #US15452_TC002 not implemented yet
 
-    #US15452_TC003 & US15452_TC004
+
+
+    #US15452_TC003
   Scenario: 'Sale' in top nav should direct to Sale Landing Page
     And User goes to homepage
     And User clicks on sale link from top nav
     And User is in sale landing page
-    And User clicks on WOMEN subcategory from sale Category
+
+    #US15452_TC004
+  Scenario Outline:'sale' breadcrumb functionality from sale PDP
+    And User clicks on sale department <Sale_Dept>
     Then User is in Sale results page
+    And Selects any product from product grid list
+    And User is in product detail page
+    When Clicks on Sale Breadcrumb
+    And User is in sale landing page
 
-
+    Examples:
+    |Sale_Dept|
+   # |New in Sale|
+    |women    |
+    |men      |
+    |girls    |
+    |boys     |
 
