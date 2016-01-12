@@ -216,44 +216,12 @@ public class BillingPage {
     }
     
     public boolean isQASVerificationDisplayed(){
-    	int attempts = 0;
-    	boolean result = false;
-    	
-    	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    	while(attempts<30){
-    		try{
-	    		if(qasVerification.isDisplayed()){
-	    			result = true;
-	    			break;
-	    		}
-    		}
-    		catch(Exception e){
-    			attempts++;
-    		}
-    	}
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	return result;
+    	Util.waitTillElementDisplayed(qasVerification);
+    	return qasVerification.isDisplayed();
     }
     
-    public void clickUseAddressAsEnteredButton(){
-    	
-    	int attempts = 0;
-    	
-    	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    	while(attempts<30){
-    		try{
-	    		if(checkYourAddress_UseAddressAsEntered.isDisplayed()){	    			
-	    			break;
-	    		}
-    		}
-    		catch(Exception e){
-    			attempts++;
-    		}
-    	}
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	
+    public void clickUseAddressAsEnteredButton(){    	
+    	Util.waitTillElementDisplayed(checkYourAddress_UseAddressAsEntered);    	
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	checkYourAddress_UseAddressAsEntered.click();
     }

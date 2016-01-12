@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 public class ProductDetailPage {
 
@@ -79,6 +79,39 @@ public class ProductDetailPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
     }
+    
+    
+	public boolean isProductNamePriceMatchesWithArrayPage(){
+		
+		boolean blnResult = false;
+		
+		WebElement pdpProductName = driver.findElement(By.className("product__name"));
+		List<WebElement> pdpProductPrices = driver.findElements(By.className("product__variation--price-list"));
+    	
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+		for(int i=0;i<productList.size();i++){
+			Product product = productList.get(i);
+			if(product.getProductName().equalsIgnoreCase(pdpProductName.getText())){				
+				for(WebElement pdpProductPrice:pdpProductPrices){
+					if(pdpProductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())){
+						blnResult = true;
+						break;
+					}
+				}
+			}
+			
+			if(blnResult){
+				logger.debug(pdpProductName.getText() + " product match with array page details");
+				break;
+			}
+		}
+		
+		if(!blnResult){
+			logger.debug(pdpProductName.getText() + " product does not match with array page details");
+		}
+		
+		return blnResult;
+    }
 
     public void select_variation() {
         List<WebElement> variations = productVariationSection.findElements(By.tagName("input"));
@@ -123,20 +156,7 @@ public class ProductDetailPage {
     public int getNumberOfItemsInBag() {
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
         
-        int attempts = 0;    	
-    	driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    	while(attempts<30){
-    		try{
-	    		if(bagSize.isDisplayed()){	    			
-	    			break;
-	    		}
-    		}
-    		catch(Exception e){
-    			attempts++;
-    		}
-    	}
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        Util.waitTillElementDisplayed(bagSize);
         
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(bagSize));
         String bagSizeStr = bagSize.getAttribute("innerHTML");

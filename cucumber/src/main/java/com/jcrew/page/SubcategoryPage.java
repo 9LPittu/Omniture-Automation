@@ -247,6 +247,16 @@ public class SubcategoryPage {
         }
         return productName;
     }
+    
+    private String getProductPrice(WebElement productSelected){
+    	List<WebElement> productPrices = productSelected.findElements(By.className("tile__detail--price--list"));
+    	String price = null;
+    	if(!productPrices.isEmpty()){
+    		price=productPrices.get(0).getAttribute("innerHTML");
+    	}
+    	
+    	return price;
+    }
 
 
     public String getCategoryTitleBelowGlobalPromo() {
@@ -506,8 +516,11 @@ public class SubcategoryPage {
     private void saveProduct(WebElement productElement) {
         Product product = new Product();
         product.setProductName(getProductName(productElement));
+        product.setPriceList(getProductPrice(productElement));
 
         logger.debug("Selected product is {}", product.getProductName());
+        logger.debug("Selected product price is {}", product.getPriceList());
+        
         List<Product> productList = (List<Product>) stateHolder.get("productList");
 
         if (productList == null) {

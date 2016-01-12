@@ -6,9 +6,11 @@ import com.jcrew.pojo.Product;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Util {
 
@@ -35,6 +37,28 @@ public class Util {
                 return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
             }
         });
-    }  
+    }
+    
+    public static boolean waitTillElementDisplayed(WebElement element){
+    	int attempts = 0;
+    	boolean result = false;
+    	
+    	DriverFactory driverFactory = new DriverFactory();
+    	driverFactory.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+    	while(attempts<30){
+    		try{
+	    		if(element.isDisplayed()){
+	    			result = true;
+	    			break;
+	    		}
+    		}
+    		catch(Exception e){
+    			attempts++;
+    		}
+    	}
+    	
+    	driverFactory.getDriver().manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	return result;
+    }
     
 }

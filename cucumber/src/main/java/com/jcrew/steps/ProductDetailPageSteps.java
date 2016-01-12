@@ -25,6 +25,11 @@ public class ProductDetailPageSteps extends DriverFactory {
         assertTrue("User should be in detail page",
                 productDetailPage.isProductDetailPage());
     }
+    
+    @And("^product name and price should match with array page$")
+    public void product_name_price_matches_with_array_page(){
+    	assertTrue("product name and price should match with array page",productDetailPage.isProductNamePriceMatchesWithArrayPage());
+    }
 
     @And("^A variation is selected$")
     public void a_variation_is_selected() throws Throwable {

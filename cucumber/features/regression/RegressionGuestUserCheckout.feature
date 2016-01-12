@@ -10,6 +10,7 @@ Feature: Guest User Checkout Process
     And User clicks on SWEATERS subcategory from Men Category
     And Selects the first product from product grid list
     And User is in product detail page
+    And product name and price should match with array page  
     And A color is selected
     And A size is selected    
     And Add to cart button is pressed
@@ -23,6 +24,7 @@ Feature: Guest User Checkout Process
     And User clicks on BLAZERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
+    And product name and price should match with array page
     And A color is selected
     And A size is selected    
     And Add to cart button is pressed
@@ -52,6 +54,7 @@ Feature: Guest User Checkout Process
     And Submits payment data in billing page
     And page url should contain /checkout2/billing.jsp
     And items count should be 2 on the review page
+    And product name and price on review page should be displayed correctly    
     Then Clicks on place your order
     Then User should be in order confirmation page
     And verify order number is generated
@@ -66,6 +69,7 @@ Feature: Guest User Checkout Process
     And User clicks on BLAZERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
+    And product name and price should match with array page
     And A color is selected
     And A size is selected    
     And Add to cart button is pressed
@@ -107,6 +111,7 @@ Feature: Guest User Checkout Process
     And Submits payment data in billing page
     And page url should contain /checkout2/billing.jsp
     And items count should be 2 on the review page
+    And product name and price on review page should be displayed correctly
     Then Clicks on place your order
     Then User should be in order confirmation page
     And verify order number is generated  

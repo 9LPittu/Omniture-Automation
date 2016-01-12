@@ -2,6 +2,8 @@ package com.jcrew.page;
 
 import java.util.List;
 
+import com.jcrew.pojo.Product;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -10,10 +12,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ReviewPage {
 
+	private final StateHolder stateHolder = StateHolder.getInstance();
+	private final Logger logger = LoggerFactory.getLogger(ReviewPage.class);
+	
     private final WebDriver driver;
     @FindBy(xpath = ".//*[@id='orderSummaryContainer']/div/a")
     private WebElement placeYourOrder;
@@ -112,5 +119,40 @@ public class ReviewPage {
     
     public void clickChangeButtonOfBillingDetailsOnReviewPage(){
     	reviewPage_BillingDetailsSection_ChangeButton.click();
+    }
+    
+    public boolean isProductNamePriceMatchesOnReviewPage(){
+    	
+    	boolean blnResult = false;
+    	Util.waitTillElementDisplayed(placeYourOrder);    	
+    	List<WebElement> itemDetailsOnReviewPage = driver.findElements(By.cssSelector(".item-row.clearfix"));    	
+    	
+    	for(WebElement itemDetailOnReviewPage:itemDetailsOnReviewPage){
+    		WebElement reviewPageproductName = itemDetailOnReviewPage.findElement(By.className("item-name"));
+    		WebElement reviewPageproductPrice = itemDetailOnReviewPage.findElement(By.className("item-price"));
+    		
+    		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    		for(int i=0;i<productList.size();i++){
+    			Product product = productList.get(i);
+    			if(product.getProductName().equalsIgnoreCase(reviewPageproductName.getText())){				
+					if(reviewPageproductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())){
+						blnResult = true;
+						break;
+					}
+    			}
+    			
+    			if(blnResult){
+    				logger.debug(reviewPageproductName.getText() + " product details matches on review page");
+    				break;
+    			}
+    		}
+    		
+    		if(!blnResult){
+				logger.debug(reviewPageproductName.getText() + " product details does not match on review page");
+				break;
+    		}
+    	}
+    	
+    	return blnResult;    	
     }
 }

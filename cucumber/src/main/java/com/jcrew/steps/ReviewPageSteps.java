@@ -50,4 +50,9 @@ public class ReviewPageSteps extends DriverFactory {
     public void click_changes_button_billing_details_section_review_page(){
     	reviewPage.clickChangeButtonOfBillingDetailsOnReviewPage();
     }
+    
+    @And("^product name and price on review page should be displayed correctly$")
+    public void product_name_price_on_review_page_should_be_displayed_correctly(){
+    	assertTrue("Product name and price on review page should be displayed correctly",reviewPage.isProductNamePriceMatchesOnReviewPage());
+    }
 }

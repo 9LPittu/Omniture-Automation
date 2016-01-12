@@ -27,6 +27,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And User clicks on SWEATERS subcategory from Men Category
     And Selects the first product from product grid list
     And User is in product detail page
+    And product name and price should match with array page
     And A color is selected
     And A size is selected
     And Add to cart button is pressed
@@ -44,6 +45,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And User clicks on BLAZERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
+    And product name and price should match with array page
     And A color is selected
     And A size is selected
     And Add to cart button is pressed
@@ -85,6 +87,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And Submits payment data in billing page
     And page url should contain /checkout2/billing.jsp
     And items count should be 2 on the review page
+    And product name and price on review page should be displayed correctly
     And Inputs credit card security code
     Then Clicks on place your order
     Then User should be in order confirmation page
