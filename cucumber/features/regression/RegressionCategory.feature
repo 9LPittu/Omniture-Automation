@@ -11,10 +11,11 @@ Feature: Regression Tests Category Feature
     Then User should be in sweaters page for women
     And Category header should be present
 
-  Scenario: Check category header image
-    When User clicks on SWEATERS subcategory from Women Category
-    Then User should be in sweaters page for women
-    And An image should be displayed for SWEATERS
+    #removing this scenario, since image is not being displayed anymore
+  #Scenario: Check category header image
+    #When User clicks on SWEATERS subcategory from Women Category
+    #Then User should be in sweaters page for women
+    #And An image should be displayed for SWEATERS
 
   Scenario: Check Product Information
     When User clicks on SHIRTS & TOPS subcategory from Women Category
