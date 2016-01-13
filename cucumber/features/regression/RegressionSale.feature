@@ -131,7 +131,16 @@ Feature: Sale Regression Suite
   #US15452_TC001 & US15452_TC002
   Scenario: 'Sale' in menu nav should link to Sale Landing page
      And User is in sale landing page
-
+     And User clicks on sale department women
+     Then User is in Sale results page
+     And User clicks on hamburger menu
+     And Hamburger Menu Women Link is present
+     And Hamburger Menu Men Link is present
+     And Hamburger Menu Girls Link is present
+     And Hamburger Menu Boys Link is present
+     And Hamburger Menu sale Link is present
+     And Hamburger Menu Wedding Link is present
+     And Hamburger Menu Blog Link is present
 
 
 
