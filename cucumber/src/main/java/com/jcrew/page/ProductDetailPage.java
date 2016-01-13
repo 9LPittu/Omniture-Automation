@@ -151,9 +151,12 @@ public class ProductDetailPage {
     }
 
     private WebElement getProductColorElement(String productColor) {
-        WebElement productColorElement = driver.findElement(By.id("c-product__price-colors")).findElement(
-                By.xpath(".//li[@data-name='" + productColor + "']"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productColorElement));
+        WebElement productColors = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.id("c-product__price-colors")
+                )
+        );
+        WebElement productColorElement = productColors.findElement(By.xpath(".//li[@data-name='" + productColor + "']"));
+
         return productColorElement;
     }
 
