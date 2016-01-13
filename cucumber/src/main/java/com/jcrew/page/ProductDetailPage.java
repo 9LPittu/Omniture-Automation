@@ -84,7 +84,7 @@ public class ProductDetailPage {
 	public boolean isProductNamePriceMatchesWithArrayPage(){
 		
 		boolean blnResult = false;
-		
+
 		WebElement pdpProductName = driver.findElement(By.className("product__name"));
 		List<WebElement> pdpProductPrices = driver.findElements(By.className("product__variation--price-list"));
     	
