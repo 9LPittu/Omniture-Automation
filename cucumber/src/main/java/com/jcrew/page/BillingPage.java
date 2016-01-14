@@ -221,7 +221,7 @@ public class BillingPage {
     }
     
     public void clickUseAddressAsEnteredButton(){    	
-    	Util.waitTillElementDisplayed(checkYourAddress_UseAddressAsEntered);    	
+    	Util.waitTillElementDisplayed(checkYourAddress_UseAddressAsEntered);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	checkYourAddress_UseAddressAsEntered.click();
     }
