@@ -5,19 +5,19 @@ Feature: Guest User Checkout Process
     Given User is on homepage
     And User bag is cleared
     And User is on homepage
+
+  Scenario Outline: Guest checkout with no items in the cart
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
     And Selects the first product from product grid list
     And User is in product detail page
-    And product name and price should match with array page  
+    And product name and price should match with array page
     And A color is selected
-    And A size is selected    
+    And A size is selected
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
-
-  Scenario Outline: Guest checkout with no items in the cart
     And User is on homepage
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
@@ -63,6 +63,16 @@ Feature: Guest User Checkout Process
     |904 Oak Gln||92168|
   
   Scenario Outline: Guest checkout and adding new billing address
+    And User clicks on hamburger menu
+    And Selects Men Category from hamburger menu
+    And User clicks on SWEATERS subcategory from Men Category
+    And Selects the first product from product grid list
+    And User is in product detail page
+    And A color is selected
+    And A size is selected
+    And Add to cart button is pressed
+    And A minicart modal should appear with message '1 item has been added to your cart.'
+    And Bag should have 1 item(s) added
     And User is on homepage
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu

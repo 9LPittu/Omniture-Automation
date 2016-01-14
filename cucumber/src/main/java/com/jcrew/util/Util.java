@@ -8,6 +8,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.concurrent.TimeUnit;
 
 import java.util.List;
 
@@ -57,5 +58,28 @@ public class Util {
             throw new StaleElementReferenceException("Failed to click element");
         }
     }
+
+    public static boolean waitTillElementDisplayed(WebElement element){
+           	int attempts = 0;
+           	boolean result = false;
+
+                    	DriverFactory driverFactory = new DriverFactory();
+        //Add a comment to this line
+                    	driverFactory.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+            	while(attempts<30){
+                		try{
+                	    		if(element.isDisplayed()){
+                    	    			result = true;
+                    	    			break;
+                    	    		}
+                    		}
+                		catch(Exception e){
+                   			attempts++;
+                    		}
+                	}
+
+                   	driverFactory.getDriver().manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        return result;
+            }
     
 }
