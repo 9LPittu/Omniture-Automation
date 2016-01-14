@@ -35,7 +35,7 @@ Feature: Guest User Checkout Process
     And Move to mobile site
     And breadcrumb should display "J.Crew"
     And Clicks on checkout
-    And page url should contain /checkout2/shoppingbag.jsp
+    And User is on /checkout2/shoppingbag.jsp page
     And click on CHECK OUT AS A GUEST button
     And enter first name on shipping address page    
     And enter last name on shipping address page
@@ -44,7 +44,7 @@ Feature: Guest User Checkout Process
     And enter zip code as "<shipping_zipcode>" on shipping address page
     And enter phone number on shipping address page
     And Presses continue button on shipping address
-    And page url should contain /checkout2/shipping.jsp
+    And User is on /checkout2/shipping.jsp page
     And Verifies is in shipping method page
     And select shipping method on shipping & gift options page
     And Clicks continue button on shipping method page
@@ -52,7 +52,7 @@ Feature: Guest User Checkout Process
     And enter "Visa_Card" details on billing page
     And enter email address as "jcrewcolab@gmail.com"
     And Submits payment data in billing page
-    And page url should contain /checkout2/billing.jsp
+    And User is on /checkout2/billing.jsp page
     And items count should be 2 on the review page
     And product name and price on review page should be displayed correctly    
     Then Clicks on place your order
@@ -89,8 +89,8 @@ Feature: Guest User Checkout Process
     And items count should be displayed as 2 in the bag
     And Move to mobile site
     And breadcrumb should display "J.Crew"
-    And Clicks on checkout    
-    And page url should contain /checkout2/shoppingbag.jsp
+    And Clicks on checkout
+    And User is on /checkout2/shoppingbag.jsp page
     And click on CHECK OUT AS A GUEST button
     And enter first name on shipping address page    
     And enter last name on shipping address page
@@ -119,7 +119,7 @@ Feature: Guest User Checkout Process
     Then user should see QAS verification in the Billing page    
     And click on 'USE ADDRESS AS ENTERED' button in the Billing page 
     And Submits payment data in billing page
-    And page url should contain /checkout2/billing.jsp
+    And User is on /checkout2/billing.jsp page
     And items count should be 2 on the review page
     And product name and price on review page should be displayed correctly
     Then Clicks on place your order
