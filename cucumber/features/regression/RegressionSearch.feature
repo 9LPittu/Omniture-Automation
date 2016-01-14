@@ -15,7 +15,7 @@ Feature: Search Regression Suite
     And Clicks on search button for input field
     And User is in search results page
     Then Verify amount of items displayed is 2
-    And Verifies Silk cami product sale price is now $49.99
+    #And Verifies Silk cami product sale price is now $39.99
 
   Scenario: single product with sale price should go to pdp
     When Enters A0640 to the search field
@@ -58,7 +58,6 @@ Feature: Search Regression Suite
     When Refine button is clicked
     And Click on Size refinement
     When Select xx-small multiple option from Size refinement
-    Then Validate View All option is NOT selected under Size refinement
     And Verify xx-small value is displayed next to Size refinement
     When Select x-small multiple option from Size refinement
     And Click on Size refinement close drawer icon

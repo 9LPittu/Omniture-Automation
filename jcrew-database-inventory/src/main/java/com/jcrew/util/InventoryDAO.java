@@ -9,15 +9,8 @@ public class InventoryDAO {
 
     public static final String UPDATE_BACKORDER_ITEM = "Update JCBRNQA_STORE.jc_web_inventory set sellable_oh_qty = 0, sellable_oh_rtl = 0, sellable_br_qty = 50, sellable_oo_qty = 10 , BR_FLAG = 'Y' where variant = 'C8972GY66892'";
 
-    public int addInventoryToBackOrderedItem() throws SQLException, ClassNotFoundException, IOException {
-        Connection conn = getConnectionToDatabase();
-        Statement statement = createTheStatement(conn);
-        int rowsUpdated = executeQueryToAddInventory(statement, UPDATE_BACKORDER_ITEM);
-        closeConnection(conn);
-        return rowsUpdated;
-    }
 
-    public void addInventory(Properties propertyReader) throws SQLException, ClassNotFoundException, IOException {
+    public void addInventory(Properties propertyReader, Properties databaseReader) throws SQLException, ClassNotFoundException, IOException {
 
         String tablename = propertyReader.getProperty("tablename");
         String strBackOrderQuery = updateBackOrderItem(tablename,propertyReader.getProperty("backorderitem"));
@@ -32,7 +25,7 @@ public class InventoryDAO {
         String strItemWithMoreThanOneSku = updateItemWithMoreThanOneSku(tablename,propertyReader.getProperty("itemwithmorethanonesku"));
         String strItemWithMultipleColorsFullSku = updateItemWithMultipleColorsFullSku(tablename,propertyReader.getProperty("itemwithmultiplecolorsfullsku"));
         String strItemWithMultipleColorsSaleSku = updateItemWithMultipleColorsSaleSku(tablename,propertyReader.getProperty("itemwithmultiplecolorssalesku"));
-        Connection conn = getConnectionToDatabase();
+        Connection conn = getConnectionToDatabase(databaseReader);
         Statement statement = createTheStatement(conn);
 
         System.out.println("back order item: "+executeQueryToAddInventory(statement, strBackOrderQuery));
@@ -112,17 +105,16 @@ public class InventoryDAO {
         return itemWithMultipleColorsSaleSkuQuery;
     }
 
-    public Connection getConnectionToDatabase() throws ClassNotFoundException, SQLException, IOException {
+    public Connection getConnectionToDatabase(Properties databaseReader) throws ClassNotFoundException, SQLException, IOException {
             Class.forName("oracle.jdbc.driver.OracleDriver");
 
-            final Properties propertyReader = new Properties();
-            propertyReader.load(new FileReader("bronzedatabase.properties"));
 
-            String url = "jdbc:oracle:thin:@" + propertyReader.getProperty("db.server.name") + ":1521/" + propertyReader.getProperty("db.server.servicename");
+
+            String url = "jdbc:oracle:thin:@" + databaseReader.getProperty("db.server.name") + ":1521/" + databaseReader.getProperty("db.server.servicename");
             Properties props = new Properties();
 
-            props.setProperty("user", propertyReader.getProperty("db.server.user"));
-            props.setProperty("password", propertyReader.getProperty("db.server.pwd"));
+            props.setProperty("user", databaseReader.getProperty("db.server.user"));
+            props.setProperty("password", databaseReader.getProperty("db.server.pwd"));
             props.setProperty("ssl", "true");
 
             return createConnection(url, props);

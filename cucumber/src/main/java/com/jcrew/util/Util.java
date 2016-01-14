@@ -4,15 +4,15 @@ package com.jcrew.util;
 import com.google.common.base.Predicate;
 import com.jcrew.pojo.Product;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Util {
+    private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
     public static final int DEFAULT_TIMEOUT = 180;
     private static final StateHolder stateHolder = StateHolder.getInstance();
@@ -38,27 +38,24 @@ public class Util {
             }
         });
     }
-    
-    public static boolean waitTillElementDisplayed(WebElement element){
-    	int attempts = 0;
-    	boolean result = false;
-    	
-    	DriverFactory driverFactory = new DriverFactory();
-    	driverFactory.getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-    	while(attempts<30){
-    		try{
-	    		if(element.isDisplayed()){
-	    			result = true;
-	    			break;
-	    		}
-    		}
-    		catch(Exception e){
-    			attempts++;
-    		}
-    	}
-    	
-    	driverFactory.getDriver().manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	return result;
+
+    public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{
+        int attempts = 0;
+        boolean success = false;
+
+        while (attempts < 2 && !success){
+            try{
+                element.click();
+                success = true;
+            } catch (StaleElementReferenceException staleException){
+                logger.debug("Stale Element Exception when retrying to click");
+            }
+            attempts++;
+        }
+
+        if(!success){
+            throw new StaleElementReferenceException("Failed to click element");
+        }
     }
     
 }

@@ -16,7 +16,7 @@ public class ReturnsAndExchangesPage {
     }
 
     public boolean isReturnsAndExchangePage() {
-        WebElement shippingText = helpContentWrap.findElement(By.xpath("//h2[text()='RETAIL STORE PURCHASES']"));
+        WebElement shippingText = helpContentWrap.findElement(By.xpath("//h2[text()='J.CREW RETAIL STORE PURCHASES']"));
         return shippingText.isDisplayed();
     }
 }

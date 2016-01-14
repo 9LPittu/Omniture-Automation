@@ -37,7 +37,7 @@ public class NavigationSteps extends DriverFactory {
     	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
     	System.out.println(getDriver().getCurrentUrl());
         assertTrue("Browser was expected to be at " + page,
-                getDriver().getCurrentUrl().endsWith(page));
+                getDriver().getCurrentUrl().endsWith(page));       
     }
 
     @Then("^User is on external page ([^\"]*)$")
