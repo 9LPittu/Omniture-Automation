@@ -14,9 +14,9 @@ Feature: Registered User Checkout Process
     And User is on homepage
     And User clicks on hamburger menu
 	When User clicks on My Account link
-    And click on "PAYMENT METHODS" link in My Account page
+    And User clicks on PAYMENT METHODS link in My Account Page
     And delete non-default credit cards
-    And click on "SIGN OUT" link in My Account page
+    And User clicks on SIGN OUT link in My Account Page
     
     #Add item to the bag
     And User is on homepage
@@ -50,11 +50,11 @@ Feature: Registered User Checkout Process
     And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
-    And page url should contain /checkout2/shoppingbag.jsp
+    And User is on /checkout2/shoppingbag.jsp page
     And enter email address as "express_user@jcrew.com" on sign in page    
     And enter password as "jcrew@123"
     And click on SIGN IN & CHECK OUT button
-    And page url should contain /checkout2/signin.jsp
+    And User is on /checkout2/signin.jsp page
     And items count should be 2 on the review page
     And product name and price on review page should be displayed correctly
     And Inputs credit card security code
@@ -80,16 +80,16 @@ Feature: Registered User Checkout Process
     And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
-    And page url should contain /checkout2/shoppingbag.jsp
+    And User is on /checkout2/shoppingbag.jsp page
     And enter email address as "express_user@jcrew.com" on sign in page
     And enter password as "jcrew@123"
     And click on SIGN IN & CHECK OUT button
-    And page url should contain /checkout2/signin.jsp
+    And User is on /checkout2/signin.jsp page
     And click on 'CHANGE' button of 'BILLING DETAILS' section on 'Review' page
     And click 'Add New Card' on billing page
     And enter "Visa_Card1" details on billing page
     And click on 'SAVE & CONTINUE' button
-    And page url should contain /checkout2/billing.jsp
+    And User is on /checkout2/billing.jsp page
     And items count should be 2 on the review page
     And product name and price on review page should be displayed correctly
     Then Clicks on place your order
