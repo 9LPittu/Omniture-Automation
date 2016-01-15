@@ -15,7 +15,7 @@ Feature: Sale Regression Suite
     And the page url should contain "/r/search/?N=21+227"
 
   Scenario Outline: Sale category links functional validation
-    And User clicks on <SaleCategory> subcategory from sale Category
+    And User clicks on sale department <SaleCategory>
     Then User is in Sale results page
     And Refine button is displayed
     And default filter name displayed is <SaleCategory>
@@ -30,17 +30,18 @@ Feature: Sale Regression Suite
     And Verify Color refinement drawer remains open
     And Click on Price refinement
     And Verify Price refinement drawer remains open
-    Then NEW IN SALE checkbox is selected by default
+    # check box is not present anymore--change in the application
+   # Then NEW IN SALE checkbox is selected by default
     Then Click on done button for refinement filter menu
     And pagination is displayed on the page
   	And the page url should contain "<URL>"
 
   Examples:
     |SaleCategory|URL|
-    |WOMEN|/r/search/?N=21+17|
-    |MEN  |/r/search/?N=21+16|
-    |BOYS |/r/search/?N=21+18|
-    |GIRLS|/r/search/?N=21+19|
+    |women|/r/search/?N=21+17|
+    |men  |/r/search/?N=21+16|
+    |boys |/r/search/?N=21+18|
+    |girls|/r/search/?N=21+19|
   
   Scenario: Pagination is functional on sale page
     And User clicks on WOMEN subcategory from sale Category
@@ -166,4 +167,15 @@ Feature: Sale Regression Suite
     |men      |
     |girls    |
     |boys     |
+
+    #US9874_TC01 (#US15452_TC005 is US9874), #US9874_TC03
+    #US9874_TC02 no automation , verification of match up with mock
+    Scenario: Verify header copy "sale" should be displayed on the sale page.
+      And User is in sale landing page
+      And Sale title is displayed
+      And First promo is displayed with promo message and promo code
+
+
+
+
 

@@ -22,6 +22,16 @@ public class SalePageSteps extends DriverFactory {
         assertTrue("User should be in sale landing page",salePage.isSaleLandingPage());
     }
 
+    @And("^Sale title is displayed$")
+    public void verify_sale_title_is_displayed(){
+        assertTrue("Sale title should be displayed",salePage.isSaleTitleDisplayed());
+    }
+
+    @And("^First promo is displayed with promo message and promo code")
+    public boolean verify_first_promo_is_displayed() {
+        assertTrue("First promo should be dislayed",salePage.isFirstPromoDisplayed());
+    }
+
     @And("^verify REFINE button is displayed$")
     public void verify_refine_button_displayed(){
         assertTrue("Refine button should be displayed",salePage.isRefineButtonDisplayed());

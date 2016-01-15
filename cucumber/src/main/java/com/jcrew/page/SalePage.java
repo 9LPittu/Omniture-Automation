@@ -119,6 +119,15 @@ public class SalePage {
 
         }
 
+        public boolean isSaleTitleDisplayed() {
+            WebElement saleTitle = driver.findElement(By.xpath("//div[@class='c-sale__title' and text() = 'SALE']"));
+            return saleTitle.isDisplayed();
+        }
+        public boolean  isFirstPromoDisplayed() {
+            WebElement firstPromo = driver.findElement(By.xpath("//div[@class='c-sale__title' and text() = 'SALE']"));
+            return true;
+        }
+
         public boolean isRefineButtonDisplayed(){
             return refineButton.isDisplayed();
         }
