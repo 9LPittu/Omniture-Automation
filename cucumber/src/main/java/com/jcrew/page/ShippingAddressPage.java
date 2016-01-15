@@ -177,12 +177,14 @@ public class ShippingAddressPage {
     
     public boolean isQASVerificationDisplayed(){
     	
-    	Util.waitTillElementDisplayed(qasVerification);
+    	//Util.waitTillElementDisplayed(qasVerification);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(qasVerification));
     	return qasVerification.isDisplayed();
     }
     
     public void clickUseAddressAsEnteredButton(){    	
-    	Util.waitTillElementDisplayed(checkYourAddress_UseAddressAsEntered);    	
+    	//Util.waitTillElementDisplayed(checkYourAddress_UseAddressAsEntered);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(checkYourAddress_UseAddressAsEntered));
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	checkYourAddress_UseAddressAsEntered.click();
     }

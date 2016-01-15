@@ -157,18 +157,19 @@ public class LoginPage {
     
     public void clickCheckoutAsGuest() throws InterruptedException{
     	
-    	driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);    	
+    	//driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutAsGuestButton));  	
     	checkoutAsGuestButton.click();
     	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	//driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     }
     
     public void enterEmailAddressOnSignInPage(String emailAddress){
-    	driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-    	emailAddressField.sendKeys(emailAddress);
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	//driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailAddressField));
+        emailAddressField.sendKeys(emailAddress);
+    	//driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     }
     
     public void enterPasswordOnSignInPage(String password){
