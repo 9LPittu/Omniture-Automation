@@ -58,18 +58,19 @@ public class StartingSteps {
 
     public void getIntialPage() {
         String env = reader.getProperty("environment");
-        logger.debug("current url is"+env);
+        String browser = reader.getProperty("browser");
+        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent");
+        boolean isDesktop = browser.equals("firefox") || browser.equals("chrome");
+        logger.debug("current url is: "+env);
 
-        if ((env.contains("aka-int-www")) || (env.contains("or")) || (env.contains("argent"))) {
+        if(isProdLikeEn && isDesktop){
             logger.debug("Opening enable responsive page");
             driver.get(env + "/enableResponsive_sm.jsp");
             driver.findElement(By.linkText("click to browse")).click();
-
         } else {
             driver.get(env);
         }
     }
-
 
     @And("^User goes to homepage$")
     public void user_goes_to_homepage() throws Throwable {
