@@ -381,4 +381,9 @@ public class SalePage {
         public void clickOnSecondPromoSaleCategoryLink(String link)  {
             secondPromo.findElement(By.linkText(link)).click();
         }
+
+        public boolean  isDetailsLinkDisplayed() {
+            return driver.findElement(By.xpath("//span[@class='c-label__details' and text()='DETAILS']")).isDisplayed();
+
+        }
 }

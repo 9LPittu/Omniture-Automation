@@ -179,4 +179,9 @@ public class SalePageSteps extends DriverFactory {
     public void click_on_the_second_promo_link(String link) {
         salePage.clickOnSecondPromoSaleCategoryLink(link);
     }
+
+    @And("^Details link is displayed$")
+    public void verify_details_link_is_displayed() {
+        assertTrue("details link on sale page should be displayed",salePage.isDetailsLinkDisplayed());
+    }
 }

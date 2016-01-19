@@ -202,6 +202,11 @@ Feature: Sale Regression Suite
       |boys |N=21+18|
       |girls|N=21+19|
 
+    #US9874_TC12, #US9874_TC13, #US9874_TC14
+    Scenario: Details link display and functionality
+      And User is in sale landing page
+      And Details link is displayed
+
 
 
 
