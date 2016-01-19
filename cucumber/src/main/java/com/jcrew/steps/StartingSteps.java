@@ -58,24 +58,17 @@ public class StartingSteps {
 
     public void getIntialPage() {
         String env = reader.getProperty("environment");
-        logger.debug("current url is"+env);
+        logger.debug("current url is" + env);
 
         if ((env.contains("aka-int-www")) || (env.contains("or")) || (env.contains("argent"))) {
-            logger.debug("Opening enable responsive page");
-            driver.get(env + "/enableResponsive_sm.jsp");
-            try{
-            	driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-            	driver.findElement(By.linkText("click to browse")).click();
-            }
-            catch(Exception e){
-            	logger.debug("click to browse link is not displayed");
-            }
+            logger.debug("Opening try sidecar page");
+            driver.get(env + "/try-sidecar");
+
 
         } else {
             driver.get(env);
         }
-        
-        driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+
     }
 
 
