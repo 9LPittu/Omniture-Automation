@@ -124,8 +124,9 @@ public class SalePage {
             return saleTitle.isDisplayed();
         }
         public boolean  isFirstPromoDisplayed() {
-            WebElement firstPromo = driver.findElement(By.xpath("//div[@class='c-sale__title' and text() = 'SALE']"));
-            return true;
+            WebElement firstPromo = driver.findElement(By.className("c-sale__promo-frame"));
+            System.out.println("promo message and code :"+firstPromo.getText());
+            return firstPromo.isDisplayed()&&firstPromo.getText()!=null;
         }
 
         public boolean isRefineButtonDisplayed(){

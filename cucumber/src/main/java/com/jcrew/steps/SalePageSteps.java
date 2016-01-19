@@ -28,8 +28,8 @@ public class SalePageSteps extends DriverFactory {
     }
 
     @And("^First promo is displayed with promo message and promo code")
-    public boolean verify_first_promo_is_displayed() {
-        assertTrue("First promo should be dislayed",salePage.isFirstPromoDisplayed());
+    public void verify_first_promo_is_displayed() {
+        assertTrue("First promo should be displayed",salePage.isFirstPromoDisplayed());
     }
 
     @And("^verify REFINE button is displayed$")
