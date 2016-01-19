@@ -5,7 +5,8 @@ Feature: Sale Regression Suite
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
- 
+
+    #US9874_TC06
   Scenario: New in Sale link functional validation
     And User clicks on NEW IN SALE subcategory from sale Category
     Then User is in Sale results page
@@ -14,6 +15,7 @@ Feature: Sale Regression Suite
     And pagination is displayed on the page
     And the page url should contain "/r/search/?N=21+227"
 
+   #US9874_TC07,US9874_TC08, US9874_TC09, US9874_TC10
   Scenario Outline: Sale category links functional validation
     And User clicks on sale department <SaleCategory>
     Then User is in Sale results page
@@ -31,7 +33,7 @@ Feature: Sale Regression Suite
     And Click on Price refinement
     And Verify Price refinement drawer remains open
     # check box is not present anymore--change in the application
-   # Then NEW IN SALE checkbox is selected by default
+    Then NEW IN SALE sort option is selected by default
     Then Click on done button for refinement filter menu
     And pagination is displayed on the page
   	And the page url should contain "<URL>"
@@ -168,12 +170,21 @@ Feature: Sale Regression Suite
     |girls    |
     |boys     |
 
-    #US9874_TC01 (#US15452_TC005 is US9874), #US9874_TC03
+    #US9874_TC01 (#US15452_TC005 is US9874), #US9874_TC03, #US9874_TC04(no automation)
     #US9874_TC02 no automation , verification of match up with mock
     Scenario: Verify header copy "sale" should be displayed on the sale page.
       And User is in sale landing page
       And Sale title is displayed
       And First promo is displayed with promo message and promo code
+
+    #US9874_TC05
+    Scenario: Validating sale category links display
+      And User is in sale landing page
+      And New in Sale Category link and carat sign is displayed
+      And women Category link and carat sign is displayed
+      And men Category link and carat sign is displayed
+      And girls Category link and carat sign is displayed
+      And boys Category link and carat sign is displayed
 
 
 

@@ -125,7 +125,7 @@ public class SalePage {
         }
         public boolean  isFirstPromoDisplayed() {
             WebElement firstPromo = driver.findElement(By.className("c-sale__promo-frame"));
-            System.out.println("promo message and code :"+firstPromo.getText());
+            System.out.println("promo message and code :" + firstPromo.getText());
             return firstPromo.isDisplayed()&&firstPromo.getText()!=null;
         }
 
@@ -148,6 +148,11 @@ public class SalePage {
         public boolean isNewInSaleCheckboxSelectedByDefault(){
             return newInSaleCheckBox.isSelected();
         }
+
+        public boolean isNewInSaleSortOptionSelectedByDefault() {
+            return newInSaleText.getAttribute("class").contains("is-selected");
+        }
+
 
         public boolean isSortSectionFirstOptionDisplayed(String firstSortOption){
            return sortSectionFirstOption.getText().trim().toLowerCase().equals(firstSortOption.toLowerCase());
@@ -349,5 +354,14 @@ public class SalePage {
 
         public void clickOnSaleDept(String dept) {
             driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']")).click();
+        }
+
+        public boolean isSaleCategoryLinkDisplayed(String category) {
+            return driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+category+"']")).isDisplayed();
+        }
+
+        public boolean isCaratSignDisplayed(String category)  {
+            WebElement saleCategorylink = driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+category+"']"));
+            return saleCategorylink.findElement(By.className("c-category__arrow")).isDisplayed();
         }
 }

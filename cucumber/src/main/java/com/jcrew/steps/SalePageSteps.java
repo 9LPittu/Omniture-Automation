@@ -32,6 +32,12 @@ public class SalePageSteps extends DriverFactory {
         assertTrue("First promo should be displayed",salePage.isFirstPromoDisplayed());
     }
 
+    @And("^([^\"]*) Category link and carat sign is displayed")
+    public void verify_category_link_and_carat_sign_is_displayed(String category) {
+        assertTrue("sale category link should be displayed",salePage.isSaleCategoryLinkDisplayed(category));
+        assertTrue("carat sign on the sale category box should be displayed",salePage.isCaratSignDisplayed(category));
+    }
+
     @And("^verify REFINE button is displayed$")
     public void verify_refine_button_displayed(){
         assertTrue("Refine button should be displayed",salePage.isRefineButtonDisplayed());
@@ -55,6 +61,11 @@ public class SalePageSteps extends DriverFactory {
     @Then("^NEW IN SALE checkbox is selected by default$")
     public void verify_new_in_sale_checkbox_selected_default(){
         salePage.isNewInSaleCheckboxSelectedByDefault();
+    }
+
+    @Then("^NEW IN SALE sort option is selected by default$")
+    public void verify_new_in_sale_sort_option_is_selected_by_default(){
+        salePage.isNewInSaleSortOptionSelectedByDefault();
     }
 
     @Then("^first sort option is ([^\"]*)$")
