@@ -102,6 +102,10 @@ public class SalePage {
         @FindBy(className="js-product__quantity")
         private WebElement paginationDropdown;
 
+
+        @FindBy(className="c-sale__promo-alert")
+        private WebElement secondPromo;
+
         public SalePage(WebDriver driver) {
             this.driver = driver;
             PageFactory.initElements(this.driver, this);
@@ -363,5 +367,18 @@ public class SalePage {
         public boolean isCaratSignDisplayed(String category)  {
             WebElement saleCategorylink = driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+category+"']"));
             return saleCategorylink.findElement(By.className("c-category__arrow")).isDisplayed();
+        }
+
+        public boolean isSecondPromoDisplayed() {
+            return secondPromo.isDisplayed();
+        }
+
+        public boolean isSecondPromoSaleCategoryLinkDisplayed(String link) {
+            String saleCategory = link.trim();
+            return secondPromo.findElement(By.linkText(saleCategory)).isDisplayed();
+        }
+
+        public void clickOnSecondPromoSaleCategoryLink(String link)  {
+            secondPromo.findElement(By.linkText(link)).click();
         }
 }

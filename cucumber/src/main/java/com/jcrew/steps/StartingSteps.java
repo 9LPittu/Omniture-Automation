@@ -60,7 +60,7 @@ public class StartingSteps {
         String env = reader.getProperty("environment");
         logger.debug("current url is"+env);
 
-        if ((env.contains("aka-int-www")) || (env.contains("or")) || (env.contains("argent"))) {
+        if ((env.contains("aka-int-www")) || (env.contains("or"))) {
             logger.debug("Opening enable responsive page");
             driver.get(env + "/enableResponsive_sm.jsp");
             driver.findElement(By.linkText("click to browse")).click();

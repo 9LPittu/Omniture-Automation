@@ -186,6 +186,23 @@ Feature: Sale Regression Suite
       And girls Category link and carat sign is displayed
       And boys Category link and carat sign is displayed
 
+    #US9874_TC11
+    Scenario Outline: Validation of second promo display
+      And User is in sale landing page
+      And Second promo is displayed
+      And <promo_link> sale category link is displayed in the second promo
+      When <promo_link> is clicked
+      Then the page url should contain "<URL>"
+
+
+      Examples:
+      |promo_link|URL|
+      |women|N=21+17|
+      |men  |N=21+16|
+      |boys |N=21+18|
+      |girls|N=21+19|
+
+
 
 
 

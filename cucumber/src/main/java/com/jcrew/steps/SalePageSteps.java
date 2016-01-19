@@ -5,6 +5,7 @@ import com.jcrew.util.DriverFactory;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.*;
 
 import static org.junit.Assert.*;
 
@@ -65,7 +66,7 @@ public class SalePageSteps extends DriverFactory {
 
     @Then("^NEW IN SALE sort option is selected by default$")
     public void verify_new_in_sale_sort_option_is_selected_by_default(){
-        salePage.isNewInSaleSortOptionSelectedByDefault();
+        assertTrue("New in sale sort option should be selected by default", salePage.isNewInSaleSortOptionSelectedByDefault());
     }
 
     @Then("^first sort option is ([^\"]*)$")
@@ -161,5 +162,21 @@ public class SalePageSteps extends DriverFactory {
     @And("^User clicks on sale department ([^\"]*)$")
     public void click_on_sale_dept(String dept) {
         salePage.clickOnSaleDept(dept);
+    }
+
+    @And("^Second promo is displayed$")
+    public void verify_second_promo_is_displayed() {
+        assertTrue("second promo on the sale landing page should be displayed", salePage.isSecondPromoDisplayed());
+    }
+
+    @And("^([^\"]*)sale category link is displayed in the second promo$")
+
+    public void verify_second_promo_sale_category_link_is_displayed(String link) {
+        assertTrue("sale link should be displayed in th esecond promo",salePage.isSecondPromoSaleCategoryLinkDisplayed(link));
+    }
+
+    @When("^([^\"]*) is clicked$")
+    public void click_on_the_second_promo_link(String link) {
+        salePage.clickOnSecondPromoSaleCategoryLink(link);
     }
 }
