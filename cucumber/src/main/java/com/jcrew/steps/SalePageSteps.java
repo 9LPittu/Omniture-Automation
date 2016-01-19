@@ -182,6 +182,26 @@ public class SalePageSteps extends DriverFactory {
 
     @And("^Details link is displayed$")
     public void verify_details_link_is_displayed() {
-        assertTrue("details link on sale page should be displayed",salePage.isDetailsLinkDisplayed());
+        assertTrue("details link on sale page should be displayed", salePage.isDetailsLinkDisplayed());
+    }
+
+    @And("^Click on details link")
+    public void click_on_the_details_link() {
+        salePage.clickOnDetailsLink();
+    }
+
+    @And("^Promo legal text is displayed$")
+    public void verify_legal_disclaimer_is_displayed() {
+        assertTrue("Legal disclaimer text should be displayed", salePage.isDisclaimerTextDisplayed());
+    }
+
+    @And("^Click on details section close icon$")
+    public void click_on_details_close_icon() {
+        salePage.clickDetailsCloseIcon();
+    }
+
+    @And("^Details section is closed$")
+    public void verify_details_section_is_closed() {
+       assertTrue("Details section should be closed",salePage.isDetailsSectionClosed());
     }
 }

@@ -102,9 +102,15 @@ public class SalePage {
         @FindBy(className="js-product__quantity")
         private WebElement paginationDropdown;
 
-
         @FindBy(className="c-sale__promo-alert")
         private WebElement secondPromo;
+
+        @FindBy(xpath = "//span[@class='c-label__details' and text()='DETAILS']")
+        private WebElement saleDetailsLink;
+
+        @FindBy(id = "c-sale-details")
+        private WebElement saleDetails;
+
 
         public SalePage(WebDriver driver) {
             this.driver = driver;
@@ -383,7 +389,26 @@ public class SalePage {
         }
 
         public boolean  isDetailsLinkDisplayed() {
-            return driver.findElement(By.xpath("//span[@class='c-label__details' and text()='DETAILS']")).isDisplayed();
+            return saleDetailsLink.isDisplayed();
 
         }
+
+        public void clickOnDetailsLink(){
+            saleDetailsLink.click();
+        }
+
+        public boolean isDisclaimerTextDisplayed() {
+            WebElement saleDetailsText= saleDetails.findElement(By.className("c-sale__c-details"));
+            return saleDetailsText.getAttribute("class").contains("is-open");
+        }
+
+        public void clickDetailsCloseIcon() {
+            saleDetails.findElement(By.className("icon-close")).click();
+        }
+
+        public boolean isDetailsSectionClosed() {
+            WebElement saleDetailsText= saleDetails.findElement(By.className("c-sale__c-details"));
+            return !(saleDetailsText.getAttribute("class").contains("is-open"));
+        }
+
 }

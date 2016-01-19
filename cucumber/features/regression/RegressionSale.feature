@@ -206,6 +206,10 @@ Feature: Sale Regression Suite
     Scenario: Details link display and functionality
       And User is in sale landing page
       And Details link is displayed
+      And Click on details link
+      And Promo legal text is displayed
+      And Click on details section close icon
+      And Details section is closed
 
 
 
