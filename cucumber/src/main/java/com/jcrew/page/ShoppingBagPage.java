@@ -153,7 +153,8 @@ public class ShoppingBagPage {
     }
     
     public boolean isPageTitleContains(String pageTitle){
-    	return driver.getTitle().trim().toLowerCase().contains(pageTitle.toLowerCase());
+
+        return driver.getTitle().contains(pageTitle);
     }
     
     public boolean isBagItemsCountMatches(int itemsCount){

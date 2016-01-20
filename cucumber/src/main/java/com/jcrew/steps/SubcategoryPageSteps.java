@@ -346,8 +346,8 @@ public class SubcategoryPageSteps extends DriverFactory {
         subcategoryPage.click_on_product(product);
     }
 
-    @And("^Selects the first product with regular prize from product grid list$")
-    public void selectsTheFirstProductWithRegularPrizeFromProductGridList() throws Throwable {
+    @And("^Selects the first product with regular price from product grid list$")
+    public void selectsTheFirstProductWithRegularPriceFromProductGridList() throws Throwable {
         subcategoryPage.click_first_product_with_xpath("//span[@class='tile__detail tile__detail--price--list']" +
                 "/ancestor::div[@class='c-product-tile']");
     }

@@ -10,7 +10,7 @@ Feature: Guest User Checkout Process
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
-    And Selects the first product with regular prize from product grid list
+    And Selects the first product with regular price from product grid list
     And User is in product detail page
     And product name and price should match with array page
     And A color is selected
@@ -22,7 +22,7 @@ Feature: Guest User Checkout Process
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on BLAZERS subcategory from Women Category
-    And Selects the first product with regular prize from product grid list
+    And Selects the first product with regular price from product grid list
     And User is in product detail page
     And product name and price should match with array page
     And A color is selected
@@ -30,7 +30,7 @@ Feature: Guest User Checkout Process
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
-    Then page title should contain "Shopping Bag"        
+    Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
     And Move to mobile site
     And breadcrumb should display "J.Crew"
