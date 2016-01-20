@@ -63,16 +63,6 @@ public class MyAccountPage {
         orderReviewLink.click();
     }
     
-    public void clickLinkOnMyAccountPage(String myAccountLinkName){
-    	List<WebElement> myAccountLeftNavLinks = driver.findElements(By.className("my_account_lefnav"));
-    	for(WebElement myAccountLeftNavLink:myAccountLeftNavLinks){
-    		if(myAccountLeftNavLink.getText().trim().equalsIgnoreCase(myAccountLinkName)){
-    			myAccountLeftNavLink.click();
-    			break;
-    		}
-    	}    	
-    }
-    
     public void deleteNonDefaultAddresses(){
     	try{
     		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
