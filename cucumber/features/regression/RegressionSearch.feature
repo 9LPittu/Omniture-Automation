@@ -11,11 +11,11 @@ Feature: Search Regression Suite
     Then User is in product detail page
 
   Scenario: multiple products with sale price should display two items
-    When Enters 21421 to the search field
+    When Enters 05389 to the search field
     And Clicks on search button for input field
     And User is in search results page
-    Then Verify amount of items displayed is 2
-    #And Verifies Silk cami product sale price is now $39.99
+    Then Verify amount of items displayed is 3
+   # And Verifies Maternity Pixie pant product sale price is now $98.00
 
   Scenario: single product with sale price should go to pdp
     When Enters A0640 to the search field
