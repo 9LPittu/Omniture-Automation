@@ -81,36 +81,24 @@ public class ProductDetailPage {
     }
     
     
-	public boolean isProductNamePriceMatchesWithArrayPage(){
-		
-		boolean blnResult = false;
+	public boolean isProductNamePriceListMatchesWithArrayPage(){
 
-		WebElement pdpProductName = driver.findElement(By.className("product__name"));
-		List<WebElement> pdpProductPrices = driver.findElements(By.className("product__variation--price-list"));
+        WebElement pdpProductName = driver.findElement(By.className("product__name"));
+        String pdpProductNameString = pdpProductName.getText();
+		WebElement pdpProductPrices = driver.findElement(By.className("product__price--list"));
+        String pdpProductPriceString = pdpProductPrices.getText();
     	
 		List<Product> productList = (List<Product>) stateHolder.get("productList");
-		for(int i=0;i<productList.size();i++){
-			Product product = productList.get(i);
-			if(product.getProductName().equalsIgnoreCase(pdpProductName.getText())){				
-				for(WebElement pdpProductPrice:pdpProductPrices){
-					if(pdpProductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())){
-						blnResult = true;
-						break;
-					}
-				}
-			}
-			
-			if(blnResult){
-				logger.debug(pdpProductName.getText() + " product match with array page details");
-				break;
-			}
-		}
+
+        for(Product product:productList){
+            String productName = product.getProductName();
+            String productPrice = product.getPriceList();
+            if(productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)){
+                return true;
+            }
+        }
 		
-		if(!blnResult){
-			logger.debug(pdpProductName.getText() + " product does not match with array page details");
-		}
-		
-		return blnResult;
+		return false;
     }
 
     public void select_variation() {
@@ -156,9 +144,8 @@ public class ProductDetailPage {
     public int getNumberOfItemsInBag() {
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
         
-        Util.waitTillElementDisplayed(bagSize);
-        
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(bagSize));
+        Util.waitWithStaleRetry(driver, bagSize);
+
         String bagSizeStr = bagSize.getAttribute("innerHTML");
         String stringSize = bagSizeStr.replace("(", "").replace(")", "").trim();
         return Integer.parseInt(stringSize);

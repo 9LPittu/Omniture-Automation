@@ -45,7 +45,7 @@ public class MyAccountPageSteps extends DriverFactory {
     
     @And("^click on \"([^\"]*)\" link in My Account page$")
     public void click_my_account_link(String myAccountLinkName){
-    	myAccountPage.clickLinkOnMyAccountPage(myAccountLinkName);
+    	myAccountPage.click_menu_link(myAccountLinkName);
     }
     
     @And("^delete non-default addresses$")

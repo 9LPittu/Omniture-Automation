@@ -157,7 +157,7 @@ public class ShoppingBagPage {
     }
     
     public boolean isBagItemsCountMatches(int itemsCount){
-    	Util.waitTillElementDisplayed(cartSize);
+    	Util.waitWithStaleRetry(driver,cartSize);
     	String bagItemsCount = cartSize.getText().trim();
     	bagItemsCount = bagItemsCount.replace("(", "");
     	bagItemsCount = bagItemsCount.replace(")", "");

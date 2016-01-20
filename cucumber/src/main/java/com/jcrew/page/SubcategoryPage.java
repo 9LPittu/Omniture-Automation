@@ -37,6 +37,8 @@ public class SubcategoryPage {
     private WebElement quickShopModal;
     @FindBy(className = "product__grid")
     private WebElement productGrid;
+    @FindBy(id = "c-product__list")
+    private WebElement productList;
     @FindBy(css = ".category__page-title > h2")
     private WebElement categoryPageTitle;
     @FindBy(className = "accordian__wrap")
@@ -226,6 +228,19 @@ public class SubcategoryPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
         saveProduct(product);
         productLink.click();
+    }
+
+    public void click_first_product_with_xpath(String finder){
+        List<WebElement> regularPriceProducts = driver.findElements(By.xpath(finder));
+        if(regularPriceProducts.size() > 0){
+            WebElement product = regularPriceProducts.get(0);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(product.findElement(By.cssSelector(".js-product__image"))));
+            saveProduct(product);
+            product.click();
+        } else {
+            logger.debug("No products with {} xpath; clicking first product in grid", finder);
+            click_first_product_in_grid();
+        }
     }
 
     public void click_any_product_in_grid() {

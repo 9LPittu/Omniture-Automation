@@ -1,7 +1,5 @@
 package com.jcrew.page;
 
-import java.util.concurrent.TimeUnit;
-
 import com.github.javafaker.Faker;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
@@ -216,12 +214,12 @@ public class BillingPage {
     }
     
     public boolean isQASVerificationDisplayed(){
-    	Util.waitTillElementDisplayed(qasVerification);
+    	Util.waitWithStaleRetry(driver,qasVerification);
     	return qasVerification.isDisplayed();
     }
     
     public void clickUseAddressAsEnteredButton(){    	
-    	Util.waitTillElementDisplayed(checkYourAddress_UseAddressAsEntered);
+    	Util.waitWithStaleRetry(driver, checkYourAddress_UseAddressAsEntered);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	checkYourAddress_UseAddressAsEntered.click();
     }

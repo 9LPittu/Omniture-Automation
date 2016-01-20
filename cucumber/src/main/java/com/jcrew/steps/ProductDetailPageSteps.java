@@ -29,7 +29,7 @@ public class ProductDetailPageSteps extends DriverFactory {
     
     @And("^product name and price should match with array page$")
     public void product_name_price_matches_with_array_page(){
-    	assertTrue("product name and price should match with array page",productDetailPage.isProductNamePriceMatchesWithArrayPage());
+    	assertTrue("product name and price should match with array page",productDetailPage.isProductNamePriceListMatchesWithArrayPage());
     }
 
     @And("^A variation is selected$")

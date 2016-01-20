@@ -124,7 +124,7 @@ public class ReviewPage {
     public boolean isProductNamePriceMatchesOnReviewPage(){
     	
     	boolean blnResult = false;
-    	Util.waitTillElementDisplayed(placeYourOrder);    	
+    	Util.waitWithStaleRetry(driver,placeYourOrder);
     	List<WebElement> itemDetailsOnReviewPage = driver.findElements(By.cssSelector(".item-row.clearfix"));    	
     	
     	for(WebElement itemDetailOnReviewPage:itemDetailsOnReviewPage){
