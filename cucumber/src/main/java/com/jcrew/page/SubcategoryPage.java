@@ -235,8 +235,10 @@ public class SubcategoryPage {
         if(regularPriceProducts.size() > 0){
             WebElement product = regularPriceProducts.get(0);
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(product.findElement(By.cssSelector(".js-product__image"))));
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(product));
             saveProduct(product);
-            product.click();
+            product.findElement(By.cssSelector(".js-product__image")).click();
+
         } else {
             logger.debug("No products with {} xpath; clicking first product in grid", finder);
             click_first_product_in_grid();

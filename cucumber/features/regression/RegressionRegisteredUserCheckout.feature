@@ -3,7 +3,7 @@ Feature: Registered User Checkout Process
 
   Background:
     #below steps removes items from the bag
-    Given User is on homepage   
+    Given User is on homepage
     And Goes to sign in page
     When User enters testuser1@example.org as email
     And User enters test1234 as password
@@ -23,7 +23,7 @@ Feature: Registered User Checkout Process
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
-    And Selects the first product from product grid list
+    And Selects the first product with regular price from product grid list
     And User is in product detail page
     And product name and price should match with array page
     And A color is selected
@@ -37,7 +37,8 @@ Feature: Registered User Checkout Process
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on BLAZERS subcategory from Women Category
-    And Selects the first product from product grid list
+    And Selects the first product with regular price from product grid list
+    #And Selects the first product from product grid list
     And User is in product detail page
     And product name and price should match with array page
     And A color is selected
@@ -46,13 +47,12 @@ Feature: Registered User Checkout Process
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
-    And Move to mobile site
     And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
     And User is on /checkout2/shoppingbag.jsp page
-    And enter email address as "express_user@jcrew.com" on sign in page    
-    And enter password as "jcrew@123"
+    And enter email address as "testuser1@example.org" on sign in page
+    And enter password as "test1234"
     And click on SIGN IN & CHECK OUT button
     And User is on /checkout2/signin.jsp page
     And items count should be 2 on the review page
