@@ -70,14 +70,14 @@ public class Util {
                 wait.until(ExpectedConditions.visibilityOf(element));
                 success = true;
             } catch (StaleElementReferenceException staleException){
-                logger.debug("Stale Element Exception when retrying to click");
+                logger.debug("Stale Element Exception when retrying to wait");
             }
             attempts++;
         }
 
         if(!success){
-            throw new StaleElementReferenceException("Failed to click element");
+            throw new StaleElementReferenceException("Failed to wait element");
         }
     }
-    
+
 }
