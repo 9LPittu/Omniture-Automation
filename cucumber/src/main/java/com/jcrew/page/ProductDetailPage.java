@@ -83,10 +83,8 @@ public class ProductDetailPage {
     
 	public boolean isProductNamePriceListMatchesWithArrayPage(){
 
-        WebElement pdpProductName = driver.findElement(By.className("product__name"));
-        String pdpProductNameString = pdpProductName.getText();
-		WebElement pdpProductPrices = driver.findElement(By.className("product__price--list"));
-        String pdpProductPriceString = pdpProductPrices.getText();
+        String pdpProductNameString = getProductNameFromPDP();
+        String pdpProductPriceString = getProductPriceList();
     	
 		List<Product> productList = (List<Product>) stateHolder.get("productList");
 
@@ -95,9 +93,12 @@ public class ProductDetailPage {
             String productPrice = product.getPriceList();
             if(productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)){
                 return true;
+            }else{
+                logger.debug("{} - {}", productName, pdpProductNameString);
+                logger.debug("{} - {}", productPrice, pdpProductPriceString);
             }
         }
-		
+
 		return false;
     }
 
@@ -270,19 +271,15 @@ public class ProductDetailPage {
     }
 
     public String getProductPriceList() {
-        String productListPrice;
+        String productListPrice = "";
         if (getVariationsNames().isEmpty()) {
             productListPrice = productDetails.findElement(By.className("product__price--list")).getText();
         } else {
-            try {
-                // running on mobile device
-                productListPrice = productDetails.findElement(By.xpath("div/div/div[contains(@class, 'product__variation--wrap')" +
-                        "/span[contains(@class, 'product__price--list')]]")).getAttribute("innerHTML");
-
-            } catch (NoSuchElementException nsee) {
-                // running in headless browser
-                productListPrice = driver.findElement(By.id("c-product__variations")).findElement(By.className("is-selected")).
-                        findElement(By.className("product__price--list")).getText();
+            List<WebElement> prices = productDetails.findElements(By.className("product__price--list"));
+            for (WebElement price:prices) {
+                if(price.isDisplayed()) {
+                    return price.getText();
+                }
             }
         }
         return productListPrice;
