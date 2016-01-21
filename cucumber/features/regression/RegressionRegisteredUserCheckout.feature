@@ -17,6 +17,8 @@ Feature: Registered User Checkout Process
     And User clicks on PAYMENT METHODS link in My Account Page
     And delete non-default credit cards
     And User clicks on SIGN OUT link in My Account Page
+    And Verify user is in homepage
+    And User is signed out
     
     #Add item to the bag
     And User is on homepage
@@ -47,6 +49,7 @@ Feature: Registered User Checkout Process
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
+    And Move to mobile site
     And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
@@ -67,7 +70,7 @@ Feature: Registered User Checkout Process
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on BLAZERS subcategory from Women Category
-    And Selects the first product from product grid list
+    And Selects the first product with available colors and regular price from product grid list
     And User is in product detail page
     And product name and price should match with array page
     And A color is selected
@@ -81,15 +84,15 @@ Feature: Registered User Checkout Process
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
     And User is on /checkout2/shoppingbag.jsp page
-    And enter email address as "express_user@jcrew.com" on sign in page
-    And enter password as "jcrew@123"
+    And enter email address as "testuser1@example.org" on sign in page
+    And enter password as "test1234"
     And click on SIGN IN & CHECK OUT button
     And User is on /checkout2/signin.jsp page
     And click on 'CHANGE' button of 'BILLING DETAILS' section on 'Review' page
     And click 'Add New Card' on billing page
     And enter "Visa_Card1" details on billing page
     And click on 'SAVE & CONTINUE' button
-    And User is on /checkout2/billing.jsp page
+    #And User is on /checkout2/review.jsp page
     And items count should be 2 on the review page
     And product name and price on review page should be displayed correctly
     Then Clicks on place your order

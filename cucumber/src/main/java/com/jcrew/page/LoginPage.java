@@ -108,9 +108,8 @@ public class LoginPage {
     }
 
     public void click_my_account_link_mobile() {
-        Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(myaccountRef.findElement(
-                        By.xpath("//a[text()='MY ACCOUNT']")))).click();
+        isMyAccountLinkForMobileDisplayed();
+        myAccountLink.click();
     }
 
     public void disable_checkbox() {
