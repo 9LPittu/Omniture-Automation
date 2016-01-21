@@ -5,8 +5,8 @@ Feature: Registered User Checkout Process
     #below steps removes items from the bag
     Given User is on homepage   
     And Goes to sign in page
-    When User enters express_user@jcrew.com as email
-    And User enters jcrew@123 as password
+    When User enters testuser1@example.org as email
+    And User enters test1234 as password
     And Hits sign in button
     And User bag is cleared
     
