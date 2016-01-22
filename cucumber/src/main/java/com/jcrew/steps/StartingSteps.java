@@ -41,8 +41,8 @@ public class StartingSteps {
         while (retry < 2 && !successfulLoad) {
             try {
                 getIntialPage();
-                waitForPageToLoadUpToTheLastElementPriorScriptExecution();
-                Util.waitForPageFullyLoaded(driver);
+              //  waitForPageToLoadUpToTheLastElementPriorScriptExecution();
+              //  Util.waitForPageFullyLoaded(driver);
                 successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);
@@ -59,7 +59,7 @@ public class StartingSteps {
     public void getIntialPage() {
         String env = reader.getProperty("environment");
         String browser = reader.getProperty("browser");
-        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent");
+        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent")||env.contains("or");
         boolean isDesktop = browser.equals("firefox") || browser.equals("chrome");
         logger.debug("current url is: "+env);
 
