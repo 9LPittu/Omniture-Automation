@@ -61,7 +61,6 @@ public class DriverFactory {
         final WebDriver driver;
 
         if ("chrome".equals(browser)) {
-            System.setProperty("webdriver.chrome.driver", "C:/Drivers/chromedriver.exe");
             driver = new ChromeDriver();
 
         } else if ("firefox".equals(browser)) {

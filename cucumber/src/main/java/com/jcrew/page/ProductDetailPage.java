@@ -93,9 +93,6 @@ public class ProductDetailPage {
             String productPrice = product.getPriceList();
             if(productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)){
                 return true;
-            }else{
-                logger.debug("{} - {}", productName, pdpProductNameString);
-                logger.debug("{} - {}", productPrice, pdpProductPriceString);
             }
         }
 
