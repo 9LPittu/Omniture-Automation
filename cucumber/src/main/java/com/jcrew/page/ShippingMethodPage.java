@@ -52,12 +52,7 @@ public class ShippingMethodPage {
     }
 
     public void click_continue_button() {
-        try {
-            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(continueButton));
-            continueButton.click();
-        } catch(StaleElementReferenceException e) {
-            click_continue_button();
-        }
+        Util.clickWithStaleRetry(continueButton);
     }
 
     public boolean isEconomyUps() {
@@ -81,7 +76,9 @@ public class ShippingMethodPage {
     
     public void selectShippingMethod(){
     	List<WebElement> shippingMethodsRadioButtons = driver.findElements(By.name("shippingMethod"));
-    	WebElement shippingMethod = shippingMethodsRadioButtons.get(Util.randomIndex(shippingMethodsRadioButtons.size()));
+        int randomShippingIndex = Util.randomIndex(shippingMethodsRadioButtons.size());
+        logger.debug("Selecting shipping method index: {}", randomShippingIndex);
+    	WebElement shippingMethod = shippingMethodsRadioButtons.get(randomShippingIndex);
     	shippingMethod.click();
     }
     
