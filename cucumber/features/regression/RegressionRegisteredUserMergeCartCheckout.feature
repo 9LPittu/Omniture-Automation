@@ -5,8 +5,8 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     #below steps removes items from the bag
     Given User is on homepage   
     And Goes to sign in page
-    When User enters express_user@jcrew.com as email
-    And User enters jcrew@123 as password
+    When User enters testuser1@example.org as email
+    And User enters test1234 as password
     And Hits sign in button
     And User bag is cleared
     
@@ -25,7 +25,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
-    And Selects the first product from product grid list
+    And Selects the first product with available colors and regular price from product grid list
     And User is in product detail page
     And product name and price should match with array page
     And A color is selected
@@ -37,13 +37,15 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And User clicks on hamburger menu
 	When User clicks on My Account link
 	And click on "SIGN OUT" link in My Account page
+    And Verify user is in homepage
+    And User is signed out
 
   Scenario Outline: Registered user checkout with no items in the bag
     And User is on homepage
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on BLAZERS subcategory from Women Category
-    And Selects the first product from product grid list
+    And Selects the first product with available colors and regular price from product grid list
     And User is in product detail page
     And product name and price should match with array page
     And A color is selected
@@ -57,8 +59,8 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And items count should be displayed as 1 in the bag
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
-    And enter email address as "express_user@jcrew.com" on sign in page    
-    And enter password as "jcrew@123"
+    And enter email address as "testuser1@example.org" on sign in page
+    And enter password as "test1234"
     And click on SIGN IN & CHECK OUT button
     And page url should contain /checkout2/signin.jsp
     And user should see 'SAVE TO WISHLIST & CONTINUE' button on the page

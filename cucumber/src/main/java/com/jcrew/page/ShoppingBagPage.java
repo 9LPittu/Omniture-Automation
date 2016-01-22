@@ -163,7 +163,7 @@ public class ShoppingBagPage {
     	bagItemsCount = bagItemsCount.replace("(", "");
     	bagItemsCount = bagItemsCount.replace(")", "");
     	int actualItemsCount = Integer.parseInt(bagItemsCount);
-    	
+
     	return actualItemsCount == itemsCount;
     }
     
