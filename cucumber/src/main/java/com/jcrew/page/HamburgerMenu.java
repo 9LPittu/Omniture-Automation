@@ -99,7 +99,7 @@ public class HamburgerMenu {
 
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
         WebElement categories = getMenuItemElementForCategory(category);
-        System.out.println(categories.getText());
+        logger.info("categories are :{}",categories.getText());
         WebElement categoryLink = categories.findElement(By.linkText(subcategory));
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryLink));
@@ -107,7 +107,7 @@ public class HamburgerMenu {
     }
 
     private WebElement getMenuItemElementForCategory(String category) {
-        System.out.println("inside get menu item method");
+        logger.info("inside get menu item method");
         return menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and " +
                 "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = " +
                 "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));

@@ -123,10 +123,8 @@ public class SalePage {
         }
 
         public boolean isSaleLandingPage() {
-            System.out.println(driver.getCurrentUrl());
             String saleLandingUrl =reader.getProperty("environment")+"/r/sale";
             return driver.getCurrentUrl().equals(saleLandingUrl);
-
         }
 
         public boolean isSaleTitleDisplayed() {
@@ -135,7 +133,7 @@ public class SalePage {
         }
         public boolean  isFirstPromoDisplayed() {
             WebElement firstPromo = driver.findElement(By.className("c-sale__promo-frame"));
-            System.out.println("promo message and code :" + firstPromo.getText());
+            logger.debug("promo message and code :" + firstPromo.getText());
             return firstPromo.isDisplayed()&&firstPromo.getText()!=null;
         }
 
