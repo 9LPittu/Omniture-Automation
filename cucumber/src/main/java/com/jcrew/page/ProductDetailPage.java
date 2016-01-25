@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ProductDetailPage {
 
@@ -63,6 +65,9 @@ public class ProductDetailPage {
 
     @FindBy(className = "message--body")
     private WebElement messageBody;
+    
+    @FindBy(css=".btn--link.btn--checkout.btn--primary")
+    private WebElement minicartCheckout;
 
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
@@ -71,8 +76,27 @@ public class ProductDetailPage {
 
     public boolean isProductDetailPage() {
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#product__image0")));
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
+    }
+    
+    
+	public boolean isProductNamePriceListMatchesWithArrayPage(){
+
+        String pdpProductNameString = getProductNameFromPDP();
+        String pdpProductPriceString = getProductPriceList();
+    	
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+
+        for(Product product:productList){
+            String productName = product.getProductName();
+            String productPrice = product.getPriceList();
+            if(productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)){
+                return true;
+            }
+        }
+
+		return false;
     }
 
     public void select_variation() {
@@ -117,6 +141,9 @@ public class ProductDetailPage {
 
     public int getNumberOfItemsInBag() {
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
+        
+        Util.waitWithStaleRetry(driver, bagSize);
+
         String bagSizeStr = bagSize.getAttribute("innerHTML");
         String stringSize = bagSizeStr.replace("(", "").replace(")", "").trim();
         return Integer.parseInt(stringSize);
@@ -241,19 +268,15 @@ public class ProductDetailPage {
     }
 
     public String getProductPriceList() {
-        String productListPrice;
+        String productListPrice = "";
         if (getVariationsNames().isEmpty()) {
             productListPrice = productDetails.findElement(By.className("product__price--list")).getText();
         } else {
-            try {
-                // running on mobile device
-                productListPrice = productDetails.findElement(By.xpath("div/div/div[contains(@class, 'product__variation--wrap')" +
-                        "/span[contains(@class, 'product__price--list')]]")).getAttribute("innerHTML");
-
-            } catch (NoSuchElementException nsee) {
-                // running in headless browser
-                productListPrice = driver.findElement(By.id("c-product__variations")).findElement(By.className("is-selected")).
-                        findElement(By.className("product__price--list")).getText();
+            List<WebElement> prices = productDetails.findElements(By.className("product__price--list"));
+            for (WebElement price:prices) {
+                if(price.isDisplayed()) {
+                    return price.getText();
+                }
             }
         }
         return productListPrice;
@@ -349,5 +372,9 @@ public class ProductDetailPage {
 
     public boolean isWishlistConfirmationMessageDisplayed() {
         return productActionsSection.findElement(By.className("content-button-secondary-confirmation")).isDisplayed();
+    }
+    
+    public void clickMinicartCheckout(){
+    	minicartCheckout.click();
     }
 }

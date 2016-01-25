@@ -37,6 +37,8 @@ public class SubcategoryPage {
     private WebElement quickShopModal;
     @FindBy(className = "product__grid")
     private WebElement productGrid;
+    @FindBy(id = "c-product__list")
+    private WebElement productList;
     @FindBy(css = ".category__page-title > h2")
     private WebElement categoryPageTitle;
     @FindBy(className = "accordian__wrap")
@@ -228,6 +230,21 @@ public class SubcategoryPage {
         productLink.click();
     }
 
+    public void click_first_product_with_xpath(String finder){
+        List<WebElement> regularPriceProducts = driver.findElements(By.xpath(finder));
+        if(regularPriceProducts.size() > 0){
+            WebElement product = regularPriceProducts.get(0);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(product.findElement(By.cssSelector(".js-product__image"))));
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(product));
+            saveProduct(product);
+            product.findElement(By.cssSelector(".js-product__image")).click();
+
+        } else {
+            logger.debug("No products with {} xpath; clicking first product in grid", finder);
+            click_first_product_in_grid();
+        }
+    }
+
     public void click_any_product_in_grid() {
         List<WebElement> products = getProductTileElements();
         int index = Util.randomIndex(products.size());
@@ -246,6 +263,16 @@ public class SubcategoryPage {
             productName = productNameElements.get(0).getAttribute("innerHTML");
         }
         return productName;
+    }
+    
+    private String getProductPrice(WebElement productSelected){
+    	List<WebElement> productPrices = productSelected.findElements(By.className("tile__detail--price--list"));
+    	String price = null;
+    	if(!productPrices.isEmpty()){
+    		price=productPrices.get(0).getAttribute("innerHTML");
+    	}
+    	
+    	return price;
     }
 
 
@@ -506,8 +533,11 @@ public class SubcategoryPage {
     private void saveProduct(WebElement productElement) {
         Product product = new Product();
         product.setProductName(getProductName(productElement));
+        product.setPriceList(getProductPrice(productElement));
 
         logger.debug("Selected product is {}", product.getProductName());
+        logger.debug("Selected product price is {}", product.getPriceList());
+        
         List<Product> productList = (List<Product>) stateHolder.get("productList");
 
         if (productList == null) {

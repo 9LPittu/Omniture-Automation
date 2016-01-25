@@ -1,7 +1,9 @@
 package com.jcrew.page;
 
 import com.github.javafaker.Faker;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -55,6 +57,48 @@ public class BillingPage {
     @FindBy(id = "credit-card-billing")
     private
     WebElement creditCardBilling;
+    
+    @FindBy(xpath="//span[@class='form-label' and text()='Add New Card']")
+    private WebElement addNewCardOnBillingPage;
+    
+    @FindBy(xpath="//a[@id='submit-new-shipping-address' and text()='Save & Continue']")
+    private WebElement saveContinueButtonOnBillingPage;
+    
+    @FindBy(xpath=".//*[@id='address-new']/span[2]")
+    private WebElement addNewBillingAddress;
+    
+    @FindBy(id="countryAM")
+    private WebElement addNewBillingAddress_Country;
+    
+    @FindBy(id="firstNameAM")
+    private WebElement addNewBillingAddress_FirstName;
+    
+    @FindBy(id="lastNameAM")
+    private WebElement addNewBillingAddress_LastName;
+    
+    @FindBy(id="address1")
+    private WebElement addNewBillingAddress_address1;
+    
+    @FindBy(id="address2")
+    private WebElement addNewBillingAddress_address2;
+    
+    @FindBy(id="zipcode")
+    private WebElement addNewBillingAddress_zipcode;
+    
+    @FindBy(css=".form-dropdown.city-state-id")
+    private WebElement addNewBillingAddress_CityStateDropdown;
+    
+    @FindBy(id="phoneNumAM")
+    private WebElement addNewBillingAddress_PhoneNumber;
+    
+    @FindBy(xpath="//a[@id='submit-new-shipping-address' and text()='Save']")
+    private WebElement addNewBillingAddress_Save;
+    
+    @FindBy(id="qasPageTitle")
+    private WebElement qasVerification;
+    
+    @FindBy(xpath=".//a[@class='button-submit' and text()='Use Address as Entered']")
+    private WebElement checkYourAddress_UseAddressAsEntered;
 
     public BillingPage(WebDriver driver) {
         this.driver = driver;
@@ -95,5 +139,88 @@ public class BillingPage {
     public boolean isBillingPage() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
         return creditCardBilling.isDisplayed();
+    }
+    
+    public void enterCreditCardDetails(String cardName){
+    	TestDataReader testDataReader = new TestDataReader();
+    	String creditCardDetails = testDataReader.getData(cardName);   	
+
+    	//Enter credit card number
+    	creditCardNumber.sendKeys(creditCardDetails.split(";")[0]);
+    	
+    	//Enter security code
+    	securityCode.sendKeys(creditCardDetails.split(";")[1]);
+    	
+    	//select expiration month
+    	Select expirationMonthElement = new Select(expirationMonth);
+        expirationMonthElement.selectByVisibleText(creditCardDetails.split(";")[2]);
+
+    	//select expiration year
+        Select expirationYearElement = new Select(expirationYear);
+        expirationYearElement.selectByVisibleText(creditCardDetails.split(";")[3]);
+        
+        //Enter name on card
+        nameOnCard.sendKeys(creditCardDetails.split(";")[4]);
+    }
+    
+    public void enterEmailAddressOnBillingPage(String emailAddress){
+    	emailReceipt.sendKeys(emailAddress);
+    }
+    
+    public void clickAddNewCardOnBillingPage(){
+    	addNewCardOnBillingPage.click();
+    }
+    
+    public void clickSaveAndContinueButton(){
+    	saveContinueButtonOnBillingPage.click();
+    }
+    
+    public void clickAddNewBillingAddress(){
+    	addNewBillingAddress.click();
+    }
+    
+    public void selectCountryOnNewBillingAddressForm(String country){
+    	Select list = new Select(addNewBillingAddress_Country);
+    	list.selectByVisibleText(country);
+    }
+    
+    public void enterFirstNameOnNewBillingAddressForm(){
+    	addNewBillingAddress_FirstName.sendKeys(faker.name().firstName());
+    }
+    
+    public void enterLastNameOnNewBillingAddressForm(){
+    	addNewBillingAddress_LastName.sendKeys(faker.name().lastName());
+    }
+    
+    public void enterAddressLine1OnAddNewBillingAddressForm(String address1){
+    	addNewBillingAddress_address1.sendKeys(address1);
+    }
+    
+    public void enterAddressLine2OnAddNewBillingAddressForm(String address2){
+    	addNewBillingAddress_address2.sendKeys(address2);
+    }
+    
+    public void enterZipCodeOnAddNewBillingAddressForm(String zipCode){
+    	addNewBillingAddress_zipcode.sendKeys(zipCode);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewBillingAddress_CityStateDropdown));
+    }
+    
+    public void enterPhoneNumberOnAddNewBillingAddressForm(){
+    	addNewBillingAddress_PhoneNumber.sendKeys(faker.phoneNumber().phoneNumber());
+    }
+    
+    public void clickSaveInAddNewBillingAddressForm(){    	
+    	addNewBillingAddress_Save.click();
+    }
+    
+    public boolean isQASVerificationDisplayed(){
+    	Util.waitWithStaleRetry(driver,qasVerification);
+    	return qasVerification.isDisplayed();
+    }
+    
+    public void clickUseAddressAsEnteredButton(){    	
+    	Util.waitWithStaleRetry(driver, checkYourAddress_UseAddressAsEntered);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
+    	checkYourAddress_UseAddressAsEntered.click();
     }
 }

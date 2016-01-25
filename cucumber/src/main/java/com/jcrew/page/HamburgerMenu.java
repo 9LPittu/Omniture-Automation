@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,12 +48,10 @@ public class HamburgerMenu {
     }
 
     public void click_on_hamburger_menu() {
-        try {
-            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
-            hamburgerMenu.click();
-        } catch (StaleElementReferenceException sele) {
-            click_on_hamburger_menu();
-        }
+        WebDriverWait wait = Util.createWebDriverWait(driver);
+        wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
+        Util.clickWithStaleRetry(hamburgerMenu);
+        wait.until(ExpectedConditions.visibilityOf(categoryMenu));
     }
 
     public boolean isHamburgerMenuPresent() {
