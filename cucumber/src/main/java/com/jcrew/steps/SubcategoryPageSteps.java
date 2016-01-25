@@ -4,6 +4,7 @@ import com.jcrew.page.Header;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -56,6 +57,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     public void Selects_the_first_product_from_product_grid_list() {
         subcategoryPage.click_first_product_in_grid();
     }
+
     @And("^Selects any product from product grid list$")
     public void Selects_any_product_from_product_grid_list() {
         subcategoryPage.click_any_product_in_grid();
@@ -344,4 +346,22 @@ public class SubcategoryPageSteps extends DriverFactory {
         subcategoryPage.click_on_product(product);
     }
 
+    @And("^Selects the first product with regular price from product grid list$")
+    public void selectsTheFirstProductWithRegularPriceFromProductGridList() throws Throwable {
+        subcategoryPage.click_first_product_with_xpath("//span[@class='tile__detail tile__detail--price--list']" +
+                "/ancestor::div[@class='c-product-tile']");
+    }
+
+    @And("^Selects the first product with available colors from product grid list$")
+    public void selectsTheFirstProductWithAvailableColorsFromProductGridList() throws Throwable {
+        subcategoryPage.click_first_product_with_xpath("//span[@class='tile__detail " +
+                "js-tile__detail--colors-count tile__detail--colors-count']/ancestor::div[@class='c-product-tile']");
+    }
+
+    @And("^Selects the first product with available colors and regular price from product grid list$")
+    public void selectsTheFirstProductWithAvailableColorsAndRegularPriceFromProductGridList() throws Throwable {
+        subcategoryPage.click_first_product_with_xpath("//span[@class='tile__detail js-tile__detail--colors-count " +
+                "tile__detail--colors-count']/preceding-sibling::span[@class='tile__detail tile__detail--price--list']" +
+                "/ancestor::div[@class='c-product-tile']");
+    }
 }

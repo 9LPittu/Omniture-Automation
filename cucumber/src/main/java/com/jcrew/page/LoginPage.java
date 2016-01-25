@@ -1,7 +1,10 @@
 package com.jcrew.page;
 
+import java.util.concurrent.TimeUnit;
+
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +19,7 @@ public class LoginPage {
 
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
     private final WebDriver driver;
+    
     @FindBy(id = "sidecarUser")
     private WebElement emailInput;
     @FindBy(id = "sidecarPassword")
@@ -34,6 +38,21 @@ public class LoginPage {
     private WebElement signInForm;
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
+    
+    @FindBy(xpath=".//*[@id='frmGuestCheckOut']/descendant::a[text()='Check Out as a Guest']")
+    private WebElement checkoutAsGuestButton;
+    
+    @FindBy(id="loginUser")
+    private WebElement emailAddressField;
+    
+    @FindBy(id="loginPassword")
+    private WebElement passwordField;
+    
+    @FindBy(css=".button-general.button-submit")
+    private WebElement signInAndCheckOut;
+    
+    @FindBy(id = "main_inside")
+    private WebElement myAccountContainer;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -51,6 +70,7 @@ public class LoginPage {
     public void click_sign_in_button() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         signInButton.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
     }
 
     public String getSignInErrorMessage() {
@@ -88,9 +108,8 @@ public class LoginPage {
     }
 
     public void click_my_account_link_mobile() {
-        Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(myaccountRef.findElement(
-                        By.xpath("//a[text()='MY ACCOUNT']")))).click();
+        isMyAccountLinkForMobileDisplayed();
+        myAccountLink.click();
     }
 
     public void disable_checkbox() {
@@ -134,5 +153,22 @@ public class LoginPage {
 
         return result;
     }
+    
+    public void clickCheckoutAsGuest() throws InterruptedException{
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutAsGuestButton));  	
+    	checkoutAsGuestButton.click();
+    }
+    
+    public void enterEmailAddressOnSignInPage(String emailAddress){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailAddressField));
+        emailAddressField.sendKeys(emailAddress);
+    }
+    
+    public void enterPasswordOnSignInPage(String password){
+    	passwordField.sendKeys(password);
+    }
+    
+    public void click_signInAndCheckOut(){
+    	signInAndCheckOut.click();
+    }
 }
-

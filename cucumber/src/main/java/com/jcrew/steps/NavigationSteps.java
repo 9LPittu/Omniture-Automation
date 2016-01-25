@@ -34,8 +34,9 @@ public class NavigationSteps extends DriverFactory {
 
     @Then("^User is on ([^\"]*) page$")
     public void user_is_on_page(String page) {
-        assertTrue("Browser was expected to be at " + page,
-                getDriver().getCurrentUrl().endsWith(page));       
+    	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
+        assertTrue("Browser was expected to be at " + page + " and current page is "+getDriver().getCurrentUrl(),
+                getDriver().getCurrentUrl().endsWith(page));
     }
 
     @Then("^User is on external page ([^\"]*)$")
@@ -53,5 +54,12 @@ public class NavigationSteps extends DriverFactory {
         String currentUrl = getDriver().getCurrentUrl();
         String mobileSite = currentUrl + "&isMobile=true";
         getDriver().get(mobileSite);
+    }
+    
+    @And("^page url should contain ([^\"]*)$")
+    public void page_url_contains(String url) {
+    	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(url));
+        assertTrue("Page URL should contain " + url,
+                getDriver().getCurrentUrl().contains(url));
     }
 }

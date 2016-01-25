@@ -30,4 +30,29 @@ public class ReviewPageSteps extends DriverFactory {
     public void validates_shipping_section_is_present_in_review_page() throws Throwable {
         assertTrue("Shipping section should be displayed", reviewPage.isShippingSectionDisplayed());
     }
+    
+    @And("^items count should be ([^\"]*) on the review page$")
+    public void verify_items_count_on_review_page(String itemsCount){
+    	assertTrue("Items count on review page should be " + itemsCount, reviewPage.isItemsCountMatchesOnReviewPage(itemsCount));
+    }
+    
+    @And("^select \"([^\"]*)\" breadcrumb item$")
+    public void select_breadcrumb_item(String breadcrumbItemName){
+    	reviewPage.selectBreadcrumbItem(breadcrumbItemName);
+    }
+    
+    @And("^click on 'CHANGE' button of 'SHIPPING DETAILS' section on 'Review' page$")
+    public void click_changes_button_shipping_details_section_review_page(){
+    	reviewPage.clickChangeButtonOfShippingDetailsOnReviewPage();
+    }
+    
+    @And("^click on 'CHANGE' button of 'BILLING DETAILS' section on 'Review' page$")
+    public void click_changes_button_billing_details_section_review_page(){
+    	reviewPage.clickChangeButtonOfBillingDetailsOnReviewPage();
+    }
+    
+    @And("^product name and price on review page should be displayed correctly$")
+    public void product_name_price_on_review_page_should_be_displayed_correctly(){
+    	assertTrue("Product name and price on review page should be displayed correctly",reviewPage.isProductNamePriceMatchesOnReviewPage());
+    }
 }

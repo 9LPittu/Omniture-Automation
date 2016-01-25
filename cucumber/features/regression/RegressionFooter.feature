@@ -1,4 +1,4 @@
-@Footer
+#@Footer
 Feature: Footer Tests
 
   Background:

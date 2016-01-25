@@ -61,7 +61,6 @@ public class DriverFactory {
         final WebDriver driver;
 
         if ("chrome".equals(browser)) {
-
             driver = new ChromeDriver();
 
         } else if ("firefox".equals(browser)) {
