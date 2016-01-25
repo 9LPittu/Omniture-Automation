@@ -24,11 +24,11 @@ Feature: Regression Tests Category Feature
     And Verifies product image is displayed
 
   Scenario: Check Product Tiles for Sale Variations
-    When User clicks on DRESSES subcategory from Women Category
-    Then User should be in dresses page for women
-    And Verifies Knotted maxi dress product is displayed
-    And Verifies Knotted maxi dress product price was $110.00
-    And Verifies Knotted maxi dress product sale price is now $90.00
+    When User clicks on SWEATERS subcategory from Women Category
+    Then User should be in sweaters page for women
+    And Verifies V-neck tunic sweater product is displayed
+    And Verifies V-neck tunic sweater product price was $89.50
+    And Verifies V-neck tunic sweater product sale price is now $69.50
     And Verifies product image is displayed
 
   Scenario: Check sign posts on category pages
@@ -41,7 +41,7 @@ Feature: Regression Tests Category Feature
     And Products displayed match subcategory
 
   Scenario: Check End cap navigation
-    When User clicks on DRESSES subcategory from Women Category
+    When User clicks on SWEATERS subcategory from Women Category
     Then Verifies navigation draw options are What's New, Clothing, Shoes & Accessories, Sizings
     And Taps on What's New drawer and opens and all other drawer options are closed
     And Verifies What's New drawer is open
