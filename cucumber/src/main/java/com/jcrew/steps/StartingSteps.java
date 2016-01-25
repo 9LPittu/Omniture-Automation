@@ -43,12 +43,17 @@ public class StartingSteps {
                 getIntialPage();
               //  waitForPageToLoadUpToTheLastElementPriorScriptExecution();
               //  Util.waitForPageFullyLoaded(driver);
+                waitForHeaderPromo();
                 successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);
                 retry++;
             }
         }
+    }
+
+    private void waitForHeaderPromo(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
 
     private void waitForPageToLoadUpToTheLastElementPriorScriptExecution() {

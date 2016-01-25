@@ -158,6 +158,7 @@ public class ShoppingBagPage {
     }
     
     public boolean isBagItemsCountMatches(int itemsCount){
+        Util.waitForPageFullyLoaded(driver);
     	Util.waitWithStaleRetry(driver,cartSize);
     	String bagItemsCount = cartSize.getText().trim();
     	bagItemsCount = bagItemsCount.replace("(", "");
@@ -168,21 +169,16 @@ public class ShoppingBagPage {
     }
     
     public boolean isBreadcrumbTextContains(String breadcrumbText){
-    	boolean blnResult = false;
+    	boolean blnResult;
     	Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".item-link.item-first")));
-    	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-    	try{
-    		List<WebElement> breadcrumbLinks = driver.findElements(By.className("breadcrumb__link"));
-    		blnResult = breadcrumbLinks.get(0).getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
-    		if(!blnResult){
-    			blnResult =  breadcrumbLink.getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
-    		}
-    	}
-    	catch(Exception e){
-    		blnResult =  breadcrumbLink.getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
-    	}
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+
+        List<WebElement> breadcrumbLinks = driver.findElements(By.className("breadcrumb__link"));
+        if(breadcrumbLinks.size() > 0) {
+            blnResult = breadcrumbLinks.get(0).getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
+        } else {
+            blnResult =  breadcrumbLink.getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
+        }
+
     	return blnResult;
     }
 }
