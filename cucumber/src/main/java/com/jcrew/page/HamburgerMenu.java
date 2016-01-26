@@ -102,6 +102,7 @@ public class HamburgerMenu {
         getSubcategoryFromSale(subcategory).click();
         stateHolder.put("sale category", subcategory);
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("search"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
     }
 
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {

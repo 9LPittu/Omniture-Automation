@@ -203,6 +203,9 @@ public class SearchPage {
         final WebElement filterRefinementElement = getRefinementElement(refinement);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(filterRefinementElement));
         filterRefinementElement.click();
+        //wait for the load bar to disappear
+        WebElement lessIcon = filterRefinementElement.findElement(By.xpath("..//i[@class='js-icon icon-see-less']"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(lessIcon));
     }
 
     public boolean isOptionSelectedForRefinementWithAccordionOpen(String option, String refinement) {
@@ -259,6 +262,7 @@ public class SearchPage {
     }
 
     public boolean isRefinementOpen(String refinement) {
+        scroll_down_the_page();
         final WebElement filterRefinementElement = getRefinementElement(refinement);
         final WebElement drawerIcon = filterRefinementElement.findElement(By.xpath("following-sibling::i"));
         return drawerIcon.getAttribute("class").contains("icon-see-less");
