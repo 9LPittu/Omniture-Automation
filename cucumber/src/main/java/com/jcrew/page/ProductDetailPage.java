@@ -76,7 +76,7 @@ public class ProductDetailPage {
 
     public boolean isProductDetailPage() {
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#product__image0")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("product__image0")));
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
     }
     
