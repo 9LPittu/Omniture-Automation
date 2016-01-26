@@ -26,6 +26,11 @@ public class HamburgerMenuSteps extends DriverFactory {
         hamburgerMenu.click_on_subcategory(subcategory, category);
     }
 
+    @And("^User clicks on ([^\"]*) subcategory from Sales$")
+    public void user_clicks_on_subcategory_from_sales(String subcategory) {
+        hamburgerMenu.click_on_sale_subcategory(subcategory);
+    }
+
     @Then("^Closes subcategory hamburger menu$")
     public void closes_subcategory_hamburger_menu() {
         hamburgerMenu.close_subcategory_hamburger_menu();

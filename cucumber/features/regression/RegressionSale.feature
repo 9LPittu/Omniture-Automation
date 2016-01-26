@@ -8,7 +8,7 @@ Feature: Sale Regression Suite
 
     #US9874_TC06
   Scenario: New in Sale link functional validation
-    And User clicks on NEW IN SALE subcategory from sale Category
+    And User clicks on NEW IN SALE subcategory from Sales
     Then User is in Sale results page
     And Gender selectors are displayed
     And The products are sorted by New in sale
@@ -21,7 +21,7 @@ Feature: Sale Regression Suite
     Then User is in Sale results page
     And Refine button is displayed
     And default filter name displayed is <SaleCategory>
-    And Refine button is clicked
+    And click on REFINE button
     And User is in refine page
     And Category,Size,Color,Price filter refinements should appear
     And Click on Category refinement
@@ -46,7 +46,7 @@ Feature: Sale Regression Suite
     |girls|/r/search/?N=21+19|
   
   Scenario: Pagination is functional on sale page
-    And User clicks on WOMEN subcategory from sale Category
+    And User clicks on WOMEN subcategory from Sales
     And pagination is displayed on the page
     And left pagination text should be PREV
     And left pagination text PREV should be in disabled state by default
@@ -57,7 +57,7 @@ Feature: Sale Regression Suite
     And user should be displayed with correct page when page number is changed
 
   Scenario Outline: Refine page should display the first sort option as new in sale and selected by default
-    And User clicks on <SaleCategory> subcategory from sale Category
+    And User clicks on <SaleCategory> subcategory from Sales
     Then User is in Sale results page
     And Refine button is displayed
     And default filter name displayed is <SaleCategory>
@@ -74,7 +74,7 @@ Feature: Sale Regression Suite
     |WOMEN|
 
   Scenario Outline: Sort by options user is able to select only one selection at a time on sale page
-    And User clicks on <SaleCategory> subcategory from sale Category
+    And User clicks on <SaleCategory> subcategory from Sales
     Then User is in Sale results page
     And Refine button is clicked
     And User is in refine page  
@@ -90,7 +90,7 @@ Feature: Sale Regression Suite
     |WOMEN|
       
   Scenario Outline: New In Sale in sort by options is functional on sale page
-    And User clicks on <SaleCategory> subcategory from sale Category
+    And User clicks on <SaleCategory> subcategory from Sales
     Then User is in Sale results page
     And Refine button is clicked
     And User is in refine page
@@ -104,7 +104,7 @@ Feature: Sale Regression Suite
     |WOMEN|
 
   Scenario Outline: Price: Low to High in sort by options is functional on sale page
-    And User clicks on <SaleCategory> subcategory from sale Category
+    And User clicks on <SaleCategory> subcategory from Sales
     Then User is in Sale results page
     And Refine button is clicked
     And User is in refine page
@@ -118,7 +118,7 @@ Feature: Sale Regression Suite
     |WOMEN|
 
   Scenario Outline: Price: High to Low in sort by options is functional on sale page
-    And User clicks on <SaleCategory> subcategory from sale Category
+    And User clicks on <SaleCategory> subcategory from Sales
     Then User is in Sale results page
     And Refine button is clicked
     And User is in refine page

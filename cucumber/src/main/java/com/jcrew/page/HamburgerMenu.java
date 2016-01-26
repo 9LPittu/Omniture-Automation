@@ -41,6 +41,8 @@ public class HamburgerMenu {
     private WebElement womenSweatersCategoryLink;
     @FindBy(className = "menus--level1")
     private WebElement menuLevel1;
+    @FindBy(className = "c-sale__c-category-list")
+    private WebElement saleCategoryList;
 
     public HamburgerMenu(WebDriver driver) {
         this.driver = driver;
@@ -96,6 +98,12 @@ public class HamburgerMenu {
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("category"));
     }
 
+    public void click_on_sale_subcategory(String subcategory) {
+        getSubcategoryFromSale(subcategory).click();
+        stateHolder.put("sale category", subcategory);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("search"));
+    }
+
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
         WebElement categories = getMenuItemElementForCategory(category);
         logger.info("categories are :{}",categories.getText());
@@ -103,6 +111,12 @@ public class HamburgerMenu {
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryLink));
         return categoryLink;
+    }
+
+    private WebElement getSubcategoryFromSale(String subcategory) {
+        return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
+                "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = " +
+                "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
 
     private WebElement getMenuItemElementForCategory(String category) {

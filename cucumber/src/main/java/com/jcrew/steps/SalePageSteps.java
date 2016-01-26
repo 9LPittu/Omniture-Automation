@@ -175,7 +175,7 @@ public class SalePageSteps extends DriverFactory {
         assertTrue("sale link should be displayed in th esecond promo",salePage.isSecondPromoSaleCategoryLinkDisplayed(link));
     }
 
-    @When("^([^\"]*) is clicked$")
+    @When("^([^\"]*) in sale page is clicked$")
     public void click_on_the_second_promo_link(String link) {
         salePage.clickOnSecondPromoSaleCategoryLink(link);
     }

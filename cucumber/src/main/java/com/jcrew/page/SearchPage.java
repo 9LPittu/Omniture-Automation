@@ -1,10 +1,12 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -199,6 +201,7 @@ public class SearchPage {
 
     public void click_refinement(String refinement) {
         final WebElement filterRefinementElement = getRefinementElement(refinement);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(filterRefinementElement));
         filterRefinementElement.click();
     }
 
@@ -279,12 +282,9 @@ public class SearchPage {
 
     public void click_refinement_menu_done_button() {
         final WebElement doneButton = searchFilterRefinementActions.findElement(By.id("btn__search--done"));
-        try {
-            doneButton.click();
-        }catch (StaleElementReferenceException staleException){
-            logger.debug("Stale Element Reference Exception when trying to click btn__search--done, retrying... ");
-            Util.clickWithStaleRetry(doneButton);
-        }
+
+        Util.clickWithStaleRetry(doneButton);
+
     }
 
     public int getCurrentNumberOfResults() {
