@@ -393,6 +393,7 @@ public class SalePage {
 
     public boolean isDisclaimerTextDisplayed() {
         WebElement saleDetailsText= saleDetails.findElement(By.className("c-sale__c-details"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleDetailsText));
         return saleDetailsText.getAttribute("class").contains("is-open");
     }
 
