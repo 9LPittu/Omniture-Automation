@@ -379,6 +379,7 @@ public class SalePage {
     }
 
     public void clickOnSecondPromoSaleCategoryLink(String link)  {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(secondPromo));
         secondPromo.findElement(By.linkText(link)).click();
     }
 
