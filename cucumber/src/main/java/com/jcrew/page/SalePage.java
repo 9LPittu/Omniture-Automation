@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.base.Function;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.*;
@@ -147,6 +146,9 @@ public class SalePage {
     }
 
     public void clickRefineButton(){
+        //wait for the load bar to disappear
+        Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
+
         refineButton.click();
     }
 
@@ -187,6 +189,10 @@ public class SalePage {
         return blnFlag;
     }
 
+    public boolean isSortOptionSelected(WebElement option) {
+        return option.getAttribute("class").contains("is-selected");
+    }
+
     public boolean isOtherSortOptionsUnchecked(String sortByOption1, String sortByOption2){
 
         boolean blnFlag = false;
@@ -194,29 +200,35 @@ public class SalePage {
         sortByOption1 = sortByOption1.toLowerCase();
         sortByOption2 = sortByOption2.toLowerCase();
 
-        if((sortByOption1.equals("new in sale") && sortByOption2.equals("price: high to low")) ||
-           (sortByOption1.equals("price: high to low") && sortByOption2.equals("new in sale"))){
+        switch (sortByOption1){
+            case "new in sale":
+                blnFlag = blnFlag || isSortOptionSelected(newInSaleText);
+                break;
+            case "price: high to low":
+                blnFlag = blnFlag || isSortOptionSelected(priceHighToLowText);
+                break;
+            case "price: low to high":
+                blnFlag = blnFlag || isSortOptionSelected(priceLowToHighText);
+                break;
+            default:
 
-            if(!(newInSaleCheckBox.isSelected() || priceHighToLowCheckBox.isSelected())){
-                blnFlag = true;
-            }
-        }
-        else if((sortByOption1.equals("price: low to high") && sortByOption2.equals("price: high to low")) ||
-               (sortByOption1.equals("price: high to low") && sortByOption2.equals("price: low to high"))){
-
-            if(!(priceLowToHighCheckBox.isSelected() || priceHighToLowCheckBox.isSelected())){
-                blnFlag = true;
-            }
-        }
-        else if((sortByOption1.equals("new in sale") && sortByOption2.equals("price: low to high")) ||
-               (sortByOption1.equals("price: low to high") && sortByOption2.equals("new in sale"))){
-
-            if(!(newInSaleCheckBox.isSelected() || priceLowToHighCheckBox.isSelected())){
-                blnFlag = true;
-            }
         }
 
-        return blnFlag;
+        switch (sortByOption2){
+            case "new in sale":
+                blnFlag = blnFlag || isSortOptionSelected(newInSaleText);
+                break;
+            case "price: high to low":
+                blnFlag = blnFlag || isSortOptionSelected(priceHighToLowText);
+                break;
+            case "price: low to high":
+                blnFlag = blnFlag || isSortOptionSelected(priceLowToHighText);
+                break;
+            default:
+
+        }
+
+        return !blnFlag;
     }
 
     public void selectSortOptionCheckbox(String sortOption){
@@ -242,9 +254,7 @@ public class SalePage {
         boolean blnFlag = false;
 
         //return false if objects are not found
-        if(salePrice.size() == 0){
-            return blnFlag;
-        } else{
+        if(salePrice.size() > 0){
             List<Double> lstSalePrices = new ArrayList<Double>();
 
             //Capture all the prices into double list
