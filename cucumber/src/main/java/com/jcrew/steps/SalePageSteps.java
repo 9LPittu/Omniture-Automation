@@ -76,7 +76,7 @@ public class SalePageSteps extends DriverFactory {
 
     @Then("^first option NEW IN SALE is selected by default$")
     public void verify_first_sort_option_selected_by_default(){
-        assertTrue("Sort section first option NEW IN SALE is selected by default", salePage.isNewInSaleCheckboxSelectedByDefault());
+        assertTrue("Sort section first option NEW IN SALE is selected by default", salePage.isNewInSaleSortOptionSelectedByDefault());
     }
 
     @Then("sort by options ([^\"]*) and ([^\"]*) are unchecked$")
