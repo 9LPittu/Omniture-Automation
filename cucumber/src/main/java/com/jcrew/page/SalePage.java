@@ -367,7 +367,20 @@ public class SalePage {
     }
 
     public void clickOnSaleDept(String dept) {
-        driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']")).click();
+        WebElement saleDepElement;
+        if("random".equalsIgnoreCase(dept)){
+            saleDepElement = getRandomSaleDept();
+        }else{
+            saleDepElement = driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']"));
+        }
+        saleDepElement.click();
+    }
+
+    public WebElement getRandomSaleDept(){
+        List<WebElement> saleDepts = driver.findElements(By.className("js-sale__link"));
+        //exclude NEW IN SALE
+        int random = Util.randomIndex(saleDepts.size()-1);
+        return saleDepts.get(random + 1);
     }
 
     public boolean isSaleCategoryLinkDisplayed(String category) {

@@ -117,7 +117,6 @@ Feature: Search Regression Suite
       | shoes       |
 
     #US15673_TC02
-  @wip
   Scenario: Refine page should display the first sort option as new in sale and selected by default
     When Enters dresses to the search field
     And Clicks on search button for input field
