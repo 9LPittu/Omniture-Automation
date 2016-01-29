@@ -208,5 +208,10 @@ public class SearchPageSteps extends DriverFactory {
 
         stateHolder.put("productList", productList);
     }
+
+    @Then("^Verify that ([^\"]*) refinement is closed$")
+    public void verify_that_category_refinement_is_closed(String refinement) throws Throwable {
+        assertFalse("The refinement "+ refinement+" is expected to be closed", searchPage.isRefinementOpen(refinement));
+    }
 }
     

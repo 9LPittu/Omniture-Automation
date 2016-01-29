@@ -41,6 +41,10 @@ public class Util {
         });
     }
 
+    public static void waitLoadingBar(WebDriver driver){
+        createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
+    }
+
     public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{
         int attempts = 0;
         boolean success = false;

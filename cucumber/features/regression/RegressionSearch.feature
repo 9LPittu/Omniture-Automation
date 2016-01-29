@@ -22,6 +22,7 @@ Feature: Search Regression Suite
     And Clicks on search button for input field
     Then User is in product detail page
 
+    #US15673_TC01
   Scenario: Search Refine Single Select
     When Enters dresses to the search field
     And Clicks on search button for input field
@@ -30,10 +31,9 @@ Feature: Search Regression Suite
     Then User is in gender refine array page
     When Refine button is clicked
     And Click on Category refinement
-    And Select collection single option from Category refinement
-    And Verify collection value is displayed next to Category refinement
-    When Click on Category refinement
-
+    And Select random single option from Category refinement
+    Then Verify selected value is displayed next to Category refinement
+    Then Verify that Category refinement is closed
 
   Scenario: Search Refine multi select, single select
     When Enters dresses to the search field
