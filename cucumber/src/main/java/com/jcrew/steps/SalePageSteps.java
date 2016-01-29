@@ -71,7 +71,7 @@ public class SalePageSteps extends DriverFactory {
 
     @Then("^first sort option is ([^\"]*)$")
     public void verify_first_sort_option(String firstSortOption){
-        assertTrue("First option in sort section is NEW IN SALE",salePage.isSortSectionFirstOptionDisplayed(firstSortOption));
+        assertTrue("First option in sort section is "+firstSortOption,salePage.isSortSectionFirstOptionDisplayed(firstSortOption));
     }
 
     @Then("^first option NEW IN SALE is selected by default$")

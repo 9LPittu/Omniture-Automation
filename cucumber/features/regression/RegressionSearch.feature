@@ -15,7 +15,6 @@ Feature: Search Regression Suite
     And Clicks on search button for input field
     And User is in search results page
     Then Verify amount of items displayed is 3
-   # And Verifies Maternity Pixie pant product sale price is now $98.00
 
   Scenario: single product with sale price should go to pdp
     When Enters A0640 to the search field
@@ -81,7 +80,7 @@ Feature: Search Regression Suite
     And Verify xx-small option breadcrumb is created
     And Verify x-small option breadcrumb is created
 
-  Scenario: search box functionality
+  Scenario: Search box functionality
     When Enters dresses to the search field
     And Clicks on search button for input field
     Then User is in search results page
@@ -98,14 +97,14 @@ Feature: Search Regression Suite
     And Hits enter in search field
     Then Verifies Nadia dress in silk chiffon product is displayed
 
-  Scenario: search term should display search array & validate with regular priced product
+  Scenario: Search term should display search array & validate with regular priced product
     When Enters skirts to the search field
     And Clicks on search button for input field
     Then User is in search results page
     When User selects a product with no sale price
     Then Verify product name is the one it was selected
 
-  Scenario Outline: search term should display search array & validate with sale product
+  Scenario Outline: Search term should display search array & validate with sale product
     When Enters <search_term> to the search field
     And Clicks on search button for input field
     Then User is in search results page
@@ -116,3 +115,18 @@ Feature: Search Regression Suite
       | search_term |
       | skirts      |
       | shoes       |
+
+    #US15673_TC02
+  @wip
+  Scenario: Refine page should display the first sort option as new in sale and selected by default
+    When Enters dresses to the search field
+    And Clicks on search button for input field
+    Then Gender selectors are displayed
+    When Clicks on gender selector
+    Then User is in gender refine array page
+    When Refine button is clicked
+    And Category,Size,Color,Price filter refinements should appear
+    Then first sort option is RELEVANCE
+    Then First option RELEVANCE is selected by default
+    Then PRICE: LOW TO HIGH is displayed as sort option
+    Then PRICE: HIGH TO LOW is displayed as sort option

@@ -18,6 +18,7 @@ public class Util {
 
     public static final int DEFAULT_TIMEOUT = 180;
     private static final StateHolder stateHolder = StateHolder.getInstance();
+    public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
 
     public static int randomIndex(int size) {
         return (int) (Math.random() * (size - 1));

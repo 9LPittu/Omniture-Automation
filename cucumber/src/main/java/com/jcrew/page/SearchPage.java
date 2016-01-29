@@ -123,10 +123,12 @@ public class SearchPage {
         WebElement element;
         try {
             element = searchFilterRefinementSection.
-                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
+                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') " +
+                            "and @class='search__filter--label']"));
         } catch (StaleElementReferenceException sere) {
             element = searchFilterRefinementSection.
-                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
+                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') " +
+                            "and @class='search__filter--label']"));
         }
         return element;
     }
@@ -139,8 +141,11 @@ public class SearchPage {
 
 
     public boolean isSortByOptionSelected(String sortByOption) {
-        final WebElement sortByOptionCheckbox = searchFilterSortBySection.findElement(
-                By.xpath(".//a[text()='" + sortByOption + "' and contains(@class, 'search__refinement--link') and contains(@class, 'is-selected')]"));
+        sortByOption = sortByOption.toLowerCase();
+        WebElement sortByOptionCheckbox = searchFilterSortBySection.findElement(
+                By.xpath(".//a[ " + Util.xpathGetTextLower + "='" + sortByOption + "' " +
+                        "and contains(@class, 'search__refinement--link') " +
+                        "and contains(@class, 'is-selected')]"));
 
         return sortByOptionCheckbox.isDisplayed();
     }

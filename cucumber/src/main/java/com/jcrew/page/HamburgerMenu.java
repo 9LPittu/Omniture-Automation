@@ -116,14 +116,14 @@ public class HamburgerMenu {
 
     private WebElement getSubcategoryFromSale(String subcategory) {
         return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
-                "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = " +
+                Util.xpathGetTextLower + " = " +
                 "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
 
     private WebElement getMenuItemElementForCategory(String category) {
         logger.info("inside get menu item method");
         return menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and " +
-                "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = " +
+                Util.xpathGetTextLower + " = " +
                 "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
 
