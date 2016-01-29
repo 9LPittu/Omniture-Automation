@@ -15,7 +15,7 @@ Feature: Sale Regression Suite
     And pagination is displayed on the page
     And the page url should contain "/r/search/?N=21+227"
 
-   #US9874_TC07,US9874_TC08, US9874_TC09, US9874_TC10
+   #US9874_TC07,US9874_TC08, US9874_TC09, US9874_TC10, US15673_TC03
   Scenario Outline: Sale category links functional validation
     And User clicks on sale department <SaleCategory>
     Then User is in Sale results page
@@ -26,12 +26,16 @@ Feature: Sale Regression Suite
     And Category,Size,Color,Price filter refinements should appear
     And Click on Category refinement
     And Verify Category refinement drawer remains open
+    And Verify View All option is not available on Category refinement
     And Click on Size refinement
     And Verify Size refinement drawer remains open
+    And Verify View All option is not available on Size refinement
     And Click on Color refinement
     And Verify Color refinement drawer remains open
+    And Verify View All option is not available on Color refinement
     And Click on Price refinement
     And Verify Price refinement drawer remains open
+    And Verify View All option is not available on Prize refinement
     Then NEW IN SALE sort option is selected by default
     Then Click on done button for refinement filter menu
     And pagination is displayed on the page
