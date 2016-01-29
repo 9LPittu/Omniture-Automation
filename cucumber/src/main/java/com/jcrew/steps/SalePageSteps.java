@@ -205,9 +205,4 @@ public class SalePageSteps extends DriverFactory {
        assertTrue("Details section should be closed",salePage.isDetailsSectionClosed());
     }
 
-    @And("^Verify View All option is not available on ([^\"]*) refinement$")
-    public void verify_view_all_option_is_not_available_on_refinement(String refinement){
-        assertFalse("View all option is not present in "+refinement,
-                salePage.contains_refine_option_view_all(refinement));
-    }
 }

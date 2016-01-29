@@ -429,21 +429,4 @@ public class SalePage {
         WebElement saleDetailsText= saleDetails.findElement(By.className("c-sale__c-details"));
         return !(saleDetailsText.getAttribute("class").contains("is-open"));
     }
-
-    public List<String> getRefinementOptions(String refinement){
-        By xpath = By.xpath("./span[@class='search__filter--label' and "
-                + Util.xpathGetTextLower + " = '" + refinement.toLowerCase()
-                + "']/../div[@class='accordian__menu']/div[@class='search__refinement--group']/a");
-        List<WebElement> options = refineModal.findElements(xpath);
-        List<String> optionsString = new ArrayList<>();
-        for(WebElement option:options){
-            optionsString.add(option.getText().toLowerCase());
-        }
-
-        return optionsString;
-    }
-
-    public boolean contains_refine_option_view_all(String refinement) {
-        return getRefinementOptions(refinement).contains("view all");
-    }
 }
