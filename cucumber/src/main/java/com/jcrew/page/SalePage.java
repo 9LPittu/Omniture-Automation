@@ -384,8 +384,11 @@ public class SalePage {
     }
 
     public boolean isSecondPromoSaleCategoryLinkDisplayed(String link) {
-        String saleCategory = link.trim();
-        return secondPromo.findElement(By.linkText(saleCategory)).isDisplayed();
+        String saleCategory = link.trim().toLowerCase();
+        WebElement secondPromoLink = secondPromo.findElement(
+                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')=" +
+                        saleCategory + "']"));
+        return secondPromoLink.isDisplayed();
     }
 
     public void clickOnSecondPromoSaleCategoryLink(String link)  {
