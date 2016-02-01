@@ -1,4 +1,4 @@
-#@Footer
+@Footer
 Feature: Footer Tests
 
   Background:
@@ -7,7 +7,7 @@ Feature: Footer Tests
    #tc-01 and tc-02
    #US13389_TC14
   Scenario: Verification of Footer section in the page
-    Then Contact Us header from footer is visible
+    Then CONTACT US header from footer is visible
     And Contact Us section twitter icon is displayed
     And Contact Us section phone icon is displayed
     And Contact Us section vps icon is displayed
@@ -192,12 +192,13 @@ Feature: Footer Tests
    	
   #US13389_TC13
   @Footer
-  Scenario Outline: Ship To section is visible and functional in footer
-    Then user should see Ship To section in footer
-    And verify country name is displayed in the ship to section of footer
-    And verify change link is displayed in the ship to section of footer
-    Then click on change link from footer
-    And User is on /intl/context_chooser.jsp?sidecar=true page
+  # Scenario Outline: Ship To section is visible and functional in footer
+    # (SHIP TO is not present, change in application. For more information look SC-572)
+    # Then user should see Ship To section in footer
+    # And verify country name is displayed in the ship to section of footer
+    # And verify change link is displayed in the ship to section of footer
+    # Then click on change link from footer
+    # And User is on /intl/context_chooser.jsp?sidecar=true page
     #And select country as "<country>"
     #Then user should see "<country>" in footer
     Examples:
