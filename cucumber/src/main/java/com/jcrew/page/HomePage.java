@@ -49,6 +49,7 @@ public class HomePage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearchButtonFind));
         headerSearchButtonFind.click();
         Util.waitLoadingBar(driver);
+
     }
 
     public boolean isHomePage() {
