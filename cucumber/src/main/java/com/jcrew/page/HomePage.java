@@ -48,6 +48,7 @@ public class HomePage {
     public void click_on_search_button_for_input_field() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearchButtonFind));
         headerSearchButtonFind.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
     }
 
     public boolean isHomePage() {

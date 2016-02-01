@@ -134,6 +134,7 @@ public class BillingPage {
 
     public void submit_form() {
         billingOptionsSubmit.click();
+        Util.waitForPageFullyLoaded(driver);
     }
 
     public boolean isBillingPage() {
