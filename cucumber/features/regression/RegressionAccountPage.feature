@@ -26,7 +26,7 @@ Feature: Account Page
     And Validates link ORDER HISTORY is displayed in My Account Page
 
   Scenario: Validate My Account link is present
-    When Clicks on J.Crew Breadcrumb
+    When Clicks on JCrew Logo
     And Verify user is in homepage
     And User clicks on hamburger menu
     Then My Account link is present
