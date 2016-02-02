@@ -174,7 +174,7 @@ public class ShoppingBagPage {
     
     public boolean isBreadcrumbDisplayed(String breadcrumbText){
 
-        WebElement breadcrumbElement = breadcrumbSection.findElement(By.xpath("//a[text()='" + breadcrumbText + "' and @class='breadcrumb__link']"));
-        return breadcrumbElement.isDisplayed();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbSection));
+        return breadcrumbSection.getText().equalsIgnoreCase(breadcrumbText);
     }
 }

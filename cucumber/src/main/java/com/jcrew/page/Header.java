@@ -133,4 +133,10 @@ public class Header {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
         breadcrumbElement.click();
     }
+
+    public boolean isGenderLandingPage(){
+        WebElement genderPageElement =driver.findElement(By.xpath("//div[@class='landingHeader' and contains(text(), 'WHAT’S NEW FOR')]"));
+        return genderPageElement.isDisplayed();
+
+    }
 }

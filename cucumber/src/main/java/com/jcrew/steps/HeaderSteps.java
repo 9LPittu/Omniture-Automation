@@ -101,4 +101,9 @@ public class HeaderSteps extends DriverFactory {
     public void clicks_on_breadcrumb(String breadcrumb) throws Throwable {
         header.click_breadcrumb(breadcrumb);
     }
+
+    @And("User is in gender landing page$")
+    public void verify_user_is_in_gender_landing_page() {
+        assertTrue("User should be in gender landing page", header.isGenderLandingPage());
+    }
 }
