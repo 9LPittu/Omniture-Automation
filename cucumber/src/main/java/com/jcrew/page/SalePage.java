@@ -396,7 +396,7 @@ public class SalePage {
     public boolean isSecondPromoSaleCategoryLinkDisplayed(String link) {
         String saleCategory = link.trim().toLowerCase();
         WebElement secondPromoLink = secondPromo.findElement(
-                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')=" +
+                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
                         saleCategory + "']"));
         return secondPromoLink.isDisplayed();
     }

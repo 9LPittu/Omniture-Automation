@@ -162,7 +162,7 @@ public class HamburgerMenu {
 
     public String getSignInMessage() {
         String result;
-        if (signInLink.isDisplayed()) {
+        if (categoryMenu.isDisplayed()) {
             result = signInLink.getText();
         } else {
             click_on_hamburger_menu();
