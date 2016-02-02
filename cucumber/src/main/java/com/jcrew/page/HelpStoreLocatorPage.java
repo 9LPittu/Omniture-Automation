@@ -1,23 +1,27 @@
 package com.jcrew.page;
 
-import org.openqa.selenium.By;
+import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class HelpStoreLocatorPage {
 
-    @FindBy(xpath = "//li[@class = 'active']")
+    private final WebDriver driver;
+
+    @FindBy(className = "bwt-index-search-form-wrap")
     private
-    WebElement storeLeftNavigation;
+    WebElement storeLocatorFinder;
 
     public HelpStoreLocatorPage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
     public boolean isHelpStoreLocatorPage() {
-        WebElement findAStore = storeLeftNavigation.findElement(By.linkText("FIND A STORE NEAR YOU"));
-        return findAStore.isDisplayed();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(storeLocatorFinder));
+        return storeLocatorFinder.isDisplayed();
     }
 }
