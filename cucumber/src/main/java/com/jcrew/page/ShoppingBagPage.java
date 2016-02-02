@@ -55,6 +55,9 @@ public class ShoppingBagPage {
     @FindBy(css=".icon-header.icon-header-logo")
     private WebElement breadcrumbLink;
 
+    @FindBy(className = "c-header__breadcrumb")
+    private WebElement breadcrumbSection;
+
     public ShoppingBagPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
@@ -169,17 +172,9 @@ public class ShoppingBagPage {
     	return actualItemsCount == itemsCount;
     }
     
-    public boolean isBreadcrumbTextContains(String breadcrumbText){
-    	boolean blnResult;
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".item-link.item-first")));
+    public boolean isBreadcrumbDisplayed(String breadcrumbText){
 
-        List<WebElement> breadcrumbLinks = driver.findElements(By.className("breadcrumb__link"));
-        if(breadcrumbLinks.size() > 0) {
-            blnResult = breadcrumbLinks.get(0).getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
-        } else {
-            blnResult =  breadcrumbLink.getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
-        }
-
-    	return blnResult;
+        WebElement breadcrumbElement = breadcrumbSection.findElement(By.xpath("//a[text()='" + breadcrumbText + "' and @class='breadcrumb__link']"));
+        return breadcrumbElement.isDisplayed();
     }
 }

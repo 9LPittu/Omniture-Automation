@@ -123,7 +123,7 @@ public class SalePage {
     }
 
     public boolean isSaleLandingPage() {
-        String saleLandingUrl =reader.getProperty("environment")+"/r/sale";
+        String saleLandingUrl =reader.getProperty("environment")+"r/sale";
         return driver.getCurrentUrl().equals(saleLandingUrl);
     }
 
@@ -362,8 +362,8 @@ public class SalePage {
         return !currentPageFirstItemName.equalsIgnoreCase(firstPageFirstItemName);
     }
 
-    public void clickSaleLinkFromTopNav() {
-        driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = 'sale']")).click();
+    public void clickSaleLinkFromTopNav(String dept) {
+        driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '"+dept+"']")).click();
     }
 
     public void clickOnSaleDept(String dept) {
