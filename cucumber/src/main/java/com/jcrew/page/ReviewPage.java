@@ -70,6 +70,7 @@ public class ReviewPage {
     }
 
     public boolean isBillingSectionDisplayed() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(billingSection));
         return billingSection.isDisplayed();
     }
 

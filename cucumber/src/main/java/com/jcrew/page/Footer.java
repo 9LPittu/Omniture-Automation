@@ -128,14 +128,10 @@ public class Footer {
     }
 
     public boolean isIconAndTextDisplayed(String icon) {
-        List<WebElement> contactUsIconsList = footerRowTop.findElements(By.className("footer__help__menu"));
-        boolean iconDisplayed = false;
-        for(WebElement contactUsIcon: contactUsIconsList) {
-            //Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(contactUsIcon.findElement(By.cssSelector("a[href*='"+icon+"']"))));
-            System.out.println(contactUsIcon.getText());
-             iconDisplayed =contactUsIcon.findElement(By.className("footer__help__item--"+icon)).isDisplayed();
-        }
-        return iconDisplayed;
+        WebElement module = driver.findElement(By.id("jchp-module32"));
+        WebElement contactItem = module.findElement(By.linkText(icon));
+
+        return contactItem.findElement(By.tagName("img")).isDisplayed();
     }
 
     public boolean isSocialIconDisplayed(String socialIcon) {

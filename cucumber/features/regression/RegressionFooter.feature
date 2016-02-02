@@ -8,9 +8,9 @@ Feature: Footer Tests
    #US13389_TC14
   Scenario: Verification of Footer section in the page
     Then Verify CONTACT US header from footer is visible in homepage
-    And Contact Us section twitter icon is displayed
-    And Contact Us section phone icon is displayed
-    And Contact Us section vps icon is displayed
+    And Contact Us section @jcrew_help icon is displayed
+    And Contact Us section 1 800 562 0258 icon is displayed
+    And Contact Us section Very Personal Stylist icon is displayed
     Then Verify Let Us Help You footer link is displayed
     And Verify Our Cards footer link is displayed
     And Verify Our Stores footer link is displayed
@@ -114,7 +114,7 @@ Feature: Footer Tests
     And Store Locator sublink is displayed
     And Click on sublink Store Locator from Our Stores footer link
     And Verify user is on help store locator page
-    And User is on internal /help/store_locator.jsp?sidecar=true page
+    And User is on external https://stores.jcrew.com/?sidecar=true page
 
     #tc-07
   Scenario: Verification of About J.Crew links display
