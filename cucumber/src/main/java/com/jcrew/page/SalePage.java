@@ -107,9 +107,6 @@ public class SalePage {
     @FindBy(className = "modal-content")
     private WebElement refineModal;
 
-    @FindBy(className = "nprogress-busy")
-    private WebElement loadingBar;
-
 
     public SalePage(WebDriver driver) {
         this.driver = driver;
@@ -147,7 +144,7 @@ public class SalePage {
 
     public void clickRefineButton(){
         //wait for the load bar to disappear
-        Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
+        Util.waitLoadingBar(driver);
 
         refineButton.click();
     }
@@ -240,7 +237,7 @@ public class SalePage {
         sortOptionElement.click();
 
         //wait for the load bar to disappear
-        Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
+        Util.waitLoadingBar(driver);
 
     }
 
