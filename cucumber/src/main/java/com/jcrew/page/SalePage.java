@@ -406,8 +406,11 @@ public class SalePage {
     }
 
     public void clickOnSecondPromoSaleCategoryLink(String link)  {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(secondPromo));
-        secondPromo.findElement(By.linkText(link)).click();
+        String saleCategory = link.trim().toLowerCase();
+        WebElement secondPromoLink = secondPromo.findElement(
+                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
+                        saleCategory + "']"));
+        secondPromoLink.click();
     }
 
     public boolean  isDetailsLinkDisplayed() {
