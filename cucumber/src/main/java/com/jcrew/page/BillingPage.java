@@ -143,7 +143,7 @@ public class BillingPage {
     }
     
     public void enterCreditCardDetails(String cardName){
-    	TestDataReader testDataReader = new TestDataReader();
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
     	String creditCardDetails = testDataReader.getData(cardName);   	
 
     	//Enter credit card number
