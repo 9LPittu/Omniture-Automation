@@ -56,34 +56,34 @@ Feature: Footer Tests
     When Click on footer link Let Us Help You
     And Click on sublink Order Status from Let Us Help You footer link
     Then Verify user is on order status page
-    And User is on /help/order_status.jsp?sidecar=true page
+    And User is on internal /help/order_status.jsp?sidecar=true page
 
   Scenario: Verification of Let Us Help You Shipping & Handling link functionality
     Then Click on footer link Let Us Help You
     And Click on sublink Shipping & Handling from Let Us Help You footer link
     And Verify user is on shipping & handling page
-    And User is on /help/shipping_handling.jsp?sidecar=true page
+    And User is on internal /help/shipping_handling.jsp?sidecar=true page
 
   Scenario: Verification of Let Us Help You Returns And Exchanges link functionality
     Then Click on footer link Let Us Help You
     And Click on sublink Returns & Exchanges from Let Us Help You footer link
     And Verify user is on returns & exchanges page
-    And User is on /help/returns_exchanges.jsp?sidecar=true page
+    And User is on internal /help/returns_exchanges.jsp?sidecar=true page
 
   Scenario: Verification of Let Us Help You International Orders link functionality
     Then Click on footer link Let Us Help You
     And Click on sublink International Orders from Let Us Help You footer link
-    And User is on /help/international_orders.jsp?sidecar=true page
+    And User is on internal /help/international_orders.jsp?sidecar=true page
 
   Scenario: Verification of Let Us Help You Size Charts link functionality
     Then Click on footer link Let Us Help You
     And Click on sublink Size Charts from Let Us Help You footer link
-    And User is on /r/size-charts page
+    And User is on internal /r/size-charts page
 
   Scenario: Verification of Let Us Help You Contact Us link functionality
     Then Click on footer link Let Us Help You
     And Click on sublink Contact Us from Let Us Help You footer link
-    And User is on /footie/contactus.jsp?sidecar=true page
+    And User is on internal /footie/contactus.jsp?sidecar=true page
 
   Scenario: Verification of Let Us Help You Request A Style Guide link functionality
     Then Click on footer link Let Us Help You
@@ -100,13 +100,13 @@ Feature: Footer Tests
     Then Click on footer link Our Cards
     And Click on sublink The J.Crew Credit Card from Our Cards footer link
     And Verify user is on the j.crew credit card page
-    And User is on /help/credit_card.jsp?sidecar=true page
+    And User is on internal /help/credit_card.jsp?sidecar=true page
 
   Scenario: Verification of Our Cards The J.Crew Gift Card link functionality
     Then Click on footer link Our Cards
     And Click on sublink The J.Crew Gift Card from Our Cards footer link
     And Verify user is on the j.crew gift card page
-    And User is on /help/gift_card.jsp?sidecar=true page
+    And User is on internal /help/gift_card.jsp?sidecar=true page
 
   #tc-06
   Scenario: Verification of Our Stores links display and functional
@@ -114,7 +114,7 @@ Feature: Footer Tests
     And Store Locator sublink is displayed
     And Click on sublink Store Locator from Our Stores footer link
     And Verify user is on help store locator page
-    And User is on /help/store_locator.jsp?sidecar=true page
+    And User is on internal /help/store_locator.jsp?sidecar=true page
 
     #tc-07
   Scenario: Verification of About J.Crew links display
@@ -128,7 +128,7 @@ Feature: Footer Tests
     Then Click on footer link About J.Crew
     And Click on sublink Our Story from About J.Crew footer link
     And Verify user is on about us page
-    And User is on /aboutus/jcrew.jsp?sidecar=true page
+    And User is on internal /aboutus/jcrew.jsp?sidecar=true page
 
   Scenario: Verification of About J.Crew Careers link functionality
     And Verify user is in homepage
@@ -141,7 +141,7 @@ Feature: Footer Tests
     Then Click on footer link About J.Crew
     And Click on sublink Social Responsibility from About J.Crew footer link
     And Verify user is on social responsibility page
-    And User is on /flatpages/social_responsibility.jsp?sidecar=true page
+    And User is on internal /flatpages/social_responsibility.jsp?sidecar=true page
 
   Scenario: Verification of  About J.Crew Investor Relations link functionality
     Then Click on footer link About J.Crew
@@ -242,11 +242,11 @@ Feature: Footer Tests
   
   Scenario: Verify TERMS OF USE legal link is functional in footer section of all sidecar pages
     And click on "TERMS OF USE" in the legal links section of footer    
-    And User is on /footer/termsofuse.jsp?sidecar=true page
+    And User is on internal /footer/termsofuse.jsp?sidecar=true page
     
   Scenario: Verify PRIVACY POLICY legal link is functional in footer section of all sidecar pages
     And click on "PRIVACY POLICY" in the legal links section of footer
-    And User is on /help/privacy_policy.jsp?sidecar=true page
+    And User is on internal /help/privacy_policy.jsp?sidecar=true page
   
   Scenario: Verify copyright text in the legal links section is not link
   	And "2016 J.Crew" should not be displayed as a link
@@ -255,4 +255,4 @@ Feature: Footer Tests
   Scenario: Verify visit full site is displayed and functional in footer section of all sidecar  pages
    	And user should see visit full site displayed after legal links in footer section
    	And click on view full site link
-   	And User is on /index.jsp?sidecar=false page
+   	And User is on internal /index.jsp?sidecar=false page

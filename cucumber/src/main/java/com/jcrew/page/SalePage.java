@@ -104,7 +104,7 @@ public class SalePage {
     @FindBy(xpath = "//section[@class='search__filter--sort search__section']")
     private WebElement sortSection;
 
-    @FindBy(className = "modal-content")
+    @FindBy(className = "c-search__filter--refinement")
     private WebElement refineModal;
 
 
@@ -229,6 +229,10 @@ public class SalePage {
     }
 
     public void selectSortOptionCheckbox(String sortOption){
+        String refineModalClass = refineModal.getAttribute("class");
+        if(refineModalClass.contains("hidden")){
+            clickRefineButton();
+        }
         final WebElement sortOptionElement = sortSection.findElement(By.xpath(".//a[contains(@class," +
                  "'js-search__sort search__refinement--link') and " +
                 Util.xpathGetTextLower + " = '"
