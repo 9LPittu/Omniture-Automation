@@ -16,7 +16,7 @@ public class Header {
     private WebElement headerWrap;
     @FindBy(className = "icon-close")
     private WebElement searchCloseIcon;
-    @FindBy(id = "header__logo")
+    @FindBy(id = "js-header__logo")
     private WebElement headerLogo;
     @FindBy(className = "c-header__breadcrumb")
     private WebElement breadcrumbSection;
