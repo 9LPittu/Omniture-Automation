@@ -1,10 +1,13 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +17,7 @@ import java.util.List;
 public class SearchPage {
 
     private final Logger logger = LoggerFactory.getLogger(SearchPage.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final WebDriver driver;
 
@@ -119,10 +123,12 @@ public class SearchPage {
         WebElement element;
         try {
             element = searchFilterRefinementSection.
-                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
+                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') " +
+                            "and @class='search__filter--label']"));
         } catch (StaleElementReferenceException sere) {
             element = searchFilterRefinementSection.
-                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') and @class='search__filter--label']"));
+                    findElement(By.xpath(".//span[contains(text(), '" + filterRefinement + "') " +
+                            "and @class='search__filter--label']"));
         }
         return element;
     }
@@ -135,8 +141,11 @@ public class SearchPage {
 
 
     public boolean isSortByOptionSelected(String sortByOption) {
-        final WebElement sortByOptionCheckbox = searchFilterSortBySection.findElement(
-                By.xpath(".//a[text()='" + sortByOption + "' and contains(@class, 'search__refinement--link') and contains(@class, 'is-selected')]"));
+        sortByOption = sortByOption.toLowerCase();
+        WebElement sortByOptionCheckbox = searchFilterSortBySection.findElement(
+                By.xpath(".//a[ " + Util.xpathGetTextLower + "='" + sortByOption + "' " +
+                        "and contains(@class, 'search__refinement--link') " +
+                        "and contains(@class, 'is-selected')]"));
 
         return sortByOptionCheckbox.isDisplayed();
     }
@@ -199,7 +208,11 @@ public class SearchPage {
 
     public void click_refinement(String refinement) {
         final WebElement filterRefinementElement = getRefinementElement(refinement);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(filterRefinementElement));
         filterRefinementElement.click();
+
+        WebElement lessIcon = filterRefinementElement.findElement(By.xpath("..//i[@class='js-icon icon-see-less']"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(lessIcon));
     }
 
     public boolean isOptionSelectedForRefinementWithAccordionOpen(String option, String refinement) {
@@ -223,19 +236,44 @@ public class SearchPage {
 
     }
 
+    private WebElement getRandomOptionFromRefinement(String refinement) {
+        final WebElement filterRefinementElement = getRefinementElement(refinement);
+        final WebElement accordionMenuForRefinement =
+                filterRefinementElement.findElement(By.xpath("../../div[@class='accordian__menu']"));
+
+        List<WebElement> list = accordionMenuForRefinement.findElements(
+                By.xpath("./div[@class='search__refinement--group']/a[contains(@class,'js-search__filter')]"));
+
+        return list.get(Util.randomIndex(list.size()));
+    }
+
     public void select_option_from_refinement(String option, String refinement) {
-        final WebElement optionElementLink = getOptionElementFromRefinement(option, refinement);
+        WebElement optionElementLink;
+
+        if("random".equalsIgnoreCase(option)){
+            optionElementLink = getRandomOptionFromRefinement(refinement);
+            stateHolder.put("randomCategory",optionElementLink.getText());
+
+        }else {
+            optionElementLink = getOptionElementFromRefinement(option, refinement);
+        }
         optionElementLink.click();
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isOptionSelectedForRefinementWithAccordionClosed(String optionSelected, String refinement) {
+        if("selected".equalsIgnoreCase(optionSelected)){
+            optionSelected = (String) stateHolder.get("randomCategory");
+        }
+        optionSelected = optionSelected.toLowerCase();
+        WebElement refinementElement = getRefinementElement(refinement);
 
-        By selectedFilter = By.xpath(".//span[@class='search__filter--selected' and contains(text(),'"
-                + optionSelected + "')]");
+        By selectedFilter = By.xpath("../span[@class='search__filter--selected']");
 
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(selectedFilter));
+        WebElement selectedOption = refinementElement.findElement(selectedFilter);
+        String selectedOptionText = selectedOption.getText().toLowerCase();
 
-        return true;
+        return optionSelected.contains(selectedOptionText);
     }
 
     public void select_option_from_multiple_select_refinement(String option, String refinement) {
@@ -253,9 +291,12 @@ public class SearchPage {
                     "linkText({}), retrying... ", option);
             Util.clickWithStaleRetry(optionElement);
         }
+
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isRefinementOpen(String refinement) {
+        scroll_down_the_page();
         final WebElement filterRefinementElement = getRefinementElement(refinement);
         final WebElement drawerIcon = filterRefinementElement.findElement(By.xpath("following-sibling::i"));
         return drawerIcon.getAttribute("class").contains("icon-see-less");
@@ -279,12 +320,9 @@ public class SearchPage {
 
     public void click_refinement_menu_done_button() {
         final WebElement doneButton = searchFilterRefinementActions.findElement(By.id("btn__search--done"));
-        try {
-            doneButton.click();
-        }catch (StaleElementReferenceException staleException){
-            logger.debug("Stale Element Reference Exception when trying to click btn__search--done, retrying... ");
-            Util.clickWithStaleRetry(doneButton);
-        }
+
+        Util.clickWithStaleRetry(doneButton);
+
     }
 
     public int getCurrentNumberOfResults() {

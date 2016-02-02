@@ -1,15 +1,26 @@
 package com.jcrew.page;
 
+import java.util.List;
+
+import com.jcrew.pojo.Product;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ReviewPage {
 
+	private final StateHolder stateHolder = StateHolder.getInstance();
+	private final Logger logger = LoggerFactory.getLogger(ReviewPage.class);
+	
     private final WebDriver driver;
     @FindBy(xpath = ".//*[@id='orderSummaryContainer']/div/a")
     private WebElement placeYourOrder;
@@ -33,7 +44,13 @@ public class ReviewPage {
     private WebElement shippingAddress;
     
     @FindBy(className="item-link-submit")
-    public WebElement placeYourOrderButton;
+    private WebElement placeYourOrderButton;
+    
+    @FindBy(xpath=".//*[@id='billing-details']/h2/a")
+    private WebElement reviewPage_BillingDetailsSection_ChangeButton;
+    
+    @FindBy(xpath=".//*[@id='shipping-details']/h2/a")
+    private WebElement reviewPage_ShippingDetailsSection_ChangeButton;
 
     public ReviewPage(WebDriver driver) {
         this.driver = driver;
@@ -78,5 +95,64 @@ public class ReviewPage {
     
     public void clickPlaceYourOrder() throws InterruptedException{
         placeYourOrderButton.click();
+    }
+    
+    public boolean isItemsCountMatchesOnReviewPage(String itemsCount){    	
+    	return driver.findElements(By.cssSelector(".item-row.clearfix")).size() == Integer.parseInt(itemsCount);
+    }
+    
+    public void selectBreadcrumbItem(String breadcrumbItemName){
+    	WebElement breadcrumbElement = driver.findElement(By.id("breadCrumbs"));
+    	List<WebElement> breadcrumbItems = breadcrumbElement.findElements(By.xpath("//ul/li/a[@class='crumbs-link']"));
+    	
+    	for(WebElement breadcrumbItem:breadcrumbItems){
+    		if(breadcrumbItem.getText().trim().equalsIgnoreCase(breadcrumbItemName)){
+    			breadcrumbItem.click();
+    			break;
+    		}
+    	}
+    }
+    
+    public void clickChangeButtonOfShippingDetailsOnReviewPage(){
+    	reviewPage_ShippingDetailsSection_ChangeButton.click();
+    }
+    
+    public void clickChangeButtonOfBillingDetailsOnReviewPage(){
+    	reviewPage_BillingDetailsSection_ChangeButton.click();
+    }
+    
+    public boolean isProductNamePriceMatchesOnReviewPage(){
+    	
+    	boolean blnResult = false;
+    	Util.waitWithStaleRetry(driver,placeYourOrder);
+    	List<WebElement> itemDetailsOnReviewPage = driver.findElements(By.cssSelector(".item-row.clearfix"));    	
+    	
+    	for(WebElement itemDetailOnReviewPage:itemDetailsOnReviewPage){
+    		WebElement reviewPageproductName = itemDetailOnReviewPage.findElement(By.className("item-name"));
+    		WebElement reviewPageproductPrice = itemDetailOnReviewPage.findElement(By.className("item-price"));
+    		
+    		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    		for(int i=0;i<productList.size();i++){
+    			Product product = productList.get(i);
+    			if(product.getProductName().equalsIgnoreCase(reviewPageproductName.getText())){				
+					if(reviewPageproductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())){
+						blnResult = true;
+						break;
+					}
+    			}
+    			
+    			if(blnResult){
+    				logger.debug(reviewPageproductName.getText() + " product details matches on review page");
+    				break;
+    			}
+    		}
+    		
+    		if(!blnResult){
+				logger.debug(reviewPageproductName.getText() + " product details does not match on review page");
+				break;
+    		}
+    	}
+    	
+    	return blnResult;    	
     }
 }

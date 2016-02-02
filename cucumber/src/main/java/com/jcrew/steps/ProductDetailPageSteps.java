@@ -26,6 +26,11 @@ public class ProductDetailPageSteps extends DriverFactory {
         assertTrue("User should be in detail page",
                 productDetailPage.isProductDetailPage());
     }
+    
+    @And("^product name and price should match with array page$")
+    public void product_name_price_matches_with_array_page(){
+    	assertTrue("product name and price should match with array page",productDetailPage.isProductNamePriceListMatchesWithArrayPage());
+    }
 
     @And("^A variation is selected$")
     public void a_variation_is_selected() throws Throwable {
@@ -301,5 +306,9 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void a_button_saying_is_displayed(String message) throws Throwable {
         assertEquals("Expected message was not displayed", message, productDetailPage.getButtonErrorMessage());
     }
-
+    
+    @And("^click on checkout from minicart modal$")
+    public void click_checkout_from_minicart_modal(){
+    	productDetailPage.clickMinicartCheckout();
+    }
 }

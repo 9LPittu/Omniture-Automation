@@ -12,6 +12,12 @@ public class MergeBagPage {
 
     @FindBy(id = "mergedCartActionTop")
     private WebElement mergeCartActionTop;
+    
+    @FindBy(xpath="//*[@id='mergedCartActionTop']/a[1]")
+    private WebElement saveToWishlistAndContinue;
+    
+    @FindBy(xpath="//*[@id='mergedCartActionTop']/a[2]")
+    private WebElement addItemsToBagAndReviewOrder;
 
     public MergeBagPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -33,5 +39,17 @@ public class MergeBagPage {
 
         saveToWishlistAndContinueCheckoutButton.click();
 
+    }
+    
+    public boolean isSaveToWishlistAndContinueDisplayed(){
+    	return saveToWishlistAndContinue.isDisplayed();
+    }
+    
+    public boolean isAddItemsToBagAndReviewOrderDisplayed(){
+    	return addItemsToBagAndReviewOrder.isDisplayed();
+    }
+    
+    public void clickAddItemsToBagAndReviewOrder(){
+    	addItemsToBagAndReviewOrder.click();
     }
 }

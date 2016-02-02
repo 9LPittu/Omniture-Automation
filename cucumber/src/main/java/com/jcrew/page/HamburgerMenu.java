@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,8 @@ public class HamburgerMenu {
     private WebElement womenSweatersCategoryLink;
     @FindBy(className = "menus--level1")
     private WebElement menuLevel1;
+    @FindBy(className = "c-sale__c-category-list")
+    private WebElement saleCategoryList;
 
     public HamburgerMenu(WebDriver driver) {
         this.driver = driver;
@@ -47,12 +50,10 @@ public class HamburgerMenu {
     }
 
     public void click_on_hamburger_menu() {
-        try {
-            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
-            hamburgerMenu.click();
-        } catch (StaleElementReferenceException sele) {
-            click_on_hamburger_menu();
-        }
+        WebDriverWait wait = Util.createWebDriverWait(driver);
+        wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
+        Util.clickWithStaleRetry(hamburgerMenu);
+        wait.until(ExpectedConditions.visibilityOf(categoryMenu));
     }
 
     public boolean isHamburgerMenuPresent() {
@@ -97,17 +98,32 @@ public class HamburgerMenu {
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("category"));
     }
 
+    public void click_on_sale_subcategory(String subcategory) {
+        getSubcategoryFromSale(subcategory).click();
+        stateHolder.put("sale category", subcategory);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("search"));
+        Util.waitLoadingBar(driver);
+    }
+
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
         WebElement categories = getMenuItemElementForCategory(category);
+        logger.info("categories are :{}",categories.getText());
         WebElement categoryLink = categories.findElement(By.linkText(subcategory));
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryLink));
         return categoryLink;
     }
 
+    private WebElement getSubcategoryFromSale(String subcategory) {
+        return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
+                Util.xpathGetTextLower + " = " +
+                "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
+    }
+
     private WebElement getMenuItemElementForCategory(String category) {
+        logger.info("inside get menu item method");
         return menuLevel2.findElement(By.xpath(".//div[contains(@class, 'menu__link--header') and " +
-                "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = " +
+                Util.xpathGetTextLower + " = " +
                 "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
 

@@ -1,6 +1,10 @@
 package com.jcrew.page;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import com.jcrew.util.Util;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -44,6 +48,12 @@ public class ShoppingBagPage {
 
     @FindBy(id = "order-listing")
     private WebElement orderListing;
+    
+    @FindBy(className="js-cart-size")
+    private WebElement cartSize;
+    
+    @FindBy(css=".icon-header.icon-header-logo")
+    private WebElement breadcrumbLink;
 
     public ShoppingBagPage(WebDriver driver) {
         this.driver = driver;
@@ -133,12 +143,43 @@ public class ShoppingBagPage {
     }
 
     private WebElement getProductRoot(String productName) {
-        return orderListing.findElement(By.xpath(".//a[contains(translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')," +
-                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
+        return orderListing.findElement(By.xpath(".//a[contains(" + Util.xpathGetTextLower + "," +
+                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") +
+                "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
     }
 
     public String getPriceDisplayedForProduct(String productName) {
         WebElement productRoot = getProductRoot(productName);
         return productRoot.findElement(By.className("item-price")).getText().trim();
+    }
+    
+    public boolean isPageTitleContains(String pageTitle){
+
+        return driver.getTitle().contains(pageTitle);
+    }
+    
+    public boolean isBagItemsCountMatches(int itemsCount){
+        Util.waitForPageFullyLoaded(driver);
+    	Util.waitWithStaleRetry(driver,cartSize);
+    	String bagItemsCount = cartSize.getText().trim();
+    	bagItemsCount = bagItemsCount.replace("(", "");
+    	bagItemsCount = bagItemsCount.replace(")", "");
+    	int actualItemsCount = Integer.parseInt(bagItemsCount);
+
+    	return actualItemsCount == itemsCount;
+    }
+    
+    public boolean isBreadcrumbTextContains(String breadcrumbText){
+    	boolean blnResult;
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".item-link.item-first")));
+
+        List<WebElement> breadcrumbLinks = driver.findElements(By.className("breadcrumb__link"));
+        if(breadcrumbLinks.size() > 0) {
+            blnResult = breadcrumbLinks.get(0).getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
+        } else {
+            blnResult =  breadcrumbLink.getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
+        }
+
+    	return blnResult;
     }
 }

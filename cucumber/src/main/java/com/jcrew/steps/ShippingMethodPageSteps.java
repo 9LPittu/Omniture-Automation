@@ -31,9 +31,16 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
     @And("^Clicks continue button on shipping method page$")
     public void clicks_continue_button_on_shipping_method_page() throws Throwable {
-        if (shippingMethodPage.isPageLoaded()) {
-            shippingMethodPage.click_continue_button();
-        }
-
+        shippingMethodPage.click_continue_button();
+    }
+    
+    @And("^select shipping method on shipping & gift options page$")
+    public void select_shipping_method_at_random(){
+    	shippingMethodPage.selectShippingMethod();
+    }
+    
+    @And("^validate shipping methods displayed on the page$")
+    public void validate_shipping_methods(){
+    	assertTrue("Validate the shipping methods displayed", shippingMethodPage.isShippingMethodsDisplayedCorrectly());
     }
 }
