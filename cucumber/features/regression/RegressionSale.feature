@@ -15,7 +15,7 @@ Feature: Sale Regression Suite
     And pagination is displayed on the page
     And the page url should contain "/r/search/?N=21+227"
 
-   #US9874_TC07,US9874_TC08, US9874_TC09, US9874_TC10
+   #US9874_TC07,US9874_TC08, US9874_TC09, US9874_TC10, US15673_TC03
   Scenario Outline: Sale category links functional validation
     And User clicks on sale department <SaleCategory>
     Then User is in Sale results page
@@ -32,7 +32,6 @@ Feature: Sale Regression Suite
     And Verify Color refinement drawer remains open
     And Click on Price refinement
     And Verify Price refinement drawer remains open
-    # check box is not present anymore--change in the application
     Then NEW IN SALE sort option is selected by default
     Then Click on done button for refinement filter menu
     And pagination is displayed on the page
@@ -145,8 +144,6 @@ Feature: Sale Regression Suite
      And Hamburger Menu Wedding Link is present
      And Hamburger Menu Blog Link is present
 
-
-
     #US15452_TC003
   Scenario: 'Sale' in top nav should direct to Sale Landing Page
     And User goes to homepage
@@ -199,8 +196,6 @@ Feature: Sale Regression Suite
       |promo_link|URL|
       |women|N=21+17|
       |men  |N=21+16|
-      #|boys |N=21+18|
-     # |girls|N=21+19|
 
     #US9874_TC12, #US9874_TC13, #US9874_TC14
     Scenario: Details link display and functionality
@@ -211,8 +206,13 @@ Feature: Sale Regression Suite
       And Click on details section close icon
       And Details section is closed
 
-
-
-
-
-
+    #US15673_TC01
+    Scenario: Sale Refine Single Select
+      And User clicks on sale department random
+      Then User is in Sale results page
+      And Refine button is clicked
+      And User is in refine page
+      And Click on Category refinement
+      And Select random single option from Category refinement
+      Then Verify selected value is displayed next to Category refinement
+      Then Verify that Category refinement is closed

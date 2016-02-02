@@ -143,8 +143,9 @@ public class ShoppingBagPage {
     }
 
     private WebElement getProductRoot(String productName) {
-        return orderListing.findElement(By.xpath(".//a[contains(translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')," +
-                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
+        return orderListing.findElement(By.xpath(".//a[contains(" + Util.xpathGetTextLower + "," +
+                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") +
+                "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
     }
 
     public String getPriceDisplayedForProduct(String productName) {

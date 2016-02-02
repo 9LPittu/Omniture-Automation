@@ -50,7 +50,7 @@ public class SalePage {
     @FindBy(className="search__filter--sort")
     private WebElement sortBySection;
 
-    @FindBy(xpath=".//section[contains(@class,'search__filter--sort')]/descendant::div[1]/a[text()='New in Sale']")
+    @FindBy(xpath=".//section[contains(@class,'search__filter--sort')]/descendant::div[1]/a[1]")
     private WebElement sortSectionFirstOption;
 
     @FindBy(xpath=".//section[contains(@class,'search__filter--sort')]/descendant::div[1]/a[text()='New in Sale']")
@@ -234,7 +234,7 @@ public class SalePage {
     public void selectSortOptionCheckbox(String sortOption){
         final WebElement sortOptionElement = sortSection.findElement(By.xpath(".//a[contains(@class," +
                  "'js-search__sort search__refinement--link') and " +
-                "translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz') = '"
+                Util.xpathGetTextLower + " = '"
                 + sortOption.toLowerCase() + "']"));
 
         sortOptionElement.click();
@@ -367,7 +367,20 @@ public class SalePage {
     }
 
     public void clickOnSaleDept(String dept) {
-        driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']")).click();
+        WebElement saleDepElement;
+        if("random".equalsIgnoreCase(dept)){
+            saleDepElement = getRandomSaleDept();
+        }else{
+            saleDepElement = driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']"));
+        }
+        saleDepElement.click();
+    }
+
+    public WebElement getRandomSaleDept(){
+        List<WebElement> saleDepts = driver.findElements(By.className("js-sale__link"));
+        //exclude NEW IN SALE
+        int random = Util.randomIndex(saleDepts.size()-1);
+        return saleDepts.get(random + 1);
     }
 
     public boolean isSaleCategoryLinkDisplayed(String category) {
@@ -416,5 +429,4 @@ public class SalePage {
         WebElement saleDetailsText= saleDetails.findElement(By.className("c-sale__c-details"));
         return !(saleDetailsText.getAttribute("class").contains("is-open"));
     }
-
 }
