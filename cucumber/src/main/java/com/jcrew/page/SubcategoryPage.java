@@ -530,6 +530,7 @@ public class SubcategoryPage {
                                 "' and contains(@class, 'tile__detail--name')]/.."))));
 
         productLink.click();
+        Util.waitLoadingBar(driver);
     }
 
     private void saveProduct(WebElement productElement) {

@@ -1,8 +1,6 @@
 package com.jcrew.page;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
@@ -83,36 +81,38 @@ public class ShippingMethodPage {
     }
     
     public boolean isShippingMethodsDisplayedCorrectly(){
-    	
+    	boolean expectedMethodCopy = true;
     	String expectedShippingMethods = null;
-    	TestDataReader testDataReader = new TestDataReader();
-    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+
     	String country = countryName.getText().trim();
-    	
+    	logger.debug("Country: {}", country);
+
     	switch(country.toLowerCase()){
     		case "united states":
     			expectedShippingMethods = testDataReader.getData("USA_Shipping_Methods");
     			break;
+            default:
+                expectedShippingMethods = testDataReader.getData("USA_Shipping_Methods");
     	}
-    	
-    	//Add all expected shipping methods to List
-    	String[] arrShippingMethods=expectedShippingMethods.split(";");
-    	List<String> lstExpectedShippingMethods = new ArrayList<String>();
-    	for(String expectedShippingMethod:arrShippingMethods){
-    		lstExpectedShippingMethods.add(expectedShippingMethod.toLowerCase());
-    	}
-    	
-    	//Add all actual shipping methods from application to List
-    	List<WebElement> actualShippingMethods = driver.findElements(By.className("method-group"));
-    	List<String> lstActualShippingMethods = new ArrayList<String>();
-    	for(WebElement actualShippingMethod:actualShippingMethods){
-    		lstActualShippingMethods.add(actualShippingMethod.getText().trim().toLowerCase().split("\\r?\\n")[0]);
-    	}
-    	
-    	//Sort the lists
-    	Collections.sort(lstExpectedShippingMethods);
-    	Collections.sort(lstActualShippingMethods);
-    	
-    	return lstActualShippingMethods.equals(lstExpectedShippingMethods);
+
+        if(expectedShippingMethods != null) {
+            //Add all expected shipping methods to List
+            String[] arrShippingMethods = expectedShippingMethods.split(";");
+
+            //Add all actual shipping methods from application to List
+            for(String method:arrShippingMethods){
+                logger.debug("Shipping method: {}",method);
+                WebElement methodElement = shippingMethodContainer.findElement(By.id(method));
+                String methodText = methodElement.getText();
+                logger.debug("Copy: {} - Expected: {}", methodText, testDataReader.getData(method));
+                expectedMethodCopy = expectedMethodCopy & methodText.contains(testDataReader.getData(method));
+            }
+
+            return expectedMethodCopy;
+        }
+
+        logger.debug("expectedShippingMethods is null");
+        return false;
     }
 }
