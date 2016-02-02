@@ -38,9 +38,9 @@ public class Navigation {
 
     public boolean isCurrentUrl(String page) {
         String browser = reader.getProperty("browser");
-        String targetPage = "";
+        String targetPage;
 
-        if("iossafari".equals(browser) ||"androidchrome".equals(browser)){
+        if("iossafari".equals(browser) ||"androidchrome".equals(browser) || "phantomjs".equals(browser)){
             switch (page){
                 case "facebook":
                     targetPage = "https://m.facebook.com/jcrew";
@@ -70,6 +70,8 @@ public class Navigation {
             }
         }
 
-        return targetPage.equals(driver.getCurrentUrl());
+        String currentUrl = driver.getCurrentUrl();
+
+        return currentUrl.contains(targetPage);
     }
 }
