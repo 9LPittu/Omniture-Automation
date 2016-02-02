@@ -59,12 +59,14 @@ public class Header {
     }
 
     public boolean isSearchDrawerOpen() {
-        WebElement headerSearchInput = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
+        WebElement headerSearchInput = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
         return headerSearchInput.isDisplayed();
     }
 
     public boolean isSearchDrawerClosed() {
-        return Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("header__search__input")));
+        return Util.createWebDriverWait(driver).until(
+                ExpectedConditions.invisibilityOfElementLocated(By.className("header__search__input")));
     }
 
     public void click_on_search_close_icon() {
@@ -129,8 +131,9 @@ public class Header {
 
     public void click_breadcrumb(String breadcrumb) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbSection));
-        WebElement breadcrumbElement = breadcrumbSection.findElement(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
+        WebElement breadcrumbElement = breadcrumbSection.findElement(
+                By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
-        breadcrumbElement.click();
+        Util.clickWithStaleRetry(breadcrumbElement);
     }
 }

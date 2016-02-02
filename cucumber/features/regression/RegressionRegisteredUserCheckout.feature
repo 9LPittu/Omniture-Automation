@@ -53,11 +53,11 @@ Feature: Registered User Checkout Process
     And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
-    And User is on /checkout2/shoppingbag.jsp page
+    And User is on internal /checkout2/shoppingbag.jsp page
     And enter email address as "testuser1@example.org" on sign in page
     And enter password as "test1234"
     And click on SIGN IN & CHECK OUT button
-    And User is on /checkout2/signin.jsp page
+    And User is on internal /checkout2/signin.jsp page
     And items count should be 2 on the review page
     And product name and price on review page should be displayed correctly
     And Inputs credit card security code
@@ -83,16 +83,16 @@ Feature: Registered User Checkout Process
     And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
-    And User is on /checkout2/shoppingbag.jsp page
+    And User is on internal /checkout2/shoppingbag.jsp page
     And enter email address as "testuser1@example.org" on sign in page
     And enter password as "test1234"
     And click on SIGN IN & CHECK OUT button
-    And User is on /checkout2/signin.jsp page
+    And User is on internal /checkout2/signin.jsp page
     And click on 'CHANGE' button of 'BILLING DETAILS' section on 'Review' page
     And click 'Add New Card' on billing page
     And enter "Visa_Card1" details on billing page
     And click on 'SAVE & CONTINUE' button
-    And User is on /checkout2/billing.jsp page
+    And User is on internal /checkout2/billing.jsp page
     And items count should be 2 on the review page
     And product name and price on review page should be displayed correctly
     Then Clicks on place your order

@@ -21,9 +21,9 @@ Feature: Header Tests
 
   Scenario: Stores
     Then User clicks on stores link
-    And User is on external page https://stores.jcrew.com/
+    And User is on external https://stores.jcrew.com/ page
 
   Scenario: Bag
     Then User clicks on item bag
-    And User is on /checkout2/shoppingbag.jsp?sidecar=true page
+    And User is on internal /checkout2/shoppingbag.jsp?sidecar=true page
 
