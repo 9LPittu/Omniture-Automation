@@ -115,7 +115,9 @@ public class Footer {
     }
 
     public boolean isTopHeaderVisible(String text) {
-        return footerRowTop.findElement(By.xpath("//h6[text()='" + text + "']")).isDisplayed();
+        WebElement footer = footerRowTop.findElement(By.xpath("//h6[text()='" + text + "']"));
+        Util.waitWithStaleRetry(driver,footer);
+        return footer.isDisplayed();
     }
 
     public boolean isIconAndTextDisplayed(String icon) {
