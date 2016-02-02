@@ -7,7 +7,7 @@ Feature: Footer Tests
    #tc-01 and tc-02
    #US13389_TC14
   Scenario: Verification of Footer section in the page
-    Then CONTACT US header from footer is visible
+    Then Verify CONTACT US header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
     And Contact Us section phone icon is displayed
     And Contact Us section vps icon is displayed
@@ -135,7 +135,7 @@ Feature: Footer Tests
     Then Click on footer link About J.Crew
     And Click on sublink Careers from About J.Crew footer link
     And Verify user is on careers page
-    And User is on external page https://jobs.jcrew.com/?sidecar=true
+    And User is on external https://jobs.jcrew.com/?sidecar=true page
 
   Scenario: Verification of About J.Crew Social Responsibility link functionality
     Then Click on footer link About J.Crew
@@ -146,7 +146,7 @@ Feature: Footer Tests
   Scenario: Verification of  About J.Crew Investor Relations link functionality
     Then Click on footer link About J.Crew
     And Click on sublink Investor Relations from About J.Crew footer link
-    And User is on external page http://investors.jcrew.com
+    And User is on external http://investors.jcrew.com page
 
     #tc-08
   Scenario: Verification of Our Brands links display
@@ -158,13 +158,13 @@ Feature: Footer Tests
     Then Click on footer link Our Brands
     And Click on sublink J.Crew Factory from Our Brands footer link
     And Verify user is on the j.crew factory page
-    And User is on external page https://factory.jcrew.com/index.jsp?srcCode=JCFooter
+    And User is on external https://factory.jcrew.com/index.jsp?srcCode=JCFooter page
 
   Scenario: Verifying Our Brands Madewell link funtionality
     Then Click on footer link Our Brands
     And Click on sublink Madewell from Our Brands footer link
     And Verify user is on the madewell page
-    And User is on external page https://www.madewell.com/index.jsp?srcCode=JCFooter
+    And User is on external https://www.madewell.com/index.jsp?srcCode=JCFooter page
   
   #US13389_TC11  
   Scenario: Verify Tapping twice on the drawer opens and closes the drawer in  content groupings
@@ -207,31 +207,31 @@ Feature: Footer Tests
   #US13389_TC14
   Scenario: Verify facebook icon in social sharing section is functional
     And click on facebook icon in social sharing section
-    And User is on external page https://www.facebook.com/jcrew
+    And User is on external facebook page
   
   Scenario: Verify twitter icon in social sharing section is functional
     And click on twitter icon in social sharing section
-    And User is on external page https://twitter.com/jcrew
+    And User is on external twitter page
   
   Scenario: Verify tumblr icon in social sharing section is functional
     And click on tumblr icon in social sharing section
-    And User is on external page http://jcrew.tumblr.com/
+    And User is on external http://jcrew.tumblr.com/ page
   
   Scenario: Verify pinterest icon in social sharing section is functional
     And click on pinterest icon in social sharing section
-    And User is on external page https://www.pinterest.com/jcrew/
+    And User is on external https://www.pinterest.com/jcrew/ page
   
   Scenario: Verify instagram icon in social sharing section is functional
     And click on instagram icon in social sharing section
-    And User is on external page https://www.instagram.com/jcrew/
+    And User is on external https://www.instagram.com/jcrew/ page
   
   Scenario: Verify google icon in social sharing section is functional
     And click on google icon in social sharing section
-    And User is on external page https://plus.google.com/+JCrew
+    And User is on external https://plus.google.com/+JCrew page
   
   Scenario: Verify youtube icon in social sharing section is functional
     And click on youtube icon in social sharing section
-    And User is on external page https://www.youtube.com/user/jcrewinsider
+    And User is on external youtube page
   
   #US13389_TC15 
   Scenario: Verify legal links are displayed in footer section of all sidecar  pages

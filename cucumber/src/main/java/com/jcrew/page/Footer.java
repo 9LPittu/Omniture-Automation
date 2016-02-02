@@ -69,6 +69,7 @@ public class Footer {
     }
 
     private WebElement getFooterLinkElement(String footerLink) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerWrapMain));
         try {
             return footerWrapMain.findElement(By.xpath("//h6[text()='" + footerLink + "']"));
         } catch (StaleElementReferenceException e) {
@@ -116,6 +117,12 @@ public class Footer {
 
     public boolean isTopHeaderVisible(String text) {
         WebElement footer = footerRowTop.findElement(By.xpath("//h6[text()='" + text + "']"));
+        Util.waitWithStaleRetry(driver,footer);
+        return footer.isDisplayed();
+    }
+
+    public boolean isTopHeaderVisibleInHomepage(String text) {
+        WebElement footer = footerRowTop.findElement(By.xpath("//h2[text()='" + text + "']"));
         Util.waitWithStaleRetry(driver,footer);
         return footer.isDisplayed();
     }
@@ -216,17 +223,20 @@ public class Footer {
     }
     
     public void clickSocialSharingIcon(String socialSharingIconName){
-    	WebElement socialSharingIcon = driver.findElement(By.xpath("//ul[@class='footer__social__menu']/descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]"));
+    	WebElement socialSharingIcon = driver.findElement(By.xpath("//ul[@class='footer__social__menu']/" +
+                "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]"));
     	socialSharingIcon.click();
     }
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){
-    	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/following-sibling::div[@class='c-footer__fullsite']"));
+    	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/" +
+                "following-sibling::div[@class='c-footer__fullsite']"));
     	return viewFullSite.isDisplayed();
     }
     
     public void clickViewFullSite(){
-    	WebElement viewFullSiteLink  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/following-sibling::div/a[@class='footer__fullsite__link']"));
+    	WebElement viewFullSiteLink  = driver.findElement(
+                By.xpath("//a[@class='footer__fullsite__link js-footer__fullsite__link']"));
     	viewFullSiteLink.click();
     }
     

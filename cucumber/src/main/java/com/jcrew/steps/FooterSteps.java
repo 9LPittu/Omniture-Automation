@@ -182,4 +182,10 @@ public class FooterSteps extends DriverFactory {
     public void verify_content_grouping_drawer_closed(String contentGroupingName){
     	assertTrue("User should see " + contentGroupingName + " content grouping drawer should be closed",footer.isContentGroupingDrawerClosed(contentGroupingName));
     }
+
+    @Then("^Verify ([^\"]*) header from footer is visible in homepage$")
+    public void verify_header_from_footer_is_visible_in_homepage(String footerLink) {
+        assertTrue(footerLink + " should have been present in HomePage", footer.isTopHeaderVisibleInHomepage(footerLink));
+    }
+
 }

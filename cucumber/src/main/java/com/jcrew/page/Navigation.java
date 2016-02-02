@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public class Navigation {
 
     private final WebDriver driver;
+    private final PropertyReader reader = PropertyReader.getPropertyReader();
 
     @FindBy(className = "header__promo__wrap--mobile")
     private WebElement headerPromoWrap;
@@ -35,7 +37,39 @@ public class Navigation {
     }
 
     public boolean isCurrentUrl(String page) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
-        return true;
+        String browser = reader.getProperty("browser");
+        String targetPage = "";
+
+        if("iossafari".equals(browser) ||"androidchrome".equals(browser)){
+            switch (page){
+                case "facebook":
+                    targetPage = "https://m.facebook.com/jcrew";
+                    break;
+                case "twitter":
+                    targetPage = "https://mobile.twitter.com/jcrew";
+                    break;
+                case "youtube":
+                    targetPage = "https://m.youtube.com/user/jcrewinsider";
+                    break;
+                default:
+                    targetPage = page;
+            }
+        } else {
+            switch (page){
+                case "facebook":
+                    targetPage = "https://www.facebook.com/jcrew";
+                    break;
+                case "twitter":
+                    targetPage = "https://twitter.com/jcrew";
+                    break;
+                case "youtube":
+                    targetPage = "https://www.youtube.com/user/jcrewinsider";
+                    break;
+                default:
+                    targetPage = page;
+            }
+        }
+
+        return targetPage.equals(driver.getCurrentUrl());
     }
 }
