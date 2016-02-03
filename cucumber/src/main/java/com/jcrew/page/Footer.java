@@ -157,8 +157,7 @@ public class Footer {
         }
 
         return contactItem.findElement(By.tagName("i")).isDisplayed();
-=======
->>>>>>> 2bc0e17d83875bc8b1a15389cff2fcdabe9ca808
+
     }
 
     public boolean isSocialIconDisplayed(String socialIcon) {
