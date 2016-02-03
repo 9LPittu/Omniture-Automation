@@ -191,7 +191,7 @@ Feature: Footer Tests
    	Then user should see message as "THANK YOU...Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
    	
   #US13389_TC13
-  @Footer
+
   Scenario Outline: Ship To section is visible and functional in footer
     Then user should see Ship To section in footer
     And verify country name is displayed in the ship to section of footer

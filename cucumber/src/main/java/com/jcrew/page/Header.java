@@ -28,6 +28,8 @@ public class Header {
     private WebElement shoppingBagLink;
     @FindBy(css = ".icon-header.icon-header-bag.icon-bag")
     private WebElement bagIcon;
+    @FindBy(id = "section1")
+    private WebElement genderLandingSection;
 
 
     public Header(WebDriver driver) {
@@ -134,9 +136,8 @@ public class Header {
         breadcrumbElement.click();
     }
 
-    public boolean isGenderLandingPage(){
-        WebElement genderPageElement =driver.findElement(By.xpath("//div[@class='landingHeader' and contains(text(), 'WHAT’S NEW FOR')]"));
+    public boolean isGenderLandingPage(String gender){
+        WebElement genderPageElement =genderLandingSection.findElement(By.xpath("//h2[contains(text(),'NEW FOR "+gender.toUpperCase()+"')]"));
         return genderPageElement.isDisplayed();
-
     }
 }
