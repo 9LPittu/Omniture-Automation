@@ -31,9 +31,9 @@ public class MacroSteps {
     	
     	footerSteps.click_con_header_from_footer("Contact Us");
     	
-    	footerSteps.verify_icon_and_text_is_displayed("twitter");
-    	footerSteps.verify_icon_and_text_is_displayed("phone");
-    	footerSteps.verify_icon_and_text_is_displayed("vps");
+    	footerSteps.verify_icon_and_text_is_displayed_in_my_account("twitter");
+    	footerSteps.verify_icon_and_text_is_displayed_in_my_account("phone");
+    	footerSteps.verify_icon_and_text_is_displayed_in_my_account("vps");
     	
     	footerSteps.verify_footer_link_is_displayed("Let Us Help You");
     	footerSteps.verify_footer_link_is_displayed("Our Cards");

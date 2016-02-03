@@ -116,13 +116,16 @@ public class Footer {
     }
 
     public boolean isTopHeaderVisible(String text) {
+        Util.waitWithStaleRetry(driver,footerRowTop);
+        Util.waitForPageFullyLoaded(driver);
         WebElement footer = footerRowTop.findElement(By.xpath("//h6[text()='" + text + "']"));
         Util.waitWithStaleRetry(driver,footer);
         return footer.isDisplayed();
     }
 
     public boolean isTopHeaderVisibleInHomepage(String text) {
-        WebElement footer = footerRowTop.findElement(By.xpath("//h2[text()='" + text + "']"));
+        WebElement contentModule = driver.findElement(By.id("jchp-module32"));
+        WebElement footer = contentModule.findElement(By.xpath("//h2[text()='" + text + "']"));
         Util.waitWithStaleRetry(driver,footer);
         return footer.isDisplayed();
     }
@@ -132,6 +135,28 @@ public class Footer {
         WebElement contactItem = module.findElement(By.linkText(icon));
 
         return contactItem.findElement(By.tagName("img")).isDisplayed();
+    }
+
+    public boolean isIconAndTextDisplayedInMyAccount(String icon) {
+        WebElement module = driver.findElement(By.className("footer__help__menu"));
+        WebElement contactItem;
+
+        switch (icon){
+            case "twitter":
+                contactItem = module.findElement(By.className("footer__help__item--twitter"));
+                break;
+            case "phone":
+                contactItem = module.findElement(By.className("footer__help__item--phone"));
+                break;
+            case "vps":
+                contactItem = module.findElement(By.className("footer__help__item--vps"));
+                break;
+            default:
+                logger.debug("icon {} not found",icon);
+                return false;
+        }
+
+        return contactItem.findElement(By.tagName("i")).isDisplayed();
     }
 
     public boolean isSocialIconDisplayed(String socialIcon) {

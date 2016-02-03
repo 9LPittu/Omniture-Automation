@@ -8,9 +8,9 @@ Feature: Footer Tests
    #US13389_TC14
   Scenario: Verification of Footer section in the page
     Then Verify CONTACT US header from footer is visible in homepage
-    And Contact Us section @jcrew_help icon is displayed
-    And Contact Us section 1 800 562 0258 icon is displayed
-    And Contact Us section Very Personal icon is displayed
+    And Contact Us section twitter icon is displayed
+    And Contact Us section phone icon is displayed
+    And Contact Us section vps icon is displayed
     Then Verify Let Us Help You footer link is displayed
     And Verify Our Cards footer link is displayed
     And Verify Our Stores footer link is displayed

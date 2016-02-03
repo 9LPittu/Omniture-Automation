@@ -58,6 +58,11 @@ public class FooterSteps extends DriverFactory {
 
     }
 
+    @And("Contact Us section ([^\"]*) icon is displayed in My Account$")
+    public void verify_icon_and_text_is_displayed_in_my_account(String icon) {
+        assertTrue(icon+ "should be displayed", footer.isIconAndTextDisplayedInMyAccount(icon));
+    }
+
     @And("Verify email field is displayed$")
     public void verify_email_field_is_displayed() {
         assertTrue("Email field should be displayed", footer.isEmailFieldDisplayed());
