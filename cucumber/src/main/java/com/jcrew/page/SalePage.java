@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.*;
@@ -136,8 +136,7 @@ public class SalePage {
 
             return firstPromo.isDisplayed() && firstPromo.getText() != null;
 
-        }catch (ElementNotFoundException notFound){
-
+        }catch (NoSuchElementException notFound){
             logger.debug("Promo message was not found");
             return true;
         }
