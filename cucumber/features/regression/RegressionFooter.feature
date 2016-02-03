@@ -168,12 +168,12 @@ Feature: Footer Tests
   
   #US13389_TC11  
   Scenario: Verify Tapping twice on the drawer opens and closes the drawer in  content groupings
-    And user taps on "Our Brands" content grouping
+    And Click on footer link Our Brands
     Then user should see "Our Brands" content grouping drawer should be opened
-    And user taps on "Our Brands" content grouping
+    And Click on footer link Our Brands
     Then user should see "Our Brands" content grouping drawer should be closed
-    And user taps on "Our Brands" content grouping
-    And user taps on "Our Cards" content grouping
+    And Click on footer link Our Brands
+    And Click on footer link Our Cards
     Then user should see "Our Brands" content grouping drawer should be closed
     Then user should see "Our Cards" content grouping drawer should be opened
     

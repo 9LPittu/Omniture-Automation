@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.*;
@@ -129,9 +130,18 @@ public class SalePage {
         return saleTitle.isDisplayed();
     }
     public boolean  isFirstPromoDisplayed() {
-        WebElement firstPromo = driver.findElement(By.className("c-sale__promo-frame"));
-        logger.debug("promo message and code :" + firstPromo.getText());
-        return firstPromo.isDisplayed()&&firstPromo.getText()!=null;
+        try{
+            WebElement firstPromo = driver.findElement(By.className("c-sale__promo-frame"));
+            logger.debug("promo message and code :" + firstPromo.getText());
+
+            return firstPromo.isDisplayed() && firstPromo.getText() != null;
+
+        }catch (ElementNotFoundException notFound){
+
+            logger.debug("Promo message was not found");
+            return true;
+        }
+
     }
 
     public boolean isRefineButtonDisplayed(){
