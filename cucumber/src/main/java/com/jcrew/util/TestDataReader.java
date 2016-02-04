@@ -1,23 +1,48 @@
 package com.jcrew.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class TestDataReader {
-	
+
+	private static final TestDataReader dataReader = new TestDataReader();
 	private Properties testDataProperties = new Properties();
+	private final Logger logger = LoggerFactory.getLogger(TestDataReader.class);
 	
-	public TestDataReader(){
+	private TestDataReader(){
 		try {
-			FileInputStream input = new FileInputStream("commonTestData.properties");
-			testDataProperties.load(input);
-		}		
-		catch(Exception e) {			
-			e.printStackTrace();
-		}		
+			loadProperties();
+		} catch (IOException e) {
+			logger.debug("Unable to load test data file.");
+		}
+	}
+
+	public static TestDataReader getTestDataReader(){ return dataReader;}
+
+	private void loadProperties() throws IOException{
+		String testData = "commonTestData.properties";
+
+		logger.debug("Test Data file to be used {}", testData);
+
+		FileInputStream environmentInput = new FileInputStream(testData);
+		testDataProperties.load(environmentInput);
 	}
 
 	public String getData(String key){
-		return testDataProperties.getProperty(key, "");
+		String value = testDataProperties.getProperty(key);
+
+		if (!hasProperty(key)) {
+			throw new RuntimeException("Property '" + key + "' is not defined in environment or viewport file");
+		}
+
+		return value;
+	}
+
+	private boolean hasProperty(String key) {
+		return testDataProperties.containsKey(key);
 	}
 }

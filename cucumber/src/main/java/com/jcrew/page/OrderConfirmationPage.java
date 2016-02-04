@@ -34,8 +34,8 @@ public class OrderConfirmationPage {
     }
 
     public boolean isOrderConfirmationPage() {
-		Util.waitWithStaleRetry(driver, orderSummaryContainer);
-        return orderSummaryContainer.isDisplayed();
+		Util.waitWithStaleRetry(driver, confirmationNumber);
+        return confirmationNumber.isDisplayed();
     }
     
     public boolean verifyOrderNumberGenerated(){

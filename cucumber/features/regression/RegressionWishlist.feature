@@ -13,6 +13,7 @@ Feature: Ability to link to PDP from Wishlist
     And Deletes all previous wishlist items from the list
 
   Scenario: Wishlist should update properly
+    #Open related Jira: SC-696
     When User presses search button
     And Enters A1447 to the search field
     And Clicks on search button for input field

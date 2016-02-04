@@ -1,7 +1,5 @@
 package com.jcrew.page;
 
-import java.util.concurrent.TimeUnit;
-
 import com.github.javafaker.Faker;
 import com.jcrew.util.Util;
 
@@ -180,10 +178,9 @@ public class ShippingAddressPage {
     	return qasVerification.isDisplayed();
     }
     
-    public void clickUseAddressAsEnteredButton(){    	
-    	//Util.waitWithStaleRetry(checkYourAddress_UseAddressAsEntered);
+    public void clickUseAddressAsEnteredButton(){
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(checkYourAddress_UseAddressAsEntered));
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
-    	checkYourAddress_UseAddressAsEntered.click();
+    	Util.clickWithStaleRetry(checkYourAddress_UseAddressAsEntered);
     }
 }
