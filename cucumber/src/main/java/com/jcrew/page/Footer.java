@@ -69,6 +69,7 @@ public class Footer {
     }
 
     private WebElement getFooterLinkElement(String footerLink) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerWrapMain));
         try {
             return footerWrapMain.findElement(By.xpath("//h6[text()='" + footerLink + "']"));
         } catch (StaleElementReferenceException e) {
@@ -115,18 +116,34 @@ public class Footer {
     }
 
     public boolean isTopHeaderVisible(String text) {
-        return footerRowTop.findElement(By.xpath("//h6[text()='" + text + "']")).isDisplayed();
+        Util.waitWithStaleRetry(driver,footerRowTop);
+        Util.waitForPageFullyLoaded(driver);
+        WebElement footer = footerRowTop.findElement(By.xpath("//h6[text()='" + text + "']"));
+        Util.waitWithStaleRetry(driver,footer);
+        return footer.isDisplayed();
     }
 
     public boolean isIconAndTextDisplayed(String icon) {
-        List<WebElement> contactUsIconsList = footerRowTop.findElements(By.className("footer__help__menu"));
-        boolean iconDisplayed = false;
-        for(WebElement contactUsIcon: contactUsIconsList) {
-            //Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(contactUsIcon.findElement(By.cssSelector("a[href*='"+icon+"']"))));
-            System.out.println(contactUsIcon.getText());
-             iconDisplayed =contactUsIcon.findElement(By.className("footer__help__item--"+icon)).isDisplayed();
+        WebElement module = driver.findElement(By.className("footer__help__menu"));
+        WebElement contactItem;
+
+        switch (icon){
+            case "twitter":
+                contactItem = module.findElement(By.className("footer__help__item--twitter"));
+                break;
+            case "phone":
+                contactItem = module.findElement(By.className("footer__help__item--phone"));
+                break;
+            case "vps":
+                contactItem = module.findElement(By.className("footer__help__item--vps"));
+                break;
+            default:
+                logger.debug("icon {} not found",icon);
+                return false;
         }
-        return iconDisplayed;
+
+        return contactItem.findElement(By.tagName("i")).isDisplayed();
+
     }
 
     public boolean isSocialIconDisplayed(String socialIcon) {
@@ -214,17 +231,22 @@ public class Footer {
     }
     
     public void clickSocialSharingIcon(String socialSharingIconName){
-    	WebElement socialSharingIcon = driver.findElement(By.xpath("//ul[@class='footer__social__menu']/descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]"));
+        String currentURL = driver.getCurrentUrl();
+    	WebElement socialSharingIcon = driver.findElement(By.xpath("//ul[@class='footer__social__menu']/" +
+                "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]"));
     	socialSharingIcon.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){
-    	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/following-sibling::div[@class='c-footer__fullsite']"));
+    	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/" +
+                "following-sibling::div[@class='c-footer__fullsite']"));
     	return viewFullSite.isDisplayed();
     }
     
     public void clickViewFullSite(){
-    	WebElement viewFullSiteLink  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/following-sibling::div/a[@class='footer__fullsite__link']"));
+    	WebElement viewFullSiteLink  = driver.findElement(
+                By.xpath("//a[@class='footer__fullsite__link js-footer__fullsite__link']"));
     	viewFullSiteLink.click();
     }
     

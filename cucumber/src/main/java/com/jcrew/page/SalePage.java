@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.*;
@@ -104,11 +105,8 @@ public class SalePage {
     @FindBy(xpath = "//section[@class='search__filter--sort search__section']")
     private WebElement sortSection;
 
-    @FindBy(className = "modal-content")
+    @FindBy(className = "c-search__filter--refinement")
     private WebElement refineModal;
-
-    @FindBy(className = "nprogress-busy")
-    private WebElement loadingBar;
 
 
     public SalePage(WebDriver driver) {
@@ -132,9 +130,17 @@ public class SalePage {
         return saleTitle.isDisplayed();
     }
     public boolean  isFirstPromoDisplayed() {
-        WebElement firstPromo = driver.findElement(By.className("c-sale__promo-frame"));
-        logger.debug("promo message and code :" + firstPromo.getText());
-        return firstPromo.isDisplayed()&&firstPromo.getText()!=null;
+        try{
+            WebElement firstPromo = driver.findElement(By.className("c-sale__promo-frame"));
+            logger.debug("promo message and code :" + firstPromo.getText());
+
+            return firstPromo.isDisplayed() && firstPromo.getText() != null;
+
+        }catch (NoSuchElementException notFound){
+            logger.debug("Promo message was not found");
+            return true;
+        }
+
     }
 
     public boolean isRefineButtonDisplayed(){
@@ -147,7 +153,7 @@ public class SalePage {
 
     public void clickRefineButton(){
         //wait for the load bar to disappear
-        Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
+        Util.waitLoadingBar(driver);
 
         refineButton.click();
     }
@@ -232,6 +238,10 @@ public class SalePage {
     }
 
     public void selectSortOptionCheckbox(String sortOption){
+        String refineModalClass = refineModal.getAttribute("class");
+        if(refineModalClass.contains("hidden")){
+            clickRefineButton();
+        }
         final WebElement sortOptionElement = sortSection.findElement(By.xpath(".//a[contains(@class," +
                  "'js-search__sort search__refinement--link') and " +
                 Util.xpathGetTextLower + " = '"
@@ -240,7 +250,7 @@ public class SalePage {
         sortOptionElement.click();
 
         //wait for the load bar to disappear
-        Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
+        Util.waitLoadingBar(driver);
 
     }
 
@@ -397,13 +407,19 @@ public class SalePage {
     }
 
     public boolean isSecondPromoSaleCategoryLinkDisplayed(String link) {
-        String saleCategory = link.trim();
-        return secondPromo.findElement(By.linkText(saleCategory)).isDisplayed();
+        String saleCategory = link.trim().toLowerCase();
+        WebElement secondPromoLink = secondPromo.findElement(
+                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
+                        saleCategory + "']"));
+        return secondPromoLink.isDisplayed();
     }
 
     public void clickOnSecondPromoSaleCategoryLink(String link)  {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(secondPromo));
-        secondPromo.findElement(By.linkText(link)).click();
+        String saleCategory = link.trim().toLowerCase();
+        WebElement secondPromoLink = secondPromo.findElement(
+                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
+                        saleCategory + "']"));
+        secondPromoLink.click();
     }
 
     public boolean  isDetailsLinkDisplayed() {

@@ -32,14 +32,14 @@ public class NavigationSteps extends DriverFactory {
         getDriver().navigate().back();
     }
 
-    @Then("^User is on ([^\"]*) page$")
+    @Then("^User is on internal ([^\"]*) page$")
     public void user_is_on_page(String page) {
     	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
         assertTrue("Browser was expected to be at " + page + " and current page is "+getDriver().getCurrentUrl(),
                 getDriver().getCurrentUrl().endsWith(page));
     }
 
-    @Then("^User is on external page ([^\"]*)$")
+    @Then("^User is on external ([^\"]*) page$")
     public void user_is_on_external_page(String page) {
         assertTrue("User is not in an expected page " + page, navigation.isCurrentUrl(page));
     }
