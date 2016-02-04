@@ -58,11 +58,6 @@ public class FooterSteps extends DriverFactory {
 
     }
 
-    @And("Contact Us section ([^\"]*) icon is displayed in My Account$")
-    public void verify_icon_and_text_is_displayed_in_my_account(String icon) {
-        assertTrue(icon+ "should be displayed", footer.isIconAndTextDisplayedInMyAccount(icon));
-    }
-
     @And("Verify email field is displayed$")
     public void verify_email_field_is_displayed() {
         assertTrue("Email field should be displayed", footer.isEmailFieldDisplayed());
@@ -190,7 +185,7 @@ public class FooterSteps extends DriverFactory {
 
     @Then("^Verify ([^\"]*) header from footer is visible in homepage$")
     public void verify_header_from_footer_is_visible_in_homepage(String footerLink) {
-        assertTrue(footerLink + " should have been present in HomePage", footer.isTopHeaderVisibleInHomepage(footerLink));
+        assertTrue(footerLink + " should have been present in HomePage", footer.isTopHeaderVisible(footerLink));
     }
 
 }

@@ -123,21 +123,7 @@ public class Footer {
         return footer.isDisplayed();
     }
 
-    public boolean isTopHeaderVisibleInHomepage(String text) {
-        WebElement contentModule = driver.findElement(By.id("jchp-module32"));
-        WebElement footer = contentModule.findElement(By.xpath("//h2[text()='" + text + "']"));
-        Util.waitWithStaleRetry(driver,footer);
-        return footer.isDisplayed();
-    }
-
     public boolean isIconAndTextDisplayed(String icon) {
-        WebElement module = driver.findElement(By.id("jchp-module32"));
-        WebElement contactItem = module.findElement(By.linkText(icon));
-
-        return contactItem.findElement(By.tagName("img")).isDisplayed();
-    }
-
-    public boolean isIconAndTextDisplayedInMyAccount(String icon) {
         WebElement module = driver.findElement(By.className("footer__help__menu"));
         WebElement contactItem;
 

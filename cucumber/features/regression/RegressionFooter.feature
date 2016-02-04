@@ -7,7 +7,7 @@ Feature: Footer Tests
    #tc-01 and tc-02
    #US13389_TC14
   Scenario: Verification of Footer section in the page
-    Then Verify CONTACT US header from footer is visible in homepage
+    Then Verify Contact Us header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
     And Contact Us section phone icon is displayed
     And Contact Us section vps icon is displayed
