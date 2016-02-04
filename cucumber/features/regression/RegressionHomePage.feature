@@ -4,8 +4,8 @@ Feature: Homepage
   Background:
     Given User is on homepage
 
-  # Scenario: Contact Us Page Header Footer Links
-    # Then Contact Us header from footer is visible
+  Scenario: Contact Us Page Header Footer Links
+    Then Contact Us header from footer is visible
 
   Scenario: Home Page header Links
     Then Verify MENU header link is displayed

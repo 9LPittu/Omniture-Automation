@@ -64,7 +64,7 @@ Feature: Global Header: Breadcrumbs
   Scenario: Validate breadcrumbs display and functionality on Size charts (from footer link) page
      Then Click on footer link Let Us Help You
      And Click on sublink Size Charts from Let Us Help You footer link
-     And User is on /r/size-charts page
+     And User is on internal /r/size-charts page
      Then Breadcrumb should display J.Crew
      And Clicks on J.Crew Breadcrumb
      And Verify user is in homepage
@@ -90,7 +90,7 @@ Feature: Global Header: Breadcrumbs
   Scenario: Validate breadcrumbs display and functionality on multi PDP page
 
     #US9724_TC10, #US9724_TC11
-  Scenario: Validate breadcrumbs functionality anddisplay on sign in/ register for email page
+  Scenario: Validate breadcrumbs functionality and display on sign in/ register for email page
     And Goes to sign in page
     Then Breadcrumb should display J.Crew
     And Clicks on J.Crew Breadcrumb
@@ -134,6 +134,42 @@ Feature: Global Header: Breadcrumbs
     And Selects any product from product grid list
     And User is in product detail page
     And Breadcrumb should display J.crew/Sale/women
+    And Clicks on J.Crew Breadcrumb
+    And Verify user is in homepage
+    And User presses back button
+    And Clicks on Sale Breadcrumb
+    And User is in sale landing page
+    And User presses back button
+    And Clicks on women Breadcrumb
+    Then User is in Sale results page
+
+    #US9724_TC14
+  Scenario: Validate Sidecar url when user is on PDP from Search array page
+    And User presses search button
+    When Enters dresses to the search field
+    And Clicks on search button for input field
+    And User is in search results page
+    And Selects any product from product grid list
+    And User is in product detail page
+    And page url should contain isFromSearch
+
+
+   #US9724_TC15
+  Scenario:Validate Sidecar url when user is on PDP from Sale array page
+    And User clicks on hamburger menu
+    And Selects sale Category from hamburger menu
+    And User is in sale landing page
+    And User clicks on sale department women
+    And User is in Sale results page
+    And Selects any product from product grid list
+    And User is in product detail page
+    And page url should contain isFromSale
+
+
+     #US9724_TC16
+  Scenario: Validate no breadcrumbs are displayed on th
+
+
 
 
 
