@@ -97,6 +97,8 @@ public class Header {
         return headerLogo.isDisplayed();
     }
 
+
+
     public Point getLogoPosition() {
         return headerLogo.getLocation();
     }
@@ -142,5 +144,13 @@ public class Header {
     public boolean isGenderLandingPage(String gender){
         WebElement genderPageElement =genderLandingSection.findElement(By.xpath("//h2[contains(text(),'NEW FOR "+gender.toUpperCase()+"')]"));
         return genderPageElement.isDisplayed();
+    }
+
+    public boolean isJcrewBreadCrumbNotDisplayed() {
+        return !breadcrumbSection.isDisplayed();
+    }
+
+    public boolean isEmbeddedHeaderSectionDisplayed() {
+        return headerWrap.isDisplayed();
     }
 }

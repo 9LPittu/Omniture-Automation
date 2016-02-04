@@ -167,7 +167,64 @@ Feature: Global Header: Breadcrumbs
 
 
      #US9724_TC16
-  Scenario: Validate no breadcrumbs are displayed on th
+  Scenario: Validate no breadcrumbs are displayed pages
+        #And Verify user is on personal stylist page
+    And Click on footer link About J.Crew
+    And Click on sublink Social Responsibility from About J.Crew footer link
+    And Verify user is on social responsibility page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+    Then Click on footer link About J.Crew
+    And Click on sublink Our Story from About J.Crew footer link
+    And Verify user is on about us page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+    Then Click on footer link About J.Crew
+    And Click on sublink Investor Relations from About J.Crew footer link
+    And User is on external http://investors.jcrew.com page
+    #the page is not showing embedded header
+    #And Verify J crew breadcrumb is not displayed
+    #And Verify Embedded header is displayed
+    And User presses back button
+    Then Click on footer link Our Cards
+    And Click on sublink The J.Crew Gift Card from Our Cards footer link
+    And Verify user is on the j.crew gift card page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+    Then Click on footer link Our Cards
+    And Click on sublink The J.Crew Credit Card from Our Cards footer link
+    And Verify user is on the j.crew credit card page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+#    When Click on footer link Our Stores
+#    And Store Locator sublink is displayed
+#    And Click on sublink Store Locator from Our Stores footer link
+#   # And Verify user is on help store locator page
+#    And Verify J crew breadcrumb is not displayed
+#    And Verify Embedded header is displayed
+#    And User presses back button
+
+    And click on "PRIVACY POLICY" in the legal links section of footer
+    And User is on internal /help/privacy_policy.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+
+    And Goes to sign in page
+    And User provides login information
+    And Hits sign in button
+    When User is in My Account page
+    And User clicks on WISHLIST link in My Account Page
+    Then User should be in wishlist page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+
+
 
 
 

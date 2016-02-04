@@ -102,8 +102,19 @@ public class HeaderSteps extends DriverFactory {
         header.click_breadcrumb(breadcrumb);
     }
 
+    @And("Verify J crew breadcrumb is not displayed$")
+    public void jcrew_breadcrumb_not_displayed() {
+        assertTrue("Jcrew bread crumb should not be displayed", header.isJcrewBreadCrumbNotDisplayed());
+    }
+
+
     @And("User is in ([^\"]*) gender landing page$")
     public void verify_user_is_in_gender_landing_page(String gender) {
         assertTrue("User should be in gender landing page", header.isGenderLandingPage(gender));
+    }
+
+    @And("Verify Embedded header is displayed$")
+    public void verify_embedded_header_is_present() {
+        assertTrue("Embedded header section should be present",header.isEmbeddedHeaderSectionDisplayed());
     }
 }
