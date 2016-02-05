@@ -108,7 +108,12 @@ public class DriverFactory {
             capabilities.setCapability("takesScreenshot", "true");
             capabilities.setCapability("acceptSslCerts", "true");
             capabilities.setCapability("autoAcceptAlerts", "true");
-            capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+
+            if(propertyReader.hasProperty("device.udid")){
+                //setting this capability is required only for iOS real device
+                capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            }
+
             capabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
             capabilities.setCapability("safariAllowPopups", true);
             capabilities.setCapability("safariOpenLinksInBackground", true);
