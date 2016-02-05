@@ -151,6 +151,7 @@ public class Header {
     }
 
     public boolean isEmbeddedHeaderSectionDisplayed() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
         return headerWrap.isDisplayed();
     }
 }

@@ -168,19 +168,24 @@ Feature: Global Header: Breadcrumbs
 
      #US9724_TC16
   Scenario: Validate no breadcrumbs are displayed pages
-        #And Verify user is on personal stylist page
+
+    #Social responsibility page
     And Click on footer link About J.Crew
     And Click on sublink Social Responsibility from About J.Crew footer link
     And Verify user is on social responsibility page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
+
+    #Our story Page
     Then Click on footer link About J.Crew
     And Click on sublink Our Story from About J.Crew footer link
     And Verify user is on about us page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
+
+    #Investor Relations page
     Then Click on footer link About J.Crew
     And Click on sublink Investor Relations from About J.Crew footer link
     And User is on external http://investors.jcrew.com page
@@ -188,31 +193,78 @@ Feature: Global Header: Breadcrumbs
     #And Verify J crew breadcrumb is not displayed
     #And Verify Embedded header is displayed
     And User presses back button
+
+    #The J.Crew Gift Card page
     Then Click on footer link Our Cards
     And Click on sublink The J.Crew Gift Card from Our Cards footer link
     And Verify user is on the j.crew gift card page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
+
+    # The J.Crew Credit Card page
     Then Click on footer link Our Cards
     And Click on sublink The J.Crew Credit Card from Our Cards footer link
     And Verify user is on the j.crew credit card page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
-#    When Click on footer link Our Stores
-#    And Store Locator sublink is displayed
-#    And Click on sublink Store Locator from Our Stores footer link
-#   # And Verify user is on help store locator page
-#    And Verify J crew breadcrumb is not displayed
-#    And Verify Embedded header is displayed
-#    And User presses back button
 
+    #Store Locator page
+    When Click on footer link Our Stores
+    And Store Locator sublink is displayed
+    And Click on sublink Store Locator from Our Stores footer link
+    And Verify user is on help store locator page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+     #privacy policy page
     And click on "PRIVACY POLICY" in the legal links section of footer
     And User is on internal /help/privacy_policy.jsp?sidecar=true page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
+    And User presses back button
 
+    #contact us page
+    Then Click on footer link Let Us Help You
+    And Click on sublink Contact Us from Let Us Help You footer link
+    And User is on internal /footie/contactus.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+    #Order status Page
+
+    When Click on footer link Let Us Help You
+    And Click on sublink Order Status from Let Us Help You footer link
+    Then Verify user is on order status page
+    And User is on internal /help/order_status.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+    #terms of use page
+
+    And click on "TERMS OF USE" in the legal links section of footer
+    And User is on internal /footer/termsofuse.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+    #Request a style guide page
+    Scenario:test
+    Then Click on footer link Let Us Help You
+    And Click on sublink Request A Style Guide from Let Us Help You footer link
+    And Verify user is on request a catalog page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+
+    #US9724_TC16 (cont)
+  Scenario: Validate no breadcrumbs are displayed o Account related pages
+    #Wishlist Page
     And Goes to sign in page
     And User provides login information
     And Hits sign in button
@@ -222,6 +274,43 @@ Feature: Global Header: Breadcrumbs
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
+
+    When User clicks on ADDRESS BOOK link in My Account Page
+    And User should be in address_book.jsp menu link page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+    And User clicks on CATALOG PREFERENCES link in My Account Page
+    And User should be in catalog_preferences.jsp menu link page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+    And User clicks on EMAIL PREFERENCES link in My Account Page
+    And User should be in email_preferences.jsp menu link page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+    And User clicks on MY DETAILS link in My Account Page
+    And User should be in account_detail.jsp menu link page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+    And User clicks on ORDER HISTORY link in My Account Page
+    And User should be in reg_user_order_history.jsp menu link page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
+    And User clicks on PAYMENT METHODS link in My Account Page
+    And User should be in payment_info.jsp menu link page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
+
 
 
 
