@@ -121,8 +121,7 @@ public class SalePage {
     }
 
     public boolean isSaleLandingPage() {
-        String saleLandingUrl =reader.getProperty("environment")+"r/sale";
-        return driver.getCurrentUrl().equals(saleLandingUrl);
+        return driver.getCurrentUrl().endsWith("r/sale");
     }
 
     public boolean isSaleTitleDisplayed() {
