@@ -19,6 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
 
@@ -26,7 +27,7 @@ public class DriverFactory {
     private static final String[] PHANTOM_JS_ARGS = new String[]{"--web-security=false",
             "--ssl-protocol=any",
             "--local-to-remote-url-access=true",
-            "--disk-cache=true",
+            "--disk-cache=false",
             "--ignore-ssl-errors=true"
     };
     private static final Map<String, WebDriver> driverMap = new HashMap<>();
@@ -108,7 +109,12 @@ public class DriverFactory {
             capabilities.setCapability("takesScreenshot", "true");
             capabilities.setCapability("acceptSslCerts", "true");
             capabilities.setCapability("autoAcceptAlerts", "true");
-            capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+
+            if(propertyReader.hasProperty("device.udid")){
+                //setting this capability is required only for iOS real device
+                capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            }
+
             capabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
             capabilities.setCapability("safariAllowPopups", true);
             capabilities.setCapability("safariOpenLinksInBackground", true);
@@ -140,6 +146,8 @@ public class DriverFactory {
 
             driver = getDesktopWebDriver(propertyReader, capabilities);
         }
+
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         return driver;
     }
 

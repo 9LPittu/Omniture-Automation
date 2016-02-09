@@ -71,7 +71,7 @@ public class Navigation {
         }
 
         String currentUrl = driver.getCurrentUrl();
-
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(targetPage));
         return currentUrl.contains(targetPage);
     }
 }

@@ -316,6 +316,7 @@ public class SalePage {
     }
 
     public boolean isPageUrlContains(String url){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(url));
         return driver.getCurrentUrl().toLowerCase().contains(url.toLowerCase());
     }
 
