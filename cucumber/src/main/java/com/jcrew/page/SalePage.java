@@ -282,7 +282,6 @@ public class SalePage {
                 if(!priceText.contains("select colors")){
                     priceText = priceText.replaceAll("[^0-9\\.]", "");
                     lstSalePrices.add(Double.parseDouble(priceText.trim()));
-                    logger.debug("price: {}",priceText);
                 }
             }
 
