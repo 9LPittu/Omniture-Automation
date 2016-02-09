@@ -254,7 +254,7 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #Request a style guide page
-    Scenario:test
+
     Then Click on footer link Let Us Help You
     And Click on sublink Request A Style Guide from Let Us Help You footer link
     And Verify user is on request a catalog page
