@@ -87,7 +87,8 @@ Feature: Global Header: Breadcrumbs
      And Verify user is in homepage
 
     #US9724_TC09 multi pdp not available?
-  Scenario: Validate breadcrumbs display and functionality on multi PDP page
+  #will implement later
+  #Scenario: Validate breadcrumbs display and functionality on multi PDP page
 
     #US9724_TC10, #US9724_TC11
   Scenario: Validate breadcrumbs functionality and display on sign in/ register for email page
