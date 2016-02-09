@@ -321,7 +321,10 @@ public class SearchPage {
     public void click_refinement_menu_done_button() {
         final WebElement doneButton = searchFilterRefinementActions.findElement(By.id("btn__search--done"));
 
-        Util.clickWithStaleRetry(doneButton);
+        //required for phantomjs; selecting sort option closes refinement
+        if(doneButton.isDisplayed()) {
+            Util.clickWithStaleRetry(doneButton);
+        }
 
     }
 
