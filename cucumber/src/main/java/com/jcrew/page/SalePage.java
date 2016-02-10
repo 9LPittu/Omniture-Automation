@@ -263,21 +263,32 @@ public class SalePage {
     public boolean isSalePricesAreSorted(String sortOrder){
         boolean blnFlag = false;
 
+        List<WebElement> arrayProducts = driver.findElements(By.className("c-product-tile"));
+
         //return false if objects are not found
-        if(salePrice.size() > 0){
-            List<Double> lstSalePrices = new ArrayList<Double>();
+        if(arrayProducts.size() > 0){
+            String priceText;
+            List<Double> lstSalePrices = new ArrayList<>();
 
             //Capture all the prices into double list
-            for(int i = 0;i < salePrice.size();i++){
-                String salePriceVal = salePrice.get(i).getText().toLowerCase();
-                salePriceVal = salePriceVal.replaceAll("[^0-9\\.]", "");
-                lstSalePrices.add(Double.parseDouble(salePriceVal.trim()));
+            for(WebElement product:arrayProducts){
+                WebElement salePriceElement = product.findElement(
+                            By.xpath(".//span[contains(@class,'tile__detail tile__detail--price--sale')]"));
+
+                priceText = salePriceElement.getText().toLowerCase();
+
+                //workaround: when product contains color variations lowest price is shown, not highest.
+                //ignore the product if it has color variations
+                if(!priceText.contains("select colors")){
+                    priceText = priceText.replaceAll("[^0-9\\.]", "");
+                    lstSalePrices.add(Double.parseDouble(priceText.trim()));
+                }
             }
 
-            List<Double> ascending = new ArrayList<Double>(lstSalePrices);
+            List<Double> ascending = new ArrayList<>(lstSalePrices);
             Collections.sort(ascending);
 
-            List<Double> descending = new ArrayList<Double>(ascending);
+            List<Double> descending = new ArrayList<>(ascending);
             Collections.reverse(descending);
 
             if(sortOrder.toLowerCase().contains("low to high")){
