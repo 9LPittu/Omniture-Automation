@@ -104,7 +104,8 @@ public class Header {
     }
 
     public void click_jcrew_logo() {
-        headerLogo.click();
+        Util.clickWithStaleRetry(headerLogo);
+        Util.waitLoadingBar(driver);
     }
 
     public void click_on_search_button() {
@@ -134,14 +135,16 @@ public class Header {
     }
 
     public void click_breadcrumb(String breadcrumb) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbSection));
+        Util.waitWithStaleRetry(driver,breadcrumbSection);
         WebElement breadcrumbElement = breadcrumbSection.findElement(
                 By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
         Util.clickWithStaleRetry(breadcrumbElement);
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isGenderLandingPage(String gender){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(genderLandingSection));
         WebElement genderPageElement =genderLandingSection.findElement(By.xpath("//h2[contains(text(),'NEW FOR "+gender.toUpperCase()+"')]"));
         return genderPageElement.isDisplayed();
     }

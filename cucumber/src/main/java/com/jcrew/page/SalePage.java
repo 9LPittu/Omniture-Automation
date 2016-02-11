@@ -121,7 +121,9 @@ public class SalePage {
     }
 
     public boolean isSaleLandingPage() {
-        return driver.getCurrentUrl().endsWith("r/sale");
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("r/sale"));
+
+        return true;
     }
 
     public boolean isSaleTitleDisplayed() {
@@ -374,6 +376,7 @@ public class SalePage {
 
     public void clickSaleLinkFromTopNav(String dept) {
         driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '"+dept+"']")).click();
+        Util.waitLoadingBar(driver);
     }
 
     public void clickOnSaleDept(String dept) {
@@ -381,7 +384,9 @@ public class SalePage {
         if("random".equalsIgnoreCase(dept)){
             saleDepElement = getRandomSaleDept();
         }else{
-            saleDepElement = driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']"));
+            saleDepElement = Util.createWebDriverWait(driver)
+                    .until(ExpectedConditions.visibilityOfElementLocated(
+                            By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']")));
         }
         saleDepElement.click();
     }

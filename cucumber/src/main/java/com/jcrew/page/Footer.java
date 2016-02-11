@@ -69,7 +69,7 @@ public class Footer {
     }
 
     private WebElement getFooterLinkElement(String footerLink) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerWrapMain));
+        Util.waitWithStaleRetry(driver,footerWrapMain);
         try {
             return footerWrapMain.findElement(By.xpath("//h6[text()='" + footerLink + "']"));
         } catch (StaleElementReferenceException e) {
@@ -79,7 +79,7 @@ public class Footer {
     }
 
     public void click_on(String footerLink) {
-        getFooterLinkElement(footerLink).click();
+        Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
     }
 
 

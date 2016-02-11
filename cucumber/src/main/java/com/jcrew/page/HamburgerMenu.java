@@ -99,7 +99,10 @@ public class HamburgerMenu {
     }
 
     public void click_on_looks_we_love() {
-        driver.findElement(By.xpath("//span[contains(@class, 'menu__link__label') and text() = 'looks we love']")).click();
+        WebElement looksWeLove = Util.createWebDriverWait(driver)
+                .until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//span[@class='menu__link__label' and contains(text(),'looks we love')]")));
+        looksWeLove.click();
 
     }
 

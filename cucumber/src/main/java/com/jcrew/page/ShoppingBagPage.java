@@ -3,6 +3,8 @@ package com.jcrew.page;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -173,8 +175,26 @@ public class ShoppingBagPage {
     }
     
     public boolean isBreadcrumbDisplayed(String breadcrumbText){
+        final String breadCrumbs[] = breadcrumbText.split("//");
+        if(breadCrumbs.length == 0){
+            logger.error("NOT VALID USE OF BREADCRUMBTEXT");
+            return false;
+        }
 
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbSection));
+        //get the last breadcrumb expected
+        final String lastBreadCrumb = breadCrumbs[breadCrumbs.length - 1].toLowerCase();
+
+        Util.waitWithStaleRetry(driver,breadcrumbSection);
+
+        //wait until breadcrumb contains the last expected breadcrumb and return
+        Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
+            @Override
+            public boolean apply(WebDriver webDriver) {
+                String pageBreadCrumbs = breadcrumbSection.getText().toLowerCase();
+                return pageBreadCrumbs.contains(lastBreadCrumb);
+            }
+        });
+
         return breadcrumbSection.getText().equalsIgnoreCase(breadcrumbText);
     }
 }
