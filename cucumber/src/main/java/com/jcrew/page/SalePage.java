@@ -93,8 +93,7 @@ public class SalePage {
     @FindBy(className="js-product__quantity")
     private WebElement paginationDropdown;
 
-    @FindBy(className="c-sale__promo-alert")
-    private WebElement secondPromo;
+
 
     @FindBy(xpath = "//span[@class='c-label__details' and text()='DETAILS']")
     private WebElement saleDetailsLink;
@@ -415,23 +414,41 @@ public class SalePage {
     }
 
     public boolean isSecondPromoDisplayed() {
-        return secondPromo.isDisplayed();
+        try {
+            WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
+            return secondPromo.isDisplayed();
+        }catch(NoSuchElementException e) {
+            logger.debug("second promo was not found");
+            return true;
+        }
     }
 
     public boolean isSecondPromoSaleCategoryLinkDisplayed(String link) {
-        String saleCategory = link.trim().toLowerCase();
-        WebElement secondPromoLink = secondPromo.findElement(
-                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
-                        saleCategory + "']"));
-        return secondPromoLink.isDisplayed();
+        try {
+            String saleCategory = link.trim().toLowerCase();
+            WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
+            WebElement secondPromoLink = secondPromo.findElement(
+                    By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
+                            saleCategory + "']"));
+            return secondPromoLink.isDisplayed();
+        }catch (NoSuchElementException e) {
+            logger.debug("the second promo ",link," link is not found");
+            return true;
+        }
     }
 
     public void clickOnSecondPromoSaleCategoryLink(String link)  {
-        String saleCategory = link.trim().toLowerCase();
-        WebElement secondPromoLink = secondPromo.findElement(
-                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
-                        saleCategory + "']"));
-        secondPromoLink.click();
+        try {
+            String saleCategory = link.trim().toLowerCase();
+            WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
+            WebElement secondPromoLink = secondPromo.findElement(
+                    By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
+                            saleCategory + "']"));
+            secondPromoLink.click();
+        }catch (NoSuchElementException e) {
+            logger.debug("the link ",link, " cannot be clicked as it is not found");
+
+        }
     }
 
     public boolean  isDetailsLinkDisplayed() {
