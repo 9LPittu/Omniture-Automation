@@ -202,8 +202,9 @@ public class DriverFactory {
         }
         for (Cookie cookie : driver.manage().getCookies()) {
 
-            if ((!cookie.getName().equals("JSESSIONID"))||(!cookie.getName().equals("bmSessionID")))
-                  driver.manage().deleteCookie(cookie);
+            if (!(cookie.getName().contains("ID")))
+                driver.manage().deleteCookie(cookie);
+
         }
        // driver.manage().deleteAllCookies();
         //  }
