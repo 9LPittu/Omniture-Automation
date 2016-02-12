@@ -202,7 +202,7 @@ public class DriverFactory {
         }
         for (Cookie cookie : driver.manage().getCookies()) {
 
-            if (!(cookie.getName().contains("ID")))
+            if (!(cookie.getName().contains("sessionid")))
                 driver.manage().deleteCookie(cookie);
 
         }
