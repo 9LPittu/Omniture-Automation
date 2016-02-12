@@ -273,6 +273,7 @@ public class Footer {
     }
     
     public void clickLinkInLegalLinksSection(String linkName){
+        Util.waitLoadingBar(driver);
     	List<WebElement> legalSectionLinks = driver.findElements(By.className("footer__copyright__link"));
     	
     	for(WebElement legalSectionLink:legalSectionLinks){

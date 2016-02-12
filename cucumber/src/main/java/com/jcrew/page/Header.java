@@ -5,6 +5,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.List;
 public class Header {
 
     private final WebDriver driver;
+    private final Logger logger = LoggerFactory.getLogger(Header.class);
+
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
     @FindBy(className = "icon-close")

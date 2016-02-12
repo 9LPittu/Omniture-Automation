@@ -8,11 +8,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Navigation {
 
     private final WebDriver driver;
     private final PropertyReader reader = PropertyReader.getPropertyReader();
+    private final Logger logger = LoggerFactory.getLogger(Navigation.class);
 
     @FindBy(className = "header__promo__wrap--mobile")
     private WebElement headerPromoWrap;
@@ -70,8 +73,9 @@ public class Navigation {
             }
         }
 
-        String currentUrl = driver.getCurrentUrl();
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(targetPage));
+        String currentUrl = driver.getCurrentUrl();
+        logger.debug("Current page: "+currentUrl);
         return currentUrl.contains(targetPage);
     }
 }
