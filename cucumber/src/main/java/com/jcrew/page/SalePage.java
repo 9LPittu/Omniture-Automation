@@ -450,7 +450,9 @@ public class SalePage {
     }
 
     public void clickDetailsCloseIcon() {
-        saleDetails.findElement(By.className("icon-close")).click();
+        List<WebElement> detailsCloseIcon = saleDetails.findElements(By.className("icon-close"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(detailsCloseIcon.get(2)));
+        detailsCloseIcon.get(2).click();
     }
 
     public boolean isDetailsSectionClosed() {
