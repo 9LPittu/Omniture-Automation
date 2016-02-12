@@ -26,9 +26,9 @@ Feature: Regression Tests Category Feature
   Scenario: Check Product Tiles for Sale Variations
     When User clicks on SWEATERS subcategory from Women Category
     Then User should be in sweaters page for women
-    And Verifies Collection cashmere zip-front hoodie product is displayed
-    And Verifies Collection cashmere zip-front hoodie product price was $238.00
-    And Verifies Collection cashmere zip-front hoodie product sale price is now $218.00
+    And Verifies Classic merino wool long cardigan sweater product is displayed
+    And Verifies Classic merino wool long cardigan sweater product price was $89.50
+    And Verifies Classic merino wool long cardigan sweater product sale price is now $79.50
     And Verifies product image is displayed
 
   Scenario: Check sign posts on category pages
