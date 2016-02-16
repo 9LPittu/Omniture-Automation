@@ -198,13 +198,13 @@ Feature: Sale Regression Suite
       |men  |N=21+16|
 
     #US9874_TC12, #US9874_TC13, #US9874_TC14
-    Scenario: Details link display and functionality
-      And User is in sale landing page
-      And Details link is displayed
-      And Click on details link
-      And Promo legal text is displayed
-      And Click on details section close icon
-      And Details section is closed
+#    Scenario: Details link display and functionality
+#      And User is in sale landing page
+#      And Details link is displayed
+#      And Click on details link
+#      And Promo legal text is displayed
+#      And Click on details section close icon
+#      And Details section is closed
 
     #US15673_TC01
     Scenario: Sale Refine Single Select
