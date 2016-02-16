@@ -19,6 +19,7 @@ public class HomePageSteps extends DriverFactory {
         assertTrue("JCrew logo must be present", header.isJCrewLogoPresent());
     }
 
+
     @And("^Enters ([^\"]*) to the search field$")
     public void enters_a_search_term_to_the_input_field(String searchTerm) throws Throwable {
         homePage.input_search_term(searchTerm);

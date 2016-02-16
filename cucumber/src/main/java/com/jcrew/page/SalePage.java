@@ -120,8 +120,9 @@ public class SalePage {
     }
 
     public boolean isSaleLandingPage() {
-        String saleLandingUrl =reader.getProperty("environment")+"/r/sale";
-        return driver.getCurrentUrl().equals(saleLandingUrl);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("r/sale"));
+
+        return true;
     }
 
     public boolean isSaleTitleDisplayed() {
@@ -383,8 +384,9 @@ public class SalePage {
         return !currentPageFirstItemName.equalsIgnoreCase(firstPageFirstItemName);
     }
 
-    public void clickSaleLinkFromTopNav() {
-        driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = 'sale']")).click();
+    public void clickSaleLinkFromTopNav(String dept) {
+        driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '"+dept+"']")).click();
+        Util.waitLoadingBar(driver);
     }
 
     public void clickOnSaleDept(String dept) {
@@ -392,7 +394,9 @@ public class SalePage {
         if("random".equalsIgnoreCase(dept)){
             saleDepElement = getRandomSaleDept();
         }else{
-            saleDepElement = driver.findElement(By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']"));
+            saleDepElement = Util.createWebDriverWait(driver)
+                    .until(ExpectedConditions.visibilityOfElementLocated(
+                            By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']")));
         }
         saleDepElement.click();
     }

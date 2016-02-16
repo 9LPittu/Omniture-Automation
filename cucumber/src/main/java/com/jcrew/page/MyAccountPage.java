@@ -43,6 +43,7 @@ public class MyAccountPage {
     }
 
     private WebElement getMenuLink(String link) {
+        Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         return myAccountContainer.findElement(By.linkText(link));
     }
