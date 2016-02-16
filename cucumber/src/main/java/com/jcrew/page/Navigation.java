@@ -75,7 +75,7 @@ public class Navigation {
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(targetPage));
         String currentUrl = driver.getCurrentUrl();
-        logger.debug("Current page: "+currentUrl);
+
         return currentUrl.contains(targetPage);
     }
 }

@@ -216,11 +216,7 @@ Feature: Footer Tests
   Scenario: Verify tumblr icon in social sharing section is functional
     And click on tumblr icon in social sharing section
     And User is on external http://jcrew.tumblr.com/ page
-  
-  Scenario: Verify pinterest icon in social sharing section is functional
-    And click on pinterest icon in social sharing section
-    And User is on external https://www.pinterest.com/jcrew/ page
-  
+
   Scenario: Verify instagram icon in social sharing section is functional
     And click on instagram icon in social sharing section
     And User is on external https://www.instagram.com/jcrew/ page
@@ -256,3 +252,7 @@ Feature: Footer Tests
    	And user should see visit full site displayed after legal links in footer section
    	And click on view full site link
    	And User is on internal /index.jsp?sidecar=false page
+
+  Scenario: Verify pinterest icon in social sharing section is functional
+    And click on pinterest icon in social sharing section
+    And User is on external https://www.pinterest.com/jcrew/ page

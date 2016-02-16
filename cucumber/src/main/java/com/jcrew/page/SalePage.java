@@ -93,8 +93,7 @@ public class SalePage {
     @FindBy(className="js-product__quantity")
     private WebElement paginationDropdown;
 
-    @FindBy(className="c-sale__promo-alert")
-    private WebElement secondPromo;
+
 
     @FindBy(xpath = "//span[@class='c-label__details' and text()='DETAILS']")
     private WebElement saleDetailsLink;
@@ -264,21 +263,32 @@ public class SalePage {
     public boolean isSalePricesAreSorted(String sortOrder){
         boolean blnFlag = false;
 
+        List<WebElement> arrayProducts = driver.findElements(By.className("c-product-tile"));
+
         //return false if objects are not found
-        if(salePrice.size() > 0){
-            List<Double> lstSalePrices = new ArrayList<Double>();
+        if(arrayProducts.size() > 0){
+            String priceText;
+            List<Double> lstSalePrices = new ArrayList<>();
 
             //Capture all the prices into double list
-            for(int i = 0;i < salePrice.size();i++){
-                String salePriceVal = salePrice.get(i).getText().toLowerCase();
-                salePriceVal = salePriceVal.replaceAll("[^0-9\\.]", "");
-                lstSalePrices.add(Double.parseDouble(salePriceVal.trim()));
+            for(WebElement product:arrayProducts){
+                WebElement salePriceElement = product.findElement(
+                            By.xpath(".//span[contains(@class,'tile__detail tile__detail--price--sale')]"));
+
+                priceText = salePriceElement.getText().toLowerCase();
+
+                //workaround: when product contains color variations lowest price is shown, not highest.
+                //ignore the product if it has color variations
+                if(!priceText.contains("select colors")){
+                    priceText = priceText.replaceAll("[^0-9\\.]", "");
+                    lstSalePrices.add(Double.parseDouble(priceText.trim()));
+                }
             }
 
-            List<Double> ascending = new ArrayList<Double>(lstSalePrices);
+            List<Double> ascending = new ArrayList<>(lstSalePrices);
             Collections.sort(ascending);
 
-            List<Double> descending = new ArrayList<Double>(ascending);
+            List<Double> descending = new ArrayList<>(ascending);
             Collections.reverse(descending);
 
             if(sortOrder.toLowerCase().contains("low to high")){
@@ -408,23 +418,41 @@ public class SalePage {
     }
 
     public boolean isSecondPromoDisplayed() {
-        return secondPromo.isDisplayed();
+        try {
+            WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
+            return secondPromo.isDisplayed();
+        }catch(NoSuchElementException e) {
+            logger.debug("second promo was not found");
+            return true;
+        }
     }
 
     public boolean isSecondPromoSaleCategoryLinkDisplayed(String link) {
-        String saleCategory = link.trim().toLowerCase();
-        WebElement secondPromoLink = secondPromo.findElement(
-                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
-                        saleCategory + "']"));
-        return secondPromoLink.isDisplayed();
+        try {
+            String saleCategory = link.trim().toLowerCase();
+            WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
+            WebElement secondPromoLink = secondPromo.findElement(
+                    By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
+                            saleCategory + "']"));
+            return secondPromoLink.isDisplayed();
+        }catch (NoSuchElementException e) {
+            logger.debug("the second promo ",link," link is not found");
+            return true;
+        }
     }
 
     public void clickOnSecondPromoSaleCategoryLink(String link)  {
-        String saleCategory = link.trim().toLowerCase();
-        WebElement secondPromoLink = secondPromo.findElement(
-                By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
-                        saleCategory + "']"));
-        secondPromoLink.click();
+        try {
+            String saleCategory = link.trim().toLowerCase();
+            WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
+            WebElement secondPromoLink = secondPromo.findElement(
+                    By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
+                            saleCategory + "']"));
+            secondPromoLink.click();
+        }catch (NoSuchElementException e) {
+            logger.debug("the link ",link, " cannot be clicked as it is not found");
+
+        }
     }
 
     public boolean  isDetailsLinkDisplayed() {
@@ -443,7 +471,9 @@ public class SalePage {
     }
 
     public void clickDetailsCloseIcon() {
-        saleDetails.findElement(By.className("icon-close")).click();
+        List<WebElement> detailsCloseIcon = saleDetails.findElements(By.className("icon-close"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(detailsCloseIcon.get(2)));
+        detailsCloseIcon.get(2).click();
     }
 
     public boolean isDetailsSectionClosed() {
