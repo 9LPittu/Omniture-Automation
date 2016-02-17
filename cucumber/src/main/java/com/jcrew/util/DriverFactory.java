@@ -191,6 +191,7 @@ public class DriverFactory {
         for (Cookie cookie : driver.manage().getCookies()) {
 
             if (!((cookie.getName().toLowerCase()).contains("sessionid")))
+                logger.debug("cookie being deleted :  {}",cookie.getName());
                 driver.manage().deleteCookie(cookie);
 
         }
