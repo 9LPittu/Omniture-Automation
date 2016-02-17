@@ -190,10 +190,10 @@ public class DriverFactory {
 
         for (Cookie cookie : driver.manage().getCookies()) {
 
-            if (!(cookie.getName().equals("JSESSIONID"))) {
+
                 logger.debug("cookie being deleted :  {}", cookie.getName());
                 driver.manage().deleteCookie(cookie);
-            }
+
         }
 
         if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
