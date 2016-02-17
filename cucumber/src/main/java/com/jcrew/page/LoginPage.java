@@ -60,6 +60,7 @@ public class LoginPage {
     }
 
     public void input_as_email(String email) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
         emailInput.sendKeys(email);
     }
 
@@ -130,6 +131,7 @@ public class LoginPage {
     }
 
     public void click_create_new_account() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(registerSection));
         WebElement createNewAccountLink = registerSection.findElement(By.tagName("a"));
         createNewAccountLink.click();
     }
