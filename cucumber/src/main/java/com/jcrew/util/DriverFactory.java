@@ -187,38 +187,14 @@ public class DriverFactory {
         WebDriver driver = driverMap.get(identifier);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
-        // if (!"androidchrome".equals(propertyReader.getProperty("browser"))) {
 
-        Set<Cookie> cookies = driver.manage().getCookies();
-        logger.info("Size: ", cookies.size());
-
-        Iterator<Cookie> itr = cookies.iterator();
-        while (itr.hasNext()) {
-            Cookie cooki = itr.next();
-            System.out.println(cooki.getName() + " | " + cooki.getPath()
-                    + " | " + cooki.getDomain() + " | " + cooki.getValue()
-                    + "|" + cooki.getExpiry());
-
-        }
         for (Cookie cookie : driver.manage().getCookies()) {
 
-            if (!(cookie.getName().contains("sessionid")))
+            if (!((cookie.getName().toLowerCase()).contains("sessionid")))
                 driver.manage().deleteCookie(cookie);
 
         }
-       // driver.manage().deleteAllCookies();
-        //  }
 
-        Set<Cookie> cooks = driver.manage().getCookies();
-        logger.info("Size:after deletion of cookies{} ", cooks.size());
-
-        Iterator<Cookie> itr1 = cooks.iterator();
-        while (itr1.hasNext()) {
-            Cookie cook = itr1.next();
-            System.out.println(cook.getName() + " | " + cook.getPath()
-                    + " | " + cook.getDomain() + " | " + cook.getValue()
-                    + " | " + cook.getExpiry());
-        }
         if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
             driver.quit();
             driverMap.remove(identifier);
