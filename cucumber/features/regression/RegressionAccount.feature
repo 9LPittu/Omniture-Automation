@@ -16,7 +16,7 @@ Feature: Account
     And Sign in button should be deactivated
 
   # TODO: incomplete; script need to be updated for validation
-  @new
+
   Scenario: Create New Account
     When Clicks on create new account
     And Fills required account data in create account page
