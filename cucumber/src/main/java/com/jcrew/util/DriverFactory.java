@@ -187,13 +187,19 @@ public class DriverFactory {
         WebDriver driver = driverMap.get(identifier);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
-
-        for (Cookie cookie : driver.manage().getCookies()) {
-
-
+        if ("iossafari".equals(propertyReader.getProperty("browser"))) {
+            for (Cookie cookie : driver.manage().getCookies()) {
                 logger.debug("cookie being deleted :  {}", cookie.getName());
                 driver.manage().deleteCookie(cookie);
-
+            }
+        }
+        if ("androidchrome".equals(propertyReader.getProperty("browser"))) {
+            for (Cookie cookie : driver.manage().getCookies()) {
+                if (!((cookie.getName().toLowerCase()).contains("sessionid"))) {
+                    logger.debug("cookie being deleted :  {}", cookie.getName());
+                    driver.manage().deleteCookie(cookie);
+                }
+            }
         }
 
         if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
