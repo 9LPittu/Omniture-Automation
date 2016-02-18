@@ -133,6 +133,7 @@ public class BillingPage {
     }
 
     public void submit_form() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(billingOptionsSubmit));
         billingOptionsSubmit.click();
         Util.waitForPageFullyLoaded(driver);
     }
@@ -181,6 +182,7 @@ public class BillingPage {
     }
     
     public void selectCountryOnNewBillingAddressForm(String country){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewBillingAddress_Country));
     	Select list = new Select(addNewBillingAddress_Country);
     	list.selectByVisibleText(country);
     }

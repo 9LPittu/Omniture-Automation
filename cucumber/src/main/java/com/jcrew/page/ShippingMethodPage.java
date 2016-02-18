@@ -85,7 +85,8 @@ public class ShippingMethodPage {
     	String expectedShippingMethods = null;
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();
 
-    	String country = countryName.getText().trim();
+    	//String country = countryName.getText().trim(); <--- commented until we have international enabled
+        String country = "united states";
     	logger.debug("Country: {}", country);
 
     	switch(country.toLowerCase()){

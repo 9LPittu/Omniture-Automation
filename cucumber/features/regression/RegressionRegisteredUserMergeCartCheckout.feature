@@ -55,7 +55,6 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
     And Move to mobile site
-    And breadcrumb should display "J.Crew"
     And items count should be displayed as 1 in the bag
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
