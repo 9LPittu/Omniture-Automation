@@ -3,6 +3,8 @@ package com.jcrew.page;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -54,6 +56,9 @@ public class ShoppingBagPage {
     
     @FindBy(css=".icon-header.icon-header-logo")
     private WebElement breadcrumbLink;
+
+    @FindBy(className = "c-header__breadcrumb")
+    private WebElement breadcrumbSection;
 
     public ShoppingBagPage(WebDriver driver) {
         this.driver = driver;
@@ -169,17 +174,27 @@ public class ShoppingBagPage {
     	return actualItemsCount == itemsCount;
     }
     
-    public boolean isBreadcrumbTextContains(String breadcrumbText){
-    	boolean blnResult;
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".item-link.item-first")));
-
-        List<WebElement> breadcrumbLinks = driver.findElements(By.className("breadcrumb__link"));
-        if(breadcrumbLinks.size() > 0) {
-            blnResult = breadcrumbLinks.get(0).getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
-        } else {
-            blnResult =  breadcrumbLink.getText().trim().toLowerCase().contains(breadcrumbText.toLowerCase());
+    public boolean isBreadcrumbDisplayed(String breadcrumbText){
+        final String breadCrumbs[] = breadcrumbText.split("//");
+        if(breadCrumbs.length == 0){
+            logger.error("NOT VALID USE OF BREADCRUMBTEXT");
+            return false;
         }
 
-    	return blnResult;
+        //get the last breadcrumb expected
+        final String lastBreadCrumb = breadCrumbs[breadCrumbs.length - 1].toLowerCase();
+
+        Util.waitWithStaleRetry(driver,breadcrumbSection);
+
+        //wait until breadcrumb contains the last expected breadcrumb and return
+        Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
+            @Override
+            public boolean apply(WebDriver webDriver) {
+                String pageBreadCrumbs = breadcrumbSection.getText().toLowerCase();
+                return pageBreadCrumbs.contains(lastBreadCrumb);
+            }
+        });
+
+        return breadcrumbSection.getText().equalsIgnoreCase(breadcrumbText);
     }
 }

@@ -5,6 +5,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.List;
 public class Header {
 
     private final WebDriver driver;
+    private final Logger logger = LoggerFactory.getLogger(Header.class);
+
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
     @FindBy(className = "icon-close")
@@ -28,6 +32,8 @@ public class Header {
     private WebElement shoppingBagLink;
     @FindBy(css = ".icon-header.icon-header-bag.icon-bag")
     private WebElement bagIcon;
+    @FindBy(id = "section1")
+    private WebElement genderLandingSection;
 
 
     public Header(WebDriver driver) {
@@ -95,12 +101,15 @@ public class Header {
         return headerLogo.isDisplayed();
     }
 
+
+
     public Point getLogoPosition() {
         return headerLogo.getLocation();
     }
 
     public void click_jcrew_logo() {
-        headerLogo.click();
+        Util.clickWithStaleRetry(headerLogo);
+        Util.waitLoadingBar(driver);
     }
 
     public void click_on_search_button() {
@@ -130,10 +139,26 @@ public class Header {
     }
 
     public void click_breadcrumb(String breadcrumb) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbSection));
+        Util.waitWithStaleRetry(driver,breadcrumbSection);
         WebElement breadcrumbElement = breadcrumbSection.findElement(
                 By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
         Util.clickWithStaleRetry(breadcrumbElement);
+        Util.waitLoadingBar(driver);
+    }
+
+    public boolean isGenderLandingPage(String gender){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(genderLandingSection));
+        WebElement genderPageElement =genderLandingSection.findElement(By.xpath("//h2[contains(text(),'NEW FOR "+gender.toUpperCase()+"')]"));
+        return genderPageElement.isDisplayed();
+    }
+
+    public boolean isJcrewBreadCrumbNotDisplayed() {
+        return !breadcrumbSection.isDisplayed();
+    }
+
+    public boolean isEmbeddedHeaderSectionDisplayed() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
+        return headerWrap.isDisplayed();
     }
 }

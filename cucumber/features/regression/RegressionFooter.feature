@@ -49,7 +49,7 @@ Feature: Footer Tests
     And Returns & Exchanges sublink is displayed
     And International Orders sublink is displayed
     And Size Charts sublink is displayed
-    And Contact Us sublink is displayed
+    And Need Some Help? sublink is displayed
     And Request A Style Guide sublink is displayed
 
   Scenario: Verification of Let Us Help You Order Status link functionality
@@ -82,7 +82,7 @@ Feature: Footer Tests
 
   Scenario: Verification of Let Us Help You Contact Us link functionality
     Then Click on footer link Let Us Help You
-    And Click on sublink Contact Us from Let Us Help You footer link
+    And Click on sublink Need Some Help? from Let Us Help You footer link
     And User is on internal /footie/contactus.jsp?sidecar=true page
 
   Scenario: Verification of Let Us Help You Request A Style Guide link functionality
@@ -216,11 +216,7 @@ Feature: Footer Tests
   Scenario: Verify tumblr icon in social sharing section is functional
     And click on tumblr icon in social sharing section
     And User is on external http://jcrew.tumblr.com/ page
-  
-  Scenario: Verify pinterest icon in social sharing section is functional
-    And click on pinterest icon in social sharing section
-    And User is on external https://www.pinterest.com/jcrew/ page
-  
+
   Scenario: Verify instagram icon in social sharing section is functional
     And click on instagram icon in social sharing section
     And User is on external https://www.instagram.com/jcrew/ page
@@ -256,3 +252,7 @@ Feature: Footer Tests
    	And user should see visit full site displayed after legal links in footer section
    	And click on view full site link
    	And User is on internal /index.jsp?sidecar=false page
+
+  Scenario: Verify pinterest icon in social sharing section is functional
+    And click on pinterest icon in social sharing section
+    And User is on external https://www.pinterest.com/jcrew/ page
