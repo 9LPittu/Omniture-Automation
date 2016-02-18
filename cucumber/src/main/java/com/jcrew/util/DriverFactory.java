@@ -204,7 +204,7 @@ public class DriverFactory {
         }
         if ("androidchrome".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
-                if (!((cookie.getName()).equalsIgnoreCase("JSESSIONID"))) {
+                if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
                     logger.debug("cookie being deleted :  {}", cookie.getName());
                     driver.manage().deleteCookie(cookie);
                 }
