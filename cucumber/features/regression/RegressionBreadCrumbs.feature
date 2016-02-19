@@ -180,7 +180,7 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #Our story Page
-    Then Click on footer link About J.Crew
+   # Then Click on footer link About J.Crew
     And Click on sublink Our Story from About J.Crew footer link
     And Verify user is on about us page
     And Verify J crew breadcrumb is not displayed
