@@ -80,13 +80,10 @@ public class Footer {
 
     public void click_on(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
-        try {
-            if (fLink.findElement(By.className("icon-see-more")).isDisplayed())
-                Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
-        } catch(Exception e) {
-            logger.debug(fLink.getText()," drawer is already open");
-        }
-    }
+            if (fLink.findElement(By.xpath("//i[contains(@class, 'icon-see-more']")).isDisplayed())
+                  Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
+
+            }
 
 
     public String getFooterSubText(String footerLink) {
