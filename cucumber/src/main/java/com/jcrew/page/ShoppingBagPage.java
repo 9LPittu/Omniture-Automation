@@ -159,8 +159,9 @@ public class ShoppingBagPage {
     }
     
     public boolean isPageTitleContains(String pageTitle){
-
-        return driver.getTitle().contains(pageTitle);
+        String title = driver.getTitle();
+        logger.debug("Title is: {}", title);
+        return title.contains(pageTitle);
     }
     
     public boolean isBagItemsCountMatches(int itemsCount){

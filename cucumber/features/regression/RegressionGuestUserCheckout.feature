@@ -33,9 +33,8 @@ Feature: Guest User Checkout Process
     Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
     And Move to mobile site
-    And breadcrumb should display "J.Crew"
     And Clicks on checkout
-    And User is on internal /checkout2/shoppingbag.jsp page
+    And page url should contain /checkout2/shoppingbag.jsp
     And click on CHECK OUT AS A GUEST button
     And enter first name on shipping address page    
     And enter last name on shipping address page
@@ -85,12 +84,11 @@ Feature: Guest User Checkout Process
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
-    Then page title should contain "Shopping Bag"    
+    Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
     And Move to mobile site
-    And breadcrumb should display "J.Crew"
     And Clicks on checkout
-    And User is on internal /checkout2/shoppingbag.jsp page
+    And page url should contain /checkout2/shoppingbag.jsp
     And click on CHECK OUT AS A GUEST button
     And enter first name on shipping address page    
     And enter last name on shipping address page

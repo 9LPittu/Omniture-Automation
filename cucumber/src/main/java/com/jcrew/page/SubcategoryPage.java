@@ -223,6 +223,7 @@ public class SubcategoryPage {
     }
 
     public void click_first_product_in_grid() {
+        Util.waitForPageFullyLoaded(driver);
         final WebElement product     = getFirstProduct();
         final WebElement productLink = product.findElement(By.className("product__image--small"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
@@ -232,6 +233,7 @@ public class SubcategoryPage {
     }
 
     public void click_first_product_with_xpath(String finder){
+        Util.waitForPageFullyLoaded(driver);
         List<WebElement> regularPriceProducts = driver.findElements(By.xpath(finder));
         if(regularPriceProducts.size() > 0){
             WebElement product = regularPriceProducts.get(0);
@@ -259,12 +261,10 @@ public class SubcategoryPage {
     }
 
     private String getProductName(WebElement randomProductSelected) {
-        List<WebElement> productNameElements = randomProductSelected.findElements(By.className("tile__detail--name"));
-        String productName = null;
-        if (!productNameElements.isEmpty()) {
-            productName = productNameElements.get(0).getAttribute("innerHTML");
-        }
-        return productName;
+        WebElement productName = randomProductSelected.findElement(
+                By.xpath(".//a[contains(@class,'product-tile__details')]/span[contains(@class,'tile__detail--name')]"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+        return productName.getText().trim();
     }
     
     private String getProductPrice(WebElement productSelected){

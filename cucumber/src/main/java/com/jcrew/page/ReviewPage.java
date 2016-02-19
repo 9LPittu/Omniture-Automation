@@ -3,6 +3,7 @@ package com.jcrew.page;
 import java.util.List;
 
 import com.jcrew.pojo.Product;
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
@@ -20,6 +21,7 @@ public class ReviewPage {
 
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(ReviewPage.class);
+    private boolean isProduction = false;
 	
     private final WebDriver driver;
     @FindBy(xpath = ".//*[@id='orderSummaryContainer']/div/a")
@@ -55,14 +57,19 @@ public class ReviewPage {
     public ReviewPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        if(propertyReader.getProperty("environment").contains("www.jcrew.com")){
+            isProduction = true;
+        }
     }
 
     public void user_places_its_order() {
+        if(!isProduction) {
+            Util.createWebDriverWait(driver).
+                    until(ExpectedConditions.elementToBeClickable(placeYourOrder));
 
-        Util.createWebDriverWait(driver).
-                until(ExpectedConditions.elementToBeClickable(placeYourOrder));
-
-        placeYourOrder.click();
+            placeYourOrder.click();
+        }
     }
 
     public boolean containsErrors() {
