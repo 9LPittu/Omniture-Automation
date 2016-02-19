@@ -127,7 +127,6 @@ public class DriverFactory {
 
             Set<Cookie> cookies = driver.manage().getCookies();
              for(Cookie cookie:cookies) {
-                 logger.info("cookies at the time of driver creation : {}",cookie.getName());
                  driver.manage().deleteCookie(cookie);
              }
 
@@ -199,14 +198,12 @@ public class DriverFactory {
 
         if ("iossafari".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
-                logger.debug("cookie being deleted :  {}", cookie.getName());
                 driver.manage().deleteCookie(cookie);
             }
         }
         if ("androidchrome".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
                 if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
-                    logger.debug("cookie being deleted :  {}", cookie.getName());
                     driver.manage().deleteCookie(cookie);
                 }
             }
