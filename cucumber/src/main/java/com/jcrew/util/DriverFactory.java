@@ -18,7 +18,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
@@ -123,6 +125,10 @@ public class DriverFactory {
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
+            Set<Cookie> cookies = driver.manage().getCookies();
+             for(Cookie cookie:cookies) {
+                 driver.manage().deleteCookie(cookie);
+             }
         } else if ("androidchrome".equals(browser)) {
             DesiredCapabilities capabilities = DesiredCapabilities.android();
             capabilities.setPlatform(Platform.ANDROID);
@@ -185,16 +191,22 @@ public class DriverFactory {
         WebDriver driver = driverMap.get(identifier);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
-        if (!"androidchrome".equals(propertyReader.getProperty("browser"))) {
+        if ("iossafari".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
                 driver.manage().deleteCookie(cookie);
             }
-            driver.manage().deleteAllCookies();
+        }
+        if ("androidchrome".equals(propertyReader.getProperty("browser"))) {
+            for (Cookie cookie : driver.manage().getCookies()) {
+                if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                    driver.manage().deleteCookie(cookie);
+                }
+            }
         }
 
         if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
             driver.quit();
             driverMap.remove(identifier);
         }
+         }
     }
-}
