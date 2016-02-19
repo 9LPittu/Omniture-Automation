@@ -156,6 +156,7 @@ Feature: Global Header: Breadcrumbs
 
 
    #US9724_TC15
+  @Crumb
   Scenario:Validate Sidecar url when user is on PDP from Sale array page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
@@ -265,6 +266,7 @@ Feature: Global Header: Breadcrumbs
 
 
     #US9724_TC16 (cont)
+  @Crumb
   Scenario: Validate no breadcrumbs are displayed o Account related pages
     #Wishlist Page
     And Goes to sign in page
