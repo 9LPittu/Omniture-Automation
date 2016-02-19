@@ -129,11 +129,6 @@ public class DriverFactory {
              for(Cookie cookie:cookies) {
                  driver.manage().deleteCookie(cookie);
              }
-
-
-
-
-
         } else if ("androidchrome".equals(browser)) {
             DesiredCapabilities capabilities = DesiredCapabilities.android();
             capabilities.setPlatform(Platform.ANDROID);
