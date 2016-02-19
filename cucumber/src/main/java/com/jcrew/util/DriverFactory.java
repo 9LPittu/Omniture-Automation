@@ -128,6 +128,7 @@ public class DriverFactory {
             Set<Cookie> cookies = driver.manage().getCookies();
              for(Cookie cookie:cookies) {
                  logger.info("cookies at the time of driver creation : {}",cookie.getName());
+                 driver.manage().deleteCookie(cookie);
              }
 
 
