@@ -4,10 +4,7 @@ import com.google.common.base.Predicate;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -79,8 +76,15 @@ public class Footer {
     }
 
     public void click_on(String footerLink) {
-        Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
-    }
+        WebElement fLink = getFooterLinkElement(footerLink);
+        try {
+            if (fLink.findElement(By.xpath("//i[contains(@class, 'icon-see-more']")).isDisplayed())
+                Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
+        } catch (NoSuchElementException e) {
+            logger.debug("drawer already open");
+        }
+
+            }
 
 
     public String getFooterSubText(String footerLink) {
