@@ -168,6 +168,7 @@ Feature: Global Header: Breadcrumbs
 
 
      #US9724_TC16
+  @Crumb
   Scenario: Validate no breadcrumbs are displayed pages
 
     #Social responsibility page
