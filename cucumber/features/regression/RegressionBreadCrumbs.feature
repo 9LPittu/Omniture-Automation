@@ -61,7 +61,6 @@ Feature: Global Header: Breadcrumbs
 
     #US9724_TC06--context chooser not available in the application at this time
    #US9724_TC07
-  @Crumb
   Scenario: Validate breadcrumbs display and functionality on Size charts (from footer link) page
      Then Click on footer link Let Us Help You
      And Click on sublink Size Charts from Let Us Help You footer link
@@ -127,7 +126,6 @@ Feature: Global Header: Breadcrumbs
 
 
       #US9724_TC13
-  @Crumb
   Scenario: Validate breadcrumbs display and functionality on the sale category array page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
@@ -170,8 +168,7 @@ Feature: Global Header: Breadcrumbs
 
 
      #US9724_TC16
-  @Crumb
-   Scenario: Validate no breadcrumbs are displayed pages
+  Scenario: Validate no breadcrumbs are displayed pages
 
     #Social responsibility page
     And Click on footer link About J.Crew
