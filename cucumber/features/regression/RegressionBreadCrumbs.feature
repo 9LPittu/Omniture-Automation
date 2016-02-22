@@ -168,7 +168,7 @@ Feature: Global Header: Breadcrumbs
 
 
      #US9724_TC16
-   Scenario: Validate no breadcrumbs are displayed pages
+  Scenario: Validate no breadcrumbs are displayed pages
 
     #Social responsibility page
     And Click on footer link About J.Crew
