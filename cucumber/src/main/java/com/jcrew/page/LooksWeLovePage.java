@@ -19,11 +19,6 @@ public class LooksWeLovePage {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(LooksWeLovePage.class);
 
-    @FindBy(xpath = "//a[@class='section-button shop-now']")
-    private List<WebElement> shopThisLookButtonsWomen;
-    @FindBy(className = "image-box__link")
-    private List<WebElement> shopThisLookButtonsMen;
-
     public LooksWeLovePage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -34,6 +29,7 @@ public class LooksWeLovePage {
         WebDriverWait wait = Util.createWebDriverWait(driver);
         type = type.toLowerCase();
 
+        //wait for section with buttons to be loaded
         switch (type){
             case "women":
                 buttons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//a[@class='section-button shop-now']")));
@@ -42,8 +38,8 @@ public class LooksWeLovePage {
                 buttons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("image-box__link")));
                 break;
             case "girls":
-                break;
             case "boys":
+                buttons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//a[contains(@class,'section-image')]")));
                 break;
             default:
                 logger.debug("Not a valid type to select shop the look buttons...");
@@ -54,7 +50,6 @@ public class LooksWeLovePage {
     }
 
     public void clickRandomShopThisLook(List<WebElement> buttons){
-        //wait for section with buttons to be loaded
         int randomIndex = Util.randomIndex(buttons.size());
         WebElement randomShopTheLook = buttons.get(randomIndex);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(randomShopTheLook));

@@ -101,9 +101,12 @@ public class HamburgerMenu {
     }
 
     public void click_on_selected_featured_this_month(String choice) {
-        WebElement looksWeLove = Util.createWebDriverWait(driver)
-                .until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//span[@class='menu__link__label' and contains(text(),'" + choice + "')]")));
+        WebElement level3Menus = driver.findElement(
+                By.xpath("//div[@class='c-menus menus--level3 js-menus--level3']/div[@class='menu__item is-lazy-loaded']"));
+        WebElement looksWeLove = level3Menus.findElement(
+                    By.xpath(".//span[@class='menu__link__label' and contains(text(),'" + choice + "')]"));
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(looksWeLove));
         looksWeLove.click();
     }
 

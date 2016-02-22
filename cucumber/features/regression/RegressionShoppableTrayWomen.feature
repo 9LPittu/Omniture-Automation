@@ -11,6 +11,7 @@
 
     #US15510_TC01, US15510_TC02, US15510_TC03, US15510_TC06
     Scenario: Verify basic initial state for shoppable tray
+      Then Verifies header text is Shop The Look
       Then Verifies multiple pdp page contains pagination
       Then Verifies initial multiple pdp page state
       And User clicks last product in multiple pdp page

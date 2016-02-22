@@ -80,6 +80,10 @@ public class MultiplePdpSteps extends DriverFactory{
     @Then("^Verify all products are in cart$")
     public void verifyAllProductsAreInCart() {
         assertTrue("Number of products in bag matches products in tray", shoppingBag.isBagItemsCountMatches(multiplePDP.getNumProducts()));
+    }
 
+    @Then("^Verifies header text is ([^\"]*)$")
+    public void verifiesHeaderTextIsShopTheLook(String text){
+        assertTrue("Shop the look header is 'Shop the look'", multiplePDP.headerText(text));
     }
 }

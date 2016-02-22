@@ -1,13 +1,13 @@
 @ShoppableTray
   Feature: Shoppable Tray
 
-    Background: Navigate to a multiple pdp page in Men Category
+    Background: Navigate to a multiple pdp page in Boys Category
       Given User is on homepage
       And User clicks on hamburger menu
-      And Selects Men Category from hamburger menu
-      And User clicks on THIS MONTH'S FEATURES subcategory from Men Category
-      And User clicks on 1 Suit, 5 Ways from featured this month
-      And User selects random shop the look page for Men
+      And Selects Boys Category from hamburger menu
+      And User clicks on THIS MONTH'S FEATURES subcategory from Boys Category
+      And User clicks on Looks We Love from featured this month
+      And User selects random shop the look page for Boys
 
     #US15510_TC01, US15510_TC02, US15510_TC03, US15510_TC06
     Scenario: Verify basic initial state for shoppable tray

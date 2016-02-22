@@ -34,6 +34,7 @@ public class MultiplePdpPage {
     @FindBy (id = "btn__wishlist")
     private WebElement addToWishlistButton;
 
+    private WebElement header;
     private List<WebElement> products = null;
     private List<WebElement> productsImages = null;
     private int numProducts;
@@ -53,6 +54,8 @@ public class MultiplePdpPage {
         wait = Util.createWebDriverWait(driver);
         Util.waitLoadingBar(driver);
         loadNavigation();
+
+        header = driver.findElement(By.className("header__tray"));
     }
 
     private void loadNavigation(){
@@ -80,6 +83,11 @@ public class MultiplePdpPage {
 
     }
 
+    public boolean headerText(String title){
+        String pageHeader = header.getText();
+        return title.equalsIgnoreCase(pageHeader);
+    }
+
     public boolean containsNavigation(){
         return previous.isDisplayed() && next.isDisplayed();
     }
@@ -91,10 +99,8 @@ public class MultiplePdpPage {
 
         if ("next".equalsIgnoreCase(arrow)) {
             link = next.findElement(linkXpath);
-            logger.debug("next link: {} and class {}", link.getTagName(), link.getAttribute("class"));
         } else if ("previous".equalsIgnoreCase(arrow)) {
             link = previous.findElement(linkXpath);
-            logger.debug("previous link: {} and class {}", link.getTagName(), link.getAttribute("class"));
         } else {
             logger.debug("bad use of isArrowDisabled(String)");
             return false;
@@ -208,7 +214,7 @@ public class MultiplePdpPage {
         List<WebElement> variationsType = article.findElements(By.xpath(".//li[contains(@class,'js-product__variation')]"));
 
         if(variationsType.size() > 0){
-            for(int i = 0; i < variationsType.size(); i++) {
+            for(int i = 1; i < variationsType.size(); i++) {
                 //get price of current variation
                 detail = wait.until(ExpectedConditions.presenceOfElementLocated(
                         By.xpath(".//div[@class='product__variation--wrap is-mobile']/" +
@@ -217,7 +223,7 @@ public class MultiplePdpPage {
                 detailsCheck &= detail.isDisplayed();
 
                 //click on next variation
-                selectNextVariation();
+                //selectNextVariation();
             }
         } else {
             //product does not have variations
@@ -237,6 +243,7 @@ public class MultiplePdpPage {
         String url = driver.getCurrentUrl();
         nextVariation.click();
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        loadNavigation();
 
     }
 
