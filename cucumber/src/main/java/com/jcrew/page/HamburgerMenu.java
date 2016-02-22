@@ -98,10 +98,10 @@ public class HamburgerMenu {
         //Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("category"));
     }
 
-    public void click_on_looks_we_love() {
+    public void click_on_selected_featured_this_month(String choice) {
         WebElement looksWeLove = Util.createWebDriverWait(driver)
                 .until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//span[@class='menu__link__label' and contains(text(),'looks we love')]")));
+                    By.xpath("//span[@class='menu__link__label' and contains(text(),'" + choice + "')]")));
         looksWeLove.click();
     }
 

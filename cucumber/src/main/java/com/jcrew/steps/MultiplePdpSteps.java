@@ -1,8 +1,8 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.MultiplePdpPage;
+import com.jcrew.page.ShoppingBagPage;
 import com.jcrew.util.DriverFactory;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 public class MultiplePdpSteps extends DriverFactory{
 
     private final MultiplePdpPage multiplePDP = new MultiplePdpPage(getDriver());
+    private final ShoppingBagPage shoppingBag = new ShoppingBagPage(getDriver());
 
     @Then("^Verifies multiple pdp page contains pagination$")
     public void verifies_multiple_pdp_page_contains_pagination(){
@@ -60,8 +61,25 @@ public class MultiplePdpSteps extends DriverFactory{
         assertTrue(multiplePDP.hasProductChanged());
     }
 
-    @Then("^Verify every product contains details$")
+    @Then("^Verify every product contains name, image, price, color and size$")
     public void verifyEveryProductContainsDetails() {
         assertTrue("Every product contains details", multiplePDP.checkEveryItemDetails());
+    }
+
+    //This step will check that the drawer exists, is closed when visiting the product and when opening, remains open
+    @Then("^Verify every product contains product, size and fit and review drawers$")
+    public void verifyEveryProductContainsProductDetails() {
+        assertTrue("Every product contains product, size and fit and review drawers", multiplePDP.checkEveryItemDrawers());
+    }
+
+    @And("^Add all products to cart$")
+    public void addAllProductsToCart(){
+        multiplePDP.addAllProductsTo("cart");
+    }
+
+    @Then("^Verify all products are in cart$")
+    public void verifyAllProductsAreInCart() {
+        assertTrue("Number of products in bag matches products in tray", shoppingBag.isBagItemsCountMatches(multiplePDP.getNumProducts()));
+
     }
 }

@@ -26,9 +26,9 @@ public class HamburgerMenuSteps extends DriverFactory {
         hamburgerMenu.click_on_subcategory(subcategory, category);
     }
 
-    @And("^User clicks on looks we love$")
-    public void user_clicks_looks_we_love() {
-        hamburgerMenu.click_on_looks_we_love();
+    @And("^User clicks on ([^\"]*) from featured this month$")
+    public void user_clicks_selection_from_featured_this_month(String selection) {
+        hamburgerMenu.click_on_selected_featured_this_month(selection);
     }
 
     @And("^User clicks on ([^\"]*) subcategory from Sales$")

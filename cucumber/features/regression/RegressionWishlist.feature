@@ -37,3 +37,5 @@ Feature: Ability to link to PDP from Wishlist
     Then User is in product detail page
     When Add to cart button is pressed
     Then A minicart modal should appear with message '1 item has been added to your cart.'
+
+  Scenario: Verify products can be added to wishlist from multiple pdp pages

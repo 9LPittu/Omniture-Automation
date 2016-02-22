@@ -6,8 +6,8 @@
       And User clicks on hamburger menu
       And Selects Women Category from hamburger menu
       And User clicks on THIS MONTH'S FEATURES subcategory from Women Category
-      And User clicks on looks we love
-      And User selects random shop the look page
+      And User clicks on looks we love from featured this month
+      And User selects random shop the look page for Women
 
     #US15510_TC01, US15510_TC02, US15510_TC03, US15510_TC06
     Scenario: Verify basic initial state for shoppable tray
@@ -28,6 +28,11 @@
       Then Verifies product details have changed
 
     #US9697_TC01, US9697_TC02, US9697_TC04, US9697_TC05
-    @wip
     Scenario: Verify every product contains details
-      Then Verify every product contains details
+      Then Verify every product contains name, image, price, color and size
+      Then Verify every product contains product, size and fit and review drawers
+
+    #US9697_TC06_Part_1
+    Scenario: Verify ability to add to cart
+      And Add all products to cart
+      Then Verify all products are in cart

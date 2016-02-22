@@ -4,7 +4,6 @@ import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,9 +13,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MultiplePdpPage {
     private final WebDriver driver;
@@ -27,6 +25,14 @@ public class MultiplePdpPage {
     private WebElement paginationSection;
     @FindBy (id = "c-tray__list")
     private WebElement multipleProductSection;
+    @FindBy (id = "c-product__information")
+    private  WebElement productInformationSection;
+    @FindBy (id = "c-product__reviews--ratings")
+    private  WebElement productReviewRatingsSection;
+    @FindBy (id = "btn__add-to-bag")
+    private WebElement addToBagButton;
+    @FindBy (id = "btn__wishlist")
+    private WebElement addToWishlistButton;
 
     private List<WebElement> products = null;
     private List<WebElement> productsImages = null;
@@ -35,8 +41,8 @@ public class MultiplePdpPage {
     private WebElement previous;
     private WebElement trayCount;
     private WebElement article;
-    private WebElement productVariations;
-    private WebElement productColorSwatches;
+    private WebElement productDetailsDrawer;
+    private WebElement sizeAndFitDrawer;
 
     private WebDriverWait wait;
 
@@ -50,6 +56,9 @@ public class MultiplePdpPage {
     }
 
     private void loadNavigation(){
+        //product details
+        article = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("c-product")));
+
         Util.waitWithStaleRetry(driver, paginationSection);
         previous = paginationSection.findElement(By.className("pagination__item--previous"));
         next = paginationSection.findElement(By.className("pagination__item--next"));
@@ -61,9 +70,14 @@ public class MultiplePdpPage {
 
         numProducts = products.size();
 
-        //product details
-        article = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("c-product")));
-        productVariations = article.findElement(By.id("c-product__variations"));
+        Util.waitWithStaleRetry(driver, productInformationSection);
+        productDetailsDrawer = productInformationSection.findElement(By.id("c-product__description"));
+        sizeAndFitDrawer = productInformationSection.findElement(By.id("c-product__size-fit"));
+
+        Util.waitWithStaleRetry(driver, productReviewRatingsSection);
+        Util.waitWithStaleRetry(driver, addToBagButton);
+        Util.waitWithStaleRetry(driver, addToWishlistButton);
+
     }
 
     public boolean containsNavigation(){
@@ -129,7 +143,9 @@ public class MultiplePdpPage {
     public void clickNext(){
         stateHolder.put("shoppableTrayProduct", article);
         WebElement nextLink = next.findElement(By.tagName("a"));
+        String currUrl = driver.getCurrentUrl();
         nextLink.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currUrl)));
         loadNavigation();
     }
 
@@ -146,15 +162,14 @@ public class MultiplePdpPage {
     }
 
     public boolean checkEveryItemDetails(){
-        //assuming we are in product 0
+        if(getSelectedProductIndex() != 0)
+            setSelectProductIndex(0);
+
         boolean result = true;
 
-        for (int i = 1; i < numProducts && result; i++) {
+        for (int i = 0; i < numProducts && result; i++) {
             result = checkDetails();
-            WebElement nextProduct = products.get(i);
-            String productCode = nextProduct.getAttribute("data-code");
-            clickNext();
-            wait.until(ExpectedConditions.urlContains("itemCode="+productCode));
+            navigateToNextProduct(i);
         }
 
         return result;
@@ -164,57 +179,65 @@ public class MultiplePdpPage {
         boolean detailsCheck = true;
         WebElement detail;
 
-        //contains product name
+        //contains PRODUCT NAME
         detail = article.findElement(By.className("product__name"));
         detailsCheck &= !detail.getText().isEmpty();
-        logger.debug("Name: {}", detailsCheck);
+        logger.debug("Name: {}", detail.getText());
 
-        //contains image
+        //contains IMAGE
         detail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("product__image")));
         detailsCheck &= detail.isDisplayed();
-        logger.debug("Image: {}", detailsCheck);
 
-        //contains price
-        try{
-            List<WebElement> variationsType = productVariations.findElements(By.className("variations-list"));
-
-            logger.debug("We have variations, checking... ");
-            for(WebElement variation:variationsType){
-                variation.click();
-                detail = productVariations.findElement(By.className("product__price--list"));
-                detailsCheck &= detail.isDisplayed();
-            }
-        }catch (NoSuchElementException noVariations) {
-            //product does not have variations
-            logger.debug("No variations, checking regular price");
-            detail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("product__price--list")));
-            detailsCheck &= detail.isDisplayed();
-        }
-        logger.debug("Price: {}", detailsCheck);
-
-        //contains color swatches
+        //contains COLOR SWATCHES
         detail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//ul[@class='product__colors colors-list']")));
         detailsCheck &= detail.isDisplayed();
-        logger.debug("Colors: {}", detailsCheck);
 
-        //contains sizes options
+        //contains SIZES OPTIONS
         detail = article.findElement(By.className("sizes-list"));
         detailsCheck &= detail.isDisplayed();
-        logger.debug("Sizes: {}", detailsCheck);
 
-        //contains sizes & fit details
+        //contains SIZES & FIT DETAILS (available only when containing more than one size
         List<WebElement> sizes = detail.findElements(By.tagName("li"));
         if(sizes.size() > 1) {
-
             detail = article.findElement(By.className("js-link__size-fit"));
             detailsCheck &= detail.isDisplayed();
-            logger.debug("Size & fit: {}", detailsCheck);
+        }
+
+        //contains price
+        //get variations number
+        List<WebElement> variationsType = article.findElements(By.xpath(".//li[contains(@class,'js-product__variation')]"));
+
+        if(variationsType.size() > 0){
+            for(int i = 0; i < variationsType.size(); i++) {
+                //get price of current variation
+                detail = wait.until(ExpectedConditions.presenceOfElementLocated(
+                        By.xpath(".//div[@class='product__variation--wrap is-mobile']/" +
+                                "span[contains(@class,'product__variation--price-list')]")));
+
+                detailsCheck &= detail.isDisplayed();
+
+                //click on next variation
+                selectNextVariation();
+            }
         } else {
-          logger.debug("One size product, no size and fit details");
+            //product does not have variations
+            detail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("product__price--list")));
+            detailsCheck &= detail.isDisplayed();
         }
 
 
         return detailsCheck;
+    }
+
+    private void selectNextVariation(){
+        By currentVariationXpath = By.xpath(".//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]");
+        WebElement currentVariation =  wait.until(ExpectedConditions.presenceOfElementLocated(currentVariationXpath));
+        WebElement nextVariation = currentVariation.findElement(By.xpath("following-sibling::li"));
+
+        String url = driver.getCurrentUrl();
+        nextVariation.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+
     }
 
     public boolean itemsNumberMatchesPicturesSize() {
@@ -223,5 +246,118 @@ public class MultiplePdpPage {
         int itemsNumber = Integer.parseInt(itemsString);
 
         return itemsNumber == numProducts;
+    }
+
+    public boolean checkEveryItemDrawers() {
+        if(getSelectedProductIndex() != 0)
+            setSelectProductIndex(0);
+
+        boolean result = true;
+
+        for (int i = 0; i < numProducts && result; i++) {
+            result = openDrawer(productDetailsDrawer);
+            result &= openDrawer(sizeAndFitDrawer);
+            result &= openDrawer(productReviewRatingsSection);
+            result &= isDrawerOpen(productDetailsDrawer);
+            result &= isDrawerOpen(sizeAndFitDrawer);
+            result &= isDrawerOpen(productReviewRatingsSection);
+            navigateToNextProduct(i);
+        }
+
+        return result;
+    }
+
+    private boolean isDrawerOpen(WebElement parentDrawer){
+        WebElement drawer = parentDrawer.findElement(By.className("accordian__wrap"));
+
+        //drawer is closed
+        return drawer.getAttribute("class").contains("is-expanded");
+    }
+
+    private boolean openDrawer(WebElement parentDrawer) {
+        boolean result = true;
+        WebElement drawer = parentDrawer.findElement(By.className("accordian__wrap"));
+
+        //drawer is closed
+        result &= !drawer.getAttribute("class").contains("is-expanded");
+
+        WebElement drawerHeader =   drawer.findElement(By.className("accordian__header"));
+        drawerHeader.click();
+
+        //drawer is open
+        result &= drawer.getAttribute("class").contains("is-expanded");
+
+        return result;
+    }
+
+    public void addAllProductsTo(String bag){
+        WebElement button;
+
+        if("cart".equals(bag)){
+            button = addToBagButton;
+        } else if("wish list".equals(bag)){
+            button = addToWishlistButton;
+        } else {
+            logger.debug("Not able to add somewhere...");
+            return;
+        }
+
+        if(getSelectedProductIndex() != 0)
+            setSelectProductIndex(0);
+
+        for (int i = 0; i < numProducts; i++) {
+            pickColor();
+            pickAvailableSize();
+            button.click();
+            navigateToNextProduct(i);
+        }
+
+    }
+
+    public int getNumProducts(){
+        return numProducts;
+    }
+
+    private String pickAvailableSize() {
+        List<WebElement> availableSizes = article.findElements(By.xpath(".//ul[@class='sizes-list']" +
+                "/li[contains(@class,'js-product__size sizes-list__item') and not(contains(@class,'is-unavailable'))]"));
+        WebElement sizeElement;
+
+        if(availableSizes.size() > 0) {
+            int random = Util.randomIndex(availableSizes.size());
+            sizeElement  = availableSizes.get(random);
+        } else {
+            sizeElement = availableSizes.get(0);
+        }
+
+        sizeElement.click();
+
+        return sizeElement.getText();
+    }
+
+    private String pickColor() {
+        List<WebElement> availableColors = article.findElements(By.xpath(".//ul[@class='product__colors colors-list']/li"));
+        WebElement colorElement;
+
+        if(availableColors.size() > 0) {
+            int random = Util.randomIndex(availableColors.size());
+            colorElement = availableColors.get(random);
+        } else {
+            colorElement = availableColors.get(0);
+        }
+
+        colorElement.click();
+
+        return colorElement.getAttribute("data-name");
+    }
+
+    private void navigateToNextProduct(int currentIndex){
+        if(currentIndex < numProducts - 1) {
+            WebElement nextProduct = products.get(currentIndex + 1);
+            String productCode = nextProduct.getAttribute("data-code");
+            clickNext();
+            Util.waitForPageFullyLoaded(driver);
+            wait.until(ExpectedConditions.urlContains("itemCode=" + productCode));
+        }
     }
 }
