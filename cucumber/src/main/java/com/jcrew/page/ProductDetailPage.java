@@ -92,6 +92,8 @@ public class ProductDetailPage {
     	
 		List<Product> productList = (List<Product>) stateHolder.get("productList");
 
+        logger.debug("Looking for: {} - {}", pdpProductNameString, pdpProductPriceString);
+
         for(Product product:productList){
             String productName = product.getProductName();
             String productPrice = product.getPriceList();
@@ -273,6 +275,7 @@ public class ProductDetailPage {
 
     public String getProductPriceList() {
         String productListPrice = "";
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetails));
         if (getVariationsNames().isEmpty()) {
             productListPrice = productDetails.findElement(By.className("product__price--list")).getText();
         } else {
@@ -379,6 +382,14 @@ public class ProductDetailPage {
     }
     
     public void clickMinicartCheckout(){
-    	minicartCheckout.click();
+        try {
+            minicartCheckout.click();
+        } catch (NoSuchElementException noMiniCart){
+            logger.debug("Minicart not found, so going through bag button");
+            bagContainer.click();
+        }
+
+        String currentURL = driver.getCurrentUrl();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
 }

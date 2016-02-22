@@ -50,14 +50,13 @@ Feature: Registered User Checkout Process
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
     And Move to mobile site
-    And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
-    And User is on internal /checkout2/shoppingbag.jsp page
+    And page url should contain /checkout2/shoppingbag.jsp
     And enter email address as "testuser1@example.org" on sign in page
     And enter password as "test1234"
     And click on SIGN IN & CHECK OUT button
-    And User is on internal /checkout2/signin.jsp page
+    And page url should contain /checkout2/signin.jsp
     And items count should be 2 on the review page
     And product name and price on review page should be displayed correctly
     And Inputs credit card security code
@@ -80,14 +79,13 @@ Feature: Registered User Checkout Process
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
     And Move to mobile site
-    And breadcrumb should display "J.Crew"
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
-    And User is on internal /checkout2/shoppingbag.jsp page
+    And page url should contain /checkout2/shoppingbag.jsp
     And enter email address as "testuser1@example.org" on sign in page
     And enter password as "test1234"
     And click on SIGN IN & CHECK OUT button
-    And User is on internal /checkout2/signin.jsp page
+    And page url should contain /checkout2/signin.jsp
     And click on 'CHANGE' button of 'BILLING DETAILS' section on 'Review' page
     And click 'Add New Card' on billing page
     And enter "Visa_Card1" details on billing page

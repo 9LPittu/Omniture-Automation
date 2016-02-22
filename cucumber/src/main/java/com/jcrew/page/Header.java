@@ -154,7 +154,12 @@ public class Header {
     }
 
     public boolean isJcrewBreadCrumbNotDisplayed() {
-        return !breadcrumbSection.isDisplayed();
+        try {
+            return !breadcrumbSection.isDisplayed();
+        } catch (NoSuchElementException e) {
+            logger.debug("bread crumb section not present");
+            return true;
+        }
     }
 
     public boolean isEmbeddedHeaderSectionDisplayed() {

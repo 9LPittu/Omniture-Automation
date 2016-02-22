@@ -95,7 +95,9 @@ public class HamburgerMenu {
     public void click_on_subcategory(String subcategory, String category) {
         getSubcategoryFromMenu(subcategory, category).click();
         stateHolder.put("subcategory", subcategory);
-        //Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("category"));
+
+        Util.waitLoadingBar(driver);
+
     }
 
     public void click_on_selected_featured_this_month(String choice) {
@@ -114,7 +116,9 @@ public class HamburgerMenu {
 
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
         WebElement categories = getMenuItemElementForCategory(category);
+
         Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(categories,subcategory));
+
         WebElement categoryLink = categories.findElement(By.linkText(subcategory));
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryLink));
@@ -172,6 +176,7 @@ public class HamburgerMenu {
         if (categoryMenu.isDisplayed()) {
             result = signInLink.getText();
         } else {
+            Util.waitLoadingBar(driver);
             click_on_hamburger_menu();
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInLinkFromHamburger));
             result = signInLinkFromHamburger.getText();

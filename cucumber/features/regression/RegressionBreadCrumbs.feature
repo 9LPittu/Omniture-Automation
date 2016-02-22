@@ -156,7 +156,7 @@ Feature: Global Header: Breadcrumbs
 
 
    #US9724_TC15
-  Scenario:Validate Sidecar url when user is on PDP from Sale array page
+    Scenario:Validate Sidecar url when user is on PDP from Sale array page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
     And User is in sale landing page
@@ -168,7 +168,7 @@ Feature: Global Header: Breadcrumbs
 
 
      #US9724_TC16
-  Scenario: Validate no breadcrumbs are displayed pages
+   Scenario: Validate no breadcrumbs are displayed pages
 
     #Social responsibility page
     And Click on footer link About J.Crew
@@ -229,7 +229,7 @@ Feature: Global Header: Breadcrumbs
 
     #contact us page
     Then Click on footer link Let Us Help You
-    And Click on sublink Contact Us from Let Us Help You footer link
+    And Click on sublink Need Some Help? from Let Us Help You footer link
     And User is on internal /footie/contactus.jsp?sidecar=true page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
@@ -264,7 +264,8 @@ Feature: Global Header: Breadcrumbs
 
 
     #US9724_TC16 (cont)
-  Scenario: Validate no breadcrumbs are displayed o Account related pages
+
+  Scenario: Validate no breadcrumbs are displayed on Account related pages
     #Wishlist Page
     And Goes to sign in page
     And User provides login information

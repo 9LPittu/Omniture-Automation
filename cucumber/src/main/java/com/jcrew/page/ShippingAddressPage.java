@@ -116,10 +116,12 @@ public class ShippingAddressPage {
     }
     
     public void enterFirstNameOnShippingAddressPage(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(firstNameSA));
     	firstNameSA.sendKeys(faker.name().firstName());
     }
     
     public void enterLastNameOnShippingAddressPage(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(lastNameSA));
     	lastNameSA.sendKeys(faker.name().lastName());
     }
     
