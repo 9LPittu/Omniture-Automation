@@ -1,5 +1,5 @@
 @ShoppableTray
-  Feature: Shoppable Tray
+  Feature: Shoppable Tray in Boys Category
 
     Background: Navigate to a multiple pdp page in Boys Category
       Given User is on homepage

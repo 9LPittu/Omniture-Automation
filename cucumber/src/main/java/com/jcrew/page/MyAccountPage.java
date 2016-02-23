@@ -49,7 +49,9 @@ public class MyAccountPage {
     }
 
     public void click_menu_link(String link) {
-        getMenuLink(link).click();
+        WebElement menu = getMenuLink(link);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
+        menu.click();
     }
 
     public boolean isInMenuLinkPage(String page) {

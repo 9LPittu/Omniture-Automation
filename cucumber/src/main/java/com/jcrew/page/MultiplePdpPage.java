@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MultiplePdpPage {
@@ -299,6 +299,7 @@ public class MultiplePdpPage {
 
     public void addAllProductsTo(String bag){
         WebElement button;
+        HashMap<String,Product> itemsInTray = new HashMap<>(numProducts);
 
         if("cart".equals(bag)){
             button = addToBagButton;
@@ -315,10 +316,32 @@ public class MultiplePdpPage {
         for (int i = 0; i < numProducts; i++) {
             pickColor();
             pickAvailableSize();
+            Product item = getProduct();
+            itemsInTray.put(item.getProductName(), item);
             button.click();
             navigateToNextProduct(i);
         }
 
+        stateHolder.put("itemsInTray", itemsInTray);
+
+    }
+
+    private Product getProduct(){
+        Product item = new Product();
+        //name
+        WebElement data = driver.findElement(By.className("product__name"));
+        item.setProductName(data.getText().toLowerCase());
+
+        //color
+        data = driver.findElement(By.xpath("//div[@class='product__price-colors']/dl/dd"));
+        item.setSelectedColor(data.getText().toLowerCase());
+
+        //size
+        data = driver.findElement(By.xpath("//div[@class='product__sizes']/dl/dd"));
+        item.setSelectedSize(data.getText().toLowerCase());
+
+        logger.debug("{}/{}/{}",item.getProductName(), item.getSelectedColor(), item.getSelectedSize());
+        return item;
     }
 
     public int getNumProducts(){

@@ -1,5 +1,5 @@
 @ShoppableTray
-  Feature: Shoppable Tray
+  Feature: Shoppable Tray in Women Category
 
     Background: Navigate to a multiple pdp page in Women Category
       Given User is on homepage

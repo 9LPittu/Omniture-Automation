@@ -86,4 +86,9 @@ public class MultiplePdpSteps extends DriverFactory{
     public void verifiesHeaderTextIsShopTheLook(String text){
         assertTrue("Shop the look header is 'Shop the look'", multiplePDP.headerText(text));
     }
+
+    @And("^User adds all products to wish list$")
+    public void userAddsAllProductsToWishList(){
+        multiplePDP.addAllProductsTo("wish list");
+    }
 }

@@ -1,7 +1,10 @@
 package com.jcrew.page;
 
 
+import com.jcrew.pojo.Product;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -12,9 +15,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class WishlistPage {
 
     private final WebDriver driver;
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @FindBy(id = "wishlistName")
     private WebElement wishListName;
@@ -107,4 +114,49 @@ public class WishlistPage {
                         "});"
         );
     }
+
+    public boolean shopTheLookProducts() {
+        boolean result = true;
+        HashMap<String, Product> addedProducts = (HashMap<String, Product>) stateHolder.get("itemsInTray");
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(userWishlist));
+        List<WebElement> productsInWishlist = userWishlist.findElements(By.className("item-data"));
+
+        for(WebElement wishElement:productsInWishlist){
+            Product wish = getProduct(wishElement);
+            Product added = addedProducts.get(wish.getProductName());
+
+            if(added == null){
+                logger.info("{} product in wish list did not match any product in tray", wish.getProductName());
+                result = false;
+            } else {
+                result &= added.equals(wish);
+            }
+        }
+
+        return result;
+    }
+
+    private String cleanProductName(WebElement item_data){
+        String name = item_data.getAttribute("data-itemtitle").toLowerCase();
+        name = StringEscapeUtils.unescapeHtml(name);
+        name = name.replace("pre-order ","");
+
+        return name;
+    }
+
+    private Product getProduct(WebElement item_data){
+        Product product = new Product();
+
+        String color = item_data.getAttribute("data-color").toLowerCase();
+        String size = item_data.getAttribute("data-size").toLowerCase();
+        String name = cleanProductName(item_data);
+
+        product.setProductName(name);
+        product.setSelectedColor(color);
+        product.setSelectedSize(size);
+
+        return product;
+    }
+
 }
