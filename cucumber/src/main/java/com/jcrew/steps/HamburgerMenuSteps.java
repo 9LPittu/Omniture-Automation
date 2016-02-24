@@ -3,10 +3,15 @@ package com.jcrew.steps;
 import com.jcrew.page.HamburgerMenu;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.Util;
+import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import gherkin.formatter.model.DataTableRow;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -89,4 +94,20 @@ public class HamburgerMenuSteps extends DriverFactory {
                 "SIGN IN", hamburgerMenu.getSignInMessage());
     }
 
+    @And("^User selects random tray from available categories$")
+    public void selectRandomTrayFromAvailableCategories(DataTable categories){
+        List<DataTableRow> row = categories.getGherkinRows();
+        DataTableRow selectedRow = row.get(Util.randomIndex(row.size()));
+
+        String category = selectedRow.getCells().get(0);
+        String subcategory = selectedRow.getCells().get(1);
+        String option = selectedRow.getCells().get(2);
+
+        selects_category_from_hamburger_menu(category);
+        user_clicks_on_subcategory_from_category(subcategory,category);
+        user_clicks_selection_from_featured_this_month(option);
+
+        new LooksWeLoveSteps().user_Selects_Random_Shop_The_Look_Page(category);
+
+    }
 }

@@ -91,4 +91,24 @@ public class MultiplePdpSteps extends DriverFactory{
     public void userAddsAllProductsToWishList(){
         multiplePDP.addAllProductsTo("wish list");
     }
+
+    @And("^Copy URL and use externalProductCodes in lower case to access tray$")
+    public void copyURLAndUseExternalProductCodesInLowerCaseToAccessTray() {
+        multiplePDP.visitTrayWithLowerCaseExternalProduct();
+    }
+
+    @Then("^Verify that all products match with original URL$")
+    public void verifyThatAllProductsMatchWithOriginalURL() {
+        assertTrue("The tray has same products than original URL",multiplePDP.productsMatchesOriginalURL());
+    }
+
+    @And("^Selects color for every item and visits URL$")
+    public void selectsColorForEveryItemAndVisitsURL(){
+        multiplePDP.visitTrayWithSelectedColors();
+    }
+
+    @Then("^Verify tray has selected colors as default$")
+    public void verifyTrayHasSelectedColorsAsDefault() {
+        assertTrue("New URL contains selected colors by default", multiplePDP.selectedColorsByDefault());
+    }
 }

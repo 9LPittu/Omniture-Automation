@@ -13,6 +13,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -389,7 +391,7 @@ public class MultiplePdpPage {
 
         colorElement.click();
 
-        return colorElement.getAttribute("data-name");
+        return colorElement.getAttribute("data-code");
     }
 
     private void navigateToNextProduct(int currentIndex){
@@ -400,5 +402,82 @@ public class MultiplePdpPage {
             Util.waitForPageFullyLoaded(driver);
             wait.until(ExpectedConditions.urlContains("itemCode=" + productCode));
         }
+    }
+
+    private void getModifiedURL(String query){
+        try{
+            URL trayURL = new URL(driver.getCurrentUrl());
+            String newURL = trayURL.getProtocol() + "://" +trayURL.getHost() + trayURL.getPath() + query;
+            logger.debug("new tray URL: {}", newURL);
+            driver.get(newURL);
+            loadNavigation();
+        } catch (MalformedURLException badURL){
+            logger.error("Not able to create URL");
+        }
+    }
+
+    public void visitTrayWithLowerCaseExternalProduct(){
+        String items = "";
+        for(int i = 0; i < products.size(); i++){
+            items += products.get(i).getAttribute("data-code");
+            if(i + 1 < products.size()){
+                items += ",";
+            }
+        }
+        stateHolder.put("originalURLProducts", items);
+        getModifiedURL("?externalProductCodes=" + items.toLowerCase());
+    }
+
+    public boolean productsMatchesOriginalURL() {
+        boolean result = true;
+        String originalProducts = (String) stateHolder.get("originalURLProducts");
+        String products[] = originalProducts.split(",");
+
+        for(String product : products){
+            WebElement productByCode = multipleProductSection.findElement(By.xpath(".//li[@data-code='"+product+"']"));
+            result &= productByCode != null;
+        }
+
+        return result;
+    }
+
+    public void visitTrayWithSelectedColors() {
+        if(getSelectedProductIndex() != 0)
+            setSelectProductIndex(0);
+
+        String items = "";
+        String color;
+        List<String> colors = new ArrayList<>(numProducts);
+
+        for (int i = 0; i < numProducts; i++) {
+            items += products.get(i).getAttribute("data-code");
+            color = pickColor();
+            colors.add(color);
+            items += "-"+color;
+            if(i + 1 < products.size()){
+                items += ",";
+            }
+            navigateToNextProduct(i);
+        }
+
+        stateHolder.put("selectedColors", colors);
+        getModifiedURL("?externalProductCodes=" + items);
+    }
+
+    public boolean selectedColorsByDefault() {
+        boolean result = true;
+        List<String> colors = (List<String>) stateHolder.get("selectedColors");
+
+        if(getSelectedProductIndex() != 0)
+            setSelectProductIndex(0);
+
+        for (int i = 0; i < numProducts; i++) {
+            String colorCode = colors.get(i);
+            WebElement defaultColor = article.findElement(By.xpath(".//li[@class='js-product__color colors-list__item is-selected']"));
+            result &= colorCode.equals(defaultColor.getAttribute("data-code"));
+            navigateToNextProduct(i);
+        }
+
+        return result;
     }
 }
