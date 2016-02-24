@@ -211,15 +211,6 @@ Feature: Global Header: Breadcrumbs
     And Verify Embedded header is displayed
     And User presses back button
 
-    #Store Locator page
-    When Click on footer link Our Stores to open
-    And Store Locator sublink is displayed
-    And Click on sublink Store Locator from Our Stores footer link
-    And Verify user is on help store locator page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
      #privacy policy page
     And click on "PRIVACY POLICY" in the legal links section of footer
     And User is on internal /help/privacy_policy.jsp?sidecar=true page
@@ -236,7 +227,6 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #Order status Page
-
     When Click on footer link Let Us Help You to open
     And Click on sublink Order Status from Let Us Help You footer link
     Then Verify user is on order status page
@@ -246,7 +236,6 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #terms of use page
-
     And click on "TERMS OF USE" in the legal links section of footer
     And User is on internal /footer/termsofuse.jsp?sidecar=true page
     And Verify J crew breadcrumb is not displayed
@@ -254,7 +243,6 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #Request a style guide page
-
     Then Click on footer link Let Us Help You to open
     And Click on sublink Request A Style Guide from Let Us Help You footer link
     And Verify user is on request a catalog page
@@ -262,9 +250,17 @@ Feature: Global Header: Breadcrumbs
     And Verify Embedded header is displayed
     And User presses back button
 
+    # US9724_TC16 (cont)   Store Locator page
+  Scenario: Validate no breadcrumbs are displayed on store locator page
+    When Click on footer link Our Stores to open
+    And Store Locator sublink is displayed
+    And Click on sublink Store Locator from Our Stores footer link
+    And Verify user is on help store locator page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+
 
     #US9724_TC16 (cont)
-
   Scenario: Validate no breadcrumbs are displayed on Account related pages
     #Wishlist Page
     And Goes to sign in page
