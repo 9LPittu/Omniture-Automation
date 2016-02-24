@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@Crumbs"},
+        tags = {"@BreadCrumbs"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-breadcrumbregressionfeatures.json",
