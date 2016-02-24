@@ -11,6 +11,7 @@
         |Boys |THIS MONTH'S FEATURES|Looks We Love |
 
     #US15510_TC01, US15510_TC02, US15510_TC03, US15510_TC06
+    @wip
     Scenario: Verify basic initial state for shoppable tray
       Then Verifies multiple pdp page contains pagination
       Then Verifies initial multiple pdp page state
@@ -18,6 +19,8 @@
       Then Verifies next item arrow is disabled
       Then Verifies previous item arrow is enabled
       Then Breadcrumb should display J.Crew
+      Then Verify all header items are correctly displayed
+      Then Verify all footer items are visible
 
     #US15510_TC04, US15510_TC05
     Scenario: Verify next and previous buttons functionality
@@ -30,6 +33,7 @@
       Then Verifies product details have changed
 
     #US9697_TC01, US9697_TC02, US9697_TC04, US9697_TC05
+    #Currently failing because SC-788
     Scenario: Verify every product contains details
       Then Verify every product contains name, image, price, color and size
       Then Verify every product contains product, size and fit and review drawers

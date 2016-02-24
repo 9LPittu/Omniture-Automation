@@ -225,7 +225,7 @@ public class MultiplePdpPage {
                 detailsCheck &= detail.isDisplayed();
 
                 //click on next variation
-                //selectNextVariation();
+                selectNextVariation();
             }
         } else {
             //product does not have variations

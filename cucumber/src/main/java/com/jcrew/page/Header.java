@@ -16,6 +16,8 @@ public class Header {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(Header.class);
 
+    private final String menuItems[] = {"MENU", "SEARCH", "STORES","BAG"};
+
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
     @FindBy(className = "icon-close")
@@ -165,5 +167,15 @@ public class Header {
     public boolean isEmbeddedHeaderSectionDisplayed() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
         return headerWrap.isDisplayed();
+    }
+
+    public boolean isAllMenuItemsDisplayed(){
+        boolean result = true;
+
+        for(String item:menuItems){
+            result &= isHeaderLinkPresent(item);
+        }
+
+        return result;
     }
 }

@@ -21,6 +21,8 @@ public class Footer {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(Footer.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
+
+    private final String footerItems[] = {"Let Us Help You", "Our Cards", "Our Stores","About J.Crew", "Get To Know Us"};
     
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
@@ -63,6 +65,14 @@ public class Footer {
     public boolean isFooterLinkPresent(String footerLink) {
         return getFooterLinkElement(footerLink).isDisplayed();
 
+    }
+
+    public boolean isAllFooterLinksPresent(){
+        boolean result = true;
+        for(String item:footerItems){
+            result &= isFooterLinkPresent(item);
+        }
+        return result;
     }
 
     private WebElement getFooterLinkElement(String footerLink) {
