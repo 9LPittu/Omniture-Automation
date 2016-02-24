@@ -62,7 +62,7 @@ Feature: Global Header: Breadcrumbs
     #US9724_TC06--context chooser not available in the application at this time
    #US9724_TC07
   Scenario: Validate breadcrumbs display and functionality on Size charts (from footer link) page
-     Then Click on footer link Let Us Help You
+     Then Click on footer link Let Us Help You to open
      And Click on sublink Size Charts from Let Us Help You footer link
      And User is on internal /r/size-charts page
      Then Breadcrumb should display J.Crew
