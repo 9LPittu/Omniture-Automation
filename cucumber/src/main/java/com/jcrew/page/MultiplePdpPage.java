@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultiplePdpPage {
@@ -298,32 +298,43 @@ public class MultiplePdpPage {
     }
 
     public void addAllProductsTo(String bag){
-        WebElement button;
-        HashMap<String,Product> itemsInTray = new HashMap<>(numProducts);
-
-        if("cart".equals(bag)){
-            button = addToBagButton;
-        } else if("wish list".equals(bag)){
-            button = addToWishlistButton;
-        } else {
-            logger.debug("Not able to add somewhere...");
-            return;
-        }
+        List<Product> itemsInTray = new ArrayList<>(numProducts);
 
         if(getSelectedProductIndex() != 0)
             setSelectProductIndex(0);
 
-        for (int i = 0; i < numProducts; i++) {
-            pickColor();
-            pickAvailableSize();
-            Product item = getProduct();
-            itemsInTray.put(item.getProductName(), item);
-            button.click();
-            navigateToNextProduct(i);
+        if("cart".equals(bag)){
+
+            for (int i = 0; i < numProducts; i++) {
+                pickColor();
+                pickAvailableSize();
+                addToBagButton.click();
+                waitForBag(Integer.toString(i+1));
+                navigateToNextProduct(i);
+            }
+
+        } else if("wish list".equals(bag)){
+
+            for (int i = 0; i < numProducts; i++) {
+                pickColor();
+                pickAvailableSize();
+                Product item = getProduct();
+                itemsInTray.add(item);
+                addToWishlistButton.click();
+                navigateToNextProduct(i);
+            }
+            stateHolder.put("itemsInTray", itemsInTray);
+
+        } else {
+            logger.debug("Not able to add somewhere...");
         }
+    }
 
-        stateHolder.put("itemsInTray", itemsInTray);
+    private void waitForBag(String items){
+        WebElement bagText = driver.findElement(By.className("js-cart-size"));
+        wait.until(ExpectedConditions.textToBePresentInElement(bagText,items));
 
+        logger.debug("added: {}", bagText.getText());
     }
 
     private Product getProduct(){
