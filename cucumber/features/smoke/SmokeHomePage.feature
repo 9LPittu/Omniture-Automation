@@ -17,7 +17,7 @@ Feature: Home Page
     And Hamburger Menu sale Link is present
     And Hamburger Menu Blog Link is present
 
-  Scenario: Verification of Footer section in the page
+  Scenario: Verification of Footer section in the Home page
     Then Verify Contact Us header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
     And Contact Us section phone icon is displayed
@@ -42,3 +42,8 @@ Feature: Home Page
     And Verify instagram icon is displayed under Get To Know Us section
     And Verify google icon is displayed under Get To Know Us section
     And Verify youtube icon is displayed under Get To Know Us section
+    And user should see legal links section in the footer
+    And user should see "TERMS OF USE" in the legal links section of footer
+    And user should see "PRIVACY POLICY" in the legal links section of footer
+    And user should see "2016 J.Crew" in the legal links section of footer
+    And "2016 J.Crew" should not be displayed as a link
