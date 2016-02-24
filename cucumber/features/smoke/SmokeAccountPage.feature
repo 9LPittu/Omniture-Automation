@@ -1,10 +1,15 @@
-@Home
-Feature: Home Page
+@Account
+Feature: Account Page
 
   Background:
     Given User is on homepage
+    And Goes to sign in page
+    And User provides login information
+    And Check box is enabled
+    And Hits sign in button
+    And User is in My Account page
 
-  Scenario: Verification of Header section in the Home page
+  Scenario: Header display validations in non responsive Account page
     Then JCrew Logo is present
     And Stores Link is present
     And Hamburger menu is present
@@ -17,7 +22,7 @@ Feature: Home Page
     And Hamburger Menu sale Link is present
     And Hamburger Menu Blog Link is present
 
-  Scenario: Verification of Footer section in the Home page
+  Scenario: Footer display validations in non responsive Account page
     Then Verify Contact Us header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
     And Contact Us section phone icon is displayed
