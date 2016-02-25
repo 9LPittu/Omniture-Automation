@@ -4,7 +4,7 @@ Feature: Home Page
   Background:
     Given User is on homepage
 
-  Scenario: Verification of Header section in the Home page
+  Scenario: Verification of Header and Footer section in the Home page
     Then JCrew Logo is present
     And Stores Link is present
     And Hamburger menu is present
@@ -16,8 +16,7 @@ Feature: Home Page
     And Hamburger Menu Wedding Link is present
     And Hamburger Menu sale Link is present
     And Hamburger Menu Blog Link is present
-
-  Scenario: Verification of Footer section in the Home page
+    And Closes hamburger menu
     Then Verify Contact Us header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
     And Contact Us section phone icon is displayed

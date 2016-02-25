@@ -9,7 +9,7 @@ Feature: Account Page
     And Hits sign in button
     And User is in My Account page
 
-  Scenario: Header display validations in non responsive Account page
+  Scenario: Header and Footer display validations in non responsive Account page
     Then JCrew Logo is present
     And Stores Link is present
     And Hamburger menu is present
@@ -21,8 +21,7 @@ Feature: Account Page
     And Hamburger Menu Wedding Link is present
     And Hamburger Menu sale Link is present
     And Hamburger Menu Blog Link is present
-
-  Scenario: Footer display validations in non responsive Account page
+    And Closes hamburger menu
     Then Verify Contact Us header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
     And Contact Us section phone icon is displayed
