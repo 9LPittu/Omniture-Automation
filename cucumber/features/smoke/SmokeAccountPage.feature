@@ -28,15 +28,10 @@ Feature: Account Page
     And Contact Us section phone icon is displayed
     And Contact Us section vps icon is displayed
     Then Verify Let Us Help You footer link is displayed
-    And user should see "Let Us Help You" content grouping in collapsed mode
     And Verify Our Cards footer link is displayed
-    And user should see "Our Cards" content grouping in collapsed mode
     And Verify Our Stores footer link is displayed
-    And user should see "Our Stores" content grouping in collapsed mode
     And Verify Our Brands footer link is displayed
-    And user should see "Our Brands" content grouping in collapsed mode
     And Verify About J.Crew footer link is displayed
-    And user should see "About J.Crew" content grouping in collapsed mode
     And Verify LIKE BEING FIRST? footer header legend is displayed
     And Verify email field is displayed
     And Verify Get To Know Us footer link is displayed
