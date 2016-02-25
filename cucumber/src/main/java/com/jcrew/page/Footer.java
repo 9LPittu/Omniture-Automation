@@ -75,16 +75,27 @@ public class Footer {
         }
     }
 
-    public void click_on(String footerLink) {
+    public void click_to_open_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
         try {
             if ((fLink.findElement(By.className("icon-see-more"))).isDisplayed())
                 Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
         } catch (NoSuchElementException e) {
-            logger.debug("drawer already open");
+            logger.debug("footer drawer already open");
         }
 
-            }
+    }
+
+    public void click_to_close_drawer(String footerLink) {
+        WebElement fLink = getFooterLinkElement(footerLink);
+        try {
+            if ((fLink.findElement(By.className("icon-see-less"))).isDisplayed())
+                Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
+        } catch (NoSuchElementException e) {
+            logger.debug("footer drawer already closed");
+        }
+
+    }
 
 
     public String getFooterSubText(String footerLink) {
