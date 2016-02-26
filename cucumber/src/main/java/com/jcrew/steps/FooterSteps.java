@@ -16,9 +16,15 @@ public class FooterSteps extends DriverFactory {
         assertTrue(footerLink + " should have been present", footer.isFooterLinkPresent(footerLink));
     }
 
-    @Then("^Click on footer link ([^\"]*)$")
-    public void click_on_footer_link(String footerLink) throws Throwable {
-        footer.click_on(footerLink);
+    @Then("^Click on footer link ([^\"]*) to open$")
+    public void click_on_footer_link_to_open_drawer(String footerLink) throws Throwable {
+        footer.click_to_open_drawer(footerLink);
+
+    }
+
+    @Then("^Click on footer link ([^\"]*) to close$")
+    public void click_on_footer_link_to_close_drawer(String footerLink) throws Throwable {
+        footer.click_to_close_drawer(footerLink);
     }
 
     @And("^Verify ([^\"]*) footer sub text is displayed for ([^\"]*) footer link$")
