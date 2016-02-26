@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
         tags = {"@Account"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-homecifeatures.json",
+                "json:target/cucumber-accountcifeatures.json",
                 "pretty",
-                "html:target/cucumber/homecifeatures"
+                "html:target/cucumber/accountcifeatures"
         }
 )
 public class AccountFeaturesRunnerTest {
