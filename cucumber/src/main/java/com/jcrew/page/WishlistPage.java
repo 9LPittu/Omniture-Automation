@@ -104,6 +104,7 @@ public class WishlistPage {
     }
 
     public void delete_current_products() {
+        Util.waitForPageFullyLoaded(driver);
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript(
                 "var params = $.parseJSON(globalObj.wishlist.itemsArrayJson).header;" +
@@ -117,24 +118,33 @@ public class WishlistPage {
 
     public boolean shopTheLookProducts() {
         boolean result = true;
-        HashMap<String, Product> addedProducts = (HashMap<String, Product>) stateHolder.get("itemsInTray");
+        List<Product> addedProducts = (List<Product>) stateHolder.get("itemsInTray");
+        HashMap<String, Product> wishedProducts = getWishedProducts();
 
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(userWishlist));
-        List<WebElement> productsInWishlist = userWishlist.findElements(By.className("item-data"));
-
-        for(WebElement wishElement:productsInWishlist){
-            Product wish = getProduct(wishElement);
-            Product added = addedProducts.get(wish.getProductName());
-
-            if(added == null){
-                logger.info("{} product in wish list did not match any product in tray", wish.getProductName());
+        for(Product product:addedProducts){
+            Product wish = wishedProducts.get(product.getProductName());
+            if(wish == null){
+                logger.info("{} product is not in wish list", product.getProductName());
                 result = false;
             } else {
-                result &= added.equals(wish);
+                result &= product.equals(wish);
             }
         }
 
         return result;
+    }
+
+    private HashMap<String, Product> getWishedProducts(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(userWishlist));
+        List<WebElement> productsInWishlist = userWishlist.findElements(By.className("item-data"));
+        HashMap<String, Product> wishedProducts = new HashMap<>(productsInWishlist.size());
+
+        for(WebElement wishElement:productsInWishlist){
+            Product wish = getProduct(wishElement);
+            wishedProducts.put(wish.getProductName(), wish);
+        }
+
+        return wishedProducts;
     }
 
     private String cleanProductName(WebElement item_data){

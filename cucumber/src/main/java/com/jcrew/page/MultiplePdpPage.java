@@ -13,7 +13,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultiplePdpPage {
@@ -223,7 +225,7 @@ public class MultiplePdpPage {
                 detailsCheck &= detail.isDisplayed();
 
                 //click on next variation
-                //selectNextVariation();
+                selectNextVariation();
             }
         } else {
             //product does not have variations
@@ -298,32 +300,43 @@ public class MultiplePdpPage {
     }
 
     public void addAllProductsTo(String bag){
-        WebElement button;
-        HashMap<String,Product> itemsInTray = new HashMap<>(numProducts);
-
-        if("cart".equals(bag)){
-            button = addToBagButton;
-        } else if("wish list".equals(bag)){
-            button = addToWishlistButton;
-        } else {
-            logger.debug("Not able to add somewhere...");
-            return;
-        }
+        List<Product> itemsInTray = new ArrayList<>(numProducts);
 
         if(getSelectedProductIndex() != 0)
             setSelectProductIndex(0);
 
-        for (int i = 0; i < numProducts; i++) {
-            pickColor();
-            pickAvailableSize();
-            Product item = getProduct();
-            itemsInTray.put(item.getProductName(), item);
-            button.click();
-            navigateToNextProduct(i);
+        if("cart".equals(bag)){
+
+            for (int i = 0; i < numProducts; i++) {
+                pickColor();
+                pickAvailableSize();
+                addToBagButton.click();
+                waitForBag(Integer.toString(i+1));
+                navigateToNextProduct(i);
+            }
+
+        } else if("wish list".equals(bag)){
+
+            for (int i = 0; i < numProducts; i++) {
+                pickColor();
+                pickAvailableSize();
+                Product item = getProduct();
+                itemsInTray.add(item);
+                addToWishlistButton.click();
+                navigateToNextProduct(i);
+            }
+            stateHolder.put("itemsInTray", itemsInTray);
+
+        } else {
+            logger.debug("Not able to add somewhere...");
         }
+    }
 
-        stateHolder.put("itemsInTray", itemsInTray);
+    private void waitForBag(String items){
+        WebElement bagText = driver.findElement(By.className("js-cart-size"));
+        wait.until(ExpectedConditions.textToBePresentInElement(bagText,items));
 
+        logger.debug("added: {}", bagText.getText());
     }
 
     private Product getProduct(){
@@ -378,7 +391,7 @@ public class MultiplePdpPage {
 
         colorElement.click();
 
-        return colorElement.getAttribute("data-name");
+        return colorElement.getAttribute("data-code");
     }
 
     private void navigateToNextProduct(int currentIndex){
@@ -389,5 +402,82 @@ public class MultiplePdpPage {
             Util.waitForPageFullyLoaded(driver);
             wait.until(ExpectedConditions.urlContains("itemCode=" + productCode));
         }
+    }
+
+    private void getModifiedURL(String query){
+        try{
+            URL trayURL = new URL(driver.getCurrentUrl());
+            String newURL = trayURL.getProtocol() + "://" +trayURL.getHost() + trayURL.getPath() + query;
+            logger.debug("new tray URL: {}", newURL);
+            driver.get(newURL);
+            loadNavigation();
+        } catch (MalformedURLException badURL){
+            logger.error("Not able to create URL");
+        }
+    }
+
+    public void visitTrayWithLowerCaseExternalProduct(){
+        String items = "";
+        for(int i = 0; i < products.size(); i++){
+            items += products.get(i).getAttribute("data-code");
+            if(i + 1 < products.size()){
+                items += ",";
+            }
+        }
+        stateHolder.put("originalURLProducts", items);
+        getModifiedURL("?externalProductCodes=" + items.toLowerCase());
+    }
+
+    public boolean productsMatchesOriginalURL() {
+        boolean result = true;
+        String originalProducts = (String) stateHolder.get("originalURLProducts");
+        String products[] = originalProducts.split(",");
+
+        for(String product : products){
+            WebElement productByCode = multipleProductSection.findElement(By.xpath(".//li[@data-code='"+product+"']"));
+            result &= productByCode != null;
+        }
+
+        return result;
+    }
+
+    public void visitTrayWithSelectedColors() {
+        if(getSelectedProductIndex() != 0)
+            setSelectProductIndex(0);
+
+        String items = "";
+        String color;
+        List<String> colors = new ArrayList<>(numProducts);
+
+        for (int i = 0; i < numProducts; i++) {
+            items += products.get(i).getAttribute("data-code");
+            color = pickColor();
+            colors.add(color);
+            items += "-"+color;
+            if(i + 1 < products.size()){
+                items += ",";
+            }
+            navigateToNextProduct(i);
+        }
+
+        stateHolder.put("selectedColors", colors);
+        getModifiedURL("?externalProductCodes=" + items);
+    }
+
+    public boolean selectedColorsByDefault() {
+        boolean result = true;
+        List<String> colors = (List<String>) stateHolder.get("selectedColors");
+
+        if(getSelectedProductIndex() != 0)
+            setSelectProductIndex(0);
+
+        for (int i = 0; i < numProducts; i++) {
+            String colorCode = colors.get(i);
+            WebElement defaultColor = article.findElement(By.xpath(".//li[@class='js-product__color colors-list__item is-selected']"));
+            result &= colorCode.equals(defaultColor.getAttribute("data-code"));
+            navigateToNextProduct(i);
+        }
+
+        return result;
     }
 }
