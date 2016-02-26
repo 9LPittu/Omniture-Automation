@@ -61,13 +61,8 @@ Feature: Global Header: Breadcrumbs
 
     #US9724_TC06--context chooser not available in the application at this time
    #US9724_TC07
-  Scenario: Validate breadcrumbs display and functionality on Size charts (from footer link) page
-     Then Click on footer link Let Us Help You
-     And Click on sublink Size Charts from Let Us Help You footer link
-     And User is on internal /r/size-charts page
-     Then Breadcrumb should display J.Crew
-     And Clicks on J.Crew Breadcrumb
-     And Verify user is in homepage
+   #Scenario: Validate breadcrumbs display and functionality on Size charts (from footer link) page
+   #Moved to RegressionFooter.feature
 
      #US9724_TC08
   Scenario: Validate breadcrumbs display and functionality on PDP page
@@ -93,10 +88,6 @@ Feature: Global Header: Breadcrumbs
     #US9724_TC10, #US9724_TC11
   Scenario: Validate breadcrumbs functionality and display on sign in/ register for email page
     And Goes to sign in page
-    Then Breadcrumb should display J.Crew
-    And Clicks on J.Crew Breadcrumb
-    And Verify user is in homepage
-    And User presses back button
     And Clicks on create new account
     And JCrew Logo is present
     And Clicks on JCrew Logo
@@ -171,45 +162,20 @@ Feature: Global Header: Breadcrumbs
   Scenario: Validate no breadcrumbs are displayed pages
 
     #Social responsibility page
-    And Click on footer link About J.Crew
-    And Click on sublink Social Responsibility from About J.Crew footer link
-    And Verify user is on social responsibility page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
 
     #Our story Page
-    Then Click on footer link About J.Crew
-    And Click on sublink Our Story from About J.Crew footer link
-    And Verify user is on about us page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
 
     #Investor Relations page
-    Then Click on footer link About J.Crew
-    And Click on sublink Investor Relations from About J.Crew footer link
-    And User is on external http://investors.jcrew.com page
-    #the page is not showing embedded header
-    #And Verify J crew breadcrumb is not displayed
-    #And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
 
     #The J.Crew Gift Card page
-    Then Click on footer link Our Cards
-    And Click on sublink The J.Crew Gift Card from Our Cards footer link
-    And Verify user is on the j.crew gift card page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
 
     # The J.Crew Credit Card page
-    Then Click on footer link Our Cards
-    And Click on sublink The J.Crew Credit Card from Our Cards footer link
-    And Verify user is on the j.crew credit card page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
+
 
     #Store Locator page
     When Click on footer link Our Stores
@@ -221,105 +187,20 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
      #privacy policy page
-    And click on "PRIVACY POLICY" in the legal links section of footer
-    And User is on internal /help/privacy_policy.jsp?sidecar=true page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
 
     #contact us page
-    Then Click on footer link Let Us Help You
-    And Click on sublink Need Some Help? from Let Us Help You footer link
-    And User is on internal /footie/contactus.jsp?sidecar=true page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
 
     #Order status Page
-
-    When Click on footer link Let Us Help You
-    And Click on sublink Order Status from Let Us Help You footer link
-    Then Verify user is on order status page
-    And User is on internal /help/order_status.jsp?sidecar=true page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
 
     #terms of use page
-
-    And click on "TERMS OF USE" in the legal links section of footer
-    And User is on internal /footer/termsofuse.jsp?sidecar=true page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
 
     #Request a style guide page
-
-    Then Click on footer link Let Us Help You
-    And Click on sublink Request A Style Guide from Let Us Help You footer link
-    And Verify user is on request a catalog page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    #Moved to RegressionFooter.feature
 
 
     #US9724_TC16 (cont)
-
-  Scenario: Validate no breadcrumbs are displayed on Account related pages
-    #Wishlist Page
-    And Goes to sign in page
-    And User provides login information
-    And Hits sign in button
-    When User is in My Account page
-    And User clicks on WISHLIST link in My Account Page
-    Then User should be in wishlist page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
-    When User clicks on ADDRESS BOOK link in My Account Page
-    And User should be in address_book.jsp menu link page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
-    And User clicks on CATALOG PREFERENCES link in My Account Page
-    And User should be in catalog_preferences.jsp menu link page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
-    And User clicks on EMAIL PREFERENCES link in My Account Page
-    And User should be in email_preferences.jsp menu link page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
-    And User clicks on MY DETAILS link in My Account Page
-    And User should be in account_detail.jsp menu link page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
-    And User clicks on ORDER HISTORY link in My Account Page
-    And User should be in reg_user_order_history.jsp menu link page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
-    And User clicks on PAYMENT METHODS link in My Account Page
-    And User should be in payment_info.jsp menu link page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
-
-
-
-
-
-
-
-
-
-
+    #Moved to RegressionAccountGuest.feature
