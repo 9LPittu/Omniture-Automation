@@ -125,10 +125,7 @@ public class DriverFactory {
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
-            Set<Cookie> cookies = driver.manage().getCookies();
-             for(Cookie cookie:cookies) {
-                 driver.manage().deleteCookie(cookie);
-             }
+
         } else if ("androidchrome".equals(browser)) {
             DesiredCapabilities capabilities = DesiredCapabilities.android();
             capabilities.setPlatform(Platform.ANDROID);

@@ -62,7 +62,7 @@ Feature: Global Header: Breadcrumbs
     #US9724_TC06--context chooser not available in the application at this time
    #US9724_TC07
   Scenario: Validate breadcrumbs display and functionality on Size charts (from footer link) page
-     Then Click on footer link Let Us Help You
+     Then Click on footer link Let Us Help You to open
      And Click on sublink Size Charts from Let Us Help You footer link
      And User is on internal /r/size-charts page
      Then Breadcrumb should display J.Crew
@@ -168,10 +168,10 @@ Feature: Global Header: Breadcrumbs
 
 
      #US9724_TC16
-   Scenario: Validate no breadcrumbs are displayed pages
+  Scenario: Validate no breadcrumbs are displayed pages
 
     #Social responsibility page
-    And Click on footer link About J.Crew
+    And Click on footer link About J.Crew to open
     And Click on sublink Social Responsibility from About J.Crew footer link
     And Verify user is on social responsibility page
     And Verify J crew breadcrumb is not displayed
@@ -179,7 +179,7 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #Our story Page
-    Then Click on footer link About J.Crew
+    Then Click on footer link About J.Crew to open
     And Click on sublink Our Story from About J.Crew footer link
     And Verify user is on about us page
     And Verify J crew breadcrumb is not displayed
@@ -187,7 +187,7 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #Investor Relations page
-    Then Click on footer link About J.Crew
+    Then Click on footer link About J.Crew to open
     And Click on sublink Investor Relations from About J.Crew footer link
     And User is on external http://investors.jcrew.com page
     #the page is not showing embedded header
@@ -196,7 +196,7 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #The J.Crew Gift Card page
-    Then Click on footer link Our Cards
+    Then Click on footer link Our Cards to open
     And Click on sublink The J.Crew Gift Card from Our Cards footer link
     And Verify user is on the j.crew gift card page
     And Verify J crew breadcrumb is not displayed
@@ -204,18 +204,9 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     # The J.Crew Credit Card page
-    Then Click on footer link Our Cards
+    Then Click on footer link Our Cards to open
     And Click on sublink The J.Crew Credit Card from Our Cards footer link
     And Verify user is on the j.crew credit card page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
-    #Store Locator page
-    When Click on footer link Our Stores
-    And Store Locator sublink is displayed
-    And Click on sublink Store Locator from Our Stores footer link
-    And Verify user is on help store locator page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
@@ -228,7 +219,7 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #contact us page
-    Then Click on footer link Let Us Help You
+    Then Click on footer link Let Us Help You to open
     And Click on sublink Need Some Help? from Let Us Help You footer link
     And User is on internal /footie/contactus.jsp?sidecar=true page
     And Verify J crew breadcrumb is not displayed
@@ -236,8 +227,7 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #Order status Page
-
-    When Click on footer link Let Us Help You
+    When Click on footer link Let Us Help You to open
     And Click on sublink Order Status from Let Us Help You footer link
     Then Verify user is on order status page
     And User is on internal /help/order_status.jsp?sidecar=true page
@@ -246,7 +236,6 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #terms of use page
-
     And click on "TERMS OF USE" in the legal links section of footer
     And User is on internal /footer/termsofuse.jsp?sidecar=true page
     And Verify J crew breadcrumb is not displayed
@@ -254,13 +243,21 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
 
     #Request a style guide page
-
-    Then Click on footer link Let Us Help You
+    Then Click on footer link Let Us Help You to open
     And Click on sublink Request A Style Guide from Let Us Help You footer link
     And Verify user is on request a catalog page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
+
+    # US9724_TC16 (cont)   Store Locator page
+  Scenario: Validate no breadcrumbs are displayed on store locator page
+    When Click on footer link Our Stores to open
+    And Store Locator sublink is displayed
+    And Click on sublink Store Locator from Our Stores footer link
+    And Verify user is on help store locator page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
 
 
     #US9724_TC16 (cont)
