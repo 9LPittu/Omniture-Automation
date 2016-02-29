@@ -22,6 +22,7 @@ Feature: Regression Tests Category Feature
     Then User should be in shirtsandtops page for women
     And Verifies product information is displayed
     And Verifies product image is displayed
+    And Deletes browser cookies
 
   Scenario: Check Product Tiles for Sale Variations
     When User clicks on SWEATERS subcategory from Women Category

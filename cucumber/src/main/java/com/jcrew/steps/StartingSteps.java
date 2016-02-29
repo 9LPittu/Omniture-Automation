@@ -88,6 +88,14 @@ public class StartingSteps {
         Util.waitForPageFullyLoaded(driver);
     }
 
+    @And("^Deletes browser cookies$")
+    public void deletes_browser_cookies(){
+        if (driverFactory != null) {
+            driverFactory.destroyDriver();
+        }
+
+    }
+
     @After
     public void quitDriver(Scenario scenario) throws IOException {
 
@@ -97,10 +105,6 @@ public class StartingSteps {
 
             final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.embed(screenshot, "image/png");
-        }
-
-        if (driverFactory != null) {
-           driverFactory.destroyDriver();
         }
 
         stateHolder.clear();
