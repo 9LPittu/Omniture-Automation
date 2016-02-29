@@ -48,7 +48,7 @@ public class HomePage {
     public void click_on_search_button_for_input_field() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearchButtonFind));
         headerSearchButtonFind.click();
-        Util.waitLoadingBar(driver);
+       //Util.waitLoadingBar(driver);
     }
 
     public boolean isHomePage() {

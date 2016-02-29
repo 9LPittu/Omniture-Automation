@@ -144,7 +144,7 @@ public class Header {
                 By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
         Util.clickWithStaleRetry(breadcrumbElement);
-        Util.waitLoadingBar(driver);
+       // Util.waitLoadingBar(driver);
     }
 
     public boolean isGenderLandingPage(String gender){
