@@ -1,4 +1,4 @@
-#@EmbeddedHeader
+@EmbeddedHeader
 Feature: Embedded Header Validations
 
   Background:
