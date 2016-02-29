@@ -158,7 +158,7 @@ Feature: Footer Tests
     Then Click on footer link Our Brands to open
     And Click on sublink J.Crew Factory from Our Brands footer link
     And Verify user is on the j.crew factory page
-    And User is on external https://factory.jcrew.com/index.jsp?srcCode=JCFooter page
+    And User is on external https://factory.jcrew.com/?srcCode=JCFooter page
 
   Scenario: Verifying Our Brands Madewell link funtionality
     Then Click on footer link Our Brands to open
