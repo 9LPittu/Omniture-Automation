@@ -1,7 +1,7 @@
 @ShoppableTray
   Feature: Shoppable Tray
 
-    Background: Navigate to a multiple pdp page in Boys Category
+    Background: Navigate to a multiple pdp page in any category
       Given User is on homepage
       And User clicks on hamburger menu
       And User selects random tray from available categories
@@ -25,10 +25,10 @@
     Scenario: Verify next and previous buttons functionality
       Then Verifies initial multiple pdp page state
       And User clicks next product
-      Then Verifies selected product is product 1
+      Then Verifies selected product is product 2
       Then Verifies product details have changed
       And User clicks previous product
-      Then Verifies selected product is product 0
+      Then Verifies selected product is product 1
       Then Verifies product details have changed
 
     #US9697_TC01, US9697_TC02, US9697_TC04, US9697_TC05
