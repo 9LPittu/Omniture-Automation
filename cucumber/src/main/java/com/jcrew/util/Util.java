@@ -1,7 +1,9 @@
 package com.jcrew.util;
 
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.primitives.Booleans;
 import com.jcrew.pojo.Product;
 
 import org.openqa.selenium.*;
@@ -43,7 +45,14 @@ public class Util {
     }
 
     public static void waitLoadingBar(WebDriver driver){
-        createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
+        createWebDriverWait(driver).until(new Function<WebDriver, Boolean>(){
+            @Override
+            public Boolean apply(WebDriver webDriver) {
+                WebElement html = webDriver.findElement(By.tagName("html"));
+                String htmlClass = html.getAttribute("class");
+                return !htmlClass.contains("nprogress-busy");
+            }
+        });
     }
 
     public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{

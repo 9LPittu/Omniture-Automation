@@ -95,7 +95,7 @@ public class HamburgerMenu {
     public void click_on_subcategory(String subcategory, String category) {
         getSubcategoryFromMenu(subcategory, category).click();
         stateHolder.put("subcategory", subcategory);
-        //Util.waitLoadingBar(driver);
+        Util.waitLoadingBar(driver);
     }
 
     public void click_on_looks_we_love() {

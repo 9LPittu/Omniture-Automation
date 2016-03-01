@@ -109,7 +109,7 @@ public class Header {
 
     public void click_jcrew_logo() {
         Util.clickWithStaleRetry(headerLogo);
-       // Util.waitLoadingBar(driver);
+        Util.waitLoadingBar(driver);
     }
 
     public void click_on_search_button() {

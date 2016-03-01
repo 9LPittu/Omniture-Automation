@@ -229,7 +229,7 @@ public class SubcategoryPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
         saveProduct(product);
         productLink.click();
-        //Util.waitLoadingBar(driver);
+        Util.waitLoadingBar(driver);
     }
 
     public void click_first_product_with_xpath(String finder){
