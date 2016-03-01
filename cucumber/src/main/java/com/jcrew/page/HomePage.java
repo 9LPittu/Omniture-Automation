@@ -56,6 +56,7 @@ public class HomePage {
 
     public boolean isSAccountVarPresentInSourceCode() {
 
+        logger.debug("looking for page source to contain s_account{}",driver.getPageSource().contains("s_account"));
         return driver.getPageSource().contains("s_account");
     }
 
