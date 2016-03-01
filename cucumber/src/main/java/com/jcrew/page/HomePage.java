@@ -56,4 +56,11 @@ public class HomePage {
                 ExpectedConditions.presenceOfElementLocated(By.id("page__home")));
         return pageHome.isDisplayed();
     }
+
+    public boolean isSAccountVarPresentInSourceCode() {
+
+        return driver.getPageSource().contains("s_account");
+    }
+
+
 }

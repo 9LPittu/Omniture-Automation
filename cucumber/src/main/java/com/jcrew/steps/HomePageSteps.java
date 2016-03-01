@@ -54,5 +54,10 @@ public class HomePageSteps extends DriverFactory {
         assertTrue("Dresses should be populated", header.getSearchDrawerTerm().contains("dresses"));
     }
 
+    @And("^Verify page source contains s_account variable$")
+    public void validate_page_source_contains_saccount() {
+        assertTrue("page source should contain s_account", homePage.isSAccountVarPresentInSourceCode());
+    }
+
 
 }
