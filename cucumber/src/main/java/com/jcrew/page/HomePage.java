@@ -1,10 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -60,6 +57,12 @@ public class HomePage {
     public boolean isSAccountVarPresentInSourceCode() {
 
         return driver.getPageSource().contains("s_account");
+    }
+
+    public String getSAccountValue(){
+        String sAccountValue = (String)((JavascriptExecutor)driver).executeScript("return s_account;");
+        logger.info("s_account value is {}",sAccountValue);
+        return sAccountValue;
     }
 
 

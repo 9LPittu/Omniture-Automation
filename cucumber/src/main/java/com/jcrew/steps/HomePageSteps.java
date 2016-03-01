@@ -59,5 +59,10 @@ public class HomePageSteps extends DriverFactory {
         assertTrue("page source should contain s_account", homePage.isSAccountVarPresentInSourceCode());
     }
 
+    @And("^Get the s_account value$")
+    public void get_s_account_value() {
+       assertTrue("s_account should have a text value", !(homePage.getSAccountValue().isEmpty()));
+    }
+
 
 }
