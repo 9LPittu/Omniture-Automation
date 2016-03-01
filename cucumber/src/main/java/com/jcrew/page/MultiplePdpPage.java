@@ -118,7 +118,7 @@ public class MultiplePdpPage {
             WebElement product = products.get(i);
             String productClass = product.getAttribute("class");
             if(productClass.contains("is-selected")){
-                return i + 1;
+                return i;
             }
         }
 

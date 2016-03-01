@@ -48,7 +48,7 @@ public class MultiplePdpSteps extends DriverFactory{
 
     @Then("^Verifies selected product is product (\\d+)$")
     public void verifiesSelectedProductIsProduct(int selectedProduct) {
-        assertEquals("Selected product is "+selectedProduct, selectedProduct, multiplePDP.getSelectedProductIndex());
+        assertEquals("Selected product is "+selectedProduct, selectedProduct-1, multiplePDP.getSelectedProductIndex());
     }
 
     @And("^User clicks previous product$")
