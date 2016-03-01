@@ -42,7 +42,7 @@ Feature: Footer Verification In Home Page
     
    #tc-04 starts below
   Scenario: Verification of Let Us Help You links display
-    When Click on footer link Let Us Help You
+    When Click on footer link Let Us Help You to open
     And Accordion should be expanded
     And Order Status sublink is displayed
     And Shipping & Handling sublink is displayed
@@ -53,7 +53,7 @@ Feature: Footer Verification In Home Page
     And Request A Style Guide sublink is displayed
 
   Scenario: Verification of Let Us Help You Order Status link functionality
-    When Click on footer link Let Us Help You
+    When Click on footer link Let Us Help You to open
     And Click on sublink Order Status from Let Us Help You footer link
     Then Verify user is on order status page
     And User is on internal /help/order_status.jsp?sidecar=true page
@@ -62,24 +62,24 @@ Feature: Footer Verification In Home Page
     And User presses back button
 
   Scenario: Verification of Let Us Help You Shipping & Handling link functionality
-    Then Click on footer link Let Us Help You
+    When Click on footer link Let Us Help You to open
     And Click on sublink Shipping & Handling from Let Us Help You footer link
     And Verify user is on shipping & handling page
     And User is on internal /help/shipping_handling.jsp?sidecar=true page
 
   Scenario: Verification of Let Us Help You Returns And Exchanges link functionality
-    Then Click on footer link Let Us Help You
+    When Click on footer link Let Us Help You to open
     And Click on sublink Returns & Exchanges from Let Us Help You footer link
     And Verify user is on returns & exchanges page
     And User is on internal /help/returns_exchanges.jsp?sidecar=true page
 
   Scenario: Verification of Let Us Help You International Orders link functionality
-    Then Click on footer link Let Us Help You
+    When Click on footer link Let Us Help You to open
     And Click on sublink International Orders from Let Us Help You footer link
     And User is on internal /help/international_orders.jsp?sidecar=true page
 
   Scenario: Verification of Let Us Help You Size Charts link functionality
-    Then Click on footer link Let Us Help You
+    When Click on footer link Let Us Help You to open
     And Click on sublink Size Charts from Let Us Help You footer link
     And User is on internal /r/size-charts page
     Then Breadcrumb should display J.Crew
@@ -87,7 +87,7 @@ Feature: Footer Verification In Home Page
     And Verify user is in homepage
 
   Scenario: Verification of Let Us Help You Contact Us link functionality
-    Then Click on footer link Let Us Help You
+    When Click on footer link Let Us Help You to open
     And Click on sublink Need Some Help? from Let Us Help You footer link
     And User is on internal /footie/contactus.jsp?sidecar=true page
     And Verify J crew breadcrumb is not displayed
@@ -95,7 +95,7 @@ Feature: Footer Verification In Home Page
     And User presses back button
 
   Scenario: Verification of Let Us Help You Request A Style Guide link functionality
-    Then Click on footer link Let Us Help You
+    When Click on footer link Let Us Help You to open
     And Click on sublink Request A Style Guide from Let Us Help You footer link
     And Verify user is on request a catalog page
     And Verify J crew breadcrumb is not displayed
@@ -104,12 +104,12 @@ Feature: Footer Verification In Home Page
 
   #tc-05
   Scenario: Verification of Our Cards links display
-    When Click on footer link Our Cards
+    When Click on footer link Our Cards to open
     And The J.Crew Credit Card sublink is displayed
     And The J.Crew Gift Card sublink is displayed
 
   Scenario: Verification of Our Cards The J.Crew Credit Card link functionality
-    Then Click on footer link Our Cards
+    Then Click on footer link Our Cards to open
     And Click on sublink The J.Crew Credit Card from Our Cards footer link
     And Verify user is on the j.crew credit card page
     And User is on internal /help/credit_card.jsp?sidecar=true page
@@ -118,7 +118,7 @@ Feature: Footer Verification In Home Page
     And User presses back button
 
   Scenario: Verification of Our Cards The J.Crew Gift Card link functionality
-    Then Click on footer link Our Cards
+    Then Click on footer link Our Cards to open
     And Click on sublink The J.Crew Gift Card from Our Cards footer link
     And Verify user is on the j.crew gift card page
     And User is on internal /help/gift_card.jsp?sidecar=true page
@@ -128,7 +128,7 @@ Feature: Footer Verification In Home Page
 
   #tc-06
   Scenario: Verification of Our Stores links display and functional
-    When Click on footer link Our Stores
+    When Click on footer link Our Stores to open
     And Store Locator sublink is displayed
     And Click on sublink Store Locator from Our Stores footer link
     And Verify user is on help store locator page
@@ -136,14 +136,14 @@ Feature: Footer Verification In Home Page
 
     #tc-07
   Scenario: Verification of About J.Crew links display
-    When Click on footer link About J.Crew
+    When Click on footer link About J.Crew to open
     And Our Story sublink is displayed
     And Careers sublink is displayed
     And Social Responsibility sublink is displayed
     And Investor Relations sublink is displayed
 
   Scenario: Verification of Our Story About J.Crew link functionality
-    Then Click on footer link About J.Crew
+    Then Click on footer link About J.Crew to open
     And Click on sublink Our Story from About J.Crew footer link
     And Verify user is on about us page
     And User is on internal /aboutus/jcrew.jsp?sidecar=true page
@@ -153,13 +153,13 @@ Feature: Footer Verification In Home Page
 
   Scenario: Verification of About J.Crew Careers link functionality
     And Verify user is in homepage
-    Then Click on footer link About J.Crew
+    Then Click on footer link About J.Crew to open
     And Click on sublink Careers from About J.Crew footer link
     And Verify user is on careers page
     And User is on external https://jobs.jcrew.com/?sidecar=true page
 
   Scenario: Verification of About J.Crew Social Responsibility link functionality
-    Then Click on footer link About J.Crew
+    Then Click on footer link About J.Crew to open
     And Click on sublink Social Responsibility from About J.Crew footer link
     And Verify user is on social responsibility page
     And User is on internal /flatpages/social_responsibility.jsp?sidecar=true page
@@ -168,25 +168,25 @@ Feature: Footer Verification In Home Page
     And User presses back button
 
   Scenario: Verification of  About J.Crew Investor Relations link functionality
-    Then Click on footer link About J.Crew
+    Then Click on footer link About J.Crew to open
     And Click on sublink Investor Relations from About J.Crew footer link
     And User is on external http://investors.jcrew.com page
 
     #tc-08
   Scenario: Verification of Our Brands links display
-    When Click on footer link Our Brands
+    When Click on footer link Our Brands to open
     And J.Crew Factory sublink is displayed
     And Madewell sublink is displayed
 
   Scenario: Verifying Our Brands J.Crew Factory link funtionality
-    Then Click on footer link Our Brands
+    Then Click on footer link Our Brands to open
     And Click on sublink J.Crew Factory from Our Brands footer link
     And Verify user is on the j.crew factory page
     And User is on external https://factory.jcrew.com page
     And page url should contain srcCode=JCFooter
 
   Scenario: Verifying Our Brands Madewell link funtionality
-    Then Click on footer link Our Brands
+    Then Click on footer link Our Brands to open
     And Click on sublink Madewell from Our Brands footer link
     And Verify user is on the madewell page
     And User is on external https://www.madewell.com/index.jsp page
@@ -194,12 +194,13 @@ Feature: Footer Verification In Home Page
   
   #US13389_TC11  
   Scenario: Verify Tapping twice on the drawer opens and closes the drawer in  content groupings
-    And Click on footer link Our Brands
+
+    And Click on footer link Our Brands to open
     Then user should see "Our Brands" content grouping drawer should be opened
-    And Click on footer link Our Brands
+    And Click on footer link Our Brands to close
     Then user should see "Our Brands" content grouping drawer should be closed
-    And Click on footer link Our Brands
-    And Click on footer link Our Cards
+    And Click on footer link Our Brands to open
+    And Click on footer link Our Cards to open
     Then user should see "Our Brands" content grouping drawer should be closed
     Then user should see "Our Cards" content grouping drawer should be opened
     

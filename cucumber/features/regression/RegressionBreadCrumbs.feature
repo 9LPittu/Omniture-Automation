@@ -162,6 +162,7 @@ Feature: Global Header: Breadcrumbs
   Scenario: Validate no breadcrumbs are displayed pages
 
     #Social responsibility page
+
     #Moved to RegressionFooter.feature
 
     #Our story Page
@@ -176,20 +177,11 @@ Feature: Global Header: Breadcrumbs
     # The J.Crew Credit Card page
     #Moved to RegressionFooter.feature
 
-
-    #Store Locator page
-    When Click on footer link Our Stores
-    And Store Locator sublink is displayed
-    And Click on sublink Store Locator from Our Stores footer link
-    And Verify user is on help store locator page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
-
      #privacy policy page
     #Moved to RegressionFooter.feature
 
     #contact us page
+
     #Moved to RegressionFooter.feature
 
     #Order status Page
@@ -200,6 +192,16 @@ Feature: Global Header: Breadcrumbs
 
     #Request a style guide page
     #Moved to RegressionFooter.feature
+
+
+    # US9724_TC16 (cont)   Store Locator page
+  Scenario: Validate no breadcrumbs are displayed on store locator page
+    When Click on footer link Our Stores to open
+    And Store Locator sublink is displayed
+    And Click on sublink Store Locator from Our Stores footer link
+    And Verify user is on help store locator page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
 
 
     #US9724_TC16 (cont)
