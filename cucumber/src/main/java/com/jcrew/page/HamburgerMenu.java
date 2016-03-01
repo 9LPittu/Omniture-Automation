@@ -95,15 +95,19 @@ public class HamburgerMenu {
     public void click_on_subcategory(String subcategory, String category) {
         getSubcategoryFromMenu(subcategory, category).click();
         stateHolder.put("subcategory", subcategory);
+
         Util.waitLoadingBar(driver);
+
     }
 
-    public void click_on_looks_we_love() {
-        WebElement looksWeLove = Util.createWebDriverWait(driver)
-                .until(ExpectedConditions.visibilityOfElementLocated(
-                        By.xpath("//span[@class='menu__link__label' and contains(text(),'looks we love')]")));
-        looksWeLove.click();
+    public void click_on_selected_featured_this_month(String choice) {
+        WebElement level3Menus = driver.findElement(
+                By.xpath("//div[@class='c-menus menus--level3 js-menus--level3']/div[@class='menu__item is-lazy-loaded']"));
+        WebElement looksWeLove = level3Menus.findElement(
+                    By.xpath(".//span[@class='menu__link__label' and contains(text(),'" + choice + "')]"));
 
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(looksWeLove));
+        looksWeLove.click();
     }
 
     public void click_on_sale_subcategory(String subcategory) {
@@ -115,6 +119,9 @@ public class HamburgerMenu {
 
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
         WebElement categories = getMenuItemElementForCategory(category);
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(categories,subcategory));
+
         WebElement categoryLink = categories.findElement(By.linkText(subcategory));
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryLink));

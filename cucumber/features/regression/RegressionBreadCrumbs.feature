@@ -35,7 +35,7 @@ Feature: Global Header: Breadcrumbs
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     When User clicks on THIS MONTH'S FEATURES subcategory from Women Category
-    And User clicks on looks we love
+    And User clicks on looks we love from featured this month
     And JCrew Logo is present
     And Clicks on JCrew Logo
     And Verify user is in homepage
