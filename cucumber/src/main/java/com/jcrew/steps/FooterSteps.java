@@ -25,7 +25,6 @@ public class FooterSteps extends DriverFactory {
     @Then("^Click on footer link ([^\"]*) to close$")
     public void click_on_footer_link_to_close_drawer(String footerLink) throws Throwable {
         footer.click_to_close_drawer(footerLink);
-
     }
 
     @And("^Verify ([^\"]*) footer sub text is displayed for ([^\"]*) footer link$")
@@ -61,7 +60,6 @@ public class FooterSteps extends DriverFactory {
     @And("Contact Us section ([^\"]*) icon is displayed$")
     public void verify_icon_and_text_is_displayed(String icon) {
         assertTrue(icon+ "should be displayed", footer.isIconAndTextDisplayed(icon));
-
     }
 
     @And("Verify email field is displayed$")
@@ -192,6 +190,11 @@ public class FooterSteps extends DriverFactory {
     @Then("^Verify ([^\"]*) header from footer is visible in homepage$")
     public void verify_header_from_footer_is_visible_in_homepage(String footerLink) {
         assertTrue(footerLink + " should have been present in HomePage", footer.isTopHeaderVisible(footerLink));
+    }
+
+    @Then("^Verify all footer items are visible$")
+    public void verify_all_footer_items_are_visible(){
+        assertTrue("All footer items are visible", footer.isAllFooterLinksPresent());
     }
 
 }

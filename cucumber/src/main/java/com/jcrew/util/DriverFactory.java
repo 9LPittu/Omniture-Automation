@@ -190,10 +190,11 @@ public class DriverFactory {
 
         if ("iossafari".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
-                driver.manage().deleteCookie(cookie);
+                if (!((cookie.getName()).equalsIgnoreCase("is_sidecar"))) {
+                    driver.manage().deleteCookie(cookie);
+                }
             }
-        }
-        if ("androidchrome".equals(propertyReader.getProperty("browser"))) {
+        } else if ("androidchrome".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
                 if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
                     driver.manage().deleteCookie(cookie);
@@ -205,5 +206,5 @@ public class DriverFactory {
             driver.quit();
             driverMap.remove(identifier);
         }
-         }
     }
+}
