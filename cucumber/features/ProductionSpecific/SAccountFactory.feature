@@ -1,4 +1,4 @@
-@Factory
+@f
 Feature: S_Account
 
   Background:

@@ -52,6 +52,22 @@ public class StartingSteps {
         }
     }
 
+    @Given("^User is on ([^\"]*) home page$")
+    public void user_is_on_jcrew_gold_home_page(String pageUrl) {
+        int retry = 0;
+        boolean successfulLoad = false;
+        while (retry < 2 && !successfulLoad) {
+            try {
+                getTheJcrewGoldIntialPage(pageUrl);
+                Util.waitForPageFullyLoaded(driver);
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1);
+                retry++;
+            }
+        }
+    }
+
     @Given("^User is on Factory home page$")
     public void user_is_on_factory_home_page() {
         int retry = 0;
@@ -108,6 +124,12 @@ public class StartingSteps {
         } else {
             driver.get(env);
         }
+    }
+
+    public void getTheJcrewGoldIntialPage(String pageUrl){
+        String env = reader.getProperty(pageUrl);
+        logger.debug("current url is: "+env);
+        driver.get(env);
     }
 
     @And("^User goes to homepage$")

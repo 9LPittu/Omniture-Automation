@@ -1,4 +1,4 @@
-@Madewell
+@m
 Feature: S_Account
 
   Background:
