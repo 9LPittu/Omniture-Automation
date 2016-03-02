@@ -7,6 +7,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class HomePageSteps extends DriverFactory {
 
@@ -62,6 +63,11 @@ public class HomePageSteps extends DriverFactory {
     @And("^Get the s_account value$")
     public void get_s_account_value() {
        assertTrue("s_account should have a text value", !(homePage.getSAccountValue().isEmpty()));
+    }
+
+    @And("^Validate the s_account value in production to be ([^\"]*)$")
+    public void validate_s_account_value(String expected) {
+        assertEquals("s_account value is not as expected",expected,homePage.getSAccountValue());
     }
 
 
