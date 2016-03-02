@@ -8,4 +8,4 @@ Feature: S_Account
     And Verify page source contains s_account variable
     And Get the s_account value
     #the below is valid only for production
-    And Validate the s_account value in production to be jcrewfactorycom,jcrewglobalrollup
+    And Validate the s_account value in production to be jcrewcom,jcrewglobalrollup
