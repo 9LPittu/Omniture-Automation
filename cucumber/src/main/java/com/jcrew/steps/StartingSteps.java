@@ -52,6 +52,39 @@ public class StartingSteps {
         }
     }
 
+    @Given("^User is on Factory home page$")
+    public void user_is_on_factory_home_page() {
+        int retry = 0;
+        boolean successfulLoad = false;
+        while (retry < 2 && !successfulLoad) {
+            try {
+                getIntialPage();
+                Util.waitForPageFullyLoaded(driver);
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1);
+                retry++;
+            }
+        }
+    }
+
+    @Given("^User is on Madewell home page$")
+    public void user_is_on_madewell_home_page() {
+        int retry = 0;
+        boolean successfulLoad = false;
+        while (retry < 2 && !successfulLoad) {
+            try {
+                getIntialPage();
+                Util.waitForPageFullyLoaded(driver);
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1);
+                retry++;
+            }
+        }
+    }
+
+
     private void waitForHeaderPromo(){
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }

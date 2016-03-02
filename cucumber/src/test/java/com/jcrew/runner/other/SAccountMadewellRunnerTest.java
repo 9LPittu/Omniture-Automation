@@ -1,17 +1,20 @@
 package com.jcrew.runner.other;
+
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
+
+
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/ProductionSpecific"},
-        tags = {"@Jcrew"},
+        tags = {"@Madewell"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-saccountotherfeatures.json",
+                "json:target/cucumber-saccountmadewellotherfeatures.json",
                 "pretty",
-                "html:target/cucumber/saccountotherfeatures"
+                "html:target/cucumber/saccountmadewellotherfeatures"
         }
-)public class SAccountFeaturesRunnerTest {
+)public class SAccountMadewellRunnerTest {
 }
