@@ -19,6 +19,9 @@ public class LooksWeLovePage {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(LooksWeLovePage.class);
 
+    @FindBy(id = "tray__list")
+    private WebElement trayList;
+
     public LooksWeLovePage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -56,14 +59,12 @@ public class LooksWeLovePage {
     public boolean clickRandomShopThisLook(List<WebElement> buttons){
         int randomIndex = Util.randomIndex(buttons.size());
         WebElement randomShopTheLook = buttons.get(randomIndex);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(randomShopTheLook));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomShopTheLook));
+        Util.waitLoadingBar(driver);
         randomShopTheLook.click();
         Util.waitLoadingBar(driver);
 
         //Verify that you have more than one product in tray. If you only have one, then select other tray
-        List<WebElement> items = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("js-tray__item")));
+        List<WebElement> items = trayList.findElements(By.className("js-tray__item"));
         logger.debug("items in tray: {}", items.size());
         if(items.size() == 1){
             driver.navigate().back();

@@ -35,6 +35,8 @@ public class MultiplePdpPage {
     private WebElement addToBagButton;
     @FindBy (id = "btn__wishlist")
     private WebElement addToWishlistButton;
+    @FindBy (id = "c-product__sizes")
+    private WebElement divSizes;
 
     private WebElement header;
     private List<WebElement> products = null;
@@ -160,6 +162,7 @@ public class MultiplePdpPage {
     public void clickPrevious() {
         stateHolder.put("shoppableTrayProduct", article);
         WebElement previousLink = previous.findElement(By.tagName("a"));
+        wait.until(ExpectedConditions.visibilityOf(previousLink));
         previousLink.click();
         loadNavigation();
     }
@@ -197,17 +200,17 @@ public class MultiplePdpPage {
         detailsCheck &= detail.isDisplayed();
 
         //contains COLOR SWATCHES
-        detail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//ul[@class='product__colors colors-list']")));
+        detail = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//ul[@class='product__colors colors-list']")));
         detailsCheck &= detail.isDisplayed();
 
         //contains SIZES OPTIONS
-        detail = article.findElement(By.className("sizes-list"));
+        detail = divSizes.findElement(By.className("sizes-list"));
         detailsCheck &= detail.isDisplayed();
 
         //contains SIZES & FIT DETAILS (available only when containing more than one size
         List<WebElement> sizes = detail.findElements(By.tagName("li"));
         if(sizes.size() > 1) {
-            detail = article.findElement(By.className("js-link__size-fit"));
+            detail = divSizes.findElement(By.className("js-link__size-fit"));
             detailsCheck &= detail.isDisplayed();
         }
 
