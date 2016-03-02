@@ -1,11 +1,20 @@
-@f
-Feature: S_Account
+@ProdSAccount
+Feature: S_Account in production
 
-  Background:
-    Given User is on Factory home page
-
-  Scenario: s_account validation in source code
+  Scenario: s_account value verification in Jcrew production
+    Given User is on Jcrewprod home page
     And Verify page source contains s_account variable
-    And Get the s_account value
-    #the below is valid only for production
     And Validate the s_account value in production to be jcrewcom,jcrewglobalrollup
+
+  Scenario: s_account value verification in Madewell Production
+    Given User is on Madewellprod home page
+    And Verify page source contains s_account variable
+    And Validate the s_account value in production to be jcrewmwcom
+
+  Scenario: s_account value verification in Factory Production
+    Given User is on Factoryprod home page
+    And Verify page source contains s_account variable
+    And Validate the s_account value in production to be jcrewfactorycom,jcrewglobalrollup
+
+
+

@@ -9,12 +9,12 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/ProductionSpecific"},
-        tags = {"@Factory"},
+        tags = {"@ProdSAccount"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-saccountfactoryotherfeatures.json",
                 "pretty",
                 "html:target/cucumber/saccountfactoryotherfeatures"
         }
-)public class SAccountFactoryRunnerTest {
+)public class SAccountProdRunnerTest {
 }

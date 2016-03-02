@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/ProductionSpecific"},
-        tags = {"@Jcrew"},
+        tags = {"@GoldSAccount"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-saccountotherfeatures.json",
