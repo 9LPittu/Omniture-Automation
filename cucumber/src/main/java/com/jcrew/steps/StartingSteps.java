@@ -42,8 +42,8 @@ public class StartingSteps {
             try {
                 getIntialPage();
               //  waitForPageToLoadUpToTheLastElementPriorScriptExecution();
-                Util.waitForPageFullyLoaded(driver);
-               // waitForHeaderPromo();
+                //Util.waitForPageFullyLoaded(driver);
+                waitForHeaderPromo();
                 successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);
