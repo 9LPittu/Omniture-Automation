@@ -40,7 +40,7 @@ public class StartingSteps {
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {
             try {
-                getIntialPage();
+                getInitialPage();
               //  waitForPageToLoadUpToTheLastElementPriorScriptExecution();
                 //Util.waitForPageFullyLoaded(driver);
                 waitForHeaderPromo();
@@ -58,7 +58,7 @@ public class StartingSteps {
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {
             try {
-                getTheJcrewGoldIntialPage(pageUrl);
+                getTheInitialPage(pageUrl);
                 Util.waitForPageFullyLoaded(driver);
                 successfulLoad = true;
             } catch (TimeoutException te) {
@@ -68,37 +68,6 @@ public class StartingSteps {
         }
     }
 
-    @Given("^User is on Factory home page$")
-    public void user_is_on_factory_home_page() {
-        int retry = 0;
-        boolean successfulLoad = false;
-        while (retry < 2 && !successfulLoad) {
-            try {
-                getIntialPage();
-                Util.waitForPageFullyLoaded(driver);
-                successfulLoad = true;
-            } catch (TimeoutException te) {
-                logger.debug("Page did not load retry: {}", retry + 1);
-                retry++;
-            }
-        }
-    }
-
-    @Given("^User is on Madewell home page$")
-    public void user_is_on_madewell_home_page() {
-        int retry = 0;
-        boolean successfulLoad = false;
-        while (retry < 2 && !successfulLoad) {
-            try {
-                getIntialPage();
-                Util.waitForPageFullyLoaded(driver);
-                successfulLoad = true;
-            } catch (TimeoutException te) {
-                logger.debug("Page did not load retry: {}", retry + 1);
-                retry++;
-            }
-        }
-    }
 
 
     private void waitForHeaderPromo(){
@@ -110,7 +79,7 @@ public class StartingSteps {
                 By.className("footer__help__menu")));
     }
 
-    public void getIntialPage() {
+    public void getInitialPage() {
         String env = reader.getProperty("environment");
         String browser = reader.getProperty("browser");
         boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent")||env.contains("or");
@@ -126,7 +95,7 @@ public class StartingSteps {
         }
     }
 
-    public void getTheJcrewGoldIntialPage(String pageUrl){
+    public void getTheInitialPage(String pageUrl){
         String env = reader.getProperty(pageUrl);
         logger.debug("current url is: "+env);
         driver.get(env);
