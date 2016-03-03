@@ -6,7 +6,7 @@ Feature: S_Account in production
     And Verify page source contains s_account
     And Validate the s_account value in production to be jcrewcom,jcrewglobalrollup
 
-  Scenario Outline: s_account value verification in Madewell Production
+  Scenario Outline: s_account value verification in Madewell and Factory Production
     Given User is on <pageurl> home page
     And Verify page source contains <srcurl>
 

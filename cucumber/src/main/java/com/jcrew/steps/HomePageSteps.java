@@ -65,9 +65,9 @@ public class HomePageSteps extends DriverFactory {
        assertTrue("s_account should have a text value", !(homePage.getSAccountValue(var).isEmpty()));
     }
 
-    @And("^Validate the s_account value in production to be ([^\"]*)$")
-    public void validate_s_account_value(String expected) {
-        assertEquals("s_account value is not as expected",expected,homePage.getSAccountValue());
+    @And("^Validate the ([^\"]*) value in production to be ([^\"]*)$")
+    public void validate_s_account_value(String expected,String var) {
+        assertEquals("s_account value is not as expected", expected, homePage.getSAccountValue(var));
     }
 
 

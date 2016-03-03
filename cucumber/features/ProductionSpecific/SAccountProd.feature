@@ -1,20 +1,17 @@
 @ProdSAccount
 Feature: S_Account in production
 
-  Scenario: s_account value verification in Jcrew production
-    Given User is on Jcrewprod home page
-    And Verify page source contains s_account variable
-    And Validate the s_account value in production to be jcrewcom,jcrewglobalrollup
+  Scenario Outline: s_account value verification in Jcrew production
+    Given User is on <pageurl> home page
+    And Verify page source contains s_account
+    And Validate the s_account value in production to be <value>
 
-  Scenario: s_account value verification in Madewell Production
-    Given User is on Madewellprod home page
-    And Verify page source contains s_account variable
-    And Validate the s_account value in production to be jcrewmwcom
+   Examples:
+    |pageurl|value|
+    |Jcrewprod|jcrewcom,jcrewglobalrollup|
+    |Madewellprod|jcrewmwcom             |
+    |Factoryprod |jcrewfactorycom,jcrewglobalrollup|
 
-  Scenario: s_account value verification in Factory Production
-    Given User is on Factoryprod home page
-    And Verify page source contains s_account variable
-    And Validate the s_account value in production to be jcrewfactorycom,jcrewglobalrollup
 
 
 
