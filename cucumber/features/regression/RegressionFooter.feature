@@ -1,5 +1,5 @@
 @Footer
-Feature: Footer Tests
+Feature: Footer Verification In Home Page
 
   Background:
     Given User is on homepage
@@ -57,6 +57,9 @@ Feature: Footer Tests
     And Click on sublink Order Status from Let Us Help You footer link
     Then Verify user is on order status page
     And User is on internal /help/order_status.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
 
   Scenario: Verification of Let Us Help You Shipping & Handling link functionality
     When Click on footer link Let Us Help You to open
@@ -79,16 +82,25 @@ Feature: Footer Tests
     When Click on footer link Let Us Help You to open
     And Click on sublink Size Charts from Let Us Help You footer link
     And User is on internal /r/size-charts page
+    Then Breadcrumb should display J.Crew
+    And Clicks on J.Crew Breadcrumb
+    And Verify user is in homepage
 
   Scenario: Verification of Let Us Help You Contact Us link functionality
     When Click on footer link Let Us Help You to open
     And Click on sublink Need Some Help? from Let Us Help You footer link
     And User is on internal /footie/contactus.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
 
   Scenario: Verification of Let Us Help You Request A Style Guide link functionality
     When Click on footer link Let Us Help You to open
     And Click on sublink Request A Style Guide from Let Us Help You footer link
     And Verify user is on request a catalog page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
 
   #tc-05
   Scenario: Verification of Our Cards links display
@@ -101,12 +113,18 @@ Feature: Footer Tests
     And Click on sublink The J.Crew Credit Card from Our Cards footer link
     And Verify user is on the j.crew credit card page
     And User is on internal /help/credit_card.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
 
   Scenario: Verification of Our Cards The J.Crew Gift Card link functionality
     Then Click on footer link Our Cards to open
     And Click on sublink The J.Crew Gift Card from Our Cards footer link
     And Verify user is on the j.crew gift card page
     And User is on internal /help/gift_card.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
 
   #tc-06
   Scenario: Verification of Our Stores links display and functional
@@ -129,6 +147,9 @@ Feature: Footer Tests
     And Click on sublink Our Story from About J.Crew footer link
     And Verify user is on about us page
     And User is on internal /aboutus/jcrew.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
 
   Scenario: Verification of About J.Crew Careers link functionality
     And Verify user is in homepage
@@ -142,6 +163,9 @@ Feature: Footer Tests
     And Click on sublink Social Responsibility from About J.Crew footer link
     And Verify user is on social responsibility page
     And User is on internal /flatpages/social_responsibility.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
+    And User presses back button
 
   Scenario: Verification of  About J.Crew Investor Relations link functionality
     Then Click on footer link About J.Crew to open
@@ -158,13 +182,15 @@ Feature: Footer Tests
     Then Click on footer link Our Brands to open
     And Click on sublink J.Crew Factory from Our Brands footer link
     And Verify user is on the j.crew factory page
-    And User is on external https://factory.jcrew.com/index.jsp?srcCode=JCFooter page
+    And User is on external https://factory.jcrew.com page
+    And page url should contain srcCode=JCFooter
 
   Scenario: Verifying Our Brands Madewell link funtionality
     Then Click on footer link Our Brands to open
     And Click on sublink Madewell from Our Brands footer link
     And Verify user is on the madewell page
-    And User is on external https://www.madewell.com/index.jsp?srcCode=JCFooter page
+    And User is on external https://www.madewell.com/index.jsp page
+    And page url should contain srcCode=JCFooter
   
   #US13389_TC11  
   Scenario: Verify Tapping twice on the drawer opens and closes the drawer in  content groupings
@@ -240,10 +266,14 @@ Feature: Footer Tests
   Scenario: Verify TERMS OF USE legal link is functional in footer section of all sidecar pages
     And click on "TERMS OF USE" in the legal links section of footer    
     And User is on internal /footer/termsofuse.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
     
   Scenario: Verify PRIVACY POLICY legal link is functional in footer section of all sidecar pages
     And click on "PRIVACY POLICY" in the legal links section of footer
     And User is on internal /help/privacy_policy.jsp?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
   
   Scenario: Verify copyright text in the legal links section is not link
   	And "2016 J.Crew" should not be displayed as a link

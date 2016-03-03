@@ -49,7 +49,12 @@ public class WishlistPageSteps extends DriverFactory {
     }
 
     @And("^Deletes all previous wishlist items from the list$")
-    public void deletes_all_previous_wishlist_items_from_the_list() throws Throwable {
+    public void deletes_all_previous_wishlist_items_from_the_list(){
         wishlistPage.delete_current_products();
+    }
+
+    @Then("^Verify all products added from shop the look page are in wish list$")
+    public void verify_all_products_added_from_shop_the_look_page_are_in_wish_list(){
+        assertTrue("All products from shopt the look are in wish list", wishlistPage.shopTheLookProducts());
     }
 }

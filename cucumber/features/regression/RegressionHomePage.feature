@@ -1,30 +1,20 @@
 @Home
-Feature: Homepage
+Feature: Homepage Embedded Header and Footer
 
   Background:
     Given User is on homepage
 
-  Scenario: Contact Us Page Header Footer Links
-    Then Contact Us header from footer is visible
+  #Removed, we had a copy in RegressionFooter.feature
+  #Scenario: Contact Us Page Header Footer Links
 
-  Scenario: Home Page header Links
-    Then Verify MENU header link is displayed
-    And Verify SEARCH header link is displayed
-    And Verify STORES header link is displayed
-    And Verify header bag icon is displayed
-    And Verify MENU, SEARCH, STORES header links including bag order is valid, ignore SIGN IN, MY ACCOUNT
+  #Moved to RegressionHeader.feature
+  #Scenario: Home Page header Links
 
-  Scenario: Menu is functional
-    When User clicks on hamburger menu
-    And Hamburger Menu Women Link is present
-    Then Closes hamburger menu
+  #Removed, we had a copy in RegressionHeader.feature
+  #Scenario: Menu is functional
 
-  Scenario: Search is functional
-    When User presses search button
-    Then Search drawer is open
-    When User clicks on stores link
-    Then Verify user is on stores page
+  Scenario: Homepage embedded Header
+    Then Verify embedded headers are visible and functional
 
-  Scenario: Bag is functional
-    When User clicks on item bag
-    Then User should be in shopping bag page
+  Scenario: Homepage embedded Footer
+    Then Verify embedded footer is visible and functional

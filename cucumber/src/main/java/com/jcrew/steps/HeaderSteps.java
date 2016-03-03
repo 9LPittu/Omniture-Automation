@@ -117,4 +117,9 @@ public class HeaderSteps extends DriverFactory {
     public void verify_embedded_header_is_present() {
         assertTrue("Embedded header section should be present",header.isEmbeddedHeaderSectionDisplayed());
     }
+
+    @Then("Verify all header items are correctly displayed$")
+    public void verify_header_is_correctly_displayed() {
+        assertTrue("All menu items are displayed",header.isAllMenuItemsDisplayed());
+    }
 }

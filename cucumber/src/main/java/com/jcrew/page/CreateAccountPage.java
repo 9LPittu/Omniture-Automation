@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 public class CreateAccountPage {
@@ -36,6 +37,7 @@ public class CreateAccountPage {
 
     public void fill_account_data() {
         Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(firstName));
         firstName.sendKeys("test first name");
         lastName.sendKeys("test last name");
         long currentTimeInMillis = System.currentTimeMillis();

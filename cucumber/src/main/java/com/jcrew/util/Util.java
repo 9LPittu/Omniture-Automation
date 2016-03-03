@@ -1,10 +1,13 @@
 package com.jcrew.util;
 
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.primitives.Booleans;
 import com.jcrew.pojo.Product;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -43,7 +46,14 @@ public class Util {
     }
 
     public static void waitLoadingBar(WebDriver driver){
-        createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.className("nprogress-busy")));
+        createWebDriverWait(driver).until(new Function<WebDriver, Boolean>(){
+            @Override
+            public Boolean apply(WebDriver webDriver) {
+                WebElement html = webDriver.findElement(By.tagName("html"));
+                String htmlClass = html.getAttribute("class");
+                return !htmlClass.contains("nprogress-busy");
+            }
+        });
     }
 
     public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{
@@ -83,6 +93,12 @@ public class Util {
         if(!success){
             throw new StaleElementReferenceException("Failed to wait element");
         }
+    }
+
+    public static void scrollToElement(WebDriver driver, WebElement element){
+        Actions action = new Actions(driver);
+        createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+        action.moveToElement(element);
     }
 
 }

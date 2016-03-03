@@ -1,5 +1,5 @@
 @Header
-Feature: Header Tests
+Feature: Header Verification In Homepage
 
   Background:
     Given User is on homepage
@@ -9,15 +9,15 @@ Feature: Header Tests
     And Verify SEARCH header link is displayed
     And Verify STORES header link is displayed
     And Verify BAG header link is displayed
+    And Verify MENU, SEARCH, STORES header links including bag order is valid, ignore SIGN IN, MY ACCOUNT
 
   Scenario: Hamburger Menu
     Then User clicks on hamburger menu
     And Hamburger Menu Women Link is present
     Then Closes hamburger menu
 
-  Scenario: Search
-    And User presses search button
-    And Search drawer is open
+  #Removed, we had a copy in RegressionHomePage.feature
+  #Scenario: Search
 
   Scenario: Stores
     Then User clicks on stores link

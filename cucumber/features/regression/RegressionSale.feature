@@ -17,24 +17,12 @@ Feature: Sale Regression Suite
 
    #US9874_TC07,US9874_TC08, US9874_TC09, US9874_TC10, US15673_TC03
   Scenario Outline: Sale category links functional validation
+    And User is in sale landing page
+    And Sale title is displayed
     And User clicks on sale department <SaleCategory>
     Then User is in Sale results page
     And Refine button is displayed
     And default filter name displayed is <SaleCategory>
-    And click on REFINE button
-    And User is in refine page
-    And Category,Size,Color,Price filter refinements should appear
-    And Click on Category refinement
-    And Verify Category refinement drawer remains open
-    And Click on Size refinement
-    And Verify Size refinement drawer remains open
-    And Click on Color refinement
-    And Verify Color refinement drawer remains open
-    And Click on Price refinement
-    And Verify Price refinement drawer remains open
-    Then NEW IN SALE sort option is selected by default
-    Then Click on done button for refinement filter menu
-    And pagination is displayed on the page
   	And the page url should contain "<URL>"
 
   Examples:
@@ -55,84 +43,57 @@ Feature: Sale Regression Suite
     And select random page number from pagination dropdown
     And user should be displayed with correct page when page number is changed
 
-  Scenario Outline: Refine page should display the first sort option as new in sale and selected by default
-    And User clicks on <SaleCategory> subcategory from Sales
+  #Merged in one scenario
+  #Scenario Outline: Refine page should display the first sort option as new in sale and selected by default
+  #Scenario Outline: Sort by options user is able to select only one selection at a time on sale page
+  #Scenario Outline: New In Sale in sort by options is functional on sale page
+  #Scenario Outline: Price: Low to High in sort by options is functional on sale page
+  #Scenario Outline: Price: High to Low in sort by options is functional on sale page
+  Scenario: Sort functionality
+    And User is in sale landing page
+    And Sale title is displayed
+    And First promo is displayed with promo message and promo code
+    And User clicks on sale department women
     Then User is in Sale results page
     And Refine button is displayed
-    And default filter name displayed is <SaleCategory>
-    And Refine button is clicked
+    And default filter name displayed is women
+    And click on REFINE button
     And User is in refine page
     And Category,Size,Color,Price filter refinements should appear
+    And Click on Category refinement
+    And Verify Category refinement drawer remains open
+    And Click on Size refinement
+    And Verify Size refinement drawer remains open
+    And Click on Color refinement
+    And Verify Color refinement drawer remains open
+    And Click on Price refinement
+    And Verify Price refinement drawer remains open
+    Then NEW IN SALE sort option is selected by default
     Then first sort option is NEW IN SALE
-    Then first option NEW IN SALE is selected by default
     Then PRICE: LOW TO HIGH is displayed as sort option
     Then PRICE: HIGH TO LOW is displayed as sort option
-
-  Examples:
-    |SaleCategory|
-    |WOMEN|
-
-  Scenario Outline: Sort by options user is able to select only one selection at a time on sale page
-    And User clicks on <SaleCategory> subcategory from Sales
-    Then User is in Sale results page
-    And Refine button is clicked
-    And User is in refine page  
     Then select PRICE: HIGH TO LOW checkbox
     Then sort by options NEW IN SALE and PRICE: LOW TO HIGH are unchecked
-    Then select PRICE: LOW TO HIGH checkbox
-    Then sort by options NEW IN SALE and PRICE: HIGH TO LOW are unchecked
-    Then select NEW IN SALE checkbox
-    Then sort by options PRICE: LOW TO HIGH and PRICE: HIGH TO LOW are unchecked
-
-  Examples:
-    |SaleCategory|
-    |WOMEN|
-      
-  Scenario Outline: New In Sale in sort by options is functional on sale page
-    And User clicks on <SaleCategory> subcategory from Sales
-    Then User is in Sale results page
-    And Refine button is clicked
-    And User is in refine page
-    Then select NEW IN SALE checkbox
-    Then Click on done button for refinement filter menu
-    And Search results are displayed  
-    And the page url should contain "&Nsrt=3&"
-
-  Examples:
-    |SaleCategory|
-    |WOMEN|
-
-  Scenario Outline: Price: Low to High in sort by options is functional on sale page
-    And User clicks on <SaleCategory> subcategory from Sales
-    Then User is in Sale results page
-    And Refine button is clicked
-    And User is in refine page
-    Then select PRICE: LOW TO HIGH checkbox
-    Then Click on done button for refinement filter menu
-    Then sale prices are sorted correctly when PRICE: LOW TO HIGH is selected
-    And the page url should contain "&Nsrt=1&"
-
-  Examples:
-    |SaleCategory|
-    |WOMEN|
-
-  Scenario Outline: Price: High to Low in sort by options is functional on sale page
-    And User clicks on <SaleCategory> subcategory from Sales
-    Then User is in Sale results page
-    And Refine button is clicked
-    And User is in refine page
-    Then select PRICE: HIGH TO LOW checkbox
     Then Click on done button for refinement filter menu
     Then sale prices are sorted correctly when PRICE: HIGH TO LOW is selected
     And the page url should contain "&Nsrt=2&"
+    Then select PRICE: LOW TO HIGH checkbox
+    And the page url should contain "&Nsrt=1&"
+    Then sort by options NEW IN SALE and PRICE: HIGH TO LOW are unchecked
+    Then Click on done button for refinement filter menu
+    Then sale prices are sorted correctly when PRICE: LOW TO HIGH is selected
+    Then select NEW IN SALE checkbox
+    Then sort by options PRICE: LOW TO HIGH and PRICE: HIGH TO LOW are unchecked
+    And the page url should contain "&Nsrt=3&"
 
-  Examples:
-    |SaleCategory|
-    |WOMEN|
-
-  #US15452_TC001 & US15452_TC002
+  #US15452_TC001 & US15452_TC002 #US9874_TC05
   Scenario: 'Sale' in menu nav should link to Sale Landing page
      And User is in sale landing page
+     And New in Sale Category link and carat sign is displayed
+     And women Category link and carat sign is displayed
+     And men Category link and carat sign is displayed
+     And girls Category link and carat sign is displayed
+     And boys Category link and carat sign is displayed
      And User clicks on sale department women
      Then User is in Sale results page
      And User clicks on hamburger menu
@@ -169,19 +130,8 @@ Feature: Sale Regression Suite
 
     #US9874_TC01 (#US15452_TC005 is US9874), #US9874_TC03, #US9874_TC04(no automation)
     #US9874_TC02 no automation , verification of match up with mock
-    Scenario: Verify header copy "sale" should be displayed on the sale page.
-      And User is in sale landing page
-      And Sale title is displayed
-      And First promo is displayed with promo message and promo code
-
-    #US9874_TC05
-    Scenario: Validating sale category links display
-      And User is in sale landing page
-      And New in Sale Category link and carat sign is displayed
-      And women Category link and carat sign is displayed
-      And men Category link and carat sign is displayed
-      And girls Category link and carat sign is displayed
-      And boys Category link and carat sign is displayed
+    #Merged with: Scenario Outline: Sale category links functional validation
+    #Scenario: Verify header copy "sale" should be displayed on the sale page.
 
     #US9874_TC11
     Scenario Outline: Validation of second promo display
@@ -190,7 +140,6 @@ Feature: Sale Regression Suite
       And <promo_link> sale category link is displayed in the second promo
       When <promo_link> in sale page is clicked
       Then the page url should contain "<URL>"
-
 
       Examples:
       |promo_link|URL|

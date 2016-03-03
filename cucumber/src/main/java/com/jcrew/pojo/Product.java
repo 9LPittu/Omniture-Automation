@@ -83,4 +83,22 @@ public class Product {
     public String getSelectedSize() {
         return selectedSize;
     }
+
+    public boolean equals(Object o){
+        if(o instanceof Product){
+            Product object = (Product) o;
+            String name = object.getProductName();
+            String color = object.getSelectedColor();
+            String size = object.getSelectedSize();
+
+            boolean equalName = name.equals(this.productName);
+            boolean equalColor = color.equals(this.selectedColor);
+            boolean equalSize = size.equals(this.selectedSize);
+
+            return equalName & equalColor & equalSize;
+        }
+
+        return false;
+    }
+
 }
