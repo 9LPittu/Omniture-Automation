@@ -1,4 +1,4 @@
-@Home
+@Navigate
 Feature: Homepage Embedded Header and Footer
 
   Background:

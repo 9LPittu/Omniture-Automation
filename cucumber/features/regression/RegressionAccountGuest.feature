@@ -1,4 +1,4 @@
-@Account
+@Navigate
 Feature: Sign In Page
 
   Background:

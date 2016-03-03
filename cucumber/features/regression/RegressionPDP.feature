@@ -1,4 +1,4 @@
-@PDP
+@Navigate
 Feature: Multiple Items Random
 
   Background:

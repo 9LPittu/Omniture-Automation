@@ -1,4 +1,4 @@
-@Category
+@Navigate
 Feature: Regression Tests Category Feature
 
   Background:
