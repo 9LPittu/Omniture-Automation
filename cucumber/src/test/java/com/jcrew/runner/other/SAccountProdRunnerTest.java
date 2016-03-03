@@ -12,9 +12,9 @@ import org.junit.runner.RunWith;
         tags = {"@ProdSAccount"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-saccountfactoryotherfeatures.json",
+                "json:target/cucumber-saccountprodotherfeatures.json",
                 "pretty",
-                "html:target/cucumber/saccountfactoryotherfeatures"
+                "html:target/cucumber/saccountprodotherfeatures"
         }
 )public class SAccountProdRunnerTest {
 }

@@ -1,4 +1,4 @@
-@GoldmobileSAccount
+@GoldSAccountMobile
 Feature: S_Account gold mobile
 
   Scenario: s_account validation in Jcrew gold
