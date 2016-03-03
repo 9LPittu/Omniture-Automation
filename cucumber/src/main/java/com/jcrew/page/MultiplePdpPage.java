@@ -4,6 +4,7 @@ import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -161,9 +162,10 @@ public class MultiplePdpPage {
 
     public void clickPrevious() {
         stateHolder.put("shoppableTrayProduct", article);
-        WebElement previousLink = previous.findElement(By.tagName("a"));
-        wait.until(ExpectedConditions.visibilityOf(previousLink));
-        previousLink.click();
+//        WebElement previousLink = previous.findElement(By.tagName("a"));
+//        wait.until(ExpectedConditions.visibilityOf(previousLink));
+//        previousLink.click();
+        previous.click();
         loadNavigation();
     }
 
@@ -215,10 +217,11 @@ public class MultiplePdpPage {
         }
 
         //contains price
-        //get variations number
-        List<WebElement> variationsType = article.findElements(By.xpath(".//li[contains(@class,'js-product__variation')]"));
+        if(hasVariations()){
+            //get variations number
+            List<WebElement> variationsType = article.findElements(By.xpath(".//li[contains(@class,'js-product__variation')]"));
 
-        if(variationsType.size() > 0){
+
             for(int i = 1; i < variationsType.size(); i++) {
                 //get price of current variation
                 detail = wait.until(ExpectedConditions.presenceOfElementLocated(
@@ -482,5 +485,17 @@ public class MultiplePdpPage {
         }
 
         return result;
+    }
+
+    private boolean hasVariations(){
+        try{
+            WebElement variations = driver.findElement(By.xpath("//section[id@='c-product__details']/div[@id='c-product__variations']/div/div/div[@class='variations-list-wrap']/menu"));
+            logger.debug("Variations: {}", variations.getText());
+            return true;
+
+        }catch (NoSuchElementException noVariations){
+            logger.debug("Product does not contain variations");
+            return false;
+        }
     }
 }

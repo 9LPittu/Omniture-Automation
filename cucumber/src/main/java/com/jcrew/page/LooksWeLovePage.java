@@ -28,6 +28,7 @@ public class LooksWeLovePage {
     }
 
     public void selectRandomShopThisLook(String type){
+        logger.debug("Selecting a random shop the look for {}", type);
         WebDriverWait wait = Util.createWebDriverWait(driver);
         type = type.toLowerCase();
         By locator = By.xpath(".");
@@ -51,6 +52,7 @@ public class LooksWeLovePage {
 
         List<WebElement> buttons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
         if(!clickRandomShopThisLook(buttons)){
+            logger.debug("Selected tray only contained one product, selecting look #0");
             buttons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
             clickShopThisLook(buttons.get(0));
         }
@@ -59,7 +61,10 @@ public class LooksWeLovePage {
     public boolean clickRandomShopThisLook(List<WebElement> buttons){
         int randomIndex = Util.randomIndex(buttons.size());
         WebElement randomShopTheLook = buttons.get(randomIndex);
+        logger.debug("Picked look #{}", randomIndex);
         Util.waitLoadingBar(driver);
+        Util.scrollToElement(driver,randomShopTheLook);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomShopTheLook));
         randomShopTheLook.click();
         Util.waitLoadingBar(driver);
 

@@ -14,6 +14,7 @@ import gherkin.formatter.model.DataTableRow;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class HamburgerMenuSteps extends DriverFactory {
@@ -90,8 +91,7 @@ public class HamburgerMenuSteps extends DriverFactory {
 
     @And("^User is signed out$")
     public void user_is_signed_out() {
-        assertEquals("Expected sign in message is not there",
-                "SIGN IN", hamburgerMenu.getSignInMessage());
+        assertFalse("User is signed out",hamburgerMenu.isUserSignedIn());
     }
 
     @And("^User selects random tray from available categories$")

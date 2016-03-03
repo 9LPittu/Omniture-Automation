@@ -7,8 +7,8 @@
       And User selects random tray from available categories
         |Women|THIS MONTH'S FEATURES|looks we love |
         |Men  |THIS MONTH'S FEATURES|1 Suit, 5 Ways|
-        |Girls|THIS MONTH'S FEATURES|Looks We Love |
-        |Boys |THIS MONTH'S FEATURES|Looks We Love |
+        #|Girls|THIS MONTH'S FEATURES|Looks We Love |
+        #|Boys |THIS MONTH'S FEATURES|Looks We Love |
 
     #US15510_TC01, US15510_TC02, US15510_TC03, US15510_TC06
     Scenario: Verify basic initial state for shoppable tray
