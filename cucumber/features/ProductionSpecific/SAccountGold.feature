@@ -1,5 +1,5 @@
 @GoldSAccount
-  Feature: S_Account
+  Feature: S_Account in gold
 
     Scenario: s_account validation in Jcrew gold
       Given User is on Jcrewgold home page
