@@ -55,14 +55,14 @@ public class HomePageSteps extends DriverFactory {
         assertTrue("Dresses should be populated", header.getSearchDrawerTerm().contains("dresses"));
     }
 
-    @And("^Verify page source contains s_account variable$")
-    public void validate_page_source_contains_saccount() {
-        assertTrue("page source should contain s_account", homePage.isSAccountVarPresentInSourceCode());
+    @And("^Verify page source contains ([^\"]*)$")
+    public void validate_page_source_contains_given_var(String var) {
+        assertTrue("page source should contain "+var+"", homePage.isGivenVarPresentInSourceCode(var));
     }
 
-    @And("^Get the s_account value$")
-    public void get_s_account_value() {
-       assertTrue("s_account should have a text value", !(homePage.getSAccountValue().isEmpty()));
+    @And("^Get the ([^\"]*) value$")
+    public void get_s_account_value(String var) {
+       assertTrue("s_account should have a text value", !(homePage.getSAccountValue(var).isEmpty()));
     }
 
     @And("^Validate the s_account value in production to be ([^\"]*)$")

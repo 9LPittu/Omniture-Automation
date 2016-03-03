@@ -54,15 +54,15 @@ public class HomePage {
         return pageHome.isDisplayed();
     }
 
-    public boolean isSAccountVarPresentInSourceCode() {
+    public boolean isGivenVarPresentInSourceCode(String var) {
 
-        logger.debug("looking for page source to contain s_account {}",driver.getPageSource().contains("s_account"));
-        return driver.getPageSource().contains("s_account");
+        logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
+        return driver.getPageSource().contains(var);
     }
 
-    public String getSAccountValue(){
-        String sAccountValue = (String)((JavascriptExecutor)driver).executeScript("return s_account;");
-        logger.info("s_account value is {}",sAccountValue);
+    public String getSAccountValue(String var){
+        String sAccountValue = (String)((JavascriptExecutor)driver).executeScript("return "+var+";");
+        logger.info(""+var+" value is : {}",sAccountValue);
         return sAccountValue;
     }
 
