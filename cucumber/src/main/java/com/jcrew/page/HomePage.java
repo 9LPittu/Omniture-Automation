@@ -60,9 +60,9 @@ public class HomePage {
         return driver.getPageSource().contains(var);
     }
 
-    public String getSAccountValue(String var){
-        String sAccountValue = (String)((JavascriptExecutor)driver).executeScript("return "+var+";");
-        logger.info(""+var+" value is : {}",sAccountValue);
+    public String getSAccountValue(){
+        String sAccountValue = (String)((JavascriptExecutor)driver).executeScript("return s_account;");
+        logger.info("s_account value is : {}",sAccountValue);
         return sAccountValue;
     }
 

@@ -62,12 +62,12 @@ public class HomePageSteps extends DriverFactory {
 
     @And("^Get the ([^\"]*) value$")
     public void get_s_account_value(String var) {
-       assertTrue("s_account should have a text value", !(homePage.getSAccountValue(var).isEmpty()));
+       assertTrue("s_account should have a text value", !(homePage.getSAccountValue().isEmpty()));
     }
 
-    @And("^Validate the ([^\"]*) value in production to be ([^\"]*)$")
-    public void validate_s_account_value(String expected,String var) {
-        assertEquals("s_account value is not as expected", expected, homePage.getSAccountValue(var));
+    @And("^Validate the s_account value in production to be ([^\"]*)$")
+    public void validate_s_account_value(String expected) {
+        assertEquals("s_account value is not as expected", expected, homePage.getSAccountValue());
     }
 
 
