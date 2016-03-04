@@ -382,6 +382,8 @@ public class ProductDetailPage {
     }
     
     public void clickMinicartCheckout(){
+        String currentURL = driver.getCurrentUrl();
+
         try {
             minicartCheckout.click();
         } catch (NoSuchElementException noMiniCart){
@@ -389,7 +391,6 @@ public class ProductDetailPage {
             bagContainer.click();
         }
 
-        String currentURL = driver.getCurrentUrl();
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
 }

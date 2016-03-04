@@ -101,9 +101,12 @@ public class StartingSteps {
         if (driver != null && (scenario.isFailed() || scenario.getName().contains(TAKE_SCREENSHOT))) {
 
             logger.debug("Taking screenshot of scenario {}", scenario.getName());
-
-            final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            scenario.embed(screenshot, "image/png");
+            try {
+                final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                scenario.embed(screenshot, "image/png");
+            } catch (Exception e){
+                logger.error("An exception happened when taking step screenshot after scenario", e);
+            }
         }
 
         stateHolder.clear();
@@ -124,7 +127,7 @@ public class StartingSteps {
                 }
 
             } catch (Exception e) {
-                logger.error("An exception happened when taking step screenshot", e);
+                logger.error("An exception happened when taking step screenshot after step", e);
             }
         }
     }
