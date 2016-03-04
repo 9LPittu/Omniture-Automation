@@ -207,4 +207,16 @@ public class DriverFactory {
             driverMap.remove(identifier);
         }
     }
+
+    public void resetDriver(){
+        String identifier = Thread.currentThread().getName();
+        driverMap.remove(identifier);
+
+        try {
+            WebDriver driver = createNewDriverInstance();
+            driverMap.put(identifier, driver);
+        } catch (IOException e) {
+            logger.error("unable to create driver in a reset");
+        }
+    }
 }

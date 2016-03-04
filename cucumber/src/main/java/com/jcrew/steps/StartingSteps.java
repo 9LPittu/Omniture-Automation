@@ -98,6 +98,7 @@ public class StartingSteps {
                 scenario.embed(screenshot, "image/png");
             } catch (Exception e){
                 logger.error("An exception happened when taking step screenshot after scenario", e);
+                driverFactory.resetDriver();
             }
         }
 
