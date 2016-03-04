@@ -3,10 +3,10 @@ Feature: My Account Page
 
   Background:
     Given User is on homepage
-    And Goes to sign in page
-    And User provides login information
-    And Check box is enabled
-    And Hits sign in button
+#    And Goes to sign in page
+#    And User provides login information
+#    And Check box is enabled
+#    And Hits sign in button
     And User is in My Account page
 
   Scenario: Verify My Account page and sign out
