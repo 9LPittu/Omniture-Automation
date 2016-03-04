@@ -80,6 +80,7 @@ public class LoginPage {
     }
 
     public void enter_valid_username_and_password() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         PropertyReader reader = PropertyReader.getPropertyReader();
         input_as_email(reader.getProperty("checkout.signed.in.username"));
         input_as_password(reader.getProperty("checkout.signed.in.password"));
