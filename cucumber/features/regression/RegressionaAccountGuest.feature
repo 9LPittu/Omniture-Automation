@@ -14,6 +14,7 @@ Feature: Sign In Page
     When User enters test@example.org as email
     Then An error message saying Whoops, that's not right... Please try your password again. should appear
     And Sign in button should be deactivated
+    And Deletes
 
   # TODO: incomplete; script need to be updated for validation
 
