@@ -13,6 +13,6 @@ Feature: S_Account in production
   Examples:
     |pageurl|srcurl|
     |Madewellprodmobile|https://smetrics.madewell.com/b/ss/jcrewmwcom|
-    |Factoryprodmobile |https://smetrics.jcrew.com/b/ss/jcrewfactorycom,jcrewglobalrollup|
+    |Factoryprod|https://smetrics.jcrew.com/b/ss/jcrewfactorycom,jcrewglobalrollup|
 
 
