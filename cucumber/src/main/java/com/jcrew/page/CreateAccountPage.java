@@ -27,7 +27,7 @@ public class CreateAccountPage {
     private WebElement passwordHint;
     @FindBy(id = "country")
     private WebElement country;
-    @FindBy(className = "createAccount_startShopping")
+    @FindBy(className = "createAccount_startShopping translate")
     private WebElement createAccountLink;
 
     public CreateAccountPage(WebDriver driver) {
