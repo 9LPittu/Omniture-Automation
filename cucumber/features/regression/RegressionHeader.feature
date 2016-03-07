@@ -22,6 +22,7 @@ Feature: Header Verification In Homepage
   Scenario: Stores
     Then User clicks on stores link
     And User is on external https://stores.jcrew.com/ page
+    Then Verify user is on stores page
 
   Scenario: Bag
     Then User clicks on item bag

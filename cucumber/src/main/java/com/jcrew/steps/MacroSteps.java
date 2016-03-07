@@ -25,6 +25,27 @@ public class MacroSteps {
         headerSteps.user_clicks_on_item_bag();
         shoppingBagSteps.user_should_be_in_shopping_bag_page();
     }
+
+    @Then("^Verify embedded headers links$")
+    public void verify_embedded_headers_links() throws Throwable{
+        headerSteps.verify_order_including_bag_is_valid("MENU, SEARCH, STORES", "SIGN IN, MY ACCOUNT");
+
+        headerSteps.verify_header_link_is_displayed("MENU");
+        hamburgerMenuSteps.user_clicks_on_hamburger_menu();
+        hamburgerMenuSteps.hamburger_menu_category_link_is_present("Women");
+        hamburgerMenuSteps.closes_hamburger_menu();
+
+        headerSteps.verify_header_link_is_displayed("SEARCH");
+        headerSteps.presses_search_button();
+        headerSteps.search_drawer_is_open();
+
+        headerSteps.verify_header_link_is_displayed("STORES");
+        headerSteps.verify_stores_button_link();
+
+        headerSteps.verify_header_bag_icon_is_displayed();
+        headerSteps.verify_bag_button_link();
+
+    }
     
     @Then("^Verify embedded footer is visible and functional$")
     public void verify_embedded_footer_visible_and_functional() throws Throwable{

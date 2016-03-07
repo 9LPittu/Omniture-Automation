@@ -178,4 +178,13 @@ public class Header {
 
         return result;
     }
+
+    public String getBagButtonLink(){
+        return shoppingBagLink.getAttribute("href");
+    }
+
+    public String getStoresButtonLink(){
+        WebElement stores = driver.findElement(By.cssSelector(".primary-nav__item--stores > .primary-nav__link"));
+        return stores.getAttribute("href");
+    }
 }
