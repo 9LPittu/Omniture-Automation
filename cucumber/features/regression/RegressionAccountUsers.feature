@@ -1,4 +1,4 @@
-@Navigate
+@account
 Feature: My Account Page
 
   Background:
