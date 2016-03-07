@@ -61,7 +61,7 @@ public class LooksWeLovePage {
         randomShopTheLook.click();
         Util.waitLoadingBar(driver);
 
-        //Verify that you have more than one product in tray. If you only have one, then select other tray
+        //Verify that you have more than one product in tray. If you only have one, then select saccount tray
         List<WebElement> items = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("js-tray__item")));
         logger.debug("items in tray: {}", items.size());
