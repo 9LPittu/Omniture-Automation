@@ -1,4 +1,4 @@
-
+@BreadCrumbs
 Feature: Global Header: Breadcrumbs
 
   Background:
@@ -261,7 +261,6 @@ Feature: Global Header: Breadcrumbs
 
 
     #US9724_TC16 (cont)
-  @BreadCrumbs
   Scenario: Validate no breadcrumbs are displayed on Account related pages
     #Wishlist Page
     And Goes to sign in page
