@@ -56,11 +56,11 @@ public class HomePage {
 
     public boolean isGivenVarPresentInSourceCode(String var) {
 
-        logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
         if(var.equals("src")) {
-
-            return driver.getPageSource().contains("src=\"https://smetrics");
+            logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains("src=\"https://smetrics"));
+            return driver.getPageSource().contains("src=\"http");
         }
+        logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
         return driver.getPageSource().contains(var);
     }
 
