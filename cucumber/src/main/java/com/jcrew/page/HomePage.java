@@ -57,6 +57,11 @@ public class HomePage {
     public boolean isGivenVarPresentInSourceCode(String var) {
 
         logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
+        if(var.equals("src")) {
+            String srcValue = (String)((JavascriptExecutor)driver).executeScript("return omni_omg;");
+            logger.debug("src value {}",srcValue);
+            return srcValue!=null;
+        }
         return driver.getPageSource().contains(var);
     }
 
