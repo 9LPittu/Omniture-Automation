@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@EmbeddedHeader"},
+        tags = {"@EmbeddedHeaderAndFooter"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-embeddedheaderregressionfeatures.json",
@@ -15,5 +15,5 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber/embeddedheaderregressionfeatures"
         }
 )
-public class EmbeddedHeaderRunnerTest {
+public class EmbeddedHeaderAndFooterRunnerTest {
 }

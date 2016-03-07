@@ -6,6 +6,9 @@ Feature: Footer Verification In Home Page
 
    #tc-01 and tc-02
    #US13389_TC14
+   #US13389_TC03
+   #Merged
+   #Scenario: Verify content groupings are displayed in footer section of all sidecar  pages
   Scenario: Verification of Footer section in the page
     Then Verify Contact Us header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
@@ -26,9 +29,6 @@ Feature: Footer Verification In Home Page
     And Verify instagram icon is displayed under Get To Know Us section
     And Verify google icon is displayed under Get To Know Us section
     And Verify youtube icon is displayed under Get To Know Us section
-
-  #US13389_TC03    
-  Scenario: Verify content groupings are displayed in footer section of all sidecar  pages
   	Then Verify Let Us Help You footer link is displayed
   	And user should see "Let Us Help You" content grouping in collapsed mode
     And Verify Our Cards footer link is displayed

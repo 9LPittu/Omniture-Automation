@@ -1,5 +1,5 @@
-@EmbeddedHeader
-Feature: Embedded Header Validations
+@EmbeddedHeaderAndFooter
+Feature: Embedded Header and Footer Validations
 
   Background:
     Given User is on homepage
@@ -8,12 +8,14 @@ Feature: Embedded Header Validations
     When Goes to sign in page
     And Clicks on create new account
     Then Verify embedded headers links
+    Then Verify embedded footer is visible and functional
 
   Scenario: Forgot Password Page Header Links
     When Goes to sign in page
     And Clicks on forgot password link
     And Verify user is in forgot password page
     Then Verify embedded headers links
+    Then Verify embedded footer is visible and functional
 
     #Merged with Category and PDP Page header links
     #Scenario: PDP Page header links
@@ -24,6 +26,7 @@ Feature: Embedded Header Validations
     And Selects the first product from product grid list
     And User is in product detail page
     And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
 
     #Merged with Multiple Pages During Checkout Header Links
     #Scenario: Order Confirmation Page Header Links
@@ -44,21 +47,27 @@ Feature: Embedded Header Validations
     And User clicks on item bag
     Then User should be in shopping bag page
     And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
     And Clicks on checkout
     And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
     And Selects to checkout as guest
     And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
     And Fills shipping address
     And Presses continue button on shipping address
     And Verifies is in shipping method page
     And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
     And Uses default value for shipping method
     And Uses default value for gifts option
     And Clicks continue button on shipping method page
     And Verify user is in billing page
     And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
     And Fills required payment data in billing page
     And Submits payment data in billing page
     And Clicks on place your order
     And User should be in order confirmation page
     And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
