@@ -58,9 +58,8 @@ public class HomePage {
 
         logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
         if(var.equals("src")) {
-            String srcValue = (String)((JavascriptExecutor)driver).executeScript("return omni_img;");
-            logger.debug("src value {}",srcValue);
-            return srcValue!=null;
+
+            return driver.getPageSource().contains("src=\"https://smetrics");
         }
         return driver.getPageSource().contains(var);
     }
