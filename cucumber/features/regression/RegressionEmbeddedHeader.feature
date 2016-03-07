@@ -32,7 +32,6 @@ Feature: Embedded Header Validations
     #Scenario: Shipping And Gift Options Page Header Links
     #Scenario: Shopping Bag Page header footer links
     #Scenario: Review Page Header Links
-  @wip
   Scenario: Multiple Pages During Checkout Header Links
     When User clicks on hamburger menu
     And Selects Women Category from hamburger menu
