@@ -28,8 +28,6 @@ public class MacroSteps {
 
     @Then("^Verify embedded headers links$")
     public void verify_embedded_headers_links() throws Throwable{
-        headerSteps.verify_order_including_bag_is_valid("MENU, SEARCH, STORES", "SIGN IN, MY ACCOUNT");
-
         headerSteps.verify_header_link_is_displayed("MENU");
         hamburgerMenuSteps.user_clicks_on_hamburger_menu();
         hamburgerMenuSteps.hamburger_menu_category_link_is_present("Women");
