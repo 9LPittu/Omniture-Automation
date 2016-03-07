@@ -1,4 +1,4 @@
-@3category
+@category
 
 Feature: Regression Tests Category Feature
 

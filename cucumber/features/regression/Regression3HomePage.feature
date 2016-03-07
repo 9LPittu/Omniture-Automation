@@ -1,4 +1,4 @@
-@2home
+@home
 Feature: Homepage Embedded Header and Footer
 
   Background:

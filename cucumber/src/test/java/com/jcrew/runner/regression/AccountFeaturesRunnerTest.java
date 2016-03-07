@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@1account,@2home,@3category,@4pdp"},
+        tags = {"@account,@home,@category,@pdp"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-accountregressionfeatures.json",
