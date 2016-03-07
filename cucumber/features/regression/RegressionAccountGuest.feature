@@ -1,4 +1,4 @@
-@account
+@1account
 Feature: Sign In Page
 
   Background:

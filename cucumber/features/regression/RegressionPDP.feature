@@ -1,4 +1,4 @@
-@pdp
+@4pdp
 Feature: Multiple Items Random
 
   Background:
