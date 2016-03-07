@@ -120,7 +120,7 @@ public class DriverFactory {
             capabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
             capabilities.setCapability("safariAllowPopups", true);
             capabilities.setCapability("safariOpenLinksInBackground", true);
-            capabilities.setCapability("newCommandTimeout", 60);
+            capabilities.setCapability("newCommandTimeout", 240);
             capabilities.setCapability("launchTimeout", 600000);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
@@ -138,6 +138,7 @@ public class DriverFactory {
             capabilities.setCapability("autoAcceptAlerts", true);
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
             capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            capabilities.setCapability("newCommandTimeout", 240);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
