@@ -261,7 +261,6 @@ Feature: Global Header: Breadcrumbs
 
 
     #US9724_TC16 (cont)
-
   Scenario: Validate no breadcrumbs are displayed on Account related pages
     #Wishlist Page
     And Goes to sign in page
