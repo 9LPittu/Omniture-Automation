@@ -1,10 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -56,4 +53,22 @@ public class HomePage {
                 ExpectedConditions.presenceOfElementLocated(By.id("page__home")));
         return pageHome.isDisplayed();
     }
+
+    public boolean isGivenVarPresentInSourceCode(String var) {
+
+        if(var.equals("src")) {
+            logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains("src=\"http"));
+            return driver.getPageSource().contains("src=\"http");
+        }
+        logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
+        return driver.getPageSource().contains(var);
+    }
+
+    public String getSAccountValue(){
+        String sAccountValue = (String)((JavascriptExecutor)driver).executeScript("return s_account;");
+        logger.info("s_account value is : {}",sAccountValue);
+        return sAccountValue;
+    }
+
+
 }
