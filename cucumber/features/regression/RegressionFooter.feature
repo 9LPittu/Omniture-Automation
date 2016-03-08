@@ -224,29 +224,36 @@ Feature: Footer Verification In Home Page
       # |Canada|
    
   #US13389_TC14
-  Scenario: Verify facebook icon in social sharing section is functional
+  #Merged
+  #Scenario: Verify twitter icon in social sharing section is functional
+  #Scenario: Verify tumblr icon in social sharing section is functional
+  #Scenario: Verify instagram icon in social sharing section is functional
+  #Scenario: Verify google icon in social sharing section is functional
+  #Scenario: Verify youtube icon in social sharing section is functional
+  #Scenario: Verify pinterest icon in social sharing section is functional
+  #Scenario: Verify facebook icon in social sharing section is functional
+    Scenario: Verify social sharing icons functionality
     And click on facebook icon in social sharing section
     And User is on external facebook page
-  
-  Scenario: Verify twitter icon in social sharing section is functional
+    And User presses back button
     And click on twitter icon in social sharing section
     And User is on external twitter page
-  
-  Scenario: Verify tumblr icon in social sharing section is functional
+    And User presses back button
     And click on tumblr icon in social sharing section
     And User is on external http://jcrew.tumblr.com/ page
-
-  Scenario: Verify instagram icon in social sharing section is functional
+    And User presses back button
     And click on instagram icon in social sharing section
     And User is on external https://www.instagram.com/jcrew/ page
-  
-  Scenario: Verify google icon in social sharing section is functional
+    And User presses back button
     And click on google icon in social sharing section
     And User is on external https://plus.google.com/+JCrew page
-  
-  Scenario: Verify youtube icon in social sharing section is functional
+    And User presses back button
+    And click on pinterest icon in social sharing section
+    And User is on external https://www.pinterest.com/jcrew/ page
+    And User presses back button
     And click on youtube icon in social sharing section
     And User is on external youtube page
+    And User presses back button
   
   #US13389_TC15
   #Merged
@@ -275,7 +282,3 @@ Feature: Footer Verification In Home Page
    	And user should see visit full site displayed after legal links in footer section
    	And click on view full site link
    	And User is on internal /index.jsp?sidecar=false page
-
-  Scenario: Verify pinterest icon in social sharing section is functional
-    And click on pinterest icon in social sharing section
-    And User is on external https://www.pinterest.com/jcrew/ page
