@@ -13,5 +13,5 @@ import org.junit.runner.RunWith;
                 "pretty",
                 "html:target/cucumber/saccountgoldotherfeatures"
         }
-)public class SAccountFeaturesRunnerTest {
+)public class SAccountGoldDesktopRunnerTest {
 }
