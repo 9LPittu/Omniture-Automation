@@ -330,6 +330,8 @@ public class SearchPage {
 
     public int getCurrentNumberOfResults() {
         String text = searchResult.findElement(By.className("search__results--count")).getText();
+        text = text.replace(" result", "");
+        text = text.replace("s", "");
         Integer numberOfResults = Integer.valueOf(text.replace(" results", ""));
 
         logger.debug("Number of results found are {}", numberOfResults);

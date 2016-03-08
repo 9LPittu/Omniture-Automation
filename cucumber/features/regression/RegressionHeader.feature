@@ -1,5 +1,5 @@
-@Header
-Feature: Header Verification In Homepage
+@HeaderAndFooter
+Feature: Header And Footer Verification In Homepage
 
   Background:
     Given User is on homepage
@@ -10,6 +10,8 @@ Feature: Header Verification In Homepage
     And Verify STORES header link is displayed
     And Verify BAG header link is displayed
     And Verify MENU, SEARCH, STORES header links including bag order is valid, ignore SIGN IN, MY ACCOUNT
+    Then Verify embedded headers are visible and functional
+    Then Verify embedded footer is visible and functional
 
   Scenario: Hamburger Menu
     Then User clicks on hamburger menu
