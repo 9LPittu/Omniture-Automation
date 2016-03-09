@@ -20,7 +20,7 @@ Feature: Handling email capture pop up
     And User is in search results page
     And Email pop up is not displayed
 
-  Scenario: Email capture is closed after subcribing with valid email id
+  Scenario: Email capture is closed after subscribing with valid email id
     Given User is on homepage
     And Enter the valid email address and submit
     And Verify footer section in the page is displayed
