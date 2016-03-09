@@ -81,11 +81,20 @@ public class HomePage {
     }
 
     public void enter_email_address() {
-        emailCaptureSection.findElement(By.className("js-email-capture--input")).sendKeys("test@example.org");
+        try {
+            emailCaptureSection.findElement(By.className("js-email-capture--input")).sendKeys("test@example.org");
+        }catch (NoSuchElementException e) {
+            logger.debug("Email capture pop up is not present");
+        }
     }
 
     public void click_on_the_arrow_button_to_submit(){
-        emailCaptureSection.findElement(By.className("js-email-capture--button")).click();
+        try {
+            emailCaptureSection.findElement(By.className("js-email-capture--button")).click();
+        }catch (NoSuchElementException e) {
+            logger.debug("Email capture pop up is not present");
+        }
+
     }
 }
 
