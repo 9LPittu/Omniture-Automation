@@ -87,24 +87,20 @@ public class Footer {
 
     public void click_to_open_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
-        try {
-            if ((fLink.findElement(By.className("icon-see-more"))).isDisplayed())
-                Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
-        } catch (NoSuchElementException e) {
-            logger.debug("footer drawer already open");
-        }
+        WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
+        String parentClass = fLinkParent.getAttribute("class");
 
+        if (!parentClass.contains("is-expanded"))
+            fLink.click();
     }
 
     public void click_to_close_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
-        try {
-            if ((fLink.findElement(By.className("icon-see-less"))).isDisplayed())
-                Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
-        } catch (NoSuchElementException e) {
-            logger.debug("footer drawer already closed");
-        }
+        WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
+        String parentClass = fLinkParent.getAttribute("class");
 
+        if (parentClass.contains("is-expanded"))
+            fLink.click();
     }
 
 
