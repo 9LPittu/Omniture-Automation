@@ -63,6 +63,7 @@ Feature: Registered User Checkout Process
     Then Clicks on place your order
     Then User should be in order confirmation page
     And verify order number is generated
+    And Deletes browser cookies
   
   Scenario: Registered user adding new credit card with existing address
     And User is on homepage
@@ -96,3 +97,4 @@ Feature: Registered User Checkout Process
     Then Clicks on place your order
     Then User should be in order confirmation page
     And verify order number is generated
+    And Deletes browser cookies

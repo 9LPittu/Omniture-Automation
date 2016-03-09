@@ -1,7 +1,19 @@
 package com.jcrew.runner.regression;
 
-/**
- * Created by nadiapaolagarcia on 3/9/16.
- */
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = {"features/regression"},
+        tags = {"@Account, @Category, @PDP, @Bag"},
+        glue = {"com.jcrew.steps"},
+        format = {
+                "json:target/cucumber-navigationregressionfeatures.json",
+                "pretty",
+                "html:target/cucumber/navigationregressionfeatures"
+        }
+)
 public class NavigationFeaturesRunnerTest {
 }
