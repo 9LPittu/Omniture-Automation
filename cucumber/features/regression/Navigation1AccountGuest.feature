@@ -27,3 +27,6 @@ Feature: Sign In Page
 #    And Fills required account data in create account page
 #    And Clicks on create new account in create account page
 #    Then Verify user is in homepage
+#    And Deletes browser cookies
+
+

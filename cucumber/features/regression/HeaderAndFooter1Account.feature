@@ -39,3 +39,4 @@ Feature: Account Embedded Header Validations
     And User clicks on WISHLIST link in My Account Page
     And User should be in wishlist page
     Then Verify embedded headers links
+    And Deletes browser cookies

@@ -80,6 +80,7 @@ Feature: Global Header: Breadcrumbs
      And User presses back button
      When Clicks on J.Crew Breadcrumb
      And Verify user is in homepage
+     And Deletes browser cookies
 
     #US9724_TC09 multi pdp not available?
   #will implement later
@@ -147,7 +148,7 @@ Feature: Global Header: Breadcrumbs
 
 
    #US9724_TC15
-    Scenario:Validate Sidecar url when user is on PDP from Sale array page
+    Scenario: Validate Sidecar url when user is on PDP from Sale array page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
     And User is in sale landing page
