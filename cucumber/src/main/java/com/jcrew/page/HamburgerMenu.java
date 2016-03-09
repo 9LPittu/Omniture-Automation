@@ -50,7 +50,7 @@ public class HamburgerMenu {
         WebDriverWait wait = Util.createWebDriverWait(driver);
         wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
         Util.clickWithStaleRetry(hamburgerMenu);
-       // wait.until(ExpectedConditions.visibilityOf(categoryMenu));
+        wait.until(ExpectedConditions.visibilityOf(categoryMenu));
     }
 
     public boolean isHamburgerMenuPresent() {
