@@ -112,6 +112,7 @@ public class Header {
     public void click_jcrew_logo() {
         Util.clickWithStaleRetry(headerLogo);
         Util.waitLoadingBar(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
 
     public void click_on_search_button() {
@@ -147,6 +148,7 @@ public class Header {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
         Util.clickWithStaleRetry(breadcrumbElement);
         Util.waitLoadingBar(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
 
     public boolean isGenderLandingPage(String gender){

@@ -86,12 +86,12 @@ Feature: Global Header: Breadcrumbs
   #Scenario: Validate breadcrumbs display and functionality on multi PDP page
 
     #US9724_TC10, #US9724_TC11
-  Scenario: Validate breadcrumbs functionality and display on sign in/ register for email page
-    And Goes to sign in page
-    And Clicks on create new account
-    And JCrew Logo is present
-    And Clicks on JCrew Logo
-    And Verify user is in homepage
+#  Scenario: Validate breadcrumbs functionality and display on sign in/ register for email page
+#    And Goes to sign in page
+#    And Clicks on create new account
+#    And JCrew Logo is present
+#    And Clicks on JCrew Logo
+#    And Verify user is in homepage
 
      #US9724_TC12
   Scenario: Validate breadcrumbs display and functionality on the search array page
