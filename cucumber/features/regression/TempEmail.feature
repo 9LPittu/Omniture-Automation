@@ -49,7 +49,6 @@ Feature: Handling email capture pop up
     Then User should be in subcategory page
     And Email pop up is not displayed
     And User clicks on hamburger menu
-    #And User clicks on back link
     And Selects sale Category from hamburger menu
     And Email pop up is not displayed
     And User presses search button
