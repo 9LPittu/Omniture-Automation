@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Product;
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.By;
@@ -162,10 +163,19 @@ public class MultiplePdpPage {
 
     public void clickPrevious() {
         stateHolder.put("shoppableTrayProduct", article);
-//        WebElement previousLink = previous.findElement(By.tagName("a"));
-//        wait.until(ExpectedConditions.visibilityOf(previousLink));
-//        previousLink.click();
-        previous.click();
+        String url = driver.getCurrentUrl();
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        String browser = reader.getProperty("browser");
+
+        if("androidchrome".equals(browser)){
+            previous.click();
+        } else {
+            WebElement previousLink = previous.findElement(By.tagName("a"));
+            wait.until(ExpectedConditions.visibilityOf(previousLink));
+            previousLink.click();
+        }
+
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         loadNavigation();
     }
 
@@ -489,7 +499,7 @@ public class MultiplePdpPage {
 
     private boolean hasVariations(){
         try{
-            WebElement variations = driver.findElement(By.xpath("//section[id@='c-product__details']/div[@id='c-product__variations']/div/div/div[@class='variations-list-wrap']/menu"));
+            WebElement variations = driver.findElement(By.xpath("//section[@id='c-product__details']/div[@id='c-product__variations']/div/div/div[@class='variations-list-wrap']/menu"));
             logger.debug("Variations: {}", variations.getText());
             return true;
 
