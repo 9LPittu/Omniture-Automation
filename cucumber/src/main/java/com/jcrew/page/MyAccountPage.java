@@ -55,7 +55,7 @@ public class MyAccountPage {
         WebElement menu = getMenuLink(link);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
         menu.click();
-        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
 
     public boolean isInMenuLinkPage(String page) {
