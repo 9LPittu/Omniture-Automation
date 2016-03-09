@@ -197,4 +197,9 @@ public class FooterSteps extends DriverFactory {
         assertTrue("All footer items are visible", footer.isAllFooterLinksPresent());
     }
 
+    @And("Verify footer section in the page is displayed")
+    public void verify_footer_section_displayed(){
+        assertTrue("Footer section should be displayed",footer.isFooterSectionDisplayed());
+    }
+
 }

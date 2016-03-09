@@ -79,5 +79,13 @@ public class HomePage {
             return false;
         }
     }
+
+    public void enter_email_address() {
+        emailCaptureSection.findElement(By.className("js-email-capture--input")).sendKeys("test@example.org");
+    }
+
+    public void click_on_the_arrow_button_to_submit(){
+        emailCaptureSection.findElement(By.className("js-email-capture--button")).click();
+    }
 }
 
