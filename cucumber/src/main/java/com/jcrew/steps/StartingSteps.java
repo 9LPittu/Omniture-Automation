@@ -29,6 +29,7 @@ public class StartingSteps {
 
     @Before
     public void setupDriver() throws IOException {
+    	stateHolder.put("deletecookies", false);
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
     }
@@ -87,11 +88,21 @@ public class StartingSteps {
         Util.waitForPageFullyLoaded(driver);
     }
 
+    @And("^Deletes browser cookies$")
+    public void deletes_browser_cookies_and_destroy_driver(){
+    	driverFactory.deleteBrowserCookies();   	
+    	
+    	if (driverFactory != null) {
+            driverFactory.destroyDriver();
+        }
+    	
+    	stateHolder.put("deletecookies", true);
+    }
+
     @After
     public void quitDriver(Scenario scenario) throws IOException {
 
-        if (driver != null && (scenario.isFailed() || scenario.getName().contains(TAKE_SCREENSHOT))) {
-
+        if (!(boolean)stateHolder.get("deletecookies") && driver != null && (scenario.isFailed() || scenario.getName().contains(TAKE_SCREENSHOT))) {
             logger.debug("Taking screenshot of scenario {}", scenario.getName());
             try {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
@@ -100,11 +111,7 @@ public class StartingSteps {
                 logger.error("An exception happened when taking step screenshot after scenario", e);
                 driverFactory.resetDriver();
             }
-        }
-
-        if (driverFactory != null) {
-           driverFactory.destroyDriver();
-        }
+        }  
 
         stateHolder.clear();
     }

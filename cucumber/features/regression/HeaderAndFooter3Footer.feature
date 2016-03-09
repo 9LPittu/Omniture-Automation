@@ -4,6 +4,11 @@ Feature: Footer Verification In Home Page
   Background:
     Given User is on homepage
 
+    #Moved from HomePage.feature
+  Scenario: Homepage embedded Header and Footer
+    Then Verify embedded headers are visible and functional
+    Then Verify embedded footer is visible and functional
+
    #tc-01 and tc-02
    #US13389_TC14
    #US13389_TC03

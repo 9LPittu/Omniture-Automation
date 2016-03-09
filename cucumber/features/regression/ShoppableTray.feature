@@ -56,6 +56,7 @@
       Then Verify every product contains product, size and fit and review drawers
 
     #US9881_TC14
+    #JCSC-828
     Scenario: Verify URL support preselected colors for items
       And Selects color for every item and visits URL
       Then Verify tray has selected colors as default
