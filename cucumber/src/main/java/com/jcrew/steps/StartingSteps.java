@@ -89,8 +89,13 @@ public class StartingSteps {
     }
 
     @And("^Deletes browser cookies$")
-    public void deletes_browser_cookies(){
-    	driverFactory.deleteBrowserCookies();    	
+    public void deletes_browser_cookies_and_destroy_driver(){
+    	driverFactory.deleteBrowserCookies();   	
+    	
+    	if (driverFactory != null) {
+            driverFactory.destroyDriver();
+        }
+    	
     	stateHolder.put("deletecookies", true);
     }
 
@@ -105,11 +110,7 @@ public class StartingSteps {
             } catch (Exception e){
                 logger.error("An exception happened when taking step screenshot after scenario", e);
             }
-        }
-        
-        if (driverFactory != null) {
-            driverFactory.destroyDriver();
-        }
+        }  
 
         stateHolder.clear();
     }
