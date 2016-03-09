@@ -1,10 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,6 +26,10 @@ public class HomePage {
 
     @FindBy(className = "header__search__button--find")
     private WebElement headerSearchButtonFind;
+
+    @FindBy(className = "c-email-capture")
+    private WebElement emailCaptureSection;
+
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -56,4 +57,27 @@ public class HomePage {
                 ExpectedConditions.presenceOfElementLocated(By.id("page__home")));
         return pageHome.isDisplayed();
     }
+
+    public void close_email_pop_up() {
+        emailCaptureSection.findElement(By.className("js-email-capture--close")).click();
+    }
+
+    public boolean isEmailPopUpNotDisplayed() {
+        try {
+            return !(emailCaptureSection.isDisplayed());
+        } catch (NoSuchElementException ne) {
+            logger.debug("Email capture pop up is not present");
+            return true;
+        }
+    }
+
+    public boolean isEmailPopUpDisplayed() {
+        try {
+            return emailCaptureSection.isDisplayed();
+        } catch (NoSuchElementException ne) {
+            logger.debug("Email capture pop up is not present");
+            return false;
+        }
+    }
 }
+

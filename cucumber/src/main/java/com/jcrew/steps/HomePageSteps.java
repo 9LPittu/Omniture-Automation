@@ -54,5 +54,18 @@ public class HomePageSteps extends DriverFactory {
         assertTrue("Dresses should be populated", header.getSearchDrawerTerm().contains("dresses"));
     }
 
+    @And("^Close the email pop up")
+     public void close_email_pop_up_if_exists() {
+            assertTrue("e-mail pop up not displayed", homePage.isEmailPopUpDisplayed());
+         homePage.close_email_pop_up();
+        }
+
+     @And("^Email pop up is not displayed")
+     public void verify_email_pop_up_not_displayed() {
+         assertTrue("email pop up is displayed",homePage.isEmailPopUpNotDisplayed());
+     }
+
+
+
 
 }
