@@ -1,5 +1,4 @@
 @category
-
 Feature: Regression Tests Category Feature
 
   Background:

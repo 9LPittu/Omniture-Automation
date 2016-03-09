@@ -188,6 +188,17 @@ public class DriverFactory {
         WebDriver driver = driverMap.get(identifier);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
+        if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
+            driver.quit();
+            driverMap.remove(identifier);
+        }
+    }
+    
+    public void deleteBrowserCookies(){
+    	String identifier = Thread.currentThread().getName();
+        WebDriver driver = driverMap.get(identifier);
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+
         if ("iossafari".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
                 if (!((cookie.getName()).equalsIgnoreCase("is_sidecar"))) {
@@ -200,11 +211,6 @@ public class DriverFactory {
                     driver.manage().deleteCookie(cookie);
                 }
             }
-        }
-
-        if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
-            driver.quit();
-            driverMap.remove(identifier);
         }
     }
 }
