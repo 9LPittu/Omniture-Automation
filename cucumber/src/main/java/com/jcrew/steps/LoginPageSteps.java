@@ -110,5 +110,15 @@ public class LoginPageSteps extends DriverFactory {
     @And("^click on SIGN IN & CHECK OUT button$")
     public void enter_sign_in_and_check_out_button(){
     	loginPage.click_signInAndCheckOut();
-    }  
+    }
+
+    @And("^Registration benefits copy is displayed")
+    public void verify_benefits_copy_message_is_displayed() {
+        assertTrue("Registration message is not as expected",loginPage.getRegBenefitsCopyMsg());
+    }
+
+    @And("^close pop up")
+    public void close_pop_up() {
+        loginPage.close_pop_up();
+    }
 }

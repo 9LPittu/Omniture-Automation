@@ -175,4 +175,13 @@ public class LoginPage {
     public void click_signInAndCheckOut(){
     	signInAndCheckOut.click();
     }
+
+    public boolean getRegBenefitsCopyMsg() {
+        logger.info(registerSection.findElement(By.className("unregistered__msg ")).getText());
+        return true;
+    }
+
+    public void close_pop_up() {
+        driver.findElement(By.className("js-email-capture--close")).click();
+    }
 }

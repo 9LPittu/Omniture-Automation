@@ -29,4 +29,11 @@ Feature: Sign In Page
 #    Then Verify user is in homepage
 #    And Deletes browser cookies
 
+  #US9890: Account Register and Errors
+  #US9890_TC01
+  Scenario: Validate registration benefits copy is displayed in user registration section on SignIn page
+    And close pop up
+    And Registration benefits copy is displayed
+
+
 
