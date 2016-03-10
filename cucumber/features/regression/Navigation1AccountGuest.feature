@@ -36,6 +36,7 @@ Feature: Sign In Page
     And Registration benefits copy is displayed as Three reasons why you should: Quick checkout, shareable wishlists and easy order tracking.
     And First name field is displayed in registration section
     And First name field allows maximum 30 characters
+    And User enters first name as
 
 
 
