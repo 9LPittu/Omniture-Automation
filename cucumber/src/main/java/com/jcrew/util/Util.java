@@ -7,6 +7,7 @@ import com.google.common.primitives.Booleans;
 import com.jcrew.pojo.Product;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -92,6 +93,12 @@ public class Util {
         if(!success){
             throw new StaleElementReferenceException("Failed to wait element");
         }
+    }
+
+    public static void scrollToElement(WebDriver driver, WebElement element){
+        Actions action = new Actions(driver);
+        createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+        action.moveToElement(element);
     }
 
 }

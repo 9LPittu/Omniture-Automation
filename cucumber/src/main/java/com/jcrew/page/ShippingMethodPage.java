@@ -63,6 +63,7 @@ public class ShippingMethodPage {
 
 
     public boolean isShippingMethodPage() {
+        Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodContainer));
         return true;
     }

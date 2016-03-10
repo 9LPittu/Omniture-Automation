@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -139,6 +140,7 @@ public class BillingPage {
     }
 
     public boolean isBillingPage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
         return creditCardBilling.isDisplayed();
     }

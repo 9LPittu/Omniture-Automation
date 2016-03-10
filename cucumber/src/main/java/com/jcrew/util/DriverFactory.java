@@ -120,7 +120,7 @@ public class DriverFactory {
             capabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
             capabilities.setCapability("safariAllowPopups", true);
             capabilities.setCapability("safariOpenLinksInBackground", true);
-            capabilities.setCapability("newCommandTimeout", 60);
+            capabilities.setCapability("newCommandTimeout", 240);
             capabilities.setCapability("launchTimeout", 600000);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
@@ -138,6 +138,7 @@ public class DriverFactory {
             capabilities.setCapability("autoAcceptAlerts", true);
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
             capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            capabilities.setCapability("newCommandTimeout", 240);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
@@ -188,22 +189,41 @@ public class DriverFactory {
         WebDriver driver = driverMap.get(identifier);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
+        if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
+            driver.quit();
+            driverMap.remove(identifier);
+        }
+    }
+    
+    public void deleteBrowserCookies(){
+    	String identifier = Thread.currentThread().getName();
+        WebDriver driver = driverMap.get(identifier);
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+
         if ("iossafari".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
-                driver.manage().deleteCookie(cookie);
+                if (!((cookie.getName()).equalsIgnoreCase("is_sidecar"))) {
+                    driver.manage().deleteCookie(cookie);
+                }
             }
-        }
-        if ("androidchrome".equals(propertyReader.getProperty("browser"))) {
+        } else if ("androidchrome".equals(propertyReader.getProperty("browser"))) {
             for (Cookie cookie : driver.manage().getCookies()) {
                 if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
                     driver.manage().deleteCookie(cookie);
                 }
             }
         }
-
-        if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
-            driver.quit();
-            driverMap.remove(identifier);
-        }
-         }
     }
+
+    public void resetDriver(){
+        String identifier = Thread.currentThread().getName();
+        driverMap.remove(identifier);
+
+        try {
+            WebDriver driver = createNewDriverInstance();
+            driverMap.put(identifier, driver);
+        } catch (IOException e) {
+            logger.error("unable to create driver in a reset");
+        }
+    }
+}

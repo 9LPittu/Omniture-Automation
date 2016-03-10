@@ -23,6 +23,9 @@ public class MyAccountPage {
     @FindBy(id = "main_cont")
     private WebElement myAccountContent;
 
+    @FindBy (id = "containerBorderLeft")
+    private WebElement myAccountRightContent;
+
     public MyAccountPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -49,7 +52,10 @@ public class MyAccountPage {
     }
 
     public void click_menu_link(String link) {
-        getMenuLink(link).click();
+        WebElement menu = getMenuLink(link);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
+        menu.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
 
     public boolean isInMenuLinkPage(String page) {
@@ -68,13 +74,13 @@ public class MyAccountPage {
     	try{
     		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
     		List<WebElement> deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        	while(deleteButtons.size()>=2){    		
+        	while(deleteButtons.size()>=2){
         		deleteButtons.get(1).click();
-        		
+
         		Util.createWebDriverWait(driver).until(ExpectedConditions.alertIsPresent());
-        		Alert alert = driver.switchTo().alert();        		
+        		Alert alert = driver.switchTo().alert();
         		alert.accept();
-        		
+
         		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         		deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
         		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(deleteButtons));
@@ -89,8 +95,8 @@ public class MyAccountPage {
     	try{
     		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
     		List<WebElement> deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        	while(deleteButtons.size()>=2){    		
-        		deleteButtons.get(1).click();        		
+        	while(deleteButtons.size()>=2){
+        		deleteButtons.get(1).click();
         		deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
         		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(deleteButtons));
         	}

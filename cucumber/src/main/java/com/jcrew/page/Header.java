@@ -16,6 +16,8 @@ public class Header {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(Header.class);
 
+    private final String menuItems[] = {"MENU", "SEARCH", "STORES","BAG"};
+
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
     @FindBy(className = "icon-close")
@@ -110,6 +112,7 @@ public class Header {
     public void click_jcrew_logo() {
         Util.clickWithStaleRetry(headerLogo);
         Util.waitLoadingBar(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
 
     public void click_on_search_button() {
@@ -145,6 +148,7 @@ public class Header {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
         Util.clickWithStaleRetry(breadcrumbElement);
         Util.waitLoadingBar(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
 
     public boolean isGenderLandingPage(String gender){
@@ -165,5 +169,24 @@ public class Header {
     public boolean isEmbeddedHeaderSectionDisplayed() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
         return headerWrap.isDisplayed();
+    }
+
+    public boolean isAllMenuItemsDisplayed(){
+        boolean result = true;
+
+        for(String item:menuItems){
+            result &= isHeaderLinkPresent(item);
+        }
+
+        return result;
+    }
+
+    public String getBagButtonLink(){
+        return shoppingBagLink.getAttribute("href");
+    }
+
+    public String getStoresButtonLink(){
+        WebElement stores = driver.findElement(By.cssSelector(".primary-nav__item--stores > .primary-nav__link"));
+        return stores.getAttribute("href");
     }
 }

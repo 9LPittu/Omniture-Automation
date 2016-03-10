@@ -7,15 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/regression",
-        tags = {"@PDP"},
+        tags = {"@ShoppableTray"},
         glue = {"com.jcrew.steps"},
-        format = {
-                "json:target/cucumber-pdpregressionfeatures.json",
+        format = {"json:target/cucumber-shoppabletrayfeatures.json",
                 "pretty",
-                "html:target/cucumber/pdpregressionfeatures"
-        }
+                "html:target/cucumber/shoppabletrayfeatures"}
 )
+public class ShoppableTrayRunnerTest {
 
-public class PDPFeaturesRunnerTest
-{
+
 }

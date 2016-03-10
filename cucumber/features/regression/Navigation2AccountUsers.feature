@@ -20,6 +20,7 @@ Feature: My Account Page
     Then Verify user is in homepage
     And User is signed out
     And Verify BAG header link is displayed
+    And Deletes browser cookies
 
   #US9724_TC16: Validate no breadcrumbs are displayed on Account related pages
   Scenario: Verify account page links

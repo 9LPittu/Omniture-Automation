@@ -1,7 +1,10 @@
 package com.jcrew.page;
 
 
+import com.jcrew.pojo.Product;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -12,9 +15,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class WishlistPage {
 
     private final WebDriver driver;
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @FindBy(id = "wishlistName")
     private WebElement wishListName;
@@ -97,6 +104,7 @@ public class WishlistPage {
     }
 
     public void delete_current_products() {
+        Util.waitForPageFullyLoaded(driver);
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript(
                 "var params = $.parseJSON(globalObj.wishlist.itemsArrayJson).header;" +
@@ -107,4 +115,58 @@ public class WishlistPage {
                         "});"
         );
     }
+
+    public boolean shopTheLookProducts() {
+        boolean result = true;
+        List<Product> addedProducts = (List<Product>) stateHolder.get("itemsInTray");
+        HashMap<String, Product> wishedProducts = getWishedProducts();
+
+        for(Product product:addedProducts){
+            Product wish = wishedProducts.get(product.getProductName());
+            if(wish == null){
+                logger.info("{} product is not in wish list", product.getProductName());
+                result = false;
+            } else {
+                result &= product.equals(wish);
+            }
+        }
+
+        return result;
+    }
+
+    private HashMap<String, Product> getWishedProducts(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(userWishlist));
+        List<WebElement> productsInWishlist = userWishlist.findElements(By.className("item-data"));
+        HashMap<String, Product> wishedProducts = new HashMap<>(productsInWishlist.size());
+
+        for(WebElement wishElement:productsInWishlist){
+            Product wish = getProduct(wishElement);
+            wishedProducts.put(wish.getProductName(), wish);
+        }
+
+        return wishedProducts;
+    }
+
+    private String cleanProductName(WebElement item_data){
+        String name = item_data.getAttribute("data-itemtitle").toLowerCase();
+        name = StringEscapeUtils.unescapeHtml(name);
+        name = name.replace("pre-order ","");
+
+        return name;
+    }
+
+    private Product getProduct(WebElement item_data){
+        Product product = new Product();
+
+        String color = item_data.getAttribute("data-color").toLowerCase();
+        String size = item_data.getAttribute("data-size").toLowerCase();
+        String name = cleanProductName(item_data);
+
+        product.setProductName(name);
+        product.setSelectedColor(color);
+        product.setSelectedSize(size);
+
+        return product;
+    }
+
 }

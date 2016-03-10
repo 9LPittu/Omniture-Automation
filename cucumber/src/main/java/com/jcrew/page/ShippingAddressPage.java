@@ -98,6 +98,7 @@ public class ShippingAddressPage {
 
     public void presses_continue_button_on_shipping_address() {
         continueCheckout.click();
+        Util.waitForPageFullyLoaded(driver);
     }
 
     public String getSelectedCityAndState() {

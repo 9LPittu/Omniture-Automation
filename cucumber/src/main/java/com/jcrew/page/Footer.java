@@ -21,6 +21,8 @@ public class Footer {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(Footer.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
+
+    private final String footerItems[] = {"Let Us Help You", "Our Cards", "Our Stores","About J.Crew", "Get To Know Us"};
     
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
@@ -65,6 +67,14 @@ public class Footer {
 
     }
 
+    public boolean isAllFooterLinksPresent(){
+        boolean result = true;
+        for(String item:footerItems){
+            result &= isFooterLinkPresent(item);
+        }
+        return result;
+    }
+
     private WebElement getFooterLinkElement(String footerLink) {
         Util.waitWithStaleRetry(driver,footerWrapMain);
         try {
@@ -77,24 +87,20 @@ public class Footer {
 
     public void click_to_open_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
-        try {
-            if ((fLink.findElement(By.className("icon-see-more"))).isDisplayed())
-                Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
-        } catch (NoSuchElementException e) {
-            logger.debug("footer drawer already open");
-        }
+        WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
+        String parentClass = fLinkParent.getAttribute("class");
 
+        if (!parentClass.contains("is-expanded"))
+            fLink.click();
     }
 
     public void click_to_close_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
-        try {
-            if ((fLink.findElement(By.className("icon-see-less"))).isDisplayed())
-                Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
-        } catch (NoSuchElementException e) {
-            logger.debug("footer drawer already closed");
-        }
+        WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
+        String parentClass = fLinkParent.getAttribute("class");
 
+        if (parentClass.contains("is-expanded"))
+            fLink.click();
     }
 
 

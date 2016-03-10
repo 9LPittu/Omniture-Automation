@@ -39,6 +39,7 @@ Feature: Edit Product In Bags Scenarios
     And Verify color CERULEAN COVE is displayed in shopping bag
     And Verify size SMALL is displayed in shopping bag
     And Verify 1 items are specified as quantity in shopping bag
+    And Deletes browser cookies
 
   Scenario: signed in Edit link redirects user to PDP
     When Goes to sign in page

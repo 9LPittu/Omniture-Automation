@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@EmbeddedFooter"},
+        tags = {"@Account, @Category, @PDP, @Bag"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-embeddedfooterregressionfeatures.json",
+                "json:target/cucumber-navigationregressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/embeddedfooterregressionfeatures"
+                "html:target/cucumber/navigationregressionfeatures"
         }
 )
-public class EmbeddedFooterRunnerTest {
+public class NavigationFeaturesRunnerTest {
 }
