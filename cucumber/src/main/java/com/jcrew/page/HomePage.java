@@ -54,6 +54,7 @@ public class HomePage {
     public boolean isHomePage() {
         final WebElement pageHome = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.presenceOfElementLocated(By.id("page__home")));
+        Util.waitWithStaleRetry(driver,pageHome);
         return pageHome.isDisplayed();
     }
 }
