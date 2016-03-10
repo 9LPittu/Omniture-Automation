@@ -114,7 +114,16 @@ public class LoginPageSteps extends DriverFactory {
 
     @And("^Registration benefits copy is displayed as ([^\"]*)$")
     public void verify_benefits_copy_message_is_displayed(String expected) {
-        assertEquals("Registration message is not as expected",expected,loginPage.getRegBenefitsCopyMsg());
+        assertEquals("Registration benefits message is not as expected",expected,loginPage.getRegBenefitsCopyMsg());
+    }
+    @And("^First name field is displayed in registration section$")
+    public void verify_first_name_field_is_present() {
+        assertTrue("First name field is not present",loginPage.isFirstNameFieldDisplayed());
+    }
+
+    @And("^First name field allows maximum ([^\"]*) characters$")
+    public void verify_max_length_value_for_first_name(String expected) {
+        assertEquals("First name field max charaters allowed is not as expected ",expected,loginPage.getMaxCharsForFirstName());
     }
 
 }

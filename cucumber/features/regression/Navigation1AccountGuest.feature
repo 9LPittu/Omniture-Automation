@@ -30,10 +30,13 @@ Feature: Sign In Page
 #    And Deletes browser cookies
 
   #US9890: Account Register and Errors
-  #US9890_TC01
-  Scenario: Validate registration benefits copy is displayed in user registration section on SignIn page
 
+  #US9890_TC01, #US9890_TC02
+  Scenario: Validate registration benefits copy is displayed in user registration section on SignIn page
     And Registration benefits copy is displayed as Three reasons why you should: Quick checkout, shareable wishlists and easy order tracking.
+    And First name field is displayed in registration section
+    And First name field allows maximum 30 characters
+
 
 
 

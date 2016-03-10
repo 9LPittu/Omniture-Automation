@@ -54,6 +54,9 @@ public class LoginPage {
     @FindBy(id = "main_inside")
     private WebElement myAccountContainer;
 
+    @FindBy(id = "sidecarRegisterFirstName")
+    private WebElement firstNameField;
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -178,6 +181,14 @@ public class LoginPage {
 
     public String getRegBenefitsCopyMsg() {
         return registerSection.findElement(By.className("unregistered__msg ")).getText();
+    }
+
+    public boolean isFirstNameFieldDisplayed() {
+        return firstNameField.isDisplayed();
+    }
+
+    public String getMaxCharsForFirstName() {
+        return firstNameField.getAttribute("maxlength");
     }
 
 
