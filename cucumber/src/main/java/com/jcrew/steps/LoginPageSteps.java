@@ -112,13 +112,9 @@ public class LoginPageSteps extends DriverFactory {
     	loginPage.click_signInAndCheckOut();
     }
 
-    @And("^Registration benefits copy is displayed")
-    public void verify_benefits_copy_message_is_displayed() {
-        assertTrue("Registration message is not as expected",loginPage.getRegBenefitsCopyMsg());
+    @And("^Registration benefits copy is displayed as ([^\"]*)$")
+    public void verify_benefits_copy_message_is_displayed(String expected) {
+        assertEquals("Registration message is not as expected",expected,loginPage.getRegBenefitsCopyMsg());
     }
 
-    @And("^close pop up")
-    public void close_pop_up() {
-        loginPage.close_pop_up();
-    }
 }
