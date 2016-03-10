@@ -3,7 +3,8 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
 
   Background:
     #below steps removes items from the bag
-    Given User is on homepage   
+    Given User is on homepage
+    And Handle the Email Capture pop up
     And Goes to sign in page
     When User enters testuser1@example.org as email
     And User enters test1234 as password

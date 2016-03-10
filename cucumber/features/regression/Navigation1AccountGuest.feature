@@ -3,6 +3,7 @@ Feature: Sign In Page
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
     And Goes to sign in page
 
   Scenario: Error message validation for incorrect email and password

@@ -60,6 +60,13 @@ public class HomePageSteps extends DriverFactory {
          homePage.close_email_pop_up();
         }
 
+     @And("Handle the Email Capture pop up$")
+     public void handle_email_pop_up() {
+         homePage.handle_email_pop_up();
+     }
+
+
+
      @And("^Email pop up is not displayed")
      public void verify_email_pop_up_not_displayed() {
          assertTrue("email pop up is displayed",homePage.isEmailPopUpNotDisplayed());

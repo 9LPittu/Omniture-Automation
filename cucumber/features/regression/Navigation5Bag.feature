@@ -42,6 +42,7 @@ Feature: Edit Product In Bags Scenarios
     And Deletes browser cookies
 
   Scenario: signed in Edit link redirects user to PDP
+    And Handle the Email Capture pop up
     When Goes to sign in page
     And User provides login information
     And Hits sign in button

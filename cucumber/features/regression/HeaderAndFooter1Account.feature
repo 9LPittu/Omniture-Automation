@@ -3,6 +3,7 @@ Feature: Account Embedded Header Validations
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
     And Goes to sign in page
     And User provides login information
     And Hits sign in button
