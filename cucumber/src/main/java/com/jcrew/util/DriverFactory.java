@@ -1,5 +1,7 @@
 package com.jcrew.util;
 
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
 import org.openqa.selenium.Cookie;
@@ -61,14 +63,63 @@ public class DriverFactory {
 
     private WebDriver createLocalDriver(PropertyReader propertyReader) {
         final String browser = propertyReader.getProperty("browser");
-        final WebDriver driver;
+        WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
             driver = new ChromeDriver();
+            driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {
 
             driver = new FirefoxDriver();
+            driver.manage().window().setSize(new Dimension(width, height));
+
+        } else if ("iossafari".equals(browser)) {
+
+            DesiredCapabilities capabilities = DesiredCapabilities.iphone();
+
+            capabilities.setCapability("browserName", "safari");
+            capabilities.setCapability("platformName", "iOS");
+            capabilities.setCapability("deviceName", propertyReader.getProperty("device.name"));
+            capabilities.setCapability("platformVersion", propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability("takesScreenshot", "true");
+            capabilities.setCapability("acceptSslCerts", "true");
+            capabilities.setCapability("autoAcceptAlerts", "true");
+
+            if(propertyReader.hasProperty("device.udid")){
+                //setting this capability is required only for iOS real device
+                capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            }
+
+            capabilities.setCapability("safariAllowPopups", true);
+            capabilities.setCapability("safariOpenLinksInBackground", true);
+            capabilities.setCapability("newCommandTimeout", 60);
+            capabilities.setCapability("launchTimeout", 600000);
+
+            try{
+                driver = new IOSDriver<>(new URL("http://127.0.0.1:4723/wd/hub/"), capabilities);
+            }catch (MalformedURLException exception){
+                logger.error("NOT ABLE TO CREATE IOS DRIVER");
+            }
+
+        } else if ("androidchrome".equals(browser)) {
+            DesiredCapabilities capabilities = DesiredCapabilities.android();
+            capabilities.setPlatform(Platform.ANDROID);
+
+            capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty("device.name"));
+            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
+            capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
+            capabilities.setCapability("autoAcceptAlerts", true);
+            capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
+            capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+
+            try{
+                driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub/"), capabilities);
+            }catch (MalformedURLException exception){
+                logger.error("NOT ABLE TO CREATE IOS DRIVER");
+            }
 
         } else {
             DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -78,11 +129,13 @@ public class DriverFactory {
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = new PhantomJSDriver(capabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
         }
 
-        driver.manage().window().setSize(new Dimension(width, height));
+
         return driver;
     }
+
 
     private WebDriver createRemoteDriver(PropertyReader propertyReader) throws MalformedURLException {
         final WebDriver driver;
