@@ -2,7 +2,7 @@
 Feature: Handling email capture pop up
 
 
-  Scenario:  Email capture option should be displayed on fresh session.
+  Scenario: Email capture option should be displayed on fresh session.
     Given User is on homepage
     And Close the email pop up
     And User clicks on hamburger menu

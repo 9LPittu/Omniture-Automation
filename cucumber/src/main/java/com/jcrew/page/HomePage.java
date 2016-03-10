@@ -62,6 +62,22 @@ public class HomePage {
         emailCaptureSection.findElement(By.className("js-email-capture--close")).click();
     }
 
+    public void handle_email_pop_up() {
+
+        JavascriptExecutor jse = ((JavascriptExecutor) driver);
+        boolean emailCapture = jse.executeScript("return jcrew.config.showEmailCapture;").equals(true);
+        logger.debug("Email capture? {}", emailCapture);
+
+        if(emailCapture) {
+            logger.debug("Email capture on, let's turn it off!!");
+            WebElement email_capture = driver.findElement(
+                    By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"));
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(email_capture));
+            email_capture.click();
+
+        }
+    }
+
     public boolean isEmailPopUpNotDisplayed() {
         try {
             return !(emailCaptureSection.isDisplayed());
