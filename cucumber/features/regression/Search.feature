@@ -69,7 +69,7 @@ Feature: Search Regression Suite
     And Dresses is populated
     When Enters yellow dresses to the search field
     And Hits enter in search field
-    Then Verifies Kylie long dress in silk chiffon product is displayed
+    Then Verifies Petite Nadia long dress in silk chiffon product is displayed
 
   Scenario: Search term should display search array & validate with regular priced product
     When Enters skirts to the search field
