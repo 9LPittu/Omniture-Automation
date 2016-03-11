@@ -48,6 +48,7 @@ public class HamburgerMenu {
 
     public void click_on_hamburger_menu() {
         WebDriverWait wait = Util.createWebDriverWait(driver);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
         Util.clickWithStaleRetry(hamburgerMenu);
         wait.until(ExpectedConditions.visibilityOf(categoryMenu));

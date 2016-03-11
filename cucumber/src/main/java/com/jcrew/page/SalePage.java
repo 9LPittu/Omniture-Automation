@@ -115,6 +115,7 @@ public class SalePage {
 
     public boolean isSalePageDisplayed(){
         Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleHeader));
         return saleHeader.isDisplayed();
     }

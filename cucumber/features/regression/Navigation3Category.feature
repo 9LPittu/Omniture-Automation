@@ -28,7 +28,7 @@ Feature: Regression Tests Category Feature
     Then User should be in sweaters page for women
     And Verifies Classic merino wool long cardigan sweater product is displayed
     And Verifies Classic merino wool long cardigan sweater product price was $89.50
-    And Verifies Classic merino wool long cardigan sweater product sale price is select colors $59.99–$79.50
+    And Verifies Classic merino wool long cardigan sweater product sale price is now $79.50
     And Verifies product image is displayed
 
   Scenario: Check sign posts on category pages

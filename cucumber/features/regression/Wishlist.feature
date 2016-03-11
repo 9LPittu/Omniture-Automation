@@ -37,6 +37,7 @@ Feature: Ability to link to PDP from Wishlist
     Then User is in product detail page
     When Add to cart button is pressed
     Then A minicart modal should appear with message '1 item has been added to your cart.'
+    And Deletes browser cookies
 
     #US9697_TC06_Part_2
   Scenario Outline: Verify products can be added to wish list from multiple pdp pages
@@ -51,6 +52,7 @@ Feature: Ability to link to PDP from Wishlist
     And User clicks on My Account link
     And User clicks on WISHLIST link in My Account Page
     Then Verify all products added from shop the look page are in wish list
+    And Deletes browser cookies
 
     Examples:
       | Category |Option|
