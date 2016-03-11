@@ -60,3 +60,4 @@ Feature: Edit Product In Bags Scenarios
     And Clicks edit button on item bag page
     Then Verify color CERULEAN COVE is selected
     And Verify size SMALL is selected
+    And Deletes browser cookies
