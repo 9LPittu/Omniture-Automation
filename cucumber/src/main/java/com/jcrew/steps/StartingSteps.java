@@ -103,6 +103,7 @@ public class StartingSteps {
             try {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
+                deletes_browser_cookies_and_destroy_driver();
             } catch (Exception e){
                 logger.error("An exception happened when taking step screenshot after scenario", e);
                 driverFactory.resetDriver();
