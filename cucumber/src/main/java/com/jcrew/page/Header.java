@@ -148,7 +148,7 @@ public class Header {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
         Util.clickWithStaleRetry(breadcrumbElement);
         Util.waitLoadingBar(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
     }
 
     public boolean isGenderLandingPage(String gender){

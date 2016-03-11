@@ -60,3 +60,4 @@
     Scenario: Verify URL support preselected colors for items
       And Selects color for every item and visits URL
       Then Verify tray has selected colors as default
+      And Deletes browser cookies
