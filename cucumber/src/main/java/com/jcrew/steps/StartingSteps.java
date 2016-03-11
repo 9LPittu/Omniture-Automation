@@ -111,7 +111,7 @@ public class StartingSteps {
         }
 
         if (driverFactory != null && !(boolean)stateHolder.get("deletecookies")) {
-            driverFactory.destroyDriver();
+        //    driverFactory.destroyDriver();
         }
 
         stateHolder.clear();

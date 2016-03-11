@@ -126,4 +126,14 @@ public class LoginPageSteps extends DriverFactory {
         assertEquals("First name field max charaters allowed is not as expected ",expected,loginPage.getMaxCharsForFirstName());
     }
 
+    @And("^User clicks on create an account button$")
+    public void clicks_on_create_an_account_button() {
+        loginPage.click_create_an_account_button();
+    }
+
+    @And("^An error message saying ([^\"]*) should appear under ([^\"]*) field")
+    public void  verify_error_message(String errorMessage, String fieldLabel) {
+        assertEquals("Unable to find expected message", errorMessage, loginPage.getErrorMessage(fieldLabel));
+    }
+
 }

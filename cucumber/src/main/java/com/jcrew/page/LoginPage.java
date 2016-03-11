@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.jcrew.util.PropertyReader;
@@ -80,6 +81,14 @@ public class LoginPage {
     public String getSignInErrorMessage() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(invalidSignInMessage));
         return invalidSignInMessage.getText();
+    }
+
+    public String getErrorMessage(String fieldLabel) {
+        ////span[contains(text(), 'ABZ')]/../following-sibling::section/span[@name='edit']
+        String errmsg = registerSection.findElement(By.xpath("//label[@class = 'register-form__label'][@text() ='" + fieldLabel + "'"))/following - sibling::section/span[contains(@class)]
+
+        return errmsg;
+
     }
 
     public void enter_valid_username_and_password() {
@@ -191,5 +200,7 @@ public class LoginPage {
         return firstNameField.getAttribute("maxlength");
     }
 
-
+    public void click_create_an_account_button() {
+        registerSection.findElement(By.className("js-btn-register")).click();
+    }
 }
