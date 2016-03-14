@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,6 +110,13 @@ public class LoginPage {
         return errmsg;
 
     }
+
+    public String getEmailErrorMessage() {
+        WebElement emailField =  driver.findElement(By.id("unregistered-email"));
+        return emailField.findElement(By.className("js-invalid-msg")).getText();
+    }
+
+
 
     public void enter_valid_username_and_password() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
@@ -226,6 +234,16 @@ public class LoginPage {
 
     public void click_create_an_account_button() {
         registerSection.findElement(By.className("js-btn-register")).click();
+    }
+
+    public boolean isCountryListBoxDisplyed() {
+        return driver.findElement(By.id("countryList")).isDisplayed();
+    }
+
+    public String getDefaultCountrySelected() {
+        Select select = new Select(driver.findElement(By.id("countryList")));
+        logger.info(select.getFirstSelectedOption().getText());
+        return select.getFirstSelectedOption().getText();
     }
 
 

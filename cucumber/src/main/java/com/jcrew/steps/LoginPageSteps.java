@@ -137,5 +137,22 @@ public class LoginPageSteps extends DriverFactory {
         loginPage.enter_input(input,field);
     }
 
+    @Then("^Error message ([^\"]*) is displayed")
+    public void verify_invalid_email_error_message(String msg) {
+        assertEquals("Error message under email field should be displayed", msg, loginPage.getEmailErrorMessage());
+    }
+
+    @And("^Country selection list box is displayed$")
+    public void verify_country_list_box_is_displayed() {
+        assertTrue("Country list box should be displayed", loginPage.isCountryListBoxDisplyed());
+
+    }
+
+    @And("^([^\"]*) is selected as default value$")
+    public void verify_default_value_for_country_list_box(String defaultcountry) {
+         assertEquals("Default country to be selected not as expected", defaultcountry, loginPage.getDefaultCountrySelected());
+
+    }
+
 
    }

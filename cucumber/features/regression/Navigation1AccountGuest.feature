@@ -31,7 +31,7 @@ Feature: Sign In Page
 
   #US9890: Account Register and Errors
 
-  #US9890_TC01 to US9890_TC03
+  #US9890_TC01 to US9890_TC05
   Scenario: Validate registration benefits copy is displayed in user registration section on SignIn page
     Then Breadcrumb should display J.Crew
     And Clicks on J.Crew Breadcrumb
@@ -48,18 +48,24 @@ Feature: Sign In Page
     Then An error message saying Please enter a valid email address. should appear under email field
     Then An error message saying Please enter password. should appear under password field
 
-  #US9890_TC04
+  #US9890_TC04 (step 5)
   Scenario Outline: Validate error message display when invalid or null email address is given
     And Enter tester as First Name in create account section
     And Enter automation as Last Name in create account section
     And Enter <emailinput> as Email in create account section
     And Enter Jcrewtest as Password in create account section
-    Then An error message saying Please enter a valid email address. should appear under email field
+    Then Error message Please enter a valid email address. is displayed
 
    Examples:
     |emailinput|
     |invalid   |
     |          |
+
+  #US9890_TC06
+  Scenario: User registration section should have country selection listbox
+    And Country selection list box is displayed
+    And united states is selected as default value
+    And
 
 
 
