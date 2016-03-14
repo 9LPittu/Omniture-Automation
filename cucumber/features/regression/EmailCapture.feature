@@ -1,6 +1,8 @@
 @Email
 Feature: Handling email capture pop up
 
+  Background:
+    Given Deletes browser cookies
 
   Scenario: Email capture option should be displayed on fresh session.
     Given User is on homepage
