@@ -63,7 +63,6 @@ Feature: Global Header: Breadcrumbs
    #Moved to RegressionFooter.feature
 
      #US9724_TC08
-     #US9724_TC14
      #Merged: Scenario: Validate Sidecar url when user is on PDP from Search array page
   Scenario: Validate breadcrumbs display and functionality on PDP page
      And User clicks on hamburger menu
@@ -71,7 +70,6 @@ Feature: Global Header: Breadcrumbs
      When User clicks on SWEATERS subcategory from Women Category
      And Selects any product from product grid list
      Then User is in product detail page
-     And page url should contain isFromSearch
      Then Breadcrumb should display J.Crew/Women/Sweaters
      When Clicks on sweaters Breadcrumb
      Then User should be in subcategory page
@@ -96,6 +94,7 @@ Feature: Global Header: Breadcrumbs
 #    And Verify user is in homepage
 
      #US9724_TC12
+     #US9724_TC14
   Scenario: Validate breadcrumbs display and functionality on the search array page
     And User presses search button
     And Enters dresses to the search field
@@ -110,6 +109,7 @@ Feature: Global Header: Breadcrumbs
     And User is in search results page
     And Selects any product from product grid list
     And User is in product detail page
+    And page url should contain isFromSearch
     And Breadcrumb should display J.crew/Search Results
     And Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
@@ -141,7 +141,7 @@ Feature: Global Header: Breadcrumbs
     Then User is in Sale results page
 
      #US9724_TC16
-  Scenario: Validate no breadcrumbs are displayed pages
+    #Scenario: Validate no breadcrumbs are displayed pages
 
     #Social responsibility page
 
@@ -177,13 +177,8 @@ Feature: Global Header: Breadcrumbs
 
 
     # US9724_TC16 (cont)   Store Locator page
-  Scenario: Validate no breadcrumbs are displayed on store locator page
-    When Click on footer link Our Stores to open
-    And Store Locator sublink is displayed
-    And Click on sublink Store Locator from Our Stores footer link
-    And Verify user is on help store locator page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
+    #moved to HeaderAndFooter3Footer.feature
+    #Scenario: Validate no breadcrumbs are displayed on store locator page
 
 
     #US9724_TC16 (cont)

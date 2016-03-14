@@ -71,38 +71,31 @@ public class MyAccountPage {
     }
     
     public void deleteNonDefaultAddresses(){
-    	try{
-    		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-    		List<WebElement> deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        	while(deleteButtons.size()>=2){
-        		deleteButtons.get(1).click();
 
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.alertIsPresent());
-        		Alert alert = driver.switchTo().alert();
-        		alert.accept();
+        //td[@id='containerBorderLeft']/form/table/tbody/tr/td/table
 
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
-        		deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(deleteButtons));
-        	}
-    	}
-    	catch(Exception e){
-    		driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	}
+        List<WebElement> tables = myAccountContainer.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+
+        while(tables.size() > 2){
+            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+            deleteButton.click();
+
+            Util.createWebDriverWait(driver).until(ExpectedConditions.alertIsPresent());
+            Alert removeAddress = driver.switchTo().alert();
+            removeAddress.accept();
+
+            tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+        }
     }
     
     public void deleteNonDefaultCreditCards(){
-    	try{
-    		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-    		List<WebElement> deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        	while(deleteButtons.size()>=2){
-        		deleteButtons.get(1).click();
-        		deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(deleteButtons));
-        	}
-    	}
-    	catch(Exception e){
-    		driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	}
+        List<WebElement> tables = myAccountContainer.findElements(By.xpath("//div[@id='creditCardList']/table"));
+
+        while(tables.size() > 2){
+            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+            deleteButton.click();
+
+            tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
+        }
     }
 }
