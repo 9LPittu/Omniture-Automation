@@ -110,10 +110,10 @@ public class Header {
     }
 
     public void click_jcrew_logo() {
-        Util.clickWithStaleRetry(headerLogo);
         Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        Util.clickWithStaleRetry(headerLogo);
     }
 
     public void click_on_search_button() {

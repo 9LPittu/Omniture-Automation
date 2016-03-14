@@ -74,7 +74,7 @@ public class MyAccountPage {
 
         //td[@id='containerBorderLeft']/form/table/tbody/tr/td/table
 
-        List<WebElement> tables = myAccountContainer.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+        List<WebElement> tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
 
         while(tables.size() > 2){
             WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
@@ -89,7 +89,7 @@ public class MyAccountPage {
     }
     
     public void deleteNonDefaultCreditCards(){
-        List<WebElement> tables = myAccountContainer.findElements(By.xpath("//div[@id='creditCardList']/table"));
+        List<WebElement> tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
 
         while(tables.size() > 2){
             WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
