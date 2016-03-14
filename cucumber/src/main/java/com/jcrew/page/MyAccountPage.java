@@ -80,7 +80,7 @@ public class MyAccountPage {
             WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
             deleteButton.click();
 
-            Util.createWebDriverWait(driver).until(ExpectedConditions.alertIsPresent());
+            //Util.createWebDriverWait(driver).until(ExpectedConditions.alertIsPresent());
             Alert removeAddress = driver.switchTo().alert();
             removeAddress.accept();
 
