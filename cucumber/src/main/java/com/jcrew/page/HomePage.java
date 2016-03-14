@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class HomePage {
 
     private final WebDriver driver;
@@ -74,13 +76,16 @@ public class HomePage {
 
         if(emailCapture) {
             logger.debug("Email capture on, let's turn it off!!");
-            try{
-                WebElement email_capture = driver.findElement(
-                        By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"));
-                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(email_capture));
-                email_capture.click();
-            }catch (NoSuchElementException nse) {
-                logger.debug("Email capture not showing...");
+
+            List<WebElement> email_capture = driver.findElements(
+                    By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"));
+
+            if(email_capture.size() > 0) {
+                WebElement close = email_capture.get(0);
+                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(close));
+                close.click();
+            } else {
+                logger.debug("No email capture displayed...");
             }
 
         }
