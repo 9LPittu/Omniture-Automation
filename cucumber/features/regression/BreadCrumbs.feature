@@ -4,10 +4,6 @@ Feature: Global Header: Breadcrumbs
   Background:
     Given User is on homepage
 
-  #US9724_TC01
-  Scenario: Validate J crew logo displayed on Home page
-    And JCrew Logo is present
-
   #US9724_TC02
   Scenario Outline: Validate J crew logo display and functionality on Department/Gender Landing Pages
     And User clicks on <gender> link from top nav
@@ -23,6 +19,8 @@ Feature: Global Header: Breadcrumbs
     |Girls |
 
    #US9724_TC03
+   #US15452_TC003
+   #Scenario: 'Sale' in top nav should direct to Sale Landing Page
   Scenario: Validate breadcrumbs display and functionality on Sale Landing Page
     And User clicks on sale link from top nav
     And User is in sale landing page
@@ -65,12 +63,15 @@ Feature: Global Header: Breadcrumbs
    #Moved to RegressionFooter.feature
 
      #US9724_TC08
+     #US9724_TC14
+     #Merged: Scenario: Validate Sidecar url when user is on PDP from Search array page
   Scenario: Validate breadcrumbs display and functionality on PDP page
      And User clicks on hamburger menu
      And Selects Women Category from hamburger menu
      When User clicks on SWEATERS subcategory from Women Category
      And Selects any product from product grid list
      Then User is in product detail page
+     And page url should contain isFromSearch
      Then Breadcrumb should display J.Crew/Women/Sweaters
      When Clicks on sweaters Breadcrumb
      Then User should be in subcategory page
@@ -118,6 +119,8 @@ Feature: Global Header: Breadcrumbs
 
 
       #US9724_TC13
+      #US9724_TC15
+      #Merged: Scenario: Validate Sidecar url when user is on PDP from Sale array page
   Scenario: Validate breadcrumbs display and functionality on the sale category array page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
@@ -126,6 +129,7 @@ Feature: Global Header: Breadcrumbs
     And Breadcrumb should display J.crew/Sale
     And Selects any product from product grid list
     And User is in product detail page
+    And page url should contain isFromSale
     And Breadcrumb should display J.crew/Sale/women
     And Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
@@ -135,29 +139,6 @@ Feature: Global Header: Breadcrumbs
     And User presses back button
     And Clicks on women Breadcrumb
     Then User is in Sale results page
-
-    #US9724_TC14
-  Scenario: Validate Sidecar url when user is on PDP from Search array page
-    And User presses search button
-    When Enters dresses to the search field
-    And Clicks on search button for input field
-    And User is in search results page
-    And Selects any product from product grid list
-    And User is in product detail page
-    And page url should contain isFromSearch
-
-
-   #US9724_TC15
-    Scenario: Validate Sidecar url when user is on PDP from Sale array page
-    And User clicks on hamburger menu
-    And Selects sale Category from hamburger menu
-    And User is in sale landing page
-    And User clicks on sale department women
-    And User is in Sale results page
-    And Selects any product from product grid list
-    And User is in product detail page
-    And page url should contain isFromSale
-
 
      #US9724_TC16
   Scenario: Validate no breadcrumbs are displayed pages

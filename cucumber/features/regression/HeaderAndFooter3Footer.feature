@@ -5,9 +5,11 @@ Feature: Footer Verification In Home Page
     Given User is on homepage
 
     #Moved from HomePage.feature
-  Scenario: Homepage embedded Header and Footer
+    #US9724_TC01 from BreadCrumbs.feature
+  Scenario: Homepage embedded Header, Footer and logo
     Then Verify embedded headers are visible and functional
     Then Verify embedded footer is visible and functional
+    And JCrew Logo is present
 
    #tc-01 and tc-02
    #US13389_TC14
