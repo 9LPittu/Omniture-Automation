@@ -3,6 +3,7 @@ Feature: Footer Verification In Home Page
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
 
     #Moved from HomePage.feature
     #US9724_TC01 from BreadCrumbs.feature

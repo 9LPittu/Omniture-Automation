@@ -56,6 +56,9 @@ public class Footer {
     
     @FindBy(className="footer__header--social")
     private WebElement socialSharingHeader;
+
+    @FindBy(id = "global__footer")
+    private WebElement footerSection;
      
     public Footer(WebDriver driver) {
         this.driver = driver;
@@ -73,6 +76,10 @@ public class Footer {
             result &= isFooterLinkPresent(item);
         }
         return result;
+    }
+
+    public boolean isFooterSectionDisplayed() {
+        return footerSection.isDisplayed();
     }
 
     private WebElement getFooterLinkElement(String footerLink) {

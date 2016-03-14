@@ -1,10 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,6 +26,10 @@ public class HomePage {
 
     @FindBy(className = "header__search__button--find")
     private WebElement headerSearchButtonFind;
+
+    @FindBy(className = "c-email-capture")
+    private WebElement emailCaptureSection;
+
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
@@ -60,4 +61,60 @@ public class HomePage {
         Util.waitWithStaleRetry(driver,pageHome);
         return pageHome.isDisplayed();
     }
+
+    public void close_email_pop_up() {
+        emailCaptureSection.findElement(By.className("js-email-capture--close")).click();
+    }
+
+    public void handle_email_pop_up() {
+
+        JavascriptExecutor jse = ((JavascriptExecutor) driver);
+        boolean emailCapture = jse.executeScript("return jcrew.config.showEmailCapture;").equals(true);
+        logger.debug("Email capture? {}", emailCapture);
+
+        if(emailCapture) {
+            logger.debug("Email capture on, let's turn it off!!");
+            WebElement email_capture = driver.findElement(
+                    By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"));
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(email_capture));
+            email_capture.click();
+
+        }
+    }
+
+    public boolean isEmailPopUpNotDisplayed() {
+        try {
+            return !(emailCaptureSection.isDisplayed());
+        } catch (NoSuchElementException ne) {
+            logger.debug("Email capture pop up is not present");
+            return true;
+        }
+    }
+
+    public boolean isEmailPopUpDisplayed() {
+        try {
+            return emailCaptureSection.isDisplayed();
+        } catch (NoSuchElementException ne) {
+            logger.debug("Email capture pop up is not present");
+            return false;
+        }
+    }
+
+    public void enter_email_address() {
+        try {
+            emailCaptureSection.findElement(By.className("js-email-capture--input")).sendKeys("test@example.org");
+        }catch (NoSuchElementException e) {
+            logger.debug("Email capture pop up is not present");
+        }
+    }
+
+    public void click_on_the_arrow_button_to_submit(){
+        try {
+            emailCaptureSection.findElement(By.className("js-email-capture--button")).click();
+        }catch (NoSuchElementException e) {
+            logger.debug("Email capture pop up is not present");
+        }
+
+    }
 }
+
