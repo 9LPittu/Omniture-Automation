@@ -24,23 +24,44 @@ Feature: Sign In Page
 #    And Verify user is in homepage
 #    And User presses back button
 #    When Clicks on create new account
-#    And Fills required account data in create account page
+ #   And Fills required account data in create account page
 #    And Clicks on create new account in create account page
 #    Then Verify user is in homepage
 #    And Deletes browser cookies
 
   #US9890: Account Register and Errors
 
-  #US9890_TC01, #US9890_TC02
+  #US9890_TC01 to US9890_TC03
   Scenario: Validate registration benefits copy is displayed in user registration section on SignIn page
+    Then Breadcrumb should display J.Crew
+    And Clicks on J.Crew Breadcrumb
+    And Verify user is in homepage
+    And User presses back button
     And Registration benefits copy is displayed as Three reasons why you should: Quick checkout, shareable wishlists and easy order tracking.
-    And First name field is displayed in registration section
-    And First name field allows maximum 30 characters
+    And First Name field is displayed in registration section and max 30 characters allowed
+    And Last Name field is displayed in registration section and max 30 characters allowed
+    And Email field is displayed in registration section and max 75 characters allowed
+    And Password field is displayed in registration section and max 40 characters allowed
     When User clicks on create an account button
     Then An error message saying Please enter first name. should appear under first name field
     Then An error message saying Please enter last name. should appear under last name field
     Then An error message saying Please enter a valid email address. should appear under email field
     Then An error message saying Please enter password. should appear under password field
+
+  #US9890_TC04
+  Scenario Outline: Validate error message display when invalid or null email address is given
+    And Enter tester as First Name in create account section
+    And Enter automation as Last Name in create account section
+    And Enter <emailinput> as Email in create account section
+    And Enter Jcrewtest as Password in create account section
+    Then An error message saying Please enter a valid email address. should appear under email field
+
+   Examples:
+    |emailinput|
+    |invalid   |
+    |          |
+
+
 
 
 

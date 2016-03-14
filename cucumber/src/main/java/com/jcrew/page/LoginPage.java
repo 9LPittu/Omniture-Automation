@@ -84,8 +84,27 @@ public class LoginPage {
     }
 
     public String getErrorMessage(String fieldLabel) {
-        ////span[contains(text(), 'ABZ')]/../following-sibling::section/span[@name='edit']
-        String errmsg = registerSection.findElement(By.xpath("//label[@class = 'register-form__label'][@text() ='" + fieldLabel + "'"))/following - sibling::section/span[contains(@class)]
+        List<WebElement> inputFormElements = driver.findElements(By.className("js-invalid-msg"));
+        logger.info("list size{}", inputFormElements.size());
+        String errmsg = "";
+        switch (fieldLabel) {
+            case "first name":
+                errmsg = inputFormElements.get(0).getText();
+                break;
+
+            case "last name":
+                errmsg = inputFormElements.get(1).getText();
+                break;
+
+            case "email":
+                errmsg = inputFormElements.get(2).getText();
+                break;
+
+            case "password":
+                errmsg = inputFormElements.get(3).getText();
+                break;
+
+        }
 
         return errmsg;
 
@@ -192,15 +211,24 @@ public class LoginPage {
         return registerSection.findElement(By.className("unregistered__msg ")).getText();
     }
 
-    public boolean isFirstNameFieldDisplayed() {
-        return firstNameField.isDisplayed();
+    public boolean isFieldWithMaxCharsAllowedDisplayed(String f, String maxchars) {
+        String n = f.replaceAll("\\s","").trim();
+        String fieldId = "sidecarRegister".concat(n);
+        WebElement field = driver.findElement(By.id(fieldId));
+        return field.isDisplayed()&& field.getAttribute("maxlength").equals(maxchars);
     }
 
-    public String getMaxCharsForFirstName() {
-        return firstNameField.getAttribute("maxlength");
+    public void enter_input(String input, String field) {
+        String n = field.replaceAll("\\s","").trim();
+        String fieldId = "sidecarRegister".concat(n);
+        driver.findElement(By.id(fieldId)).sendKeys(input);
     }
 
     public void click_create_an_account_button() {
         registerSection.findElement(By.className("js-btn-register")).click();
     }
+
+
+
+
 }

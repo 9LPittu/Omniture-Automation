@@ -116,14 +116,10 @@ public class LoginPageSteps extends DriverFactory {
     public void verify_benefits_copy_message_is_displayed(String expected) {
         assertEquals("Registration benefits message is not as expected",expected,loginPage.getRegBenefitsCopyMsg());
     }
-    @And("^First name field is displayed in registration section$")
-    public void verify_first_name_field_is_present() {
-        assertTrue("First name field is not present",loginPage.isFirstNameFieldDisplayed());
-    }
 
-    @And("^First name field allows maximum ([^\"]*) characters$")
-    public void verify_max_length_value_for_first_name(String expected) {
-        assertEquals("First name field max charaters allowed is not as expected ",expected,loginPage.getMaxCharsForFirstName());
+    @And("^([^\"]*) field is displayed in registration section and max ([^\"]*) characters allowed$")
+    public void verify_input_field_is_present(String field, String chars) {
+        assertTrue("Field with expected max chars should be displayed",loginPage.isFieldWithMaxCharsAllowedDisplayed(field, chars));
     }
 
     @And("^User clicks on create an account button$")
@@ -132,8 +128,14 @@ public class LoginPageSteps extends DriverFactory {
     }
 
     @And("^An error message saying ([^\"]*) should appear under ([^\"]*) field")
-    public void  verify_error_message(String errorMessage, String fieldLabel) {
+    public void verify_error_message(String errorMessage, String fieldLabel) {
         assertEquals("Unable to find expected message", errorMessage, loginPage.getErrorMessage(fieldLabel));
     }
 
-}
+    @And("^Enter ([^\"]*) as ([^\"]*) in create account section$")
+    public void enter_input_in_the_input_field(String input, String field)  {
+        loginPage.enter_input(input,field);
+    }
+
+
+   }
