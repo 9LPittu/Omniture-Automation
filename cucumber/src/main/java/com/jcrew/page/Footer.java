@@ -56,6 +56,9 @@ public class Footer {
     
     @FindBy(className="footer__header--social")
     private WebElement socialSharingHeader;
+
+    @FindBy(id = "global__footer")
+    private WebElement footerSection;
      
     public Footer(WebDriver driver) {
         this.driver = driver;
@@ -73,6 +76,10 @@ public class Footer {
             result &= isFooterLinkPresent(item);
         }
         return result;
+    }
+
+    public boolean isFooterSectionDisplayed() {
+        return footerSection.isDisplayed();
     }
 
     private WebElement getFooterLinkElement(String footerLink) {
@@ -329,20 +336,10 @@ public class Footer {
     }
     
     public boolean isContentGroupingDrawerClosed(String contentGroupingName){
-    	
-    	boolean isDrawerClosed = false;
-    	
-    	try{
-    		//here intentionally using implicit wait & WebDriverWait rather than using Util method to minimize the execution duration
-    		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-    		new WebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div[contains(@class,'is-expanded')]"))));
-    		isDrawerClosed = false;
-    	}
-    	catch(Exception e){
-    		isDrawerClosed = true;
-    	}
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	return isDrawerClosed;
+
+    	WebElement drawer = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div"));
+        String drawerClass = drawer.getAttribute("class");
+
+        return !drawerClass.contains("is-expanded");
     }
 }

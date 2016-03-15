@@ -3,6 +3,7 @@ Feature: Embedded Header and Footer Validations
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
 
   Scenario: Account Registration Header Links
     When Goes to sign in page

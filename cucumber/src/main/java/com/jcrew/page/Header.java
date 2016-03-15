@@ -110,12 +110,14 @@ public class Header {
     }
 
     public void click_jcrew_logo() {
-        Util.clickWithStaleRetry(headerLogo);
         Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        Util.clickWithStaleRetry(headerLogo);
     }
 
     public void click_on_search_button() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(searchButton));
         searchButton.click();
     }
@@ -143,9 +145,8 @@ public class Header {
 
     public void click_breadcrumb(String breadcrumb) {
         Util.waitWithStaleRetry(driver,breadcrumbSection);
-        WebElement breadcrumbElement = breadcrumbSection.findElement(
-                By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
+        WebElement breadcrumbElement = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']")));
         Util.clickWithStaleRetry(breadcrumbElement);
         Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));

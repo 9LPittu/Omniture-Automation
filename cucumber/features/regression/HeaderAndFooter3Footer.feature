@@ -3,11 +3,19 @@ Feature: Footer Verification In Home Page
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
 
     #Moved from HomePage.feature
-  Scenario: Homepage embedded Header and Footer
+    #US9724_TC01 from BreadCrumbs.feature
+  Scenario: Homepage embedded Header, Footer and logo
     Then Verify embedded headers are visible and functional
     Then Verify embedded footer is visible and functional
+    And JCrew Logo is present
+    Then Verify MENU header link is displayed
+    And Verify SEARCH header link is displayed
+    And Verify STORES header link is displayed
+    And Verify BAG header link is displayed
+    And Verify MENU, SEARCH, STORES header links including bag order is valid, ignore SIGN IN, MY ACCOUNT
 
    #tc-01 and tc-02
    #US13389_TC14
@@ -152,12 +160,15 @@ Feature: Footer Verification In Home Page
     And User presses back button
 
   #tc-06
+  #Scenario: Validate no breadcrumbs are displayed on store locator page
   Scenario: Verification of Our Stores links display and functional
     When Click on footer link Our Stores to open
     And Store Locator sublink is displayed
     And Click on sublink Store Locator from Our Stores footer link
     And Verify user is on help store locator page
     And User is on external https://stores.jcrew.com/?sidecar=true page
+    And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
 
     #tc-07
   #Merge

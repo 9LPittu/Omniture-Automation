@@ -105,11 +105,7 @@ Feature: Sale Regression Suite
      And Hamburger Menu Wedding Link is present
      And Hamburger Menu Blog Link is present
 
-    #US15452_TC003
-  Scenario: 'Sale' in top nav should direct to Sale Landing Page
-    And User goes to homepage
-    And User clicks on sale link from top nav
-    And User is in sale landing page
+    #US15452_TC003 Moved to BreadCrumbs.feature
 
     #US15452_TC004
   Scenario Outline:'sale' breadcrumb functionality from sale PDP

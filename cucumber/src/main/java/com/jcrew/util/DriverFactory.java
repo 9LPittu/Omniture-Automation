@@ -204,7 +204,7 @@ public class DriverFactory {
             driver = getDesktopWebDriver(propertyReader, capabilities);
         }
 
-        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
         return driver;
     }
 
