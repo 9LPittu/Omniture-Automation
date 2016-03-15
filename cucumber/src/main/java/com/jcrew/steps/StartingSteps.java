@@ -34,6 +34,12 @@ public class StartingSteps {
         driver = driverFactory.getDriver();
     }
 
+    @Given("User is on homepage with clean session")
+    public void user_is_on_home_page_with_clean_session() {
+        driverFactory.deleteBrowserCookies();
+        user_is_on_home_page();
+        }
+
     @Given("^User is on homepage$")
     public void user_is_on_home_page() {
         int retry = 0;
@@ -89,9 +95,8 @@ public class StartingSteps {
     }
 
     @And("^Deletes browser cookies$")
-    public void deletes_browser_cookies_and_destroy_driver(){
+    public void deletes_browser_cookies(){
     	driverFactory.deleteBrowserCookies();   	
-
     	stateHolder.put("deletecookies", true);
     }
 
@@ -103,7 +108,7 @@ public class StartingSteps {
             try {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
-                deletes_browser_cookies_and_destroy_driver();
+                deletes_browser_cookies();
             } catch (Exception e){
                 logger.error("An exception happened when taking step screenshot after scenario", e);
                 driverFactory.resetDriver();
