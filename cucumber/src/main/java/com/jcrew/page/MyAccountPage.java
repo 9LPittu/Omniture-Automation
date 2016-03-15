@@ -96,7 +96,7 @@ public class MyAccountPage {
             WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
             deleteButton.click();
 
-            Util.waitLoadingBar(driver);
+            Util.waitForPageFullyLoaded(driver);
             tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
         }
     }
