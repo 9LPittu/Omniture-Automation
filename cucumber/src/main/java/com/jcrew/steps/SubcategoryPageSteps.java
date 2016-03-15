@@ -214,7 +214,7 @@ public class SubcategoryPageSteps extends DriverFactory {
                 price, subcategoryPage.getWasPriceFor(product));
     }
 
-    @And("^Verifies ([^\"]*) product sale price is (now [^\"]*)$")
+    @And("^Verifies ([^\"]*) product sale price is ([^\"]*)$")
     public void verifies_product_sale_price(String product, String price) {
         assertEquals("Sale price is not what was expected",
                 price, subcategoryPage.getSalePriceFor(product));

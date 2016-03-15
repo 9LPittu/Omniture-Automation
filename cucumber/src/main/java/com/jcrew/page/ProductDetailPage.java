@@ -194,7 +194,9 @@ public class ProductDetailPage {
     }
 
     public String getSelectedColor() {
-        WebElement productColorElement = driver.findElement(By.id("c-product__price-colors")).findElement(By.className("is-selected"));
+        WebElement productColorContainer = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.id("c-product__price-colors")));
+        WebElement productColorElement = productColorContainer.findElement(By.className("is-selected"));
         return productColorElement.getAttribute("data-name");
     }
 
@@ -240,6 +242,7 @@ public class ProductDetailPage {
         WebElement wishlistConfirmation = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.presenceOfElementLocated(By.className("wishlist-confirmation-text")));
         wishlistConfirmation.findElement(By.tagName("a")).click();
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isSizeSelectorSectionPresent() {

@@ -147,7 +147,9 @@ public class BillingPage {
     
     public void enterCreditCardDetails(String cardName){
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	String creditCardDetails = testDataReader.getData(cardName);   	
+    	String creditCardDetails = testDataReader.getData(cardName);
+
+        Util.waitWithStaleRetry(driver,creditCardNumber);
 
     	//Enter credit card number
     	creditCardNumber.sendKeys(creditCardDetails.split(";")[0]);
@@ -172,6 +174,7 @@ public class BillingPage {
     }
     
     public void clickAddNewCardOnBillingPage(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewCardOnBillingPage));
     	addNewCardOnBillingPage.click();
     }
     
@@ -184,7 +187,7 @@ public class BillingPage {
     }
     
     public void selectCountryOnNewBillingAddressForm(String country){
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewBillingAddress_Country));
+        Util.waitWithStaleRetry(driver,addNewBillingAddress_Country);
     	Select list = new Select(addNewBillingAddress_Country);
     	list.selectByVisibleText(country);
     }

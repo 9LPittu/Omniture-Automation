@@ -144,10 +144,12 @@ public class ShippingAddressPage {
     }
     
     public void clickAddNewShippingAddress(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewShippingAddress));
     	addNewShippingAddress.click();
     }
     
     public void enterFirstNameOnNewShippingAddressForm(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewShippingAddress_FirstName));
     	addNewShippingAddress_FirstName.sendKeys(faker.name().firstName());
     }
     

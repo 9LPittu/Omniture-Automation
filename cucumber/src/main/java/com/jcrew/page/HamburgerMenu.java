@@ -48,6 +48,7 @@ public class HamburgerMenu {
 
     public void click_on_hamburger_menu() {
         WebDriverWait wait = Util.createWebDriverWait(driver);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
         Util.clickWithStaleRetry(hamburgerMenu);
         wait.until(ExpectedConditions.visibilityOf(categoryMenu));
@@ -81,6 +82,7 @@ public class HamburgerMenu {
 
     public void click_on_category(String category) {
         getCategory(category).click();
+        Util.waitLoadingBar(driver);
     }
 
     private WebElement getCategory(String category) {
@@ -126,6 +128,7 @@ public class HamburgerMenu {
     }
 
     private WebElement getSubcategoryFromSale(String subcategory) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleCategoryList));
         return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
                 Util.xpathGetTextLower + " = " +
                 "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));

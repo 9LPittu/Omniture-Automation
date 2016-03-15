@@ -115,6 +115,7 @@ public class SalePage {
 
     public boolean isSalePageDisplayed(){
         Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleHeader));
         return saleHeader.isDisplayed();
     }
@@ -385,7 +386,9 @@ public class SalePage {
     }
 
     public void clickSaleLinkFromTopNav(String dept) {
+        String url = driver.getCurrentUrl();
         driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '"+dept+"']")).click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         Util.waitLoadingBar(driver);
     }
 

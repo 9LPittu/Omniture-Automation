@@ -4,10 +4,6 @@ Feature: Global Header: Breadcrumbs
   Background:
     Given User is on homepage
 
-  #US9724_TC01
-  Scenario: Validate J crew logo displayed on Home page
-    And JCrew Logo is present
-
   #US9724_TC02
   Scenario Outline: Validate J crew logo display and functionality on Department/Gender Landing Pages
     And User clicks on <gender> link from top nav
@@ -23,6 +19,8 @@ Feature: Global Header: Breadcrumbs
     |Girls |
 
    #US9724_TC03
+   #US15452_TC003
+   #Scenario: 'Sale' in top nav should direct to Sale Landing Page
   Scenario: Validate breadcrumbs display and functionality on Sale Landing Page
     And User clicks on sale link from top nav
     And User is in sale landing page
@@ -65,6 +63,7 @@ Feature: Global Header: Breadcrumbs
    #Moved to RegressionFooter.feature
 
      #US9724_TC08
+     #Merged: Scenario: Validate Sidecar url when user is on PDP from Search array page
   Scenario: Validate breadcrumbs display and functionality on PDP page
      And User clicks on hamburger menu
      And Selects Women Category from hamburger menu
@@ -95,6 +94,7 @@ Feature: Global Header: Breadcrumbs
 #    And Verify user is in homepage
 
      #US9724_TC12
+     #US9724_TC14
   Scenario: Validate breadcrumbs display and functionality on the search array page
     And User presses search button
     And Enters dresses to the search field
@@ -109,6 +109,7 @@ Feature: Global Header: Breadcrumbs
     And User is in search results page
     And Selects any product from product grid list
     And User is in product detail page
+    And page url should contain isFromSearch
     And Breadcrumb should display J.crew/Search Results
     And Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
@@ -118,6 +119,8 @@ Feature: Global Header: Breadcrumbs
 
 
       #US9724_TC13
+      #US9724_TC15
+      #Merged: Scenario: Validate Sidecar url when user is on PDP from Sale array page
   Scenario: Validate breadcrumbs display and functionality on the sale category array page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
@@ -126,6 +129,7 @@ Feature: Global Header: Breadcrumbs
     And Breadcrumb should display J.crew/Sale
     And Selects any product from product grid list
     And User is in product detail page
+    And page url should contain isFromSale
     And Breadcrumb should display J.crew/Sale/women
     And Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
@@ -136,31 +140,8 @@ Feature: Global Header: Breadcrumbs
     And Clicks on women Breadcrumb
     Then User is in Sale results page
 
-    #US9724_TC14
-  Scenario: Validate Sidecar url when user is on PDP from Search array page
-    And User presses search button
-    When Enters dresses to the search field
-    And Clicks on search button for input field
-    And User is in search results page
-    And Selects any product from product grid list
-    And User is in product detail page
-    And page url should contain isFromSearch
-
-
-   #US9724_TC15
-    Scenario: Validate Sidecar url when user is on PDP from Sale array page
-    And User clicks on hamburger menu
-    And Selects sale Category from hamburger menu
-    And User is in sale landing page
-    And User clicks on sale department women
-    And User is in Sale results page
-    And Selects any product from product grid list
-    And User is in product detail page
-    And page url should contain isFromSale
-
-
      #US9724_TC16
-  Scenario: Validate no breadcrumbs are displayed pages
+    #Scenario: Validate no breadcrumbs are displayed pages
 
     #Social responsibility page
 
@@ -196,13 +177,8 @@ Feature: Global Header: Breadcrumbs
 
 
     # US9724_TC16 (cont)   Store Locator page
-  Scenario: Validate no breadcrumbs are displayed on store locator page
-    When Click on footer link Our Stores to open
-    And Store Locator sublink is displayed
-    And Click on sublink Store Locator from Our Stores footer link
-    And Verify user is on help store locator page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
+    #moved to HeaderAndFooter3Footer.feature
+    #Scenario: Validate no breadcrumbs are displayed on store locator page
 
 
     #US9724_TC16 (cont)
