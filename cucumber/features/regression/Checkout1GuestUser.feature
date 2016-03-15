@@ -2,7 +2,7 @@
 Feature: Guest User Checkout Process
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
     And User bag is cleared
     And User is on homepage
 
