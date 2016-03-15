@@ -174,6 +174,7 @@ public class BillingPage {
     }
     
     public void clickAddNewCardOnBillingPage(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewCardOnBillingPage));
     	addNewCardOnBillingPage.click();
     }
     

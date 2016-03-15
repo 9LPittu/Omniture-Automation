@@ -52,8 +52,10 @@ public class HomePage {
     }
 
     public void click_on_search_button_for_input_field() {
+        String url = driver.getCurrentUrl();
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearchButtonFind));
         headerSearchButtonFind.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         Util.waitLoadingBar(driver);
     }
 
