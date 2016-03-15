@@ -145,9 +145,8 @@ public class Header {
 
     public void click_breadcrumb(String breadcrumb) {
         Util.waitWithStaleRetry(driver,breadcrumbSection);
-        WebElement breadcrumbElement = breadcrumbSection.findElement(
-                By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
+        WebElement breadcrumbElement = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']")));
         Util.clickWithStaleRetry(breadcrumbElement);
         Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));

@@ -144,6 +144,7 @@ public class ShippingAddressPage {
     }
     
     public void clickAddNewShippingAddress(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewShippingAddress));
     	addNewShippingAddress.click();
     }
     

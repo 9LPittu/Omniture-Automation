@@ -82,6 +82,7 @@ public class HamburgerMenu {
 
     public void click_on_category(String category) {
         getCategory(category).click();
+        Util.waitLoadingBar(driver);
     }
 
     private WebElement getCategory(String category) {
