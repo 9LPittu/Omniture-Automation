@@ -54,6 +54,7 @@ public class MyAccountPage {
     public void click_menu_link(String link) {
         WebElement menu = getMenuLink(link);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
+        String url = driver.getCurrentUrl();
         Util.clickWithStaleRetry(menu);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }

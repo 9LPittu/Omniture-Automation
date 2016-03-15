@@ -44,6 +44,7 @@ public class Header {
     }
 
     public boolean isHeaderLinkPresent(String headerLink) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
         Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(headerWrap.findElement(By.linkText(headerLink))));
 

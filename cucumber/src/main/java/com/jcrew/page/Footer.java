@@ -260,8 +260,9 @@ public class Footer {
     
     public void clickSocialSharingIcon(String socialSharingIconName){
         String currentURL = driver.getCurrentUrl();
-    	WebElement socialSharingIcon = driver.findElement(By.xpath("//ul[@class='footer__social__menu']/" +
-                "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]"));
+    	WebElement socialSharingIcon = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='footer__social__menu']/" +
+                "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]")));
     	socialSharingIcon.click();
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
