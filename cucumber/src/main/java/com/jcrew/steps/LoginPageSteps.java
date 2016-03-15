@@ -156,10 +156,13 @@ public class LoginPageSteps extends DriverFactory {
 
     @And("User can choose any country from the country list box")
     public void verify_user_choose_any_country() {
-        loginPage.select_and_verify_each_country();
-        //assertTrue("correspponding flag should be displyed")
+        loginPage.select_each_country_and_verify_corresponding_flag_is_displayed();
 
+    }
 
+    @And("^Verify opt checkbox not displayed for USA$")
+    public void verify_opt_checkbox_not_displayed_when_selected_usa() {
+        assertFalse("opt to receive marketing communications checkbox should not be displayed", loginPage.isOptCheckBoxDisplayed());
     }
 
    }

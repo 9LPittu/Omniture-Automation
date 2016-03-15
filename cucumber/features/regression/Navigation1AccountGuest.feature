@@ -55,18 +55,33 @@ Feature: Sign In Page
     And Enter automation as Last Name in create account section
     And Enter <emailinput> as Email in create account section
     And Enter Jcrewtest as Password in create account section
-    Then Error message Please enter a valid email address. is displayed
+    Then Error message <errmsg> is displayed
 
    Examples:
-    |emailinput|
-    |invalid   |
-    |          |
+    |emailinput|errmsg|
+    |invalid   |Please enter a valid email address.|
+    |          |Please enter a valid email address.|
+    |test2@test.com|
 
-  #US9890_TC06, US9890_TC07
+  #US9890_TC06, US9890_TC07,US9890_TC08
   Scenario: User registration section should have country selection listbox
     And Country selection list box is displayed
     And united states is selected as default value
     And User can choose any country from the country list box
+    #further implementation needed for below line---check box is not displaying for all of the countries at present
+    And Verify opt checkbox not displayed for USA
+    # to do later once it is ready
+    #And Verify opt checkbox is displayed for non USA and not checked by default
+
+  Scenario: create new account from home page
+    And Enter tester as First Name in create account section
+    And Enter automation as Last Name in create account section
+    And Enter test2@test.com as Email in create account section
+    And Enter Jcrewtest as Password in create account section
+    #And selects any country
+    And User clicks on create an account button
+    And Verify user is in homepage
+
 
 
 

@@ -6,10 +6,7 @@ import java.util.concurrent.TimeUnit;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -253,7 +250,7 @@ public class LoginPage {
         return select.getFirstSelectedOption().getText();
     }
 
-    public void select_and_verify_each_country() {
+    public void select_each_country_and_verify_corresponding_flag_is_displayed() {
         Select select = new Select(countryListDropDown);
         int numOfCountries = select.getOptions().size();
         while(numOfCountries >= 1) {
@@ -261,7 +258,7 @@ public class LoginPage {
             String countryName = select.getFirstSelectedOption().getText();
             countryName = countryName.replaceAll("\\s", "");
             boolean flag = isCorrespondingCountryFlagDisplayed(countryName);
-            logger.info("corresponding country flag is displayed:  {}", flag);
+            logger.info("corresponding "+countryName+" flag is displayed:  {}", flag);
             numOfCountries--;
 
         }
@@ -269,6 +266,18 @@ public class LoginPage {
 
      public boolean isCorrespondingCountryFlagDisplayed(String countryName) {
         return countryChooser.getAttribute("class").contains(countryName);
+    }
+
+    public boolean isOptCheckBoxDisplayed() {
+        Select select = new Select(countryListDropDown);
+        select.deselectByVisibleText("United States");
+        try {
+            WebElement chkbox = driver.findElement(By.id("sidecarRegisterCheckbox"));
+            return chkbox.isDisplayed();
+        } catch (NoSuchElementException ne) {
+            logger.info("check box is not present");
+            return false;
+        }
     }
 
     }
