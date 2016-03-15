@@ -40,7 +40,7 @@ public class LoginPage {
     private WebElement signInForm;
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
-    
+
     @FindBy(xpath=".//*[@id='frmGuestCheckOut']/descendant::a[text()='Check Out as a Guest']")
     private WebElement checkoutAsGuestButton;
     
@@ -58,6 +58,9 @@ public class LoginPage {
 
     @FindBy(id = "sidecarRegisterFirstName")
     private WebElement firstNameField;
+
+    @FindBy(id = "countryList")
+    private WebElement countryListDropDown;
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -241,9 +244,23 @@ public class LoginPage {
     }
 
     public String getDefaultCountrySelected() {
-        Select select = new Select(driver.findElement(By.id("countryList")));
-        logger.info(select.getFirstSelectedOption().getText());
+        Select select = new Select(countryListDropDown);
         return select.getFirstSelectedOption().getText();
+    }
+
+    public void select_and_verify_each_country() {
+        Select select = new Select(countryListDropDown);
+        int numOfCountries = select.getOptions().size();
+        while(numOfCountries >= 1) {
+            select.selectByIndex(numOfCountries-1);
+            String countryName = select.getFirstSelectedOption().getText();
+            countryName = countryName.replaceAll("\\s","");
+            WebElement countryChooser = driver.findElement(By.id("register-form__countryFlagImage"));
+            boolean flag = countryChooser.getAttribute("class").contains(countryName);
+            logger.info("corresponding country flag is displayed:  {}", flag);
+            numOfCountries--;
+
+        }
     }
 
 

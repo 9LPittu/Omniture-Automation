@@ -61,11 +61,12 @@ Feature: Sign In Page
     |invalid   |
     |          |
 
-  #US9890_TC06
+  #US9890_TC06, US9890_TC07
   Scenario: User registration section should have country selection listbox
     And Country selection list box is displayed
     And united states is selected as default value
-    And
+    And User can choose any country from the country list box
+
 
 
 
