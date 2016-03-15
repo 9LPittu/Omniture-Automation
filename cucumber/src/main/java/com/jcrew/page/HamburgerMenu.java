@@ -110,6 +110,7 @@ public class HamburgerMenu {
     }
 
     public void click_on_sale_subcategory(String subcategory) {
+        Util.waitLoadingBar(driver);
         getSubcategoryFromSale(subcategory).click();
         stateHolder.put("sale category", subcategory);
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("search"));

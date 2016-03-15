@@ -2,7 +2,7 @@
 Feature: Checkout Process Signed in User
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
     And Goes to sign in page
     And User provides login information
     And Hits sign in button
