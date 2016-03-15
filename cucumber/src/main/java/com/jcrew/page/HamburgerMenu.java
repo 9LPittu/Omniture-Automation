@@ -81,9 +81,7 @@ public class HamburgerMenu {
     }
 
     public void click_on_category(String category) {
-        String url = driver.getCurrentUrl();
         getCategory(category).click();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         Util.waitLoadingBar(driver);
     }
 
@@ -112,6 +110,7 @@ public class HamburgerMenu {
     }
 
     public void click_on_sale_subcategory(String subcategory) {
+        Util.waitLoadingBar(driver);
         getSubcategoryFromSale(subcategory).click();
         stateHolder.put("sale category", subcategory);
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("search"));
