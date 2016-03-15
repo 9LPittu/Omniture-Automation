@@ -62,6 +62,9 @@ public class LoginPage {
     @FindBy(id = "countryList")
     private WebElement countryListDropDown;
 
+    @FindBy(id = "register-form__countryFlagImage" )
+    private WebElement countryChooser;
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -253,18 +256,22 @@ public class LoginPage {
         Select select = new Select(countryListDropDown);
         int numOfCountries = select.getOptions().size();
         while(numOfCountries >= 1) {
-            select.selectByIndex(numOfCountries-1);
+            select.selectByIndex(numOfCountries - 1);
             String countryName = select.getFirstSelectedOption().getText();
-            countryName = countryName.replaceAll("\\s","");
-            WebElement countryChooser = driver.findElement(By.id("register-form__countryFlagImage"));
-            boolean flag = countryChooser.getAttribute("class").contains(countryName);
+            countryName = countryName.replaceAll("\\s", "");
+            boolean flag = isCorrespondingCountryFlagDisplayed(countryName);
             logger.info("corresponding country flag is displayed:  {}", flag);
             numOfCountries--;
 
         }
     }
 
+     public boolean isCorrespondingCountryFlagDisplayed(String countryName) {
+        return countryChooser.getAttribute("class").contains(countryName);
+    }
+
+    }
 
 
 
-}
+

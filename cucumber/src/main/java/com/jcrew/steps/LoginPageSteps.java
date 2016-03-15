@@ -157,6 +157,7 @@ public class LoginPageSteps extends DriverFactory {
     @And("User can choose any country from the country list box")
     public void verify_user_choose_any_country() {
         loginPage.select_and_verify_each_country();
+        //assertTrue("correspponding flag should be displyed")
 
 
     }
