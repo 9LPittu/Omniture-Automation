@@ -59,9 +59,9 @@ Feature: Sign In Page
 
    Examples:
     |emailinput|errmsg|
-    |invalid   |Please enter a valid email address.|
-    |          |Please enter a valid email address.|
-    |test2@test.com|
+   # |invalid   |Please enter a valid email address.|
+   # |          |Please enter a valid email address.|
+    |test2@test.com|This email id is already registered with us. Please sign-in.|
 
   #US9890_TC06, US9890_TC07,US9890_TC08
   Scenario: User registration section should have country selection listbox
