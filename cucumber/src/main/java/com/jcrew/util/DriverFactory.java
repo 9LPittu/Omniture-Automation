@@ -202,7 +202,7 @@ public class DriverFactory {
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = getDesktopWebDriver(propertyReader, capabilities);
-            driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         }
 
         //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
@@ -248,24 +248,34 @@ public class DriverFactory {
             driverMap.remove(identifier);
         }
     }
-    
+
     public void deleteBrowserCookies(){
-    	String identifier = Thread.currentThread().getName();
+        String identifier = Thread.currentThread().getName();
         WebDriver driver = driverMap.get(identifier);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
-        if ("iossafari".equals(propertyReader.getProperty("browser"))) {
-            for (Cookie cookie : driver.manage().getCookies()) {
-                if (!((cookie.getName()).equalsIgnoreCase("is_sidecar"))) {
-                    driver.manage().deleteCookie(cookie);
+        Set<Cookie> cookies = null;
+        try{
+            cookies = driver.manage().getCookies();
+            if(!cookies.isEmpty()){
+                if ("iossafari".equals(propertyReader.getProperty("browser"))) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
+                    }
+
+                } else if (("androidchrome".equals(propertyReader.getProperty("browser"))) || ("phantomjs".equals(propertyReader.getProperty("browser")))) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
+                    }
                 }
             }
-        } else if ("androidchrome".equals(propertyReader.getProperty("browser"))) {
-            for (Cookie cookie : driver.manage().getCookies()) {
-                if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
-                    driver.manage().deleteCookie(cookie);
-                }
-            }
+        }
+        catch(Exception e){
+            logger.info("No cookies in the browser!!!");
         }
     }
 
