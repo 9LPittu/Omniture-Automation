@@ -38,7 +38,7 @@ public class StartingSteps {
     public void user_is_on_home_page_with_clean_session() {
         driverFactory.deleteBrowserCookies();
         user_is_on_home_page();
-        }
+    }
 
     @Given("^User is on homepage$")
     public void user_is_on_home_page() {
@@ -96,8 +96,8 @@ public class StartingSteps {
 
     @And("^Deletes browser cookies$")
     public void deletes_browser_cookies(){
-    	driverFactory.deleteBrowserCookies();   	
-    	stateHolder.put("deletecookies", true);
+        driverFactory.deleteBrowserCookies();
+        stateHolder.put("deletecookies", true);
     }
 
     @After
