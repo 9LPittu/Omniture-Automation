@@ -16,24 +16,10 @@ Feature: Sign In Page
     Then An error message saying Whoops, that's not right... Please try your password again. should appear
     And Sign in button should be deactivated
 
-  # TODO: incomplete; script need to be updated for validation
-
-  #US9724_TC10, US9724_TC11: Validate breadcrumbs functionality and display on sign in/ register for email page
-#  Scenario: Create New Account
-#    Then Breadcrumb should display J.Crew
-#    And Clicks on J.Crew Breadcrumb
-#    And Verify user is in homepage
-#    And User presses back button
-#    When Clicks on create new account
- #   And Fills required account data in create account page
-#    And Clicks on create new account in create account page
-#    Then Verify user is in homepage
-#    And Deletes browser cookies
-
-  #US9890: Account Register and Errors
+    #US9890: Account Register and Errors
 
   #US9890_TC01 to US9890_TC05
-  Scenario: Validate registration benefits copy is displayed in user registration section on SignIn page
+  Scenario: Validate create an account section
     Then Breadcrumb should display J.Crew
     And Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
@@ -59,28 +45,81 @@ Feature: Sign In Page
 
    Examples:
     |emailinput|errmsg|
-   # |invalid   |Please enter a valid email address.|
-   # |          |Please enter a valid email address.|
-    |test2@test.com|This email id is already registered with us. Please sign-in.|
+    |invalid   |Please enter a valid email address.|
+    |          |Please enter a valid email address.|
 
-  #US9890_TC06, US9890_TC07,US9890_TC08
+
+  Scenario: Validate error message display when existing email address is given
+    And Enter tester as First Name in create account section
+    And Enter automation as Last Name in create account section
+    And Enter test2@test.com as Email in create account section
+    And Enter Jcrewtest as Password in create account section
+    And User clicks on create an account button
+    Then Error message This email id is already registered with us. Please sign-in. is displayed
+
+
+  #US9890_TC06, US9890_TC07,US9890_TC08,US9890_TC09
   Scenario: User registration section should have country selection listbox
     And Country selection list box is displayed
     And united states is selected as default value
     And User can choose any country from the country list box
     #further implementation needed for below line---check box is not displaying for all of the countries at present
     And Verify opt checkbox not displayed for USA
-    # to do later once it is ready
+    # to do later once it is ready----JCSC-878
     #And Verify opt checkbox is displayed for non USA and not checked by default
 
+  #US9890_TC10
   Scenario: create new account from home page
-    And Enter tester as First Name in create account section
-    And Enter automation as Last Name in create account section
-    And Enter test2@test.com as Email in create account section
-    And Enter Jcrewtest as Password in create account section
-    #And selects any country
+    And Enter random first name as First Name in create account section
+    And Enter random last name as Last Name in create account section
+    And Enter random email as Email in create account section
+    And Enter random password as Password in create account section
+    And selects any country from the country list
     And User clicks on create an account button
     And Verify user is in homepage
+    And User clicks on hamburger menu
+    And Selects Women Category from hamburger menu
+    And User clicks on SWEATERS subcategory from Women Category
+    And Selects the first product from product grid list
+    And User is in product detail page
+    And User clicks on hamburger menu
+    And User clicks on back link
+    And User clicks on hamburger menu
+    Then My Account link is present
+
+   #US9890_TC11
+  #Not working as expected at present----in reference to JCSC-864
+  Scenario: create new account from pdp page
+    And User clicks on hamburger menu
+    And Selects Women Category from hamburger menu
+    And User clicks on SWEATERS subcategory from Women Category
+    And Selects the first product from product grid list
+    And User is in product detail page
+    And User clicks on hamburger menu
+    And User clicks on back link
+    And User clicks on hamburger menu
+    And Goes to sign in page
+    And Enter random first name as First Name in create account section
+    And Enter random last name as Last Name in create account section
+    And Enter random email as Email in create account section
+    And Enter random password as Password in create account section
+    And selects any country from the country list
+    And User clicks on create an account button
+    And User is in product detail page
+    And User clicks on hamburger menu
+    And Selects Women Category from hamburger menu
+    And User clicks on SWEATERS subcategory from Women Category
+    And Selects the first product from product grid list
+    And User is in product detail page
+    And User clicks on hamburger menu
+    And User clicks on back link
+    And User clicks on hamburger menu
+    Then My Account link is present
+
+
+
+
+
 
 
 

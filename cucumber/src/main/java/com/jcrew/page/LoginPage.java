@@ -3,6 +3,7 @@ package com.jcrew.page;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.github.javafaker.Faker;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 
@@ -62,6 +63,8 @@ public class LoginPage {
     @FindBy(id = "register-form__countryFlagImage" )
     private WebElement countryChooser;
 
+    Faker faker = new Faker();
+
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -116,6 +119,7 @@ public class LoginPage {
 
     public String getEmailErrorMessage() {
         WebElement emailField =  driver.findElement(By.id("unregistered-email"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailField.findElement(By.className("js-invalid-msg"))));
         return emailField.findElement(By.className("js-invalid-msg")).getText();
     }
 
@@ -234,7 +238,25 @@ public class LoginPage {
     public void enter_input(String input, String field) {
         String n = field.replaceAll("\\s","").trim();
         String fieldId = "sidecarRegister".concat(n);
-        driver.findElement(By.id(fieldId)).sendKeys(input);
+        String fieldInput = "";
+        switch(input) {
+            case "random first name":
+                fieldInput = faker.name().firstName();
+                break;
+            case "random last name":
+                fieldInput = faker.name().lastName();
+                break;
+            case "random email":
+                fieldInput = faker.internet().emailAddress().replace("'","");
+                break;
+            case "random password":
+                fieldInput = faker.name().fullName().replaceAll("\\s","");
+                logger.info("password generated is : {}",fieldInput);
+                break;
+            default:
+                fieldInput = input;
+        }
+        driver.findElement(By.id(fieldId)).sendKeys(fieldInput);
     }
 
     public void click_create_an_account_button() {
@@ -262,6 +284,13 @@ public class LoginPage {
             numOfCountries--;
 
         }
+    }
+
+    public void select_any_random_country() {
+        Select select = new Select(countryListDropDown);
+        int size = select.getOptions().size();
+        int randomIndex = Util.randomIndex(size);
+        select.selectByIndex(randomIndex);
     }
 
      public boolean isCorrespondingCountryFlagDisplayed(String countryName) {
