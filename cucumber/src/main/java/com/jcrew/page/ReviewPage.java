@@ -105,8 +105,10 @@ public class ReviewPage {
         placeYourOrderButton.click();
     }
     
-    public boolean isItemsCountMatchesOnReviewPage(String itemsCount){    	
-    	return driver.findElements(By.cssSelector(".item-row.clearfix")).size() == Integer.parseInt(itemsCount);
+    public boolean isItemsCountMatchesOnReviewPage(String itemsCount){
+        List<WebElement> rows = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".item-row.clearfix")));
+    	return rows.size() == Integer.parseInt(itemsCount);
     }
     
     public void selectBreadcrumbItem(String breadcrumbItemName){

@@ -60,6 +60,8 @@ public class HomePage {
     }
 
     public boolean isHomePage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         final WebElement pageHome = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.presenceOfElementLocated(By.id("page__home")));
         Util.waitWithStaleRetry(driver,pageHome);

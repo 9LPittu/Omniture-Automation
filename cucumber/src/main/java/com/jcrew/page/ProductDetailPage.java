@@ -211,7 +211,7 @@ public class ProductDetailPage {
 
     public void click_update_cart() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
-        addToBag.click();
+        Util.clickWithStaleRetry(addToBag);
     }
 
     public String getSelectedVariationName() {

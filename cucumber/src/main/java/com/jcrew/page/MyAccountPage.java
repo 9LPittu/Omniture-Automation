@@ -1,7 +1,7 @@
 package com.jcrew.page;
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import com.jcrew.util.Util;
 
@@ -13,9 +13,13 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MyAccountPage {
 
     private final WebDriver driver;
+    private final Logger logger = LoggerFactory.getLogger(MyAccountPage.class);
 
     @FindBy(id = "main_inside")
     private WebElement myAccountContainer;
@@ -54,7 +58,6 @@ public class MyAccountPage {
     public void click_menu_link(String link) {
         WebElement menu = getMenuLink(link);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
-        String url = driver.getCurrentUrl();
         Util.clickWithStaleRetry(menu);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
@@ -72,31 +75,27 @@ public class MyAccountPage {
     }
     
     public void deleteNonDefaultAddresses(){
-
-        //td[@id='containerBorderLeft']/form/table/tbody/tr/td/table
-
+        Util.waitForPageFullyLoaded(driver);
         List<WebElement> tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
 
         while(tables.size() > 2){
             WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
-            deleteButton.click();
-
-            //Util.createWebDriverWait(driver).until(ExpectedConditions.alertIsPresent());
-            Alert removeAddress = driver.switchTo().alert();
-            removeAddress.accept();
+            String url = deleteButton.getAttribute("href");
+            driver.get(url);
 
             tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
         }
     }
     
     public void deleteNonDefaultCreditCards(){
+        Util.waitForPageFullyLoaded(driver);
         List<WebElement> tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
 
         while(tables.size() > 2){
             WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
-            deleteButton.click();
+            String url = deleteButton.getAttribute("href");
+            driver.get(url);
 
-            Util.waitLoadingBar(driver);
             tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
         }
     }

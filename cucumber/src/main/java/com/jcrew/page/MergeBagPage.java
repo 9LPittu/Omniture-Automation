@@ -1,14 +1,17 @@
 package com.jcrew.page;
 
+import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class MergeBagPage {
 
+    private final WebDriver driver;
 
     @FindBy(id = "mergedCartActionTop")
     private WebElement mergeCartActionTop;
@@ -20,6 +23,7 @@ public class MergeBagPage {
     private WebElement addItemsToBagAndReviewOrder;
 
     public MergeBagPage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
@@ -42,7 +46,8 @@ public class MergeBagPage {
     }
     
     public boolean isSaveToWishlistAndContinueDisplayed(){
-    	return saveToWishlistAndContinue.isDisplayed();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saveToWishlistAndContinue));
+        return saveToWishlistAndContinue.isDisplayed();
     }
     
     public boolean isAddItemsToBagAndReviewOrderDisplayed(){

@@ -149,7 +149,7 @@ public class ShippingAddressPage {
     }
     
     public void enterFirstNameOnNewShippingAddressForm(){
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewShippingAddress_FirstName));
+        Util.waitWithStaleRetry(driver, addNewShippingAddress_FirstName);
     	addNewShippingAddress_FirstName.sendKeys(faker.name().firstName());
     }
     
