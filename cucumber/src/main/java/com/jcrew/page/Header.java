@@ -148,9 +148,7 @@ public class Header {
         Util.waitWithStaleRetry(driver,breadcrumbSection);
         WebElement breadcrumbElement = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']")));
-        Util.clickWithStaleRetry(breadcrumbElement);
-        Util.waitLoadingBar(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        breadcrumbElement.click();
     }
 
     public boolean isGenderLandingPage(String gender){
