@@ -58,7 +58,6 @@ public class MyAccountPage {
     public void click_menu_link(String link) {
         WebElement menu = getMenuLink(link);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
-        String url = driver.getCurrentUrl();
         Util.clickWithStaleRetry(menu);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
@@ -89,14 +88,14 @@ public class MyAccountPage {
     }
     
     public void deleteNonDefaultCreditCards(){
+        Util.waitForPageFullyLoaded(driver);
         List<WebElement> tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
 
         while(tables.size() > 2){
             WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
-            Util.clickWithStaleRetry(deleteButton);
+            String url = deleteButton.getAttribute("href");
+            driver.get(url);
 
-            Util.waitForPageFullyLoaded(driver);
-            Util.waitLoadingBar(driver);
             tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
         }
     }
