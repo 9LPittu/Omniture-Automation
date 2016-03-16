@@ -77,8 +77,8 @@ public class HomePage {
         logger.debug("Email capture? {}", emailCapture);
 
         if(emailCapture) {
-            logger.debug("Email capture on, let's turn it off!!");
-
+            logger.debug("Email capture on, let's turn it off!!");        
+            
             List<WebElement> email_capture = driver.findElements(
                     By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"));
 
