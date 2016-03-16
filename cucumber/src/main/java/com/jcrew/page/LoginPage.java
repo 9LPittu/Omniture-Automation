@@ -119,8 +119,8 @@ public class LoginPage {
 
     public String getEmailErrorMessage() {
         WebElement emailField =  driver.findElement(By.id("unregistered-email"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailField.findElement(By.className("js-invalid-msg"))));
-        return emailField.findElement(By.className("js-invalid-msg")).getText();
+        WebElement emailInvalidMsg = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailField.findElement(By.className("js-invalid-msg"))));
+        return emailInvalidMsg.getText();
     }
 
 
