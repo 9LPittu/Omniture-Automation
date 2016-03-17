@@ -257,22 +257,26 @@ public class DriverFactory {
 
         Set<Cookie> cookies = driver.manage().getCookies();
 
-        if(cookies.size() > 0){
-            String browser = propertyReader.getProperty("browser");
-            if ("iossafari".equals(browser)) {
-                for (Cookie cookie : cookies) {
-                    if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
-                        driver.manage().deleteCookie(cookie);
+        try{
+            if(cookies.size() > 0){
+                String browser = propertyReader.getProperty("browser");
+                if ("iossafari".equals(browser)) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
                     }
-                }
 
-            } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser)) {
-                for (Cookie cookie : cookies) {
-                    if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
-                        driver.manage().deleteCookie(cookie);
+                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser)) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
                     }
                 }
             }
+        } catch (Exception e){
+            logger.error("Not able to delete cookies", e);
         }
 
     }
