@@ -11,19 +11,17 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And Hits sign in button
     And User bag is cleared
 
+    #below steps deletes the non-default addresses
     And User is on homepage
     And User clicks on hamburger menu
 	When User clicks on My Account link
+	And click on "ADDRESS BOOK" link in My Account page
+	And delete non-default addresses
 
-    #below steps deletes the non-default credit cards
+	#below steps deletes the non-default credit cards
     And click on "PAYMENT METHODS" link in My Account page
     And delete non-default credit cards
 
-    #below steps deletes the non-default addresses
-    And click on "ADDRESS BOOK" link in My Account page
-	And delete non-default addresses
-
-    
     And User is on homepage
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
