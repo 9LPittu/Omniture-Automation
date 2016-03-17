@@ -106,6 +106,7 @@ public class HomePage {
 
     public boolean isEmailPopUpDisplayed() {
         try {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailCaptureSection));
             return emailCaptureSection.isDisplayed();
         } catch (NoSuchElementException ne) {
             logger.debug("Email capture pop up is not present");
