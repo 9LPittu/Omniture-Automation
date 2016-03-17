@@ -210,7 +210,7 @@ public class ProductDetailPage {
     }
 
     public void click_update_cart() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(addToBag, "Update Bag"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
         Util.clickWithStaleRetry(addToBag);
     }
 

@@ -283,6 +283,7 @@ public class DriverFactory {
 
         try {
             WebDriver driver = createNewDriverInstance();
+            deleteBrowserCookies();
             driverMap.put(identifier, driver);
         } catch (IOException e) {
             logger.error("unable to create driver in a reset");
