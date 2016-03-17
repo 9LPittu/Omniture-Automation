@@ -118,12 +118,9 @@ public class LoginPage {
     }
 
     public String getEmailErrorMessage() {
-        WebElement emailField =  driver.findElement(By.id("unregistered-email"));
-        WebElement emailInvalidMsg = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailField.findElement(By.className("js-invalid-msg"))));
+        WebElement emailInvalidMsg = Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(By.className("js-invalid-msg")));
         return emailInvalidMsg.getText();
     }
-
-
 
     public void enter_valid_username_and_password() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
