@@ -57,7 +57,13 @@ public class MyAccountPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
         String url = driver.getCurrentUrl();
         Util.clickWithStaleRetry(menu);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+
+        if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card balance')]"))));
+        }
+        else{
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        }
     }
 
     public boolean isInMenuLinkPage(String page) {

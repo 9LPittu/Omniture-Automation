@@ -1,4 +1,4 @@
-#@HeaderAndFooter
+@HeaderAndFooter
 Feature: Footer Verification In Home Page
 
   Background:
@@ -160,8 +160,7 @@ Feature: Footer Verification In Home Page
     And User presses back button
 
   #tc-06
-  #Scenario: Validate no breadcrumbs are displayed on store locator page
-  @HeaderAndFooter1
+  #Scenario: Validate no breadcrumbs are displayed on store locator page  
   Scenario: Verification of Our Stores links display and functional
     When Click on footer link Our Stores to open
     And Store Locator sublink is displayed
