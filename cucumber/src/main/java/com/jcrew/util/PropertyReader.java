@@ -28,6 +28,7 @@ public class PropertyReader {
     private void loadProperties() throws IOException {
         String environment = System.getProperty("environment", "ci");
         String viewport = System.getProperty("viewport", "desktop");
+        
 
     	String environmentFile = environment + ".properties";
         String viewportFile = viewport + ".properties";

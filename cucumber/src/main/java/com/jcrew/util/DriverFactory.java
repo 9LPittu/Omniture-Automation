@@ -52,7 +52,7 @@ public class DriverFactory {
             width = Integer.parseInt(propertyReader.getProperty("window.width"));
             height = Integer.parseInt(propertyReader.getProperty("window.height"));
         }
-
+        
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
         } else {
@@ -128,7 +128,6 @@ public class DriverFactory {
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
-            capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "C:\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe");
 
             driver = new PhantomJSDriver(capabilities);
             driver.manage().window().setSize(new Dimension(width, height));

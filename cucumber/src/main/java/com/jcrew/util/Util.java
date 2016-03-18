@@ -36,6 +36,10 @@ public class Util {
     public static WebDriverWait createWebDriverWait(WebDriver driver) {
         return new WebDriverWait(driver, DEFAULT_TIMEOUT);
     }
+    
+    public static WebDriverWait customWebDriverWait(WebDriver driver, int timeInSeconds) {
+        return new WebDriverWait(driver, timeInSeconds);
+    }
 
     public static void waitForPageFullyLoaded(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
