@@ -1,8 +1,8 @@
 package com.jcrew.page;
 
-import java.util.Iterator;
 import java.util.List;
 
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.Alert;
@@ -59,7 +59,13 @@ public class MyAccountPage {
         WebElement menu = getMenuLink(link);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
         Util.clickWithStaleRetry(menu);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+
+        if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card balance')]"))));
+        }
+        else{
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        }
     }
 
     public boolean isInMenuLinkPage(String page) {
@@ -75,28 +81,39 @@ public class MyAccountPage {
     }
     
     public void deleteNonDefaultAddresses(){
-        Util.waitForPageFullyLoaded(driver);
-        List<WebElement> tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
-        while(tables.size() > 2){
-            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
-            String url = deleteButton.getAttribute("href");
-            driver.get(url);
-
-            tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
-        }
+    	if(!propertyReader.getProperty("browser").equalsIgnoreCase("phantomjs")){
+	        List<WebElement> tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+	
+	        while(tables.size() > 2){
+	            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+	            deleteButton.click();
+	
+	            //Util.createWebDriverWait(driver).until(ExpectedConditions.alertIsPresent());
+	            Alert removeAddress = driver.switchTo().alert();
+	            removeAddress.accept();
+	
+	            tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+	        }
+    	}
     }
     
     public void deleteNonDefaultCreditCards(){
-        Util.waitForPageFullyLoaded(driver);
-        List<WebElement> tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
 
-        while(tables.size() > 2){
-            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
-            String url = deleteButton.getAttribute("href");
-            driver.get(url);
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
-            tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
-        }
+    	if(!propertyReader.getProperty("browser").equalsIgnoreCase("phantomjs")){
+	    	List<WebElement> tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
+	
+	        while(tables.size() > 2){
+	            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+	            deleteButton.click();
+	
+	            Util.waitForPageFullyLoaded(driver);
+	            tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
+	        }
+    	}
     }
 }
