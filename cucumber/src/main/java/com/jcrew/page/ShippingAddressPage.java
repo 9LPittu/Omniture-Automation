@@ -185,7 +185,7 @@ public class ShippingAddressPage {
     
     public void clickUseAddressAsEnteredButton(){
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(checkYourAddress_UseAddressAsEntered));
+        Util.waitWithStaleRetry(driver,checkYourAddress_UseAddressAsEntered);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	Util.clickWithStaleRetry(checkYourAddress_UseAddressAsEntered);
     }
