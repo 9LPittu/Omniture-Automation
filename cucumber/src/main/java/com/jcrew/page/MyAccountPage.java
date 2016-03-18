@@ -89,11 +89,8 @@ public class MyAccountPage {
 	
 	        while(tables.size() > 2){
 	            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
-	            deleteButton.click();
-	
-	            //Util.createWebDriverWait(driver).until(ExpectedConditions.alertIsPresent());
-	            Alert removeAddress = driver.switchTo().alert();
-	            removeAddress.accept();
+                String url = deleteButton.getAttribute("href");
+                driver.get(url);
 	
 	            tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
 	        }
@@ -109,9 +106,9 @@ public class MyAccountPage {
 	
 	        while(tables.size() > 2){
 	            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
-	            deleteButton.click();
-	
-	            Util.waitForPageFullyLoaded(driver);
+                String url = deleteButton.getAttribute("href");
+                driver.get(url);
+
 	            tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
 	        }
     	}
