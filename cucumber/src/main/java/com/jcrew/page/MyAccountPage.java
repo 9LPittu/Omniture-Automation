@@ -88,6 +88,7 @@ public class MyAccountPage {
 	
 	        while(tables.size() > 2){
 	            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+                //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
                 String url = deleteButton.getAttribute("href");
                 driver.get(url);
 	
@@ -105,6 +106,7 @@ public class MyAccountPage {
 	
 	        while(tables.size() > 2){
 	            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+                //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
                 String url = deleteButton.getAttribute("href");
                 driver.get(url);
 

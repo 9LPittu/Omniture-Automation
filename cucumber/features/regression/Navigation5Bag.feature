@@ -59,6 +59,6 @@ Feature: Edit Product In Bags Scenarios
     When Add to cart button is pressed
     And User clicks on item bag
     And Clicks edit button on item bag page
-    Then Verify color CERULEAN COVE is selected
+    Then Verify color VINTAGE ELM is selected
     And Verify size SMALL is selected
     And Deletes browser cookies

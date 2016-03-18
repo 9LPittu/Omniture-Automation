@@ -279,7 +279,7 @@ public class SubcategoryPage {
 
 
     public String getCategoryTitleBelowGlobalPromo() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(categoryPageTitle));
+        Util.waitWithStaleRetry(driver, categoryPageTitle);
         return categoryPageTitle.getText();
     }
 
