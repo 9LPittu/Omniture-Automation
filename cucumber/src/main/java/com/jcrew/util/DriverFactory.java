@@ -196,6 +196,7 @@ public class DriverFactory {
             capabilities.setCapability("newCommandTimeout", 240);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         } else {
             logger.debug(browser);
