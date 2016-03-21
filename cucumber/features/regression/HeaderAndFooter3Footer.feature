@@ -160,15 +160,15 @@ Feature: Footer Verification In Home Page
     And User presses back button
 
   #tc-06
-  #Scenario: Validate no breadcrumbs are displayed on store locator page
-  Scenario: Verification of Our Stores links display and functional
-    When Click on footer link Our Stores to open
-    And Store Locator sublink is displayed
-    And Click on sublink Store Locator from Our Stores footer link
-    And Verify user is on help store locator page
-    And User is on external https://stores.jcrew.com/?sidecar=true page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
+  #Scenario: Validate no breadcrumbs are displayed on store locator page  
+#  Scenario: Verification of Our Stores links display and functional
+#    When Click on footer link Our Stores to open
+#    And Store Locator sublink is displayed
+#    And Click on sublink Store Locator from Our Stores footer link
+#    And Verify user is on help store locator page
+#    And User is on external https://stores.jcrew.com/?sidecar=true page
+#    And Verify J crew breadcrumb is not displayed
+#    And Verify Embedded header is displayed
 
     #tc-07
   #Merge

@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/smoke",
-        tags = {"@CheckoutSignedInUser"},
+        tags = {"@Account"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-checkoutsignedinusercifeatures.json",
+                "json:target/cucumber-accountcifeatures.json",
                 "pretty",
-                "html:target/cucumber/checkoutsignedinusercifeatures"
+                "html:target/cucumber/accountcifeatures"
         }
 )
-public class CheckoutSignedInUserFeaturesRunnerTest {
+public class AccountFeaturesRunnerTest {
 }

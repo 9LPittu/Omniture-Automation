@@ -1,17 +1,14 @@
 @Category
-Feature: Category Page
+Feature: Category and Sub Category Page Validations
 
   Background:
     Given User is on homepage
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
 
-  Scenario: Sub category page is functional
+  Scenario: subcategory page validations
     When User clicks on SWEATERS subcategory from Women Category
     Then User should be in subcategory page
-
-  Scenario: Filter for subcategory works
-    When User clicks on SWEATERS subcategory from Women Category
     Then View All Section is present and collapsed
     When User clicks on expand icon
     Then Accordion should be expanded
@@ -20,3 +17,5 @@ Feature: Category Page
     Then filter becomes selected
     And Refine modal autocloses
     And Products displayed match subcategory
+    When User hovers a product
+    Then Verifies product information is displayed

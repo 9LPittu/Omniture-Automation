@@ -210,8 +210,8 @@ public class ProductDetailPage {
     }
 
     public void click_update_cart() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
-        addToBag.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
+        Util.clickWithStaleRetry(addToBag);
     }
 
     public String getSelectedVariationName() {

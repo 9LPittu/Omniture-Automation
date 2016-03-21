@@ -379,8 +379,8 @@ public class SalePage {
         String currentPageFirstItemName = arrayPageItemNames.get(0).getText();
         String firstPageFirstItemName = (String) stateHolder.get("firstPageItemName");
 
-        System.out.println("Current Page Item:" + currentPageFirstItemName);
-        System.out.println("First Page Item:" + firstPageFirstItemName);
+        logger.debug("Current Page Item: {}", currentPageFirstItemName);
+        logger.debug("First Page Item: {}", firstPageFirstItemName);
 
         return !currentPageFirstItemName.equalsIgnoreCase(firstPageFirstItemName);
     }
