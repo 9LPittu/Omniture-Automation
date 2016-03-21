@@ -178,7 +178,7 @@ public class DriverFactory {
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
-            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         } else if ("androidchrome".equals(browser)) {
             DesiredCapabilities capabilities = DesiredCapabilities.android();
@@ -195,6 +195,7 @@ public class DriverFactory {
             capabilities.setCapability("newCommandTimeout", 240);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         } else {
             logger.debug(browser);
@@ -258,15 +259,16 @@ public class DriverFactory {
         Set<Cookie> cookies = null;
         try{
             cookies = driver.manage().getCookies();
-            if(!cookies.isEmpty()){
-                if ("iossafari".equals(propertyReader.getProperty("browser"))) {
+            String browser = propertyReader.getProperty("browser");
+            if(!cookies.isEmpty()) {
+                if ("iossafari".equals(browser)) {
                     for (Cookie cookie : cookies) {
                         if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
                             driver.manage().deleteCookie(cookie);
                         }
                     }
 
-                } else if (("androidchrome".equals(propertyReader.getProperty("browser"))) || ("phantomjs".equals(propertyReader.getProperty("browser")))) {
+                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser)) {
                     for (Cookie cookie : cookies) {
                         if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
                             driver.manage().deleteCookie(cookie);
@@ -274,9 +276,26 @@ public class DriverFactory {
                     }
                 }
             }
+        } catch (Exception e){
+            logger.error("Not able to delete cookies", e);
         }
-        catch(Exception e){
-            logger.info("No cookies in the browser!!!");
+
+    }
+
+    public void cleanSession(){
+        String identifier = Thread.currentThread().getName();
+        WebDriver driver = driverMap.get(identifier);
+
+        Set<Cookie> cookies = driver.manage().getCookies();
+
+        try{
+            if(cookies.size() > 0){
+                for (Cookie cookie : cookies) {
+                    driver.manage().deleteCookie(cookie);
+                }
+            }
+        } catch (Exception e){
+            logger.error("Not able to delete cookies to clean session", e);
         }
     }
 
@@ -286,6 +305,7 @@ public class DriverFactory {
 
         try {
             WebDriver driver = createNewDriverInstance();
+            deleteBrowserCookies();
             driverMap.put(identifier, driver);
         } catch (IOException e) {
             logger.error("unable to create driver in a reset");

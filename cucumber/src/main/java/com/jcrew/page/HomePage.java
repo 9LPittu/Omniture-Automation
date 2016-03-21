@@ -60,8 +60,10 @@ public class HomePage {
     }
 
     public boolean isHomePage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         final WebElement pageHome = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.presenceOfElementLocated(By.id("page__home")));
+                ExpectedConditions.visibilityOfElementLocated(By.id("page__home")));
         Util.waitWithStaleRetry(driver,pageHome);
         return pageHome.isDisplayed();
     }
@@ -104,6 +106,7 @@ public class HomePage {
 
     public boolean isEmailPopUpDisplayed() {
         try {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailCaptureSection));
             return emailCaptureSection.isDisplayed();
         } catch (NoSuchElementException ne) {
             logger.debug("Email capture pop up is not present");
@@ -127,5 +130,22 @@ public class HomePage {
         }
 
     }
+
+    public boolean isGivenVarPresentInSourceCode(String var) {
+
+        if(var.equals("src")) {
+            logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains("src=\"http"));
+            return driver.getPageSource().contains("src=\"http");
+        }
+        logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
+        return driver.getPageSource().contains(var);
+    }
+
+    public String getSAccountValue(){
+        String sAccountValue = (String)((JavascriptExecutor)driver).executeScript("return s_account;");
+        logger.info("s_account value is : {}",sAccountValue);
+        return sAccountValue;
+    }
+
 }
 

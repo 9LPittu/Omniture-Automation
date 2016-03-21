@@ -149,7 +149,7 @@ public class ShippingAddressPage {
     }
     
     public void enterFirstNameOnNewShippingAddressForm(){
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewShippingAddress_FirstName));
+        Util.waitWithStaleRetry(driver, addNewShippingAddress_FirstName);
     	addNewShippingAddress_FirstName.sendKeys(faker.name().firstName());
     }
     
@@ -184,7 +184,8 @@ public class ShippingAddressPage {
     }
     
     public void clickUseAddressAsEnteredButton(){
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(checkYourAddress_UseAddressAsEntered));
+        Util.waitForPageFullyLoaded(driver);
+        Util.waitWithStaleRetry(driver,checkYourAddress_UseAddressAsEntered);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	Util.clickWithStaleRetry(checkYourAddress_UseAddressAsEntered);
     }
