@@ -371,7 +371,7 @@ public class SearchPage {
     public boolean isSizeRefinementValuesDisplayedCorrectly(){
     	
     	String selectedsizeRefinementOptions = (String)stateHolder.get("selectedSizeRefinementOptions");
-    	 
+    	
     	By selectedFilter = By.xpath(".//span[contains(text(), 'Size') and @class='search__filter--label']/following::span[@class='search__filter--selected']");
     	Util.customWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(selectedFilter));    	
         WebElement selectedOption = driver.findElement(selectedFilter);
