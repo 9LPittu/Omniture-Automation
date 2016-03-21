@@ -211,6 +211,20 @@ Feature: Footer Verification In Home Page
      	|LATIN AMERICA & THE CARIBBEAN|
      	|MIDDLE EAST & AFRICA|   
 
+  #US13389_TC13
+  # Scenario Outline: Ship To section is visible and functional in footer
+    # (SHIP TO is not present, change in application. For more information look SC-572)
+    # Then user should see Ship To section in footer
+    # And verify country name is displayed in the ship to section of footer
+    # And verify change link is displayed in the ship to section of footer
+    # Then click on change link from footer
+    # And User is on /intl/context_chooser.jsp?sidecar=true page
+    # And select country as "<country>"
+    # Then user should see "<country>" in footer
+    # Examples:
+      # |country|
+      # |Canada|
+   
   #US13389_TC14
     Scenario: Verify social sharing icons functionality
     And click on facebook icon in social sharing section

@@ -253,7 +253,7 @@ public class Footer {
         }
         return false;
     }
-    
+
     public void clickChangeLinkInFooter(){
     	changeLinkInFooter.click();
     }
