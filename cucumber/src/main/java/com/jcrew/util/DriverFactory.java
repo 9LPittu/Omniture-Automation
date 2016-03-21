@@ -261,17 +261,19 @@ public class DriverFactory {
         try{
             cookies = driver.manage().getCookies();
             String browser = propertyReader.getProperty("browser");
-            if ("iossafari".equals(browser)) {
-                for (Cookie cookie : cookies) {
-                    if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
-                        driver.manage().deleteCookie(cookie);
+            if(!cookies.isEmpty()) {
+                if ("iossafari".equals(browser)) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
                     }
-                }
 
-            } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser)) {
-                for (Cookie cookie : cookies) {
-                    if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
-                        driver.manage().deleteCookie(cookie);
+                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser)) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
                     }
                 }
             }
