@@ -38,7 +38,7 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
     Then A minicart modal should appear with message '1 item has been added to your cart.'
     And Deletes browser cookies
 
-    #US9697_TC06_Part_2   
+    #US9697_TC06_Part_2
   Scenario: Verify products can be added to wish list from Shoppable Tray
     Given User is on homepage
     And User clicks on hamburger menu
@@ -48,6 +48,7 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
       |Girls|THIS MONTH'S FEATURES|Looks We Love |
       |Boys |THIS MONTH'S FEATURES|Looks We Love |
     And User adds all products to wish list
+    Given User is on homepage
     And User clicks on hamburger menu
     And User clicks on My Account link
     And User clicks on WISHLIST link in My Account Page
