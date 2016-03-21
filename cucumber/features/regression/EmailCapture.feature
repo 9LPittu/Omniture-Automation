@@ -1,4 +1,4 @@
-#@Email
+@Email
 Feature: Handling email capture pop up
 
   Background:
