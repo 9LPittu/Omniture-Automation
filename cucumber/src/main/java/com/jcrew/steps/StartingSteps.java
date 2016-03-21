@@ -36,7 +36,7 @@ public class StartingSteps {
 
     @Given("User is on homepage with clean session")
     public void user_is_on_home_page_with_clean_session() {
-        driverFactory.cleanSession();
+        driverFactory.deleteBrowserCookies();
         user_is_on_home_page();
     }
 
