@@ -116,6 +116,16 @@ public class FooterSteps extends DriverFactory {
     public void click_change_link_in_footer(){
     	footer.clickChangeLinkInFooter();
     }
+
+    @And("^User is on context chooser page$")
+    public void verify_context_chooser_page_is_displayed() {
+        assertTrue("User should be in international context chooser page", footer.isInternationalContextChooserPageDisplayed());
+    }
+
+    @And("^([^\"]*) region drawer is displayed")
+    public void verify_region_drawer_is_displayed(String region) {
+        assertTrue("Region drawer/ section should be displayed",footer.isRegionDisplayed(region));
+    }
     
     @And("^select country as \"([^\"]*)\"$")
     public void select_country_from_footer(String country){

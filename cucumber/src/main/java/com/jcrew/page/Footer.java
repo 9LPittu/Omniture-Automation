@@ -232,6 +232,19 @@ public class Footer {
     public boolean isChangeLinkDisplayedInFooter(){
     	return changeLinkInFooter.isDisplayed();
     }
+
+    public boolean isInternationalContextChooserPageDisplayed() {
+        return driver.findElement(By.id("page__international")).isDisplayed();
+    }
+
+    public boolean isRegionDisplayed(String region) {
+        //WebElement contextColumn  = driver.findElement(By.className("context-chooser__column"));
+        List<WebElement> regionElements = driver.findElements(By.className("js-wrap"));
+        for(WebElement regionElement:regionElements) {
+            if (regionElement.getText().equals(region)) return true; break;
+        }
+        return false;
+    }
     
     public void clickChangeLinkInFooter(){
     	changeLinkInFooter.click();

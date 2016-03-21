@@ -225,20 +225,22 @@ Feature: Footer Verification In Home Page
     And User is on external https://www.madewell.com/index.jsp page
     And page url should contain srcCode=JCFooter
 
-  #US13389_TC13
-  # Scenario Outline: Ship To section is visible and functional in footer
-    # (SHIP TO is not present, change in application. For more information look SC-572)
-    # Then user should see Ship To section in footer
-    # And verify country name is displayed in the ship to section of footer
-    # And verify change link is displayed in the ship to section of footer
-    # Then click on change link from footer
-    # And User is on /intl/context_chooser.jsp?sidecar=true page
-    # And select country as "<country>"
-    # Then user should see "<country>" in footer
-    # Examples:
-      # |country|
-      # |Canada|
-   
+  #US9479_TC01, US9479_TC02
+  # not automating matching with the mock up context chooser page US9479_TC03
+  #Validate context chooser flag is displayed on all the sidecar pages in the footer
+   Scenario: Context chooser flag should be displayed and functional on all the sidecar pages in the footer.
+     Then user should see Ship To section in footer
+     And verify country name is displayed in the ship to section of footer
+     And verify change link is displayed in the ship to section of footer
+     Then click on change link from footer
+     And User is on context chooser page
+     And UNITED STATES & CANADA region drawer is displayed
+     And ASIA PACIFIC region drawer is displayed
+     And EUROPE region drawer is displayed
+     And LATIN AMERICA & THE CARIBBEAN region drawer is displayed
+     And MIDDLE EAST & AFRICA region drawer is displayed
+
+
   #US13389_TC14
   #Merged
   #Scenario: Verify twitter icon in social sharing section is functional
