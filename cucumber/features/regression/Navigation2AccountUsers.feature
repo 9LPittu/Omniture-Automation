@@ -1,4 +1,4 @@
-#@Account
+@Account
 Feature: My Account Page
 
   Background:
