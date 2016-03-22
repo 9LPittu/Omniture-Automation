@@ -6,15 +6,15 @@ Feature: Sign In Page
     And Handle the Email Capture pop up
     And Goes to sign in page
 
-  Scenario: Error message validation for incorrect email and password
-    When Login page is loaded
-    And User enters invalid as email
-    And Changes focus to password field
-    Then An error message saying Please enter a valid email address. should appear
-    And Sign in button should be deactivated
-    When User enters test@example.org as email
-    Then An error message saying Whoops, that's not right... Please try your password again. should appear
-    And Sign in button should be deactivated
+#  Scenario: Error message validation for incorrect email and password
+#    When Login page is loaded
+#    And User enters invalid as email
+#    And Changes focus to password field
+#    Then An error message saying Please enter a valid email address. should appear
+#    And Sign in button should be deactivated
+#    When User enters test@example.org as email
+#    Then An error message saying Whoops, that's not right... Please try your password again. should appear
+#    And Sign in button should be deactivated
 
     #US9890: Account Register and Errors
 
@@ -59,14 +59,14 @@ Feature: Sign In Page
 
 
   #US9890_TC06, US9890_TC07,US9890_TC08,US9890_TC09
-  Scenario: User registration section should have country selection listbox
-    And Country selection list box is displayed
-    And united states is selected as default value
-    And User can choose any country from the country list box
-    #further implementation needed for below line---check box is not displaying for all of the countries at present
-    And Verify opt checkbox not displayed for USA
-    # to do later once it is ready----JCSC-878
-    #And Verify opt checkbox is displayed for non USA and not checked by default
+#  Scenario: User registration section should have country selection listbox
+#    And Country selection list box is displayed
+#    And United States is selected as default value
+#    And User can choose any country from the country list box
+#    #further implementation needed for below line---check box is not displaying for all of the countries at present
+#    And Verify opt checkbox not displayed for USA
+#    # to do later once it is ready----JCSC-878
+#    #And Verify opt checkbox is displayed for non USA and not checked by default
 
   #US9890_TC10
   Scenario: create new account from home page
@@ -77,44 +77,44 @@ Feature: Sign In Page
     And selects any country from the country list
     And User clicks on create an account button
     And Verify user is in homepage
-    And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
-    And Selects the first product from product grid list
-    And User is in product detail page
-    And User clicks on hamburger menu
-    And User clicks on back link
-    And User clicks on hamburger menu
-    Then My Account link is present
+#    And User clicks on hamburger menu
+#    And Selects Women Category from hamburger menu
+#    And User clicks on SWEATERS subcategory from Women Category
+#    And Selects the first product from product grid list
+#    And User is in product detail page
+#    And User clicks on hamburger menu
+#    And User clicks on back link
+#    And User clicks on hamburger menu
+#    Then My Account link is present
 
    #US9890_TC11
   #Not working as expected at present----in reference to JCSC-864
-  Scenario: create new account from pdp page
-    And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
-    And Selects the first product from product grid list
-    And User is in product detail page
-    And User clicks on hamburger menu
-    And User clicks on back link
-    And User clicks on hamburger menu
-    And Goes to sign in page
-    And Enter random first name as First Name in create account section
-    And Enter random last name as Last Name in create account section
-    And Enter random email as Email in create account section
-    And Enter random password as Password in create account section
-    And selects any country from the country list
-    And User clicks on create an account button
-    And User is in product detail page
-    And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
-    And Selects the first product from product grid list
-    And User is in product detail page
-    And User clicks on hamburger menu
-    And User clicks on back link
-    And User clicks on hamburger menu
-    Then My Account link is present
+#  Scenario: create new account from pdp page
+#    And User clicks on hamburger menu
+#    And Selects Women Category from hamburger menu
+#    And User clicks on SWEATERS subcategory from Women Category
+#    And Selects the first product from product grid list
+#    And User is in product detail page
+#    And User clicks on hamburger menu
+#    And User clicks on back link
+#    And User clicks on hamburger menu
+#    And Goes to sign in page
+#    And Enter random first name as First Name in create account section
+#    And Enter random last name as Last Name in create account section
+#    And Enter random email as Email in create account section
+#    And Enter random password as Password in create account section
+#    And selects any country from the country list
+#    And User clicks on create an account button
+#    And User is in product detail page
+#    And User clicks on hamburger menu
+#    And Selects Women Category from hamburger menu
+#    And User clicks on SWEATERS subcategory from Women Category
+#    And Selects the first product from product grid list
+#    And User is in product detail page
+#    And User clicks on hamburger menu
+#    And User clicks on back link
+#    And User clicks on hamburger menu
+#    Then My Account link is present
 
 
 
