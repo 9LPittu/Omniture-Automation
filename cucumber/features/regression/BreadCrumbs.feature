@@ -81,10 +81,6 @@ Feature: Global Header: Breadcrumbs
      And Verify user is in homepage
      And Deletes browser cookies
 
-    #US9724_TC09 multi pdp not available?
-  #will implement later
-  #Scenario: Validate breadcrumbs display and functionality on multi PDP page
-
     #US9724_TC10, #US9724_TC11
 #  Scenario: Validate breadcrumbs functionality and display on sign in/ register for email page
 #    And Goes to sign in page
