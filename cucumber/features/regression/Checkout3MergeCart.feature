@@ -13,7 +13,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
 
     And User is on homepage
     And User clicks on hamburger menu
-	When User clicks on My Account link
+    When User clicks on My Account link
 
     #below steps deletes the non-default credit cards
     And click on "PAYMENT METHODS" link in My Account page
@@ -21,7 +21,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
 
     #below steps deletes the non-default addresses
     And click on "ADDRESS BOOK" link in My Account page
-	And delete non-default addresses
+    And delete non-default addresses
 
     
     And User is on homepage
@@ -36,10 +36,10 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
-	And User is on homepage
+    And User is on homepage
     And User clicks on hamburger menu
-	When User clicks on My Account link
-	And click on "SIGN OUT" link in My Account page
+    When User clicks on My Account link
+    And click on "SIGN OUT" link in My Account page
     And Verify user is in homepage
     And User is signed out
 
