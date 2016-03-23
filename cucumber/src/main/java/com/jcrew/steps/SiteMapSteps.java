@@ -33,6 +33,7 @@ public class SiteMapSteps extends DriverFactory {
 
     @Then("^All pages should contain ([^\"]*) variable$")
     public void allPagesShouldContainSPageNameVariable(String variable) {
+        sitemap.checkVariableInUrlList(urlsList, variable);
         assertTrue(false);
     }
 }
