@@ -60,6 +60,20 @@ public class Util {
         });
     }
 
+    public static String getPageVariableValue(WebDriver driver, String variable){
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        String script = "return " + variable;
+        String value = "";
+
+        try{
+            value = (String) javascriptExecutor.executeScript(script);
+        } catch (WebDriverException wde){
+            logger.error("Not able to get value from {}", driver.getCurrentUrl(), wde);
+        }
+
+        return value;
+    }
+
     public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{
         int attempts = 0;
         boolean success = false;
