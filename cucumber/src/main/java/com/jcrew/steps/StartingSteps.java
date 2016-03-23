@@ -36,7 +36,7 @@ public class StartingSteps {
 
     @Given("User is on homepage with clean session")
     public void user_is_on_home_page_with_clean_session() {
-        driverFactory.cleanSession();
+        driverFactory.deleteBrowserCookies();
         user_is_on_home_page();
     }
 
@@ -46,9 +46,9 @@ public class StartingSteps {
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {
             try {
-                getIntialPage();
+                getInitialPage();
               //  waitForPageToLoadUpToTheLastElementPriorScriptExecution();
-              //  Util.waitForPageFullyLoaded(driver);
+                //Util.waitForPageFullyLoaded(driver);
                 waitForHeaderPromo();
                 successfulLoad = true;
             } catch (TimeoutException te) {
@@ -57,6 +57,24 @@ public class StartingSteps {
             }
         }
     }
+
+    @Given("^User is on ([^\"]*) home page$")
+    public void user_is_on_jcrew_gold_home_page(String pageUrl) {
+        int retry = 0;
+        boolean successfulLoad = false;
+        while (retry < 2 && !successfulLoad) {
+            try {
+                getTheInitialPage(pageUrl);
+                Util.waitForPageFullyLoaded(driver);
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1);
+                retry++;
+            }
+        }
+    }
+
+
 
     private void waitForHeaderPromo(){
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
@@ -67,7 +85,7 @@ public class StartingSteps {
                 By.className("footer__help__menu")));
     }
 
-    public void getIntialPage() {
+    public void getInitialPage() {
         String env = reader.getProperty("environment");
         String browser = reader.getProperty("browser");
         boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent")||env.contains("or");
@@ -81,6 +99,12 @@ public class StartingSteps {
         } else {
             driver.get(env);
         }
+    }
+
+    public void getTheInitialPage(String pageUrl){
+        String env = reader.getProperty(pageUrl);
+        logger.debug("current url is: "+env);
+        driver.get(env);
     }
 
     @And("^User goes to homepage$")

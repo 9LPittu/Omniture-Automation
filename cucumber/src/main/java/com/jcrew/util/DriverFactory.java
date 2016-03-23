@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
@@ -127,11 +128,11 @@ public class DriverFactory {
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
+            capabilities.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, "C:\\phantomjs-2.1.1-windows\\bin\\phantomjs.exe");
 
             driver = new PhantomJSDriver(capabilities);
             driver.manage().window().setSize(new Dimension(width, height));
         }
-
 
         return driver;
     }
@@ -178,7 +179,7 @@ public class DriverFactory {
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
 
-            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         } else if ("androidchrome".equals(browser)) {
             DesiredCapabilities capabilities = DesiredCapabilities.android();
@@ -195,6 +196,7 @@ public class DriverFactory {
             capabilities.setCapability("newCommandTimeout", 240);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
         } else {
             logger.debug(browser);
@@ -203,7 +205,7 @@ public class DriverFactory {
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = getDesktopWebDriver(propertyReader, capabilities);
-            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+            //driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
         }
 
         //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
@@ -259,17 +261,19 @@ public class DriverFactory {
         try{
             cookies = driver.manage().getCookies();
             String browser = propertyReader.getProperty("browser");
-            if ("iossafari".equals(browser)) {
-                for (Cookie cookie : cookies) {
-                    if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
-                        driver.manage().deleteCookie(cookie);
+            if(!cookies.isEmpty()) {
+                if ("iossafari".equals(browser)) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
                     }
-                }
 
-            } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser)) {
-                for (Cookie cookie : cookies) {
-                    if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
-                        driver.manage().deleteCookie(cookie);
+                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser)) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
                     }
                 }
             }

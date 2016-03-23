@@ -121,8 +121,10 @@ public class BillingPage {
         expirationYearElement.selectByVisibleText("2024");
 
         nameOnCard.sendKeys(NAME_ON_CARD);
-        emailReceipt.sendKeys(faker.internet().emailAddress());
 
+        String strEmailAddress = faker.internet().emailAddress();
+        strEmailAddress = strEmailAddress.replace("'","");
+        emailReceipt.sendKeys(strEmailAddress);
     }
 
     public boolean isCreditDebitPayment() {

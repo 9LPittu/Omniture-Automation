@@ -379,8 +379,8 @@ public class SalePage {
         String currentPageFirstItemName = arrayPageItemNames.get(0).getText();
         String firstPageFirstItemName = (String) stateHolder.get("firstPageItemName");
 
-        System.out.println("Current Page Item:" + currentPageFirstItemName);
-        System.out.println("First Page Item:" + firstPageFirstItemName);
+        logger.debug("Current Page Item: {}", currentPageFirstItemName);
+        logger.debug("First Page Item: {}", firstPageFirstItemName);
 
         return !currentPageFirstItemName.equalsIgnoreCase(firstPageFirstItemName);
     }
@@ -439,7 +439,7 @@ public class SalePage {
                             saleCategory + "']"));
             return secondPromoLink.isDisplayed();
         }catch (NoSuchElementException e) {
-            logger.debug("the second promo ",link," link is not found");
+            logger.debug("the second promo {} link is not found", link);
             return true;
         }
     }
@@ -453,7 +453,8 @@ public class SalePage {
                             saleCategory + "']"));
             secondPromoLink.click();
         }catch (NoSuchElementException e) {
-            logger.debug("the link ",link, " cannot be clicked as it is not found");
+            logger.debug("the link {} cannot be clicked as it is not found", link);
+            clickOnSaleDept(link);
 
         }
     }

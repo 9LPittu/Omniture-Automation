@@ -79,8 +79,8 @@ public class HomePage {
         logger.debug("Email capture? {}", emailCapture);
 
         if(emailCapture) {
-            logger.debug("Email capture on, let's turn it off!!");
-
+            logger.debug("Email capture on, let's turn it off!!");        
+            
             List<WebElement> email_capture = driver.findElements(
                     By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"));
 
@@ -130,5 +130,22 @@ public class HomePage {
         }
 
     }
+
+    public boolean isGivenVarPresentInSourceCode(String var) {
+
+        if(var.contains("src")) {
+            logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains("src=\"http"));
+            return driver.getPageSource().contains("src=\"http");
+        }
+        logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
+        return driver.getPageSource().contains(var);
+    }
+
+    public String getSAccountValue(){
+        String sAccountValue = (String)((JavascriptExecutor)driver).executeScript("return s_account;");
+        logger.info("s_account value is : {}",sAccountValue);
+        return sAccountValue;
+    }
+
 }
 

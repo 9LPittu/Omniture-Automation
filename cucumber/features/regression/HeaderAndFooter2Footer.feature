@@ -22,12 +22,6 @@ Feature: Footer Verification In Home Page
    #US13389_TC03
    #US13389_TC12
    #US13389_TC11
-   #Merged
-   #Scenario: Verify content groupings are displayed in footer section of all sidecar  pages
-   #Scenario: Verify email subscription field  is displaying under Like being First section and verify email
-   #          subscription in the footer with invalid email address
-   #Scenario: Verify email subscription in the footer with valid email address
-   #Scenario: Verify Tapping twice on the drawer opens and closes the drawer in  content groupings
   Scenario: Verification of Footer section in the page
     Then Verify Contact Us header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
@@ -76,14 +70,6 @@ Feature: Footer Verification In Home Page
     Then user should see message as "THANK YOU...Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
 
    #tc-04 starts below
-   #Merge
-    #Scenario: Verification of Let Us Help You Shipping & Handling link functionality
-    #Scenario: Verification of Let Us Help You Returns And Exchanges link functionality
-    #Scenario: Verification of Let Us Help You International Orders link functionality
-    #Scenario: Verification of Let Us Help You Size Charts link functionality
-    #Scenario: Verification of Let Us Help You Contact Us link functionality
-    #Scenario: Verification of Let Us Help You Request A Style Guide link functionality
-    #Scenario: Verification of Let Us Help You Order Status link functionality
   Scenario: Verification of Let Us Help You links display
     When Click on footer link Let Us Help You to open
     And Accordion should be expanded
@@ -137,9 +123,6 @@ Feature: Footer Verification In Home Page
 
   #tc-05
   #Merge
-  #Scenario: Verification of Our Cards The J.Crew Credit Card link functionality
-  #Scenario: Verification of Our Cards The J.Crew Gift Card link functionality
-  #Scenario: Verification of Our Cards links display
   Scenario: Verification of Our Cards links functionality
     When Click on footer link Our Cards to open
     And The J.Crew Credit Card sublink is displayed
@@ -160,23 +143,7 @@ Feature: Footer Verification In Home Page
     And User presses back button
 
   #tc-06
-  #Scenario: Validate no breadcrumbs are displayed on store locator page
-  Scenario: Verification of Our Stores links display and functional
-    When Click on footer link Our Stores to open
-    And Store Locator sublink is displayed
-    And Click on sublink Store Locator from Our Stores footer link
-    And Verify user is on help store locator page
-    And User is on external https://stores.jcrew.com/?sidecar=true page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-
     #tc-07
-  #Merge
-  #Scenario: Verification of About J.Crew links display
-  #Scenario: Verification of Our Story About J.Crew link functionality
-  #Scenario: Verification of About J.Crew Careers link functionality
-  #Scenario: Verification of About J.Crew Social Responsibility link functionality
-  #Scenario: Verification of  About J.Crew Investor Relations link functionality
   Scenario: Verification of About J.Crew links functionality
     When Click on footer link About J.Crew to open
     And Our Story sublink is displayed
@@ -207,9 +174,6 @@ Feature: Footer Verification In Home Page
     And User is on external http://investors.jcrew.com page
 
     #tc-08
-    #Merged
-    #Scenario: Verifying Our Brands J.Crew Factory link funtionality
-    #Scenario: Verifying Our Brands Madewell link funtionality
   Scenario: Verification of Our Brands links display
     When Click on footer link Our Brands to open
     And J.Crew Factory sublink is displayed
@@ -240,14 +204,6 @@ Feature: Footer Verification In Home Page
       # |Canada|
    
   #US13389_TC14
-  #Merged
-  #Scenario: Verify twitter icon in social sharing section is functional
-  #Scenario: Verify tumblr icon in social sharing section is functional
-  #Scenario: Verify instagram icon in social sharing section is functional
-  #Scenario: Verify google icon in social sharing section is functional
-  #Scenario: Verify youtube icon in social sharing section is functional
-  #Scenario: Verify pinterest icon in social sharing section is functional
-  #Scenario: Verify facebook icon in social sharing section is functional
     Scenario: Verify social sharing icons functionality
     And click on facebook icon in social sharing section
     And User is on external facebook page
@@ -272,10 +228,6 @@ Feature: Footer Verification In Home Page
     And User presses back button
   
   #US13389_TC15
-  #Merged
-  #Scenario: Verify TERMS OF USE legal link is functional in footer section of all sidecar pages
-  #Scenario: Verify PRIVACY POLICY legal link is functional in footer section of all sidecar pages
-  #Scenario: Verify copyright text in the legal links section is not link
   Scenario: Verify legal links are displayed in footer section of all sidecar  pages
   	And user should see legal links section in the footer
   	And user should see "TERMS OF USE" in the legal links section of footer
