@@ -2,10 +2,12 @@ package com.jcrew.page;
 
 import com.google.common.base.Predicate;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -59,7 +61,10 @@ public class Footer {
 
     @FindBy(id = "global__footer")
     private WebElement footerSection;
-     
+    
+    @FindBys({@FindBy(xpath=".//div[@class='context-chooser__column']/div/h5/i[not(@class='js-icon icon-see-more')]")})
+    private List<WebElement> openedRegionalDrawers;
+    
     public Footer(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -234,14 +239,17 @@ public class Footer {
     }
 
     public boolean isInternationalContextChooserPageDisplayed() {
-        return driver.findElement(By.id("page__international")).isDisplayed();
+    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
+        return internationalContextChooser.isDisplayed();
     }
 
     public boolean isRegionDisplayed(String region) {
         //WebElement contextColumn  = driver.findElement(By.className("context-chooser__column"));
         List<WebElement> regionElements = driver.findElements(By.className("js-wrap"));
         for(WebElement regionElement:regionElements) {
-            if (regionElement.getText().equals(region)) return true; break;
+            if (regionElement.getText().equals(region)){
+            	return true;
+            }
         }
         return false;
     }
@@ -355,5 +363,64 @@ public class Footer {
         String drawerClass = drawer.getAttribute("class");
 
         return !drawerClass.contains("is-expanded");
+    }
+    
+    public boolean isAllRegionalDrawersClosedByDefault(){
+    	return openedRegionalDrawers.size() == 0; 
+    }
+    
+    public boolean isCountriesDisplayedCorrectlyUnderRegion(String region){
+    	    	
+    	WebElement regionHeader = driver.findElement(By.xpath("//h5[text()='" + region + "']"));
+    	regionHeader.click();
+    	
+    	String propertyName = null;
+    	switch(region){
+	    	case "UNITED STATES & CANADA":
+	    		propertyName = "UNITED_STATES_AND_CANADA_REGION_COUNTRIES";
+	    		break;
+	    	case "ASIA PACIFIC":
+	    		propertyName = "ASIA_PACIFIC_REGION_COUNTRIES";
+	    		break;
+	    	case "EUROPE":
+	    		propertyName = "EUROPE_REGION_COUNTRIES";
+	    		break;
+	    	case "LATIN AMERICA & THE CARIBBEAN":
+	    		propertyName = "LATIN_AMERICA_AND_THE_CARIBBEAN_REGION_COUNTRIES";
+	    		break;
+	    	case "MIDDLE EAST & AFRICA":
+	    		propertyName = "MIDDLE_EAST_AND_AFRICA_REGION_COUNTRIES";
+	    		break;
+    	}
+    	
+    	TestDataReader dataReader = TestDataReader.getTestDataReader();
+    	String countries = dataReader.getData(propertyName);
+    	String[] arrCountries = countries.split(";");
+    	
+    	String countriesDisplayed = "";
+    	String countriesMissing = "";
+    	for(String country:arrCountries){
+    		WebElement appCountry = driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"
+    				                                            + "/ul/li/a/span[@class='context-chooser__item--country' and "
+    				                                            + Util.xpathGetTextLower + "='" + country.toLowerCase() + "']"));
+    		if(appCountry.isDisplayed()){
+    			countriesDisplayed = countriesDisplayed + country + ",";
+    		}
+    		else{
+    			countriesMissing = countriesMissing + country + ",";
+    		}    			
+    	}
+    	
+    	if(countriesMissing.isEmpty()){
+    		logger.info("For region '{}', countries displayed are: {}", region, countriesDisplayed.substring(0, countriesDisplayed.length() - 1));
+    		
+    	}
+    	else{
+    		logger.error("For region '{}', countries missing are: {}", region, countriesMissing.substring(0, countriesMissing.length() - 1));
+    	}
+    	
+    	boolean isDrawerOpened = driver.findElement(By.xpath("//div[@class='context-chooser__column']/div/h5[text()='" + region  + "']/i[@class='js-icon icon-see-less']")).isDisplayed();
+    	
+    	return countriesMissing.isEmpty() && isDrawerOpened;
     }
 }

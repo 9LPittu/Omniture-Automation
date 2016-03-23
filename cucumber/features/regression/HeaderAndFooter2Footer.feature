@@ -1,4 +1,4 @@
-@HeaderAndFooter
+#@HeaderAndFooter
 Feature: Footer Verification In Home Page
 
   Background:
@@ -203,7 +203,13 @@ Feature: Footer Verification In Home Page
      And EUROPE region drawer is displayed
      And LATIN AMERICA & THE CARIBBEAN region drawer is displayed
      And MIDDLE EAST & AFRICA region drawer is displayed
-
+     And user should see all regional drawers closed by default
+     And expand each regional drawer and verify the countries displayed and only one drawer should be opened     
+     	|UNITED STATES & CANADA|
+     	|ASIA PACIFIC|
+     	|EUROPE|
+     	|LATIN AMERICA & THE CARIBBEAN|
+     	|MIDDLE EAST & AFRICA|   
 
   #US13389_TC14
     Scenario: Verify social sharing icons functionality
