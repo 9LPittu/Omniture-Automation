@@ -3,10 +3,13 @@ package com.jcrew.steps;
 import com.jcrew.page.Footer;
 import com.jcrew.util.DriverFactory;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 public class FooterSteps extends DriverFactory {
     private final Footer footer = new Footer(getDriver());
@@ -211,5 +214,16 @@ public class FooterSteps extends DriverFactory {
     public void verify_footer_section_displayed(){
         assertTrue("Footer section should be displayed",footer.isFooterSectionDisplayed());
     }
-
+    
+    @And("^user should see all regional drawers closed by default$")
+    public void user_should_see_all_regional_drawers_closed_by_default(){
+    	assertTrue("All regional drawers should be closed by default",footer.isAllRegionalDrawersClosedByDefault());
+    }
+    
+    @And("^expand each regional drawer and verify the countries displayed and only one drawer should be opened$")
+    public void verify_countries_displayed_under_regional_drawer(List<String> regions){
+    	for(String region:regions){    	    	
+    		assertTrue("User should see correct countries displayed under region '" + region + "' and one only drawer should be opened at a time", footer.isCountriesDisplayedCorrectlyUnderRegion(region.toUpperCase()));
+    	}
+    }    
 }
