@@ -5,6 +5,8 @@ Feature: Search Regression Suite
     Given User is on homepage
     And User presses search button
 
+    #Repeated
+    #Scenario: single product with sale price should go to pdp
   Scenario: single product result goes to pdp directly
     When Enters A0640 to the search field
     And Clicks on search button for input field
@@ -16,12 +18,13 @@ Feature: Search Regression Suite
     And User is in search results page
     Then Verify amount of items displayed is 3
 
-  Scenario: single product with sale price should go to pdp
-    When Enters A0640 to the search field
-    And Clicks on search button for input field
-    Then User is in product detail page
-
     #US15673_TC01
+    #US15673_TC02
+    #Merged
+    #Scenario: Search Refine multi select, single select
+    #Scenario: Search Refine multi select, multiple selections
+    #Scenario: Search Refine Breadcrumbs and results
+    #Scenario: Refine page should display the first sort option as relevance and selected by default
   Scenario: Search Refine Single Select
     When Enters dresses to the search field
     And Clicks on search button for input field
@@ -29,50 +32,21 @@ Feature: Search Regression Suite
     When Clicks on gender selector
     Then User is in gender refine array page
     When Refine button is clicked
+    And Category,Size,Color,Price filter refinements should appear
+    Then first sort option is RELEVANCE
+    Then First option RELEVANCE is selected by default
+    Then PRICE: LOW TO HIGH is displayed as sort option
+    Then PRICE: HIGH TO LOW is displayed as sort option
     And Click on Category refinement
     And Select random single option from Category refinement
     Then Verify selected value is displayed next to Category refinement
     Then Verify that Category refinement is closed
-
-  Scenario: Search Refine multi select, single select
-    When Enters dresses to the search field
-    And Clicks on search button for input field
-    Then Gender selectors are displayed
-    And Clicks on gender selector
-    And User is in gender refine array page
-    When Refine button is clicked
     And Click on Size refinement
     When Select xx-small multiple option from Size refinement
     And Verify xx-small value is displayed next to Size refinement
     When Select x-small multiple option from Size refinement
     Then Verify 2 selected value is displayed next to Size refinement
     And Verify Size refinement drawer remains open
-
-  Scenario: Search Refine multi select, multiple selections
-    When Enters dresses to the search field
-    And Clicks on search button for input field
-    Then Gender selectors are displayed
-    When Clicks on gender selector
-    Then User is in gender refine array page
-    When Refine button is clicked
-    And Click on Size refinement
-    When Select xx-small multiple option from Size refinement
-    And Verify xx-small value is displayed next to Size refinement
-    When Select x-small multiple option from Size refinement
-    And Click on Size refinement close drawer icon
-    Then Verify 2 selected value is displayed next to Size refinement
-
-  Scenario: Search Refine Breadcrumbs and results
-    When Enters dresses to the search field
-    And Clicks on search button for input field
-    Then Gender selectors are displayed
-    When Clicks on gender selector
-    Then User is in gender refine array page
-    When Refine button is clicked
-    And Click on Size refinement
-    When Select xx-small multiple option from Size refinement
-    And Verify xx-small value is displayed next to Size refinement
-    When Select x-small multiple option from Size refinement
     And Click on Size refinement close drawer icon
     Then Verify 2 selected value is displayed next to Size refinement
     When Click on done button for refinement filter menu
@@ -95,7 +69,7 @@ Feature: Search Regression Suite
     And Dresses is populated
     When Enters yellow dresses to the search field
     And Hits enter in search field
-    Then Verifies Kylie long dress in silk chiffon product is displayed
+    Then Verifies Petite Nadia long dress in silk chiffon product is displayed
 
   Scenario: Search term should display search array & validate with regular priced product
     When Enters skirts to the search field
@@ -115,17 +89,3 @@ Feature: Search Regression Suite
       | search_term |
       | skirts      |
       | shoes       |
-
-    #US15673_TC02
-  Scenario: Refine page should display the first sort option as relevance and selected by default
-    When Enters dresses to the search field
-    And Clicks on search button for input field
-    Then Gender selectors are displayed
-    When Clicks on gender selector
-    Then User is in gender refine array page
-    When Refine button is clicked
-    And Category,Size,Color,Price filter refinements should appear
-    Then first sort option is RELEVANCE
-    Then First option RELEVANCE is selected by default
-    Then PRICE: LOW TO HIGH is displayed as sort option
-    Then PRICE: HIGH TO LOW is displayed as sort option

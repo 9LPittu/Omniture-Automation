@@ -19,12 +19,16 @@ public class LooksWeLovePage {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(LooksWeLovePage.class);
 
+    @FindBy(id = "tray__list")
+    private WebElement trayList;
+
     public LooksWeLovePage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
     public void selectRandomShopThisLook(String type){
+        logger.debug("Selecting a random shop the look for {}", type);
         WebDriverWait wait = Util.createWebDriverWait(driver);
         type = type.toLowerCase();
         By locator = By.xpath(".");
@@ -39,7 +43,7 @@ public class LooksWeLovePage {
                 break;
             case "girls":
             case "boys":
-                locator = By.xpath("//a[contains(@class,'section-image')]");
+                locator = By.xpath("//div[@id='plusArrayContainer']/div[@class='plus_folder_container']/div/a[@class='mobileShoplookbtn']");
                 break;
             default:
                 logger.debug("Not a valid type to select shop the look buttons...");
@@ -48,6 +52,7 @@ public class LooksWeLovePage {
 
         List<WebElement> buttons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
         if(!clickRandomShopThisLook(buttons)){
+            logger.debug("Selected tray only contained one product, selecting look #0");
             buttons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
             clickShopThisLook(buttons.get(0));
         }
@@ -56,14 +61,16 @@ public class LooksWeLovePage {
     public boolean clickRandomShopThisLook(List<WebElement> buttons){
         int randomIndex = Util.randomIndex(buttons.size());
         WebElement randomShopTheLook = buttons.get(randomIndex);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(randomShopTheLook));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomShopTheLook));
-        randomShopTheLook.click();
+        logger.debug("Picked look #{}", randomIndex);
         Util.waitLoadingBar(driver);
+        Util.scrollToElement(driver,randomShopTheLook);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomShopTheLook));
+        String url = driver.getCurrentUrl();
+        randomShopTheLook.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
 
         //Verify that you have more than one product in tray. If you only have one, then select other tray
-        List<WebElement> items = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("js-tray__item")));
+        List<WebElement> items = trayList.findElements(By.className("js-tray__item"));
         logger.debug("items in tray: {}", items.size());
         if(items.size() == 1){
             driver.navigate().back();

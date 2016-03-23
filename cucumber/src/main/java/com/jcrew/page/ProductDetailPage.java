@@ -194,7 +194,9 @@ public class ProductDetailPage {
     }
 
     public String getSelectedColor() {
-        WebElement productColorElement = driver.findElement(By.id("c-product__price-colors")).findElement(By.className("is-selected"));
+        WebElement productColorContainer = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.id("c-product__price-colors")));
+        WebElement productColorElement = productColorContainer.findElement(By.className("is-selected"));
         return productColorElement.getAttribute("data-name");
     }
 
@@ -208,8 +210,8 @@ public class ProductDetailPage {
     }
 
     public void click_update_cart() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
-        addToBag.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
+        Util.clickWithStaleRetry(addToBag);
     }
 
     public String getSelectedVariationName() {
@@ -240,6 +242,7 @@ public class ProductDetailPage {
         WebElement wishlistConfirmation = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.presenceOfElementLocated(By.className("wishlist-confirmation-text")));
         wishlistConfirmation.findElement(By.tagName("a")).click();
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isSizeSelectorSectionPresent() {
@@ -382,6 +385,8 @@ public class ProductDetailPage {
     }
     
     public void clickMinicartCheckout(){
+        String currentURL = driver.getCurrentUrl();
+
         try {
             minicartCheckout.click();
         } catch (NoSuchElementException noMiniCart){
@@ -389,7 +394,6 @@ public class ProductDetailPage {
             bagContainer.click();
         }
 
-        String currentURL = driver.getCurrentUrl();
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
 }

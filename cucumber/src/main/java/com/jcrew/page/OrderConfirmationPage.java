@@ -4,6 +4,7 @@ import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,6 +31,9 @@ public class OrderConfirmationPage {
 	@FindBy(id = "orderSummaryContainer")
 	private WebElement orderSummaryContainer;
 
+    @FindBy(className = "bizrateBanner")
+    private WebElement bizrateBanner;
+
     public OrderConfirmationPage(WebDriver driver) {
     	this.driver=driver;
         PageFactory.initElements(driver, this);
@@ -42,11 +46,23 @@ public class OrderConfirmationPage {
     public boolean isOrderConfirmationPage() {
         if(!isProduction) {
             Util.waitWithStaleRetry(driver, confirmationNumber);
+            closeBizRateBanner();
             return confirmationNumber.isDisplayed();
         } else {
             logger.debug("waving step in production environment");
             return true;
         }
+    }
+
+    public void closeBizRateBanner(){
+         try{
+            if(bizrateBanner.isDisplayed()){
+                WebElement close = bizrateBanner.findElement(By.id("xButton"));
+                close.click();
+            }
+         }catch(NoSuchElementException noBizRateBanner){
+            logger.debug("Biz Rate Banner not displayed");
+         }
     }
     
     public boolean verifyOrderNumberGenerated(){

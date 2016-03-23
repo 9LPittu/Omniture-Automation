@@ -12,14 +12,14 @@
 
     #US15510_TC01, US15510_TC02, US15510_TC03, US15510_TC06
     Scenario: Verify basic initial state for shoppable tray
+      Then Breadcrumb should display J.Crew
+      Then Verify all header items are correctly displayed
+      Then Verify all footer items are visible
       Then Verifies multiple pdp page contains pagination
       Then Verifies initial multiple pdp page state
       And User clicks last product in multiple pdp page
       Then Verifies next item arrow is disabled
       Then Verifies previous item arrow is enabled
-      Then Breadcrumb should display J.Crew
-      Then Verify all header items are correctly displayed
-      Then Verify all footer items are visible
 
     #US15510_TC04, US15510_TC05
     Scenario: Verify next and previous buttons functionality
@@ -56,6 +56,8 @@
       Then Verify every product contains product, size and fit and review drawers
 
     #US9881_TC14
+    #JCSC-828
     Scenario: Verify URL support preselected colors for items
       And Selects color for every item and visits URL
       Then Verify tray has selected colors as default
+      And Deletes browser cookies

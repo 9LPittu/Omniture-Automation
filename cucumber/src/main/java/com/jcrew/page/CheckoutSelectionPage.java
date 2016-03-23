@@ -33,6 +33,8 @@ public class CheckoutSelectionPage {
     public void selects_to_checkout_as_guest() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutAsGuestLink));
         checkoutAsGuestLink.click();
+        Util.waitLoadingBar(driver);
+        Util.waitForPageFullyLoaded(driver);
     }
 
     public void set_username_and_password() {

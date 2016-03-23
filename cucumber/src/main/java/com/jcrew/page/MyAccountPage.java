@@ -1,11 +1,10 @@
 package com.jcrew.page;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,15 +12,22 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MyAccountPage {
 
     private final WebDriver driver;
+    private final Logger logger = LoggerFactory.getLogger(MyAccountPage.class);
 
     @FindBy(id = "main_inside")
     private WebElement myAccountContainer;
 
     @FindBy(id = "main_cont")
     private WebElement myAccountContent;
+
+    @FindBy (id = "containerBorderLeft")
+    private WebElement myAccountRightContent;
 
     public MyAccountPage(WebDriver driver) {
         this.driver = driver;
@@ -51,7 +57,14 @@ public class MyAccountPage {
     public void click_menu_link(String link) {
         WebElement menu = getMenuLink(link);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
-        menu.click();
+        Util.clickWithStaleRetry(menu);
+
+        if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card balance')]"))));
+        }
+        else{
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        }
     }
 
     public boolean isInMenuLinkPage(String page) {
@@ -67,38 +80,38 @@ public class MyAccountPage {
     }
     
     public void deleteNonDefaultAddresses(){
-    	try{
-    		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-    		List<WebElement> deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        	while(deleteButtons.size()>=2){    		
-        		deleteButtons.get(1).click();
-        		
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.alertIsPresent());
-        		Alert alert = driver.switchTo().alert();        		
-        		alert.accept();
-        		
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
-        		deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(deleteButtons));
-        	}
-    	}
-    	catch(Exception e){
-    		driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+
+    	if(!propertyReader.getProperty("browser").equalsIgnoreCase("phantomjs")){
+	        List<WebElement> tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+	
+	        while(tables.size() > 2){
+	            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+                //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
+                String url = deleteButton.getAttribute("href");
+                driver.get(url);
+	
+	            tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+	        }
     	}
     }
     
     public void deleteNonDefaultCreditCards(){
-    	try{
-    		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-    		List<WebElement> deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        	while(deleteButtons.size()>=2){    		
-        		deleteButtons.get(1).click();        		
-        		deleteButtons = driver.findElements(By.xpath("//a[text()='DELETE']"));
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(deleteButtons));
-        	}
-    	}
-    	catch(Exception e){
-    		driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+
+    	if(!propertyReader.getProperty("browser").equalsIgnoreCase("phantomjs")){
+	    	List<WebElement> tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
+	
+	        while(tables.size() > 2){
+	            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+                //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
+                String url = deleteButton.getAttribute("href");
+                driver.get(url);
+
+	            tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
+	        }
     	}
     }
 }

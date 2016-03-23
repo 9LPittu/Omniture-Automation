@@ -115,6 +115,7 @@ public class SalePage {
 
     public boolean isSalePageDisplayed(){
         Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleHeader));
         return saleHeader.isDisplayed();
     }
@@ -378,14 +379,16 @@ public class SalePage {
         String currentPageFirstItemName = arrayPageItemNames.get(0).getText();
         String firstPageFirstItemName = (String) stateHolder.get("firstPageItemName");
 
-        System.out.println("Current Page Item:" + currentPageFirstItemName);
-        System.out.println("First Page Item:" + firstPageFirstItemName);
+        logger.debug("Current Page Item: {}", currentPageFirstItemName);
+        logger.debug("First Page Item: {}", firstPageFirstItemName);
 
         return !currentPageFirstItemName.equalsIgnoreCase(firstPageFirstItemName);
     }
 
     public void clickSaleLinkFromTopNav(String dept) {
+        String url = driver.getCurrentUrl();
         driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '"+dept+"']")).click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         Util.waitLoadingBar(driver);
     }
 
@@ -436,7 +439,7 @@ public class SalePage {
                             saleCategory + "']"));
             return secondPromoLink.isDisplayed();
         }catch (NoSuchElementException e) {
-            logger.debug("the second promo ",link," link is not found");
+            logger.debug("the second promo {} link is not found", link);
             return true;
         }
     }
@@ -450,7 +453,8 @@ public class SalePage {
                             saleCategory + "']"));
             secondPromoLink.click();
         }catch (NoSuchElementException e) {
-            logger.debug("the link ",link, " cannot be clicked as it is not found");
+            logger.debug("the link {} cannot be clicked as it is not found", link);
+            clickOnSaleDept(link);
 
         }
     }

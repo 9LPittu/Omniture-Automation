@@ -80,6 +80,7 @@ public class LoginPage {
     }
 
     public void enter_valid_username_and_password() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         PropertyReader reader = PropertyReader.getPropertyReader();
         input_as_email(reader.getProperty("checkout.signed.in.username"));
         input_as_password(reader.getProperty("checkout.signed.in.password"));
@@ -137,10 +138,13 @@ public class LoginPage {
     }
 
     public void click_forgot_password_link() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(signInForm));
         WebElement forgotPasswordLink = signInForm.findElement(By.linkText("I forgot my password!"));
         Util.createWebDriverWait(driver).until(
                 ExpectedConditions.elementToBeClickable(forgotPasswordLink));
-         forgotPasswordLink.click();
+        String url = driver.getCurrentUrl();
+        forgotPasswordLink.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
 
     public boolean isPageLoaded() {

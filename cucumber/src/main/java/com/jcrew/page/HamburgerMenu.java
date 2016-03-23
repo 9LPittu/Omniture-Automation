@@ -2,10 +2,7 @@ package com.jcrew.page;
 
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -51,6 +48,8 @@ public class HamburgerMenu {
 
     public void click_on_hamburger_menu() {
         WebDriverWait wait = Util.createWebDriverWait(driver);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        Util.waitWithStaleRetry(driver,hamburgerMenu);
         wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
         Util.clickWithStaleRetry(hamburgerMenu);
         wait.until(ExpectedConditions.visibilityOf(categoryMenu));
@@ -83,7 +82,15 @@ public class HamburgerMenu {
     }
 
     public void click_on_category(String category) {
+        String url = driver.getCurrentUrl();
+
         getCategory(category).click();
+
+        if("sale".equalsIgnoreCase(category)){
+            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        } else {
+            Util.waitLoadingBar(driver);
+        }
     }
 
     private WebElement getCategory(String category) {
@@ -111,6 +118,7 @@ public class HamburgerMenu {
     }
 
     public void click_on_sale_subcategory(String subcategory) {
+        Util.waitLoadingBar(driver);
         getSubcategoryFromSale(subcategory).click();
         stateHolder.put("sale category", subcategory);
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("search"));
@@ -129,6 +137,7 @@ public class HamburgerMenu {
     }
 
     private WebElement getSubcategoryFromSale(String subcategory) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleCategoryList));
         return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
                 Util.xpathGetTextLower + " = " +
                 "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
@@ -174,16 +183,9 @@ public class HamburgerMenu {
         subcategory.click();
     }
 
-    public String getSignInMessage() {
-        String result;
-        if (categoryMenu.isDisplayed()) {
-            result = signInLink.getText();
-        } else {
-            Util.waitLoadingBar(driver);
-            click_on_hamburger_menu();
-            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInLinkFromHamburger));
-            result = signInLinkFromHamburger.getText();
-        }
-        return result;
+    public boolean isUserSignedIn() {
+        Cookie user = driver.manage().getCookieNamed("user_id");
+
+        return user != null;
     }
 }

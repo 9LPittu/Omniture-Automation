@@ -56,6 +56,9 @@ public class Footer {
     
     @FindBy(className="footer__header--social")
     private WebElement socialSharingHeader;
+
+    @FindBy(id = "global__footer")
+    private WebElement footerSection;
      
     public Footer(WebDriver driver) {
         this.driver = driver;
@@ -75,6 +78,10 @@ public class Footer {
         return result;
     }
 
+    public boolean isFooterSectionDisplayed() {
+        return footerSection.isDisplayed();
+    }
+
     private WebElement getFooterLinkElement(String footerLink) {
         Util.waitWithStaleRetry(driver,footerWrapMain);
         try {
@@ -87,24 +94,20 @@ public class Footer {
 
     public void click_to_open_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
-        try {
-            if ((fLink.findElement(By.className("icon-see-more"))).isDisplayed())
-                Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
-        } catch (NoSuchElementException e) {
-            logger.debug("footer drawer already open");
-        }
+        WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
+        String parentClass = fLinkParent.getAttribute("class");
 
+        if (!parentClass.contains("is-expanded"))
+            fLink.click();
     }
 
     public void click_to_close_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
-        try {
-            if ((fLink.findElement(By.className("icon-see-less"))).isDisplayed())
-                Util.clickWithStaleRetry(getFooterLinkElement(footerLink));
-        } catch (NoSuchElementException e) {
-            logger.debug("footer drawer already closed");
-        }
+        WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
+        String parentClass = fLinkParent.getAttribute("class");
 
+        if (parentClass.contains("is-expanded"))
+            fLink.click();
     }
 
 
@@ -257,8 +260,9 @@ public class Footer {
     
     public void clickSocialSharingIcon(String socialSharingIconName){
         String currentURL = driver.getCurrentUrl();
-    	WebElement socialSharingIcon = driver.findElement(By.xpath("//ul[@class='footer__social__menu']/" +
-                "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]"));
+    	WebElement socialSharingIcon = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='footer__social__menu']/" +
+                "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]")));
     	socialSharingIcon.click();
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
@@ -333,20 +337,10 @@ public class Footer {
     }
     
     public boolean isContentGroupingDrawerClosed(String contentGroupingName){
-    	
-    	boolean isDrawerClosed = false;
-    	
-    	try{
-    		//here intentionally using implicit wait & WebDriverWait rather than using Util method to minimize the execution duration
-    		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-    		new WebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div[contains(@class,'is-expanded')]"))));
-    		isDrawerClosed = false;
-    	}
-    	catch(Exception e){
-    		isDrawerClosed = true;
-    	}
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	return isDrawerClosed;
+
+    	WebElement drawer = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div"));
+        String drawerClass = drawer.getAttribute("class");
+
+        return !drawerClass.contains("is-expanded");
     }
 }

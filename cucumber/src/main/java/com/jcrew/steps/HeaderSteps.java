@@ -122,4 +122,14 @@ public class HeaderSteps extends DriverFactory {
     public void verify_header_is_correctly_displayed() {
         assertTrue("All menu items are displayed",header.isAllMenuItemsDisplayed());
     }
+
+    @Then("Verify bag button link$")
+    public void verify_bag_button_link() {
+        assertTrue("Verify bag link", header.getBagButtonLink().contains("/checkout2/shoppingbag.jsp?sidecar=true"));
+    }
+
+    @Then("Verify stores button link$")
+    public void verify_stores_button_link() {
+        assertTrue("Verify stores link", header.getStoresButtonLink().contains("stores.jcrew.com/"));
+    }
 }

@@ -1,8 +1,9 @@
 @Account
-Feature: Account
+Feature: Sign In Page
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
     And Goes to sign in page
 
   Scenario: Error message validation for incorrect email and password
@@ -17,8 +18,16 @@ Feature: Account
 
   # TODO: incomplete; script need to be updated for validation
 
-  Scenario: Create New Account
-    When Clicks on create new account
-    And Fills required account data in create account page
-    And Clicks on create new account in create account page
-    Then Verify user is in homepage
+  #US9724_TC10, US9724_TC11: Validate breadcrumbs functionality and display on sign in/ register for email page
+#  Scenario: Create New Account
+#    Then Breadcrumb should display J.Crew
+#    And Clicks on J.Crew Breadcrumb
+#    And Verify user is in homepage
+#    And User presses back button
+#    When Clicks on create new account
+#    And Fills required account data in create account page
+#    And Clicks on create new account in create account page
+#    Then Verify user is in homepage
+#    And Deletes browser cookies
+
+

@@ -1,0 +1,32 @@
+{
+  "capabilities": [
+    {
+      "browserName": "chrome",
+      "version": "5.1.1",
+      "maxInstances": 1,
+      "platform": "ANDROID",
+      "platformName": "Android",
+      "platformVersion": "5.0.1",
+      "deviceName": "1115fb7ac6b00f05",
+      "udid": "1115fb7ac6b00f05"
+    }
+  ],
+  "configuration": {
+    "nodeTimeout": 240,
+    "cleanUpCycle": 2000,
+    "timeout": 4000000,
+    "browserTimeout": 200000,
+    "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+    "url": "http://10.20.44.101:4720/wd/hub",
+    "maxSession": 5,
+    "port": 4720,
+    "host": "10.20.44.101",
+    "register": true,
+    "registerCycle": 5000,
+    "hub": "http://nyc-wdevtool-03:4444/grid/register",
+    "hubPort": 4444,
+    "hubHost": "nyc-wdevtool-03",
+    "role": "node",
+    "udid": "1115fb7ac6b00f05"
+  }
+}

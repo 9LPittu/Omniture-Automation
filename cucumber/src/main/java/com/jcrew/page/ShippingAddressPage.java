@@ -98,6 +98,7 @@ public class ShippingAddressPage {
 
     public void presses_continue_button_on_shipping_address() {
         continueCheckout.click();
+        Util.waitForPageFullyLoaded(driver);
     }
 
     public String getSelectedCityAndState() {
@@ -143,10 +144,12 @@ public class ShippingAddressPage {
     }
     
     public void clickAddNewShippingAddress(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewShippingAddress));
     	addNewShippingAddress.click();
     }
     
     public void enterFirstNameOnNewShippingAddressForm(){
+        Util.waitWithStaleRetry(driver, addNewShippingAddress_FirstName);
     	addNewShippingAddress_FirstName.sendKeys(faker.name().firstName());
     }
     
@@ -181,7 +184,8 @@ public class ShippingAddressPage {
     }
     
     public void clickUseAddressAsEnteredButton(){
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(checkYourAddress_UseAddressAsEntered));
+        Util.waitForPageFullyLoaded(driver);
+        Util.waitWithStaleRetry(driver,checkYourAddress_UseAddressAsEntered);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	Util.clickWithStaleRetry(checkYourAddress_UseAddressAsEntered);
     }

@@ -1,9 +1,11 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Product;
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -35,6 +37,8 @@ public class MultiplePdpPage {
     private WebElement addToBagButton;
     @FindBy (id = "btn__wishlist")
     private WebElement addToWishlistButton;
+    @FindBy (id = "c-product__sizes")
+    private WebElement divSizes;
 
     private WebElement header;
     private List<WebElement> products = null;
@@ -118,7 +122,7 @@ public class MultiplePdpPage {
             WebElement product = products.get(i);
             String productClass = product.getAttribute("class");
             if(productClass.contains("is-selected")){
-                return i + 1;
+                return i;
             }
         }
 
@@ -159,8 +163,19 @@ public class MultiplePdpPage {
 
     public void clickPrevious() {
         stateHolder.put("shoppableTrayProduct", article);
-        WebElement previousLink = previous.findElement(By.tagName("a"));
-        previousLink.click();
+        String url = driver.getCurrentUrl();
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        String browser = reader.getProperty("browser");
+
+        if("androidchrome".equals(browser)){
+            previous.click();
+        } else {
+            WebElement previousLink = previous.findElement(By.tagName("a"));
+            wait.until(ExpectedConditions.visibilityOf(previousLink));
+            previousLink.click();
+        }
+
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         loadNavigation();
     }
 
@@ -197,25 +212,26 @@ public class MultiplePdpPage {
         detailsCheck &= detail.isDisplayed();
 
         //contains COLOR SWATCHES
-        detail = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//ul[@class='product__colors colors-list']")));
+        detail = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//ul[@class='product__colors colors-list']")));
         detailsCheck &= detail.isDisplayed();
 
         //contains SIZES OPTIONS
-        detail = article.findElement(By.className("sizes-list"));
+        detail = divSizes.findElement(By.className("sizes-list"));
         detailsCheck &= detail.isDisplayed();
 
         //contains SIZES & FIT DETAILS (available only when containing more than one size
         List<WebElement> sizes = detail.findElements(By.tagName("li"));
         if(sizes.size() > 1) {
-            detail = article.findElement(By.className("js-link__size-fit"));
+            detail = divSizes.findElement(By.className("js-link__size-fit"));
             detailsCheck &= detail.isDisplayed();
         }
 
         //contains price
-        //get variations number
-        List<WebElement> variationsType = article.findElements(By.xpath(".//li[contains(@class,'js-product__variation')]"));
+        if(hasVariations()){
+            //get variations number
+            List<WebElement> variationsType = article.findElements(By.xpath(".//li[contains(@class,'js-product__variation')]"));
 
-        if(variationsType.size() > 0){
+
             for(int i = 1; i < variationsType.size(); i++) {
                 //get price of current variation
                 detail = wait.until(ExpectedConditions.presenceOfElementLocated(
@@ -479,5 +495,17 @@ public class MultiplePdpPage {
         }
 
         return result;
+    }
+
+    private boolean hasVariations(){
+        try{
+            WebElement variations = driver.findElement(By.xpath("//section[@id='c-product__details']/div[@id='c-product__variations']/div/div/div[@class='variations-list-wrap']/menu"));
+            logger.debug("Variations: {}", variations.getText());
+            return true;
+
+        }catch (NoSuchElementException noVariations){
+            logger.debug("Product does not contain variations");
+            return false;
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -141,13 +142,16 @@ public class BillingPage {
     }
 
     public boolean isBillingPage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
         return creditCardBilling.isDisplayed();
     }
     
     public void enterCreditCardDetails(String cardName){
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	String creditCardDetails = testDataReader.getData(cardName);   	
+    	String creditCardDetails = testDataReader.getData(cardName);
+
+        Util.waitWithStaleRetry(driver,creditCardNumber);
 
     	//Enter credit card number
     	creditCardNumber.sendKeys(creditCardDetails.split(";")[0]);
@@ -172,6 +176,7 @@ public class BillingPage {
     }
     
     public void clickAddNewCardOnBillingPage(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewCardOnBillingPage));
     	addNewCardOnBillingPage.click();
     }
     
@@ -184,7 +189,7 @@ public class BillingPage {
     }
     
     public void selectCountryOnNewBillingAddressForm(String country){
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addNewBillingAddress_Country));
+        Util.waitWithStaleRetry(driver,addNewBillingAddress_Country);
     	Select list = new Select(addNewBillingAddress_Country);
     	list.selectByVisibleText(country);
     }

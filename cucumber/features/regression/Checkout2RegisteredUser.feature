@@ -3,7 +3,8 @@ Feature: Registered User Checkout Process
 
   Background:
     #below steps removes items from the bag
-    Given User is on homepage
+    Given User is on homepage with clean session
+    And Handle the Email Capture pop up
     And Goes to sign in page
     When User enters testuser1@example.org as email
     And User enters test1234 as password
@@ -13,7 +14,7 @@ Feature: Registered User Checkout Process
     #below steps deletes the non-default credit cards 
     And User is on homepage
     And User clicks on hamburger menu
-	When User clicks on My Account link
+    When User clicks on My Account link
     And User clicks on PAYMENT METHODS link in My Account Page
     And delete non-default credit cards
     And User clicks on SIGN OUT link in My Account Page
@@ -40,7 +41,6 @@ Feature: Registered User Checkout Process
     And Selects Women Category from hamburger menu
     And User clicks on BLAZERS subcategory from Women Category
     And Selects the first product with regular price from product grid list
-    #And Selects the first product from product grid list
     And User is in product detail page
     And product name and price should match with array page
     And A color is selected
@@ -63,6 +63,7 @@ Feature: Registered User Checkout Process
     Then Clicks on place your order
     Then User should be in order confirmation page
     And verify order number is generated
+    And Deletes browser cookies
   
   Scenario: Registered user adding new credit card with existing address
     And User is on homepage
@@ -96,3 +97,4 @@ Feature: Registered User Checkout Process
     Then Clicks on place your order
     Then User should be in order confirmation page
     And verify order number is generated
+    And Deletes browser cookies

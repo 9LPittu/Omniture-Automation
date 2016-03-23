@@ -39,8 +39,10 @@ Feature: Edit Product In Bags Scenarios
     And Verify color VINTAGE ELM is displayed in shopping bag
     And Verify size SMALL is displayed in shopping bag
     And Verify 1 items are specified as quantity in shopping bag
+    And Deletes browser cookies
 
   Scenario: signed in Edit link redirects user to PDP
+    And Handle the Email Capture pop up
     When Goes to sign in page
     And User provides login information
     And Hits sign in button
@@ -59,3 +61,4 @@ Feature: Edit Product In Bags Scenarios
     And Clicks edit button on item bag page
     Then Verify color VINTAGE ELM is selected
     And Verify size SMALL is selected
+    And Deletes browser cookies

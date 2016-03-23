@@ -44,6 +44,7 @@ public class Header {
     }
 
     public boolean isHeaderLinkPresent(String headerLink) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
         Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(headerWrap.findElement(By.linkText(headerLink))));
 
@@ -110,11 +111,15 @@ public class Header {
     }
 
     public void click_jcrew_logo() {
-        Util.clickWithStaleRetry(headerLogo);
         Util.waitLoadingBar(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        Util.clickWithStaleRetry(headerLogo);
     }
 
     public void click_on_search_button() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(searchButton));
         searchButton.click();
     }
@@ -142,11 +147,9 @@ public class Header {
 
     public void click_breadcrumb(String breadcrumb) {
         Util.waitWithStaleRetry(driver,breadcrumbSection);
-        WebElement breadcrumbElement = breadcrumbSection.findElement(
-                By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(breadcrumbElement));
-        Util.clickWithStaleRetry(breadcrumbElement);
-        Util.waitLoadingBar(driver);
+        WebElement breadcrumbElement = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']")));
+        breadcrumbElement.click();
     }
 
     public boolean isGenderLandingPage(String gender){
@@ -177,5 +180,14 @@ public class Header {
         }
 
         return result;
+    }
+
+    public String getBagButtonLink(){
+        return shoppingBagLink.getAttribute("href");
+    }
+
+    public String getStoresButtonLink(){
+        WebElement stores = driver.findElement(By.cssSelector(".primary-nav__item--stores > .primary-nav__link"));
+        return stores.getAttribute("href");
     }
 }

@@ -84,8 +84,10 @@ public class WishlistPage {
     }
 
     private WebElement getProductData(String productName) {
-        return driver.findElement(By.xpath("//div[@data-itemtitle='" +
-                productName + "']"));
+        WebElement data = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@data-itemtitle='" +
+                productName + "']")));
+        return data;
     }
 
     public void click_home_icon() {
