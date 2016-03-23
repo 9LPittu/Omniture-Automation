@@ -133,9 +133,11 @@ public class StartingSteps {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
                 deletes_browser_cookies();
-            } catch (Exception e){
-                logger.error("An exception happened when taking step screenshot after scenario", e);
-                driverFactory.resetDriver();
+            } catch (RuntimeException e){
+                if(!e.getMessage().contains("TypeError: d.style is undefined")) {
+                    logger.error("An exception happened when taking step screenshot after scenario", e);
+                    driverFactory.resetDriver();
+                }
             }
         }
 
