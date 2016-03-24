@@ -346,6 +346,7 @@ public class MultiplePdpPage {
         } else {
             logger.debug("Not able to add somewhere...");
         }
+       
     }
 
     private void waitForBag(String items){

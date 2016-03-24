@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.Header;
 import com.jcrew.page.HomePage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.PropertyReader;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
@@ -13,6 +14,7 @@ public class HomePageSteps extends DriverFactory {
 
     private final HomePage homePage = new HomePage(getDriver());
     private final Header header = new Header(getDriver());
+    private final PropertyReader reader = PropertyReader.getPropertyReader();
 
 
     @Then("^JCrew Logo is present$")
@@ -56,10 +58,13 @@ public class HomePageSteps extends DriverFactory {
     }
 
     @And("^Close the email pop up")
-     public void close_email_pop_up_if_exists() {
+    public void close_email_pop_up_if_exists() {
+        String browser = reader.getProperty("browser");
+        if (!browser.equalsIgnoreCase("phantomjs")) {
             assertTrue("e-mail pop up not displayed", homePage.isEmailPopUpDisplayed());
-         homePage.close_email_pop_up();
+            homePage.close_email_pop_up();
         }
+    }
 
      @And("Handle the Email Capture pop up$")
      public void handle_email_pop_up() {
@@ -75,8 +80,11 @@ public class HomePageSteps extends DriverFactory {
 
      @And("Enter the valid email address and submit")
      public void enter_email_address_in_the_email_capture_pop_up() {
-         homePage.enter_email_address();
-         homePage.click_on_the_arrow_button_to_submit();
+         String browser = reader.getProperty("browser");
+         if (!browser.equalsIgnoreCase("phantomjs")) {
+             homePage.enter_email_address();
+             homePage.click_on_the_arrow_button_to_submit();
+         }
      }
 
     @And("^Verify page source contains ([^\"]*)$")
