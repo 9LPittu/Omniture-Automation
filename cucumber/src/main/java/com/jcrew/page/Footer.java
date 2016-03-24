@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
@@ -244,14 +245,10 @@ public class Footer {
     }
 
     public boolean isRegionDisplayed(String region) {
-        //WebElement contextColumn  = driver.findElement(By.className("context-chooser__column"));
-        List<WebElement> regionElements = driver.findElements(By.className("js-wrap"));
-        for(WebElement regionElement:regionElements) {
-            if (regionElement.getText().equals(region)){
-            	return true;
-            }
-        }
-        return false;
+
+    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
+    	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + region + "']"));    	
+    	return regionHeader.isDisplayed();
     }
 
     public void clickChangeLinkInFooter(){
@@ -370,9 +367,15 @@ public class Footer {
     }
     
     public boolean isCountriesDisplayedCorrectlyUnderRegion(String region){
-    	    	
-    	WebElement regionHeader = driver.findElement(By.xpath("//h5[text()='" + region + "']"));
-    	regionHeader.click();
+    	
+    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
+    	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + region + "']"));
+    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String browser = propertyReader.getProperty("browser");
+    	if(browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari")){
+    		regionHeader.click();
+    	}
     	
     	String propertyName = null;
     	switch(region){
@@ -397,30 +400,55 @@ public class Footer {
     	String countries = dataReader.getData(propertyName);
     	String[] arrCountries = countries.split(";");
     	
-    	String countriesDisplayed = "";
-    	String countriesMissing = "";
+    	List<String> countriesDisplayed = new ArrayList<String>();
+    	List<String> countriesMissing = new ArrayList<String>();
+    	
     	for(String country:arrCountries){
-    		WebElement appCountry = driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"
-    				                                            + "/ul/li/a/span[@class='context-chooser__item--country' and "
-    				                                            + Util.xpathGetTextLower + "='" + country.toLowerCase() + "']"));
-    		if(appCountry.isDisplayed()){
-    			countriesDisplayed = countriesDisplayed + country + ",";
+    		WebElement appCountry = null;
+    		boolean isCountryDisplayed = false;
+    		
+    		try{
+    			if(browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari")){
+		    		appCountry = driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"
+				                                              + "/ul/li/a/span[@class='context-chooser__item--country' and "
+				                                              + Util.xpathGetTextLower + "='" + country.toLowerCase() + "']"));
+    			}
+    			else{
+    				appCountry = driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser')]"
+                            								  + "/ul/li/a/span[@class='context-chooser__item--country' and "
+                                                              + Util.xpathGetTextLower + "='" + country.toLowerCase() + "']"));
+    			}
+	    		
+	    		isCountryDisplayed = appCountry.isDisplayed();
+    		}
+    		catch(NoSuchElementException nsee){
+    			isCountryDisplayed = false;
+    		}
+    		
+    		if(isCountryDisplayed){
+    			countriesDisplayed.add(country);
     		}
     		else{
-    			countriesMissing = countriesMissing + country + ",";
-    		}    			
+    			countriesMissing.add(country);
+    		}
     	}
     	
     	if(countriesMissing.isEmpty()){
-    		logger.info("For region '{}', countries displayed are: {}", region, countriesDisplayed.substring(0, countriesDisplayed.length() - 1));
-    		
+    		logger.info("For region '{}', countries displayed are: {}", region, countriesDisplayed.toString());
     	}
     	else{
-    		logger.error("For region '{}', countries missing are: {}", region, countriesMissing.substring(0, countriesMissing.length() - 1));
+    		logger.debug("For region '{}', countries displayed are: {}", region, countriesDisplayed.toString());
+    		logger.error("For region '{}', countries missing are: {}", region, countriesMissing.toString());
     	}
     	
-    	boolean isDrawerOpened = driver.findElement(By.xpath("//div[@class='context-chooser__column']/div/h5[text()='" + region  + "']/i[@class='js-icon icon-see-less']")).isDisplayed();
-    	
+    	boolean isDrawerOpened = false;
+    	if(browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari")){
+    		isDrawerOpened = driver.findElement(By.xpath("//div[@class='context-chooser__column']/div/h5[text()='" + region  + "']/i[@class='js-icon icon-see-less']")).isDisplayed();
+    	}
+    	else{
+    		isDrawerOpened = true;
+    	}
+    		
     	return countriesMissing.isEmpty() && isDrawerOpened;
     }
 }
