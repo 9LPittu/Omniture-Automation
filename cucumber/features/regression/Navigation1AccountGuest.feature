@@ -57,7 +57,7 @@ Feature: Sign In Page
     Then Error message This email id is already registered with us. Please sign-in. is displayed
 
 
-  US9890_TC06, US9890_TC07,US9890_TC08,US9890_TC09
+  #US9890_TC06, US9890_TC07,US9890_TC08,US9890_TC09
   Scenario: User registration section should have country selection listbox
     And Country selection list box is displayed
     And United States is selected as default value
