@@ -354,10 +354,16 @@ public class SearchPage {
     @SuppressWarnings("unchecked")
 	public void selectRandomOptionFromSizeRefinement(){
     	
+    	if(sizeRefinementOptions.size()==0){
+    		logger.error("There are no sizes to be selected");
+    		throw new NoSuchElementException("There are no sizes to be selected");
+    	}
+    	
     	int randomNum = Util.randomIndex(sizeRefinementOptions.size());
-    	sizeRefinementOptions.get(randomNum).click();
+    	WebElement sizeElement = sizeRefinementOptions.get(randomNum);
+    	String selectedSizeRefinementOption = sizeElement.getAttribute("data-label").toLowerCase();
+    	sizeElement.click();
     	Util.waitLoadingBar(driver);
-    	String selectedSizeRefinementOption = sizeRefinementOptions.get(randomNum).getAttribute("data-label").toLowerCase();
     	
     	List<String> selectedSizeRefinementOptions = new ArrayList<String>();
     	
