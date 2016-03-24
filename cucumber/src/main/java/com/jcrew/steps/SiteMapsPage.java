@@ -10,6 +10,9 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -29,22 +32,20 @@ public class SiteMapsPage {
         this.driver = driver;
     }
 
-    public List<String> getSiteMapsToCheck() {
+    public List<String> getSiteMapsToCheck(InputStream stream) {
         xstream.processAnnotations(SitemapIndex.class);
         Pattern countryContextPattern = Pattern.compile("https://www.jcrew.com/" +
                 "\\p{javaLowerCase}{2}/[\\p{javaLowerCase}{2}\\p{Punct}]*\\p{javaLowerCase}{2}-sitemap.xml");
         List<String> siteMapsUrls = new ArrayList<>();
 
-        String source = driver.getPageSource();
-
-        SitemapIndex index = (SitemapIndex) xstream.fromXML(source);
+        SitemapIndex index = (SitemapIndex) xstream.fromXML(stream);
         List<SiteMap> siteMapList = index.getSitemap();
 
-        for (SiteMap siteMap: siteMapList) {
+        for (SiteMap siteMap : siteMapList) {
             String loc = siteMap.getLoc();
             Matcher countryMatcher = countryContextPattern.matcher(loc);
 
-            if(!countryMatcher.matches()){
+            if (!countryMatcher.matches()) {
                 siteMapsUrls.add(loc);
             }
 
@@ -60,31 +61,34 @@ public class SiteMapsPage {
         xstream.ignoreUnknownElements();
         List<String> urlsList = new ArrayList<>();
 
-        for(String sitemap:sitemapList){
-            logger.debug("Getting URLs from {} map", sitemap);
-            driver.get(sitemap);
-            String source = driver.getPageSource();
+        try {
+            for (String sitemap : sitemapList) {
+                logger.debug("Getting URLs from {} map", sitemap);
+                InputStream stream = new URL(sitemap).openStream();
 
-            UrlSet set = (UrlSet) xstream.fromXML(source);
+                UrlSet set = (UrlSet) xstream.fromXML(stream);
 
-            List<Url> urlsInMap = set.getUrlList();
-            List<String> productURL = new ArrayList<>();
+                List<Url> urlsInMap = set.getUrlList();
+                List<String> productURL = new ArrayList<>();
 
-            if(urlsInMap != null) {
-                for (Url url : urlsInMap) {
-                    String urlToVisit = url.getLoc();
-                    if(urlToVisit.contains("PRDOVR~") || urlToVisit.contains("PRD~")){
-                        productURL.add(urlToVisit);
-                    } else {
-                        urlsList.add(urlToVisit);
+                if (urlsInMap != null) {
+                    for (Url url : urlsInMap) {
+                        String urlToVisit = url.getLoc();
+                        if (urlToVisit.contains("PRDOVR~") || urlToVisit.contains("PRD~")) {
+                            productURL.add(urlToVisit);
+                        } else {
+                            urlsList.add(urlToVisit);
+                        }
+                    }
+
+                    //random product URL
+                    if (productURL.size() > 0) {
+                        urlsList.add(productURL.get(Util.randomIndex(productURL.size())));
                     }
                 }
-
-                //random product URL
-                if(productURL.size() > 0) {
-                    urlsList.add(productURL.get(Util.randomIndex(productURL.size())));
-                }
             }
+        } catch(IOException e){
+            logger.error("Not able to open stream to sitemap");
         }
 
         logger.debug("Found {} urls", urlsList.size());
@@ -94,12 +98,12 @@ public class SiteMapsPage {
     public List<String> checkVariableInUrlList(List<String> urlsList, String variable) {
         List<String> urlsWithNoVariableValue = new ArrayList<>();
 
-        for(String url:urlsList){
+        for (String url : urlsList) {
             //TODO replace the url with the environment under test
             driver.get(url);
             Util.waitForPageFullyLoaded(driver);
-            String value = Util.getPageVariableValue(driver,variable);
-            if(value == null || value.isEmpty()){
+            String value = Util.getPageVariableValue(driver, variable);
+            if (value == null || value.isEmpty()) {
                 logger.error("{} contains an empty {}", url, variable);
                 urlsWithNoVariableValue.add(url);
             }

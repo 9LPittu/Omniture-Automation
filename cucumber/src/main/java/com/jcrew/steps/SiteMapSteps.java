@@ -1,9 +1,15 @@
 package com.jcrew.steps;
 
 import com.jcrew.util.DriverFactory;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +20,31 @@ import static org.junit.Assert.*;
  */
 public class SiteMapSteps extends DriverFactory {
 
+    private final Logger logger = LoggerFactory.getLogger(StartingSteps.class);
     private final SiteMapsPage sitemap = new SiteMapsPage(getDriver());
+    private InputStream sitemapIndexInputStream = null;
 
     List<String> sitemapList = new ArrayList<String>();
     List<String> urlsList = new ArrayList<String>();
 
+
+
+    @Given("^User opens stream to ([^\"]*) page$")
+    public void userGoesSitemapIndexXmlPage(String page) {
+        try {
+            sitemapIndexInputStream = new URL(page).openStream();
+        } catch (IOException e) {
+            logger.error("Not able to open Stream!", e);
+        }
+    }
+
     @When("^Select sitemaps to check$")
-    public void select_pages_to_check(){
-        sitemapList = sitemap.getSiteMapsToCheck();
+    public void select_sitemaps_to_check(){
+        if(sitemapIndexInputStream != null) {
+            sitemapList = sitemap.getSiteMapsToCheck(sitemapIndexInputStream);
+        } else {
+            logger.error("To use \"Select sitemaps to check\" step you need to initialize the sitemapIndex stream");
+        }
     }
 
     @When("^Select urls to check$")
