@@ -1,7 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.omniture.SiteMap;
-import com.jcrew.omniture.Sitemapindex;
+import com.jcrew.omniture.SitemapIndexXML;
 import com.jcrew.omniture.Url;
 import com.jcrew.omniture.UrlSet;
 import com.jcrew.util.Util;
@@ -30,14 +30,14 @@ public class SiteMapsPage {
     }
 
     public List<String> getSiteMapsToCheck() {
-        xstream.processAnnotations(Sitemapindex.class);
+        xstream.processAnnotations(SitemapIndexXML.class);
         Pattern countryContextPattern = Pattern.compile("https://www.jcrew.com/" +
                 "\\p{javaLowerCase}{2}/[\\p{javaLowerCase}{2}\\p{Punct}]*\\p{javaLowerCase}{2}-sitemap.xml");
         List<String> siteMapsUrls = new ArrayList<>();
 
         String source = driver.getPageSource();
 
-        Sitemapindex index = (Sitemapindex) xstream.fromXML(source);
+        SitemapIndexXML index = (SitemapIndexXML) xstream.fromXML(source);
         List<SiteMap> siteMapList = index.getSitemap();
 
         for (SiteMap siteMap: siteMapList) {

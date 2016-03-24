@@ -11,12 +11,12 @@ import java.util.List;
  */
 
 @XStreamAlias("sitemapindex")
-public class Sitemapindex {
+public class SitemapIndexXML {
 
     @XStreamImplicit
     private List<SiteMap> sitemap = new ArrayList<>();
 
-    public Sitemapindex() {
+    public SitemapIndexXML() {
     }
 
     public List<SiteMap> getSitemap() {
