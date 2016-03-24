@@ -1,17 +1,17 @@
 package com.jcrew.page;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.github.javafaker.Faker;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,7 @@ public class LoginPage {
     private WebElement signInForm;
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
-    
+
     @FindBy(xpath=".//*[@id='frmGuestCheckOut']/descendant::a[text()='Check Out as a Guest']")
     private WebElement checkoutAsGuestButton;
     
@@ -53,6 +53,17 @@ public class LoginPage {
     
     @FindBy(id = "main_inside")
     private WebElement myAccountContainer;
+
+    @FindBy(id = "sidecarRegisterFirstName")
+    private WebElement firstNameField;
+
+    @FindBy(id = "countryList")
+    private WebElement countryListDropDown;
+
+    @FindBy(id = "register-form__countryFlagImage" )
+    private WebElement countryChooser;
+
+    Faker faker = new Faker();
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -77,6 +88,38 @@ public class LoginPage {
     public String getSignInErrorMessage() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(invalidSignInMessage));
         return invalidSignInMessage.getText();
+    }
+
+    public String getErrorMessage(String fieldLabel) {
+        List<WebElement> inputFormElements = driver.findElements(By.className("js-invalid-msg"));
+        logger.info("list size{}", inputFormElements.size());
+        String errmsg = "";
+        switch (fieldLabel) {
+            case "first name":
+                errmsg = inputFormElements.get(0).getText();
+                break;
+
+            case "last name":
+                errmsg = inputFormElements.get(1).getText();
+                break;
+
+            case "email":
+                errmsg = inputFormElements.get(2).getText();
+                break;
+
+            case "password":
+                errmsg = inputFormElements.get(3).getText();
+                break;
+
+        }
+
+        return errmsg;
+
+    }
+
+    public String getEmailErrorMessage() {
+        WebElement emailInvalidMsg = Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(By.className("js-invalid-msg")));
+        return emailInvalidMsg.getText();
     }
 
     public void enter_valid_username_and_password() {
@@ -177,4 +220,94 @@ public class LoginPage {
     public void click_signInAndCheckOut(){
     	signInAndCheckOut.click();
     }
-}
+
+    public String getRegBenefitsCopyMsg() {
+        return registerSection.findElement(By.className("unregistered__msg ")).getText();
+    }
+
+    public boolean isFieldWithMaxCharsAllowedDisplayed(String f, String maxchars) {
+        String n = f.replaceAll("\\s","").trim();
+        String fieldId = "sidecarRegister".concat(n);
+        WebElement field = driver.findElement(By.id(fieldId));
+        return field.isDisplayed()&& field.getAttribute("maxlength").equals(maxchars);
+    }
+
+    public void enter_input(String input, String field) {
+        String n = field.replaceAll("\\s","").trim();
+        String fieldId = "sidecarRegister".concat(n);
+        String fieldInput = "";
+        switch(input) {
+            case "random first name":
+                fieldInput = faker.name().firstName();
+                break;
+            case "random last name":
+                fieldInput = faker.name().lastName();
+                break;
+            case "random email":
+                fieldInput = faker.internet().emailAddress().replace("'","");
+                break;
+            case "random password":
+                fieldInput = faker.name().fullName().replaceAll("\\s","");
+                logger.info("password generated is : {}",fieldInput);
+                break;
+            default:
+                fieldInput = input;
+        }
+        driver.findElement(By.id(fieldId)).sendKeys(fieldInput);
+    }
+
+    public void click_create_an_account_button() {
+        registerSection.findElement(By.className("js-btn-register")).click();
+    }
+
+    public boolean isCountryListBoxDisplyed() {
+        return driver.findElement(By.id("countryList")).isDisplayed();
+    }
+
+    public String getDefaultCountrySelected() {
+        Select select = new Select(countryListDropDown);
+        return select.getFirstSelectedOption().getText();
+    }
+
+    public void select_each_country_and_verify_corresponding_flag_is_displayed() {
+        Select select = new Select(countryListDropDown);
+        int numOfCountries = select.getOptions().size();
+        while(numOfCountries >= 1) {
+            select.selectByIndex(numOfCountries - 1);
+            String countryName = select.getFirstSelectedOption().getText();
+            countryName = countryName.replaceAll("\\s", "");
+            boolean flag = isCorrespondingCountryFlagDisplayed(countryName);
+            logger.info("corresponding "+countryName+" flag is displayed:  {}", flag);
+            numOfCountries--;
+
+        }
+    }
+
+    public void select_any_random_country() {
+        Select select = new Select(countryListDropDown);
+        int size = select.getOptions().size();
+        int randomIndex = Util.randomIndex(size);
+        select.selectByIndex(randomIndex);
+    }
+
+     public boolean isCorrespondingCountryFlagDisplayed(String countryName) {
+        return countryChooser.getAttribute("class").contains(countryName);
+    }
+
+    public boolean isOptCheckBoxDisplayed() {
+        Select select = new Select(countryListDropDown);
+        select.deselectByVisibleText("United States");
+        try {
+            WebElement chkbox = driver.findElement(By.id("sidecarRegisterCheckbox"));
+            return chkbox.isDisplayed();
+        } catch (NoSuchElementException ne) {
+            logger.info("check box is not present");
+            return false;
+        }
+    }
+
+    }
+
+
+
+
