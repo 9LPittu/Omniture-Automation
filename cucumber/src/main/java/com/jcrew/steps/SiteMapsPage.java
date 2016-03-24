@@ -95,10 +95,11 @@ public class SiteMapsPage {
         List<String> urlsWithNoVariableValue = new ArrayList<>();
 
         for(String url:urlsList){
+            //TODO replace the url with the environment under test
             driver.get(url);
             Util.waitForPageFullyLoaded(driver);
             String value = Util.getPageVariableValue(driver,variable);
-            if(value != null){
+            if(value == null || value.isEmpty()){
                 logger.error("{} contains an empty {}", url, variable);
                 urlsWithNoVariableValue.add(url);
             }

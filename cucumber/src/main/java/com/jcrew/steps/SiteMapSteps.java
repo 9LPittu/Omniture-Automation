@@ -22,13 +22,11 @@ public class SiteMapSteps extends DriverFactory {
     @When("^Select sitemaps to check$")
     public void select_pages_to_check(){
         sitemapList = sitemap.getSiteMapsToCheck();
-
     }
 
     @When("^Select urls to check$")
     public void select_urls_to_check(){
         urlsList = sitemap.getUrlsToCheck(sitemapList);
-
     }
 
     @Then("^All pages should contain ([^\"]*) variable$")
