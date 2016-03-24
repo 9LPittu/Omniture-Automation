@@ -59,7 +59,7 @@ public class SearchPage {
     @FindBy(className = "search__filter--sort")
     private WebElement searchFilterSortBySection;
     
-    @FindBys({@FindBy(xpath="//a[contains(@class,'js-search__filter sizes-list__item') and not(contains(@class,'is-disabled'))]")})
+    @FindBys({@FindBy(xpath="//a[contains(@class,'js-search__filter sizes-list__item') and not(contains(@class,'is-selected')) and not(contains(@class,'is-disabled'))]")})
     private List<WebElement> sizeRefinementOptions;
 
     public SearchPage(WebDriver driver) {
