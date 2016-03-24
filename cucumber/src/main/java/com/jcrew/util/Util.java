@@ -12,6 +12,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import java.util.List;
@@ -62,11 +66,10 @@ public class Util {
 
     public static String getPageVariableValue(WebDriver driver, String variable){
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
-        String script = "return " + variable;
         String value = "";
 
         try{
-            value = (String) javascriptExecutor.executeScript(script);
+            value = (String) javascriptExecutor.executeScript("return " + variable);
         } catch (WebDriverException wde){
             logger.error("Not able to get value from {}", driver.getCurrentUrl(), wde);
         }
