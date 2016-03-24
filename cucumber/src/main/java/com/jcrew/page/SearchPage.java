@@ -351,26 +351,31 @@ public class SearchPage {
         return true;
     }
     
-    public void selectRandomOptionFromSizeRefinement(){
+    @SuppressWarnings("unchecked")
+	public void selectRandomOptionFromSizeRefinement(){
     	
     	int randomNum = Util.randomIndex(sizeRefinementOptions.size());
     	sizeRefinementOptions.get(randomNum).click();
     	Util.waitLoadingBar(driver);
     	String selectedSizeRefinementOption = sizeRefinementOptions.get(randomNum).getAttribute("data-label").toLowerCase();
     	
+    	List<String> selectedSizeRefinementOptions = new ArrayList<String>();
+    	
     	if(stateHolder.get("selectedSizeRefinementOptions")!=null){
-    		String selectedSizeRefinementOptions = (String)stateHolder.get("selectedSizeRefinementOptions");
-    		selectedSizeRefinementOptions = selectedSizeRefinementOptions + ";" + selectedSizeRefinementOption;
+    		selectedSizeRefinementOptions = (List<String>)stateHolder.get("selectedSizeRefinementOptions");
+    		selectedSizeRefinementOptions.add(selectedSizeRefinementOption);
     		stateHolder.put("selectedSizeRefinementOptions", selectedSizeRefinementOptions);
     	}
     	else{
-    		stateHolder.put("selectedSizeRefinementOptions", selectedSizeRefinementOption);
+    		selectedSizeRefinementOptions.add(selectedSizeRefinementOption);
+    		stateHolder.put("selectedSizeRefinementOptions", selectedSizeRefinementOptions);
     	}
     }
     
     public boolean isSizeRefinementValuesDisplayedCorrectly(){
     	
-    	String selectedsizeRefinementOptions = (String)stateHolder.get("selectedSizeRefinementOptions");
+    	@SuppressWarnings("unchecked")
+		List<String> selectedsizeRefinementOptions = (List<String>)stateHolder.get("selectedSizeRefinementOptions");
     	
     	By selectedFilter = By.xpath(".//span[contains(text(), 'Size') and @class='search__filter--label']/following::span[@class='search__filter--selected']");
     	Util.customWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(selectedFilter));    	
@@ -378,13 +383,11 @@ public class SearchPage {
         String actualOptionText = selectedOption.getText();
     	
         String expectedOptionText = "";
-    	if(selectedsizeRefinementOptions.contains(";")){
-    		String[] arrSelectedSizeRefinementOptions = selectedsizeRefinementOptions.split(";");
-    		int selectedRefinementOptionsCount =  arrSelectedSizeRefinementOptions.length;
-    		expectedOptionText = selectedRefinementOptionsCount + " selected";
+    	if(selectedsizeRefinementOptions.size() > 1){
+    		expectedOptionText = selectedsizeRefinementOptions.size() + " selected";
     	}
     	else{
-    		expectedOptionText = selectedsizeRefinementOptions;
+    		expectedOptionText = selectedsizeRefinementOptions.get(0);
     	}
     	
     	return actualOptionText.equalsIgnoreCase(expectedOptionText);
@@ -392,11 +395,11 @@ public class SearchPage {
     
     public boolean isSelectedOptionsDisplayedInBreadcrumb(){
     	
-    	String selectedsizeRefinementOptions = (String)stateHolder.get("selectedSizeRefinementOptions");
-    	String[] arrSelectedSizeRefinementOptions = selectedsizeRefinementOptions.split(";");
+    	@SuppressWarnings("unchecked")
+		List<String> selectedsizeRefinementOptions = (List<String>)stateHolder.get("selectedSizeRefinementOptions");
     	
     	boolean isBreadcrumbItemDisplayed = false;
-    	for(String selectedSizeRefinementOption:arrSelectedSizeRefinementOptions){
+    	for(String selectedSizeRefinementOption:selectedsizeRefinementOptions){
     		By breadCrumbLocator = By.xpath(".//button[contains(@class, 'search__results--crumb') and contains(text(), '" + selectedSizeRefinementOption + "')]");
     		try{
     			Util.customWebDriverWait(driver,10).until(ExpectedConditions.visibilityOfElementLocated(breadCrumbLocator));
