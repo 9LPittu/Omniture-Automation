@@ -48,7 +48,6 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
       |Girls|THIS MONTH'S FEATURES|Looks We Love |
       |Boys |THIS MONTH'S FEATURES|Looks We Love |
     And User adds all products to wish list
-    Given User is on homepage
     And User clicks on hamburger menu
     And User clicks on My Account link
     And User clicks on WISHLIST link in My Account Page

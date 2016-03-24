@@ -37,7 +37,7 @@ public class Util {
         return new WebDriverWait(driver, DEFAULT_TIMEOUT);
     }
     
-    public static WebDriverWait customWebDriverWait(WebDriver driver, int timeInSeconds) {
+    public static WebDriverWait createWebDriverWait(WebDriver driver, int timeInSeconds) {
         return new WebDriverWait(driver, timeInSeconds);
     }
 

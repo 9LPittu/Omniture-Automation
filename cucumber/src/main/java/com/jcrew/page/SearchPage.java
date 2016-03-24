@@ -378,7 +378,7 @@ public class SearchPage {
 		List<String> selectedsizeRefinementOptions = (List<String>)stateHolder.get("selectedSizeRefinementOptions");
     	
     	By selectedFilter = By.xpath(".//span[contains(text(), 'Size') and @class='search__filter--label']/following::span[@class='search__filter--selected']");
-    	Util.customWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(selectedFilter));    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(selectedFilter));    	
         WebElement selectedOption = driver.findElement(selectedFilter);
         String actualOptionText = selectedOption.getText();
     	
@@ -402,7 +402,7 @@ public class SearchPage {
     	for(String selectedSizeRefinementOption:selectedsizeRefinementOptions){
     		By breadCrumbLocator = By.xpath(".//button[contains(@class, 'search__results--crumb') and contains(text(), '" + selectedSizeRefinementOption + "')]");
     		try{
-    			Util.customWebDriverWait(driver,10).until(ExpectedConditions.visibilityOfElementLocated(breadCrumbLocator));
+    			Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(breadCrumbLocator));
     			isBreadcrumbItemDisplayed = true;
     		}
     		catch(Exception e){
