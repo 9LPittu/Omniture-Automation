@@ -10,9 +10,12 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+<<<<<<< HEAD
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+=======
+>>>>>>> 27de800f3c67abafba814b1899dfb95b5b0d1343
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
