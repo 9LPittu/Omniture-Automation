@@ -120,16 +120,6 @@ public class FooterSteps extends DriverFactory {
     	footer.clickChangeLinkInFooter();
     }
 
-    @And("^User is on context chooser page$")
-    public void verify_context_chooser_page_is_displayed() {
-        assertTrue("User should be in international context chooser page", footer.isInternationalContextChooserPageDisplayed());
-    }
-
-    @And("^([^\"]*) region drawer is displayed")
-    public void verify_region_drawer_is_displayed(String region) {
-        assertTrue("Region drawer/ section should be displayed",footer.isRegionDisplayed(region));
-    }
-    
     @And("^select country as \"([^\"]*)\"$")
     public void select_country_from_footer(String country){
     	footer.selectCountry(country);
@@ -213,17 +203,5 @@ public class FooterSteps extends DriverFactory {
     @And("Verify footer section in the page is displayed")
     public void verify_footer_section_displayed(){
         assertTrue("Footer section should be displayed",footer.isFooterSectionDisplayed());
-    }
-    
-    @And("^user should see all regional drawers closed by default$")
-    public void user_should_see_all_regional_drawers_closed_by_default(){
-    	assertTrue("All regional drawers should be closed by default",footer.isAllRegionalDrawersClosedByDefault());
-    }
-    
-    @And("^expand each regional drawer and verify the countries displayed and only one drawer should be opened$")
-    public void verify_countries_displayed_under_regional_drawer(List<String> regions){
-    	for(String region:regions){
-    		assertTrue("User should see correct countries displayed under region '" + region + "' and one only drawer should be opened at a time", footer.isCountriesDisplayedCorrectlyUnderRegion(region.toUpperCase()));
-    	}
-    }
+    }    
 }
