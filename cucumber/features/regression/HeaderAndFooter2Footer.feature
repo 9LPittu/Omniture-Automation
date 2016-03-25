@@ -224,8 +224,7 @@ Feature: Footer Verification In Home Page
      And User is on internal /help/international_orders.jsp?sidecar=true page
      And Verify embedded headers links
      Then Verify embedded footer is visible and functional
-     And User presses back button
-     
+     And User presses back button     
      Given user selects country at random from context chooser page
 
   #US13389_TC13

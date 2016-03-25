@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,7 +23,8 @@ import org.slf4j.LoggerFactory;
 public class ContextChooserPage {
 
     private final WebDriver driver;    
-    private final Logger logger = LoggerFactory.getLogger(ContextChooserPage.class);
+    private final Logger logger = LoggerFactory.getLogger(ContextChooserPage.class);    
+    private final StateHolder stateHolder = StateHolder.getInstance();
     
     @FindBys({@FindBy(xpath=".//div[@class='context-chooser__column']/div/h5/i[not(@class='js-icon icon-see-more')]")})
     private List<WebElement> openedRegionalDrawers;
@@ -52,15 +55,7 @@ public class ContextChooserPage {
     	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
     	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + region + "']"));
     	
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String browser = propertyReader.getProperty("browser");
-    	
-    	boolean isReponsiveSite = true;
-    	if(propertyReader.hasProperty("window.width")){    		
-    		isReponsiveSite = Integer.parseInt(propertyReader.getProperty("window.width")) <= 400;
-    	}
-    	
-    	if((browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari") || browser.equalsIgnoreCase("phantomjs")) || isReponsiveSite){
+    	if(isMobileView()){
     		regionHeader.click();
     	}
     	
@@ -95,7 +90,7 @@ public class ContextChooserPage {
     		boolean isCountryDisplayed = false;
     		
     		try{
-    			if((browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari") || browser.equalsIgnoreCase("phantomjs")) || isReponsiveSite){
+    			if(isMobileView()){
 		    		appCountry = driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"
 				                                              + "/ul/li/a/span[@class='context-chooser__item--country' and "
 				                                              + Util.xpathGetTextLower + "='" + country.toLowerCase() + "']"));
@@ -121,26 +116,27 @@ public class ContextChooserPage {
     	}
     	
     	if(countriesMissing.isEmpty()){
-    		logger.info("For region '{}', countries displayed are: {}", region, countriesDisplayed.toString());
+    		logger.info("For '{}' region, countries displayed are: {}", region, countriesDisplayed.toString());
     	}
     	else{
-    		logger.debug("For region '{}', countries displayed are: {}", region, countriesDisplayed.toString());
-    		logger.error("For region '{}', countries missing are: {}", region, countriesMissing.toString());
+    		logger.debug("For '{}' region, countries displayed are: {}", region, countriesDisplayed.toString());
+    		logger.error("For '{}' region, countries missing are: {}", region, countriesMissing.toString());
     	}
     	
     	boolean isDrawerOpened = false;
-    	if((browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari") || browser.equalsIgnoreCase("phantomjs")) || isReponsiveSite){
+    	if(isMobileView()){
     		isDrawerOpened = driver.findElement(By.xpath("//div[@class='context-chooser__column']/div/h5[text()='" + region  + "']/i[@class='js-icon icon-see-less']")).isDisplayed();
     	}
     	else{
     		isDrawerOpened = true;
     	}
-    		
+    	
     	return countriesMissing.isEmpty() && isDrawerOpened;
     }
     
     public void clickLinkFromTermsSectionOnContextChooserPage(String linkName){
-    	WebElement link = driver.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() +"']"));
+    	driver.findElement(By.id("page__international")).click();
+    	WebElement link = driver.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));    	
     	link.click();
     }
     
@@ -158,6 +154,21 @@ public class ContextChooserPage {
     	
     	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + regionName + "']"));
     	
+    	if(isMobileView()){
+    		regionHeader.click();
+    	}
+    	
+    	List<WebElement> countries = driver.findElements(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]/ul/li/a/span"));
+    	int randomNum = Util.randomIndex(countries.size());
+    	WebElement country = countries.get(randomNum);
+    	String countryName = country.getText();
+    	country.click();
+		stateHolder.put("selectedCountry", countryName);
+		logger.info("Selected country: {}", countryName);
+    }
+    
+    public boolean isMobileView(){
+    	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String browser = propertyReader.getProperty("browser");
     	
@@ -166,12 +177,6 @@ public class ContextChooserPage {
     		isReponsiveSite = Integer.parseInt(propertyReader.getProperty("window.width")) <= 400;
     	}
     	
-    	if((browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari") || browser.equalsIgnoreCase("phantomjs")) || isReponsiveSite){
-    		regionHeader.click();
-    	}
-    	
-    	List<WebElement> Country = null;
-		boolean isCountryDisplayed = false;	
-		
+    	return (browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari") || browser.equalsIgnoreCase("phantomjs")) || isReponsiveSite;
     }
 }
