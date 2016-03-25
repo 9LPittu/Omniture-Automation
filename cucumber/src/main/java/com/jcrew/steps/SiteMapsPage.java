@@ -27,6 +27,8 @@ public class SiteMapsPage {
 
     private final Logger logger = LoggerFactory.getLogger(SiteMapsPage.class);
     private XStream xstream = new XStream();
+    DriverFactory driverFactory = new DriverFactory();
+    WebDriver driver;
 
     public SiteMapsPage() {
     }
@@ -59,6 +61,7 @@ public class SiteMapsPage {
         xstream.processAnnotations(UrlSet.class);
         xstream.ignoreUnknownElements();
         List<String> urlsList = new ArrayList<>();
+        List<String> productURL = new ArrayList<>();
 
         try {
             for (String sitemap : sitemapList) {
@@ -68,7 +71,6 @@ public class SiteMapsPage {
                 UrlSet set = (UrlSet) xstream.fromXML(stream);
 
                 List<Url> urlsInMap = set.getUrlList();
-                List<String> productURL = new ArrayList<>();
 
                 if (urlsInMap != null) {
                     for (Url url : urlsInMap) {
@@ -79,13 +81,14 @@ public class SiteMapsPage {
                             urlsList.add(urlToVisit);
                         }
                     }
-
-                    //random product URL
-                    if (productURL.size() > 0) {
-                        urlsList.add(productURL.get(Util.randomIndex(productURL.size())));
-                    }
                 }
             }
+
+            //random product URL
+            if (productURL.size() > 0) {
+                urlsList.add(productURL.get(Util.randomIndex(productURL.size())));
+            }
+
         } catch(IOException e){
             logger.error("Not able to open stream to sitemap");
         }
@@ -94,9 +97,8 @@ public class SiteMapsPage {
         return urlsList;
     }
 
-    public List<String> checkVariableInUrlList(List<String> urlsList, String variable) throws InterruptedException {
-        DriverFactory driverFactory = new DriverFactory();
-        WebDriver driver = driverFactory.getDriver();
+    public List<String> checkVariableInUrlList(List<String> urlsList, String variable, List<String>ignoreList) throws InterruptedException {
+        driver = driverFactory.getDriver();
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String envURL = propertyReader.getProperty("environment");
 
@@ -104,14 +106,26 @@ public class SiteMapsPage {
 
         for (String url : urlsList) {
             url = url.replace("https://www.jcrew.com", envURL);
-            driver.get(url);
-            String value = Util.getPageVariableValue(driver, variable);
-            if (value == null || value.isEmpty()) {
-                logger.error("{} contains an empty {}", url, variable);
-                urlsWithNoVariableValue.add(url);
+
+            if(isRedirected(url) && ignoreList.contains(driver.getCurrentUrl())){
+
+                logger.debug("{} is redirecting to a ignored url, skipping", url);
+
+            } else {
+                String value = Util.getPageVariableValue(driver, variable);
+                if (value == null || value.isEmpty()) {
+                    logger.error("{} contains an empty {}", url, variable);
+                    urlsWithNoVariableValue.add(url);
+                }
             }
         }
 
         return urlsWithNoVariableValue;
+    }
+
+    private boolean isRedirected(String url){
+        driver.get(url);
+        String destination = driver.getCurrentUrl();
+        return !url.equals(destination);
     }
 }

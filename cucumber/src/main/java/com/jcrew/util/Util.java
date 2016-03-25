@@ -66,7 +66,7 @@ public class Util {
 
     public static String getPageVariableValue(WebDriver driver, String variable) throws InterruptedException {
         boolean found = false;
-        int tries = 10;
+        int tries = 5;
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
         String value = "";
 
@@ -74,7 +74,8 @@ public class Util {
             try {
                 value = (String) javascriptExecutor.executeScript("return " + variable);
                 if(value == null || value.isEmpty()){
-                    Thread.sleep(1000);
+                    Thread.sleep(5000);
+                    logger.debug("Got an empty/null value from {}", driver.getCurrentUrl());
                 } else {
                     found = true;
                 }

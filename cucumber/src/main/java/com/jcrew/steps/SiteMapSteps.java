@@ -1,6 +1,8 @@
 package com.jcrew.steps;
 
 import com.jcrew.util.DriverFactory;
+import cucumber.api.PendingException;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -26,6 +28,7 @@ public class SiteMapSteps extends DriverFactory {
 
     List<String> sitemapList = new ArrayList<>();
     List<String> urlsList = new ArrayList<>();
+    List<String> ignoreThisUrls = new ArrayList<>();
 
     @Given("^User opens stream to ([^\"]*) page$")
     public void userGoesSitemapIndexXmlPage(String page) {
@@ -39,7 +42,8 @@ public class SiteMapSteps extends DriverFactory {
     @When("^Select sitemaps to check$")
     public void select_sitemaps_to_check(){
         if(sitemapIndexInputStream != null) {
-            sitemapList = sitemap.getSiteMapsToCheck(sitemapIndexInputStream);
+            //sitemapList = sitemap.getSiteMapsToCheck(sitemapIndexInputStream);
+            sitemapList.add("https://www.jcrew.com/sitemap.xml");
         } else {
             logger.error("To use \"Select sitemaps to check\" step you need to initialize the sitemapIndex stream");
         }
@@ -54,7 +58,7 @@ public class SiteMapSteps extends DriverFactory {
     public void allPagesShouldContainSPageNameVariable(String variable) {
         List<String> pagesWithNoVariable = new ArrayList<>();
         try {
-            pagesWithNoVariable = sitemap.checkVariableInUrlList(urlsList, variable);
+            pagesWithNoVariable = sitemap.checkVariableInUrlList(urlsList, variable,  ignoreThisUrls);
         } catch (InterruptedException ie){
             logger.error("Not able to execute step!!");
         }
@@ -69,5 +73,10 @@ public class SiteMapSteps extends DriverFactory {
         } else{
             assertTrue(true);
         }
+    }
+
+    @And("^Exclude url ([^\"]*) from list$")
+    public void excludeUrlFromList(String excludedURL){
+        ignoreThisUrls.add(excludedURL);
     }
 }
