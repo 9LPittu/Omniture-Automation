@@ -134,11 +134,9 @@ public class HomePage {
     public boolean isGivenVarPresentInSourceCode(String var) {
 
         if(var.contains("src")) {
-        	logger.debug(driver.getPageSource());
             logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains("src=\"http"));
             return driver.getPageSource().contains("src=\"http");
         }
-        logger.debug(driver.getPageSource());
         logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
         return driver.getPageSource().contains(var);
     }
