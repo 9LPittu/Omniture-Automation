@@ -105,7 +105,6 @@ public class SiteMapsPage {
         for (String url : urlsList) {
             url = url.replace("https://www.jcrew.com", envURL);
             driver.get(url);
-            Util.waitForPageFullyLoaded(driver);
             String value = Util.getPageVariableValue(driver, variable);
             if (value == null || value.isEmpty()) {
                 logger.error("{} contains an empty {}", url, variable);
