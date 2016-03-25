@@ -75,7 +75,6 @@ public class Util {
                 value = (String) javascriptExecutor.executeScript("return " + variable);
                 if(value == null || value.isEmpty()){
                     Thread.sleep(5000);
-                    logger.debug("Got an empty/null value from {}", driver.getCurrentUrl());
                 } else {
                     found = true;
                 }
@@ -84,7 +83,6 @@ public class Util {
                     logger.error("Not able to get value from {}", driver.getCurrentUrl(), wde);
                 } else {
                     Thread.sleep(1000);
-                    logger.debug("Trying again to get {} variable at page {}", variable, driver.getCurrentUrl());
                 }
             }
         }
