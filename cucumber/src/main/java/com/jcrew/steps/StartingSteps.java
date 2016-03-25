@@ -66,6 +66,7 @@ public class StartingSteps {
             try {
                 getTheInitialPage(pageUrl);
                 Util.waitForPageFullyLoaded(driver);
+                Util.waitLoadingBar(driver);
                 successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);

@@ -26,8 +26,8 @@ public class PropertyReader {
     }
 
     private void loadProperties() throws IOException {
-        String environment = System.getProperty("environment", "ci");
-        String viewport = System.getProperty("viewport", "desktop");
+        String environment = System.getProperty("environment", "saccount");
+        String viewport = System.getProperty("viewport", "mobile-iphone6s-a5def");
         
 
     	String environmentFile = environment + ".properties";
