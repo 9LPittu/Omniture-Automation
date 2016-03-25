@@ -4,6 +4,8 @@ import com.jcrew.omniture.SiteMap;
 import com.jcrew.omniture.SitemapIndex;
 import com.jcrew.omniture.Url;
 import com.jcrew.omniture.UrlSet;
+import com.jcrew.util.DriverFactory;
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 import com.thoughtworks.xstream.XStream;
 import org.openqa.selenium.WebDriver;
@@ -23,12 +25,10 @@ import java.util.regex.Pattern;
 
 public class SiteMapsPage {
 
-    private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(SiteMapsPage.class);
     private XStream xstream = new XStream();
 
-    public SiteMapsPage(WebDriver driver) {
-        this.driver = driver;
+    public SiteMapsPage() {
     }
 
     public List<String> getSiteMapsToCheck(InputStream stream) {
@@ -94,11 +94,16 @@ public class SiteMapsPage {
         return urlsList;
     }
 
-    public List<String> checkVariableInUrlList(List<String> urlsList, String variable) {
+    public List<String> checkVariableInUrlList(List<String> urlsList, String variable) throws InterruptedException {
+        DriverFactory driverFactory = new DriverFactory();
+        WebDriver driver = driverFactory.getDriver();
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String envURL = propertyReader.getProperty("environment");
+
         List<String> urlsWithNoVariableValue = new ArrayList<>();
 
         for (String url : urlsList) {
-            //TODO replace the url with the environment under test
+            url = url.replace("https://www.jcrew.com", envURL);
             driver.get(url);
             Util.waitForPageFullyLoaded(driver);
             String value = Util.getPageVariableValue(driver, variable);

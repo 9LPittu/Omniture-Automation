@@ -64,14 +64,28 @@ public class Util {
         });
     }
 
-    public static String getPageVariableValue(WebDriver driver, String variable){
+    public static String getPageVariableValue(WebDriver driver, String variable) throws InterruptedException {
+        boolean found = false;
+        int tries = 10;
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
         String value = "";
 
-        try{
-            value = (String) javascriptExecutor.executeScript("return " + variable);
-        } catch (WebDriverException wde){
-            logger.error("Not able to get value from {}", driver.getCurrentUrl(), wde);
+        for(int i = 0; i < tries && !found ; i++) {
+            try {
+                value = (String) javascriptExecutor.executeScript("return " + variable);
+                if(value == null || value.isEmpty()){
+                    Thread.sleep(1000);
+                } else {
+                    found = true;
+                }
+            } catch (WebDriverException wde) {
+                if(i == tries - 1) {
+                    logger.error("Not able to get value from {}", driver.getCurrentUrl(), wde);
+                } else {
+                    Thread.sleep(1000);
+                    logger.debug("Trying again to get {} variable at page {}", variable, driver.getCurrentUrl());
+                }
+            }
         }
 
         return value;

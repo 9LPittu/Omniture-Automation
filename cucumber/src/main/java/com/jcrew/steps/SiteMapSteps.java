@@ -21,13 +21,11 @@ import static org.junit.Assert.*;
 public class SiteMapSteps extends DriverFactory {
 
     private final Logger logger = LoggerFactory.getLogger(StartingSteps.class);
-    private final SiteMapsPage sitemap = new SiteMapsPage(getDriver());
+    private final SiteMapsPage sitemap = new SiteMapsPage();
     private InputStream sitemapIndexInputStream = null;
 
-    List<String> sitemapList = new ArrayList<String>();
-    List<String> urlsList = new ArrayList<String>();
-
-
+    List<String> sitemapList = new ArrayList<>();
+    List<String> urlsList = new ArrayList<>();
 
     @Given("^User opens stream to ([^\"]*) page$")
     public void userGoesSitemapIndexXmlPage(String page) {
@@ -54,7 +52,22 @@ public class SiteMapSteps extends DriverFactory {
 
     @Then("^All pages should contain ([^\"]*) variable$")
     public void allPagesShouldContainSPageNameVariable(String variable) {
-        sitemap.checkVariableInUrlList(urlsList, variable);
-        assertTrue(false);
+        List<String> pagesWithNoVariable = new ArrayList<>();
+        try {
+            pagesWithNoVariable = sitemap.checkVariableInUrlList(urlsList, variable);
+        } catch (InterruptedException ie){
+            logger.error("Not able to execute step!!");
+        }
+
+        if(pagesWithNoVariable.size() > 0){
+            String message = "This pages reported not having variable " + variable + ":\n";
+            for(String url : pagesWithNoVariable){
+                message += url + "\n";
+            }
+
+            assertTrue(message, false);
+        } else{
+            assertTrue(true);
+        }
     }
 }
