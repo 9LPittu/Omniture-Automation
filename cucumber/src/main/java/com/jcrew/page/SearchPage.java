@@ -5,6 +5,7 @@ import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -57,6 +58,9 @@ public class SearchPage {
 
     @FindBy(className = "search__filter--sort")
     private WebElement searchFilterSortBySection;
+    
+    @FindBys({@FindBy(xpath="//a[contains(@class,'js-search__filter sizes-list__item') and not(contains(@class,'is-selected')) and not(contains(@class,'is-disabled'))]")})
+    private List<WebElement> sizeRefinementOptions;
 
     public SearchPage(WebDriver driver) {
         this.driver = driver;
@@ -346,5 +350,73 @@ public class SearchPage {
 
         return true;
     }
-}
+    
+    @SuppressWarnings("unchecked")
+	public void selectRandomOptionFromSizeRefinement(){
+    	
+    	if(sizeRefinementOptions.size()==0){
+    		logger.error("There are no sizes to be selected");
+    		throw new NoSuchElementException("There are no sizes to be selected");
+    	}
+    	
+    	int randomNum = Util.randomIndex(sizeRefinementOptions.size());
+    	WebElement sizeElement = sizeRefinementOptions.get(randomNum);
+    	String selectedSizeRefinementOption = sizeElement.getAttribute("data-label").toLowerCase();
+    	sizeElement.click();
+    	Util.waitLoadingBar(driver);
+    	
+    	List<String> selectedSizeRefinementOptions = new ArrayList<String>();
+    	
+    	if(stateHolder.get("selectedSizeRefinementOptions")!=null){
+    		selectedSizeRefinementOptions = (List<String>)stateHolder.get("selectedSizeRefinementOptions");
+    		selectedSizeRefinementOptions.add(selectedSizeRefinementOption);
+    		stateHolder.put("selectedSizeRefinementOptions", selectedSizeRefinementOptions);
+    	}
+    	else{
+    		selectedSizeRefinementOptions.add(selectedSizeRefinementOption);
+    		stateHolder.put("selectedSizeRefinementOptions", selectedSizeRefinementOptions);
+    	}
+    }
+    
+    public boolean isSizeRefinementValuesDisplayedCorrectly(){
+    	
+    	@SuppressWarnings("unchecked")
+		List<String> selectedsizeRefinementOptions = (List<String>)stateHolder.get("selectedSizeRefinementOptions");
+    	
+    	By selectedFilter = By.xpath(".//span[contains(text(), 'Size') and @class='search__filter--label']/following::span[@class='search__filter--selected']");
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(selectedFilter));    	
+        WebElement selectedOption = driver.findElement(selectedFilter);
+        String actualOptionText = selectedOption.getText();
+    	
+        String expectedOptionText = "";
+    	if(selectedsizeRefinementOptions.size() > 1){
+    		expectedOptionText = selectedsizeRefinementOptions.size() + " selected";
+    	}
+    	else{
+    		expectedOptionText = selectedsizeRefinementOptions.get(0);
+    	}
+    	
+    	return actualOptionText.equalsIgnoreCase(expectedOptionText);
+    }
+    
+    public boolean isSelectedOptionsDisplayedInBreadcrumb(){
+    	
+    	@SuppressWarnings("unchecked")
+		List<String> selectedsizeRefinementOptions = (List<String>)stateHolder.get("selectedSizeRefinementOptions");
+    	
+    	boolean isBreadcrumbItemDisplayed = false;
+    	for(String selectedSizeRefinementOption:selectedsizeRefinementOptions){
+    		By breadCrumbLocator = By.xpath(".//button[contains(@class, 'search__results--crumb') and contains(text(), '" + selectedSizeRefinementOption + "')]");
+    		try{
+    			Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(breadCrumbLocator));
+    			isBreadcrumbItemDisplayed = true;
+    		}
+    		catch(Exception e){
+    			isBreadcrumbItemDisplayed = false;
+    			break;
+    		}
+    	}
 
+        return isBreadcrumbItemDisplayed;
+    }    
+}
