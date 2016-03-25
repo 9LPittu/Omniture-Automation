@@ -42,8 +42,7 @@ public class SiteMapSteps extends DriverFactory {
     @When("^Select sitemaps to check$")
     public void select_sitemaps_to_check(){
         if(sitemapIndexInputStream != null) {
-            //sitemapList = sitemap.getSiteMapsToCheck(sitemapIndexInputStream);
-            sitemapList.add("https://www.jcrew.com/sitemap.xml");
+            sitemapList = sitemap.getSiteMapsToCheck(sitemapIndexInputStream);
         } else {
             logger.error("To use \"Select sitemaps to check\" step you need to initialize the sitemapIndex stream");
         }
