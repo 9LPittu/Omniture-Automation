@@ -64,28 +64,24 @@ public class Util {
         });
     }
 
-    public static String getPageVariableValue(WebDriver driver, String variable) throws InterruptedException {
-        boolean found = false;
-        int tries = 5;
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
-        String value = "";
+    public static String getPageVariableValue(WebDriver driver, final String variable) throws InterruptedException {
+        WebDriverWait waitForVariable = new WebDriverWait(driver, 10);
+        final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
 
-        for(int i = 0; i < tries && !found ; i++) {
-            try {
-                value = (String) javascriptExecutor.executeScript("return " + variable);
-                if(value == null || value.isEmpty()){
-                    Thread.sleep(5000);
-                } else {
-                    found = true;
+        String value = waitForVariable.until(new Function<WebDriver, String>() {
+            @Override
+            public String apply(WebDriver webDriver) {
+                String value;
+                try {
+                    value = (String) javascriptExecutor.executeScript("return " + variable);
+                    if(value != null && value.isEmpty())
+                        value = null;
+                } catch (WebDriverException wde) {
+                    value = null;
                 }
-            } catch (WebDriverException wde) {
-                if(i == tries - 1) {
-                    logger.error("Not able to get value from {}", driver.getCurrentUrl(), wde);
-                } else {
-                    Thread.sleep(1000);
-                }
+                return value;
             }
-        }
+        });
 
         return value;
     }
