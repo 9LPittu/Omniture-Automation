@@ -67,21 +67,26 @@ public class Util {
     public static String getPageVariableValue(WebDriver driver, final String variable) throws InterruptedException {
         WebDriverWait waitForVariable = new WebDriverWait(driver, 10);
         final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        String value = "";
 
-        String value = waitForVariable.until(new Function<WebDriver, String>() {
-            @Override
-            public String apply(WebDriver webDriver) {
-                String value;
-                try {
-                    value = (String) javascriptExecutor.executeScript("return " + variable);
-                    if(value != null && value.isEmpty())
+        try {
+            value = waitForVariable.until(new Function<WebDriver, String>() {
+                @Override
+                public String apply(WebDriver webDriver) {
+                    String value;
+                    try {
+                        value = (String) javascriptExecutor.executeScript("return " + variable);
+                        if (value != null && value.isEmpty())
+                            value = null;
+                    } catch (WebDriverException wde) {
                         value = null;
-                } catch (WebDriverException wde) {
-                    value = null;
+                    }
+                    return value;
                 }
-                return value;
-            }
-        });
+            });
+        } catch (TimeoutException timeout){
+            logger.error("Variable {} not found in URL {} after 10 seconds waiting", variable, driver.getCurrentUrl(),timeout);
+        }
 
         return value;
     }
