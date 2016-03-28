@@ -65,7 +65,7 @@ public class SiteMapSteps extends DriverFactory {
         if(pagesWithNoVariable.size() > 0){
             String message = "This pages reported not having variable " + variable + ":\n";
             for(String url : pagesWithNoVariable){
-                message += "<a href=\"" + url + "\" target=\"_blank\">" + url + "</a>" + url + "\n";
+                message += "<a href=\"" + url + "\" target=\"_blank\">" + url + "</a>\n";
             }
 
             assertTrue(message, false);
@@ -80,7 +80,7 @@ public class SiteMapSteps extends DriverFactory {
     }
 
     @Then("^All pages should contain the following variables$")
-    public void allPagesShouldContainTheFollowingVariables(List<String> variableList){
+    public void allPagesShouldContainTheFollowingVariables(Map<String,String> variableList){
         List<String> messages = new ArrayList<>();
         try {
             messages = sitemap.checkVariableInUrlList(urlsList, variableList,  ignoreThisUrls);

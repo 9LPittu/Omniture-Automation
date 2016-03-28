@@ -11,11 +11,14 @@ import com.thoughtworks.xstream.XStream;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,7 +92,7 @@ public class SiteMapsPage {
                 urlsList.add(productURL.get(Util.randomIndex(productURL.size())));
             }
 
-        } catch(IOException e){
+        } catch (IOException e) {
             logger.error("Not able to open stream to sitemap");
         }
 
@@ -97,7 +100,7 @@ public class SiteMapsPage {
         return urlsList;
     }
 
-    public List<String> checkVariableInUrlList(List<String> urlsList, String variable, List<String>ignoreList) throws InterruptedException {
+    public List<String> checkVariableInUrlList(List<String> urlsList, String variable, List<String> ignoreList) throws InterruptedException {
         driver = driverFactory.getDriver();
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String envURL = propertyReader.getProperty("environment");
@@ -107,7 +110,7 @@ public class SiteMapsPage {
         for (String url : urlsList) {
             url = url.replace("https://www.jcrew.com", envURL);
 
-            if(isRedirected(url) && ignoreList.contains(driver.getCurrentUrl())){
+            if (isRedirected(url) && ignoreList.contains(driver.getCurrentUrl())) {
 
                 logger.debug("{} is redirecting to a ignored url, skipping", url);
 
@@ -123,7 +126,7 @@ public class SiteMapsPage {
         return urlsWithNoVariableValue;
     }
 
-    public List<String> checkVariableInUrlList(List<String> urlsList, List<String> variables, List<String>ignoreList) throws InterruptedException {
+    public List<String> checkVariableInUrlList(List<String> urlsList, Map<String, String> variablesMap, List<String> ignoreList) throws InterruptedException {
         driver = driverFactory.getDriver();
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String envURL = propertyReader.getProperty("environment");
@@ -133,16 +136,23 @@ public class SiteMapsPage {
         for (String url : urlsList) {
             url = url.replace("https://www.jcrew.com", envURL);
 
-            if(isRedirected(url) && ignoreList.contains(driver.getCurrentUrl())){
+            if (isRedirected(url) && ignoreList.contains(driver.getCurrentUrl())) {
 
                 logger.debug("{} is redirecting to a ignored url, skipping", url);
 
             } else {
-                for(String variable:variables) {
-                    String value = Util.getPageVariableValue(driver, variable);
-                    if (value == null || value.isEmpty()) {
+                Set<String> variables = variablesMap.keySet();
+                for (String variable : variables) {
+                    String variableValue = Util.getPageVariableValue(driver, variable);
+                    String expectedValue = variablesMap.get(variable);
+
+                    if (variableValue == null || variableValue.isEmpty()) {
                         logger.error("{} contains an empty {}", url, variable);
-                        resultMessages.add(url);
+                        resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a>\n");
+                    } else if (!"any".equals(expectedValue) && !variableValue.equals(expectedValue)) {
+                        logger.error("{} contains an unexpected value in {}", url, variable);
+                        resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + " reported value "
+                                + variableValue + " instead of " + expectedValue + "</a>\n");
                     }
                 }
             }
@@ -152,13 +162,13 @@ public class SiteMapsPage {
 
     }
 
-    private boolean isRedirected(String url){
+    private boolean isRedirected(String url) {
         driver.get(url);
         String destination = driver.getCurrentUrl();
         return !url.equals(destination);
     }
 
-    private boolean isProductURL(String urlToVisit){
+    private boolean isProductURL(String urlToVisit) {
         boolean isProduct = urlToVisit.contains("PRDOVR~")
                 || urlToVisit.contains("PRD~")
                 || urlToVisit.contains("/p/");

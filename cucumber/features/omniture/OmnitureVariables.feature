@@ -9,4 +9,9 @@ Feature: Omniture variables check
     And Exclude url https://jobs.jcrew.com/ from list
     And Exclude url https://jobs.jcrew.com/?sidecar=true from list
     And Exclude url https://stores.jcrew.com/? from list
-    Then All pages should contain s.pageName variable
+    Then All pages should contain the following variables
+        |s.pageName|any|
+        |s.prop69  |sidecar|
+        |s.evar69  |sidecar|
+        |s.prop71  |Responsive Experience|
+        |s.evar71  |Responsive Experience|
