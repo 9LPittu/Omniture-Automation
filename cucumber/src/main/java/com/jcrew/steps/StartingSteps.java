@@ -65,8 +65,6 @@ public class StartingSteps {
         while (retry < 2 && !successfulLoad) {
             try {
                 getTheInitialPage(pageUrl);
-                Util.waitForPageFullyLoaded(driver);
-                Util.waitLoadingBar(driver);
                 successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);
@@ -91,7 +89,7 @@ public class StartingSteps {
         String browser = reader.getProperty("browser");
         boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent")||env.contains("or");
         boolean isDesktop = browser.equals("firefox") || browser.equals("chrome");
-        logger.debug("current url is: "+env);
+        logger.debug("current url is: " + env);
 
         if(isProdLikeEn && isDesktop){
             logger.debug("Opening enable responsive page");
@@ -106,6 +104,8 @@ public class StartingSteps {
         String env = reader.getProperty(pageUrl);
         logger.debug("current url is: "+env);
         driver.get(env);
+        String strTitle = reader.getProperty("title." + pageUrl);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains("<title>" + strTitle));
     }
 
     @And("^User goes to homepage$")
