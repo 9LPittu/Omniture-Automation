@@ -1,7 +1,6 @@
 package com.jcrew.steps;
 
 import com.jcrew.util.DriverFactory;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -14,6 +13,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -65,7 +65,7 @@ public class SiteMapSteps extends DriverFactory {
         if(pagesWithNoVariable.size() > 0){
             String message = "This pages reported not having variable " + variable + ":\n";
             for(String url : pagesWithNoVariable){
-                message += url + "\n";
+                message += "<a href=\"" + url + "\" target=\"_blank\">" + url + "</a>" + url + "\n";
             }
 
             assertTrue(message, false);
@@ -77,5 +77,26 @@ public class SiteMapSteps extends DriverFactory {
     @And("^Exclude url ([^\"]*) from list$")
     public void excludeUrlFromList(String excludedURL){
         ignoreThisUrls.add(excludedURL);
+    }
+
+    @Then("^All pages should contain the following variables$")
+    public void allPagesShouldContainTheFollowingVariables(List<String> variableList){
+        List<String> messages = new ArrayList<>();
+        try {
+            messages = sitemap.checkVariableInUrlList(urlsList, variableList,  ignoreThisUrls);
+        } catch (InterruptedException ie){
+            logger.error("Not able to execute step!!");
+        }
+
+        if(messages.size() > 0){
+            String reportMessage = "This pages reported not having a variable:\n";
+            for(String message : messages){
+                reportMessage += message + "\n";
+            }
+
+            assertTrue(reportMessage, false);
+        } else{
+            assertTrue(true);
+        }
     }
 }

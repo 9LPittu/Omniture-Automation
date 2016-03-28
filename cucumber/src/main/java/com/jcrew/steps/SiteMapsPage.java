@@ -123,6 +123,35 @@ public class SiteMapsPage {
         return urlsWithNoVariableValue;
     }
 
+    public List<String> checkVariableInUrlList(List<String> urlsList, List<String> variables, List<String>ignoreList) throws InterruptedException {
+        driver = driverFactory.getDriver();
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String envURL = propertyReader.getProperty("environment");
+
+        List<String> resultMessages = new ArrayList<>();
+
+        for (String url : urlsList) {
+            url = url.replace("https://www.jcrew.com", envURL);
+
+            if(isRedirected(url) && ignoreList.contains(driver.getCurrentUrl())){
+
+                logger.debug("{} is redirecting to a ignored url, skipping", url);
+
+            } else {
+                for(String variable:variables) {
+                    String value = Util.getPageVariableValue(driver, variable);
+                    if (value == null || value.isEmpty()) {
+                        logger.error("{} contains an empty {}", url, variable);
+                        resultMessages.add(url);
+                    }
+                }
+            }
+        }
+
+        return resultMessages;
+
+    }
+
     private boolean isRedirected(String url){
         driver.get(url);
         String destination = driver.getCurrentUrl();
