@@ -150,7 +150,7 @@ public class SiteMapsPage {
                         logger.error("{} contains an empty {}", url, variable);
                         resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a>\n");
                     } else if (!"any".equals(expectedValue) && !variableValue.equals(expectedValue)) {
-                        logger.error("{} contains an unexpected value in {}", url, variable);
+                        logger.error("{} contains an unexpected value in {} its values is {}", url, variable, variableValue);
                         resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + " reported value "
                                 + variableValue + " instead of " + expectedValue + "</a>\n");
                     }
