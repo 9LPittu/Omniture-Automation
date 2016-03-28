@@ -6,6 +6,7 @@ import com.jcrew.page.ContextChooserPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 
 import java.util.List;
 
@@ -50,5 +51,10 @@ public class ContextChooserPageSteps extends DriverFactory {
     @Given("^user selects country at random from context chooser page$")
     public void select_random_country_from_context_chooser_page(){
     	contextChooser.selectRandomCountry();
+    }
+    
+    @Then("^user should land on country specific home page$")
+    public void user_should_land_on_country_specific_home_page(){
+    	contextChooser.isUserOnCountrySpecificHomePage();
     }
 }

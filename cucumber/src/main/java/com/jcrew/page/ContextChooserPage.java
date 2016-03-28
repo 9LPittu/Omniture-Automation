@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
@@ -7,6 +8,7 @@ import com.jcrew.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -147,14 +149,17 @@ public class ContextChooserPage {
     
     public void selectRandomCountry(){
     	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
     	List<WebElement> regionHeaders = internationalContextChooser.findElements(By.tagName("h5"));   	
     	int randomIndex = Util.randomIndex(regionHeaders.size());
     	String regionName = regionHeaders.get(randomIndex).getText();
+    	logger.info("Region name: {}", regionName);
     	
     	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + regionName + "']"));
     	
     	if(isMobileView()){
+    		driver.findElement(By.id("page__international")).click();
     		regionHeader.click();
     	}
     	
@@ -172,11 +177,25 @@ public class ContextChooserPage {
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String browser = propertyReader.getProperty("browser");
     	
-    	boolean isReponsiveSite = true;
+    	boolean isResponsiveSite = true;
     	if(propertyReader.hasProperty("window.width")){
-    		isReponsiveSite = Integer.parseInt(propertyReader.getProperty("window.width")) <= 400;
+    		isResponsiveSite = Integer.parseInt(propertyReader.getProperty("window.width")) <= 400;
     	}
     	
-    	return (browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari") || browser.equalsIgnoreCase("phantomjs")) || isReponsiveSite;
+    	return (browser.equalsIgnoreCase("androidchrome") || browser.equalsIgnoreCase("iossafari") || browser.equalsIgnoreCase("phantomjs")) || isResponsiveSite;
+    }
+    
+    public boolean isUserOnCountrySpecificHomePage(){
+    	
+    	String selectedCountry = (String)stateHolder.get("selectedCountry");
+    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String url = propertyReader.getProperty("environment");
+    	
+    	Country country = new Country(selectedCountry);    	
+    	String countryCode = country.getCountryCode();
+    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(url + "/" + countryCode + "/"));
+    	return driver.getCurrentUrl().matches(url + "/" + countryCode + "/");    	
     }
 }

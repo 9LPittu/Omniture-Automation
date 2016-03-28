@@ -210,6 +210,7 @@ Feature: Footer Verification In Home Page
      	 |EUROPE|
      	 |LATIN AMERICA & THE CARIBBEAN|
      	 |MIDDLE EAST & AFRICA|
+     	 
      And click on "terms of use" link from terms section on the context chooser page 
      And User is on internal /footer/termsofuse.jsp?sidecar=true page
      And Verify embedded headers links
@@ -220,12 +221,14 @@ Feature: Footer Verification In Home Page
      And Verify embedded headers links
      Then Verify embedded footer is visible and functional
      And User presses back button
-     And click on "SEE ALL FAQ & HELP" button from FAQ section on the context chooser page     
+     And click on "SEE ALL FAQ & HELP" button from FAQ section on the context chooser page
      And User is on internal /help/international_orders.jsp?sidecar=true page
      And Verify embedded headers links
      Then Verify embedded footer is visible and functional
-     And User presses back button     
+     And User presses back button
+     
      Given user selects country at random from context chooser page
+     Then user should land on country specific home page 
 
   #US13389_TC13
   # Scenario Outline: Ship To section is visible and functional in footer
