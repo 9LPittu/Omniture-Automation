@@ -9,8 +9,8 @@ Feature: S_Account in production
    Examples:
     |pageurl|value|
     |Jcrewprod|jcrewcom,jcrewglobalrollup|
-    |Madewellprod|jcrewmwcom             |
     |Factoryprod |jcrewfactorycom,jcrewglobalrollup|
+    |Madewellprod|jcrewmwcom             |
 
 
 

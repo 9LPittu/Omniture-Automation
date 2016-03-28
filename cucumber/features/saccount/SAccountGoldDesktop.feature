@@ -9,8 +9,8 @@
     Examples:
       |pageurl|
       |Jcrewgold|
-      |Madewellgold|
       |Factorygold |
+      |Madewellgold|
 
 
 

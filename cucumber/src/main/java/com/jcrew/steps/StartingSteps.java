@@ -11,6 +11,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.BeforeStep;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import org.mockito.internal.stubbing.answers.Returns;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -64,8 +65,7 @@ public class StartingSteps {
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {
             try {
-                getTheInitialPage(pageUrl);
-                successfulLoad = true;
+                successfulLoad = getTheInitialPage(pageUrl);
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);
                 retry++;
@@ -100,12 +100,14 @@ public class StartingSteps {
         }
     }
 
-    public void getTheInitialPage(String pageUrl){
+    public boolean getTheInitialPage(String pageUrl){
         String env = reader.getProperty(pageUrl);
         logger.debug("current url is: "+env);
         driver.get(env);
         String strTitle = reader.getProperty("title." + pageUrl);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains("<title>" + strTitle));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains(strTitle));
+        String strCurrentTitle = driver.getTitle();
+        return strCurrentTitle.contains(strTitle);
     }
 
     @And("^User goes to homepage$")
