@@ -75,7 +75,7 @@ public class SiteMapsPage {
                 if (urlsInMap != null) {
                     for (Url url : urlsInMap) {
                         String urlToVisit = url.getLoc();
-                        if (urlToVisit.contains("PRDOVR~") || urlToVisit.contains("PRD~")) {
+                        if (isProductURL(urlToVisit)) {
                             productURL.add(urlToVisit);
                         } else {
                             urlsList.add(urlToVisit);
@@ -127,5 +127,13 @@ public class SiteMapsPage {
         driver.get(url);
         String destination = driver.getCurrentUrl();
         return !url.equals(destination);
+    }
+
+    private boolean isProductURL(String urlToVisit){
+        boolean isProduct = urlToVisit.contains("PRDOVR~")
+                || urlToVisit.contains("PRD~")
+                || urlToVisit.contains("/p/");
+
+        return isProduct;
     }
 }

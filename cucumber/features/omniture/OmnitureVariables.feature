@@ -3,7 +3,7 @@
 Feature: Omniture variables check
 
   Scenario: Visit sites from secondary map from /sitemap-index.xml
-    Given User opens stream to https://www.jcrew.com/sitemap-index.xml page
+    Given User opens stream to https://www.jcrew.com/sidecar/sitemap-index.xml page
     When Select sitemaps to check
     And Select urls to check
     And Exclude url https://jobs.jcrew.com/ from list
