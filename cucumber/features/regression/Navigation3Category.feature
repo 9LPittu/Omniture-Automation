@@ -28,7 +28,7 @@ Feature: Regression Tests Category Feature
     Then User should be in sweaters page for women
     And Verifies Tipped lightweight wool Jackie shell product is displayed
     And Verifies Tipped lightweight wool Jackie shell product price was $59.50
-    And Verifies Tipped lightweight wool Jackie shell product sale price is now $49.50
+    And Verifies Tipped lightweight wool Jackie shell product sale price is now $49.99
     And Verifies product image is displayed
 
   Scenario: Check sign posts on category pages
