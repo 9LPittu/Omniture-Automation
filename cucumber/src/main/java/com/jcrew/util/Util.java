@@ -63,7 +63,7 @@ public class Util {
     }
 
     public static String getPageVariableValue(WebDriver driver, final String variable) throws InterruptedException {
-        WebDriverWait waitForVariable = new WebDriverWait(driver, 10);
+        WebDriverWait waitForVariable = new WebDriverWait(driver, 5);
         String value = "";
 
         try {
