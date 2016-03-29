@@ -100,7 +100,8 @@ public class SiteMapsPage {
         return urlsList;
     }
 
-    public List<String> checkVariableInUrlList(List<String> urlsList, String variable, List<String> ignoreList) throws InterruptedException {
+    public List<String> checkVariableInUrlList(List<String> urlsList, String variable,
+                                               List<String> ignoreList) throws InterruptedException {
         driver = driverFactory.getDriver();
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String envURL = propertyReader.getProperty("environment");
@@ -126,7 +127,8 @@ public class SiteMapsPage {
         return urlsWithNoVariableValue;
     }
 
-    public List<String> checkVariableInUrlList(List<String> urlsList, Map<String, String> variablesMap, List<String> ignoreList) throws InterruptedException {
+    public List<String> checkVariableInUrlList(List<String> urlsList, Map<String, String> variablesMap,
+                                               List<String> ignoreList) throws InterruptedException {
         driver = driverFactory.getDriver();
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String envURL = propertyReader.getProperty("environment");
@@ -150,11 +152,12 @@ public class SiteMapsPage {
 
                     if (actualValue == null || actualValue.isEmpty()) {
                         logger.error("{} contains an empty {}", url, variable);
-                        resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a>\n");
+                        resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a> " +
+                                "has an empty " + variable + "\n");
                     } else if (!"any".equals(expectedValue) && !actualValue.equals(expectedValue)) {
                         logger.error("{} contains an unexpected value in {} its values is {}", url, variable, actualValue);
-                        resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + " reported value "
-                                + actualValue + " instead of " + expectedValue + "</a>\n");
+                        resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a> reported value "
+                                + actualValue + " instead of " + expectedValue + "\n");
                     }
                 }
             }
