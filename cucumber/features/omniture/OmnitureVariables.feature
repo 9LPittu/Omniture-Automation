@@ -9,6 +9,7 @@ Feature: Omniture variables check
     And Exclude url https://jobs.jcrew.com/ from list
     And Exclude url https://jobs.jcrew.com/?sidecar=true from list
     And Exclude url https://stores.jcrew.com/? from list
+    And Include url https://www.jcrew.com/p/03226 to list
     Then All pages should contain the following variables
        #|variable name|value|  <---- any in value field will check that the variable is not empty
         |s.pageName|any|

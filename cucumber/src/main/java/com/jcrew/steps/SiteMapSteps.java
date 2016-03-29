@@ -40,8 +40,8 @@ public class SiteMapSteps extends DriverFactory {
     }
 
     @When("^Select sitemaps to check$")
-    public void select_sitemaps_to_check(){
-        if(sitemapIndexInputStream != null) {
+    public void select_sitemaps_to_check() {
+        if (sitemapIndexInputStream != null) {
             sitemapList = sitemap.getSiteMapsToCheck(sitemapIndexInputStream);
         } else {
             logger.error("To use \"Select sitemaps to check\" step you need to initialize the sitemapIndex stream");
@@ -49,7 +49,7 @@ public class SiteMapSteps extends DriverFactory {
     }
 
     @When("^Select urls to check$")
-    public void select_urls_to_check(){
+    public void select_urls_to_check() {
         urlsList = sitemap.getUrlsToCheck(sitemapList);
     }
 
@@ -57,46 +57,51 @@ public class SiteMapSteps extends DriverFactory {
     public void allPagesShouldContainSPageNameVariable(String variable) {
         List<String> pagesWithNoVariable = new ArrayList<>();
         try {
-            pagesWithNoVariable = sitemap.checkVariableInUrlList(urlsList, variable,  ignoreThisUrls);
-        } catch (InterruptedException ie){
+            pagesWithNoVariable = sitemap.checkVariableInUrlList(urlsList, variable, ignoreThisUrls);
+        } catch (InterruptedException ie) {
             logger.error("Not able to execute step!!");
         }
 
-        if(pagesWithNoVariable.size() > 0){
+        if (pagesWithNoVariable.size() > 0) {
             String message = "This pages reported not having variable " + variable + ":\n";
-            for(String url : pagesWithNoVariable){
+            for (String url : pagesWithNoVariable) {
                 message += "<a href=\"" + url + "\" target=\"_blank\">" + url + "</a>\n";
             }
 
             assertTrue(message, false);
-        } else{
+        } else {
             assertTrue(true);
         }
     }
 
     @And("^Exclude url ([^\"]*) from list$")
-    public void excludeUrlFromList(String excludedURL){
+    public void excludeUrlFromList(String excludedURL) {
         ignoreThisUrls.add(excludedURL);
     }
 
     @Then("^All pages should contain the following variables$")
-    public void allPagesShouldContainTheFollowingVariables(Map<String,String> variableList){
+    public void allPagesShouldContainTheFollowingVariables(Map<String, String> variableList) {
         List<String> messages = new ArrayList<>();
         try {
-            messages = sitemap.checkVariableInUrlList(urlsList, variableList,  ignoreThisUrls);
-        } catch (InterruptedException ie){
+            messages = sitemap.checkVariableInUrlList(urlsList, variableList, ignoreThisUrls);
+        } catch (InterruptedException ie) {
             logger.error("Not able to execute step!!");
         }
 
-        if(messages.size() > 0){
+        if (messages.size() > 0) {
             String reportMessage = "These pages reported not having a variable:\n";
-            for(String message : messages){
+            for (String message : messages) {
                 reportMessage += message + "\n";
             }
 
             assertTrue(reportMessage, false);
-        } else{
+        } else {
             assertTrue(true);
         }
+    }
+
+    @And("^Include url ([^\"]*) to list$")
+    public void includeUrlHttpsWwwJcrewComPToList(String url) {
+        urlsList.add(url);
     }
 }

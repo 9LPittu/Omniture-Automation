@@ -71,7 +71,6 @@ public class SiteMapsPage {
         xstream.processAnnotations(UrlSet.class);
         xstream.ignoreUnknownElements();
         List<String> urlsList = new ArrayList<>();
-        List<String> productURL = new ArrayList<>();
 
         try {
             for (String sitemap : sitemapList) {
@@ -85,18 +84,11 @@ public class SiteMapsPage {
                 if (urlsInMap != null) {
                     for (Url url : urlsInMap) {
                         String urlToVisit = url.getLoc();
-                        if (isProductURL(urlToVisit)) {
-                            productURL.add(urlToVisit);
-                        } else {
+                        if (!isProductURL(urlToVisit)) {
                             urlsList.add(urlToVisit);
                         }
                     }
                 }
-            }
-
-            //random product URL
-            if (productURL.size() > 0) {
-                urlsList.add(productURL.get(Util.randomIndex(productURL.size())));
             }
 
         } catch (IOException e) {
