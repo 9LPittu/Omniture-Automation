@@ -63,7 +63,7 @@ public class Util {
     }
 
     public static String getPageVariableValue(WebDriver driver, final String variable) throws InterruptedException {
-        WebDriverWait waitForVariable = new WebDriverWait(driver, 5);
+        WebDriverWait waitForVariable = new WebDriverWait(driver, 10);
         String value = "";
 
         try {
@@ -82,7 +82,7 @@ public class Util {
                 }
             });
         } catch (TimeoutException timeout){
-            logger.error("Variable {} not found in URL {} after 10 seconds waiting", variable, driver.getCurrentUrl(),timeout);
+            logger.error("Variable {} not found in URL {} after 5 seconds waiting", variable, driver.getCurrentUrl(),timeout);
         }
 
         return value;

@@ -40,6 +40,9 @@ public class SiteMapsPage {
         xstream.processAnnotations(SitemapIndex.class);
         Pattern countryContextPattern = Pattern.compile("https://www.jcrew.com/" +
                 "\\p{javaLowerCase}{2}/[\\p{javaLowerCase}{2}\\p{Punct}]*\\p{javaLowerCase}{2}-sitemap.xml");
+        Pattern categoryPattern = Pattern.compile("https://www.jcrew.com/\\p{javaLowerCase}+/\\p{javaLowerCase}+_category/" +
+                "\\p{javaLowerCase}+_category_sitemap.xml");
+
         List<String> siteMapsUrls = new ArrayList<>();
 
         SitemapIndex index = (SitemapIndex) xstream.fromXML(stream);
@@ -48,8 +51,9 @@ public class SiteMapsPage {
         for (SiteMap siteMap : siteMapList) {
             String loc = siteMap.getLoc();
             Matcher countryMatcher = countryContextPattern.matcher(loc);
+            Matcher categoryMatcher = categoryPattern.matcher(loc);
 
-            if (!countryMatcher.matches()) {
+            if (!countryMatcher.matches() && !categoryMatcher.matches()) {
                 siteMapsUrls.add(loc);
             }
 
@@ -153,11 +157,11 @@ public class SiteMapsPage {
                     if (actualValue == null || actualValue.isEmpty()) {
                         logger.error("{} contains an empty {}", url, variable);
                         resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a> " +
-                                "has an empty " + variable + "\n");
+                                "has an empty " + variable);
                     } else if (!"any".equals(expectedValue) && !actualValue.equals(expectedValue)) {
                         logger.error("{} contains an unexpected value in {} its values is {}", url, variable, actualValue);
                         resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a> reported value "
-                                + actualValue + " instead of " + expectedValue + "\n");
+                                + actualValue + " instead of " + expectedValue);
                     }
                 }
             }
