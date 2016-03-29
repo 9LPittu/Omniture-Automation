@@ -15,10 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
-
-import java.util.List;
 
 public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
@@ -66,7 +64,6 @@ public class Util {
 
     public static String getPageVariableValue(WebDriver driver, final String variable) throws InterruptedException {
         WebDriverWait waitForVariable = new WebDriverWait(driver, 10);
-        final JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
         String value = "";
 
         try {
@@ -75,7 +72,7 @@ public class Util {
                 public String apply(WebDriver webDriver) {
                     String value;
                     try {
-                        value = (String) javascriptExecutor.executeScript("return " + variable);
+                        value = (String) ((JavascriptExecutor)webDriver).executeScript("return " + variable);
                         if (value != null && value.isEmpty())
                             value = null;
                     } catch (WebDriverException wde) {
@@ -89,6 +86,30 @@ public class Util {
         }
 
         return value;
+    }
+
+    public static Map<String, String> getPageVariablesValue(WebDriver driver, Set<String>variables) throws InterruptedException {
+        Map<String, String> variable_value = new HashMap<>();
+
+        Iterator<String> variablesIterator = variables.iterator();
+        String firstVariable = variablesIterator.next();
+
+        variable_value.put(firstVariable, getPageVariableValue(driver,firstVariable));
+
+        while(variablesIterator.hasNext()){
+            String variable = variablesIterator.next();
+            String value;
+            try {
+                value = (String) ((JavascriptExecutor)driver).executeScript("return " + variable);
+            } catch (WebDriverException wde) {
+                value = "";
+                logger.error("Not able to get variable {}", variable, wde);
+            }
+            variable_value.put(variable, value);
+        }
+
+        return  variable_value;
+
     }
 
     public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{

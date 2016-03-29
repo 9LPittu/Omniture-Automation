@@ -13,6 +13,3 @@ Feature: Omniture variables check
        #|variable name|value|  <---- any in value field will check that the variable is not empty
         |s.pageName|any|
         |s.prop69  |sidecar|
-        |s.evar69  |sidecar|
-        |s.prop71  |Responsive Experience|
-        |s.evar71  |Responsive Experience|

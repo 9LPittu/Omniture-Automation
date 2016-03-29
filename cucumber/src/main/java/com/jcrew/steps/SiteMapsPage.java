@@ -130,6 +130,7 @@ public class SiteMapsPage {
         driver = driverFactory.getDriver();
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String envURL = propertyReader.getProperty("environment");
+        Set<String> variables = variablesMap.keySet();
 
         List<String> resultMessages = new ArrayList<>();
 
@@ -141,18 +142,19 @@ public class SiteMapsPage {
                 logger.debug("{} is redirecting to a ignored url, skipping", url);
 
             } else {
-                Set<String> variables = variablesMap.keySet();
-                for (String variable : variables) {
-                    String variableValue = Util.getPageVariableValue(driver, variable);
-                    String expectedValue = variablesMap.get(variable);
+                Map<String, String> actualValues = Util.getPageVariablesValue(driver, variables);
 
-                    if (variableValue == null || variableValue.isEmpty()) {
+                for (String variable : variables) {
+                    String expectedValue = variablesMap.get(variable);
+                    String actualValue = actualValues.get(variable);
+
+                    if (actualValue == null || actualValue.isEmpty()) {
                         logger.error("{} contains an empty {}", url, variable);
                         resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a>\n");
-                    } else if (!"any".equals(expectedValue) && !variableValue.equals(expectedValue)) {
-                        logger.error("{} contains an unexpected value in {} its values is {}", url, variable, variableValue);
+                    } else if (!"any".equals(expectedValue) && !actualValue.equals(expectedValue)) {
+                        logger.error("{} contains an unexpected value in {} its values is {}", url, variable, actualValue);
                         resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + " reported value "
-                                + variableValue + " instead of " + expectedValue + "</a>\n");
+                                + actualValue + " instead of " + expectedValue + "</a>\n");
                     }
                 }
             }
