@@ -346,4 +346,17 @@ public class Footer {
 
         return !drawerClass.contains("is-expanded");
     }
+    
+    public boolean isCorrectCountryNameDisplayedInFooter(){
+    	
+    	String expectedCountryName = (String)stateHolder.get("selectedCountry");
+ 
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));    	
+    	String actualCountryName = countryNameInFooter.getText();
+    	
+    	logger.info("Expected country to be selected: {}", expectedCountryName);
+    	logger.info("Actual country selected: {}", actualCountryName);
+    	
+    	return actualCountryName.equalsIgnoreCase(expectedCountryName);
+    }
 }

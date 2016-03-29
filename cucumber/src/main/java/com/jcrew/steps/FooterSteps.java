@@ -203,5 +203,10 @@ public class FooterSteps extends DriverFactory {
     @And("Verify footer section in the page is displayed")
     public void verify_footer_section_displayed(){
         assertTrue("Footer section should be displayed",footer.isFooterSectionDisplayed());
-    }    
+    }
+    
+    @And("^user should see selected country in the footer$")
+    public void user_should_see_selected_country_in_footer(){
+    	assertTrue("User should see selected country name in the footer",footer.isCorrectCountryNameDisplayedInFooter());
+    }
 }

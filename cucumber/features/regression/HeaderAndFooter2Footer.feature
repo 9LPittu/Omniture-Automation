@@ -225,10 +225,7 @@ Feature: Footer Verification In Home Page
      And User is on internal /help/international_orders.jsp?sidecar=true page
      And Verify embedded headers links
      Then Verify embedded footer is visible and functional
-     And User presses back button
-     
-     Given user selects country at random from context chooser page
-     Then user should land on country specific home page 
+     And User presses back button     
 
   #US13389_TC13
   # Scenario Outline: Ship To section is visible and functional in footer

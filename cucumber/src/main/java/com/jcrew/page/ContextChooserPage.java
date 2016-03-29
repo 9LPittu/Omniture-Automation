@@ -30,6 +30,9 @@ public class ContextChooserPage {
     
     @FindBys({@FindBy(xpath=".//div[@class='context-chooser__column']/div/h5/i[not(@class='js-icon icon-see-more')]")})
     private List<WebElement> openedRegionalDrawers;
+    
+    @FindBy(xpath="//a[contains(@class,'js-start-shopping-button')]")
+    private WebElement startShoppingButton;
 
     public ContextChooserPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -137,6 +140,7 @@ public class ContextChooserPage {
     }
     
     public void clickLinkFromTermsSectionOnContextChooserPage(String linkName){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
     	driver.findElement(By.id("page__international")).click();
     	WebElement link = driver.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));    	
     	link.click();
@@ -150,23 +154,31 @@ public class ContextChooserPage {
     public void selectRandomCountry(){
     	
     	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
-    	List<WebElement> regionHeaders = internationalContextChooser.findElements(By.tagName("h5"));   	
+    	WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));
+    	List<WebElement> regionHeaders = contextChooser.findElements(By.tagName("h5"));   	
     	int randomIndex = Util.randomIndex(regionHeaders.size());
     	String regionName = regionHeaders.get(randomIndex).getText();
     	logger.info("Region name: {}", regionName);
     	
-    	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + regionName + "']"));
+    	WebElement regionHeader = contextChooser.findElement(By.xpath("//h5[text()='" + regionName + "']"));
     	
     	if(isMobileView()){
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
     		driver.findElement(By.id("page__international")).click();
     		regionHeader.click();
     	}
     	
     	List<WebElement> countries = driver.findElements(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]/ul/li/a/span"));
-    	int randomNum = Util.randomIndex(countries.size());
-    	WebElement country = countries.get(randomNum);
-    	String countryName = country.getText();
+    	
+    	String countryName = "";
+    	WebElement country = null;
+    	
+    	//For France, application is navigating to jsp page. So, excluding France country selection
+    	while(countryName.isEmpty() || countryName.equalsIgnoreCase("FRANCE")){
+    		country = countries.get(Util.randomIndex(countries.size()));
+    		countryName = country.getText();
+    	}
+    	
     	country.click();
 		stateHolder.put("selectedCountry", countryName);
 		logger.info("Selected country: {}", countryName);
@@ -195,7 +207,27 @@ public class ContextChooserPage {
     	Country country = new Country(selectedCountry);    	
     	String countryCode = country.getCountryCode();
     	
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(url + "/" + countryCode + "/"));
-    	return driver.getCurrentUrl().matches(url + "/" + countryCode + "/");    	
+    	String expectedURL = "";
+    	if(selectedCountry.equalsIgnoreCase("UNITED STATES")){
+    		expectedURL = url;
+    	}
+    	else{
+    		expectedURL = url + "/" + countryCode + "/";
+    	}
+    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
+    	Util.waitLoadingBar(driver);
+    	return driver.getCurrentUrl().matches(expectedURL);
+    }
+    
+    public void clickStartShoppingButton(){
+    	
+    	String selectedCountry = (String)stateHolder.get("selectedCountry");
+    	
+    	//For US country, page with 'START SHOPPING' button is not displayed
+    	if(!selectedCountry.equalsIgnoreCase("UNITED STATES")){
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(startShoppingButton));
+    		startShoppingButton.click();
+    	}
     }
 }

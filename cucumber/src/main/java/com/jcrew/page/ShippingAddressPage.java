@@ -3,16 +3,20 @@ package com.jcrew.page;
 import com.github.javafaker.Faker;
 import com.jcrew.util.Util;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ShippingAddressPage {
 
     private final WebDriver driver;
+    private final Logger logger = LoggerFactory.getLogger(ShippingAddressPage.class);
 
     private final Faker faker = new Faker();
 
@@ -79,6 +83,12 @@ public class ShippingAddressPage {
     @FindBy(xpath=".//a[@class='button-submit' and text()='Use Address as Entered']")
     private WebElement checkYourAddress_UseAddressAsEntered;
     
+    @FindBy(id="city")
+    private WebElement townCity;
+    
+    @FindBy(id="state")
+    private WebElement provinceStateCounty;
+    
     public ShippingAddressPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -102,14 +112,15 @@ public class ShippingAddressPage {
     }
 
     public String getSelectedCityAndState() {
-        WebElement cityStateElement = (Util.createWebDriverWait(driver)).
+    	
+    		WebElement cityStateElement = (Util.createWebDriverWait(driver)).
                 until(ExpectedConditions.visibilityOf(dropdownUsCityState));
 
-        Select cityStateSelect = new Select(cityStateElement);
+    		 Select cityStateSelect = new Select(cityStateElement);
 
-        WebElement cityStateOptionSelected = cityStateSelect.getFirstSelectedOption();
+    		 WebElement cityStateOptionSelected = cityStateSelect.getFirstSelectedOption();
 
-        return cityStateOptionSelected.getText();
+    		 return cityStateOptionSelected.getText();    	
     }
 
     public boolean isBillingAndShippingSameAddress() {
@@ -188,5 +199,28 @@ public class ShippingAddressPage {
         Util.waitWithStaleRetry(driver,checkYourAddress_UseAddressAsEntered);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	Util.clickWithStaleRetry(checkYourAddress_UseAddressAsEntered);
+    }
+    
+    public void selectCityAndState() {
+    	
+    	try{
+    		WebElement cityStateElement = (Util.createWebDriverWait(driver,5)).
+    				until(ExpectedConditions.visibilityOfElementLocated(By.id("dropdown-us-city-state")));
+
+			 Select cityStateSelect = new Select(cityStateElement);
+	
+			 cityStateSelect.getFirstSelectedOption();
+    	}
+    	catch(Exception e){
+    		logger.info("There is no city & state dropdown displayed!!!");
+    		
+    		townCity.sendKeys("New York");
+    		try{
+    			 provinceStateCounty.sendKeys("NY");
+    		}
+    		catch(Exception e1){
+    			logger.info("Province/State/County is not displayed!!!");
+    		}
+    	}
     }
 }

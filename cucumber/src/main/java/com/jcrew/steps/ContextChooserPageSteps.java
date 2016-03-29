@@ -57,4 +57,9 @@ public class ContextChooserPageSteps extends DriverFactory {
     public void user_should_land_on_country_specific_home_page(){
     	contextChooser.isUserOnCountrySpecificHomePage();
     }
+    
+    @And("^click on 'START SHOPPING' button on country specific home page$")
+    public void click_start_shopping_button_country_specific_page(){
+    	contextChooser.clickStartShoppingButton();
+    }
 }

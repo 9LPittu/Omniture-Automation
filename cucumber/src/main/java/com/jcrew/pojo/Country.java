@@ -11,7 +11,7 @@ public class Country {
 		
 		switch(countryName){
 			case "UNITED STATES":
-				code = "US";
+				code = "us";
 				currency = "$";
 				break;
 			case "CANADA":
