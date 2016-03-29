@@ -82,7 +82,7 @@ public class Util {
                 }
             });
         } catch (TimeoutException timeout){
-            logger.error("Variable {} not found in URL {} after 5 seconds waiting", variable, driver.getCurrentUrl(),timeout);
+            logger.error("Variable {} not found in URL {} after waiting", variable, driver.getCurrentUrl(),timeout);
         }
 
         return value;

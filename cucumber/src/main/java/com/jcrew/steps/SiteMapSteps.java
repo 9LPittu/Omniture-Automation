@@ -89,7 +89,7 @@ public class SiteMapSteps extends DriverFactory {
         }
 
         if(messages.size() > 0){
-            String reportMessage = "This pages reported not having a variable:\n";
+            String reportMessage = "These pages reported not having a variable:\n";
             for(String message : messages){
                 reportMessage += message + "\n";
             }

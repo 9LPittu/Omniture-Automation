@@ -40,8 +40,10 @@ public class SiteMapsPage {
         xstream.processAnnotations(SitemapIndex.class);
         Pattern countryContextPattern = Pattern.compile("https://www.jcrew.com/" +
                 "\\p{javaLowerCase}{2}/[\\p{javaLowerCase}{2}\\p{Punct}]*\\p{javaLowerCase}{2}-sitemap.xml");
-        Pattern categoryPattern = Pattern.compile("https://www.jcrew.com/\\p{javaLowerCase}+/\\p{javaLowerCase}+_category/" +
+        Pattern categoryPattern = Pattern.compile("https://www.jcrew.com/[\\p{javaLowerCase}/]+\\p{javaLowerCase}+_category/" +
                 "\\p{javaLowerCase}+_category_sitemap.xml");
+        Pattern specialPattern = Pattern.compile("https://www.jcrew.com/[\\p{javaLowerCase}/]+" +
+                "\\p{javaLowerCase}+_special_\\p{javaLowerCase}+/\\p{javaLowerCase}+_special_\\p{javaLowerCase}+_sitemap.xml");
 
         List<String> siteMapsUrls = new ArrayList<>();
 
@@ -52,8 +54,9 @@ public class SiteMapsPage {
             String loc = siteMap.getLoc();
             Matcher countryMatcher = countryContextPattern.matcher(loc);
             Matcher categoryMatcher = categoryPattern.matcher(loc);
+            Matcher specialMatcher = specialPattern.matcher(loc);
 
-            if (!countryMatcher.matches() && !categoryMatcher.matches()) {
+            if (!countryMatcher.matches() && !categoryMatcher.matches() && !specialMatcher.matches()) {
                 siteMapsUrls.add(loc);
             }
 
