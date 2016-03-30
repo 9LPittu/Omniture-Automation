@@ -33,6 +33,8 @@ public class SiteMapsPage {
     DriverFactory driverFactory = new DriverFactory();
     WebDriver driver;
 
+    PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    String envURL = propertyReader.getProperty("environment");
     public SiteMapsPage() {
     }
 
@@ -84,7 +86,7 @@ public class SiteMapsPage {
                 if (urlsInMap != null) {
                     for (Url url : urlsInMap) {
                         String urlToVisit = url.getLoc();
-                        if (!isProductURL(urlToVisit)) {
+                        if (!isProductURL(urlToVisit) && !urlToVisit.equals(envURL)) {
                             urlsList.add(urlToVisit);
                         }
                     }
@@ -129,8 +131,6 @@ public class SiteMapsPage {
     public List<String> checkVariableInUrlList(List<String> urlsList, Map<String, String> variablesMap,
                                                List<String> ignoreList) throws InterruptedException {
         driver = driverFactory.getDriver();
-        PropertyReader propertyReader = PropertyReader.getPropertyReader();
-        String envURL = propertyReader.getProperty("environment");
         Set<String> variables = variablesMap.keySet();
 
         List<String> resultMessages = new ArrayList<>();
