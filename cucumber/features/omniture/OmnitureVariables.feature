@@ -12,5 +12,5 @@ Feature: Omniture variables check
     And Include url https://www.jcrew.com/p/03226 to list
     Then All pages should contain the following variables
        #|variable name|value|  <---- any in value field will check that the variable is not empty
-        |s.pageName|any|
+        |s.pageName|JCrew|
         |s.prop69  |sidecar|
