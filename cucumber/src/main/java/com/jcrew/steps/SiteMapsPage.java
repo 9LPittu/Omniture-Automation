@@ -156,7 +156,7 @@ public class SiteMapsPage {
                     } else if (!"any".equals(expectedValue) && !actualValue.contains(expectedValue)) {
                         logger.error("{} contains an unexpected value in {} its values is {}", url, variable, actualValue);
                         resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a> reported value "
-                                + actualValue + " instead of " + expectedValue);
+                                + actualValue + " and does not contain " + expectedValue);
                     }
                 }
             }
