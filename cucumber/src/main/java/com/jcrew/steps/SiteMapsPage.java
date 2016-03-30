@@ -33,6 +33,8 @@ public class SiteMapsPage {
     DriverFactory driverFactory = new DriverFactory();
     WebDriver driver;
 
+    PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    String envURL = propertyReader.getProperty("environment");
     public SiteMapsPage() {
     }
 
@@ -84,7 +86,7 @@ public class SiteMapsPage {
                 if (urlsInMap != null) {
                     for (Url url : urlsInMap) {
                         String urlToVisit = url.getLoc();
-                        if (!isProductURL(urlToVisit)) {
+                        if (!isProductURL(urlToVisit) && !urlToVisit.equals("https://www.jcrew.com")) {
                             urlsList.add(urlToVisit);
                         }
                     }
@@ -129,8 +131,6 @@ public class SiteMapsPage {
     public List<String> checkVariableInUrlList(List<String> urlsList, Map<String, String> variablesMap,
                                                List<String> ignoreList) throws InterruptedException {
         driver = driverFactory.getDriver();
-        PropertyReader propertyReader = PropertyReader.getPropertyReader();
-        String envURL = propertyReader.getProperty("environment");
         Set<String> variables = variablesMap.keySet();
 
         List<String> resultMessages = new ArrayList<>();
@@ -153,10 +153,10 @@ public class SiteMapsPage {
                         logger.error("{} contains an empty {}", url, variable);
                         resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a> " +
                                 "has an empty " + variable);
-                    } else if (!"any".equals(expectedValue) && !actualValue.equals(expectedValue)) {
+                    } else if (!"any".equals(expectedValue) && !actualValue.contains(expectedValue)) {
                         logger.error("{} contains an unexpected value in {} its values is {}", url, variable, actualValue);
                         resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a> reported value "
-                                + actualValue + " instead of " + expectedValue);
+                                + actualValue + " and does not contain " + expectedValue);
                     }
                 }
             }
