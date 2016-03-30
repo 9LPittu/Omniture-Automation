@@ -86,7 +86,7 @@ public class SiteMapsPage {
                 if (urlsInMap != null) {
                     for (Url url : urlsInMap) {
                         String urlToVisit = url.getLoc();
-                        if (!isProductURL(urlToVisit) && !urlToVisit.equals(envURL)) {
+                        if (!isProductURL(urlToVisit) && !urlToVisit.equals("https://www.jcrew.com")) {
                             urlsList.add(urlToVisit);
                         }
                     }
