@@ -65,7 +65,8 @@ public class StartingSteps {
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {
             try {
-                successfulLoad = getTheInitialPage(pageUrl);
+                getTheInitialPage(pageUrl);
+                successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);
                 retry++;
@@ -100,14 +101,12 @@ public class StartingSteps {
         }
     }
 
-    public boolean getTheInitialPage(String pageUrl){
+    public void getTheInitialPage(String pageUrl){
         String env = reader.getProperty(pageUrl);
         logger.debug("current url is: "+env);
         driver.get(env);
         String strTitle = reader.getProperty("title." + pageUrl);
         Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains(strTitle));
-        String strCurrentTitle = driver.getTitle();
-        return strCurrentTitle.contains(strTitle);
     }
 
     @And("^User goes to homepage$")
