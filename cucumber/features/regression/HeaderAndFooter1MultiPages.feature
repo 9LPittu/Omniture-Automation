@@ -49,6 +49,7 @@ Feature: Embedded Header and Footer Validations
     When User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     And User clicks on BLAZERS subcategory from Women Category
+    And Verify proper currency symbol is displayed on product grid list
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected

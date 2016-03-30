@@ -364,4 +364,9 @@ public class SubcategoryPageSteps extends DriverFactory {
                 "tile__detail--colors-count']/preceding-sibling::span[@class='tile__detail tile__detail--price--list']" +
                 "/ancestor::div[@class='c-product-tile']");
     }
+    
+    @And("^Verify proper currency symbol is displayed on product grid list$")
+    public void verify_currency_on_product_gridlist(){
+    	assertTrue("Currency on product gridlist",subcategoryPage.isCorrectCurrencySymbolDisplayedonProductGridList());
+    }
 }

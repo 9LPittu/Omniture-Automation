@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.jcrew.pojo.Country;
 
 public class SubcategoryPage {
 
@@ -551,4 +552,81 @@ public class SubcategoryPage {
         productList.add(product);
         stateHolder.put("productList", productList);
     }
+    
+    public boolean isCorrectCurrencySymbolDisplayedonProductGridList() {
+        boolean result = true;
+        String expectedCountryName = (String)stateHolder.get("selectedCountry");
+        Country objCountry = new Country(expectedCountryName);
+        String strCurrency = objCountry.getCountryCurrency();
+        
+        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail tile__detail--price--')]"));
+       // List<String> productsHref = new ArrayList<>();
+        
+        	
+        if(productpricess.isEmpty()) {
+            logger.debug("Item Price  count not found on PDP page");
+            result = true;
+        } else {
+        	for (WebElement price : productpricess) 
+        	
+        		if (!price.getText().contains(strCurrency)) {
+        			result = false;
+        			break;
+        		}
+        }
+
+        return result;
+    }
+    
+    public boolean isCorrectCurrencySymbolDisplayedonPDP() {
+        boolean result = true;
+        String expectedCountryName = (String)stateHolder.get("selectedCountry");
+        Country objCountry = new Country(expectedCountryName);
+        String strCurrency = objCountry.getCountryCurrency();
+        
+        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
+       // List<String> productsHref = new ArrayList<>();
+        
+        	
+        if(productpricess.isEmpty()) {
+            logger.debug("Item Price  count not found for product with name {} there should not be variations");
+            result = true;
+        } else {
+        	for (WebElement price : productpricess) 
+        	
+        		if (!price.getText().contains(strCurrency)) {
+        			result = false;
+        			break;
+        		}
+        }
+
+        return result;
+    }
+    
+    public boolean isCorrectCurrencySymbolDisplayedonShoppingBagItemSection() {
+        boolean result = true;
+        String expectedCountryName = (String)stateHolder.get("selectedCountry");
+        Country objCountry = new Country(expectedCountryName);
+        String strCurrency = objCountry.getCountryCurrency();
+        
+        List<WebElement> productpricess = driver.findElements(By.xpath("//div[contains(@class,'item-price') or contains(@class,'item-total')]"));
+       // List<String> productsHref = new ArrayList<>();
+        
+        	
+        if(productpricess.isEmpty()) {
+            logger.debug("Item Price  count not found for product with name {} there should not be variations");
+            result = true;
+        } else {
+        	for (WebElement price : productpricess) 
+        	
+        		if (!price.getText().contains(strCurrency)) {
+        			result = false;
+        			break;
+        		}
+        }
+
+        return result;
+    }
+    
+    
 }
