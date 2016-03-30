@@ -228,7 +228,7 @@ public class DriverFactory {
         String identifier = Thread.currentThread().getName();
         WebDriver driver = driverMap.get(identifier);
 
-        if (driver == null) {
+        if (driver == null || !driver.toString().contains("(null)")) {
             try {
                 driver = createNewDriverInstance();
                 driverMap.put(identifier, driver);

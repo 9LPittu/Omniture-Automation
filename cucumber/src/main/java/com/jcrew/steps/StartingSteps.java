@@ -133,7 +133,7 @@ public class StartingSteps {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
                 deletes_browser_cookies();
-            } catch (Exception e){
+            } catch (RuntimeException e){
                 logger.error("An exception happened when taking step screenshot after scenario", e);
                 driverFactory.resetDriver();
             }
@@ -164,5 +164,11 @@ public class StartingSteps {
                 logger.error("An exception happened when taking step screenshot after step", e);
             }
         }
+    }
+
+    @Given("^User goes ([^\"]*) page$")
+    public void userGoesSitemapIndexXmlPage(String page) {
+        driver.get(page);
+
     }
 }
