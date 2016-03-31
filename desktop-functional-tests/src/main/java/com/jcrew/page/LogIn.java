@@ -31,6 +31,7 @@ public class LogIn extends DriverFactory {
     private final User fakeUser = User.getNewFakeUser();
     private final User knownUser = User.getUser();
     private final String pricebookCountries[] = {"UK", "CA", "HK", "FR"};
+    private final String nonPricebookCountries[] = {"AU", "JP", "DE", "SG", "CH"};
     private final String signupForEmails_HK_Text = "J.Crew would like to use your contact details to send you " +
             "information about our fashion apparel, accessories, shoes, bags, jewelry, electronics, health and " +
             "beauty products and decoration and home goods, as well as upcoming collections, sales, promotions and " +
@@ -168,24 +169,12 @@ public class LogIn extends DriverFactory {
             index = Util.randomIndex(pricebookCountries.length);
             countrySelector.selectByIndex(index);
         } else if ("NON-PRICEBOOK".equals(group)){
-            WebElement options = Util.randomIndex(countrySelector.getOptions());
-
-            while(isPricebookCountry(options.getAttribute("value"))){
-                options = Util.randomIndex(countrySelector.getOptions());
-            }
-
-            countrySelector.selectByValue(options.getAttribute("value"));
+            index = Util.randomIndex(nonPricebookCountries.length);
+            countrySelector.selectByIndex(index);
         }
 
         logger.info("Selected {} as country", getSelectedCountry());
         fakeUser.setCountry(getSelectedCountry());
-    }
-
-    private boolean isPricebookCountry(String text){
-        List<String> otherCountries = new ArrayList<>(Arrays.asList(pricebookCountries));
-        otherCountries.add("US");
-
-        return otherCountries.contains(text);
     }
 
     public void fillField(String field, String value) {
