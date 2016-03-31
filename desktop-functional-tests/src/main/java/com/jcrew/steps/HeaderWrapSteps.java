@@ -32,14 +32,9 @@ public class HeaderWrapSteps extends DriverFactory{
         header.goToDropDownMenu("Sign Out");
     }
 
-    @When("User go to My Details using header")
-    public void user_details_using_header(){
-        header.goToDropDownMenu("My Details");
-    }
-
-    @When("User go to My Details using header")
-    public void user_wishlist_using_header(){
-        header.goToDropDownMenu("Wishlist");
+    @When("User goes to ([^\"]*) using header")
+    public void user_details_using_header(String item){
+        header.goToDropDownMenu(item);
     }
 
     @Then("Dropdown should welcome user by first name")
@@ -50,8 +45,8 @@ public class HeaderWrapSteps extends DriverFactory{
         assertEquals("First name should match message", expectedWelcomeMessage, actualWelcomeMessage);
     }
 
-    @Then("^Dropdown contains these elements$")
-    public void dropdownContainsTheseElements(List<String> items) {
-
+    @Then("Verify header contains Sign In visible")
+    public void verify_header_contains_sign_in_visible(){
+        assertTrue("Header contains a visible sign in",header.isSignInVisible());
     }
 }

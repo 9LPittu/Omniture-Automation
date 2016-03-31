@@ -38,6 +38,8 @@ public class HeaderWrap {
     private WebElement bag;
     @FindBy (id = "c-nav__userpanel")
     private WebElement userPanel;
+    @FindBy (id = "global__promo")
+    private WebElement global_promo;
 
     private WebElement dropdown;
 
@@ -47,6 +49,7 @@ public class HeaderWrap {
         this.wait = Util.createWebDriverWait(driver);
 
         PageFactory.initElements(driver,this);
+        wait.until(ExpectedConditions.visibilityOf(global_promo));
     }
 
     public void reload(){
@@ -66,7 +69,8 @@ public class HeaderWrap {
     }
 
     public void clickSignIn(){
-        sign_in.click();
+        WebElement signInLink = sign_in.findElement(By.tagName("a"));
+        signInLink.click();
     }
 
     public void hoverBag(){
@@ -84,16 +88,20 @@ public class HeaderWrap {
     }
 
     public String getWelcomeMessage() {
-        dropdown = userPanel.findElement(By.xpath(".//dl"));
+        dropdown = userPanel.findElement(By.tagName("dl"));
         WebElement welcomeRow = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel--welcomeuser']"));
         return welcomeRow.getText();
     }
 
     public void goToDropDownMenu(String option) {
         hoverMyAccount();
-        dropdown = userPanel.findElement(By.xpath(".//dl"));
-        WebElement signOut = dropdown.findElement(By.linkText(option));
-        signOut.click();
+        logger.debug("userPanel = {}", userPanel.getAttribute("class"));
+        dropdown = userPanel.findElement(By.tagName("dl"));
+        WebElement optionElement = dropdown.findElement(By.linkText(option));
+        optionElement.click();
     }
 
+    public boolean isSignInVisible() {
+        return sign_in.isDisplayed();
+    }
 }

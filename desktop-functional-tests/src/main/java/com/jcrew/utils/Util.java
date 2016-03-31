@@ -20,10 +20,10 @@ public class Util {
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
 
     public static int randomIndex(int size) {
-        return (int) Math.floor(Math.random() * size - 1);
+        return (int) Math.floor(Math.random() * size);
     }
 
-    public static Object randomIndex(List<Object> list){
+    public static WebElement randomIndex(List<WebElement> list){
         int random = randomIndex(list.size());
         return list.get(random);
     }

@@ -1,5 +1,6 @@
 package com.jcrew.pojo;
 
+import com.github.javafaker.Faker;
 import com.jcrew.utils.PropertyReader;
 
 /**
@@ -11,22 +12,43 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private String country;
     private static User user = null;
 
-    public static User getUser(){
-        if(user == null)
+    public static User getUser() {
+        if (user == null)
             user = new User();
 
         return user;
     }
 
+    public static User getFakeUser() {
+        Faker faker = new Faker();
+        User fakeUser = new User(
+                faker.internet().emailAddress().replace("@", "@test."),
+                faker.lorem().fixedString(6),
+                faker.name().firstName(),
+                faker.name().lastName());
+
+
+        return fakeUser;
+    }
+
+    private User(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     private User() {
         PropertyReader reader = PropertyReader.getPropertyReader();
         String userId = reader.getProperty("userID");
-        this.email = reader.getProperty(userId+".email");
-        this.password = reader.getProperty(userId+".password");
-        this.firstName = reader.getProperty(userId+".firstName");
-        this.lastName = reader.getProperty(userId+".lastName");
+        this.email = reader.getProperty(userId + ".email");
+        this.password = reader.getProperty(userId + ".password");
+        this.firstName = reader.getProperty(userId + ".firstName");
+        this.lastName = reader.getProperty(userId + ".lastName");
+        this.country = reader.getProperty(userId + ".country", "United States");
     }
 
     public String getEmail() {
@@ -45,4 +67,16 @@ public class User {
         return lastName;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public static String getSomePassword(int characters) {
+        Faker faker = new Faker();
+        return faker.lorem().fixedString(characters);
+    }
 }
