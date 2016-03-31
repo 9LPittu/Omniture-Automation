@@ -67,19 +67,37 @@ public class LogInSteps extends DriverFactory {
         logIn.fillField(field, value);
     }
 
-    @When("([^\"]*) field is filled with new data")
-    public void field_is_filled_with_new_data(String field) {
-        logIn.fillField(field);
+    @When("([^\"]*) field is filled with ([^\"]*) data")
+    public void field_is_filled_with_new_data(String field, String userType) {
+        if("new".equalsIgnoreCase(userType))
+            logIn.fillField(field, true);
+        else
+            logIn.fillField(field, false);
     }
 
     @When("([^\"]*) field is filled with less than (\\d+) characters")
     public void field_is_filled_with_new_data_less_than_x_characters(String field, int characters) {
-        int lessThan = Util.randomIndex(characters) + 1;
+        int lessThan = Util.randomIndex(characters - 1) + 1;
         logIn.fillField(field, User.getSomePassword(lessThan));
     }
 
     @And("^User selects country from ([^\"]*) group$")
-    public void userSelectsCountryFromCountry_groupGroup(String country_group) {
+    public void user_selects_country_from_country_group(String country_group) {
         logIn.fillField("country", country_group);
+    }
+
+    @Then("Verify form contains international email option message")
+    public void verify_form_contains_intl_email_option_message() {
+        assertTrue(logIn.hasIntlEmailOptMessage());
+    }
+
+    @Then("Verify form does not contain international email option message")
+    public void verify_form_does_not_contains_intl_email_option_message() {
+        assertFalse(logIn.hasIntlEmailOptMessage());
+    }
+
+    @When("^User selects ([^\"]*) country$")
+    public void user_elects_country(String value) {
+        logIn.setSelectedCountryByValue(value);
     }
 }

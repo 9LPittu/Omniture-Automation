@@ -10,7 +10,7 @@
        When User hovers in My Account dropdown
         And Dropdown should welcome user by first name
         And User goes to My Details using My Account menu
-       Then Sign in user information should match My Details page
+       Then Known user information should match My Details page
        When User goes to Wishlist using header
        Then Verify user is in wishlist page
        When User goes to Order History using header

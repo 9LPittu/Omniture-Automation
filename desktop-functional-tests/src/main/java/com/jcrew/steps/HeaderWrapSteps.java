@@ -33,7 +33,7 @@ public class HeaderWrapSteps extends DriverFactory{
     }
 
     @When("User goes to ([^\"]*) using header")
-    public void user_details_using_header(String item){
+    public void user_goes_to_using_header(String item){
         header.goToDropDownMenu(item);
     }
 
