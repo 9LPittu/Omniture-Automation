@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -280,6 +282,17 @@ public class LoginPage {
             logger.info("corresponding "+countryName+" flag is displayed:  {}", flag);
             numOfCountries--;
 
+        }
+    }
+
+    public void select_top10_country_and_verify_corresponding_flag_is_displayed() {
+        Select select = new Select(countryListDropDown);
+        List<String> top10countries = Arrays.asList("Auatralia","Japan","Germany","Singapore","Switzerland","United States","Canada","HongKong","United Kingdom","France");
+        for (String country:top10countries) {
+            select.selectByValue(country);
+            country = country.replaceAll("\\s", "");
+            boolean flag = isCorrespondingCountryFlagDisplayed(country);
+            logger.info("corresponding "+countryName+" flag is displayed:  {}", flag);
         }
     }
 

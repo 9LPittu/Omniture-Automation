@@ -61,7 +61,8 @@ Feature: Sign In Page
   Scenario: User registration section should have country selection listbox
     And Country selection list box is displayed
     And United States is selected as default value
-    And User can choose any country from the country list box
+    And User can choose top10 countries from the country list box
+    #And User can choose any country from the country list box
     #further implementation needed for below line---check box is not displaying for all of the countries at present
     And Verify opt checkbox not displayed for USA
     # to do later once it is ready----JCSC-878
