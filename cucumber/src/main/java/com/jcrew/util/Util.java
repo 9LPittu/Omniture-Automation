@@ -26,7 +26,7 @@ public class Util {
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
 
     public static int randomIndex(int size) {
-        return (int) (Math.random() * (size - 1));
+        return (int) (Math.random() * (size));
     }
 
     public static Product getCurrentProduct() {
@@ -156,5 +156,24 @@ public class Util {
         createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
         action.moveToElement(element);
     }
-
+    
+    public static String getEnvironmentName(){
+    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String environmentURL = propertyReader.getProperty("environment").toLowerCase();    	
+    	String environmentName = "";
+    	
+    	switch(environmentURL){
+	    	case "https://www.jcrew.com":
+	    	case "http://www.jcrew.com":
+	    		 environmentName = "production";
+	    		 break;
+	    	case "https://or.jcrew.com":
+	    	case "http://or.jcrew.com":
+	    		 environmentName = "goldqa";
+	    		 break;
+	    }
+    	
+    	return environmentName;
+    }
 }

@@ -2,7 +2,6 @@
 Feature: Registered User Checkout Process
 
   Background:
-    #below steps removes items from the bag
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
     And Goes to sign in page
@@ -24,13 +23,11 @@ Feature: Registered User Checkout Process
     #Add item to the bag
     And User is on homepage
     And User clicks on hamburger menu
-    And Selects Men Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Men Category
-    And Selects the first product with regular price from product grid list
+    And user selects any category from hamburger menu
+	And user selects any subcategory
+	And user selects any item from array page, select any color and size
     And User is in product detail page
-    And product name and price should match with array page
-    And A color is selected
-    And A size is selected    
+    And product name and price should match with array page        
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
@@ -38,13 +35,11 @@ Feature: Registered User Checkout Process
   Scenario: Registered user checkout with no items in the bag
     And User is on homepage
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on BLAZERS subcategory from Women Category
-    And Selects the first product with regular price from product grid list
+    And user selects any category from hamburger menu
+	And user selects any subcategory
+	And user selects any item from array page, select any color and size
     And User is in product detail page
-    And product name and price should match with array page
-    And A color is selected
-    And A size is selected
+    And product name and price should match with array page    
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
@@ -68,13 +63,11 @@ Feature: Registered User Checkout Process
   Scenario: Registered user adding new credit card with existing address
     And User is on homepage
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on BLAZERS subcategory from Women Category
-    And Selects the first product with available colors and regular price from product grid list
+    And user selects any category from hamburger menu
+	And user selects any subcategory
+	And user selects any item from array page, select any color and size
     And User is in product detail page
-    And product name and price should match with array page
-    And A color is selected
-    And A size is selected
+    And product name and price should match with array page    
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal

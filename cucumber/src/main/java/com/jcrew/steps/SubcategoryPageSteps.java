@@ -364,4 +364,24 @@ public class SubcategoryPageSteps extends DriverFactory {
                 "tile__detail--colors-count']/preceding-sibling::span[@class='tile__detail tile__detail--price--list']" +
                 "/ancestor::div[@class='c-product-tile']");
     }
+    
+    @And("^user selects any item from array page, select any color and size$")
+    public void user_selects_any_item_from_array_page_select_any_size_color(){
+    	subcategoryPage.selectRandomItemAndSelectSizeColor();
+    }
+
+    @And("^user selects item from array page which has atleast (\\d+) color\\(s\\) and (\\d+) size\\(s\\)$")
+    public void user_selects_any_item_from_array_page_with_(int minColors,int minSizes){
+    	subcategoryPage.selectItemWithVariableColorsAndSizes(minColors,minSizes);
+    }
+    
+    @Then("^user should see \"([^\"]*)\" product is displayed$")    
+    public void verify_item_is_displayed_in_search_results_page(String propertyName){    	;
+    	assertTrue("Product should exist", subcategoryPage.isItemDisplayedInSearchResultsPage(propertyName));
+    }
+    
+    @And("^\"([^\"]*)\" matches with expected price for \"([^\"]*)\"$")
+    public void verify_item_price_in_search_results_page(String pricePropertyName, String saleItemPropertyName){
+    	assertTrue(pricePropertyName + " should match", subcategoryPage.isPriceMatchesForSaleItem(pricePropertyName, saleItemPropertyName));
+    }
 }

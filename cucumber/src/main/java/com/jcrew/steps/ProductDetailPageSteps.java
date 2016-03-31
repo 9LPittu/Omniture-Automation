@@ -311,4 +311,24 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void click_checkout_from_minicart_modal(){
     	productDetailPage.clickMinicartCheckout();
     }
+    
+    @Then("^user should see that previously selected color is retained$")
+    public void verify_previously_selected_color_is_still_displayed_on_pdp_page(){
+    	assertTrue("User should see that the previously selected color is retained",productDetailPage.isPreviouslySelectedColorStillDisplayedAsSelected());
+    }
+
+    @And("^user should see that previously selected size is retained$")
+    public void verify_previously_selected_size_is_still_displayed_on_pdp_page(){
+    	assertTrue("User should see that the previously selected size is retained",productDetailPage.isPreviouslySelectedSizeStillDisplayedAsSelected());
+    }
+
+    @And("^user selects a new color$")
+    public void user_selects_new_color(){    	
+    	productDetailPage.selectNewColor();   	
+    }
+
+    @And("^user selects a new size$")
+    public void user_selects_new_size(){    	
+    	productDetailPage.selectNewSize();    	
+    }
 }

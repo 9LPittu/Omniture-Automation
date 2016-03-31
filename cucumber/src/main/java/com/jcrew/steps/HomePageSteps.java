@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class HomePageSteps extends DriverFactory {
 
     private final HomePage homePage = new HomePage(getDriver());
-    private final Header header = new Header(getDriver());
+    private final Header header = new Header(getDriver());    
     private final PropertyReader reader = PropertyReader.getPropertyReader();
 
 
@@ -100,6 +100,13 @@ public class HomePageSteps extends DriverFactory {
     @And("^Validate the s_account value in production to be ([^\"]*)$")
     public void validate_s_account_value(String expected) {
         assertEquals("s_account value is not as expected", expected, homePage.getSAccountValue());
+    }
+    
+    @And("^search for environment specific \"([^\"]*)\"$")
+    public void search_for_item_specified_in_property_file(String propertyName){
+    	
+    	header.click_on_search_button();    	
+    	homePage.searchItemByReadingPropertyFile(propertyName);
     }
 
 }

@@ -2,11 +2,18 @@ package com.jcrew.steps;
 
 
 import com.jcrew.page.Header;
+import com.jcrew.page.HomePage;
+import com.jcrew.page.SubcategoryPage;
+import com.jcrew.util.DatabaseReader;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +21,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HeaderSteps extends DriverFactory {
-    private final Header header = new Header(getDriver());
+
+	private final Header header = new Header(getDriver());
+	private final HomePage homePage = new HomePage(getDriver());
+    private final SubcategoryPage subcategory = new SubcategoryPage(getDriver());
 
 
     @And("^Search Link is present$")
@@ -131,5 +141,19 @@ public class HeaderSteps extends DriverFactory {
     @Then("Verify stores button link$")
     public void verify_stores_button_link() {
         assertTrue("Verify stores link", header.getStoresButtonLink().contains("stores.jcrew.com/"));
+    }
+    
+    @When("^\"([^\"]*)\" is run and search for item fetched from DB$")
+    public void sql_query_is_executed_and_item_is_searched(String propertyName) throws FileNotFoundException, ClassNotFoundException, IOException, SQLException{
+    	
+    	DatabaseReader dbReader = new DatabaseReader();
+    	String itemCode = dbReader.executeSQLQueryAgainstDB(propertyName);
+    	
+    	header.click_on_search_button();
+    	
+    	homePage.input_search_term(itemCode);
+    	homePage.click_on_search_button_for_input_field();
+    	
+    	subcategory.selectRandomItemFromArrayPage();
     }
 }

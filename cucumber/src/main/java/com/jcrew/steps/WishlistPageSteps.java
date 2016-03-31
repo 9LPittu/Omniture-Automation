@@ -57,4 +57,24 @@ public class WishlistPageSteps extends DriverFactory {
     public void verify_all_products_added_from_shop_the_look_page_are_in_wish_list(){
         assertTrue("All products from shopt the look are in wish list", wishlistPage.shopTheLookProducts());
     }
+    
+    @And("^in wishlist page, user should see the color selected on the PDP page$")
+    public void user_should_see_color_selected_on_pdp_in_wishlist_page(){
+    	assertTrue("In wishlist page, user should see the color selected on the PDP page", wishlistPage.isPDPPageColorDisplayedInWishlist());
+    }
+
+    @And("^in wishlist page, user should see the size selected on the PDP page$")
+    public void user_should_see_size_selected_on_pdp_in_wishlist_page(){
+    	assertTrue("In wishlist page, user should see the size selected on the PDP page", wishlistPage.isPDPPageSizeDisplayedInWishlist());
+    }
+
+    @And("^in wishlist page, user should see the quantity as (\\d+)$")
+    public void user_should_see_quantity_selected_on_pdp_in_wishlist_page(int itemQuantity){
+    	assertTrue("In wishlist page, user should see the quantity as " + itemQuantity, wishlistPage.isItemQuantityMatchesInWishlist(itemQuantity));
+    }
+    
+    @And("^edit item from wishlist$")
+    public void edit_item_from_wishlist(){
+    	wishlistPage.editItemFromWishlist();
+    }
 }

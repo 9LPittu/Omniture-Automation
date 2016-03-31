@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class ProductDetailPage {
@@ -90,6 +91,7 @@ public class ProductDetailPage {
         String pdpProductNameString = getProductNameFromPDP();
         String pdpProductPriceString = getProductPriceList();
     	
+		@SuppressWarnings("unchecked")
 		List<Product> productList = (List<Product>) stateHolder.get("productList");
 
         logger.debug("Looking for: {} - {}", pdpProductNameString, pdpProductPriceString);
@@ -395,5 +397,69 @@ public class ProductDetailPage {
         }
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
+    }
+    
+    public boolean isPreviouslySelectedColorStillDisplayedAsSelected(){
+
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	
+    	String currentSelectedColor = getSelectedColor().toLowerCase();
+    	logger.debug("Current selected color in application: {}", currentSelectedColor);
+
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String expectedColorName = product.getSelectedColor();
+    	logger.debug("Expected color to be in selection: {}", expectedColorName);
+
+    	return expectedColorName.equalsIgnoreCase(currentSelectedColor);
+    }
+
+    public boolean isPreviouslySelectedSizeStillDisplayedAsSelected(){
+
+    	String currentSelectedSize = getSelectedSize().toLowerCase();
+    	logger.debug("Current selected size in application: {}", currentSelectedSize);
+
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String expectedSizeName = product.getSelectedSize();
+    	logger.debug("Expected size to be in selection: {}", expectedSizeName);
+
+    	return expectedSizeName.equalsIgnoreCase(currentSelectedSize);
+    }
+
+	public void selectNewColor(){
+
+    	List<WebElement> itemColors = driver.findElements(By.xpath("//li[contains(@class,'js-product__color colors-list__item') and not(contains(@class,'is-selected'))]"));
+    	int randomIndex = Util.randomIndex(itemColors.size());
+    	itemColors.get(randomIndex).findElement(By.tagName("img")).click();
+		String newSelectedColor = driver.findElement(By.className("product__value")).getText().toLowerCase();
+
+    	logger.debug("Selected new item color: {}", newSelectedColor);
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	product.setSelectedColor(newSelectedColor);
+
+        productList.add(product);
+        stateHolder.put("productList", productList);
+    }
+
+    public void selectNewSize(){
+
+    	List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-selected'))]"));
+    	int randomIndex = Util.randomIndex(itemSizes.size());
+    	itemSizes.get(randomIndex).findElement(By.tagName("span")).click();
+		String newSelectedSize = itemSizes.get(randomIndex).getAttribute("data-name").toLowerCase();
+    	
+    	logger.debug("Selected new item size: {}", newSelectedSize);
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	product.setSelectedSize(newSelectedSize);
+
+        productList.add(product);
+        stateHolder.put("productList", productList);
     }
 }
