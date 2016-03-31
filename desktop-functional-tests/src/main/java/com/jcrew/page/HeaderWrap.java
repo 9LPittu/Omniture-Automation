@@ -36,7 +36,7 @@ public class HeaderWrap {
     private WebElement myAccount;
     @FindBy (id = "js-header__cart")
     private WebElement bag;
-    @FindBy (id = "c-nav__userpanel")
+    @FindBy (id = "c-header__userpanel")
     private WebElement userPanel;
     @FindBy (id = "global__promo")
     private WebElement global_promo;
@@ -48,12 +48,12 @@ public class HeaderWrap {
         this.hoverAction = new Actions(driver);
         this.wait = Util.createWebDriverWait(driver);
 
-        PageFactory.initElements(driver,this);
-        wait.until(ExpectedConditions.visibilityOf(global_promo));
+        reload();
     }
 
     public void reload(){
         PageFactory.initElements(driver,this);
+        wait.until(ExpectedConditions.visibilityOf(global_promo));
     }
 
     public void openMenu(){
@@ -69,6 +69,7 @@ public class HeaderWrap {
     }
 
     public void clickSignIn(){
+        wait.until(ExpectedConditions.visibilityOf(sign_in));
         WebElement signInLink = sign_in.findElement(By.tagName("a"));
         signInLink.click();
     }
@@ -95,7 +96,6 @@ public class HeaderWrap {
 
     public void goToDropDownMenu(String option) {
         hoverMyAccount();
-        logger.debug("userPanel = {}", userPanel.getAttribute("class"));
         dropdown = userPanel.findElement(By.tagName("dl"));
         WebElement optionElement = dropdown.findElement(By.linkText(option));
         optionElement.click();

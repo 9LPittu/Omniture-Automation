@@ -14,6 +14,7 @@ public class User {
     private String lastName;
     private String country;
     private static User user = null;
+    private static User fakeUser = null;
 
     public static User getUser() {
         if (user == null)
@@ -22,14 +23,21 @@ public class User {
         return user;
     }
 
-    public static User getFakeUser() {
+    public static User getNewFakeUser() {
         Faker faker = new Faker();
-        User fakeUser = new User(
+        fakeUser = new User(
                 faker.internet().emailAddress().replace("@", "@test."),
                 faker.lorem().fixedString(6),
                 faker.name().firstName(),
                 faker.name().lastName());
 
+
+        return fakeUser;
+    }
+
+    public static User getFakeUser(){
+        if (fakeUser == null)
+            getNewFakeUser();
 
         return fakeUser;
     }
