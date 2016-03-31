@@ -292,7 +292,7 @@ public class LoginPage {
             select.selectByValue(country);
             country = country.replaceAll("\\s", "");
             boolean flag = isCorrespondingCountryFlagDisplayed(country);
-            logger.info("corresponding "+countryName+" flag is displayed:  {}", flag);
+            logger.info("corresponding "+country+" flag is displayed:  {}", flag);
         }
     }
 
