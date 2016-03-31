@@ -73,7 +73,7 @@ public class PropertyReader {
         String value = properties.getProperty(key);
 
         if (!hasProperty(key)) {
-            throw new RuntimeException("Property '" + key + "' is not defined in environment or viewport file");
+            throw new RuntimeException("Property '" + key + "' is not defined in properties file");
         }
 
         return value;
