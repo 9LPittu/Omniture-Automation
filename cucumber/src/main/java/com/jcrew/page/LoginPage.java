@@ -309,7 +309,7 @@ public class LoginPage {
 
     public boolean isOptCheckBoxDisplayed() {
         Select select = new Select(countryListDropDown);
-        select.deselectByVisibleText("United States");
+        select.selectByVisibleText("United States");
         try {
             WebElement chkbox = driver.findElement(By.id("sidecarRegisterCheckbox"));
             return chkbox.isDisplayed();
