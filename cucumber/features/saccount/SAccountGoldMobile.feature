@@ -13,5 +13,5 @@ Feature: S_Account gold mobile
 
     Examples:
       |pageurl|
-      |Madewellgoldmobile|
       |Factorygoldmobile |
+      |Madewellgoldmobile|

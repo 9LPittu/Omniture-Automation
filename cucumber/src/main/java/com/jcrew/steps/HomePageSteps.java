@@ -108,5 +108,4 @@ public class HomePageSteps extends DriverFactory {
     	header.click_on_search_button();    	
     	homePage.searchItemByReadingPropertyFile(propertyName);
     }
-
 }

@@ -156,6 +156,4 @@ public class HomePage {
     	input_search_term(itemName);
     	click_on_search_button_for_input_field();   	
     }
-
 }
-
