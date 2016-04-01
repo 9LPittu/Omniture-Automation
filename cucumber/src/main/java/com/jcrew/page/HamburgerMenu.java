@@ -30,6 +30,8 @@ public class HamburgerMenu {
     private WebElement signInLinkFromHamburger;
     @FindBy(className = "c-menu")
     private WebElement categoryMenu;
+    @FindBy(id = "global__nav")
+    private WebElement globalNav;
     @FindBy(className = "menus--level2")
     private WebElement menuLevel2;
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/shirtsandtops']")
@@ -52,7 +54,7 @@ public class HamburgerMenu {
         Util.waitWithStaleRetry(driver,hamburgerMenu);
         wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
         Util.clickWithStaleRetry(hamburgerMenu);
-        wait.until(ExpectedConditions.visibilityOf(categoryMenu));
+        wait.until(ExpectedConditions.visibilityOf(globalNav));
     }
 
     public boolean isHamburgerMenuPresent() {
