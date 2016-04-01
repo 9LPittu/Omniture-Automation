@@ -84,7 +84,7 @@ Feature: Sign In Page
     And User is in product detail page
     And User clicks on hamburger menu
     And User clicks on back link
-    And User clicks on hamburger menu
+ #   And User clicks on hamburger menu
     Then My Account link is present
 
    #US9890_TC11
@@ -97,7 +97,7 @@ Feature: Sign In Page
     And User is in product detail page
     And User clicks on hamburger menu
     And User clicks on back link
-    And User clicks on hamburger menu
+#    And User clicks on hamburger menu
     And Goes to sign in page
     And Enter random first name as First Name in create account section
     And Enter random last name as Last Name in create account section
@@ -113,7 +113,7 @@ Feature: Sign In Page
     And User is in product detail page
     And User clicks on hamburger menu
     And User clicks on back link
-    And User clicks on hamburger menu
+#    And User clicks on hamburger menu
     Then My Account link is present
 
 
