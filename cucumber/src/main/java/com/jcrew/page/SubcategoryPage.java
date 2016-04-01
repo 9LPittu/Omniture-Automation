@@ -581,8 +581,11 @@ public class SubcategoryPage {
     	for(int loopCntr=0;loopCntr<itemsThreshold;loopCntr++){
 
     		try{
-    			Util.createWebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("c-product-tile"))));
-    			arrayPageItems = driver.findElements(By.className("c-product-tile"));
+//    			Util.createWebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("c-product-tile"))));
+//    			arrayPageItems = driver.findElements(By.className("c-product-tile"));
+    			
+    			Util.createWebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("tile__detail--name"))));
+    			arrayPageItems = driver.findElements(By.className("tile__detail--name"));
 
         		//Capture the item name and price on array page
         		WebElement arrayPageItem = arrayPageItems.get(loopCntr);
