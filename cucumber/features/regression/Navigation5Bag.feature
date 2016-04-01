@@ -20,7 +20,8 @@ Feature: Edit Product In Bags Scenarios
     Then user should see that previously selected color is retained
     And user should see that previously selected size is retained
     And Deletes browser cookies
-
+  
+  @Bag1
   Scenario: Verify shopping bag page reflects changes made to edited item
   	And User bag is cleared
     When User clicks on hamburger menu
