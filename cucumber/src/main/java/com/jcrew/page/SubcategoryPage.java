@@ -562,7 +562,7 @@ public class SubcategoryPage {
     	int MAX_ITEMS_TO_CHECK = 10;
     	int itemsThreshold;
     	
-    	//driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     	List<WebElement> arrayPageItems = driver.findElements(By.xpath("//div[@class='c-product-tile']"));
 
     	//checking items are displayed on the array page
