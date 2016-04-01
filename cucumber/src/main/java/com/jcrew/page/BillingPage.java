@@ -100,7 +100,10 @@ public class BillingPage {
     
     @FindBy(xpath=".//a[@class='button-submit' and text()='Use Address as Entered']")
     private WebElement checkYourAddress_UseAddressAsEntered;
-
+    
+    @FindBy(className = "button-submit")
+    private WebElement continueCheckout;	
+    
     public BillingPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
@@ -232,5 +235,10 @@ public class BillingPage {
     	Util.waitWithStaleRetry(driver, checkYourAddress_UseAddressAsEntered);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	checkYourAddress_UseAddressAsEntered.click();
+    }
+    
+    public void presses_continue_button_on_Billingpage() {
+        continueCheckout.click();
+        Util.waitForPageFullyLoaded(driver);
     }
 }

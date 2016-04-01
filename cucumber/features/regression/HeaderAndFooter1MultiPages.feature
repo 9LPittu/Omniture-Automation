@@ -9,6 +9,7 @@ Feature: Embedded Header and Footer Validations
 	Given user selects country at random from context chooser page
     Then user should land on country specific home page
     And click on 'START SHOPPING' button on country specific home page
+    
 
 #  Scenario: Account Registration Header Links
 #    When Goes to sign in page
@@ -45,6 +46,7 @@ Feature: Embedded Header and Footer Validations
     #Scenario: Shipping And Gift Options Page Header Links
     #Scenario: Shopping Bag Page header footer links
     #Scenario: Review Page Header Links
+ 
   Scenario: Multiple Pages During Checkout Header Links
     When User clicks on hamburger menu
     And Selects Women Category from hamburger menu
@@ -52,6 +54,7 @@ Feature: Embedded Header and Footer Validations
     And Verify proper currency symbol is displayed on product grid list
     And Selects the first product from product grid list
     And User is in product detail page
+    And Verify proper currency symbol is displayed on PDP page
     And A color is selected
     And A size is selected
     And Add to cart button is pressed
@@ -91,3 +94,5 @@ Feature: Embedded Header and Footer Validations
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
+    
+ 
