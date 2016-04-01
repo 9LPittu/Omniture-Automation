@@ -132,23 +132,7 @@ public class HomePage {
 
     }
 
-    public boolean isGivenVarPresentInSourceCode(String var) {
-
-        if(var.contains("src")) {
-            logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains("src=\"http"));
-            return driver.getPageSource().contains("src=\"http");
-        }
-        logger.debug("looking for page source to contain "+var+":  {}",driver.getPageSource().contains(var));
-        return driver.getPageSource().contains(var);
-    }
-
-    public String getSAccountValue(){
-        String sAccountValue = (String)((JavascriptExecutor)driver).executeScript("return s_account;");
-        logger.info("s_account value is : {}",sAccountValue);
-        return sAccountValue;
-    }
-    
-    public void searchItemByReadingPropertyFile(String propertyName){
+   public void searchItemByReadingPropertyFile(String propertyName){
     	
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
     	String itemName = testDataReader.getData(Util.getEnvironmentName() + "." + propertyName);
