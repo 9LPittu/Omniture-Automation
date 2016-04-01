@@ -562,8 +562,8 @@ public class SubcategoryPage {
     	int MAX_ITEMS_TO_CHECK = 10;
     	int itemsThreshold;
     	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	List<WebElement> arrayPageItems = driver.findElements(By.className("c-product-tile"));
+    	//driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	List<WebElement> arrayPageItems = driver.findElements(By.xpath("//div[@class='c-product-tile']"));
 
     	//checking items are displayed on the array page
     	if(arrayPageItems.size()==0){
@@ -581,16 +581,13 @@ public class SubcategoryPage {
     	for(int loopCntr=0;loopCntr<itemsThreshold;loopCntr++){
 
     		try{
-//    			Util.createWebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("c-product-tile"))));
-//    			arrayPageItems = driver.findElements(By.className("c-product-tile"));
-    			
-    			Util.createWebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("tile__detail--name"))));
-    			arrayPageItems = driver.findElements(By.className("tile__detail--name"));
+    			Util.createWebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"))));
+    			arrayPageItems = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"));
 
         		//Capture the item name and price on array page
         		WebElement arrayPageItem = arrayPageItems.get(loopCntr);
-        		String arrayPageItemName = arrayPageItem.findElement(By.className("tile__detail--name")).getText().trim();
-        		String arrayPageItemPrice = arrayPageItem.findElement(By.className("tile__detail--price--list")).getText().trim();
+        		String arrayPageItemName = arrayPageItem.findElement(By.xpath("//span[contains(@class,'tile__detail--name')]")).getText().trim();        		
+        		String arrayPageItemPrice = arrayPageItem.findElement(By.xpath("//span[contains(@class,'tile__detail--price--list')]")).getText().trim();
 
         		//Click on array page item
         		arrayPageItem.click();
@@ -602,7 +599,7 @@ public class SubcategoryPage {
     			int timeCntr = 0;
     			while(!isPDPDisplayed && timeCntr<30){
     				try{
-    					Util.createWebDriverWait(driver, 1).until(ExpectedConditions.visibilityOfElementLocated(By.className("product__image")));
+    					Util.createWebDriverWait(driver, 1).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//section[@id='c-product__details']")));
     					isPDPDisplayed = true;
     				}
     				catch(Exception e){
@@ -706,152 +703,6 @@ public class SubcategoryPage {
     	}
     }
 
-    public void selectItemWithVariableColorsAndSizes(int minColorsCount,int minSizesCount){
-    	boolean isItemFound = false;
-    	int MAX_ITEMS_TO_CHECK = 10;
-    	int itemsThreshold;
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);    	
-    	List<WebElement> arrayPageItems = driver.findElements(By.className("c-product-tile"));
-
-    	//checking items are displayed on the array page
-    	if(arrayPageItems.size()==0){
-    		throw new WebDriverException("No items are displayed on the array page (or) element properties are changed");
-    	}
-
-    	//Setting the threshold on the items to be checked
-    	if(arrayPageItems.size() > MAX_ITEMS_TO_CHECK){
-    		itemsThreshold = MAX_ITEMS_TO_CHECK;
-    	}
-    	else{
-    		itemsThreshold = arrayPageItems.size();
-    	}
-
-    	for(int loopCntr=0;loopCntr<itemsThreshold;loopCntr++){
-
-    		try{
-    			Util.createWebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("c-product-tile"))));
-    			arrayPageItems = driver.findElements(By.className("c-product-tile"));
-
-        		//Capture the item name and price on array page
-        		WebElement arrayPageItem = arrayPageItems.get(loopCntr);
-        		String arrayPageItemName = arrayPageItem.findElement(By.className("tile__detail--name")).getText().trim();
-        		String arrayPageItemPrice = arrayPageItem.findElement(By.className("tile__detail--price--list")).getText().trim();
-
-        		//Click on array page item
-        		arrayPageItem.click();
-
-    			//Wait till the PDP page is displayed
-        		Util.waitForPageFullyLoaded(driver);
-
-    			boolean isPDPDisplayed = false;
-    			int timeCntr = 0;
-    			while(!isPDPDisplayed && timeCntr<30){
-    				try{
-    					Util.createWebDriverWait(driver, 1).until(ExpectedConditions.visibilityOfElementLocated(By.className("product__image")));
-    					isPDPDisplayed = true;
-    				}
-    				catch(Exception e){
-    					timeCntr++;
-    				}
-    			}
-
-        		Util.createWebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("colors-list__image"))));
-	  			List<WebElement> itemColors = driver.findElements(By.className("colors-list__image"));
-
-	  			//If colors are not available then navigate back to array page
-	  			if(itemColors.size() < minColorsCount){
-	  				navigateBackToArrayPage();
-	  				continue;
-	  			}
-
-	  			//Click on each color at random and check any sizes are available
-	  			String colorName = "";
-	  			boolean isValidItemSizesAvailable = false;
-	  			for(WebElement itemColor:itemColors){
-
-	  				itemColor.click();
-
-	  				//check atleast one size is available for a particular color
-	  				List<WebElement> itemSizes = driver.findElements(By.cssSelector(".js-product__size.sizes-list__item.btn"));
-	  				if(itemSizes.size() >= minSizesCount){
-	  					int sizeNotAvailable = 0;
-	  					for(int i=0;i<itemSizes.size();i++){
-	  						String classAttribute = itemSizes.get(i).getAttribute("class").toLowerCase();
-	  						if(classAttribute.contains("is-unavailable")){
-	  							sizeNotAvailable++;
-	  						}
-	  					}
-
-	  					if(sizeNotAvailable == itemSizes.size()){
-	  						continue;
-	  					}
-
-	  					colorName = driver.findElement(By.className("product__value")).getText();
-	  					isValidItemSizesAvailable = true;
-	  					break;
-	  				}
-	  			}
-
-	  			//If there are no sizes available i.e., item is OUT OF STOCK(OOS) then navigate back to array page
-	  			if(!isValidItemSizesAvailable){
-	  				navigateBackToArrayPage();
-	  				continue;
-	  			}
-
-	  			logger.debug("Selected item name: {}", arrayPageItemName);
-	  			logger.debug("Selected item price: {}", arrayPageItemPrice);
-	  			logger.debug("Selected item color: {}", colorName);
-
-	            //Select random size from the available sizes
-	  			boolean isValidSizeClicked = false;
-	  			List<WebElement> itemSizes = driver.findElements(By.cssSelector(".js-product__size.sizes-list__item.btn"));
-
-	  			while(!isValidSizeClicked){
-	  				int itemSizeIndex = Util.randomIndex(itemSizes.size());
-
-	  				String classAttribute = itemSizes.get(itemSizeIndex).getAttribute("class").toLowerCase();
-		            if(classAttribute.contains("is-unavailable")){
-		            	continue;
-		            }
-
-		            String sizeName = itemSizes.get(itemSizeIndex).getText();
-		            itemSizes.get(itemSizeIndex).click();
-		            logger.debug("Selected item size: {}", sizeName);
-		            isValidSizeClicked = true;
-
-		            //Save all item related details in stateholder
-		            Product product = new Product();
-
-		            product.setProductName(arrayPageItemName);
-		            product.setPriceList(arrayPageItemPrice);
-		            product.setSelectedColor(colorName);
-		            product.setSelectedSize(sizeName);
-
-		            @SuppressWarnings("unchecked")
-					List<Product> productList = (List<Product>) stateHolder.get("productList");
-
-		            if (productList == null) {
-		                productList = new ArrayList<>();
-		            }
-
-		            productList.add(product);
-		            stateHolder.put("productList", productList);
-	  			}
-
-	  			isItemFound = true;
-	            break;
-    		}
-    		catch(Exception e){
-    			navigateBackToArrayPage();
-    		}
-    	}
-
-    	if(!isItemFound){
-    		throw new WebDriverException("No item is found with appropriate color and size");
-    	}
-    }
-    
     public void navigateBackToArrayPage(){
     	WebElement breadcrumb = driver.findElement(By.className("c-header__breadcrumb"));
 		breadcrumb.findElement(By.xpath("//ul[@class='breadcrumb__list']/li[3]/a[@class='breadcrumb__link']")).click();

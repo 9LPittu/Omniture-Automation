@@ -370,11 +370,6 @@ public class SubcategoryPageSteps extends DriverFactory {
     	subcategoryPage.selectRandomItemAndSelectSizeColor();
     }
 
-    @And("^user selects item from array page which has atleast (\\d+) color\\(s\\) and (\\d+) size\\(s\\)$")
-    public void user_selects_any_item_from_array_page_with_(int minColors,int minSizes){
-    	subcategoryPage.selectItemWithVariableColorsAndSizes(minColors,minSizes);
-    }
-    
     @Then("^user should see \"([^\"]*)\" product is displayed$")    
     public void verify_item_is_displayed_in_search_results_page(String propertyName){    	;
     	assertTrue("Product should exist", subcategoryPage.isItemDisplayedInSearchResultsPage(propertyName));
