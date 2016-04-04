@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class ProductDetailPage {
@@ -29,6 +30,9 @@ public class ProductDetailPage {
 
     @FindBy(id = "btn__wishlist")
     private WebElement wishList;
+
+    @FindBy(id = "variants")
+    private WebElement productDetailsVariantsSection;
 
     @FindBy(id = "c-product__variations")
     private WebElement productVariationSection;
@@ -56,6 +60,9 @@ public class ProductDetailPage {
 
     @FindBy(id = "c-product__overview")
     private WebElement productOverview;
+
+    @FindBy(id = "pdpMainImg0")
+    private WebElement productImage;
 
     @FindBy(id = "c-product__actions")
     private WebElement productActionsSection;
@@ -276,6 +283,17 @@ public class ProductDetailPage {
         return productOverview.findElement(By.tagName("h1")).getText();
     }
 
+    public String getFirstProductNameFromMultiPDP() {
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productOverview));
+        return productOverview.findElements(By.tagName("h1")).get(0).getText();
+    }
+    public String getProductImageSourceFromPDP() {
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productImage));
+        return productImage.getAttribute("src");
+    }
+
     public String getProductPriceList() {
         String productListPrice = "";
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetails));
@@ -396,4 +414,50 @@ public class ProductDetailPage {
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
+    public boolean isproductVariantSectionPresent() {
+
+    	try{
+    		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+    		List<WebElement> variants = productDetailsVariantsSection.findElements(By.className("product-details-variants"));
+    		driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	    return true;
+    	}
+    	catch(Exception e){
+    		driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    		return false;
+    	}
+    }
+
+    public boolean isVariantRegularRadioButtonisSelected() {
+        boolean result = false;
+
+		List<WebElement> variations = productDetailsVariantsSection.findElements(By.tagName("input"));
+       	if (!variations.isEmpty()) {
+	        WebElement variation = variations.get(0);
+
+       	    if (variation.isSelected()) {
+       	    	result =true;
+               	logger.debug("Regular Variation is selected");
+	        }
+       }
+
+	return result;
+   }
+
+    public void validate_extended_size_on_pdp_page_is_displayed(){
+		if (isproductVariantSectionPresent()){
+			if(isVariantRegularRadioButtonisSelected()){
+				logger.info("Variant section is present and default Regular variant is selected on PDP page ");
+
+			}
+			else{
+				  logger.error("Variant section is present but Default Regular variant is not selected on PDP page");
+			}
+		}
+		else{
+		  	  logger.info("Variants are not present on PDP page");
+		}
+
+	}
+
 }
