@@ -36,7 +36,7 @@ public class HamburgerMenu {
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement signInLinkFromHamburger;
     
-    @FindBy(xpath = "//ul[@class='c-menu']")
+    @FindBy(className = "c-menu")
     private WebElement categoryMenu;
     
     @FindBy(className = "menus--level2")
@@ -97,7 +97,7 @@ public class HamburgerMenu {
     public void click_on_category(String category) {
         String url = driver.getCurrentUrl();
 
-        getCategory(category).click();
+        getCategory(category).click();        
 
         if("sale".equalsIgnoreCase(category)){
             Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
@@ -110,13 +110,10 @@ public class HamburgerMenu {
     }
 
     private WebElement getCategory(String category) {
-//    	WebElement categoryElement = categoryMenu.findElement(By.xpath("//a[contains(@class,'js-menu__link--forward') and " + 
-//				 					 Util.xpathGetTextLower + " = " +
-//                                     "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
-    	
-    	WebElement categoryElement = categoryMenu.findElement(By.xpath("//a[contains(@class,'menu__link') and " + 
+    	WebElement categoryElement = categoryMenu.findElement(By.xpath("//a[contains(@class,'js-menu__link--forward') and " + 
 				 					 Util.xpathGetTextLower + " = " +
                                      "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
+    	
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryElement));
         return categoryElement;
     }
