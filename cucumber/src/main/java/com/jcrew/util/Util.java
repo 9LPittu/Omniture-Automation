@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
-    public static final int DEFAULT_TIMEOUT = 30;
+    public static final int DEFAULT_TIMEOUT = 60;
     private static final StateHolder stateHolder = StateHolder.getInstance();
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
 
