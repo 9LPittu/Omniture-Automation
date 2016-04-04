@@ -13,9 +13,9 @@ import org.junit.runner.RunWith;
         		
         },
         format = {
-                "json:target/cucumber-megatemplatePDPfeatures.json",
+                "json:target/cucumber-megatemplateImageValidation.json",
                 "pretty",
-                "html:target/cucumber/megatemplatePDPfeatures"
+                "html:target/cucumber/megatemplateImageValidation"
         }
 )
 public class PDPImageValidationRunnerTest {
