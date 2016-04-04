@@ -110,7 +110,11 @@ public class HamburgerMenu {
     }
 
     private WebElement getCategory(String category) {
-    	WebElement categoryElement = categoryMenu.findElement(By.xpath("//a[contains(@class,'js-menu__link--forward') and " + 
+//    	WebElement categoryElement = categoryMenu.findElement(By.xpath("//a[contains(@class,'js-menu__link--forward') and " + 
+//				 					 Util.xpathGetTextLower + " = " +
+//                                     "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
+    	
+    	WebElement categoryElement = categoryMenu.findElement(By.xpath("//a[contains(@class,'menu__link') and " + 
 				 					 Util.xpathGetTextLower + " = " +
                                      "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(categoryElement));
