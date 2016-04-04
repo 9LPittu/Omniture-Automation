@@ -22,6 +22,8 @@ public class HomePage {
 
     @FindBy (id = "page__home")
     private WebElement pageContent;
+    @FindBy (id = "global__email-capture")
+    private WebElement emailCapture;
 
     public HomePage(WebDriver driver){
         this.driver = driver;
@@ -37,5 +39,12 @@ public class HomePage {
         String bodyClass = body.getAttribute("class");
 
         return "jcrew home".equals(bodyClass);
+    }
+
+    public void closeEmailCapture(){
+        wait.until(ExpectedConditions.visibilityOf(emailCapture));
+        WebElement closeButton = emailCapture.findElement(By.className("js-email-capture--close"));
+
+        closeButton.click();
     }
 }

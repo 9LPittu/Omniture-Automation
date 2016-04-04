@@ -3,11 +3,8 @@ package com.jcrew.steps;
 import com.jcrew.page.HeaderWrap;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -22,19 +19,24 @@ public class HeaderWrapSteps extends DriverFactory{
         header.clickSignIn();
     }
 
-    @When("User hovers in My Account dropdown")
-    public void hover_in_my_account_dropdown(){
-        header.hoverMyAccount();
+    @When("User opens menu")
+    public void user_opens_menu() {
+        header.openMenu();
+    }
+
+    @When("User hovers over ([^\"]*)")
+    public void user_hovers_over(String icon){
+        header.hoverOverIcon(icon);
     }
 
     @When("User signs out using header")
     public void sign_out_using_header(){
-        header.goToDropDownMenu("Sign Out");
+        header.goToMyDetailsDropDownMenu("Sign Out");
     }
 
     @When("User goes to ([^\"]*) using header")
     public void user_goes_to_using_header(String item){
-        header.goToDropDownMenu(item);
+        header.goToMyDetailsDropDownMenu(item);
     }
 
     @Then("Dropdown should welcome user by first name")
