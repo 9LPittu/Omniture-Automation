@@ -77,7 +77,7 @@ public class MegaTemplatePageSteps extends DriverFactory {
 			   //for mobile browsers
 			   driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 			   try{				   
-				   Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//ul[@class='bullet-list']/li[contains(text(),'" + itemCode + "')]"))));
+				   Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='bullet-list']/li[contains(text(),'" + itemCode + "')]")));
 			   }
 			   catch(Exception e){
 				   logger.error("PDP page is not displayed for the URL " + url);
@@ -100,7 +100,7 @@ public class MegaTemplatePageSteps extends DriverFactory {
 			   driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 			   
 			   try{				   
-				   Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//section[@id='description' or @id='description0']/span[@class='item-num' and contains(text(),'" + itemCode + "')] "))));
+				   Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//section[@id='description' or @id='description0']/span[@class='item-num' and contains(text(),'" + itemCode + "')] ")));
 			   }
 			   catch(Exception e){
 				   logger.error("PDP page is not displayed for the URL " + url);
@@ -168,7 +168,7 @@ public class MegaTemplatePageSteps extends DriverFactory {
 				   //for mobile browsers
 				   driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 				   try{				   
-					   Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//ul[@class='bullet-list']/li[contains(text(),'" + itemCode + "')]"))));
+					   Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='bullet-list']/li[contains(text(),'" + itemCode + "')]")));
 				   }
 				   catch(Exception e){
 					   logger.error("PDP page is not displayed for the URL " + url);
@@ -185,7 +185,7 @@ public class MegaTemplatePageSteps extends DriverFactory {
 				   driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 				   
 				   try{				   
-					   Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//span[@class='item-num' and contains(text(),'" + itemCode + "')]"))));
+					   Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='item-num' and contains(text(),'" + itemCode + "')]")));
 				   }
 				   catch(Exception e){
 					   logger.error("PDP page is not displayed for the URL " + url);
@@ -351,7 +351,7 @@ public class MegaTemplatePageSteps extends DriverFactory {
 							Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlMatches(oldUrl)));
 						}
 
-						Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@id='order-listing']"))));
+						Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='order-listing']")));
 					}
 					catch(Exception e){
 						logger.error("Shopping bag page is not displayed for the URL " + url);
@@ -365,7 +365,7 @@ public class MegaTemplatePageSteps extends DriverFactory {
 					driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
 					try{
-						Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@id='order-listing']" ))));
+						Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='order-listing']")));
 						logger.info("Shopping bag page is displayed");
 					}
 					catch(Exception e){
