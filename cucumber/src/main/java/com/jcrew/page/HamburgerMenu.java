@@ -36,7 +36,7 @@ public class HamburgerMenu {
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement signInLinkFromHamburger;
     
-    @FindBy(className = "c-menu")
+    @FindBy(xpath = "//ul[@class='c-menu']")
     private WebElement categoryMenu;
     
     @FindBy(className = "menus--level2")
