@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -283,6 +285,19 @@ public class LoginPage {
         }
     }
 
+    public boolean select_top10_country_and_verify_corresponding_flag_is_displayed() {
+        Select select = new Select(countryListDropDown);
+        List<String> top10countries = Arrays.asList("Australia","Japan","Germany","Singapore","Switzerland","United States","Canada","Hong Kong","United Kingdom","France");
+        boolean flag = true;
+        for (String country:top10countries) {
+            select.selectByVisibleText(country);
+            country = country.replaceAll("\\s", "");
+            flag &= isCorrespondingCountryFlagDisplayed(country);
+            logger.info("corresponding "+country+" flag is displayed:  {}", flag);
+        }
+        return flag;
+    }
+
     public void select_any_random_country() {
         Select select = new Select(countryListDropDown);
         int size = select.getOptions().size();
@@ -296,7 +311,7 @@ public class LoginPage {
 
     public boolean isOptCheckBoxDisplayed() {
         Select select = new Select(countryListDropDown);
-        select.deselectByVisibleText("United States");
+        select.selectByVisibleText("United States");
         try {
             WebElement chkbox = driver.findElement(By.id("sidecarRegisterCheckbox"));
             return chkbox.isDisplayed();
