@@ -285,15 +285,17 @@ public class LoginPage {
         }
     }
 
-    public void select_top10_country_and_verify_corresponding_flag_is_displayed() {
+    public boolean select_top10_country_and_verify_corresponding_flag_is_displayed() {
         Select select = new Select(countryListDropDown);
         List<String> top10countries = Arrays.asList("Australia","Japan","Germany","Singapore","Switzerland","United States","Canada","Hong Kong","United Kingdom","France");
+        boolean flag = true;
         for (String country:top10countries) {
             select.selectByVisibleText(country);
             country = country.replaceAll("\\s", "");
-            boolean flag = isCorrespondingCountryFlagDisplayed(country);
+            flag &= isCorrespondingCountryFlagDisplayed(country);
             logger.info("corresponding "+country+" flag is displayed:  {}", flag);
         }
+        return flag;
     }
 
     public void select_any_random_country() {

@@ -156,7 +156,7 @@ public class LoginPageSteps extends DriverFactory {
 
     @And("User can choose top10 countries from the country list box")
     public void verify_user_choose_top10_country() {
-        loginPage.select_top10_country_and_verify_corresponding_flag_is_displayed();
+        assertTrue("coresponding country should be displayed",loginPage.select_top10_country_and_verify_corresponding_flag_is_displayed());
 
     }
 
