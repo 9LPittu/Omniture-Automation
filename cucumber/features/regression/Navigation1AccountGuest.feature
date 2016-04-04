@@ -62,7 +62,6 @@ Feature: Sign In Page
     And Country selection list box is displayed
     And United States is selected as default value
     And User can choose top10 countries from the country list box
-    #And User can choose any country from the country list box
     #further implementation needed for below line---check box is not displaying for all of the countries at present
     And Verify opt checkbox not displayed for USA
     # to do later once it is ready----JCSC-878
@@ -84,7 +83,6 @@ Feature: Sign In Page
     And User is in product detail page
     And User clicks on hamburger menu
     And User clicks on back link
- #   And User clicks on hamburger menu
     Then My Account link is present
 
    #US9890_TC11
@@ -97,7 +95,6 @@ Feature: Sign In Page
     And User is in product detail page
     And User clicks on hamburger menu
     And User clicks on back link
-#    And User clicks on hamburger menu
     And Goes to sign in page
     And Enter random first name as First Name in create account section
     And Enter random last name as Last Name in create account section
@@ -113,7 +110,6 @@ Feature: Sign In Page
     And User is in product detail page
     And User clicks on hamburger menu
     And User clicks on back link
-#    And User clicks on hamburger menu
     Then My Account link is present
 
 
