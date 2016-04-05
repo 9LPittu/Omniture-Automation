@@ -33,7 +33,7 @@ public class DatabaseReader {
 		    try {
 		        return conn.createStatement();
 		    } catch (Exception e) {
-		    	e.printStackTrace();		        
+		    	e.printStackTrace();		    	
 		    }
 		    return null;
 		}
@@ -84,6 +84,7 @@ public class DatabaseReader {
 	    	if(rs!=null){
 	    		while(rs.next()){
 	    			item = rs.getString(1);
+	    			System.out.println("Item retrieved is" + item);
 	    			break;
 	    		}
 	    	}
