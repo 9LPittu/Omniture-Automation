@@ -7,6 +7,7 @@ import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -229,5 +230,42 @@ public class ContextChooserPage {
     		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(startShoppingButton));
     		startShoppingButton.click();
     	}
+    }
+    
+    
+public void selectTop10RandomCountry(){
+	List<String> top10countries = Arrays.asList("Australia","Japan","Germany","Singapore","Switzerland","United States","Canada","Hong Kong","United Kingdom");
+		String countryName = top10countries.get(Util.randomIndex(top10countries.size()));
+		String regionName="";
+		switch(countryName){
+			case "Australia" : case "Japan" : case "Singapore": case "Hong Kong" :
+				regionName = "ASIA PACIFIC";
+				break;
+			case "United Kingdom" : case "France" : case "Germany" : case"Switzerland":
+				regionName = "EUROPE";
+				break;	
+			case "United States" : case "Canada":
+				regionName = "UNITED STATES & CANADA";	
+				break;
+				
+		}
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));
+    	
+    	
+    	WebElement regionHeader = contextChooser.findElement(By.xpath("//h5[text()='" + regionName + "']"));
+    	
+    	if(isMobileView()){
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
+    		driver.findElement(By.id("page__international")).click();
+    		regionHeader.click();
+    	}
+    	WebElement country = null;
+    	country = driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"));
+    	
+    	
+    	country.click();
+		stateHolder.put("selectedCountry", countryName);
+		logger.info("Selected country: {}", countryName);
     }
 }

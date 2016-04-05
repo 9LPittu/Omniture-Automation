@@ -1,4 +1,4 @@
-@HeaderAndFooter2
+@HeaderAndFooter
 Feature: Context Chooser Validations
 
   Background:

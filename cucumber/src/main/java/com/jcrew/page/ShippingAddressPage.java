@@ -1,6 +1,9 @@
 package com.jcrew.page;
 
 import com.github.javafaker.Faker;
+import com.jcrew.pojo.Country;
+import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -17,7 +20,7 @@ public class ShippingAddressPage {
 
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(ShippingAddressPage.class);
-
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private final Faker faker = new Faker();
 
     @FindBy(id = "firstNameSA")
@@ -103,6 +106,34 @@ public class ShippingAddressPage {
         address2.sendKeys("14th Floor");
         zipcode.sendKeys("10003");
         phoneNumSA.sendKeys(faker.phoneNumber().phoneNumber());
+
+    }
+    
+    public void fills_shipping_address_testdata() {
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	String cityname="";
+    	String statename="";
+    	String expectedCountryName = (String)stateHolder.get("selectedCountry");
+        Country objCountry = new Country(expectedCountryName);
+        String countryCode = objCountry.getCountryCode();
+    	
+    	String countryaddress = testDataReader.getData(countryCode + "_address");
+    	
+        firstNameSA.sendKeys(faker.name().firstName());
+        lastNameSA.sendKeys(faker.name().lastName());
+        address3.sendKeys(countryaddress.split(";")[0]);
+        address1.sendKeys(countryaddress.split(";")[1]);
+        address2.sendKeys(countryaddress.split(";")[2]);
+        zipcode.sendKeys(countryaddress.split(";")[3]);
+        phoneNumSA.sendKeys(faker.phoneNumber().phoneNumber());
+        
+        if(expectedCountryName.equals("United States")){
+        	selectCityAndState();
+        }
+        else{
+            selectIntlCityAndState(countryaddress.split(";")[4],countryaddress.split(";")[5]);
+        }
+        
 
     }
 
@@ -221,6 +252,32 @@ public class ShippingAddressPage {
     		catch(Exception e1){
     			logger.info("Province/State/County is not displayed!!!");
     		}
+    	}
+    }
+    
+    
+ public void selectIntlCityAndState(String cityname,String statename) {
+    	
+    	try{
+    		WebElement city = driver.findElement(By.id("city"));
+    		city.sendKeys(cityname);
+    		WebElement stateElement = (Util.createWebDriverWait(driver,5)).
+    		until(ExpectedConditions.visibilityOfElementLocated(By.id("dropdown-state-province")));
+
+			 Select stateSelect = new Select(stateElement);
+	
+			 stateSelect.selectByVisibleText(statename);;
+    	}
+    	catch(Exception e){
+    		logger.info("There is no city & state dropdown displayed!!!");
+    		
+    		//townCity.sendKeys("New York");
+    		//try{
+    			// provinceStateCounty.sendKeys("NY");
+    		//}
+    		//catch(Exception e1){
+    			//logger.info("Province/State/County is not displayed!!!");
+    		//}
     	}
     }
 }

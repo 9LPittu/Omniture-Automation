@@ -127,4 +127,15 @@ public class ShippingAddressPageSteps extends DriverFactory {
         assertTrue("Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
 
     }
+    
+    @When("^user fills selcted country shipping address$")
+    public void user_fills_country_shipping_address() throws Throwable {
+
+        shippingAddressPage.fills_shipping_address_testdata();
+        
+       // shippingAddressPage.selectCityAndState();
+
+        assertTrue("Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
+
+    }
 }

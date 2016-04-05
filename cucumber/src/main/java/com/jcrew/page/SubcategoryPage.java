@@ -555,7 +555,7 @@ public class SubcategoryPage {
     
     public boolean isCorrectCurrencySymbolonProductGridList() {
         boolean result = true;
-        stateHolder.put("selectedCountry", "United States");
+        //stateHolder.put("selectedCountry", "United States");
         String expectedCountryName = (String)stateHolder.get("selectedCountry");
         Country objCountry = new Country(expectedCountryName);
         String strCurrency = objCountry.getCountryCurrency();
@@ -622,7 +622,7 @@ public class SubcategoryPage {
         boolean result = true;
         String expectedCountryName = (String)stateHolder.get("selectedCountry");
         Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency();
+        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
         
         List<WebElement> productpricess = driver.findElements(By.xpath("//div[contains(@class,'item-price') or contains(@class,'item-total')]"));
        // List<String> productsHref = new ArrayList<>();
@@ -653,7 +653,7 @@ public class SubcategoryPage {
         boolean result = true;
         String expectedCountryName = (String)stateHolder.get("selectedCountry");
         Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency();
+        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
         
         List<WebElement> summarypricess = driver.findElements(By.xpath("//span[contains(@class,'summary-value')]"));
        // List<String> productsHref = new ArrayList<>();
