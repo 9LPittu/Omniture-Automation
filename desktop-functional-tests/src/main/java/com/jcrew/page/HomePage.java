@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +23,7 @@ public class HomePage {
 
     @FindBy (id = "page__home")
     private WebElement pageContent;
-    @FindBy (id = "global__email-capture")
+    @FindBy (className = "c-email-capture")
     private WebElement emailCapture;
 
     public HomePage(WebDriver driver){
@@ -42,9 +43,15 @@ public class HomePage {
     }
 
     public void closeEmailCapture(){
-        wait.until(ExpectedConditions.visibilityOf(emailCapture));
-        WebElement closeButton = emailCapture.findElement(By.className("js-email-capture--close"));
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String browser = propertyReader.getProperty("browser");
 
-        closeButton.click();
+        if("chrome".equals(browser) || "firefox".equals(browser)) {
+            WebElement closeButton = emailCapture.findElement(By.className("js-email-capture--close"));
+            WebElement closeIcon = closeButton.findElement(By.tagName("span"));
+
+            wait.until(ExpectedConditions.elementToBeClickable(closeIcon));
+            closeIcon.click();
+        }
     }
 }

@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,12 @@ public class MenuDrawer {
         wait = Util.createWebDriverWait(driver);
 
         PageFactory.initElements(driver, this);
+
+    }
+
+    public void reload() {
+        PageFactory.initElements(driver, this);
+        wait.until(ExpectedConditions.visibilityOf(drawer));
     }
 
     public void selectCategoryFromList(List<String> categories) {
@@ -40,6 +47,7 @@ public class MenuDrawer {
                 By.xpath(".//a[contains(" + Util.xpathGetTextLower + ",'" + selectedCategory + "')]"));
 
         logger.info("Selected category: {}", categoryLink.getText());
+        wait.until(ExpectedConditions.elementToBeClickable(categoryLink));
         categoryLink.click();
     }
 
@@ -58,8 +66,9 @@ public class MenuDrawer {
 
     public void goBackToLevel1() {
         WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
-        WebElement back = level2Menu.findElement(By.className("js-menu__btn--back"));
+        WebElement back = level2Menu.findElement(By.className("btn__label"));
 
+        wait.until(ExpectedConditions.elementToBeClickable(back));
         back.click();
     }
 }

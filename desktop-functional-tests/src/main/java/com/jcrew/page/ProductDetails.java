@@ -1,6 +1,5 @@
 package com.jcrew.page;
 
-import com.google.common.base.Predicate;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
@@ -27,9 +26,10 @@ public class ProductDetails {
     private final Logger logger = LoggerFactory.getLogger(ProductDetails.class);
     private final WebDriverWait wait;
     private final StateHolder holder = StateHolder.getInstance();
+    private final HeaderWrap headerWrap;
 
-    private final String PRICE_SALE_CLASS = "product__price--list";
-    private final String PRICE_LIST_CLASS = "product__price--sale";
+    private final String PRICE_SALE_CLASS = "product__price--sale";
+    private final String PRICE_LIST_CLASS = "product__price--list";
 
     @FindBy(id = "c-product__price-colors")
     private WebElement price_colors;
@@ -49,6 +49,7 @@ public class ProductDetails {
     public ProductDetails(WebDriver driver) {
         this.driver = driver;
         wait = Util.createWebDriverWait(driver);
+        headerWrap = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
     }
@@ -119,6 +120,7 @@ public class ProductDetails {
         if (priceGroups.size() > 1) {
             WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
             productPrice = selectedColor.findElement(By.xpath(".//ancestor::div[@class='product__group']/span"));
+            logger.debug("Price from group color");
         } else {
             //if has variations, get price from variations
             List<WebElement> variationsPrice = variations.findElements(By.tagName("li"));
@@ -127,26 +129,37 @@ public class ProductDetails {
                 logger.info("Selected variation price: {}", selectedVariation.getText());
 
                 //check if variation has sale price
-                List<WebElement> salePrice = selectedVariation.findElements(
+                productPrice = selectedVariation.findElement(
                         By.xpath(".//span[contains(@class,'" + PRICE_SALE_CLASS + "')]"));
-                if (salePrice.size() == 1) {
-                    productPrice = salePrice.get(0);
-                } else { //if no sale price get regular price
+                if (!productPrice.isDisplayed()) {
+                    //if no sale price get regular price
                     productPrice = selectedVariation.findElement(
                             By.xpath(".//span[contains(@class,'" + PRICE_LIST_CLASS + "')]"));
+                    logger.debug("Price from variation with list price");
                 }
 
             } else { //if no variations, get sale price
-                List<WebElement> salePrice = price.findElements(By.className(PRICE_SALE_CLASS));
-                if (salePrice.size() == 1) {
-                    productPrice = salePrice.get(0);
-                } else { //if no sale price get regular price
+                productPrice = price.findElement(By.className(PRICE_SALE_CLASS));
+                if (!productPrice.isDisplayed()) {
+                    //if no sale price get regular price
                     productPrice = price.findElement(By.className(PRICE_LIST_CLASS));
+                    logger.debug("Price from list price");
                 }
             }
         }
 
         return productPrice.getText();
+    }
+
+    public Product getProduct() {
+        Product product = new Product();
+        product.setColor(getSelectedColor());
+        product.setSize(getSelectedSize());
+        product.setName(getProductName());
+        product.setQuantity(getQuantity());
+        product.setPrice(getPrice());
+
+        return product;
     }
 
     public void addToBag() {
@@ -156,12 +169,7 @@ public class ProductDetails {
             productsInBag = new Stack<>();
         }
 
-        Product product = new Product();
-        product.setColor(getSelectedColor());
-        product.setSize(getSelectedSize());
-        product.setName(getProductName());
-        product.setQuantity(getQuantity());
-        product.setPrice(getPrice());
+        Product product = getProduct();
 
         productsInBag.add(product);
 
@@ -169,6 +177,7 @@ public class ProductDetails {
         holder.put("bag_items", productsInBag);
 
         addToBagButton.click();
+        headerWrap.waitUntilNoCheckOutDropdown();
     }
 
 }

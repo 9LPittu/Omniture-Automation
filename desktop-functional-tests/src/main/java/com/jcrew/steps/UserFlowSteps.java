@@ -5,6 +5,7 @@ import com.jcrew.page.ProductDetails;
 import com.jcrew.page.ProductsArray;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.When;
+import java.util.Arrays;
 
 import java.util.List;
 
@@ -13,8 +14,10 @@ import java.util.List;
  */
 public class UserFlowSteps extends DriverFactory {
 
-    @When("User adds to bag a random product using a category from list")
-    public void users_add_random_product(List<String> categories){
+    @When("User adds to bag a random product using a main category")
+    public void users_add_random_product(){
+        List<String> categories = Arrays.asList("Men", "Women","Girls", "Boys");
+
         MenuDrawer menuDrawer = new MenuDrawer(getDriver());
         menuDrawer.selectCategoryFromList(categories);
         menuDrawer.selectSubCategory();

@@ -1,7 +1,10 @@
 package com.jcrew.page;
 
+import com.google.common.base.Predicate;
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -12,6 +15,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * Created by nadiapaolagarcia on 3/28/16.
  */
@@ -21,11 +26,10 @@ public class HeaderWrap {
     private final Logger logger = LoggerFactory.getLogger(HeaderWrap.class);
     private final WebDriverWait wait;
     private final Actions hoverAction;
+    private final MenuDrawer drawer;
 
     @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
     private WebElement menu;
-    @FindBy(id = "global__nav")
-    private WebElement menuDrawer;
     @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/a")
     private WebElement search;
     @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--stores']/a")
@@ -44,6 +48,8 @@ public class HeaderWrap {
     private WebElement global_promo;
     @FindBy(id = "c-header__minibag")
     private WebElement minibag;
+    @FindBy(id = "global__header")
+    private WebElement global_header;
 
     private WebElement dropdown;
 
@@ -51,7 +57,7 @@ public class HeaderWrap {
         this.driver = driver;
         this.hoverAction = new Actions(driver);
         this.wait = Util.createWebDriverWait(driver);
-
+        this.drawer = new MenuDrawer(driver);
         reload();
     }
 
@@ -62,7 +68,7 @@ public class HeaderWrap {
 
     public void openMenu() {
         menu.click();
-        wait.until(ExpectedConditions.visibilityOf(menuDrawer));
+        drawer.reload();
     }
 
     public void searchFor(String searchTerm) {
@@ -91,8 +97,17 @@ public class HeaderWrap {
 
     public void hoverOverIcon(String icon) {
         if("bag".equalsIgnoreCase(icon)){
-            hoverAction.moveToElement(bag);
-            hoverAction.perform();
+            PropertyReader propertyReader = PropertyReader.getPropertyReader();
+            String browser = propertyReader.getProperty("browser");
+
+            if("chrome".equals(browser) || "firefox".equals(browser)) {
+                hoverAction.moveToElement(bag);
+                hoverAction.perform();
+            } else {
+                JavascriptExecutor jse = (JavascriptExecutor) driver;
+                jse.executeScript(
+                        "jcrew.jQuery('.primary-nav__item--bag-filled').trigger('mouseenter');");
+            }
         } else if("my account".equalsIgnoreCase(icon)) {
             wait.until(ExpectedConditions.visibilityOf(myAccount));
             hoverAction.moveToElement(myAccount);
@@ -115,5 +130,20 @@ public class HeaderWrap {
 
     public boolean isSignInVisible() {
         return sign_in.isDisplayed();
+    }
+
+    public void waitUntilNoCheckOutDropdown() {
+        List<WebElement> checkoutDropdown = global_header.findElements(By.className("js-header__cart"));
+
+        if(checkoutDropdown.size() > 0){
+            wait.until(new Predicate<WebDriver>() {
+                @Override
+                public boolean apply(WebDriver driver) {
+                    List<WebElement> headerCart = global_header.findElements(By.className("js-header__cart"));
+
+                    return headerCart.size() == 0;
+                }
+            });
+        }
     }
 }

@@ -49,7 +49,9 @@ public class ProductsArray {
 
         logger.info("Selected product: {}", random_product_name.getText());
 
-        random_product_tile.click();
+        WebElement random_product_image = random_product_tile.findElement(By.tagName("img"));
+        wait.until(ExpectedConditions.visibilityOf(random_product_image));
+        random_product_image.click();
 
         Util.waitLoadingBar(driver);
     }
