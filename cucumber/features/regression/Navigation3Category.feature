@@ -26,9 +26,9 @@ Feature: Regression Tests Category Feature
   Scenario: Check Product Tiles for Sale Variations
     When User clicks on SWEATERS subcategory from Women Category
     Then User should be in sweaters page for women
-    And Verifies Tipped lightweight wool Jackie shell product is displayed
-    And Verifies Tipped lightweight wool Jackie shell product price was $59.50
-    And Verifies Tipped lightweight wool Jackie shell product sale price is now $49.99
+    And Verifies Cotton Jackie cardigan sweater with neon tipping product is displayed
+    And Verifies Cotton Jackie cardigan sweater with neon tipping product price was $75.00
+    And Verifies Cotton Jackie cardigan sweater with neon tipping product sale price is now $64.50
     And Verifies product image is displayed
 
   Scenario: Check sign posts on category pages
