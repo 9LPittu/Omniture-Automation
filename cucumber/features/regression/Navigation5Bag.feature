@@ -4,6 +4,7 @@ Feature: Edit Product In Bags Scenarios
   Background:
     Given User is on homepage
 
+  @Bag1
   Scenario: Verify on edit mode add to bag changes to update bag
     When "sql.query.for.retreiving.items.with.multiple.colors.sizes" is run and search for item fetched from DB
     And User is in product detail page

@@ -412,6 +412,9 @@ public class SubcategoryPage {
     }
 
     public String getWasPriceFor(String product) {
+    	
+    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+    	
         WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
                 "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--was')]"));
 

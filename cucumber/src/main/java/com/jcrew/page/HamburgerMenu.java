@@ -167,9 +167,8 @@ public class HamburgerMenu {
                 "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
 
-    public void close_subcategory_hamburger_menu() {
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-        WebElement closeIcon = menuLevel2.findElement(By.className("icon-close"));
+    public void close_subcategory_hamburger_menu() {    	
+    	WebElement closeIcon = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-close"))));        
         closeIcon.click();
     }
 
