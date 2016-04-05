@@ -272,7 +272,7 @@ public class SubcategoryPage {
     
     private String getProductPrice(WebElement productSelected){
     	List<WebElement> productPrices = productSelected.findElements(By.className("tile__detail--price--list"));
-    	String price = null;
+    	String price = "";
     	if(!productPrices.isEmpty()){
     		price=productPrices.get(0).getAttribute("innerHTML");
     	}
@@ -548,6 +548,7 @@ public class SubcategoryPage {
         logger.debug("Selected product is {}", product.getProductName());
         logger.debug("Selected product price is {}", product.getPriceList());        
         
+		@SuppressWarnings("unchecked")
 		List<Product> productList = (List<Product>) stateHolder.get("productList");
 
         if (productList == null) {
