@@ -274,7 +274,7 @@ public class SubcategoryPage {
     	List<WebElement> productPrices = productSelected.findElements(By.className("tile__detail--price--list"));
     	String price = "";
     	if(!productPrices.isEmpty()){
-    		price=productPrices.get(0).getAttribute("innerHTML");
+    		price=productPrices.get(0).getText().trim();
     	}
     	
     	return price;
