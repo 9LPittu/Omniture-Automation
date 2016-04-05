@@ -31,6 +31,7 @@ public class Util {
 
     public static Product getCurrentProduct() {
         final List<Product> productList = (List<Product>) stateHolder.get("productList");
+        logger.info("inside getCurrentProduct");
         int currentProduct = productList.size() - 1;
         return productList.get(currentProduct);
     }
