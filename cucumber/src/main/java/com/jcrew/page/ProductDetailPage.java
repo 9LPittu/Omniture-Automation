@@ -331,9 +331,7 @@ public class ProductDetailPage {
             if (!colorsList.isEmpty()) {
                 int index = Util.randomIndex(colorsList.size());
                 WebElement color = colorsList.get(index);
-                logger.info("Before exception");
                 Product product = Util.getCurrentProduct();
-                logger.info("item is retrieved");
                 product.setSelectedColor(color.getAttribute("data-name"));
                 color.click();
                 setSalePriceIfPresent(color, product);

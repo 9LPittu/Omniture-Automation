@@ -30,8 +30,8 @@ public class Util {
     }
 
     public static Product getCurrentProduct() {
-        final List<Product> productList = (List<Product>) stateHolder.get("productList");
-        logger.info("Product List size: " + productList.size());
+        @SuppressWarnings("unchecked")
+		final List<Product> productList = (List<Product>) stateHolder.get("productList");        
         int currentProduct = productList.size() - 1;
         return productList.get(currentProduct);
     }
