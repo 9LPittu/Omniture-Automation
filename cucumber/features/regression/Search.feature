@@ -41,18 +41,17 @@ Feature: Search Regression Suite
     And Select random single option from Category refinement
     Then Verify selected value is displayed next to Category refinement
     Then Verify that Category refinement is closed
-    And Click on Size refinement
-    When Select xx-small multiple option from Size refinement
-    And Verify xx-small value is displayed next to Size refinement
-    When Select x-small multiple option from Size refinement
-    Then Verify 2 selected value is displayed next to Size refinement
+    And Click on Size refinement    
+    And select available random option from Size refinement
+    And user should see single value name/number of values selected next to Size refinement
+    And select available random option from Size refinement
+    And user should see single value name/number of values selected next to Size refinement
     And Verify Size refinement drawer remains open
     And Click on Size refinement close drawer icon
-    Then Verify 2 selected value is displayed next to Size refinement
+    And user should see single value name/number of values selected next to Size refinement
     When Click on done button for refinement filter menu
     Then Verify number of results is less than 100
-    And Verify xx-small option breadcrumb is created
-    And Verify x-small option breadcrumb is created
+    And user should see the selected options in the breadcrumb
 
   Scenario: Search box functionality
     When Enters dresses to the search field

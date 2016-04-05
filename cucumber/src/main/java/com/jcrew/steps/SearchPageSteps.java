@@ -218,5 +218,19 @@ public class SearchPageSteps extends DriverFactory {
     public void first_option_relevance_is_selected_by_default() throws Throwable {
         assertTrue("Relevance is selected by default", searchPage.isSortByOptionSelected("RELEVANCE"));
     }
-}
     
+    @And("^select available random option from Size refinement$")
+    public void select_available_random_option_from_size_refinement(){
+    	searchPage.selectRandomOptionFromSizeRefinement();
+    }
+    
+    @And("^user should see single value name/number of values selected next to Size refinement$")
+    public void verify_values_or_count_displayed_next_to_size_refinement(){
+    	assertTrue("user should see single value name/number of values selected next to Size refinement",searchPage.isSizeRefinementValuesDisplayedCorrectly());
+    }
+    
+    @And("^user should see the selected options in the breadcrumb$")
+    public void user_should_see_selected_options_in_breadcrumb(){
+    	assertTrue("user should see the selected options in the breadcrumb",searchPage.isSelectedOptionsDisplayedInBreadcrumb());
+    }
+}

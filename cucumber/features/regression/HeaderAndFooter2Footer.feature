@@ -287,4 +287,10 @@ Feature: Footer Verification In Home Page
   Scenario: Verify visit full site is displayed and functional in footer section of all sidecar  pages
    	And user should see visit full site displayed after legal links in footer section
    	And click on view full site link
+<<<<<<< HEAD
    	And User is on internal /index.jsp?sidecar=false page
+||||||| merged common ancestors
+   	And User is on internal /index.jsp?sidecar=false page
+=======
+   	And User is on internal /?sidecar=false page
+>>>>>>> master
