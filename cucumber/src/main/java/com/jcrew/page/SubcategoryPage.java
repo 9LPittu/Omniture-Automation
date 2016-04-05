@@ -546,9 +546,8 @@ public class SubcategoryPage {
         product.setPriceList(getProductPrice(productElement));
 
         logger.debug("Selected product is {}", product.getProductName());
-        logger.debug("Selected product price is {}", product.getPriceList());
+        logger.debug("Selected product price is {}", product.getPriceList());        
         
-        @SuppressWarnings("unchecked")
 		List<Product> productList = (List<Product>) stateHolder.get("productList");
 
         if (productList == null) {
