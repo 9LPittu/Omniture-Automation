@@ -716,9 +716,37 @@ public class SubcategoryPage {
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String environment = propertyReader.getProperty("environment");
     	
-    	if(driver.getCurrentUrl().startsWith((environment + "/r/search/"))){	
+    	if(driver.getCurrentUrl().startsWith((environment + "/r/search/"))){
+    		//for some items array page is displayed
     		click_any_product_in_grid();
-    	}    	
+    	}
+    	else{
+    		//for some items PDP page is displayed directly
+    		saveProductDetailsFromPDPPage();
+    	}
+    }
+    
+    public void saveProductDetailsFromPDPPage(){
+    	
+    	//capture the product name
+    	WebElement productName = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h1[@class='product__name']"))));    	
+    	String itemName = productName.getText(); 
+    	
+    	//Store the product details
+    	Product product = new Product();
+        product.setProductName(itemName);        
+
+        logger.debug("Selected product is {}", product.getProductName());
+        
+		@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+
+        if (productList == null) {
+            productList = new ArrayList<>();
+        }
+
+        productList.add(product);
+        stateHolder.put("productList", productList);   	
     }
     
     public boolean isItemDisplayedInSearchResultsPage(String propertyName){

@@ -325,8 +325,8 @@ public class ProductDetailPage {
     public void select_random_color() {
         try {
             List<WebElement> colorsList = Util.createWebDriverWait(driver).until(
-                    ExpectedConditions.visibilityOf(driver.findElement(By.id("c-product__price-colors")))).
-                    findElements(By.className("colors-list__item"));
+                    ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@id='c-product__price-colors']")))).
+                    findElements(By.xpath("//li[contains(@class,'colors-list__item')]"));
 
             if (!colorsList.isEmpty()) {
                 int index = Util.randomIndex(colorsList.size());
