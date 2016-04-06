@@ -264,7 +264,7 @@ public class Footer {
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='footer__social__menu']/" +
                 "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]")));
     	socialSharingIcon.click();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
+        //Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){
