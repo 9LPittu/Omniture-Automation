@@ -629,7 +629,7 @@ public class SubcategoryPage {
         
         	
         if(productpricess.isEmpty()) {
-            logger.debug("Item Price  count not found checkout page");
+            logger.debug("Item Price  count not found on checkout page");
             result = true;
         } else {
         	for (WebElement price : productpricess) 
@@ -684,7 +684,7 @@ public class SubcategoryPage {
         boolean result = true;
         String expectedCountryName = (String)stateHolder.get("selectedCountry");
         Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency();
+        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
         
         List<WebElement> summarypricess = driver.findElements(By.xpath("//span[contains(@class,'method-price')]"));
        // List<String> productsHref = new ArrayList<>();

@@ -29,6 +29,7 @@ Feature: Embedded Header and Footer Validations
     #Merged with Category and PDP Page header links
     #Scenario: PDP Page header links
     #Scenario: Category Page header links
+  
   Scenario: Category and PDP Page header links
     When User goes to /c/womens_category/sweaters page
     And Verify embedded headers links
@@ -46,7 +47,7 @@ Feature: Embedded Header and Footer Validations
     #Scenario: Shipping And Gift Options Page Header Links
     #Scenario: Shopping Bag Page header footer links
     #Scenario: Review Page Header Links
- @HeaderAndFooter2
+ 
   Scenario: Multiple Pages During Checkout Header Links
     When User clicks on hamburger menu
     And Selects Women Category from hamburger menu
@@ -70,11 +71,10 @@ Feature: Embedded Header and Footer Validations
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
     And Selects to checkout as guest
-    #When user fills shipping address
-    When user fills selcted country shipping address
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
+    When user fills selcted country shipping address
     And Presses continue button on shipping address
     And Verifies is in shipping method page
     And Verify embedded headers links
@@ -84,7 +84,7 @@ Feature: Embedded Header and Footer Validations
     And Verify proper currency symbol is displayed on summary section on Checkout page
     And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And Uses default value for shipping method
-    And Uses default value for gifts option
+    #And Uses default value for gifts option
     And Clicks continue button on shipping method page
     And Verify user is in billing page
     And Verify embedded headers links
