@@ -1,18 +1,13 @@
 package com.jcrew.steps;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +19,6 @@ import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import com.jcrew.util.DatabasePropertyReader;
 
-import cucumber.api.DataTable;
-import cucumber.api.Scenario;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import static org.junit.Assert.*;

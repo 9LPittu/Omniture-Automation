@@ -417,13 +417,10 @@ public class ProductDetailPage {
     public boolean isproductVariantSectionPresent() {
 
     	try{
-    		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     		List<WebElement> variants = productDetailsVariantsSection.findElements(By.className("product-details-variants"));
-    		driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     	    return true;
     	}
     	catch(Exception e){
-    		driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     		return false;
     	}
     }
