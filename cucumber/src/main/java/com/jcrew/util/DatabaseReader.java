@@ -38,7 +38,7 @@ public class DatabaseReader {
         props.setProperty("ssl", "true");
 
         return createConnection(url, props);
-}
+	}
 
 		Connection createConnection(String url, Properties props) throws SQLException {
 		    return DriverManager.getConnection(url, props);
@@ -91,7 +91,6 @@ public class DatabaseReader {
 	    	
 	    	Statement stmt = createTheStatement(conn);
 	    	ResultSet rs =stmt.executeQuery(dbProperties.getProperty("db." + dbquery));
-	    	//ResultSet rs = executeQuery(stmt,dbProperties.getProperty("db." + dbquery));
 	    	
 	    	int cntr = 1;
 	    	if(rs != null ){
@@ -115,21 +114,9 @@ public class DatabaseReader {
 	    	else{
 	    		stateHolder.put("EmptyResults",true);
 	    		}
-	    			
-	    /*	if(dbResultsMap.isEmpty()){
-	    		stateHolder.put("EmptyResults",true);
-	    		//logger.error("No results are retrieved when '{}' SQL query is run. Please check the SQL query once.", dbquery);
-	    		//throw new SQLException("No results are retrieved when SQL query is run. Please check the SQL query once.");
-	    		
-	    	}
-	    	else{
-	    		stateHolder.put("EmptyResults",false);
-	    		stateHolder.put("dbresults", dbResultsMap);
-	    	}
-	    */	
 	    	conn.close();
 	    	}
-	    	
+
 	    	catch(Exception e){
 	    		stateHolder.put("EmptyResults",true);
 	    		logger.error("No results are retrieved when '{}' SQL query is run. Please check the SQL query once." + e.getMessage(), dbquery );
@@ -157,7 +144,6 @@ public class DatabaseReader {
 	    		}
 	    	   	Statement stmt = createTheStatement(conn);
 	    		ResultSet rs = stmt.executeQuery(dbProperties.getProperty("db." + dbquery)); 
-	    	   	//ResultSet rs = executeQuery(stmt,dbProperties.getProperty("db." + dbquery));
 	    	   	if(rs != null && rs.next()){
 	    	   		stateHolder.put("EmptyResult", false);
 	    	   	}
