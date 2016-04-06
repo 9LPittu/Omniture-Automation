@@ -22,6 +22,7 @@ import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+import com.jcrew.util.DatabasePropertyReader;
 
 import cucumber.api.DataTable;
 import cucumber.api.Scenario;
@@ -37,6 +38,7 @@ public class MegaTemplatePageSteps extends DriverFactory {
 	public static Map<String,String> dbResultsMap = new HashMap<String,String>();
 	public static Map<String,Boolean> dbFeedResultsMap = new HashMap<String,Boolean>();
 	private final Logger logger = LoggerFactory.getLogger(MegaTemplatePageSteps.class);
+	private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();
 	
 	
 	@And("^user navigates to each url and see the PDP page$")
@@ -55,12 +57,8 @@ public class MegaTemplatePageSteps extends DriverFactory {
 	
 	@And("^user verify feed validation and log the results for the query ([^\"]*)$")
 	public void verify_FeedValidation_andLog_the_results(String strquery)throws FileNotFoundException, IOException, ClassNotFoundException{
-		String database = System.getProperty("database", "jcdpdatabase");
-    	String databaseFile = database + ".properties";
-    	
-    	Properties dbProperties = new Properties();
-    	dbProperties.load(new FileReader(databaseFile));
-    	String strdbQuery = dbProperties.getProperty("db." + strquery);
+
+    	String strdbQuery = dbReader.getProperty("db." + strquery);
     	logger.info("stateholder value:" + stateHolder.get("EmptyResult"));
 		if((boolean) stateHolder.get("EmptyResult")){
 			logger.info("Validate the feed for the Query. '" + strdbQuery + "'");

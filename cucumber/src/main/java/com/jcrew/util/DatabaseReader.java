@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import com.jcrew.util.DatabasePropertyReader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,15 +27,16 @@ public class DatabaseReader {
 	public static Map<String,String> dbResultsMap = new HashMap<>();
 	public static Map<String,Boolean> dbFeedResultsMap = new HashMap<>();
 	private final Logger logger = LoggerFactory.getLogger(DatabaseReader.class);
+	private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();
 	
-	public Connection getConnectionToDatabase(Properties databaseReader) throws ClassNotFoundException, SQLException, IOException {
+	public Connection getConnectionToDatabase() throws ClassNotFoundException, SQLException, IOException {
         Class.forName("oracle.jdbc.driver.OracleDriver");
         
-        String url = "jdbc:oracle:thin:@" + databaseReader.getProperty("db.server.name") + ":1521/" + databaseReader.getProperty("db.server.servicename");
+        String url = "jdbc:oracle:thin:@" + dbReader.getProperty("db.server.name") + ":1521/" + dbReader.getProperty("db.server.servicename");
         Properties props = new Properties();
 
-        props.setProperty("user", databaseReader.getProperty("db.server.user"));
-        props.setProperty("password", databaseReader.getProperty("db.server.pwd"));
+        props.setProperty("user", dbReader.getProperty("db.server.user"));
+        props.setProperty("password", dbReader.getProperty("db.server.pwd"));
         props.setProperty("ssl", "true");
 
         return createConnection(url, props);
@@ -77,20 +79,14 @@ public class DatabaseReader {
 	    	if(!dbResultsMap.isEmpty()){
 	    		dbResultsMap.clear();
 	    	}
-	    	
-	    	String database = System.getProperty("database", "jcdpdatabase");
-	    	String databaseFile = database + ".properties";
-	    	
-	    	Properties dbProperties = new Properties();
-	    	dbProperties.load(new FileReader(databaseFile));
-	    	
-	    	Connection conn = getConnectionToDatabase(dbProperties);
+
+	    	Connection conn = getConnectionToDatabase();
 	    	if(conn!=null){
 	    		logger.info("DB connection is successful...");
 	    	}
 	    	
 	    	Statement stmt = createTheStatement(conn);
-	    	ResultSet rs =stmt.executeQuery(dbProperties.getProperty("db." + dbquery));
+	    	ResultSet rs =stmt.executeQuery(dbReader.getProperty("db." + dbquery));
 	    	
 	    	int cntr = 1;
 	    	if(rs != null ){
@@ -138,7 +134,7 @@ public class DatabaseReader {
 	    	dbProperties.load(new FileReader(databaseFile));
 	    	
 	    	try{	
-	    		Connection conn = getConnectionToDatabase(dbProperties);	
+	    		Connection conn = getConnectionToDatabase();
 	    		if(conn!=null){
 	    			logger.info("DB connection is successful...");
 	    		}
