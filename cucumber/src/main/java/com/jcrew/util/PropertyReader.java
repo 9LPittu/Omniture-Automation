@@ -39,6 +39,7 @@ public class PropertyReader {
 
         FileInputStream countriesInput = new FileInputStream("countries.properties");
         properties.load(countriesInput);
+        properties.setProperty("country", country);
 
         FileInputStream environmentInput = new FileInputStream(environmentFile);
         properties.load(environmentInput);
