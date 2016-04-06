@@ -160,7 +160,7 @@ Feature: Footer Verification In Home Page
     Then Click on footer link About J.Crew to open
     And Click on sublink Careers from About J.Crew footer link
     And Verify user is on careers page
-    And User is on external https://jobs.jcrew.com/?sidecar=true page in the same tab
+    And User is on external https://jobs.jcrew.com/?sidecar=true page
     And User presses back button
     Then Click on footer link About J.Crew to open
     And Click on sublink Social Responsibility from About J.Crew footer link

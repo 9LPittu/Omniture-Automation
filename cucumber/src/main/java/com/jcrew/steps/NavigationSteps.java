@@ -44,7 +44,7 @@ public class NavigationSteps extends DriverFactory {
         assertTrue("User is not in an expected page in a different tab " + page, navigation.isCurrentUrl(page));
     }
 
-    @Then("User is on external ([^\"]*) page in the same tab")
+    @Then("User is on external ([^\"]*) page")
     public void user_is_on_external_page_same_tab(String page) {
         assertTrue("User is not in an expected page in the same tab " + page, navigation.isCurrentUrlInSameTab(page));
     }
