@@ -3,7 +3,6 @@ package com.jcrew.util;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.primitives.Booleans;
 import com.jcrew.pojo.Product;
 
 import org.openqa.selenium.*;
@@ -13,10 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
