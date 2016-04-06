@@ -45,6 +45,8 @@ public class ProductDetails {
     private WebElement addToBagButton;
     @FindBy(id = "c-product__overview")
     private WebElement productOverview;
+    @FindBy(id = "c-product__reviews--ratings-summary")
+    private WebElement reviewSummary;
 
     public ProductDetails(WebDriver driver) {
         this.driver = driver;
@@ -52,6 +54,7 @@ public class ProductDetails {
         headerWrap = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
+        wait.until(ExpectedConditions.visibilityOf(reviewSummary));
     }
 
     public void selectRandomColor() {

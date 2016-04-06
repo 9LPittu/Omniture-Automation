@@ -32,13 +32,9 @@ public class MenuDrawer {
 
     }
 
-    public void reload() {
-        PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(drawer));
-    }
-
     public void selectCategoryFromList(List<String> categories) {
         WebElement level1Menus = drawer.findElement(By.className("js-menus--level1"));
+        wait.until(ExpectedConditions.visibilityOf(level1Menus));
 
         int index = Util.randomIndex(categories.size());
         String selectedCategory = categories.get(index).toLowerCase();
@@ -53,6 +49,7 @@ public class MenuDrawer {
 
     public void selectSubCategory() {
         WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
+        wait.until(ExpectedConditions.visibilityOf(level2Menu));
         WebElement level2SubCategories = level2Menu.findElement(By.xpath(".//div[@class='menu__item']"));
         List<WebElement> level2SubCategoriesLinks = level2SubCategories.findElements(By.xpath(".//a[contains(@href,'/c/')]"));
 
@@ -66,6 +63,7 @@ public class MenuDrawer {
 
     public void goBackToLevel1() {
         WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
+        wait.until(ExpectedConditions.visibilityOf(level2Menu));
         WebElement back = level2Menu.findElement(By.className("btn__label"));
 
         wait.until(ExpectedConditions.elementToBeClickable(back));

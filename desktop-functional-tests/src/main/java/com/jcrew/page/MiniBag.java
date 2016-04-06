@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Stack;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -102,15 +101,16 @@ public class MiniBag {
         WebElement item = items.get(itemNumber);
         WebElement itemImage = item.findElement(By.tagName("img"));
 
+        wait.until(ExpectedConditions.elementToBeClickable(itemImage));
         itemImage.click();
     }
 
-    public float getMiniCartSubtotal() {
+    public String getMiniCartSubtotal() {
         WebElement subtotalElement = minibag.findElement(By.className("minibag__subtotal"));
         String subtotalText = subtotalElement.getText();
         subtotalText = subtotalText.replaceAll("[^0-9.]", "");
 
-        return Float.parseFloat(subtotalText);
+        return subtotalText;
     }
 
 }

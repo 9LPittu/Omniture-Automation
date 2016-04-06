@@ -26,7 +26,6 @@ public class HeaderWrap {
     private final Logger logger = LoggerFactory.getLogger(HeaderWrap.class);
     private final WebDriverWait wait;
     private final Actions hoverAction;
-    private final MenuDrawer drawer;
 
     @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
     private WebElement menu;
@@ -50,6 +49,8 @@ public class HeaderWrap {
     private WebElement minibag;
     @FindBy(id = "global__header")
     private WebElement global_header;
+    @FindBy(id = "global__nav")
+    private WebElement global_nav;
 
     private WebElement dropdown;
 
@@ -57,7 +58,6 @@ public class HeaderWrap {
         this.driver = driver;
         this.hoverAction = new Actions(driver);
         this.wait = Util.createWebDriverWait(driver);
-        this.drawer = new MenuDrawer(driver);
         reload();
     }
 
@@ -68,7 +68,7 @@ public class HeaderWrap {
 
     public void openMenu() {
         menu.click();
-        drawer.reload();
+        wait.until(ExpectedConditions.visibilityOf(global_nav));
     }
 
     public void searchFor(String searchTerm) {
@@ -108,6 +108,7 @@ public class HeaderWrap {
                 jse.executeScript(
                         "jcrew.jQuery('.primary-nav__item--bag-filled').trigger('mouseenter');");
             }
+            wait.until(ExpectedConditions.visibilityOf(minibag));
         } else if("my account".equalsIgnoreCase(icon)) {
             wait.until(ExpectedConditions.visibilityOf(myAccount));
             hoverAction.moveToElement(myAccount);

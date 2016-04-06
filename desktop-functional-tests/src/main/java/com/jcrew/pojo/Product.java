@@ -33,6 +33,7 @@ public class Product {
     }
 
     public void setSize(String size) {
+        size = size.toLowerCase().replace("size", "");
         this.size = size.trim();
     }
 
@@ -104,6 +105,37 @@ public class Product {
         debug += "currency: " + result + "\n";
 
         logger.debug(debug);
+
+        return result;
+    }
+
+    public boolean equals(Product product, boolean ignoreQuantity) {
+        boolean result;
+
+        if(ignoreQuantity) {
+
+            String debug = "\nProduct A\t|\tProduct B\n";
+            debug += this.name + "\t|\t" + product.name + "\n";
+            debug += this.color + "\t|\t" + product.color + "\n";
+            debug += this.size + "\t|\t" + product.size + "\n";
+            debug += this.price + "\t|\t" + product.price + "\n";
+            debug += this.currency + "\t|\t" + product.currency + "\n\n";
+
+            result = (this.name.equalsIgnoreCase(product.name));
+            debug += "name: " + result + "\n";
+            result &= (this.color.equalsIgnoreCase(product.color));
+            debug += "color: " + result + "\n";
+            result &= (this.size.equalsIgnoreCase(product.size));
+            debug += "size: " + result + "\n";
+            result &= (this.price.equalsIgnoreCase(product.price));
+            debug += "price: " + result + "\n";
+            result &= (this.currency.equalsIgnoreCase(product.currency));
+            debug += "currency: " + result + "\n";
+
+            logger.debug(debug);
+        } else {
+            result = equals(product);
+        }
 
         return result;
     }
