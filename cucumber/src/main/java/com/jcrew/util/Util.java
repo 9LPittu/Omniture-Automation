@@ -3,6 +3,7 @@ package com.jcrew.util;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 
 import org.openqa.selenium.*;
@@ -153,4 +154,11 @@ public class Util {
         action.moveToElement(element);
     }
 
+    public static boolean countryContextURLCompliance(WebDriver driver, Country country) {
+        String url = driver.getCurrentUrl();
+        String context = "/" + country.getCountry() + "/";
+        boolean contains = url.contains(context);
+
+        return contains == country.isContexturl();
+    }
 }

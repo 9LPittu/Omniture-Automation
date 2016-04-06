@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
@@ -30,6 +31,9 @@ public class StartingSteps {
 
     @Before
     public void setupDriver() throws IOException {
+        String country = reader.getProperty("country");
+        stateHolder.put("context", new Country(country));
+
     	stateHolder.put("deletecookies", false);
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
@@ -48,8 +52,6 @@ public class StartingSteps {
         while (retry < 2 && !successfulLoad) {
             try {
                 getInitialPage();
-              //  waitForPageToLoadUpToTheLastElementPriorScriptExecution();
-                //Util.waitForPageFullyLoaded(driver);
                 waitForHeaderPromo();
                 successfulLoad = true;
             } catch (TimeoutException te) {
