@@ -332,8 +332,10 @@ public class ProductDetailPage {
                 int index = Util.randomIndex(colorsList.size());
                 WebElement color = colorsList.get(index);
                 Product product = Util.getCurrentProduct();
-                product.setSelectedColor(color.getAttribute("data-name"));
+                String colorName = color.getAttribute("data-name");
+                product.setSelectedColor(colorName);
                 color.click();
+                logger.info("Selected color name: {}", colorName);
                 setSalePriceIfPresent(color, product);
             }
 
@@ -368,8 +370,10 @@ public class ProductDetailPage {
             int index = Util.randomIndex(selectableSizes.size());
             WebElement size = selectableSizes.get(index);
             Product product = Util.getCurrentProduct();
-            product.setSelectedSize(size.getAttribute("data-name"));
+            String sizeName = size.getAttribute("data-name");
+            product.setSelectedSize(sizeName);
             size.click();
+            logger.info("Selected size name: {}", sizeName);
         }
     }
 
