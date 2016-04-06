@@ -39,9 +39,14 @@ public class NavigationSteps extends DriverFactory {
                 getDriver().getCurrentUrl().endsWith(page));
     }
 
-    @Then("^User is on external ([^\"]*) page$")
+    @Then("^external ([^\"]*) page is opened in a different tab$")
     public void user_is_on_external_page(String page) {
-        assertTrue("User is not in an expected page " + page, navigation.isCurrentUrl(page));
+        assertTrue("User is not in an expected page in a different tab " + page, navigation.isCurrentUrl(page));
+    }
+
+    @Then("User is on external ([^\"]*) page")
+    public void user_is_on_external_page_same_tab(String page) {
+        assertTrue("User is not in an expected page in the same tab " + page, navigation.isCurrentUrlInSameTab(page));
     }
 
     @Then("^Verify ([^\"]*) Department Link is present$")
