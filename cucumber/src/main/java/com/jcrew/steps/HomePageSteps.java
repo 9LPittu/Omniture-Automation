@@ -86,20 +86,4 @@ public class HomePageSteps extends DriverFactory {
              homePage.click_on_the_arrow_button_to_submit();
          }
      }
-
-    @And("^Verify page source contains ([^\"]*)$")
-    public void validate_page_source_contains_given_var(String var) {
-        assertTrue("page source should contain "+var+"", homePage.isGivenVarPresentInSourceCode(var));
-    }
-
-    @And("^Get the ([^\"]*) value$")
-    public void get_s_account_value(String var) {
-       assertTrue("s_account should have a text value", !(homePage.getSAccountValue().isEmpty()));
-    }
-
-    @And("^Validate the s_account value in production to be ([^\"]*)$")
-    public void validate_s_account_value(String expected) {
-        assertEquals("s_account value is not as expected", expected, homePage.getSAccountValue());
-    }
-
 }

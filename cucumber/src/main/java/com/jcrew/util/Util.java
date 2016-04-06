@@ -12,9 +12,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.concurrent.TimeUnit;
 
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
@@ -58,6 +60,56 @@ public class Util {
                 return !htmlClass.contains("nprogress-busy");
             }
         });
+    }
+
+    public static String getPageVariableValue(WebDriver driver, final String variable) throws InterruptedException {
+        WebDriverWait waitForVariable = new WebDriverWait(driver, 10);
+        String value = "";
+
+        try {
+            value = waitForVariable.until(new Function<WebDriver, String>() {
+                @Override
+                public String apply(WebDriver webDriver) {
+                    String value;
+                    try {
+                        value = (String) ((JavascriptExecutor)webDriver).executeScript("return " + variable);
+                        if (value != null && value.isEmpty())
+                            value = null;
+                    } catch (WebDriverException wde) {
+                        value = null;
+                    }
+                    return value;
+                }
+            });
+        } catch (TimeoutException timeout){
+            logger.error("Variable {} not found in URL {} after waiting", variable, driver.getCurrentUrl(),timeout);
+        }
+
+        return value;
+    }
+
+    public static Map<String, String> getPageVariablesValue(WebDriver driver, Set<String>variables) throws InterruptedException {
+        Map<String, String> variable_value = new HashMap<>();
+
+        Iterator<String> variablesIterator = variables.iterator();
+        String firstVariable = variablesIterator.next();
+
+        variable_value.put(firstVariable, getPageVariableValue(driver,firstVariable));
+
+        while(variablesIterator.hasNext()){
+            String variable = variablesIterator.next();
+            String value;
+            try {
+                value = (String) ((JavascriptExecutor)driver).executeScript("return " + variable);
+            } catch (WebDriverException wde) {
+                value = "";
+                logger.error("Not able to get variable {}", variable, wde);
+            }
+            variable_value.put(variable, value);
+        }
+
+        return  variable_value;
+
     }
 
     public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{
