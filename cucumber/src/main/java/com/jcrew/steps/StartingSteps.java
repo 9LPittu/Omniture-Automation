@@ -167,10 +167,4 @@ public class StartingSteps {
             }
         }
     }
-
-    @Given("^User goes ([^\"]*) page$")
-    public void userGoesSitemapIndexXmlPage(String page) {
-        driver.get(page);
-
-    }
 }
