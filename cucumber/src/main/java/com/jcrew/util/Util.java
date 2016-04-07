@@ -35,7 +35,7 @@ public class Util {
     public static WebDriverWait createWebDriverWait(WebDriver driver) {
         return new WebDriverWait(driver, DEFAULT_TIMEOUT);
     }
-    
+
     public static WebDriverWait createWebDriverWait(WebDriver driver, int timeInSeconds) {
         return new WebDriverWait(driver, timeInSeconds);
     }
@@ -48,8 +48,8 @@ public class Util {
         });
     }
 
-    public static void waitLoadingBar(WebDriver driver){
-        createWebDriverWait(driver).until(new Function<WebDriver, Boolean>(){
+    public static void waitLoadingBar(WebDriver driver) {
+        createWebDriverWait(driver).until(new Function<WebDriver, Boolean>() {
             @Override
             public Boolean apply(WebDriver webDriver) {
                 WebElement html = webDriver.findElement(By.tagName("html"));
@@ -69,7 +69,7 @@ public class Util {
                 public String apply(WebDriver webDriver) {
                     String value;
                     try {
-                        value = (String) ((JavascriptExecutor)webDriver).executeScript("return " + variable);
+                        value = (String) ((JavascriptExecutor) webDriver).executeScript("return " + variable);
                         if (value != null && value.isEmpty())
                             value = null;
                     } catch (WebDriverException wde) {
@@ -78,26 +78,26 @@ public class Util {
                     return value;
                 }
             });
-        } catch (TimeoutException timeout){
-            logger.error("Variable {} not found in URL {} after waiting", variable, driver.getCurrentUrl(),timeout);
+        } catch (TimeoutException timeout) {
+            logger.error("Variable {} not found in URL {} after waiting", variable, driver.getCurrentUrl(), timeout);
         }
 
         return value;
     }
 
-    public static Map<String, String> getPageVariablesValue(WebDriver driver, Set<String>variables) throws InterruptedException {
+    public static Map<String, String> getPageVariablesValue(WebDriver driver, Set<String> variables) throws InterruptedException {
         Map<String, String> variable_value = new HashMap<>();
 
         Iterator<String> variablesIterator = variables.iterator();
         String firstVariable = variablesIterator.next();
 
-        variable_value.put(firstVariable, getPageVariableValue(driver,firstVariable));
+        variable_value.put(firstVariable, getPageVariableValue(driver, firstVariable));
 
-        while(variablesIterator.hasNext()){
+        while (variablesIterator.hasNext()) {
             String variable = variablesIterator.next();
             String value;
             try {
-                value = (String) ((JavascriptExecutor)driver).executeScript("return " + variable);
+                value = (String) ((JavascriptExecutor) driver).executeScript("return " + variable);
             } catch (WebDriverException wde) {
                 value = "";
                 logger.error("Not able to get variable {}", variable, wde);
@@ -105,50 +105,50 @@ public class Util {
             variable_value.put(variable, value);
         }
 
-        return  variable_value;
+        return variable_value;
 
     }
 
-    public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{
+    public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException {
         int attempts = 0;
         boolean success = false;
 
-        while (attempts < 2 && !success){
-            try{
+        while (attempts < 2 && !success) {
+            try {
                 element.click();
                 success = true;
-            } catch (StaleElementReferenceException staleException){
+            } catch (StaleElementReferenceException staleException) {
                 logger.debug("Stale Element Exception when retrying to click");
             }
             attempts++;
         }
 
-        if(!success){
+        if (!success) {
             throw new StaleElementReferenceException("Failed to click element");
         }
     }
 
-    public static void waitWithStaleRetry(WebDriver driver, WebElement element) throws StaleElementReferenceException{
+    public static void waitWithStaleRetry(WebDriver driver, WebElement element) throws StaleElementReferenceException {
         int attempts = 0;
         boolean success = false;
         WebDriverWait wait = createWebDriverWait(driver);
 
-        while (attempts < 4 && !success){
-            try{
+        while (attempts < 4 && !success) {
+            try {
                 wait.until(ExpectedConditions.visibilityOf(element));
                 success = true;
-            } catch (StaleElementReferenceException staleException){
+            } catch (StaleElementReferenceException staleException) {
                 logger.debug("Stale Element Exception when retrying to wait");
             }
             attempts++;
         }
 
-        if(!success){
+        if (!success) {
             throw new StaleElementReferenceException("Failed to wait element");
         }
     }
 
-    public static void scrollToElement(WebDriver driver, WebElement element){
+    public static void scrollToElement(WebDriver driver, WebElement element) {
         Actions action = new Actions(driver);
         createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
         action.moveToElement(element);
@@ -156,9 +156,12 @@ public class Util {
 
     public static boolean countryContextURLCompliance(WebDriver driver, Country country) {
         String url = driver.getCurrentUrl();
-        String context = "/" + country.getCountry() + "/";
-        boolean contains = url.contains(context);
+        String countryURL = country.getHomeurl();
+        String countryCode = country.getCountry();
 
-        return contains == country.isContexturl();
+        boolean startsWith = url.startsWith(countryURL);
+        boolean contains = url.contains("/" + countryCode + "/");
+
+        return startsWith & contains == country.isContexturl();
     }
 }
