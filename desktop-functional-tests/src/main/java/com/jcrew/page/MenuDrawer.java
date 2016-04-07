@@ -32,7 +32,20 @@ public class MenuDrawer {
 
     }
 
+    public void openSaleLandingPage() {
+        goBackToLevel1();
+        WebElement level1Menus = drawer.findElement(By.className("js-menus--level1"));
+        wait.until(ExpectedConditions.visibilityOf(level1Menus));
+
+        WebElement saleLink = level1Menus.findElement(
+                By.xpath(".//a[contains(" + Util.xpathGetTextLower + ",'sale')]"));
+
+        wait.until(ExpectedConditions.elementToBeClickable(saleLink));
+        saleLink.click();
+    }
+
     public void selectCategoryFromList(List<String> categories) {
+        goBackToLevel1();
         WebElement level1Menus = drawer.findElement(By.className("js-menus--level1"));
         wait.until(ExpectedConditions.visibilityOf(level1Menus));
 
@@ -62,11 +75,27 @@ public class MenuDrawer {
     }
 
     public void goBackToLevel1() {
-        WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
-        wait.until(ExpectedConditions.visibilityOf(level2Menu));
-        WebElement back = level2Menu.findElement(By.className("btn__label"));
+        WebElement navWrap = drawer.findElement(By.className("nav__wrap"));
+        String navWrapClass = navWrap.getAttribute("class");
 
-        wait.until(ExpectedConditions.elementToBeClickable(back));
-        back.click();
+        while (!"nav__wrap".equals(navWrapClass)) {
+            String navWrapClasses[] = navWrapClass.split(" ");
+            WebElement visibleLevel = drawer;
+
+            if ("is-offscreen-left-x1".equals(navWrapClasses[1])) {
+                visibleLevel = drawer.findElement(By.className("js-menus--level2"));
+
+            } else if ("is-offscreen-left-x2".equals(navWrapClasses[1])) {
+                visibleLevel = drawer.findElement(By.className("js-menus--level3"));
+            }
+
+            wait.until(ExpectedConditions.visibilityOf(visibleLevel));
+            WebElement back = visibleLevel.findElement(By.className("btn__label"));
+
+            wait.until(ExpectedConditions.elementToBeClickable(back));
+            back.click();
+
+            navWrapClass = navWrap.getAttribute("class");
+        }
     }
 }

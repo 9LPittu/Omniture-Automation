@@ -113,4 +113,8 @@ public class MiniBag {
         return subtotalText;
     }
 
+    public boolean isMiniBagVisible() {
+        return minibag.isDisplayed();
+    }
+
 }

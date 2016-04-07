@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Stack;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -30,7 +31,7 @@ public class MiniBagSteps extends DriverFactory {
         assertEquals("Mini bag contains expected " + items + " items", items, miniBag.getItemsNumber());
     }
 
-    @Then("Verify mini bag contains only 3 items and a message to show more")
+    @Then("Verify mini bag contains 3 items and a message to show more")
     public void verify_mini_bag_contains_x_item_and_message() {
         assertEquals("Mini bag contains 3 items in stack", miniBag.getItemsNumber(), 3);
         assertTrue("Mini bag shows message to see more items", miniBag.showsMoreItems());
@@ -100,6 +101,11 @@ public class MiniBagSteps extends DriverFactory {
     @Then("Verify message link matches button link")
     public void verify_message_link_matches_button_link() {
         assertTrue("Show more message goes to shopping cart", miniBag.messageAndButtonToCart());
+    }
+
+    @Then("Verify mini bag is hidden")
+    public void verify_mini_bag_is_hidden() {
+        assertFalse("Mini bag is hidden", miniBag.isMiniBagVisible());
     }
 
 }

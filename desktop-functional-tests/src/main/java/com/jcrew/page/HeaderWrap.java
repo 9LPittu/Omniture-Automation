@@ -33,8 +33,6 @@ public class HeaderWrap {
     private WebElement search;
     @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--stores']/a")
     private WebElement stores;
-    @FindBy(id = "js-header__logo")
-    private WebElement logo;
     @FindBy(id = "c-header__userpanel")
     private WebElement sign_in;
     @FindBy(id = "c-header__userpanelrecognized")
@@ -72,7 +70,16 @@ public class HeaderWrap {
     }
 
     public void searchFor(String searchTerm) {
+        search.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
+        WebElement searchHeader = global_header.findElement(By.className("js-c-header__search"));
+        WebElement searchInput = searchHeader.findElement(By.className("js-header__search__input"));
+        WebElement searchButton = searchHeader.findElement(By.className("js-header__search__button--find"));
 
+        searchInput.sendKeys(searchTerm);
+        searchButton.click();
+        logger.info("Searching for {}", searchTerm);
+        Util.waitLoadingBar(driver);
     }
 
     public void clickStores() {
@@ -96,11 +103,13 @@ public class HeaderWrap {
     }
 
     public void hoverOverIcon(String icon) {
-        if("bag".equalsIgnoreCase(icon)){
+
+        if ("bag".equalsIgnoreCase(icon)) {
+
             PropertyReader propertyReader = PropertyReader.getPropertyReader();
             String browser = propertyReader.getProperty("browser");
 
-            if("chrome".equals(browser) || "firefox".equals(browser)) {
+            if ("chrome".equals(browser) || "firefox".equals(browser)) {
                 hoverAction.moveToElement(bag);
                 hoverAction.perform();
             } else {
@@ -109,10 +118,25 @@ public class HeaderWrap {
                         "jcrew.jQuery('.primary-nav__item--bag-filled').trigger('mouseenter');");
             }
             wait.until(ExpectedConditions.visibilityOf(minibag));
-        } else if("my account".equalsIgnoreCase(icon)) {
+
+        } else if ("my account".equalsIgnoreCase(icon)) {
+
             wait.until(ExpectedConditions.visibilityOf(myAccount));
             hoverAction.moveToElement(myAccount);
             hoverAction.perform();
+
+        } else if ("logo".equalsIgnoreCase(icon)) {
+
+            WebElement logo = global_header.findElement(By.className("c-header__logo"));
+            String logoClass = logo.getAttribute("class");
+
+            if(logoClass.contains("is-hidden")) {
+                logo = global_header.findElement(By.className("c-header__breadcrumb"));
+            }
+
+            hoverAction.moveToElement(logo);
+            hoverAction.perform();
+
         }
     }
 
@@ -136,7 +160,7 @@ public class HeaderWrap {
     public void waitUntilNoCheckOutDropdown() {
         List<WebElement> checkoutDropdown = global_header.findElements(By.className("js-header__cart"));
 
-        if(checkoutDropdown.size() > 0){
+        if (checkoutDropdown.size() > 0) {
             wait.until(new Predicate<WebDriver>() {
                 @Override
                 public boolean apply(WebDriver driver) {

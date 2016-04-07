@@ -26,4 +26,9 @@ public class MenuDrawerSteps extends DriverFactory {
     public void user_goes_back_to_categories_menu() {
         menuDrawer.goBackToLevel1();
     }
+
+    @When("User goes to sale landing page")
+    public void user_goes_to_sale_landing_page() {
+        menuDrawer.openSaleLandingPage();
+    }
 }
