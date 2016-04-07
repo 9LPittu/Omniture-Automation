@@ -20,6 +20,7 @@ public class MultiplePdpSteps extends DriverFactory{
 
     @Then("^Verifies initial multiple pdp page state$")
     public void verifiesInitialMultiplePdpPageState() {
+        assertTrue("URL compliance with country context", multiplePDP.checkURLCountryContext());
         assertTrue("Previous product is disabled", multiplePDP.isArrowDisabled("previous"));
         assertEquals("First product is selected", multiplePDP.getSelectedProductIndex(),0);
         assertTrue("Items number matches pictures in tray", multiplePDP.itemsNumberMatchesPicturesSize());
