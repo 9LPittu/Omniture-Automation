@@ -425,27 +425,28 @@ public class ProductDetailPage {
     	}
     }
 
-    public boolean isVariantRegularRadioButtonisSelected() {
+    public boolean isVariantRadioButtonisSelected(String variant) {
         boolean result = false;
-
-		List<WebElement> variations = productDetailsVariantsSection.findElements(By.tagName("input"));
-       	if (!variations.isEmpty()) {
-	        WebElement variation = variations.get(0);
-
-       	    if (variation.isSelected()) {
-       	    	result =true;
-               	logger.debug("Regular Variation is selected");
-	        }
-       }
-
-	return result;
+        try {
+            WebElement selectedRadioButton = productDetailsVariantsSection.findElement(By.xpath("//input[@checked]"));
+            WebElement selectedVariant = selectedRadioButton.findElement(By.xpath(".//ancestor::div[contains(@class,'variant-wrapper')]/div[@class='product-pricing']/span"));
+            String selectedVariantName = selectedVariant.getText();
+            if (variant.equalsIgnoreCase(selectedVariantName)) {
+                result = true;
+                logger.debug("Regular Variation is selected");
+            }
+        }
+        catch(Exception e) {
+            result = false;
+        }
+        return result;
    }
 
     public void validate_extended_size_on_pdp_page_is_displayed(){
 		if (isproductVariantSectionPresent()){
-			if(isVariantRegularRadioButtonisSelected()){
+            String variant = "Regular";
+			if(isVariantRadioButtonisSelected(variant)){
 				logger.info("Variant section is present and default Regular variant is selected on PDP page ");
-
 			}
 			else{
 				  logger.error("Variant section is present but Default Regular variant is not selected on PDP page");
