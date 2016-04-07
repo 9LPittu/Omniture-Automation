@@ -123,8 +123,7 @@ public class HamburgerMenu {
         getSubcategoryFromMenu(subcategory, category).click();
         logger.info("Actual subcategory clicked: {}", subcategory);
         stateHolder.put("subcategory", subcategory);
-        Util.waitLoadingBar(driver);        
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
+        Util.waitLoadingBar(driver);
     }
 
     public void click_on_selected_featured_this_month(String choice) {
