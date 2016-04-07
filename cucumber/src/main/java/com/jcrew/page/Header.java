@@ -30,7 +30,7 @@ public class Header {
     private WebElement searchButton;
     @FindBy(className = "primary-nav__text--stores")
     private WebElement storesLink;
-    @FindBy(css = ".primary-nav__item--bag > .primary-nav__link")
+    @FindBy(id = "js-header__cart")
     private WebElement shoppingBagLink;
     @FindBy(css = ".icon-header.icon-header-bag.icon-bag")
     private WebElement bagIcon;
@@ -46,7 +46,7 @@ public class Header {
     public boolean isHeaderLinkPresent(String headerLink) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
         Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOf(headerWrap.findElement(By.linkText(headerLink))));
+            ExpectedConditions.visibilityOf(headerWrap.findElement(By.linkText(headerLink))));
 
         return true;
     }
