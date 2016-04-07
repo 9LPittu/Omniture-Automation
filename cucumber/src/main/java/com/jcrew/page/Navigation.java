@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+
 public class Navigation {
 
     private final WebDriver driver;
@@ -40,6 +42,14 @@ public class Navigation {
     }
 
     public boolean isCurrentUrl(String page) {
+
+        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        // get the current window handle
+        logger.info("parent window handle {}", tabs.get(0).toString());
+
+        logger.info("no.of windowhandles; {}", driver.getWindowHandles().size());
+        logger.info("now switching to new tab {}", tabs.get(1).toString());
+            driver.switchTo().window(tabs.get(1));        // switch focus of WebDriver to the next found window handle (that's newly opened window)
         String browser = reader.getProperty("browser");
         String targetPage;
 
@@ -76,6 +86,15 @@ public class Navigation {
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(targetPage));
         String currentUrl = driver.getCurrentUrl();
 
+        driver.close();                                 // close newly opened window when done with it
+        driver.switchTo().window(tabs.get(0));
         return currentUrl.contains(targetPage);
+    }
+
+    public boolean isCurrentUrlInSameTab(String page) {
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        String currentUrl = driver.getCurrentUrl();
+        return currentUrl.contains(page);
     }
 }

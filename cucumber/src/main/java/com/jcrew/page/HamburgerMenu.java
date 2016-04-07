@@ -38,7 +38,10 @@ public class HamburgerMenu {
     
     @FindBy(className = "c-menu")
     private WebElement categoryMenu;
-    
+
+    @FindBy(id = "global__nav")
+    private WebElement globalNav;
+
     @FindBy(className = "menus--level2")
     private WebElement menuLevel2;
     
@@ -65,7 +68,7 @@ public class HamburgerMenu {
         Util.waitWithStaleRetry(driver,hamburgerMenu);
         wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
         Util.clickWithStaleRetry(hamburgerMenu);
-        wait.until(ExpectedConditions.visibilityOf(categoryMenu));
+        wait.until(ExpectedConditions.visibilityOf(globalNav));
     }
 
     public boolean isHamburgerMenuPresent() {

@@ -24,7 +24,7 @@ Feature: Regression Tests Category Feature
     And Verifies product image is displayed
 
   Scenario: Check Product Tiles for Sale Variations
-    Then Closes subcategory hamburger menu   
+    Then Closes subcategory hamburger menu
     And search for environment specific "sale.item.name"
     Then user should see "sale.item.name" product is displayed
     And "sale.item.was.price" matches with expected price for "sale.item.name"

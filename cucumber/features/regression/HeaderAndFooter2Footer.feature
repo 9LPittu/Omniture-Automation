@@ -171,7 +171,7 @@ Feature: Footer Verification In Home Page
     And User presses back button
     Then Click on footer link About J.Crew to open
     And Click on sublink Investor Relations from About J.Crew footer link
-    And User is on external http://investors.jcrew.com page
+    And external http://investors.jcrew.com page is opened in a different tab
 
     #tc-08
   Scenario: Verification of Our Brands links display
@@ -180,14 +180,14 @@ Feature: Footer Verification In Home Page
     And Madewell sublink is displayed
     And Click on sublink J.Crew Factory from Our Brands footer link
     And Verify user is on the j.crew factory page
-    And User is on external https://factory.jcrew.com page
     And page url should contain srcCode=JCFooter
-    And User presses back button
+    And external https://factory.jcrew.com page is opened in a different tab
     Then Click on footer link Our Brands to open
     And Click on sublink Madewell from Our Brands footer link
     And Verify user is on the madewell page
-    And User is on external https://www.madewell.com/index.jsp page
     And page url should contain srcCode=JCFooter
+    And external https://www.madewell.com/index.jsp page is opened in a different tab
+
 
   #US13389_TC13
   # Scenario Outline: Ship To section is visible and functional in footer
@@ -206,26 +206,20 @@ Feature: Footer Verification In Home Page
   #US13389_TC14
     Scenario: Verify social sharing icons functionality
     And click on facebook icon in social sharing section
-    And User is on external facebook page
-    And User presses back button
+    And external facebook page is opened in a different tab
     And click on twitter icon in social sharing section
-    And User is on external twitter page
-    And User presses back button
+    And external twitter page is opened in a different tab
     And click on tumblr icon in social sharing section
-    And User is on external http://jcrew.tumblr.com/ page
-    And User presses back button
+    And external http://jcrew.tumblr.com/ page is opened in a different tab
     And click on instagram icon in social sharing section
-    And User is on external https://www.instagram.com/jcrew/ page
-    And User presses back button
+    And external https://www.instagram.com/jcrew/ page is opened in a different tab
     And click on google icon in social sharing section
-    And User is on external https://plus.google.com/+JCrew page
-    And User presses back button
+    And external https://plus.google.com/+JCrew page is opened in a different tab
     And click on pinterest icon in social sharing section
-    And User is on external https://www.pinterest.com/jcrew/ page
-    And User presses back button
+    And external https://www.pinterest.com/jcrew/ page is opened in a different tab
     And click on youtube icon in social sharing section
-    And User is on external youtube page
-    And User presses back button
+    And external youtube page is opened in a different tab
+
   
   #US13389_TC15
   Scenario: Verify legal links are displayed in footer section of all sidecar  pages
