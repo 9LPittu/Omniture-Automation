@@ -11,21 +11,15 @@ Feature: Mini Cart functionality
     And User hovers over bag
     Then Verify mini bag contains 1 item
     And Verify first item is the recently added product
-    When User hovers over logo
-    Then Verify mini bag is hidden
     When User adds to bag a random product from a search
     And User hovers over bag
     Then Verify mini bag contains 2 item
     And Verify first item is the recently added product
-    When User hovers over logo
-    Then Verify mini bag is hidden
     When User opens menu
     And User adds to bag a random product from sale
     And User hovers over bag
     Then Verify mini bag contains 3 item
     And Verify first item is the recently added product
-    When User hovers over logo
-    Then Verify mini bag is hidden
 #    When User opens menu
 #    And User goes back to categories menu
 #    And User adds to bag a random product using a main category

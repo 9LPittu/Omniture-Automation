@@ -7,6 +7,7 @@ Feature: Sign In
     When User clicks on sign in using header
     And User fills user data and signs in
     Then Verify user is in My Account main page
+    #add url validation
     When User hovers over My Account
     And Dropdown should welcome user by first name
     And User goes to My Details using My Account menu
@@ -20,3 +21,6 @@ Feature: Sign In
     When User signs out using header
     Then Verify user is in homepage
     And Verify header contains Sign In visible
+
+    #click logo
+    # category, pdp, search, sale, multiple pdp
