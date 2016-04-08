@@ -91,7 +91,7 @@ public class DriverFactory {
         } else if ("firefox".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.firefox();
 
-        } else if ("iPad".equals(browser)) {
+        } else if ("ipad".equals(browser)) {
 
             WebDriver driver = null;
             String ipadBrowser = propertyReader.getProperty(browser+".browser");
