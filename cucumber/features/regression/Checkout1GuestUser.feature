@@ -14,7 +14,7 @@ Feature: Guest User Checkout Process
     And User is in product detail page
     And product name and price should match with array page    
     And Add to cart button is pressed
-    #And A minicart modal should appear with message '1 item has been added to your cart.'
+    And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
     And User is on homepage
     And User clicks on hamburger menu
@@ -24,7 +24,7 @@ Feature: Guest User Checkout Process
     And User is in product detail page
     And product name and price should match with array page        
     And Add to cart button is pressed
-    #And A minicart modal should appear with message '1 item has been added to your cart.'
+    And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
@@ -64,7 +64,7 @@ Feature: Guest User Checkout Process
 	And user selects any item from array page, select any color and size
     And User is in product detail page    
     And Add to cart button is pressed
-    #And A minicart modal should appear with message '1 item has been added to your cart.'
+    And A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
     And User is on homepage
     And User clicks on hamburger menu
@@ -74,7 +74,7 @@ Feature: Guest User Checkout Process
     And User is in product detail page
     And product name and price should match with array page        
     And Add to cart button is pressed
-    #And A minicart modal should appear with message '1 item has been added to your cart.'
+    And A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
