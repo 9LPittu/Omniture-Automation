@@ -212,10 +212,18 @@ public class LoginPage {
     
     public void enterEmailAddressOnSignInPage(String emailAddress){
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailAddressField));
+        if (emailAddress.equalsIgnoreCase("any")) {
+            PropertyReader reader = PropertyReader.getPropertyReader();
+            emailAddress = reader.getProperty("checkout.signed.in.username");
+        }
         emailAddressField.sendKeys(emailAddress);
     }
     
     public void enterPasswordOnSignInPage(String password){
+        if (password.equalsIgnoreCase("corresponding")) {
+            PropertyReader reader = PropertyReader.getPropertyReader();
+            password = reader.getProperty("checkout.signed.in.password");
+        }
     	passwordField.sendKeys(password);
     }
     
