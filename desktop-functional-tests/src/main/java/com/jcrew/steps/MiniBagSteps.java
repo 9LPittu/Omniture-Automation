@@ -31,7 +31,7 @@ public class MiniBagSteps extends DriverFactory {
         assertEquals("Mini bag contains expected " + items + " items", items, miniBag.getItemsNumber());
     }
 
-    @Then("Verify mini bag contains 3 items and a message to show more")
+    @Then("Verify mini bag contains a message to show more and 3 items")
     public void verify_mini_bag_contains_x_item_and_message() {
         assertEquals("Mini bag contains 3 items in stack", miniBag.getItemsNumber(), 3);
         assertTrue("Mini bag shows message to see more items", miniBag.showsMoreItems());
@@ -74,7 +74,8 @@ public class MiniBagSteps extends DriverFactory {
 
         Stack<Product> original = (Stack<Product>) bagStack.clone();
 
-        logger.debug("Checking items in bag ...");
+        logger.debug("Checking {} items in bag", items);
+
         for (int i = 0; i < items; i++) {
             headerWrap.hoverOverIcon("bag");
             miniBag.clickOnItem(i);

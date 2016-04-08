@@ -31,4 +31,10 @@ public class MenuDrawerSteps extends DriverFactory {
     public void user_goes_to_sale_landing_page() {
         menuDrawer.openSaleLandingPage();
     }
+
+    @When("User goes to home using menu drawer")
+    public void user_goes_to_home_using_drawer() {
+        menuDrawer.goHome();
+    }
+
 }

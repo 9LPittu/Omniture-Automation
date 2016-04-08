@@ -98,4 +98,12 @@ public class MenuDrawer {
             navWrapClass = navWrap.getAttribute("class");
         }
     }
+
+    public void goHome() {
+        goBackToLevel1();
+        WebElement homeLink = drawer.findElement(By.className("menu__btn--home__link"));
+
+        wait.until(ExpectedConditions.visibilityOf(homeLink));
+        homeLink.click();
+    }
 }

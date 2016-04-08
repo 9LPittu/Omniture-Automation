@@ -20,17 +20,19 @@ Feature: Mini Cart functionality
     And User hovers over bag
     Then Verify mini bag contains 3 item
     And Verify first item is the recently added product
-#    When User opens menu
-#    And User goes back to categories menu
-#    And User adds to bag a random product using a main category
-#    And User hovers over bag
-#    Then Verify mini bag contains 3 items and a message to show more
-#    And Verify first item is the recently added product
-#    And Verify message link matches button link
+    When User opens menu
+    And User goes back to categories menu
+    And User adds to bag a random product using a main category
+    And User hovers over bag
+    Then Verify mini bag contains a message to show more and 3 items
+    And Verify first item is the recently added product
+    And Verify message link matches button link
     And Verify subtotal in mini bag matches items
-    #Go to home page
-    And Verify each item links to product PDP
+    When User opens menu
+    And User goes to home using menu drawer
+    And User hovers over bag
+    Then Verify each item links to product PDP
 
-    #add products from different sources (sale, featured)
+    #add products from different sources (featured, multiple pdp)
     #hover something else and verify that the minibag is not visible
     #complete checkout

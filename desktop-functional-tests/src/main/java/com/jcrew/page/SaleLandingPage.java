@@ -35,9 +35,10 @@ public class SaleLandingPage {
     public void selectRandomSaleCategory() {
         List<WebElement> categoryListItem = page__sale.findElements(By.className("c-category__list-item"));
         WebElement randomItem = Util.randomIndex(categoryListItem);
-        String data_name = randomItem.getAttribute("data-label");
+        WebElement randomItemLink = randomItem.findElement(By.xpath(".//parent::a"));
+        String data_name = randomItemLink.getAttribute("data-label");
 
-        logger.info("Selected {}", data_name);
+        logger.info("Selected {} for sale category", data_name);
 
         randomItem.click();
         Util.waitLoadingBar(driver);
