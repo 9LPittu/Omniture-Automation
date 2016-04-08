@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
-public class UserFlowSteps extends DriverFactory {
+public class UserNavigationSteps extends DriverFactory {
     TestDataReader testDataReader = TestDataReader.getTestDataReader();
 
     @When("User adds to bag a random product using a main category")

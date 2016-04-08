@@ -32,8 +32,6 @@ public class TestDataReader {
     private void loadProperties() throws IOException {
         String testData = "TestData.properties";
 
-        logger.debug("Test Data file to be used {}", testData);
-
         FileInputStream environmentInput = new FileInputStream(testData);
         testDataProperties.load(environmentInput);
     }

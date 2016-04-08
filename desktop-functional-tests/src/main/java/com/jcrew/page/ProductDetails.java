@@ -47,6 +47,8 @@ public class ProductDetails {
     private WebElement productOverview;
     @FindBy(id = "c-product__reviews--ratings-summary")
     private WebElement reviewSummary;
+    @FindBy(id = "c-product__sold-out")
+    private WebElement soldoutMessage;
 
     public ProductDetails(WebDriver driver) {
         this.driver = driver;
@@ -154,13 +156,24 @@ public class ProductDetails {
         return productPrice.getText();
     }
 
+    private boolean isSoldOut() {
+        List<WebElement> message = soldoutMessage.findElements(By.className("product__sold-out"));
+
+        return message.size() > 0;
+    }
+
     public Product getProduct() {
         Product product = new Product();
-        product.setColor(getSelectedColor());
-        product.setSize(getSelectedSize());
         product.setName(getProductName());
-        product.setQuantity(getQuantity());
-        product.setPrice(getPrice());
+
+        if(!isSoldOut()) {
+            product.setColor(getSelectedColor());
+            product.setSize(getSelectedSize());
+            product.setQuantity(getQuantity());
+            product.setPrice(getPrice());
+        } else {
+            product.setSoldOut(true);
+        }
 
         return product;
     }

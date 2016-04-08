@@ -16,8 +16,13 @@ public class Product {
     private String quantity;
     private String price;
     private String currency;
+    private boolean isSoldOut = false;
 
     public Product() {
+    }
+
+    public void setSoldOut(boolean soldOut) {
+        isSoldOut = soldOut;
     }
 
     public String getColor() {
@@ -83,26 +88,23 @@ public class Product {
     public boolean equals(Product product) {
         boolean result;
 
-        String debug = "\nProduct A\t|\tProduct B\n";
-        debug += this.name + "\t|\t" + product.name + "\n";
-        debug += this.color + "\t|\t" + product.color + "\n";
-        debug += this.size + "\t|\t" + product.size + "\n";
-        debug += this.quantity + "\t|\t" + product.quantity + "\n";
-        debug += this.price + "\t|\t" + product.price + "\n";
-        debug += this.currency + "\t|\t" + product.currency + "\n\n";
+        String debug = "\nProduct A\t| Product B\t| Result\n";
 
         result = (this.name.equalsIgnoreCase(product.name));
-        debug += "name: " + result + "\n";
-        result &= (this.color.equalsIgnoreCase(product.color));
-        debug += "color: " + result + "\n";
-        result &= (this.size.equalsIgnoreCase(product.size));
-        debug += "size: " + result + "\n";
-        result &= (this.quantity.equalsIgnoreCase(product.quantity));
-        debug += "quantity: " + result + "\n";
-        result &= (this.price.equalsIgnoreCase(product.price));
-        debug += "price: " + result + "\n";
-        result &= (this.currency.equalsIgnoreCase(product.currency));
-        debug += "currency: " + result + "\n";
+        debug += this.name + "\t| " + product.name + "\t| " + result + "\n";
+
+        if (!(this.isSoldOut || product.isSoldOut)) {
+            result &= (this.color.equalsIgnoreCase(product.color));
+            debug += this.color + "\t| " + product.color + "\t| " + result + "\n";
+            result &= (this.size.equalsIgnoreCase(product.size));
+            debug += this.size + "\t| " + product.size + "\t| " + result + "\n";
+            result &= (this.price.equalsIgnoreCase(product.price));
+            debug += this.price + "\t| " + product.price + "\t| " + result + "\n";
+            result &= (this.currency.equalsIgnoreCase(product.currency));
+            debug += this.currency + "\t| " + product.currency + "\t| " + result + "\n";
+            result &= (this.quantity.equalsIgnoreCase(product.quantity));
+            debug += this.quantity + "\t| " + product.quantity + "\t| " + result + "\n";
+        }
 
         logger.debug(debug);
 
@@ -112,27 +114,27 @@ public class Product {
     public boolean equals(Product product, boolean ignoreQuantity) {
         boolean result;
 
-        if(ignoreQuantity) {
-
-            String debug = "\nProduct A\t|\tProduct B\n";
-            debug += this.name + "\t|\t" + product.name + "\n";
-            debug += this.color + "\t|\t" + product.color + "\n";
-            debug += this.size + "\t|\t" + product.size + "\n";
-            debug += this.price + "\t|\t" + product.price + "\n";
-            debug += this.currency + "\t|\t" + product.currency + "\n\n";
+        if (ignoreQuantity) {
+            String debug = "\nProduct A\t| Product B\t| Result\n";
 
             result = (this.name.equalsIgnoreCase(product.name));
-            debug += "name: " + result + "\n";
-            result &= (this.color.equalsIgnoreCase(product.color));
-            debug += "color: " + result + "\n";
-            result &= (this.size.equalsIgnoreCase(product.size));
-            debug += "size: " + result + "\n";
-            result &= (this.price.equalsIgnoreCase(product.price));
-            debug += "price: " + result + "\n";
-            result &= (this.currency.equalsIgnoreCase(product.currency));
-            debug += "currency: " + result + "\n";
+            debug += this.name + "\t| " + product.name + "\t| " + result + "\n";
+
+            if (!(this.isSoldOut || product.isSoldOut)) {
+                result &= (this.color.equalsIgnoreCase(product.color));
+                debug += this.color + "\t| " + product.color + "\t| " + result + "\n";
+                result &= (this.size.equalsIgnoreCase(product.size));
+                debug += this.size + "\t| " + product.size + "\t| " + result + "\n";
+                result &= (this.price.equalsIgnoreCase(product.price));
+                debug += this.price + "\t| " + product.price + "\t| " + result + "\n";
+                result &= (this.currency.equalsIgnoreCase(product.currency));
+                debug += this.currency + "\t| " + product.currency + "\t| " + result + "\n";
+                result &= (this.quantity.equalsIgnoreCase(product.quantity));
+                debug += this.quantity + "\t| " + product.quantity + "\t| " + result + "\n";
+            }
 
             logger.debug(debug);
+
         } else {
             result = equals(product);
         }

@@ -67,4 +67,9 @@ public class HeaderWrapSteps extends DriverFactory {
 
         header.searchFor(term);
     }
+
+    @When("User clicks in bag")
+    public void user_clicks_in_bag() {
+        header.clickBag();
+    }
 }
