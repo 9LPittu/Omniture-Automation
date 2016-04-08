@@ -91,7 +91,40 @@ public class DriverFactory {
         } else if ("firefox".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.firefox();
 
-        } else {
+        } else if ("iPad".equals(browser)) {
+
+            WebDriver driver = null;
+            String ipadBrowser = propertyReader.getProperty(browser+".browser");
+            String ipadName = propertyReader.getProperty(browser+".name");
+            String ipadOs = propertyReader.getProperty(browser+".os.version");
+            String ipadUdid = propertyReader.getProperty(browser+".udid");
+
+            desiredCapabilities = DesiredCapabilities.ipad();
+
+            desiredCapabilities.setCapability("browserName", "safari");
+            desiredCapabilities.setCapability("platformName", "iOS");
+            desiredCapabilities.setCapability("deviceName", ipadName);
+            desiredCapabilities.setCapability("platformVersion", ipadOs);
+            desiredCapabilities.setCapability("takesScreenshot", "true");
+            desiredCapabilities.setCapability("acceptSslCerts", "true");
+            desiredCapabilities.setCapability("autoAcceptAlerts", "true");
+
+            if(propertyReader.hasProperty("device.udid")){
+                //setting this capability is required only for iOS real device
+                desiredCapabilities.setCapability("udid", ipadUdid);
+            }
+
+            desiredCapabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
+            desiredCapabilities.setCapability("safariAllowPopups", true);
+            desiredCapabilities.setCapability("safariOpenLinksInBackground", true);
+            desiredCapabilities.setCapability("newCommandTimeout", 240);
+            desiredCapabilities.setCapability("launchTimeout", 600000);
+
+            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+       } else {
             desiredCapabilities = DesiredCapabilities.phantomjs();
             desiredCapabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             desiredCapabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
