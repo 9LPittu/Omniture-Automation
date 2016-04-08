@@ -26,14 +26,6 @@
     </profiles>
     
     <repositories>
-    	<repository>
-        	<id>jcrew-repoman</id>
-        	<name>J.Crew Maven Repository</name>
-        	<url>http://nyc-artfc-d01/artifactory/maven</url>
-    	</repository>
-	</repositories>    
-
-    <repositories>
         <repository>
             <id>jcrew-repoman</id>
             <name>J.Crew Maven Repository</name>
