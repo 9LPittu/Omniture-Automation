@@ -25,7 +25,12 @@ public class HeaderSteps extends DriverFactory {
 
     @Then("^Verify ([^\"]*) header link is displayed$")
     public void verify_header_link_is_displayed(String headerLink) throws Throwable {
-        assertTrue(headerLink + " should have been present", header.isHeaderLinkPresent(headerLink));
+        if (!headerLink.equalsIgnoreCase("BAG")) {
+            assertTrue(headerLink + " should have been present", header.isHeaderLinkPresent(headerLink));
+        }
+        else {
+            assertTrue(headerLink + " should have been present", header.isBagLinkDisplaying());
+        }
     }
 
     @Then("^Verify header bag icon is displayed$")

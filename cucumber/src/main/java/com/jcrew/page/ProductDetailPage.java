@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class ProductDetailPage {
@@ -29,6 +30,9 @@ public class ProductDetailPage {
 
     @FindBy(id = "btn__wishlist")
     private WebElement wishList;
+
+    @FindBy(id = "variants")
+    private WebElement productDetailsVariantsSection;
 
     @FindBy(id = "c-product__variations")
     private WebElement productVariationSection;
@@ -56,6 +60,9 @@ public class ProductDetailPage {
 
     @FindBy(id = "c-product__overview")
     private WebElement productOverview;
+
+    @FindBy(id = "pdpMainImg0")
+    private WebElement productImage;
 
     @FindBy(id = "c-product__actions")
     private WebElement productActionsSection;
@@ -276,6 +283,17 @@ public class ProductDetailPage {
         return productOverview.findElement(By.tagName("h1")).getText();
     }
 
+    public String getFirstProductNameFromMultiPDP() {
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productOverview));
+        return productOverview.findElements(By.tagName("h1")).get(0).getText();
+    }
+    public String getProductImageSourceFromPDP() {
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productImage));
+        return productImage.getAttribute("src");
+    }
+
     public String getProductPriceList() {
         String productListPrice = "";
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetails));
@@ -396,4 +414,48 @@ public class ProductDetailPage {
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
+    public boolean isproductVariantSectionPresent() {
+
+    	try{
+    		List<WebElement> variants = productDetailsVariantsSection.findElements(By.className("product-details-variants"));
+    	    return true;
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
+    }
+
+    public boolean isVariantRadioButtonisSelected(String variant) {
+        boolean result = false;
+        try {
+            WebElement selectedRadioButton = productDetailsVariantsSection.findElement(By.xpath("//input[@checked]"));
+            WebElement selectedVariant = selectedRadioButton.findElement(By.xpath(".//ancestor::div[contains(@class,'variant-wrapper')]/div[@class='product-pricing']/span"));
+            String selectedVariantName = selectedVariant.getText();
+            if (variant.equalsIgnoreCase(selectedVariantName)) {
+                result = true;
+                logger.debug("Regular Variation is selected");
+            }
+        }
+        catch(Exception e) {
+            result = false;
+        }
+        return result;
+   }
+
+    public void validate_extended_size_on_pdp_page_is_displayed(){
+		if (isproductVariantSectionPresent()){
+            String variant = "Regular";
+			if(isVariantRadioButtonisSelected(variant)){
+				logger.info("Variant section is present and default Regular variant is selected on PDP page ");
+			}
+			else{
+				  logger.error("Variant section is present but Default Regular variant is not selected on PDP page");
+			}
+		}
+		else{
+		  	  logger.info("Variants are not present on PDP page");
+		}
+
+	}
+
 }
