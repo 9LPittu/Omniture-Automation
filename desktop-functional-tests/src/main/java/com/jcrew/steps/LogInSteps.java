@@ -33,6 +33,11 @@ public class LogInSteps extends DriverFactory {
         assertTrue("The create user form is displayed in log in page", isDisplayed);
     }
 
+    @Then("Log In page has the expected url pattern ([^\"]*)")
+    public void log_in_page_has_the_expeted_url_pattern(String pattern) {
+        assertTrue("Log in page has the expected url", logIn.hasExpectedPattern(pattern));
+    }
+
     @When("^User clicks Create An Account button$")
     public void user_clicks_create_account() {
         logIn.clickCreateAccount();
@@ -55,6 +60,11 @@ public class LogInSteps extends DriverFactory {
         boolean equalsIgnoringCase =
                 logIn.getSelectedCountry().equalsIgnoreCase(country);
         assertTrue("Selected country is " + country, equalsIgnoringCase);
+    }
+
+    @Then("Selected country matches the current country context")
+    public void selected_country_matches_the_current_country_context() {
+        assertTrue("Selected country matches context", logIn.selectedCountryMatchesContext());
     }
 
     @Then("^Error message disappears from field ([^\"]*)$")
@@ -94,6 +104,11 @@ public class LogInSteps extends DriverFactory {
     @Then("Verify form does not contain international email option message")
     public void verify_form_does_not_contains_intl_email_option_message() {
         assertFalse(logIn.hasIntlEmailOptMessage());
+    }
+
+    @Then("Verify form contains international email option message according to country context")
+    public void verify_form_contains_international_email_option_message_according_to_country_context() {
+        assertTrue("Selected country matches context", logIn.checkIntlEmailOptMessageForContext());
     }
 
     @When("^User selects ([^\"]*) country$")

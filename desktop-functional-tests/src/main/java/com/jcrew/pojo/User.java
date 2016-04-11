@@ -13,6 +13,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String country;
+    private String countryCode;
     private static User user = null;
     private static User fakeUser = null;
 
@@ -27,6 +28,7 @@ public class User {
         Faker faker = new Faker();
         fakeUser = new User(false);
         fakeUser.email = faker.internet().emailAddress().replace("@", "@test.");
+        fakeUser.email = fakeUser.email.replace("'", "");
         fakeUser.password = faker.lorem().fixedString(6);
         fakeUser.firstName = faker.name().firstName();
         fakeUser.lastName = faker.name().lastName();
@@ -50,6 +52,7 @@ public class User {
             this.firstName = reader.getProperty(userId + ".firstName");
             this.lastName = reader.getProperty(userId + ".lastName");
             this.country = reader.getProperty(userId + ".country", "United States");
+            this.countryCode = reader.getProperty(userId + ".countryCode", "US");
         }
     }
 
@@ -75,6 +78,14 @@ public class User {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public static String getSomePassword(int characters) {

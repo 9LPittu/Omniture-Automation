@@ -148,7 +148,7 @@ public class HeaderWrap {
     }
 
     public void goToMyDetailsDropDownMenu(String option) {
-        hoverOverIcon("my details");
+        hoverOverIcon("my account");
         dropdown = userPanel.findElement(By.tagName("dl"));
         WebElement optionElement = dropdown.findElement(By.linkText(option));
         optionElement.click();

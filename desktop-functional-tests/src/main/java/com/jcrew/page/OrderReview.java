@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -33,8 +34,15 @@ public class OrderReview {
     }
 
     public void placeOrder() {
-        WebElement place_my_order = slidertrack.findElement(By.className("button-submit-bg"));
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String env = propertyReader.getProperty("environment");
 
-        place_my_order.click();
+        if(!"production".equals(env)) {
+            WebElement place_my_order = slidertrack.findElement(By.className("button-submit-bg"));
+
+            place_my_order.click();
+        } else {
+            logger.info("Trying to place an order in production, ignoring");
+        }
     }
 }

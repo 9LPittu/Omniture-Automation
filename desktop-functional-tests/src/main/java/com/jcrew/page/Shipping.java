@@ -23,6 +23,10 @@ public class Shipping {
 
     @FindBy(id = "shipping-address")
     private WebElement shippingAddress;
+    @FindBy(id = "order-listing")
+    private WebElement order_listing;
+    @FindBy(id = "frmSelectShippingAddress")
+    private WebElement frmSelectShippingAddress;
     @FindBy(id = "firstNameSA")
     private WebElement firstNameInput;
     @FindBy(id = "lastNameSA")
@@ -49,7 +53,7 @@ public class Shipping {
         this.wait = Util.createWebDriverWait(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(shippingAddress));
+        wait.until(ExpectedConditions.visibilityOf(order_listing));
     }
 
     public void fillGuestData() {
@@ -67,6 +71,11 @@ public class Shipping {
     public void saveShippingAddress() {
         WebElement saveShippingAddress = shippingAddress.findElement(By.className("button-submit-bg"));
         saveShippingAddress.click();
+    }
+
+    public void continueWithDefaultAddress() {
+        WebElement continueWithDefault = frmSelectShippingAddress.findElement(By.className("button-submit-bg"));
+        continueWithDefault.click();
     }
 
 }

@@ -1,8 +1,11 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -28,10 +31,9 @@ public class LogIn extends DriverFactory {
     private final Logger logger = LoggerFactory.getLogger(LogIn.class);
     private final WebDriverWait wait;
     private final HeaderWrap header;
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private final User fakeUser = User.getNewFakeUser();
     private final User knownUser = User.getUser();
-    private final String pricebookCountries[] = {"UK", "CA", "HK", "FR"};
-    private final String nonPricebookCountries[] = {"AU", "JP", "DE", "SG", "CH"};
     private final String signupForEmails_HK_Text = "J.Crew would like to use your contact details to send you " +
             "information about our fashion apparel, accessories, shoes, bags, jewelry, electronics, health and " +
             "beauty products and decoration and home goods, as well as upcoming collections, sales, promotions and " +
@@ -46,7 +48,7 @@ public class LogIn extends DriverFactory {
     private WebElement sidecarPassword;
     @FindBy(xpath = "//button[@class='btn--primary btn--signin js-button-submit']")
     private WebElement signInHereButton;
-    @FindBy (id = "js-intl-email-optin")
+    @FindBy(id = "js-intl-email-optin")
     private WebElement internationalEmailOption;
 
     @FindBy(xpath = ".//form[@class='register-form']")
@@ -68,12 +70,18 @@ public class LogIn extends DriverFactory {
     }
 
     public void signIn() {
-        User user = User.getUser();
-        logger.info("{}/{}", user.getEmail(), user.getPassword());
-        sidecarUser.sendKeys(user.getEmail());
-        sidecarPassword.sendKeys(user.getPassword());
+        logger.info("{}/{}", knownUser.getEmail(), knownUser.getPassword());
+        sidecarUser.sendKeys(knownUser.getEmail());
+        sidecarPassword.sendKeys(knownUser.getPassword());
         signInHereButton.click();
         header.reload();
+        stateHolder.put("signedUser", knownUser);
+    }
+
+    public boolean hasExpectedPattern(String pattern) {
+        Country country = (Country) stateHolder.get("context");
+
+        return Util.countryContextURLCompliance(driver, country, pattern);
     }
 
     public boolean createAccountFormIsDisplayed() {
@@ -85,6 +93,9 @@ public class LogIn extends DriverFactory {
         createAccountFormIsDisplayed();
         createAnAccount = registerForm.findElement(By.tagName("button"));
         createAnAccount.click();
+        fakeUser.setCountry(getSelectedCountry());
+        fakeUser.setCountryCode(getSelectedCountryValue());
+        stateHolder.put("signedUser", fakeUser);
     }
 
     private WebElement getNewUserField(String field) {
@@ -152,6 +163,13 @@ public class LogIn extends DriverFactory {
         return countrySelector.getFirstSelectedOption().getText();
     }
 
+    public boolean selectedCountryMatchesContext() {
+        Country country = (Country) stateHolder.get("context");
+        String selectedCountry = getSelectedCountry();
+
+        return country.getName().equalsIgnoreCase(selectedCountry);
+    }
+
     public String getSelectedCountryValue() {
         createAccountFormIsDisplayed();
         Select countrySelector = new Select(registerForm.findElement(By.id(countryId)));
@@ -160,17 +178,24 @@ public class LogIn extends DriverFactory {
     }
 
     private void setSelectedCountryByGroup(String group) {
+        TestDataReader testData = TestDataReader.getTestDataReader();
         Select countrySelector = new Select(registerForm.findElement(By.id(countryId)));
         int index;
 
-        if("US".equals(group)) {
+        if ("US".equals(group)) {
             countrySelector.selectByValue("US");
-        } else if ("PRICEBOOK".equals(group)){
-            index = Util.randomIndex(pricebookCountries.length);
-            countrySelector.selectByIndex(index);
-        } else if ("NON-PRICEBOOK".equals(group)){
-            index = Util.randomIndex(nonPricebookCountries.length);
-            countrySelector.selectByIndex(index);
+        } else if ("PRICEBOOK".equals(group)) {
+            String pricebookCountries = testData.getData("pricebookCountries");
+            String pricebookCountriesArray[] = pricebookCountries.split(";");
+            index = Util.randomIndex(pricebookCountriesArray.length);
+
+            countrySelector.selectByValue(pricebookCountriesArray[index]);
+        } else if ("NON-PRICEBOOK".equals(group)) {
+            String nonPricebookCountries = testData.getData("nonPricebookCountries");
+            String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
+            index = Util.randomIndex(nonPricebookCountriesArray.length);
+
+            countrySelector.selectByValue(nonPricebookCountriesArray[index]);
         }
 
         logger.info("Selected {} as country", getSelectedCountry());
@@ -194,7 +219,7 @@ public class LogIn extends DriverFactory {
         String value = "";
         User user;
 
-        if(useFakeUser)
+        if (useFakeUser)
             user = fakeUser;
         else
             user = knownUser;
@@ -223,13 +248,13 @@ public class LogIn extends DriverFactory {
         fillField(field, value);
     }
 
-    public boolean hasIntlEmailOptMessage(){
+    public boolean hasIntlEmailOptMessage() {
         boolean result = false;
         List<WebElement> optMessageDiv = internationalEmailOption.findElements(By.id("signupForEmailsContainer"));
 
-        if(optMessageDiv.size() == 1){
+        if (optMessageDiv.size() == 1) {
             String messageText = optMessageDiv.get(0).getText();
-            if("HK".equals(getSelectedCountryValue()))
+            if ("HK".equals(getSelectedCountryValue()))
                 result = messageText.equals(signupForEmails_HK_Text);
             else
                 result = messageText.equals(signupForEmails_ZZ_Text);
@@ -239,17 +264,41 @@ public class LogIn extends DriverFactory {
 
     }
 
-    public void setSelectedCountryByValue(String value){
+    public boolean checkIntlEmailOptMessageForContext() {
+        boolean result = false;
+        Country country = (Country) stateHolder.get("context");
+        String country_code = country.getCountry();
+
+        List<WebElement> optMessageDiv = internationalEmailOption.findElements(By.id("signupForEmailsContainer"));
+
+        if (optMessageDiv.size() == 1) {
+            result = !"US".equals(country_code);
+
+            String messageText = optMessageDiv.get(0).getText();
+            if ("HK".equals(country_code))
+                result &= messageText.equals(signupForEmails_HK_Text);
+            else
+                result &= messageText.equals(signupForEmails_ZZ_Text);
+
+        } else if (optMessageDiv.size() == 0) {
+            result = "US".equals(country_code);
+        }
+
+        return result;
+
+    }
+
+    public void setSelectedCountryByValue(String value) {
         Select countrySelector = new Select(registerForm.findElement(By.id(countryId)));
 
-        if("random".equalsIgnoreCase(value)){
+        if ("random".equalsIgnoreCase(value)) {
             WebElement options = Util.randomIndex(countrySelector.getOptions());
             value = options.getAttribute("value");
-        } else if("other".equalsIgnoreCase(value)){
+        } else if ("other".equalsIgnoreCase(value)) {
             WebElement options = Util.randomIndex(countrySelector.getOptions());
             value = options.getAttribute("value");
 
-            while(value.equals("US") || value.equals("UK") ){
+            while (value.equals("US") || value.equals("UK")) {
                 options = Util.randomIndex(countrySelector.getOptions());
                 value = options.getAttribute("value");
             }
