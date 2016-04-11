@@ -51,8 +51,11 @@ public class DriverFactory {
             driver = createLocalDriver(propertyReader);
         }
 
-       // driver.manage().window().setSize(new Dimension(width, height));
-
+        logger.info("setting dimensions {}",((System.getProperty("browser")).equals("ipad")));
+        if (!((System.getProperty("browser")).equals("ipad"))) {
+            logger.info("setting dimensions {}",((System.getProperty("browser")).equals("ipad")));
+            driver.manage().window().setSize(new Dimension(width, height));
+        }
         return driver;
     }
 
@@ -93,14 +96,10 @@ public class DriverFactory {
 
         } else if ("ipad".equals(browser)) {
 
-            WebDriver driver = null;
-            String ipadBrowser = propertyReader.getProperty(browser+".browser");
             String ipadName = propertyReader.getProperty(browser+".name");
             String ipadOs = propertyReader.getProperty(browser+".os.version");
             String ipadUdid = propertyReader.getProperty(browser+".udid");
-
             desiredCapabilities = DesiredCapabilities.ipad();
-
             desiredCapabilities.setCapability("browserName", "safari");
             desiredCapabilities.setCapability("platformName", "iOS");
             desiredCapabilities.setCapability("deviceName", ipadName);
@@ -114,10 +113,6 @@ public class DriverFactory {
             desiredCapabilities.setCapability("safariOpenLinksInBackground", true);
             desiredCapabilities.setCapability("newCommandTimeout", 240);
             desiredCapabilities.setCapability("launchTimeout", 600000);
-
-            //driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
-
-           // driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
        } else {
             desiredCapabilities = DesiredCapabilities.phantomjs();
