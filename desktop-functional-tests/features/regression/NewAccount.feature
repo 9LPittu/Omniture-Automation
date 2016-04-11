@@ -5,11 +5,8 @@ Feature: Create New Account Form
   Background:
     Given User goes to homepage
     When User clicks on sign in using header
-    #url validation
     Then User get create account form
-    #check context for default country
     And Selected country is United States
-    #depending on country
     And Verify form does not contain international email option message
 
   Scenario: Validate error messages in new account form
