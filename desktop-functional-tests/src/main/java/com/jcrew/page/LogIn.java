@@ -90,12 +90,13 @@ public class LogIn extends DriverFactory {
     }
 
     public void clickCreateAccount() {
-        createAccountFormIsDisplayed();
-        createAnAccount = registerForm.findElement(By.tagName("button"));
-        createAnAccount.click();
         fakeUser.setCountry(getSelectedCountry());
         fakeUser.setCountryCode(getSelectedCountryValue());
         stateHolder.put("signedUser", fakeUser);
+
+        createAccountFormIsDisplayed();
+        createAnAccount = registerForm.findElement(By.tagName("button"));
+        createAnAccount.click();
     }
 
     private WebElement getNewUserField(String field) {
