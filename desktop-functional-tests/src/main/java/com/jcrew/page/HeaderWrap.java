@@ -93,7 +93,6 @@ public class HeaderWrap {
     }
 
     public void clickBag() {
-        hoverOverIcon("bag");
         bag.click();
     }
 
