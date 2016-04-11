@@ -47,7 +47,7 @@ Feature: Embedded Header and Footer Validations
     #Scenario: Shipping And Gift Options Page Header Links
     #Scenario: Shopping Bag Page header footer links
     #Scenario: Review Page Header Links
-  @HeaderAndFooter2 
+  
   Scenario: Multiple Pages During Checkout Header Links
     When User clicks on hamburger menu
     And Selects Women Category from hamburger menu
@@ -112,7 +112,7 @@ Feature: Embedded Header and Footer Validations
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
    
- @HeaderAndFooter2   
+   
  Scenario: Local currency is displayed on search page
 Given User is on homepage
 And User presses search button
@@ -124,7 +124,7 @@ When Selects the first product from product grid list
 Then User is in product detail page
 And Verify proper currency symbol is displayed on PDP page
 
- @HeaderAndFooter2 
+  
 Scenario: Local currency is displayed on sale page
 Given User is on homepage
 And User clicks on hamburger menu
