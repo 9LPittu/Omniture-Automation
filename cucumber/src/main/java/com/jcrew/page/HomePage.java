@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -131,5 +132,12 @@ public class HomePage {
 
     }
 
+   public void searchItemByReadingPropertyFile(String propertyName){
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
+    	String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
+    	
+    	input_search_term(itemName);
+    	click_on_search_button_for_input_field();   	
+    }
 }
-
