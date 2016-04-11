@@ -51,7 +51,7 @@ public class DriverFactory {
             driver = createLocalDriver(propertyReader);
         }
 
-        driver.manage().window().setSize(new Dimension(width, height));
+       // driver.manage().window().setSize(new Dimension(width, height));
 
         return driver;
     }
