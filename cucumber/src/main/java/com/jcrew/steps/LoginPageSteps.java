@@ -97,12 +97,12 @@ public class LoginPageSteps extends DriverFactory {
     	loginPage.clickCheckoutAsGuest();
     }
     
-    @And("^enter email address as \"([^\"]*)\" on sign in page$")
+    @And("^enter ([^\"]*) email address on sign in page$")
     public void enter_email_address_on_sign_in_page(String emailAddress){
     	loginPage.enterEmailAddressOnSignInPage(emailAddress);
     }
     
-    @And("^enter password as \"([^\"]*)\"$")
+    @And("^enter ([^\"]*) password$")
     public void enter_password_on_sign_in_page(String password){
     	loginPage.enterPasswordOnSignInPage(password);
     }
