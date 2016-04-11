@@ -204,7 +204,7 @@ public class ProductDetailPage {
     public String getSelectedColor() {
         WebElement productColorContainer = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOfElementLocated(By.id("c-product__price-colors")));
-        WebElement productColorElement = productColorContainer.findElement(By.className("is-selected"));
+        WebElement productColorElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productColorContainer.findElement(By.className("is-selected"))));
         return productColorElement.getAttribute("data-name");
     }
 
@@ -422,8 +422,6 @@ public class ProductDetailPage {
     
     public boolean isPreviouslySelectedColorStillDisplayedAsSelected(){
 
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	
     	String currentSelectedColor = getSelectedColor().toLowerCase();
     	logger.debug("Current selected color in application: {}", currentSelectedColor);
 
