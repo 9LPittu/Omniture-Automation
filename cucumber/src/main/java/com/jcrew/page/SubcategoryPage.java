@@ -558,7 +558,7 @@ public class SubcategoryPage {
         //stateHolder.put("selectedCountry", "United States");
         String expectedCountryName = (String)stateHolder.get("selectedCountry");
         Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency();
+        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
         
         List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail tile__detail--price--')]"));
        // List<String> productsHref = new ArrayList<>();
@@ -590,7 +590,7 @@ public class SubcategoryPage {
        
         String expectedCountryName = (String)stateHolder.get("selectedCountry");
         Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency();
+        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
         
         List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
        // List<String> productsHref = new ArrayList<>();

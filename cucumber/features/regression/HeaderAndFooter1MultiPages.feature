@@ -47,7 +47,7 @@ Feature: Embedded Header and Footer Validations
     #Scenario: Shipping And Gift Options Page Header Links
     #Scenario: Shopping Bag Page header footer links
     #Scenario: Review Page Header Links
- 
+  @HeaderAndFooter2 
   Scenario: Multiple Pages During Checkout Header Links
     When User clicks on hamburger menu
     And Selects Women Category from hamburger menu
@@ -66,6 +66,11 @@ Feature: Embedded Header and Footer Validations
     And user should see selected country in the footer
     And Verify proper currency symbol is displayed on item section on Checkout page
     And Verify proper currency symbol is displayed on summary section on Checkout page
+    And Clicks edit button on item bag page
+	And User is in product detail page
+	And Verify proper currency symbol is displayed on PDP page
+	Then Update Bag button is pressed
+	Then User should be in shopping bag page
     And Clicks on checkout
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
@@ -106,5 +111,26 @@ Feature: Embedded Header and Footer Validations
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    
- 
+   
+ @HeaderAndFooter2   
+ Scenario: Local currency is displayed on search page
+Given User is on homepage
+And User presses search button
+When Enters dresses to the search field
+And Clicks on search button for input field
+Then User is in search results page
+And Verify proper currency symbol is displayed on product grid list
+When Selects the first product from product grid list
+Then User is in product detail page
+And Verify proper currency symbol is displayed on PDP page
+
+ @HeaderAndFooter2 
+Scenario: Local currency is displayed on sale page
+Given User is on homepage
+And User clicks on hamburger menu
+And Selects sale Category from hamburger menu
+And User clicks on WOMEN subcategory from Sales
+And Verify proper currency symbol is displayed on product grid list
+And Selects any product from product grid list
+And User is in product detail page
+And Verify proper currency symbol is displayed on PDP page
