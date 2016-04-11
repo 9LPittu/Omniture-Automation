@@ -627,20 +627,8 @@ public class SubcategoryPage {
 	  				itemColor.click();
 
 	  				//check atleast one size is available for a particular color
-	  				List<WebElement> itemSizes = driver.findElements(By.cssSelector(".js-product__size.sizes-list__item.btn"));
-	  				if(itemSizes.size() > 0){
-	  					int sizeNotAvailable = 0;
-	  					for(int i=0;i<itemSizes.size();i++){
-	  						String classAttribute = itemSizes.get(i).getAttribute("class").toLowerCase();
-	  						if(classAttribute.contains("is-unavailable")){
-	  							sizeNotAvailable++;
-	  						}
-	  					}
-
-	  					if(sizeNotAvailable == itemSizes.size()){
-	  						continue;
-	  					}
-
+	  				List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"));
+	  				if(itemSizes.size() > 0){	  					
 	  					colorName = driver.findElement(By.className("product__value")).getText();
 	  					isValidItemSizesAvailable = true;
 	  					break;
@@ -657,41 +645,31 @@ public class SubcategoryPage {
 	  			logger.debug("Selected item price: {}", arrayPageItemPrice);
 	  			logger.debug("Selected item color: {}", colorName);
 
-	            //Select random size from the available sizes
-	  			boolean isValidSizeClicked = false;
-	  			List<WebElement> itemSizes = driver.findElements(By.cssSelector(".js-product__size.sizes-list__item.btn"));
+	            //Select random size from the available sizes	  			
+	  			List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"));
+	  			
+	  			int itemSizeIndex = Util.randomIndex(itemSizes.size());	  			
+	            String sizeName = itemSizes.get(itemSizeIndex).getText();
+	            itemSizes.get(itemSizeIndex).click();
+	            logger.debug("Selected item size: {}", sizeName);	            
 
-	  			while(!isValidSizeClicked){
-	  				int itemSizeIndex = Util.randomIndex(itemSizes.size());
+	            //Save all item related details in stateholder
+	            Product product = new Product();
 
-	  				String classAttribute = itemSizes.get(itemSizeIndex).getAttribute("class").toLowerCase();
-		            if(classAttribute.contains("is-unavailable")){
-		            	continue;
-		            }
+	            product.setProductName(arrayPageItemName);
+	            product.setPriceList(arrayPageItemPrice);
+	            product.setSelectedColor(colorName);
+	            product.setSelectedSize(sizeName);
 
-		            String sizeName = itemSizes.get(itemSizeIndex).getText();
-		            itemSizes.get(itemSizeIndex).click();
-		            logger.debug("Selected item size: {}", sizeName);
-		            isValidSizeClicked = true;
+	            @SuppressWarnings("unchecked")
+				List<Product> productList = (List<Product>) stateHolder.get("productList");
 
-		            //Save all item related details in stateholder
-		            Product product = new Product();
+	            if (productList == null) {
+	                productList = new ArrayList<>();
+	            }
 
-		            product.setProductName(arrayPageItemName);
-		            product.setPriceList(arrayPageItemPrice);
-		            product.setSelectedColor(colorName);
-		            product.setSelectedSize(sizeName);
-
-		            @SuppressWarnings("unchecked")
-					List<Product> productList = (List<Product>) stateHolder.get("productList");
-
-		            if (productList == null) {
-		                productList = new ArrayList<>();
-		            }
-
-		            productList.add(product);
-		            stateHolder.put("productList", productList);
-	  			}
+	            productList.add(product);
+	            stateHolder.put("productList", productList);
 
 	  			isItemFound = true;
 	            break;
@@ -759,14 +737,14 @@ public class SubcategoryPage {
     	
     }
     
-    public boolean isPriceMatchesForSaleItem(String pricePropertyName, String saleItemPropertyName){
+    public boolean isPriceMatchesForSaleItem(String saleItemPropertyName, String priceType, String pricePropertyName){
     	
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
     	String itemName = testDataReader.getData(Util.getEnvironmentName() + "." + saleItemPropertyName);
     	String expectedItemPrice = testDataReader.getData(Util.getEnvironmentName() + "." + pricePropertyName);
     	
     	String price = "";
-    	if(pricePropertyName.contains("was.price")){
+    	if(priceType.equalsIgnoreCase("was")){
     		price = getWasPriceFor(itemName).replace("was ", "");
     	}
     	else{
