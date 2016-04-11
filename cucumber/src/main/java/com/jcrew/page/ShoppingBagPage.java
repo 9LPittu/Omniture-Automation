@@ -1,10 +1,11 @@
 package com.jcrew.page;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import com.google.common.base.Function;
+
 import com.google.common.base.Predicate;
+import com.jcrew.pojo.Product;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 public class ShoppingBagPage {
 
     private final Logger logger = LoggerFactory.getLogger(ShoppingBagPage.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final WebDriver driver;
     @FindBy(id = "button-checkout")
@@ -201,5 +203,27 @@ public class ShoppingBagPage {
         });
 
         return breadcrumbSection.getText().equalsIgnoreCase(breadcrumbText);
+    }
+    
+    public boolean isPDPPageColorDisplayedInShoppingBag(){
+
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String productName = product.getProductName();
+    	String expectedColorName = (product.getSelectedColor()).toUpperCase();
+
+    	return isColorDisplayedForProduct(productName,expectedColorName);
+    }
+
+    public boolean isPDPPageSizeDisplayedInShoppingBag(){
+
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String productName = product.getProductName();
+    	String expectedSizeName = (product.getSelectedSize()).toUpperCase();
+
+    	return isSizeDisplayedForProduct(productName,expectedSizeName);
     }
 }

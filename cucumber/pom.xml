@@ -24,7 +24,7 @@
         </profile>
 
     </profiles>
-
+    
     <repositories>
         <repository>
             <id>jcrew-repoman</id>

@@ -24,11 +24,11 @@ Feature: Regression Tests Category Feature
     And Verifies product image is displayed
 
   Scenario: Check Product Tiles for Sale Variations
-    When User clicks on SWEATERS subcategory from Women Category
-    Then User should be in sweaters page for women
-    And Verifies Cotton Jackie cardigan sweater with neon tipping product is displayed
-    And Verifies Cotton Jackie cardigan sweater with neon tipping product price was $75.00
-    And Verifies Cotton Jackie cardigan sweater with neon tipping product sale price is now $64.50
+    Then Closes subcategory hamburger menu
+    And search for "SaleItem"
+    Then user should see "SaleItem" in search results
+    And was price of "SaleItem" should match with expected "WasPrice"    
+    And now price of "SaleItem" should match with expected "NowPrice"
     And Verifies product image is displayed
 
   Scenario: Check sign posts on category pages

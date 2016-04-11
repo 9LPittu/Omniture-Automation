@@ -7,30 +7,30 @@ Feature: Multiple Items Random
 
   Scenario: Validate PDP's work for Women
     When User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And Chooses a random subcategory
-    And Selects any product from product grid list
+    And user selects WOMEN category from hamburger menu
+    And user selects any subcategory
+    And user selects any item from array page, select any color and size
     Then User is in product detail page
 
   Scenario: Validate PDP's work for Men
     When User clicks on hamburger menu
-    And Selects Men Category from hamburger menu
-    And Chooses a random subcategory
-    And Selects any product from product grid list
+    And user selects MEN category from hamburger menu
+    And user selects any subcategory
+    And user selects any item from array page, select any color and size
     Then User is in product detail page
 
   Scenario: Validate PDP's work for Girls
     When User clicks on hamburger menu
-    And Selects Girls Category from hamburger menu
-    And Chooses a random subcategory
-    And Selects any product from product grid list
+    And user selects GIRLS category from hamburger menu
+    And user selects any subcategory
+    And user selects any item from array page, select any color and size
     Then User is in product detail page
 
   Scenario: Validate PDP's work for Boys
     When User clicks on hamburger menu
-    And Selects Boys Category from hamburger menu
-    And Chooses a random subcategory
-    And Selects any product from product grid list
+    And user selects BOYS category from hamburger menu
+    And user selects any subcategory
+    And user selects any item from array page, select any color and size
     Then User is in product detail page
 
   Scenario: Validate PDP's work for sweaters search
