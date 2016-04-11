@@ -25,9 +25,9 @@ Feature: Regression Tests Category Feature
 
   Scenario: Check Product Tiles for Sale Variations
     Then Closes subcategory hamburger menu
-    And search for environment specific "sale.item.name"
-    Then user should see "sale.item.name" product is displayed
-    And "sale.item.was.price" matches with expected price for "sale.item.name"
+    And search for "SaleItem"
+    Then user should see "SaleItem" in search results
+    And the price of "SaleItem" should match with "SalePrice"
     And "sale.item.now.price" matches with expected price for "sale.item.name"
     And Verifies product image is displayed
 

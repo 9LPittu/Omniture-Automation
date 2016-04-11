@@ -87,7 +87,7 @@ public class HomePageSteps extends DriverFactory {
          }
      }
 
-    @And("^search for environment specific \"([^\"]*)\"$")
+    @And("^search for \"([^\"]*)\"$")
     public void search_for_item_specified_in_property_file(String propertyName){
     	
     	header.click_on_search_button();    	

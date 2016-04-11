@@ -370,13 +370,13 @@ public class SubcategoryPageSteps extends DriverFactory {
     	subcategoryPage.selectRandomItemAndSelectSizeColor();
     }
 
-    @Then("^user should see \"([^\"]*)\" product is displayed$")    
+    @Then("^user should see \"([^\"]*)\" in search results$")
     public void verify_item_is_displayed_in_search_results_page(String propertyName){    	;
     	assertTrue("Product should exist", subcategoryPage.isItemDisplayedInSearchResultsPage(propertyName));
     }
     
-    @And("^\"([^\"]*)\" matches with expected price for \"([^\"]*)\"$")
-    public void verify_item_price_in_search_results_page(String pricePropertyName, String saleItemPropertyName){
+    @And("^the price of \"([^\"]*)\" should match with \"([^\"]*)\"$")
+    public void verify_item_price_in_search_results_page(String saleItemPropertyName, String pricePropertyName){
     	assertTrue(pricePropertyName + " should match", subcategoryPage.isPriceMatchesForSaleItem(pricePropertyName, saleItemPropertyName));
     }
 }
