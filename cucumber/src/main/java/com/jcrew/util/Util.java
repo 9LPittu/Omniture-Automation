@@ -156,25 +156,5 @@ public class Util {
         Actions action = new Actions(driver);
         createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
         action.moveToElement(element);
-    }
-    
-    public static String getEnvironmentName(){
-    	
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String environmentURL = propertyReader.getProperty("environment").toLowerCase();    	
-    	String environmentName = "";
-    	
-    	switch(environmentURL){
-	    	case "https://www.jcrew.com":
-	    	case "http://www.jcrew.com":
-	    		 environmentName = "production";
-	    		 break;
-	    	case "https://or.jcrew.com":
-	    	case "http://or.jcrew.com":
-	    		 environmentName = "goldqa";
-	    		 break;
-	    }
-    	
-    	return environmentName;
-    }
+    }    
 }

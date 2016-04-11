@@ -730,7 +730,7 @@ public class SubcategoryPage {
     public boolean isItemDisplayedInSearchResultsPage(String propertyName){
     	
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
-    	String itemName = testDataReader.getData(Util.getEnvironmentName() + "." + propertyName);
+    	String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
     	
     	boolean result = productTileExistFor(itemName);
     	return result;
