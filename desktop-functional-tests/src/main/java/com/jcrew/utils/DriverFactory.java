@@ -51,11 +51,9 @@ public class DriverFactory {
             driver = createLocalDriver(propertyReader);
         }
 
-        logger.info("setting dimensions {}",((System.getProperty("browser")).equals("ipad")));
-        if (!((System.getProperty("browser")).equals("ipad"))) {
-            logger.info("setting dimensions {}",((System.getProperty("browser")).equals("ipad")));
-            driver.manage().window().setSize(new Dimension(width, height));
-        }
+
+          //  driver.manage().window().setSize(new Dimension(width, height));
+
         return driver;
     }
 
