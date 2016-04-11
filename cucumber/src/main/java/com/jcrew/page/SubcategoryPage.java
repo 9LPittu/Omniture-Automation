@@ -738,9 +738,10 @@ public class SubcategoryPage {
     }
     
     public boolean isPriceMatchesForSaleItem(String saleItemPropertyName, String priceType, String pricePropertyName){
-    	    	
-    	String itemName = System.getProperty("environment") + "." + saleItemPropertyName;
-    	String expectedItemPrice = System.getProperty("environment") + "." + pricePropertyName;
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	String itemName = testDataReader.getData(System.getProperty("environment") + "." + saleItemPropertyName);
+    	String expectedItemPrice = testDataReader.getData(System.getProperty("environment") + "." + pricePropertyName);
     	
     	String price = "";
     	if(priceType.equalsIgnoreCase("was")){
