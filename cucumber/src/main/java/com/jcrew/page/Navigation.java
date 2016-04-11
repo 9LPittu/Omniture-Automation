@@ -53,7 +53,7 @@ public class Navigation {
         String browser = reader.getProperty("browser");
         String targetPage;
 
-        if("iossafari".equals(browser) ||"androidchrome".equals(browser) || "phantomjs".equals(browser)){
+        if("iossafari".equals(browser) ||"androidchrome".equals(browser)) {
             switch (page){
                 case "facebook":
                     targetPage = "https://m.facebook.com/jcrew";
