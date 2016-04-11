@@ -41,6 +41,8 @@ public class PropertyReader {
         inputFile = new FileInputStream("countries.properties");
         properties.load(inputFile);
 
+        properties.setProperty("environment", execEnvironment);
+
         execEnvironment = properties.getProperty(execEnvironment);
         logger.info("URL to be used {}", execEnvironment);
         properties.setProperty("url", execEnvironment);

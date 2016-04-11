@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -23,6 +24,8 @@ public class OrderReview {
 
     @FindBy(id = "slidertrack")
     private WebElement slidertrack;
+    @FindBy(id = "billing-details")
+    private WebElement billing_details;
 
     public OrderReview(WebDriver driver) {
         this.driver = driver;
@@ -44,5 +47,11 @@ public class OrderReview {
         } else {
             logger.info("Trying to place an order in production, ignoring");
         }
+    }
+
+    public void fillSecurityCode() {
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        WebElement securityCode = billing_details.findElement(By.id("securityCode"));
+        securityCode.sendKeys(testDataReader.getData("card.cvv"));
     }
 }

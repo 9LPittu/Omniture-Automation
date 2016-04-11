@@ -75,4 +75,11 @@ public class CheckOutSteps extends DriverFactory {
         payment.submitPayment();
     }
 
+    @When("In Review page, user fills cvv and places order")
+    public void review_fill_cvv_and_continue() {
+        OrderReview review = new OrderReview(getDriver());
+        review.fillSecurityCode();
+        review.placeOrder();
+    }
+
 }

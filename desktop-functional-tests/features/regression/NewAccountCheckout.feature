@@ -2,7 +2,6 @@
 
 Feature: Create New Account in US and checkout
 
-  @wip
   Scenario: Create a new account in US and checkout
     Given User goes to homepage
     When User clicks on sign in using header
@@ -35,5 +34,5 @@ Feature: Create New Account in US and checkout
     And In Shipping Address Page, user clicks continue
     And User selects random shipping method and continue
     And In Payment page, user clicks continue
-    And User reviews and places order
+    And In Review page, user fills cvv and places order
     Then User gets an order confirmation number
