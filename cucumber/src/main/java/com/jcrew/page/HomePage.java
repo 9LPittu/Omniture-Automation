@@ -135,7 +135,7 @@ public class HomePage {
    public void searchItemByReadingPropertyFile(String propertyName){
     	
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
-    	String itemName = testDataReader.getData(Util.getEnvironmentName() + "." + propertyName);
+    	String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
     	
     	input_search_term(itemName);
     	click_on_search_button_for_input_field();   	
