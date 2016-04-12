@@ -83,14 +83,16 @@ public class DriverFactory {
     private WebDriver createRemoteDriver(PropertyReader propertyReader) throws MalformedURLException {
         final String browser = propertyReader.getProperty("browser");
         final String gridURL = propertyReader.getProperty("selenium.grid.hub.url");
+        final String nodeURL = propertyReader.getProperty("selenium.grid.node.url");
         DesiredCapabilities desiredCapabilities;
-        logger.debug(browser);
-        logger.info("if result {}",(("ipad".equals(browser))||("ipad7.1".equals(browser))));
+        WebDriver driver = null;
         if ("chrome".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.chrome();
+            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
 
         } else if ("firefox".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.firefox();
+            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
 
         } else if (("ipad".equals(browser))||("ipad7.1".equals(browser))) {
 
@@ -112,13 +114,16 @@ public class DriverFactory {
             desiredCapabilities.setCapability("newCommandTimeout", 240);
             desiredCapabilities.setCapability("launchTimeout", 600000);
 
+            driver = new RemoteWebDriver(new URL(nodeURL), desiredCapabilities);
+
        } else {
             desiredCapabilities = DesiredCapabilities.phantomjs();
             desiredCapabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             desiredCapabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
+            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
         }
 
-        return new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+        return driver;
     }
 
     public WebDriver getDriver() {
