@@ -19,6 +19,14 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User adds to bag a random product using a main category")
     public void users_add_random_product() {
+        user_navigates_to_a_pdp();
+
+        select_product_and_add_to_bag();
+
+    }
+
+    @When("User navigates to a subcategory from main category")
+    public void user_navigates_to_subcategory_from_main_category() {
         WebDriver driver = getDriver();
         List<String> categories = testDataReader.getMainCategories();
 
@@ -28,30 +36,39 @@ public class UserNavigationSteps extends DriverFactory {
         MenuDrawer menuDrawer = new MenuDrawer(driver);
         menuDrawer.selectCategoryFromList(categories);
         menuDrawer.selectSubCategory();
+    }
 
-        ProductsArray productsArray = new ProductsArray(driver);
+    @When("User navigates to a pdp")
+    public void user_navigates_to_a_pdp () {
+        user_navigates_to_subcategory_from_main_category();
+
+        ProductsArray productsArray = new ProductsArray(getDriver());
         productsArray.selectRandomProduct();
-
-        select_product_and_add_to_bag();
 
     }
 
-    @When("User adds to bag a random product from a search")
-    public void users_add_random_product_from_search() {
+    @When("User searches for a random search term")
+    public void user_searches_for_a_random_search_term() {
         WebDriver driver = getDriver();
         String term = testDataReader.getSearchWord();
 
         HeaderWrap header = new HeaderWrap(driver);
         header.searchFor(term);
 
-        SearchArray searchArray = new SearchArray(driver);
+    }
+
+    @When("User adds to bag a random product from a search")
+    public void users_add_random_product_from_search() {
+        user_searches_for_a_random_search_term();
+
+        SearchArray searchArray = new SearchArray(getDriver());
         searchArray.selectRandomProduct();
 
         select_product_and_add_to_bag();
     }
 
-    @When("User adds to bag a random product from sale")
-    public void users_add_random_product_from_sale() {
+    @When("User navigates to a random sale page")
+    public void user_navigates_to_a_random_sale_page() {
         WebDriver driver = getDriver();
 
         HeaderWrap header = new HeaderWrap(driver);
@@ -63,7 +80,13 @@ public class UserNavigationSteps extends DriverFactory {
         SaleLandingPage saleLandingPage = new SaleLandingPage(driver);
         saleLandingPage.selectRandomSaleCategory();
 
-        SearchArray searchArray = new SearchArray(driver);
+    }
+
+    @When("User adds to bag a random product from sale")
+    public void users_add_random_product_from_sale() {
+        user_navigates_to_a_random_sale_page();
+
+        SearchArray searchArray = new SearchArray(getDriver());
         searchArray.selectRandomProduct();
 
         select_product_and_add_to_bag();

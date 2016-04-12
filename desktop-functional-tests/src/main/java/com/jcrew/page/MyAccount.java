@@ -97,6 +97,12 @@ public class MyAccount {
         wait.until(ExpectedConditions.visibilityOf(leftContainer));
         WebElement myOrdersTitle = leftContainer.findElement(By.className("myaccount_list"));
 
-        return "MY ACCOUNT".equalsIgnoreCase(bannerText) && "My Orders".equalsIgnoreCase(myOrdersTitle.getText());
+        boolean expectedContent = "MY ACCOUNT".equalsIgnoreCase(bannerText) &&
+                "My Orders".equalsIgnoreCase(myOrdersTitle.getText());
+
+        Country country = (Country) stateHolder.get("context");
+        boolean expectedURL = Util.countryContextURLCompliance(driver,country,"account/reg_user_order_history.jsp?");
+
+        return expectedContent & expectedURL;
     }
 }
