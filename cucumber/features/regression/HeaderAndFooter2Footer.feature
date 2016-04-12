@@ -198,6 +198,8 @@ Feature: Footer Verification In Home Page
      And verify change link is displayed in the ship to section of footer
      Then click on change link from footer
      And User is on context chooser page
+     And Verify embedded headers links
+     Then Verify embedded footer is visible and functional
      And UNITED STATES & CANADA region drawer is displayed
      And ASIA PACIFIC region drawer is displayed
      And EUROPE region drawer is displayed
@@ -225,7 +227,9 @@ Feature: Footer Verification In Home Page
      And User is on internal /help/international_orders.jsp?sidecar=true page
      And Verify embedded headers links
      Then Verify embedded footer is visible and functional
-     And User presses back button     
+     And User presses back button
+     And click on "borderfree.com" link from FAQ section on the context chooser page
+     And external http://www.pitneybowes.com/us/borderfree-is-now-part-of-pitney-bowes.html page is opened in a different tab
 
   #US13389_TC13
   # Scenario Outline: Ship To section is visible and functional in footer

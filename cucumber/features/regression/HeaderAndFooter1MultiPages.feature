@@ -8,9 +8,9 @@ Feature: Embedded Header and Footer Validations
 	And User is on context chooser page
 	Given user selects top10country at random from context chooser page
     Then user should land on country specific home page
+    And user should see selected country in the footer
     #And click on 'START SHOPPING' button on country specific home page
     
-
 #  Scenario: Account Registration Header Links
 #    When Goes to sign in page
 #    And Clicks on create new account
@@ -53,16 +53,18 @@ Feature: Embedded Header and Footer Validations
     And user selects any category from hamburger menu
 	And user selects any subcategory
 	And Verify proper currency symbol is displayed on product grid list
+	And user should see selected country in the footer
 	And user selects any item from array page, select any color and size
     And User is in product detail page
-    And Verify proper currency symbol is displayed on PDP page    
+    And Verify proper currency symbol is displayed on PDP page
+    And user should see selected country in the footer
     And Add to cart button is pressed
     And User clicks on item bag
     Then User should be in shopping bag page
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    And Verify proper currency symbol is displayed on item section on Checkout page
+    And Verify proper currency symbol is displayed on item section on Checkout page    
     And Verify proper currency symbol is displayed on summary section on Checkout page
     And Clicks edit button on item bag page
 	And User is in product detail page
@@ -116,6 +118,7 @@ Feature: Embedded Header and Footer Validations
 	When Enters dresses to the search field
 	And Clicks on search button for input field
 	Then User is in search results page
+	And user should see selected country in the footer
 	And Verify proper currency symbol is displayed on product grid list
 	When Selects the first product from product grid list
 	Then User is in product detail page
@@ -125,8 +128,10 @@ Scenario: Local currency is displayed on sale page
 	Given User is on homepage
 	And User clicks on hamburger menu
 	And Selects sale Category from hamburger menu
-	And User clicks on WOMEN subcategory from Sales
+	And user should see selected country in the footer
+	And User clicks on WOMEN subcategory from Sales	
 	And Verify proper currency symbol is displayed on product grid list
+	And user should see selected country in the footer
 	And Selects any product from product grid list
 	And User is in product detail page
 	And Verify proper currency symbol is displayed on PDP page

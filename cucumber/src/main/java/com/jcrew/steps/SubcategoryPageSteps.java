@@ -390,23 +390,24 @@ public class SubcategoryPageSteps extends DriverFactory {
     	assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolonPDP());
     }
     
-    @And("^Verify proper currency symbol is displayed on item section on Checkout page$")
-    public void verify_currency_on_checkout_itemsection(){
-    	assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolShoppingBagItemSection());
-    }
-    
-    @And("^Verify proper currency symbol is displayed on summary section on Checkout page$")
-    public void verify_currency_on_checkout_summarysection(){
-    	assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolShoppingBagSummarySection());
-    }
-    
-    @And("^Verify proper currency symbol is displayed on shipping method section on Checkout page$")
-    public void verify_currency_on_checkout_shippingmethodssection(){
-    	assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolonShoppingBagMethodPrices());
-    }
-    
-    @And("^Verify proper currency symbol is displayed on shipping section on Checkout page$")
-    public void verify_currency_on_checkout_shippingsection(){
-    	assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolonShoppingBagShippingPrices());
+    @And("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
+    public void verify_currency_on_checkout_pages_section(String sectionName){
+    	
+    	sectionName = sectionName.toLowerCase();
+    	
+    	switch(sectionName){
+	    	case "item":
+	    		assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolShoppingBagItemSection());
+	    		break;
+	    	case "summary":
+	    		assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolShoppingBagSummarySection());
+	    		break;
+	    	case "shipping method":
+	    		assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolonShoppingBagMethodPrices());
+	    		break;
+	    	case "shipping":
+	    		assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolonShoppingBagShippingPrices());
+	    		break;
+    	}
     }
 }

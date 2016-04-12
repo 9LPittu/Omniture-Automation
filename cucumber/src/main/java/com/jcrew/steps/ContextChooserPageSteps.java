@@ -48,6 +48,11 @@ public class ContextChooserPageSteps extends DriverFactory {
     	contextChooser.clickButtonFromFAQSectionOnContextChooserPage(buttonName);
     }
     
+    @And("^click on \"([^\"]*)\" link from FAQ section on the context chooser page$")
+    public void click_link_from_faq_section_on_context_chooser_page(String linkName){
+    	contextChooser.clickLinkFromFAQSectionOnContextChooserPage(linkName);
+    }
+    
     @Given("^user selects country at random from context chooser page$")
     public void select_random_country_from_context_chooser_page(){
     	contextChooser.selectRandomCountry();

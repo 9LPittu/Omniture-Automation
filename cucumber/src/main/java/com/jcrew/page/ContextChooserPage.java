@@ -152,6 +152,11 @@ public class ContextChooserPage {
     	button.click();
     }
     
+    public void clickLinkFromFAQSectionOnContextChooserPage(String linkName){
+    	WebElement link = driver.findElement(By.xpath("//section[@class='r-international__faq']/article/section/p/a[text()='borderfree.com']"));
+    	link.click();
+    }
+    
     public void selectRandomCountry(){
     	
     	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
