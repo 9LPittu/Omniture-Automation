@@ -85,14 +85,14 @@ public class DriverFactory {
         final String gridURL = propertyReader.getProperty("selenium.grid.hub.url");
         DesiredCapabilities desiredCapabilities;
         logger.debug(browser);
-
+        logger.info("if result {}",(("ipad".equals(browser))||("ipad7.1".equals(browser))));
         if ("chrome".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.chrome();
 
         } else if ("firefox".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.firefox();
 
-        } else if ("ipad".equals(browser)) {
+        } else if (("ipad".equals(browser))||("ipad7.1".equals(browser))) {
 
             String ipadName = propertyReader.getProperty(browser+".name");
             String ipadOs = propertyReader.getProperty(browser+".os.version");
