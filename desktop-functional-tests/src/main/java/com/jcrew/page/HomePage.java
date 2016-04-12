@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,6 +23,8 @@ public class HomePage {
 
     @FindBy (id = "page__home")
     private WebElement pageContent;
+    @FindBy (className = "c-email-capture")
+    private WebElement emailCapture;
 
     public HomePage(WebDriver driver){
         this.driver = driver;
@@ -37,5 +40,18 @@ public class HomePage {
         String bodyClass = body.getAttribute("class");
 
         return "jcrew home".equals(bodyClass);
+    }
+
+    public void closeEmailCapture(){
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String browser = propertyReader.getProperty("browser");
+
+        if("chrome".equals(browser) || "firefox".equals(browser)) {
+            WebElement closeButton = emailCapture.findElement(By.className("js-email-capture--close"));
+            WebElement closeIcon = closeButton.findElement(By.tagName("span"));
+
+            wait.until(ExpectedConditions.elementToBeClickable(closeIcon));
+            closeIcon.click();
+        }
     }
 }

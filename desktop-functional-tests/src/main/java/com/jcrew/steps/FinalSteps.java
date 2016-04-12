@@ -23,6 +23,7 @@ public class FinalSteps {
     private final Logger logger = LoggerFactory.getLogger(StartSteps.class);
     private DriverFactory driverFactory = new DriverFactory();
     private WebDriver driver = driverFactory.getDriver();
+    private StateHolder holder = StateHolder.getInstance();
 
     @AfterStep
     public void afterStep(Scenario scenario) {
@@ -54,6 +55,7 @@ public class FinalSteps {
         }
 
         driverFactory.destroyDriver();
+        holder.clear();
 
     }
 

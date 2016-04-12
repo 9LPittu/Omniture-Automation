@@ -18,19 +18,18 @@ public class User {
 
     public static User getUser() {
         if (user == null)
-            user = new User();
+            user = new User(true);
 
         return user;
     }
 
     public static User getNewFakeUser() {
         Faker faker = new Faker();
-        fakeUser = new User(
-                faker.internet().emailAddress().replace("@", "@test."),
-                faker.lorem().fixedString(6),
-                faker.name().firstName(),
-                faker.name().lastName());
-
+        fakeUser = new User(false);
+        fakeUser.email = faker.internet().emailAddress().replace("@", "@test.");
+        fakeUser.password = faker.lorem().fixedString(6);
+        fakeUser.firstName = faker.name().firstName();
+        fakeUser.lastName = faker.name().lastName();
 
         return fakeUser;
     }
@@ -42,21 +41,16 @@ public class User {
         return fakeUser;
     }
 
-    private User(String email, String password, String firstName, String lastName) {
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    private User() {
-        PropertyReader reader = PropertyReader.getPropertyReader();
-        String userId = reader.getProperty("userID");
-        this.email = reader.getProperty(userId + ".email");
-        this.password = reader.getProperty(userId + ".password");
-        this.firstName = reader.getProperty(userId + ".firstName");
-        this.lastName = reader.getProperty(userId + ".lastName");
-        this.country = reader.getProperty(userId + ".country", "United States");
+    private User(boolean fromProperties) {
+        if(fromProperties) {
+            PropertyReader reader = PropertyReader.getPropertyReader();
+            String userId = reader.getProperty("userID");
+            this.email = reader.getProperty(userId + ".email");
+            this.password = reader.getProperty(userId + ".password");
+            this.firstName = reader.getProperty(userId + ".firstName");
+            this.lastName = reader.getProperty(userId + ".lastName");
+            this.country = reader.getProperty(userId + ".country", "United States");
+        }
     }
 
     public String getEmail() {
