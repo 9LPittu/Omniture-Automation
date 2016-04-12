@@ -5,39 +5,36 @@ Feature: Edit Product In Bags Scenarios
     Given User is on homepage
 
   Scenario: Verify on edit mode add to bag changes to update bag
-    When User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
-    And Click on product Cotton Jackie cardigan sweater to display PDP
+    When "sql.query.for.retreiving.items.with.multiple.colors.sizes" is run and search for item fetched from DB
     And User is in product detail page
-    And Color VINTAGE ELM is selected by user
-    And Size SMALL is selected by user
+    And A color is selected
+    And A size is selected
     And Add to cart button is pressed
     And User clicks on item bag
     And Clicks edit button on item bag page
-    Then Verify color VINTAGE ELM is selected
-    And Verify size SMALL is selected
+    Then user should see that previously selected color is retained
+    And user should see that previously selected size is retained
     And Verify update bag button is present
-    When Color VINTAGE INDIGO is selected by user
-    And Size LARGE is selected by user
-    Then Verify color VINTAGE INDIGO is selected
-    And Verify size LARGE is selected
-
+    And user selects a new color
+    And user selects a new size
+    Then user should see that previously selected color is retained
+    And user should see that previously selected size is retained
+    And Deletes browser cookies
+  
   Scenario: Verify shopping bag page reflects changes made to edited item
+  	And User bag is cleared
     When User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
-    And Click on product Cotton Jackie cardigan sweater to display PDP
+    And user selects any category from hamburger menu
+	And user selects any subcategory
+    And user selects any item from array page, select any color and size
     Then User is in product detail page
-    And Color VINTAGE ELM is selected by user
-    And Size SMALL is selected by user
     And Add to cart button is pressed
     And User clicks on item bag
     When Clicks edit button on item bag page
     And Update Bag button is pressed
     Then User should be in shopping bag page
-    And Verify color VINTAGE ELM is displayed in shopping bag
-    And Verify size SMALL is displayed in shopping bag
+    And in shopping bag page, user should see the color selected on the PDP page
+    And in shopping bag page, user should see the size selected on the PDP page
     And Verify 1 items are specified as quantity in shopping bag
     And Deletes browser cookies
 
@@ -50,15 +47,13 @@ Feature: Edit Product In Bags Scenarios
     And User bag is cleared
     And User goes to homepage
     When User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
-    And Click on product Cotton Jackie cardigan sweater to display PDP
+    And user selects any category from hamburger menu
+	And user selects any subcategory
+    And user selects any item from array page, select any color and size
     Then User is in product detail page
-    And Color VINTAGE ELM is selected by user
-    And Size SMALL is selected by user
     When Add to cart button is pressed
     And User clicks on item bag
     And Clicks edit button on item bag page
-    Then Verify color VINTAGE ELM is selected
-    And Verify size SMALL is selected
+    Then user should see that previously selected color is retained
+    And user should see that previously selected size is retained
     And Deletes browser cookies

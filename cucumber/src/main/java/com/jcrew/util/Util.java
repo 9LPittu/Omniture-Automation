@@ -26,11 +26,12 @@ public class Util {
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
 
     public static int randomIndex(int size) {
-        return (int) (Math.random() * (size - 1));
+        return (int) (Math.random() * (size));
     }
 
     public static Product getCurrentProduct() {
-        final List<Product> productList = (List<Product>) stateHolder.get("productList");
+        @SuppressWarnings("unchecked")
+		final List<Product> productList = (List<Product>) stateHolder.get("productList");        
         int currentProduct = productList.size() - 1;
         return productList.get(currentProduct);
     }
@@ -155,6 +156,5 @@ public class Util {
         Actions action = new Actions(driver);
         createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
         action.moveToElement(element);
-    }
-
+    }    
 }

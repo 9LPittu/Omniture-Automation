@@ -2,7 +2,7 @@
 Feature: Sign In Page
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     And Goes to sign in page
 
@@ -77,8 +77,8 @@ Feature: Sign In Page
     And User clicks on create an account button
     And Verify user is in homepage
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
+    And user selects any category from hamburger menu
+	And user selects any subcategory
     And Selects the first product from product grid list
     And User is in product detail page
     And User clicks on hamburger menu
@@ -89,8 +89,8 @@ Feature: Sign In Page
   #Not working as expected at present----in reference to JCSC-864
   Scenario: create new account from pdp page
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
+    And user selects any category from hamburger menu
+	And user selects any subcategory
     And Selects the first product from product grid list
     And User is in product detail page
     And User clicks on hamburger menu
@@ -104,24 +104,10 @@ Feature: Sign In Page
     And User clicks on create an account button
     And User is in product detail page
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
+    And user selects any category from hamburger menu
+	And user selects any subcategory
     And Selects the first product from product grid list
     And User is in product detail page
     And User clicks on hamburger menu
     And User clicks on back link
     Then My Account link is present
-
-
-
-
-
-
-
-
-
-
-
-
-
-
