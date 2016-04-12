@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
@@ -82,13 +83,12 @@ public class ProductDetailPage {
     }
 
     public boolean isProductDetailPage() {
+        Country country = (Country) stateHolder.get("context");
         Util.waitForPageFullyLoaded(driver);
-        
-        //removed because a bug introduced for launch. Required to execute correctly in Chrome.
-        //Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("product__image0")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+        boolean isURL = Util.countryContextURLCompliance(driver, country);
 
-        return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
+        return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
     }
     
     

@@ -55,8 +55,6 @@ public class PaymentMethods {
         Country country = (Country) stateHolder.get("context");
         boolean isTheExpectedURL = Util.countryContextURLCompliance(driver, country, "/account/payment_info.jsp");
 
-        logger.debug("bannerText {}, title {}, expected pattern {}",bannerText,myOrdersTitle.getText(),isTheExpectedURL);
-
         return "MY ACCOUNT".equalsIgnoreCase(bannerText) &&
                 "My Payment Methods".equalsIgnoreCase(myOrdersTitle.getText()) &&
                 isTheExpectedURL;

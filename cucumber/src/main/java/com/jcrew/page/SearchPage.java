@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.base.Function;
+import com.jcrew.pojo.Country;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
@@ -69,9 +70,11 @@ public class SearchPage {
 
 
     public boolean isSearchPage() {
+        Country country = (Country) stateHolder.get("context");
         Util.waitWithStaleRetry(driver, headerSearch);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchResult));
-        return headerSearch.isDisplayed() && searchResult.isDisplayed();
+
+        return headerSearch.isDisplayed() && searchResult.isDisplayed() && Util.countryContextURLCompliance(driver,country);
     }
 
 

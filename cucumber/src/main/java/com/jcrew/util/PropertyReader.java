@@ -28,6 +28,7 @@ public class PropertyReader {
     private void loadProperties() throws IOException {
         String environment = System.getProperty("environment", "ci");
         String viewport = System.getProperty("viewport", "desktop");
+        String country = System.getProperty("country", "us");
         
 
     	String environmentFile = environment + ".properties";
@@ -35,6 +36,10 @@ public class PropertyReader {
 
         logger.info("Environment configuration file to be used {}", environmentFile);
         logger.info("Viewport configuration file to be used {}", viewportFile);
+
+        FileInputStream countriesInput = new FileInputStream("countries.properties");
+        properties.load(countriesInput);
+        properties.setProperty("country", country);
 
         FileInputStream environmentInput = new FileInputStream(environmentFile);
         properties.load(environmentInput);
@@ -59,7 +64,7 @@ public class PropertyReader {
         String value = properties.getProperty(key);
 
         if (!hasProperty(key)) {
-            throw new RuntimeException("Property '" + key + "' is not defined in environment or viewport file");
+            throw new RuntimeException("Property '" + key + "' is not defined in environment,viewport our country file");
         }
 
         return value;
