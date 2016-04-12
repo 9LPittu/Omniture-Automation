@@ -38,12 +38,10 @@ Feature: Embedded Header and Footer Validations
     #Scenario: Review Page Header Links
   Scenario: Multiple Pages During Checkout Header Links
     When User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on BLAZERS subcategory from Women Category
-    And Selects the first product from product grid list
+    And user selects any category from hamburger menu
+	And user selects any subcategory
+	And user selects any item from array page, select any color and size
     And User is in product detail page
-    And A color is selected
-    And A size is selected
     And Add to cart button is pressed
     And User clicks on item bag
     Then User should be in shopping bag page

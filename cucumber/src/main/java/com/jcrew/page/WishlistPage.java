@@ -120,7 +120,8 @@ public class WishlistPage {
 
     public boolean shopTheLookProducts() {
         boolean result = true;
-        List<Product> addedProducts = (List<Product>) stateHolder.get("itemsInTray");
+        @SuppressWarnings("unchecked")
+		List<Product> addedProducts = (List<Product>) stateHolder.get("itemsInTray");
         HashMap<String, Product> wishedProducts = getWishedProducts();
 
         for(Product product:addedProducts){
@@ -170,5 +171,65 @@ public class WishlistPage {
 
         return product;
     }
+    
+    public boolean isPDPPageColorDisplayedInWishlist(){
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String productName = product.getProductName();
+    	String expectedColorName = product.getSelectedColor();
 
+    	WebElement productData = getProductData(productName);
+    	String colorNameInWishlist = productData.getAttribute("data-color");
+
+    	return colorNameInWishlist.equalsIgnoreCase(expectedColorName);
+    }
+
+    public boolean isPDPPageSizeDisplayedInWishlist(){
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String productName = product.getProductName();
+    	String expectedSizeName = product.getSelectedSize();
+
+    	WebElement productData = getProductData(productName);
+    	String sizeNameInWishlist = productData.getAttribute("data-size");
+
+    	return sizeNameInWishlist.equalsIgnoreCase(expectedSizeName);
+    }
+
+    public boolean isPDPPageQuantityDisplayedInWishlist(){
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String productName = product.getProductName();
+    	String expectedSizeName = product.getSelectedSize();
+
+    	WebElement productData = getProductData(productName);
+    	String sizeNameInWishlist = productData.getAttribute("data-size");
+
+    	return sizeNameInWishlist.equalsIgnoreCase(expectedSizeName);
+    }
+    
+    public boolean isItemQuantityMatchesInWishlist(int expectedItemQuantity){
+
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String productName = product.getProductName();
+
+    	WebElement productData = getProductData(productName);
+        int actualItemQuantity = Integer.parseInt(productData.getAttribute("data-quantity"));
+
+        return actualItemQuantity == expectedItemQuantity;
+    }
+
+    public void editItemFromWishlist(){
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String productName = product.getProductName();
+
+    	click_product(productName);
+    }
 }

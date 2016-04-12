@@ -1,7 +1,6 @@
 package com.jcrew.page;
 
-import com.jcrew.pojo.Country;
-import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -17,7 +16,6 @@ public class HomePage {
 
     private final WebDriver driver;
     private Logger logger = LoggerFactory.getLogger(HomePage.class);
-    private final StateHolder stateHolder = StateHolder.getInstance();
 
 
     @FindBy(id = "lightbox")
@@ -64,7 +62,6 @@ public class HomePage {
     }
 
     public boolean isHomePage() {
-        Country country = (Country)stateHolder.get("context");
         WebDriverWait wait = Util.createWebDriverWait(driver);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
@@ -72,9 +69,8 @@ public class HomePage {
 
         Util.waitWithStaleRetry(driver,pageHome);
         boolean isDisplayed = pageHome.isDisplayed();
-        boolean isURL = Util.countryContextURLCompliance(driver,country);
 
-        return isDisplayed & isURL;
+        return isDisplayed;
     }
 
     public void close_email_pop_up() {
@@ -140,5 +136,12 @@ public class HomePage {
 
     }
 
+   public void searchItemByReadingPropertyFile(String propertyName){
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
+    	String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
+    	
+    	input_search_term(itemName);
+    	click_on_search_button_for_input_field();   	
+    }
 }
-

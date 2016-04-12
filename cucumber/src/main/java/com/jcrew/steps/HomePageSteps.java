@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class HomePageSteps extends DriverFactory {
 
     private final HomePage homePage = new HomePage(getDriver());
-    private final Header header = new Header(getDriver());
+    private final Header header = new Header(getDriver());    
     private final PropertyReader reader = PropertyReader.getPropertyReader();
 
 
@@ -86,4 +86,11 @@ public class HomePageSteps extends DriverFactory {
              homePage.click_on_the_arrow_button_to_submit();
          }
      }
+
+    @And("^search for \"([^\"]*)\"$")
+    public void search_for_item_specified_in_property_file(String propertyName){
+    	
+    	header.click_on_search_button();    	
+    	homePage.searchItemByReadingPropertyFile(propertyName);
+    }
 }
