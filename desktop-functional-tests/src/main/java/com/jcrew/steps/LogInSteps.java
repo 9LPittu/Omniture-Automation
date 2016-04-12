@@ -33,11 +33,6 @@ public class LogInSteps extends DriverFactory {
         assertTrue("The create user form is displayed in log in page", isDisplayed);
     }
 
-    @Then("Log In page has the expected url pattern ([^\"]*)")
-    public void log_in_page_has_the_expeted_url_pattern(String pattern) {
-        assertTrue("Log in page has the expected url", logIn.hasExpectedPattern(pattern));
-    }
-
     @When("^User clicks Create An Account button$")
     public void user_clicks_create_account() {
         logIn.clickCreateAccount();

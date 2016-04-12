@@ -6,7 +6,6 @@ Feature: Create New Account in US and checkout
     Given User goes to homepage
     When User clicks on sign in using header
     Then User get create account form
-    And Log In page has the expected url pattern /r/login
     And Selected country matches the current country context
     And Verify form does not contain international email option message
 

@@ -85,8 +85,11 @@ public class LogIn extends DriverFactory {
     }
 
     public boolean createAccountFormIsDisplayed() {
+        Country country = (Country) stateHolder.get("context");
+        boolean expectedURL = Util.countryContextURLCompliance(driver, country, "/r/login");
+
         registerForm = wait.until(ExpectedConditions.visibilityOf(registerForm));
-        return registerForm.isDisplayed();
+        return registerForm.isDisplayed() & expectedURL;
     }
 
     public void clickCreateAccount() {

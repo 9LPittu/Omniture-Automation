@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -23,6 +25,8 @@ public class MyAccount {
     private final Logger logger = LoggerFactory.getLogger(MyAccount.class);
     private final WebDriverWait wait;
     private final HeaderWrap header;
+    private final StateHolder stateHolder = StateHolder.getInstance();
+
     public final String USER_DETAILS_FIRST_NAME = "firstName";
     public final String USER_DETAILS_LAST_NAME = "lastName";
     public final String USER_DETAILS_EMAIL = "emailAdd";
@@ -52,7 +56,12 @@ public class MyAccount {
         String bannerText = myAccountBanner.getText();
         WebElement homecopy = main_inside.findElement(By.xpath(".//td[@class='homecopysm']"));
 
-        return "MY ACCOUNT".equalsIgnoreCase(bannerText) && homecopy.isDisplayed();
+        boolean expectedContent = "MY ACCOUNT".equalsIgnoreCase(bannerText) && homecopy.isDisplayed();
+
+        Country country = (Country) stateHolder.get("context");
+        boolean expectedURL = Util.countryContextURLCompliance(driver,country,"/account/home.jsp");
+
+        return expectedContent & expectedURL;
     }
 
     public void clickInMenuOption(String menuOption) {
