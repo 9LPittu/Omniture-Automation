@@ -731,9 +731,8 @@ public class SubcategoryPage {
     	
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
     	String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
-    	
-    	boolean result = productTileExistFor(itemName);
-    	return result;
+
+    	return productTileExistFor(itemName);
     	
     }
     
@@ -743,7 +742,7 @@ public class SubcategoryPage {
     	String itemName = testDataReader.getData(System.getProperty("environment") + "." + saleItemPropertyName);
     	String expectedItemPrice = testDataReader.getData(System.getProperty("environment") + "." + pricePropertyName);
     	
-    	String price = "";
+    	String price;
     	if(priceType.equalsIgnoreCase("was")){
     		price = getWasPriceFor(itemName).replace("was ", "");
     	}

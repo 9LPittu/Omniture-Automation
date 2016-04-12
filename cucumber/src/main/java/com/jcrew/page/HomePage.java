@@ -44,6 +44,7 @@ public class HomePage {
 
     public void hit_enter_in_search_field() {
         searchInput.sendKeys(Keys.ENTER);
+        Util.waitLoadingBar(driver);
     }
 
     public void input_search_term(String searchTerm) {

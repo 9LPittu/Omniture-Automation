@@ -371,12 +371,12 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @Then("^user should see \"([^\"]*)\" in search results$")
-    public void verify_item_is_displayed_in_search_results_page(String propertyName){    	;
+    public void verify_item_is_displayed_in_search_results_page(String propertyName){
     	assertTrue("Product should exist", subcategoryPage.isItemDisplayedInSearchResultsPage(propertyName));
     }
     
     @And("^([^\"]*) price of \"([^\"]*)\" should match with expected \"([^\"]*)\"$")
     public void verify_item_price_in_search_results_page(String priceType, String saleItemPropertyName, String expectedPricePropertyName){
-    	assertTrue(priceType + " price should match", subcategoryPage.isPriceMatchesForSaleItem(saleItemPropertyName, priceType, saleItemPropertyName));
+    	assertTrue(priceType + " price should match", subcategoryPage.isPriceMatchesForSaleItem(saleItemPropertyName, priceType, expectedPricePropertyName));
     }
 }
