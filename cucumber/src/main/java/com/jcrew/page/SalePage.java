@@ -274,7 +274,7 @@ public class SalePage {
             //Capture all the prices into double list
             for(WebElement product:arrayProducts){
                 WebElement salePriceElement = product.findElement(
-                            By.xpath(".//span[contains(@class,'tile__detail tile__detail--price--sale')]"));
+                            By.xpath(".//div[contains(@class,'tile__detail tile__detail--price--sale')]"));
 
                 priceText = salePriceElement.getText().toLowerCase();
 
