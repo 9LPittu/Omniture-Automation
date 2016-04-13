@@ -11,6 +11,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +69,9 @@ public class SubcategoryPage {
         PageFactory.initElements(driver, this);
     }
 
-    private WebElement getFirstProduct() { return getProductTileElements().get(0); }
+    private WebElement getFirstProduct() {
+        return getProductTileElements().get(0);
+    }
 
     public void adds_a_product_to_shopping_bag() {
 
@@ -182,7 +185,7 @@ public class SubcategoryPage {
 
     private boolean areProductColorVariationsValid(WebElement firstProductFromGrid) {
         boolean result = false;
-        if(firstProductFromGrid.findElements(By.className("colors-list__item")).isEmpty()) {
+        if (firstProductFromGrid.findElements(By.className("colors-list__item")).isEmpty()) {
             logger.debug("Color count not found for product with name {}, there should not be variations",
                     firstProductFromGrid.findElement(By.className("tile__detail--name")).getText());
             result = true;
@@ -227,7 +230,7 @@ public class SubcategoryPage {
 
     public void click_first_product_in_grid() {
         Util.waitForPageFullyLoaded(driver);
-        final WebElement product     = getFirstProduct();
+        final WebElement product = getFirstProduct();
         final WebElement productLink = product.findElement(By.className("product__image--small"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
         saveProduct(product);
@@ -235,10 +238,10 @@ public class SubcategoryPage {
         Util.waitLoadingBar(driver);
     }
 
-    public void click_first_product_with_xpath(String finder){
+    public void click_first_product_with_xpath(String finder) {
         Util.waitForPageFullyLoaded(driver);
         List<WebElement> regularPriceProducts = driver.findElements(By.xpath(finder));
-        if(regularPriceProducts.size() > 0){
+        if (regularPriceProducts.size() > 0) {
             WebElement product = regularPriceProducts.get(0);
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(product.findElement(By.cssSelector(".js-product__image"))));
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(product));
@@ -269,15 +272,15 @@ public class SubcategoryPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
         return productName.getText().trim();
     }
-    
-    private String getProductPrice(WebElement productSelected){
-    	List<WebElement> productPrices = productSelected.findElements(By.className("tile__detail--price--list"));
-    	String price = "";
-    	if(!productPrices.isEmpty()){
-    		price=productPrices.get(0).getText().trim();
-    	}
-    	
-    	return price;
+
+    private String getProductPrice(WebElement productSelected) {
+        List<WebElement> productPrices = productSelected.findElements(By.className("tile__detail--price--list"));
+        String price = "";
+        if (!productPrices.isEmpty()) {
+            price = productPrices.get(0).getText().trim();
+        }
+
+        return price;
     }
 
 
@@ -373,7 +376,9 @@ public class SubcategoryPage {
         return result;
     }
 
-    public String getCategoryImageHeaderAlt() { return headerImage.getAttribute("alt"); }
+    public String getCategoryImageHeaderAlt() {
+        return headerImage.getAttribute("alt");
+    }
 
     public boolean productTileExistFor(String product) {
         WebElement productInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
@@ -412,9 +417,9 @@ public class SubcategoryPage {
     }
 
     public String getWasPriceFor(String product) {
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	
+
+        driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+
         WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
                 "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--was')]"));
 
@@ -425,7 +430,7 @@ public class SubcategoryPage {
         String result;
         try {
             WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
-                    "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--sale')]"));
+                    "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--sale')]"));
 
             result = wasPriceInTitle.getText();
         } catch (StaleElementReferenceException sere) {
@@ -546,10 +551,10 @@ public class SubcategoryPage {
         product.setPriceList(getProductPrice(productElement));
 
         logger.debug("Selected product is {}", product.getProductName());
-        logger.debug("Selected product price is {}", product.getPriceList());        
-        
-		@SuppressWarnings("unchecked")
-		List<Product> productList = (List<Product>) stateHolder.get("productList");
+        logger.debug("Selected product price is {}", product.getPriceList());
+
+        @SuppressWarnings("unchecked")
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
 
         if (productList == null) {
             productList = new ArrayList<>();
@@ -703,53 +708,53 @@ public class SubcategoryPage {
     		saveProductDetailsFromPDPPage();
     	}
     }
-    
-    public void saveProductDetailsFromPDPPage(){
-    	
-    	//capture the product name
-    	WebElement productName = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h1[@class='product__name']"))));    	
-    	String itemName = productName.getText(); 
-    	
-    	//Store the product details
-    	Product product = new Product();
-        product.setProductName(itemName);        
+
+    public void saveProductDetailsFromPDPPage() {
+
+        //capture the product name
+        WebElement productName = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h1[@class='product__name']"))));
+        String itemName = productName.getText();
+
+        //Store the product details
+        Product product = new Product();
+        product.setProductName(itemName);
 
         logger.debug("Selected product is {}", product.getProductName());
-        
-		@SuppressWarnings("unchecked")
-		List<Product> productList = (List<Product>) stateHolder.get("productList");
+
+        @SuppressWarnings("unchecked")
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
 
         if (productList == null) {
             productList = new ArrayList<>();
         }
 
         productList.add(product);
-        stateHolder.put("productList", productList);   	
+        stateHolder.put("productList", productList);
     }
-    
-    public boolean isItemDisplayedInSearchResultsPage(String propertyName){
-    	
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
-    	String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
 
-    	return productTileExistFor(itemName);
-    	
+    public boolean isItemDisplayedInSearchResultsPage(String propertyName) {
+
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
+
+        return productTileExistFor(itemName);
+
     }
-    
-    public boolean isPriceMatchesForSaleItem(String saleItemPropertyName, String priceType, String pricePropertyName){
-    	
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	String itemName = testDataReader.getData(System.getProperty("environment") + "." + saleItemPropertyName);
-    	String expectedItemPrice = testDataReader.getData(System.getProperty("environment") + "." + pricePropertyName);
-    	
-    	String price;
-    	if(priceType.equalsIgnoreCase("was")){
-    		price = getWasPriceFor(itemName).replace("was ", "");
-    	}
-    	else{
-    		price = getSalePriceFor(itemName).replace("now ", "");
-    	}
-    	
-    	return expectedItemPrice.equalsIgnoreCase(price);
+
+    public boolean isPriceMatchesForSaleItem(String saleItemPropertyName, String priceType, String pricePropertyName) {
+
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String itemName = testDataReader.getData(System.getProperty("environment") + "." + saleItemPropertyName);
+        String expectedItemPrice = testDataReader.getData(System.getProperty("environment") + "." + pricePropertyName);
+
+        String price;
+        if (priceType.equalsIgnoreCase("was")) {
+            price = getWasPriceFor(itemName).replace("was ", "");
+        } else {
+            price = getSalePriceFor(itemName).replace("now ", "");
+        }
+
+        return expectedItemPrice.equalsIgnoreCase(price);
     }
 }
