@@ -417,7 +417,7 @@ public class SubcategoryPage {
     	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     	
         WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--was')]"));
+                "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--was')]"));
 
         return wasPriceInTitle.getText();
     }
@@ -732,9 +732,8 @@ public class SubcategoryPage {
     	
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
     	String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
-    	
-    	boolean result = productTileExistFor(itemName);
-    	return result;
+
+    	return productTileExistFor(itemName);
     	
     }
     
@@ -744,7 +743,7 @@ public class SubcategoryPage {
     	String itemName = testDataReader.getData(System.getProperty("environment") + "." + saleItemPropertyName);
     	String expectedItemPrice = testDataReader.getData(System.getProperty("environment") + "." + pricePropertyName);
     	
-    	String price = "";
+    	String price;
     	if(priceType.equalsIgnoreCase("was")){
     		price = getWasPriceFor(itemName).replace("was ", "");
     	}

@@ -25,7 +25,7 @@ import java.util.List;
 public class LogIn extends DriverFactory {
 
     private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(HeaderWrap.class);
+    private final Logger logger = LoggerFactory.getLogger(LogIn.class);
     private final WebDriverWait wait;
     private final HeaderWrap header;
     private final User fakeUser = User.getNewFakeUser();
