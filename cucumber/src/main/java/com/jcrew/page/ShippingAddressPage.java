@@ -113,22 +113,21 @@ public class ShippingAddressPage {
     }
     
     public void fills_shipping_address_testdata() {
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	String cityname="";
-    	String statename="";
-    	String expectedCountryName = (String)stateHolder.get("selectedCountry");
-        Country objCountry = new Country(expectedCountryName);
-        String countryCode = objCountry.getCountryCode();
     	
-    	String countryaddress = testDataReader.getData(countryCode + "_address");
+    	String expectedCountryCode = (String)stateHolder.get("countryCode");
+    	String expectedCountryName = (String)stateHolder.get("selectedCountry");
+        
+    	Country country = new Country(expectedCountryCode);  	
     	
         firstNameSA.sendKeys(faker.name().firstName());
         lastNameSA.sendKeys(faker.name().lastName());
-        address3.sendKeys(countryaddress.split(";")[0]);
-        address1.sendKeys(countryaddress.split(";")[1]);
-        address2.sendKeys(countryaddress.split(";")[2]);
+        
+        address3.sendKeys(country.getCompanyName());
+        address1.sendKeys(country.getAddress1());
+        address2.sendKeys(country.getAddress2());
+        
         if(!expectedCountryName.equals("Hong Kong")){
-        	zipcode.sendKeys(countryaddress.split(";")[3]);
+        	zipcode.sendKeys(country.getZipCode());
         }
         phoneNumSA.sendKeys(faker.phoneNumber().phoneNumber());
         
@@ -136,10 +135,8 @@ public class ShippingAddressPage {
         	selectCityAndState();
         }
         else{
-            selectIntlCityAndState(countryaddress.split(";")[4],countryaddress.split(";")[5]);
+            selectIntlCityAndState(country.getCity(),country.getState());
         }
-        
-
     }
 
     public void presses_continue_button_on_shipping_address() {
@@ -288,7 +285,6 @@ public class ShippingAddressPage {
     			provinceStateCounty.sendKeys(statename);
     		}
     		logger.info("There is no city & state dropdown displayed!!!");
-    		
     	}
     }
 }

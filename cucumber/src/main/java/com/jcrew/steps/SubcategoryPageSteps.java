@@ -384,30 +384,4 @@ public class SubcategoryPageSteps extends DriverFactory {
     public void verify_currency_on_product_gridlist(){
     	assertTrue("Currency on product gridlist",subcategoryPage.isCorrectCurrencySymbolonProductGridList());
     }
-    
-    @And("^Verify proper currency symbol is displayed on PDP page$")
-    public void verify_currency_on_product_PDP(){
-    	assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolonPDP());
-    }
-    
-    @And("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
-    public void verify_currency_on_checkout_pages_section(String sectionName){
-    	
-    	sectionName = sectionName.toLowerCase();
-    	
-    	switch(sectionName){
-	    	case "item":
-	    		assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolShoppingBagItemSection());
-	    		break;
-	    	case "summary":
-	    		assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolShoppingBagSummarySection());
-	    		break;
-	    	case "shipping method":
-	    		assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolonShoppingBagMethodPrices());
-	    		break;
-	    	case "shipping":
-	    		assertTrue("Currency on product details page",subcategoryPage.isCorrectCurrencySymbolonShoppingBagShippingPrices());
-	    		break;
-    	}
-    }
 }

@@ -226,4 +226,112 @@ public class ShoppingBagPage {
 
     	return isSizeDisplayedForProduct(productName,expectedSizeName);
     }
+    
+    public boolean isCorrectCurrencySymbolShoppingBagItemSection() {
+        boolean result = true;
+        String strCurrency = (String)stateHolder.get("currency");
+        
+        List<WebElement> productpricess = driver.findElements(By.xpath("//div[contains(@class,'item-price') or contains(@class,'item-total')]"));
+        	
+        if(productpricess.isEmpty()) {
+            logger.debug("Item Price  count not found on checkout page");
+            result = true;
+        } else {
+        	for (WebElement price : productpricess) 
+        	
+        		if (!price.getText().contains(strCurrency)) {
+        			result = false;
+        			break;
+        		}
+        }
+        if(result){
+        	logger.info("Currency symbol is displayed correctly on all on Item prices on Checkout page");
+        	
+        }
+        else{
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices on Checkout page");
+        }
+        return result;
+    }
+    
+    public boolean isCorrectCurrencySymbolShoppingBagSummarySection() {
+        boolean result = true;
+        String strCurrency = (String)stateHolder.get("currency");
+        
+        List<WebElement> summarypricess = driver.findElements(By.xpath("//span[contains(@class,'summary-value')]"));
+        	
+        if(summarypricess.isEmpty()) {
+            logger.debug("Summary values  count not found checkout page");
+            result = true;
+        } else {
+        	for (WebElement price : summarypricess) 
+        	
+        		if (!price.getText().contains(strCurrency) && (!price.getText().contains("- - - -"))) {
+        			result = false;
+        			break;
+        		}
+        }
+        if(result){
+        	logger.info("Currency symbol is displayed correctly on all on Summary values on Checkout page");
+        	
+        }
+        else{
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the Summary on Checkout page");
+        }
+        return result;
+    }
+    
+    public boolean isCorrectCurrencySymbolonShoppingBagMethodPrices() {
+        boolean result = true;
+        String strCurrency = (String)stateHolder.get("currency");
+        List<WebElement> summarypricess = driver.findElements(By.xpath("//span[contains(@class,'method-price')]"));
+        	
+        if(summarypricess.isEmpty()) {
+            logger.debug("Method Price  count not found checkout page");
+            result = true;
+        } else {
+        	for (WebElement price : summarypricess) 
+        	
+        		if (!price.getText().contains(strCurrency) && (!price.getText().contains("FREE"))) {
+        			result = false;
+        			break;
+        		}
+        }
+        if(result){
+        	logger.info("Currency symbol is displayed correctly on all on Shipping method prices on Checkout page");
+        	
+        }
+        else{
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the Shipping method prices on Checkout page");
+        }
+        return result;
+    }
+    
+    
+    public boolean isCorrectCurrencySymbolonShoppingBagShippingPrices() {
+        boolean result = true;
+        String strCurrency = (String)stateHolder.get("currency");
+        
+        List<WebElement> summaryprices = driver.findElements(By.xpath("//span[contains(@class,'shipping-price')]"));
+        	
+        if(summaryprices.isEmpty()) {
+            logger.debug("Method Price count not found checkout page");
+            result = true;
+        } else {
+        	for (WebElement price : summaryprices) 
+        	
+        		if (!price.getText().contains(strCurrency) && (!price.getText().contains("FREE"))) {
+        			result = false;
+        			break;
+        		}
+        }
+        if(result){
+        	logger.info("Currency symbol is displayed correctly on all on Shipping prices on Checkout page");
+        	
+        }
+        else{
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the Shipping prices on Checkout page");
+        }
+        return result;
+    }
 }

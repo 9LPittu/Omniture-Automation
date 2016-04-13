@@ -756,15 +756,10 @@ public class SubcategoryPage {
     
     
     public boolean isCorrectCurrencySymbolonProductGridList() {
-        boolean result = true;
-        //stateHolder.put("selectedCountry", "United States");
-        String expectedCountryName = (String)stateHolder.get("selectedCountry");
-        Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
+        boolean result = true;        
+        String strCurrency = (String)stateHolder.get("currency");
         
         List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail tile__detail--price--')]"));
-       // List<String> productsHref = new ArrayList<>();
-        
         	
         if(productpricess.isEmpty()) {
             logger.debug("Item Price  count not found on PDP page");
@@ -782,165 +777,7 @@ public class SubcategoryPage {
         	
         }
         else{
-        	logger.debug("Currency symbol is not displayee correctly on all / any of the Item prices  on Product grid list");
-        }
-        return result;
-    }
-    
-    public boolean isCorrectCurrencySymbolonPDP() {
-        boolean result = true;
-       
-        String expectedCountryName = (String)stateHolder.get("selectedCountry");
-        Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
-        
-        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
-       // List<String> productsHref = new ArrayList<>();
-        
-        	
-        if(productpricess.isEmpty()) {
-            logger.debug("Item Price  count not found for product details page");
-            result = true;
-        } else {
-        	for (WebElement price : productpricess) 
-        		if(!price.getText().isEmpty()) {
-        			if (!price.getText().contains(strCurrency)) {
-        				result = false;
-        				break;
-        			}
-        	}
-        }
-        if(result){
-        	logger.info("Currency symbol is displayed correctly on all on Product details page");
-        	
-        }
-        else{
-        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
-        }
-        return result;
-    }
-    
-    public boolean isCorrectCurrencySymbolShoppingBagItemSection() {
-        boolean result = true;
-        String expectedCountryName = (String)stateHolder.get("selectedCountry");
-        Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
-        
-        List<WebElement> productpricess = driver.findElements(By.xpath("//div[contains(@class,'item-price') or contains(@class,'item-total')]"));
-       // List<String> productsHref = new ArrayList<>();
-        
-        	
-        if(productpricess.isEmpty()) {
-            logger.debug("Item Price  count not found on checkout page");
-            result = true;
-        } else {
-        	for (WebElement price : productpricess) 
-        	
-        		if (!price.getText().contains(strCurrency)) {
-        			result = false;
-        			break;
-        		}
-        }
-        if(result){
-        	logger.info("Currency symbol is displayed correctly on all on Item prices on Checkout page");
-        	
-        }
-        else{
-        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices on Checkout page");
-        }
-        return result;
-    }
-    
-    public boolean isCorrectCurrencySymbolShoppingBagSummarySection() {
-        boolean result = true;
-        String expectedCountryName = (String)stateHolder.get("selectedCountry");
-        Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
-        
-        List<WebElement> summarypricess = driver.findElements(By.xpath("//span[contains(@class,'summary-value')]"));
-       // List<String> productsHref = new ArrayList<>();
-        
-        	
-        if(summarypricess.isEmpty()) {
-            logger.debug("Summary values  count not found checkout page");
-            result = true;
-        } else {
-        	for (WebElement price : summarypricess) 
-        	
-        		if (!price.getText().contains(strCurrency) && (!price.getText().contains("- - - -"))) {
-        			result = false;
-        			break;
-        		}
-        }
-        if(result){
-        	logger.info("Currency symbol is displayed correctly on all on Summary values on Checkout page");
-        	
-        }
-        else{
-        	logger.debug("Currency symbol is not displayed correctly on all / any of the Summary on Checkout page");
-        }
-        return result;
-    }
-    
-    public boolean isCorrectCurrencySymbolonShoppingBagMethodPrices() {
-        boolean result = true;
-        String expectedCountryName = (String)stateHolder.get("selectedCountry");
-        Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency().toUpperCase();
-        
-        List<WebElement> summarypricess = driver.findElements(By.xpath("//span[contains(@class,'method-price')]"));
-       // List<String> productsHref = new ArrayList<>();
-        
-        	
-        if(summarypricess.isEmpty()) {
-            logger.debug("Method Price  count not found checkout page");
-            result = true;
-        } else {
-        	for (WebElement price : summarypricess) 
-        	
-        		if (!price.getText().contains(strCurrency) && (!price.getText().contains("FREE"))) {
-        			result = false;
-        			break;
-        		}
-        }
-        if(result){
-        	logger.info("Currency symbol is displayed correctly on all on Shipping method prices on Checkout page");
-        	
-        }
-        else{
-        	logger.debug("Currency symbol is not displayed correctly on all / any of the Shipping method prices on Checkout page");
-        }
-        return result;
-    }
-    
-    
-    public boolean isCorrectCurrencySymbolonShoppingBagShippingPrices() {
-        boolean result = true;
-        String expectedCountryName = (String)stateHolder.get("selectedCountry");
-        Country objCountry = new Country(expectedCountryName);
-        String strCurrency = objCountry.getCountryCurrency();
-        
-        List<WebElement> summarypricess = driver.findElements(By.xpath("//span[contains(@class,'shipping-price')]"));
-       // List<String> productsHref = new ArrayList<>();
-        
-        	
-        if(summarypricess.isEmpty()) {
-            logger.debug("Method Price  count not found checkout page");
-            result = true;
-        } else {
-        	for (WebElement price : summarypricess) 
-        	
-        		if (!price.getText().contains(strCurrency) && (!price.getText().contains("FREE"))) {
-        			result = false;
-        			break;
-        		}
-        }
-        if(result){
-        	logger.info("Currency symbol is displayed correctly on all on Shipping prices on Checkout page");
-        	
-        }
-        else{
-        	logger.debug("Currency symbol is not displayed correctly on all / any of the Shipping prices on Checkout page");
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
         }
         return result;
     }
