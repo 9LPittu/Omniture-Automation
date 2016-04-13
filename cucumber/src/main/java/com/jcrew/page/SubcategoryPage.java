@@ -416,7 +416,7 @@ public class SubcategoryPage {
     	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
     	
         WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--was')]"));
+                "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--was')]"));
 
         return wasPriceInTitle.getText();
     }
