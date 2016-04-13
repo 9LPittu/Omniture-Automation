@@ -5,7 +5,10 @@ Feature: Edit Product In Bags Scenarios
     Given User is on homepage
 
   Scenario: Verify on edit mode add to bag changes to update bag
-    When "sql.query.for.retreiving.items.with.multiple.colors.sizes" is run and search for item fetched from DB
+    When User clicks on hamburger menu
+    And user selects WOMEN category from hamburger menu
+    And user selects NEW ARRIVALS subcategory
+    And Selects the first product with available colors from product grid list
     And User is in product detail page
     And A color is selected
     And A size is selected
