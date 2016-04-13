@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.String;
 import java.util.Properties;
 
 public class PropertyReader {
@@ -26,21 +27,26 @@ public class PropertyReader {
     }
 
     private void loadProperties() throws IOException {
-        String environment = System.getProperty("environment", "ci");
-        String viewport = System.getProperty("viewport", "desktop");
-        
+        String execEnvironment = System.getProperty("environment", "ci");
+        String execViewport = System.getProperty("viewport", "phantomjs");
+        String execUser = System.getProperty("user", "user.1");
 
-    	String environmentFile = environment + ".properties";
-        String viewportFile = viewport + ".properties";
+        FileInputStream inputFile = new FileInputStream("environment.properties");
+        properties.load(inputFile);
+        inputFile = new FileInputStream("viewport.properties");
+        properties.load(inputFile);
+        inputFile = new FileInputStream("user.properties");
+        properties.load(inputFile);
 
-        logger.info("Environment configuration file to be used {}", environmentFile);
-        logger.info("Viewport configuration file to be used {}", viewportFile);
+        String strURL = properties.getProperty(execEnvironment);
+        logger.info("URL to be used {}", strURL);
+        properties.setProperty("url", strURL);
 
-        FileInputStream environmentInput = new FileInputStream(environmentFile);
-        properties.load(environmentInput);
+        logger.info("Device/Browser to be used {}", execViewport);
+        properties.setProperty("browser", execViewport);
 
-        FileInputStream viewportInput = new FileInputStream(viewportFile);
-        properties.load(viewportInput);
+        logger.info("UserID to be used {}", execUser);
+        properties.setProperty("userID", execUser);
     }
 
     public boolean isSystemPropertyTrue(String key) {

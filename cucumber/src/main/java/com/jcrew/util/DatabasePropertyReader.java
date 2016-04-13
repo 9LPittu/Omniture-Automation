@@ -26,13 +26,13 @@ public class DatabasePropertyReader {
     }
 
     private void loadProperties() throws IOException {
-        String dbProperties = System.getProperty("database", "jcdpdatabase");
-    	String dbPropertiesFile = dbProperties + ".properties";
-
-        logger.info("Database property file to be used {}", dbPropertiesFile);
-
-        FileInputStream databaseInput = new FileInputStream(dbPropertiesFile);
+        FileInputStream databaseInput = new FileInputStream("databaseconnection.properties");
         databaseProperties.load(databaseInput);
+        databaseInput = new FileInputStream("databasequeries.properties");
+        databaseProperties.load(inputFile);
+
+        String execEnvironment = System.getProperty("environment", "ci");
+        properties.setProperty("dbEnvironment", execEnvironment);
     }
 
     public String getProperty(String property) {
