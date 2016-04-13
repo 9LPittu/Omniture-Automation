@@ -37,6 +37,7 @@ public class DriverFactory {
 
         final WebDriver driver;
         final PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        final String browser = propertyReader.getProperty("browser");
 
         if (propertyReader.hasProperty("window.width") && propertyReader.hasProperty("window.height")) {
             width = Integer.parseInt(propertyReader.getProperty("window.width"));
@@ -49,8 +50,9 @@ public class DriverFactory {
             driver = createLocalDriver(propertyReader);
         }
 
-
-          //  driver.manage().window().setSize(new Dimension(width, height));
+        logger.debug("browser not ipad? {}",(!((("ipad".equals(browser))||("ipad7.1".equals(browser))))));
+        if (!((("ipad".equals(browser))||("ipad7.1".equals(browser)))))
+           driver.manage().window().setSize(new Dimension(width, height));
 
         return driver;
     }
