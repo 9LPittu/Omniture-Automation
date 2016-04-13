@@ -29,10 +29,10 @@ public class DatabasePropertyReader {
         FileInputStream databaseInput = new FileInputStream("databaseconnection.properties");
         databaseProperties.load(databaseInput);
         databaseInput = new FileInputStream("databasequeries.properties");
-        databaseProperties.load(inputFile);
+        databaseProperties.load(databaseInput);
 
         String execEnvironment = System.getProperty("environment", "ci");
-        properties.setProperty("dbEnvironment", execEnvironment);
+        databaseProperties.setProperty("dbEnvironment", execEnvironment);
     }
 
     public String getProperty(String property) {
