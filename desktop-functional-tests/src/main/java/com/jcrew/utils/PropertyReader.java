@@ -42,7 +42,9 @@ public class PropertyReader {
         logger.info("URL to be used {}", execEnvironment);
         properties.setProperty("url", execEnvironment);
 
-        logger.info("Browser to be used {}", execViewport);
+        if(execViewport.contains("ipad")) {
+            logger.info("Browser to be used {}", execViewport + "  " + "ios safari");
+        } else logger.info("Browser to be used {}", execViewport);
         properties.setProperty("browser", execViewport);
 
         logger.info("UserID to be used {}", execUser);
