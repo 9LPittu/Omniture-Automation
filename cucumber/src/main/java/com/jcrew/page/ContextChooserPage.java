@@ -175,20 +175,20 @@ public class ContextChooserPage {
     
     public boolean isUserOnCountrySpecificHomePage(){
     	
-    	String selectedCountry = (String)stateHolder.get("selectedCountry");
+    	String currentCountryCode = (String)stateHolder.get("countryCode");
     	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String url = propertyReader.getProperty("environment");
     	
-    	Country country = new Country(selectedCountry);    	
-    	String countryCode = country.getCountryCode();
+    	Country country = new Country(currentCountryCode);    	
+    	String countryName = country.getCountryName();
     	
     	String expectedURL = "";
-    	if(selectedCountry.equalsIgnoreCase("UNITED STATES")){
+    	if(countryName.equalsIgnoreCase("UNITED STATES")){
     		expectedURL = url;
     	}
     	else{
-    		expectedURL = url + "/" + countryCode + "/";
+    		expectedURL = url + "/" + currentCountryCode + "/";
     	}
     	
     	Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
@@ -228,13 +228,15 @@ public class ContextChooserPage {
 		regionHeader.click();
 
     	//Click on country
-    	WebElement countryElement = driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"));
+		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') "
+				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
     	countryElement.click();
     	
-    	//Store the countrycode, country name and currency in stateholder for further references
+    	//Store the country code, country name and currency in stateholder for further references
     	stateHolder.put("countryCode", countryCode);
 		stateHolder.put("selectedCountry", countryName);
 		stateHolder.put("currency", currency);
+		
 		logger.info("Selected country: {}", countryName);
     }
 }

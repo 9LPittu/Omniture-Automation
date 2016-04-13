@@ -74,6 +74,8 @@ public class DriverFactory {
 
             driver = new FirefoxDriver();
             driver.manage().window().setSize(new Dimension(width, height));
+            
+            driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
 
         } else if ("iossafari".equals(browser)) {
 

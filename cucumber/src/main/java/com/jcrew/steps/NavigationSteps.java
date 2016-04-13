@@ -19,13 +19,15 @@ public class NavigationSteps extends DriverFactory {
 
     private final Navigation navigation = new Navigation(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
+    
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable {
-        PropertyReader reader = PropertyReader.getPropertyReader();
-        String expectedCountryName = (String)stateHolder.get("selectedCountry");
-        Country objCountry = new Country(expectedCountryName);
-        String countryCode = objCountry.getCountryCode();
-        getDriver().navigate().to(reader.getProperty("environment") + "/" + countryCode + uri);
+        
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        
+    	String currentCountryCode = (String)stateHolder.get("countryCode");
+    
+        getDriver().navigate().to(reader.getProperty("environment") + "/" + currentCountryCode + uri);
         Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(uri));
     }
 
