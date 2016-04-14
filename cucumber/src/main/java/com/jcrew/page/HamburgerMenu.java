@@ -77,7 +77,7 @@ public class HamburgerMenu {
         return isIconDisplayed && isMenuTextDisplayed;
     }
 
-    private void click_on_sign_in_link_from_hamburger_menu() {
+    public void click_on_sign_in_link_from_hamburger_menu() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInLinkFromHamburger));
         signInLinkFromHamburger.click();
     }
@@ -88,9 +88,21 @@ public class HamburgerMenu {
     }
 
     public void click_on_back_link() {
-        WebElement backLink = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-arrow-back"))));
-        backLink.click();
+        WebElement nav__wrap = globalNav.findElement(By.className("nav__wrap"));
+
+        String nav__wrap__class = nav__wrap.getAttribute("class");
+
+        if (nav__wrap__class.contains("is-offscreen-left-x1")) {
+            WebElement js_menus__level2 = nav__wrap.findElement(By.className("js-menus--level2"));
+            WebElement back = js_menus__level2.findElement(By.className("js-menu__btn--back"));
+
+            back.click();
+        } else if(nav__wrap__class.contains("is-offscreen-left-x2")) {
+            WebElement js_menus__level3 = nav__wrap.findElement(By.className("js-menus--level3"));
+            WebElement back = js_menus__level3.findElement(By.className("js-menu__btn--back"));
+
+            back.click();
+        }
     }
 
     public boolean isCategoryPresent(String category) {
