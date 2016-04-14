@@ -105,6 +105,7 @@ public class ProductDetailPage {
         for(Product product:productList){
             String productName = product.getProductName();
             String productPrice = product.getPriceList();
+            logger.debug("Found: {} - {}", productName, productPrice);
             if(productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)){
                 return true;
             }
