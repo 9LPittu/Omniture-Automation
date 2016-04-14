@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -15,12 +16,11 @@ import java.util.concurrent.TimeUnit;
 
 public class HamburgerMenu {
 
-	private static final String[] CATEGORY_MENU = {"Women", "Men", "Girls", "Boys", "Wedding"};
-	
     private final StateHolder stateHolder = StateHolder.getInstance();
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(HamburgerMenu.class);
-    
+    TestDataReader testDataReader = TestDataReader.getTestDataReader();
+
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement hamburgerMenuLink;
     
@@ -193,19 +193,32 @@ public class HamburgerMenu {
     }
 
     public void click_random_category() {
-    	int index = Util.randomIndex(CATEGORY_MENU.length);
-        WebElement category = getCategory(CATEGORY_MENU[(index)]);
+        String categories = testDataReader.getData("categories");
+        String categoriesArray[] = categories.split(";");
+
+        int index = Util.randomIndex(categoriesArray.length);
+        WebElement category = getCategory(categoriesArray[index]);
+
         String categoryName = category.getText();
-        category.click();        
+        category.click();
+
         stateHolder.put("category", categoryName);
         logger.debug("'{}' category is clicked", categoryName);
     }
 
     public void click_random_subcategory() {
         String categorySelected = (String) stateHolder.get("category");
-        
+        categorySelected = categorySelected.toLowerCase();
+
+        String subCategories = testDataReader.getData(categorySelected);
+        String subCategoriesArray[] = subCategories.split(";");
+
+        int index = Util.randomIndex(subCategoriesArray.length);
+        String subCatSelected = subCategoriesArray[index];
+
         List<WebElement> menuItemLinks = getMenuItemElementForCategory(categorySelected).findElements(
-                By.xpath(".//a[@class='menu__link menu__link--has-href' and not(text()='New Arrivals') and starts-with(@href, '/c/" + categorySelected.toLowerCase() + "')]"));
+                By.xpath(".//a[@class='menu__link menu__link--has-href' and " +
+                        "contains(@name," + subCatSelected + ")]"));
 
         WebElement subcategory = menuItemLinks.get(Util.randomIndex(menuItemLinks.size()));
         String subCategoryText = subcategory.getText();
