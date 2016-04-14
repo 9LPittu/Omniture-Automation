@@ -50,10 +50,6 @@ public class DriverFactory {
             driver = createLocalDriver(propertyReader);
         }
 
-        logger.debug("browser not ipad? {}",(!((("ipad".equals(browser))||("ipad7.1".equals(browser))))));
-        if (!((("ipad".equals(browser))||("ipad7.1".equals(browser)))))
-           driver.manage().window().setSize(new Dimension(width, height));
-
         return driver;
     }
 
@@ -63,9 +59,11 @@ public class DriverFactory {
 
         if ("chrome".equals(browser)) {
             driver = new ChromeDriver();
+            driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {
             driver = new FirefoxDriver();
+            driver.manage().window().setSize(new Dimension(width, height));
 
         } else {
             DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -75,6 +73,7 @@ public class DriverFactory {
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = new PhantomJSDriver(capabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
         }
 
         return driver;
@@ -86,13 +85,17 @@ public class DriverFactory {
         final String nodeURL = propertyReader.getProperty("selenium.grid.node.url");
         DesiredCapabilities desiredCapabilities;
         WebDriver driver = null;
+
+
         if ("chrome".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.chrome();
             driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.firefox();
             driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
 
         } else if (("ipad".equals(browser))||("ipad7.1".equals(browser))) {
 
@@ -121,6 +124,7 @@ public class DriverFactory {
             desiredCapabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             desiredCapabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
             driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
         }
 
         return driver;
