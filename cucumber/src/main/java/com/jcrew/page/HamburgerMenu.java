@@ -193,7 +193,7 @@ public class HamburgerMenu {
         String categorySelected = (String) stateHolder.get("category");
         String urlcategorySelected = categorySelected.toLowerCase();
         if (categorySelected.equalsIgnoreCase("women") | categorySelected.equalsIgnoreCase("men"))
-        	urlcategorySelected = categorySelected + 's';
+        	urlcategorySelected = urlcategorySelected + 's';
         if (!categorySelected.equalsIgnoreCase("wedding"))
         	urlcategorySelected = urlcategorySelected + "_category";
         
