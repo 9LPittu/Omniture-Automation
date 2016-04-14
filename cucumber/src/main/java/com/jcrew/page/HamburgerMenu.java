@@ -195,7 +195,7 @@ public class HamburgerMenu {
         if (categorySelected.equalsIgnoreCase("women") | categorySelected.equalsIgnoreCase("men"))
         	urlcategorySelected = categorySelected + 's';
         if (!categorySelected.equalsIgnoreCase("wedding"))
-        	urlcategorySelected = urlcategorySelected.toLowerCase()	+ "__category";
+        	urlcategorySelected = urlcategorySelected.toLowerCase()	+ "_category";
         
         List<WebElement> menuItemLinks = getMenuItemElementForCategory(categorySelected).findElements(
                 By.xpath(".//a[@class='menu__link menu__link--has-href' and not(text()='New Arrivals') and starts-with(@href, '/c/" + urlcategorySelected + "')]"));
