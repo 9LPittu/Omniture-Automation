@@ -589,7 +589,7 @@ public class SubcategoryPage {
     	for(int loopCntr=0;loopCntr<itemsThreshold;loopCntr++){
 
     		try{
-    			Util.createWebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"))));
+    			Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"))));
     			arrayPageItems = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"));
 
         		//Capture the item name and price on array page
@@ -602,20 +602,10 @@ public class SubcategoryPage {
 
     			//Wait till the PDP page is displayed
         		Util.waitForPageFullyLoaded(driver);
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//section[@id='c-product__details']")));
 
-    			boolean isPDPDisplayed = false;
-    			int timeCntr = 0;
-    			while(!isPDPDisplayed && timeCntr<30){
-    				try{
-    					Util.createWebDriverWait(driver, 1).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//section[@id='c-product__details']")));
-    					isPDPDisplayed = true;
-    				}
-    				catch(Exception e){
-    					timeCntr++;
-    				}
-    			}
 
-        		Util.createWebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("colors-list__image"))));
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("colors-list__image"))));
 	  			List<WebElement> itemColors = driver.findElements(By.className("colors-list__image"));
 
 	  			//If colors are not available then navigate back to array page
@@ -680,7 +670,9 @@ public class SubcategoryPage {
 	            break;
     		}
     		catch(Exception e){
-    			navigateBackToArrayPage();
+    			boolean isPDP = driver.findElement(By.className("product__name")).isDisplayed();
+    			if (isPDP)
+    				navigateBackToArrayPage();
     		}
     	}
 
