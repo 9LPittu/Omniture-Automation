@@ -322,6 +322,8 @@ public class LoginPage {
         String countryChooserClass = countryChooser.getAttribute("class");
         countryChooserClass = countryChooserClass.toLowerCase();
 
+        logger.debug("Flag class: {}", countryChooserClass);
+
         return countryChooserClass.contains(countryName);
     }
 
