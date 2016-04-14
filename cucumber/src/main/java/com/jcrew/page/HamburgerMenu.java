@@ -193,7 +193,7 @@ public class HamburgerMenu {
         String categorySelected = (String) stateHolder.get("category");
         
         List<WebElement> menuItemLinks = getMenuItemElementForCategory(categorySelected).findElements(
-                By.xpath(".//a[@class='menu__link menu__link--has-href' and not(text()='New Arrivals') and starts-with(@href, '/c/" + categorySelected.toLowerCase() + "')]"));
+                By.xpath(".//a[@class='menu__link menu__link--has-href' and not(text()='New Arrivals') and starts-with(@href, '/c/" + categorySelected.toLowerCase() + "_category')]"));
 
         WebElement subcategory = menuItemLinks.get(Util.randomIndex(menuItemLinks.size()));
         String subCategoryText = subcategory.getText();
