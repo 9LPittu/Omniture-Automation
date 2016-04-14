@@ -23,19 +23,19 @@ public class HamburgerMenu {
 
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement hamburgerMenuLink;
-    
+
     @FindBy(className = "js-primary-nav__link--menu")
     private WebElement hamburgerMenu;
-    
+
     @FindBy(className = "menu__nested")
     private WebElement nestedMenu;
-    
+
     @FindBy(css = ".primary-nav__item--account > a")
     private WebElement signInLink;
-    
+
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement signInLinkFromHamburger;
-    
+
     @FindBy(className = "c-menu")
     private WebElement categoryMenu;
 
@@ -44,16 +44,16 @@ public class HamburgerMenu {
 
     @FindBy(className = "menus--level2")
     private WebElement menuLevel2;
-    
+
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/shirtsandtops']")
     private WebElement womenShirtAndTopsCategoryLink;
-    
+
     @FindBy(xpath = "//a[contains(@class, 'menu__link--has-href') and @href='/c/womens_category/sweaters']")
     private WebElement womenSweatersCategoryLink;
-    
+
     @FindBy(className = "menus--level1")
     private WebElement menuLevel1;
-    
+
     @FindBy(className = "c-sale__c-category-list")
     private WebElement saleCategoryList;
 
@@ -112,20 +112,20 @@ public class HamburgerMenu {
     public void click_on_category(String category) {
         String url = driver.getCurrentUrl();
 
-        getCategory(category).click();        
+        getCategory(category).click();
 
         if("sale".equalsIgnoreCase(category)){
             Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         } else {
             Util.waitLoadingBar(driver);
         }
-        
+
         logger.debug("'{}' category is clicked", category);
 	    stateHolder.put("category", category);
     }
 
     private WebElement getCategory(String category) {
-    	WebElement element = categoryMenu.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + category.toLowerCase() + "']"));    	
+    	WebElement element = categoryMenu.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + category.toLowerCase() + "']"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
         return element;
     }
@@ -181,8 +181,8 @@ public class HamburgerMenu {
                 "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
 
-    public void close_subcategory_hamburger_menu() {    	
-    	WebElement closeIcon = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-close"))));        
+    public void close_subcategory_hamburger_menu() {
+    	WebElement closeIcon = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-close"))));
         closeIcon.click();
     }
 
@@ -218,7 +218,7 @@ public class HamburgerMenu {
 
         List<WebElement> menuItemLinks = getMenuItemElementForCategory(categorySelected).findElements(
                 By.xpath(".//a[@class='menu__link menu__link--has-href' and " +
-                        "contains(@name," + subCatSelected + ")]"));
+                        "contains(@name,'" + categorySelected + ">" + subCatSelected + "')]"));
 
         WebElement subcategory = menuItemLinks.get(Util.randomIndex(menuItemLinks.size()));
         String subCategoryText = subcategory.getText();
@@ -235,9 +235,9 @@ public class HamburgerMenu {
 
         return user != null;
     }
-    
-    public void clickSpecificSubcategory(String subCategoryText){    	
-    	String categoryName = (String) stateHolder.get("category");    			
+
+    public void clickSpecificSubcategory(String subCategoryText){
+    	String categoryName = (String) stateHolder.get("category");
 		click_on_subcategory(subCategoryText.toUpperCase(),categoryName);
 		stateHolder.put("subcategory", subCategoryText);
     }

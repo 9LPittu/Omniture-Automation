@@ -46,7 +46,7 @@ public class Navigation {
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         // get the current window handle
         if(tabs.size() > 1) {
-            logger.info("Expected {} opened in a different array");
+            logger.info("Expected {} opened in a different array", page);
             logger.info("parent window handle {}", tabs.get(0));
             logger.info("no.of windowhandles; {}", driver.getWindowHandles().size());
             logger.info("now switching to new tab {}", tabs.get(1));
