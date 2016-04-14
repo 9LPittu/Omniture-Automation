@@ -191,6 +191,8 @@ public class HamburgerMenu {
 
     public void click_random_subcategory() {
         String categorySelected = (String) stateHolder.get("category");
+        if (categorySelected.equalsIgnoreCase("women") | categorySelected.equalsIgnoreCase("men"))
+        	categorySelected = categorySelected + 's';
         
         List<WebElement> menuItemLinks = getMenuItemElementForCategory(categorySelected).findElements(
                 By.xpath(".//a[@class='menu__link menu__link--has-href' and not(text()='New Arrivals') and starts-with(@href, '/c/" + categorySelected.toLowerCase() + "_category')]"));
