@@ -267,11 +267,14 @@ public class ShippingAddressPage {
     
     
  public void selectIntlCityAndState(String cityname,String statename) {
+	 
+	 	String currentCountry =  (String) stateHolder.get("selectedCountry");
     	
     	try{
     		WebElement city = driver.findElement(By.id("city"));
     		city.sendKeys(cityname);
-    		if(!stateHolder.get("selectedCountry").equals("Germany") && (!stateHolder.get("selectedCountry").equals("Switzerland"))){
+    		
+    		if(!currentCountry.equals("Germany") && !currentCountry.equals("Switzerland") && !currentCountry.equals("Singapore")){
 	    		if(isIntlProvincePresent()){
 	    			WebElement stateElement = (Util.createWebDriverWait(driver,5)).
 	    			until(ExpectedConditions.visibilityOfElementLocated(By.id("dropdown-state-province")));

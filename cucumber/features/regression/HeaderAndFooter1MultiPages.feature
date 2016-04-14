@@ -9,7 +9,6 @@ Feature: Embedded Header and Footer Validations
 	Given user selects top10country at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
-    #And click on 'START SHOPPING' button on country specific home page
     
 #  Scenario: Account Registration Header Links
 #    When Goes to sign in page
