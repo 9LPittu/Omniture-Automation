@@ -194,9 +194,11 @@ public class HamburgerMenu {
         String urlcategorySelected = categorySelected;
         if (categorySelected.equalsIgnoreCase("women") | categorySelected.equalsIgnoreCase("men"))
         	urlcategorySelected = categorySelected + 's';
+        if (!categorySelected.equalsIgnoreCase("wedding"))
+        	urlcategorySelected = urlcategorySelected.toLowerCase()	+ "__category";
         
         List<WebElement> menuItemLinks = getMenuItemElementForCategory(categorySelected).findElements(
-                By.xpath(".//a[@class='menu__link menu__link--has-href' and not(text()='New Arrivals') and starts-with(@href, '/c/" + urlcategorySelected.toLowerCase() + "_category')]"));
+                By.xpath(".//a[@class='menu__link menu__link--has-href' and not(text()='New Arrivals') and starts-with(@href, '/c/" + urlcategorySelected + "')]"));
 
         WebElement subcategory = menuItemLinks.get(Util.randomIndex(menuItemLinks.size()));
         String subCategoryText = subcategory.getText();
