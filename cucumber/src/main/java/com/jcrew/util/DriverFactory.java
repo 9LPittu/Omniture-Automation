@@ -63,7 +63,9 @@ public class DriverFactory {
     }
 
     private WebDriver createLocalDriver(PropertyReader propertyReader) {
+        final String viewport = propertyReader.getProperty("viewport");
         final String browser = propertyReader.getProperty("browser");
+        
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
@@ -81,15 +83,15 @@ public class DriverFactory {
 
             capabilities.setCapability("browserName", "safari");
             capabilities.setCapability("platformName", "iOS");
-            capabilities.setCapability("deviceName", propertyReader.getProperty("device.name"));
-            capabilities.setCapability("platformVersion", propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability("deviceName", propertyReader.getProperty(viewport+".device.name"));
+            capabilities.setCapability("platformVersion", propertyReader.getProperty(viewport+".device.os.version"));
             capabilities.setCapability("takesScreenshot", "true");
             capabilities.setCapability("acceptSslCerts", "true");
             capabilities.setCapability("autoAcceptAlerts", "true");
 
-            if(propertyReader.hasProperty("device.udid")){
+            if(propertyReader.hasProperty(viewport+".device.udid")){
                 //setting this capability is required only for iOS real device
-                capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+                capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
             }
 
             capabilities.setCapability("safariAllowPopups", true);
@@ -108,13 +110,14 @@ public class DriverFactory {
             capabilities.setPlatform(Platform.ANDROID);
 
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty("device.name"));
-            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty(viewport+".device.name"));
+            
+            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty(viewport+".device.os.version"));
             capabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
             capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
             capabilities.setCapability("autoAcceptAlerts", true);
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
-            capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
 
             try{
                 driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub/"), capabilities);
@@ -139,6 +142,7 @@ public class DriverFactory {
 
     private WebDriver createRemoteDriver(PropertyReader propertyReader) throws MalformedURLException {
         final WebDriver driver;
+        final String viewport = propertyReader.getProperty("viewport");
         final String browser = propertyReader.getProperty("browser");
 
         if ("chrome".equals(browser)) {
@@ -159,21 +163,21 @@ public class DriverFactory {
 
             capabilities.setCapability("browserName", "safari");
             capabilities.setCapability("platformName", "iOS");
-            capabilities.setCapability("deviceName", propertyReader.getProperty("device.name"));
-            capabilities.setCapability("platformVersion", propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability("deviceName", propertyReader.getProperty(viewport+".device.name"));
+            capabilities.setCapability("platformVersion", propertyReader.getProperty(viewport+".device.os.version"));
             capabilities.setCapability("takesScreenshot", "true");
             capabilities.setCapability("acceptSslCerts", "true");
             capabilities.setCapability("autoAcceptAlerts", "true");
 
-            if(propertyReader.hasProperty("device.udid")){
+            if(propertyReader.hasProperty(viewport+".device.udid")){
                 //setting this capability is required only for iOS real device
-                capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+                capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
             }
 
             capabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
             capabilities.setCapability("safariAllowPopups", true);
             capabilities.setCapability("safariOpenLinksInBackground", true);
-            capabilities.setCapability("newCommandTimeout", 240);
+            capabilities.setCapability("newCommandTimeout", 60);
             capabilities.setCapability("launchTimeout", 600000);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
@@ -185,14 +189,14 @@ public class DriverFactory {
             capabilities.setPlatform(Platform.ANDROID);
 
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty("device.name"));
-            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty(viewport+".device.name"));
+            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty(viewport+".device.os.version"));
             capabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
             capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
             capabilities.setCapability("autoAcceptAlerts", true);
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
-            capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
-            capabilities.setCapability("newCommandTimeout", 240);
+            capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
+            capabilities.setCapability("newCommandTimeout", 60);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

@@ -42,9 +42,18 @@ public class PropertyReader {
         logger.info("URL to be used {}", strURL);
         properties.setProperty("url", strURL);
 
-        logger.info("Device/Browser to be used {}", execViewport);
-        properties.setProperty("browser", execViewport);
-
+        
+        properties.setProperty("viewport", execViewport);
+        
+        if (execViewport.equalsIgnoreCase("phantomjs") | execViewport.equalsIgnoreCase("chrome") | execViewport.equalsIgnoreCase("firefox")) {
+        	logger.info("Browser to be used {}", execViewport);
+        	properties.setProperty("browser", execViewport);    	
+        }
+        else {
+        	logger.info("Device to be used {}", execViewport);
+        	String strBrowser = properties.getProperty(execViewport + ".browser");
+        	properties.setProperty("browser", strBrowser);  
+        }
         logger.info("UserID to be used {}", execUser);
         properties.setProperty("userID", execUser);
     }
