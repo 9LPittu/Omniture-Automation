@@ -105,10 +105,19 @@ public class ShoppingBagPage {
 
         Product product = (Product) stateHolder.get("recentlyAdded");
 
+        String xpath;
+
+        if (product.getProductName().contains("'")) {
+            xpath = ".//a[" + Util.xpathGetTextLower + " = \"" + product.getProductName().toLowerCase() + "\"]" +
+                    "/ancestor::div[@class='item-product']";
+        } else {
+            xpath = ".//a[" + Util.xpathGetTextLower + " = '" + product.getProductName().toLowerCase() + "']" +
+                    "/ancestor::div[@class='item-product']";
+        }
+
         WebElement order_listing = driver.findElement(By.id("order-listing"));
         WebElement item_product = order_listing.findElement(
-                By.xpath(".//a[" + Util.xpathGetTextLower + " = '" + product.getProductName().toLowerCase() + "']" +
-                        "/ancestor::div[@class='item-product']"));
+                By.xpath(xpath));
         WebElement item_product_edit = item_product.findElement(By.className("item-edit"));
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(item_product_edit));
