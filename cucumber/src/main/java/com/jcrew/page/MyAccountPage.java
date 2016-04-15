@@ -60,7 +60,7 @@ public class MyAccountPage {
         Util.clickWithStaleRetry(menu);
 
         if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card Balance')]"))));
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//a[contains(text(),'Gift Card Balance')]"))));
         }
         else{
         	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
