@@ -565,7 +565,7 @@ public class SubcategoryPage {
     public void selectRandomItemAndSelectSizeColor(){
 
     	boolean isItemFound = false;
-    	int MAX_ITEMS_TO_CHECK = 10;
+    	int MAX_ITEMS_TO_CHECK = 5;
     	int itemsThreshold;
 
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
@@ -583,27 +583,31 @@ public class SubcategoryPage {
     	else{
     		itemsThreshold = arrayPageItems.size();
     	}
-
+    	
+    	String arrayPageItemName = "";
+    	String arrayPageItemPrice = "";
     	for(int loopCntr=0;loopCntr<itemsThreshold;loopCntr++){
 
     		try{
-    			Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"))));
-    			arrayPageItems = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"));
+    			arrayPageItems = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//div[@class='c-product-tile']"))));
 
         		//Capture the item name and price on array page
         		WebElement arrayPageItem = arrayPageItems.get(loopCntr);
-        		String arrayPageItemName = arrayPageItem.findElement(By.xpath("//span[contains(@class,'tile__detail--name')]")).getText().trim();        		
-        		String arrayPageItemPrice = arrayPageItem.findElement(By.xpath("//span[contains(@class,'tile__detail--price--list')]")).getText().trim();
+        		
+        		List<WebElement> itemName = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"));       		
+        		arrayPageItemName = itemName.get(loopCntr).getText().trim();
+        		
+        		List<WebElement> itemPrice = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--list')]"));
+        		arrayPageItemPrice = itemPrice.get(loopCntr).getText().trim();
 
         		//Click on array page item
         		arrayPageItem.click();
 
     			//Wait till the PDP page is displayed
         		Util.waitForPageFullyLoaded(driver);
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//section[@id='c-product__details']")));
-
-
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("colors-list__image"))));
+        		//Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//section[@id='c-product__details']")));
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("product__name"))));
+        		Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("colors-list__image"))));
 	  			List<WebElement> itemColors = driver.findElements(By.className("colors-list__image"));
 
 	  			//If colors are not available then navigate back to array page
@@ -668,9 +672,15 @@ public class SubcategoryPage {
 	            break;
     		}
     		catch(Exception e){
-    			boolean isPDP = driver.findElement(By.className("product__name")).isDisplayed();
-    			if (isPDP)
-    				navigateBackToArrayPage();
+    			try{
+	    			boolean isPDP = driver.findElement(By.className("product__name")).isDisplayed();
+	    			if (isPDP){
+	    				navigateBackToArrayPage();
+	    			}
+    			}
+    			catch(Exception e1){
+    				logger.info("PDP page is not displayed");    				
+    			}
     		}
     	}
 
@@ -680,8 +690,9 @@ public class SubcategoryPage {
     }
 
     public void navigateBackToArrayPage(){
-    	WebElement breadcrumb = driver.findElement(By.className("c-header__breadcrumb"));
+    	WebElement breadcrumb = Util.createWebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("c-header__breadcrumb"))));
 		breadcrumb.findElement(By.xpath("//ul[@class='breadcrumb__list']/li[3]/a[@class='breadcrumb__link']")).click();
+		Util.waitForPageFullyLoaded(driver);
     }
     
     public void selectRandomItemFromArrayPage(){
