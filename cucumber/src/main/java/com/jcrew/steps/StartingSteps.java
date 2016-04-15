@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.Navigation;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
@@ -39,6 +40,14 @@ public class StartingSteps {
     public void user_is_on_home_page_with_clean_session() {
         driverFactory.deleteBrowserCookies();
         user_is_on_home_page();
+    }
+
+    @Given("User is on clean session international ([^\"]*) page$")
+    public void  user_goes_to_international_page(String pageUrl) throws Throwable {
+        driverFactory.deleteBrowserCookies();
+        driver.get("https://www.sidecar-brn-qa.jcrew.com/uk/");
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(pageUrl));
+
     }
 
     @Given("^User is on homepage$")
