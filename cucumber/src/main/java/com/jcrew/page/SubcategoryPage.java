@@ -572,6 +572,7 @@ public class SubcategoryPage {
     	int itemsThreshold;
 
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
+
     	List<WebElement> arrayPageItems = driver.findElements(By.xpath("//div[@class='c-product-tile']"));
 
     	//checking items are displayed on the array page

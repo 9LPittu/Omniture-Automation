@@ -83,9 +83,6 @@ public class ProductDetailPage {
 
     public boolean isProductDetailPage() {
         Util.waitForPageFullyLoaded(driver);
-        
-        //removed because a bug introduced for launch. Required to execute correctly in Chrome.
-        //Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("product__image0")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
 
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
