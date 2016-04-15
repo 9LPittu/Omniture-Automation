@@ -417,11 +417,9 @@ public class SubcategoryPage {
     }
 
     public String getWasPriceFor(String product) {
-
-        driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-
-        WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--was')]"));
+        WebElement wasPriceInTitle = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productGrid.findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--was')]"))));
 
         return wasPriceInTitle.getText();
     }
@@ -569,8 +567,8 @@ public class SubcategoryPage {
     	boolean isItemFound = false;
     	int MAX_ITEMS_TO_CHECK = 10;
     	int itemsThreshold;
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
     	List<WebElement> arrayPageItems = driver.findElements(By.xpath("//div[@class='c-product-tile']"));
 
     	//checking items are displayed on the array page
