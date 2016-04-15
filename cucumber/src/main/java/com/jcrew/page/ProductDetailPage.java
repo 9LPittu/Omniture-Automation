@@ -210,7 +210,7 @@ public class ProductDetailPage {
     }
 
     public String getSelectedSize() {
-        WebElement productSizeElement = productSizesSection.findElement(By.className("is-selected"));
+        WebElement productSizeElement = productSizesSection.findElement(By.xpath("//li[contains(@class,'is-selected')]"));
         return productSizeElement.getAttribute("data-name");
     }
 
