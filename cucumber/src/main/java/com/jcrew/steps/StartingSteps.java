@@ -45,9 +45,13 @@ public class StartingSteps {
     @Given("User is on clean session international ([^\"]*) page$")
     public void  user_goes_to_international_page(String pageUrl) throws Throwable {
         driverFactory.deleteBrowserCookies();
-        driver.get("https://www.sidecar-brn-qa.jcrew.com/uk/");
-        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(pageUrl));
+        getTheInternationalInitialPage(pageUrl);
 
+    }
+
+    public void  getTheInternationalInitialPage(String country) {
+        String env = reader.getProperty("environment")+"/"+country.toLowerCase()+"/";
+        driver.get(env);
     }
 
     @Given("^User is on homepage$")
