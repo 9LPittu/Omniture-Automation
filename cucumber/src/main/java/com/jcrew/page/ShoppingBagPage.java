@@ -102,8 +102,18 @@ public class ShoppingBagPage {
 
     public void click_edit_button() {
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(editAction));
-        editAction.click();
+
+        Product product = (Product) stateHolder.get("recentlyAdded");
+
+        WebElement order_listing = driver.findElement(By.id("order-listing"));
+        WebElement item_product = order_listing.findElement(
+                By.xpath(".//a[" + Util.xpathGetTextLower + " = '" + product.getProductName().toLowerCase() + "']" +
+                        "/ancestor::div[@class='item-product']"));
+        WebElement item_product_edit = item_product.findElement(By.className("item-edit"));
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(item_product_edit));
+        item_product_edit.click();
+
     }
 
     public boolean isProductColorDisplayed(String productColor) {
@@ -154,9 +164,11 @@ public class ShoppingBagPage {
     }
 
     private WebElement getProductRoot(String productName) {
+        productName = productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&");
+
         return orderListing.findElement(By.xpath(".//a[contains(" + Util.xpathGetTextLower + "," +
-                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") +
-                "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
+                "translate('" + productName +
+                "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
     }
 
     public String getPriceDisplayedForProduct(String productName) {
