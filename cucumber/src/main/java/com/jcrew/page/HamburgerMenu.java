@@ -208,6 +208,7 @@ public class HamburgerMenu {
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(subcategory));
         subcategory.click();
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isUserSignedIn() {
