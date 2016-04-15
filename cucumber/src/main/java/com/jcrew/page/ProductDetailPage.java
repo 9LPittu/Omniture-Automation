@@ -204,7 +204,7 @@ public class ProductDetailPage {
 
     public String getSelectedColor() {
         WebElement productColorContainer = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOfElementLocated(By.id("c-product__price-colors")));
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='product__price-colors']")));
         WebElement productColorElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productColorContainer.findElement(By.className("is-selected"))));
         return productColorElement.getAttribute("data-name");
     }
