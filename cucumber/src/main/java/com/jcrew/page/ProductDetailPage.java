@@ -477,7 +477,7 @@ public class ProductDetailPage {
 
     public void selectNewSize(){
 
-    	List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-selected'))]"));
+    	List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-selected') and not(contains(@class,'is-unavailable'))]"));
     	int randomIndex = Util.randomIndex(itemSizes.size());
     	itemSizes.get(randomIndex).findElement(By.tagName("span")).click();
 		String newSelectedSize = itemSizes.get(randomIndex).getAttribute("data-name").toLowerCase();
