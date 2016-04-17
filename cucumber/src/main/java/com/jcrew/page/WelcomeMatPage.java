@@ -45,6 +45,13 @@ public class WelcomeMatPage {
     }
 
 
+    public boolean isWelcomeHeaderMessageDisplayed(String msg1, String msg2) {
+         String internationalCountry = driver.findElement(By.className("c-header__welcomemat--country-context")).getText();
+         if(internationalCountry.equals("Canada")) {
+             WebElement msgHeader = driver.findElement(By.className("c-header__welcomemat--header"));
+             return msgHeader.getText().contains(msg1);
+    }
+
 
 
 }

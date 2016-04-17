@@ -27,4 +27,9 @@ public class WelcomeMatPageSteps extends DriverFactory {
     public void verify_jcrew_logo_displayed_on_welcome_mat() {
         assertTrue("Jcrew logo should be displayed  on the welcome mat",welcomemat.isJcrewLogoDisplayed());
     }
-}
+
+    @And("^Welcome mat header message is displayed as ([^\"]*) for canada, ([^\"]*) for the ROW$")
+    public void verify_welcome_mat_header_message(String msg1, String msg2) {
+        assertTrue("Corresponding welcome message header should be displayed", welcomemat.isWelcomeHeaderMessageDisplayed(msg1, msg2));
+    }
+ }

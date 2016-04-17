@@ -2,9 +2,14 @@
 Feature: International: Welcome Mat for ROW
 #US15294_TC01,US15294_TC03
 Scenario: Welcome mat display validation for international home page
-  Given User is on clean session international /uk/ page
+  Given User is on clean session international /ca/ page
   And Welcome mat page is displayed
+  And Welcome mat header message is displayed as Hello, Canada for canada, Around the World for the ROW
   And JCrew Logo is present on the welcome mat
+  #US15294_TC04
+  #application(bronze, gold) not displaying corresponding flag and country at this time
+  #And corresponding country name and flag is displayed
+
 
 Scenario: Welcome mat display validation for international category page
   Given User is on clean session international /uk/c/womens_category/sweaters page
