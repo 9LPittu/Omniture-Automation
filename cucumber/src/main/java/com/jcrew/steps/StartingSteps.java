@@ -50,7 +50,7 @@ public class StartingSteps {
     }
 
     public void  getTheInternationalInitialPage(String country) {
-        String env = reader.getProperty("environment")+"/"+country.toLowerCase()+"/";
+        String env = reader.getProperty("environment")+country;
         driver.get(env);
     }
 

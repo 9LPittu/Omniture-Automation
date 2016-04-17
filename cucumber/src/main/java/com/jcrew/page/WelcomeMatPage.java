@@ -40,6 +40,10 @@ public class WelcomeMatPage {
         }
     }
 
+    public boolean isJcrewLogoDisplayed() {
+        return driver.findElement(By.className("c-header__welcomemat--logo")).isDisplayed();
+    }
+
 
 
 

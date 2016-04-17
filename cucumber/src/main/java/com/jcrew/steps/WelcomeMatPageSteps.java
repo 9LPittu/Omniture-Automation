@@ -22,4 +22,9 @@ public class WelcomeMatPageSteps extends DriverFactory {
     public void verify_welcome_mat_is_not_displayed() {
         assertTrue("Welcome mat page should not be displayed",welcomemat.isWelcomeMatNotDisplayed());
     }
+
+    @And("^JCrew Logo is present on the welcome mat$")
+    public void verify_jcrew_logo_displayed_on_welcome_mat() {
+        assertTrue("Jcrew logo should be displayed  on the welcome mat",welcomemat.isJcrewLogoDisplayed());
+    }
 }

@@ -1,13 +1,15 @@
 @WelcomeMat
 Feature: International: Welcome Mat for ROW
-#US15294_TC01
-Scenario:  Welcome mat display validation for international home page
+#US15294_TC01,US15294_TC03
+Scenario: Welcome mat display validation for international home page
   Given User is on clean session international /uk/ page
   And Welcome mat page is displayed
+  And JCrew Logo is present on the welcome mat
 
 Scenario: Welcome mat display validation for international category page
   Given User is on clean session international /uk/c/womens_category/sweaters page
   And Welcome mat page is displayed
+  And JCrew Logo is present on the welcome mat
 
 Scenario: Welcome mat display validation for international PDP page
   Given User is on clean session international /uk/p/womens_category/sweaters/pullover/floral-sequinsleeve-sweater/E2983 page
