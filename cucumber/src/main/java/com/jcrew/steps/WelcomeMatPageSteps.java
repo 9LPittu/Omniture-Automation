@@ -18,4 +18,8 @@ public class WelcomeMatPageSteps extends DriverFactory {
         assertTrue("Welcome mat page should be displayed",welcomemat.isWelcomeMatDisplayed());
     }
 
+    @And("Welcome mat page is not displayed$")
+    public void verify_welcome_mat_is_not_displayed() {
+        assertTrue("Welcome mat page should not be displayed",welcomemat.isWelcomeMatNotDisplayed());
+    }
 }
