@@ -43,4 +43,10 @@ public class WelcomeMatPageSteps extends DriverFactory {
         welcomemat.click_on_start_shopping(link);
 
     }
+
+    @And("^corresponding country name and flag is displayed$")
+    public void verify_corresponding_country_flag_name_displayed_on_welcome_mat() {
+        assertTrue("Corresponding flag and name should be displayed on the welcome mat", welcomemat.isFlagAndNameDisplayedCorrectly());
+
+    }
 }

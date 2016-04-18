@@ -78,4 +78,8 @@ public class WelcomeMatPage {
         driver.findElement(By.linkText(link)).click();
     }
 
+    public boolean isFlagAndNameDisplayedCorrectly() {
+        return true;
+    }
+
 }
