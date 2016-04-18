@@ -11,8 +11,9 @@ Scenario: Welcome mat display validation for international home page
   #And corresponding country name and flag is displayed
   And Welcome mat content is displayed
   #US15294-06 (?)
-  And User clicks on start shopping button on welcome mat
+  And User clicks on START SHOPPING on welcome mat
   And User is on internal /uk/ page
+  And verify country name is displayed in the ship to section of footer
 
 
 Scenario: Welcome mat display validation for international category page
@@ -37,6 +38,12 @@ Scenario: Welcome mat display validation for international sale landing page
 Scenario: Welcome mat display validation for US
   Given User is on homepage with clean session
   And Welcome mat page is not displayed
+
+#US15294_TC08
+Scenario: validation of take to US site link functionality
+  Given User is on clean session international /uk/ page
+  And User clicks on Take me to the U.S. site. on welcome mat
+  And User is on homepage
 
 
 

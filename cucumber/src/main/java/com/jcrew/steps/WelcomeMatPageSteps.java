@@ -38,9 +38,9 @@ public class WelcomeMatPageSteps extends DriverFactory {
         assertTrue("Corresponding body message should be displayed", welcomemat.isWelcomeMatContentDisplayed());
     }
 
-    @And("^User clicks on start shopping button on welcome mat")
-    public void user_clicks_on_start_shopping_button() {
-        welcomemat.click_on_start_shopping();
+    @And("^User clicks on ([^\"]*) on welcome mat")
+    public void user_clicks_on_start_shopping_button(String link) {
+        welcomemat.click_on_start_shopping(link);
 
     }
 }

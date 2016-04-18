@@ -74,8 +74,8 @@ public class WelcomeMatPage {
 
     }
 
-    public void click_on_start_shopping()  {
-        driver.findElement(By.linkText("START SHOPPING")).click();
+    public void click_on_start_shopping(String link)  {
+        driver.findElement(By.linkText(link)).click();
     }
 
 }
