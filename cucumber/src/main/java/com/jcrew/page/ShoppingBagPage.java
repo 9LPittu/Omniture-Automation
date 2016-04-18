@@ -174,7 +174,7 @@ public class ShoppingBagPage {
         if (element.contains("'")) {
             xpath = ".//span[text() = \"" + element.toLowerCase() + "\"]";
         } else {
-            xpath = ".//span[text() = = '" + element.toLowerCase() + "']" ;
+            xpath = ".//span[text() = '" + element.toLowerCase() + "']" ;
         }
 
         WebElement selectedElement = productRoot.findElement(By.xpath(xpath));
@@ -184,9 +184,19 @@ public class ShoppingBagPage {
     private WebElement getProductRoot(String productName) {
         productName = productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&");
 
-        return orderListing.findElement(By.xpath(".//a[contains(" + Util.xpathGetTextLower + "," +
-                "translate('" + productName +
-                "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
+        String xpath;
+
+        if (productName.contains("'")) {
+            xpath = ".//a[contains(" + Util.xpathGetTextLower + "," +
+                    "translate(\"" + productName.toLowerCase() + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ'," +
+                    "'abcdefghjiklmnopqrstuvwxyz'))]/../../..";
+        } else {
+            xpath = ".//a[contains(" + Util.xpathGetTextLower + "," +
+                    "translate('" + productName +
+                    "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../..";
+        }
+
+        return orderListing.findElement(By.xpath(xpath));
     }
 
     public String getPriceDisplayedForProduct(String productName) {
