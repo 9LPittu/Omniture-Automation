@@ -4,6 +4,11 @@ Feature: Footer Verification In Home Page
   Background:
     Given User is on homepage
     And Handle the Email Capture pop up
+    Then click on change link from footer
+	And User is on context chooser page
+	Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
 
     #Moved from HomePage.feature
     #US9724_TC01 from BreadCrumbs.feature
@@ -188,6 +193,48 @@ Feature: Footer Verification In Home Page
     And page url should contain srcCode=JCFooter
     And external https://www.madewell.com/index.jsp page is opened in a different tab
 
+
+  #US9479_TC01, US9479_TC02, US9479_TC04
+  #US9479_TC03 -  not automating because the test case is about validating context chooser page with mockup
+  #Validate context chooser flag is displayed on all the sidecar pages in the footer
+   Scenario: Context chooser flag should be displayed and functional on all the sidecar pages in the footer.
+     Then user should see Ship To section in footer
+     And verify country name is displayed in the ship to section of footer
+     And verify change link is displayed in the ship to section of footer
+     Then click on change link from footer
+     And User is on context chooser page
+     And Verify embedded headers links
+     Then Verify embedded footer is visible and functional
+     And UNITED STATES & CANADA region drawer is displayed
+     And ASIA PACIFIC region drawer is displayed
+     And EUROPE region drawer is displayed
+     And LATIN AMERICA & THE CARIBBEAN region drawer is displayed
+     And MIDDLE EAST & AFRICA region drawer is displayed
+     And user should see all regional drawers closed by default
+     And expand each regional drawer and verify the countries displayed and only one drawer should be opened
+     	 |UNITED STATES & CANADA|
+     	 |ASIA PACIFIC|
+     	 |EUROPE|
+     	 |LATIN AMERICA & THE CARIBBEAN|
+     	 |MIDDLE EAST & AFRICA|
+     	 
+     And click on "terms of use" link from terms section on the context chooser page 
+     And User is on internal /footer/termsofuse.jsp?sidecar=true page
+     And Verify embedded headers links
+     Then Verify embedded footer is visible and functional
+     And User presses back button
+     And click on "privacy policy" link from terms section on the context chooser page
+     And User is on internal /help/privacy_policy.jsp?sidecar=true page
+     And Verify embedded headers links
+     Then Verify embedded footer is visible and functional
+     And User presses back button
+     And click on "SEE ALL FAQ & HELP" button from FAQ section on the context chooser page
+     And User is on internal /help/international_orders.jsp?sidecar=true page
+     And Verify embedded headers links
+     Then Verify embedded footer is visible and functional
+     And User presses back button
+     And click on "borderfree.com" link from FAQ section on the context chooser page
+     And external http://www.pitneybowes.com/us/borderfree-is-now-part-of-pitney-bowes.html page is opened in a different tab
 
   #US13389_TC13
   # Scenario Outline: Ship To section is visible and functional in footer

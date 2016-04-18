@@ -7,6 +7,7 @@ Feature: Global Header: Breadcrumbs
   #US9724_TC02
   Scenario Outline: Validate J crew logo display and functionality on Department/Gender Landing Pages
     And User clicks on <gender> link from top nav
+    And user should see selected country in the footer
     And JCrew Logo is present
     And Clicks on JCrew Logo
     And Verify user is in homepage

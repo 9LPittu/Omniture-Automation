@@ -3,6 +3,10 @@ Feature: Edit Product In Bags Scenarios
 
   Background:
     Given User is on homepage
+    Then click on change link from footer
+	And User is on context chooser page
+	Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
 
   Scenario: Verify on edit mode add to bag changes to update bag
     When User clicks on hamburger menu
@@ -17,6 +21,7 @@ Feature: Edit Product In Bags Scenarios
     And Clicks edit button on item bag page
     Then user should see that previously selected color is retained
     And user should see that previously selected size is retained
+    And Verify proper currency symbol is displayed on PDP page
     And Verify update bag button is present
     And user selects a new color
     And user selects a new size

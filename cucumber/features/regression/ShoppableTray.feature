@@ -3,6 +3,10 @@
 
     Background: Navigate to a multiple pdp page in any category
       Given User is on homepage
+      Then click on change link from footer
+	  And User is on context chooser page
+	  Given user selects top10country at random from context chooser page
+      Then user should land on country specific home page
       And User clicks on hamburger menu
       And User selects random tray from available categories
         |Women|THIS MONTH'S FEATURES|looks we love |
@@ -20,6 +24,7 @@
       And User clicks last product in multiple pdp page
       Then Verifies next item arrow is disabled
       Then Verifies previous item arrow is enabled
+      And Verify proper currency symbol is displayed on PDP page
 
     #US15510_TC04, US15510_TC05
     Scenario: Verify next and previous buttons functionality

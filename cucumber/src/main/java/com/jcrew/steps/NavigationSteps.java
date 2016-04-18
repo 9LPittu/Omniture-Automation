@@ -1,12 +1,16 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.Navigation;
+import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.Assert.assertTrue;
@@ -14,11 +18,16 @@ import static org.junit.Assert.assertTrue;
 public class NavigationSteps extends DriverFactory {
 
     private final Navigation navigation = new Navigation(getDriver());
-
+    private final StateHolder stateHolder = StateHolder.getInstance();
+    
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable {
-        PropertyReader reader = PropertyReader.getPropertyReader();
-        getDriver().navigate().to(reader.getProperty("environment") + uri);
+        
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        
+    	String currentCountryCode = (String)stateHolder.get("countryCode");
+    
+        getDriver().navigate().to(reader.getProperty("environment") + "/" + currentCountryCode + uri);
         Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(uri));
     }
 
