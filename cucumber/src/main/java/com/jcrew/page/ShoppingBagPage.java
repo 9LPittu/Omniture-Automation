@@ -172,9 +172,9 @@ public class ShoppingBagPage {
         String xpath;
 
         if (element.contains("'")) {
-            xpath = ".//span[text() = \"" + element.toLowerCase() + "\"]";
+            xpath = ".//span[" + Util.xpathGetTextLower + " = \"" + element.toLowerCase() + "\"]";
         } else {
-            xpath = ".//span[text() = '" + element.toLowerCase() + "']" ;
+            xpath = ".//span[" + Util.xpathGetTextLower + " = '" + element.toLowerCase() + "']" ;
         }
 
         WebElement selectedElement = productRoot.findElement(By.xpath(xpath));
