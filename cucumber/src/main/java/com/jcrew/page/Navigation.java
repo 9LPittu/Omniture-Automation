@@ -45,11 +45,14 @@ public class Navigation {
 
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         // get the current window handle
-        logger.info("parent window handle {}", tabs.get(0).toString());
-
-        logger.info("no.of windowhandles; {}", driver.getWindowHandles().size());
-        logger.info("now switching to new tab {}", tabs.get(1).toString());
+        if(tabs.size() > 1) {
+            logger.info("Expected {} opened in a different array", page);
+            logger.info("parent window handle {}", tabs.get(0));
+            logger.info("no.of windowhandles; {}", driver.getWindowHandles().size());
+            logger.info("now switching to new tab {}", tabs.get(1));
             driver.switchTo().window(tabs.get(1));        // switch focus of WebDriver to the next found window handle (that's newly opened window)
+        }
+
         String browser = reader.getProperty("browser");
         String targetPage;
 

@@ -43,7 +43,7 @@ public class LooksWeLovePage {
                 break;
             case "girls":
             case "boys":
-                locator = By.xpath("//div[@id='plusArrayContainer']/div[@class='plus_folder_container']/div/a[@class='mobileShoplookbtn']");
+                locator = By.xpath("//div[@id='plusMidWrapper']/div[contains(@class,'section')]/a");
                 break;
             default:
                 logger.debug("Not a valid type to select shop the look buttons...");
