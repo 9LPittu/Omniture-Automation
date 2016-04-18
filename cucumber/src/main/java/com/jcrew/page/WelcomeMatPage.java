@@ -46,12 +46,19 @@ public class WelcomeMatPage {
 
 
     public boolean isWelcomeHeaderMessageDisplayed(String msg1, String msg2) {
-         String internationalCountry = driver.findElement(By.className("c-header__welcomemat--country-context")).getText();
-         if(internationalCountry.equals("Canada")) {
-             WebElement msgHeader = driver.findElement(By.className("c-header__welcomemat--header"));
-             return msgHeader.getText().contains(msg1);
+        WebElement countryContext = driver.findElement(By.className("c-header__welcomemat--country-context"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryContext));
+        String internationalCountry = countryContext.getText();
+        logger.info(internationalCountry);
+        WebElement msgHeader = driver.findElement(By.className("c-header__welcomemat--header"));
+        if (internationalCountry.equalsIgnoreCase("Canada")) {
+             logger.info("country is canada");
+            return msgHeader.getText().contains(msg1);
+        } else {
+            logger.info("not canada");
+            return msgHeader.getText().contains(msg2);
+        }
+
     }
-
-
 
 }
