@@ -20,6 +20,9 @@ public class WelcomeMatPage {
     @FindBy(className = "c-header__welcomemat")
     private WebElement welcomeMat;
 
+    @FindBy(className = "c-header__welcomemat--country-context")
+    private WebElement countryContext;
+
     public WelcomeMatPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -46,7 +49,7 @@ public class WelcomeMatPage {
 
 
     public boolean isWelcomeHeaderMessageDisplayed(String msg1, String msg2) {
-        WebElement countryContext = driver.findElement(By.className("c-header__welcomemat--country-context"));
+
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryContext));
         String internationalCountry = countryContext.getText();
         logger.info(internationalCountry);
@@ -58,6 +61,16 @@ public class WelcomeMatPage {
             logger.info("not canada");
             return msgHeader.getText().contains(msg2);
         }
+
+    }
+
+
+    public boolean isWelcomeMatContentDisplayed() {
+        String internationalCountry = countryContext.getText();
+        if (internationalCountry.equalsIgnoreCase("Canada")) {
+            return driver.findElement(By.className("c-header__welcomematCanada--body")).isDisplayed();
+        }
+            else return driver.findElement(By.className("c-header__welcomemat--body")).isDisplayed();
 
     }
 

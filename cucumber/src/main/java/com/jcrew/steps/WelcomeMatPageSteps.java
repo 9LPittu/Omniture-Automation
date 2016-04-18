@@ -32,4 +32,9 @@ public class WelcomeMatPageSteps extends DriverFactory {
     public void verify_welcome_mat_header_message(String msg1, String msg2) {
         assertTrue("Corresponding welcome message header should be displayed", welcomemat.isWelcomeHeaderMessageDisplayed(msg1, msg2));
     }
+
+    @And("^Welcome mat content is displayed$")
+    public void verify_welcome_mat_body_content() {
+        assertTrue("Corresponding body message should be displayed", welcomemat.isWelcomeMatContentDisplayed());
+    }
  }
