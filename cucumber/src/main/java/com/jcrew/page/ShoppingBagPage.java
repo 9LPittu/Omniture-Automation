@@ -168,7 +168,16 @@ public class ShoppingBagPage {
 
     private boolean isGenericElementDisplayed(String productName, String element) {
         WebElement productRoot = getProductRoot(productName);
-        WebElement selectedElement = productRoot.findElement(By.xpath(".//span[text() = '" + element + "']"));
+
+        String xpath;
+
+        if (element.contains("'")) {
+            xpath = ".//span[text() = \"" + element.toLowerCase() + "\"]";
+        } else {
+            xpath = ".//span[text() = = '" + element.toLowerCase() + "']" ;
+        }
+
+        WebElement selectedElement = productRoot.findElement(By.xpath(xpath));
         return selectedElement.isDisplayed();
     }
 
