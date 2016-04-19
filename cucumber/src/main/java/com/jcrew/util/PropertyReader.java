@@ -56,7 +56,8 @@ public class PropertyReader {
         }
         
         logger.info("UserID to be used {}", execUser);
-        properties.setProperty("userID", execUser);
+        properties.setProperty("checkout.signed.in.username", execUser+".email");
+        properties.setProperty("checkout.signed.in.password", execUser+".password");
     }
 
     public boolean isSystemPropertyTrue(String key) {
