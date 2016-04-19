@@ -111,7 +111,6 @@ public class DriverFactory {
 
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
             capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty(viewport+".device.name"));
-            
             capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty(viewport+".device.os.version"));
             capabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
             capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
