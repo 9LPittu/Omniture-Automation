@@ -80,7 +80,12 @@ Scenario Outline: Validation of Take me to the U.S. site. link functionality
   And user should see "United States" in footer
   And Selects to checkout as guest
   And user should see "United States" in footer
-  When user fills selcted country shipping address
+  And enter first name on shipping address page
+  And enter last name on shipping address page
+  And enter address line1 as "<shipping_address1>" on shipping address page
+  And enter address line2 as "<shipping_address2>" on shipping address page
+  And enter zip code as "<shipping_zipcode>" on shipping address page
+  And enter phone number on shipping address page
   And Presses continue button on shipping address
   And Verifies is in shipping method page
   And user should see "United States" in footer
