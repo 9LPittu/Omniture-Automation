@@ -83,9 +83,6 @@ public class ProductDetailPage {
 
     public boolean isProductDetailPage() {
         Util.waitForPageFullyLoaded(driver);
-        
-        //removed because a bug introduced for launch. Required to execute correctly in Chrome.
-        //Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("product__image0")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
 
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
@@ -105,6 +102,7 @@ public class ProductDetailPage {
         for(Product product:productList){
             String productName = product.getProductName();
             String productPrice = product.getPriceList();
+            logger.debug("Found: {} - {}", productName, productPrice);
             if(productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)){
                 return true;
             }
@@ -150,6 +148,14 @@ public class ProductDetailPage {
 
     public void click_add_to_cart() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
+
+        Product thisProduct = new Product();
+        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setSelectedColor(getSelectedColor());
+        thisProduct.setSelectedSize(getSelectedSize());
+
+        stateHolder.put("recentlyAdded", thisProduct);
+
         addToBag.click();
     }
 
@@ -203,13 +209,13 @@ public class ProductDetailPage {
 
     public String getSelectedColor() {
         WebElement productColorContainer = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOfElementLocated(By.id("c-product__price-colors")));
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='product__price-colors']")));
         WebElement productColorElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productColorContainer.findElement(By.className("is-selected"))));
         return productColorElement.getAttribute("data-name");
     }
 
     public String getSelectedSize() {
-        WebElement productSizeElement = productSizesSection.findElement(By.className("is-selected"));
+        WebElement productSizeElement = productSizesSection.findElement(By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"));
         return productSizeElement.getAttribute("data-name");
     }
 
@@ -219,6 +225,14 @@ public class ProductDetailPage {
 
     public void click_update_cart() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
+
+        Product thisProduct = new Product();
+        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setSelectedColor(getSelectedColor());
+        thisProduct.setSelectedSize(getSelectedSize());
+
+        stateHolder.put("recentlyAdded", thisProduct);
+
         Util.clickWithStaleRetry(addToBag);
     }
 
@@ -425,9 +439,7 @@ public class ProductDetailPage {
     	String currentSelectedColor = getSelectedColor().toLowerCase();
     	logger.debug("Current selected color in application: {}", currentSelectedColor);
 
-    	@SuppressWarnings("unchecked")
-		List<Product> productList = (List<Product>) stateHolder.get("productList");
-    	Product product = productList.get(0);
+    	Product product = (Product) stateHolder.get("recentlyAdded");
     	String expectedColorName = product.getSelectedColor();
     	logger.debug("Expected color to be in selection: {}", expectedColorName);
 
@@ -439,9 +451,7 @@ public class ProductDetailPage {
     	String currentSelectedSize = getSelectedSize().toLowerCase();
     	logger.debug("Current selected size in application: {}", currentSelectedSize);
 
-    	@SuppressWarnings("unchecked")
-		List<Product> productList = (List<Product>) stateHolder.get("productList");
-    	Product product = productList.get(0);
+        Product product = (Product) stateHolder.get("recentlyAdded");
     	String expectedSizeName = product.getSelectedSize();
     	logger.debug("Expected size to be in selection: {}", expectedSizeName);
 
@@ -467,7 +477,9 @@ public class ProductDetailPage {
 
     public void selectNewSize(){
 
-    	List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-selected'))]"));
+    	List<WebElement> itemSizes = driver.findElements(
+                By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and " +
+                        "not(contains(@class,'is-selected')) and not(contains(@class,'is-unavailable'))]"));
     	int randomIndex = Util.randomIndex(itemSizes.size());
     	itemSizes.get(randomIndex).findElement(By.tagName("span")).click();
 		String newSelectedSize = itemSizes.get(randomIndex).getAttribute("data-name").toLowerCase();

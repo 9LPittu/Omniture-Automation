@@ -5,7 +5,10 @@ Feature: Edit Product In Bags Scenarios
     Given User is on homepage
 
   Scenario: Verify on edit mode add to bag changes to update bag
-    When "sql.query.for.retreiving.items.with.multiple.colors.sizes" is run and search for item fetched from DB
+    When User clicks on hamburger menu
+    And user selects WOMEN category from hamburger menu
+    And user selects NEW ARRIVALS subcategory
+    And Selects the first product with available colors from product grid list
     And User is in product detail page
     And A color is selected
     And A size is selected
@@ -17,6 +20,9 @@ Feature: Edit Product In Bags Scenarios
     And Verify update bag button is present
     And user selects a new color
     And user selects a new size
+    And Update Bag button is pressed
+    And User clicks on item bag
+    And Clicks edit button on item bag page
     Then user should see that previously selected color is retained
     And user should see that previously selected size is retained
     And Deletes browser cookies
