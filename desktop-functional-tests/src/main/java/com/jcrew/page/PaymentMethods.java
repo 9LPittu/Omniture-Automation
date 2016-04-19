@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.StateHolder;
@@ -83,7 +84,8 @@ public class PaymentMethods {
     }
 
     private void addNewBillingAdrress() {
-        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        Country countryPojo = (Country) stateHolder.get("context");
+        Address address = new Address(countryPojo.getCountry());
 
         WebElement newCardDiv = leftContainer.findElement(By.id("AddCreditCard"));
         wait.until(ExpectedConditions.visibilityOf(newCardDiv));
@@ -104,23 +106,23 @@ public class PaymentMethods {
         lastName.sendKeys(user.getFirstName());
 
         WebElement address1 = newCardDiv.findElement(By.name("ADDRESS<>address1"));
-        address1.sendKeys(testDataReader.getData("address.line1"));
+        address1.sendKeys(address.getLine1());
 
         WebElement address2 = newCardDiv.findElement(By.name("ADDRESS<>address2"));
-        address2.sendKeys(testDataReader.getData("address.line2"));
+        address2.sendKeys(address.getLine2());
 
         WebElement city = newCardDiv.findElement(By.name("ADDRESS<>city"));
-        city.sendKeys(testDataReader.getData("address.city"));
+        city.sendKeys(address.getCity());
 
         WebElement state = newCardDiv.findElement(By.name("ADDRESS<>state_cd"));
         Select stateSelect = new Select(state);
-        stateSelect.selectByValue(testDataReader.getData("address.state"));
+        stateSelect.selectByValue(address.getState());
 
         WebElement zipcode = newCardDiv.findElement(By.name("ADDRESS<>postal"));
-        zipcode.sendKeys(testDataReader.getData("address.zipcode"));
+        zipcode.sendKeys(address.getZipcode());
 
         WebElement phone = newCardDiv.findElement(By.name("ADDRESS<>phone"));
-        phone.sendKeys(testDataReader.getData("address.phone"));
+        phone.sendKeys(address.getPhone());
     }
 
     public void addNewPaymentMethod() {
