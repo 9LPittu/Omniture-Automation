@@ -92,7 +92,8 @@ public class UserNavigationSteps extends DriverFactory {
         select_product_and_add_to_bag();
     }
 
-    private void select_product_and_add_to_bag() {
+    @When("User adds selected product to bag")
+    public void select_product_and_add_to_bag() {
         ProductDetails productDetails = new ProductDetails(getDriver());
         productDetails.selectRandomColor();
         productDetails.selectRandomSize();

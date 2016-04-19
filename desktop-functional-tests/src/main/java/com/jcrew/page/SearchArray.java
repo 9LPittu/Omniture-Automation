@@ -43,7 +43,7 @@ public class SearchArray {
 
     public void selectRandomProduct(){
         List<WebElement> productTiles = searchResults.findElements(By.className("c-product-tile"));
-        logger.info("This subcategory has {} products", productTiles.size());
+        logger.info("This search result page has {} products", productTiles.size());
 
         WebElement random_product_tile = Util.randomIndex(productTiles);
         wait.until(ExpectedConditions.visibilityOf(random_product_tile));

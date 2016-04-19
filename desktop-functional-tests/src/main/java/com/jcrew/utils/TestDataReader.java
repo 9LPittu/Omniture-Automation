@@ -56,6 +56,27 @@ public class TestDataReader {
         return Arrays.asList(mainCategories.split(";"));
     }
 
+    public String getRandomCountry(String group) {
+        String country = "US";
+        int index;
+
+        if ("PRICEBOOK".equals(group)) {
+            String pricebookCountries = getData("pricebookCountries");
+            String pricebookCountriesArray[] = pricebookCountries.split(";");
+            index = Util.randomIndex(pricebookCountriesArray.length);
+
+            country = pricebookCountriesArray[index];
+        } else if ("NON-PRICEBOOK".equals(group)) {
+            String nonPricebookCountries = getData("nonPricebookCountries");
+            String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
+            index = Util.randomIndex(nonPricebookCountriesArray.length);
+
+           country = nonPricebookCountriesArray[index];
+        }
+
+        return country;
+    }
+
     public String getSearchWord() {
         String searchWords = getData("search.words");
         String words[] = searchWords.split(";");

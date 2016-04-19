@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
@@ -15,8 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -27,6 +31,7 @@ public class ProductDetails {
     private final WebDriverWait wait;
     private final StateHolder holder = StateHolder.getInstance();
     private final HeaderWrap headerWrap;
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final String PRICE_SALE_CLASS = "product__price--sale";
     private final String PRICE_LIST_CLASS = "product__price--list";
@@ -49,6 +54,8 @@ public class ProductDetails {
     private WebElement reviewSummary;
     @FindBy(id = "c-product__sold-out")
     private WebElement soldoutMessage;
+    @FindBy(id = "page__p")
+    private WebElement page__p;
 
     public ProductDetails(WebDriver driver) {
         this.driver = driver;
@@ -125,13 +132,11 @@ public class ProductDetails {
         if (priceGroups.size() > 1) {
             WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
             productPrice = selectedColor.findElement(By.xpath(".//ancestor::div[@class='product__group']/span"));
-            logger.debug("Price from group color");
         } else {
             //if has variations, get price from variations
             List<WebElement> variationsPrice = variations.findElements(By.tagName("li"));
             if (variationsPrice.size() > 0) {
                 WebElement selectedVariation = variations.findElement(By.className("is-selected"));
-                logger.info("Selected variation price: {}", selectedVariation.getText());
 
                 //check if variation has sale price
                 productPrice = selectedVariation.findElement(
@@ -140,7 +145,6 @@ public class ProductDetails {
                     //if no sale price get regular price
                     productPrice = selectedVariation.findElement(
                             By.xpath(".//span[contains(@class,'" + PRICE_LIST_CLASS + "')]"));
-                    logger.debug("Price from variation with list price");
                 }
 
             } else { //if no variations, get sale price
@@ -148,7 +152,6 @@ public class ProductDetails {
                 if (!productPrice.isDisplayed()) {
                     //if no sale price get regular price
                     productPrice = price.findElement(By.className(PRICE_LIST_CLASS));
-                    logger.debug("Price from list price");
                 }
             }
         }
@@ -166,7 +169,7 @@ public class ProductDetails {
         Product product = new Product();
         product.setName(getProductName());
 
-        if(!isSoldOut()) {
+        if (!isSoldOut()) {
             product.setColor(getSelectedColor());
             product.setSize(getSelectedSize());
             product.setQuantity(getQuantity());
@@ -196,4 +199,58 @@ public class ProductDetails {
         headerWrap.waitUntilNoCheckOutDropdown();
     }
 
+    private boolean verifyCurrency(String currency) {
+        List<WebElement> salePrices = page__p.findElements(By.className(PRICE_SALE_CLASS));
+        List<WebElement> listPrices = page__p.findElements(By.className(PRICE_LIST_CLASS));
+
+        List<WebElement> allPrices = new ArrayList<>();
+        allPrices.addAll(salePrices);
+        allPrices.addAll(listPrices);
+
+        Iterator<WebElement> allPricesIterator = allPrices.iterator();
+        Pattern priceListPattern = Pattern.compile(currency + "\\p{Space}*\\d+\\.\\d{2}");
+        Pattern priceWasPattern = Pattern.compile("Was\\p{Space}*" + currency + "\\p{Space}*\\d+\\.\\d{2}");
+        Pattern priceSaleNowPattern = Pattern.compile("now\\p{Space}*" + currency + "\\p{Space}*\\d+\\.\\d{2}");
+        Pattern priceSaleColorsPattern = Pattern.compile("select colors\\p{Space}*" + currency + "\\p{Space}*\\d+\\.\\d{2}");
+        Pattern priceSaleSelectColorsPattern = Pattern.compile("select colors\\p{Space}*" + currency + "\\p{Space}*\\d+\\.\\d{2}–"
+                + currency + "\\p{Space}*\\d+\\.\\d{2}");
+
+        boolean result = true;
+
+        while (result & allPricesIterator.hasNext()) {
+            WebElement priceElement = allPricesIterator.next();
+
+            if(priceElement.isDisplayed()) {
+                String price = priceElement.getText();
+
+                Matcher priceListM = priceListPattern.matcher(price);
+                Matcher priceWasM = priceWasPattern.matcher(price);
+                Matcher priceSaleNowM = priceSaleNowPattern.matcher(price);
+                Matcher priceSaleColorsM = priceSaleColorsPattern.matcher(price);
+                Matcher priceSaleSelectColorsM = priceSaleSelectColorsPattern.matcher(price);
+
+                result = priceListM.matches();
+                result |= priceWasM.matches();
+                result |= priceSaleNowM.matches();
+                result |= priceSaleColorsM.matches();
+                result |= priceSaleSelectColorsM.matches();
+
+                logger.debug("price \"{}\" matches {}", price, result);
+            }
+
+        }
+
+
+        return result;
+    }
+
+    public boolean verifyContext() {
+        Country country = (Country) stateHolder.get("context");
+        String currency = country.getCurrency();
+
+        boolean result = verifyCurrency(currency);
+        result &= Util.countryContextURLCompliance(driver, country);
+
+        return result;
+    }
 }
