@@ -54,6 +54,7 @@ public class PropertyReader {
         	String strBrowser = properties.getProperty(execViewport + ".browser");
         	properties.setProperty("browser", strBrowser);  
         }
+        
         logger.info("UserID to be used {}", execUser);
         properties.setProperty("userID", execUser);
     }
