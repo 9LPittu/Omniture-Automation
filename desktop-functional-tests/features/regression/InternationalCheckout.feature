@@ -1,8 +1,8 @@
 @International
 
-Feature: Welcome Mat displays for non US countries
+Feature: User is able to checkout in international context
 
-  Scenario Outline: Select start shopping in welcome mat from homepage
+  Scenario Outline: User is able to checkout
     Given User goes to international homepage for <country_group>
     Then Verify welcome mat is displayed
     And Verify country context matches selected country

@@ -3,13 +3,8 @@ package com.jcrew.steps;
 import com.jcrew.page.*;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.TestDataReader;
-import com.jcrew.utils.Util;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
-
-import java.util.Arrays;
-
-import java.util.List;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -28,14 +23,16 @@ public class UserNavigationSteps extends DriverFactory {
     @When("User navigates to a subcategory from main category")
     public void user_navigates_to_subcategory_from_main_category() {
         WebDriver driver = getDriver();
-        List<String> categories = testDataReader.getMainCategories();
+        String category = testDataReader.getCategory();
+        String subCategory = testDataReader.getSubCategory(category);
 
         HeaderWrap header = new HeaderWrap(driver);
         header.openMenu();
 
         MenuDrawer menuDrawer = new MenuDrawer(driver);
-        menuDrawer.selectCategoryFromList(categories);
-        menuDrawer.selectSubCategory();
+        menuDrawer.selectCategory(category);
+
+        menuDrawer.selectSubCategory(subCategory);
     }
 
     @When("User navigates to a pdp")

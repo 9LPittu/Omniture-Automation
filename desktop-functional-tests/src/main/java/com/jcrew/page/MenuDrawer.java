@@ -44,20 +44,37 @@ public class MenuDrawer {
         saleLink.click();
     }
 
-    public void selectCategoryFromList(List<String> categories) {
+    public void selectCategory(List<String> categories) {
+        int index = Util.randomIndex(categories.size());
+        String randomCategory = categories.get(index);
+
+        selectCategory(randomCategory);
+    }
+
+    public void selectCategory(String selectedCategory) {
         goBackToLevel1();
         WebElement level1Menus = drawer.findElement(By.className("js-menus--level1"));
         wait.until(ExpectedConditions.visibilityOf(level1Menus));
 
-        int index = Util.randomIndex(categories.size());
-        String selectedCategory = categories.get(index).toLowerCase();
-
         WebElement categoryLink = level1Menus.findElement(
-                By.xpath(".//a[contains(" + Util.xpathGetTextLower + ",'" + selectedCategory + "')]"));
+                By.xpath(".//a[contains(" + Util.xpathGetTextLower + ",'" + selectedCategory.toLowerCase() + "')]"));
 
         logger.info("Selected category: {}", categoryLink.getText());
         wait.until(ExpectedConditions.elementToBeClickable(categoryLink));
         categoryLink.click();
+    }
+
+    public void selectSubCategory(String subCategory) {
+        WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
+        wait.until(ExpectedConditions.visibilityOf(level2Menu));
+        WebElement level2SubCategories = level2Menu.findElement(By.xpath(".//div[@class='menu__item']"));
+        WebElement selectedSubCategory =
+                level2SubCategories.findElement(By.xpath(".//a[contains(@name,'" + subCategory + "')]"));
+
+        logger.info("Selected subcategory: {}", selectedSubCategory.getText());
+        selectedSubCategory.click();
+
+        Util.waitLoadingBar(driver);
     }
 
     public void selectSubCategory() {
