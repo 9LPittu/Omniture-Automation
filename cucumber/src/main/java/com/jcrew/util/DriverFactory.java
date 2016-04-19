@@ -65,17 +65,19 @@ public class DriverFactory {
     private WebDriver createLocalDriver(PropertyReader propertyReader) {
         final String viewport = propertyReader.getProperty("viewport");
         final String browser = propertyReader.getProperty("browser");
+        final boolean isDesktop = propertyReader.isSystemPropertyTrue("is.desktop");
         
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
             driver = new ChromeDriver();
-            driver.manage().window().setSize(new Dimension(width, height));
+            if (!isDesktop)
+            	driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {
-
             driver = new FirefoxDriver();
-            driver.manage().window().setSize(new Dimension(width, height));
+            if (!isDesktop)
+            	driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("iossafari".equals(browser)) {
 
@@ -129,10 +131,12 @@ public class DriverFactory {
 
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
-            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
+            if (!isDesktop)
+            	capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = new PhantomJSDriver(capabilities);
-            driver.manage().window().setSize(new Dimension(width, height));
+            if (!isDesktop)
+            	driver.manage().window().setSize(new Dimension(width, height));
         }
 
         return driver;
@@ -143,9 +147,9 @@ public class DriverFactory {
         final WebDriver driver;
         final String viewport = propertyReader.getProperty("viewport");
         final String browser = propertyReader.getProperty("browser");
+        final boolean isDesktop = propertyReader.isSystemPropertyTrue("is.desktop");
 
         if ("chrome".equals(browser)) {
-
             DesiredCapabilities chrome = DesiredCapabilities.chrome();
             chrome.setPlatform(Platform.WINDOWS);
             driver = getDesktopWebDriver(propertyReader, chrome);
@@ -204,10 +208,12 @@ public class DriverFactory {
             logger.debug(browser);
             final DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
-            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
+            if (!isDesktop)
+            	capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = getDesktopWebDriver(propertyReader, capabilities);
-            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);            
+            if (!isDesktop)
+            	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);            
         }
 
         //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
@@ -222,8 +228,10 @@ public class DriverFactory {
     private WebDriver getDesktopWebDriver(PropertyReader propertyReader, DesiredCapabilities desiredCapabilities) throws MalformedURLException {
         final URL seleniumHubRemoteAddress = getSeleniumRemoteAddress(propertyReader);
         final WebDriver driver = new RemoteWebDriver(seleniumHubRemoteAddress, desiredCapabilities);
-
-        driver.manage().window().setSize(new Dimension(width, height));
+        final boolean isDesktop = propertyReader.isSystemPropertyTrue("is.desktop");
+        
+        if (!isDesktop)
+        	driver.manage().window().setSize(new Dimension(width, height));
         return driver;
     }
 
