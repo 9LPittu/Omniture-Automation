@@ -28,6 +28,9 @@ public class StartingSteps {
     private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
     private WebDriver driver;
+    private final String pricebookCountries[] = {"UK", "CA", "HK",};
+    private final String nonPricebookCountries[] = {"AU", "JP", "DE", "SG", "CH"};
+
 
     @Before
     public void setupDriver() throws IOException {
@@ -43,15 +46,20 @@ public class StartingSteps {
     }
 
     @Given("User is on clean session international ([^\"]*) page$")
-    public void  user_goes_to_international_page(String pageUrl) throws Throwable {
+    public void  user_goes_to_international_page(String country_group) throws Throwable {
         driverFactory.deleteBrowserCookies();
-        getTheInternationalInitialPage(pageUrl);
+        getTheRandomInternationalPage(country_group);
 
     }
 
-    public void  getTheInternationalInitialPage(String country) {
-        String env = reader.getProperty("environment")+country;
-        driver.get(env);
+    public void  getTheRandomInternationalPage(String country) {
+        String env = reader.getProperty("environment");
+        if("US".equals(country)) {
+            driver.get(env);
+        } else if("PRICEBOOK".equals(country)) {
+            Util.randomIndex(pricebookCountries.length);
+            String env = reader.getProperty("environment");
+        }
     }
 
     @Given("^User is on homepage$")
