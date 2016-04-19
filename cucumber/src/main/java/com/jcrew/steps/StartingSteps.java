@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.Navigation;
+import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
@@ -53,21 +54,31 @@ public class StartingSteps {
     }
 
     public void  getTheRandomInternationalPage(String country) {
+
+
         String env = reader.getProperty("environment");
         if("US".equals(country)) {
             logger.debug("country selected {}", country);
             driver.get(env);
         } else if("PRICEBOOK".equals(country)) {
-             int countryindex = Util.randomIndex(pricebookCountries.length);
-            String selectedCountry = pricebookCountries[countryindex];
+
+            int countryindex = Util.randomIndex(pricebookCountries.length);
+            String selectedCountry = pricebookCountries[countryindex].toLowerCase();
+            Country countrydetails = new Country(selectedCountry);
+            String countryName = countrydetails.getCountryName();
             stateHolder.put("countryCode", selectedCountry);
+            stateHolder.put("selectedCountry", countryName);
             logger.debug("country selected {}", selectedCountry);
-             env = env+"/"+selectedCountry.toLowerCase()+"/";
+             env = env+"/"+selectedCountry+"/";
             driver.get(env);
+
         } else if("NON-PRICEBOOK".equals(country)) {
             int countryindex = Util.randomIndex(nonPricebookCountries.length);
             String selectedCountry = nonPricebookCountries[countryindex];
-            stateHolder.put("countryCode", selectedCountry);
+            Country countrydetails = new Country(selectedCountry.toLowerCase());
+            String countryName = countrydetails.getCountryName();
+            stateHolder.put("selectedCountry", countryName);
+            stateHolder.put("countryCode", selectedCountry.toLowerCase());
             logger.debug("country selected {}", selectedCountry);
             env = env+"/"+selectedCountry.toLowerCase()+"/";
             driver.get(env);

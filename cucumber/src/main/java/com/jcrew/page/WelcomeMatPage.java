@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -23,6 +24,11 @@ public class WelcomeMatPage {
     @FindBy(className = "c-header__welcomemat--country-context")
     private WebElement countryContext;
 
+    @FindBy(className = "c-header__welcomemat--flag")
+    private WebElement countryFlag;
+
+    private final StateHolder stateHolder = StateHolder.getInstance();
+
     public WelcomeMatPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -38,7 +44,7 @@ public class WelcomeMatPage {
         try {
             return !(welcomeMat.isDisplayed());
         } catch(NoSuchElementException ne) {
-            logger.debug("welcome mat is not found");
+            logger.debug("welcome mat is not present");
             return true;
         }
     }
@@ -79,7 +85,13 @@ public class WelcomeMatPage {
     }
 
     public boolean isFlagAndNameDisplayedCorrectly() {
-        return true;
+
+        String expectedCountryName = (String)stateHolder.get("selectedCountry");
+        String expectedCountryFlag = expectedCountryName.replaceAll("\\s", "").toLowerCase();
+        logger.info("is in the expected country context",countryContext.getText());
+        boolean flag = countryFlag.getAttribute("class").contains(expectedCountryFlag);
+        System.out.println(flag);
+        return countryContext.getText().equalsIgnoreCase(expectedCountryName) && flag;
     }
 
 }
