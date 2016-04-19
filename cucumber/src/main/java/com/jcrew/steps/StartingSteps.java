@@ -55,11 +55,24 @@ public class StartingSteps {
     public void  getTheRandomInternationalPage(String country) {
         String env = reader.getProperty("environment");
         if("US".equals(country)) {
+            logger.debug("country selected {}", country);
             driver.get(env);
         } else if("PRICEBOOK".equals(country)) {
-            Util.randomIndex(pricebookCountries.length);
-            String env = reader.getProperty("environment");
+             int countryindex = Util.randomIndex(pricebookCountries.length);
+            String selectedCountry = pricebookCountries[countryindex];
+            stateHolder.put("countryCode", selectedCountry);
+            logger.debug("country selected {}", selectedCountry);
+             env = env+"/"+selectedCountry.toLowerCase()+"/";
+            driver.get(env);
+        } else if("NON-PRICEBOOK".equals(country)) {
+            int countryindex = Util.randomIndex(nonPricebookCountries.length);
+            String selectedCountry = nonPricebookCountries[countryindex];
+            stateHolder.put("countryCode", selectedCountry);
+            logger.debug("country selected {}", selectedCountry);
+            env = env+"/"+selectedCountry.toLowerCase()+"/";
+            driver.get(env);
         }
+
     }
 
     @Given("^User is on homepage$")

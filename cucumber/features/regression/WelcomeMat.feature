@@ -6,7 +6,6 @@ Scenario Outline: Welcome mat display validation for international home page
   And Welcome mat page is displayed
   And Welcome mat header message is displayed as Hello, Canada for canada, Around the World for the ROW
   And JCrew Logo is present on the welcome mat
-  #application(bronze, gold) not displaying corresponding flag and country at this time
   #And corresponding country name and flag is displayed
   And Welcome mat content is displayed
   And User clicks on START SHOPPING on welcome mat
@@ -16,7 +15,7 @@ Scenario Outline: Welcome mat display validation for international home page
 
   Examples:
   |country_group|
-  |US           |
+  #|US           |
   |PRICEBOOK    |
   |NON-PRICEBOOK|
 #  |page|country|
