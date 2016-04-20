@@ -3,6 +3,11 @@ Feature: Sale Regression Suite
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
+    Then click on change link from footer
+	And User is on context chooser page
+	Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
 
@@ -162,10 +167,7 @@ Feature: Sale Regression Suite
       Then Verify selected value is displayed next to Category refinement
       Then Verify that Category refinement is closed
    
-   Scenario: Local currency is displayed on sale page
-	  Given User is on homepage
-	  And User clicks on hamburger menu
-	  And Selects sale Category from hamburger menu
+   Scenario: Local currency is displayed on sale page	  
 	  And user should see selected country in the footer
 	  And User clicks on WOMEN subcategory from Sales	
 	  And Verify proper currency symbol is displayed on product grid list

@@ -65,7 +65,11 @@ public class MacroSteps {
     	}    	
     	
     	footerSteps.verify_footer_link_is_displayed("Let Us Help You");
-    	footerSteps.verify_footer_link_is_displayed("Our Cards");
+    	
+    	if(countryCode.equalsIgnoreCase("us") || countryCode.equalsIgnoreCase("ca")){
+    		footerSteps.verify_footer_link_is_displayed("Our Cards");
+    	}
+    	
     	footerSteps.verify_footer_link_is_displayed("Our Stores");    	
     	footerSteps.verify_footer_link_is_displayed("Our Brands");
     	footerSteps.verify_footer_link_is_displayed("About J.Crew");
