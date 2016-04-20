@@ -17,7 +17,10 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
 
   Scenario: Wishlist should update properly
     #Open related Jira: SC-696
-    When "sql.query.for.retreiving.items.with.multiple.colors.sizes" is run and search for item fetched from DB
+    When User clicks on hamburger menu
+    And user selects WOMEN category from hamburger menu
+    And user selects NEW ARRIVALS subcategory
+    And Selects the first product with available colors from product grid list
     And User is in product detail page
     And A color is selected
     And A size is selected

@@ -102,8 +102,27 @@ public class ShoppingBagPage {
 
     public void click_edit_button() {
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(editAction));
-        editAction.click();
+
+        Product product = (Product) stateHolder.get("recentlyAdded");
+
+        String xpath;
+
+        if (product.getProductName().contains("'")) {
+            xpath = ".//a[" + Util.xpathGetTextLower + " = \"" + product.getProductName().toLowerCase() + "\"]" +
+                    "/ancestor::div[@class='item-product']";
+        } else {
+            xpath = ".//a[" + Util.xpathGetTextLower + " = '" + product.getProductName().toLowerCase() + "']" +
+                    "/ancestor::div[@class='item-product']";
+        }
+
+        WebElement order_listing = driver.findElement(By.id("order-listing"));
+        WebElement item_product = order_listing.findElement(
+                By.xpath(xpath));
+        WebElement item_product_edit = item_product.findElement(By.className("item-edit"));
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(item_product_edit));
+        item_product_edit.click();
+
     }
 
     public boolean isProductColorDisplayed(String productColor) {
@@ -149,14 +168,35 @@ public class ShoppingBagPage {
 
     private boolean isGenericElementDisplayed(String productName, String element) {
         WebElement productRoot = getProductRoot(productName);
-        WebElement selectedElement = productRoot.findElement(By.xpath(".//span[text() = '" + element + "']"));
+
+        String xpath;
+
+        if (element.contains("'")) {
+            xpath = ".//span[" + Util.xpathGetTextLower + " = \"" + element.toLowerCase() + "\"]";
+        } else {
+            xpath = ".//span[" + Util.xpathGetTextLower + " = '" + element.toLowerCase() + "']" ;
+        }
+
+        WebElement selectedElement = productRoot.findElement(By.xpath(xpath));
         return selectedElement.isDisplayed();
     }
 
     private WebElement getProductRoot(String productName) {
-        return orderListing.findElement(By.xpath(".//a[contains(" + Util.xpathGetTextLower + "," +
-                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") +
-                "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
+        productName = productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&");
+
+        String xpath;
+
+        if (productName.contains("'")) {
+            xpath = ".//a[contains(" + Util.xpathGetTextLower + "," +
+                    "translate(\"" + productName.toLowerCase() + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ'," +
+                    "'abcdefghjiklmnopqrstuvwxyz'))]/../../..";
+        } else {
+            xpath = ".//a[contains(" + Util.xpathGetTextLower + "," +
+                    "translate('" + productName +
+                    "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../..";
+        }
+
+        return orderListing.findElement(By.xpath(xpath));
     }
 
     public String getPriceDisplayedForProduct(String productName) {

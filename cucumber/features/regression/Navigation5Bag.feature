@@ -25,6 +25,9 @@ Feature: Edit Product In Bags Scenarios
     And Verify update bag button is present
     And user selects a new color
     And user selects a new size
+    And Update Bag button is pressed
+    And User clicks on item bag
+    And Clicks edit button on item bag page
     Then user should see that previously selected color is retained
     And user should see that previously selected size is retained
     And Deletes browser cookies
