@@ -86,7 +86,7 @@ public class StartingSteps {
     }
 
     public void getInitialPage() {
-        String env = reader.getProperty("environment");
+        String env = reader.getProperty("url");
         String browser = reader.getProperty("browser");
         boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent")||env.contains("or");
         boolean isDesktop = browser.equals("firefox") || browser.equals("chrome");
@@ -111,12 +111,12 @@ public class StartingSteps {
 
     @And("^User goes to homepage$")
     public void user_goes_to_homepage() throws Throwable {
-        driver.get(reader.getProperty("environment"));
+        driver.get(reader.getProperty("url"));
     }
 
     @And("^User bag is cleared$")
     public void user_bag_is_cleared() {
-        driver.navigate().to(reader.getProperty("environment") + "/CleanPersistentCart.jsp");
+        driver.navigate().to(reader.getProperty("url") + "/CleanPersistentCart.jsp");
         Util.waitForPageFullyLoaded(driver);
     }
 

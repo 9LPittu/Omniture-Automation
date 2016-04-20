@@ -18,7 +18,7 @@ public class NavigationSteps extends DriverFactory {
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable {
         PropertyReader reader = PropertyReader.getPropertyReader();
-        getDriver().navigate().to(reader.getProperty("environment") + uri);
+        getDriver().navigate().to(reader.getProperty("url") + uri);
         Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(uri));
     }
 

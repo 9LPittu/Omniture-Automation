@@ -707,7 +707,7 @@ public class SubcategoryPage {
     public void selectRandomItemFromArrayPage(){
     	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String environment = propertyReader.getProperty("environment");
+    	String environment = propertyReader.getProperty("url");
     	
     	if(driver.getCurrentUrl().startsWith((environment + "/r/search/"))){
     		//for some items array page is displayed
@@ -746,7 +746,7 @@ public class SubcategoryPage {
     public boolean isItemDisplayedInSearchResultsPage(String propertyName) {
 
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
+        String itemName = testDataReader.getData(System.getProperty("url") + "." + propertyName);
 
         return productTileExistFor(itemName);
 
@@ -755,8 +755,8 @@ public class SubcategoryPage {
     public boolean isPriceMatchesForSaleItem(String saleItemPropertyName, String priceType, String pricePropertyName) {
 
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String itemName = testDataReader.getData(System.getProperty("environment") + "." + saleItemPropertyName);
-        String expectedItemPrice = testDataReader.getData(System.getProperty("environment") + "." + pricePropertyName);
+        String itemName = testDataReader.getData(System.getProperty("url") + "." + saleItemPropertyName);
+        String expectedItemPrice = testDataReader.getData(System.getProperty("url") + "." + pricePropertyName);
 
         String price;
         if (priceType.equalsIgnoreCase("was")) {
