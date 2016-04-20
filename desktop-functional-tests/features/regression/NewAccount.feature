@@ -1,6 +1,6 @@
 @NewAccount
 
-Feature: Create New Account Form
+Feature: Create New Account International
 
   Background:
     Given User goes to homepage
