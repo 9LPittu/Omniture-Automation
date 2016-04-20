@@ -746,7 +746,7 @@ public class SubcategoryPage {
     public boolean isItemDisplayedInSearchResultsPage(String propertyName) {
 
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String itemName = testDataReader.getData(System.getProperty("url") + "." + propertyName);
+        String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
 
         return productTileExistFor(itemName);
 
@@ -755,8 +755,8 @@ public class SubcategoryPage {
     public boolean isPriceMatchesForSaleItem(String saleItemPropertyName, String priceType, String pricePropertyName) {
 
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String itemName = testDataReader.getData(System.getProperty("url") + "." + saleItemPropertyName);
-        String expectedItemPrice = testDataReader.getData(System.getProperty("url") + "." + pricePropertyName);
+        String itemName = testDataReader.getData(System.getProperty("environment") + "." + saleItemPropertyName);
+        String expectedItemPrice = testDataReader.getData(System.getProperty("environment") + "." + pricePropertyName);
 
         String price;
         if (priceType.equalsIgnoreCase("was")) {
