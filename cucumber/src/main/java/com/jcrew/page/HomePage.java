@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -47,6 +48,7 @@ public class HomePage {
 
     public void hit_enter_in_search_field() {
         searchInput.sendKeys(Keys.ENTER);
+        Util.waitLoadingBar(driver);
     }
 
     public void input_search_term(String searchTerm) {
@@ -95,7 +97,7 @@ public class HomePage {
 
             if(email_capture.size() > 0) {
                 WebElement close = email_capture.get(0);
-                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(close));
+                Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(close));
                 close.click();
             } else {
                 logger.debug("No email capture displayed...");
@@ -140,5 +142,12 @@ public class HomePage {
 
     }
 
+   public void searchItemByReadingPropertyFile(String propertyName){
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
+    	String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
+    	
+    	input_search_term(itemName);
+    	click_on_search_button_for_input_field();   	
+    }
 }
-

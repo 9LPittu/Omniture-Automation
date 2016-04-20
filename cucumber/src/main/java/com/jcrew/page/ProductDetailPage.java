@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 public class ProductDetailPage {
@@ -30,6 +31,9 @@ public class ProductDetailPage {
 
     @FindBy(id = "btn__wishlist")
     private WebElement wishList;
+
+    @FindBy(id = "variants")
+    private WebElement productDetailsVariantsSection;
 
     @FindBy(id = "c-product__variations")
     private WebElement productVariationSection;
@@ -57,6 +61,9 @@ public class ProductDetailPage {
 
     @FindBy(id = "c-product__overview")
     private WebElement productOverview;
+
+    @FindBy(id = "pdpMainImg0")
+    private WebElement productImage;
 
     @FindBy(id = "c-product__actions")
     private WebElement productActionsSection;
@@ -90,6 +97,7 @@ public class ProductDetailPage {
         String pdpProductNameString = getProductNameFromPDP();
         String pdpProductPriceString = getProductPriceList();
     	
+		@SuppressWarnings("unchecked")
 		List<Product> productList = (List<Product>) stateHolder.get("productList");
 
         logger.debug("Looking for: {} - {}", pdpProductNameString, pdpProductPriceString);
@@ -97,6 +105,7 @@ public class ProductDetailPage {
         for(Product product:productList){
             String productName = product.getProductName();
             String productPrice = product.getPriceList();
+            logger.debug("Found: {} - {}", productName, productPrice);
             if(productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)){
                 return true;
             }
@@ -142,6 +151,14 @@ public class ProductDetailPage {
 
     public void click_add_to_cart() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
+
+        Product thisProduct = new Product();
+        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setSelectedColor(getSelectedColor());
+        thisProduct.setSelectedSize(getSelectedSize());
+
+        stateHolder.put("recentlyAdded", thisProduct);
+
         addToBag.click();
     }
 
@@ -195,13 +212,13 @@ public class ProductDetailPage {
 
     public String getSelectedColor() {
         WebElement productColorContainer = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOfElementLocated(By.id("c-product__price-colors")));
-        WebElement productColorElement = productColorContainer.findElement(By.className("is-selected"));
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='product__price-colors']")));
+        WebElement productColorElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productColorContainer.findElement(By.className("is-selected"))));
         return productColorElement.getAttribute("data-name");
     }
 
     public String getSelectedSize() {
-        WebElement productSizeElement = productSizesSection.findElement(By.className("is-selected"));
+        WebElement productSizeElement = productSizesSection.findElement(By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"));
         return productSizeElement.getAttribute("data-name");
     }
 
@@ -211,6 +228,14 @@ public class ProductDetailPage {
 
     public void click_update_cart() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
+
+        Product thisProduct = new Product();
+        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setSelectedColor(getSelectedColor());
+        thisProduct.setSelectedSize(getSelectedSize());
+
+        stateHolder.put("recentlyAdded", thisProduct);
+
         Util.clickWithStaleRetry(addToBag);
     }
 
@@ -276,6 +301,17 @@ public class ProductDetailPage {
         return productOverview.findElement(By.tagName("h1")).getText();
     }
 
+    public String getFirstProductNameFromMultiPDP() {
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productOverview));
+        return productOverview.findElements(By.tagName("h1")).get(0).getText();
+    }
+    public String getProductImageSourceFromPDP() {
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productImage));
+        return productImage.getAttribute("src");
+    }
+
     public String getProductPriceList() {
         String productListPrice = "";
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetails));
@@ -323,15 +359,17 @@ public class ProductDetailPage {
     public void select_random_color() {
         try {
             List<WebElement> colorsList = Util.createWebDriverWait(driver).until(
-                    ExpectedConditions.visibilityOf(driver.findElement(By.id("c-product__price-colors")))).
-                    findElements(By.className("colors-list__item"));
+                    ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@id='c-product__price-colors']")))).
+                    findElements(By.xpath("//li[contains(@class,'colors-list__item')]"));
 
             if (!colorsList.isEmpty()) {
                 int index = Util.randomIndex(colorsList.size());
                 WebElement color = colorsList.get(index);
                 Product product = Util.getCurrentProduct();
-                product.setSelectedColor(color.getAttribute("data-name"));
+                String colorName = color.getAttribute("data-name");
+                product.setSelectedColor(colorName);
                 color.click();
+                logger.info("Selected color name: {}", colorName);
                 setSalePriceIfPresent(color, product);
             }
 
@@ -366,8 +404,10 @@ public class ProductDetailPage {
             int index = Util.randomIndex(selectableSizes.size());
             WebElement size = selectableSizes.get(index);
             Product product = Util.getCurrentProduct();
-            product.setSelectedSize(size.getAttribute("data-name"));
+            String sizeName = size.getAttribute("data-name");
+            product.setSelectedSize(sizeName);
             size.click();
+            logger.info("Selected size name: {}", sizeName);
         }
     }
 
@@ -396,4 +436,108 @@ public class ProductDetailPage {
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
-}
+    
+    public boolean isPreviouslySelectedColorStillDisplayedAsSelected(){
+
+    	String currentSelectedColor = getSelectedColor().toLowerCase();
+    	logger.debug("Current selected color in application: {}", currentSelectedColor);
+
+    	Product product = (Product) stateHolder.get("recentlyAdded");
+    	String expectedColorName = product.getSelectedColor();
+    	logger.debug("Expected color to be in selection: {}", expectedColorName);
+
+    	return expectedColorName.equalsIgnoreCase(currentSelectedColor);
+    }
+
+    public boolean isPreviouslySelectedSizeStillDisplayedAsSelected(){
+
+    	String currentSelectedSize = getSelectedSize().toLowerCase();
+    	logger.debug("Current selected size in application: {}", currentSelectedSize);
+
+        Product product = (Product) stateHolder.get("recentlyAdded");
+    	String expectedSizeName = product.getSelectedSize();
+    	logger.debug("Expected size to be in selection: {}", expectedSizeName);
+
+    	return expectedSizeName.equalsIgnoreCase(currentSelectedSize);
+    }
+
+	public void selectNewColor(){
+
+    	List<WebElement> itemColors = driver.findElements(By.xpath("//li[contains(@class,'js-product__color colors-list__item') and not(contains(@class,'is-selected'))]"));
+    	int randomIndex = Util.randomIndex(itemColors.size());
+    	itemColors.get(randomIndex).findElement(By.tagName("img")).click();
+		String newSelectedColor = driver.findElement(By.className("product__value")).getText().toLowerCase();
+
+    	logger.debug("Selected new item color: {}", newSelectedColor);
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	product.setSelectedColor(newSelectedColor);
+
+        productList.add(product);
+        stateHolder.put("productList", productList);
+    }
+
+    public void selectNewSize(){
+
+    	List<WebElement> itemSizes = driver.findElements(
+                By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and " +
+                        "not(contains(@class,'is-selected')) and not(contains(@class,'is-unavailable'))]"));
+    	int randomIndex = Util.randomIndex(itemSizes.size());
+    	itemSizes.get(randomIndex).findElement(By.tagName("span")).click();
+		String newSelectedSize = itemSizes.get(randomIndex).getAttribute("data-name").toLowerCase();
+    	
+    	logger.debug("Selected new item size: {}", newSelectedSize);
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	product.setSelectedSize(newSelectedSize);
+
+        productList.add(product);
+        stateHolder.put("productList", productList);
+    }
+
+    public boolean isproductVariantSectionPresent() {
+
+    	try{
+    		List<WebElement> variants = productDetailsVariantsSection.findElements(By.className("product-details-variants"));
+    	    return true;
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
+    }
+
+    public boolean isVariantRadioButtonisSelected(String variant) {
+        boolean result = false;
+        try {
+            WebElement selectedRadioButton = productDetailsVariantsSection.findElement(By.xpath("//input[@checked]"));
+            WebElement selectedVariant = selectedRadioButton.findElement(By.xpath(".//ancestor::div[contains(@class,'variant-wrapper')]/div[@class='product-pricing']/span"));
+            String selectedVariantName = selectedVariant.getText();
+            if (variant.equalsIgnoreCase(selectedVariantName)) {
+                result = true;
+                logger.debug("Regular Variation is selected");
+            }
+        }
+        catch(Exception e) {
+            result = false;
+        }
+        return result;
+   }
+
+    public void validate_extended_size_on_pdp_page_is_displayed(){
+		if (isproductVariantSectionPresent()){
+            String variant = "Regular";
+			if(isVariantRadioButtonisSelected(variant)){
+				logger.info("Variant section is present and default Regular variant is selected on PDP page ");
+			}
+			else{
+				  logger.error("Variant section is present but Default Regular variant is not selected on PDP page");
+			}
+		}
+		else{
+		  	  logger.info("Variants are not present on PDP page");
+		}
+
+	}
+    }

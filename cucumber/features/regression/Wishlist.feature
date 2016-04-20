@@ -13,26 +13,32 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
 
   Scenario: Wishlist should update properly
     #Open related Jira: SC-696
-    When User presses search button
-    And Enters A1447 to the search field
-    And Clicks on search button for input field
-    And Color BLACK is selected by user
-    And Size 6 is selected by user
+    When User clicks on hamburger menu
+    And user selects WOMEN category from hamburger menu
+    And user selects NEW ARRIVALS subcategory
+    And Selects the first product with available colors from product grid list
+    And User is in product detail page
+    And A color is selected
+    And A size is selected
     And Wishlist button is pressed
     Then Verify update message for wishlist is displayed and go to wishlist page
-    And Verify product Marlie dress in classic faille color is BLACK size is 6 and quantity is 1 in wishlist page
-    When Edit wishlist for product Marlie dress in classic faille
+    And in wishlist page, user should see the color selected on the PDP page
+    And in wishlist page, user should see the size selected on the PDP page
+    And in wishlist page, user should see the quantity as 1
+    And edit item from wishlist
     And User is in product detail page
-    And Verify color BLACK is selected
-    And Verify size 6 is selected
+    Then user should see that previously selected color is retained
+    And user should see that previously selected size is retained
     And Verify 1 items are specified as quantity
     And Verify update wishlist button is displayed
-    When Color SEA SPRAY is selected by user
-    And Size 8 is selected by user
+    And user selects a new color
+    And user selects a new size
     And Wishlist button is pressed
     Then Verify update message for wishlist is displayed and go to wishlist page
-    And Verify product Marlie dress in classic faille color is SEA SPRAY size is 8 and quantity is 1 in wishlist page
-    When Edit wishlist for product Marlie dress in classic faille
+    And in wishlist page, user should see the color selected on the PDP page
+    And in wishlist page, user should see the size selected on the PDP page
+    And in wishlist page, user should see the quantity as 1
+    And edit item from wishlist
     Then User is in product detail page
     When Add to cart button is pressed
     Then A minicart modal should appear with message '1 item has been added to your cart.'

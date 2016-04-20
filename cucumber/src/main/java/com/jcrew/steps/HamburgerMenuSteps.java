@@ -2,7 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.HamburgerMenu;
 import com.jcrew.util.DriverFactory;
-import com.jcrew.util.StateHolder;
+
 import com.jcrew.util.Util;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
@@ -13,14 +13,12 @@ import gherkin.formatter.model.DataTableRow;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class HamburgerMenuSteps extends DriverFactory {
 
     private final HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
-    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("^Hamburger Menu ([^\"]*) Link is present$")
     public void hamburger_menu_category_link_is_present(String category) {
@@ -61,7 +59,16 @@ public class HamburgerMenuSteps extends DriverFactory {
     @And("^Selects ([^\"]*) Category from hamburger menu$")
     public void selects_category_from_hamburger_menu(String category) {
         hamburgerMenu.click_on_category(category);
-        stateHolder.put("category", category);
+    }
+    
+    @And("^user selects ([^\"]*) category from hamburger menu$")
+    public void user_selects_category_from_hamburger_menu(String category) {
+    	if(!category.equalsIgnoreCase("any")){
+    		hamburgerMenu.click_on_category(category);
+    	}
+    	else{
+    		hamburgerMenu.click_random_category();
+    	}
     }
 
     @And("^User clicks on back link$")
@@ -72,6 +79,11 @@ public class HamburgerMenuSteps extends DriverFactory {
     @And("^Goes to sign in page$")
     public void goes_to_sign_in_page() {
         hamburgerMenu.click_on_sign_in_link();
+    }
+
+    @And("^Goes to sign in page from menu$")
+    public void goes_to_sign_in_page_from_menu() {
+        hamburgerMenu.click_on_sign_in_link_from_hamburger_menu();
     }
 
     @And("^Closes hamburger menu$")
@@ -109,5 +121,15 @@ public class HamburgerMenuSteps extends DriverFactory {
 
         new LooksWeLoveSteps().user_Selects_Random_Shop_The_Look_Page(category);
 
+    }
+    
+    @And("^user selects ([^\"]*) subcategory$")
+    public void select_subcategory(String subcategory){
+    	if(!subcategory.equalsIgnoreCase("any")){
+    		hamburgerMenu.clickSpecificSubcategory(subcategory);
+    	}
+    	else{
+    		hamburgerMenu.click_random_subcategory();
+    	}
     }
 }

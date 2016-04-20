@@ -166,4 +166,14 @@ public class ShoppingBagSteps extends DriverFactory {
     public void verify_breadcrumb_text(String text){
     	assertTrue("Breadcrumb should display the text as " + text, shoppingBagPage.isBreadcrumbDisplayed(text));
     }
+    
+    @And("^in shopping bag page, user should see the color selected on the PDP page$")
+    public void user_should_see_color_selected_on_pdp_in_shopping_bag(){
+    	assertTrue("User should see the color selected on the PDP page in the shopping bag",shoppingBagPage.isPDPPageColorDisplayedInShoppingBag());
+    }
+
+    @And("^in shopping bag page, user should see the size selected on the PDP page$")
+    public void user_should_see_size_selected_on_pdp_in_shopping_bag(){
+    	assertTrue("User should see the size selected on the PDP page in the shopping bag",shoppingBagPage.isPDPPageSizeDisplayedInShoppingBag());
+    }
 }

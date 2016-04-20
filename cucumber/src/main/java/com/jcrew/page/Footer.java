@@ -214,7 +214,7 @@ public class Footer {
     public boolean isMessageDisplayedCorrectlyDuringFooterSignUp(String message) throws InterruptedException{    	
 
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSignUpMessage));
-    	Thread.sleep(1000);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(footerSignUpMessage, message.replaceAll("THANK YOU...", "")));
 		String actualMessage = footerSignUpMessage.getText().toLowerCase();
 		actualMessage = actualMessage.replace("\n", "");
 		System.out.println("Message displayed:" + actualMessage);

@@ -1,10 +1,11 @@
 package com.jcrew.page;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import com.google.common.base.Function;
+
 import com.google.common.base.Predicate;
+import com.jcrew.pojo.Product;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 public class ShoppingBagPage {
 
     private final Logger logger = LoggerFactory.getLogger(ShoppingBagPage.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final WebDriver driver;
     @FindBy(id = "button-checkout")
@@ -100,8 +102,27 @@ public class ShoppingBagPage {
 
     public void click_edit_button() {
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(editAction));
-        editAction.click();
+
+        Product product = (Product) stateHolder.get("recentlyAdded");
+
+        String xpath;
+
+        if (product.getProductName().contains("'")) {
+            xpath = ".//a[" + Util.xpathGetTextLower + " = \"" + product.getProductName().toLowerCase() + "\"]" +
+                    "/ancestor::div[@class='item-product']";
+        } else {
+            xpath = ".//a[" + Util.xpathGetTextLower + " = '" + product.getProductName().toLowerCase() + "']" +
+                    "/ancestor::div[@class='item-product']";
+        }
+
+        WebElement order_listing = driver.findElement(By.id("order-listing"));
+        WebElement item_product = order_listing.findElement(
+                By.xpath(xpath));
+        WebElement item_product_edit = item_product.findElement(By.className("item-edit"));
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(item_product_edit));
+        item_product_edit.click();
+
     }
 
     public boolean isProductColorDisplayed(String productColor) {
@@ -147,14 +168,35 @@ public class ShoppingBagPage {
 
     private boolean isGenericElementDisplayed(String productName, String element) {
         WebElement productRoot = getProductRoot(productName);
-        WebElement selectedElement = productRoot.findElement(By.xpath(".//span[text() = '" + element + "']"));
+
+        String xpath;
+
+        if (element.contains("'")) {
+            xpath = ".//span[" + Util.xpathGetTextLower + " = \"" + element.toLowerCase() + "\"]";
+        } else {
+            xpath = ".//span[" + Util.xpathGetTextLower + " = '" + element.toLowerCase() + "']" ;
+        }
+
+        WebElement selectedElement = productRoot.findElement(By.xpath(xpath));
         return selectedElement.isDisplayed();
     }
 
     private WebElement getProductRoot(String productName) {
-        return orderListing.findElement(By.xpath(".//a[contains(" + Util.xpathGetTextLower + "," +
-                "translate(\"" + productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&") +
-                "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../.."));
+        productName = productName.replace(" (Pre-order)", "").replaceAll("&amp;", "&");
+
+        String xpath;
+
+        if (productName.contains("'")) {
+            xpath = ".//a[contains(" + Util.xpathGetTextLower + "," +
+                    "translate(\"" + productName.toLowerCase() + "\", 'ABCDEFGHJIKLMNOPQRSTUVWXYZ'," +
+                    "'abcdefghjiklmnopqrstuvwxyz'))]/../../..";
+        } else {
+            xpath = ".//a[contains(" + Util.xpathGetTextLower + "," +
+                    "translate('" + productName +
+                    "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz'))]/../../..";
+        }
+
+        return orderListing.findElement(By.xpath(xpath));
     }
 
     public String getPriceDisplayedForProduct(String productName) {
@@ -201,5 +243,27 @@ public class ShoppingBagPage {
         });
 
         return breadcrumbSection.getText().equalsIgnoreCase(breadcrumbText);
+    }
+    
+    public boolean isPDPPageColorDisplayedInShoppingBag(){
+
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String productName = product.getProductName();
+    	String expectedColorName = (product.getSelectedColor()).toUpperCase();
+
+    	return isColorDisplayedForProduct(productName,expectedColorName);
+    }
+
+    public boolean isPDPPageSizeDisplayedInShoppingBag(){
+
+    	@SuppressWarnings("unchecked")
+		List<Product> productList = (List<Product>) stateHolder.get("productList");
+    	Product product = productList.get(0);
+    	String productName = product.getProductName();
+    	String expectedSizeName = (product.getSelectedSize()).toUpperCase();
+
+    	return isSizeDisplayedForProduct(productName,expectedSizeName);
     }
 }

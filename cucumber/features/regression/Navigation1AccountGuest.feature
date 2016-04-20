@@ -2,7 +2,7 @@
 Feature: Sign In Page
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     And Goes to sign in page
 
@@ -62,7 +62,6 @@ Feature: Sign In Page
     And Country selection list box is displayed
     And United States is selected as default value
     And User can choose top10 countries from the country list box
-    #further implementation needed for below line---check box is not displaying for all of the countries at present
     And Verify opt checkbox not displayed for USA
     # to do later once it is ready----JCSC-878
     #And Verify opt checkbox is displayed for non USA and not checked by default
@@ -77,8 +76,8 @@ Feature: Sign In Page
     And User clicks on create an account button
     And Verify user is in homepage
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
+    And user selects any category from hamburger menu
+	And user selects any subcategory
     And Selects the first product from product grid list
     And User is in product detail page
     And User clicks on hamburger menu
@@ -89,13 +88,13 @@ Feature: Sign In Page
   #Not working as expected at present----in reference to JCSC-864
   Scenario: create new account from pdp page
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
+    And user selects any category from hamburger menu
+	And user selects any subcategory
     And Selects the first product from product grid list
     And User is in product detail page
     And User clicks on hamburger menu
     And User clicks on back link
-    And Goes to sign in page
+    And Goes to sign in page from menu
     And Enter random first name as First Name in create account section
     And Enter random last name as Last Name in create account section
     And Enter random email as Email in create account section
@@ -104,24 +103,10 @@ Feature: Sign In Page
     And User clicks on create an account button
     And User is in product detail page
     And User clicks on hamburger menu
-    And Selects Women Category from hamburger menu
-    And User clicks on SWEATERS subcategory from Women Category
+    And user selects any category from hamburger menu
+	And user selects any subcategory
     And Selects the first product from product grid list
     And User is in product detail page
     And User clicks on hamburger menu
     And User clicks on back link
     Then My Account link is present
-
-
-
-
-
-
-
-
-
-
-
-
-
-
