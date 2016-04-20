@@ -3,11 +3,12 @@ Feature: Edit Product In Bags Scenarios
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
     Then click on change link from footer
 	And User is on context chooser page
 	Given user selects top10country at random from context chooser page
     Then user should land on country specific home page
-
+  
   Scenario: Verify on edit mode add to bag changes to update bag
     When User clicks on hamburger menu
     And user selects WOMEN category from hamburger menu

@@ -3,6 +3,11 @@ Feature: Search Regression Suite
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
+    Then click on change link from footer
+	And User is on context chooser page
+	Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
     And User presses search button
 
     #Repeated
@@ -88,7 +93,7 @@ Feature: Search Regression Suite
       | search_term |
       | skirts      |
       | shoes       |
-   
+  
   Scenario: Local currency is displayed on search page
 	When Enters dresses to the search field
 	And Clicks on search button for input field
@@ -98,4 +103,3 @@ Feature: Search Regression Suite
 	When Selects the first product from product grid list
 	Then User is in product detail page
 	And Verify proper currency symbol is displayed on PDP page
-   
