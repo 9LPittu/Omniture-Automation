@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
+import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
@@ -15,9 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -73,13 +71,6 @@ public class ProductsArray {
     }
 
     private boolean verifyCurrency(String currency) {
-        Pattern priceListPattern = Pattern.compile(currency + "\\p{Space}*\\d+\\.\\d{2}");
-        Pattern priceWasPattern = Pattern.compile("was " + currency + "\\p{Space}*\\d+\\.\\d{2}");
-        Pattern priceSaleNowPattern = Pattern.compile("now " + currency + "\\p{Space}*\\d+\\.\\d{2}");
-        Pattern priceSaleColorsPattern = Pattern.compile("select colors " + currency + "\\p{Space}*\\d+\\.\\d{2}");
-        Pattern priceSaleSelectColorsPattern = Pattern.compile("select colors " + currency + "\\p{Space}*\\d+\\.\\d{2}–"
-                + currency + "\\p{Space}*\\d+\\.\\d{2}");
-
         boolean result = true;
 
         List<WebElement> productTiles = getProductTiles();
@@ -98,32 +89,31 @@ public class ProductsArray {
                 price = priceList.get(0);
                 priceText = price.getText();
 
-                Matcher listMatcher = priceListPattern.matcher(priceText);
-                result = listMatcher.matches();
+                result = CurrencyChecker.listPrice(currency,priceText);
+                if (!result) {
+                    logger.error("Array: Not able to check list price currency format for item {}", tile.getText());
+                }
             }
 
             if (priceWas.size() > 0) {
                 price = priceWas.get(0);
                 priceText = price.getText();
 
-                Matcher wasMatcher = priceWasPattern.matcher(priceText);
-                result &= wasMatcher.matches();
+                result &= CurrencyChecker.wasPrice(currency,priceText);if (!result) {
+                    logger.error("Array: Not able to check was price currency format for item {}", tile.getText());
+                }
             }
 
             if (priceSale.size() > 0) {
                 price = priceSale.get(0);
                 priceText = price.getText();
 
-                Matcher saleNowMatcher = priceSaleNowPattern.matcher(priceText);
-                Matcher saleColorsMatcher = priceSaleColorsPattern.matcher(priceText);
-                Matcher saleSelectColorsMatcher = priceSaleSelectColorsPattern.matcher(priceText);
-                result &= (saleNowMatcher.matches() | saleColorsMatcher.matches() | saleSelectColorsMatcher.matches());
+                result &= CurrencyChecker.anyPriceSaleType(currency, priceText);
+                if (!result) {
+                    logger.error("Array: Not able to check sale price currency format for item {}", tile.getText());
+                }
             }
 
-        }
-
-        if (!result) {
-            logger.error("Not able to check price currency format for item {}", tile.getText());
         }
 
         return result;

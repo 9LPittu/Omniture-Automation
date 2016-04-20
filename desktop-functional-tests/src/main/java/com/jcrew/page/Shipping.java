@@ -75,6 +75,10 @@ public class Shipping {
         address2Input.sendKeys(address.getLine2());
         phoneInput.sendKeys(address.getPhone());
 
+        if (!"HK".equalsIgnoreCase(country.getCountry())) {
+            zipcodeInput.sendKeys(address.getZipcode());
+        }
+
         switch (country.getCountry()) {
             case "uk":
             case "de":
@@ -88,15 +92,13 @@ public class Shipping {
                 state.sendKeys(address.getState());
                 break;
             case "au":
+            case "ca":
                 city.sendKeys(address.getCity());
                 Select state_dropdown = new Select(state_province);
                 state_dropdown.selectByVisibleText(address.getState());
                 break;
         }
 
-        if (!"HK".equalsIgnoreCase(country.getCountry())) {
-            zipcodeInput.sendKeys(address.getZipcode());
-        }
     }
 
     public void saveShippingAddress() {
