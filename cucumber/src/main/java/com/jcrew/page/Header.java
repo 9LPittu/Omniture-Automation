@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +17,7 @@ public class Header {
 
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(Header.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final String menuItems[] = {"MENU", "SEARCH", "STORES","BAG"};
 
@@ -153,9 +156,14 @@ public class Header {
     }
 
     public boolean isGenderLandingPage(String gender){
+        Country country = (Country) stateHolder.get("context");
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(genderLandingSection));
         WebElement genderPageElement =genderLandingSection.findElement(By.xpath("//h2[contains(text(),'NEW FOR "+gender.toUpperCase()+"')]"));
-        return genderPageElement.isDisplayed();
+
+        boolean isDisplayed = genderPageElement.isDisplayed();
+        boolean isURL = Util.countryContextURLCompliance(driver,country);
+
+        return isDisplayed & isURL;
     }
 
     public boolean isJcrewBreadCrumbNotDisplayed() {
