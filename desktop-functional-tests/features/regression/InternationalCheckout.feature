@@ -20,7 +20,9 @@ Feature: User is able to checkout in international context
 
     When User adds selected product to bag
     And User clicks in bag
-    And User clicks check out button
+    Then Verify that shopping bag has expected context
+
+    When User clicks check out button
     And User selects guest check out
     And Guest user fills shipping address and continue
     And User selects random shipping method and continue

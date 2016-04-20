@@ -23,12 +23,10 @@ public class StateHolder {
 
     private Map<String, Object> getMapForCurrentThread() {
         Map<String, Object> threadMap = stateHolderMap.get(Thread.currentThread().getName());
+
         if (threadMap == null) {
             synchronized (stateHolderMap) {
-                if (threadMap == null) {
-                    threadMap = new HashMap<>();
-                }
-
+                threadMap = new HashMap<>();
                 stateHolderMap.put(Thread.currentThread().getName(), threadMap);
             }
         }

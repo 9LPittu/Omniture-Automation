@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
+import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
@@ -19,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -208,12 +207,6 @@ public class ProductDetails {
         allPrices.addAll(listPrices);
 
         Iterator<WebElement> allPricesIterator = allPrices.iterator();
-        Pattern priceListPattern = Pattern.compile(currency + "\\p{Space}*\\d+\\.\\d{2}");
-        Pattern priceWasPattern = Pattern.compile("Was\\p{Space}*" + currency + "\\p{Space}*\\d+\\.\\d{2}");
-        Pattern priceSaleNowPattern = Pattern.compile("now\\p{Space}*" + currency + "\\p{Space}*\\d+\\.\\d{2}");
-        Pattern priceSaleColorsPattern = Pattern.compile("select colors\\p{Space}*" + currency + "\\p{Space}*\\d+\\.\\d{2}");
-        Pattern priceSaleSelectColorsPattern = Pattern.compile("select colors\\p{Space}*" + currency + "\\p{Space}*\\d+\\.\\d{2}–"
-                + currency + "\\p{Space}*\\d+\\.\\d{2}");
 
         boolean result = true;
 
@@ -223,19 +216,11 @@ public class ProductDetails {
             if(priceElement.isDisplayed()) {
                 String price = priceElement.getText();
 
-                Matcher priceListM = priceListPattern.matcher(price);
-                Matcher priceWasM = priceWasPattern.matcher(price);
-                Matcher priceSaleNowM = priceSaleNowPattern.matcher(price);
-                Matcher priceSaleColorsM = priceSaleColorsPattern.matcher(price);
-                Matcher priceSaleSelectColorsM = priceSaleSelectColorsPattern.matcher(price);
+                result = CurrencyChecker.anyPriceType(currency, price);
 
-                result = priceListM.matches();
-                result |= priceWasM.matches();
-                result |= priceSaleNowM.matches();
-                result |= priceSaleColorsM.matches();
-                result |= priceSaleSelectColorsM.matches();
-
-                logger.debug("price \"{}\" matches {}", price, result);
+                if (!result) {
+                    logger.error("PDP: Not able to check price currency format {}", price);
+                }
             }
 
         }
