@@ -86,7 +86,8 @@ public class LogIn extends DriverFactory {
 
     public boolean createAccountFormIsDisplayed() {
         Country country = (Country) stateHolder.get("context");
-        boolean expectedURL = Util.countryContextURLCompliance(driver, country, "/r/login");
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        boolean expectedURL = Util.countryContextURLCompliance(driver, country, testDataReader.getData("page.login"));
 
         registerForm = wait.until(ExpectedConditions.visibilityOf(registerForm));
         return registerForm.isDisplayed() & expectedURL;

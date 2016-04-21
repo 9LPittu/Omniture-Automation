@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -62,6 +63,41 @@ public class StartSteps {
                 retry++;
             }
         }
+    }
+
+    @Given("User lands on international page from list for ([^\"]*)")
+    public void user_goes_lands_on_international(String group, List<String> pageList) {
+        String page = pageList.get(Util.randomIndex(pageList.size()));
+        page = page.toLowerCase();
+        TestDataReader testData = TestDataReader.getTestDataReader();
+
+        String pageURL = testData.getData("page."+page);
+        String country = testData.getRandomCountry(group);
+
+        int retry = 0;
+        boolean successfulLoad = false;
+        while (retry < 2 && !successfulLoad) {
+            try {
+                getInternationalPage(pageURL, country);
+                waitForHeaderPromo();
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1);
+                retry++;
+            }
+        }
+    }
+
+    private void getInternationalPage(String pageURL, String country) {
+        String envUrl = reader.getProperty("url");
+        Country countrySettings = new Country(envUrl, country);
+        stateHolder.put("context", countrySettings);
+
+        String homeURL = countrySettings.getHomeurl();
+        String intlPageURL = homeURL + pageURL;
+
+        logger.debug("getting url: " + intlPageURL);
+        driver.get(intlPageURL);
     }
 
     private void waitForHeaderPromo() {

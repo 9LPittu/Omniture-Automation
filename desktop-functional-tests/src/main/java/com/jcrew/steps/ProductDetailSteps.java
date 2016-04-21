@@ -35,6 +35,6 @@ public class ProductDetailSteps extends DriverFactory {
 
     @Then("Verify context in the product detail page")
     public void verify_context_in_the_product_detail_page() {
-        assertTrue(productDetails.verifyContext());
+        assertTrue("Currency and URL are expected for country", productDetails.verifyContext());
     }
 }

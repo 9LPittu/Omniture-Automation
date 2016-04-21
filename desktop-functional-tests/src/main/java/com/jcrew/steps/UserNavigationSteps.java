@@ -1,10 +1,16 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.*;
+import com.jcrew.pojo.Country;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
+import com.jcrew.utils.Util;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -96,5 +102,13 @@ public class UserNavigationSteps extends DriverFactory {
         productDetails.selectRandomSize();
         productDetails.selectRandomQty();
         productDetails.addToBag();
+    }
+
+    @Then("Verify international page url")
+    public void verify_pdp_url() {
+        StateHolder stateHolder = StateHolder.getInstance();
+        Country country = (Country) stateHolder.get("context");
+
+        assertTrue("Is an array url", Util.countryContextURLCompliance(getDriver(), country));
     }
 }

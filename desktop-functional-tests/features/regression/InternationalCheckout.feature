@@ -12,17 +12,9 @@ Feature: User is able to checkout in international context
     And User closes email capture
     Then Verify user is in international homepage
 
-    When User navigates to a subcategory from main category
-    Then Verify context in the array page
-
-    When User selects random product from array
-    Then Verify context in the product detail page
-
-    When User adds selected product to bag
+    When User adds to bag a random product using a main category
     And User clicks in bag
-    Then Verify that shopping bag has expected context
-
-    When User clicks check out button
+    And User clicks check out button
     And User selects guest check out
     And Guest user fills shipping address and continue
     And User selects random shipping method and continue
