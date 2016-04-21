@@ -1,4 +1,4 @@
-@RegressionCheckout
+@RegressionCheckout @HighLevel
 Feature: Registered User Checkout Process - merge cart and adding new shipping address
 
   Background:    

@@ -1,4 +1,4 @@
-@ShoppableTray
+@ShoppableTray @HighLevel
   Feature: Shoppable Tray
 
     Background: Navigate to a multiple pdp page in any category

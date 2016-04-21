@@ -1,4 +1,4 @@
-@Bag
+@Bag @HighLevel
 Feature: Edit Product In Bags Scenarios
 
   Background:

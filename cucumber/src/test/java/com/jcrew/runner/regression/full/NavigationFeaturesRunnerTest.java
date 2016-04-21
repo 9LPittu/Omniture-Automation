@@ -1,4 +1,4 @@
-package com.jcrew.runner.regression;
+package com.jcrew.runner.regression.full;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@Sale"},
+        tags = {"@Account,@Category,@PDP,@Bag"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-saleregressionfeatures.json",
+                "json:target/cucumber-navigationregressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/saleregressionfeatures"
+                "html:target/cucumber/navigationregressionfeatures"
         }
 )
-public class SaleFeaturesRunnerTest {
+public class NavigationFeaturesRunnerTest {
 }

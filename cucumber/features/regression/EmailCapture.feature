@@ -1,4 +1,4 @@
-@Email
+@Email @HighLevel
 Feature: Handling email capture pop up
 
   Background:

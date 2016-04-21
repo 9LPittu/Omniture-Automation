@@ -6,6 +6,7 @@ Feature: Sign In Page
     And Handle the Email Capture pop up
     And Goes to sign in page
 
+  @HighLevel
   Scenario: Error message validation for incorrect email and password
     When Login page is loaded
     And User enters invalid as email

@@ -1,4 +1,4 @@
-@Category
+@Category @HighLevel
 Feature: Regression Tests Category Feature
 
   Background:

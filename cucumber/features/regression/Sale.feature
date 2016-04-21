@@ -1,4 +1,4 @@
-@Sale
+@Sale @HighLevel
 Feature: Sale Regression Suite
 
   Background:
