@@ -3,10 +3,6 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
 
   Background:
     Given User is on homepage
-    Then click on change link from footer
-	And User is on context chooser page
-	Given user selects top10country at random from context chooser page
-    Then user should land on country specific home page
     And Goes to sign in page
     And User provides login information
     And Hits sign in button
@@ -34,7 +30,6 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
     Then user should see that previously selected color is retained
     And user should see that previously selected size is retained
     And Verify 1 items are specified as quantity
-    And Verify proper currency symbol is displayed on PDP page
     And Verify update wishlist button is displayed
     And user selects a new color
     And user selects a new size
@@ -45,7 +40,6 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
     And in wishlist page, user should see the quantity as 1
     And edit item from wishlist
     Then User is in product detail page
-    And Verify proper currency symbol is displayed on PDP page 
     When Add to cart button is pressed
     Then A minicart modal should appear with message '1 item has been added to your cart.'
     And Deletes browser cookies
