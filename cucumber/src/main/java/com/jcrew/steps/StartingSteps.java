@@ -31,6 +31,8 @@ public class StartingSteps {
     private WebDriver driver;
     private final String pricebookCountries[] = {"UK", "CA", "HK",};
     private final String nonPricebookCountries[] = {"AU", "JP", "DE", "SG", "CH"};
+    private final String randomUrls[] = {"/r/login", "/r/sale", "/c/womens_category/sweaters",
+                                                             "p/womens_category/sweaters/pullover/tippi-sweater/E1277"};
 
 
     @Before
@@ -69,6 +71,7 @@ public class StartingSteps {
             stateHolder.put("countryCode", selectedCountry);
             stateHolder.put("selectedCountry", countryName);
             logger.debug("country selected {}", selectedCountry);
+
              env = env+"/"+selectedCountry+"/";
             driver.get(env);
 
