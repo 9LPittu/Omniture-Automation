@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
@@ -16,6 +18,7 @@ public class HomePage {
 
     private final WebDriver driver;
     private Logger logger = LoggerFactory.getLogger(HomePage.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
 
     @FindBy(id = "lightbox")
@@ -63,6 +66,8 @@ public class HomePage {
     }
 
     public boolean isHomePage() {
+        Country country = (Country)stateHolder.get("context");
+
         WebDriverWait wait = Util.createWebDriverWait(driver);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
@@ -71,7 +76,9 @@ public class HomePage {
         Util.waitWithStaleRetry(driver,pageHome);
         boolean isDisplayed = pageHome.isDisplayed();
 
-        return isDisplayed;
+        boolean isURL = Util.countryContextURLCompliance(driver,country);
+
+        return isDisplayed & isURL;
     }
 
     public void close_email_pop_up() {
