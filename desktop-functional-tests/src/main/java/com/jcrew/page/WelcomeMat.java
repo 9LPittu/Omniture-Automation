@@ -99,4 +99,9 @@ public class WelcomeMat {
         WebElement startShopping = footer.findElement(By.className("js-start-shopping-button"));
         startShopping.click();
     }
+
+    public void goToUsSite(){
+        WebElement usSite = footer.findElement(By.className("js-to-us-site"));
+        usSite.click();
+    }
 }
