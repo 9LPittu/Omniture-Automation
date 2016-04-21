@@ -49,14 +49,6 @@ Feature:
     And user should see selected country in the footer
 
 
-  Scenario: Category and PDP Page context validation
-    When User goes to /c/womens_category/sweaters page
-    And Verify embedded headers links
-    And user should see selected country in the footer
-    And Selects the first product from product grid list
-    And User is in product detail page
-    And user should see selected country in the footer
-
   Scenario Outline: international context validation on Department/Gender Landing Pages
     And User clicks on <gender> link from top nav
     And user should see selected country in the footer
