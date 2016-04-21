@@ -33,4 +33,9 @@ public class WelcomeMatSteps extends DriverFactory {
     public void user_clicks_on_start_shopping() {
         welcomeMat.clickStartShopping();
     }
+
+    @When("User goes to US site")
+    public void user_goes_to_us_site() {
+        welcomeMat.goToUsSite();
+    }
 }
