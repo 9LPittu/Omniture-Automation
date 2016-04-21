@@ -1,4 +1,4 @@
-@HeaderAndFooter
+@Context
 Feature:
 
   Background:
