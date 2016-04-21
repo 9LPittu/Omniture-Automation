@@ -92,7 +92,7 @@ public class HomePage {
 
             if(email_capture.size() > 0) {
                 WebElement close = email_capture.get(0);
-                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(close));
+                Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(close));
                 close.click();
             } else {
                 logger.debug("No email capture displayed...");
