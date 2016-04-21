@@ -4,11 +4,7 @@ Feature: Footer Verification In Home Page
   Background:
     Given User is on homepage
     And Handle the Email Capture pop up
-    Then click on change link from footer
-	And User is on context chooser page
-	Given user selects top10country at random from context chooser page
-    Then user should land on country specific home page
-    And user should see selected country in the footer
+
 
     #Moved from HomePage.feature
     #US9724_TC01 from BreadCrumbs.feature

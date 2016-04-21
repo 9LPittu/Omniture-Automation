@@ -34,17 +34,9 @@ Feature:
     And user should see selected country in the footer
 
   Scenario Outline: international context validation on Department/Gender Landing Pages
-    And Handle the Email Capture pop up
-    Then click on change link from footer
-    And User is on context chooser page
-    Given user selects top10country at random from context chooser page
-    Then user should land on country specific home page
     And User clicks on <gender> link from top nav
     And user should see selected country in the footer
     And user should see country code in the url for international countries
-    And JCrew Logo is present
-    And Clicks on JCrew Logo
-    And Verify user is in homepage
 
     Examples:
       |gender|
