@@ -69,8 +69,21 @@ public class Footer {
     }
 
     public boolean isFooterLinkPresent(String footerLink) {
-        return getFooterLinkElement(footerLink).isDisplayed();
-
+    	
+    	String countryCode = (String)stateHolder.get("countryCode");
+    	
+    	boolean isFooterLinkDisplayed = getFooterLinkElement(footerLink).isDisplayed();
+    	
+    	if(!isFooterLinkDisplayed){
+    		if(footerLink.equalsIgnoreCase("Our Cards") && !countryCode.equalsIgnoreCase("us")){
+    			isFooterLinkDisplayed = true;
+    		}
+    	}
+    	else if(footerLink.equalsIgnoreCase("Our Cards") && countryCode.equalsIgnoreCase("ca")){
+    			isFooterLinkDisplayed = false;
+    	}
+    	
+        return isFooterLinkDisplayed;
     }
 
     public boolean isAllFooterLinksPresent(){
@@ -134,11 +147,21 @@ public class Footer {
     }
 
     public boolean isSubLinkDisplayed(String sublink) {
-        boolean subLinkDisplayed = false;
+        
+    	boolean subLinkDisplayed = false;        
+        String countryCode = (String) stateHolder.get("countryCode");       
+        
         for(WebElement subLink: subLinks) {
             subLinkDisplayed = subLink.findElement(By.xpath("//a[text()='" + sublink + "']")).isDisplayed();
         }
-            return subLinkDisplayed;
+        
+        if(!subLinkDisplayed){
+        	if(sublink.equalsIgnoreCase("Request A Style Guide") && !countryCode.equalsIgnoreCase("us") && !countryCode.equalsIgnoreCase("ca")){
+        		subLinkDisplayed = true;
+        	}
+        }
+
+        return subLinkDisplayed;
     }
 
 
