@@ -98,7 +98,7 @@ public class DriverFactory {
 
             capabilities.setCapability("safariAllowPopups", true);
             capabilities.setCapability("safariOpenLinksInBackground", true);
-            capabilities.setCapability("newCommandTimeout", 60);
+            capabilities.setCapability("newCommandTimeout", 180);
             capabilities.setCapability("launchTimeout", 600000);
 
             try{
@@ -119,6 +119,7 @@ public class DriverFactory {
             capabilities.setCapability("autoAcceptAlerts", true);
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
             capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
+            capabilities.setCapability("newCommandTimeout", 180);
 
             try{
                 driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub/"), capabilities);
@@ -180,7 +181,7 @@ public class DriverFactory {
             capabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
             capabilities.setCapability("safariAllowPopups", true);
             capabilities.setCapability("safariOpenLinksInBackground", true);
-            capabilities.setCapability("newCommandTimeout", 60);
+            capabilities.setCapability("newCommandTimeout", 180);
             capabilities.setCapability("launchTimeout", 600000);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
@@ -199,7 +200,7 @@ public class DriverFactory {
             capabilities.setCapability("autoAcceptAlerts", true);
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
             capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
-            capabilities.setCapability("newCommandTimeout", 60);
+            capabilities.setCapability("newCommandTimeout", 180);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
