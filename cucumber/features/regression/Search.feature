@@ -3,11 +3,6 @@ Feature: Search Regression Suite
 
   Background:
     Given User is on homepage
-    And Handle the Email Capture pop up
-    Then click on change link from footer
-	And User is on context chooser page
-	Given user selects top10country at random from context chooser page
-    Then user should land on country specific home page
     And User presses search button
 
     #Repeated
@@ -46,7 +41,7 @@ Feature: Search Regression Suite
     And Select random single option from Category refinement
     Then Verify selected value is displayed next to Category refinement
     Then Verify that Category refinement is closed
-    And Click on Size refinement    
+    And Click on Size refinement
     And select available random option from Size refinement
     And user should see single value name/number of values selected next to Size refinement
     And select available random option from Size refinement
@@ -93,4 +88,3 @@ Feature: Search Regression Suite
       | search_term |
       | skirts      |
       | shoes       |
-  
