@@ -71,8 +71,14 @@ public class Footer {
     public boolean isFooterLinkPresent(String footerLink) {
     	
     	String countryCode = (String)stateHolder.get("countryCode");
+    	boolean isFooterLinkDisplayed = false;
     	
-    	boolean isFooterLinkDisplayed = getFooterLinkElement(footerLink).isDisplayed();
+    	try{
+    		isFooterLinkDisplayed = getFooterLinkElement(footerLink).isDisplayed();
+    	}
+    	catch(Exception e){
+    		isFooterLinkDisplayed = false;
+    	}
     	
     	if(!isFooterLinkDisplayed){
     		if(footerLink.equalsIgnoreCase("Our Cards") && !countryCode.equalsIgnoreCase("us")){
@@ -109,13 +115,24 @@ public class Footer {
     }
 
     public void click_to_open_drawer(String footerLink) {
-        WebElement fLink = getFooterLinkElement(footerLink);
-        WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
-        String parentClass = fLinkParent.getAttribute("class");
+    	
+    	String countryCode = (String)stateHolder.get("countryCode");
+    	boolean isClickRequired = true;
+    	
+    	if(footerLink.equalsIgnoreCase("Our Cards") && !countryCode.equalsIgnoreCase("us")){
+    		isClickRequired = false;
+    	}
+    	
+    	if(isClickRequired){
+    		WebElement fLink = getFooterLinkElement(footerLink);
+            WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
+            String parentClass = fLinkParent.getAttribute("class");
 
-        if (!parentClass.contains("is-expanded"))
-            fLink.click();
-    }
+            if (!parentClass.contains("is-expanded")){
+            	fLink.click();
+            }
+    	}
+     }
 
     public void click_to_close_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
@@ -180,23 +197,39 @@ public class Footer {
     public boolean isIconAndTextDisplayed(String icon) {
         WebElement module = driver.findElement(By.className("footer__help__menu"));
         WebElement contactItem;
-
-        switch (icon){
-            case "twitter":
-                contactItem = module.findElement(By.className("footer__help__item--twitter"));
-                break;
-            case "phone":
-                contactItem = module.findElement(By.className("footer__help__item--phone"));
-                break;
-            case "vps":
-                contactItem = module.findElement(By.className("footer__help__item--vps"));
-                break;
-            default:
-                logger.debug("icon {} not found",icon);
-                return false;
+        boolean isIconValidationRequired = true;
+        boolean isIconDisplayed = true;
+        
+        String countryCode = (String) StateHolder.getInstance().get("countryCode");
+        
+        if(icon.equalsIgnoreCase("vps") && (countryCode.equalsIgnoreCase("au") || countryCode.equalsIgnoreCase("sg") || countryCode.equalsIgnoreCase("hk") || countryCode.equalsIgnoreCase("de") || countryCode.equalsIgnoreCase("jp") || countryCode.equalsIgnoreCase("ch"))){
+        	isIconValidationRequired = false;
+        }
+        
+        if(icon.equalsIgnoreCase("phone") && countryCode.equalsIgnoreCase("jp")){
+        	isIconValidationRequired = false;
         }
 
-        return contactItem.findElement(By.tagName("i")).isDisplayed();
+        if(isIconValidationRequired){        	
+        	switch (icon){
+	            case "twitter":
+	                contactItem = module.findElement(By.className("footer__help__item--twitter"));
+	                break;
+	            case "phone":
+	                contactItem = module.findElement(By.className("footer__help__item--phone"));
+	                break;
+	            case "vps":
+	                contactItem = module.findElement(By.className("footer__help__item--vps"));
+	                break;
+	            default:
+	                logger.debug("icon {} not found",icon);
+	                return false;
+        	}
+
+        	isIconDisplayed = contactItem.findElement(By.tagName("i")).isDisplayed();
+        }
+        
+        return isIconDisplayed;
 
     }
 
@@ -348,8 +381,27 @@ public class Footer {
     }
     
     public boolean isContentGroupingDisplayedInCollapsed(String contentGroupingName){
-    	WebElement element = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/descendant::i[contains(@class,'icon-see-more')]"));
-    	return element.isDisplayed();
+    	
+    	boolean isContentGroupingValidationRequired = true;
+    	boolean isContentGroupingCollapsed = true;
+    	String countryCode = (String)stateHolder.get("countryCode");
+    	
+    	if(contentGroupingName.equalsIgnoreCase("Our cards") && !countryCode.equalsIgnoreCase("us")){
+    		isContentGroupingValidationRequired = false;
+    	}
+    	
+    	WebElement element = null;
+    	if(isContentGroupingValidationRequired){
+    		try{
+    			element = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/descendant::i[contains(@class,'icon-see-more')]"));
+    			isContentGroupingCollapsed = element.isDisplayed();
+    		}
+    		catch(Exception e){
+    			isContentGroupingCollapsed = false;
+    		}
+    	}
+    	
+    	return isContentGroupingCollapsed;
     }
     
     public void clickContentGrouping(String contentGrouping){
@@ -358,16 +410,34 @@ public class Footer {
     }
     
     public boolean isContentGroupingDrawerOpened(String contentGroupingName){
-    	WebElement element = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div[contains(@class,'is-expanded')]"));
-    	return element.isDisplayed();
+    	String countryCode = (String)stateHolder.get("countryCode");
+    	boolean isDrawerOpenedValidationRequired = true;
+    	boolean isDrawerOpened = true;
+    	
+    	if(!countryCode.equalsIgnoreCase("us") && contentGroupingName.equalsIgnoreCase("Our cards")){
+    		isDrawerOpenedValidationRequired = false;
+    	}
+    	
+    	if(isDrawerOpenedValidationRequired){
+    		WebElement element = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div[contains(@class,'is-expanded')]"));
+    		isDrawerOpened = element.isDisplayed();
+    	}
+    	
+    	return isDrawerOpened;
     }
     
     public boolean isContentGroupingDrawerClosed(String contentGroupingName){
+    	
+    	String countryCode = (String)stateHolder.get("countryCode");    	
+    	boolean isDrawerClosed = true;
+    	
+    	if(countryCode.equalsIgnoreCase("us")){
+    		WebElement drawer = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div"));
+            String drawerClass = drawer.getAttribute("class");
+            isDrawerClosed = !drawerClass.contains("is-expanded");
+    	}
 
-    	WebElement drawer = driver.findElement(By.xpath("//h6[contains(text(),'" + contentGroupingName + "')]/parent::div"));
-        String drawerClass = drawer.getAttribute("class");
-
-        return !drawerClass.contains("is-expanded");
+        return isDrawerClosed;
     }
     
     public boolean isCorrectCountryNameDisplayedInFooter(){
