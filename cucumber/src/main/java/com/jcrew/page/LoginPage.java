@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.github.javafaker.Faker;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.*;
@@ -21,7 +22,7 @@ public class LoginPage {
 
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
     private final WebDriver driver;
-    
+
     @FindBy(id = "sidecarUser")
     private WebElement emailInput;
     @FindBy(id = "sidecarPassword")
@@ -41,18 +42,18 @@ public class LoginPage {
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
 
-    @FindBy(xpath=".//*[@id='frmGuestCheckOut']/descendant::a[text()='Check Out as a Guest']")
+    @FindBy(xpath = ".//*[@id='frmGuestCheckOut']/descendant::a[text()='Check Out as a Guest']")
     private WebElement checkoutAsGuestButton;
-    
-    @FindBy(id="loginUser")
+
+    @FindBy(id = "loginUser")
     private WebElement emailAddressField;
-    
-    @FindBy(id="loginPassword")
+
+    @FindBy(id = "loginPassword")
     private WebElement passwordField;
-    
-    @FindBy(css=".button-general.button-submit")
+
+    @FindBy(css = ".button-general.button-submit")
     private WebElement signInAndCheckOut;
-    
+
     @FindBy(id = "main_inside")
     private WebElement myAccountContainer;
 
@@ -62,7 +63,7 @@ public class LoginPage {
     @FindBy(id = "countryList")
     private WebElement countryListDropDown;
 
-    @FindBy(id = "register-form__countryFlagImage" )
+    @FindBy(id = "register-form__countryFlagImage")
     private WebElement countryChooser;
 
     Faker faker = new Faker();
@@ -204,13 +205,13 @@ public class LoginPage {
 
         return result;
     }
-    
-    public void clickCheckoutAsGuest() throws InterruptedException{
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutAsGuestButton));  	
-    	checkoutAsGuestButton.click();
+
+    public void clickCheckoutAsGuest() throws InterruptedException {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutAsGuestButton));
+        checkoutAsGuestButton.click();
     }
-    
-    public void enterEmailAddressOnSignInPage(String emailAddress){
+
+    public void enterEmailAddressOnSignInPage(String emailAddress) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailAddressField));
         if (emailAddress.equalsIgnoreCase("any")) {
             PropertyReader reader = PropertyReader.getPropertyReader();
@@ -218,17 +219,17 @@ public class LoginPage {
         }
         emailAddressField.sendKeys(emailAddress);
     }
-    
-    public void enterPasswordOnSignInPage(String password){
+
+    public void enterPasswordOnSignInPage(String password) {
         if (password.equalsIgnoreCase("corresponding")) {
             PropertyReader reader = PropertyReader.getPropertyReader();
             password = reader.getProperty("checkout.signed.in.password");
         }
-    	passwordField.sendKeys(password);
+        passwordField.sendKeys(password);
     }
-    
-    public void click_signInAndCheckOut(){
-    	signInAndCheckOut.click();
+
+    public void click_signInAndCheckOut() {
+        signInAndCheckOut.click();
     }
 
     public String getRegBenefitsCopyMsg() {
@@ -236,17 +237,17 @@ public class LoginPage {
     }
 
     public boolean isFieldWithMaxCharsAllowedDisplayed(String f, String maxchars) {
-        String n = f.replaceAll("\\s","").trim();
+        String n = f.replaceAll("\\s", "").trim();
         String fieldId = "sidecarRegister".concat(n);
         WebElement field = driver.findElement(By.id(fieldId));
-        return field.isDisplayed()&& field.getAttribute("maxlength").equals(maxchars);
+        return field.isDisplayed() && field.getAttribute("maxlength").equals(maxchars);
     }
 
     public void enter_input(String input, String field) {
-        String n = field.replaceAll("\\s","").trim();
+        String n = field.replaceAll("\\s", "").trim();
         String fieldId = "sidecarRegister".concat(n);
         String fieldInput = "";
-        switch(input) {
+        switch (input) {
             case "random first name":
                 fieldInput = faker.name().firstName();
                 break;
@@ -254,11 +255,11 @@ public class LoginPage {
                 fieldInput = faker.name().lastName();
                 break;
             case "random email":
-                fieldInput = faker.internet().emailAddress().replace("'","");
+                fieldInput = faker.internet().emailAddress().replace("'", "");
                 break;
             case "random password":
-                fieldInput = faker.name().fullName().replaceAll("\\s","");
-                logger.info("password generated is : {}",fieldInput);
+                fieldInput = faker.name().fullName().replaceAll("\\s", "");
+                logger.info("password generated is : {}", fieldInput);
                 break;
             default:
                 fieldInput = input;
@@ -282,26 +283,30 @@ public class LoginPage {
     public void select_each_country_and_verify_corresponding_flag_is_displayed() {
         Select select = new Select(countryListDropDown);
         int numOfCountries = select.getOptions().size();
-        while(numOfCountries >= 1) {
+        while (numOfCountries >= 1) {
             select.selectByIndex(numOfCountries - 1);
             String countryName = select.getFirstSelectedOption().getText();
             countryName = countryName.replaceAll("\\s", "");
             boolean flag = isCorrespondingCountryFlagDisplayed(countryName);
-            logger.info("corresponding "+countryName+" flag is displayed:  {}", flag);
+            logger.info("corresponding " + countryName + " flag is displayed:  {}", flag);
             numOfCountries--;
 
         }
     }
 
     public boolean select_top10_country_and_verify_corresponding_flag_is_displayed() {
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String top10countriesString = testDataReader.getData("countries.by.name");
+        String  top10countries[] = top10countriesString.split(";");
+
         Select select = new Select(countryListDropDown);
-        List<String> top10countries = Arrays.asList("Australia","Japan","Germany","Singapore","Switzerland","United States","Canada","Hong Kong","United Kingdom","France");
         boolean flag = true;
-        for (String country:top10countries) {
+
+        for (String country : top10countries) {
             select.selectByVisibleText(country);
-            country = country.replaceAll("\\s", "");
+            country = country.replaceAll("\\s", "").toLowerCase();
             flag &= isCorrespondingCountryFlagDisplayed(country);
-            logger.info("corresponding "+country+" flag is displayed:  {}", flag);
+            logger.info("corresponding " + country + " flag is displayed:  {}", flag);
         }
         return flag;
     }
@@ -313,8 +318,13 @@ public class LoginPage {
         select.selectByIndex(randomIndex);
     }
 
-     public boolean isCorrespondingCountryFlagDisplayed(String countryName) {
-        return countryChooser.getAttribute("class").contains(countryName);
+    public boolean isCorrespondingCountryFlagDisplayed(String countryName) {
+        String countryChooserClass = countryChooser.getAttribute("class");
+        countryChooserClass = countryChooserClass.toLowerCase();
+
+        logger.debug("Flag class: {}", countryChooserClass);
+
+        return countryChooserClass.contains(countryName);
     }
 
     public boolean isOptCheckBoxDisplayed() {
@@ -329,7 +339,7 @@ public class LoginPage {
         }
     }
 
-    }
+}
 
 
 

@@ -81,6 +81,11 @@ public class HamburgerMenuSteps extends DriverFactory {
         hamburgerMenu.click_on_sign_in_link();
     }
 
+    @And("^Goes to sign in page from menu$")
+    public void goes_to_sign_in_page_from_menu() {
+        hamburgerMenu.click_on_sign_in_link_from_hamburger_menu();
+    }
+
     @And("^Closes hamburger menu$")
     public void closes_hamburger_menu() {
         hamburgerMenu.close_hamburger_menu();

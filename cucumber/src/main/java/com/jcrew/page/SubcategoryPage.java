@@ -64,6 +64,9 @@ public class SubcategoryPage {
     private List<WebElement> accordionElements;
     @FindBy(id = "c-category__navigation")
     private WebElement endCapNavigationSection;
+    
+    @FindBy(className = "product__name")
+    private WebElement productName;
 
     public SubcategoryPage(WebDriver driver) {
         this.driver = driver;
@@ -419,11 +422,9 @@ public class SubcategoryPage {
     }
 
     public String getWasPriceFor(String product) {
-
-        driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-
-        WebElement wasPriceInTitle = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--was')]"));
+        WebElement wasPriceInTitle = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productGrid.findElement(By.xpath("//span[text()='" + product +
+                "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--was')]"))));
 
         return wasPriceInTitle.getText();
     }
@@ -569,10 +570,11 @@ public class SubcategoryPage {
     public void selectRandomItemAndSelectSizeColor(){
 
     	boolean isItemFound = false;
-    	int MAX_ITEMS_TO_CHECK = 10;
+    	int MAX_ITEMS_TO_CHECK = 5;
     	int itemsThreshold;
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
+
     	List<WebElement> arrayPageItems = driver.findElements(By.xpath("//div[@class='c-product-tile']"));
 
     	//checking items are displayed on the array page
@@ -587,43 +589,40 @@ public class SubcategoryPage {
     	else{
     		itemsThreshold = arrayPageItems.size();
     	}
-
+    	
+    	String arrayPageItemName = "";
+    	String arrayPageItemPrice = "";
     	for(int loopCntr=0;loopCntr<itemsThreshold;loopCntr++){
 
     		try{
-    			Util.createWebDriverWait(driver, 60).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"))));
-    			arrayPageItems = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"));
+    			arrayPageItems = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//div[@class='c-product-tile']"))));
 
-        		//Capture the item name and price on array page
-        		WebElement arrayPageItem = arrayPageItems.get(loopCntr);
-        		String arrayPageItemName = arrayPageItem.findElement(By.xpath("//span[contains(@class,'tile__detail--name')]")).getText().trim();        		
-        		String arrayPageItemPrice = arrayPageItem.findElement(By.xpath("//span[contains(@class,'tile__detail--price--list')]")).getText().trim();
+        		//Capture the item name and price on array page 		
+        		List<WebElement> itemName = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--name')]"));
+        		WebElement currentItemOnArrayPage = itemName.get(loopCntr);
+        		arrayPageItemName = currentItemOnArrayPage.getText().trim();
+        		
+        		List<WebElement> itemPrice = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--list')]"));
+        		arrayPageItemPrice = itemPrice.get(loopCntr).getText().trim();
 
         		//Click on array page item
-        		arrayPageItem.click();
+        		currentItemOnArrayPage.click();
+        		logger.debug("Array page item '{}' is clicked", arrayPageItemName);
 
     			//Wait till the PDP page is displayed
-        		Util.waitForPageFullyLoaded(driver);
-
-    			boolean isPDPDisplayed = false;
-    			int timeCntr = 0;
-    			while(!isPDPDisplayed && timeCntr<30){
-    				try{
-    					Util.createWebDriverWait(driver, 1).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(".//section[@id='c-product__details']")));
-    					isPDPDisplayed = true;
-    				}
-    				catch(Exception e){
-    					timeCntr++;
-    				}
-    			}
-
-        		Util.createWebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.className("colors-list__image"))));
-	  			List<WebElement> itemColors = driver.findElements(By.className("colors-list__image"));
+        		Util.waitForPageFullyLoaded(driver);        		
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+        		logger.debug("PDP page is displayed!!!");
+        		
+        		List<WebElement> itemColors = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath(".//img[@class='colors-list__image']"))));
 
 	  			//If colors are not available then navigate back to array page
 	  			if(itemColors.size() == 0){
 	  				navigateBackToArrayPage();
 	  				continue;
+	  			}
+	  			else{
+	  				logger.debug("Color element(s) found!!!");
 	  			}
 
 	  			//Click on each color at random and check any sizes are available
@@ -635,8 +634,9 @@ public class SubcategoryPage {
 
 	  				//check atleast one size is available for a particular color
 	  				List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"));
-	  				if(itemSizes.size() > 0){	  					
-	  					colorName = driver.findElement(By.className("product__value")).getText();
+	  				if(itemSizes.size() > 0){
+	  					WebElement productPriceColors = driver.findElement(By.xpath("//div[@class='product__price-colors']"));
+	  					colorName = productPriceColors.findElement(By.className("product__value")).getText();
 	  					isValidItemSizesAvailable = true;
 	  					break;
 	  				}
@@ -682,7 +682,15 @@ public class SubcategoryPage {
 	            break;
     		}
     		catch(Exception e){
-    			navigateBackToArrayPage();
+    			try{
+	    			boolean isPDP = driver.findElement(By.xpath(".//h1[@class='product__name']")).isDisplayed();
+	    			if (isPDP){
+	    				navigateBackToArrayPage();
+	    			}
+    			}
+    			catch(Exception e1){
+    				logger.info("PDP page is not displayed");    				
+    			}
     		}
     	}
 
@@ -692,8 +700,10 @@ public class SubcategoryPage {
     }
 
     public void navigateBackToArrayPage(){
-    	WebElement breadcrumb = driver.findElement(By.className("c-header__breadcrumb"));
+    	WebElement breadcrumb = Util.createWebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("c-header__breadcrumb"))));
 		breadcrumb.findElement(By.xpath("//ul[@class='breadcrumb__list']/li[3]/a[@class='breadcrumb__link']")).click();
+		Util.waitForPageFullyLoaded(driver);
+		logger.debug("Navigated back to Array page");
     }
     
     public void selectRandomItemFromArrayPage(){
