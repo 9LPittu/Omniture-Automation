@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
@@ -135,8 +136,9 @@ public class SubcategoryPage {
     }
 
     public boolean isProductGridPresent() {
+        Country country = (Country) stateHolder.get("context");
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
-        return productGrid.isDisplayed();
+        return productGrid.isDisplayed() & Util.countryContextURLCompliance(driver, country);
     }
 
     public void hover_first_product_in_grid() {

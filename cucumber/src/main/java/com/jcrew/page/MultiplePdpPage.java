@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
@@ -508,5 +509,11 @@ public class MultiplePdpPage {
             logger.debug("Product does not contain variations");
             return false;
         }
+    }
+
+    public boolean checkURLCountryContext() {
+        Country country = (Country) stateHolder.get("context");
+
+        return Util.countryContextURLCompliance(driver,country);
     }
 }

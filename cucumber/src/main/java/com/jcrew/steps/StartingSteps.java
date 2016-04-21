@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
@@ -48,8 +49,6 @@ public class StartingSteps {
         while (retry < 2 && !successfulLoad) {
             try {
                 getInitialPage();
-              //  waitForPageToLoadUpToTheLastElementPriorScriptExecution();
-                //Util.waitForPageFullyLoaded(driver);
                 waitForHeaderPromo();
                 successfulLoad = true;
             } catch (TimeoutException te) {
@@ -86,8 +85,14 @@ public class StartingSteps {
     }
 
     public void getInitialPage() {
+        String country = reader.getProperty("country");
         String env = reader.getProperty("environment");
         String browser = reader.getProperty("browser");
+
+        Country context = new Country(env, country);
+        stateHolder.put("context", context);
+        env = context.getHomeurl();
+
         boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent")||env.contains("or");
         boolean isDesktop = browser.equals("firefox") || browser.equals("chrome");
         logger.debug("current url is: " + env);

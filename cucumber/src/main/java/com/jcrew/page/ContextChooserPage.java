@@ -180,7 +180,7 @@ public class ContextChooserPage {
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String url = propertyReader.getProperty("environment");
     	
-    	Country country = new Country(currentCountryCode);    	
+    	Country country = new Country(url, currentCountryCode);    	
     	String countryName = country.getCountryName();
     	
     	String expectedURL = "";
@@ -214,7 +214,10 @@ public class ContextChooserPage {
 		String[] arrCountryCodes = StringUtils.split(countryCodes, ",");	
 		String countryCode = arrCountryCodes[Util.randomIndex(arrCountryCodes.length)];
 		
-		Country country = new Country(countryCode);
+		PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String url = propertyReader.getProperty("environment");
+		
+		Country country = new Country(url, countryCode);
 		String currency = country.getCurrency();
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
