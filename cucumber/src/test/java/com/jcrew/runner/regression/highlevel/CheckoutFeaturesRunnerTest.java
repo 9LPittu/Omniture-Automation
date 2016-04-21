@@ -4,19 +4,16 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
-/**
- * Created by nadiapaolagarcia on 4/20/16.
- */
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@HighLevel"},
+        tags = {"@RegressionCheckout", "@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-breadcrumbregressionfeatures.json",
+                "json:target/cucumber-regressioncheckoutfeatures.json",
                 "pretty",
-                "html:target/cucumber/breadcrumbregressionfeatures"
+                "html:target/cucumber/regressioncheckoutfeatures"
         }
 )
-public class HighLevelRunnerTest {
+public class CheckoutFeaturesRunnerTest {
 }
