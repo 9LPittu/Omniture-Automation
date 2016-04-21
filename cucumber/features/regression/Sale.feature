@@ -3,11 +3,6 @@ Feature: Sale Regression Suite
 
   Background:
     Given User is on homepage
-    And Handle the Email Capture pop up
-    Then click on change link from footer
-	And User is on context chooser page
-	Given user selects top10country at random from context chooser page
-    Then user should land on country specific home page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
 
@@ -28,15 +23,15 @@ Feature: Sale Regression Suite
     Then User is in Sale results page
     And Refine button is displayed
     And default filter name displayed is <SaleCategory>
-  	And the page url should contain "<URL>"
+    And the page url should contain "<URL>"
 
-  Examples:
-    |SaleCategory|URL|
-    |women|/r/search/?N=21+17|
-    |men  |/r/search/?N=21+16|
-    |boys |/r/search/?N=21+18|
-    |girls|/r/search/?N=21+19|
-  
+    Examples:
+      |SaleCategory|URL|
+      |women|/r/search/?N=21+17|
+      |men  |/r/search/?N=21+16|
+      |boys |/r/search/?N=21+18|
+      |girls|/r/search/?N=21+19|
+
   Scenario: Pagination is functional on sale page
     And User clicks on WOMEN subcategory from Sales
     And pagination is displayed on the page
@@ -93,22 +88,22 @@ Feature: Sale Regression Suite
 
   #US15452_TC001 & US15452_TC002 #US9874_TC05
   Scenario: 'Sale' in menu nav should link to Sale Landing page
-     And User is in sale landing page
-     And New in Sale Category link and carat sign is displayed
-     And women Category link and carat sign is displayed
-     And men Category link and carat sign is displayed
-     And girls Category link and carat sign is displayed
-     And boys Category link and carat sign is displayed
-     And User clicks on sale department women
-     Then User is in Sale results page
-     And User clicks on hamburger menu
-     And Hamburger Menu Women Link is present
-     And Hamburger Menu Men Link is present
-     And Hamburger Menu Girls Link is present
-     And Hamburger Menu Boys Link is present
-     And Hamburger Menu sale Link is present
-     And Hamburger Menu Wedding Link is present
-     And Hamburger Menu Blog Link is present
+    And User is in sale landing page
+    And New in Sale Category link and carat sign is displayed
+    And women Category link and carat sign is displayed
+    And men Category link and carat sign is displayed
+    And girls Category link and carat sign is displayed
+    And boys Category link and carat sign is displayed
+    And User clicks on sale department women
+    Then User is in Sale results page
+    And User clicks on hamburger menu
+    And Hamburger Menu Women Link is present
+    And Hamburger Menu Men Link is present
+    And Hamburger Menu Girls Link is present
+    And Hamburger Menu Boys Link is present
+    And Hamburger Menu sale Link is present
+    And Hamburger Menu Wedding Link is present
+    And Hamburger Menu Blog Link is present
 
     #US15452_TC003 Moved to BreadCrumbs.feature
 
@@ -122,12 +117,12 @@ Feature: Sale Regression Suite
     And User is in sale landing page
 
     Examples:
-    |Sale_Dept|
-    |New in Sale|
-    |women    |
-    |men      |
-    |girls    |
-    |boys     |
+      |Sale_Dept|
+      |New in Sale|
+      |women    |
+      |men      |
+      |girls    |
+      |boys     |
 
     #US9874_TC01 (#US15452_TC005 is US9874), #US9874_TC03, #US9874_TC04(no automation)
     #US9874_TC02 no automation , verification of match up with mock
@@ -135,14 +130,14 @@ Feature: Sale Regression Suite
     #Scenario: Verify header copy "sale" should be displayed on the sale page.
 
     #US9874_TC11
-    Scenario Outline: Validation of second promo display
-      And User is in sale landing page
-      And Second promo is displayed
-      And <promo_link> sale category link is displayed in the second promo
-      When <promo_link> in sale page is clicked
-      Then the page url should contain "<URL>"
+  Scenario Outline: Validation of second promo display
+    And User is in sale landing page
+    And Second promo is displayed
+    And <promo_link> sale category link is displayed in the second promo
+    When <promo_link> in sale page is clicked
+    Then the page url should contain "<URL>"
 
-      Examples:
+    Examples:
       |promo_link|URL|
       |women|N=21+17|
       |men  |N=21+16|
@@ -157,13 +152,12 @@ Feature: Sale Regression Suite
 #      And Details section is closed
 
     #US15673_TC01
-    Scenario: Sale Refine Single Select
-      And User clicks on sale department random
-      Then User is in Sale results page
-      And Refine button is clicked
-      And User is in refine page
-      And Click on Category refinement
-      And Select random single option from Category refinement
-      Then Verify selected value is displayed next to Category refinement
-      Then Verify that Category refinement is closed
-   
+  Scenario: Sale Refine Single Select
+    And User clicks on sale department random
+    Then User is in Sale results page
+    And Refine button is clicked
+    And User is in refine page
+    And Click on Category refinement
+    And Select random single option from Category refinement
+    Then Verify selected value is displayed next to Category refinement
+    Then Verify that Category refinement is closed
