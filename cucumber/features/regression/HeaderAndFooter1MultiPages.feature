@@ -53,10 +53,12 @@ Feature: Embedded Header and Footer Validations
 	And user selects any subcategory
 	And Verify proper currency symbol is displayed on product grid list
 	And user should see selected country in the footer
+	And user should see country code in the url for international countries
 	And user selects any item from array page, select any color and size
     And User is in product detail page
     And Verify proper currency symbol is displayed on PDP page
     And user should see selected country in the footer
+    And user should see country code in the url for international countries
     And Add to cart button is pressed
     And User clicks on item bag
     Then User should be in shopping bag page

@@ -25,6 +25,7 @@
       Then Verifies next item arrow is disabled
       Then Verifies previous item arrow is enabled
       And Verify proper currency symbol is displayed on PDP page
+      And user should see country code in the url for international countries
 
     #US15510_TC04, US15510_TC05
     Scenario: Verify next and previous buttons functionality
