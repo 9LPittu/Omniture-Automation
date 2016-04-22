@@ -14,6 +14,7 @@ Feature: International Country Context
     When Goes to sign in page
     And User provides login information
     And Check box is enabled
+    And Hits sign in button
     And User is in My Account page
     And user should see selected country in the footer
     When User clicks on MY DETAILS link in My Account Page
@@ -31,7 +32,6 @@ Feature: International Country Context
     When User clicks on GIFT CARD BALANCE link in My Account Page
     Then User should be in checkout/giftcard_balance1.jsp menu link page
     And user should see selected country in the footer
-    And User presses back button
     When User clicks on ADDRESS BOOK link in My Account Page
     Then User should be in address_book.jsp menu link page
     And user should see selected country in the footer
