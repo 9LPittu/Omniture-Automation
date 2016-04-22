@@ -2,10 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.Navigation;
 import com.jcrew.pojo.Country;
-import com.jcrew.util.DriverFactory;
-import com.jcrew.util.PropertyReader;
-import com.jcrew.util.StateHolder;
-import com.jcrew.util.Util;
+import com.jcrew.util.*;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.AfterStep;
@@ -20,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 public class StartingSteps {
 
@@ -31,8 +29,7 @@ public class StartingSteps {
     private WebDriver driver;
     private final String pricebookCountries[] = {"UK", "CA", "HK",};
     private final String nonPricebookCountries[] = {"AU", "JP", "DE", "SG", "CH"};
-    private final String randomUrls[] = {"/r/login", "/r/sale", "/c/womens_category/sweaters",
-                                                             "p/womens_category/sweaters/pullover/tippi-sweater/E1277"};
+
 
 
     @Before
@@ -49,20 +46,19 @@ public class StartingSteps {
     }
 
     @Given("User is on clean session international ([^\"]*) page$")
-    public void  user_goes_to_international_page(String country_group) throws Throwable {
+    public void  user_goes_to_international_page(String country_group,List<String> pageUrlList) throws Throwable {
         driverFactory.deleteBrowserCookies();
-        getTheRandomInternationalPage(country_group);
+        getTheRandomInternationalPage(country_group,pageUrlList);
 
     }
 
-    public void  getTheRandomInternationalPage(String country) {
+    public void  getTheRandomInternationalPage(String country, List<String> pageUrlList) {
 
-
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        testDataReader.getData("url.")
         String env = reader.getProperty("environment");
-        if("US".equals(country)) {
-            logger.debug("country selected {}", country);
-            driver.get(env);
-        } else if("PRICEBOOK".equals(country)) {
+
+        if("PRICEBOOK".equals(country)) {
 
             int countryindex = Util.randomIndex(pricebookCountries.length);
             String selectedCountry = pricebookCountries[countryindex].toLowerCase();
