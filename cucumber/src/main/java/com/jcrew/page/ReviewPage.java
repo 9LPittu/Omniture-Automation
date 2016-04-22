@@ -141,11 +141,15 @@ public class ReviewPage {
     	for(WebElement itemDetailOnReviewPage:itemDetailsOnReviewPage){
     		WebElement reviewPageproductName = itemDetailOnReviewPage.findElement(By.className("item-name"));
     		WebElement reviewPageproductPrice = itemDetailOnReviewPage.findElement(By.className("item-price"));
+            String reviewPageProductNameText = "";
     		
     		List<Product> productList = (List<Product>) stateHolder.get("productList");
     		for(int i=0;i<productList.size();i++){
+                reviewPageProductNameText = reviewPageproductName.getText();
+                reviewPageProductNameText = reviewPageProductNameText.toLowerCase().replace("the ", "");
+                reviewPageProductNameText = reviewPageProductNameText.toLowerCase().replace("pre-order ", "");
     			Product product = productList.get(i);
-    			if(product.getProductName().equalsIgnoreCase(reviewPageproductName.getText())){				
+    			if(product.getProductName().equalsIgnoreCase(reviewPageProductNameText)){
 					if(reviewPageproductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())){
 						blnResult = true;
 						break;
@@ -153,13 +157,13 @@ public class ReviewPage {
     			}
     			
     			if(blnResult){
-    				logger.debug(reviewPageproductName.getText() + " product details matches on review page");
+    				logger.debug(reviewPageProductNameText + " product details matches on review page");
     				break;
     			}
     		}
     		
     		if(!blnResult){
-				logger.debug(reviewPageproductName.getText() + " product details does not match on review page");
+				logger.debug(reviewPageProductNameText + " product details does not match on review page");
 				break;
     		}
     	}
