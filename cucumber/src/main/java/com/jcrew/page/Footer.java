@@ -71,7 +71,9 @@ public class Footer {
 
     public boolean isFooterLinkPresent(String footerLink) {
     	
-    	String countryCode = (String)stateHolder.get("countryCode");
+    	Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+        
     	boolean isFooterLinkDisplayed = false;
     	
     	try{
@@ -163,8 +165,10 @@ public class Footer {
 
     public boolean isSubLinkDisplayed(String sublink) {
         
-    	boolean subLinkDisplayed = false;        
-        String countryCode = (String) stateHolder.get("countryCode");       
+    	boolean subLinkDisplayed = false;  
+    	
+    	Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();       
         
         for(WebElement subLink: subLinks) {
             subLinkDisplayed = subLink.findElement(By.xpath("//a[text()='" + sublink + "']")).isDisplayed();
@@ -193,12 +197,14 @@ public class Footer {
     }
 
     public boolean isIconAndTextDisplayed(String icon) {
+    	
         WebElement module = driver.findElement(By.className("footer__help__menu"));
         WebElement contactItem;
         boolean isIconValidationRequired = true;
         boolean isIconDisplayed = true;
         
-        String countryCode = (String) stateHolder.get("countryCode");
+    	Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
         
         if(icon.equalsIgnoreCase("vps") && (countryCode.equalsIgnoreCase("au") || countryCode.equalsIgnoreCase("sg") || countryCode.equalsIgnoreCase("hk") || countryCode.equalsIgnoreCase("de") || countryCode.equalsIgnoreCase("jp") || countryCode.equalsIgnoreCase("ch"))){
         	isIconValidationRequired = false;
@@ -382,7 +388,9 @@ public class Footer {
     	
     	boolean isContentGroupingValidationRequired = true;
     	boolean isContentGroupingCollapsed = true;
-    	String countryCode = (String)stateHolder.get("countryCode");
+    	
+    	Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
     	
     	if(contentGroupingName.equalsIgnoreCase("Our cards") && !countryCode.equalsIgnoreCase("us")){
     		isContentGroupingValidationRequired = false;
@@ -408,7 +416,10 @@ public class Footer {
     }
     
     public boolean isContentGroupingDrawerOpened(String contentGroupingName){
-    	String countryCode = (String)stateHolder.get("countryCode");
+    	
+    	Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+        
     	boolean isDrawerOpenedValidationRequired = true;
     	boolean isDrawerOpened = true;
     	
@@ -426,7 +437,9 @@ public class Footer {
     
     public boolean isContentGroupingDrawerClosed(String contentGroupingName){
     	
-    	String countryCode = (String)stateHolder.get("countryCode");    	
+    	Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+        
     	boolean isDrawerClosed = true;
     	
     	if(countryCode.equalsIgnoreCase("us")){
