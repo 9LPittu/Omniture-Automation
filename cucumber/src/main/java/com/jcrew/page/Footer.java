@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.pojo.Country;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
@@ -115,26 +116,23 @@ public class Footer {
     }
 
     public void click_to_open_drawer(String footerLink) {
-    	
-    	String countryCode = (String)stateHolder.get("countryCode");
-    	boolean isClickRequired = true;
-    	
-    	if(footerLink.equalsIgnoreCase("Our Cards") && !countryCode.equalsIgnoreCase("us")){
-    		isClickRequired = false;
-    	}
-    	
-    	if(isClickRequired){
-    		WebElement fLink = getFooterLinkElement(footerLink);
+
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        if (!(footerLink.equalsIgnoreCase("Our Cards") && !countryCode.equalsIgnoreCase("us"))) {
+            WebElement fLink = getFooterLinkElement(footerLink);
             WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
             String parentClass = fLinkParent.getAttribute("class");
 
-            if (!parentClass.contains("is-expanded")){
-            	fLink.click();
+            if (!parentClass.contains("is-expanded")) {
+                fLink.click();
             }
-    	}
-     }
+        }
 
-    public void click_to_close_drawer(String footerLink) {
+    }
+
+        public void click_to_close_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
         WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
         String parentClass = fLinkParent.getAttribute("class");
