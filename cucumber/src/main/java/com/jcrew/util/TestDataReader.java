@@ -26,15 +26,13 @@ public class TestDataReader {
 	private void loadProperties() throws IOException{
 		
 		String testData = "commonTestData.properties";
-		String countries = "countries.properties";
 
 		logger.debug("Test Data file to be used {}", testData);
 
 		FileInputStream environmentInput = new FileInputStream(testData);
-		FileInputStream countriesInput = new FileInputStream(countries);
-		
+
 		testDataProperties.load(environmentInput);
-		testDataProperties.load(countriesInput);
+
 	}
 
 	public String getData(String key){
