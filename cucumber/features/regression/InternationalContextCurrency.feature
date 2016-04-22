@@ -125,7 +125,7 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-
+  
   Scenario: context and Local currency validation on sale page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu

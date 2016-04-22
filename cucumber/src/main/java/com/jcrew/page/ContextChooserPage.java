@@ -231,6 +231,7 @@ public class ContextChooserPage {
     	stateHolder.put("countryCode", countryCode);
 		stateHolder.put("selectedCountry", countryName);
 		stateHolder.put("currency", currency);
+        stateHolder.put("context", country);
 		
 		logger.info("Selected country: {}", countryName);
     }
