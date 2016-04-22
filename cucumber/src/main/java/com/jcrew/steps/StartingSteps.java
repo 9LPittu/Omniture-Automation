@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.SAccountReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import cucumber.api.Scenario;
@@ -24,6 +25,7 @@ public class StartingSteps {
     private static final String TAKE_SCREENSHOT = "Screenshot";
     private final Logger logger = LoggerFactory.getLogger(StartingSteps.class);
     private final PropertyReader reader = PropertyReader.getPropertyReader();
+    private final SAccountReader saccountreader = SAccountReader.getPropertyReader();
     private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
     private WebDriver driver;
@@ -102,10 +104,10 @@ public class StartingSteps {
     }
 
     public void getTheInitialPage(String pageUrl){
-        String env = reader.getProperty(pageUrl);
+        String env = saccountreader.getProperty(pageUrl);
         logger.debug("current url is: "+env);
         driver.get(env);
-        String strTitle = reader.getProperty("title." + pageUrl);
+        String strTitle = saccountreader.getProperty("title." + pageUrl);
         Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains(strTitle));
     }
 
