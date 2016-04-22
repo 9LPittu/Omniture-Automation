@@ -56,3 +56,4 @@ Feature: My Account Page
     When User clicks on WISHLIST link in My Account Page
     Then User should be in /wishlist menu link page
     And Verify J crew breadcrumb is not displayed
+    And Verify Embedded header is displayed
