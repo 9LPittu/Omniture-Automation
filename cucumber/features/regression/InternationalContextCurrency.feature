@@ -1,5 +1,5 @@
 @Context
-Feature:
+Feature: International Country Context
 
   Background:
     Given User is on homepage
@@ -48,7 +48,6 @@ Feature:
     And Verify user is in forgot password page
     And user should see selected country in the footer
 
-
   Scenario Outline: international context validation on Department/Gender Landing Pages
     And User clicks on <gender> link from top nav
     And user should see selected country in the footer
@@ -60,7 +59,6 @@ Feature:
       |Men   |
       |Boys  |
       |Girls |
-
 
   Scenario: Multiple Pages During Checkout Context and Currency validations
     When User clicks on hamburger menu
