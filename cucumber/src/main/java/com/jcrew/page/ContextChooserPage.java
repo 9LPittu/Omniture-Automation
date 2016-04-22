@@ -181,16 +181,9 @@ public class ContextChooserPage {
     	
     	Country country = new Country(url, currentCountryCode);    	
     	String countryName = country.getCountryName();
-    	
-    	String expectedURL = "";
-    	if(countryName.equalsIgnoreCase("UNITED STATES")){
-    		expectedURL = url;
-    	}
-    	else{
-    		expectedURL = url + "/" + currentCountryCode + "/";
-    	}
-    	
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
+		String expectedURL = country.getHomeurl();
+
+		Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
     	Util.waitLoadingBar(driver);
     	return driver.getCurrentUrl().matches(expectedURL);
     }
