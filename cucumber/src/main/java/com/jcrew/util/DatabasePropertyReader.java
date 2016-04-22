@@ -47,7 +47,7 @@ public class DatabasePropertyReader {
         String value = databaseProperties.getProperty(key);
 
         if (!hasProperty(key)) {
-            throw new RuntimeException("Property '" + key + "' is not defined in environment or viewport file");
+            throw new RuntimeException("Property '" + key + "' is not defined in databaseconnection or databasequeries file");
         }
 
         return value;
