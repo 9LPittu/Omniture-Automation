@@ -73,7 +73,7 @@ public class ProductDetailPage {
 
     @FindBy(className = "message--body")
     private WebElement messageBody;
-    
+
     @FindBy(css=".btn--link.btn--checkout.btn--primary")
     private WebElement minicartCheckout;
 
@@ -90,13 +90,13 @@ public class ProductDetailPage {
 
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
     }
-    
-    
+
+
 	public boolean isProductNamePriceListMatchesWithArrayPage(){
 
         String pdpProductNameString = getProductNameFromPDP();
         String pdpProductPriceString = getProductPriceList();
-    	
+
 		@SuppressWarnings("unchecked")
 		List<Product> productList = (List<Product>) stateHolder.get("productList");
 
@@ -167,7 +167,7 @@ public class ProductDetailPage {
 
     public int getNumberOfItemsInBag() {
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
-        
+
         Util.waitWithStaleRetry(driver, bagSize);
 
         String bagSizeStr = bagSize.getAttribute("innerHTML");
@@ -188,7 +188,7 @@ public class ProductDetailPage {
 
     public void select_size(String productSize) {
         WebElement productSizeElement = getProductSizeElement(productSize);
-        productSizeElement.click();        
+        productSizeElement.click();
     }
 
     private WebElement getProductSizeElement(String productSize) {
@@ -263,6 +263,12 @@ public class ProductDetailPage {
     }
 
     public void click_wishlist() {
+        Product thisProduct = new Product();
+        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setSelectedColor(getSelectedColor());
+        thisProduct.setSelectedSize(getSelectedSize());
+
+        stateHolder.put("wishlist", thisProduct);
         wishList.click();
     }
 
@@ -446,7 +452,14 @@ public class ProductDetailPage {
     	logger.debug("Current selected color in application: {}", currentSelectedColor);
 
     	Product product = (Product) stateHolder.get("recentlyAdded");
-    	String expectedColorName = product.getSelectedColor();
+        String expectedColorName;
+
+        if(product == null) {
+            product = (Product) stateHolder.get("wishlist");
+        }
+
+        expectedColorName = product.getSelectedColor();
+
     	logger.debug("Expected color to be in selection: {}", expectedColorName);
 
     	return expectedColorName.equalsIgnoreCase(currentSelectedColor);
@@ -458,7 +471,14 @@ public class ProductDetailPage {
     	logger.debug("Current selected size in application: {}", currentSelectedSize);
 
         Product product = (Product) stateHolder.get("recentlyAdded");
-    	String expectedSizeName = product.getSelectedSize();
+    	String expectedSizeName;
+
+        if(product == null) {
+            product = (Product) stateHolder.get("wishlist");
+        }
+
+        expectedSizeName = product.getSelectedSize();
+
     	logger.debug("Expected size to be in selection: {}", expectedSizeName);
 
     	return expectedSizeName.equalsIgnoreCase(currentSelectedSize);
