@@ -143,10 +143,9 @@ public class ContextChooserPage {
     	link.click();
     }
     
-    public void selectRandomCountry(){
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));
+    public void selectRandomCountry()  {
+
+		WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));
     	List<WebElement> regionHeaders = contextChooser.findElements(By.tagName("h5"));   	
     	int randomIndex = Util.randomIndex(regionHeaders.size());
     	String regionName = regionHeaders.get(randomIndex).getText();
