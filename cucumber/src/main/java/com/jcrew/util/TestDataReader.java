@@ -47,9 +47,9 @@ public class TestDataReader {
 		return value;
 	}
 
-	public String setData(String Key, String Value) {
-		Key
-	}
+//	public void setData(String Key, String Value) {
+//		Key = Value;
+//	}
 
 	private boolean hasProperty(String key) {
 		return testDataProperties.containsKey(key);

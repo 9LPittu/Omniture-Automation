@@ -54,8 +54,14 @@ public class StartingSteps {
 
     public void  getTheRandomInternationalPage(String country, List<String> pageUrlList) {
 
-        TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        testDataReader.getData("url.")
+        TestDataReader testData = TestDataReader.getTestDataReader();
+        logger.info(testData.getData("url.home"));
+        String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
+        page = page.toLowerCase();
+
+        String pageURL = testData.getData("url."+page);
+
+
         String env = reader.getProperty("environment");
 
         if("PRICEBOOK".equals(country)) {
@@ -68,18 +74,21 @@ public class StartingSteps {
             stateHolder.put("selectedCountry", countryName);
             logger.debug("country selected {}", selectedCountry);
 
-             env = env+"/"+selectedCountry+"/";
+            env = env+"/"+selectedCountry+pageURL;
+            logger.debug("selected random pricebook url: {}",env);
             driver.get(env);
 
         } else if("NON-PRICEBOOK".equals(country)) {
             int countryindex = Util.randomIndex(nonPricebookCountries.length);
-            String selectedCountry = nonPricebookCountries[countryindex];
-            Country countrydetails = new Country(selectedCountry.toLowerCase());
+            String selectedCountry = nonPricebookCountries[countryindex].toLowerCase();
+            Country countrydetails = new Country(selectedCountry);
             String countryName = countrydetails.getCountryName();
             stateHolder.put("selectedCountry", countryName);
-            stateHolder.put("countryCode", selectedCountry.toLowerCase());
+            stateHolder.put("countryCode", selectedCountry);
             logger.debug("country selected {}", selectedCountry);
-            env = env+"/"+selectedCountry.toLowerCase()+"/";
+
+            env = env+"/"+selectedCountry+pageURL;
+            logger.debug("selected random non-pricebook url: {}",env);
             driver.get(env);
         }
 

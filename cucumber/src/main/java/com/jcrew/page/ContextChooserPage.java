@@ -173,8 +173,9 @@ public class ContextChooserPage {
 		logger.info("Selected country: {}", countryName);
     }
     
-    public boolean isUserOnCountrySpecificHomePage(){
-    	
+    public boolean isUserOnCountrySpecificHomePage() {
+
+    	logger.info("Url after clicking on start shopping : {}", driver.getCurrentUrl());
     	String currentCountryCode = (String)stateHolder.get("countryCode");
     	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
@@ -193,6 +194,7 @@ public class ContextChooserPage {
     	
     	Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
     	Util.waitLoadingBar(driver);
+		logger.debug("expected url at this point should be "+driver.getCurrentUrl()+"  our expected url calculation {}", expectedURL);
     	return driver.getCurrentUrl().matches(expectedURL);
     }
     
