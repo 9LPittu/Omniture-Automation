@@ -543,7 +543,8 @@ public class ProductDetailPage {
     
     public boolean isCorrectCurrencySymbolonPDP() {
         boolean result = true;       
-        String strCurrency = (String)stateHolder.get("currency");
+        Country c = (Country) stateHolder.get("context");
+        String strCurrency = c.getCurrency();
         
         List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
         	
