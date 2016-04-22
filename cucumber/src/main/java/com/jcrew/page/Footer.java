@@ -132,7 +132,7 @@ public class Footer {
 
     }
 
-        public void click_to_close_drawer(String footerLink) {
+    public void click_to_close_drawer(String footerLink) {
         WebElement fLink = getFooterLinkElement(footerLink);
         WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
         String parentClass = fLinkParent.getAttribute("class");
@@ -198,7 +198,7 @@ public class Footer {
         boolean isIconValidationRequired = true;
         boolean isIconDisplayed = true;
         
-        String countryCode = (String) StateHolder.getInstance().get("countryCode");
+        String countryCode = (String) stateHolder.get("countryCode");
         
         if(icon.equalsIgnoreCase("vps") && (countryCode.equalsIgnoreCase("au") || countryCode.equalsIgnoreCase("sg") || countryCode.equalsIgnoreCase("hk") || countryCode.equalsIgnoreCase("de") || countryCode.equalsIgnoreCase("jp") || countryCode.equalsIgnoreCase("ch"))){
         	isIconValidationRequired = false;
