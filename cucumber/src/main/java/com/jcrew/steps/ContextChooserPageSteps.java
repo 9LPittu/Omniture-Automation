@@ -62,7 +62,7 @@ public class ContextChooserPageSteps extends DriverFactory {
     public void select_random_10country_from_context_chooser_page(){
     	contextChooser.selectTop10RandomCountry();
     }
-    
+
     @Then("^user should land on country specific home page$")
     public void user_should_land_on_country_specific_home_page(){
     	contextChooser.isUserOnCountrySpecificHomePage();

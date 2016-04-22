@@ -118,12 +118,12 @@ public class StartingSteps {
     
     @And("user should see country code in the url for international countries")
     public void user_should_see_country_code_in_url_for_international_countries(){
-    	
+
     	String countryCode = (String) stateHolder.get("countryCode");
     	String env = reader.getProperty("environment");
     	Country context = new Country(env, countryCode);
-    	
-    	assertTrue("Country code '" + countryCode + "' should be displayed in the url except United States", 
+
+    	assertTrue("Country code '" + countryCode + "' should be displayed in the url except United States",
     			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(context.getHomeurl())));
     }
 
