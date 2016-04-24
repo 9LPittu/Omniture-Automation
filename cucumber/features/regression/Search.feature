@@ -88,3 +88,14 @@ Feature: Search Regression Suite
       | search_term |
       | skirts      |
       | shoes       |
+   
+  Scenario: Local currency is displayed on search page
+	When Enters dresses to the search field
+	And Clicks on search button for input field
+	Then User is in search results page
+	And user should see selected country in the footer
+	And Verify proper currency symbol is displayed on product grid list
+	When Selects the first product from product grid list
+	Then User is in product detail page
+	And Verify proper currency symbol is displayed on PDP page
+   

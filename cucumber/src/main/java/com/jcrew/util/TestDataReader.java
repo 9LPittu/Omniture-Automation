@@ -24,12 +24,17 @@ public class TestDataReader {
 	public static TestDataReader getTestDataReader(){ return dataReader;}
 
 	private void loadProperties() throws IOException{
+		
 		String testData = "commonTestData.properties";
+		String countries = "countries.properties";
 
 		logger.debug("Test Data file to be used {}", testData);
 
 		FileInputStream environmentInput = new FileInputStream(testData);
+		FileInputStream countriesInput = new FileInputStream(countries);
+		
 		testDataProperties.load(environmentInput);
+		testDataProperties.load(countriesInput);
 	}
 
 	public String getData(String key){
@@ -41,6 +46,10 @@ public class TestDataReader {
 
 		return value;
 	}
+
+//	public void setData(String Key, String Value) {
+//		Key = Value;
+//	}
 
 	private boolean hasProperty(String key) {
 		return testDataProperties.containsKey(key);

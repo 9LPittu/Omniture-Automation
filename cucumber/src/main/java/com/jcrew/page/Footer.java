@@ -1,11 +1,14 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -59,7 +62,7 @@ public class Footer {
 
     @FindBy(id = "global__footer")
     private WebElement footerSection;
-     
+    
     public Footer(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -232,7 +235,7 @@ public class Footer {
     public boolean isChangeLinkDisplayedInFooter(){
     	return changeLinkInFooter.isDisplayed();
     }
-    
+
     public void clickChangeLinkInFooter(){
     	changeLinkInFooter.click();
     }
@@ -249,7 +252,7 @@ public class Footer {
     }
     
     public boolean isChangedCountryNameDsiplayedInFooter(String country){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(countryNameInFooter, country.toUpperCase()));
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(countryNameInFooter, country));
     	String currentCountryName = countryNameInFooter.getText().trim();
     	return currentCountryName.equalsIgnoreCase(country);
     }
@@ -342,5 +345,18 @@ public class Footer {
         String drawerClass = drawer.getAttribute("class");
 
         return !drawerClass.contains("is-expanded");
+    }
+    
+    public boolean isCorrectCountryNameDisplayedInFooter(){
+    	
+    	String expectedCountryName = (String)stateHolder.get("selectedCountry");
+ 
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));    	
+    	String actualCountryName = countryNameInFooter.getText();
+    	
+    	logger.info("Expected country to be selected: {}", expectedCountryName);
+    	logger.info("Actual country selected: {}", actualCountryName);
+    	
+    	return actualCountryName.equalsIgnoreCase(expectedCountryName);
     }
 }

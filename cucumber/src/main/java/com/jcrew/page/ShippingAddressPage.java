@@ -1,19 +1,26 @@
 package com.jcrew.page;
 
 import com.github.javafaker.Faker;
+import com.jcrew.pojo.Country;
+import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ShippingAddressPage {
 
     private final WebDriver driver;
-
+    private final Logger logger = LoggerFactory.getLogger(ShippingAddressPage.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private final Faker faker = new Faker();
 
     @FindBy(id = "firstNameSA")
@@ -42,7 +49,10 @@ public class ShippingAddressPage {
 
     @FindBy(id = "dropdown-us-city-state")
     private WebElement dropdownUsCityState;
-
+    
+    @FindBy(id="dropdown-state-province")
+    private WebElement dropdownIntProvince;
+    
     @FindBy (id = "sameBillShip")
     private WebElement sameBillingAndShippingAddress;
     
@@ -79,6 +89,12 @@ public class ShippingAddressPage {
     @FindBy(xpath=".//a[@class='button-submit' and text()='Use Address as Entered']")
     private WebElement checkYourAddress_UseAddressAsEntered;
     
+    @FindBy(id="city")
+    private WebElement townCity;
+    
+    @FindBy(id="state")
+    private WebElement provinceStateCounty;
+    
     public ShippingAddressPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -95,6 +111,33 @@ public class ShippingAddressPage {
         phoneNumSA.sendKeys(faker.phoneNumber().phoneNumber());
 
     }
+    
+    public void fills_shipping_address_testdata() {
+    	
+    	String expectedCountryCode = (String)stateHolder.get("countryCode");
+    	String expectedCountryName = (String)stateHolder.get("selectedCountry");
+        
+    	Country country = new Country(expectedCountryCode);  	
+    	
+        firstNameSA.sendKeys(faker.name().firstName());
+        lastNameSA.sendKeys(faker.name().lastName());
+        
+        address3.sendKeys(country.getCompanyName());
+        address1.sendKeys(country.getAddress1());
+        address2.sendKeys(country.getAddress2());
+        
+        if(!expectedCountryName.equals("Hong Kong")){
+        	zipcode.sendKeys(country.getZipCode());
+        }
+        phoneNumSA.sendKeys(faker.phoneNumber().phoneNumber());
+        
+        if(expectedCountryName.equals("United States") ||expectedCountryName.equals("Canada") ){
+        	selectCityAndState();
+        }
+        else{
+            selectIntlCityAndState(country.getCity(),country.getState());
+        }
+    }
 
     public void presses_continue_button_on_shipping_address() {
         continueCheckout.click();
@@ -102,20 +145,29 @@ public class ShippingAddressPage {
     }
 
     public String getSelectedCityAndState() {
-        WebElement cityStateElement = (Util.createWebDriverWait(driver)).
-                until(ExpectedConditions.visibilityOf(dropdownUsCityState));
+    	
+    		WebElement cityStateElement = (Util.createWebDriverWait(driver)).
+             until(ExpectedConditions.visibilityOf(dropdownUsCityState));
+    		
+    		 Select cityStateSelect = new Select(cityStateElement);
 
-        Select cityStateSelect = new Select(cityStateElement);
+    		 WebElement cityStateOptionSelected = cityStateSelect.getFirstSelectedOption();
 
-        WebElement cityStateOptionSelected = cityStateSelect.getFirstSelectedOption();
-
-        return cityStateOptionSelected.getText();
+    		 return cityStateOptionSelected.getText();
+    		
     }
 
     public boolean isBillingAndShippingSameAddress() {
         return sameBillingAndShippingAddress.isSelected();
     }
     
+    public boolean isIntlProvincePresent(){
+    	return dropdownIntProvince.isDisplayed();
+    }
+    
+    public boolean isProvinceStateCountyPresent(){
+    	return provinceStateCounty.isDisplayed();
+    }
     public void enterFirstNameOnShippingAddressPage(){
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(firstNameSA));
     	firstNameSA.sendKeys(faker.name().firstName());
@@ -188,5 +240,54 @@ public class ShippingAddressPage {
         Util.waitWithStaleRetry(driver,checkYourAddress_UseAddressAsEntered);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkYourAddress_UseAddressAsEntered));
     	Util.clickWithStaleRetry(checkYourAddress_UseAddressAsEntered);
+    }
+    
+    public void selectCityAndState() {
+    	
+    	try{
+    		WebElement cityStateElement = (Util.createWebDriverWait(driver,5)).
+    				until(ExpectedConditions.visibilityOfElementLocated(By.id("dropdown-us-city-state")));
+
+			 Select cityStateSelect = new Select(cityStateElement);
+	
+			 cityStateSelect.getFirstSelectedOption();
+    	}
+    	catch(Exception e){
+    		logger.info("There is no city & state dropdown displayed!!!");
+    		
+    		townCity.sendKeys("New York");
+    		try{
+    			 provinceStateCounty.sendKeys("NY");
+    		}
+    		catch(Exception e1){
+    			logger.info("Province/State/County is not displayed!!!");
+    		}
+    	}
+    }
+    
+    
+ public void selectIntlCityAndState(String cityname,String statename) {
+	 
+	 	String currentCountry =  (String) stateHolder.get("selectedCountry");
+    	
+    	try{
+    		WebElement city = driver.findElement(By.id("city"));
+    		city.sendKeys(cityname);
+    		
+    		if(!currentCountry.equals("Germany") && !currentCountry.equals("Switzerland") && !currentCountry.equals("Singapore")){
+	    		if(isIntlProvincePresent()){
+	    			WebElement stateElement = (Util.createWebDriverWait(driver,5)).
+	    			until(ExpectedConditions.visibilityOfElementLocated(By.id("dropdown-state-province")));
+	    			Select stateSelect = new Select(stateElement);
+	    			stateSelect.selectByVisibleText(statename);;
+	    		}
+    		}
+    	}
+    	catch(Exception e){
+    		if(isProvinceStateCountyPresent()){
+    			provinceStateCounty.sendKeys(statename);
+    		}
+    		logger.info("There is no city & state dropdown displayed!!!");
+    	}
     }
 }

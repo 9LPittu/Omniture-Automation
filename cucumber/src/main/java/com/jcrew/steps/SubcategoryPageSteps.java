@@ -364,7 +364,7 @@ public class SubcategoryPageSteps extends DriverFactory {
                 "tile__detail--colors-count']/preceding-sibling::span[@class='tile__detail tile__detail--price--list']" +
                 "/ancestor::div[@class='c-product-tile']");
     }
-    
+
     @And("^user selects any item from array page, select any color and size$")
     public void user_selects_any_item_from_array_page_select_any_size_color(){
     	subcategoryPage.selectRandomItemAndSelectSizeColor();
@@ -378,5 +378,10 @@ public class SubcategoryPageSteps extends DriverFactory {
     @And("^([^\"]*) price of \"([^\"]*)\" should match with expected \"([^\"]*)\"$")
     public void verify_item_price_in_search_results_page(String priceType, String saleItemPropertyName, String expectedPricePropertyName){
     	assertTrue(priceType + " price should match", subcategoryPage.isPriceMatchesForSaleItem(saleItemPropertyName, priceType, expectedPricePropertyName));
+    }
+    
+    @And("^Verify proper currency symbol is displayed on product grid list$")
+    public void verify_currency_on_product_gridlist(){
+    	assertTrue("Currency on product gridlist",subcategoryPage.isCorrectCurrencySymbolonProductGridList());
     }
 }

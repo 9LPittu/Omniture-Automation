@@ -116,4 +116,26 @@ public class ShippingAddressPageSteps extends DriverFactory {
     public void click_use_address_as_entered_button(){
     	shippingAddressPage.clickUseAddressAsEnteredButton();
     }
+    
+    @When("^user fills shipping address$")
+    public void user_fills_shipping_address() throws Throwable {
+
+        shippingAddressPage.fills_shipping_address();
+        
+        shippingAddressPage.selectCityAndState();
+
+        assertTrue("Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
+
+    }
+    
+    @When("^user fills selcted country shipping address$")
+    public void user_fills_country_shipping_address() throws Throwable {
+
+        shippingAddressPage.fills_shipping_address_testdata();
+        
+       // shippingAddressPage.selectCityAndState();
+
+        assertTrue("Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
+
+    }
 }

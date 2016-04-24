@@ -540,4 +540,32 @@ public class ProductDetailPage {
 		}
 
 	}
+    
+    public boolean isCorrectCurrencySymbolonPDP() {
+        boolean result = true;       
+        String strCurrency = (String)stateHolder.get("currency");
+        
+        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
+        	
+        if(productpricess.isEmpty()) {
+            logger.debug("Item Price  count not found for product details page");
+            result = true;
+        } else {
+        	for (WebElement price : productpricess) 
+        		if(!price.getText().isEmpty()) {
+        			if (!price.getText().contains(strCurrency)) {
+        				result = false;
+        				break;
+        			}
+        	}
+        }
+        if(result){
+        	logger.info("Currency symbol is displayed correctly on all on Product details page");
+        	
+        }
+        else{
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
+        }
+        return result;
     }
+}
