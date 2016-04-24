@@ -1,7 +1,6 @@
 package com.jcrew.pojo;
 
 import com.jcrew.util.PropertyReader;
-import com.jcrew.util.TestDataReader;
 
 /**
  * Created by nadiapaolagarcia on 4/6/16.
@@ -9,11 +8,12 @@ import com.jcrew.util.TestDataReader;
 public class Country {
 
     private String country;
+    private String currency;
     private String homeurl;
     private boolean contexturl;
+    
     private String countryCode;
     private String countryName;
-    private String currency;
     private String region;
     private String companyName;
     private String address1;
@@ -22,24 +22,22 @@ public class Country {
     private String city;
     private String state;
 
-
     public Country(String environment, String country) {
         PropertyReader properties = PropertyReader.getPropertyReader();
-        TestDataReader testData = TestDataReader.getTestDataReader();
-
-        this.countryName = testData.getData(countryCode + ".fullname");
-        this.currency = testData.getData(countryCode + ".currency");
-        this.region = testData.getData(countryCode + ".region");
-        this.companyName = testData.getData(countryCode + ".companyname");
-        this.address1 = testData.getData(countryCode + ".address1");
-        this.address2 = testData.getData(countryCode + ".address2");
-        this.zipcode = testData.getData(countryCode + ".zipcode");
-        this.city = testData.getData(countryCode + ".city");
-        this.state = testData.getData(countryCode + ".state");
 
         this.country = country;
         this.currency = properties.getProperty(country + ".currency");
         this.contexturl = Boolean.parseBoolean(properties.getProperty(country + ".contexturl"));
+        
+        this.countryCode = country;
+        this.countryName = properties.getProperty(country + ".fullname");
+        this.region = properties.getProperty(country + ".region");
+        this.companyName = properties.getProperty(country + ".companyname");
+        this.address1 = properties.getProperty(country + ".address1");
+        this.address2 = properties.getProperty(country + ".address2");
+        this.zipcode = properties.getProperty(country + ".zipcode");
+        this.city = properties.getProperty(country + ".city");
+        this.state = properties.getProperty(country + ".state");
 
         if("us".equalsIgnoreCase(country)){
             this.homeurl = environment;
@@ -50,16 +48,6 @@ public class Country {
 
     public String getCountry() {
         return country;
-    }
-
-
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-    
-    public String getCountryName() {
-        return countryName;
     }
 
     public String getCurrency() {
@@ -77,7 +65,14 @@ public class Country {
     public String getHomeurl() {
         return homeurl;
     }
-
+    
+    public String getCountryCode() {
+        return countryCode;
+    }
+    
+    public String getCountryName() {
+        return countryName;
+    }
     
     public String getRegion() {
         return region;

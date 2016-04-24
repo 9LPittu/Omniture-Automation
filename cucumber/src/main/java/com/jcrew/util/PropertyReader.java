@@ -29,7 +29,6 @@ public class PropertyReader {
         String environment = System.getProperty("environment", "ci");
         String viewport = System.getProperty("viewport", "desktop");
         String country = System.getProperty("country", "us");
-        
 
     	String environmentFile = environment + ".properties";
         String viewportFile = viewport + ".properties";

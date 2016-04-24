@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import com.github.javafaker.Faker;
 import com.jcrew.pojo.Country;
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
@@ -114,10 +115,13 @@ public class ShippingAddressPage {
     
     public void fills_shipping_address_testdata() {
     	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String url = propertyReader.getProperty("environment");
+    	
     	String expectedCountryCode = (String)stateHolder.get("countryCode");
     	String expectedCountryName = (String)stateHolder.get("selectedCountry");
         
-    	Country country = new Country(expectedCountryCode);  	
+    	Country country = new Country(url, expectedCountryCode);  	
     	
         firstNameSA.sendKeys(faker.name().firstName());
         lastNameSA.sendKeys(faker.name().lastName());

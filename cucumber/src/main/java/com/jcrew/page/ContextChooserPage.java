@@ -143,10 +143,9 @@ public class ContextChooserPage {
     	link.click();
     }
     
-    public void selectRandomCountry(){
-    	
-    	driver.manage().timeouts().implicitlyWait(Util.DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-    	WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));
+    public void selectRandomCountry()  {
+
+		WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));
     	List<WebElement> regionHeaders = contextChooser.findElements(By.tagName("h5"));   	
     	int randomIndex = Util.randomIndex(regionHeaders.size());
     	String regionName = regionHeaders.get(randomIndex).getText();
@@ -181,18 +180,11 @@ public class ContextChooserPage {
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String url = propertyReader.getProperty("environment");
     	
-    	Country country = new Country(currentCountryCode);    	
+    	Country country = new Country(url, currentCountryCode);    	
     	String countryName = country.getCountryName();
-    	
-    	String expectedURL = "";
-    	if(countryName.equalsIgnoreCase("UNITED STATES")){
-    		expectedURL = url;
-    	}
-    	else{
-    		expectedURL = url + "/" + currentCountryCode + "/";
-    	}
-    	
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
+		String expectedURL = country.getHomeurl();
+
+		Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
     	Util.waitLoadingBar(driver);
 		logger.debug("expected url at this point should be "+driver.getCurrentUrl()+"  our expected url calculation {}", expectedURL);
     	return driver.getCurrentUrl().matches(expectedURL);
@@ -216,7 +208,10 @@ public class ContextChooserPage {
 		String[] arrCountryCodes = StringUtils.split(countryCodes, ",");	
 		String countryCode = arrCountryCodes[Util.randomIndex(arrCountryCodes.length)];
 		
-		Country country = new Country(countryCode);
+		PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String url = propertyReader.getProperty("environment");
+		
+		Country country = new Country(url, countryCode);
 		String currency = country.getCurrency();
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
@@ -238,6 +233,7 @@ public class ContextChooserPage {
     	stateHolder.put("countryCode", countryCode);
 		stateHolder.put("selectedCountry", countryName);
 		stateHolder.put("currency", currency);
+        stateHolder.put("context", country);
 		
 		logger.info("Selected country: {}", countryName);
     }

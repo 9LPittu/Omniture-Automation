@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.util.StateHolder;
 
 import cucumber.api.java.en.Then;
@@ -50,7 +51,9 @@ public class MacroSteps {
     @Then("^Verify embedded footer is visible and functional$")
     public void verify_embedded_footer_visible_and_functional() throws Throwable{
     	
-    	String countryCode = (String) StateHolder.getInstance().get("countryCode");
+    	StateHolder stateHolder = StateHolder.getInstance();
+    	Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
     	
     	footerSteps.click_con_header_from_footer("Contact Us");
     	
@@ -65,7 +68,11 @@ public class MacroSteps {
     	}    	
     	
     	footerSteps.verify_footer_link_is_displayed("Let Us Help You");
-    	footerSteps.verify_footer_link_is_displayed("Our Cards");
+    	
+    	if(countryCode.equalsIgnoreCase("us") || countryCode.equalsIgnoreCase("ca")){
+    		footerSteps.verify_footer_link_is_displayed("Our Cards");
+    	}
+    	
     	footerSteps.verify_footer_link_is_displayed("Our Stores");    	
     	footerSteps.verify_footer_link_is_displayed("Our Brands");
     	footerSteps.verify_footer_link_is_displayed("About J.Crew");
