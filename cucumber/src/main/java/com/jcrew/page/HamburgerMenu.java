@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -20,7 +21,8 @@ public class HamburgerMenu {
     private final StateHolder stateHolder = StateHolder.getInstance();
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(HamburgerMenu.class);
-    
+    TestDataReader testDataReader = TestDataReader.getTestDataReader();
+
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement hamburgerMenuLink;
     
@@ -88,9 +90,21 @@ public class HamburgerMenu {
     }
 
     public void click_on_back_link() {
-        WebElement backLink = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-arrow-back"))));
-        backLink.click();
+        WebElement nav__wrap = globalNav.findElement(By.className("nav__wrap"));
+
+        String nav__wrap__class = nav__wrap.getAttribute("class");
+
+        if (nav__wrap__class.contains("is-offscreen-left-x1")) {
+            WebElement js_menus__level2 = nav__wrap.findElement(By.className("js-menus--level2"));
+            WebElement back = js_menus__level2.findElement(By.className("js-menu__btn--back"));
+
+            back.click();
+        } else if(nav__wrap__class.contains("is-offscreen-left-x2")) {
+            WebElement js_menus__level3 = nav__wrap.findElement(By.className("js-menus--level3"));
+            WebElement back = js_menus__level3.findElement(By.className("js-menu__btn--back"));
+
+            back.click();
+        }
     }
 
     public boolean isCategoryPresent(String category) {
@@ -100,7 +114,7 @@ public class HamburgerMenu {
     public void click_on_category(String category) {
         String url = driver.getCurrentUrl();
 
-        getCategory(category).click();        
+        getCategory(category).click();
 
         if("sale".equalsIgnoreCase(category)){
             Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
@@ -169,8 +183,8 @@ public class HamburgerMenu {
                 "translate('" + category + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
 
-    public void close_subcategory_hamburger_menu() {    	
-    	WebElement closeIcon = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-close"))));        
+    public void close_subcategory_hamburger_menu() {
+    	WebElement closeIcon = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-close"))));
         closeIcon.click();
     }
 

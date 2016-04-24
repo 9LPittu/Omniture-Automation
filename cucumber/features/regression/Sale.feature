@@ -161,16 +161,3 @@ Feature: Sale Regression Suite
       And Select random single option from Category refinement
       Then Verify selected value is displayed next to Category refinement
       Then Verify that Category refinement is closed
-   
-   Scenario: Local currency is displayed on sale page
-	  Given User is on homepage
-	  And User clicks on hamburger menu
-	  And Selects sale Category from hamburger menu
-	  And user should see selected country in the footer
-	  And User clicks on WOMEN subcategory from Sales	
-	  And Verify proper currency symbol is displayed on product grid list
-	  And user should see selected country in the footer
-	  And Selects any product from product grid list
-	  And User is in product detail page
-	  And Verify proper currency symbol is displayed on PDP page
-	  Then Verify embedded footer is visible and functional

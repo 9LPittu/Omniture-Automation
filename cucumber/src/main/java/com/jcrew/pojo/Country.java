@@ -1,6 +1,7 @@
 package com.jcrew.pojo;
 
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.TestDataReader;
 
 /**
  * Created by nadiapaolagarcia on 4/6/16.
@@ -8,12 +9,33 @@ import com.jcrew.util.PropertyReader;
 public class Country {
 
     private String country;
-    private String currency;
     private String homeurl;
     private boolean contexturl;
+    private String countryCode;
+    private String countryName;
+    private String currency;
+    private String region;
+    private String companyName;
+    private String address1;
+    private String address2;
+    private String zipcode;
+    private String city;
+    private String state;
+
 
     public Country(String environment, String country) {
         PropertyReader properties = PropertyReader.getPropertyReader();
+        TestDataReader testData = TestDataReader.getTestDataReader();
+
+        this.countryName = testData.getData(countryCode + ".fullname");
+        this.currency = testData.getData(countryCode + ".currency");
+        this.region = testData.getData(countryCode + ".region");
+        this.companyName = testData.getData(countryCode + ".companyname");
+        this.address1 = testData.getData(countryCode + ".address1");
+        this.address2 = testData.getData(countryCode + ".address2");
+        this.zipcode = testData.getData(countryCode + ".zipcode");
+        this.city = testData.getData(countryCode + ".city");
+        this.state = testData.getData(countryCode + ".state");
 
         this.country = country;
         this.currency = properties.getProperty(country + ".currency");
@@ -28,36 +50,9 @@ public class Country {
 
     public String getCountry() {
         return country;
-import com.jcrew.util.TestDataReader;
-
-public class Country {
-
-	private String countryCode;
-    private String countryName;
-    private String currency;
-    private String region;
-    private String companyName;
-    private String address1;
-    private String address2;
-    private String zipcode;
-    private String city;
-    private String state;
-    
-    public Country(String countryCode) {
-    	
-        TestDataReader testData = TestDataReader.getTestDataReader();
-
-        this.countryCode = countryCode;
-        this.countryName = testData.getData(countryCode + ".fullname");
-        this.currency = testData.getData(countryCode + ".currency");
-        this.region = testData.getData(countryCode + ".region");
-        this.companyName = testData.getData(countryCode + ".companyname");
-        this.address1 = testData.getData(countryCode + ".address1");
-        this.address2 = testData.getData(countryCode + ".address2");
-        this.zipcode = testData.getData(countryCode + ".zipcode");
-        this.city = testData.getData(countryCode + ".city");
-        this.state = testData.getData(countryCode + ".state");
     }
+
+
 
     public String getCountryCode() {
         return countryCode;
@@ -82,7 +77,7 @@ public class Country {
     public String getHomeurl() {
         return homeurl;
     }
-}
+
     
     public String getRegion() {
         return region;
