@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.jcrew.pojo.Country;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -114,16 +115,19 @@ public class SalePage {
     }
 
     public boolean isSalePageDisplayed(){
+        Country country = (Country) stateHolder.get("context");
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleHeader));
-        return saleHeader.isDisplayed();
+
+        return saleHeader.isDisplayed() & Util.countryContextURLCompliance(driver,country);
     }
 
     public boolean isSaleLandingPage() {
+        Country country = (Country) stateHolder.get("context");
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("r/sale"));
 
-        return true;
+        return Util.countryContextURLCompliance(driver,country);
     }
 
     public boolean isSaleTitleDisplayed() {

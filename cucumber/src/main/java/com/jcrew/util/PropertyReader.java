@@ -38,11 +38,6 @@ public class PropertyReader {
         inputFile = new FileInputStream("user.properties");
         properties.load(inputFile);
 
-        String strURL = properties.getProperty(execEnvironment);
-        logger.info("URL to be used {}", strURL);
-        properties.setProperty("url", strURL);
-
-        
         properties.setProperty("viewport", execViewport);
         
         if (execViewport.equalsIgnoreCase("phantomjs") | execViewport.equalsIgnoreCase("chrome") | execViewport.equalsIgnoreCase("firefox")) {
@@ -78,7 +73,7 @@ public class PropertyReader {
         String value = properties.getProperty(key);
 
         if (!hasProperty(key)) {
-            throw new RuntimeException("Property '" + key + "' is not defined in environment or viewport file");
+            throw new RuntimeException("Property '" + key + "' is not defined in environment,viewport our country file");
         }
 
         return value;
