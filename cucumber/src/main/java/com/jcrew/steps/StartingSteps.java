@@ -87,14 +87,8 @@ public class StartingSteps {
     }
 
     public void getInitialPage() {
-<<<<<<< HEAD
-        String env = reader.getProperty("url");
-||||||| merged common ancestors
-        String env = reader.getProperty("environment");
-=======
         String country = reader.getProperty("country");
-        String env = reader.getProperty("environment");
->>>>>>> master
+        String env = reader.getProperty("url");
         String browser = reader.getProperty("browser");
 
         Country context = new Country(env, country);
