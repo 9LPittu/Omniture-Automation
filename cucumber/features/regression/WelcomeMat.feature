@@ -20,7 +20,6 @@ Scenario Outline: Welcome mat display validation for international home page
   When User clicks on hamburger menu
   And user selects any category from hamburger menu
   And user selects any subcategory
-  And User should be in subcategory page
   And user should see selected country in the footer
   And user should see country code in the url for international countries
   And user selects any item from array page, select any color and size
@@ -74,7 +73,6 @@ Scenario Outline: Validation of Take me to the U.S. site. link functionality
   |Sale    |
   |Login   |
   And User clicks on Take me to the U.S. site. on welcome mat
-  And Verify user is in homepage
   And user should see "United States" in footer
   When User clicks on hamburger menu
   And user selects any category from hamburger menu
