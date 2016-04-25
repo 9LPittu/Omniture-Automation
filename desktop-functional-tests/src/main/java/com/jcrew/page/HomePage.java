@@ -36,6 +36,7 @@ public class HomePage {
     }
 
     public boolean isHomePage(){
+        headerWrap.reload();
         WebElement body = driver.findElement(By.tagName("body"));
         String bodyClass = body.getAttribute("class");
 

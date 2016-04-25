@@ -49,6 +49,8 @@ public class HeaderWrap {
     private WebElement global_header;
     @FindBy(id = "global__nav")
     private WebElement global_nav;
+    @FindBy(id = "js-header__logo")
+    private WebElement header_logo;
 
     private WebElement dropdown;
 
@@ -67,6 +69,20 @@ public class HeaderWrap {
     public void openMenu() {
         menu.click();
         wait.until(ExpectedConditions.visibilityOf(global_nav));
+    }
+
+    public void clickLogo() {
+        if (header_logo.isDisplayed()) {
+            header_logo.click();
+        } else {
+            clickBreadCrumb("J.Crew");
+        }
+    }
+
+    public void clickBreadCrumb(String text) {
+        WebElement breadCrumb = global_header.findElement(
+                By.xpath(".//a[@class='breadcrumb__link' and text()='" + text + "']"));
+        breadCrumb.click();
     }
 
     public void searchFor(String searchTerm) {
@@ -93,7 +109,6 @@ public class HeaderWrap {
     }
 
     public void clickBag() {
-        hoverOverIcon("bag");
         bag.click();
     }
 
@@ -131,7 +146,7 @@ public class HeaderWrap {
             WebElement logo = global_header.findElement(By.className("c-header__logo"));
             String logoClass = logo.getAttribute("class");
 
-            if(logoClass.contains("is-hidden")) {
+            if (logoClass.contains("is-hidden")) {
                 logo = global_header.findElement(By.className("c-header__breadcrumb"));
             }
 
@@ -148,14 +163,21 @@ public class HeaderWrap {
     }
 
     public void goToMyDetailsDropDownMenu(String option) {
-        hoverOverIcon("my details");
+        hoverOverIcon("my account");
         dropdown = userPanel.findElement(By.tagName("dl"));
         WebElement optionElement = dropdown.findElement(By.linkText(option));
         optionElement.click();
     }
 
     public boolean isSignInVisible() {
-        return sign_in.isDisplayed();
+        boolean result = false;
+        wait.until(ExpectedConditions.visibilityOf(sign_in));
+        List<WebElement> signInLink = sign_in.findElements(By.tagName("a"));
+
+        if(signInLink.size() == 1)
+            result = true;
+
+        return result;
     }
 
     public void waitUntilNoCheckOutDropdown() {

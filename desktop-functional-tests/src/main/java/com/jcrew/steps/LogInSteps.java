@@ -57,6 +57,11 @@ public class LogInSteps extends DriverFactory {
         assertTrue("Selected country is " + country, equalsIgnoringCase);
     }
 
+    @Then("Selected country matches the current country context")
+    public void selected_country_matches_the_current_country_context() {
+        assertTrue("Selected country matches context", logIn.selectedCountryMatchesContext());
+    }
+
     @Then("^Error message disappears from field ([^\"]*)$")
     public void error_message_is_not_displayed_for_field(String field) {
         assertFalse("Field " + field + " should not display error message", logIn.hasErrorMessage(field));
@@ -94,6 +99,11 @@ public class LogInSteps extends DriverFactory {
     @Then("Verify form does not contain international email option message")
     public void verify_form_does_not_contains_intl_email_option_message() {
         assertFalse(logIn.hasIntlEmailOptMessage());
+    }
+
+    @Then("Verify form contains international email option message according to country context")
+    public void verify_form_contains_international_email_option_message_according_to_country_context() {
+        assertTrue("Selected country matches context", logIn.checkIntlEmailOptMessageForContext());
     }
 
     @When("^User selects ([^\"]*) country$")

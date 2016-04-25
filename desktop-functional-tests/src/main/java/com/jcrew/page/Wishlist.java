@@ -1,6 +1,8 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,11 +21,12 @@ public class Wishlist {
     private final Logger logger = LoggerFactory.getLogger(Wishlist.class);
     private final WebDriverWait wait;
     private final HeaderWrap header;
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
-    @FindBy (id = "wishlistName")
+    @FindBy(id = "wishlistName")
     private WebElement wishlistName;
 
-    public Wishlist(WebDriver driver){
+    public Wishlist(WebDriver driver) {
         this.driver = driver;
         wait = Util.createWebDriverWait(driver);
         header = new HeaderWrap(driver);
@@ -32,7 +35,9 @@ public class Wishlist {
         wait.until(ExpectedConditions.visibilityOf(wishlistName));
     }
 
-    public boolean isWishList(){
+    public boolean isWishList() {
+        Country country = (Country) stateHolder.get("context");
+        boolean isURLPattern = Util.countryContextURLCompliance(driver, country, "/wishlist/");
         return wishlistName.isDisplayed();
     }
 }
