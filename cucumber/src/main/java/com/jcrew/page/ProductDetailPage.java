@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.apache.commons.lang3.StringUtils;
@@ -76,6 +77,12 @@ public class ProductDetailPage {
     
     @FindBy(css=".btn--link.btn--checkout.btn--primary")
     private WebElement minicartCheckout;
+    
+    @FindBy(xpath="//div[@class='product__us-sizes']")
+    private WebElement sizeMessage;
+
+    @FindBy(xpath="//div[@class='c-product_pdpMessage']/div")
+    private WebElement pdpMessage;
 
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
@@ -568,5 +575,54 @@ public class ProductDetailPage {
         	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
         }
         return result;
+    }
+    
+    public boolean isSizeMessageDisplayedOnPDP(){
+    	    	
+    	Country c = (Country) stateHolder.get("context");
+    	String countryCode = c.getCountry();
+    	
+    	String expectedSizeMessage = "";
+    	String actualSizeMessage = "";
+    	
+    	if(!countryCode.equalsIgnoreCase("us")){
+    		TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    		expectedSizeMessage = testDataReader.getData("pdp.size.message");
+    		logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
+    		
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeMessage));
+    		actualSizeMessage = sizeMessage.getText().trim();
+    		logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
+    	}
+    	else{
+       		logger.info("Size message on PDP will not be displayed for '" + countryCode + "' country");
+       	}
+    	
+    	return actualSizeMessage.equalsIgnoreCase(expectedSizeMessage);
+    }
+    	    
+    public boolean isMessageDisplayedOnPDP(){
+    	    	
+    	Country c = (Country) stateHolder.get("context");
+    	String countryCode = c.getCountry();
+       	
+       	String expectedPDPMessage = "";
+       	String actualPDPMessage = "";
+       	
+       	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+       	
+       	if(!countryCode.equalsIgnoreCase("us")){
+       		expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
+       		logger.info("Expected PDP Message: {}", expectedPDPMessage);
+       		
+       		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
+       		actualPDPMessage = pdpMessage.getText().trim();
+       		logger.info("Actual PDP Message: {}", expectedPDPMessage);
+       	}
+       	else{
+       		logger.info("PDP message will not be displayed for '" + countryCode + "' country");
+       	}
+       	
+       	return actualPDPMessage.equalsIgnoreCase(expectedPDPMessage);
     }
 }

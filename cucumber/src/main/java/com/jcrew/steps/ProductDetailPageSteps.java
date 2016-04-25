@@ -336,4 +336,10 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_currency_on_product_PDP(){
     	assertTrue("Currency on product details page",productDetailPage.isCorrectCurrencySymbolonPDP());
     }
+    
+    @And("^user should see the PDP messages for the selected country$")
+    public void user_should_see_pdp_messages(){
+    	assertTrue("User should see size related messages on the PDP page for the selected country",productDetailPage.isSizeMessageDisplayedOnPDP());
+    	assertTrue("User should see message on the PDP page for the selected country",productDetailPage.isMessageDisplayedOnPDP());
+    }
 }
