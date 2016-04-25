@@ -25,9 +25,9 @@ public class NavigationSteps extends DriverFactory {
         
     	PropertyReader reader = PropertyReader.getPropertyReader();
         
-    	String currentCountryCode = (String)stateHolder.get("countryCode");
-    
-        getDriver().navigate().to(reader.getProperty("environment") + "/" + currentCountryCode + uri);
+    	Country c = (Country)stateHolder.get("context");
+         String homeurl = c.getHomeurl();
+        getDriver().navigate().to( homeurl+ uri);
         Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(uri));
     }
 
