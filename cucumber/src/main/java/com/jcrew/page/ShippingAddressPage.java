@@ -118,11 +118,8 @@ public class ShippingAddressPage {
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String url = propertyReader.getProperty("environment");
     	
-    	String expectedCountryCode = (String)stateHolder.get("countryCode");
-    	String expectedCountryName = (String)stateHolder.get("selectedCountry");
-        
-    	Country country = new Country(url, expectedCountryCode);  	
-    	
+    	Country country = (Country)stateHolder.get("context");
+    	String countryName = country.getCountryName();
         firstNameSA.sendKeys(faker.name().firstName());
         lastNameSA.sendKeys(faker.name().lastName());
         
@@ -130,12 +127,12 @@ public class ShippingAddressPage {
         address1.sendKeys(country.getAddress1());
         address2.sendKeys(country.getAddress2());
         
-        if(!expectedCountryName.equals("Hong Kong")){
+        if(!countryName.equals("Hong Kong")){
         	zipcode.sendKeys(country.getZipCode());
         }
         phoneNumSA.sendKeys(faker.phoneNumber().phoneNumber());
         
-        if(expectedCountryName.equals("United States") ||expectedCountryName.equals("Canada") ){
+        if(countryName.equals("United States") ||countryName.equals("Canada") ){
         	selectCityAndState();
         }
         else{
