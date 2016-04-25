@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
@@ -72,7 +73,7 @@ public class ProductDetailPage {
 
     @FindBy(className = "message--body")
     private WebElement messageBody;
-    
+
     @FindBy(css=".btn--link.btn--checkout.btn--primary")
     private WebElement minicartCheckout;
 
@@ -82,18 +83,20 @@ public class ProductDetailPage {
     }
 
     public boolean isProductDetailPage() {
+        Country country = (Country) stateHolder.get("context");
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+        boolean isURL = Util.countryContextURLCompliance(driver, country);
 
-        return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText());
+        return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
     }
-    
-    
+
+
 	public boolean isProductNamePriceListMatchesWithArrayPage(){
 
         String pdpProductNameString = getProductNameFromPDP();
         String pdpProductPriceString = getProductPriceList();
-    	
+
 		@SuppressWarnings("unchecked")
 		List<Product> productList = (List<Product>) stateHolder.get("productList");
 
@@ -101,6 +104,8 @@ public class ProductDetailPage {
 
         for(Product product:productList){
             String productName = product.getProductName();
+            productName = cleanProductName(productName);
+
             String productPrice = product.getPriceList();
             logger.debug("Found: {} - {}", productName, productPrice);
             if(productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)){
@@ -109,6 +114,20 @@ public class ProductDetailPage {
         }
 
 		return false;
+    }
+
+    private String cleanProductName(String productName) {
+        productName = productName.toLowerCase();
+
+        if(productName.startsWith("the ")) {
+            productName = productName.replaceFirst("the ", "");
+        } else if(productName.startsWith("a ")) {
+            productName = productName.replaceFirst("a ", "");
+        } else if(productName.startsWith("pre-order ")) {
+            productName = productName.replaceFirst("pre-order ", "");
+        }
+
+        return productName;
     }
 
     public void select_variation() {
@@ -161,7 +180,7 @@ public class ProductDetailPage {
 
     public int getNumberOfItemsInBag() {
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
-        
+
         Util.waitWithStaleRetry(driver, bagSize);
 
         String bagSizeStr = bagSize.getAttribute("innerHTML");
@@ -182,7 +201,7 @@ public class ProductDetailPage {
 
     public void select_size(String productSize) {
         WebElement productSizeElement = getProductSizeElement(productSize);
-        productSizeElement.click();        
+        productSizeElement.click();
     }
 
     private WebElement getProductSizeElement(String productSize) {
@@ -257,6 +276,12 @@ public class ProductDetailPage {
     }
 
     public void click_wishlist() {
+        Product thisProduct = new Product();
+        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setSelectedColor(getSelectedColor());
+        thisProduct.setSelectedSize(getSelectedSize());
+
+        stateHolder.put("wishlist", thisProduct);
         wishList.click();
     }
 
@@ -440,7 +465,14 @@ public class ProductDetailPage {
     	logger.debug("Current selected color in application: {}", currentSelectedColor);
 
     	Product product = (Product) stateHolder.get("recentlyAdded");
-    	String expectedColorName = product.getSelectedColor();
+        String expectedColorName;
+
+        if(product == null) {
+            product = (Product) stateHolder.get("wishlist");
+        }
+
+        expectedColorName = product.getSelectedColor();
+
     	logger.debug("Expected color to be in selection: {}", expectedColorName);
 
     	return expectedColorName.equalsIgnoreCase(currentSelectedColor);
@@ -452,7 +484,14 @@ public class ProductDetailPage {
     	logger.debug("Current selected size in application: {}", currentSelectedSize);
 
         Product product = (Product) stateHolder.get("recentlyAdded");
-    	String expectedSizeName = product.getSelectedSize();
+    	String expectedSizeName;
+
+        if(product == null) {
+            product = (Product) stateHolder.get("wishlist");
+        }
+
+        expectedSizeName = product.getSelectedSize();
+
     	logger.debug("Expected size to be in selection: {}", expectedSizeName);
 
     	return expectedSizeName.equalsIgnoreCase(currentSelectedSize);
@@ -537,4 +576,33 @@ public class ProductDetailPage {
 		}
 
 	}
+    
+    public boolean isCorrectCurrencySymbolonPDP() {
+        boolean result = true;       
+        Country c = (Country) stateHolder.get("context");
+        String strCurrency = c.getCurrency();
+        
+        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
+        	
+        if(productpricess.isEmpty()) {
+            logger.debug("Item Price  count not found for product details page");
+            result = true;
+        } else {
+        	for (WebElement price : productpricess) 
+        		if(!price.getText().isEmpty()) {
+        			if (!price.getText().contains(strCurrency)) {
+        				result = false;
+        				break;
+        			}
+        	}
+        }
+        if(result){
+        	logger.info("Currency symbol is displayed correctly on all on Product details page");
+        	
+        }
+        else{
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
+        }
+        return result;
     }
+}

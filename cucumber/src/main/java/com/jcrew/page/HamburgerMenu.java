@@ -201,13 +201,16 @@ public class HamburgerMenu {
 
         String categoryName = category.getText();
         category.click();
+        Util.waitLoadingBar(driver);
 
         stateHolder.put("category", categoryName);
         logger.debug("'{}' category is clicked", categoryName);
     }
 
     public void click_random_subcategory() {
-        String categorySelected = (String) stateHolder.get("category");
+
+        String categorySelected = (String) stateHolder.get("category");        
+                
         categorySelected = categorySelected.toLowerCase();
 
         String subCategories = testDataReader.getData(categorySelected);
@@ -218,8 +221,8 @@ public class HamburgerMenu {
 
         List<WebElement> menuItemLinks = getMenuItemElementForCategory(categorySelected).findElements(
                 By.xpath(".//a[@class='menu__link menu__link--has-href' and " +
-                        "contains(@name,'" + categorySelected + ">" + subCatSelected + "')]"));
-
+                                               "contains(@name,'" + categorySelected + ">" + subCatSelected + "')]"));
+        
         WebElement subcategory = menuItemLinks.get(Util.randomIndex(menuItemLinks.size()));
         String subCategoryText = subcategory.getText();
 

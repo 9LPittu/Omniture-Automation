@@ -3,7 +3,9 @@ Feature: Edit Product In Bags Scenarios
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
 
+  
   Scenario: Verify on edit mode add to bag changes to update bag
     When User clicks on hamburger menu
     And user selects WOMEN category from hamburger menu
@@ -17,6 +19,7 @@ Feature: Edit Product In Bags Scenarios
     And Clicks edit button on item bag page
     Then user should see that previously selected color is retained
     And user should see that previously selected size is retained
+    And Verify proper currency symbol is displayed on PDP page
     And Verify update bag button is present
     And user selects a new color
     And user selects a new size

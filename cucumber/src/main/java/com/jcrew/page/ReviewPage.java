@@ -141,11 +141,15 @@ public class ReviewPage {
     	for(WebElement itemDetailOnReviewPage:itemDetailsOnReviewPage){
     		WebElement reviewPageproductName = itemDetailOnReviewPage.findElement(By.className("item-name"));
     		WebElement reviewPageproductPrice = itemDetailOnReviewPage.findElement(By.className("item-price"));
+            String reviewPageProductNameText = "";
     		
     		List<Product> productList = (List<Product>) stateHolder.get("productList");
     		for(int i=0;i<productList.size();i++){
+                reviewPageProductNameText = reviewPageproductName.getText();
+                reviewPageProductNameText = cleanProductName(reviewPageProductNameText);
+
     			Product product = productList.get(i);
-    			if(product.getProductName().equalsIgnoreCase(reviewPageproductName.getText())){				
+    			if(product.getProductName().equalsIgnoreCase(reviewPageProductNameText)){
 					if(reviewPageproductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())){
 						blnResult = true;
 						break;
@@ -153,17 +157,31 @@ public class ReviewPage {
     			}
     			
     			if(blnResult){
-    				logger.debug(reviewPageproductName.getText() + " product details matches on review page");
+    				logger.debug(reviewPageProductNameText + " product details matches on review page");
     				break;
     			}
     		}
     		
     		if(!blnResult){
-				logger.debug(reviewPageproductName.getText() + " product details does not match on review page");
+				logger.debug(reviewPageProductNameText + " product details does not match on review page");
 				break;
     		}
     	}
     	
     	return blnResult;    	
+    }
+
+    private String cleanProductName(String productName) {
+        productName = productName.toLowerCase();
+
+        if(productName.startsWith("the ")) {
+            productName = productName.replaceFirst("the ", "");
+        } else if(productName.startsWith("a ")) {
+            productName = productName.replaceFirst("a ", "");
+        } else if(productName.startsWith("pre-order ")) {
+            productName = productName.replaceFirst("pre-order ", "");
+        }
+
+        return productName;
     }
 }

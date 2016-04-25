@@ -41,7 +41,7 @@ Feature: Search Regression Suite
     And Select random single option from Category refinement
     Then Verify selected value is displayed next to Category refinement
     Then Verify that Category refinement is closed
-    And Click on Size refinement    
+    And Click on Size refinement
     And select available random option from Size refinement
     And user should see single value name/number of values selected next to Size refinement
     And select available random option from Size refinement

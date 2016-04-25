@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.jcrew.pojo.Country;
 
 public class SubcategoryPage {
 
@@ -134,8 +136,9 @@ public class SubcategoryPage {
     }
 
     public boolean isProductGridPresent() {
+        Country country = (Country) stateHolder.get("context");
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
-        return productGrid.isDisplayed();
+        return productGrid.isDisplayed() & Util.countryContextURLCompliance(driver, country);
     }
 
     public void hover_first_product_in_grid() {
@@ -564,7 +567,7 @@ public class SubcategoryPage {
         productList.add(product);
         stateHolder.put("productList", productList);
     }
-    
+
     public void selectRandomItemAndSelectSizeColor(){
 
     	boolean isItemFound = false;
@@ -766,5 +769,33 @@ public class SubcategoryPage {
         }
 
         return expectedItemPrice.equalsIgnoreCase(price);
+    }
+    
+    
+    public boolean isCorrectCurrencySymbolonProductGridList() {
+        boolean result = true;        
+        String strCurrency = (String)stateHolder.get("currency");
+        
+        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail tile__detail--price--')]"));
+        	
+        if(productpricess.isEmpty()) {
+            logger.debug("Item Price  count not found on PDP page");
+            result = true;
+        } else {
+        	for (WebElement price : productpricess) 
+        	
+        		if (!price.getText().contains(strCurrency)) {
+        			result = false;
+        			break;
+        		}
+        }
+        if(result){
+        	logger.info("Currency symbol is displayed correctly on all Item prices on Product grid list");
+        	
+        }
+        else{
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
+        }
+        return result;
     }
 }

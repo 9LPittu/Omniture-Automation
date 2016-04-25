@@ -11,7 +11,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -74,7 +72,7 @@ public class DriverFactory {
 
             driver = new FirefoxDriver();
             driver.manage().window().setSize(new Dimension(width, height));
-
+            
         } else if ("iossafari".equals(browser)) {
 
             DesiredCapabilities capabilities = DesiredCapabilities.iphone();
@@ -280,23 +278,6 @@ public class DriverFactory {
             logger.error("Not able to delete cookies", e);
         }
 
-    }
-
-    public void cleanSession(){
-        String identifier = Thread.currentThread().getName();
-        WebDriver driver = driverMap.get(identifier);
-
-        Set<Cookie> cookies = driver.manage().getCookies();
-
-        try{
-            if(cookies.size() > 0){
-                for (Cookie cookie : cookies) {
-                    driver.manage().deleteCookie(cookie);
-                }
-            }
-        } catch (Exception e){
-            logger.error("Not able to delete cookies to clean session", e);
-        }
     }
 
     public void resetDriver(){

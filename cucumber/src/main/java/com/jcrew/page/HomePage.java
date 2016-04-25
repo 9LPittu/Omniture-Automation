@@ -1,11 +1,14 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +18,7 @@ public class HomePage {
 
     private final WebDriver driver;
     private Logger logger = LoggerFactory.getLogger(HomePage.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
 
     @FindBy(id = "lightbox")
@@ -62,12 +66,17 @@ public class HomePage {
     }
 
     public boolean isHomePage() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
-        final WebElement pageHome = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOfElementLocated(By.id("page__home")));
+        Country country = (Country)stateHolder.get("context");
+        WebDriverWait wait = Util.createWebDriverWait(driver);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        final WebElement pageHome = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page__home")));
+
         Util.waitWithStaleRetry(driver,pageHome);
-        return pageHome.isDisplayed();
+        boolean isDisplayed = pageHome.isDisplayed();
+        boolean isURL = Util.countryContextURLCompliance(driver,country);
+
+        return isDisplayed & isURL;
     }
 
     public void close_email_pop_up() {
@@ -80,20 +89,22 @@ public class HomePage {
         boolean emailCapture = jse.executeScript("return jcrew.config.showEmailCapture;").equals(true);
         logger.debug("Email capture? {}", emailCapture);
 
-        if(emailCapture) {
-            logger.debug("Email capture on, let's turn it off!!");        
-            
-            List<WebElement> email_capture = driver.findElements(
-                    By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"));
-
-            if(email_capture.size() > 0) {
-                WebElement close = email_capture.get(0);
-                Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(close));
-                close.click();
-            } else {
-                logger.debug("No email capture displayed...");
+        if(emailCapture) {                    
+            try{
+	            List<WebElement> email_capture = Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(
+	                    By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"))));
+	            
+	            if(email_capture.size() > 0) {
+	            	logger.debug("Email capture on, let's turn it off!!");
+	                WebElement close = email_capture.get(0);
+	                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(close));
+	                close.click();
+	            }
             }
-
+            catch(Exception e){
+            	logger.debug("No email capture displayed...");
+            }
+            
         }
     }
 

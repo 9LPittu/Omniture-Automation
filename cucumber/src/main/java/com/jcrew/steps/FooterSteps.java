@@ -3,10 +3,13 @@ package com.jcrew.steps;
 import com.jcrew.page.Footer;
 import com.jcrew.util.DriverFactory;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 public class FooterSteps extends DriverFactory {
     private final Footer footer = new Footer(getDriver());
@@ -116,7 +119,7 @@ public class FooterSteps extends DriverFactory {
     public void click_change_link_in_footer(){
     	footer.clickChangeLinkInFooter();
     }
-    
+
     @And("^select country as \"([^\"]*)\"$")
     public void select_country_from_footer(String country){
     	footer.selectCountry(country);
@@ -201,5 +204,11 @@ public class FooterSteps extends DriverFactory {
     public void verify_footer_section_displayed(){
         assertTrue("Footer section should be displayed",footer.isFooterSectionDisplayed());
     }
-
+    
+    @And("^user should see selected country in the footer$")
+    public void user_should_see_selected_country_in_footer(){
+    	assertTrue("User should see selected country name in the footer",footer.isCorrectCountryNameDisplayedInFooter());
+    }
+    
+   
 }

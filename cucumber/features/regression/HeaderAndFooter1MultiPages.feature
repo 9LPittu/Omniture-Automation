@@ -39,8 +39,8 @@ Feature: Embedded Header and Footer Validations
   Scenario: Multiple Pages During Checkout Header Links
     When User clicks on hamburger menu
     And user selects any category from hamburger menu
-	And user selects any subcategory
-	And user selects any item from array page, select any color and size
+    And user selects any subcategory
+    And user selects any item from array page, select any color and size
     And User is in product detail page
     And Add to cart button is pressed
     And User clicks on item bag

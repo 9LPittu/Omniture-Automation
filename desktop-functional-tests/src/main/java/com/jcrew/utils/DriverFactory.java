@@ -37,6 +37,7 @@ public class DriverFactory {
 
         final WebDriver driver;
         final PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        final String browser = propertyReader.getProperty("browser");
 
         if (propertyReader.hasProperty("window.width") && propertyReader.hasProperty("window.height")) {
             width = Integer.parseInt(propertyReader.getProperty("window.width"));
@@ -49,8 +50,6 @@ public class DriverFactory {
             driver = createLocalDriver(propertyReader);
         }
 
-        driver.manage().window().setSize(new Dimension(width, height));
-
         return driver;
     }
 
@@ -60,9 +59,11 @@ public class DriverFactory {
 
         if ("chrome".equals(browser)) {
             driver = new ChromeDriver();
+            driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {
             driver = new FirefoxDriver();
+            driver.manage().window().setSize(new Dimension(width, height));
 
         } else {
             DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -72,6 +73,7 @@ public class DriverFactory {
             capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = new PhantomJSDriver(capabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
         }
 
         return driver;
@@ -80,22 +82,52 @@ public class DriverFactory {
     private WebDriver createRemoteDriver(PropertyReader propertyReader) throws MalformedURLException {
         final String browser = propertyReader.getProperty("browser");
         final String gridURL = propertyReader.getProperty("selenium.grid.hub.url");
+        final String nodeURL = propertyReader.getProperty("selenium.grid.node.url");
         DesiredCapabilities desiredCapabilities;
-        logger.debug(browser);
+        WebDriver driver = null;
+
 
         if ("chrome".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.chrome();
+            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {
             desiredCapabilities = DesiredCapabilities.firefox();
+            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
 
-        } else {
+        } else if (("ipad".equals(browser))||("ipad7.1".equals(browser))) {
+
+            String ipadName = propertyReader.getProperty(browser+".name");
+            String ipadOs = propertyReader.getProperty(browser+".os.version");
+            String ipadUdid = propertyReader.getProperty(browser+".udid");
+            desiredCapabilities = DesiredCapabilities.ipad();
+            desiredCapabilities.setCapability("browserName", "safari");
+            desiredCapabilities.setCapability("platformName", "iOS");
+            desiredCapabilities.setCapability("deviceName", ipadName);
+            desiredCapabilities.setCapability("platformVersion", ipadOs);
+            desiredCapabilities.setCapability("takesScreenshot", "true");
+            desiredCapabilities.setCapability("acceptSslCerts", "true");
+            desiredCapabilities.setCapability("autoAcceptAlerts", "true");
+            desiredCapabilities.setCapability("udid", ipadUdid);
+            desiredCapabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
+            desiredCapabilities.setCapability("safariAllowPopups", true);
+            desiredCapabilities.setCapability("safariOpenLinksInBackground", true);
+            desiredCapabilities.setCapability("newCommandTimeout", 240);
+            desiredCapabilities.setCapability("launchTimeout", 600000);
+
+            driver = new RemoteWebDriver(new URL(nodeURL), desiredCapabilities);
+
+       } else {
             desiredCapabilities = DesiredCapabilities.phantomjs();
             desiredCapabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             desiredCapabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
+            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+            driver.manage().window().setSize(new Dimension(width, height));
         }
 
-        return new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+        return driver;
     }
 
     public WebDriver getDriver() {
