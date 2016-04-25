@@ -269,7 +269,8 @@ public class ShippingAddressPage {
     
  public void selectIntlCityAndState(String cityname,String statename) {
 	 
-	 	String currentCountry =  (String) stateHolder.get("selectedCountry");
+	 	Country c = (Country)stateHolder.get("context");
+         String currentCountry = c.getCountryName();
     	
     	try{
     		WebElement city = driver.findElement(By.id("city"));
