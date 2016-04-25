@@ -30,7 +30,7 @@ Feature: Welcome mat takes you to the international page or US site
     And Verify country context matches selected country
     And Verify welcome message
 
-    When User goes to US site
+    When User clicks on Take me to US site
     Then Verify user is in homepage
 
     Examples:
