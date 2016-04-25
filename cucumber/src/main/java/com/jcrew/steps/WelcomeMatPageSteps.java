@@ -49,4 +49,9 @@ public class WelcomeMatPageSteps extends DriverFactory {
         assertTrue("Corresponding flag and name should be displayed on the welcome mat", welcomemat.isFlagAndNameDisplayedCorrectly());
 
     }
+
+    @And("^User is in initial international random page")
+    public void verify_user_is_in_previously_selected_international_random_page() {
+        assertTrue("User should  be in initial international random page", welcomemat.isInInitialInternationalPage());
+    }
 }

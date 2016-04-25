@@ -62,44 +62,42 @@ public class StartingSteps {
     public void  getTheRandomInternationalPage(String country, List<String> pageUrlList) {
 
         TestDataReader testData = TestDataReader.getTestDataReader();
-        logger.info(testData.getData("url.home"));
         String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
         page = page.toLowerCase();
 
-        String pageURL = testData.getData("url."+page);
-
+        String pageURL = testData.getData("url." + page);
 
         String env = reader.getProperty("environment");
 
-        if("PRICEBOOK".equals(country)) {
+        if ("PRICEBOOK".equals(country)) {
 
             int countryindex = Util.randomIndex(pricebookCountries.length);
             String selectedCountry = pricebookCountries[countryindex].toLowerCase();
-            Country countrydetails = new Country(selectedCountry);
-            String countryName = countrydetails.getCountryName();
-            stateHolder.put("countryCode", selectedCountry);
-            stateHolder.put("selectedCountry", countryName);
-            logger.debug("country selected {}", selectedCountry);
+            getUrl(env, selectedCountry, pageURL);
 
-            env = env+"/"+selectedCountry+pageURL;
-            logger.debug("selected random pricebook url: {}",env);
-            driver.get(env);
 
-        } else if("NON-PRICEBOOK".equals(country)) {
+        } else if ("NON-PRICEBOOK".equals(country)) {
             int countryindex = Util.randomIndex(nonPricebookCountries.length);
             String selectedCountry = nonPricebookCountries[countryindex].toLowerCase();
-            Country countrydetails = new Country(selectedCountry);
-            String countryName = countrydetails.getCountryName();
-            stateHolder.put("selectedCountry", countryName);
-            stateHolder.put("countryCode", selectedCountry);
-            logger.debug("country selected {}", selectedCountry);
+            getUrl(env, selectedCountry, pageURL);
 
-            env = env+"/"+selectedCountry+pageURL;
-            logger.debug("selected random non-pricebook url: {}",env);
-            driver.get(env);
         }
-
     }
+
+    public void getUrl(String env, String selectedCountry, String pageURL) {
+        Country countrydetails = new Country(env, selectedCountry);
+        String countryName = countrydetails.getCountryName();
+        stateHolder.put("context", countrydetails);
+        logger.debug("country selected {}", countryName);
+
+        String selectedCountryHomeUrl = countrydetails.getHomeurl();
+        env = selectedCountryHomeUrl + pageURL;
+        stateHolder.put("randomUrl", env);
+        logger.debug("selected random url: {}", env);
+        driver.get(env);
+    }
+
+
 
     @Given("^User is on homepage$")
     public void user_is_on_home_page() {

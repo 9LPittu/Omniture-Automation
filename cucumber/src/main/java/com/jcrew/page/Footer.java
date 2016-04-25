@@ -453,8 +453,8 @@ public class Footer {
     
     public boolean isCorrectCountryNameDisplayedInFooter(){
     	
-    	String expectedCountryName = (String)stateHolder.get("selectedCountry");
- 
+    	Country c = (Country)stateHolder.get("context");
+        String expectedCountryName = c.getCountryName();
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));    	
     	String actualCountryName = countryNameInFooter.getText();
     	

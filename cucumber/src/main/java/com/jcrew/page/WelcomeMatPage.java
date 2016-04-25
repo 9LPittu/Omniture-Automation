@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.WebDriver;
@@ -85,13 +86,22 @@ public class WelcomeMatPage {
     }
 
     public boolean isFlagAndNameDisplayedCorrectly() {
-
-        String expectedCountryName = (String)stateHolder.get("selectedCountry");
+        Country c = (Country)stateHolder.get("context");
+        String expectedCountryName = c.getCountryName();
         String expectedCountryFlag = expectedCountryName.replaceAll("\\s", "").toLowerCase();
         logger.info("is in the expected country context",countryContext.getText());
         boolean flag = countryFlag.getAttribute("class").contains(expectedCountryFlag);
-        System.out.println(flag);
+        logger.info("Is flag displayed? {}", flag);
         return countryContext.getText().equalsIgnoreCase(expectedCountryName) && flag;
     }
 
+    public boolean isInInitialInternationalPage() {
+        String expectedUrl = (String)stateHolder.get("randomUrl");
+
+        logger.info("expected url  {}",expectedUrl);
+        String currentUrl = driver.getCurrentUrl();
+        logger.info("current url  {}",currentUrl);
+        return currentUrl.equals(expectedUrl);
+
+    }
 }

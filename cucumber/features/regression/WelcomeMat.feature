@@ -14,7 +14,7 @@ Scenario Outline: Welcome mat display validation for international home page
   And Corresponding country name and flag is displayed
   And Welcome mat content is displayed
   And User clicks on START SHOPPING on welcome mat
-  And user should land on country specific home page
+  And User is in initial international random page
   And user should see selected country in the footer
   When User clicks on hamburger menu
   And user selects any category from hamburger menu
@@ -31,7 +31,7 @@ Scenario Outline: Welcome mat display validation for international home page
   And user should see selected country in the footer
   And Selects to checkout as guest
   And user should see selected country in the footer
-  When user fills selcted country shipping address
+  When user fills selected country shipping address
   And Presses continue button on shipping address
   And Verifies is in shipping method page
   And user should see selected country in the footer
@@ -58,11 +58,17 @@ Scenario Outline: Welcome mat display validation for international home page
 Scenario: Welcome mat display validation for US
   Given User is on homepage with clean session
   And Welcome mat page is not displayed
+  And Verify user is in homepage
 
 
 #US15294_TC08
 Scenario Outline: Validation of Take me to the U.S. site. link functionality
   Given User is on clean session international <country_group> page
+  |Home|
+  |PDP |
+  |Category|
+  |Sale    |
+  |Login   |
   And User clicks on Take me to the U.S. site. on welcome mat
   And Verify user is in homepage
   And user should see "United States" in footer
