@@ -97,11 +97,11 @@ public class WelcomeMatPage {
 
     public boolean isInInitialInternationalPage() {
         String expectedUrl = (String)stateHolder.get("randomUrl");
-
+        String pageUrl = (String)stateHolder.get("pageUrl");
         logger.info("expected url  {}",expectedUrl);
         String currentUrl = driver.getCurrentUrl();
         logger.info("current url  {}",currentUrl);
-        return currentUrl.equals(expectedUrl);
+        return currentUrl.equals(expectedUrl)&& currentUrl.contains(pageUrl);
 
     }
 }

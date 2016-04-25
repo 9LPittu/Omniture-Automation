@@ -66,7 +66,7 @@ public class StartingSteps {
         page = page.toLowerCase();
 
         String pageURL = testData.getData("url." + page);
-
+        stateHolder.put("pageUrl", pageURL);
         String env = reader.getProperty("environment");
 
         if ("PRICEBOOK".equals(country)) {
