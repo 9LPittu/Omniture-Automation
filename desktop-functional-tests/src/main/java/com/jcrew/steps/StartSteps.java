@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
@@ -53,10 +54,14 @@ public class StartSteps {
     }
 
     private void getHomePage() {
+        String country = reader.getProperty("country");
         String envUrl = reader.getProperty("url");
 
-        logger.debug("getting url: "+envUrl);
+        Country context = new Country(envUrl, country);
+        stateHolder.put("context", context);
+        envUrl = context.getHomeurl();
 
+        logger.debug("getting url: "+envUrl);
         driver.get(envUrl);
     }
 }
