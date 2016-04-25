@@ -15,7 +15,7 @@ public class WelcomeMatSteps extends DriverFactory {
 
     @Then("Verify welcome mat is displayed")
     public void verify_walcome_mat_is_displayed() {
-        assertTrue("Welcome mat is displayed with expected elements",welcomeMat.verifyMatElements());
+        assertTrue("Welcome mat is displayed with expected elements", welcomeMat.verifyMatElements());
     }
 
     @Then("Verify country context matches selected country")
@@ -25,7 +25,7 @@ public class WelcomeMatSteps extends DriverFactory {
     }
 
     @Then("Verify welcome message")
-    public void  verify_welcome_message() {
+    public void verify_welcome_message() {
         assertTrue("Welcome message is expected for this country", welcomeMat.verifyWelcomeMessage());
     }
 
@@ -34,8 +34,8 @@ public class WelcomeMatSteps extends DriverFactory {
         welcomeMat.clickStartShopping();
     }
 
-    @When("User goes to US site")
-    public void user_goes_to_us_site() {
+    @When("User clicks on Take me to US site")
+    public void user_clicks_on_take_me_to_US_site() {
         welcomeMat.goToUsSite();
     }
 }
