@@ -146,8 +146,8 @@ public class ReviewPage {
     		List<Product> productList = (List<Product>) stateHolder.get("productList");
     		for(int i=0;i<productList.size();i++){
                 reviewPageProductNameText = reviewPageproductName.getText();
-                reviewPageProductNameText = reviewPageProductNameText.toLowerCase().replace("the ", "");
-                reviewPageProductNameText = reviewPageProductNameText.toLowerCase().replace("pre-order ", "");
+                reviewPageProductNameText = cleanProductName(reviewPageProductNameText);
+
     			Product product = productList.get(i);
     			if(product.getProductName().equalsIgnoreCase(reviewPageProductNameText)){
 					if(reviewPageproductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())){
@@ -169,5 +169,19 @@ public class ReviewPage {
     	}
     	
     	return blnResult;    	
+    }
+
+    private String cleanProductName(String productName) {
+        productName = productName.toLowerCase();
+
+        if(productName.startsWith("the ")) {
+            productName = productName.replaceFirst("the ", "");
+        } else if(productName.startsWith("a ")) {
+            productName = productName.replaceFirst("a ", "");
+        } else if(productName.startsWith("pre-order ")) {
+            productName = productName.replaceFirst("pre-order ", "");
+        }
+
+        return productName;
     }
 }

@@ -104,8 +104,7 @@ public class ProductDetailPage {
 
         for(Product product:productList){
             String productName = product.getProductName();
-            productName = productName.toLowerCase().replace("the ", "");
-            productName = productName.toLowerCase().replace("pre-order ", "");
+            productName = cleanProductName(productName);
 
             String productPrice = product.getPriceList();
             logger.debug("Found: {} - {}", productName, productPrice);
@@ -115,6 +114,20 @@ public class ProductDetailPage {
         }
 
 		return false;
+    }
+
+    private String cleanProductName(String productName) {
+        productName = productName.toLowerCase();
+
+        if(productName.startsWith("the ")) {
+            productName = productName.replaceFirst("the ", "");
+        } else if(productName.startsWith("a ")) {
+            productName = productName.replaceFirst("a ", "");
+        } else if(productName.startsWith("pre-order ")) {
+            productName = productName.replaceFirst("pre-order ", "");
+        }
+
+        return productName;
     }
 
     public void select_variation() {
