@@ -41,8 +41,10 @@ public class SubcategoryPage {
     private WebElement shoppingBagLink;
     @FindBy(id = "qsLightBox")
     private WebElement quickShopModal;
-    @FindBy(className = "product__grid")
+    
+    @FindBy(xpath = "//div[@class='product__grid']")
     private WebElement productGrid;
+    
     @FindBy(id = "c-product__list")
     private WebElement productList;
     @FindBy(css = ".category__page-title > h2")

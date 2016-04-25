@@ -72,6 +72,7 @@ Feature: International Country Context
     And Verify proper currency symbol is displayed on PDP page
     And user should see selected country in the footer
     And user should see country code in the url for international countries
+    And user should see the PDP messages for the selected country
     And Add to cart button is pressed
     And User clicks on item bag
     Then User should be in shopping bag page
@@ -159,3 +160,19 @@ Feature: International Country Context
       |Boys |THIS MONTH'S FEATURES|Looks We Love |
     And Verify proper currency symbol is displayed on PDP page
     And user should see country code in the url for international countries
+  
+  Scenario: PDP message validation for sold out item and item with variations
+    And User presses search button
+    When Enters soldout.item to the search field
+    And Clicks on search button for input field    
+    Then user should see PDP page with soldout message which includes phone number
+    And User presses search button
+    When Enters variations.item to the search field
+    And Clicks on search button for input field
+    Then User is in search results page
+    When Selects the first product from product grid list
+    Then User is in product detail page
+    And user should see the PDP messages for the selected country
+    And user selects random variant on the PDP page
+    Then User is in product detail page
+	And user should see the PDP messages for the selected country

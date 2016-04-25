@@ -83,6 +83,9 @@ public class ProductDetailPage {
 
     @FindBy(xpath="//div[@class='c-product_pdpMessage']/div")
     private WebElement pdpMessage;
+    
+    @FindBy(xpath="//div[@class='c-product__sold-out']")
+    private WebElement soldOutMessage;
 
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
@@ -625,4 +628,37 @@ public class ProductDetailPage {
        	
        	return actualPDPMessage.equalsIgnoreCase(expectedPDPMessage);
     }
+    
+    public boolean isSoldOutMessageDisplayed(){
+    	
+    	Country c = (Country) stateHolder.get("context");
+    	String countryCode = c.getCountry();
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	String expectedSoldOutMessage = testDataReader.getData(countryCode + ".pdp.soldout.item.message");
+    	logger.info("Expected soldout message: {}", expectedSoldOutMessage);
+    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(soldOutMessage));
+    	String actualSoldOutMessage = soldOutMessage.getText().trim();
+   		logger.info("Actual soldout message: {}", actualSoldOutMessage);
+    	
+   		return actualSoldOutMessage.equalsIgnoreCase(expectedSoldOutMessage);
+    }
+    
+    public void selectRandomVariantOnPDP(){
+    	
+    	List<WebElement> productVariations = productVariationSection.findElements(By.xpath("//input[@name='variant' and not(@checked='')]"));
+    	
+    	if(productVariations.size()  == 0){
+    		throw new WebDriverException("There are no variants to be selected!!!");
+    	}
+    	else{
+    		int randomIndex = Util.randomIndex(productVariations.size());
+    		productVariations.get(randomIndex).click();
+    		Util.waitLoadingBar(driver);
+    		Util.waitForPageFullyLoaded(driver);    		
+    		logger.info("Selected variant: {}",productVariations.get(randomIndex).getAttribute("value"));
+    	}
+    }
+    
 }

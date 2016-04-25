@@ -342,4 +342,14 @@ public class ProductDetailPageSteps extends DriverFactory {
     	assertTrue("User should see size related messages on the PDP page for the selected country",productDetailPage.isSizeMessageDisplayedOnPDP());
     	assertTrue("User should see message on the PDP page for the selected country",productDetailPage.isMessageDisplayedOnPDP());
     }
+    
+    @Then("^user should see PDP page with soldout message which includes phone number$")
+    public void user_should_see_pdp_page_soldout_message_which_includes_phone_number(){
+    	assertTrue("user should see PDP page with soldout message which includes phone number", productDetailPage.isSoldOutMessageDisplayed());
+    }
+    
+    @And("^user selects random variant on the PDP page$")
+    public void user_selects_random_variant_on_PDP_Page(){
+    	productDetailPage.selectRandomVariantOnPDP();
+    }
 }
