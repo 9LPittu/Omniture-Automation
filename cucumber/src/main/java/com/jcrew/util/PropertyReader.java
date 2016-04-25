@@ -30,6 +30,7 @@ public class PropertyReader {
         String execEnvironment = System.getProperty("environment", "ci");
         String execViewport = System.getProperty("viewport", "phantomjs");
         String execUser = System.getProperty("user", "user.1");
+        String country = System.getProperty("country", "us");
 
         FileInputStream inputFile = new FileInputStream("environment.properties");
         properties.load(inputFile);
@@ -37,8 +38,11 @@ public class PropertyReader {
         properties.load(inputFile);
         inputFile = new FileInputStream("user.properties");
         properties.load(inputFile);
+        inputFile = new FileInputStream("country.properties");
+        properties.load(inputFile);
 
         properties.setProperty("viewport", execViewport);
+        properties.setProperty("country", country);
         
         if (execViewport.equalsIgnoreCase("phantomjs") | execViewport.equalsIgnoreCase("chrome") | execViewport.equalsIgnoreCase("firefox")) {
         	logger.info("Browser to be used {}", execViewport);
@@ -54,7 +58,7 @@ public class PropertyReader {
         String strUserName = properties.getProperty(execUser+".email");
         String strPassword = properties.getProperty(execUser+".password");
         properties.setProperty("checkout.signed.in.username", strUserName);
-        properties.setProperty("checkout.signed.in.password", strPassword);
+        properties.setProperty("checkout.signed.in.password", strPassword);        
     }
 
     public boolean isSystemPropertyTrue(String key) {

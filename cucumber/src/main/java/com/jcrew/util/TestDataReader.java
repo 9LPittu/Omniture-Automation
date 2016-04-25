@@ -24,12 +24,15 @@ public class TestDataReader {
 	public static TestDataReader getTestDataReader(){ return dataReader;}
 
 	private void loadProperties() throws IOException{
+		
 		String testData = "commonTestData.properties";
 
 		logger.debug("Test Data file to be used {}", testData);
 
 		FileInputStream environmentInput = new FileInputStream(testData);
+
 		testDataProperties.load(environmentInput);
+
 	}
 
 	public String getData(String key){

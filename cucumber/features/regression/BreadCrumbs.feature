@@ -11,12 +11,12 @@ Feature: Global Header: Breadcrumbs
     And Clicks on JCrew Logo
     And Verify user is in homepage
 
-   Examples:
-    |gender|
-    |Women |
-    |Men   |
-    |Boys  |
-    |Girls |
+    Examples:
+      |gender|
+      |Women |
+      |Men   |
+      |Boys  |
+      |Girls |
 
    #US9724_TC03
    #US15452_TC003
