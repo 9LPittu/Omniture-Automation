@@ -331,4 +331,9 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void user_selects_new_size(){    	
     	productDetailPage.selectNewSize();    	
     }
+    
+    @And("^Verify proper currency symbol is displayed on PDP page$")
+    public void verify_currency_on_product_PDP(){
+    	assertTrue("Currency on product details page",productDetailPage.isCorrectCurrencySymbolonPDP());
+    }
 }

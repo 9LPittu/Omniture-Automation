@@ -28,6 +28,7 @@ public class StartSteps {
     public void setupDriver() throws IOException {
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
+
     }
 
     @Given("User goes to homepage")

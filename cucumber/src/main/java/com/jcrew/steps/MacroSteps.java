@@ -1,5 +1,8 @@
 package com.jcrew.steps;
 
+import com.jcrew.pojo.Country;
+import com.jcrew.util.StateHolder;
+
 import cucumber.api.java.en.Then;
 
 public class MacroSteps {
@@ -48,14 +51,28 @@ public class MacroSteps {
     @Then("^Verify embedded footer is visible and functional$")
     public void verify_embedded_footer_visible_and_functional() throws Throwable{
     	
+    	StateHolder stateHolder = StateHolder.getInstance();
+    	Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+    	
     	footerSteps.click_con_header_from_footer("Contact Us");
     	
     	footerSteps.verify_icon_and_text_is_displayed("twitter");
-    	footerSteps.verify_icon_and_text_is_displayed("phone");
-    	footerSteps.verify_icon_and_text_is_displayed("vps");
+    	
+    	if(!countryCode.equalsIgnoreCase("jp")){
+    		footerSteps.verify_icon_and_text_is_displayed("phone");
+    	}
+    	
+    	if(!countryCode.equalsIgnoreCase("au") && !countryCode.equalsIgnoreCase("sg") && !countryCode.equalsIgnoreCase("hk") && !countryCode.equalsIgnoreCase("de") && !countryCode.equalsIgnoreCase("jp") && !countryCode.equalsIgnoreCase("ch")){
+    		footerSteps.verify_icon_and_text_is_displayed("vps");
+    	}    	
     	
     	footerSteps.verify_footer_link_is_displayed("Let Us Help You");
-    	footerSteps.verify_footer_link_is_displayed("Our Cards");
+    	
+    	if(countryCode.equalsIgnoreCase("us") || countryCode.equalsIgnoreCase("ca")){
+    		footerSteps.verify_footer_link_is_displayed("Our Cards");
+    	}
+    	
     	footerSteps.verify_footer_link_is_displayed("Our Stores");    	
     	footerSteps.verify_footer_link_is_displayed("Our Brands");
     	footerSteps.verify_footer_link_is_displayed("About J.Crew");

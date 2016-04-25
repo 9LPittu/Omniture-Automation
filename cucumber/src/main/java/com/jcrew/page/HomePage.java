@@ -79,7 +79,6 @@ public class HomePage {
         boolean isURL = Util.countryContextURLCompliance(driver,country);
 
         return isDisplayed & isURL;
-
     }
 
     public void close_email_pop_up() {
@@ -92,20 +91,22 @@ public class HomePage {
         boolean emailCapture = jse.executeScript("return jcrew.config.showEmailCapture;").equals(true);
         logger.debug("Email capture? {}", emailCapture);
 
-        if(emailCapture) {
-            logger.debug("Email capture on, let's turn it off!!");        
-            
-            List<WebElement> email_capture = driver.findElements(
-                    By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"));
-
-            if(email_capture.size() > 0) {
-                WebElement close = email_capture.get(0);
-                Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(close));
-                close.click();
-            } else {
-                logger.debug("No email capture displayed...");
+        if(emailCapture) {                    
+            try{
+	            List<WebElement> email_capture = Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(
+	                    By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"))));
+	            
+	            if(email_capture.size() > 0) {
+	            	logger.debug("Email capture on, let's turn it off!!");
+	                WebElement close = email_capture.get(0);
+	                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(close));
+	                close.click();
+	            }
             }
-
+            catch(Exception e){
+            	logger.debug("No email capture displayed...");
+            }
+            
         }
     }
 

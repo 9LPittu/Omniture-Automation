@@ -165,5 +165,4 @@ public class Util {
 
         return startsWith & contains == country.isContexturl();
     }
-
 }

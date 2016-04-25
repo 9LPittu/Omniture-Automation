@@ -1,6 +1,6 @@
 @NewAccount
 
-Feature: Create New Account in US and checkout
+Feature: Create New Account in US
 
   Scenario: Create a new account in US and checkout
     Given User goes to homepage

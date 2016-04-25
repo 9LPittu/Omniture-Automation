@@ -103,4 +103,8 @@ public class BillingPageSteps extends DriverFactory {
     public void click_use_address_as_entered_button_in_billing_page(){
     	billingPage.clickUseAddressAsEnteredButton();
     }
+    @And("^Presses continue button on Billing page$")
+    public void presses_continue_button_on_shipping_address() throws Throwable {
+    	billingPage.presses_continue_button_on_Billingpage();
+    }
 }
