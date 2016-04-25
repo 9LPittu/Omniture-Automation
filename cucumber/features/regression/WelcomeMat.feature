@@ -15,14 +15,18 @@ Scenario Outline: Welcome mat display validation for international home page
   And Welcome mat content is displayed
   And User clicks on START SHOPPING on welcome mat
   And User is in initial international random page
+  And user should see country code in the url for international countries
   And user should see selected country in the footer
   When User clicks on hamburger menu
   And user selects any category from hamburger menu
   And user selects any subcategory
+  And User should be in subcategory page
   And user should see selected country in the footer
+  And user should see country code in the url for international countries
   And user selects any item from array page, select any color and size
   And User is in product detail page
   And user should see selected country in the footer
+  And user should see country code in the url for international countries
   And Add to cart button is pressed
   And User clicks on item bag
   Then User should be in shopping bag page
@@ -77,7 +81,6 @@ Scenario Outline: Validation of Take me to the U.S. site. link functionality
   And user selects any subcategory
   And user should see "United States" in footer
   And user selects any item from array page, select any color and size
-  And User is in product detail page
   And user should see "United States" in footer
   And Add to cart button is pressed
   And User clicks on item bag
