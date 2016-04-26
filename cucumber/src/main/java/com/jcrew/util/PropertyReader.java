@@ -30,7 +30,7 @@ public class PropertyReader {
         String execEnvironment = System.getProperty("environment", "ci");
         String execViewport = System.getProperty("viewport", "phantomjs");
         String execUser = System.getProperty("user", "user.1");
-        String country = System.getProperty("countries", "us");
+        String country = System.getProperty("country", "us");
 
         FileInputStream inputFile = new FileInputStream("environment.properties");
         properties.load(inputFile);
@@ -38,7 +38,7 @@ public class PropertyReader {
         properties.load(inputFile);
         inputFile = new FileInputStream("user.properties");
         properties.load(inputFile);
-        inputFile = new FileInputStream("country.properties");
+        inputFile = new FileInputStream("countries.properties");
         properties.load(inputFile);
 
         properties.setProperty("viewport", execViewport);
