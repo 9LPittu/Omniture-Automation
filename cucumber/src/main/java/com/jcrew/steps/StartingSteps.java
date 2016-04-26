@@ -34,9 +34,6 @@ public class StartingSteps {
     private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
     private WebDriver driver;
-    private final String pricebookCountries[] = {"UK", "CA", "HK",};
-    private final String nonPricebookCountries[] = {"AU", "JP", "DE", "SG", "CH"};
-
 
 
     @Before
@@ -71,14 +68,21 @@ public class StartingSteps {
 
         if ("PRICEBOOK".equals(country)) {
 
-            int countryindex = Util.randomIndex(pricebookCountries.length);
-            String selectedCountry = pricebookCountries[countryindex].toLowerCase();
+            String pricebookCountries = testData.getData("pricebookCountries");
+            String pricebookCountriesArray[] = pricebookCountries.split(";");
+
+            int countryindex = Util.randomIndex(pricebookCountriesArray.length);
+            String selectedCountry = pricebookCountriesArray[countryindex].toLowerCase();
             getUrl(env, selectedCountry, pageURL);
 
 
         } else if ("NON-PRICEBOOK".equals(country)) {
-            int countryindex = Util.randomIndex(nonPricebookCountries.length);
-            String selectedCountry = nonPricebookCountries[countryindex].toLowerCase();
+
+            String nonPricebookCountries = testData.getData("nonPricebookCountries");
+            String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
+
+            int countryindex = Util.randomIndex(nonPricebookCountriesArray.length);
+            String selectedCountry = nonPricebookCountriesArray[countryindex].toLowerCase();
             getUrl(env, selectedCountry, pageURL);
 
         }
