@@ -128,17 +128,21 @@ public class DriverFactory {
        }
         else if ("tablet".equals(browser)) {
 
+            String tabletName = propertyReader.getProperty(browser+".name");
+            String tabletOs = propertyReader.getProperty(browser+".os.version");
+            String tabletUdid = propertyReader.getProperty(browser+".udid");
+
             desiredCapabilities = DesiredCapabilities.android();
             desiredCapabilities.setPlatform(Platform.ANDROID);
 
             desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-            desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty("device.name"));
-            desiredCapabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+            desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, tabletName);
+            desiredCapabilities.setCapability(MobileCapabilityType.VERSION, tabletOs);
             desiredCapabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
             desiredCapabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
             desiredCapabilities.setCapability("autoAcceptAlerts", true);
             desiredCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
-            desiredCapabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            desiredCapabilities.setCapability("udid", tabletUdid);
             desiredCapabilities.setCapability("newCommandTimeout", 240);
 
             driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
