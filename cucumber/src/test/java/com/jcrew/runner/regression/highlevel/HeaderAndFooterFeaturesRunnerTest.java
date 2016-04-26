@@ -1,4 +1,4 @@
-package com.jcrew.runner.regression;
+package com.jcrew.runner.regression.highlevel;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@Account,@Category,@PDP,@Bag"},
+        tags = {"@HeaderAndFooter", "@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-navigationregressionfeatures.json",
+                "json:target/cucumber-headerregressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/navigationregressionfeatures"
+                "html:target/cucumber/headerregressionfeatures"
         }
 )
-public class NavigationFeaturesRunnerTest {
+public class HeaderAndFooterFeaturesRunnerTest {
 }

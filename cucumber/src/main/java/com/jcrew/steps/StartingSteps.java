@@ -1,5 +1,8 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.Navigation;
+import com.jcrew.pojo.Country;
+import com.jcrew.util.*;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
@@ -20,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -33,6 +37,7 @@ public class StartingSteps {
     private DriverFactory driverFactory;
     private WebDriver driver;
 
+
     @Before
     public void setupDriver() throws IOException {
     	stateHolder.put("deletecookies", false);
@@ -45,6 +50,60 @@ public class StartingSteps {
         driverFactory.deleteBrowserCookies();
         user_is_on_home_page();
     }
+
+    @Given("User is on clean session international ([^\"]*) page$")
+    public void  user_goes_to_international_page(String country_group,List<String> pageUrlList) throws Throwable {
+        driverFactory.deleteBrowserCookies();
+        getTheRandomInternationalPage(country_group,pageUrlList);
+
+    }
+
+    public void  getTheRandomInternationalPage(String country, List<String> pageUrlList) {
+
+        TestDataReader testData = TestDataReader.getTestDataReader();
+        String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
+        page = page.toLowerCase();
+
+        String pageURL = testData.getData("url." + page);
+        stateHolder.put("pageUrl", pageURL);
+        String env = reader.getProperty("environment");
+
+        if ("PRICEBOOK".equals(country)) {
+
+            String pricebookCountries = testData.getData("pricebookCountries");
+            String pricebookCountriesArray[] = pricebookCountries.split(";");
+
+            int countryindex = Util.randomIndex(pricebookCountriesArray.length);
+            String selectedCountry = pricebookCountriesArray[countryindex].toLowerCase();
+            getUrl(env, selectedCountry, pageURL);
+
+
+        } else if ("NON-PRICEBOOK".equals(country)) {
+
+            String nonPricebookCountries = testData.getData("nonPricebookCountries");
+            String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
+
+            int countryindex = Util.randomIndex(nonPricebookCountriesArray.length);
+            String selectedCountry = nonPricebookCountriesArray[countryindex].toLowerCase();
+            getUrl(env, selectedCountry, pageURL);
+
+        }
+    }
+
+    public void getUrl(String env, String selectedCountry, String pageURL) {
+        Country countrydetails = new Country(env, selectedCountry);
+        String countryName = countrydetails.getCountryName();
+        stateHolder.put("context", countrydetails);
+        logger.debug("country selected {}", countryName);
+
+        String selectedCountryHomeUrl = countrydetails.getHomeurl();
+        env = selectedCountryHomeUrl + pageURL;
+        stateHolder.put("randomUrl", env);
+        logger.debug("selected random url: {}", env);
+        driver.get(env);
+    }
+
+
 
     @Given("^User is on homepage$")
     public void user_is_on_home_page() {
@@ -121,12 +180,13 @@ public class StartingSteps {
     @And("user should see country code in the url for international countries")
     public void user_should_see_country_code_in_url_for_international_countries(){
 
-    	String countryCode = (String) stateHolder.get("countryCode");
-    	String env = reader.getProperty("environment");
-    	Country context = new Country(env, countryCode);
 
-    	assertTrue("Country code '" + countryCode + "' should be displayed in the url except United States",
-    			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(context.getHomeurl())));
+        Country c = (Country)stateHolder.get("context");
+    	String env = reader.getProperty("environment");
+
+
+    	assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
+    			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(c.getHomeurl())));
     }
 
     @And("^User goes to homepage$")
