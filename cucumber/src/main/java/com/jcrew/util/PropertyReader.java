@@ -30,7 +30,7 @@ public class PropertyReader {
         String execEnvironment = System.getProperty("environment", "ci");
         String execViewport = System.getProperty("viewport", "phantomjs");
         String execUser = System.getProperty("user", "user.1");
-        String country = System.getProperty("country", "us");
+        String country = System.getProperty("countries", "us");
 
         FileInputStream inputFile = new FileInputStream("environment.properties");
         properties.load(inputFile);
