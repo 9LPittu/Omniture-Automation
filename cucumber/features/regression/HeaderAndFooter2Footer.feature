@@ -1,4 +1,4 @@
-@HeaderAndFooter @HighLevel
+@HeaderAndFooter
 Feature: Footer Verification In Home Page
 
   Background:
@@ -7,6 +7,7 @@ Feature: Footer Verification In Home Page
 
     #Moved from HomePage.feature
     #US9724_TC01 from BreadCrumbs.feature
+  @HighLevel
   Scenario: Homepage embedded Header, Footer and logo
     Then Verify embedded headers are visible and functional
     Then Verify embedded footer is visible and functional
@@ -22,6 +23,7 @@ Feature: Footer Verification In Home Page
    #US13389_TC03
    #US13389_TC12
    #US13389_TC11
+  @HighLevel
   Scenario: Verification of Footer section in the page
     Then Verify Contact Us header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
@@ -70,6 +72,7 @@ Feature: Footer Verification In Home Page
     Then user should see message as "THANK YOU...Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
 
    #tc-04 starts below
+  @HighLevel
   Scenario: Verification of Let Us Help You links display
     When Click on footer link Let Us Help You to open
     And Accordion should be expanded
@@ -123,6 +126,7 @@ Feature: Footer Verification In Home Page
 
   #tc-05
   #Merge
+  @HighLevel
   Scenario: Verification of Our Cards links functionality
     When Click on footer link Our Cards to open
     And The J.Crew Credit Card sublink is displayed
@@ -144,6 +148,7 @@ Feature: Footer Verification In Home Page
 
   #tc-06
     #tc-07
+  @HighLevel
   Scenario: Verification of About J.Crew links functionality
     When Click on footer link About J.Crew to open
     And Our Story sublink is displayed
@@ -174,6 +179,7 @@ Feature: Footer Verification In Home Page
     And external http://investors.jcrew.com page is opened in a different tab
 
     #tc-08
+  @HighLevel
   Scenario: Verification of Our Brands links display
     When Click on footer link Our Brands to open
     And J.Crew Factory sublink is displayed
@@ -246,6 +252,7 @@ Feature: Footer Verification In Home Page
       # |Canada|
    
   #US13389_TC14
+  @HighLevel
     Scenario: Verify social sharing icons functionality
     And click on facebook icon in social sharing section
     And external facebook page is opened in a different tab
@@ -264,6 +271,7 @@ Feature: Footer Verification In Home Page
 
   
   #US13389_TC15
+  @HighLevel
   Scenario: Verify legal links are displayed in footer section of all sidecar  pages
   	And user should see legal links section in the footer
   	And user should see "TERMS OF USE" in the legal links section of footer
@@ -281,7 +289,8 @@ Feature: Footer Verification In Home Page
     And User presses back button
   	And "2016 J.Crew" should not be displayed as a link
     
-  #US13389_TC16  
+  #US13389_TC16
+  @HighLevel
   Scenario: Verify visit full site is displayed and functional in footer section of all sidecar  pages
    	And user should see visit full site displayed after legal links in footer section
    	And click on view full site link
