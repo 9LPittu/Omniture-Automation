@@ -312,7 +312,7 @@ public class Footer {
     }
     
     public boolean isChangedCountryNameDsiplayedInFooter(String country){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(countryNameInFooter, country.toUpperCase()));
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(countryNameInFooter, country));
     	String currentCountryName = countryNameInFooter.getText().trim();
     	return currentCountryName.equalsIgnoreCase(country);
     }
@@ -453,8 +453,8 @@ public class Footer {
     
     public boolean isCorrectCountryNameDisplayedInFooter(){
     	
-    	String expectedCountryName = (String)stateHolder.get("selectedCountry");
- 
+    	Country c = (Country)stateHolder.get("context");
+        String expectedCountryName = c.getCountryName();
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));    	
     	String actualCountryName = countryNameInFooter.getText();
     	

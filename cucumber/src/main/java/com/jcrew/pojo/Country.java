@@ -28,8 +28,7 @@ public class Country {
         this.country = country;
         this.currency = properties.getProperty(country + ".currency");
         this.contexturl = Boolean.parseBoolean(properties.getProperty(country + ".contexturl"));
-        
-        this.countryCode = country;
+
         this.countryName = properties.getProperty(country + ".fullname");
         this.region = properties.getProperty(country + ".region");
         this.companyName = properties.getProperty(country + ".companyname");
@@ -65,11 +64,7 @@ public class Country {
     public String getHomeurl() {
         return homeurl;
     }
-    
-    public String getCountryCode() {
-        return countryCode;
-    }
-    
+
     public String getCountryName() {
         return countryName;
     }

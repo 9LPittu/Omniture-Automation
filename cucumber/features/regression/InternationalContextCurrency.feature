@@ -93,7 +93,7 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    When user fills selcted country shipping address
+    When user fills selected country shipping address
     And Presses continue button on shipping address
     And Verifies is in shipping method page
     And Verify embedded headers links
