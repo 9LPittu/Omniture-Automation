@@ -168,9 +168,7 @@ Feature: International Country Context
     Then user should see PDP page with soldout message which includes phone number
     And User presses search button
     When Enters variations.item to the search field
-    And Clicks on search button for input field
-    Then User is in search results page
-    When Selects the first product from product grid list
+    And Clicks on search button for input field    
     Then User is in product detail page
     And user should see the PDP messages for the selected country
     And user selects random variant on the PDP page
