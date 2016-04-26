@@ -30,6 +30,7 @@ public class PropertyReader {
         String execEnvironment = System.getProperty("environment", "ci");
         String execViewport = System.getProperty("viewport", "desktop");
         String execUser = System.getProperty("user", "user.1");
+        String country = System.getProperty("country", "us");
 
         FileInputStream inputFile = new FileInputStream("environment.properties");
         properties.load(inputFile);
@@ -37,6 +38,10 @@ public class PropertyReader {
         properties.load(inputFile);
         inputFile = new FileInputStream("users.properties");
         properties.load(inputFile);
+        inputFile = new FileInputStream("countries.properties");
+        properties.load(inputFile);
+
+        properties.setProperty("environment", execEnvironment);
 
         execEnvironment = properties.getProperty(execEnvironment);
         logger.info("URL to be used {}", execEnvironment);
@@ -47,6 +52,9 @@ public class PropertyReader {
 
         logger.info("UserID to be used {}", execUser);
         properties.setProperty("userID", execUser);
+
+        logger.info("Country to be used {}", country);
+        properties.setProperty("country", country);
 
     }
 

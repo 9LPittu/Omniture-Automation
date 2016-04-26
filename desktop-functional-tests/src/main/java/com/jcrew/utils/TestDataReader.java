@@ -40,7 +40,7 @@ public class TestDataReader {
         String value = testDataProperties.getProperty(key);
 
         if (!hasProperty(key)) {
-            throw new RuntimeException("Property '" + key + "' is not defined in environment or viewport file");
+            throw new RuntimeException("Property '" + key + "' is not defined in TestData file");
         }
 
         return value;
@@ -50,10 +50,39 @@ public class TestDataReader {
         return testDataProperties.containsKey(key);
     }
 
-    public List<String> getMainCategories() {
+    public String getCategory() {
         String mainCategories = getData("main.categories");
+        String categories[] = mainCategories.split(";");
 
-        return Arrays.asList(mainCategories.split(";"));
+        return categories[Util.randomIndex(categories.length)];
+    }
+
+    public String getSubCategory(String category) {
+        String subCategories = getData("sub."+category.toLowerCase());
+        String subCategoriesName[] = subCategories.split(";");
+
+        return subCategoriesName[Util.randomIndex(subCategoriesName.length)];
+    }
+
+    public String getRandomCountry(String group) {
+        String country = "US";
+        int index;
+
+        if ("PRICEBOOK".equals(group)) {
+            String pricebookCountries = getData("pricebookCountries");
+            String pricebookCountriesArray[] = pricebookCountries.split(";");
+            index = Util.randomIndex(pricebookCountriesArray.length);
+
+            country = pricebookCountriesArray[index];
+        } else if ("NON-PRICEBOOK".equals(group)) {
+            String nonPricebookCountries = getData("nonPricebookCountries");
+            String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
+            index = Util.randomIndex(nonPricebookCountriesArray.length);
+
+           country = nonPricebookCountriesArray[index];
+        }
+
+        return country;
     }
 
     public String getSearchWord() {

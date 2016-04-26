@@ -18,6 +18,12 @@ public class HomePageSteps extends DriverFactory{
         assertTrue("user is in homepage",homePage.isHomePage());
     }
 
+    @Then("Verify user is in international homepage")
+    public void verify_user_is_in_international_hompage(){
+        assertTrue("user is in homepage",homePage.isHomePage());
+        assertTrue("homepage matches expected country", homePage.verifyInternational());
+    }
+
     @When("User closes email capture")
     public void user_closes_email_capture() {
         homePage.closeEmailCapture();

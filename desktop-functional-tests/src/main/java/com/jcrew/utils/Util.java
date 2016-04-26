@@ -3,6 +3,7 @@ package com.jcrew.utils;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.jcrew.pojo.Country;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -98,6 +99,29 @@ public class Util {
         Actions action = new Actions(driver);
         createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
         action.moveToElement(element);
+    }
+
+    public static boolean countryContextURLCompliance(WebDriver driver, Country country) {
+        String url = driver.getCurrentUrl();
+        String countryURL = country.getHomeurl();
+        String countryCode = country.getCountry();
+
+        boolean startsWith = url.startsWith(countryURL);
+        boolean contains = url.contains("/" + countryCode + "/");
+
+        return startsWith & contains == country.isContexturl();
+    }
+
+    public static boolean countryContextURLCompliance(WebDriver driver, Country country, String pattern) {
+        String url = driver.getCurrentUrl();
+        String countryURL = country.getHomeurl();
+        String countryCode = country.getCountry();
+
+        boolean startsWith = url.startsWith(countryURL);
+        boolean contains = url.contains("/" + countryCode + "/");
+        boolean hasPattern = url.contains(pattern);
+
+        return startsWith & contains == country.isContexturl() & hasPattern;
     }
 
 }
