@@ -86,7 +86,8 @@ public class LogIn extends DriverFactory {
 
     public boolean createAccountFormIsDisplayed() {
         Country country = (Country) stateHolder.get("context");
-        boolean expectedURL = Util.countryContextURLCompliance(driver, country, "/r/login");
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        boolean expectedURL = Util.countryContextURLCompliance(driver, country, testDataReader.getData("page.login"));
 
         registerForm = wait.until(ExpectedConditions.visibilityOf(registerForm));
         return registerForm.isDisplayed() & expectedURL;
@@ -183,24 +184,10 @@ public class LogIn extends DriverFactory {
 
     private void setSelectedCountryByGroup(String group) {
         TestDataReader testData = TestDataReader.getTestDataReader();
+        String country = testData.getRandomCountry(group);
+
         Select countrySelector = new Select(registerForm.findElement(By.id(countryId)));
-        int index;
-
-        if ("US".equals(group)) {
-            countrySelector.selectByValue("US");
-        } else if ("PRICEBOOK".equals(group)) {
-            String pricebookCountries = testData.getData("pricebookCountries");
-            String pricebookCountriesArray[] = pricebookCountries.split(";");
-            index = Util.randomIndex(pricebookCountriesArray.length);
-
-            countrySelector.selectByValue(pricebookCountriesArray[index]);
-        } else if ("NON-PRICEBOOK".equals(group)) {
-            String nonPricebookCountries = testData.getData("nonPricebookCountries");
-            String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
-            index = Util.randomIndex(nonPricebookCountriesArray.length);
-
-            countrySelector.selectByValue(nonPricebookCountriesArray[index]);
-        }
+        countrySelector.selectByValue(country);
 
         logger.info("Selected {} as country", getSelectedCountry());
         fakeUser.setCountry(getSelectedCountry());

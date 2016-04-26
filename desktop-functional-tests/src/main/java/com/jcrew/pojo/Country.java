@@ -14,6 +14,7 @@ public class Country {
 
     public Country(String environment, String country) {
         PropertyReader properties = PropertyReader.getPropertyReader();
+        country = country.toLowerCase();
 
         this.country = country;
         this.currency = properties.getProperty(country + ".currency");
