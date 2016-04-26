@@ -66,7 +66,7 @@ public class StartingSteps {
 
         String pageURL = testData.getData("url." + page);
         stateHolder.put("pageUrl", pageURL);
-        String env = reader.getProperty("environment");
+        String env = reader.getProperty("url");
 
         if ("PRICEBOOK".equals(country)) {
 
@@ -182,7 +182,7 @@ public class StartingSteps {
 
 
         Country c = (Country)stateHolder.get("context");
-    	String env = reader.getProperty("environment");
+    	String env = reader.getProperty("url");
 
 
     	assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",

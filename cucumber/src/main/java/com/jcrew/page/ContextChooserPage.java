@@ -178,7 +178,7 @@ public class ContextChooserPage {
 
     	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("environment");
+    	String url = propertyReader.getProperty("url");
     	
     	Country country = (Country)stateHolder.get("context");
 
@@ -209,7 +209,7 @@ public class ContextChooserPage {
 		String countryCode = arrCountryCodes[Util.randomIndex(arrCountryCodes.length)];
 		
 		PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("environment");
+    	String url = propertyReader.getProperty("url");
 		
 		Country country = new Country(url, countryCode);
 		String currency = country.getCurrency();
