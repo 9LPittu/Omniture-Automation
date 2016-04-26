@@ -161,7 +161,7 @@ Feature: International Country Context
     And Verify proper currency symbol is displayed on PDP page
     And user should see country code in the url for international countries
   
-  Scenario: PDP message validation for sold out item and item with variations
+  Scenario: PDP message validation for sold out item, item with variations, vps item and shipping restriction message
     And User presses search button
     When Enters soldout.item to the search field
     And Clicks on search button for input field    
@@ -176,3 +176,11 @@ Feature: International Country Context
     And user selects random variant on the PDP page
     Then User is in product detail page
 	And user should see the PDP messages for the selected country
+	And User presses search button
+    When Enters vps.item to the search field
+    And Clicks on search button for input field
+    Then user should see PDP page with message for vps item
+    And User presses search button
+    When Enters shipping.restriction.item to the search field
+    And Clicks on search button for input field
+    Then user should see PDP page with shipping restriction message    

@@ -352,4 +352,14 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void user_selects_random_variant_on_PDP_Page(){
     	productDetailPage.selectRandomVariantOnPDP();
     }
+    
+    @Then("^user should see PDP page with message for vps item$")
+    public void user_should_see_PDP_page_with_vps_item_message(){
+    	assertTrue("user should see PDP page with message for vps item",productDetailPage.isVPSMessageDisplayed());
+    }
+    
+    @Then("user should see PDP page with shipping restriction message")
+    public void user_should_see_PDP_page_with_shipping_restriction_message(){
+    	assertTrue("user should see PDP page with shipping restriction message",productDetailPage.isShippingRestrictionMessageDisplayed());
+    }
 }

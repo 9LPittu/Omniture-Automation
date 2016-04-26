@@ -86,6 +86,12 @@ public class ProductDetailPage {
     
     @FindBy(xpath="//div[@class='c-product__sold-out']")
     private WebElement soldOutMessage;
+    
+    @FindBy(xpath="//div[@id='c-product__vps']")
+    private WebElement vpsMessage;
+    
+    @FindBy(xpath="//div[@id='c-product__no-intl-shipping']")
+    private WebElement shippingRestrictionMessage;
 
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
@@ -697,4 +703,55 @@ public class ProductDetailPage {
     	}
     }
     
+    public boolean isVPSMessageDisplayed(){
+    	
+    	Country c = (Country) stateHolder.get("context");
+    	String countryCode = c.getCountry();
+    	
+    	boolean result = false;
+    	
+    	if(countryCode.equalsIgnoreCase("us") || countryCode.equalsIgnoreCase("ca") || countryCode.equalsIgnoreCase("uk")){
+    		TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        	String expectedVPSMessage = testDataReader.getData(countryCode + ".pdp.vps.item.message");
+        	logger.info("Expected VPS message: {}", expectedVPSMessage);
+        	
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(vpsMessage));
+        	String actualVPSMessage = vpsMessage.getText().trim();
+       		logger.info("Actual VPS message: {}", actualVPSMessage);
+        	
+       		result =  actualVPSMessage.equalsIgnoreCase(expectedVPSMessage);
+    	}
+    	else{
+    		logger.info("VPS message will not be displayed for " + countryCode + " country");
+    		result = true;
+    	}
+    	
+    	return result;
+    }
+    
+    public boolean isShippingRestrictionMessageDisplayed(){
+    	
+    	Country c = (Country) stateHolder.get("context");
+    	String countryCode = c.getCountry();
+    	
+    	boolean result = false;
+    	
+    	if(!countryCode.equalsIgnoreCase("us")){
+    		TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        	String expectedShippingRestrictionMessage = testDataReader.getData("pdp.shipping.restriction.message");
+        	logger.info("Expected Shipping Restriction message: {}", expectedShippingRestrictionMessage);
+        	
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingRestrictionMessage));
+        	String actualShippingRestrictionMessage = shippingRestrictionMessage.getText().trim();
+       		logger.info("Actual Shipping Restriction message: {}", actualShippingRestrictionMessage);
+        	
+       		result =  actualShippingRestrictionMessage.equalsIgnoreCase(expectedShippingRestrictionMessage);
+    	}
+    	else{
+    		logger.info("Shipping restriction message will not be displayed for " + countryCode + " country");
+    		result = true;
+    	}
+    	
+    	return result;
+    }
 }
