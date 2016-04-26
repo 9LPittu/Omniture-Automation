@@ -689,6 +689,7 @@ public class ProductDetailPage {
     
     public void selectRandomVariantOnPDP(){
     	
+    	productVariationSection.click();
     	List<WebElement> productVariations = productVariationSection.findElements(By.xpath("//input[@name='variant' and not(@checked='')]"));
     	
     	if(productVariations.size()  == 0){
@@ -696,10 +697,28 @@ public class ProductDetailPage {
     	}
     	else{
     		int randomIndex = Util.randomIndex(productVariations.size());
-    		productVariations.get(randomIndex).click();
+    		String variationName = productVariations.get(randomIndex).getAttribute("value");
+    		WebElement variantRadioButton = productVariations.get(randomIndex);
+    		
+    		try{
+    			variantRadioButton.click();
+    		}
+    		catch(Exception e){
+    			JavascriptExecutor jse = (JavascriptExecutor)driver;
+    			jse.executeScript("arguments[0].click();", variantRadioButton);
+    		}
+    		
     		Util.waitLoadingBar(driver);
-    		Util.waitForPageFullyLoaded(driver);    		
-    		logger.info("Selected variant: {}",productVariations.get(randomIndex).getAttribute("value"));
+    		Util.waitForPageFullyLoaded(driver);
+    		
+    		WebElement selectedProductVariations = productVariationSection.findElement(By.xpath("//input[@name='variant' and @checked='']"));
+    		if(selectedProductVariations.getAttribute("value").equalsIgnoreCase(variationName)){
+    			logger.info("Selected variant: {}", variationName);
+    		}
+    		else{
+    			logger.info("Failed to select variant: {}", variationName);
+    			throw new WebDriverException("Failed to select variant:" + variationName);
+    		}
     	}
     }
     
