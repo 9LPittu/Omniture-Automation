@@ -1,4 +1,4 @@
-package com.jcrew.runner.regression;
+package com.jcrew.runner.regression.full;
 
 /**
  * Created by 9hvenaga on 4/21/2016.

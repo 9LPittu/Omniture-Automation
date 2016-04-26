@@ -1,4 +1,4 @@
-@Search
+@Search @HighLevel
 Feature: Search Regression Suite
 
   Background:

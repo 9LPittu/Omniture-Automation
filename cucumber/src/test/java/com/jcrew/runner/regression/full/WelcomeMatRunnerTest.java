@@ -1,9 +1,8 @@
-package com.jcrew.runner.regression;
+package com.jcrew.runner.regression.full;
 
 /**
- * Created by 9hvenaga on 2/5/2016.
+ * Created by 9hvenaga on 4/25/2016.
  */
-
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
@@ -11,14 +10,14 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@BreadCrumbs"},
+        tags = {"@WelcomeMat"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-breadcrumbregressionfeatures.json",
+                "json:target/cucumber-welcomematregressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/breadcrumbregressionfeatures"
+                "html:target/cucumber-welcomematregressionfeatures"
         }
 )
 
-public class BreadCrumbsRunnerTest{
+public class WelcomeMatRunnerTest {
 }
