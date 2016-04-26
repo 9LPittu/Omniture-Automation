@@ -44,6 +44,10 @@ public class PropertyReader {
         properties.setProperty("viewport", execViewport);
         properties.setProperty("country", country);
         
+        String strURL = properties.getProperty(execEnvironment);
+        logger.info("URL to be used {}", strURL);
+        properties.setProperty("url", strURL);
+        
         if (execViewport.equalsIgnoreCase("phantomjs") | execViewport.equalsIgnoreCase("chrome") | execViewport.equalsIgnoreCase("firefox")) {
         	logger.info("Browser to be used {}", execViewport);
         	properties.setProperty("browser", execViewport);    	
