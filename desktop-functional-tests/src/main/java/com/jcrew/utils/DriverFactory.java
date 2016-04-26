@@ -1,11 +1,16 @@
 package com.jcrew.utils;
 
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
 
@@ -119,7 +125,26 @@ public class DriverFactory {
 
             driver = new RemoteWebDriver(new URL(nodeURL), desiredCapabilities);
 
-       } else {
+       }
+        else if ("tablet".equals(browser)) {
+
+            desiredCapabilities = DesiredCapabilities.android();
+            desiredCapabilities.setPlatform(Platform.ANDROID);
+
+            desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+            desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty("device.name"));
+            desiredCapabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+            desiredCapabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
+            desiredCapabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
+            desiredCapabilities.setCapability("autoAcceptAlerts", true);
+            desiredCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
+            desiredCapabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            desiredCapabilities.setCapability("newCommandTimeout", 240);
+
+            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        }
+        else {
             desiredCapabilities = DesiredCapabilities.phantomjs();
             desiredCapabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             desiredCapabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
