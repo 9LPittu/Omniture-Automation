@@ -2,7 +2,9 @@ package com.jcrew.page;
 
 import java.util.List;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -19,6 +21,7 @@ public class MyAccountPage {
 
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(MyAccountPage.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @FindBy(id = "main_inside")
     private WebElement myAccountContainer;
@@ -35,9 +38,11 @@ public class MyAccountPage {
     }
 
     public boolean isInAccountPage() {
+        Country country = (Country) stateHolder.get("context");
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
-        return myAccountContainer.isDisplayed();
+        boolean isUrl = Util.countryContextURLCompliance(driver, country);
+        return myAccountContainer.isDisplayed()&& isUrl;
     }
 
     public String getMyAccountHeader() {

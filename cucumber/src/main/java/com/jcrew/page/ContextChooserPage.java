@@ -172,19 +172,21 @@ public class ContextChooserPage {
 		logger.info("Selected country: {}", countryName);
     }
     
-    public boolean isUserOnCountrySpecificHomePage(){
-    	
-    	String currentCountryCode = (String)stateHolder.get("countryCode");
+    public boolean isUserOnCountrySpecificHomePage() {
+
+    	logger.info("Url after clicking on start shopping : {}", driver.getCurrentUrl());
+
     	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String url = propertyReader.getProperty("environment");
     	
-    	Country country = new Country(url, currentCountryCode);    	
-    	String countryName = country.getCountryName();
+    	Country country = (Country)stateHolder.get("context");
+
 		String expectedURL = country.getHomeurl();
 
 		Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
     	Util.waitLoadingBar(driver);
+		logger.debug("expected url at this point should be "+driver.getCurrentUrl()+"  our expected url calculation {}", expectedURL);
     	return driver.getCurrentUrl().matches(expectedURL);
     }
     
@@ -227,10 +229,7 @@ public class ContextChooserPage {
 				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
     	countryElement.click();
     	
-    	//Store the country code, country name and currency in stateholder for further references
-    	stateHolder.put("countryCode", countryCode);
-		stateHolder.put("selectedCountry", countryName);
-		stateHolder.put("currency", currency);
+
         stateHolder.put("context", country);
 		
 		logger.info("Selected country: {}", countryName);
