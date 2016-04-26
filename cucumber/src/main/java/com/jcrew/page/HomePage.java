@@ -75,6 +75,7 @@ public class HomePage {
 
     public boolean isHomePage() {
         Country country = (Country)stateHolder.get("context");
+
         WebDriverWait wait = Util.createWebDriverWait(driver);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
@@ -82,6 +83,7 @@ public class HomePage {
 
         Util.waitWithStaleRetry(driver,pageHome);
         boolean isDisplayed = pageHome.isDisplayed();
+
         boolean isURL = Util.countryContextURLCompliance(driver,country);
 
         return isDisplayed & isURL;

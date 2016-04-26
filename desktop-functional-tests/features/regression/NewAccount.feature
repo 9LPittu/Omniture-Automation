@@ -1,12 +1,12 @@
 @NewAccount
 
-Feature: Create New Account Form
+Feature: Create New Account International
 
   Background:
     Given User goes to homepage
     When User clicks on sign in using header
     Then User get create account form
-    And Selected country is United States
+    And Selected country matches the current country context
     And Verify form does not contain international email option message
 
   Scenario: Validate error messages in new account form
@@ -50,7 +50,6 @@ Feature: Create New Account Form
     Then New user information should match My Details page
     Examples:
       | country_group |
-      | US            |
       | PRICEBOOK     |
       | NON-PRICEBOOK |
 

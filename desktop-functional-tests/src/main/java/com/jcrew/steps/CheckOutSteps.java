@@ -63,4 +63,23 @@ public class CheckOutSteps extends DriverFactory {
         assertTrue("Confirmation number in page", confirmation.orderNumberIsVisible());
     }
 
+    @When("In Shipping Address Page, user clicks continue")
+    public void shipping_address_continue() {
+        Shipping shipping = new Shipping(getDriver());
+        shipping.continueWithDefaultAddress();
+    }
+
+    @When("In Payment page, user clicks continue")
+    public void payment_continue() {
+        Payment payment = new Payment(getDriver());
+        payment.submitPayment();
+    }
+
+    @When("In Review page, user fills cvv and places order")
+    public void review_fill_cvv_and_continue() {
+        OrderReview review = new OrderReview(getDriver());
+        review.fillSecurityCode();
+        review.placeOrder();
+    }
+
 }
