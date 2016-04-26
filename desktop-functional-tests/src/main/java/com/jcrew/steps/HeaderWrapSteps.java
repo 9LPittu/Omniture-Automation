@@ -42,6 +42,11 @@ public class HeaderWrapSteps extends DriverFactory {
         header.goToMyDetailsDropDownMenu(item);
     }
 
+    @When("User clicks JCrew logo")
+    public void user_clicks_jcrew_logo() {
+        header.clickLogo();
+    }
+
     @Then("Dropdown should welcome user by first name")
     public void dropdown_should_welcome_user_using_first_name() {
         String expectedWelcomeMessage = "Welcome, " + User.getUser().getFirstName();

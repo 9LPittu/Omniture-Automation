@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,6 +32,17 @@ public class OrderConfirmation {
     }
 
     public boolean orderNumberIsVisible() {
-        return confirmation.isDisplayed();
+        boolean result;
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String env = propertyReader.getProperty("environment");
+
+        if (!"production".equals(env)) {
+            result = confirmation.isDisplayed();
+        } else {
+            logger.info("Trying to place an order in production, ignoring");
+            result = true;
+        }
+
+        return result;
     }
 }
