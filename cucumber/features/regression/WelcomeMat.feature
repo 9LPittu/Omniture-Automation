@@ -72,62 +72,14 @@ Scenario Outline: Validation of Take me to the U.S. site. link functionality
   |Category|
   |Sale    |
   |Login   |
+  And Welcome mat page is displayed
   And User clicks on Take me to the U.S. site. on welcome mat
-  And user should see "United States" in footer
-  When User clicks on hamburger menu
-  And user selects any category from hamburger menu
-  And user selects any subcategory
-  And user should see "United States" in footer
-  And user selects any item from array page, select any color and size
-  And user should see "United States" in footer
-  And Add to cart button is pressed
-  And User clicks on item bag
-  Then User should be in shopping bag page
-  And user should see "United States" in footer
-  And Clicks on checkout
-  And user should see "United States" in footer
-  And Selects to checkout as guest
-  And user should see "United States" in footer
-  And enter first name on shipping address page
-  And enter last name on shipping address page
-  And enter address line1 as "<shipping_address1>" on shipping address page
-  And enter address line2 as "<shipping_address2>" on shipping address page
-  And enter zip code as "<shipping_zipcode>" on shipping address page
-  And enter phone number on shipping address page
-  And Presses continue button on shipping address
-  Then user should see QAS verification in the shipping address page
-  And click on 'USE ADDRESS AS ENTERED' button in the shipping address page
-  And Verifies is in shipping method page
-  And user should see "United States" in footer
-  And select shipping method on shipping & gift options page
-  And Clicks continue button on shipping method page
-  And Verify user is in billing page
-  And user should see "United States" in footer
-  And enter "Visa_Card" details on billing page
-  And enter email address as "jcrewcolab@gmail.com"
-  And click on 'ADD NEW BILLING ADDRESS' on Billing page
-  And select country as "<billing_country>" in the Add New Billing Address form
-  And enter first name in the Add New Billing Address form
-  And enter last name in the Add New Billing Address form
-  And enter "<billing_address1>" as address line1 in the Add New Billing Address form
-  And enter "<billing_address2>" as address line2 in the Add New Billing Address form
-  And enter "<billing_zipcode>" as zipcode in the Add New Billing Address form
-  And enter phone number in the Add New Billing Address form
-  Then click on 'SAVE' button in the Add New Billing Address form
-  Then user should see QAS verification in the Billing page
-  And click on 'USE ADDRESS AS ENTERED' button in the Billing page
-  And Submits payment data in billing page
-  And User is on internal /checkout2/billing.jsp page
-  And user should see "United States" in footer
-  And product name and price on review page should be displayed correctly
-  Then Clicks on place your order
-  Then User should be in order confirmation page
   And user should see "United States" in footer
 
   Examples:
-  |country_group|shipping_address1|shipping_address2|shipping_zipcode|billing_country|billing_address1|billing_address2|billing_zipcode|
-  |PRICEBOOK    |107-12 Continental Avenue||11375|United States|1 Pennsylvania Plaza||10119|
-  |NON-PRICEBOOK|107-12 Continental Avenue||11375|United States|1 Pennsylvania Plaza||10119|
+    |country_group|
+    |PRICEBOOK    |
+    |NON-PRICEBOOK|
 
 
 
