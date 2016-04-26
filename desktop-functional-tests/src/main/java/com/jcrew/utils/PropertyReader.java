@@ -53,7 +53,7 @@ public class PropertyReader {
         logger.info("UserID to be used {}", execUser);
         properties.setProperty("userID", execUser);
 
-        logger.info("Country to be used {}", execUser);
+        logger.info("Country to be used {}", country);
         properties.setProperty("country", country);
 
     }

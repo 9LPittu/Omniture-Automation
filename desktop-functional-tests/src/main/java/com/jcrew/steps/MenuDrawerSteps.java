@@ -14,7 +14,7 @@ public class MenuDrawerSteps extends DriverFactory {
 
     @When("User selects random category from list")
     public void user_selects_a_random_category_from_list(List<String> categories) {
-        menuDrawer.selectCategoryFromList(categories);
+        menuDrawer.selectCategory(categories);
     }
 
     @When("User selects random subcategory array")

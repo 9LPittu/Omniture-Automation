@@ -18,6 +18,12 @@ public class CheckOutSteps extends DriverFactory {
         shoppingBag.clickCheckoutButton();
     }
 
+    @Then("Verify that shopping bag has expected context")
+    public void verify_that_shopping_bag_has_expected_context() {
+        ShoppingBag shoppingBag = new ShoppingBag(getDriver());
+        assertTrue("Shopping bag has the expected context", shoppingBag.verifyContext());
+    }
+
     @When("User selects guest check out")
     public void user_selects_guest_check_out() {
         ShoppingBagSignIn signIn = new ShoppingBagSignIn(getDriver());

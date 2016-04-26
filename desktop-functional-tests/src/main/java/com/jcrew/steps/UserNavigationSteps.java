@@ -1,15 +1,16 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.*;
+import com.jcrew.pojo.Country;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
 
-import java.util.Arrays;
-
-import java.util.List;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -28,14 +29,16 @@ public class UserNavigationSteps extends DriverFactory {
     @When("User navigates to a subcategory from main category")
     public void user_navigates_to_subcategory_from_main_category() {
         WebDriver driver = getDriver();
-        List<String> categories = testDataReader.getMainCategories();
+        String category = testDataReader.getCategory();
+        String subCategory = testDataReader.getSubCategory(category);
 
         HeaderWrap header = new HeaderWrap(driver);
         header.openMenu();
 
         MenuDrawer menuDrawer = new MenuDrawer(driver);
-        menuDrawer.selectCategoryFromList(categories);
-        menuDrawer.selectSubCategory();
+        menuDrawer.selectCategory(category);
+
+        menuDrawer.selectSubCategory(subCategory);
     }
 
     @When("User navigates to a pdp")
@@ -92,11 +95,20 @@ public class UserNavigationSteps extends DriverFactory {
         select_product_and_add_to_bag();
     }
 
-    private void select_product_and_add_to_bag() {
+    @When("User adds selected product to bag")
+    public void select_product_and_add_to_bag() {
         ProductDetails productDetails = new ProductDetails(getDriver());
         productDetails.selectRandomColor();
         productDetails.selectRandomSize();
         productDetails.selectRandomQty();
         productDetails.addToBag();
+    }
+
+    @Then("Verify international page url")
+    public void verify_pdp_url() {
+        StateHolder stateHolder = StateHolder.getInstance();
+        Country country = (Country) stateHolder.get("context");
+
+        assertTrue("Is an array url", Util.countryContextURLCompliance(getDriver(), country));
     }
 }
