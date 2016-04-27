@@ -123,7 +123,7 @@ public class DriverFactory {
             desiredCapabilities.setCapability("newCommandTimeout", 240);
             desiredCapabilities.setCapability("launchTimeout", 600000);
 
-            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+            driver = new RemoteWebDriver(new URL(nodeURL), desiredCapabilities);
 
        }
         else if ("tablet".equals(browser)) {
