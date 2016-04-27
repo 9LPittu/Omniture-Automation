@@ -321,11 +321,13 @@ public class SalePage {
         Integer resultsNumber = Integer.parseInt(resultsCount);
 
         //If the search results is > 60
-        if(resultsNumber > 60 && pagination.isDisplayed()){
-            blnFlag = true;
-        }
-        else{
-            blnFlag = false;
+        if(resultsNumber > 60){
+            blnFlag = pagination.isDisplayed();
+        } else{
+            WebElement search_pagination = driver.findElement(By.id("c-search__pagination"));
+            List<WebElement> pagination_children = search_pagination.findElements(By.className("pagination__item--page-select"));
+
+            blnFlag = pagination_children.size() == 0;
         }
 
         return blnFlag;
@@ -375,6 +377,7 @@ public class SalePage {
 
         //wait till page is changed
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("Npge=" + String.valueOf(randomNumber+1)));
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isCorrectPageDisplayedWhenPageNumberChanged(){
