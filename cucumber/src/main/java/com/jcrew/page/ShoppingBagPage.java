@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import com.google.common.base.Predicate;
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
@@ -269,7 +270,9 @@ public class ShoppingBagPage {
     
     public boolean isCorrectCurrencySymbolShoppingBagItemSection() {
         boolean result = true;
-        String strCurrency = (String)stateHolder.get("currency");
+       
+        Country c = (Country) stateHolder.get("context");
+        String currency = c.getCurrency();
         
         List<WebElement> productpricess = driver.findElements(By.xpath("//div[contains(@class,'item-price') or contains(@class,'item-total')]"));
         	
@@ -279,7 +282,7 @@ public class ShoppingBagPage {
         } else {
         	for (WebElement price : productpricess) 
         	
-        		if (!price.getText().contains(strCurrency)) {
+        		if (!price.getText().contains(currency)) {
         			result = false;
         			break;
         		}
@@ -296,7 +299,9 @@ public class ShoppingBagPage {
     
     public boolean isCorrectCurrencySymbolShoppingBagSummarySection() {
         boolean result = true;
-        String strCurrency = (String)stateHolder.get("currency");
+        
+        Country c = (Country) stateHolder.get("context");
+        String currency = c.getCurrency();
         
         List<WebElement> summarypricess = driver.findElements(By.xpath("//span[contains(@class,'summary-value')]"));
         	
@@ -306,7 +311,7 @@ public class ShoppingBagPage {
         } else {
         	for (WebElement price : summarypricess) 
         	
-        		if (!price.getText().contains(strCurrency) && (!price.getText().contains("- - - -"))) {
+        		if (!price.getText().contains(currency) && (!price.getText().contains("- - - -"))) {
         			result = false;
         			break;
         		}
@@ -323,7 +328,10 @@ public class ShoppingBagPage {
     
     public boolean isCorrectCurrencySymbolonShoppingBagMethodPrices() {
         boolean result = true;
-        String strCurrency = (String)stateHolder.get("currency");
+        
+        Country c = (Country) stateHolder.get("context");
+        String currency = c.getCurrency();
+        
         List<WebElement> summarypricess = driver.findElements(By.xpath("//span[contains(@class,'method-price')]"));
         	
         if(summarypricess.isEmpty()) {
@@ -332,7 +340,7 @@ public class ShoppingBagPage {
         } else {
         	for (WebElement price : summarypricess) 
         	
-        		if (!price.getText().contains(strCurrency) && (!price.getText().contains("FREE"))) {
+        		if (!price.getText().contains(currency) && (!price.getText().contains("FREE"))) {
         			result = false;
         			break;
         		}
@@ -350,7 +358,9 @@ public class ShoppingBagPage {
     
     public boolean isCorrectCurrencySymbolonShoppingBagShippingPrices() {
         boolean result = true;
-        String strCurrency = (String)stateHolder.get("currency");
+        
+        Country c = (Country) stateHolder.get("context");
+        String currency = c.getCurrency();
         
         List<WebElement> summaryprices = driver.findElements(By.xpath("//span[contains(@class,'shipping-price')]"));
         	
@@ -360,7 +370,7 @@ public class ShoppingBagPage {
         } else {
         	for (WebElement price : summaryprices) 
         	
-        		if (!price.getText().contains(strCurrency) && (!price.getText().contains("FREE"))) {
+        		if (!price.getText().contains(currency) && (!price.getText().contains("FREE"))) {
         			result = false;
         			break;
         		}

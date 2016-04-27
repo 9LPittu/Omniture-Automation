@@ -237,13 +237,21 @@ public class SubcategoryPage {
     }
 
     public void click_first_product_in_grid() {
-        Util.waitForPageFullyLoaded(driver);
-        final WebElement product = getFirstProduct();
-        final WebElement productLink = product.findElement(By.className("product__image--small"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
-        saveProduct(product);
-        productLink.click();
-        Util.waitLoadingBar(driver);
+        
+    	Util.waitForPageFullyLoaded(driver);
+        
+        String currentURL = driver.getCurrentUrl();    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String environment = propertyReader.getProperty("environment");
+    	
+    	if(currentURL.contains(environment + "/r/search/")){
+    		final WebElement product = getFirstProduct();
+    		final WebElement productLink = product.findElement(By.className("product__image--small"));
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
+    		saveProduct(product);
+    		productLink.click();
+    		Util.waitLoadingBar(driver);
+    	}
     }
 
     public void click_first_product_with_xpath(String finder) {
@@ -776,7 +784,9 @@ public class SubcategoryPage {
     
     public boolean isCorrectCurrencySymbolonProductGridList() {
         boolean result = true;        
-        String strCurrency = (String)stateHolder.get("currency");
+
+        Country c = (Country) stateHolder.get("context");
+        String currency = c.getCurrency();
         
         List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail tile__detail--price--')]"));
         	
@@ -786,7 +796,7 @@ public class SubcategoryPage {
         } else {
         	for (WebElement price : productpricess) 
         	
-        		if (!price.getText().contains(strCurrency)) {
+        		if (!price.getText().contains(currency)) {
         			result = false;
         			break;
         		}
@@ -799,5 +809,5 @@ public class SubcategoryPage {
         	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
         }
         return result;
-    }
+    }  
 }
