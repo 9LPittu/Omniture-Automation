@@ -236,32 +236,14 @@ public class SubcategoryPage {
         return result;
     }
 
-    public void click_first_product_in_grid() {
-        
+    public void click_first_product_in_grid() {        
     	Util.waitForPageFullyLoaded(driver);
-        
-        String currentURL = driver.getCurrentUrl();    	
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String environment = propertyReader.getProperty("environment");
-    	
-    	Country c = (Country) stateHolder.get("context");
-    	String countryCode = c.getCountry();
-    	String searchString = "";
-    	if(countryCode.equalsIgnoreCase("us")){
-    		searchString = environment + "/r/search/";
-    	}
-    	else{
-    		searchString = environment + "/" + countryCode + "/r/search/";
-    	}
-    	
-    	if(currentURL.contains(searchString)){
-    		final WebElement product = getFirstProduct();
-    		final WebElement productLink = product.findElement(By.className("product__image--small"));
-    		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
-    		saveProduct(product);
-    		productLink.click();
-    		Util.waitLoadingBar(driver);
-    	}
+		final WebElement product = getFirstProduct();
+		final WebElement productLink = product.findElement(By.className("product__image--small"));
+		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
+		saveProduct(product);
+		productLink.click();
+		Util.waitLoadingBar(driver);
     }
 
     public void click_first_product_with_xpath(String finder) {
@@ -819,5 +801,28 @@ public class SubcategoryPage {
         	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
         }
         return result;
-    }  
+    }
+    
+    public void selectFirstProductFromSearchResults(){
+    	
+    	String currentURL = driver.getCurrentUrl();
+    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String environment = propertyReader.getProperty("environment");
+    	
+    	Country c = (Country) stateHolder.get("context");
+    	String countryCode = c.getCountry();
+    	
+    	String searchString = "";
+    	if(countryCode.equalsIgnoreCase("us")){
+    		searchString = environment + "/r/search/";
+    	}
+    	else{
+    		searchString = environment + "/" + countryCode + "/r/search/";
+    	}
+    	
+    	if(currentURL.contains(searchString)){
+    		click_first_product_in_grid();
+    	}
+    }
 }

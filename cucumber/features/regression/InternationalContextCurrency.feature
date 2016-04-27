@@ -166,13 +166,13 @@ Feature: International Country Context
     And User presses search button
     When Enters soldout.item to the search field
     And Clicks on search button for input field
-    When Selects the first product from product grid list
+    And user selects first product from search results    
     Then User is in product detail page       
     Then user should see PDP page with soldout message which includes phone number
     And User presses search button
     When Enters variations.item to the search field
     And Clicks on search button for input field
-    When Selects the first product from product grid list
+    And user selects first product from search results
     Then User is in product detail page
     And user should see the PDP messages for the selected country
     And user selects random variant on the PDP page
@@ -181,12 +181,12 @@ Feature: International Country Context
 	And User presses search button
     When Enters vps.item to the search field
     And Clicks on search button for input field
-    When Selects the first product from product grid list
+    And user selects first product from search results
     Then User is in product detail page
     Then user should see PDP page with message for vps item
     And User presses search button
     When Enters shipping.restriction.item to the search field
     And Clicks on search button for input field
-    When Selects the first product from product grid list
+    And user selects first product from search results
     Then User is in product detail page
     Then user should see PDP page with shipping restriction message    
