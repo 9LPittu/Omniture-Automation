@@ -141,29 +141,28 @@ public class ReviewPage {
     	for(WebElement itemDetailOnReviewPage:itemDetailsOnReviewPage){
     		WebElement reviewPageproductName = itemDetailOnReviewPage.findElement(By.className("item-name"));
     		WebElement reviewPageproductPrice = itemDetailOnReviewPage.findElement(By.className("item-price"));
-            String reviewPageProductNameText = "";
+
+            String reviewPageProductNameText = reviewPageproductName.getText();
+            reviewPageProductNameText = cleanProductName(reviewPageProductNameText);
     		
     		List<Product> productList = (List<Product>) stateHolder.get("productList");
-    		for(int i=0;i<productList.size();i++){
-                reviewPageProductNameText = reviewPageproductName.getText();
-                reviewPageProductNameText = cleanProductName(reviewPageProductNameText);
+            for (Product product : productList) {
 
-    			Product product = productList.get(i);
-    			if(product.getProductName().equalsIgnoreCase(reviewPageProductNameText)){
-					if(reviewPageproductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())){
-						blnResult = true;
-						break;
-					}
-    			}
-    			
-    			if(blnResult){
-    				logger.debug(reviewPageProductNameText + " product details matches on review page");
-    				break;
-    			}
-    		}
+                if (product.getProductName().equalsIgnoreCase(reviewPageProductNameText)) {
+                    if (reviewPageproductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())) {
+                        blnResult = true;
+                        break;
+                    }
+                }
+
+                if (blnResult) {
+                    logger.debug(reviewPageProductNameText + " was not found in review page");
+                    break;
+                }
+            }
     		
     		if(!blnResult){
-				logger.debug(reviewPageProductNameText + " product details does not match on review page");
+				logger.debug(reviewPageProductNameText + " price does not match on review page");
 				break;
     		}
     	}
