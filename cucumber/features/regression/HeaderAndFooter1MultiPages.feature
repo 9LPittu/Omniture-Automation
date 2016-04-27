@@ -1,4 +1,4 @@
-@HeaderAndFooter
+@HeaderAndFooter @HighLevel
 Feature: Embedded Header and Footer Validations
 
   Background:

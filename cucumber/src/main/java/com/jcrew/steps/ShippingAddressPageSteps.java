@@ -128,7 +128,7 @@ public class ShippingAddressPageSteps extends DriverFactory {
 
     }
     
-    @When("^user fills selcted country shipping address$")
+    @When("^user fills selected country shipping address$")
     public void user_fills_country_shipping_address() throws Throwable {
 
         shippingAddressPage.fills_shipping_address_testdata();

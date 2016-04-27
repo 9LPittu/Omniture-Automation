@@ -1,4 +1,4 @@
-@Wishlist
+@Wishlist @HighLevel
 Feature: Add items to Wishlist from PDP and Shoppable Tray
 
   Background:

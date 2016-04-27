@@ -100,10 +100,11 @@ public class ProductDetailPage {
 
     public boolean isProductDetailPage() {
         Country country = (Country) stateHolder.get("context");
+        logger.info("country context is  : {}",country.getCountryName());
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
         boolean isURL = Util.countryContextURLCompliance(driver, country);
-
+        logger.debug("is url?  {}", isURL);
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
     }
 

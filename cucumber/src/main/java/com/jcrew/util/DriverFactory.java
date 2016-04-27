@@ -37,6 +37,7 @@ public class DriverFactory {
     private final int DEFAULT_WINDOW_WIDTH = 400;
     private final int DEFAULT_WINDOW_HEIGHT = 667;
     private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private int width = DEFAULT_WINDOW_WIDTH;
     private int height = DEFAULT_WINDOW_HEIGHT;
@@ -250,6 +251,7 @@ public class DriverFactory {
     }
 
     public void deleteBrowserCookies(){
+        stateHolder.put("deletecookies", true);
         String identifier = Thread.currentThread().getName();
         WebDriver driver = driverMap.get(identifier);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
@@ -266,7 +268,7 @@ public class DriverFactory {
                         }
                     }
 
-                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser)) {
+                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser) ) {
                     for (Cookie cookie : cookies) {
                         if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
                             driver.manage().deleteCookie(cookie);
