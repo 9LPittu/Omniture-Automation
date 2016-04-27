@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Navigation {
 
@@ -44,13 +45,13 @@ public class Navigation {
     public boolean isCurrentUrl(String page) {
 
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+        logger.info("no.of windowhandles; {}", tabs.size());
+
         // get the current window handle
-        if(tabs.size() > 1) {
-            logger.info("Expected {} opened in a different array", page);
-            logger.info("parent window handle {}", tabs.get(0));
-            logger.info("no.of windowhandles; {}", driver.getWindowHandles().size());
-            logger.info("now switching to new tab {}", tabs.get(1));
-            driver.switchTo().window(tabs.get(1));        // switch focus of WebDriver to the next found window handle (that's newly opened window)
+        for (String tab : tabs) {
+            logger.info("parent window handle {}", tab);
+            driver.switchTo().window(tab);
+            logger.debug("Title in handle: {}", driver.getTitle());
         }
 
         String browser = reader.getProperty("browser");
