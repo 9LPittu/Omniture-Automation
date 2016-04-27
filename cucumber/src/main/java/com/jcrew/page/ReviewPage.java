@@ -142,14 +142,17 @@ public class ReviewPage {
     		WebElement reviewPageproductName = itemDetailOnReviewPage.findElement(By.className("item-name"));
     		WebElement reviewPageproductPrice = itemDetailOnReviewPage.findElement(By.className("item-price"));
 
-            String reviewPageProductNameText = reviewPageproductName.getText();
+            String reviewPageProductNameText = reviewPageproductName.getText().trim();
             reviewPageProductNameText = cleanProductName(reviewPageProductNameText);
+
+            String reviewPageProductPriceText = reviewPageproductPrice.getText().trim();
     		
     		List<Product> productList = (List<Product>) stateHolder.get("productList");
             for (Product product : productList) {
 
                 if (product.getProductName().equalsIgnoreCase(reviewPageProductNameText)) {
-                    if (reviewPageproductPrice.getText().trim().equalsIgnoreCase(product.getPriceList())) {
+                    logger.debug("review price: {} product price: {}", reviewPageProductPriceText, product.getPriceList());
+                    if (reviewPageProductPriceText.equalsIgnoreCase(product.getPriceList())) {
                         blnResult = true;
                         break;
                     }
