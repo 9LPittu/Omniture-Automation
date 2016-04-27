@@ -712,7 +712,7 @@ public class ProductDetailPage {
     		Util.waitLoadingBar(driver);
     		Util.waitForPageFullyLoaded(driver);
     		
-    		WebElement selectedProductVariations = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productVariationSection.findElement(By.xpath("//input[@name='variant' and @checked='']"))));
+    		WebElement selectedProductVariations = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productVariationSection.findElement(By.xpath("//input[@name='variant' and @checked='']"))));
     		if(selectedProductVariations.getAttribute("value").equalsIgnoreCase(variationName)){
     			logger.info("Selected variant: {}", variationName);
     		}
