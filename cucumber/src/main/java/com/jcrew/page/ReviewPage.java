@@ -156,13 +156,13 @@ public class ReviewPage {
                 }
 
                 if (blnResult) {
-                    logger.debug(reviewPageProductNameText + " was not found in review page");
+                    logger.debug(reviewPageProductNameText + " was not added to bag");
                     break;
                 }
             }
     		
     		if(!blnResult){
-				logger.debug(reviewPageProductNameText + " price does not match on review page");
+				logger.debug(reviewPageProductNameText + " price in review page does not match");
 				break;
     		}
     	}
