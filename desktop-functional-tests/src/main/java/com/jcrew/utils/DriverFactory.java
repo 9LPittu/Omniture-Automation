@@ -146,7 +146,7 @@ public class DriverFactory {
             desiredCapabilities.setCapability("newCommandTimeout", 240);
 
             driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
-            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
         }
         else {
             desiredCapabilities = DesiredCapabilities.phantomjs();
