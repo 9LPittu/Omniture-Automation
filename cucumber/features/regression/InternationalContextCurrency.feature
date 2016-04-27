@@ -137,6 +137,7 @@ Feature: International Country Context
     And Selects any product from product grid list
     And User is in product detail page
     And Verify proper currency symbol is displayed on PDP page
+    And user should see the PDP messages for the selected country
     Then Verify embedded footer is visible and functional
 
   Scenario: Context and currency is displayed on search page

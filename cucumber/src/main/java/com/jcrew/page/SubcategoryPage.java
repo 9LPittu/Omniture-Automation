@@ -244,7 +244,17 @@ public class SubcategoryPage {
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String environment = propertyReader.getProperty("environment");
     	
-    	if(currentURL.contains(environment + "/r/search/")){
+    	Country c = (Country) stateHolder.get("context");
+    	String countryCode = c.getCountry();
+    	String searchString = "";
+    	if(countryCode.equalsIgnoreCase("us")){
+    		searchString = environment + "/r/search/";
+    	}
+    	else{
+    		searchString = environment + "/" + countryCode + "/r/search/";
+    	}
+    	
+    	if(currentURL.contains(searchString)){
     		final WebElement product = getFirstProduct();
     		final WebElement productLink = product.findElement(By.className("product__image--small"));
     		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
