@@ -51,11 +51,12 @@ Feature: International Country Context
     And external http://www.pitneybowes.com/us/borderfree-is-now-part-of-pitney-bowes.html page is opened in a different tab
 
 
-  Scenario: international context validation on all My Account related pages
+
+  Scenario Outline: international context validation on all My Account related pages
     Then click on change link from footer
     And User is on context chooser
     And User is on internal /r/context-chooser page
-    Given user selects top10country at random from context chooser page
+    Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
     When Goes to sign in page
@@ -66,65 +67,152 @@ Feature: International Country Context
     And user should see selected country in the footer
     When User clicks on MY DETAILS link in My Account Page
     Then User should be in account_detail.jsp menu link page
+    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on EMAIL PREFERENCES link in My Account Page
     Then User should be in email_preferences.jsp menu link page
+    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on CATALOG PREFERENCES link in My Account Page
     Then User should be in catalog_preferences.jsp menu link page
+    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on PAYMENT METHODS link in My Account Page
     Then User should be in payment_info.jsp menu link page
+    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on GIFT CARD BALANCE link in My Account Page
     Then User should be in checkout/giftcard_balance1.jsp menu link page
+    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on ADDRESS BOOK link in My Account Page
     Then User should be in address_book.jsp menu link page
+    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on ORDER HISTORY link in My Account Page
     Then User should be in reg_user_order_history.jsp menu link page
+    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on WISHLIST link in My Account Page
     Then User should be in /wishlist menu link page
     And user should see selected country in the footer
+    And user should see country code in the url for international countries
 
-  Scenario: Forgot Password Page context validtaion
+    Examples:
+      |country_group |
+      |PRICEBOOK     |
+      |NONPRICEBOOK  |
+
+  Scenario Outline: Forgot Password Page context validtaion
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
-    Given user selects top10country at random from context chooser page
+    Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
     When Goes to sign in page
     And Clicks on forgot password link
     And Verify user is in forgot password page
     And user should see selected country in the footer
+    And user should see country code in the url for international countries
+
+    Examples:
+      |country_group |
+      |PRICEBOOK     |
+      |NONPRICEBOOK  |
+
 
   Scenario Outline: international context validation on Department/Gender Landing Pages
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
-    Given user selects top10country at random from context chooser page
+    Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
-    And User clicks on <gender> link from top nav
+    And User clicks on Women link from top nav
     And user should see selected country in the footer
     And user should see country code in the url for international countries
 
     Examples:
-      |gender|
-      |Women |
-      |Men   |
-      |Boys  |
-      |Girls |
-      |sale  |
+     |country_group |
+     |PRICEBOOK     |
+     |NONPRICEBOOK  |
 
-  Scenario: Multiple Pages During Checkout Context validations
+  Scenario Outline: international context validation on Department/Gender Landing Pages
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
-    Given user selects top10country at random from context chooser page
+    Given user selects <country_group> at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
+    And User clicks on Men link from top nav
+    And user should see selected country in the footer
+    And user should see country code in the url for international countries
+
+    Examples:
+      |country_group |
+      |PRICEBOOK     |
+      |NONPRICEBOOK  |
+
+  Scenario Outline: international context validation on Department/Gender Landing Pages
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects <country_group> at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
+    And User clicks on Boys link from top nav
+    And user should see selected country in the footer
+    And user should see country code in the url for international countries
+
+    Examples:
+      |country_group |
+      |PRICEBOOK     |
+      |NONPRICEBOOK  |
+
+  Scenario Outline: international context validation on Department/Gender Landing Pages
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects <country_group> at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
+    And User clicks on Girls link from top nav
+    And user should see selected country in the footer
+    And user should see country code in the url for international countries
+
+    Examples:
+      |country_group |
+      |PRICEBOOK     |
+      |NONPRICEBOOK  |
+
+  Scenario Outline: international context validation on Department/Gender Landing Pages
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects <country_group> at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
+    And User clicks on sale link from top nav
+    And user should see selected country in the footer
+    And user should see country code in the url for international countries
+
+    Examples:
+      |country_group |
+      |PRICEBOOK     |
+      |NONPRICEBOOK  |
+
+
+
+
+
+
+
+  Scenario Outline: Multiple Pages During Checkout Context validations
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
     When User clicks on hamburger menu
@@ -142,6 +230,7 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
+    And user should see country code in the url for international countries
     And Clicks edit button on item bag page
 	And User is in product detail page
     Then Update Bag button is pressed
@@ -177,28 +266,40 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-  
-  Scenario: context validation on sale page
+
+    Examples:
+      |country_group|
+      |PRICEBOOK|
+      |NONPRICEBOOK|
+
+  Scenario Outline: context validation on sale page
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
-    Given user selects top10country at random from context chooser page
+    Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
     And user should see selected country in the footer
+    And user should see country code in the url for international countries
     And User clicks on WOMEN subcategory from Sales
     And user should see selected country in the footer
     And Selects any product from product grid list
     And User is in product detail page
     Then Verify embedded footer is visible and functional
+    And user should see country code in the url for international countries
 
-  Scenario: Context is displayed on search page
+    Examples:
+      |country_group|
+      |PRICEBOOK|
+      |NONPRICEBOOK|
+
+  Scenario Outline: Context is displayed on search page
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
-    Given user selects top10country at random from context chooser page
+    Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
     And User presses search button
@@ -209,13 +310,18 @@ Feature: International Country Context
     When Selects the first product from product grid list
     Then User is in product detail page
 
+    Examples:
+      |country_group|
+      |PRICEBOOK|
+      |NONPRICEBOOK|
+
 
   #multipdp, shoppable tray
-  Scenario: international context validation for shoppable tray page
+  Scenario Outline: international context validation for shoppable tray page
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
-    Given user selects top10country at random from context chooser page
+    Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
     And User clicks on hamburger menu
@@ -225,3 +331,8 @@ Feature: International Country Context
       |Girls|THIS MONTH'S FEATURES|Looks We Love |
       |Boys |THIS MONTH'S FEATURES|Looks We Love |
     And user should see country code in the url for international countries
+
+    Examples:
+    |country_group|
+    |PRICEBOOK|
+    |NONPRICEBOOK|
