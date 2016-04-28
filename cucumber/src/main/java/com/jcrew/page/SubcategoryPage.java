@@ -748,7 +748,7 @@ public class SubcategoryPage {
     public boolean isItemDisplayedInSearchResultsPage(String propertyName) {
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String itemName = testDataReader.getData(propertyReader.getProperty("url") + "." + propertyName);
+        String itemName = testDataReader.getData(propertyReader.getProperty("environment") + "." + propertyName);
 
         return productTileExistFor(itemName);
 
