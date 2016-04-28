@@ -26,7 +26,7 @@ import com.jcrew.pojo.Country;
 public class SubcategoryPage {
 
     private final StateHolder stateHolder = StateHolder.getInstance();
-
+    
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
     @FindBy(css = "button.get-quickshop")
@@ -708,7 +708,6 @@ public class SubcategoryPage {
     }
     
     public void selectRandomItemFromArrayPage(){
-    	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String environment = propertyReader.getProperty("url");
     	
@@ -747,19 +746,19 @@ public class SubcategoryPage {
     }
 
     public boolean isItemDisplayedInSearchResultsPage(String propertyName) {
-
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
+        String itemName = testDataReader.getData(propertyReader.getProperty("url") + "." + propertyName);
 
         return productTileExistFor(itemName);
 
     }
 
     public boolean isPriceMatchesForSaleItem(String saleItemPropertyName, String priceType, String pricePropertyName) {
-
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String itemName = testDataReader.getData(System.getProperty("environment") + "." + saleItemPropertyName);
-        String expectedItemPrice = testDataReader.getData(System.getProperty("environment") + "." + pricePropertyName);
+        String itemName = testDataReader.getData(propertyReader.getProperty("environment") + "." + saleItemPropertyName);
+        String expectedItemPrice = testDataReader.getData(propertyReader.getProperty("environment") + "." + pricePropertyName);
 
         String price;
         if (priceType.equalsIgnoreCase("was")) {

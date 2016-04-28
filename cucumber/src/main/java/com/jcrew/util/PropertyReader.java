@@ -41,6 +41,7 @@ public class PropertyReader {
         inputFile = new FileInputStream("countries.properties");
         properties.load(inputFile);
 
+        properties.setProperty("environment",execEnvironment);
         properties.setProperty("viewport", execViewport);
         properties.setProperty("country", country);
         
