@@ -120,85 +120,30 @@ Feature: International Country Context
       |NONPRICEBOOK  |
 
 
-  Scenario Outline: international context validation on Department/Gender Landing Pages for Women
+  Scenario Outline: international context validation on gender landing pages and sale landing page
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
-    And User clicks on Women link from top nav
+    And User clicks on <topnav> link from top nav
     And user should see selected country in the footer
     And user should see country code in the url for international countries
 
     Examples:
-     |country_group |
-     |PRICEBOOK     |
-     |NONPRICEBOOK  |
+     |country_group |topnav|
+     |PRICEBOOK     |Women |
+     |NONPRICEBOOK  |Women |
+     |PRICEBOOK     |Men |
+     |NONPRICEBOOK  |Men |
+     |PRICEBOOK     |Girls |
+     |NONPRICEBOOK  |Girls |
+     |PRICEBOOK     |Boys |
+     |NONPRICEBOOK  |Boys |
+     |PRICEBOOK     |sale |
+     |NONPRICEBOOK  |sale |
 
-  Scenario Outline: international context validation on Department/Gender Landing Pages for Men
-    Then click on change link from footer
-    And User is on context chooser page
-    And User is on internal /r/context-chooser page
-    Given user selects <country_group> at random from context chooser page
-    Then user should land on country specific home page
-    And user should see selected country in the footer
-    And User clicks on Men link from top nav
-    And user should see selected country in the footer
-    And user should see country code in the url for international countries
-
-    Examples:
-      |country_group |
-      |PRICEBOOK     |
-      |NONPRICEBOOK  |
-
-  Scenario Outline: international context validation on Department/Gender Landing Pages for Boys
-    Then click on change link from footer
-    And User is on context chooser page
-    And User is on internal /r/context-chooser page
-    Given user selects <country_group> at random from context chooser page
-    Then user should land on country specific home page
-    And user should see selected country in the footer
-    And User clicks on Boys link from top nav
-    And user should see selected country in the footer
-    And user should see country code in the url for international countries
-
-    Examples:
-      |country_group |
-      |PRICEBOOK     |
-      |NONPRICEBOOK  |
-
-  Scenario Outline: international context validation on Department/Gender Landing Pages for Girls
-    Then click on change link from footer
-    And User is on context chooser page
-    And User is on internal /r/context-chooser page
-    Given user selects <country_group> at random from context chooser page
-    Then user should land on country specific home page
-    And user should see selected country in the footer
-    And User clicks on Girls link from top nav
-    And user should see selected country in the footer
-    And user should see country code in the url for international countries
-
-    Examples:
-      |country_group |
-      |PRICEBOOK     |
-      |NONPRICEBOOK  |
-
-  Scenario Outline: international context validation on sale landing page from top nav
-    Then click on change link from footer
-    And User is on context chooser page
-    And User is on internal /r/context-chooser page
-    Given user selects <country_group> at random from context chooser page
-    Then user should land on country specific home page
-    And user should see selected country in the footer
-    And User clicks on sale link from top nav
-    And user should see selected country in the footer
-    And user should see country code in the url for international countries
-
-    Examples:
-      |country_group |
-      |PRICEBOOK     |
-      |NONPRICEBOOK  |
 
   Scenario Outline: Multiple Pages During Checkout Context validations
     Then click on change link from footer
@@ -264,7 +209,7 @@ Feature: International Country Context
       |PRICEBOOK|
       |NONPRICEBOOK|
 
-  Scenario Outline: context validation on sale landing page from menu
+  Scenario Outline: context validation on sale landing page from Hamburger menu
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
