@@ -118,6 +118,7 @@ Feature: International Country Context
       |Men   |
       |Boys  |
       |Girls |
+      |sale  |
 
   Scenario: Multiple Pages During Checkout Context validations
     Then click on change link from footer
