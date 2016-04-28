@@ -146,6 +146,7 @@ public class ReviewPage {
             reviewPageProductNameText = cleanProductName(reviewPageProductNameText);
 
             String reviewPageProductPriceText = reviewPageproductPrice.getText().trim();
+            reviewPageProductPriceText = reviewPageProductPriceText.replaceAll(",","");
     		
     		List<Product> productList = (List<Product>) stateHolder.get("productList");
             for (Product product : productList) {
