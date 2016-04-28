@@ -216,7 +216,7 @@ public class ContextChooserPage {
 			int countryindex = Util.randomIndex(pricebookCountriesArray.length);
 			selectedCountry = pricebookCountriesArray[countryindex].toLowerCase();
 
-		}  else if ("NON-PRICEBOOK".equals(country_group)) {
+		}  else if ("NONPRICEBOOK".equals(country_group)) {
 
 			String nonPricebookCountries = testData.getData("nonPricebookCountries");
 			String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
