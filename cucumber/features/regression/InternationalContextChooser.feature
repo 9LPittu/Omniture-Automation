@@ -120,7 +120,7 @@ Feature: International Country Context
       |NONPRICEBOOK  |
 
 
-  Scenario Outline: international context validation on Department/Gender Landing Pages
+  Scenario Outline: international context validation on Department/Gender Landing Pages for Women
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
@@ -136,7 +136,7 @@ Feature: International Country Context
      |PRICEBOOK     |
      |NONPRICEBOOK  |
 
-  Scenario Outline: international context validation on Department/Gender Landing Pages
+  Scenario Outline: international context validation on Department/Gender Landing Pages for Men
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
@@ -152,7 +152,7 @@ Feature: International Country Context
       |PRICEBOOK     |
       |NONPRICEBOOK  |
 
-  Scenario Outline: international context validation on Department/Gender Landing Pages
+  Scenario Outline: international context validation on Department/Gender Landing Pages for Boys
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
@@ -168,7 +168,7 @@ Feature: International Country Context
       |PRICEBOOK     |
       |NONPRICEBOOK  |
 
-  Scenario Outline: international context validation on Department/Gender Landing Pages
+  Scenario Outline: international context validation on Department/Gender Landing Pages for Girls
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
@@ -184,7 +184,7 @@ Feature: International Country Context
       |PRICEBOOK     |
       |NONPRICEBOOK  |
 
-  Scenario Outline: international context validation on Department/Gender Landing Pages
+  Scenario Outline: international context validation on sale landing page from top nav
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
@@ -264,7 +264,7 @@ Feature: International Country Context
       |PRICEBOOK|
       |NONPRICEBOOK|
 
-  Scenario Outline: context validation on sale page
+  Scenario Outline: context validation on sale landing page from menu
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
