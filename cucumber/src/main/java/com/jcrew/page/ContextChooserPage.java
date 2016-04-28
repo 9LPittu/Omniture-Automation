@@ -201,18 +201,33 @@ public class ContextChooserPage {
     	}
     }
     
-    public void selectTop10RandomCountry(){
+    public void selectGroupRandomCountry(String country_group) {
 	
-		TestDataReader testDataReader = TestDataReader.getTestDataReader();
-		String countryCodes = testDataReader.getData("CountryCodes");
-		String[] arrCountryCodes = StringUtils.split(countryCodes, ",");	
-		String countryCode = arrCountryCodes[Util.randomIndex(arrCountryCodes.length)];
-		
+		TestDataReader testData = TestDataReader.getTestDataReader();
 		PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("environment");
+		String url = propertyReader.getProperty("environment");
+		String selectedCountry= "";
+
+		if ("PRICEBOOK".equals(country_group)) {
+
+			String pricebookCountries = testData.getData("pricebookCountries");
+			String pricebookCountriesArray[] = pricebookCountries.split(";");
+
+			int countryindex = Util.randomIndex(pricebookCountriesArray.length);
+			selectedCountry = pricebookCountriesArray[countryindex].toLowerCase();
+
+		}  else if ("NONPRICEBOOK".equals(country_group)) {
+
+			String nonPricebookCountries = testData.getData("nonPricebookCountries");
+			String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
+
+			int countryindex = Util.randomIndex(nonPricebookCountriesArray.length);
+			selectedCountry = nonPricebookCountriesArray[countryindex].toLowerCase();
+
+		}
+
 		
-		Country country = new Country(url, countryCode);
-		String currency = country.getCurrency();
+		Country country = new Country(url, selectedCountry );
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
 	

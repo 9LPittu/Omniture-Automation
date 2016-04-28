@@ -58,9 +58,9 @@ public class ContextChooserPageSteps extends DriverFactory {
     	contextChooser.selectRandomCountry();
     }
     
-    @Given("^user selects top10country at random from context chooser page$")
-    public void select_random_10country_from_context_chooser_page(){
-    	contextChooser.selectTop10RandomCountry();
+    @Given("^user selects ([^\"]*) at random from context chooser page$")
+    public void select_random_country_from_country_group_on_context_chooser_page(String country_group) {
+    	contextChooser.selectGroupRandomCountry(country_group);
     }
 
     @Then("^user should land on country specific home page$")

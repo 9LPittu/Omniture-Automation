@@ -1,4 +1,4 @@
-@HeaderAndFooter
+@HeaderAndFooter @HighLevel
 Feature: Footer Verification In Home Page
 
   Background:
@@ -7,7 +7,6 @@ Feature: Footer Verification In Home Page
 
     #Moved from HomePage.feature
     #US9724_TC01 from BreadCrumbs.feature
-  @HighLevel
   Scenario: Homepage embedded Header, Footer and logo
     Then Verify embedded headers are visible and functional
     Then Verify embedded footer is visible and functional
@@ -23,7 +22,7 @@ Feature: Footer Verification In Home Page
    #US13389_TC03
    #US13389_TC12
    #US13389_TC11
-  @HighLevel
+
   Scenario: Verification of Footer section in the page
     Then Verify Contact Us header from footer is visible in homepage
     And Contact Us section twitter icon is displayed
@@ -72,7 +71,7 @@ Feature: Footer Verification In Home Page
     Then user should see message as "THANK YOU...Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
 
    #tc-04 starts below
-  @HighLevel
+
   Scenario: Verification of Let Us Help You links display
     When Click on footer link Let Us Help You to open
     And Accordion should be expanded
@@ -126,7 +125,6 @@ Feature: Footer Verification In Home Page
 
   #tc-05
   #Merge
-  @HighLevel
   Scenario: Verification of Our Cards links functionality
     When Click on footer link Our Cards to open
     And The J.Crew Credit Card sublink is displayed
@@ -148,7 +146,6 @@ Feature: Footer Verification In Home Page
 
   #tc-06
     #tc-07
-  @HighLevel
   Scenario: Verification of About J.Crew links functionality
     When Click on footer link About J.Crew to open
     And Our Story sublink is displayed
@@ -179,7 +176,6 @@ Feature: Footer Verification In Home Page
     And external http://investors.jcrew.com page is opened in a different tab
 
     #tc-08
-  @HighLevel
   Scenario: Verification of Our Brands links display
     When Click on footer link Our Brands to open
     And J.Crew Factory sublink is displayed
@@ -195,65 +191,10 @@ Feature: Footer Verification In Home Page
     And external https://www.madewell.com/index.jsp page is opened in a different tab
 
 
-  #US9479_TC01, US9479_TC02, US9479_TC04
-  #US9479_TC03 -  not automating because the test case is about validating context chooser page with mockup
-  #Validate context chooser flag is displayed on all the sidecar pages in the footer
-   Scenario: Context chooser flag should be displayed and functional in the footer section.
-     Then user should see Ship To section in footer
-     And verify country name is displayed in the ship to section of footer
-     And verify change link is displayed in the ship to section of footer
-     Then click on change link from footer
-     And User is on context chooser page
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And UNITED STATES & CANADA region drawer is displayed
-     And ASIA PACIFIC region drawer is displayed
-     And EUROPE region drawer is displayed
-     And LATIN AMERICA & THE CARIBBEAN region drawer is displayed
-     And MIDDLE EAST & AFRICA region drawer is displayed
-     And user should see all regional drawers closed by default
-     And expand each regional drawer and verify the countries displayed and only one drawer should be opened
-     	 |UNITED STATES & CANADA|
-     	 |ASIA PACIFIC|
-     	 |EUROPE|
-     	 |LATIN AMERICA & THE CARIBBEAN|
-     	 |MIDDLE EAST & AFRICA|
-     	 
-     And click on "terms of use" link from terms section on the context chooser page 
-     And User is on internal /footer/termsofuse.jsp?sidecar=true page
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And User presses back button
-     And click on "privacy policy" link from terms section on the context chooser page
-     And User is on internal /help/privacy_policy.jsp?sidecar=true page
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And User presses back button
-     And click on "SEE ALL FAQ & HELP" button from FAQ section on the context chooser page
-     And User is on internal /help/international_orders.jsp?sidecar=true page
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And User presses back button
-     And click on "borderfree.com" link from FAQ section on the context chooser page
-     And external http://www.pitneybowes.com/us/borderfree-is-now-part-of-pitney-bowes.html page is opened in a different tab
 
-  #US13389_TC13
-  # Scenario Outline: Ship To section is visible and functional in footer
-    # (SHIP TO is not present, change in application. For more information look SC-572)
-    # Then user should see Ship To section in footer
-    # And verify country name is displayed in the ship to section of footer
-    # And verify change link is displayed in the ship to section of footer
-    # Then click on change link from footer
-    # And User is on /intl/context_chooser.jsp?sidecar=true page
-    # And select country as "<country>"
-    # Then user should see "<country>" in footer
-    # Examples:
-      # |country|
-      # |Canada|
-   
+
   #US13389_TC14
-  @HighLevel
-    Scenario: Verify social sharing icons functionality
+  Scenario: Verify social sharing icons functionality
     And click on facebook icon in social sharing section
     And external facebook page is opened in a different tab
     And click on twitter icon in social sharing section
@@ -271,7 +212,6 @@ Feature: Footer Verification In Home Page
 
   
   #US13389_TC15
-  @HighLevel
   Scenario: Verify legal links are displayed in footer section of all sidecar  pages
   	And user should see legal links section in the footer
   	And user should see "TERMS OF USE" in the legal links section of footer
@@ -290,7 +230,6 @@ Feature: Footer Verification In Home Page
   	And "2016 J.Crew" should not be displayed as a link
     
   #US13389_TC16
-  @HighLevel
   Scenario: Verify visit full site is displayed and functional in footer section of all sidecar  pages
    	And user should see visit full site displayed after legal links in footer section
    	And click on view full site link
