@@ -4,13 +4,60 @@ Feature: International Country Context
   Background:
     Given User is on homepage
     And Handle the Email Capture pop up
+
+
+    #US9479_TC01, US9479_TC02, US9479_TC04
+  #US9479_TC03 -  not automating because the test case is about validating context chooser page with mockup
+  #Validate context chooser flag is displayed on all the sidecar pages in the footer
+
+  Scenario: Context chooser flag should be displayed and functional in the footer section.
+    Then user should see Ship To section in footer
+    And verify country name is displayed in the ship to section of footer
+    And verify change link is displayed in the ship to section of footer
     Then click on change link from footer
-	And User is on context chooser page
-	Given user selects top10country at random from context chooser page
-    Then user should land on country specific home page
-    And user should see selected country in the footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
+    And UNITED STATES & CANADA region drawer is displayed
+    And ASIA PACIFIC region drawer is displayed
+    And EUROPE region drawer is displayed
+    And LATIN AMERICA & THE CARIBBEAN region drawer is displayed
+    And MIDDLE EAST & AFRICA region drawer is displayed
+    And user should see all regional drawers closed by default
+    And expand each regional drawer and verify the countries displayed and only one drawer should be opened
+      |UNITED STATES & CANADA|
+      |ASIA PACIFIC|
+      |EUROPE|
+      |LATIN AMERICA & THE CARIBBEAN|
+      |MIDDLE EAST & AFRICA|
+
+    And click on "terms of use" link from terms section on the context chooser page
+    And User is on internal /footer/termsofuse.jsp?sidecar=true page
+    And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
+    And User presses back button
+    And click on "privacy policy" link from terms section on the context chooser page
+    And User is on internal /help/privacy_policy.jsp?sidecar=true page
+    And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
+    And User presses back button
+    And click on "SEE ALL FAQ & HELP" button from FAQ section on the context chooser page
+    And User is on internal /help/international_orders.jsp?sidecar=true page
+    And Verify embedded headers links
+    Then Verify embedded footer is visible and functional
+    And User presses back button
+    And click on "borderfree.com" link from FAQ section on the context chooser page
+    And external http://www.pitneybowes.com/us/borderfree-is-now-part-of-pitney-bowes.html page is opened in a different tab
+
 
   Scenario: international context validation on all My Account related pages
+    Then click on change link from footer
+    And User is on context chooser
+    And User is on internal /r/context-chooser page
+    Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
     When Goes to sign in page
     And User provides login information
     And Check box is enabled
@@ -43,12 +90,24 @@ Feature: International Country Context
     And user should see selected country in the footer
 
   Scenario: Forgot Password Page context validtaion
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
     When Goes to sign in page
     And Clicks on forgot password link
     And Verify user is in forgot password page
     And user should see selected country in the footer
 
   Scenario Outline: international context validation on Department/Gender Landing Pages
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
     And User clicks on <gender> link from top nav
     And user should see selected country in the footer
     And user should see country code in the url for international countries
@@ -60,16 +119,20 @@ Feature: International Country Context
       |Boys  |
       |Girls |
 
-  Scenario: Multiple Pages During Checkout Context and Currency validations
+  Scenario: Multiple Pages During Checkout Context validations
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
     When User clicks on hamburger menu
     And user selects any category from hamburger menu
 	And user selects any subcategory
-	And Verify proper currency symbol is displayed on product grid list
-	And user should see selected country in the footer
+    And user should see selected country in the footer
 	And user should see country code in the url for international countries
 	And user selects any item from array page, select any color and size
     And User is in product detail page
-    And Verify proper currency symbol is displayed on PDP page
     And user should see selected country in the footer
     And user should see country code in the url for international countries
     And Add to cart button is pressed
@@ -78,12 +141,9 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    And Verify proper currency symbol is displayed on item section on Checkout page    
-    And Verify proper currency symbol is displayed on summary section on Checkout page
     And Clicks edit button on item bag page
 	And User is in product detail page
-	And Verify proper currency symbol is displayed on PDP page
-	Then Update Bag button is pressed
+    Then Update Bag button is pressed
 	Then User should be in shopping bag page
     And Clicks on checkout
     And Verify embedded headers links
@@ -99,9 +159,6 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    And Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And Uses default value for shipping method
     #And Uses default value for gifts option
     And Clicks continue button on shipping method page
@@ -109,53 +166,61 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    And Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And Fills required payment data in billing page
     And Submits payment data in billing page
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    And Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And Clicks on place your order
     And User should be in order confirmation page
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
   
-  Scenario: context and Local currency validation on sale page
+  Scenario: context validation on sale page
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
     And user should see selected country in the footer
     And User clicks on WOMEN subcategory from Sales
-    And Verify proper currency symbol is displayed on product grid list
     And user should see selected country in the footer
     And Selects any product from product grid list
     And User is in product detail page
-    And Verify proper currency symbol is displayed on PDP page
     Then Verify embedded footer is visible and functional
 
-  Scenario: Context and currency is displayed on search page
+  Scenario: Context is displayed on search page
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
     And User presses search button
     When Enters dresses to the search field
     And Clicks on search button for input field
     Then User is in search results page
     And user should see selected country in the footer
-    And Verify proper currency symbol is displayed on product grid list
     When Selects the first product from product grid list
     Then User is in product detail page
-    And Verify proper currency symbol is displayed on PDP page
+
 
   #multipdp, shoppable tray
-  Scenario: international context and currency validation for shoppable tray page
+  Scenario: international context validation for shoppable tray page
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects top10country at random from context chooser page
+    Then user should land on country specific home page
+    And user should see selected country in the footer
     And User clicks on hamburger menu
     And User selects random tray from available categories
       |Women|THIS MONTH'S FEATURES|looks we love |
       |Men  |THIS MONTH'S FEATURES|1 Suit, 5 Ways|
       |Girls|THIS MONTH'S FEATURES|Looks We Love |
       |Boys |THIS MONTH'S FEATURES|Looks We Love |
-    And Verify proper currency symbol is displayed on PDP page
     And user should see country code in the url for international countries
