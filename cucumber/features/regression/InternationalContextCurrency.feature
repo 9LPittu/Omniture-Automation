@@ -50,11 +50,9 @@ Feature: International Country Context
     And click on "borderfree.com" link from FAQ section on the context chooser page
     And external http://www.pitneybowes.com/us/borderfree-is-now-part-of-pitney-bowes.html page is opened in a different tab
 
-
-
   Scenario Outline: international context validation on all My Account related pages
     Then click on change link from footer
-    And User is on context chooser
+    And User is on context chooser page
     And User is on internal /r/context-chooser page
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
@@ -201,12 +199,6 @@ Feature: International Country Context
       |country_group |
       |PRICEBOOK     |
       |NONPRICEBOOK  |
-
-
-
-
-
-
 
   Scenario Outline: Multiple Pages During Checkout Context validations
     Then click on change link from footer
