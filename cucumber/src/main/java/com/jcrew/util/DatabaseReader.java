@@ -28,15 +28,16 @@ public class DatabaseReader {
 	public static Map<String,Boolean> dbFeedResultsMap = new HashMap<>();
 	private final Logger logger = LoggerFactory.getLogger(DatabaseReader.class);
 	private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();
+	private final String dbEnvironment = dbReader.getProperty("dbEnvironment");
 
 	public Connection getConnectionToDatabase() throws ClassNotFoundException, SQLException, IOException {
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 
-		String url = "jdbc:oracle:thin:@" + dbReader.getProperty("db.server.name") + ":1521/" + dbReader.getProperty("db.server.servicename");
+		String url = "jdbc:oracle:thin:@" + dbReader.getProperty(dbEnvironment+".server.name") + ":" + dbReader.getProperty(dbEnvironment+".server.port") + "/" + dbReader.getProperty(dbEnvironment+".server.servicename");
 		Properties props = new Properties();
 
-		props.setProperty("user", dbReader.getProperty("db.server.user"));
-		props.setProperty("password", dbReader.getProperty("db.server.pwd"));
+		props.setProperty("user", dbReader.getProperty(dbEnvironment+".server.user"));
+		props.setProperty("password", dbReader.getProperty(dbEnvironment+".server.pwd"));
 		props.setProperty("ssl", "true");
 
 		return createConnection(url, props);
@@ -86,7 +87,7 @@ public class DatabaseReader {
 			}
 
 			Statement stmt = createTheStatement(conn);
-			ResultSet rs =stmt.executeQuery(dbReader.getProperty("db." + dbquery));
+			ResultSet rs =stmt.executeQuery(dbReader.getProperty(dbEnvironment+ "." + dbquery));
 
 			int cntr = 1;
 			if(rs != null ){
@@ -131,7 +132,7 @@ public class DatabaseReader {
 				logger.info("DB connection is successful...");
 			}
 			Statement stmt = createTheStatement(conn);
-			ResultSet rs = stmt.executeQuery(dbReader.getProperty("db." + dbquery));
+			ResultSet rs = stmt.executeQuery(dbReader.getProperty(dbEnvironment+"." + dbquery));
 			if(rs != null && rs.next()){
 				stateHolder.put("EmptyResult", false);
 			}
@@ -156,7 +157,7 @@ public class DatabaseReader {
 			logger.info("DB connection is successful...");
 		}
 		Statement stmt = createTheStatement(conn);
-		ResultSet rs = stmt.executeQuery(dbReader.getProperty("db." + dbquery));
+		ResultSet rs = stmt.executeQuery(dbReader.getProperty(dbEnvironment+"." + dbquery));
 
 		//capture item name from result set
 		String item = "";

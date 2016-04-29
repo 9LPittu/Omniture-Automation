@@ -62,38 +62,42 @@ public class DriverFactory {
     }
 
     private WebDriver createLocalDriver(PropertyReader propertyReader) {
+        final String viewport = propertyReader.getProperty("viewport");
         final String browser = propertyReader.getProperty("browser");
+        final boolean isDesktop = propertyReader.isSystemPropertyTrue("is.desktop");
+        
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
             driver = new ChromeDriver();
-            driver.manage().window().setSize(new Dimension(width, height));
+            if (!isDesktop)
+            	driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {
-
             driver = new FirefoxDriver();
-            driver.manage().window().setSize(new Dimension(width, height));
-            
+            if (!isDesktop)
+            	driver.manage().window().setSize(new Dimension(width, height));
+
         } else if ("iossafari".equals(browser)) {
 
             DesiredCapabilities capabilities = DesiredCapabilities.iphone();
 
             capabilities.setCapability("browserName", "safari");
             capabilities.setCapability("platformName", "iOS");
-            capabilities.setCapability("deviceName", propertyReader.getProperty("device.name"));
-            capabilities.setCapability("platformVersion", propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability("deviceName", propertyReader.getProperty(viewport+".device.name"));
+            capabilities.setCapability("platformVersion", propertyReader.getProperty(viewport+".device.os.version"));
             capabilities.setCapability("takesScreenshot", "true");
             capabilities.setCapability("acceptSslCerts", "true");
             capabilities.setCapability("autoAcceptAlerts", "true");
 
-            if(propertyReader.hasProperty("device.udid")){
+            if(propertyReader.hasProperty(viewport+".device.udid")){
                 //setting this capability is required only for iOS real device
-                capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+                capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
             }
 
             capabilities.setCapability("safariAllowPopups", true);
             capabilities.setCapability("safariOpenLinksInBackground", true);
-            capabilities.setCapability("newCommandTimeout", 60);
+            capabilities.setCapability("newCommandTimeout", 180);
             capabilities.setCapability("launchTimeout", 600000);
 
             try{
@@ -107,13 +111,14 @@ public class DriverFactory {
             capabilities.setPlatform(Platform.ANDROID);
 
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty("device.name"));
-            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty(viewport+".device.name"));
+            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty(viewport+".device.os.version"));
             capabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
             capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
             capabilities.setCapability("autoAcceptAlerts", true);
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
-            capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+            capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
+            capabilities.setCapability("newCommandTimeout", 180);
 
             try{
                 driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub/"), capabilities);
@@ -126,10 +131,12 @@ public class DriverFactory {
 
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
-            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
+            if (!isDesktop)
+            	capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = new PhantomJSDriver(capabilities);
-            driver.manage().window().setSize(new Dimension(width, height));
+            if (!isDesktop)
+            	driver.manage().window().setSize(new Dimension(width, height));
         }
 
         return driver;
@@ -138,10 +145,11 @@ public class DriverFactory {
 
     private WebDriver createRemoteDriver(PropertyReader propertyReader) throws MalformedURLException {
         final WebDriver driver;
+        final String viewport = propertyReader.getProperty("viewport");
         final String browser = propertyReader.getProperty("browser");
+        final boolean isDesktop = propertyReader.isSystemPropertyTrue("is.desktop");
 
         if ("chrome".equals(browser)) {
-
             DesiredCapabilities chrome = DesiredCapabilities.chrome();
             chrome.setPlatform(Platform.WINDOWS);
             driver = getDesktopWebDriver(propertyReader, chrome);
@@ -158,21 +166,21 @@ public class DriverFactory {
 
             capabilities.setCapability("browserName", "safari");
             capabilities.setCapability("platformName", "iOS");
-            capabilities.setCapability("deviceName", propertyReader.getProperty("device.name"));
-            capabilities.setCapability("platformVersion", propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability("deviceName", propertyReader.getProperty(viewport+".device.name"));
+            capabilities.setCapability("platformVersion", propertyReader.getProperty(viewport+".device.os.version"));
             capabilities.setCapability("takesScreenshot", "true");
             capabilities.setCapability("acceptSslCerts", "true");
             capabilities.setCapability("autoAcceptAlerts", "true");
 
-            if(propertyReader.hasProperty("device.udid")){
+            if(propertyReader.hasProperty(viewport+".device.udid")){
                 //setting this capability is required only for iOS real device
-                capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
+                capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
             }
 
             capabilities.setCapability("bundleId", "com.bytearc.SafariLauncher");
             capabilities.setCapability("safariAllowPopups", true);
             capabilities.setCapability("safariOpenLinksInBackground", true);
-            capabilities.setCapability("newCommandTimeout", 240);
+            capabilities.setCapability("newCommandTimeout", 180);
             capabilities.setCapability("launchTimeout", 600000);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
@@ -184,14 +192,14 @@ public class DriverFactory {
             capabilities.setPlatform(Platform.ANDROID);
 
             capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
-            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty("device.name"));
-            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty("device.os.version"));
+            capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, propertyReader.getProperty(viewport+".device.name"));
+            capabilities.setCapability(MobileCapabilityType.VERSION, propertyReader.getProperty(viewport+".device.os.version"));
             capabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
             capabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
             capabilities.setCapability("autoAcceptAlerts", true);
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
-            capabilities.setCapability("udid", propertyReader.getProperty("device.udid"));
-            capabilities.setCapability("newCommandTimeout", 240);
+            capabilities.setCapability("udid", propertyReader.getProperty(viewport+".device.udid"));
+            capabilities.setCapability("newCommandTimeout", 180);
 
             driver = new RemoteWebDriver(getSeleniumRemoteAddress(propertyReader), capabilities);
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -200,10 +208,11 @@ public class DriverFactory {
             logger.debug(browser);
             final DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
-            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
+            if (!isDesktop)
+            	capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
 
             driver = getDesktopWebDriver(propertyReader, capabilities);
-            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);            
+           	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);            
         }
 
         //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
@@ -218,8 +227,10 @@ public class DriverFactory {
     private WebDriver getDesktopWebDriver(PropertyReader propertyReader, DesiredCapabilities desiredCapabilities) throws MalformedURLException {
         final URL seleniumHubRemoteAddress = getSeleniumRemoteAddress(propertyReader);
         final WebDriver driver = new RemoteWebDriver(seleniumHubRemoteAddress, desiredCapabilities);
-
-        driver.manage().window().setSize(new Dimension(width, height));
+        final boolean isDesktop = propertyReader.isSystemPropertyTrue("is.desktop");
+        
+        if (!isDesktop)
+        	driver.manage().window().setSize(new Dimension(width, height));
         return driver;
     }
 

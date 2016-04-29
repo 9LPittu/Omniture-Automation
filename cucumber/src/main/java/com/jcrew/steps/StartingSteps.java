@@ -6,6 +6,7 @@ import com.jcrew.util.*;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.SAccountReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import cucumber.api.Scenario;
@@ -31,6 +32,7 @@ public class StartingSteps {
     private static final String TAKE_SCREENSHOT = "Screenshot";
     private final Logger logger = LoggerFactory.getLogger(StartingSteps.class);
     private final PropertyReader reader = PropertyReader.getPropertyReader();
+    private final SAccountReader saccountreader = SAccountReader.getPropertyReader();
     private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
     private WebDriver driver;
@@ -64,7 +66,7 @@ public class StartingSteps {
 
         String pageURL = testData.getData("url." + page);
         stateHolder.put("pageUrl", pageURL);
-        String env = reader.getProperty("environment");
+        String env = reader.getProperty("url");
 
         if ("PRICEBOOK".equals(country)) {
 
@@ -147,7 +149,7 @@ public class StartingSteps {
 
     public void getInitialPage() {
         String country = reader.getProperty("country");
-        String env = reader.getProperty("environment");
+        String env = reader.getProperty("url");
         String browser = reader.getProperty("browser");
 
         Country context = new Country(env, country);
@@ -168,10 +170,10 @@ public class StartingSteps {
     }
 
     public void getTheInitialPage(String pageUrl){
-        String env = reader.getProperty(pageUrl);
+        String env = saccountreader.getProperty(pageUrl);
         logger.debug("current url is: "+env);
         driver.get(env);
-        String strTitle = reader.getProperty("title." + pageUrl);
+        String strTitle = saccountreader.getProperty("title." + pageUrl);
         Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains(strTitle));
     }
     
@@ -180,7 +182,7 @@ public class StartingSteps {
 
 
         Country c = (Country)stateHolder.get("context");
-    	String env = reader.getProperty("environment");
+    	String env = reader.getProperty("url");
 
 
     	assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
@@ -189,12 +191,12 @@ public class StartingSteps {
 
     @And("^User goes to homepage$")
     public void user_goes_to_homepage() throws Throwable {
-        driver.get(reader.getProperty("environment"));
+        driver.get(reader.getProperty("url"));
     }
 
     @And("^User bag is cleared$")
     public void user_bag_is_cleared() {
-        driver.navigate().to(reader.getProperty("environment") + "/CleanPersistentCart.jsp");
+        driver.navigate().to(reader.getProperty("url") + "/CleanPersistentCart.jsp");
         Util.waitForPageFullyLoaded(driver);
     }
 

@@ -26,13 +26,13 @@ public class DatabasePropertyReader {
     }
 
     private void loadProperties() throws IOException {
-        String dbProperties = System.getProperty("database", "jcdpdatabase");
-    	String dbPropertiesFile = dbProperties + ".properties";
-
-        logger.info("Database property file to be used {}", dbPropertiesFile);
-
-        FileInputStream databaseInput = new FileInputStream(dbPropertiesFile);
+        FileInputStream databaseInput = new FileInputStream("databaseconnection.properties");
         databaseProperties.load(databaseInput);
+        databaseInput = new FileInputStream("databasequeries.properties");
+        databaseProperties.load(databaseInput);
+
+        String execEnvironment = System.getProperty("environment", "ci");
+        databaseProperties.setProperty("dbEnvironment", execEnvironment);
     }
 
     public String getProperty(String property) {
@@ -47,7 +47,7 @@ public class DatabasePropertyReader {
         String value = databaseProperties.getProperty(key);
 
         if (!hasProperty(key)) {
-            throw new RuntimeException("Property '" + key + "' is not defined in environment or viewport file");
+            throw new RuntimeException("Property '" + key + "' is not defined in databaseconnection or databasequeries file");
         }
 
         return value;

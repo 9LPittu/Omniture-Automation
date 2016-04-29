@@ -34,7 +34,7 @@ public class SiteMapsPage {
     WebDriver driver;
 
     PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    String envURL = propertyReader.getProperty("environment");
+    String envURL = propertyReader.getProperty("url");
     public SiteMapsPage() {
     }
 
@@ -105,7 +105,7 @@ public class SiteMapsPage {
                                                List<String> ignoreList) throws InterruptedException {
         driver = driverFactory.getDriver();
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
-        String envURL = propertyReader.getProperty("environment");
+        String envURL = propertyReader.getProperty("url");
 
         List<String> urlsWithNoVariableValue = new ArrayList<>();
 

@@ -38,7 +38,7 @@ public class OrderConfirmationPage {
     	this.driver=driver;
         PageFactory.initElements(driver, this);
 		PropertyReader propertyReader = PropertyReader.getPropertyReader();
-		if(propertyReader.getProperty("environment").contains("www.jcrew.com")){
+		if(propertyReader.getProperty("url").contains("www.jcrew.com")){
 			isProduction = true;
 		}
     }
