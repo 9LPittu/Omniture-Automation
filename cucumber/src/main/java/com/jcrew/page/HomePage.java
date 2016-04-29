@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.jcrew.util.PropertyReader;
 
 import java.util.List;
 
@@ -155,9 +156,9 @@ public class HomePage {
     }
 
    public void searchItemByReadingPropertyFile(String propertyName){
-    	
+	   	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();    	
-    	String itemName = testDataReader.getData(System.getProperty("environment") + "." + propertyName);
+    	String itemName = testDataReader.getData(propertyReader.getProperty("environment") + "." + propertyName);
     	
     	input_search_term(itemName);
     	click_on_search_button_for_input_field();   	
