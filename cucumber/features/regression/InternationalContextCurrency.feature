@@ -137,7 +137,6 @@ Feature: International Country Context
     And Selects any product from product grid list
     And User is in product detail page
     And Verify proper currency symbol is displayed on PDP page
-    And user should see the PDP messages for the selected country
     Then Verify embedded footer is visible and functional
 
   Scenario: Context and currency is displayed on search page
@@ -161,32 +160,3 @@ Feature: International Country Context
       |Boys |THIS MONTH'S FEATURES|Looks We Love |
     And Verify proper currency symbol is displayed on PDP page
     And user should see country code in the url for international countries
-  
-  Scenario: PDP message validation for sold out item, item with variations, vps item and shipping restriction item
-    And User presses search button
-    When Enters soldout.item to the search field
-    And Clicks on search button for input field
-    And user selects first product from search results    
-    Then User is in product detail page       
-    Then user should see PDP page with soldout message which includes phone number
-    And User presses search button
-    When Enters variations.item to the search field
-    And Clicks on search button for input field
-    And user selects first product from search results
-    Then User is in product detail page
-    And user should see the PDP messages for the selected country
-    And user selects random variant on the PDP page
-    Then User is in product detail page
-	And user should see the PDP messages for the selected country
-	And User presses search button
-    When Enters vps.item to the search field
-    And Clicks on search button for input field
-    And user selects first product from search results
-    Then User is in product detail page
-    Then user should see PDP page with message for vps item
-    And User presses search button
-    When Enters shipping.restriction.item to the search field
-    And Clicks on search button for input field
-    And user selects first product from search results
-    Then User is in product detail page
-    Then user should see PDP page with shipping restriction message    

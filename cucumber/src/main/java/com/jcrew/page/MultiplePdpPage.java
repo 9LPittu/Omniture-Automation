@@ -350,7 +350,33 @@ public class MultiplePdpPage {
        
     }
 
-    private void waitForBag(String items){
+    public void addRandomProductsTo(String bag) {
+        List<Product> itemsInTray = new ArrayList<>(numProducts);
+        int index = Util.randomIndex(itemsInTray.size());
+
+        if (getSelectedProductIndex() != index)
+            setSelectProductIndex(index);
+
+        pickColor();
+        pickAvailableSize();
+
+        if ("cart".equals(bag)) {
+            addToBagButton.click();
+
+        } else if ("wish list".equals(bag)) {
+
+            Product item = getProduct();
+            itemsInTray.add(item);
+            addToWishlistButton.click();
+            stateHolder.put("itemsInTray", itemsInTray);
+
+        } else {
+            logger.debug("Not able to add somewhere...");
+        }
+
+    }
+
+    private void waitForBag(String items) {
         WebElement bagText = driver.findElement(By.className("js-cart-size"));
         wait.until(ExpectedConditions.textToBePresentInElement(bagText,items));
 
@@ -436,9 +462,9 @@ public class MultiplePdpPage {
 
     public void visitTrayWithLowerCaseExternalProduct(){
         String items = "";
-        for(int i = 0; i < products.size(); i++){
+        for (int i = 0; i < products.size(); i++) {
             items += products.get(i).getAttribute("data-code");
-            if(i + 1 < products.size()){
+            if (i + 1 < products.size()) {
                 items += ",";
             }
         }

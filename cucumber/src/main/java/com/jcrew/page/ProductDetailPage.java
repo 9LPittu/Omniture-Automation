@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
+import com.jcrew.util.CurrencyChecker;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
@@ -595,24 +596,12 @@ public class ProductDetailPage {
 	}
     
     public boolean isCorrectCurrencySymbolonPDP() {
-        boolean result = true;       
         Country c = (Country) stateHolder.get("context");
-        String strCurrency = c.getCurrency();
         
         List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
         	
-        if(productpricess.isEmpty()) {
-            logger.debug("Item Price  count not found for product details page");
-            result = true;
-        } else {
-        	for (WebElement price : productpricess) 
-        		if(!price.getText().isEmpty()) {
-        			if (!price.getText().contains(strCurrency)) {
-        				result = false;
-        				break;
-        			}
-        	}
-        }
+        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+
         if(result){
         	logger.info("Currency symbol is displayed correctly on all on Product details page");
         	
@@ -620,11 +609,11 @@ public class ProductDetailPage {
         else{
         	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
         }
+
         return result;
     }
     
     public boolean isSizeMessageDisplayedOnPDP(){
-    	    	
     	Country c = (Country) stateHolder.get("context");
     	String countryCode = c.getCountry();
     	
