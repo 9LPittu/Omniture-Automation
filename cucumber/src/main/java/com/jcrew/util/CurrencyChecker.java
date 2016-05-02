@@ -16,7 +16,12 @@ public class CurrencyChecker {
 
     private static final Logger logger = LoggerFactory.getLogger(CurrencyChecker.class);
 
-    public static boolean isValid(String price, Country country) {
+    private static boolean isValid(String price, Country country) {
+
+        if(price.equalsIgnoreCase("free")) {
+            return true;
+        }
+
         String regex = "";
 
         switch (country.getCountry().toLowerCase()) {

@@ -2,7 +2,6 @@
 Feature: International: Welcome Mat for ROW
 
 #US15294_TC01,US15294_TC03,US15294_TC04,US15294_TC05
-  @wip
   Scenario Outline: Welcome mat display validation for international home page
     Given User is on clean session in <country_group> homepage page
     Then Welcome mat page is displayed

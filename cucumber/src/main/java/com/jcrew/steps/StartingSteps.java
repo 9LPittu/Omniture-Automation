@@ -59,7 +59,7 @@ public class StartingSteps {
         driverFactory.deleteBrowserCookies();
         TestDataReader testData = TestDataReader.getTestDataReader();
 
-        String env = reader.getProperty("environment");
+        String env = reader.getProperty("url");
         getUrl(env, testData.getCountry(country_group), "");
     }
 
@@ -84,7 +84,6 @@ public class StartingSteps {
         String selectedCountryHomeUrl = countrydetails.getHomeurl();
         env = selectedCountryHomeUrl + pageURL;
         stateHolder.put("randomUrl", env);
-        logger.debug("selected random url: {}", env);
         driver.get(env);
     }
 
