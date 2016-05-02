@@ -83,7 +83,7 @@ public class ContextChooserPage {
     		
     		try{
     			
-	    		appCountry = driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"
+	    		appCountry = driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser')]"
 			                                              + "/ul/li/a/span[@class='context-chooser__item--country' and "
 			                                              + Util.xpathGetTextLower + "='" + country.toLowerCase() + "']"));
 	    		
@@ -114,8 +114,7 @@ public class ContextChooserPage {
     
     public void clickLinkFromTermsSectionOnContextChooserPage(String linkName){
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
-    	driver.findElement(By.id("page__international")).click();
-    	WebElement link = driver.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));    	
+		WebElement link = driver.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));
     	link.click();
     }
     
@@ -160,9 +159,6 @@ public class ContextChooserPage {
     
     public boolean isUserOnCountrySpecificHomePage() {
 
-    	logger.info("Url after clicking on start shopping : {}", driver.getCurrentUrl());
-
-    	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String url = propertyReader.getProperty("url");
     	
@@ -192,46 +188,17 @@ public class ContextChooserPage {
 		TestDataReader testData = TestDataReader.getTestDataReader();
 		PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String url = propertyReader.getProperty("url");
-		String selectedCountry= "";
 
-		if ("PRICEBOOK".equals(country_group)) {
+		String selectedCountry = testData.getRandomCountry(country_group);
 
-			String pricebookCountries = testData.getData("pricebookCountries");
-			String pricebookCountriesArray[] = pricebookCountries.split(";");
-
-			int countryindex = Util.randomIndex(pricebookCountriesArray.length);
-			selectedCountry = pricebookCountriesArray[countryindex].toLowerCase();
-
-		}  else if ("NONPRICEBOOK".equals(country_group)) {
-
-			String nonPricebookCountries = testData.getData("nonPricebookCountries");
-			String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
-
-			int countryindex = Util.randomIndex(nonPricebookCountriesArray.length);
-			selectedCountry = nonPricebookCountriesArray[countryindex].toLowerCase();
-
-		}
-		
 		Country country = new Country(url, selectedCountry );
 		String countryName = country.getName();
-		String regionName = country.getRegion();
-	
-    	WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));   	
-    	WebElement regionHeader = contextChooser.findElement(By.xpath("//h5[text()='" + regionName + "']"));
-    	
-    	//Click on region to show the countries listed    	
-		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
-		driver.findElement(By.id("page__international")).click();
-		regionHeader.click();
 
-    	//Click on country
-		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') "
-				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
+		//Click on country
+		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a/span[text()='" + countryName +"']"))));
     	countryElement.click();
     	
-
         stateHolder.put("context", country);
-		
 		logger.info("Selected country: {}", countryName);
     }
 }

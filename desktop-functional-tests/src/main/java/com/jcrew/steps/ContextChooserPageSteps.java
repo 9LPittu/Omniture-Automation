@@ -33,32 +33,32 @@ public class ContextChooserPageSteps extends DriverFactory {
     	}
     }
     
-    @And("^click on \"([^\"]*)\" link from terms section on the context chooser page$")
+    @And("^Click on \"([^\"]*)\" link from terms section on the context chooser page$")
     public void click_link_from_terms_section_on_context_chooser_page(String linkName){
     	contextChooser.clickLinkFromTermsSectionOnContextChooserPage(linkName);
     }
     
-    @And("^click on \"([^\"]*)\" button from FAQ section on the context chooser page$")
+    @And("^Click on \"([^\"]*)\" button from FAQ section on the context chooser page$")
     public void click_button_from_faq_section_on_context_chooser_page(String buttonName){
     	contextChooser.clickButtonFromFAQSectionOnContextChooserPage(buttonName);
     }
     
-    @And("^click on \"([^\"]*)\" link from FAQ section on the context chooser page$")
+    @And("^Click on \"([^\"]*)\" link from FAQ section on the context chooser page$")
     public void click_link_from_faq_section_on_context_chooser_page(String linkName){
     	contextChooser.clickLinkFromFAQSectionOnContextChooserPage(linkName);
     }
     
-    @Given("^user selects country at random from context chooser page$")
+    @Given("^User selects country at random from context chooser page$")
     public void select_random_country_from_context_chooser_page(){
     	contextChooser.selectRandomCountry();
     }
     
-    @Given("^user selects ([^\"]*) at random from context chooser page$")
+    @Given("^User selects ([^\"]*) at random from context chooser page$")
     public void select_random_country_from_country_group_on_context_chooser_page(String country_group) {
     	contextChooser.selectGroupRandomCountry(country_group);
     }
 
-    @Then("^user should land on country specific home page$")
+    @Then("^User should land on country specific home page$")
     public void user_should_land_on_country_specific_home_page(){
     	contextChooser.isUserOnCountrySpecificHomePage();
     }

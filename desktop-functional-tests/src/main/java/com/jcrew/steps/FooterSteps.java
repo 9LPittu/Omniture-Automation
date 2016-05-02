@@ -17,19 +17,25 @@ public class FooterSteps extends DriverFactory {
         assertTrue("SHIP TO section should be displayed in the footer",footer.isShipToSectionDisplayed());
     }
 
-    @And("^verify country name is displayed in the ship to section of footer$")
+    @And("^Verify country name is displayed in the ship to section of footer$")
     public void verify_country_name_displayed_in_footer(){
         assertTrue("Country name should be displayed in the footer",footer.isCountryNameDisplayedInFooter());
     }
 
-    @And("^verify change link is displayed in the ship to section of footer$")
+    @And("^Verify change link is displayed in the ship to section of footer$")
     public void verify_change_link_displayed_in_footer(){
         assertTrue("Change link should be displayed in the footer",footer.isChangeLinkDisplayedInFooter());
     }
 
-    @Then("^click on change link from footer$")
+    @Then("^Click on change link from footer$")
     public void click_change_link_in_footer(){
         footer.clickChangeLinkInFooter();
     }
+
+    @And("^User should see selected country in the footer$")
+    public void user_should_see_selected_country_in_footer(){
+        assertTrue("User should see selected country name in the footer",footer.isCorrectCountryNameDisplayedInFooter());
+    }
+
 }
 

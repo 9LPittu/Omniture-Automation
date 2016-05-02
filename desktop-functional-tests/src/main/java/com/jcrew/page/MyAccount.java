@@ -59,9 +59,11 @@ public class MyAccount {
         boolean expectedContent = "MY ACCOUNT".equalsIgnoreCase(bannerText) && homecopy.isDisplayed();
 
         Country country = (Country) stateHolder.get("context");
+        //for jsp pages, country context will not show in the url
         boolean expectedURL = Util.countryContextURLCompliance(driver,country,"/account/home.jsp");
 
-        return expectedContent & expectedURL;
+        return expectedContent;
+
     }
 
     public void clickInMenuOption(String menuOption) {
@@ -104,5 +106,28 @@ public class MyAccount {
         boolean expectedURL = Util.countryContextURLCompliance(driver,country,"account/reg_user_order_history.jsp?");
 
         return expectedContent & expectedURL;
+    }
+
+    public void click_menu_link(String link) {
+        WebElement menu = getMenuLink(link);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
+        Util.clickWithStaleRetry(menu);
+
+        if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card balance')]"))));
+        }
+        else{
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        }
+    }
+
+    private WebElement getMenuLink(String link) {
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(main_inside));
+        return main_inside.findElement(By.linkText(link));
+    }
+
+    public boolean isInMenuLinkPage(String page) {
+        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
     }
 }

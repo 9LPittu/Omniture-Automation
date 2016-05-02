@@ -121,8 +121,13 @@ public class UserNavigationSteps extends DriverFactory {
                 getDriver().getCurrentUrl().endsWith(page));
     }
 
-    @Then("^external ([^\"]*) page is opened in a different tab$")
+    @Then("^External ([^\"]*) page is opened in a different tab$")
     public void user_is_on_external_page(String page) {
         assertTrue("User is not in an expected page in a different tab " + page, navigation.isCurrentUrl(page));
+    }
+
+    @Then("^User presses browser back button$")
+    public void user_presses_back_button() throws Throwable {
+        getDriver().navigate().back();
     }
 }

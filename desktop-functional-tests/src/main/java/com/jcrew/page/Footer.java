@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +20,7 @@ public class Footer {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(Footer.class);
     private final WebDriverWait wait;
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @FindBy(id = "global__footer")
     private WebElement global__footer;
@@ -51,7 +54,7 @@ public class Footer {
     }
 
     public boolean isCountryNameDisplayedInFooter(){
-        return countryNameInFooter.isDisplayed();
+        return countryNameInFooter.isDisplayed()&& countryNameInFooter.getText().equals("United States");
     }
 
     public boolean isChangeLinkDisplayedInFooter(){
@@ -59,7 +62,21 @@ public class Footer {
     }
 
     public void clickChangeLinkInFooter(){
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
         changeLinkInFooter.click();
+    }
+
+    public boolean isCorrectCountryNameDisplayedInFooter(){
+
+        Country c = (Country)stateHolder.get("context");
+        String expectedCountryName = c.getName();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));
+        String actualCountryName = countryNameInFooter.getText();
+
+        logger.info("Expected country to be selected: {}", expectedCountryName);
+        logger.info("Actual country selected: {}", actualCountryName);
+
+        return actualCountryName.equalsIgnoreCase(expectedCountryName);
     }
 
 
