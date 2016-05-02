@@ -18,7 +18,7 @@
      And EUROPE region is displayed
      And LATIN AMERICA & THE CARIBBEAN region is displayed
      And MIDDLE EAST & AFRICA region is displayed
-     And expand each regional drawer and verify the countries displayed and only one drawer should be opened
+     And Verify countries displayed correctly under each region
        |UNITED STATES & CANADA|
        |ASIA PACIFIC|
        |EUROPE|

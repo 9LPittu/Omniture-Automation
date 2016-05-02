@@ -26,10 +26,10 @@ public class ContextChooserPageSteps extends DriverFactory {
     
 
     
-    @And("^expand each regional drawer and verify the countries displayed and only one drawer should be opened$")
-    public void verify_countries_displayed_under_regional_drawer(List<String> regions){
+    @And("^Verify countries displayed correctly under each region$")
+    public void verify_countries_displayed_under_regions(List<String> regions){
     	for(String region:regions){
-    		assertTrue("User should see correct countries displayed under region '" + region + "' and one only drawer should be opened at a time", contextChooser.isCountriesDisplayedCorrectlyUnderRegion(region.toUpperCase()));
+    		assertTrue("User should see correct countries displayed under region '" + region + "", contextChooser.isCountriesDisplayedCorrectlyUnderRegion(region.toUpperCase()));
     	}
     }
     
