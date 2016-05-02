@@ -10,6 +10,7 @@ public class Country {
     private String currency;
     private String homeurl;
     private String name;
+    private String region;
     private boolean contexturl;
 
     public Country(String environment, String country) {
@@ -20,6 +21,7 @@ public class Country {
         this.currency = properties.getProperty(country + ".currency");
         this.contexturl = Boolean.parseBoolean(properties.getProperty(country + ".contexturl"));
         this.name = properties.getProperty(country + ".name");
+        this.region=properties.getProperty(country + ".region");
 
         if("us".equalsIgnoreCase(country)){
             this.homeurl = environment;
@@ -51,4 +53,6 @@ public class Country {
     public String getName() {
         return name;
     }
+
+    public String getRegion() { return region; }
 }

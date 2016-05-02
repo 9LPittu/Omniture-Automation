@@ -1,10 +1,10 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
-import com.jcrew.util.PropertyReader;
-import com.jcrew.util.StateHolder;
-import com.jcrew.util.TestDataReader;
-import com.jcrew.util.Util;
+import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
+import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -25,9 +25,7 @@ public class ContextChooserPage {
     private final Logger logger = LoggerFactory.getLogger(ContextChooserPage.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
     
-    @FindBys({@FindBy(xpath=".//div[@class='context-chooser__column']/div/h5/i[not(@class='js-icon icon-see-more')]")})
-    private List<WebElement> openedRegionalDrawers;
-    
+
     @FindBy(xpath="//a[contains(@class,'js-start-shopping-button')]")
     private WebElement startShoppingButton;
 
@@ -48,17 +46,12 @@ public class ContextChooserPage {
     	return regionHeader.isDisplayed();
     }
     
-    public boolean isAllRegionalDrawersClosedByDefault(){
-    	return openedRegionalDrawers.size() == 0; 
-    }
-    
+
     public boolean isCountriesDisplayedCorrectlyUnderRegion(String region){
     	
     	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
-    	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + region + "']"));   	
-		regionHeader.click();
-    	
-    	String propertyName = null;
+
+		String propertyName = null;
     	switch(region){
 	    	case "UNITED STATES & CANADA":
 	    		propertyName = "UNITED_STATES_AND_CANADA_REGION_COUNTRIES";
@@ -115,10 +108,8 @@ public class ContextChooserPage {
     		logger.debug("For '{}' region, countries displayed are: {}", region, countriesDisplayed.toString());
     		logger.error("For '{}' region, countries missing are: {}", region, countriesMissing.toString());
     	}
-    	
-    	boolean isDrawerOpened = driver.findElement(By.xpath("//div[@class='context-chooser__column']/div/h5[text()='" + region  + "']/i[@class='js-icon icon-see-less']")).isDisplayed();
-    	
-    	return countriesMissing.isEmpty() && isDrawerOpened;
+
+    	return countriesMissing.isEmpty();
     }
     
     public void clickLinkFromTermsSectionOnContextChooserPage(String linkName){
@@ -222,7 +213,7 @@ public class ContextChooserPage {
 		}
 		
 		Country country = new Country(url, selectedCountry );
-		String countryName = country.getCountryName();
+		String countryName = country.getName();
 		String regionName = country.getRegion();
 	
     	WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));   	

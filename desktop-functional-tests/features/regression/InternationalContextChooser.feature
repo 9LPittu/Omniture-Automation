@@ -13,12 +13,11 @@
      Then click on change link from footer
      And User is on context chooser page
      And User is on internal /r/context-chooser page
-     And UNITED STATES & CANADA region drawer is displayed
-     And ASIA PACIFIC region drawer is displayed
-     And EUROPE region drawer is displayed
-     And LATIN AMERICA & THE CARIBBEAN region drawer is displayed
-     And MIDDLE EAST & AFRICA region drawer is displayed
-     And user should see all regional drawers closed by default
+     And UNITED STATES & CANADA region is displayed
+     And ASIA PACIFIC region is displayed
+     And EUROPE region is displayed
+     And LATIN AMERICA & THE CARIBBEAN region is displayed
+     And MIDDLE EAST & AFRICA region is displayed
      And expand each regional drawer and verify the countries displayed and only one drawer should be opened
        |UNITED STATES & CANADA|
        |ASIA PACIFIC|
@@ -30,7 +29,6 @@
      And User is on internal /footer/termsofuse.jsp?sidecar=true page
      And click on "privacy policy" link from terms section on the context chooser page
      And User is on internal /help/privacy_policy.jsp?sidecar=true page
-     And User presses back button
      And click on "SEE ALL FAQ & HELP" button from FAQ section on the context chooser page
      And User is on internal /help/international_orders.jsp?sidecar=true page
      And click on "borderfree.com" link from FAQ section on the context chooser page

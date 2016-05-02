@@ -9,6 +9,7 @@ import com.jcrew.utils.Util;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.Assert.assertTrue;
 
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class UserNavigationSteps extends DriverFactory {
     TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    private final UserNavigation navigation = new UserNavigation(getDriver());
 
     @When("User adds to bag a random product using a main category")
     public void users_add_random_product() {
@@ -110,5 +112,17 @@ public class UserNavigationSteps extends DriverFactory {
         Country country = (Country) stateHolder.get("context");
 
         assertTrue("Is an array url", Util.countryContextURLCompliance(getDriver(), country));
+    }
+
+    @Then("^User is on internal ([^\"]*) page$")
+    public void user_is_on_page(String page) {
+        Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
+        assertTrue("Browser was expected to be at " + page + " and current page is "+getDriver().getCurrentUrl(),
+                getDriver().getCurrentUrl().endsWith(page));
+    }
+
+    @Then("^external ([^\"]*) page is opened in a different tab$")
+    public void user_is_on_external_page(String page) {
+        assertTrue("User is not in an expected page in a different tab " + page, navigation.isCurrentUrl(page));
     }
 }

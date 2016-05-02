@@ -1,7 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.ContextChooserPage;
-import com.jcrew.util.DriverFactory;
+import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -19,15 +19,12 @@ public class ContextChooserPageSteps extends DriverFactory {
         assertTrue("User should be in international context chooser page", contextChooser.isInternationalContextChooserPageDisplayed());
     }
 
-    @And("^([^\"]*) region drawer is displayed")
-    public void verify_region_drawer_is_displayed(String region) {
-        assertTrue("Region drawer/section should be displayed",contextChooser.isRegionDisplayed(region));
+    @And("^([^\"]*) region is displayed")
+    public void verify_region_is_displayed(String region) {
+        assertTrue("Region section should be displayed",contextChooser.isRegionDisplayed(region));
     }
     
-    @And("^user should see all regional drawers closed by default$")
-    public void user_should_see_all_regional_drawers_closed_by_default(){
-    	assertTrue("All regional drawers should be closed by default",contextChooser.isAllRegionalDrawersClosedByDefault());
-    }
+
     
     @And("^expand each regional drawer and verify the countries displayed and only one drawer should be opened$")
     public void verify_countries_displayed_under_regional_drawer(List<String> regions){
