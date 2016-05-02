@@ -22,6 +22,15 @@ public class Footer {
     @FindBy(id = "global__footer")
     private WebElement global__footer;
 
+    @FindBy(className="footer__country-context")
+    private WebElement shipToSectionInFooter;
+
+    @FindBy(xpath=".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']")
+    private WebElement countryNameInFooter;
+
+    @FindBy(xpath=".//div[@class='footer__country-context']/descendant::a[@class='footer__country-context__link']")
+    private WebElement changeLinkInFooter;
+
     public Footer(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
@@ -36,4 +45,23 @@ public class Footer {
 
         return  countryName;
     }
+
+    public boolean isShipToSectionDisplayed(){
+        return shipToSectionInFooter.isDisplayed();
+    }
+
+    public boolean isCountryNameDisplayedInFooter(){
+        return countryNameInFooter.isDisplayed();
+    }
+
+    public boolean isChangeLinkDisplayedInFooter(){
+        return changeLinkInFooter.isDisplayed();
+    }
+
+    public void clickChangeLinkInFooter(){
+        changeLinkInFooter.click();
+    }
+
+
+
 }
