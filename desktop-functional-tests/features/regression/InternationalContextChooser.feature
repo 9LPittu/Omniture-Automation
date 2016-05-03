@@ -42,7 +42,7 @@
      And User is on context chooser page
      And User is on internal /r/context-chooser page
      Given User selects <country_group> at random from context chooser page
-     #Then User should land on country specific home page
+     Then User should land on country specific home page
      And User should see selected country in the footer
      When User clicks on sign in using header
      And User fills user data and signs in
@@ -77,4 +77,23 @@
      Examples:
        |country_group |
        |PRICEBOOK     |
-      # |NON-PRICEBOOK  |
+       |NON-PRICEBOOK  |
+
+
+   Scenario Outline: Forgot Password Page context validtaion
+     Then Click on change link from footer
+     And User is on context chooser page
+     And User is on internal /r/context-chooser page
+     Given User selects <country_group> at random from context chooser page
+     Then User should land on country specific home page
+     And User should see selected country in the footer
+     When User clicks on sign in using header
+     And Clicks on forgot password link
+     And Verify user is in forgot password page
+     And User should see selected country in the footer
+
+     Examples:
+       |country_group |
+       |PRICEBOOK     |
+       |NONPRICEBOOK  |
+

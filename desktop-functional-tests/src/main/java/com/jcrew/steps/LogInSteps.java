@@ -110,4 +110,9 @@ public class LogInSteps extends DriverFactory {
     public void user_elects_country(String value) {
         logIn.setSelectedCountryByValue(value);
     }
+
+    @And("^Clicks on forgot password link$")
+    public void clicks_on_forgot_password_link() throws Throwable {
+        logIn.click_forgot_password_link();
+    }
 }

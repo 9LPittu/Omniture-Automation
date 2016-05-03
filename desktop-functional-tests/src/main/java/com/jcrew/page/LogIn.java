@@ -53,6 +53,10 @@ public class LogIn extends DriverFactory {
 
     @FindBy(xpath = ".//form[@class='register-form']")
     private WebElement registerForm;
+
+    @FindBy(className = "signin-form")
+    private WebElement signInForm;
+
     private final String firstNameId = "unregistered-firstName";
     private final String lastNameId = "unregistered-lastName";
     private final String emailId = "unregistered-email";
@@ -297,6 +301,16 @@ public class LogIn extends DriverFactory {
         }
 
         countrySelector.selectByValue(value);
+    }
+
+    public void click_forgot_password_link() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(signInForm));
+        WebElement forgotPasswordLink = signInForm.findElement(By.linkText("I forgot my password!"));
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.elementToBeClickable(forgotPasswordLink));
+        String url = driver.getCurrentUrl();
+        forgotPasswordLink.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
 
 }
