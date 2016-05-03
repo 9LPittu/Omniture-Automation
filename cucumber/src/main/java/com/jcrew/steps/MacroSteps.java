@@ -68,8 +68,8 @@ public class MacroSteps {
     	}    	
     	
     	footerSteps.verify_footer_link_is_displayed("Let Us Help You");
-    	
-    	if(countryCode.equalsIgnoreCase("us") || countryCode.equalsIgnoreCase("ca")){
+    	//Our Cards is available only in US context
+    	if(countryCode.equalsIgnoreCase("us")) {
     		footerSteps.verify_footer_link_is_displayed("Our Cards");
     	}
     	
