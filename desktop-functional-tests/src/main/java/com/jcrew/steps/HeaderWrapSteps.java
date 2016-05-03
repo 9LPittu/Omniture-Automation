@@ -4,6 +4,7 @@ import com.jcrew.page.HeaderWrap;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.Util;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -76,5 +77,10 @@ public class HeaderWrapSteps extends DriverFactory {
     @When("User clicks in bag")
     public void user_clicks_in_bag() {
         header.clickBag();
+    }
+
+    @And("^User clicks on ([^\"]*) link from top nav$")
+    public void click_on_given_link_from_top_nav(String Dept) {
+        header.clickDeptLinkFromTopNav(Dept);
     }
 }

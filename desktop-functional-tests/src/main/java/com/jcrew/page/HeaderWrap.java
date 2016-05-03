@@ -194,4 +194,11 @@ public class HeaderWrap {
             });
         }
     }
+
+    public void clickDeptLinkFromTopNav(String dept) {
+        String url = driver.getCurrentUrl();
+        driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '"+dept+"']")).click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+       // Util.waitLoadingBar(driver);
+    }
 }

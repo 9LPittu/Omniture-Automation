@@ -6,6 +6,7 @@ import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +20,9 @@ import static org.junit.Assert.assertTrue;
 public class UserNavigationSteps extends DriverFactory {
     TestDataReader testDataReader = TestDataReader.getTestDataReader();
     private final UserNavigation navigation = new UserNavigation(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
+    private DriverFactory driverFactory;
+    private WebDriver driver;
 
     @When("User adds to bag a random product using a main category")
     public void users_add_random_product() {
@@ -130,4 +134,15 @@ public class UserNavigationSteps extends DriverFactory {
     public void user_presses_back_button() throws Throwable {
         getDriver().navigate().back();
     }
+
+    @And("User should see country code in the url for international countries")
+    public void user_should_see_country_code_in_url_for_international_countries(){
+
+        Country c = (Country)stateHolder.get("context");
+
+        assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
+                Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(c.getHomeurl())));
+    }
+
+
 }

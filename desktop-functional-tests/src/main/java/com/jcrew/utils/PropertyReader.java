@@ -27,8 +27,8 @@ public class PropertyReader {
     }
 
     private void loadProperties() throws IOException {
-        String execEnvironment = System.getProperty("environment", "ci");
-        String execViewport = System.getProperty("viewport", "desktop");
+        String execEnvironment = System.getProperty("environment", "bronze");
+        String execViewport = System.getProperty("viewport", "firefox");
         String execUser = System.getProperty("user", "user.1");
         String country = System.getProperty("country", "us");
 
