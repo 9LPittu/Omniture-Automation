@@ -137,9 +137,9 @@ public class UserNavigationSteps extends DriverFactory {
 
     @And("User should see country code in the url for international countries")
     public void user_should_see_country_code_in_url_for_international_countries(){
-
+    	
         Country c = (Country)stateHolder.get("context");
-
+        WebDriver driver = getDriver();
         assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
                 Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(c.getHomeurl())));
     }

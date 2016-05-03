@@ -2,6 +2,9 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetails;
 import com.jcrew.utils.DriverFactory;
+
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -36,5 +39,16 @@ public class ProductDetailSteps extends DriverFactory {
     @Then("Verify context in the product detail page")
     public void verify_context_in_the_product_detail_page() {
         assertTrue("Currency and URL are expected for country", productDetails.verifyContext());
+    }
+    
+    @Given("User is in product detail page")
+    public void user_is_on_a_product_detail_page() throws InterruptedException {
+        assertTrue("User should be in detail page",
+        		productDetails.isProductDetailPage());
+    }
+    
+    @And("^Add to cart button is pressed$")
+    public void add_to_cart_button_is_pressed() throws Throwable {
+    	productDetails.click_add_to_cart();
     }
 }

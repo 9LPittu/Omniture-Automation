@@ -34,6 +34,9 @@ public class ShoppingBag {
     private WebElement orderListing;
     @FindBy(id = "order-summary")
     private WebElement orderSummary;
+    
+    @FindBy(id = "checkout")
+    private WebElement articleCheckout;
 
     public ShoppingBag(WebDriver driver) {
         this.driver = driver;
@@ -90,5 +93,10 @@ public class ShoppingBag {
 
         return result;
     }
-
+    
+    public boolean isArticleCheckoutPresent() {
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(articleCheckout));
+        return true;
+    }
 }

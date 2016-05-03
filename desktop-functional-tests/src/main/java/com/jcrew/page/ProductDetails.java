@@ -5,6 +5,8 @@ import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
+
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -55,6 +57,12 @@ public class ProductDetails {
     private WebElement soldoutMessage;
     @FindBy(id = "page__p")
     private WebElement page__p;
+    
+    @FindBy(className = "product__name")
+    private WebElement productName;
+    
+    @FindBy(id = "btn__add-to-bag")
+    private WebElement addToBag;
 
     public ProductDetails(WebDriver driver) {
         this.driver = driver;
@@ -237,5 +245,34 @@ public class ProductDetails {
         result &= Util.countryContextURLCompliance(driver, country);
 
         return result;
+    }
+    
+    public boolean isProductDetailPage() {
+        Country country = (Country) stateHolder.get("context");
+        logger.info("country context is  : {}",country.getCountryName());
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+        boolean isURL = Util.countryContextURLCompliance(driver, country);
+        logger.debug("is url?  {}", isURL);
+        return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
+    }
+    
+    public void click_add_to_cart() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
+
+        Product thisProduct = new Product();
+        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setSelectedColor(getSelectedColor());
+        thisProduct.setSelectedSize(getSelectedSize());
+
+        stateHolder.put("recentlyAdded", thisProduct);
+
+        addToBag.click();
+    }
+    
+    public String getProductNameFromPDP() {
+        Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(productOverview));
+        return productOverview.findElement(By.tagName("h1")).getText();
     }
 }
