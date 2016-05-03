@@ -2,7 +2,7 @@
 Feature: International: Welcome Mat for ROW
 
 #US15294_TC01,US15294_TC03,US15294_TC04,US15294_TC05
-  Scenario Outline: Welcome mat display validation for international home page
+  Scenario Outline: Welcome mat display validation for international pages
     Given User is on clean session international <country_group> page
       | PDP      |
       | Category |
