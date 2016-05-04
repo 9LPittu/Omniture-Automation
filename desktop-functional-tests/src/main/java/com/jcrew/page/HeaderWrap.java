@@ -202,18 +202,5 @@ public class HeaderWrap {
        // Util.waitLoadingBar(driver);
     }
 
-    public void click_on_category(String category) {
-        String url = driver.getCurrentUrl();
 
-        getCategory(category).click();
-
-        if("sale".equalsIgnoreCase(category)){
-            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
-        } else {
-            Util.waitLoadingBar(driver);
-        }
-
-        logger.debug("'{}' category is clicked", category);
-        stateHolder.put("category", category);
-    }
 }

@@ -3,7 +3,7 @@
 
    Background:
      Given User goes to homepage
-    # And User closes email capture
+     And User closes email capture
 
    Scenario: Context chooser page validation
      Then User should see Ship To section in footer
@@ -81,7 +81,7 @@
        |NON-PRICEBOOK  |
 
 
-   Scenario Outline: Forgot Password Page context validtaion
+   Scenario Outline: Forgot Password Page context validation
      Then Click on change link from footer
      And User is on context chooser page
      And User is on internal /r/context-chooser page
@@ -194,7 +194,8 @@
      And User should see selected country in the footer
      #And User clicks on hamburger menu #hamburger menu steps##
      And User opens menu
-     And Selects sale Category from hamburger menu
+     #And Selects sale Category from hamburger menu # hamburger menu steps
+     And User selects sale category from menu
      And User should see selected country in the footer
      And User should see country code in the url for international countries
 
@@ -204,42 +205,40 @@
       |NON-PRICEBOOK|
       
    Scenario Outline: Context is displayed on search page
-     Then click on change link from footer
+     Then Click on change link from footer
      And User is on context chooser page
      And User is on internal /r/context-chooser page
-     Given user selects <country_group> at random from context chooser page
-     Then user should land on country specific home page
-     And user should see selected country in the footer
-     And User presses search button
-     When Enters dresses to the search field
-     And Clicks on search button for input field
+     Given User selects <country_group> at random from context chooser page
+     Then User should land on country specific home page
+     And User should see selected country in the footer
+     And User searches for a random search term
      Then User is in search results page
-     And user should see selected country in the footer
-     When Selects the first product from product grid list
-     Then User is in product detail page
+     And User should see selected country in the footer
+     And User should see country code in the url for international countries
 
     Examples:
       |country_group|
       |PRICEBOOK|
-      |NONPRICEBOOK|
+      |NON-PRICEBOOK|
       
    	#multipdp, shoppable tray
+    # shoppable tray page for desktop is not ready.Not running the below
   Scenario Outline: international context validation for shoppable tray page
-    Then click on change link from footer
+    Then Click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
-    Given user selects <country_group> at random from context chooser page
-    Then user should land on country specific home page
-    And user should see selected country in the footer
-    And User clicks on hamburger menu
+    Given User selects <country_group> at random from context chooser page
+    Then User should land on country specific home page
+    And User should see selected country in the footer
+    And User opens menu
     And User selects random tray from available categories
       |Women|THIS MONTH'S FEATURES|looks we love |
       |Men  |THIS MONTH'S FEATURES|1 Suit, 5 Ways|
       |Girls|THIS MONTH'S FEATURES|Looks We Love |
       |Boys |THIS MONTH'S FEATURES|Looks We Love |
-    And user should see country code in the url for international countries
+    And User should see country code in the url for international countries
 
     Examples:
     |country_group|
     |PRICEBOOK|
-    |NONPRICEBOOK|
+    |NON-PRICEBOOK|

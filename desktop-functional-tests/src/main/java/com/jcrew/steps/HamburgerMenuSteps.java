@@ -28,7 +28,7 @@ public class HamburgerMenuSteps extends DriverFactory {
 	@And("^user selects ([^\"]*) category from hamburger menu$")
     public void user_selects_category_from_hamburger_menu(String category) {
     	if(!category.equalsIgnoreCase("any")){
-    		hamburgerMenu.click_on_category(category);
+    		//hamburgerMenu.click_on_category(category);
     	}
     	else{
     		hamburgerMenu.click_random_category();

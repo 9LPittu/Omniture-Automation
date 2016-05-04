@@ -37,6 +37,11 @@ public class MenuDrawerSteps extends DriverFactory {
         menuDrawer.goHome();
     }
 
-    @When("User selects ")
+    @When("User selects ([^\"]*) category from menu")
+    public void user_selects_category_from_menu(String category) {
+        menuDrawer.selectCategory(category);
+    }
+
+
 
 }

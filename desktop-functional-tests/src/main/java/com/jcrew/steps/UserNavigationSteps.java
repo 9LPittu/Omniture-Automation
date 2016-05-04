@@ -68,6 +68,7 @@ public class UserNavigationSteps extends DriverFactory {
 
     }
 
+
     @When("User adds to bag a random product from a search")
     public void users_add_random_product_from_search() {
         user_searches_for_a_random_search_term();

@@ -74,6 +74,11 @@ public class HeaderWrapSteps extends DriverFactory {
         header.searchFor(term);
     }
 
+    @And("User enters ([^\"]*) to the search field ")
+    public void user_enters_search_term(String term) {
+        header.searchFor(term);
+    }
+
     @When("User clicks in bag")
     public void user_clicks_in_bag() {
         header.clickBag();
@@ -84,8 +89,5 @@ public class HeaderWrapSteps extends DriverFactory {
         header.clickDeptLinkFromTopNav(Dept);
     }
 
-    @And("^Selects ([^\"]*) Category from hamburger menu$")
-    public void selects_category_from_hamburger_menu(String category) {
-        header.click_on_category(category);
-    }
+
 }
