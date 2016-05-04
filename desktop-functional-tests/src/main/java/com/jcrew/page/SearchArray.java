@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,6 +22,7 @@ public class SearchArray {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(SearchArray.class);
     private final WebDriverWait wait;
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final String PRICE_LIST_CLASS = "tile__detail--price--list";
     private final String NAME_CLASS = "tile__detail--name";
@@ -32,6 +35,10 @@ public class SearchArray {
     private WebElement pageSearch;
     @FindBy(id = "c-search__results")
     private WebElement searchResults;
+    
+    @FindBy(className = "header__search")
+    private WebElement headerSearch;
+
 
     public SearchArray(WebDriver driver) {
         this.driver = driver;
@@ -56,6 +63,14 @@ public class SearchArray {
         random_product_image.click();
 
         Util.waitLoadingBar(driver);
+    }
+    
+    public boolean isSearchPage() {
+        Country country = (Country) stateHolder.get("context");
+        Util.waitWithStaleRetry(driver, headerSearch);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchResults));
+
+        return headerSearch.isDisplayed() && searchResults.isDisplayed() && Util.countryContextURLCompliance(driver,country);
     }
 
 }

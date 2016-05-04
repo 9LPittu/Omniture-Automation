@@ -2,6 +2,9 @@ package com.jcrew.page;
 
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,9 +21,13 @@ public class OrderConfirmation {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(OrderConfirmation.class);
     private final WebDriverWait wait;
+    private boolean isProduction = false;
 
     @FindBy(id = "confirmation-number")
     private WebElement confirmation;
+    
+    @FindBy(className = "bizrateBanner")
+    private WebElement bizrateBanner;
 
     public OrderConfirmation(WebDriver driver) {
         this.driver = driver;
@@ -29,6 +36,11 @@ public class OrderConfirmation {
         PageFactory.initElements(driver, this);
 
         wait.until(ExpectedConditions.visibilityOf(confirmation));
+        
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+		if(propertyReader.getProperty("url").contains("www.jcrew.com")){
+			isProduction = true;
+		}
     }
 
     public boolean orderNumberIsVisible() {
@@ -45,4 +57,26 @@ public class OrderConfirmation {
 
         return result;
     }
+    
+    public boolean isOrderConfirmationPage() {
+        if(!isProduction) {
+            Util.waitWithStaleRetry(driver, confirmation);
+            closeBizRateBanner();
+            return confirmation.isDisplayed();
+        } else {
+            logger.debug("waving step in production environment");
+            return true;
+        }
+    }
+    
+    public void closeBizRateBanner(){
+        try{
+           if(bizrateBanner.isDisplayed()){
+               WebElement close = bizrateBanner.findElement(By.id("xButton"));
+               close.click();
+           }
+        }catch(NoSuchElementException noBizRateBanner){
+           logger.debug("Biz Rate Banner not displayed");
+        }
+   }
 }

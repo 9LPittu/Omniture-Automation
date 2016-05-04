@@ -86,7 +86,7 @@ public class UserNavigationSteps extends DriverFactory {
         MenuDrawer menuDrawer = new MenuDrawer(driver);
         menuDrawer.openSaleLandingPage();
 
-        SaleLandingPage saleLandingPage = new SaleLandingPage(driver);
+        SaleLanding saleLandingPage = new SaleLanding(driver);
         saleLandingPage.selectRandomSaleCategory();
 
     }
