@@ -19,17 +19,17 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContextChooserPage {
+public class ContextChooser {
 
     private final WebDriver driver;    
-    private final Logger logger = LoggerFactory.getLogger(ContextChooserPage.class);
+    private final Logger logger = LoggerFactory.getLogger(ContextChooser.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
     
 
     @FindBy(xpath="//a[contains(@class,'js-start-shopping-button')]")
     private WebElement startShoppingButton;
 
-    public ContextChooserPage(WebDriver driver) {
+    public ContextChooser(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }

@@ -2,6 +2,8 @@ package com.jcrew.steps;
 
 import com.jcrew.page.HomePage;
 import com.jcrew.utils.DriverFactory;
+
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -29,4 +31,13 @@ public class HomePageSteps extends DriverFactory{
         homePage.closeEmailCapture();
     }
 
+    @And("^Enters ([^\"]*) to the search field$")
+    public void enters_a_search_term_to_the_input_field(String searchTerm) throws Throwable {
+        homePage.input_search_term(searchTerm);
+    }
+    
+    @And("^Clicks on search button for input field$")
+    public void clicks_on_search_button_from_field() throws Throwable {
+        homePage.click_on_search_button_for_input_field();
+    }
 }

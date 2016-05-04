@@ -1,6 +1,6 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.ContextChooserPage;
+import com.jcrew.page.ContextChooser;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -10,9 +10,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class ContextChooserPageSteps extends DriverFactory {
+public class ContextChooserSteps extends DriverFactory {
 
-    private final ContextChooserPage contextChooser = new ContextChooserPage(getDriver());
+    private final ContextChooser contextChooser = new ContextChooser(getDriver());
 
     @And("^User is on context chooser page$")
     public void verify_context_chooser_page_is_displayed() {

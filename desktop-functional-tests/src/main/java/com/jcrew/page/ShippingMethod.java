@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Product;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -17,12 +19,23 @@ import java.util.List;
  * Created by nadiapaolagarcia on 4/8/16.
  */
 public class ShippingMethod {
+	
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(ShippingMethod.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private final WebDriverWait wait;
 
     @FindBy(id = "frmSelectShippingMethod")
     private WebElement selectShippingMethod;
+    
+    @FindBy(className = "shippingmethod-container")
+    private WebElement shippingMethodContainer;
+    
+    @FindBy(id = "method0")
+    private WebElement economyUps;
+    
+    @FindBy(className = "button-submit")
+    private WebElement continueButton;
 
     public ShippingMethod(WebDriver driver) {
         this.driver = driver;
@@ -42,5 +55,19 @@ public class ShippingMethod {
     public void clickContinue() {
         WebElement continueLink = selectShippingMethod.findElement(By.className("button-submit-bg"));
         continueLink.click();
+    }
+    
+    public boolean isShippingMethodPage() {
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodContainer));
+        return true;
+    }
+    
+    public boolean isEconomyUps() {
+        return economyUps.isSelected();
+    }
+    
+    public void click_continue_button() {
+        Util.clickWithStaleRetry(continueButton);
     }
 }

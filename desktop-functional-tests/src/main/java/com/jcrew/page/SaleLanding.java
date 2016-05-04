@@ -16,15 +16,15 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/7/16.
  */
-public class SaleLandingPage {
+public class SaleLanding {
     private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(SaleLandingPage.class);
+    private final Logger logger = LoggerFactory.getLogger(SaleLanding.class);
     private final WebDriverWait wait;
 
     @FindBy(id = "page__sale")
     private WebElement page__sale;
 
-    public SaleLandingPage(WebDriver driver) {
+    public SaleLanding(WebDriver driver) {
         this.driver = driver;
         wait = Util.createWebDriverWait(driver);
 

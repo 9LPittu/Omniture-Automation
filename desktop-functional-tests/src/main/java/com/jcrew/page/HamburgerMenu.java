@@ -42,6 +42,9 @@ public class HamburgerMenu {
     @FindBy(className = "menus--level2")
     private WebElement menuLevel2;
     
+    @FindBy(className = "c-sale__c-category-list")
+    private WebElement saleCategoryList;
+    
     public HamburgerMenu(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -159,5 +162,30 @@ public class HamburgerMenu {
         WebElement iconClose = menuLevel1.findElement(By.className("icon-close"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(iconClose));
         iconClose.click();
+    }
+    
+    public void click_on_sale_subcategory(String subcategory) {
+        Util.waitLoadingBar(driver);
+        getSubcategoryFromSale(subcategory).click();
+        stateHolder.put("sale category", subcategory);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("search"));
+        Util.waitLoadingBar(driver);
+    }
+    
+    private WebElement getSubcategoryFromSale(String subcategory) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleCategoryList));
+        return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
+                Util.xpathGetTextLower + " = " +
+                "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
+    }
+    
+    public void click_on_selected_featured_this_month(String choice) {
+        WebElement level3Menus = driver.findElement(
+                By.xpath("//div[@class='c-menus menus--level3 js-menus--level3']/div[@class='menu__item is-lazy-loaded']"));
+        WebElement looksWeLove = level3Menus.findElement(
+                    By.xpath(".//span[@class='menu__link__label' and contains(text(),'" + choice + "')]"));
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(looksWeLove));
+        looksWeLove.click();
     }
 }

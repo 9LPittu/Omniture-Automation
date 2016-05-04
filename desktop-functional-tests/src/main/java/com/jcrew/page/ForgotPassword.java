@@ -5,12 +5,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class ForgotPasswordPage {
+public class ForgotPassword {
 
     @FindBy(id = "forgotPassword")
     private WebElement forgotPasswordForm;
 
-    public ForgotPasswordPage(WebDriver driver) {
+    public ForgotPassword(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
 

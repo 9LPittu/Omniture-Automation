@@ -51,4 +51,9 @@ public class ProductDetailSteps extends DriverFactory {
     public void add_to_cart_button_is_pressed() throws Throwable {
     	productDetails.click_add_to_cart();
     }
+    
+    @Then("^Update Bag button is pressed$")
+    public void Update_Bag_button_is_pressed() throws Throwable {
+    	productDetails.click_update_cart();
+    }
 }

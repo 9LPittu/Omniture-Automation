@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.*;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -126,5 +129,17 @@ public class StartSteps {
 
         logger.debug("getting url: " + envUrl);
         driver.get(envUrl);
+    }
+    
+    @And("user should see country code in the url for international countries")
+    public void user_should_see_country_code_in_url_for_international_countries(){
+
+
+        Country c = (Country)stateHolder.get("context");
+    	String env = reader.getProperty("url");
+
+
+    	assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
+    			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(c.getHomeurl())));
     }
 }

@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
@@ -30,10 +31,12 @@ public class ShoppingBag {
 
     @FindBy(id = "button-checkout")
     private WebElement checkoutButton;
+    
     @FindBy(id = "order-listing")
     private WebElement orderListing;
+    
     @FindBy(id = "order-summary")
-    private WebElement orderSummary;
+    private WebElement orderSummary; 
     
     @FindBy(id = "checkout")
     private WebElement articleCheckout;
@@ -98,5 +101,39 @@ public class ShoppingBag {
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(articleCheckout));
         return true;
+    }
+    
+    public void click_edit_button() {
+        Util.waitForPageFullyLoaded(driver);
+
+        Product product = (Product) stateHolder.get("recentlyAdded");
+
+        String xpath;
+
+        if (product.getProductName().contains("'")) {
+            xpath = ".//a[" + Util.xpathGetTextLower + " = \"" + product.getProductName().toLowerCase() + "\"]" +
+                    "/ancestor::div[@class='item-product']";
+        } else {
+            xpath = ".//a[" + Util.xpathGetTextLower + " = '" + product.getProductName().toLowerCase() + "']" +
+                    "/ancestor::div[@class='item-product']";
+        }
+
+        WebElement order_listing = driver.findElement(By.id("order-listing"));
+        WebElement item_product = order_listing.findElement(
+                By.xpath(xpath));
+        WebElement item_product_edit = item_product.findElement(By.className("item-edit"));
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(item_product_edit));
+        item_product_edit.click();
+    }
+    
+    public void click_checkout_button() {
+        String url = driver.getCurrentUrl();
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutButton));
+
+        checkoutButton.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        Util.waitForPageFullyLoaded(driver);
     }
 }

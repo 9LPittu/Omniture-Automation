@@ -275,4 +275,17 @@ public class ProductDetails {
                 ExpectedConditions.visibilityOf(productOverview));
         return productOverview.findElement(By.tagName("h1")).getText();
     }
+    
+    public void click_update_cart() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
+
+        Product thisProduct = new Product();
+        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setSelectedColor(getSelectedColor());
+        thisProduct.setSelectedSize(getSelectedSize());
+
+        stateHolder.put("recentlyAdded", thisProduct);
+
+        Util.clickWithStaleRetry(addToBag);
+    }
 }

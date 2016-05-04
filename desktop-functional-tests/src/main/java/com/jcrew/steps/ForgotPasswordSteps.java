@@ -1,13 +1,13 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.ForgotPasswordPage;
+import com.jcrew.page.ForgotPassword;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.And;
 
 import static org.junit.Assert.assertTrue;
 
-public class ForgotPasswordPageSteps extends DriverFactory {
-    private final ForgotPasswordPage forgotPasswordPage = new ForgotPasswordPage(getDriver());
+public class ForgotPasswordSteps extends DriverFactory {
+    private final ForgotPassword forgotPasswordPage = new ForgotPassword(getDriver());
 
     @And("^Verify user is in forgot password page$")
     public void verify_user_is_in_forgot_password_page() throws Throwable {

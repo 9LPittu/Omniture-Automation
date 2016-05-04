@@ -29,7 +29,13 @@ public class HomePage {
     private WebElement pageContent;
     @FindBy (className = "c-email-capture")
     private WebElement emailCapture;
-
+    
+    @FindBy(className = "header__search__input")
+    private WebElement searchInput;
+    
+    @FindBy(className = "header__search__button--find")
+    private WebElement headerSearchButtonFind;
+    
     public HomePage(WebDriver driver){
         this.driver = driver;
         headerWrap = new HeaderWrap(driver);
@@ -70,5 +76,19 @@ public class HomePage {
         boolean footerCompliance = countryName.equalsIgnoreCase(countryFooter);
 
         return urlCompliance & footerCompliance;
+    }
+    
+    public void input_search_term(String searchTerm) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
+        searchInput.clear();
+        searchInput.sendKeys(searchTerm);
+    }
+    
+    public void click_on_search_button_for_input_field() {
+        String url = driver.getCurrentUrl();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearchButtonFind));
+        headerSearchButtonFind.click();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        Util.waitLoadingBar(driver);
     }
 }
