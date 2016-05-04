@@ -130,23 +130,20 @@
      Then User should land on country specific home page
      And User should see selected country in the footer
      #When User clicks on hamburger menu HAMBURGER MENU STEPS
-     And User opens menu
-     And User navigates to a subcategory from main category
+     #And User opens menu
      #And user selects any category from hamburger menu hamburger menu steps
-	 And user selects any subcategory
-     And user should see selected country in the footer
-	 And user should see country code in the url for international countries
-	 And user selects any item from array page, select any color and size
+     And User navigates to a subcategory from main category
+     And Verify context in the array page
+     And User should see selected country in the footer
+     And User selects random product from array
      And User is in product detail page
-     And user should see selected country in the footer
-     And user should see country code in the url for international countries
-     And Add to cart button is pressed
-     And User clicks on item bag
-     Then User should be in shopping bag page
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And user should see selected country in the footer
-     And user should see country code in the url for international countries
+     And User should see selected country in the footer
+     And Verify context in the product detail page
+     And User adds selected product to bag
+     And User clicks in bag
+     And Verify that shopping bag has expected context
+     #Then User should be in shopping bag page
+     And User should see selected country in the footer
      And Clicks edit button on item bag page
 	 And User is in product detail page
      Then Update Bag button is pressed
@@ -185,7 +182,7 @@
     Examples:
       |country_group|
       |PRICEBOOK|
-      |NON-PRICEBOOK|
+      #|NON-PRICEBOOK|
       
    Scenario Outline: context validation on sale landing page from Hamburger menu
      Then Click on change link from footer
