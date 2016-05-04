@@ -41,8 +41,7 @@ public class MyAccountPage {
         Country country = (Country) stateHolder.get("context");
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
-        boolean isUrl = Util.countryContextURLCompliance(driver, country);
-        return myAccountContainer.isDisplayed()&& isUrl;
+        return myAccountContainer.isDisplayed();
     }
 
     public String getMyAccountHeader() {
