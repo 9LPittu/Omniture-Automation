@@ -123,14 +123,16 @@
        |NONPRICEBOOK  |sale |
 
    Scenario Outline: Multiple Pages During Checkout Context validations
-     Then click on change link from footer
+     Then Click on change link from footer
      And User is on context chooser page
      And User is on internal /r/context-chooser page
-     Given user selects <country_group> at random from context chooser page
-     Then user should land on country specific home page
-     And user should see selected country in the footer
-     When User clicks on hamburger menu
-     And user selects any category from hamburger menu
+     Given User selects <country_group> at random from context chooser page
+     Then User should land on country specific home page
+     And User should see selected country in the footer
+     #When User clicks on hamburger menu HAMBURGER MENU STEPS
+     And User opens menu
+     And User navigates to a subcategory from main category
+     #And user selects any category from hamburger menu hamburger menu steps
 	 And user selects any subcategory
      And user should see selected country in the footer
 	 And user should see country code in the url for international countries
