@@ -37,4 +37,6 @@ public class MenuDrawerSteps extends DriverFactory {
         menuDrawer.goHome();
     }
 
+    @When("User selects ")
+
 }

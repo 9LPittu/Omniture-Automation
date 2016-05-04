@@ -21,7 +21,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     private final SubcategoryPage subcategoryPage = new SubcategoryPage(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
     
-    @And("^user selects any item from array page, select any color and size$")
+    @And("^User selects any item from array page, select any color and size$")
     public void user_selects_any_item_from_array_page_select_any_size_color(){
     	subcategoryPage.selectRandomItemAndSelectSizeColor();
     }

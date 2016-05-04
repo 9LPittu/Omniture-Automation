@@ -3,7 +3,7 @@
 
    Background:
      Given User goes to homepage
-     And User closes email capture
+    # And User closes email capture
 
    Scenario: Context chooser page validation
      Then User should see Ship To section in footer
@@ -53,12 +53,14 @@
      When User clicks on EMAIL PREFERENCES link in My Account Page
      Then User should be in email_preferences.jsp menu link page
      And User should see selected country in the footer
-     When User clicks on CATALOG PREFERENCES link in My Account Page
-     Then User should be in catalog_preferences.jsp menu link page
+     #need to handle this validation for countrie other than us
+#     When User clicks on CATALOG PREFERENCES link in My Account Page
+#     Then User should be in catalog_preferences.jsp menu link page
      And User should see selected country in the footer
      When User clicks on PAYMENT METHODS link in My Account Page
      Then User should be in payment_info.jsp menu link page
      And User should see selected country in the footer
+     #need to handle this validation for countrie other than us
 #     When User clicks on GIFT CARD BALANCE link in My Account Page
 #     Then User should be in checkout/giftcard_balance1.jsp menu link page
 #     And User should see selected country in the footer
@@ -181,30 +183,25 @@
     Examples:
       |country_group|
       |PRICEBOOK|
-      |NONPRICEBOOK|
+      |NON-PRICEBOOK|
       
    Scenario Outline: context validation on sale landing page from Hamburger menu
-     Then click on change link from footer
+     Then Click on change link from footer
      And User is on context chooser page
      And User is on internal /r/context-chooser page
-     Given user selects <country_group> at random from context chooser page
-     Then user should land on country specific home page
-     And user should see selected country in the footer
-     And User clicks on hamburger menu
+     Given User selects <country_group> at random from context chooser page
+     Then User should land on country specific home page
+     And User should see selected country in the footer
+     #And User clicks on hamburger menu #hamburger menu steps##
+     And User opens menu
      And Selects sale Category from hamburger menu
-     And user should see selected country in the footer
-     And user should see country code in the url for international countries
-     And User clicks on WOMEN subcategory from Sales
-     And user should see selected country in the footer
-     And Selects any product from product grid list
-     And User is in product detail page
-     Then Verify embedded footer is visible and functional
-     And user should see country code in the url for international countries
+     And User should see selected country in the footer
+     And User should see country code in the url for international countries
 
     Examples:
       |country_group|
       |PRICEBOOK|
-      |NONPRICEBOOK|
+      |NON-PRICEBOOK|
       
    Scenario Outline: Context is displayed on search page
      Then click on change link from footer

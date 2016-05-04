@@ -55,10 +55,7 @@ public class HamburgerMenuSteps extends DriverFactory {
         hamburgerMenu.close_hamburger_menu();
     }
 	
-	 @And("^Selects ([^\"]*) Category from hamburger menu$")
-	 public void selects_category_from_hamburger_menu(String category) {
-	       hamburgerMenu.click_on_category(category);
-	 }
+
 	 
 	 @And("^User clicks on ([^\"]*) subcategory from Sales$")
 	    public void user_clicks_on_subcategory_from_sales(String subcategory) {
@@ -74,7 +71,7 @@ public class HamburgerMenuSteps extends DriverFactory {
         String subcategory = selectedRow.getCells().get(1);
         String option = selectedRow.getCells().get(2);
 
-        selects_category_from_hamburger_menu(category);
+       //selects_category_from_hamburger_menu(category);
         user_clicks_on_subcategory_from_category(subcategory,category);
         user_clicks_selection_from_featured_this_month(option);
 

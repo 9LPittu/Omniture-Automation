@@ -31,13 +31,7 @@ public class Country {
         this.contexturl = Boolean.parseBoolean(properties.getProperty(country + ".contexturl"));
         this.name = properties.getProperty(country + ".name");
         this.region=properties.getProperty(country + ".region");
-        
-        this.companyName = properties.getProperty(country + ".companyname");
-        this.address1 = properties.getProperty(country + ".address1");
-        this.address2 = properties.getProperty(country + ".address2");
-        this.zipcode = properties.getProperty(country + ".zipcode");
-        this.city = properties.getProperty(country + ".city");
-        this.state = properties.getProperty(country + ".state");
+
 
         if("us".equalsIgnoreCase(country)){
             this.homeurl = environment;

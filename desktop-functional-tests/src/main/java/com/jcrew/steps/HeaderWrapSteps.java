@@ -83,4 +83,9 @@ public class HeaderWrapSteps extends DriverFactory {
     public void click_on_given_link_from_top_nav(String Dept) {
         header.clickDeptLinkFromTopNav(Dept);
     }
+
+    @And("^Selects ([^\"]*) Category from hamburger menu$")
+    public void selects_category_from_hamburger_menu(String category) {
+        header.click_on_category(category);
+    }
 }
