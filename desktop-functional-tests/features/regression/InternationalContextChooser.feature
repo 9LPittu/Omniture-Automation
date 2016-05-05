@@ -53,17 +53,13 @@
      When User clicks on EMAIL PREFERENCES link in My Account Page
      Then User should be in email_preferences.jsp menu link page
      And User should see selected country in the footer
-     #need to handle this validation for countrie other than us
-#     When User clicks on CATALOG PREFERENCES link in My Account Page
-#     Then User should be in catalog_preferences.jsp menu link page
+     When User clicks on CATALOG PREFERENCES link in My Account Page
+     And User should see selected country in the footer
+     When User clicks on GIFT CARD BALANCE link in My Account Page
      And User should see selected country in the footer
      When User clicks on PAYMENT METHODS link in My Account Page
      Then User should be in payment_info.jsp menu link page
      And User should see selected country in the footer
-     #need to handle this validation for countrie other than us
-#     When User clicks on GIFT CARD BALANCE link in My Account Page
-#     Then User should be in checkout/giftcard_balance1.jsp menu link page
-#     And User should see selected country in the footer
      When User clicks on ADDRESS BOOK link in My Account Page
      Then User should be in address_book.jsp menu link page
      And User should see selected country in the footer

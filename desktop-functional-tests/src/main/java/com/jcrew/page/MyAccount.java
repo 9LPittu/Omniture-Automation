@@ -113,17 +113,19 @@ public class MyAccount {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
         Util.clickWithStaleRetry(menu);
 
-        if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card balance')]"))));
-        }
-        else{
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        }
+//        if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
+//            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card balance')]"))));
+//        }
+//        else{
+//            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+//        }
     }
 
     private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(main_inside));
+        Country country = (Country)stateHolder.get("context");
+        logger.debug(country.getCountry());
         return main_inside.findElement(By.linkText(link));
     }
 
