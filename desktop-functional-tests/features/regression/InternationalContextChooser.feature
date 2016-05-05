@@ -144,10 +144,6 @@
      And Verify that shopping bag has expected context
      #Then User should be in shopping bag page
      And User should see selected country in the footer
-     And Clicks edit button on item bag page
-	 And User is in product detail page
-     Then Update Bag button is pressed
-	 Then User should be in shopping bag page
      And Clicks on checkout
      And Verify embedded headers links
      Then Verify embedded footer is visible and functional
