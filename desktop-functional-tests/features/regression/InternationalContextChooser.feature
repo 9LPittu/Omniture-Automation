@@ -144,41 +144,26 @@
      And Verify that shopping bag has expected context
      #Then User should be in shopping bag page
      And User should see selected country in the footer
-     And Clicks on checkout
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And user should see selected country in the footer
-     And Selects to checkout as guest
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And user should see selected country in the footer
-     When user fills selected country shipping address
-     And Presses continue button on shipping address
-     And Verifies is in shipping method page
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And user should see selected country in the footer
-     And Uses default value for shipping method
-     #And Uses default value for gifts option
-     And Clicks continue button on shipping method page
-     And Verify user is in billing page
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And user should see selected country in the footer
-     And Fills required payment data in billing page
-     And Submits payment data in billing page
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And user should see selected country in the footer
-     And Clicks on place your order
-     And User should be in order confirmation page
-     And Verify embedded headers links
-     Then Verify embedded footer is visible and functional
-     And user should see selected country in the footer
+     #And Clicks on checkout shoppingbagpage steps
+     And User clicks check out button
+     And User should see selected country in the footer
+     And User selects guest check out
+     And User should see selected country in the footer
+     And Guest user fills shipping address and continue
+     And User should see selected country in the footer
+     And User selects random shipping method and continue
+     And User should see selected country in the footer
+     And User fills payment method and continue
+     And User should see selected country in the footer
+     And User reviews and places order
+     And User should see selected country in the footer
+     Then User gets an order confirmation number
+     And User should see selected country in the footer
+
     Examples:
       |country_group|
-      |PRICEBOOK|
-      #|NON-PRICEBOOK|
+      #|PRICEBOOK|
+      |NON-PRICEBOOK|
       
    Scenario Outline: context validation on sale landing page from Hamburger menu
      Then Click on change link from footer
@@ -218,22 +203,22 @@
       
    	#multipdp, shoppable tray
     # shoppable tray page for desktop is not ready.Not running the below
-  Scenario Outline: international context validation for shoppable tray page
-    Then Click on change link from footer
-    And User is on context chooser page
-    And User is on internal /r/context-chooser page
-    Given User selects <country_group> at random from context chooser page
-    Then User should land on country specific home page
-    And User should see selected country in the footer
-    And User opens menu
-    And User selects random tray from available categories
-      |Women|THIS MONTH'S FEATURES|looks we love |
-      |Men  |THIS MONTH'S FEATURES|1 Suit, 5 Ways|
-      |Girls|THIS MONTH'S FEATURES|Looks We Love |
-      |Boys |THIS MONTH'S FEATURES|Looks We Love |
-    And User should see country code in the url for international countries
-
-    Examples:
-    |country_group|
-    |PRICEBOOK|
-    |NON-PRICEBOOK|
+#  Scenario Outline: international context validation for shoppable tray page
+#    Then Click on change link from footer
+#    And User is on context chooser page
+#    And User is on internal /r/context-chooser page
+#    Given User selects <country_group> at random from context chooser page
+#    Then User should land on country specific home page
+#    And User should see selected country in the footer
+#    And User opens menu
+#    And User selects random tray from available categories
+#      |Women|THIS MONTH'S FEATURES|looks we love |
+#      |Men  |THIS MONTH'S FEATURES|1 Suit, 5 Ways|
+#      |Girls|THIS MONTH'S FEATURES|Looks We Love |
+#      |Boys |THIS MONTH'S FEATURES|Looks We Love |
+#    And User should see country code in the url for international countries
+#
+#    Examples:
+#    |country_group|
+#    |PRICEBOOK|
+#    |NON-PRICEBOOK|
