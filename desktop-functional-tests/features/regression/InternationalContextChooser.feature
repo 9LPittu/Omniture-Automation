@@ -96,7 +96,7 @@
      Examples:
        |country_group |
        |PRICEBOOK     |
-       |NONPRICEBOOK  |
+       |NON-PRICEBOOK  |
 
    Scenario Outline: International context validation on gender landing pages and sale landing page
      Then Click on change link from footer
@@ -112,15 +112,15 @@
      Examples:
        |country_group |topnav|
        |PRICEBOOK     |Women |
-       |NONPRICEBOOK  |Women |
+       |NON-PRICEBOOK  |Women |
        |PRICEBOOK     |Men |
-       |NONPRICEBOOK  |Men |
+       |NON-PRICEBOOK  |Men |
        |PRICEBOOK     |Girls |
-       |NONPRICEBOOK  |Girls |
+       |NON-PRICEBOOK  |Girls |
        |PRICEBOOK     |Boys |
-       |NONPRICEBOOK  |Boys |
+       |NON-PRICEBOOK  |Boys |
        |PRICEBOOK     |sale |
-       |NONPRICEBOOK  |sale |
+       |NON-PRICEBOOK  |sale |
 
    Scenario Outline: Multiple Pages During Checkout Context validations
      Then Click on change link from footer
@@ -129,9 +129,6 @@
      Given User selects <country_group> at random from context chooser page
      Then User should land on country specific home page
      And User should see selected country in the footer
-     #When User clicks on hamburger menu HAMBURGER MENU STEPS
-     #And User opens menu
-     #And user selects any category from hamburger menu hamburger menu steps
      And User navigates to a subcategory from main category
      And Verify context in the array page
      And User should see selected country in the footer
@@ -141,10 +138,8 @@
      And Verify context in the product detail page
      And User adds selected product to bag
      And User clicks in bag
+     And User is in shopping bag page
      And Verify that shopping bag has expected context
-     #Then User should be in shopping bag page
-     And User should see selected country in the footer
-     #And Clicks on checkout shoppingbagpage steps
      And User clicks check out button
      And User should see selected country in the footer
      And User selects guest check out
@@ -162,8 +157,8 @@
 
     Examples:
       |country_group|
-      #|PRICEBOOK|
-      |NON-PRICEBOOK|
+     # |PRICEBOOK|
+     |NON-PRICEBOOK|
       
    Scenario Outline: context validation on sale landing page from Hamburger menu
      Then Click on change link from footer
@@ -172,9 +167,7 @@
      Given User selects <country_group> at random from context chooser page
      Then User should land on country specific home page
      And User should see selected country in the footer
-     #And User clicks on hamburger menu #hamburger menu steps##
      And User opens menu
-     #And Selects sale Category from hamburger menu # hamburger menu steps
      And User selects sale category from menu
      And User should see selected country in the footer
      And User should see country code in the url for international countries

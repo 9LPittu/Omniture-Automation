@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.*;
 import com.jcrew.utils.DriverFactory;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -11,6 +12,12 @@ import static org.junit.Assert.assertTrue;
  * Created by nadiapaolagarcia on 4/8/16.
  */
 public class CheckOutSteps extends DriverFactory {
+
+    @And("User is in shopping bag page$")
+    public void verify_user_is_in_bag_page() {
+        ShoppingBag shoppingBag = new ShoppingBag(getDriver());
+        assertTrue("User should be in shopping bag page", shoppingBag.isShoppingBagPage());
+    }
 
     @When("User clicks check out button")
     public void user_clicks_check_out_button() {
