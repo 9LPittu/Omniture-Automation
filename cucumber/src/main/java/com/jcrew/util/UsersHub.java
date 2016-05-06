@@ -1,49 +1,103 @@
 package com.jcrew.util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class UsersHub {
 	
-	private static final UsersHub usersHub = new UsersHub();
-	
-	private final Properties userReader = new Properties();
-    private final Logger logger = LoggerFactory.getLogger(UsersHub.class);
-    private List<List<String>> userCredentials = new ArrayList(); 
+	private final StateHolder stateHolder = StateHolder.getInstance();
+	private final Logger logger = LoggerFactory.getLogger(UsersHub.class);
+	private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();	
+	private final DatabaseReader databaseReader = new DatabaseReader(); 
+	private static final PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    Connection conn;    
+    String environment = propertyReader.getProperty("environment").toLowerCase(); 
 
-	UsersHub(){
-		try{
-			loadUserProperties();	
+	private Connection getDBConnection() throws SQLException, ClassNotFoundException{
+		if(conn==null){
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			String url = "jdbc:oracle:thin:@" + dbReader.getProperty("jcms.server.name") + ":" + dbReader.getProperty("jcms.server.port") + "/" + dbReader.getProperty("jcms.server.servicename");
+			
+			Properties props = new Properties();
+			props.setProperty("user", dbReader.getProperty("jcms.server.user"));
+			props.setProperty("password", dbReader.getProperty("jcms.server.pwd"));
+			props.setProperty("ssl", "true");
+			
+			conn = databaseReader.createConnection(url, props);
+			if(conn!=null){
+				logger.debug("DB connection is successful...");
+			}
 		}
-		catch(Exception e){
-			logger.error("Unable to load the user properties file");
-		}
+		
+		return conn; 		
 	}
 	
-	private void loadUserProperties() throws IOException{		
+	private ResultSet executeSQLQuery(String sqlQuery) throws SQLException, ClassNotFoundException{
+		
+		Statement statement = databaseReader.createTheStatement(getDBConnection());
+		ResultSet rs = statement.executeQuery(sqlQuery);
+		
+		if(rs!=null){
+			logger.debug("SQL query is executed successfully...");
+		}
+		
+		return rs;
+	}
+	
+	private int getAvailableUsersCount() throws SQLException, ClassNotFoundException{	
 				
-		FileInputStream inputFile = new FileInputStream("user.properties");
-		userReader.load(inputFile);
+		String getUsersCountSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS where Environment='"  + environment + "' and Allocation = 'N'";		
+		ResultSet rs = executeSQLQuery(getUsersCountSQLQuery);
+		int numOfRecords = 0;
+		if(rs!=null){
+			while(rs.next()){
+			  numOfRecords = Integer.parseInt(rs.getString(1));
+			  break;
+			}
+		}
+			
+		logger.info("# of users for '{}' environment: {}", environment.toLowerCase(),numOfRecords);
+		
+		return numOfRecords;
 	}
 	
-	public static UsersHub getUsersHub(){
-		return usersHub;
+	public void retrieveUserCredentialsFromDBAndStoreInMap() throws SQLException, ClassNotFoundException{
+		if(getAvailableUsersCount() > 0){
+			String getUserCredentialsSQLQuery = "select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where Environment='"  + environment + "' and Allocation = 'N'";
+			ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
+			if(rs!=null){
+				while(rs.next()){
+					stateHolder.put("sidecarusername", rs.getString(1));
+					logger.info("Available username:{} for '{}' environment",rs.getString(1),environment);
+					stateHolder.put("sidecaruserpassword", rs.getString(2));
+					break;
+				}
+			}
+			
+			String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' where username='" + stateHolder.get("sidecarusername") + "' and Environment='"  + environment + "'";
+			executeSQLQuery(updateAllocationFlagSQLQuery);
+		}
+		else{
+			logger.error("No username records are available for '" + environment + "' environment");
+			throw new SQLException("No username records are available for '" + environment + "' environment");
+		}
+		
+		closeDBConnection();
 	}
 	
-	private void getUsers(){
-		
-		
-		
-		
-		
+	public void releaseUserCredentials() throws SQLException, ClassNotFoundException{
+		String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where username='" + stateHolder.get("sidecarusername") + "' and Environment='"  + environment + "'";
+		executeSQLQuery(updateAllocationFlagSQLQuery);
+		closeDBConnection();
 	}
-		
+	
+	private void closeDBConnection(){
+		databaseReader.closeConnection(conn);
+	}
 }

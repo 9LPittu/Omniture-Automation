@@ -4,11 +4,7 @@ import com.jcrew.page.Navigation;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.*;
 import com.jcrew.pojo.Country;
-import com.jcrew.util.DriverFactory;
-import com.jcrew.util.PropertyReader;
-import com.jcrew.util.SAccountReader;
-import com.jcrew.util.StateHolder;
-import com.jcrew.util.Util;
+
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.AfterStep;
@@ -23,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -207,7 +204,7 @@ public class StartingSteps {
     }
 
     @After
-    public void quitDriver(Scenario scenario) throws IOException {
+    public void quitDriver(Scenario scenario) throws IOException, ClassNotFoundException, SQLException {
 
         if (driver != null && (scenario.isFailed() || scenario.getName().contains(TAKE_SCREENSHOT))) {
             logger.debug("Taking screenshot of scenario {}", scenario.getName());
@@ -224,7 +221,13 @@ public class StartingSteps {
         if (driverFactory != null && (boolean)stateHolder.get("deletecookies")) {
             driverFactory.destroyDriver();
         }
-
+        
+        PropertyReader reader = PropertyReader.getPropertyReader();        
+        if(!reader.getProperty("environment").equalsIgnoreCase("ci")){
+        	UsersHub userHub = new UsersHub();
+        	userHub.releaseUserCredentials();
+        }
+        
         stateHolder.clear();
     }
 
