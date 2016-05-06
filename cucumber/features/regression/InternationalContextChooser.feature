@@ -158,7 +158,6 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    And user should see country code in the url for international countries
     And Clicks edit button on item bag page
 	And User is in product detail page
     Then Update Bag button is pressed
