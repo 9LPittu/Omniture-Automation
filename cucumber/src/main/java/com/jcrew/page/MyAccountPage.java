@@ -64,29 +64,27 @@ public class MyAccountPage {
         WebElement menu;
 
         Country c = (Country)stateHolder.get("context");
-        if(("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry())) {
-            logger.debug("inside ca and us");
+
+        boolean ifOtherCountries = !(link.equals("GIFT CARD BALANCE")|| link.equals("CATALOG PREFERENCES"));
+        if(("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry())|| ifOtherCountries) {
             menu = getMenuLink(link);
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
             Util.clickWithStaleRetry(menu);
         }
-        else if(!((link.equals("GIFT CARD BALANCE"))|| link.equals("CATALOG PREFERENCES"))) {
-            logger.debug("not canada or us");
-            menu = getMenuLink(link);
-            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
-            Util.clickWithStaleRetry(menu);
-            }
 
     }
 
     public boolean isInMenuLinkPage(String page) {
         Country c = (Country)stateHolder.get("context");
-        if ("ca".equals(c.getCountry()) && !(page.contains("giftcard")) || "us".equals(c.getCountry()))
+        boolean forOtherCountries = !( page.contains("giftcard")|| page.contains("catalog_preferences"));
+
+        if (("ca".equals(c.getCountry()) && !(page.contains("giftcard"))) || "us".equals(c.getCountry()) || forOtherCountries)
            return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
-        else if(!((page.contains("giftcard")|| page.contains("catalog_preferences"))))
-            return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
-        logger.info("this link page is not present for this country "+c.getCountry());
-        return true;
+        else {
+            logger.info("expected no "+page+" for "+c.getCountry());
+            return true;
+        }
+
     }
 
     public void click_order_for_review() {
