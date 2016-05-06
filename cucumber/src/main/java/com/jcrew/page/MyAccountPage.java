@@ -55,24 +55,47 @@ public class MyAccountPage {
     private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
+
         return myAccountContainer.findElement(By.linkText(link));
+
     }
 
     public void click_menu_link(String link) {
-        WebElement menu = getMenuLink(link);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
-        Util.clickWithStaleRetry(menu);
+        WebElement menu;
 
-        if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card balance')]"))));
+        Country c = (Country)stateHolder.get("context");
+        if(("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry())) {
+            logger.debug("inside ca and us");
+            menu = getMenuLink(link);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
+            Util.clickWithStaleRetry(menu);
         }
-        else{
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        }
+        else if(!((link.equals("GIFT CARD BALANCE"))|| link.equals("CATALOG PREFERENCES"))) {
+            logger.debug("not canada or us");
+            menu = getMenuLink(link);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
+            Util.clickWithStaleRetry(menu);
+            }
+
+
+
+
+//        if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
+//        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card balance')]"))));
+//        }
+//        else{
+//        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+//        }
     }
 
     public boolean isInMenuLinkPage(String page) {
-        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        Country c = (Country)stateHolder.get("context");
+        if ("ca".equals(c.getCountry()) && !(page.contains("giftcard")) || "us".equals(c.getCountry()))
+           return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        else if(!((page.contains("giftcard")|| page.contains("catalog_preferences"))))
+            return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        logger.info("this link page is not present for this country "+c.getCountry());
+        return true;
     }
 
     public void click_order_for_review() {
