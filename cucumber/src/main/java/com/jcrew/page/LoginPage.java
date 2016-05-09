@@ -140,8 +140,11 @@ public class LoginPage {
         	password = reader.getProperty("checkout.signed.in.password");
         }
         else{
-        	UsersHub userHub = new UsersHub();
-        	userHub.retrieveUserCredentialsFromDBAndStoreInMap();
+        	
+        	if(!stateHolder.hasProperty("sidecarusername")){
+        		UsersHub userHub = new UsersHub();
+        		userHub.retrieveUserCredentialsFromDBAndStoreInMap();
+        	}
         	username = (String) stateHolder.get("sidecarusername");
         	password = (String) stateHolder.get("sidecaruserpassword");
         }
