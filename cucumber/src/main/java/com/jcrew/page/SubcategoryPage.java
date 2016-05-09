@@ -2,10 +2,7 @@ package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
-import com.jcrew.util.PropertyReader;
-import com.jcrew.util.StateHolder;
-import com.jcrew.util.TestDataReader;
-import com.jcrew.util.Util;
+import com.jcrew.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -41,8 +38,10 @@ public class SubcategoryPage {
     private WebElement shoppingBagLink;
     @FindBy(id = "qsLightBox")
     private WebElement quickShopModal;
-    @FindBy(className = "product__grid")
+    
+    @FindBy(xpath = "//div[@class='product__grid']")
     private WebElement productGrid;
+    
     @FindBy(id = "c-product__list")
     private WebElement productList;
     @FindBy(css = ".category__page-title > h2")
@@ -234,14 +233,14 @@ public class SubcategoryPage {
         return result;
     }
 
-    public void click_first_product_in_grid() {
-        Util.waitForPageFullyLoaded(driver);
-        final WebElement product = getFirstProduct();
-        final WebElement productLink = product.findElement(By.className("product__image--small"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
-        saveProduct(product);
-        productLink.click();
-        Util.waitLoadingBar(driver);
+    public void click_first_product_in_grid() {        
+    	Util.waitForPageFullyLoaded(driver);
+		final WebElement product = getFirstProduct();
+		final WebElement productLink = product.findElement(By.className("product__image--small"));
+		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
+		saveProduct(product);
+		productLink.click();
+		Util.waitLoadingBar(driver);
     }
 
     public void click_first_product_with_xpath(String finder) {
@@ -690,7 +689,7 @@ public class SubcategoryPage {
 	    			}
     			}
     			catch(Exception e1){
-    				logger.info("PDP page is not displayed");    				
+    				logger.info("PDP page is not displayed", e1);
     			}
     		}
     	}
@@ -701,8 +700,7 @@ public class SubcategoryPage {
     }
 
     public void navigateBackToArrayPage(){
-    	WebElement breadcrumb = Util.createWebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("c-header__breadcrumb"))));
-		breadcrumb.findElement(By.xpath("//ul[@class='breadcrumb__list']/li[3]/a[@class='breadcrumb__link']")).click();
+    	driver.navigate().back();
 		Util.waitForPageFullyLoaded(driver);
 		logger.debug("Navigated back to Array page");
     }
@@ -772,22 +770,12 @@ public class SubcategoryPage {
     
     
     public boolean isCorrectCurrencySymbolonProductGridList() {
-        boolean result = true;        
-        String strCurrency = (String)stateHolder.get("currency");
+        Country c = (Country) stateHolder.get("context");
         
-        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail tile__detail--price--')]"));
-        	
-        if(productpricess.isEmpty()) {
-            logger.debug("Item Price  count not found on PDP page");
-            result = true;
-        } else {
-        	for (WebElement price : productpricess) 
-        	
-        		if (!price.getText().contains(strCurrency)) {
-        			result = false;
-        			break;
-        		}
-        }
+        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"));
+
+        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+
         if(result){
         	logger.info("Currency symbol is displayed correctly on all Item prices on Product grid list");
         	
@@ -796,5 +784,28 @@ public class SubcategoryPage {
         	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
         }
         return result;
+    }
+    
+    public void selectFirstProductFromSearchResults(){
+    	
+    	String currentURL = driver.getCurrentUrl();
+    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String environment = propertyReader.getProperty("environment");
+    	
+    	Country c = (Country) stateHolder.get("context");
+    	String countryCode = c.getCountry();
+    	
+    	String searchString = "";
+    	if(countryCode.equalsIgnoreCase("us")){
+    		searchString = environment + "/r/search/";
+    	}
+    	else{
+    		searchString = environment + "/" + countryCode + "/r/search/";
+    	}
+    	
+    	if(currentURL.contains(searchString)){
+    		click_first_product_in_grid();
+    	}
     }
 }

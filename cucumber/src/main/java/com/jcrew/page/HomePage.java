@@ -53,6 +53,14 @@ public class HomePage {
     }
 
     public void input_search_term(String searchTerm) {
+    	
+    	String environment = System.getProperty("environment");
+    	TestDataReader testdataReader = TestDataReader.getTestDataReader();
+    	
+    	if(testdataReader.hasProperty(environment + "." + searchTerm)){
+    		searchTerm = testdataReader.getData(environment + "." + searchTerm);
+    	}
+    	
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
         searchInput.clear();
         searchInput.sendKeys(searchTerm);

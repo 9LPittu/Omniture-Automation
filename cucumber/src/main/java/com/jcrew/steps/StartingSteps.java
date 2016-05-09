@@ -1,9 +1,7 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.Navigation;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.*;
-import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.SAccountReader;
@@ -16,7 +14,6 @@ import cucumber.api.java.Before;
 import cucumber.api.java.BeforeStep;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
-import org.mockito.internal.stubbing.answers.Returns;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -55,11 +52,18 @@ public class StartingSteps {
     public void  user_goes_to_international_page(String country_group,List<String> pageUrlList) throws Throwable {
         driverFactory.deleteBrowserCookies();
         getTheRandomInternationalPage(country_group,pageUrlList);
+    }
 
+    @Given("User is on clean session in ([^\"]*) homepage page$")
+    public void  user_goes_to_international_homepage(String country_group) throws Throwable {
+        driverFactory.deleteBrowserCookies();
+        TestDataReader testData = TestDataReader.getTestDataReader();
+
+        String env = reader.getProperty("url");
+        getUrl(env, testData.getCountry(country_group), "");
     }
 
     public void  getTheRandomInternationalPage(String country, List<String> pageUrlList) {
-
         TestDataReader testData = TestDataReader.getTestDataReader();
         String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
         page = page.toLowerCase();
@@ -68,26 +72,7 @@ public class StartingSteps {
         stateHolder.put("pageUrl", pageURL);
         String env = reader.getProperty("url");
 
-        if ("PRICEBOOK".equals(country)) {
-
-            String pricebookCountries = testData.getData("pricebookCountries");
-            String pricebookCountriesArray[] = pricebookCountries.split(";");
-
-            int countryindex = Util.randomIndex(pricebookCountriesArray.length);
-            String selectedCountry = pricebookCountriesArray[countryindex].toLowerCase();
-            getUrl(env, selectedCountry, pageURL);
-
-
-        } else if ("NON-PRICEBOOK".equals(country)) {
-
-            String nonPricebookCountries = testData.getData("nonPricebookCountries");
-            String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
-
-            int countryindex = Util.randomIndex(nonPricebookCountriesArray.length);
-            String selectedCountry = nonPricebookCountriesArray[countryindex].toLowerCase();
-            getUrl(env, selectedCountry, pageURL);
-
-        }
+        getUrl(env, testData.getCountry(country), pageURL);
     }
 
     public void getUrl(String env, String selectedCountry, String pageURL) {
@@ -99,11 +84,8 @@ public class StartingSteps {
         String selectedCountryHomeUrl = countrydetails.getHomeurl();
         env = selectedCountryHomeUrl + pageURL;
         stateHolder.put("randomUrl", env);
-        logger.debug("selected random url: {}", env);
         driver.get(env);
     }
-
-
 
     @Given("^User is on homepage$")
     public void user_is_on_home_page() {
@@ -183,7 +165,6 @@ public class StartingSteps {
 
         Country c = (Country)stateHolder.get("context");
     	String env = reader.getProperty("url");
-
 
     	assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
     			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(c.getHomeurl())));

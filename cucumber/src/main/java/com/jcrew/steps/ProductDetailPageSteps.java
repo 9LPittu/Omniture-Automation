@@ -336,4 +336,30 @@ public class ProductDetailPageSteps extends DriverFactory {
     public void verify_currency_on_product_PDP(){
     	assertTrue("Currency on product details page",productDetailPage.isCorrectCurrencySymbolonPDP());
     }
+    
+    @And("^user should see the PDP messages for the selected country$")
+    public void user_should_see_pdp_messages(){
+    	assertTrue("User should see size related messages on the PDP page for the selected country",productDetailPage.isSizeMessageDisplayedOnPDP());
+    	assertTrue("User should see message on the PDP page for the selected country",productDetailPage.isMessageDisplayedOnPDP());
+    }
+    
+    @Then("^user should see PDP page with soldout message which includes phone number$")
+    public void user_should_see_pdp_page_soldout_message_which_includes_phone_number(){
+    	assertTrue("user should see PDP page with soldout message which includes phone number", productDetailPage.isSoldOutMessageDisplayed());
+    }
+    
+    @And("^user selects random variant on the PDP page$")
+    public void user_selects_random_variant_on_PDP_Page(){
+    	productDetailPage.selectRandomVariantOnPDP();
+    }
+    
+    @Then("^user should see PDP page with message for vps item$")
+    public void user_should_see_PDP_page_with_vps_item_message(){
+    	assertTrue("user should see PDP page with message for vps item",productDetailPage.isVPSMessageDisplayed());
+    }
+    
+    @Then("user should see PDP page with shipping restriction message")
+    public void user_should_see_PDP_page_with_shipping_restriction_message(){
+    	assertTrue("user should see PDP page with shipping restriction message",productDetailPage.isShippingRestrictionMessageDisplayed());
+    }
 }

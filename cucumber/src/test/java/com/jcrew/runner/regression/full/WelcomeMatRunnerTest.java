@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
         format = {
                 "json:target/cucumber-welcomematregressionfeatures.json",
                 "pretty",
-                "html:target/cucumber-welcomematregressionfeatures"
+                "html:target/cucumber/welcomematregressionfeatures"
         }
 )
 
