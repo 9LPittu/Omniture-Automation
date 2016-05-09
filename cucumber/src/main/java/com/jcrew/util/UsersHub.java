@@ -92,9 +92,9 @@ public class UsersHub {
 	}
 	
 	public void releaseUserCredentials() throws SQLException, ClassNotFoundException{
-		String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where username='" + stateHolder.get("sidecarusername") + "' and Environment='"  + environment + "'";
+		String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where username='" + stateHolder.get("sidecarusername").toString() + "' and Environment='"  + environment + "'";
 		executeSQLQuery(updateAllocationFlagSQLQuery);
-		logger.info("User '{}' is released in DB for '{}' environment" , stateHolder.get("sidecarusername"), environment);
+		logger.info("User '{}' is released in DB for '{}' environment" , stateHolder.get("sidecarusername").toString(), environment);
 		closeDBConnection();
 	}
 	
