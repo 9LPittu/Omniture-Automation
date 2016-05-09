@@ -234,19 +234,32 @@ public class LoginPage {
 
     public void enterEmailAddressOnSignInPage(String emailAddress) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailAddressField));
-        if (emailAddress.equalsIgnoreCase("any")) {
-            PropertyReader reader = PropertyReader.getPropertyReader();
+        if (emailAddress.equalsIgnoreCase("any")) {        	
+    		PropertyReader reader = PropertyReader.getPropertyReader();
             emailAddress = reader.getProperty("checkout.signed.in.username");
         }
         emailAddressField.sendKeys(emailAddress);
     }
 
     public void enterPasswordOnSignInPage(String password) {
-        if (password.equalsIgnoreCase("corresponding")) {
-            PropertyReader reader = PropertyReader.getPropertyReader();
+        if (password.equalsIgnoreCase("corresponding")) {        	
+    		PropertyReader reader = PropertyReader.getPropertyReader();
             password = reader.getProperty("checkout.signed.in.password");
         }
         passwordField.sendKeys(password);
+    }
+    
+    public void enterLoginInformationOnSignInPage(){
+    	String emailAddress = null;
+    	String password = null;
+    	
+    	if(stateHolder.hasProperty("sidecarusername")){
+    		emailAddress = (String) stateHolder.get("sidecarusername");
+    		password = (String) stateHolder.get("sidecaruserpassword");
+    	}
+    	
+    	emailAddressField.sendKeys(emailAddress);
+    	passwordField.sendKeys(password);
     }
 
     public void click_signInAndCheckOut() {
