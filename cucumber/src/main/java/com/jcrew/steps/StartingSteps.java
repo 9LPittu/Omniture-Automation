@@ -223,7 +223,7 @@ public class StartingSteps {
         }
         
         PropertyReader reader = PropertyReader.getPropertyReader();        
-        if(!reader.getProperty("environment").equalsIgnoreCase("ci")){
+        if(!reader.getProperty("environment").equalsIgnoreCase("ci") && stateHolder.hasProperty("sidecarusername")){
         	UsersHub userHub = new UsersHub();
         	userHub.releaseUserCredentials();
         }
