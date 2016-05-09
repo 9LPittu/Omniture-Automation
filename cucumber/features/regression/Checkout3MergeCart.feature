@@ -4,6 +4,16 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
   Background:    
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
+    
+    And User clicks on hamburger menu
+    And Goes to sign in page
+    And enter any email address on sign in page
+    And enter corresponding password
+    And User bag is cleared
+    And User clicks on hamburger menu
+    When User clicks on My Account link
+    And User clicks on SIGN OUT link in My Account Page
+    
     And Goes to sign in page
     And User provides login information
     And Hits sign in button
