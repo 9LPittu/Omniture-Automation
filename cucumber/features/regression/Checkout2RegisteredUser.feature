@@ -47,8 +47,7 @@ Feature: Registered User Checkout Process
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
-    And enter any email address on sign in page
-    And enter corresponding password
+    And User provides login information
     And click on SIGN IN & CHECK OUT button
     And page url should contain /checkout2/signin.jsp
     And items count should be 2 on the review page
@@ -75,8 +74,7 @@ Feature: Registered User Checkout Process
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
-    And enter any email address on sign in page
-    And enter corresponding password
+    And User provides login information
     And click on SIGN IN & CHECK OUT button
     And page url should contain /checkout2/signin.jsp
     And click on 'CHANGE' button of 'BILLING DETAILS' section on 'Review' page
