@@ -2,7 +2,9 @@ package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
+import com.jcrew.util.CurrencyChecker;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.apache.commons.lang3.StringUtils;
@@ -74,8 +76,26 @@ public class ProductDetailPage {
     @FindBy(className = "message--body")
     private WebElement messageBody;
 
-    @FindBy(css=".btn--link.btn--checkout.btn--primary")
+    @FindBy(css = ".btn--link.btn--checkout.btn--primary")
     private WebElement minicartCheckout;
+
+    @FindBy(xpath = "//div[@class='product__us-sizes']")
+    private WebElement sizeMessage;
+
+    @FindBy(xpath = "//div[@class='c-product_pdpMessage']/div")
+    private WebElement pdpMessage;
+
+    @FindBy(xpath = "//div[@class='c-product__sold-out']")
+    private WebElement soldOutMessage;
+
+    @FindBy(xpath = "//div[@id='c-product__vps']")
+    private WebElement vpsMessage;
+
+    @FindBy(xpath = "//div[@id='c-product__no-intl-shipping']")
+    private WebElement shippingRestrictionMessage;
+
+    @FindBy(className = "c-product__colors")
+    private WebElement c_product_colors;
 
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
@@ -84,7 +104,7 @@ public class ProductDetailPage {
 
     public boolean isProductDetailPage() {
         Country country = (Country) stateHolder.get("context");
-        logger.info("country context is  : {}",country.getCountryName());
+        logger.info("country context is  : {}", country.getCountryName());
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
         boolean isURL = Util.countryContextURLCompliance(driver, country);
@@ -93,38 +113,38 @@ public class ProductDetailPage {
     }
 
 
-	public boolean isProductNamePriceListMatchesWithArrayPage(){
+    public boolean isProductNamePriceListMatchesWithArrayPage() {
 
         String pdpProductNameString = getProductNameFromPDP();
         String pdpProductPriceString = getProductPriceList();
 
-		@SuppressWarnings("unchecked")
-		List<Product> productList = (List<Product>) stateHolder.get("productList");
+        @SuppressWarnings("unchecked")
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
 
         logger.debug("Looking for: {} - {}", pdpProductNameString, pdpProductPriceString);
 
-        for(Product product:productList){
+        for (Product product : productList) {
             String productName = product.getProductName();
             productName = cleanProductName(productName);
 
             String productPrice = product.getPriceList();
             logger.debug("Found: {} - {}", productName, productPrice);
-            if(productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)){
+            if (productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)) {
                 return true;
             }
         }
 
-		return false;
+        return false;
     }
 
     private String cleanProductName(String productName) {
         productName = productName.toLowerCase();
 
-        if(productName.startsWith("the ")) {
+        if (productName.startsWith("the ")) {
             productName = productName.replaceFirst("the ", "");
-        } else if(productName.startsWith("a ")) {
+        } else if (productName.startsWith("a ")) {
             productName = productName.replaceFirst("a ", "");
-        } else if(productName.startsWith("pre-order ")) {
+        } else if (productName.startsWith("pre-order ")) {
             productName = productName.replaceFirst("pre-order ", "");
         }
 
@@ -329,6 +349,7 @@ public class ProductDetailPage {
                 ExpectedConditions.visibilityOf(productOverview));
         return productOverview.findElements(By.tagName("h1")).get(0).getText();
     }
+
     public String getProductImageSourceFromPDP() {
         Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(productImage));
@@ -342,8 +363,8 @@ public class ProductDetailPage {
             productListPrice = productDetails.findElement(By.className("product__price--list")).getText();
         } else {
             List<WebElement> prices = productDetails.findElements(By.className("product__price--list"));
-            for (WebElement price:prices) {
-                if(price.isDisplayed()) {
+            for (WebElement price : prices) {
+                if (price.isDisplayed()) {
                     return price.getText();
                 }
             }
@@ -446,89 +467,89 @@ public class ProductDetailPage {
     public boolean isWishlistConfirmationMessageDisplayed() {
         return productActionsSection.findElement(By.className("content-button-secondary-confirmation")).isDisplayed();
     }
-    
-    public void clickMinicartCheckout(){
+
+    public void clickMinicartCheckout() {
         String currentURL = driver.getCurrentUrl();
 
         try {
             minicartCheckout.click();
-        } catch (NoSuchElementException noMiniCart){
+        } catch (NoSuchElementException noMiniCart) {
             logger.debug("Minicart not found, so going through bag button");
             bagContainer.click();
         }
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURL)));
     }
-    
-    public boolean isPreviouslySelectedColorStillDisplayedAsSelected(){
 
-    	String currentSelectedColor = getSelectedColor().toLowerCase();
-    	logger.debug("Current selected color in application: {}", currentSelectedColor);
+    public boolean isPreviouslySelectedColorStillDisplayedAsSelected() {
 
-    	Product product = (Product) stateHolder.get("recentlyAdded");
+        String currentSelectedColor = getSelectedColor().toLowerCase();
+        logger.debug("Current selected color in application: {}", currentSelectedColor);
+
+        Product product = (Product) stateHolder.get("recentlyAdded");
         String expectedColorName;
 
-        if(product == null) {
+        if (product == null) {
             product = (Product) stateHolder.get("wishlist");
         }
 
         expectedColorName = product.getSelectedColor();
 
-    	logger.debug("Expected color to be in selection: {}", expectedColorName);
+        logger.debug("Expected color to be in selection: {}", expectedColorName);
 
-    	return expectedColorName.equalsIgnoreCase(currentSelectedColor);
+        return expectedColorName.equalsIgnoreCase(currentSelectedColor);
     }
 
-    public boolean isPreviouslySelectedSizeStillDisplayedAsSelected(){
+    public boolean isPreviouslySelectedSizeStillDisplayedAsSelected() {
 
-    	String currentSelectedSize = getSelectedSize().toLowerCase();
-    	logger.debug("Current selected size in application: {}", currentSelectedSize);
+        String currentSelectedSize = getSelectedSize().toLowerCase();
+        logger.debug("Current selected size in application: {}", currentSelectedSize);
 
         Product product = (Product) stateHolder.get("recentlyAdded");
-    	String expectedSizeName;
+        String expectedSizeName;
 
-        if(product == null) {
+        if (product == null) {
             product = (Product) stateHolder.get("wishlist");
         }
 
         expectedSizeName = product.getSelectedSize();
 
-    	logger.debug("Expected size to be in selection: {}", expectedSizeName);
+        logger.debug("Expected size to be in selection: {}", expectedSizeName);
 
-    	return expectedSizeName.equalsIgnoreCase(currentSelectedSize);
+        return expectedSizeName.equalsIgnoreCase(currentSelectedSize);
     }
 
-	public void selectNewColor(){
+    public void selectNewColor() {
 
-    	List<WebElement> itemColors = driver.findElements(By.xpath("//li[contains(@class,'js-product__color colors-list__item') and not(contains(@class,'is-selected'))]"));
-    	int randomIndex = Util.randomIndex(itemColors.size());
-    	itemColors.get(randomIndex).findElement(By.tagName("img")).click();
-		String newSelectedColor = driver.findElement(By.className("product__value")).getText().toLowerCase();
+        List<WebElement> itemColors = driver.findElements(By.xpath("//li[contains(@class,'js-product__color colors-list__item') and not(contains(@class,'is-selected'))]"));
+        int randomIndex = Util.randomIndex(itemColors.size());
+        itemColors.get(randomIndex).findElement(By.tagName("img")).click();
+        String newSelectedColor = driver.findElement(By.className("product__value")).getText().toLowerCase();
 
-    	logger.debug("Selected new item color: {}", newSelectedColor);
-    	@SuppressWarnings("unchecked")
-		List<Product> productList = (List<Product>) stateHolder.get("productList");
-    	Product product = productList.get(0);
-    	product.setSelectedColor(newSelectedColor);
+        logger.debug("Selected new item color: {}", newSelectedColor);
+        @SuppressWarnings("unchecked")
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
+        Product product = productList.get(0);
+        product.setSelectedColor(newSelectedColor);
 
         productList.add(product);
         stateHolder.put("productList", productList);
     }
 
-    public void selectNewSize(){
+    public void selectNewSize() {
 
-    	List<WebElement> itemSizes = driver.findElements(
+        List<WebElement> itemSizes = driver.findElements(
                 By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and " +
                         "not(contains(@class,'is-selected')) and not(contains(@class,'is-unavailable'))]"));
-    	int randomIndex = Util.randomIndex(itemSizes.size());
-    	itemSizes.get(randomIndex).findElement(By.tagName("span")).click();
-		String newSelectedSize = itemSizes.get(randomIndex).getAttribute("data-name").toLowerCase();
-    	
-    	logger.debug("Selected new item size: {}", newSelectedSize);
-    	@SuppressWarnings("unchecked")
-		List<Product> productList = (List<Product>) stateHolder.get("productList");
-    	Product product = productList.get(0);
-    	product.setSelectedSize(newSelectedSize);
+        int randomIndex = Util.randomIndex(itemSizes.size());
+        itemSizes.get(randomIndex).findElement(By.tagName("span")).click();
+        String newSelectedSize = itemSizes.get(randomIndex).getAttribute("data-name").toLowerCase();
+
+        logger.debug("Selected new item size: {}", newSelectedSize);
+        @SuppressWarnings("unchecked")
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
+        Product product = productList.get(0);
+        product.setSelectedSize(newSelectedSize);
 
         productList.add(product);
         stateHolder.put("productList", productList);
@@ -536,13 +557,12 @@ public class ProductDetailPage {
 
     public boolean isproductVariantSectionPresent() {
 
-    	try{
-    		List<WebElement> variants = productDetailsVariantsSection.findElements(By.className("product-details-variants"));
-    	    return true;
-    	}
-    	catch(Exception e){
-    		return false;
-    	}
+        try {
+            List<WebElement> variants = productDetailsVariantsSection.findElements(By.className("product-details-variants"));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean isVariantRadioButtonisSelected(String variant) {
@@ -555,55 +575,178 @@ public class ProductDetailPage {
                 result = true;
                 logger.debug("Regular Variation is selected");
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             result = false;
         }
         return result;
-   }
+    }
 
-    public void validate_extended_size_on_pdp_page_is_displayed(){
-		if (isproductVariantSectionPresent()){
+    public void validate_extended_size_on_pdp_page_is_displayed() {
+        if (isproductVariantSectionPresent()) {
             String variant = "Regular";
-			if(isVariantRadioButtonisSelected(variant)){
-				logger.info("Variant section is present and default Regular variant is selected on PDP page ");
-			}
-			else{
-				  logger.error("Variant section is present but Default Regular variant is not selected on PDP page");
-			}
-		}
-		else{
-		  	  logger.info("Variants are not present on PDP page");
-		}
-
-	}
-    
-    public boolean isCorrectCurrencySymbolonPDP() {
-        boolean result = true;       
-        Country c = (Country) stateHolder.get("context");
-        String strCurrency = c.getCurrency();
-        
-        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
-        	
-        if(productpricess.isEmpty()) {
-            logger.debug("Item Price  count not found for product details page");
-            result = true;
+            if (isVariantRadioButtonisSelected(variant)) {
+                logger.info("Variant section is present and default Regular variant is selected on PDP page ");
+            } else {
+                logger.error("Variant section is present but Default Regular variant is not selected on PDP page");
+            }
         } else {
-        	for (WebElement price : productpricess) 
-        		if(!price.getText().isEmpty()) {
-        			if (!price.getText().contains(strCurrency)) {
-        				result = false;
-        				break;
-        			}
-        	}
+            logger.info("Variants are not present on PDP page");
         }
-        if(result){
-        	logger.info("Currency symbol is displayed correctly on all on Product details page");
-        	
+
+    }
+
+    public boolean isCorrectCurrencySymbolonPDP() {
+        Country c = (Country) stateHolder.get("context");
+
+        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
+
+        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+
+        if (result) {
+            logger.info("Currency symbol is displayed correctly on all on Product details page");
+
+        } else {
+            logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
         }
-        else{
-        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
+
+        return result;
+    }
+
+    public boolean isSizeMessageDisplayedOnPDP() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(c_product_colors));
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        String expectedSizeMessage = "";
+        String actualSizeMessage = "";
+
+        if (!countryCode.equalsIgnoreCase("us")) {
+            TestDataReader testDataReader = TestDataReader.getTestDataReader();
+            expectedSizeMessage = testDataReader.getData("pdp.size.message");
+            logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
+
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeMessage));
+            actualSizeMessage = sizeMessage.getText().trim();
+            logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
+        } else {
+            logger.info("Size message on PDP will not be displayed for '" + countryCode + "' country");
         }
+
+        return actualSizeMessage.equalsIgnoreCase(expectedSizeMessage);
+    }
+
+    public boolean isMessageDisplayedOnPDP() {
+
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        String expectedPDPMessage = "";
+        String actualPDPMessage = "";
+
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+
+        if (!countryCode.equalsIgnoreCase("us")) {
+            expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
+            logger.info("Expected PDP Message: {}", expectedPDPMessage);
+
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
+            actualPDPMessage = pdpMessage.getText().trim();
+            logger.info("Actual PDP Message: {}", expectedPDPMessage);
+        } else {
+            logger.info("PDP message will not be displayed for '" + countryCode + "' country");
+        }
+
+        return actualPDPMessage.equalsIgnoreCase(expectedPDPMessage);
+    }
+
+    public boolean isSoldOutMessageDisplayed() {
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String message = testDataReader.getData("pdp.soldout.item.message") + " " +
+                testDataReader.getData(countryCode + ".phone");
+
+        logger.info("Expected soldout message: {}", message);
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(soldOutMessage));
+        String actualSoldOutMessage = soldOutMessage.getText().trim();
+        logger.info("Actual soldout message: {}", actualSoldOutMessage);
+
+
+        boolean result = actualSoldOutMessage.equalsIgnoreCase(message);
+
+        if ("jp".equalsIgnoreCase(countryCode)) {
+            message = testDataReader.getData("pdp.soldout.item.message") + " " +
+                    testDataReader.getData(countryCode + ".email");
+
+            result |= actualSoldOutMessage.equalsIgnoreCase(message);
+        }
+
+        return result;
+    }
+
+    public void selectRandomVariantOnPDP() {
+        List<WebElement> productVariations = productVariationSection.findElements(By.className("radio__label"));
+
+        if (productVariations.size() == 0) {
+            throw new WebDriverException("There are no variants to be selected!!!");
+        } else {
+            int randomIndex = Util.randomIndex(productVariations.size());
+            WebElement selectedVariation = productVariations.get(randomIndex);
+            WebElement selectedVariationName = selectedVariation.findElement(By.className("product__variation--name"));
+            logger.debug("Selected variation {}", selectedVariationName.getText());
+            selectedVariation.click();
+        }
+    }
+
+    public boolean isVPSMessageDisplayed() {
+
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        boolean result = false;
+
+        if (countryCode.equalsIgnoreCase("us") || countryCode.equalsIgnoreCase("ca") || countryCode.equalsIgnoreCase("uk")) {
+            TestDataReader testDataReader = TestDataReader.getTestDataReader();
+            String expectedVPSMessage = testDataReader.getData(countryCode + ".pdp.vps.item.message");
+            logger.info("Expected VPS message: {}", expectedVPSMessage);
+
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(vpsMessage));
+            String actualVPSMessage = vpsMessage.getText().trim();
+            logger.info("Actual VPS message: {}", actualVPSMessage);
+
+            result = actualVPSMessage.equalsIgnoreCase(expectedVPSMessage);
+        } else {
+            logger.info("VPS message will not be displayed for " + countryCode + " country");
+            result = true;
+        }
+
+        return result;
+    }
+
+    public boolean isShippingRestrictionMessageDisplayed() {
+
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        boolean result = false;
+
+        if (!countryCode.equalsIgnoreCase("us")) {
+            TestDataReader testDataReader = TestDataReader.getTestDataReader();
+            String expectedShippingRestrictionMessage = testDataReader.getData("pdp.shipping.restriction.message");
+            logger.info("Expected Shipping Restriction message: {}", expectedShippingRestrictionMessage);
+
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingRestrictionMessage));
+            String actualShippingRestrictionMessage = shippingRestrictionMessage.getText().trim();
+            logger.info("Actual Shipping Restriction message: {}", actualShippingRestrictionMessage);
+
+            result = actualShippingRestrictionMessage.equalsIgnoreCase(expectedShippingRestrictionMessage);
+        } else {
+            logger.info("Shipping restriction message will not be displayed for " + countryCode + " country");
+            result = true;
+        }
+
         return result;
     }
 }
