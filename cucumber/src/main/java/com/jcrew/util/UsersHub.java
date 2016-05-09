@@ -62,7 +62,7 @@ public class UsersHub {
 			}
 		}
 			
-		logger.info("# of users for '{}' environment: {}", environment.toLowerCase(),numOfRecords);
+		logger.info("# of users currently available for '{}' environment: {}", environment.toLowerCase(), numOfRecords);
 		
 		return numOfRecords;
 	}
@@ -74,7 +74,7 @@ public class UsersHub {
 			if(rs!=null){
 				while(rs.next()){
 					stateHolder.put("sidecarusername", rs.getString(1));
-					logger.info("Available username:{} for '{}' environment",rs.getString(1),environment);
+					logger.info("Current available username for '{}' environment: {}", environment, rs.getString(1));
 					stateHolder.put("sidecaruserpassword", rs.getString(2));
 					break;
 				}
@@ -94,10 +94,12 @@ public class UsersHub {
 	public void releaseUserCredentials() throws SQLException, ClassNotFoundException{
 		String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where username='" + stateHolder.get("sidecarusername") + "' and Environment='"  + environment + "'";
 		executeSQLQuery(updateAllocationFlagSQLQuery);
+		logger.info("User '{}' is released in DB for '{}' environment" , stateHolder.get("sidecarusername"), environment);
 		closeDBConnection();
 	}
 	
 	private void closeDBConnection(){
 		databaseReader.closeConnection(conn);
+		logger.info("DB connection is closed...");
 	}
 }
