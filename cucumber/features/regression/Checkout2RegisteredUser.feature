@@ -56,6 +56,9 @@ Feature: Registered User Checkout Process
     Then Clicks on place your order
     Then User should be in order confirmation page
     And verify order number is generated
+    And User clicks on hamburger menu
+    When User clicks on My Account link    
+    And User clicks on SIGN OUT link in My Account Page
     And Deletes browser cookies
   
   Scenario: Registered user adding new credit card with existing address
@@ -87,4 +90,7 @@ Feature: Registered User Checkout Process
     Then Clicks on place your order
     Then User should be in order confirmation page
     And verify order number is generated
+    And User clicks on hamburger menu
+    When User clicks on My Account link    
+    And User clicks on SIGN OUT link in My Account Page
     And Deletes browser cookies
