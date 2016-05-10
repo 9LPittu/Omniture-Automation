@@ -22,6 +22,7 @@ public class FooterSteps extends DriverFactory {
     @Then("^Verify country name is displayed in the ship to section of footer$")
     public void verify_country_name_displayed_in_footer(){
         assertTrue("Country name should be displayed in the footer",footer.isCountryNameDisplayedInFooter());
+        assertEquals("Country name should be US","United States",footer.getCountryNameInFooter());
     }
 
     @Then("^Verify change link is displayed in the ship to section of footer$")

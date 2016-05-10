@@ -62,7 +62,11 @@ public class Footer {
     }
 
     public boolean isCountryNameDisplayedInFooter() {
-        return countryNameInFooter.isDisplayed() && countryNameInFooter.getText().equals("United States");
+        return countryNameInFooter.isDisplayed();
+    }
+
+    public String getCountryNameInFooter() {
+        return countryNameInFooter.getText();
     }
 
     public boolean isChangeLinkDisplayedInFooter() {
