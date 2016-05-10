@@ -167,16 +167,7 @@ public class ContextChooser {
     	return driver.getCurrentUrl().matches(expectedURL);
     }
     
-    public void clickStartShoppingButton(){
-    	
-    	String selectedCountry = (String)stateHolder.get("selectedCountry");
-    	
-    	//For US country, page with 'START SHOPPING' button is not displayed
-    	if(!selectedCountry.equalsIgnoreCase("UNITED STATES")){
-    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(startShoppingButton));
-    		startShoppingButton.click();
-    	}
-    }
+
     
     public void selectGroupRandomCountry(String country_group) {
 	
