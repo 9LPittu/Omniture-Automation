@@ -252,14 +252,14 @@ public class ProductDetails {
         Country country = (Country) stateHolder.get("context");
         logger.info("country context is  : {}",country.getName());
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+        wait.until(ExpectedConditions.visibilityOf(productName));
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
     }
     
     public void click_add_to_cart() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
+        wait.until(ExpectedConditions.visibilityOf(addToBag));
 
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductNameFromPDP());
@@ -272,13 +272,13 @@ public class ProductDetails {
     }
     
     public String getProductNameFromPDP() {
-        Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOf(productOverview));
+        wait.until(ExpectedConditions.visibilityOf(productOverview));
+
         return productOverview.findElement(By.tagName("h1")).getText();
     }
     
     public void click_update_cart() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
+        wait.until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
 
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductNameFromPDP());
