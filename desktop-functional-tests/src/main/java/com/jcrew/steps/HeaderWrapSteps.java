@@ -74,7 +74,7 @@ public class HeaderWrapSteps extends DriverFactory {
         header.searchFor(term);
     }
 
-    @And("User enters ([^\"]*) to the search field ")
+    @When("User enters ([^\"]*) to the search field ")
     public void user_enters_search_term(String term) {
         header.searchFor(term);
     }
@@ -84,7 +84,7 @@ public class HeaderWrapSteps extends DriverFactory {
         header.clickBag();
     }
 
-    @And("^User clicks on ([^\"]*) link from top nav$")
+    @When("^User clicks on ([^\"]*) link from top nav$")
     public void click_on_given_link_from_top_nav(String Dept) {
         header.clickDeptLinkFromTopNav(Dept);
     }
