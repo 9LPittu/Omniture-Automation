@@ -48,11 +48,7 @@ public class ContextChooserSteps extends DriverFactory {
     	contextChooser.clickLinkFromFAQSectionOnContextChooserPage(linkName);
     }
     
-    @Given("^User selects country at random from context chooser page$")
-    public void select_random_country_from_context_chooser_page(){
-    	contextChooser.selectRandomCountry();
-    }
-    
+
     @Given("^User selects ([^\"]*) at random from context chooser page$")
     public void select_random_country_from_country_group_on_context_chooser_page(String country_group) {
     	contextChooser.selectGroupRandomCountry(country_group);

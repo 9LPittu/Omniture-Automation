@@ -129,34 +129,8 @@ public class ContextChooser {
     	link.click();
     }
     
-    public void selectRandomCountry()  {
 
-		List<WebElement> regionHeaders = internationalContextChooserPage.findElements(By.tagName("h5"));
-    	int randomIndex = Util.randomIndex(regionHeaders.size());
-    	String regionName = regionHeaders.get(randomIndex).getText();
-    	logger.info("Region name: {}", regionName);
-
-    	WebElement regionHeader = internationalContextChooserPage.findElement(By.xpath("//h5[text()='" + regionName + "']"));
-		regionHeader.click();
-    	
-    	List<WebElement> countries = driver.findElements(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]/ul/li/a/span"));
-    	
-    	String countryName = "";
-    	WebElement country = null;
-    	
-    	//For France, application is navigating to jsp page. So, excluding France country selection
-    	while(countryName.isEmpty() || countryName.equalsIgnoreCase("FRANCE")){
-    		country = countries.get(Util.randomIndex(countries.size()));
-    		countryName = country.getText();
-    	}
-    	
-    	country.click();
-		stateHolder.put("selectedCountry", countryName);
-		logger.info("Selected country: {}", countryName);
-    }
-    
     public boolean isUserOnCountrySpecificHomePage() {
-
 
     	Country country = (Country)stateHolder.get("context");
 
