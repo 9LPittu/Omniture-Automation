@@ -116,14 +116,14 @@ public class MyAccount {
         boolean ifOtherCountries = !(link.equals("GIFT CARD BALANCE") || link.equals("CATALOG PREFERENCES"));
         if (("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry()) || ifOtherCountries) {
             menu = getMenuLink(link);
-            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
+            wait.until(ExpectedConditions.elementToBeClickable(menu));
             Util.clickWithStaleRetry(menu);
         }
     }
 
     private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(main_inside));
+        wait.until(ExpectedConditions.visibilityOf(main_inside));
         Country country = (Country) stateHolder.get("context");
         logger.debug(country.getCountry());
         return main_inside.findElement(By.linkText(link));
@@ -134,7 +134,7 @@ public class MyAccount {
         boolean forOtherCountries = !( page.contains("giftcard")|| page.contains("catalog_preferences"));
 
         if (("ca".equals(c.getCountry()) && !(page.contains("giftcard"))) || "us".equals(c.getCountry()) || forOtherCountries)
-            return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+            return wait.until(ExpectedConditions.urlContains(page));
         else {
             logger.info("expected no "+page+" for "+c.getCountry());
             return true;
