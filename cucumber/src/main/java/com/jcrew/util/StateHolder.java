@@ -47,8 +47,8 @@ public class StateHolder {
         }
     }
     
-    public boolean hasProperty(String propertyName){
+    public boolean hasKey(String keyName){
     	Map<String, Object> threadMap = stateHolderMap.get(Thread.currentThread().getName());
-    	return threadMap.containsKey(propertyName);
+    	return threadMap.containsKey(keyName);
     }
 }

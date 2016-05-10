@@ -141,7 +141,7 @@ public class LoginPage {
         }
         else{
         	
-        	if(!stateHolder.hasProperty("sidecarusername")){
+        	if(!stateHolder.hasKey("sidecarusername")){
         		UsersHub userHub = new UsersHub();
         		userHub.retrieveUserCredentialsFromDBAndStoreInMap();
         	}
@@ -253,7 +253,7 @@ public class LoginPage {
     	String emailAddress = null;
     	String password = null;
     	
-    	if(stateHolder.hasProperty("sidecarusername")){
+    	if(stateHolder.hasKey("sidecarusername")){
     		emailAddress = (String) stateHolder.get("sidecarusername");
     		password = (String) stateHolder.get("sidecaruserpassword");
     	}
