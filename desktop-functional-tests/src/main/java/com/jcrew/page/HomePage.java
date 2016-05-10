@@ -29,13 +29,7 @@ public class HomePage {
     private WebElement pageContent;
     @FindBy (className = "c-email-capture")
     private WebElement emailCapture;
-    
-    @FindBy(className = "header__search__input")
-    private WebElement searchInput;
-    
-    @FindBy(className = "header__search__button--find")
-    private WebElement headerSearchButtonFind;
-    
+
     public HomePage(WebDriver driver){
         this.driver = driver;
         headerWrap = new HeaderWrap(driver);
