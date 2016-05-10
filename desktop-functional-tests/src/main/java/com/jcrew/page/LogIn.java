@@ -308,9 +308,8 @@ public class LogIn extends DriverFactory {
         WebElement forgotPasswordLink = signInForm.findElement(By.linkText("I forgot my password!"));
         wait.until(ExpectedConditions.elementToBeClickable(forgotPasswordLink));
 
-        String url = driver.getCurrentUrl();
         forgotPasswordLink.click();
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+
     }
 
 }
