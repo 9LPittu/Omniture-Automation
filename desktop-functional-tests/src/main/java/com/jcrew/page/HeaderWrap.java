@@ -51,6 +51,8 @@ public class HeaderWrap {
     private WebElement global_nav;
     @FindBy(id = "js-header__logo")
     private WebElement header_logo;
+    @FindBy(className = "header__department-nav")
+    private WebElement top_nav;
 
     private WebElement dropdown;
 
@@ -195,7 +197,7 @@ public class HeaderWrap {
 
     public void clickDeptLinkFromTopNav(String dept) {
         String url = driver.getCurrentUrl();
-        driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '"+dept+"']")).click();
+        top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '"+dept+"']")).click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
 
     }
