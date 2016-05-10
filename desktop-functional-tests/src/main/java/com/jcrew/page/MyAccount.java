@@ -112,7 +112,10 @@ public class MyAccount {
         WebElement menu;
 
         Country c = (Country) stateHolder.get("context");
-
+        // to validate the my account page left nav links
+        //US: Gift card balance, Catalog Preferences,My Details, Email Preferences, Payment Methods, Address Book, Order History, Wish list & Sign Out
+        //CANADA: All the above except Gift card balance will be there
+        //All the other countries: Gift card Balance and Catalog Preferences will not be present
         boolean ifOtherCountries = !(link.equals("GIFT CARD BALANCE") || link.equals("CATALOG PREFERENCES"));
         if (("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry()) || ifOtherCountries) {
             menu = getMenuLink(link);
@@ -131,6 +134,13 @@ public class MyAccount {
 
     public boolean isInMenuLinkPage(String page) {
         Country c = (Country)stateHolder.get("context");
+
+        // to validate the my account page left nav links
+        //US: Gift card balance, Catalog Preferences,My Details, Email Preferences, Payment Methods, Address Book, Order History, Wish list & Sign Out
+        //CANADA: All the above except Gift card balance will be present
+        //All the other countries: Gift card Balance and Catalog Preferences will not be present. everything else will be there
+
+
         boolean forOtherCountries = !( page.contains("giftcard")|| page.contains("catalog_preferences"));
 
         if (("ca".equals(c.getCountry()) && !(page.contains("giftcard"))) || "us".equals(c.getCountry()) || forOtherCountries)
