@@ -68,7 +68,7 @@ public class SearchArray {
     public boolean isSearchPage() {
         Country country = (Country) stateHolder.get("context");
         Util.waitWithStaleRetry(driver, headerSearch);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchResults));
+        wait.until(ExpectedConditions.visibilityOf(searchResults));
 
         return headerSearch.isDisplayed() && searchResults.isDisplayed() && Util.countryContextURLCompliance(driver,country);
     }
