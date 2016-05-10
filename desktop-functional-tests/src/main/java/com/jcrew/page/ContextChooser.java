@@ -131,15 +131,12 @@ public class ContextChooser {
     
     public void selectRandomCountry()  {
 
-		WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));
-    	List<WebElement> regionHeaders = contextChooser.findElements(By.tagName("h5"));   	
+		List<WebElement> regionHeaders = internationalContextChooserPage.findElements(By.tagName("h5"));
     	int randomIndex = Util.randomIndex(regionHeaders.size());
     	String regionName = regionHeaders.get(randomIndex).getText();
     	logger.info("Region name: {}", regionName);
 
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
-		driver.findElement(By.id("page__international")).click();
-    	WebElement regionHeader = contextChooser.findElement(By.xpath("//h5[text()='" + regionName + "']"));
+    	WebElement regionHeader = internationalContextChooserPage.findElement(By.xpath("//h5[text()='" + regionName + "']"));
 		regionHeader.click();
     	
     	List<WebElement> countries = driver.findElements(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]/ul/li/a/span"));
@@ -160,16 +157,14 @@ public class ContextChooser {
     
     public boolean isUserOnCountrySpecificHomePage() {
 
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("url");
-    	
+
     	Country country = (Country)stateHolder.get("context");
 
 		String expectedURL = country.getHomeurl();
 
-		Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
-    	Util.waitLoadingBar(driver);
-		logger.debug("expected url at this point should be "+driver.getCurrentUrl()+"  our expected url calculation {}", expectedURL);
+//		Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
+//    	Util.waitLoadingBar(driver);
+		logger.debug("expected url at this point should be "+expectedURL+"current url is "+driver.getCurrentUrl());
     	return driver.getCurrentUrl().matches(expectedURL);
     }
     
