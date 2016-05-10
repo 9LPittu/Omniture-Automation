@@ -82,7 +82,7 @@ public class Footer {
 
         Country c = (Country) stateHolder.get("context");
         String expectedCountryName = c.getName();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));
+        wait.until(ExpectedConditions.visibilityOf(countryNameInFooter));
         String actualCountryName = countryNameInFooter.getText();
 
         logger.info("Expected country to be selected: {}", expectedCountryName);
