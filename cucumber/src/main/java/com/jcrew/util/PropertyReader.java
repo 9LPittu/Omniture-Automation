@@ -35,8 +35,6 @@ public class PropertyReader {
         properties.load(inputFile);
         inputFile = new FileInputStream("viewport.properties");
         properties.load(inputFile);
-        inputFile = new FileInputStream("user.properties");
-        properties.load(inputFile);
         inputFile = new FileInputStream("countries.properties");
         properties.load(inputFile);
 
@@ -57,11 +55,7 @@ public class PropertyReader {
         	String strBrowser = properties.getProperty(execViewport + ".browser");
         	properties.setProperty("browser", strBrowser);  
         }
-        
-        String strUserName = properties.getProperty("user.1.email");
-        String strPassword = properties.getProperty("user.1.password");
-        properties.setProperty("checkout.signed.in.username", strUserName);
-        properties.setProperty("checkout.signed.in.password", strPassword);        
+             
     }
 
     public boolean isSystemPropertyTrue(String key) {
