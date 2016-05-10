@@ -13,6 +13,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,33 +25,34 @@ public class ContextChooser {
     private final WebDriver driver;    
     private final Logger logger = LoggerFactory.getLogger(ContextChooser.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
+	private final WebDriverWait wait;
     
 
     @FindBy(xpath="//a[contains(@class,'js-start-shopping-button')]")
     private WebElement startShoppingButton;
+	@FindBy(id="page__international")
+	private WebElement internationalContextChooserPage;
 
     public ContextChooser(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
+		wait = Util.createWebDriverWait(driver);
+		wait.until(ExpectedConditions.visibilityOf(internationalContextChooserPage));
     }
     
     public boolean isInternationalContextChooserPageDisplayed() {
-    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
-        return internationalContextChooser.isDisplayed();
+		return internationalContextChooserPage.isDisplayed();
     }
 
     public boolean isRegionDisplayed(String region) {
 
-    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
-    	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + region + "']"));    	
+		WebElement regionHeader = internationalContextChooserPage.findElement(By.xpath("//h5[text()='" + region + "']"));
     	return regionHeader.isDisplayed();
     }
     
 
     public boolean isCountriesDisplayedCorrectlyUnderRegion(String region){
     	
-    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
-
 		String propertyName = null;
     	switch(region){
 	    	case "UNITED STATES & CANADA":
