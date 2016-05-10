@@ -57,17 +57,5 @@ public class ShippingMethod {
         continueLink.click();
     }
     
-    public boolean isShippingMethodPage() {
-        Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodContainer));
-        return true;
-    }
-    
-    public boolean isEconomyUps() {
-        return economyUps.isSelected();
-    }
-    
-    public void click_continue_button() {
-        Util.clickWithStaleRetry(continueButton);
-    }
+
 }
