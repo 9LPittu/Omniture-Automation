@@ -27,15 +27,6 @@ public class ShippingMethod {
 
     @FindBy(id = "frmSelectShippingMethod")
     private WebElement selectShippingMethod;
-    
-    @FindBy(className = "shippingmethod-container")
-    private WebElement shippingMethodContainer;
-    
-    @FindBy(id = "method0")
-    private WebElement economyUps;
-    
-    @FindBy(className = "button-submit")
-    private WebElement continueButton;
 
     public ShippingMethod(WebDriver driver) {
         this.driver = driver;
