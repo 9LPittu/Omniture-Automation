@@ -304,13 +304,13 @@ public class LogIn extends DriverFactory {
     }
 
     public void click_forgot_password_link() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(signInForm));
+        wait.until(ExpectedConditions.visibilityOf(signInForm));
         WebElement forgotPasswordLink = signInForm.findElement(By.linkText("I forgot my password!"));
-        Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(forgotPasswordLink));
+        wait.until(ExpectedConditions.elementToBeClickable(forgotPasswordLink));
+
         String url = driver.getCurrentUrl();
         forgotPasswordLink.click();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
 
 }
