@@ -1,5 +1,5 @@
 @WelcomeMat
-Feature: International: Welcome Mat for ROW
+Feature: Welcome Mat for ROW
 
 #US15294_TC01,US15294_TC03,US15294_TC04,US15294_TC05
   Scenario Outline: Welcome mat display validation for international pages
