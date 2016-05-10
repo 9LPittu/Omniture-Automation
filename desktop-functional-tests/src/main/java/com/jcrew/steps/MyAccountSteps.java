@@ -55,7 +55,7 @@ public class MyAccountSteps extends DriverFactory {
         myAccount.click_menu_link(link);
     }
 
-    @And("^User should be in ([^\"]*) menu link page$")
+    @Then("^User should be in ([^\"]*) menu link page$")
     public void User_should_be_in_page(String page) throws Throwable {
         assertTrue("User should have been in menu link " + page,
                 myAccount.isInMenuLinkPage(page));
