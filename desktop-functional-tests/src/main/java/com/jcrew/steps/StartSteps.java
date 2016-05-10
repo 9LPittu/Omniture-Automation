@@ -5,6 +5,7 @@ import com.jcrew.utils.*;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -131,15 +132,4 @@ public class StartSteps {
         driver.get(envUrl);
     }
     
-    @And("user should see country code in the url for international countries")
-    public void user_should_see_country_code_in_url_for_international_countries(){
-
-
-        Country c = (Country)stateHolder.get("context");
-    	String env = reader.getProperty("url");
-
-
-    	assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
-    			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(c.getHomeurl())));
-    }
 }

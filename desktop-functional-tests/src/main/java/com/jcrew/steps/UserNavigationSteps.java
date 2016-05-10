@@ -138,7 +138,7 @@ public class UserNavigationSteps extends DriverFactory {
         getDriver().navigate().back();
     }
 
-    @And("User should see country code in the url for international countries")
+    @Then("User should see country code in the url for international countries")
     public void user_should_see_country_code_in_url_for_international_countries(){
     	
         Country country = (Country)stateHolder.get("context");
