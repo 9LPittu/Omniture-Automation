@@ -78,17 +78,5 @@ public class HomePage {
         return urlCompliance & footerCompliance;
     }
     
-    public void input_search_term(String searchTerm) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
-        searchInput.clear();
-        searchInput.sendKeys(searchTerm);
-    }
-    
-    public void click_on_search_button_for_input_field() {
-        String url = driver.getCurrentUrl();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerSearchButtonFind));
-        headerSearchButtonFind.click();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
-        Util.waitLoadingBar(driver);
-    }
+
 }
