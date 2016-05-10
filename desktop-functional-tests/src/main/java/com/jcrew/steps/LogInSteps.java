@@ -86,7 +86,7 @@ public class LogInSteps extends DriverFactory {
         logIn.fillField(field, User.getSomePassword(lessThan));
     }
 
-    @And("^User selects country from ([^\"]*) group$")
+    @When("^User selects country from ([^\"]*) group$")
     public void user_selects_country_from_country_group(String country_group) {
         logIn.fillField("country", country_group);
     }
@@ -111,7 +111,7 @@ public class LogInSteps extends DriverFactory {
         logIn.setSelectedCountryByValue(value);
     }
 
-    @And("^Clicks on forgot password link$")
+    @When("^Clicks on forgot password link$")
     public void clicks_on_forgot_password_link() throws Throwable {
         logIn.click_forgot_password_link();
     }
