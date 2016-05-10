@@ -115,18 +115,17 @@ public class ContextChooser {
     }
     
     public void clickLinkFromTermsSectionOnContextChooserPage(String linkName){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
-		WebElement link = driver.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));
+		WebElement link = internationalContextChooserPage.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));
     	link.click();
     }
     
     public void clickButtonFromFAQSectionOnContextChooserPage(String buttonName){
-    	WebElement button = driver.findElement(By.xpath("//section[@class='r-international__faq']/a[" + Util.xpathGetTextLower + "='" + buttonName.toLowerCase() +"']"));
+    	WebElement button = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/a[" + Util.xpathGetTextLower + "='" + buttonName.toLowerCase() +"']"));
     	button.click();
     }
     
     public void clickLinkFromFAQSectionOnContextChooserPage(String linkName){
-    	WebElement link = driver.findElement(By.xpath("//section[@class='r-international__faq']/article/section/p/a[text()='borderfree.com']"));
+    	WebElement link = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/article/section/p/a[text()='borderfree.com']"));
     	link.click();
     }
     
