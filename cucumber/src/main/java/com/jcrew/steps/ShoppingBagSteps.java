@@ -178,23 +178,9 @@ public class ShoppingBagSteps extends DriverFactory {
     }
     
     @And("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
-    public void verify_currency_on_checkout_pages_section(String sectionName){
-    	
-    	sectionName = sectionName.toLowerCase();
-    	
-    	switch(sectionName){
-	    	case "item":
-	    		assertTrue("Currency on product details page",shoppingBagPage.isCorrectCurrencySymbolShoppingBagItemSection());
-	    		break;
-	    	case "summary":
-	    		assertTrue("Currency on product details page",shoppingBagPage.isCorrectCurrencySymbolShoppingBagSummarySection());
-	    		break;
-	    	case "shipping method":
-	    		assertTrue("Currency on product details page",shoppingBagPage.isCorrectCurrencySymbolonShoppingBagMethodPrices());
-	    		break;
-	    	case "shipping":
-	    		assertTrue("Currency on product details page",shoppingBagPage.isCorrectCurrencySymbolonShoppingBagShippingPrices());
-	    		break;
-    	}
+    public void verify_currency_on_checkout_pages_section(String sectionName) {
+
+        assertTrue("Currency on product details page", shoppingBagPage.isCorrectCurrencySymbol(sectionName.toLowerCase()));
+
     }
 }

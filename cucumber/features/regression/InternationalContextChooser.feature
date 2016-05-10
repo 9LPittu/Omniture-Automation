@@ -2,7 +2,7 @@
 Feature: International Country Context
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
 
 
@@ -65,36 +65,28 @@ Feature: International Country Context
     And user should see selected country in the footer
     When User clicks on MY DETAILS link in My Account Page
     Then User should be in account_detail.jsp menu link page
-    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on EMAIL PREFERENCES link in My Account Page
     Then User should be in email_preferences.jsp menu link page
-    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on CATALOG PREFERENCES link in My Account Page
     Then User should be in catalog_preferences.jsp menu link page
-    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on PAYMENT METHODS link in My Account Page
     Then User should be in payment_info.jsp menu link page
-    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on GIFT CARD BALANCE link in My Account Page
     Then User should be in checkout/giftcard_balance1.jsp menu link page
-    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on ADDRESS BOOK link in My Account Page
     Then User should be in address_book.jsp menu link page
-    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on ORDER HISTORY link in My Account Page
     Then User should be in reg_user_order_history.jsp menu link page
-    And user should see country code in the url for international countries
     And user should see selected country in the footer
     When User clicks on WISHLIST link in My Account Page
     Then User should be in /wishlist menu link page
     And user should see selected country in the footer
-    And user should see country code in the url for international countries
 
     Examples:
       |country_group |
@@ -112,7 +104,6 @@ Feature: International Country Context
     And Clicks on forgot password link
     And Verify user is in forgot password page
     And user should see selected country in the footer
-    And user should see country code in the url for international countries
 
     Examples:
       |country_group |
@@ -167,7 +158,6 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    And user should see country code in the url for international countries
     And Clicks edit button on item bag page
 	And User is in product detail page
     Then Update Bag button is pressed
