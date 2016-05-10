@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class CheckOutSteps extends DriverFactory {
 
-    @And("User is in shopping bag page$")
+    @Then("User is in shopping bag page$")
     public void verify_user_is_in_bag_page() {
         ShoppingBag shoppingBag = new ShoppingBag(getDriver());
         assertTrue("User should be in shopping bag page", shoppingBag.isShoppingBagPage());

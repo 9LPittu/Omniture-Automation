@@ -240,7 +240,7 @@ public class ProductDetails {
     public boolean verifyContext() {
         Country country = (Country) stateHolder.get("context");
         String currency = country.getCurrency();
-
+         // when adding the currency validation, uncomment this line
         //boolean result = verifyCurrency(currency);
         boolean result = true;
         result &= Util.countryContextURLCompliance(driver, country);
@@ -276,7 +276,7 @@ public class ProductDetails {
 
         return productOverview.findElement(By.tagName("h1")).getText();
     }
-    
+
     public void click_update_cart() {
         wait.until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
 

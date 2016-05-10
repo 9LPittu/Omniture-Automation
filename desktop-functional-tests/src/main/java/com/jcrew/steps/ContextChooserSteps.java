@@ -14,19 +14,19 @@ public class ContextChooserSteps extends DriverFactory {
 
     private final ContextChooser contextChooser = new ContextChooser(getDriver());
 
-    @And("^User is on context chooser page$")
+    @Then("^User is on context chooser page$")
     public void verify_context_chooser_page_is_displayed() {
         assertTrue("User should be in international context chooser page", contextChooser.isInternationalContextChooserPageDisplayed());
     }
 
-    @And("^([^\"]*) region is displayed")
+    @Then("^([^\"]*) region is displayed")
     public void verify_region_is_displayed(String region) {
         assertTrue("Region section should be displayed",contextChooser.isRegionDisplayed(region));
     }
     
 
     
-    @And("^Verify countries displayed correctly under each region$")
+    @Then("^Verify countries displayed correctly under each region$")
     public void verify_countries_displayed_under_regions(List<String> regions){
     	for(String region:regions){
     		assertTrue("User should see correct countries displayed under region '" + region + "", contextChooser.isCountriesDisplayedCorrectlyUnderRegion(region.toUpperCase()));
