@@ -51,7 +51,7 @@ public class ShoppingBag {
         Country country = (Country) stateHolder.get("context");
         logger.info("country context is  : {}",country.getName());
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(articleCheckout));
+        wait.until(ExpectedConditions.visibilityOf(articleCheckout));
         return  articleCheckout.isDisplayed();
     }
 
