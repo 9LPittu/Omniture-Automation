@@ -67,8 +67,7 @@ public class OrderReview {
 	public void user_places_its_order() {
         Util.waitForPageFullyLoaded(driver);
         if(!isProduction) {
-            Util.createWebDriverWait(driver).
-                    until(ExpectedConditions.elementToBeClickable(placeYourOrder));
+            wait.until(ExpectedConditions.elementToBeClickable(placeYourOrder));
 
             placeYourOrder.click();
         }
