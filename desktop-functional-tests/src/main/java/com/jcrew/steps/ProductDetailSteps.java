@@ -47,7 +47,7 @@ public class ProductDetailSteps extends DriverFactory {
         		productDetails.isProductDetailPage());
     }
     
-    @And("^Add to cart button is pressed$")
+    @Then("^Add to cart button is pressed$")
     public void add_to_cart_button_is_pressed() throws Throwable {
     	productDetails.click_add_to_cart();
     }
