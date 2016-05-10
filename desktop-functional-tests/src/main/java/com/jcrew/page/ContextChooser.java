@@ -161,10 +161,9 @@ public class ContextChooser {
     	Country country = (Country)stateHolder.get("context");
 
 		String expectedURL = country.getHomeurl();
+		wait.until(ExpectedConditions.urlMatches(expectedURL));
 
-//		Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
-//    	Util.waitLoadingBar(driver);
-		logger.debug("expected url at this point should be "+expectedURL+"current url is "+driver.getCurrentUrl());
+		logger.debug("expected url at this point should be "+expectedURL+" current url is "+driver.getCurrentUrl());
     	return driver.getCurrentUrl().matches(expectedURL);
     }
     
