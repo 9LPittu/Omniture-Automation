@@ -190,24 +190,3 @@
       |PRICEBOOK|
       |NON-PRICEBOOK|
       
-   	#multipdp, shoppable tray
-    # shoppable tray page for desktop is not ready.Not running the below
-#  Scenario Outline: international context validation for shoppable tray page
-#    Then Click on change link from footer
-#    And User is on context chooser page
-#    And User is on internal /r/context-chooser page
-#    Given User selects <country_group> at random from context chooser page
-#    Then User should land on country specific home page
-#    And User should see selected country in the footer
-#    And User opens menu
-#    And User selects random tray from available categories
-#      |Women|THIS MONTH'S FEATURES|looks we love |
-#      |Men  |THIS MONTH'S FEATURES|1 Suit, 5 Ways|
-#      |Girls|THIS MONTH'S FEATURES|Looks We Love |
-#      |Boys |THIS MONTH'S FEATURES|Looks We Love |
-#    And User should see country code in the url for international countries
-#
-#    Examples:
-#    |country_group|
-#    |PRICEBOOK|
-#    |NON-PRICEBOOK|
