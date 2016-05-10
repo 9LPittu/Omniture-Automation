@@ -384,4 +384,9 @@ public class SubcategoryPageSteps extends DriverFactory {
     public void verify_currency_on_product_gridlist(){
     	assertTrue("Currency on product gridlist",subcategoryPage.isCorrectCurrencySymbolonProductGridList());
     }
+    
+    @And("^user selects first product from search results$")
+    public void user_selects_first_product_from_search_results(){
+    	subcategoryPage.selectFirstProductFromSearchResults();
+    }
 }

@@ -45,9 +45,22 @@ public class TestDataReader {
 		return value;
 	}
 
-
-
-	private boolean hasProperty(String key) {
+	public boolean hasProperty(String key) {
 		return testDataProperties.containsKey(key);
+	}
+
+	public String getCountry(String countryGroup) {
+		if(countryGroup.equalsIgnoreCase("PRICEBOOK")) {
+			countryGroup = "pricebookCountries";
+		} else if (countryGroup.equalsIgnoreCase("NON-PRICEBOOK")) {
+			countryGroup = "nonPricebookCountries";
+		}
+
+		String pricebookCountries = getData(countryGroup);
+		String pricebookCountriesArray[] = pricebookCountries.split(";");
+
+		int countryindex = Util.randomIndex(pricebookCountriesArray.length);
+
+		return pricebookCountriesArray[countryindex].toLowerCase();
 	}
 }

@@ -78,6 +78,11 @@ public class MultiplePdpSteps extends DriverFactory{
         multiplePDP.addAllProductsTo("cart");
     }
 
+    @And("^Add random product to cart$")
+    public void addRandomProductToCart(){
+        multiplePDP.addRandomProductsTo("cart");
+    }
+
     @Then("^Verify all products are in cart$")
     public void verifyAllProductsAreInCart() {
         assertTrue("Number of products in bag matches products in tray", shoppingBag.isBagItemsCountMatches(multiplePDP.getNumProducts()));
