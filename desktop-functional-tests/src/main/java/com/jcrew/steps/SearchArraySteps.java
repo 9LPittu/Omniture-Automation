@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class SearchArraySteps extends DriverFactory {
     
 	SearchArray productsArray = new SearchArray(getDriver());
-    private final SearchArray searchPage = new SearchArray(getDriver());
+
 
     @When("User selects random product from search array")
     public void user_selects_random_product(){
@@ -24,7 +24,7 @@ public class SearchArraySteps extends DriverFactory {
     @Given("User is in search results page")
     public void user_is_in_search_results_page() {
 
-        assertTrue("User should be in search page", searchPage.isSearchPage());
+        assertTrue("User should be in search page", productsArray.isSearchPage());
         
 
     }
