@@ -153,7 +153,7 @@
 
     Examples:
       |country_group|
-     # |PRICEBOOK|
+      |PRICEBOOK|
      |NON-PRICEBOOK|
       
    Scenario Outline: context validation on sale landing page from Hamburger menu
