@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class UsersHub {
 	
-	private static final UsersHub usersHub = new UsersHub();
+	private static UsersHub usersHub = null;
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(UsersHub.class);
 	private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();	
@@ -21,6 +21,10 @@ public class UsersHub {
     String environment = propertyReader.getProperty("environment").toLowerCase();
     
     public static UsersHub getUsersHubInstance(){
+    	
+    	if(usersHub == null){
+    		usersHub = new UsersHub();
+    	}
     	return usersHub;
     }
 
