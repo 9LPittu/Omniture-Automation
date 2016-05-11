@@ -2,9 +2,9 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ContextChooser;
 import com.jcrew.utils.DriverFactory;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import java.util.List;
 
@@ -33,23 +33,23 @@ public class ContextChooserSteps extends DriverFactory {
     	}
     }
     
-    @And("^Click on \"([^\"]*)\" link from terms section on the context chooser page$")
+    @When("^Click on \"([^\"]*)\" link from terms section on the context chooser page$")
     public void click_link_from_terms_section_on_context_chooser_page(String linkName){
     	contextChooser.clickLinkFromTermsSectionOnContextChooserPage(linkName);
     }
     
-    @And("^Click on \"([^\"]*)\" button from FAQ section on the context chooser page$")
+    @When("^Click on \"([^\"]*)\" button from FAQ section on the context chooser page$")
     public void click_button_from_faq_section_on_context_chooser_page(String buttonName){
     	contextChooser.clickButtonFromFAQSectionOnContextChooserPage(buttonName);
     }
     
-    @And("^Click on \"([^\"]*)\" link from FAQ section on the context chooser page$")
+    @When("^Click on \"([^\"]*)\" link from FAQ section on the context chooser page$")
     public void click_link_from_faq_section_on_context_chooser_page(String linkName){
     	contextChooser.clickLinkFromFAQSectionOnContextChooserPage(linkName);
     }
     
 
-    @Given("^User selects ([^\"]*) at random from context chooser page$")
+    @When("^User selects ([^\"]*) at random from context chooser page$")
     public void select_random_country_from_country_group_on_context_chooser_page(String country_group) {
     	contextChooser.selectGroupRandomCountry(country_group);
     }
