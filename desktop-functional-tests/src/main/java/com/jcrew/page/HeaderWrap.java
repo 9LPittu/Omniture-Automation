@@ -203,17 +203,4 @@ public class HeaderWrap {
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
 
     }
-
-
-    public boolean isFactoryLinkDisplayedInHeader(){
-    	
-    	WebElement globalPromo = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@id='global__promo']"))));
-    	
-    	boolean isFactoryLinkDisplayed = globalPromo.getText().contains("Looking for Factory?");
-   		if(isFactoryLinkDisplayed){
-   			isFactoryLinkDisplayed = lookingForFactoryLinkInHeader.isDisplayed();
-   		}
-    	
-    	return isFactoryLinkDisplayed;
-    }
 }

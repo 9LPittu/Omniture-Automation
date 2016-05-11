@@ -89,14 +89,4 @@ public class HeaderWrapSteps extends DriverFactory {
     public void click_on_given_link_from_top_nav(String Dept) {
         header.clickDeptLinkFromTopNav(Dept);
     }
-    
-    @And("^factory link ([^\"]*) displayed in the header$")
-    public void verify_factory_link_existence(String expression){
-    	if(expression.equalsIgnoreCase("should be")){
-    		assertTrue("Looking for Factory? link should be displayed in the header",header.isFactoryLinkDisplayedInHeader());
-    	}
-    	else{
-    		assertFalse("Looking for Factory? link should NOT be displayed in the header", header.isFactoryLinkDisplayedInHeader());
-    	}
-    }
 }
