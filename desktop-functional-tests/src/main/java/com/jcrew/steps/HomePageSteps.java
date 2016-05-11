@@ -2,8 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.HomePage;
 import com.jcrew.utils.DriverFactory;
-
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
