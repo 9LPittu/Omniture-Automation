@@ -57,10 +57,10 @@ public class ProductDetails {
     private WebElement soldoutMessage;
     @FindBy(id = "page__p")
     private WebElement page__p;
-    
+
     @FindBy(className = "product__name")
     private WebElement productName;
-    
+
     @FindBy(id = "btn__add-to-bag")
     private WebElement addToBag;
 
@@ -221,7 +221,7 @@ public class ProductDetails {
         while (result & allPricesIterator.hasNext()) {
             WebElement priceElement = allPricesIterator.next();
 
-            if(priceElement.isDisplayed()) {
+            if (priceElement.isDisplayed()) {
                 String price = priceElement.getText();
 
                 result = CurrencyChecker.anyPriceType(currency, price);
@@ -240,24 +240,24 @@ public class ProductDetails {
     public boolean verifyContext() {
         Country country = (Country) stateHolder.get("context");
         String currency = country.getCurrency();
-         // when adding the currency validation, uncomment this line
+        // when adding the currency validation, uncomment this line
         //boolean result = verifyCurrency(currency);
         boolean result = true;
         result &= Util.countryContextURLCompliance(driver, country);
 
         return result;
     }
-    
+
     public boolean isProductDetailPage() {
         Country country = (Country) stateHolder.get("context");
-        logger.info("country context is  : {}",country.getName());
+        logger.info("country context is  : {}", country.getName());
         Util.waitForPageFullyLoaded(driver);
         wait.until(ExpectedConditions.visibilityOf(productName));
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
     }
-    
+
     public void click_add_to_cart() {
         wait.until(ExpectedConditions.visibilityOf(addToBag));
 
@@ -270,7 +270,7 @@ public class ProductDetails {
 
         addToBag.click();
     }
-    
+
     public String getProductNameFromPDP() {
         wait.until(ExpectedConditions.visibilityOf(productOverview));
 

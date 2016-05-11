@@ -27,7 +27,7 @@ public class OrderReview {
     private WebElement slidertrack;
     @FindBy(id = "billing-details")
     private WebElement billing_details;
-    
+
     @FindBy(xpath = ".//*[@id='orderSummaryContainer']/div/a")
     private WebElement placeYourOrder;
 
@@ -38,18 +38,18 @@ public class OrderReview {
         PageFactory.initElements(driver, this);
 
         wait.until(ExpectedConditions.visibilityOf(slidertrack));
-        
+
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
-		if(propertyReader.getProperty("url").contains("www.jcrew.com")){
-			isProduction = true;
-		}
+        if (propertyReader.getProperty("url").contains("www.jcrew.com")) {
+            isProduction = true;
+        }
     }
 
     public void placeOrder() {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String env = propertyReader.getProperty("environment");
 
-        if(!"production".equals(env)) {
+        if (!"production".equals(env)) {
             WebElement place_my_order = slidertrack.findElement(By.className("button-submit-bg"));
 
             place_my_order.click();
@@ -63,10 +63,10 @@ public class OrderReview {
         WebElement securityCode = billing_details.findElement(By.id("securityCode"));
         securityCode.sendKeys(testDataReader.getData("card.cvv"));
     }
-    
-	public void user_places_its_order() {
+
+    public void user_places_its_order() {
         Util.waitForPageFullyLoaded(driver);
-        if(!isProduction) {
+        if (!isProduction) {
             wait.until(ExpectedConditions.elementToBeClickable(placeYourOrder));
 
             placeYourOrder.click();
