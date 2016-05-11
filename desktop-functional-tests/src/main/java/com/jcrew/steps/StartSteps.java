@@ -3,7 +3,6 @@ package com.jcrew.steps;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.*;
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.By;

@@ -133,7 +133,7 @@ public class UserNavigationSteps extends DriverFactory {
         assertTrue("User is not in an expected page in a different tab " + page, navigation.isCurrentUrl(page));
     }
 
-    @Then("^User presses browser back button$")
+    @When("^User presses browser back button$")
     public void user_presses_back_button() throws Throwable {
         getDriver().navigate().back();
     }

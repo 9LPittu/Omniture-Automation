@@ -4,6 +4,7 @@ import com.jcrew.page.SearchArray;
 import com.jcrew.utils.DriverFactory;
 
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.*;
@@ -21,7 +22,7 @@ public class SearchArraySteps extends DriverFactory {
         productsArray.selectRandomProduct();
     }
     
-    @Given("User is in search results page")
+    @Then("User is in search results page")
     public void user_is_in_search_results_page() {
 
         assertTrue("User should be in search page", productsArray.isSearchPage());
