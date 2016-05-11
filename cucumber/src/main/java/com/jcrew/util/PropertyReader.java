@@ -29,14 +29,11 @@ public class PropertyReader {
     private void loadProperties() throws IOException {
         String execEnvironment = System.getProperty("environment", "ci");
         String execViewport = System.getProperty("viewport", "phantomjs");
-        String execUser = System.getProperty("user", "user.1");
         String country = System.getProperty("country", "us");
 
         FileInputStream inputFile = new FileInputStream("environment.properties");
         properties.load(inputFile);
         inputFile = new FileInputStream("viewport.properties");
-        properties.load(inputFile);
-        inputFile = new FileInputStream("user.properties");
         properties.load(inputFile);
         inputFile = new FileInputStream("countries.properties");
         properties.load(inputFile);
@@ -58,12 +55,7 @@ public class PropertyReader {
         	String strBrowser = properties.getProperty(execViewport + ".browser");
         	properties.setProperty("browser", strBrowser);  
         }
-        
-        logger.info("UserID to be used {}", execUser);
-        String strUserName = properties.getProperty(execUser+".email");
-        String strPassword = properties.getProperty(execUser+".password");
-        properties.setProperty("checkout.signed.in.username", strUserName);
-        properties.setProperty("checkout.signed.in.password", strPassword);        
+             
     }
 
     public boolean isSystemPropertyTrue(String key) {
