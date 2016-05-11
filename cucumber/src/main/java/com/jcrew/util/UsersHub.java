@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class UsersHub {
 	
-	private static UsersHub usersHub = null;
+	private static UsersHub usersHub;
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(UsersHub.class);
 	private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();	
@@ -19,6 +19,10 @@ public class UsersHub {
 	private static final PropertyReader propertyReader = PropertyReader.getPropertyReader();
     Connection conn;    
     String environment = propertyReader.getProperty("environment").toLowerCase();
+    
+    private UsersHub(){
+    	
+    }
     
     public static UsersHub getUsersHubInstance(){
     	
@@ -110,6 +114,7 @@ public class UsersHub {
 	
 	private void closeDBConnection(){
 		databaseReader.closeConnection(conn);
+		conn=null;
 		logger.info("DB connection is closed...");
 	}
 }
