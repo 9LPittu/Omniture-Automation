@@ -190,7 +190,7 @@ public class StartingSteps {
     }
 
     @After
-    public void quitDriver(Scenario scenario) throws IOException, ClassNotFoundException, SQLException {
+    public void quitDriver(Scenario scenario) {
 
         if (driver != null && (scenario.isFailed() || scenario.getName().contains(TAKE_SCREENSHOT))) {
             logger.debug("Taking screenshot of scenario {}", scenario.getName());
@@ -208,11 +208,16 @@ public class StartingSteps {
             driverFactory.destroyDriver();
         }
         
-        PropertyReader reader = PropertyReader.getPropertyReader();        
-        if(!reader.getProperty("environment").equalsIgnoreCase("ci") && stateHolder.hasKey("sidecarusername")){
-        	UsersHub userHub = new UsersHub();
-        	userHub.releaseUserCredentials();
-        }
+    	PropertyReader reader = PropertyReader.getPropertyReader();        
+    	if(!reader.getProperty("environment").equalsIgnoreCase("ci") && stateHolder.hasKey("sidecarusername")){
+    		try{
+    			UsersHub userHub = UsersHub.getUsersHubInstance();
+    			userHub.releaseUserCredentials();
+    		}
+    		catch(Exception e){
+            	logger.error("Failed to release user '{}' in DB!!!", (String) stateHolder.get("sidecarusername"));
+            }
+    	}
         
         stateHolder.clear();
     }

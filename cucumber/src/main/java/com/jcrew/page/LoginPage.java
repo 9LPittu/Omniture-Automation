@@ -129,7 +129,7 @@ public class LoginPage {
         return emailInvalidMsg.getText();
     }
 
-    public void enter_valid_username_and_password() throws ClassNotFoundException, SQLException {
+    public void enter_valid_username_and_password() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         PropertyReader reader = PropertyReader.getPropertyReader();
         
@@ -140,13 +140,19 @@ public class LoginPage {
         	password = reader.getProperty("checkout.signed.in.password");
         }
         else{
-        	
-        	if(!stateHolder.hasKey("sidecarusername")){
-        		UsersHub userHub = new UsersHub();
-        		userHub.retrieveUserCredentialsFromDBAndStoreInMap();
+        	try{
+        		if(!stateHolder.hasKey("sidecarusername")){
+            		UsersHub userHub = UsersHub.getUsersHubInstance();
+            		userHub.retrieveUserCredentialsFromDBAndStoreInMap();
+            		
+            		username = (String) stateHolder.get("sidecarusername");
+                	password = (String) stateHolder.get("sidecaruserpassword");
+            	}
         	}
-        	username = (String) stateHolder.get("sidecarusername");
-        	password = (String) stateHolder.get("sidecaruserpassword");
+        	catch(Exception e){
+        		username = reader.getProperty("checkout.signed.in.username");
+            	password = reader.getProperty("checkout.signed.in.password");
+        	}
         }
         
         input_as_email(username);

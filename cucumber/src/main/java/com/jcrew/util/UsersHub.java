@@ -11,13 +11,18 @@ import org.slf4j.LoggerFactory;
 
 public class UsersHub {
 	
+	private static final UsersHub usersHub = new UsersHub();
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(UsersHub.class);
 	private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();	
 	private final DatabaseReader databaseReader = new DatabaseReader(); 
 	private static final PropertyReader propertyReader = PropertyReader.getPropertyReader();
     Connection conn;    
-    String environment = propertyReader.getProperty("environment").toLowerCase(); 
+    String environment = propertyReader.getProperty("environment").toLowerCase();
+    
+    public static UsersHub getUsersHubInstance(){
+    	return usersHub;
+    }
 
 	private Connection getDBConnection() throws SQLException, ClassNotFoundException{
 		if(conn==null){
@@ -84,8 +89,8 @@ public class UsersHub {
 			executeSQLQuery(updateAllocationFlagSQLQuery);
 		}
 		else{
-			logger.error("No username records are available for '" + environment + "' environment");
-			throw new SQLException("No username records are available for '" + environment + "' environment");
+			logger.error("No username records are available in DB for '" + environment + "' environment");
+			throw new SQLException("No username records are available in DB for '" + environment + "' environment");
 		}
 		
 		closeDBConnection();
