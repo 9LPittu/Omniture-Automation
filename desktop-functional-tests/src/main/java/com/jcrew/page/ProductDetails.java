@@ -4,11 +4,13 @@ import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -39,12 +41,16 @@ public class ProductDetails {
 
     @FindBy(id = "c-product__price-colors")
     private WebElement price_colors;
+    @FindBy(className = "c-product__colors")
+    private WebElement c_product_colors;
     @FindBy(id = "c-product__sizes")
     private WebElement sizes;
     @FindBy(id = "c-product__price")
     private WebElement price;
     @FindBy(id = "c-product__variations")
     private WebElement variations;
+    @FindBy(xpath = "//div[@id='c-product__vps']")
+    private WebElement vpsMessage;
     @FindBy(id = "c-product__quantity")
     private WebElement product_quantity;
     @FindBy(id = "btn__add-to-bag")
@@ -55,9 +61,14 @@ public class ProductDetails {
     private WebElement reviewSummary;
     @FindBy(id = "c-product__sold-out")
     private WebElement soldoutMessage;
+    @FindBy(xpath = "//div[@class='product__us-sizes']")
+    private WebElement sizeMessage;
+    @FindBy(xpath = "//div[@class='c-product_pdpMessage']/div")
+    private WebElement pdpMessage;
     @FindBy(id = "page__p")
     private WebElement page__p;
-
+    @FindBy(xpath = "//div[@id='c-product__no-intl-shipping']")
+    private WebElement shippingRestrictionMessage;
     @FindBy(className = "product__name")
     private WebElement productName;
 
@@ -289,4 +300,144 @@ public class ProductDetails {
 
         Util.clickWithStaleRetry(addToBag);
     }
+
+    public boolean isSoldOutMessageDisplayed() {
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String message = testDataReader.getData("pdp.soldout.item.message") + " " +
+                testDataReader.getData(countryCode + ".phone");
+
+        logger.info("Expected soldout message: {}", message);
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(soldoutMessage));
+        String actualSoldOutMessage = soldoutMessage.getText().trim();
+        logger.info("Actual soldout message: {}", actualSoldOutMessage);
+
+
+        boolean result = actualSoldOutMessage.equalsIgnoreCase(message);
+
+        if ("jp".equalsIgnoreCase(countryCode)) {
+            message = testDataReader.getData("pdp.soldout.item.message") + " " +
+                    testDataReader.getData(countryCode + ".email");
+
+            result |= actualSoldOutMessage.equalsIgnoreCase(message);
+        }
+
+        return result;
+
+    }
+
+    public boolean isSizeMessageDisplayedOnPDP() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(c_product_colors));
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        String expectedSizeMessage = "";
+        String actualSizeMessage = "";
+
+        if (!countryCode.equalsIgnoreCase("us")) {
+            TestDataReader testDataReader = TestDataReader.getTestDataReader();
+            expectedSizeMessage = testDataReader.getData("pdp.size.message");
+            logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
+
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeMessage));
+            actualSizeMessage = sizeMessage.getText().trim();
+            logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
+        } else {
+            logger.info("Size message on PDP will not be displayed for '" + countryCode + "' country");
+        }
+
+        return actualSizeMessage.equalsIgnoreCase(expectedSizeMessage);
+    }
+
+    public boolean isMessageDisplayedOnPDP() {
+
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        String expectedPDPMessage = "";
+        String actualPDPMessage = "";
+
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+
+        if (!countryCode.equalsIgnoreCase("us")) {
+            expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
+            logger.info("Expected PDP Message: {}", expectedPDPMessage);
+
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
+            actualPDPMessage = pdpMessage.getText().trim();
+            logger.info("Actual PDP Message: {}", expectedPDPMessage);
+        } else {
+            logger.info("PDP message will not be displayed for '" + countryCode + "' country");
+        }
+
+        return actualPDPMessage.equalsIgnoreCase(expectedPDPMessage);
+    }
+
+    public void selectRandomVariantOnPDP() {
+        List<WebElement> productVariations = variations.findElements(By.className("radio__label"));
+
+        if (productVariations.size() == 0) {
+            throw new WebDriverException("There are no variants to be selected!!!");
+        } else {
+            int randomIndex = Util.randomIndex(productVariations.size());
+            WebElement selectedVariation = productVariations.get(randomIndex);
+            WebElement selectedVariationName = selectedVariation.findElement(By.className("product__variation--name"));
+            logger.debug("Selected variation {}", selectedVariationName.getText());
+            selectedVariation.click();
+        }
+    }
+
+    public boolean isVPSMessageDisplayed() {
+
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        boolean result = false;
+
+        if (countryCode.equalsIgnoreCase("us") || countryCode.equalsIgnoreCase("ca") || countryCode.equalsIgnoreCase("uk")) {
+            TestDataReader testDataReader = TestDataReader.getTestDataReader();
+            String expectedVPSMessage = testDataReader.getData(countryCode + ".pdp.vps.item.message");
+            logger.info("Expected VPS message: {}", expectedVPSMessage);
+
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(vpsMessage));
+            String actualVPSMessage = vpsMessage.getText().trim();
+            logger.info("Actual VPS message: {}", actualVPSMessage);
+
+            result = actualVPSMessage.equalsIgnoreCase(expectedVPSMessage);
+        } else {
+            logger.info("VPS message will not be displayed for " + countryCode + " country");
+            result = true;
+        }
+
+        return result;
+    }
+
+    public boolean isShippingRestrictionMessageDisplayed() {
+
+        Country c = (Country) stateHolder.get("context");
+        String countryCode = c.getCountry();
+
+        boolean result = false;
+
+        if (!countryCode.equalsIgnoreCase("us")) {
+            TestDataReader testDataReader = TestDataReader.getTestDataReader();
+            String expectedShippingRestrictionMessage = testDataReader.getData("pdp.shipping.restriction.message");
+            logger.info("Expected Shipping Restriction message: {}", expectedShippingRestrictionMessage);
+
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingRestrictionMessage));
+            String actualShippingRestrictionMessage = shippingRestrictionMessage.getText().trim();
+            logger.info("Actual Shipping Restriction message: {}", actualShippingRestrictionMessage);
+
+            result = actualShippingRestrictionMessage.equalsIgnoreCase(expectedShippingRestrictionMessage);
+        } else {
+            logger.info("Shipping restriction message will not be displayed for " + countryCode + " country");
+            result = true;
+        }
+
+        return result;
+    }
+
 }

@@ -33,31 +33,17 @@ Feature: User is able to checkout in international context
     Then Verify welcome mat is displayed
     And Verify country context matches selected country
     When User clicks on Start Shopping
-    #When Enters soldout.item to the search field
-    And User searches for a random search term
-    And User searches for a sold out item
-    And user selects first product from search results
+    And User searches for the soldout.item
     Then User is in product detail page
-    Then user should see PDP page with soldout message which includes phone number
-    And User presses search button
-    When Enters variations.item to the search field
-    And Clicks on search button for input field
-    And user selects first product from search results
-    Then User is in product detail page
+    Then User should see PDP page with soldout message which includes phone number
+    And User searches for the variations.item
     And user should see the PDP messages for the selected country
     And user selects random variant on the PDP page
     Then User is in product detail page
-    And user should see the PDP messages for the selected country
-    And User presses search button
-    When Enters vps.item to the search field
-    And Clicks on search button for input field
-    And user selects first product from search results
+    And User searches for the vps.item
     Then User is in product detail page
     Then user should see PDP page with message for vps item
-    And User presses search button
-    When Enters shipping.restriction.item to the search field
-    And Clicks on search button for input field
-    And user selects first product from search results
+    And User searches for the shipping.restriction.item
     Then User is in product detail page
     Then user should see PDP page with shipping restriction message
 

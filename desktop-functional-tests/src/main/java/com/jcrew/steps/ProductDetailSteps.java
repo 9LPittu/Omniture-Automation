@@ -56,4 +56,30 @@ public class ProductDetailSteps extends DriverFactory {
     public void Update_Bag_button_is_pressed() throws Throwable {
     	productDetails.click_update_cart();
     }
+
+    @Then("^User should see PDP page with soldout message which includes phone number$")
+    public void user_should_see_pdp_page_soldout_message_which_includes_phone_number(){
+        assertTrue("user should see PDP page with soldout message which includes phone number", productDetails.isSoldOutMessageDisplayed());
+    }
+
+    @And("^user should see the PDP messages for the selected country$")
+    public void user_should_see_pdp_messages(){
+        assertTrue("User should see size related messages on the PDP page for the selected country",productDetails.isSizeMessageDisplayedOnPDP());
+        assertTrue("User should see message on the PDP page for the selected country",productDetails.isMessageDisplayedOnPDP());
+    }
+
+    @And("^user selects random variant on the PDP page$")
+    public void user_selects_random_variant_on_PDP_Page(){
+        productDetails.selectRandomVariantOnPDP();
+    }
+
+    @Then("^user should see PDP page with message for vps item$")
+    public void user_should_see_PDP_page_with_vps_item_message(){
+        assertTrue("user should see PDP page with message for vps item",productDetails.isVPSMessageDisplayed());
+    }
+
+    @Then("user should see PDP page with shipping restriction message")
+    public void user_should_see_PDP_page_with_shipping_restriction_message(){
+        assertTrue("user should see PDP page with shipping restriction message",productDetails.isShippingRestrictionMessageDisplayed());
+    }
 }
