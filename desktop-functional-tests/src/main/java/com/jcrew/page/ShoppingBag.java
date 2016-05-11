@@ -4,6 +4,7 @@ import com.jcrew.pojo.Country;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -34,6 +35,8 @@ public class ShoppingBag {
     private WebElement orderListing;
     @FindBy(id = "order-summary")
     private WebElement orderSummary;
+    @FindBy(id = "checkout")
+    private WebElement articleCheckout;
 
     public ShoppingBag(WebDriver driver) {
         this.driver = driver;
@@ -42,6 +45,14 @@ public class ShoppingBag {
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(checkoutButton));
+    }
+
+    public boolean isShoppingBagPage() {
+        Country country = (Country) stateHolder.get("context");
+        logger.info("country context is  : {}",country.getName());
+        Util.waitForPageFullyLoaded(driver);
+        wait.until(ExpectedConditions.visibilityOf(articleCheckout));
+        return  articleCheckout.isDisplayed();
     }
 
     public void clickCheckoutButton() {
@@ -78,7 +89,7 @@ public class ShoppingBag {
 
             result &= CurrencyChecker.listPrice(currency, subtotalText);
         }
-
+        logger.debug("did currency match?", result);
         return result;
     }
 
