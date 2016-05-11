@@ -2,7 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ForgotPassword;
 import com.jcrew.utils.DriverFactory;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
 import static org.junit.Assert.assertTrue;
