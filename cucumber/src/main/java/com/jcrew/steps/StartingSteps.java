@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.util.*;
+
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.SAccountReader;
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -188,7 +190,7 @@ public class StartingSteps {
     }
 
     @After
-    public void quitDriver(Scenario scenario) throws IOException {
+    public void quitDriver(Scenario scenario) {
 
         if (driver != null && (scenario.isFailed() || scenario.getName().contains(TAKE_SCREENSHOT))) {
             logger.debug("Taking screenshot of scenario {}", scenario.getName());
@@ -205,7 +207,18 @@ public class StartingSteps {
         if (driverFactory != null && (boolean)stateHolder.get("deletecookies")) {
             driverFactory.destroyDriver();
         }
-
+        
+    	PropertyReader reader = PropertyReader.getPropertyReader();        
+    	if(!reader.getProperty("environment").equalsIgnoreCase("ci") && stateHolder.hasKey("sidecarusername")){
+    		try{
+    			UsersHub userHub = UsersHub.getUsersHubInstance();
+    			userHub.releaseUserCredentials();
+    		}
+    		catch(Exception e){
+            	logger.error("Failed to release user '{}' in DB!!!", (String) stateHolder.get("sidecarusername"));
+            }
+    	}
+        
         stateHolder.clear();
     }
 

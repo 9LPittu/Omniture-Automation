@@ -107,6 +107,11 @@ public class LoginPageSteps extends DriverFactory {
     	loginPage.enterPasswordOnSignInPage(password);
     }
     
+    @And("^enter login information on sign in page$")
+    public void enter_login_information_on_sign_in_page(){
+    	loginPage.enterLoginInformationOnSignInPage();
+    }
+    
     @And("^click on SIGN IN & CHECK OUT button$")
     public void enter_sign_in_and_check_out_button(){
     	loginPage.click_signInAndCheckOut();
