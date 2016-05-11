@@ -55,6 +55,9 @@ public class HeaderWrap {
     private WebElement top_nav;
 
     private WebElement dropdown;
+    
+    @FindBy(xpath=".//div[@id='c-header__factory-link']/a")
+    private WebElement lookingForFactoryLinkInHeader;
 
     public HeaderWrap(WebDriver driver) {
         this.driver = driver;
@@ -202,4 +205,15 @@ public class HeaderWrap {
     }
 
 
+    public boolean isFactoryLinkDisplayedInHeader(){
+    	
+    	WebElement globalPromo = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@id='global__promo']"))));
+    	
+    	boolean isFactoryLinkDisplayed = globalPromo.getText().contains("Looking for Factory?");
+   		if(isFactoryLinkDisplayed){
+   			isFactoryLinkDisplayed = lookingForFactoryLinkInHeader.isDisplayed();
+   		}
+    	
+    	return isFactoryLinkDisplayed;
+    }
 }
