@@ -91,6 +91,7 @@ public class HeaderWrap {
 
     public void searchFor(String searchTerm) {
         search.click();
+       // search.clear();
         wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
         WebElement searchHeader = global_header.findElement(By.className("js-c-header__search"));
         WebElement searchInput = searchHeader.findElement(By.className("js-header__search__input"));

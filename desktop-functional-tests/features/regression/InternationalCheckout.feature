@@ -37,17 +37,21 @@ Feature: User is able to checkout in international context
     Then User is in product detail page
     Then User should see PDP page with soldout message which includes phone number
     And User searches for the variations.item
+    And User selects random product from array
+    And selec
     And user should see the PDP messages for the selected country
     And user selects random variant on the PDP page
     Then User is in product detail page
-    And User searches for the vps.item
-    Then User is in product detail page
-    Then user should see PDP page with message for vps item
     And User searches for the shipping.restriction.item
     Then User is in product detail page
     Then user should see PDP page with shipping restriction message
+    #currently vps is set up in bronze in canada context. Will run the below when data is available
+#    And User searches for the vps.item
+#    Then User is in product detail page
+#    Then user should see PDP page with message for vps item
 
     Examples:
       | country_group |
       | PRICEBOOK     |
-     # | NON-PRICEBOOK |
+      | NON-PRICEBOOK |
+
