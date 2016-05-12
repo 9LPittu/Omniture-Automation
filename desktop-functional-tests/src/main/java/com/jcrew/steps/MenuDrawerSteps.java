@@ -42,6 +42,12 @@ public class MenuDrawerSteps extends DriverFactory {
         menuDrawer.selectCategory(category);
     }
 
+    @When("User selects ([^\"]*) dept from sales$")
+    public void user_selects_dept_from_sale(String saleDept) {
+        menuDrawer.click_on_sale_subcategory(saleDept);
+    }
+
+
 
 
 }

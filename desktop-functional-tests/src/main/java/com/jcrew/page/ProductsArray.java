@@ -132,5 +132,39 @@ public class ProductsArray {
         return result;
     }
 
+    public boolean isCorrectCurrencySymbolonProductGridList() {
+        Country c = (Country) stateHolder.get("context");
+
+        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"));
+
+        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+
+        if(result){
+            logger.info("Currency symbol is displayed correctly on all Item prices on Product grid list");
+
+        }
+        else{
+            logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
+        }
+        return result;
+    }
+
+    public boolean isCorrectCurrencySymbolonPDP() {
+        Country c = (Country) stateHolder.get("context");
+
+        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
+
+        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+
+        if (result) {
+            logger.info("Currency symbol is displayed correctly on all on Product details page");
+
+        } else {
+            logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
+        }
+
+        return result;
+    }
+
 
 }

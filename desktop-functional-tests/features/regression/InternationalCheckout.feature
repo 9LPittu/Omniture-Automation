@@ -12,16 +12,50 @@ Feature: User is able to checkout in international context
     And User closes email capture
     Then Verify user is in international homepage
 
-    When User adds to bag a random product using a main category
-    And User clicks in bag
-    And User clicks check out button
-    And User selects guest check out
-    And Guest user fills shipping address and continue
-    And User selects random shipping method and continue
-    And User fills payment method and continue
-    And User reviews and places order
-    Then User gets an order confirmation number
+    #Category
+    And User navigates to a subcategory from main category
+    Then Verify proper currency symbol is displayed on product grid list
+    And User selects random product from array
+    And User is in product detail page
+    And Verify proper currency symbol is displayed on PDP page
+    And User adds selected product to bag
+    #Sale
+    And User opens menu
+    And User selects sale category from menu
+    And User selects women dept from sales
+    Then Verify proper currency symbol is displayed on product grid list
+    And User selects random product from array
+    And User is in product detail page
+    And Verify proper currency symbol is displayed on PDP page
+    And User adds selected product to bag
+    #Search
+    And User searches for a random search term
+    Then User is in search results page
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   When User adds to bag a random product using a main category
+#    And User clicks in bag
+#    And User clicks check out button
+#    And User selects guest check out
+#    And Guest user fills shipping address and continue
+#    And User selects random shipping method and continue
+#    And User fills payment method and continue
+#    And User reviews and places order
+#    Then User gets an order confirmation number
+#
     Examples:
       | country_group |
       | PRICEBOOK     |
