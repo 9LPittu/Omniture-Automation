@@ -1,10 +1,8 @@
 package com.jcrew.page;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import com.github.javafaker.Faker;
 import com.jcrew.util.PropertyReader;
@@ -69,6 +67,15 @@ public class LoginPage {
 
     @FindBy(id = "register-form__countryFlagImage")
     private WebElement countryChooser;
+    
+	@FindBy(xpath="//div[contains(@class,'register-form__group--password')]/following-sibling::div[contains(@class,'register-form__group--birthDate')]")
+	private WebElement birthDaySectionAfterPasswordField;
+    
+    @FindBy(id="sidecarMonthList")
+    private WebElement monthDropdown;
+    
+    @FindBy(id="sidecarDayList")
+    private WebElement dayDropdown;
 
     Faker faker = new Faker();
 
@@ -356,6 +363,7 @@ public class LoginPage {
         int size = select.getOptions().size();
         int randomIndex = Util.randomIndex(size);
         select.selectByIndex(randomIndex);
+        logger.info("Selected Country: {}", select.getFirstSelectedOption().getText());
     }
 
     public boolean isCorrespondingCountryFlagDisplayed(String countryName) {
@@ -378,9 +386,86 @@ public class LoginPage {
             return false;
         }
     }
-
+    
+    public boolean isBirthdaySectionDisplayedAfterPasswordField(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(birthDaySectionAfterPasswordField));
+    	return birthDaySectionAfterPasswordField.isDisplayed();
+    }
+    
+    public boolean isLabelTextDisplayedInCreateAccountForm(String expectedLabelText){
+    	WebElement registerForm = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("register-form"))));
+    	WebElement labelTextField = registerForm.findElement(By.xpath("//div[@class='signin-form__label message']"));
+    	String actualLabelText = labelTextField.getText().trim();
+    	
+    	return actualLabelText.equalsIgnoreCase(expectedLabelText);
+    }
+    
+    public Select getDropdownObject(String dropdownName){
+    	
+    	Select dropdown = null;
+    	
+    	switch(dropdownName.toLowerCase()){
+    	  case "month":
+    		  dropdown = new Select(monthDropdown);
+    		  break;
+    	  case "day":
+    		  dropdown = new Select(dayDropdown);
+    		  break;
+    	}
+    	
+    	return dropdown;
+    }
+    
+    public boolean isDropdownDisplaysExpectedValue(String dropdownName, String expectedDropdownValue){
+    	
+    	String currentSelectedValue = getDropdownObject(dropdownName).getFirstSelectedOption().getText();    	
+    	return currentSelectedValue.equalsIgnoreCase(expectedDropdownValue);
+    }
+    
+    public boolean isDropdownValuesMatchesCalendarValues(String dropdownName){
+    	
+    	Select dropdown = getDropdownObject(dropdownName);
+    	
+    	List<String> expectedListValues = new ArrayList<String>();
+    	List<String> actualListValues = new ArrayList<String>();
+    	
+    	if(dropdownName.equalsIgnoreCase("month")){
+   		  expectedListValues = Arrays.asList("January","February","March","April","May","June","July","August","September","October","November","December");    		  
+    	}
+    	else{
+   		  expectedListValues = Arrays.asList("01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31");
+    	}
+    	
+		List<WebElement> dropdownElements = dropdown.getOptions();		  
+		for(int i=1;i<dropdownElements.size();i++){
+			actualListValues.add(dropdownElements.get(i).getText());
+		}
+		  
+		return actualListValues.equals(expectedListValues);
+    }
+    
+    public void selectValuefromDropdown(String dropdownName, String dropdownValue){
+    	
+    	Select dropdown = getDropdownObject(dropdownName);
+    	
+    	if(dropdownValue.equalsIgnoreCase("random")){
+    		int randomIndex = 0;
+    		while(randomIndex==0){
+    			randomIndex = Util.randomIndex(dropdown.getOptions().size());
+    		}
+    		
+    		dropdown.selectByIndex(randomIndex);
+    	}
+    	else{
+    		dropdown.selectByVisibleText(dropdownValue);
+    	}
+    }
+    
+    public boolean isCorrectErrorMessageDisplayed(String expectedErrorMessage){
+    	
+    	WebElement birthDateSection = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(birthDaySectionAfterPasswordField));
+    	WebElement errorMessageElement = birthDateSection.findElement(By.xpath("//span[contains(@class,'js-invalid-msg')]"));
+    	
+    	return errorMessageElement.getText().equalsIgnoreCase(expectedErrorMessage);
+    }
 }
-
-
-
-
