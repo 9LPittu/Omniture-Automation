@@ -311,7 +311,7 @@ public class ProductDetails {
 
         logger.info("Expected soldout message: {}", message);
 
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(soldoutMessage));
+        wait.until(ExpectedConditions.visibilityOf(soldoutMessage));
         String actualSoldOutMessage = soldoutMessage.getText().trim();
         logger.info("Actual soldout message: {}", actualSoldOutMessage);
 
@@ -342,7 +342,7 @@ public class ProductDetails {
             expectedSizeMessage = testDataReader.getData("pdp.size.message");
             logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeMessage));
+            wait.until(ExpectedConditions.visibilityOf(sizeMessage));
             actualSizeMessage = sizeMessage.getText().trim();
             logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
         } else {
@@ -352,7 +352,7 @@ public class ProductDetails {
         return actualSizeMessage.equalsIgnoreCase(expectedSizeMessage);
     }
 
-    public boolean isMessageDisplayedOnPDP() {
+    public boolean isPriceMessageDisplayedOnPDP() {
 
         Country c = (Country) stateHolder.get("context");
         String countryCode = c.getCountry();
@@ -366,7 +366,7 @@ public class ProductDetails {
             expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
             logger.info("Expected PDP Message: {}", expectedPDPMessage);
 
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
+            wait.until(ExpectedConditions.visibilityOf(pdpMessage));
             actualPDPMessage = pdpMessage.getText().trim();
             logger.info("Actual PDP Message: {}", expectedPDPMessage);
         } else {
@@ -402,7 +402,7 @@ public class ProductDetails {
             String expectedVPSMessage = testDataReader.getData(countryCode + ".pdp.vps.item.message");
             logger.info("Expected VPS message: {}", expectedVPSMessage);
 
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(vpsMessage));
+            wait.until(ExpectedConditions.visibilityOf(vpsMessage));
             String actualVPSMessage = vpsMessage.getText().trim();
             logger.info("Actual VPS message: {}", actualVPSMessage);
 
@@ -427,7 +427,7 @@ public class ProductDetails {
             String expectedShippingRestrictionMessage = testDataReader.getData("pdp.shipping.restriction.message");
             logger.info("Expected Shipping Restriction message: {}", expectedShippingRestrictionMessage);
 
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingRestrictionMessage));
+            wait.until(ExpectedConditions.visibilityOf(shippingRestrictionMessage));
             String actualShippingRestrictionMessage = shippingRestrictionMessage.getText().trim();
             logger.info("Actual Shipping Restriction message: {}", actualShippingRestrictionMessage);
 

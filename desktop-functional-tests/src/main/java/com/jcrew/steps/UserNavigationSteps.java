@@ -147,5 +147,17 @@ public class UserNavigationSteps extends DriverFactory {
                 Util.countryContextURLCompliance(driver, country));
     }
 
+    @When("^User selects first product from search results$")
+    public void user_selects_first_product_from_search_results(){
+        WebDriver driver = getDriver();
+        String currentUrl = driver.getCurrentUrl();
+
+        if(currentUrl.contains("/r/search/")) {
+            SearchArray productsArray = new SearchArray(getDriver());
+            productsArray.click_first_product_in_grid();
+        }
+    }
+
+
 
 }

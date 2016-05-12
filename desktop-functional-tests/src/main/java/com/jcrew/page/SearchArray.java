@@ -35,10 +35,10 @@ public class SearchArray {
     private final String CUSTOM_MESSAGE = "monetate_custom_index_text";
 
     @FindBy(id = "page__search")
-    private WebElement  pageSearch;
+    private WebElement pageSearch;
     @FindBy(id = "c-search__results")
     private WebElement searchResults;
-    
+
     @FindBy(className = "header__search")
     private WebElement headerSearch;
 
@@ -51,14 +51,11 @@ public class SearchArray {
         wait = Util.createWebDriverWait(driver);
 
         PageFactory.initElements(driver, this);
-        try {
-            wait.until(ExpectedConditions.visibilityOf(pageSearch));
-        }   catch(Exception e) {
-            logger.info("not a search page");
-        }
+        wait.until(ExpectedConditions.visibilityOf(pageSearch));
+
     }
 
-    public void selectRandomProduct(){
+    public void selectRandomProduct() {
         List<WebElement> productTiles = searchResults.findElements(By.className("c-product-tile"));
         logger.info("This search result page has {} products", productTiles.size());
 
@@ -74,15 +71,14 @@ public class SearchArray {
 
         Util.waitLoadingBar(driver);
     }
-    
+
     public boolean isSearchPage() {
         Country country = (Country) stateHolder.get("context");
         Util.waitWithStaleRetry(driver, headerSearch);
         wait.until(ExpectedConditions.visibilityOf(searchResults));
 
-        return headerSearch.isDisplayed() && searchResults.isDisplayed() && Util.countryContextURLCompliance(driver,country);
+        return headerSearch.isDisplayed() && searchResults.isDisplayed() && Util.countryContextURLCompliance(driver, country);
     }
-
 
 
     public void click_first_product_in_grid() {
@@ -104,7 +100,6 @@ public class SearchArray {
         return Util.createWebDriverWait(driver).
                 until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
     }
-
 
 
     private void saveProduct(WebElement productElement) {
@@ -144,15 +139,5 @@ public class SearchArray {
         return price;
     }
 
-    public void selectFirstProductFromSearchResults(){
 
-        String currentURL = driver.getCurrentUrl();
-
-        Country c = (Country) stateHolder.get("context");
-        String searchString = c.getHomeurl()+"r/search/";
-
-        if(currentURL.contains(searchString)){
-            click_first_product_in_grid();
-        }
-    }
 }
