@@ -1,4 +1,4 @@
-package deploymentpending;
+package com.jcrew.runner.deploymentpending;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
