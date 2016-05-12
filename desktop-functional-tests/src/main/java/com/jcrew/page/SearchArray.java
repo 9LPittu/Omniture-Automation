@@ -1,6 +1,8 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.Product;
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
@@ -13,6 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,12 +35,15 @@ public class SearchArray {
     private final String CUSTOM_MESSAGE = "monetate_custom_index_text";
 
     @FindBy(id = "page__search")
-    private WebElement pageSearch;
+    private WebElement  pageSearch;
     @FindBy(id = "c-search__results")
     private WebElement searchResults;
     
     @FindBy(className = "header__search")
     private WebElement headerSearch;
+
+    @FindBy(xpath = "//div[@class='product__grid']")
+    private WebElement productGrid;
 
 
     public SearchArray(WebDriver driver) {
@@ -45,7 +51,11 @@ public class SearchArray {
         wait = Util.createWebDriverWait(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(pageSearch));
+        try {
+            wait.until(ExpectedConditions.visibilityOf(pageSearch));
+        }   catch(Exception e) {
+            logger.info("not a search page");
+        }
     }
 
     public void selectRandomProduct(){
@@ -73,4 +83,76 @@ public class SearchArray {
         return headerSearch.isDisplayed() && searchResults.isDisplayed() && Util.countryContextURLCompliance(driver,country);
     }
 
+
+
+    public void click_first_product_in_grid() {
+        Util.waitForPageFullyLoaded(driver);
+        final WebElement product = getFirstProduct();
+        final WebElement productLink = product.findElement(By.className("product__image--small"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
+        saveProduct(product);
+        productLink.click();
+        Util.waitLoadingBar(driver);
+    }
+
+    private WebElement getFirstProduct() {
+        return getProductTileElements().get(0);
+    }
+
+    private List<WebElement> getProductTileElements() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
+        return Util.createWebDriverWait(driver).
+                until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
+    }
+
+
+
+    private void saveProduct(WebElement productElement) {
+        Product product = new Product();
+        product.setProductName(getProductName(productElement));
+        product.setPriceList(getProductPrice(productElement));
+
+        logger.debug("Selected product is {}", product.getProductName());
+        logger.debug("Selected product price is {}", product.getPriceList());
+
+        @SuppressWarnings("unchecked")
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
+
+        if (productList == null) {
+            productList = new ArrayList<>();
+        }
+
+        productList.add(product);
+        stateHolder.put("productList", productList);
+
+    }
+
+    private String getProductName(WebElement randomProductSelected) {
+        WebElement productName = randomProductSelected.findElement(
+                By.xpath(".//a[contains(@class,'product-tile__details')]/span[contains(@class,'tile__detail--name')]"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+        return productName.getText().trim();
+    }
+
+    private String getProductPrice(WebElement productSelected) {
+        List<WebElement> productPrices = productSelected.findElements(By.className("tile__detail--price--list"));
+        String price = "";
+        if (!productPrices.isEmpty()) {
+            price = productPrices.get(0).getText().trim();
+        }
+
+        return price;
+    }
+
+    public void selectFirstProductFromSearchResults(){
+
+        String currentURL = driver.getCurrentUrl();
+
+        Country c = (Country) stateHolder.get("context");
+        String searchString = c.getHomeurl()+"r/search/";
+
+        if(currentURL.contains(searchString)){
+            click_first_product_in_grid();
+        }
+    }
 }

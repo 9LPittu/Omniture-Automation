@@ -30,4 +30,12 @@ public class SearchArraySteps extends DriverFactory {
 
     }
 
+
+    @When("^User selects first product from search results$")
+    public void user_selects_first_product_from_search_results(){
+        productsArray.selectFirstProductFromSearchResults();
+    }
+
+
+
 }
