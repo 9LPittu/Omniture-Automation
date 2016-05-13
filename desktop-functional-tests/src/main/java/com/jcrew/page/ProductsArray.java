@@ -123,10 +123,8 @@ public class ProductsArray {
     public boolean verifyContext() {
         Country country = (Country) stateHolder.get("context");
         String countryFooter = footer.getCountry();
-        //// when adding the currency validation, uncomment this line
-        // boolean result = verifyCurrency(country.getCurrency());
-        boolean result = true;
-        result &= Util.countryContextURLCompliance(driver, country);
+
+        boolean result = Util.countryContextURLCompliance(driver, country);
         result &= countryFooter.equalsIgnoreCase(country.getName());
 
         return result;

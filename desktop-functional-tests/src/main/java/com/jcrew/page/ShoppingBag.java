@@ -97,8 +97,6 @@ public class ShoppingBag {
         String countryFooter = footer.getCountry();
 
         boolean result = countryFooter.equalsIgnoreCase(country.getName());
-        result &= verifyCurrency();
-
         return result;
     }
 
