@@ -376,15 +376,12 @@ public class ProductDetails {
     public void selectRandomVariantOnPDP() {
         List<WebElement> productVariations = variations.findElements(By.className("radio__label"));
 
-        if (productVariations.size() == 0) {
-            throw new WebDriverException("There are no variants to be selected!!!");
-        } else {
-            int randomIndex = Util.randomIndex(productVariations.size());
-            WebElement selectedVariation = productVariations.get(randomIndex);
-            WebElement selectedVariationName = selectedVariation.findElement(By.className("product__variation--name"));
-            logger.debug("Selected variation {}", selectedVariationName.getText());
-            selectedVariation.click();
-        }
+        int randomIndex = Util.randomIndex(productVariations.size());
+        WebElement selectedVariation = productVariations.get(randomIndex);
+        WebElement selectedVariationName = selectedVariation.findElement(By.className("product__variation--name"));
+        logger.debug("Selected variation {}", selectedVariationName.getText());
+        selectedVariation.click();
+
     }
 
     public boolean isVPSMessageDisplayed() {
