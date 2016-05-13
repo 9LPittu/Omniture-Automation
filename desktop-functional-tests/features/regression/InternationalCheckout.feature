@@ -18,31 +18,31 @@ Feature: User is able to checkout in international context
     And User should see selected country in the footer
     And User should see country code in the url for international countries
     Then Verify proper currency symbol is displayed on product grid list
-    And User selects random product from product array
-    And User is in product detail page
+    When User selects random product from product array
+    Then User is in product detail page
     And User should see selected country in the footer
     And Verify context in the product detail page
     And Verify proper currency symbol is displayed on PDP page
-    And User adds selected product to bag
+    Then User adds selected product to bag
     #Sale
-    And User opens menu
+    When User opens menu
     And User selects sale category from menu
     And User selects women dept from sales
     Then Verify proper currency symbol is displayed on product grid list
-    And User selects random product from array
+    When User selects random product from array
     And User is in product detail page
-    And Verify proper currency symbol is displayed on PDP page
+    Then Verify proper currency symbol is displayed on PDP page
     And User adds selected product to bag
     #Search
     And User searches specific term dresses
     Then User is in search results page
     Then Verify proper currency symbol is displayed on product grid list
-    And User selects random product from array
+    When User selects random product from array
     And User is in product detail page
-    And Verify proper currency symbol is displayed on PDP page
+    Then Verify proper currency symbol is displayed on PDP page
     And User adds selected product to bag
-    And User hovers over bag
-    And Verify proper currency symbol is displayed on minicart
+    When User hovers over bag
+    Then Verify proper currency symbol is displayed on minicart
     And User clicks in bag
 
     And User is in shopping bag page
@@ -92,14 +92,14 @@ Feature: User is able to checkout in international context
     And User searches for the soldout.item
     Then User is in product detail page
     Then Verify sold out message is displayed on PDP
-    And User searches for the shipping.restriction.item
+    When User searches for the shipping.restriction.item
     Then User is in product detail page
-    Then Verify shipping restriction message is displayed on PDP
-    And User searches for the variations.item
+    And Verify shipping restriction message is displayed on PDP
+    When User searches for the variations.item
     And User selects first product from search results
     Then User is in product detail page
     And Verify PDP message is displayed for the selected country
-    And User selects random variant on the PDP page
+    When User selects random variant on the PDP page
     Then User is in product detail page
     And Verify PDP message is displayed for the selected country
 #    currently vps is set up only in bronze in canada context. Will run the below when data is available
