@@ -92,7 +92,7 @@ public class HeaderWrap {
         breadCrumb.click();
     }
 
-    public void searchFor(String searchTerm) {
+    public void searchFor(String searchItem) {
         search.click();
 
         wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
@@ -104,13 +104,13 @@ public class HeaderWrap {
         String env = propertyReader.getProperty("environment");
         TestDataReader testdataReader = TestDataReader.getTestDataReader();
 
-        if(testdataReader.hasProperty(env+ "." + searchTerm)){
-            searchTerm = testdataReader.getData(env + "." + searchTerm);
+        if(testdataReader.hasProperty(env+ "." + searchItem)){
+            searchItem = testdataReader.getData(env + "." + searchItem);
         }
 
-        searchInput.sendKeys(searchTerm);
+        searchInput.sendKeys(searchItem);
         searchButton.click();
-        logger.info("Searching for {}", searchTerm);
+        logger.info("Searching for {}", searchItem);
         Util.waitLoadingBar(driver);
     }
 
