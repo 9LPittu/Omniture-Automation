@@ -14,7 +14,7 @@ Feature: User is able to checkout in international context
 
     #Category
     And User navigates to a subcategory from main category
-    And Verify context in the array page
+    Then Verify context in the array page
     And User should see selected country in the footer
     And User should see country code in the url for international countries
     Then Verify proper currency symbol is displayed on product grid list
