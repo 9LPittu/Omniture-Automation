@@ -85,7 +85,7 @@ public class SearchArray {
         Util.waitForPageFullyLoaded(driver);
         final WebElement product = getFirstProduct();
         final WebElement productLink = product.findElement(By.className("product__image--small"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
+        wait.until(ExpectedConditions.elementToBeClickable(productLink));
         saveProduct(product);
         productLink.click();
         Util.waitLoadingBar(driver);
@@ -96,9 +96,9 @@ public class SearchArray {
     }
 
     private List<WebElement> getProductTileElements() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
-        return Util.createWebDriverWait(driver).
-                until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
+        wait.until(ExpectedConditions.visibilityOf(productGrid));
+        return wait.until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
+
     }
 
 
