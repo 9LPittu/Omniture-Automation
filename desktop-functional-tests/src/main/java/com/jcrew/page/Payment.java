@@ -51,8 +51,8 @@ public class Payment {
     }
 
     public boolean isBillingPage() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        wait.until(ExpectedConditions.visibilityOf(creditCardBilling));
         return creditCardBilling.isDisplayed();
     }
 
