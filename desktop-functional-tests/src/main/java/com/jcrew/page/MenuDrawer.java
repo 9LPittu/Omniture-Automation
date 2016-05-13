@@ -21,13 +21,10 @@ public class MenuDrawer {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(MenuDrawer.class);
     private final WebDriverWait wait;
-    private final StateHolder stateHolder = StateHolder.getInstance();
+
 
     @FindBy(id = "global__nav")
     private WebElement drawer;
-
-    @FindBy(className = "c-sale__c-category-list")
-    private WebElement saleCategoryList;
 
     public MenuDrawer(WebDriver driver) {
         this.driver = driver;
@@ -70,20 +67,6 @@ public class MenuDrawer {
     }
 
 
-    public void click_on_sale_subcategory(String subcategory) {
-        Util.waitLoadingBar(driver);
-        getSubcategoryFromSale(subcategory).click();
-        stateHolder.put("sale category", subcategory);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("search"));
-        Util.waitLoadingBar(driver);
-    }
-
-    private WebElement getSubcategoryFromSale(String subcategory) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleCategoryList));
-        return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
-                Util.xpathGetTextLower + " = " +
-                "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
-    }
 
     public void selectSubCategory(String subCategory) {
         WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
