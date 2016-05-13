@@ -125,7 +125,7 @@ public class MiniBag {
 
         Country c = (Country) stateHolder.get("context");
 
-        List<WebElement>  itemprices = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(minibag.findElements(By.className("minibag-item__body--price"))));
+        List<WebElement>  itemprices = wait.until(ExpectedConditions.visibilityOfAllElements(minibag.findElements(By.className("minibag-item__body--price"))));
 
         boolean result = CurrencyChecker.validatePrices(itemprices, c);
 
