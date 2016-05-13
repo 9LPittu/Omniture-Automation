@@ -33,7 +33,7 @@ Feature: User is able to checkout in international context
     And Verify proper currency symbol is displayed on PDP page
     And User adds selected product to bag
     #Search
-    And User searches dresses term
+    And User searches specific term dresses
     Then User is in search results page
     Then Verify proper currency symbol is displayed on product grid list
     And User selects random product from array
@@ -79,7 +79,7 @@ Feature: User is able to checkout in international context
 
     Examples:
       | country_group |
-      #| PRICEBOOK     |
+      | PRICEBOOK     |
       | NON-PRICEBOOK |
 
 
