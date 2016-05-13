@@ -109,4 +109,10 @@ public class MiniBagSteps extends DriverFactory {
         assertFalse("Mini bag is hidden", miniBag.isMiniBagVisible());
     }
 
+
+    @Then("Verify proper currency symbol is displayed on minicart")
+    public void verify_currency_on_mini_bag() {
+        assertTrue("mini bag currency should be displayed correctly", miniBag.isCorrectCurrencyDisplayedOnMinibag());
+    }
+
 }

@@ -14,9 +14,13 @@ Feature: User is able to checkout in international context
 
     #Category
     And User navigates to a subcategory from main category
+    And Verify context in the array page
+    And User should see selected country in the footer
     Then Verify proper currency symbol is displayed on product grid list
     And User selects random product from product array
     And User is in product detail page
+    And User should see selected country in the footer
+    And Verify context in the product detail page
     And Verify proper currency symbol is displayed on PDP page
     And User adds selected product to bag
     #Sale
@@ -36,6 +40,8 @@ Feature: User is able to checkout in international context
     And User is in product detail page
     And Verify proper currency symbol is displayed on PDP page
     And User adds selected product to bag
+    And User hovers over bag
+    And Verify proper currency symbol is displayed on minicart
     And User clicks in bag
 
     And User is in shopping bag page
@@ -67,35 +73,13 @@ Feature: User is able to checkout in international context
     And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And User reviews and places order
     And Verify user is in order confirmation page
+    And Verify proper currency symbol is displayed on item section on Checkout page
+    And Verify proper currency symbol is displayed on summary section on Checkout page
+    And Verify proper currency symbol is displayed on shipping method section on Checkout page
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  # When User adds to bag a random product using a main category
-#    And User clicks in bag
-#    And User clicks check out button
-#    And User selects guest check out
-#    And Guest user fills shipping address and continue
-#    And User selects random shipping method and continue
-#    And User fills payment method and continue
-#    And User reviews and places order
-#    Then User gets an order confirmation number
-#
     Examples:
       | country_group |
-      | PRICEBOOK     |
+      #| PRICEBOOK     |
       | NON-PRICEBOOK |
 
 
