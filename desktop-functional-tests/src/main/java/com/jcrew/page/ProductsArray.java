@@ -135,7 +135,7 @@ public class ProductsArray {
     public boolean isCorrectCurrencySymbolonProductGridList() {
         Country c = (Country) stateHolder.get("context");
 
-        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"));
+        List<WebElement> productpricess = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"))));
 
         boolean result = CurrencyChecker.validatePrices(productpricess, c);
 
@@ -144,7 +144,7 @@ public class ProductsArray {
 
         }
         else{
-            logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
+            logger.error("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
         }
         return result;
     }
@@ -152,7 +152,8 @@ public class ProductsArray {
     public boolean isCorrectCurrencySymbolonPDP() {
         Country c = (Country) stateHolder.get("context");
 
-        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//section[@id='c-product__details']"))));
+        List<WebElement> productpricess = Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//span[contains(@class,'product__price--')]")));
 
         boolean result = CurrencyChecker.validatePrices(productpricess, c);
 
@@ -160,7 +161,7 @@ public class ProductsArray {
             logger.info("Currency symbol is displayed correctly on all on Product details page");
 
         } else {
-            logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
+            logger.error("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
         }
 
         return result;
