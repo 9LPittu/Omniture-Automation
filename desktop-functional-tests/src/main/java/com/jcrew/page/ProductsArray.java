@@ -135,7 +135,7 @@ public class ProductsArray {
     public boolean isCorrectCurrencySymbolonProductGridList() {
         Country c = (Country) stateHolder.get("context");
 
-        List<WebElement> productpricess = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"))));
+        List<WebElement> productpricess = wait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"))));
 
         boolean result = CurrencyChecker.validatePrices(productpricess, c);
 
@@ -152,8 +152,8 @@ public class ProductsArray {
     public boolean isCorrectCurrencySymbolonPDP() {
         Country c = (Country) stateHolder.get("context");
 
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//section[@id='c-product__details']"))));
-        List<WebElement> productpricess = Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//span[contains(@class,'product__price--')]")));
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//section[@id='c-product__details']"))));
+        List<WebElement> productpricess = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//span[contains(@class,'product__price--')]")));
 
         boolean result = CurrencyChecker.validatePrices(productpricess, c);
 
