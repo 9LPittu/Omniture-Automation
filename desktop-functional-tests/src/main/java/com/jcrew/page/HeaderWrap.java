@@ -57,6 +57,9 @@ public class HeaderWrap {
     private WebElement top_nav;
 
     private WebElement dropdown;
+    
+    @FindBy(xpath=".//div[@id='c-header__factory-link']/a")
+    private WebElement lookingForFactoryLinkInHeader;
 
     public HeaderWrap(WebDriver driver) {
         this.driver = driver;
@@ -224,6 +227,4 @@ public class HeaderWrap {
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
 
     }
-
-
 }
