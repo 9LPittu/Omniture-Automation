@@ -2,7 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.*;
 import com.jcrew.utils.DriverFactory;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -20,7 +19,7 @@ public class CheckOutSteps extends DriverFactory {
         assertTrue("User should be in shopping bag page", shoppingBag.isShoppingBagPage());
     }
 
-    @And("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
+    @Then("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
     public void verify_currency_on_checkout_pages_section(String sectionName) {
 
         assertTrue("Currency on product details page", shoppingBag.isCorrectCurrencySymbol(sectionName.toLowerCase()));
@@ -70,7 +69,7 @@ public class CheckOutSteps extends DriverFactory {
         method.clickContinue();
     }
 
-    @And("^Verify user is in billing page$")
+    @Then("^Verify user is in billing page$")
     public void verify_user_is_in_billing_page() throws Throwable {
         Payment billingPage = new Payment(getDriver());
         assertTrue("User should be in billing page", billingPage.isBillingPage());

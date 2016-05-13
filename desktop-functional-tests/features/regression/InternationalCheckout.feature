@@ -41,8 +41,8 @@ Feature: User is able to checkout in international context
     And User is in product detail page
     And Verify proper currency symbol is displayed on PDP page
     And User adds selected product to bag
-#    And User hovers over bag
-#    And Verify proper currency symbol is displayed on minicart
+    And User hovers over bag
+    And Verify proper currency symbol is displayed on minicart
     And User clicks in bag
 
     And User is in shopping bag page
