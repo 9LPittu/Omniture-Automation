@@ -12,22 +12,28 @@ import static org.junit.Assert.assertTrue;
  * Created by nadiapaolagarcia on 4/8/16.
  */
 public class CheckOutSteps extends DriverFactory {
+    ShoppingBag shoppingBag = new ShoppingBag(getDriver());
 
     @Then("User is in shopping bag page$")
     public void verify_user_is_in_bag_page() {
-        ShoppingBag shoppingBag = new ShoppingBag(getDriver());
+
         assertTrue("User should be in shopping bag page", shoppingBag.isShoppingBagPage());
+    }
+
+    @And("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
+    public void verify_currency_on_checkout_pages_section(String sectionName) {
+
+        assertTrue("Currency on product details page", shoppingBag.isCorrectCurrencySymbol(sectionName.toLowerCase()));
+
     }
 
     @When("User clicks check out button")
     public void user_clicks_check_out_button() {
-        ShoppingBag shoppingBag = new ShoppingBag(getDriver());
         shoppingBag.clickCheckoutButton();
     }
 
     @Then("Verify that shopping bag has expected context")
     public void verify_that_shopping_bag_has_expected_context() {
-        ShoppingBag shoppingBag = new ShoppingBag(getDriver());
         assertTrue("Shopping bag has the expected context", shoppingBag.verifyContext());
     }
 
@@ -50,11 +56,24 @@ public class CheckOutSteps extends DriverFactory {
         shipping.saveShippingAddress();
     }
 
+    @Then("^Verifies is in shipping method page$")
+    public void verifies_is_in_shipping_method_page() throws Throwable {
+        ShippingMethod shippingMethod = new ShippingMethod(getDriver());
+
+        assertTrue("User should be in shipping method page", shippingMethod.isShippingMethodPage());
+    }
+
     @When("User selects random shipping method and continue")
     public void user_selects_random_shipping_method() {
         ShippingMethod method = new ShippingMethod(getDriver());
         method.selectRandomShippingMethod();
         method.clickContinue();
+    }
+
+    @And("^Verify user is in billing page$")
+    public void verify_user_is_in_billing_page() throws Throwable {
+        Payment billingPage = new Payment(getDriver());
+        assertTrue("User should be in billing page", billingPage.isBillingPage());
     }
 
     @When("User fills payment method and continue")
@@ -93,6 +112,18 @@ public class CheckOutSteps extends DriverFactory {
         OrderReview review = new OrderReview(getDriver());
         review.fillSecurityCode();
         review.placeOrder();
+    }
+
+    @Then("Verify user is in review page$")
+    public void verify_user_is_in_review_page() {
+        OrderReview review = new OrderReview(getDriver());
+        assertTrue("User should be in review page",review.isReviewPage() );
+    }
+
+    @Then("Verify user is in order confirmation page")
+    public void verify_user_is_in_order_confirmation_page() {
+        OrderConfirmation confirmation = new OrderConfirmation(getDriver());
+        assertTrue("User should be in order confirmation page", confirmation.isOrderConfirmationPage());
     }
 
 }

@@ -28,12 +28,22 @@ public class ShippingMethod {
     @FindBy(id = "frmSelectShippingMethod")
     private WebElement selectShippingMethod;
 
+    @FindBy(className = "shippingmethod-container")
+    private WebElement shippingMethodContainer;
+
+
     public ShippingMethod(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(selectShippingMethod));
+    }
+
+    public boolean isShippingMethodPage() {
+        Util.waitForPageFullyLoaded(driver);
+        wait.until(ExpectedConditions.visibilityOf(shippingMethodContainer));
+        return true;
     }
 
     public void selectRandomShippingMethod() {

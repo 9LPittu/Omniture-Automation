@@ -102,4 +102,39 @@ public class ShoppingBag {
         return result;
     }
 
+    public boolean isCorrectCurrencySymbol(String type) {
+        Country c = (Country) stateHolder.get("context");
+
+        String xpath = "";
+
+        switch (type) {
+            case "item":
+                xpath = "//div[contains(@class,'item-price') or contains(@class,'item-total')]";
+                break;
+            case "summary":
+                xpath = "//span[contains(@class,'summary-value')]";
+                break;
+            case "shipping method":
+                xpath = "//span[contains(@class,'method-price')]";
+                break;
+            case "shipping":
+                xpath = "//span[contains(@class,'shipping-price')]";
+                break;
+        }
+
+        List<WebElement> productpricess = driver.findElements(By.xpath(xpath));
+
+        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+
+        if(result){
+            logger.info("Currency symbol is displayed correctly on all on Item prices on " + type);
+        }
+        else{
+            logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices on " + type);
+        }
+
+        return result;
+    }
+
 }
+

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class ProductArraySteps extends DriverFactory {
     ProductsArray productsArray = new ProductsArray(getDriver());
 
-    @When("User selects random product from array")
+    @When("User selects random product from product array")
     public void user_selects_random_product(){
         productsArray.selectRandomProduct();
     }

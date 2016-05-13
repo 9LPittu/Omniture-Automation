@@ -27,6 +27,8 @@ public class OrderReview {
     private WebElement slidertrack;
     @FindBy(id = "billing-details")
     private WebElement billing_details;
+    @FindBy(id = "confirmOrder")
+    private WebElement pageMessage;
 
     @FindBy(xpath = ".//*[@id='orderSummaryContainer']/div/a")
     private WebElement placeYourOrder;
@@ -43,6 +45,10 @@ public class OrderReview {
         if (propertyReader.getProperty("url").contains("www.jcrew.com")) {
             isProduction = true;
         }
+    }
+
+    public boolean isReviewPage() {
+        return pageMessage.isDisplayed();
     }
 
     public void placeOrder() {

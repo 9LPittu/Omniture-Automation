@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -36,6 +37,10 @@ public class Payment {
     private WebElement submitButton;
     @FindBy(id = "emailReceipt")
     private WebElement emailReceipt;
+    @FindBy(id = "credit-card-billing")
+    private WebElement creditCardBilling;
+
+
 
     public Payment(WebDriver driver) {
         this.driver = driver;
@@ -44,6 +49,13 @@ public class Payment {
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(paymentPage));
     }
+
+    public boolean isBillingPage() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
+        return creditCardBilling.isDisplayed();
+    }
+
 
     public void fillPayment() {
         TestDataReader testDataReader = TestDataReader.getTestDataReader();

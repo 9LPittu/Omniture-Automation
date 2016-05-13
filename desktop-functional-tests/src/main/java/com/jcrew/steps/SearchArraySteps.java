@@ -16,7 +16,7 @@ public class SearchArraySteps extends DriverFactory {
     SearchArray searchArray = new SearchArray(getDriver());
 
 
-    @When("User selects random product from search array")
+    @When("User selects random product from array")
     public void user_selects_random_product() {
         searchArray.selectRandomProduct();
     }

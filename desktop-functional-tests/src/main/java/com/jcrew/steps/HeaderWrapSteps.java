@@ -70,8 +70,13 @@ public class HeaderWrapSteps extends DriverFactory {
     }
 
     @When("User searches for the ([^\"]*)")
-    public void user_enters_search_term(String term) {
+    public void user_enters_search_item(String term) {
         header.searchFor(term);
+    }
+
+    @When("User searches ([^\"]*) term")
+    public void user_search_for_term(String searchTerm) {
+        header.searchForSpecificTerm(searchTerm);
     }
 
     @When("User clicks in bag")

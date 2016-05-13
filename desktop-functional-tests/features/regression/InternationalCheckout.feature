@@ -15,7 +15,7 @@ Feature: User is able to checkout in international context
     #Category
     And User navigates to a subcategory from main category
     Then Verify proper currency symbol is displayed on product grid list
-    And User selects random product from array
+    And User selects random product from product array
     And User is in product detail page
     And Verify proper currency symbol is displayed on PDP page
     And User adds selected product to bag
@@ -29,8 +29,44 @@ Feature: User is able to checkout in international context
     And Verify proper currency symbol is displayed on PDP page
     And User adds selected product to bag
     #Search
-    And User searches for a random search term
+    And User searches dresses term
     Then User is in search results page
+    Then Verify proper currency symbol is displayed on product grid list
+    And User selects random product from array
+    And User is in product detail page
+    And Verify proper currency symbol is displayed on PDP page
+    And User adds selected product to bag
+    And User clicks in bag
+
+    And User is in shopping bag page
+    And Verify proper currency symbol is displayed on item section on Checkout page
+    And Verify proper currency symbol is displayed on summary section on Checkout page
+    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And User clicks check out button
+    And User selects guest check out
+    And Verify proper currency symbol is displayed on item section on Checkout page
+    And Verify proper currency symbol is displayed on summary section on Checkout page
+    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And Guest user fills shipping address and continue
+    And Verify proper currency symbol is displayed on item section on Checkout page
+    And Verify proper currency symbol is displayed on summary section on Checkout page
+    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And Verifies is in shipping method page
+    And Verify proper currency symbol is displayed on item section on Checkout page
+    And Verify proper currency symbol is displayed on summary section on Checkout page
+    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And User selects random shipping method and continue
+    And Verify user is in billing page
+    And Verify proper currency symbol is displayed on item section on Checkout page
+    And Verify proper currency symbol is displayed on summary section on Checkout page
+    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And User fills payment method and continue
+    And Verify user is in review page
+    And Verify proper currency symbol is displayed on item section on Checkout page
+    And Verify proper currency symbol is displayed on summary section on Checkout page
+    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And User reviews and places order
+    And Verify user is in order confirmation page
 
 
 
@@ -46,7 +82,8 @@ Feature: User is able to checkout in international context
 
 
 
-   When User adds to bag a random product using a main category
+
+  # When User adds to bag a random product using a main category
 #    And User clicks in bag
 #    And User clicks check out button
 #    And User selects guest check out
