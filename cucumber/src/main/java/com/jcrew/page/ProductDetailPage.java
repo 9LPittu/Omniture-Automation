@@ -191,6 +191,7 @@ public class ProductDetailPage {
 
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setProductCode(getProductCodeFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
 
@@ -257,6 +258,13 @@ public class ProductDetailPage {
     public String getSelectedSize() {
         WebElement productSizeElement = productSizesSection.findElement(By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"));
         return productSizeElement.getAttribute("data-name");
+    }
+    
+    public String getProductCodeFromPDP(){
+    	WebElement productCodeElement = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='c-product__description']/div/ul/li[contains(text(),'Item')]")));
+    	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace(".", "");
+    	return productCodeText;
     }
 
     public String getBagButtonText() {
