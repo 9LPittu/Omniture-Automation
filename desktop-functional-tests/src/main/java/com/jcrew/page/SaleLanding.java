@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,9 +21,13 @@ public class SaleLanding {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(SaleLanding.class);
     private final WebDriverWait wait;
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @FindBy(id = "page__sale")
     private WebElement page__sale;
+
+    @FindBy(className = "c-sale__c-category-list")
+    private WebElement saleCategoryList;
 
     public SaleLanding(WebDriver driver) {
         this.driver = driver;
@@ -42,6 +47,21 @@ public class SaleLanding {
 
         randomItem.click();
         Util.waitLoadingBar(driver);
+    }
+
+    public void click_on_sale_subcategory(String subcategory) {
+        Util.waitLoadingBar(driver);
+        getSubcategoryFromSale(subcategory).click();
+        stateHolder.put("sale category", subcategory);
+        wait.until(ExpectedConditions.urlContains("search"));
+        Util.waitLoadingBar(driver);
+    }
+
+    private WebElement getSubcategoryFromSale(String subcategory) {
+        wait.until(ExpectedConditions.visibilityOf(saleCategoryList));
+        return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
+                Util.xpathGetTextLower + " = " +
+                "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
     }
 
 }

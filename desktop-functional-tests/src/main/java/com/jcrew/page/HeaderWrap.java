@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import com.google.common.base.Predicate;
 import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -90,17 +92,39 @@ public class HeaderWrap {
         breadCrumb.click();
     }
 
-    public void searchFor(String searchTerm) {
+    public void searchFor(String searchItem) {
         search.click();
+
         wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
         WebElement searchHeader = global_header.findElement(By.className("js-c-header__search"));
         WebElement searchInput = searchHeader.findElement(By.className("js-header__search__input"));
         WebElement searchButton = searchHeader.findElement(By.className("js-header__search__button--find"));
 
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String env = propertyReader.getProperty("environment");
+        TestDataReader testdataReader = TestDataReader.getTestDataReader();
+
+        if(testdataReader.hasProperty(env+ "." + searchItem)){
+            searchItem = testdataReader.getData(env + "." + searchItem);
+        }
+
+        searchInput.sendKeys(searchItem);
+        searchButton.click();
+        logger.info("Searching for {}", searchItem);
+        Util.waitLoadingBar(driver);
+    }
+
+    public void searchForSpecificTerm(String searchTerm) {
+        search.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
+        WebElement searchHeader = global_header.findElement(By.className("js-c-header__search"));
+        WebElement searchInput = searchHeader.findElement(By.className("js-header__search__input"));
+        WebElement searchButton = searchHeader.findElement(By.className("js-header__search__button--find"));
         searchInput.sendKeys(searchTerm);
         searchButton.click();
         logger.info("Searching for {}", searchTerm);
         Util.waitLoadingBar(driver);
+
     }
 
 

@@ -62,10 +62,6 @@ public class HeaderWrapSteps extends DriverFactory {
         assertTrue("Header contains a visible sign in", header.isSignInVisible());
     }
 
-    @Then("User searches for specific term ([^\"]*)")
-    public void user_searches_for(String term) {
-        header.searchFor(term);
-    }
 
     @Then("User searches for a random term from list")
     public void user_searches_for_random_term(List<String> terms) {
@@ -75,9 +71,14 @@ public class HeaderWrapSteps extends DriverFactory {
         header.searchFor(term);
     }
 
-    @When("User enters ([^\"]*) to the search field ")
-    public void user_enters_search_term(String term) {
-        header.searchFor(term);
+    @When("User searches for the item ([^\"]*)")
+    public void user_enters_search_item(String item) {
+        header.searchFor(item);
+    }
+
+    @When("User searches specific term ([^\"]*)")
+    public void user_search_for_term(String searchTerm) {
+        header.searchForSpecificTerm(searchTerm);
     }
 
     @When("User clicks in bag")

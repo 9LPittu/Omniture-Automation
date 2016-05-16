@@ -123,12 +123,23 @@ public class ProductsArray {
     public boolean verifyContext() {
         Country country = (Country) stateHolder.get("context");
         String countryFooter = footer.getCountry();
-        //// when adding the currency validation, uncomment this line
-        // boolean result = verifyCurrency(country.getCurrency());
-        boolean result = true;
-        result &= Util.countryContextURLCompliance(driver, country);
+
+        boolean result = Util.countryContextURLCompliance(driver, country);
         result &= countryFooter.equalsIgnoreCase(country.getName());
 
         return result;
     }
+
+    public boolean isCorrectCurrencySymbolonProductGridList() {
+        Country c = (Country) stateHolder.get("context");
+
+        List<WebElement> productpricess = wait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"))));
+
+        return CurrencyChecker.validatePrices(productpricess, c);
+
+    }
+
+
+
+
 }
