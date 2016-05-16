@@ -79,4 +79,9 @@ public class ProductDetailSteps extends DriverFactory {
     public void user_should_see_PDP_page_with_shipping_restriction_message(){
         assertTrue("user should see PDP page with shipping restriction message",productDetails.isShippingRestrictionMessageDisplayed());
     }
+
+    @Then("^Verify proper currency symbol is displayed on PDP page$")
+    public void verify_currency_on_product_PDP(){
+        assertTrue("Currency on product details page",productDetails.isCorrectCurrencySymbolonPDP());
+    }
 }

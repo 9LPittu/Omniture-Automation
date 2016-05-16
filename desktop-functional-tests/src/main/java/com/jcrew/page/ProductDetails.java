@@ -434,4 +434,14 @@ public class ProductDetails {
         return result;
     }
 
+    public boolean isCorrectCurrencySymbolonPDP() {
+        Country c = (Country) stateHolder.get("context");
+
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//section[@id='c-product__details']"))));
+        List<WebElement> productpricess = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//span[contains(@class,'product__price--')]")));
+
+        return CurrencyChecker.validatePrices(productpricess, c);
+
+    }
+
 }

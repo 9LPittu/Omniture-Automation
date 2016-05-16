@@ -139,23 +139,7 @@ public class ProductsArray {
 
     }
 
-    public boolean isCorrectCurrencySymbolonPDP() {
-        Country c = (Country) stateHolder.get("context");
 
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//section[@id='c-product__details']"))));
-        List<WebElement> productpricess = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//span[contains(@class,'product__price--')]")));
-
-        boolean result = CurrencyChecker.validatePrices(productpricess, c);
-
-        if (result) {
-            logger.info("Currency symbol is displayed correctly on all on Product details page");
-
-        } else {
-            logger.error("Currency symbol is not displayed correctly on all / any of the Item prices  on Product details page");
-        }
-
-        return result;
-    }
 
 
 }

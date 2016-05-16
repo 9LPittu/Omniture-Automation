@@ -28,9 +28,6 @@ public class ProductArraySteps extends DriverFactory {
         assertTrue("Currency on product gridlist", productsArray.isCorrectCurrencySymbolonProductGridList());
     }
 
-    @Then("^Verify proper currency symbol is displayed on PDP page$")
-    public void verify_currency_on_product_PDP(){
-        assertTrue("Currency on product details page",productsArray.isCorrectCurrencySymbolonPDP());
-    }
+
 
 }
