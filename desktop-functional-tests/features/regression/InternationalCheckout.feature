@@ -89,13 +89,13 @@ Feature: User is able to checkout in international context
     Then Verify welcome mat is displayed
     And Verify country context matches selected country
     When User clicks on Start Shopping
-    And User searches for the soldout.item
+    And User searches for the item soldout.item
     Then User is in product detail page
     Then Verify sold out message is displayed on PDP
-    When User searches for the shipping.restriction.item
+    When User searches for the item shipping.restriction.item
     Then User is in product detail page
     And Verify shipping restriction message is displayed on PDP
-    When User searches for the variations.item
+    When User searches for the item variations.item
     And User selects first product from search results
     Then User is in product detail page
     And Verify PDP message is displayed for the selected country

@@ -327,7 +327,7 @@ public class ProductDetails {
     }
 
     public boolean isSizeMessageDisplayedOnPDP() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(c_product_colors));
+
         Country c = (Country) stateHolder.get("context");
         String countryCode = c.getCountry();
 
