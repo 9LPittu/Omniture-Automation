@@ -125,18 +125,11 @@ public class MiniBag {
 
         Country c = (Country) stateHolder.get("context");
 
-        List<WebElement>  itemprices = wait.until(ExpectedConditions.visibilityOfAllElements(minibag.findElements(By.className("minibag-item__body--price"))));
+        List<WebElement> itemprices = wait.until(ExpectedConditions.visibilityOfAllElements(minibag.findElements(By.className("minibag-item__body--price"))));
 
-        boolean result = CurrencyChecker.validatePrices(itemprices, c);
+        return CurrencyChecker.validatePrices(itemprices, c);
 
-        if (result) {
-            logger.info("Currency symbol is displayed correctly on in the minicart");
 
-        } else {
-            logger.error("Currency symbol is not displayed correctly on all / any of the item prices in minicart");
-        }
-
-        return result;
     }
 
 }
