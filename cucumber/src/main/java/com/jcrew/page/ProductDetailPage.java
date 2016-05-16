@@ -262,7 +262,7 @@ public class ProductDetailPage {
     
     public String getProductCodeFromPDP(){
     	WebElement productCodeElement = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='c-product__description']/div/ul/li[contains(" + Util.xpathGetTextLower + ",'item')]")));
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='c-product__description']/div/ul/li[contains(text(),'Item')]")));
     	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
     	productCodeText = productCodeText.replace(".", "").toUpperCase();
     	return productCodeText;
