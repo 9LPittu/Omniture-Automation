@@ -147,6 +147,10 @@ public class UserNavigationSteps extends DriverFactory {
                 Util.countryContextURLCompliance(driver, country));
     }
 
+
+    //This step is added in here to select the first product only if the page currently visited is a search array page.
+    // Keeping the implementation this way will avoid the exception in the search array constructor where we are waiting
+    //for the visibilty of the specific search element in that page.Exception ahndling in that constructor will break other things.
     @When("^User selects first product from search results$")
     public void user_selects_first_product_from_search_results(){
         WebDriver driver = getDriver();
