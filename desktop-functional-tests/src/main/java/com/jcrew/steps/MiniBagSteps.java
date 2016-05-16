@@ -110,7 +110,7 @@ public class MiniBagSteps extends DriverFactory {
     }
 
 
-    @Then("Verify proper currency symbol is displayed on minicart")
+    @Then("Verify proper currency symbol is displayed on minibag")
     public void verify_currency_on_mini_bag() {
         assertTrue("mini bag currency should be displayed correctly", miniBag.isCorrectCurrencyDisplayedOnMinibag());
     }
