@@ -22,7 +22,7 @@ public class CheckOutSteps extends DriverFactory {
     @Then("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
     public void verify_currency_on_checkout_pages_section(String sectionName) {
 
-        assertTrue("Currency on product details page", shoppingBag.isCorrectCurrencySymbol(sectionName.toLowerCase()));
+        assertTrue("Currency on "+sectionName+" section should be displayed correctly{}", shoppingBag.isCorrectCurrencySymbol(sectionName.toLowerCase()));
 
     }
 

@@ -122,16 +122,8 @@ public class ShoppingBag {
 
         List<WebElement> productpricess = driver.findElements(By.xpath(xpath));
 
-        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+        return CurrencyChecker.validatePrices(productpricess, c);
 
-        if(result){
-            logger.info("Currency symbol is displayed correctly on all on Item prices on " + type);
-        }
-        else{
-            logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices on " + type);
-        }
-
-        return result;
     }
 
 }
