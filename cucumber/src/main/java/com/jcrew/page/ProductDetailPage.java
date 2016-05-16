@@ -261,8 +261,22 @@ public class ProductDetailPage {
     }
     
     public String getProductCodeFromPDP(){
-    	WebElement productCodeElement = Util.createWebDriverWait(driver).until(
+    	
+    	WebElement productCodeElement = null;
+    	try{
+    		productCodeElement = Util.createWebDriverWait(driver,30).until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='c-product__description']/div/ul/li[contains(text(),'Item')]")));
+    	}
+    	catch(TimeoutException toe){
+    		try{
+     			productCodeElement = Util.createWebDriverWait(driver,30).until(
+    	                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='c-product__description']/div/ul/li/a[contains(text(),'Item')]")));
+    		}
+    		catch(Exception e){
+    			throw new WebDriverException("Product/item code is not found on the PDP!");
+    		}
+    	}
+    	
     	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
     	productCodeText = productCodeText.replace(".", "").toUpperCase();
     	return productCodeText;
