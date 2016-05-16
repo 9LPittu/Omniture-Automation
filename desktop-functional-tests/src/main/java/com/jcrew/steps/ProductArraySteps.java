@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class ProductArraySteps extends DriverFactory {
     ProductsArray productsArray = new ProductsArray(getDriver());
 
-    @When("User selects random product from array")
+    @When("User selects random product from product array")
     public void user_selects_random_product(){
         productsArray.selectRandomProduct();
     }
@@ -22,4 +22,12 @@ public class ProductArraySteps extends DriverFactory {
     public void verify_that_all_products_in_first_page_contains_expected_cucrrency() {
         assertTrue("all products in first page contains expected currency", productsArray.verifyContext());
     }
+
+    @Then("^Verify proper currency symbol is displayed on product grid list$")
+    public void verify_currency_on_product_gridlist(){
+        assertTrue("Currency on product gridlist", productsArray.isCorrectCurrencySymbolonProductGridList());
+    }
+
+
+
 }

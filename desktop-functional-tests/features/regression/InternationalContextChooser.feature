@@ -128,7 +128,7 @@ Feature: International Country Context
     And User navigates to a subcategory from main category
     And Verify context in the array page
     And User should see selected country in the footer
-    And User selects random product from array
+    And User selects random product from product array
     And User is in product detail page
     And User should see selected country in the footer
     And Verify context in the product detail page

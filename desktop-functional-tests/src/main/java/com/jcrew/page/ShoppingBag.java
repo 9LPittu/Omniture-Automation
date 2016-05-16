@@ -97,9 +97,34 @@ public class ShoppingBag {
         String countryFooter = footer.getCountry();
 
         boolean result = countryFooter.equalsIgnoreCase(country.getName());
-        result &= verifyCurrency();
-
         return result;
     }
 
+    public boolean isCorrectCurrencySymbol(String type) {
+        Country c = (Country) stateHolder.get("context");
+
+        String xpath = "";
+
+        switch (type) {
+            case "item":
+                xpath = "//div[contains(@class,'item-price') or contains(@class,'item-total')]";
+                break;
+            case "summary":
+                xpath = "//span[contains(@class,'summary-value')]";
+                break;
+            case "shipping method":
+                xpath = "//span[contains(@class,'method-price')]";
+                break;
+            case "shipping":
+                xpath = "//span[contains(@class,'shipping-price')]";
+                break;
+        }
+
+        List<WebElement> productpricess = driver.findElements(By.xpath(xpath));
+
+        return CurrencyChecker.validatePrices(productpricess, c);
+
+    }
+
 }
+

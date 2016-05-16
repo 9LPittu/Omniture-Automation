@@ -1,6 +1,9 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
+import com.jcrew.utils.CurrencyChecker;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,6 +24,7 @@ public class MiniBag {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(MiniBag.class);
     private final WebDriverWait wait;
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final String ITEM_NAME_CLASS = "minibag-item__body--title";
     private final String ITEM_PRICE_CLASS = "minibag-item__body--price";
@@ -115,6 +119,17 @@ public class MiniBag {
 
     public boolean isMiniBagVisible() {
         return minibag.isDisplayed();
+    }
+
+    public boolean isCorrectCurrencyDisplayedOnMinibag() {
+
+        Country c = (Country) stateHolder.get("context");
+
+        List<WebElement> itemprices = wait.until(ExpectedConditions.visibilityOfAllElements(minibag.findElements(By.className("minibag-item__body--price"))));
+
+        return CurrencyChecker.validatePrices(itemprices, c);
+
+
     }
 
 }

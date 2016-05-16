@@ -2,9 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetails;
 import com.jcrew.utils.DriverFactory;
-
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -47,13 +44,44 @@ public class ProductDetailSteps extends DriverFactory {
         		productDetails.isProductDetailPage());
     }
     
-    @Then("^Add to cart button is pressed$")
+    @When("^Add to cart button is pressed$")
     public void add_to_cart_button_is_pressed() throws Throwable {
     	productDetails.click_add_to_cart();
     }
     
-    @Then("^Update Bag button is pressed$")
+    @When("^Update Bag button is pressed$")
     public void Update_Bag_button_is_pressed() throws Throwable {
     	productDetails.click_update_cart();
+    }
+
+    @Then("^Verify sold out message is displayed on PDP$")
+    public void user_should_see_pdp_page_soldout_message_which_includes_phone_number(){
+        assertTrue("user should see PDP page with soldout message which includes phone number", productDetails.isSoldOutMessageDisplayed());
+    }
+
+    @Then("^Verify PDP message is displayed for the selected country$")
+    public void user_should_see_pdp_messages(){
+        assertTrue("User should see size related messages on the PDP page for the selected country",productDetails.isSizeMessageDisplayedOnPDP());
+        assertTrue("User should see message on the PDP page for the selected country",productDetails.isPriceMessageDisplayedOnPDP());
+    }
+
+    @When("^User selects random variant on the PDP page$")
+    public void user_selects_random_variant_on_PDP_Page(){
+        productDetails.selectRandomVariantOnPDP();
+    }
+
+    @Then("^Verify VPS item message is displayed on PDP$")
+    public void user_should_see_PDP_page_with_vps_item_message(){
+        assertTrue("user should see PDP page with message for vps item",productDetails.isVPSMessageDisplayed());
+    }
+
+    @Then("Verify shipping restriction message is displayed on PDP")
+    public void user_should_see_PDP_page_with_shipping_restriction_message(){
+        assertTrue("user should see PDP page with shipping restriction message",productDetails.isShippingRestrictionMessageDisplayed());
+    }
+
+    @Then("^Verify proper currency symbol is displayed on PDP page$")
+    public void verify_currency_on_product_PDP(){
+        assertTrue("Currency on product details page",productDetails.isCorrectCurrencySymbolonPDP());
     }
 }
