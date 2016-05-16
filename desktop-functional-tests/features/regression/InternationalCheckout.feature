@@ -42,7 +42,7 @@ Feature: User is able to checkout in international context
     Then Verify proper currency symbol is displayed on PDP page
     And User adds selected product to bag
     When User hovers over bag
-    Then Verify proper currency symbol is displayed on minicart
+    Then Verify proper currency symbol is displayed on minibag
     And User clicks in bag
 
     And User is in shopping bag page
