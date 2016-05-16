@@ -51,7 +51,8 @@ public class MegaTemplatePageSteps extends DriverFactory {
 	@And("^user verify feed validation and log the results for the query ([^\"]*)$")
 	public void verify_FeedValidation_andLog_the_results(String strquery)throws FileNotFoundException, IOException, ClassNotFoundException{
 
-    	String strdbQuery = dbReader.getProperty("db." + strquery);
+    	String strDBConnection = dbReader.getProperty("dbEnvironment");
+		String strdbQuery = dbReader.getProperty(strDBConnection+"." + strquery);
     	logger.info("stateholder value:" + stateHolder.get("EmptyResult"));
 		if((boolean) stateHolder.get("EmptyResult")){
 			logger.info("Validate the feed for the Query. '" + strdbQuery + "'");

@@ -332,7 +332,7 @@ public class Footer {
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){
     	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/" +
-                "following-sibling::div[@class='c-footer__fullsite']"));
+                "following-sibling::div[contains(@class,'c-footer__fullsite')]"));
     	return viewFullSite.isDisplayed();
     }
     

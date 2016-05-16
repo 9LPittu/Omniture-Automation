@@ -116,7 +116,7 @@ public class ShippingAddressPage {
     public void fills_shipping_address_testdata() {
     	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("environment");
+    	String url = propertyReader.getProperty("url");
     	
     	Country country = (Country)stateHolder.get("context");
     	String countryName = country.getCountryName();

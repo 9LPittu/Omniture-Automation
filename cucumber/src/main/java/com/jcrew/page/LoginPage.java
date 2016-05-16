@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +8,9 @@ import java.util.concurrent.TimeUnit;
 
 import com.github.javafaker.Faker;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
+import com.jcrew.util.UsersHub;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.*;
@@ -19,7 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LoginPage {
-
+	
+	private final StateHolder stateHolder = StateHolder.getInstance();
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
     private final WebDriver driver;
 
@@ -128,8 +132,31 @@ public class LoginPage {
     public void enter_valid_username_and_password() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         PropertyReader reader = PropertyReader.getPropertyReader();
-        input_as_email(reader.getProperty("checkout.signed.in.username"));
-        input_as_password(reader.getProperty("checkout.signed.in.password"));
+        
+        String username = null;
+        String password = null;
+        if(reader.getProperty("environment").equalsIgnoreCase("ci")){
+        	username = reader.getProperty("checkout.signed.in.username");
+        	password = reader.getProperty("checkout.signed.in.password");
+        }
+        else{
+        	try{
+        		if(!stateHolder.hasKey("sidecarusername")){
+            		UsersHub userHub = UsersHub.getUsersHubInstance();
+            		userHub.retrieveUserCredentialsFromDBAndStoreInMap();
+            		
+            		username = (String) stateHolder.get("sidecarusername");
+                	password = (String) stateHolder.get("sidecaruserpassword");
+            	}
+        	}
+        	catch(Exception e){
+        		username = reader.getProperty("checkout.signed.in.username");
+            	password = reader.getProperty("checkout.signed.in.password");
+        	}
+        }
+        
+        input_as_email(username);
+        input_as_password(password);
     }
 
     public boolean isCheckBoxEnabled() {
@@ -213,19 +240,32 @@ public class LoginPage {
 
     public void enterEmailAddressOnSignInPage(String emailAddress) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailAddressField));
-        if (emailAddress.equalsIgnoreCase("any")) {
-            PropertyReader reader = PropertyReader.getPropertyReader();
+        if (emailAddress.equalsIgnoreCase("any")) {        	
+    		PropertyReader reader = PropertyReader.getPropertyReader();
             emailAddress = reader.getProperty("checkout.signed.in.username");
         }
         emailAddressField.sendKeys(emailAddress);
     }
 
     public void enterPasswordOnSignInPage(String password) {
-        if (password.equalsIgnoreCase("corresponding")) {
-            PropertyReader reader = PropertyReader.getPropertyReader();
+        if (password.equalsIgnoreCase("corresponding")) {        	
+    		PropertyReader reader = PropertyReader.getPropertyReader();
             password = reader.getProperty("checkout.signed.in.password");
         }
         passwordField.sendKeys(password);
+    }
+    
+    public void enterLoginInformationOnSignInPage(){
+    	String emailAddress = null;
+    	String password = null;
+    	
+    	if(stateHolder.hasKey("sidecarusername")){
+    		emailAddress = (String) stateHolder.get("sidecarusername");
+    		password = (String) stateHolder.get("sidecaruserpassword");
+    	}
+    	
+    	emailAddressField.sendKeys(emailAddress);
+    	passwordField.sendKeys(password);
     }
 
     public void click_signInAndCheckOut() {

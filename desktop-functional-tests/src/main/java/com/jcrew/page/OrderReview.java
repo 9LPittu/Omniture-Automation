@@ -21,11 +21,15 @@ public class OrderReview {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(OrderReview.class);
     private final WebDriverWait wait;
+    private boolean isProduction = false;
 
     @FindBy(id = "slidertrack")
     private WebElement slidertrack;
     @FindBy(id = "billing-details")
     private WebElement billing_details;
+
+    @FindBy(xpath = ".//*[@id='orderSummaryContainer']/div/a")
+    private WebElement placeYourOrder;
 
     public OrderReview(WebDriver driver) {
         this.driver = driver;
@@ -34,13 +38,18 @@ public class OrderReview {
         PageFactory.initElements(driver, this);
 
         wait.until(ExpectedConditions.visibilityOf(slidertrack));
+
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        if (propertyReader.getProperty("url").contains("www.jcrew.com")) {
+            isProduction = true;
+        }
     }
 
     public void placeOrder() {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String env = propertyReader.getProperty("environment");
 
-        if(!"production".equals(env)) {
+        if (!"production".equals(env)) {
             WebElement place_my_order = slidertrack.findElement(By.className("button-submit-bg"));
 
             place_my_order.click();
@@ -53,5 +62,14 @@ public class OrderReview {
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
         WebElement securityCode = billing_details.findElement(By.id("securityCode"));
         securityCode.sendKeys(testDataReader.getData("card.cvv"));
+    }
+
+    public void user_places_its_order() {
+        Util.waitForPageFullyLoaded(driver);
+        if (!isProduction) {
+            wait.until(ExpectedConditions.elementToBeClickable(placeYourOrder));
+
+            placeYourOrder.click();
+        }
     }
 }

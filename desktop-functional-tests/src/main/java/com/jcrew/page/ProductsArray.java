@@ -89,7 +89,7 @@ public class ProductsArray {
                 price = priceList.get(0);
                 priceText = price.getText();
 
-                result = CurrencyChecker.listPrice(currency,priceText);
+                result = CurrencyChecker.listPrice(currency, priceText);
                 if (!result) {
                     logger.error("Array: Not able to check list price currency format for item {}", tile.getText());
                 }
@@ -99,7 +99,8 @@ public class ProductsArray {
                 price = priceWas.get(0);
                 priceText = price.getText();
 
-                result &= CurrencyChecker.wasPrice(currency,priceText);if (!result) {
+                result &= CurrencyChecker.wasPrice(currency, priceText);
+                if (!result) {
                     logger.error("Array: Not able to check was price currency format for item {}", tile.getText());
                 }
             }
@@ -122,8 +123,9 @@ public class ProductsArray {
     public boolean verifyContext() {
         Country country = (Country) stateHolder.get("context");
         String countryFooter = footer.getCountry();
-
-        boolean result = verifyCurrency(country.getCurrency());
+        //// when adding the currency validation, uncomment this line
+        // boolean result = verifyCurrency(country.getCurrency());
+        boolean result = true;
         result &= Util.countryContextURLCompliance(driver, country);
         result &= countryFooter.equalsIgnoreCase(country.getName());
 

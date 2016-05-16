@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.MyAccount;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -48,4 +49,16 @@ public class MyAccountSteps extends DriverFactory {
     public void user_is_in_order_history_page() {
         assertTrue("User is in order history page",myAccount.isOrderHistoryPage());
     }
+
+    @Then("^User clicks on ([^\"]*) link in My Account Page$")
+    public void user_clicks_on_link_in_my_account_page(String link) throws Throwable {
+        myAccount.click_menu_link(link);
+    }
+
+    @Then("^User should be in ([^\"]*) menu link page$")
+    public void User_should_be_in_page(String page) throws Throwable {
+        assertTrue("User should have been in menu link " + page,
+                myAccount.isInMenuLinkPage(page));
+    }
+
 }

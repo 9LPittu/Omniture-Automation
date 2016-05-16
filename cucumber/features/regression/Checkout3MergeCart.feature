@@ -3,7 +3,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
 
   Background:    
     Given User is on homepage with clean session
-    And Handle the Email Capture pop up
+    And Handle the Email Capture pop up    
     And Goes to sign in page
     And User provides login information
     And Hits sign in button
@@ -54,8 +54,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And items count should be displayed as 1 in the bag
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
-    And enter any email address on sign in page
-    And enter corresponding password
+    And enter login information on sign in page    
     And click on SIGN IN & CHECK OUT button
     And page url should contain /checkout2/signin.jsp
     And user should see 'SAVE TO WISHLIST & CONTINUE' button on the page

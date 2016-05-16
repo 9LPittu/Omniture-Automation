@@ -59,9 +59,11 @@ public class MyAccount {
         boolean expectedContent = "MY ACCOUNT".equalsIgnoreCase(bannerText) && homecopy.isDisplayed();
 
         Country country = (Country) stateHolder.get("context");
-        boolean expectedURL = Util.countryContextURLCompliance(driver,country,"/account/home.jsp");
+        //for jsp pages, country context will not show in the url
+        boolean expectedURL = Util.countryContextURLCompliance(driver, country, "/account/home.jsp");
 
-        return expectedContent & expectedURL;
+        return expectedContent;
+
     }
 
     public void clickInMenuOption(String menuOption) {
@@ -101,8 +103,52 @@ public class MyAccount {
                 "My Orders".equalsIgnoreCase(myOrdersTitle.getText());
 
         Country country = (Country) stateHolder.get("context");
-        boolean expectedURL = Util.countryContextURLCompliance(driver,country,"account/reg_user_order_history.jsp?");
+        boolean expectedURL = Util.countryContextURLCompliance(driver, country, "account/reg_user_order_history.jsp?");
 
         return expectedContent & expectedURL;
+    }
+
+    public void click_menu_link(String link) {
+        WebElement menu;
+
+        Country c = (Country) stateHolder.get("context");
+        // to validate the my account page left nav links
+        //US: Gift card balance, Catalog Preferences,My Details, Email Preferences, Payment Methods, Address Book, Order History, Wish list & Sign Out
+        //CANADA: All the above except Gift card balance will be there
+        //All the other countries: Gift card Balance and Catalog Preferences will not be present
+        boolean ifOtherCountries = !(link.equals("GIFT CARD BALANCE") || link.equals("CATALOG PREFERENCES"));
+        if (("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry()) || ifOtherCountries) {
+            menu = getMenuLink(link);
+            wait.until(ExpectedConditions.elementToBeClickable(menu));
+            Util.clickWithStaleRetry(menu);
+        }
+    }
+
+    private WebElement getMenuLink(String link) {
+        Util.waitForPageFullyLoaded(driver);
+        wait.until(ExpectedConditions.visibilityOf(main_inside));
+        Country country = (Country) stateHolder.get("context");
+        logger.debug(country.getCountry());
+        return main_inside.findElement(By.linkText(link));
+    }
+
+    public boolean isInMenuLinkPage(String page) {
+        Country c = (Country) stateHolder.get("context");
+
+        // to validate the my account page left nav links
+        //US: Gift card balance, Catalog Preferences,My Details, Email Preferences, Payment Methods, Address Book, Order History, Wish list & Sign Out
+        //CANADA: All the above except Gift card balance will be present
+        //All the other countries: Gift card Balance and Catalog Preferences will not be present. everything else will be there
+
+
+        boolean forOtherCountries = !(page.contains("giftcard") || page.contains("catalog_preferences"));
+
+        if (("ca".equals(c.getCountry()) && !(page.contains("giftcard"))) || "us".equals(c.getCountry()) || forOtherCountries)
+            return wait.until(ExpectedConditions.urlContains(page));
+        else {
+            logger.info("expected no " + page + " for " + c.getCountry());
+            return true;
+        }
+
     }
 }

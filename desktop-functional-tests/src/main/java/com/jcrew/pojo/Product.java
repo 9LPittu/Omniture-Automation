@@ -10,6 +10,15 @@ import java.util.Objects;
  */
 public class Product {
     private final Logger logger = LoggerFactory.getLogger(Product.class);
+    private String productName;
+    private String priceList;
+    private String variations;
+    private String colorsCount;
+    private String priceWas;
+    private String priceSale;
+    private String selectedVariation;
+    private String selectedColor;
+    private String selectedSize;
     private String color;
     private String size;
     private String name;
@@ -20,6 +29,39 @@ public class Product {
 
     public Product() {
     }
+    
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setPriceList(String priceList) {
+        this.priceList = priceList;
+    }
+
+    public String getPriceList() {
+        return priceList;
+    }
+    
+    public void setSelectedColor(String selectedColor) {
+        this.selectedColor = selectedColor;
+    }
+
+    public String getSelectedColor() {
+        return selectedColor;
+    }
+    
+    public void setSelectedSize(String selectedSize) {
+        this.selectedSize = selectedSize;
+    }
+
+    public String getSelectedSize() {
+        return selectedSize;
+    }
+
 
     public void setSoldOut(boolean soldOut) {
         isSoldOut = soldOut;

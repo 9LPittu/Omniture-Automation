@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Product;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -17,8 +19,10 @@ import java.util.List;
  * Created by nadiapaolagarcia on 4/8/16.
  */
 public class ShippingMethod {
+	
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(ShippingMethod.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private final WebDriverWait wait;
 
     @FindBy(id = "frmSelectShippingMethod")
@@ -43,4 +47,6 @@ public class ShippingMethod {
         WebElement continueLink = selectShippingMethod.findElement(By.className("button-submit-bg"));
         continueLink.click();
     }
+    
+
 }

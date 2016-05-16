@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
+import static org.junit.Assert.*;
+
 /**
  * Created by nadiapaolagarcia on 3/28/16.
  */
@@ -127,4 +129,5 @@ public class StartSteps {
         logger.debug("getting url: " + envUrl);
         driver.get(envUrl);
     }
+    
 }

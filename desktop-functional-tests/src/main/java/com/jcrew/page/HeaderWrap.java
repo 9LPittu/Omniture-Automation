@@ -51,8 +51,13 @@ public class HeaderWrap {
     private WebElement global_nav;
     @FindBy(id = "js-header__logo")
     private WebElement header_logo;
+    @FindBy(className = "header__department-nav")
+    private WebElement top_nav;
 
     private WebElement dropdown;
+    
+    @FindBy(xpath=".//div[@id='c-header__factory-link']/a")
+    private WebElement lookingForFactoryLinkInHeader;
 
     public HeaderWrap(WebDriver driver) {
         this.driver = driver;
@@ -98,9 +103,6 @@ public class HeaderWrap {
         Util.waitLoadingBar(driver);
     }
 
-    public void clickStores() {
-
-    }
 
     public void clickSignIn() {
         wait.until(ExpectedConditions.visibilityOf(sign_in));
@@ -174,7 +176,7 @@ public class HeaderWrap {
         wait.until(ExpectedConditions.visibilityOf(sign_in));
         List<WebElement> signInLink = sign_in.findElements(By.tagName("a"));
 
-        if(signInLink.size() == 1)
+        if (signInLink.size() == 1)
             result = true;
 
         return result;
@@ -193,5 +195,12 @@ public class HeaderWrap {
                 }
             });
         }
+    }
+
+    public void clickDeptLinkFromTopNav(String dept) {
+        String url = driver.getCurrentUrl();
+        top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '" + dept + "']")).click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+
     }
 }

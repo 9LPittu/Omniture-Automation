@@ -58,7 +58,7 @@ public class ReviewPage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
-        if(propertyReader.getProperty("environment").contains("www.jcrew.com")){
+        if(propertyReader.getProperty("url").contains("www.jcrew.com")){
             isProduction = true;
         }
     }
@@ -146,6 +146,7 @@ public class ReviewPage {
             reviewPageProductNameText = cleanProductName(reviewPageProductNameText);
 
             String reviewPageProductPriceText = reviewPageproductPrice.getText().trim();
+            reviewPageProductPriceText = reviewPageProductPriceText.replaceAll(",","");
     		
     		List<Product> productList = (List<Product>) stateHolder.get("productList");
             for (Product product : productList) {

@@ -41,8 +41,7 @@ public class MyAccountPage {
         Country country = (Country) stateHolder.get("context");
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
-        boolean isUrl = Util.countryContextURLCompliance(driver, country);
-        return myAccountContainer.isDisplayed()&& isUrl;
+        return myAccountContainer.isDisplayed();
     }
 
     public String getMyAccountHeader() {
@@ -56,24 +55,36 @@ public class MyAccountPage {
     private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
+
         return myAccountContainer.findElement(By.linkText(link));
+
     }
 
     public void click_menu_link(String link) {
-        WebElement menu = getMenuLink(link);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
-        Util.clickWithStaleRetry(menu);
+        WebElement menu;
 
-        if(link.equalsIgnoreCase("GIFT CARD BALANCE")){
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[contains(text(),'Gift Card balance')]"))));
+        Country c = (Country)stateHolder.get("context");
+
+        boolean ifOtherCountries = !(link.equals("GIFT CARD BALANCE")|| link.equals("CATALOG PREFERENCES"));
+        if(("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry())|| ifOtherCountries) {
+            menu = getMenuLink(link);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
+            Util.clickWithStaleRetry(menu);
         }
-        else{
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        }
+
     }
 
     public boolean isInMenuLinkPage(String page) {
-        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        Country c = (Country)stateHolder.get("context");
+        boolean forOtherCountries = !( page.contains("giftcard")|| page.contains("catalog_preferences"));
+
+        if (("ca".equals(c.getCountry()) && !(page.contains("giftcard"))) || "us".equals(c.getCountry()) || forOtherCountries)
+           return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        else {
+            logger.info("expected no "+page+" for "+c.getCountry());
+            return true;
+        }
+
     }
 
     public void click_order_for_review() {

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.String;
 import java.util.Properties;
 
 public class PropertyReader {
@@ -26,25 +27,35 @@ public class PropertyReader {
     }
 
     private void loadProperties() throws IOException {
-        String environment = System.getProperty("environment", "ci");
-        String viewport = System.getProperty("viewport", "desktop");
+        String execEnvironment = System.getProperty("environment", "ci");
+        String execViewport = System.getProperty("viewport", "phantomjs");
         String country = System.getProperty("country", "us");
 
-    	String environmentFile = environment + ".properties";
-        String viewportFile = viewport + ".properties";
+        FileInputStream inputFile = new FileInputStream("environment.properties");
+        properties.load(inputFile);
+        inputFile = new FileInputStream("viewport.properties");
+        properties.load(inputFile);
+        inputFile = new FileInputStream("countries.properties");
+        properties.load(inputFile);
 
-        logger.info("Environment configuration file to be used {}", environmentFile);
-        logger.info("Viewport configuration file to be used {}", viewportFile);
-
-        FileInputStream countriesInput = new FileInputStream("countries.properties");
-        properties.load(countriesInput);
+        properties.setProperty("environment",execEnvironment);
+        properties.setProperty("viewport", execViewport);
         properties.setProperty("country", country);
-
-        FileInputStream environmentInput = new FileInputStream(environmentFile);
-        properties.load(environmentInput);
-
-        FileInputStream viewportInput = new FileInputStream(viewportFile);
-        properties.load(viewportInput);
+        
+        String strURL = properties.getProperty(execEnvironment);
+        logger.info("URL to be used {}", strURL);
+        properties.setProperty("url", strURL);
+        
+        if (execViewport.equalsIgnoreCase("phantomjs") | execViewport.equalsIgnoreCase("chrome") | execViewport.equalsIgnoreCase("firefox")) {
+        	logger.info("Browser to be used {}", execViewport);
+        	properties.setProperty("browser", execViewport);    	
+        }
+        else {
+        	logger.info("Device to be used {}", execViewport);
+        	String strBrowser = properties.getProperty(execViewport + ".browser");
+        	properties.setProperty("browser", strBrowser);  
+        }
+             
     }
 
     public boolean isSystemPropertyTrue(String key) {
