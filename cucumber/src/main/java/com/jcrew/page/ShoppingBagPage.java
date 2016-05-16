@@ -106,14 +106,11 @@ public class ShoppingBagPage {
         Util.waitForPageFullyLoaded(driver);
         Util.waitLoadingBar(driver);
 
-        Product product = (Product) stateHolder.get("recentlyAdded");       
-
+        Product product = (Product) stateHolder.get("recentlyAdded");      
         String xpath = ".//span[contains(@class,'item-value') and text()='" + product.getProductCode() + "']/../../li[4]/a[@class='item-edit']";
-
-        WebElement order_listing = driver.findElement(By.id("order-listing"));
-        WebElement item_product_edit = order_listing.findElement(By.xpath(xpath));
-
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(item_product_edit));
+        
+        WebElement order_listing = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.id("order-listing"))));
+        WebElement item_product_edit = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(order_listing.findElement(By.xpath(xpath))));
         item_product_edit.click();
 
     }

@@ -276,6 +276,7 @@ public class ProductDetailPage {
 
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setProductCode(getProductCodeFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
 
