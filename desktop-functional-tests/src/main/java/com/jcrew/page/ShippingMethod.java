@@ -42,8 +42,7 @@ public class ShippingMethod {
 
     public boolean isShippingMethodPage() {
 
-        wait.until(ExpectedConditions.visibilityOf(shippingMethodContainer));
-        return true;
+        return shippingMethodContainer.isDisplayed();
     }
 
     public void selectRandomShippingMethod() {
