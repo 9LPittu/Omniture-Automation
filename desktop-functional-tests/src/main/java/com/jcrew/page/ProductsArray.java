@@ -135,16 +135,8 @@ public class ProductsArray {
 
         List<WebElement> productpricess = wait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"))));
 
-        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+        return CurrencyChecker.validatePrices(productpricess, c);
 
-        if(result){
-            logger.info("Currency symbol is displayed correctly on all Item prices on Product grid list");
-
-        }
-        else{
-            logger.error("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
-        }
-        return result;
     }
 
     public boolean isCorrectCurrencySymbolonPDP() {
