@@ -45,4 +45,8 @@ public class OrderConfirmation {
 
         return result;
     }
+
+    public boolean isOrderConfirmationPage() {
+        return confirmation.isDisplayed();
+    }
 }
