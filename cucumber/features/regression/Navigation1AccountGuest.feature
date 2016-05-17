@@ -112,7 +112,6 @@ Feature: Sign In Page
     And User clicks on back link
     Then My Account link is present
   
-  @deploymentpending
   Scenario: Birthday field validation in create an account form
   	And user appends ?showBirthDateOnRegistration=true to the url in the browser and navigate to the page
   	And Enter random first name as First Name in create account section
