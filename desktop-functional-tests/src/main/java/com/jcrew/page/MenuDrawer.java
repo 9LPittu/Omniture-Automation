@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,6 +21,7 @@ public class MenuDrawer {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(MenuDrawer.class);
     private final WebDriverWait wait;
+
 
     @FindBy(id = "global__nav")
     private WebElement drawer;
@@ -63,6 +65,8 @@ public class MenuDrawer {
         wait.until(ExpectedConditions.elementToBeClickable(categoryLink));
         categoryLink.click();
     }
+
+
 
     public void selectSubCategory(String subCategory) {
         WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
