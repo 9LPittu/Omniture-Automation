@@ -191,6 +191,7 @@ public class ProductDetailPage {
 
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setProductCode(getProductCodeFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
 
@@ -258,6 +259,28 @@ public class ProductDetailPage {
         WebElement productSizeElement = productSizesSection.findElement(By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"));
         return productSizeElement.getAttribute("data-name");
     }
+    
+    public String getProductCodeFromPDP(){
+    	
+    	WebElement productCodeElement = null;
+    	try{
+    		productCodeElement = Util.createWebDriverWait(driver,30).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='c-product__description']/div/ul/li[contains(text(),'Item')]")));
+    	}
+    	catch(TimeoutException toe){
+    		try{
+     			productCodeElement = Util.createWebDriverWait(driver,30).until(
+    	                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='c-product__description']/div/ul/li/a[contains(text(),'Item')]")));
+    		}
+    		catch(Exception e){
+    			throw new WebDriverException("Product/item code is not found on the PDP!");
+    		}
+    	}
+    	
+    	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
+    	productCodeText = productCodeText.replace(".", "").toUpperCase();
+    	return productCodeText;
+    }
 
     public String getBagButtonText() {
         return addToBag.getText();
@@ -268,6 +291,7 @@ public class ProductDetailPage {
 
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setProductCode(getProductCodeFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
 
