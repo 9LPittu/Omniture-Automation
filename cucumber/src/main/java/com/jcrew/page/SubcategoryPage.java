@@ -718,6 +718,32 @@ public class SubcategoryPage {
     		saveProductDetailsFromPDPPage();
     	}
     }
+    
+    public String getItemPriceFromArrayPage(WebElement productTileOnArrayPage){
+    	
+    	String itemPrice = "";
+    	List<WebElement> productPriceElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(productTileOnArrayPage.findElements(By.xpath(".//*[contains(@class,'tile__detail tile__detail--price')]"))));
+    	
+    	if(productPriceElement.size()>0){
+    		switch(productPriceElement.size()){
+	    		case 1:
+	    			//capture the list price 
+	    			itemPrice = productPriceElement.get(0).getText().trim();
+	    			break;
+	    		case 2:
+	    			//capture the sale price
+	    			itemPrice = productPriceElement.get(1).getText().trim();
+	    			itemPrice.replace("now ", "");
+	    			break;
+    		}
+    	}
+    	else{
+    		logger.error("Price is not retrieved for the item!");
+    		throw new WebDriverException("Price is not retrieved for the item!");
+    	}
+    	
+    	return itemPrice;
+    }
 
     public void saveProductDetailsFromPDPPage() {
 
