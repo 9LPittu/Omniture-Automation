@@ -83,7 +83,9 @@ public class StartingSteps {
         env = selectedCountryHomeUrl + pageURL;
         stateHolder.put("randomUrl", env);
 
-        if(reader.isSystemPropertyTrue("force.cache")) {
+        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent");
+
+        if(!isProdLikeEn && reader.isSystemPropertyTrue("force.cache")) {
             logger.debug("Forcing Akamai cache");
             UUID uuid = UUID.randomUUID();
             env = env + "?c="+uuid.toString();
@@ -141,13 +143,7 @@ public class StartingSteps {
         stateHolder.put("context", context);
         env = context.getHomeurl();
 
-        if(reader.isSystemPropertyTrue("force.cache")) {
-            logger.debug("Forcing Akamai cache");
-            UUID uuid = UUID.randomUUID();
-            env = env + "?c="+uuid.toString();
-        }
-
-        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent")||env.contains("or");
+        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent");
         boolean isDesktop = browser.equals("firefox") || browser.equals("chrome");
         logger.debug("current url is: " + env);
 
@@ -156,6 +152,13 @@ public class StartingSteps {
             driver.get(env + "/enableResponsive_sm.jsp");
             driver.findElement(By.linkText("click to browse")).click();
         } else {
+
+            if(reader.isSystemPropertyTrue("force.cache")) {
+                logger.debug("Forcing Akamai cache");
+                UUID uuid = UUID.randomUUID();
+                env = env + "?c="+uuid.toString();
+            }
+
             driver.get(env);
         }
     }
