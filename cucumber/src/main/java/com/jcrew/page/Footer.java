@@ -40,7 +40,7 @@ public class Footer {
     @FindBy(className = "js-footer__menu")
     private List<WebElement> subLinks;
     
-    @FindBy(xpath="//legend[@class='footer__header' and text()='like being first?']/following-sibling::input[@name='subscribeEmail']")
+    @FindBy(xpath="//legend[@class='footer__header footer__header__copy' and text()='like being first?']/following-sibling::input[@name='subscribeEmail']")
     private WebElement emailField;
       
     @FindBy(className="footer__signup__button")
