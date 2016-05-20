@@ -49,7 +49,7 @@ public class Navigation {
 
         // get the current window handle
         for (String tab : tabs) {
-            logger.info("parent window handle {}", tab);
+            logger.info("window handle {}", tab);
             driver.switchTo().window(tab);
             logger.debug("Title in handle: {}", driver.getTitle());
         }

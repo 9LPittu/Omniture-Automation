@@ -41,7 +41,7 @@ public class Country {
         if("us".equalsIgnoreCase(country)){
             this.homeurl = environment;
         } else {
-            this.homeurl = environment + "/" + country + "/";
+            this.homeurl = environment + country + "/";
         }
     }
 
