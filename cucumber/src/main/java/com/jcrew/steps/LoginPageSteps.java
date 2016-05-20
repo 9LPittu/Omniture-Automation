@@ -180,5 +180,34 @@ public class LoginPageSteps extends DriverFactory {
     public void verify_opt_checkbox_not_displayed_when_selected_usa() {
         assertFalse("opt to receive marketing communications checkbox should not be displayed", loginPage.isOptCheckBoxDisplayed());
     }
-
-   }
+    
+    @And("^user should see birthday section after password field$")
+    public void verify_user_should_see_birthday_section_after_password_field(){
+    	assertTrue("user should see birthday section after password field", loginPage.isBirthdaySectionDisplayedAfterPasswordField());
+    }
+    
+    @And("^user should see label text as \'([^\"]*)\' in create account form$")
+    public void user_should_see_label_text_in_create_account_form(String expectedLabelText){
+    	assertTrue("user should see '" + expectedLabelText + "' in create account form", loginPage.isLabelTextDisplayedInCreateAccountForm(expectedLabelText));
+    }
+    
+    @And("^([^\"]*) dropdown should have value as \'([^\"]*)\'$")
+    public void verify_dropdown_value(String dropdownName, String expectedDropdownValue){
+    	assertTrue(dropdownName + " dropdown should have value as " + expectedDropdownValue, loginPage.isDropdownDisplaysExpectedValue(dropdownName, expectedDropdownValue));
+    }
+    
+    @And("^([^\"]*) dropdown should have options same as calendar$")
+    public void verify_dropdown_values(String dropdownName){
+    	assertTrue(dropdownName + " dropdown should have options same as calendar " + dropdownName + "s", loginPage.isDropdownValuesMatchesCalendarValues(dropdownName));
+    }
+    
+    @And("^user selects ([^\"]*) value from ([^\"]*) dropdown$")
+    public void user_selects_value_from_dropdown(String dropdownValue, String dropdownName){
+    	loginPage.selectValuefromDropdown(dropdownName, dropdownValue);
+    }
+    
+    @Then("^user should see the error message as \'([^\"]*)\'$")
+    public void user_should_see_error_message(String expectedErrorMessage){
+    	loginPage.isCorrectErrorMessageDisplayed(expectedErrorMessage);
+    }
+}
