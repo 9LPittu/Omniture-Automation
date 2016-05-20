@@ -66,9 +66,24 @@ public class HamburgerMenu {
         WebDriverWait wait = Util.createWebDriverWait(driver);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.waitWithStaleRetry(driver,hamburgerMenu);
-        wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
-        Util.clickWithStaleRetry(hamburgerMenu);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//nav[@id='global__nav']")));
+        
+        int attempts = 0;        
+        while(attempts <= 2){
+        	try{
+        		wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
+        		Util.clickWithStaleRetry(hamburgerMenu);
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//nav[@id='global__nav']")));
+                break;
+        	}
+        	catch(Exception e){
+        		attempts++;
+        	}
+        }
+        
+        if(attempts>=2){
+        	throw new NoSuchElementException("Failed to click on hamburger menu"); 
+        }
+        
     }
 
     public boolean isHamburgerMenuPresent() {
