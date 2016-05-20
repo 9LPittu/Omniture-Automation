@@ -68,7 +68,7 @@ public class HamburgerMenu {
         Util.waitWithStaleRetry(driver,hamburgerMenu);
         wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
         Util.clickWithStaleRetry(hamburgerMenu);
-        wait.until(ExpectedConditions.visibilityOf(globalNav));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//nav[@id='global__nav']")));
     }
 
     public boolean isHamburgerMenuPresent() {
