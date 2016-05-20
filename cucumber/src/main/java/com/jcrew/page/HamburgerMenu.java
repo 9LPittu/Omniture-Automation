@@ -72,7 +72,7 @@ public class HamburgerMenu {
         	try{
         		wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
         		Util.clickWithStaleRetry(hamburgerMenu);
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//nav[@id='global__nav']")));
+        		Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//nav[@id='global__nav']")));
                 break;
         	}
         	catch(Exception e){
