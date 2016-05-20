@@ -24,7 +24,7 @@ public class HamburgerMenu {
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement hamburgerMenuLink;
 
-    @FindBy(className = "js-primary-nav__link--menu")
+    @FindBy(xpath = ".//a[contains(@class,'js-primary-nav__link--menu')]")
     private WebElement hamburgerMenu;
 
     @FindBy(className = "menu__nested")
