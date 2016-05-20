@@ -247,4 +247,12 @@ public class StartingSteps {
             }
         }
     }
+    
+    @And("^user appends ([^\"]*) to the url in the browser and navigate to the page$")
+    public void user_appends_and_navigates_to_url(String urlParam){
+    	PropertyReader reader = PropertyReader.getPropertyReader();        
+    	if(reader.getProperty("environment").equalsIgnoreCase("qa2")){
+    		driver.navigate().to(driver.getCurrentUrl() + urlParam);
+    	}
+    }
 }
