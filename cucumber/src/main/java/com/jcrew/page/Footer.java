@@ -52,8 +52,8 @@ public class Footer {
     @FindBy(className="footer__country-context")
     private WebElement shipToSectionInFooter;
     
-    @FindBy(xpath=".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']")
-    private WebElement countryNameInFooter;
+//    @FindBy(xpath=".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']")
+//    private WebElement countryNameInFooter;
     
     @FindBy(xpath=".//div[@class='footer__country-context']/descendant::a[@class='footer__country-context__link']")
     private WebElement changeLinkInFooter;
@@ -289,7 +289,9 @@ public class Footer {
     }
     
     public boolean isCountryNameDisplayedInFooter(){
-    	return countryNameInFooter.isDisplayed();
+
+        WebElement countryNameInFooter = footerSection.findElement(By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"));
+        return countryNameInFooter.isDisplayed();
     }
     
     public boolean isChangeLinkDisplayedInFooter(){
@@ -312,6 +314,7 @@ public class Footer {
     }
     
     public boolean isChangedCountryNameDsiplayedInFooter(String country){
+        WebElement countryNameInFooter = footerSection.findElement(By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"));
     	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(countryNameInFooter, country));
     	String currentCountryName = countryNameInFooter.getText().trim();
     	return currentCountryName.equalsIgnoreCase(country);
@@ -455,6 +458,7 @@ public class Footer {
     	
     	Country c = (Country)stateHolder.get("context");
         String expectedCountryName = c.getCountryName();
+        WebElement countryNameInFooter = footerSection.findElement(By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"));
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));    	
     	String actualCountryName = countryNameInFooter.getText();
     	
