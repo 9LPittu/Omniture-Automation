@@ -237,8 +237,11 @@ public class ContextChooserPage {
 		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
 		driver.findElement(By.id("page__international")).click();
 		regionHeader.click();
+		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"))));
 
     	//Click on country
+		Util.waitForPageFullyLoaded(driver);
+		Util.waitLoadingBar(driver);
 		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') "
 				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
     	countryElement.click();
