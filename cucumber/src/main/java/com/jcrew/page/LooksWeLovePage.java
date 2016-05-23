@@ -36,13 +36,15 @@ public class LooksWeLovePage {
         //wait for section with buttons to be loaded
         switch (type){
             case "women":
-                //locator = By.xpath("//a[@class='section-button shop-now']");
-                locator = By.xpath("//a[@class='section-image section-image1']");
+                locator = By.xpath("//a[@class='section-button shop-now']");
+                //locator = By.xpath("//a[@class='section-image section-image1']");
                 break;
             case "men":
                 locator = By.className("image-box__link");
                 break;
             case "girls":
+                locator = By.xpath("//a[@class='section-button shop-now']");
+                break;
             case "boys":
                 locator = By.xpath("//div[@id='plusMidWrapper']/div[contains(@class,'section')]/a");
                 break;
