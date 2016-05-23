@@ -24,7 +24,7 @@ public class HamburgerMenu {
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement hamburgerMenuLink;
 
-    @FindBy(className = "js-primary-nav__link--menu")
+    @FindBy(xpath = ".//a[contains(@class,'js-primary-nav__link--menu')]")
     private WebElement hamburgerMenu;
 
     @FindBy(className = "menu__nested")
@@ -66,9 +66,24 @@ public class HamburgerMenu {
         WebDriverWait wait = Util.createWebDriverWait(driver);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.waitWithStaleRetry(driver,hamburgerMenu);
-        wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
-        Util.clickWithStaleRetry(hamburgerMenu);
-        wait.until(ExpectedConditions.visibilityOf(globalNav));
+        
+        int attempts = 0;        
+        while(attempts <= 2){
+        	try{
+        		wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
+        		Util.clickWithStaleRetry(hamburgerMenu);
+        		Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//nav[@id='global__nav']")));
+                break;
+        	}
+        	catch(Exception e){
+        		attempts++;
+        	}
+        }
+        
+        if(attempts>=2){
+        	throw new NoSuchElementException("Failed to click on hamburger menu"); 
+        }
+        
     }
 
     public boolean isHamburgerMenuPresent() {

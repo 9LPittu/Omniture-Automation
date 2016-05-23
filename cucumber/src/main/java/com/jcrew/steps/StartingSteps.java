@@ -21,8 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -51,9 +51,17 @@ public class StartingSteps {
     }
 
     @Given("User is on clean session international ([^\"]*) page$")
-    public void  user_goes_to_international_page(String country_group,List<String> pageUrlList) throws Throwable {
+    public void  user_goes_to_international_page(String country_group, List<String> pageUrlList) throws Throwable {
         driverFactory.deleteBrowserCookies();
-        getTheRandomInternationalPage(country_group,pageUrlList);
+
+        TestDataReader testData = TestDataReader.getTestDataReader();
+        String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
+        page = page.toLowerCase();
+
+        String pageURL = testData.getData("url." + page);
+        stateHolder.put("pageUrl", pageURL);
+
+        getInternationalUrl(testData.getCountry(country_group), pageURL);
     }
 
     @Given("User is on clean session in ([^\"]*) homepage page$")
@@ -61,31 +69,28 @@ public class StartingSteps {
         driverFactory.deleteBrowserCookies();
         TestDataReader testData = TestDataReader.getTestDataReader();
 
-        String env = reader.getProperty("url");
-        getUrl(env, testData.getCountry(country_group), "");
+        getInternationalUrl(testData.getCountry(country_group), "");
     }
 
-    public void  getTheRandomInternationalPage(String country, List<String> pageUrlList) {
-        TestDataReader testData = TestDataReader.getTestDataReader();
-        String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
-        page = page.toLowerCase();
-
-        String pageURL = testData.getData("url." + page);
-        stateHolder.put("pageUrl", pageURL);
+    public void getInternationalUrl(String selectedCountry, String pageURL) {
         String env = reader.getProperty("url");
-
-        getUrl(env, testData.getCountry(country), pageURL);
-    }
-
-    public void getUrl(String env, String selectedCountry, String pageURL) {
         Country countrydetails = new Country(env, selectedCountry);
-        String countryName = countrydetails.getCountryName();
+
         stateHolder.put("context", countrydetails);
-        logger.debug("country selected {}", countryName);
+        logger.debug("country selected {}", countrydetails.getCountryName());
 
         String selectedCountryHomeUrl = countrydetails.getHomeurl();
         env = selectedCountryHomeUrl + pageURL;
         stateHolder.put("randomUrl", env);
+
+        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent");
+
+        if(!isProdLikeEn && reader.isSystemPropertyTrue("force.cache")) {
+            logger.debug("Forcing Akamai cache");
+            UUID uuid = UUID.randomUUID();
+            env = env + "?c="+uuid.toString();
+        }
+
         driver.get(env);
     }
 
@@ -120,8 +125,6 @@ public class StartingSteps {
         }
     }
 
-
-
     private void waitForHeaderPromo(){
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
@@ -140,7 +143,7 @@ public class StartingSteps {
         stateHolder.put("context", context);
         env = context.getHomeurl();
 
-        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent")||env.contains("or");
+        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent");
         boolean isDesktop = browser.equals("firefox") || browser.equals("chrome");
         logger.debug("current url is: " + env);
 
@@ -149,6 +152,13 @@ public class StartingSteps {
             driver.get(env + "/enableResponsive_sm.jsp");
             driver.findElement(By.linkText("click to browse")).click();
         } else {
+
+            if(reader.isSystemPropertyTrue("force.cache")) {
+                logger.debug("Forcing Akamai cache");
+                UUID uuid = UUID.randomUUID();
+                env = env + "?c="+uuid.toString();
+            }
+
             driver.get(env);
         }
     }
@@ -163,11 +173,7 @@ public class StartingSteps {
     
     @And("user should see country code in the url for international countries")
     public void user_should_see_country_code_in_url_for_international_countries(){
-
-
         Country c = (Country)stateHolder.get("context");
-    	String env = reader.getProperty("url");
-
     	assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
     			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(c.getHomeurl())));
     }
@@ -240,5 +246,13 @@ public class StartingSteps {
                 logger.error("An exception happened when taking step screenshot after step", e);
             }
         }
+    }
+    
+    @And("^user appends ([^\"]*) to the url in the browser and navigate to the page$")
+    public void user_appends_and_navigates_to_url(String urlParam){
+    	PropertyReader reader = PropertyReader.getPropertyReader();        
+    	if(reader.getProperty("environment").equalsIgnoreCase("qa2")){
+    		driver.navigate().to(driver.getCurrentUrl() + urlParam);
+    	}
     }
 }
