@@ -122,6 +122,8 @@ public class HamburgerMenuSteps extends DriverFactory {
         new LooksWeLoveSteps().user_Selects_Random_Shop_The_Look_Page(category);
 
     }
+
+
     
     @And("^user selects ([^\"]*) subcategory$")
     public void select_subcategory(String subcategory){

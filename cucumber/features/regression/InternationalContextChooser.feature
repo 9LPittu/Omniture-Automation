@@ -254,9 +254,11 @@ Feature: International Country Context
     And User clicks on hamburger menu
     And User selects random tray from available categories
       |Women|THIS MONTH'S FEATURES|looks we love |
-      |Men  |THIS MONTH'S FEATURES|1 Suit, 5 Ways|
-      |Girls|THIS MONTH'S FEATURES|Looks We Love |
-      |Boys |THIS MONTH'S FEATURES|Looks We Love |
+#      |Men  |THIS MONTH'S FEATURES|1 Suit, 5 Ways|
+#      |Girls|THIS MONTH'S FEATURES|Looks We Love |
+#      |Boys |THIS MONTH'S FEATURES|Looks We Love |
+#    And Selects Women Category from hamburger menu
+#    When User clicks on This Month's Features subcategory from Women Category
     And user should see country code in the url for international countries
 
     Examples:
