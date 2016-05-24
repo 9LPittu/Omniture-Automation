@@ -887,14 +887,14 @@ public class SubcategoryPage {
     		itemFinalPrice = getItemPriceWithVariedPricesForColorsOnPDP(productDetailsSection);
     		
     		if(itemFinalPrice.isEmpty()){
-    			listPrice = productVariations.get(0).findElement(By.xpath("//input[@type='radio' and @name='variant' and @checked='']"
-    					+ "/../following-sibling::div/span[contains(@class,'product__variation--price') "
+    			listPrice = productVariations.get(0).findElement(By.xpath("//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]"
+    					+ "/../../following-sibling::div/span[contains(@class,'product__variation--price') "
     					+ "and not(contains(@class,'sale'))]")).getText().toLowerCase();
     			
     			listPrice = listPrice.replace("was ", "");
     			
-    			salePrice = productVariations.get(0).findElement(By.xpath("//input[@type='radio' and @name='variant' and @checked='']"
-    					+ "/../following-sibling::div/span[contains(@class,'product__variation--price') "
+    			salePrice = productVariations.get(0).findElement(By.xpath("//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]"
+    					+ "/../../following-sibling::div/span[contains(@class,'product__variation--price') "
     					+ "and contains(@class,'sale')]")).getText();
     					
     			if(!salePrice.isEmpty()){
