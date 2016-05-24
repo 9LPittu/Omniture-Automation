@@ -115,6 +115,7 @@ Feature: Welcome Mat for ROW with checkout
     Given User is on clean session in <country_group> homepage page
     And Welcome mat content is displayed
     And User clicks on START SHOPPING on welcome mat
+    And Handle the Email Capture pop up
     And user should see country code in the url for international countries
     And user should see selected country in the footer
     And User presses search button
@@ -133,19 +134,21 @@ Feature: Welcome Mat for ROW with checkout
     Then User is in product detail page
     And user should see the PDP messages for the selected country
     And User presses search button
-    When Enters vps.item to the search field
-    And Clicks on search button for input field
-    And user selects first product from search results
-    Then User is in product detail page
-    Then user should see PDP page with message for vps item
-    And User presses search button
     When Enters shipping.restriction.item to the search field
     And Clicks on search button for input field
     And user selects first product from search results
     Then User is in product detail page
     Then user should see PDP page with shipping restriction message
 
+#  currently vps is set up only in bronze in canada context. Will run the below when data is available
+#    And User presses search button
+#    When Enters vps.item to the search field
+#    And Clicks on search button for input field
+#    And user selects first product from search results
+#    Then User is in product detail page
+#    Then user should see PDP page with message for vps item
+
     Examples:
       | country_group |
       | PRICEBOOK     |
-      | NON-PRICEBOOK |
+     # | NON-PRICEBOOK |
