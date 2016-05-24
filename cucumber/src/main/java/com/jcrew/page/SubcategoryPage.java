@@ -790,21 +790,21 @@ public class SubcategoryPage {
     	
     	String currentURL = driver.getCurrentUrl();
     	
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String environment = propertyReader.getProperty("environment");
+//    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+//    	String environment = propertyReader.getProperty("environment");
+//
+//    	Country c = (Country) stateHolder.get("context");
+//    	String countryCode = c.getCountry();
+//
+//    	String searchString = "";
+//    	if(countryCode.equalsIgnoreCase("us")){
+//    		searchString = environment + "/r/search/";
+//    	}
+//    	else{
+//    		searchString = environment + "/" + countryCode + "/r/search/";
+//    	}
     	
-    	Country c = (Country) stateHolder.get("context");
-    	String countryCode = c.getCountry();
-    	
-    	String searchString = "";
-    	if(countryCode.equalsIgnoreCase("us")){
-    		searchString = environment + "/r/search/";
-    	}
-    	else{
-    		searchString = environment + "/" + countryCode + "/r/search/";
-    	}
-    	
-    	if(currentURL.contains(searchString)){
+    	if(currentURL.contains("/r/search/")){
     		click_first_product_in_grid();
     	}
     }
