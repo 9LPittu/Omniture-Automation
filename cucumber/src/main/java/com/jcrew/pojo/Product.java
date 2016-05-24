@@ -5,8 +5,6 @@ public class Product {
     private String productName;
     private String productCode;
     private String priceList;
-    private String wasPriceList;
-    private String nowPriceList;
     private String variations;
     private String colorsCount;
     private String priceWas;
