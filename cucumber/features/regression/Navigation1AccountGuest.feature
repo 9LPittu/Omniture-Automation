@@ -87,6 +87,7 @@ Feature: Sign In Page
 
    #US9890_TC11
   #Not working as expected at present----in reference to JCSC-864
+  # changed the implementation to verify we land in home page after creating account
   Scenario: create new account from pdp page
     And User clicks on hamburger menu
     And user selects any category from hamburger menu
@@ -102,7 +103,7 @@ Feature: Sign In Page
     And Enter random password as Password in create account section
     And selects any country from the country list
     And User clicks on create an account button
-    And User is in product detail page
+    And Verify user is in homepage
     And User clicks on hamburger menu
     And user selects any category from hamburger menu
 	And user selects any subcategory
