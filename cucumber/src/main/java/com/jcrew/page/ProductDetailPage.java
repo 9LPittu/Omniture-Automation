@@ -135,9 +135,30 @@ public class ProductDetailPage {
             productName = cleanProductName(productName);
 
             String productPrice = product.getPriceWas();
-            String productNowPrice = product.getPriceSale();            
+            String productNowPrice = product.getPriceSale();  
             
-            if (productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString) && pdpNowPriceString.equals(productNowPrice)) {
+            //check if price ranges are given in the array page/PDP
+            boolean salePriceValidation = pdpNowPriceString.equals(productNowPrice) || 
+            							  pdpNowPriceString.contains(productNowPrice) ||
+            							  productNowPrice.contains(pdpNowPriceString);
+            
+            if(!salePriceValidation){            	
+            	Country c = (Country) stateHolder.get("context");
+            	String currency = c.getCurrency();
+            	
+            	if(pdpNowPriceString.contains("-")){
+            		Double lowerSalePrice =  Double.parseDouble(pdpNowPriceString.split("-")[0].replace(currency, "").trim());
+            		Double upperSalePrice =  Double.parseDouble(pdpNowPriceString.split("-")[1].replace(currency, "").trim());
+            		
+            		Double expectedNowPrice = Double.parseDouble(productNowPrice.replace(currency, ""));
+            		
+            		if(Double.compare(lowerSalePrice, expectedNowPrice) < 0 && Double.compare(upperSalePrice, expectedNowPrice) > 0){
+            			salePriceValidation = true;
+            		}
+            	}
+            }
+            
+            if (productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString) && salePriceValidation) {
             	if(!productNowPrice.isEmpty()){
                 	logger.debug("Found: {} - {} - {}", productName, productPrice, productNowPrice);
                 }

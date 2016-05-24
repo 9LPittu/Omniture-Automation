@@ -575,7 +575,7 @@ public class SubcategoryPage {
 
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
 
-    	List<WebElement> arrayPageItems = driver.findElements(By.xpath("//div[@class='c-product-tile']"));
+    	List<WebElement> arrayPageItems = getArrayPageProductTileElements();
 
     	//checking items are displayed on the array page
     	if(arrayPageItems.size()==0){
@@ -590,14 +590,14 @@ public class SubcategoryPage {
     		itemsThreshold = arrayPageItems.size();
     	}
     	
-    	
     	for(int loopCntr=0;loopCntr<itemsThreshold;loopCntr++){
     		try{
     			String arrayPageItemName = "";
-    			arrayPageItems = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//div[@class='c-product-tile']"))));
+    			arrayPageItems = getArrayPageProductTileElements();
 
-    			//Capture the array page item name & price 
-    			WebElement itemNameElement = arrayPageItems.get(loopCntr).findElement(By.xpath("//span[contains(@class,'tile__detail--name')]"));
+    			//Capture the array page item name & price
+    			WebElement productTileElement = arrayPageItems.get(loopCntr);
+    			WebElement itemNameElement = productTileElement.findElement(By.xpath("//span[contains(@class,'tile__detail--name')]"));
     			arrayPageItemName = itemNameElement.getText().trim();
         		storeItemPriceFromArrayPage(arrayPageItems.get(loopCntr));
 
@@ -706,6 +706,11 @@ public class SubcategoryPage {
     	driver.navigate().back();
 		Util.waitForPageFullyLoaded(driver);
 		logger.debug("Navigated back to Array page");
+    }
+    
+    public List<WebElement> getArrayPageProductTileElements(){
+    	List<WebElement> arrayPageproductTileElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//div[@class='c-product-tile']"))));
+    	return arrayPageproductTileElements;
     }
     
     public void selectRandomItemFromArrayPage(){
@@ -856,23 +861,25 @@ public class SubcategoryPage {
     	WebElement productDetailsSection = driver.findElement(By.xpath(".//section[@id='c-product__details']"));
     	List<WebElement> productPrices; 
     	
-    	if(productVariations.size() == 0){   		
-    		productPrices = productDetailsSection.findElements(By.xpath(".//div[@id='c-product__price']/div"));
+    	if(productVariations.size() == 0){
+    		//If item has no variations    		
+    		itemFinalPrice = getItemPriceWithVariedPricesForColorsOnPDP(productDetailsSection);
     		
-    		if(productPrices.size() > 0){    			
-    			listPrice = getItemListPriceFromPDP(productPrices);    			
-    			salePrice = getItemSalePriceFromPDP(productPrices);
-    			
-    			//store the price depending on list/sale price is displayed
-    			if(salePrice.isEmpty()){
-    				itemFinalPrice = listPrice;
-    			}
-    			else{
-    				itemFinalPrice = salePrice;
-    			}
-    		}
-    		else{
-    			itemFinalPrice = getItemPriceWithVariedPricesForColorsOnPDP(productDetailsSection);
+    		if(itemFinalPrice.isEmpty()){
+	    		productPrices = productDetailsSection.findElements(By.xpath(".//div[@id='c-product__price']/div"));
+	    		
+	    		if(productPrices.size() > 0){    			
+	    			listPrice = getItemListPriceFromPDP(productPrices);    			
+	    			salePrice = getItemSalePriceFromPDP(productPrices);
+	    			
+	    			//store the price depending on list/sale price is displayed
+	    			if(salePrice.isEmpty()){
+	    				itemFinalPrice = listPrice;
+	    			}
+	    			else{
+	    				itemFinalPrice = salePrice;
+	    			}
+	    		}
     		}
     	}    	
     	else{
@@ -934,14 +941,14 @@ public class SubcategoryPage {
     
     public String getItemColorBasedPriceFromPDP(List<WebElement> productPrices){
     	
-    	String itemColorPrice = "";
+    	String itemColorPrice;
     	
     	try{
     		WebElement itemColorPriceElement = productPrices.get(0).findElement(By.xpath("//li[contains(@class,'colors-list__item') and contains(@class,'is-selected')]/../../../span[1]"));
     		itemColorPrice = itemColorPriceElement.getText().trim();
     	}
     	catch(Exception e){
-    		logger.error("Failed to retrieve price for the selected color!!!");
+    		itemColorPrice = "";
     	}
     	
 		return itemColorPrice;
