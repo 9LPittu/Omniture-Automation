@@ -3,6 +3,7 @@ package com.jcrew.pojo;
 
 public class Product {
     private String productName;
+    private String productCode;
     private String priceList;
     private String variations;
     private String colorsCount;
@@ -18,6 +19,14 @@ public class Product {
 
     public String getProductName() {
         return productName;
+    }
+    
+    public void setProductCode(String productCode){
+    	this.productCode = productCode;
+    }
+    
+    public String getProductCode(){
+    	return productCode;
     }
 
     public void setPriceList(String priceList) {

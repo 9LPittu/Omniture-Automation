@@ -111,3 +111,30 @@ Feature: Sign In Page
     And User clicks on hamburger menu
     And User clicks on back link
     Then My Account link is present
+  
+  Scenario: Birthday field validation in create an account form
+  	And user appends ?showBirthDateOnRegistration=true to the url in the browser and navigate to the page
+  	And Enter random first name as First Name in create account section
+    And Enter random last name as Last Name in create account section
+    And Enter random email as Email in create account section
+    And Enter random password as Password in create account section
+    And user should see birthday section after password field    
+    And user should see label text as 'Add your birthday & receive a lorem ipsum dolar offer!' in create account form    
+    And Month dropdown should have value as 'Month'    
+    And Day dropdown should have value as 'Day'
+    And month dropdown should have options same as calendar    
+    And day dropdown should have options same as calendar    
+    And user selects random value from month dropdown    
+    Then user should see the error message as 'Please enter Day.'    
+    And user selects Month value from month dropdown
+    And user selects random value from day dropdown
+    Then user should see the error message as 'Please enter Month.'
+    And user selects April value from month dropdown
+    And user selects 31 value from day dropdown
+    Then user should see the error message as 'Please choose a valid date.'
+    And user selects 30 value from day dropdown
+    And Month dropdown should have value as 'April'
+    And Day dropdown should have value as '30'
+    And selects any country from the country list
+    And Month dropdown should have value as 'April'
+    And Day dropdown should have value as '30'    
