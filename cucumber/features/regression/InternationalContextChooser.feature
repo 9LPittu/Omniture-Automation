@@ -253,7 +253,7 @@ Feature: International Country Context
     And user should see selected country in the footer
     And User clicks on hamburger menu
     And User selects random tray from available categories
-      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
+      | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
     And user should see country code in the url for international countries
 
     Examples:
