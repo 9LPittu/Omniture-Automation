@@ -68,10 +68,15 @@ public class HomePage {
         } else {
             if (testdataReader.hasProperty(environment + "." + searchTerm) && !(searchTerm.contains("item"))) {
                 searchTerm = testdataReader.getData(environment + "." + searchTerm);
+            } else {
+                logger.debug("not validating intl pdp message for {}", environment + "." + searchTerm);
+
             }
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
             searchInput.clear();
             searchInput.sendKeys(searchTerm);
+
+
         }
 
 
