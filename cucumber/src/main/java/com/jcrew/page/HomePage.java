@@ -54,8 +54,8 @@ public class HomePage {
 
     public void input_search_term(String searchTerm) {
     	
-    	//String environment = System.getProperty("environment");
-        String environment = "production";
+    	String environment = System.getProperty("environment");
+        //String environment = "production";
     	TestDataReader testdataReader = TestDataReader.getTestDataReader();
     	
     	if(testdataReader.hasProperty(environment + "." + searchTerm) && !(environment.equals("production"))){
