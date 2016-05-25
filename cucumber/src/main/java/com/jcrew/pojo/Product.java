@@ -36,7 +36,7 @@ public class Product {
     public String getPriceList() {
         return priceList;
     }
-
+    
     public void setVariations(String variations) {
         this.variations = variations;
     }
