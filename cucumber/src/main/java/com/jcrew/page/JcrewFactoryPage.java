@@ -21,7 +21,7 @@ public class JcrewFactoryPage {
 
     public Boolean isJcrewFactoryPage() {
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
-        System.out.println("# of tabs opened:" + tabs.size());
+        System.out.println("# of tabs opened when j.crew factory link is clicked:" + tabs.size());
         driver.switchTo().window(tabs.get(1));
         return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("factory.jcrew.com"));
     }
