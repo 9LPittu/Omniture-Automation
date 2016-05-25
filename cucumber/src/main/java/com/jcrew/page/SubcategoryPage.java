@@ -834,11 +834,8 @@ public class SubcategoryPage {
 				salePrice = productPriceElement.get(1).getText().trim().toLowerCase();
 				salePrice = salePrice.replace("now ", "");
                 salePrice = salePrice.replace("select colors ", "");
-                stateHolder.put("salePrice", salePrice);
 			}
-			else{
-				stateHolder.put("salePrice", "");
-			}
+	        stateHolder.put("salePrice", salePrice);
     	}
     	else{
     		logger.error("Price from array page is not retrieved for the item '{}'", itemNameElement);
