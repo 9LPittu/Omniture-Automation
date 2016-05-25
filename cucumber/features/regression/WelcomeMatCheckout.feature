@@ -151,4 +151,4 @@ Feature: Welcome Mat for ROW with checkout
     Examples:
       | country_group |
       | PRICEBOOK     |
-     # | NON-PRICEBOOK |
+      | NON-PRICEBOOK |
