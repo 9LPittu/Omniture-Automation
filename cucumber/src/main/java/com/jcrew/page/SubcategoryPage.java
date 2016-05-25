@@ -825,26 +825,20 @@ public class SubcategoryPage {
     	List<WebElement> productPriceElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(productTileOnArrayPage.findElements(By.xpath(".//*[contains(@class,'tile__detail tile__detail--price')]"))));    	
     	WebElement itemNameElement = productTileOnArrayPage.findElement(By.xpath(".//span[@class='tile__detail tile__detail--name']"));
     	
-    	if(productPriceElement.size() > 0){
-    		switch(productPriceElement.size()){
-	    		case 1:
-	    			//capture the list price 
-	    			listPrice = productPriceElement.get(0).getText().trim();
-	    			stateHolder.put("listPrice", listPrice);
-	    			stateHolder.put("salePrice", "");
-	    			break;
-	    		case 2:
-	    			//capture the list & sale price
-	    			listPrice = productPriceElement.get(0).getText().trim().toLowerCase();
-	    			listPrice = listPrice.replace("was ", ""); 
-	    			stateHolder.put("listPrice", listPrice);
-	    			
-	    			salePrice = productPriceElement.get(1).getText().trim().toLowerCase();
-	    			salePrice = salePrice.replace("now ", "");
-	    			salePrice = salePrice.replace("select colors ", "");
-	    			stateHolder.put("salePrice", salePrice);
-	    			break;
-    		}
+    	if(productPriceElement.size() > 0){    		
+    		listPrice = productPriceElement.get(0).getText().trim();
+    		listPrice = listPrice.replace("was ", "");
+			stateHolder.put("listPrice", listPrice);
+			
+			if(productPriceElement.size() > 1) {
+				salePrice = productPriceElement.get(1).getText().trim().toLowerCase();
+				salePrice = salePrice.replace("now ", "");
+                salePrice = salePrice.replace("select colors ", "");
+                stateHolder.put("salePrice", salePrice);
+			}
+			else{
+				stateHolder.put("salePrice", "");
+			}
     	}
     	else{
     		logger.error("Price from array page is not retrieved for the item '{}'", itemNameElement);
