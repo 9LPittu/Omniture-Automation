@@ -53,28 +53,28 @@ public class HomePage {
     }
 
     public void input_search_term(String searchTerm) {
-    	
-    	String environment = System.getProperty("environment");
-        //String environment = "production";
-    	TestDataReader testdataReader = TestDataReader.getTestDataReader();
-    	if (!(environment.equals("production"))) {
-    	if(testdataReader.hasProperty(environment + "." + searchTerm)) {
-    		searchTerm = testdataReader.getData(environment + "." + searchTerm);
-    	}
-    	
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
-        searchInput.clear();
-        searchInput.sendKeys(searchTerm);
-        }
-        else {
-            if(testdataReader.hasProperty(environment + "." + searchTerm) && !(searchTerm.contains("item"))) {
+
+        String environment = System.getProperty("environment");
+
+        TestDataReader testdataReader = TestDataReader.getTestDataReader();
+        if (!(environment.equals("production"))) {
+            if (testdataReader.hasProperty(environment + "." + searchTerm)) {
                 searchTerm = testdataReader.getData(environment + "." + searchTerm);
             }
 
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
             searchInput.clear();
             searchInput.sendKeys(searchTerm);
+        } else {
+            if (testdataReader.hasProperty(environment + "." + searchTerm) && !(searchTerm.contains("item"))) {
+                searchTerm = testdataReader.getData(environment + "." + searchTerm);
+            }
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
+            searchInput.clear();
+            searchInput.sendKeys(searchTerm);
         }
+
+
     }
 
     public void click_on_search_button_for_input_field() {
