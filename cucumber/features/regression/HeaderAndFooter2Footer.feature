@@ -176,6 +176,7 @@ Feature: Footer Verification In Home Page
     And external http://investors.jcrew.com page is opened in a different tab
 
     #tc-08
+    @HeaderAndFooter1
   Scenario: Verification of Our Brands links display
     When Click on footer link Our Brands to open
     And J.Crew Factory sublink is displayed
