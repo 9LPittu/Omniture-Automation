@@ -19,6 +19,6 @@ public class JcrewFactoryPage {
     public Boolean isJcrewFactoryPage() {
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1));
-        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("factory.jcrew.com"));
+        return Util.createWebDriverWait(driver,180).until(ExpectedConditions.urlContains("factory.jcrew.com"));
     }
 }
