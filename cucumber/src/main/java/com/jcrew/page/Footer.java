@@ -158,8 +158,8 @@ public class Footer {
 
     public void click_sublink_from(String footerSubLink, String footerLink) {
     	
-    	if(footerSubLink.equals("J.Crew Factory")){
-    		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+    	ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+    	if(footerSubLink.equals("J.Crew Factory")){    		
             System.out.println("# of tabs opened before j.crew factory link is clicked:" + tabs.size());
             
             for(int i=1;i<tabs.size();i++){
@@ -172,6 +172,7 @@ public class Footer {
             }
     	}
     	
+    	driver.switchTo().window(tabs.get(0));
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
         WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublink));
