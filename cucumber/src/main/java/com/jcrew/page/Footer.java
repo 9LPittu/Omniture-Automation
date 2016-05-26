@@ -167,8 +167,8 @@ public class Footer {
             	String tabTitle = driver.getTitle();
             	String tabUrl = driver.getCurrentUrl();
             	driver.close();
-            	logger.debug("Tab is closed with page title as '{}'", tabTitle);
-            	logger.debug("Tab is closed with page url as '{}'", tabUrl);
+            	logger.debug("Tab {} is closed with page title as '{}'",i, tabTitle);
+            	logger.debug("Tab {} is closed with page url as '{}'", i, tabUrl);
             }
             
             driver.switchTo().window(tabs.get(0));

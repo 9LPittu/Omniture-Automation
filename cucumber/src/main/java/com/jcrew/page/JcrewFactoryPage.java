@@ -32,11 +32,17 @@ public class JcrewFactoryPage {
         	driver.switchTo().window(tabs.get(i));
         	System.out.println("Current tab URL: " + driver.getCurrentUrl());
         	System.out.println("Current tab title: " + driver.getTitle());
-        	if(Util.createWebDriverWait(driver,180).until(ExpectedConditions.urlContains("factory.jcrew.com"))){
-        		isJcrewFactoryPageDisplayed = true;
-        		break;
+        	
+        	try{
+        		isJcrewFactoryPageDisplayed = Util.createWebDriverWait(driver,180).until(ExpectedConditions.urlContains("factory.jcrew.com"));
+        		if(isJcrewFactoryPageDisplayed){        		
+            		break;
+            	}
         	}
-        }        
+        	catch(Exception e){
+        		System.out.println("factory.jcrew.com is not displayed in tab " + i);
+        	}
+        }     
         return isJcrewFactoryPageDisplayed;
     }
 }
