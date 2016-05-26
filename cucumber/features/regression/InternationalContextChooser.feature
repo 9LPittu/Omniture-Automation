@@ -244,22 +244,20 @@ Feature: International Country Context
 
 
   #multipdp, shoppable tray
-  Scenario Outline: international context validation for shoppable tray page
-    Then click on change link from footer
-    And User is on context chooser page
-    And User is on internal /r/context-chooser page
-    Given user selects <country_group> at random from context chooser page
-    Then user should land on country specific home page
-    And user should see selected country in the footer
-    And User clicks on hamburger menu
-    And User selects random tray from available categories
-      |Women|THIS MONTH'S FEATURES|looks we love |
-      |Men  |THIS MONTH'S FEATURES|1 Suit, 5 Ways|
-      |Girls|THIS MONTH'S FEATURES|Looks We Love |
-      |Boys |THIS MONTH'S FEATURES|Looks We Love |
-    And user should see country code in the url for international countries
-
-    Examples:
-    |country_group|
-    |PRICEBOOK|
-    |NONPRICEBOOK|
+  #Commenting it out as there is a jira JCSC-1131 for context not showing in th url
+#  Scenario Outline: international context validation for shoppable tray page
+#    Then click on change link from footer
+#    And User is on context chooser page
+#    And User is on internal /r/context-chooser page
+#    Given user selects <country_group> at random from context chooser page
+#    Then user should land on country specific home page
+#    And user should see selected country in the footer
+#    And User clicks on hamburger menu
+#    And User selects random tray from available categories
+#      | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
+#    And user should see country code in the url for international countries
+#
+#    Examples:
+#    |country_group|
+#    |PRICEBOOK|
+#    |NONPRICEBOOK|
