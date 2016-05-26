@@ -20,9 +20,21 @@ public class JcrewFactoryPage {
     }
 
     public Boolean isJcrewFactoryPage() {
+//        ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+//        driver.switchTo().window(tabs.get(1));
+//        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("factory.jcrew.com"));
+        
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         System.out.println("# of tabs opened when j.crew factory link is clicked:" + tabs.size());
-        driver.switchTo().window(tabs.get(1));
-        return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("factory.jcrew.com"));
+        
+        boolean isJcrewFactoryPageDisplayed = false;
+        for(int i=1;i<=tabs.size();i++){
+        	driver.switchTo().window(tabs.get(i));
+        	if(Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("factory.jcrew.com"))){
+        		isJcrewFactoryPageDisplayed = true;
+        		break;
+        	}
+        }        
+        return isJcrewFactoryPageDisplayed;
     }
 }
