@@ -28,7 +28,7 @@ public class JcrewFactoryPage {
         System.out.println("# of tabs opened when j.crew factory link is clicked:" + tabs.size());
         
         boolean isJcrewFactoryPageDisplayed = false;
-        for(int i=1;i<=tabs.size();i++){
+        for(int i=0;i<tabs.size();i++){
         	driver.switchTo().window(tabs.get(i));
         	System.out.println("Current tab URL: " + driver.getCurrentUrl());
         	System.out.println("Current tab title: " + driver.getTitle());

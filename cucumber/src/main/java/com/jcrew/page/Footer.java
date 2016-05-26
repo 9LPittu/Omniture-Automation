@@ -170,7 +170,7 @@ public class Footer {
             	logger.debug("Tab is closed with page title as '{}'", tabTitle);
             	logger.debug("Tab is closed with page url as '{}'", tabUrl);
             }
-    	} 	
+    	}
     	
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
         WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
