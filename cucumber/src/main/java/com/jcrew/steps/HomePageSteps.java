@@ -6,6 +6,7 @@ import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -92,5 +93,10 @@ public class HomePageSteps extends DriverFactory {
     	
     	header.click_on_search_button();    	
     	homePage.searchItemByReadingPropertyFile(propertyName);
+    }
+    
+    @When("^user enters ([^\"]*) in search field$")
+    public void user_enters_search_term_in_search_field(String searchTerm){
+    	homePage.input_search_term_by_reading_from_properties(searchTerm);
     }
 }
