@@ -24,7 +24,7 @@ public class JcrewFactoryPage {
     public Boolean isJcrewFactoryPage() {
         
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
-        System.out.println("# of tabs opened when j.crew factory link is clicked:" + tabs.size());
+        logger.debug("# of tabs opened when j.crew factory link is clicked: {}", tabs.size());
         
         boolean isJcrewFactoryPageDisplayed = false;        
         for(int i=1;i<tabs.size();i++){
