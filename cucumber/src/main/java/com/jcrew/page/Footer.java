@@ -52,9 +52,6 @@ public class Footer {
     @FindBy(className="footer__country-context")
     private WebElement shipToSectionInFooter;
     
-    @FindBy(xpath=".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']")
-    private WebElement countryNameInFooter;
-    
     @FindBy(xpath=".//div[@class='footer__country-context']/descendant::a[@class='footer__country-context__link']")
     private WebElement changeLinkInFooter;
     
@@ -160,6 +157,7 @@ public class Footer {
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
         WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublink));
+        logger.info("sub link being clicked {}", footerSubLink.toString());
         footerSublink.click();
     }
 
@@ -240,9 +238,9 @@ public class Footer {
     public boolean isSocialIconDisplayed(String socialIcon) {
         List<WebElement> socialNetworkIconsList = footerWrapMain.findElements(By.className("footer__social__menu"));
         boolean iconDisplayed = false;
-        for(WebElement socialNetworkIcon: socialNetworkIconsList) {
-            //Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(contactUsIcon.findElement(By.cssSelector("a[href*='"+icon+"']"))));
-            iconDisplayed =socialNetworkIcon.findElement(By.className("footer-"+socialIcon)).isDisplayed();
+        for (WebElement socialNetworkIcon : socialNetworkIconsList) {
+
+            iconDisplayed = socialNetworkIcon.findElement(By.className("footer-" + socialIcon)).isDisplayed();
         }
         return iconDisplayed;
     }
@@ -289,7 +287,8 @@ public class Footer {
     }
     
     public boolean isCountryNameDisplayedInFooter(){
-    	return countryNameInFooter.isDisplayed();
+
+        return getCountryNameFooterElement().isDisplayed();
     }
     
     public boolean isChangeLinkDisplayedInFooter(){
@@ -312,8 +311,9 @@ public class Footer {
     }
     
     public boolean isChangedCountryNameDsiplayedInFooter(String country){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(countryNameInFooter, country));
-    	String currentCountryName = countryNameInFooter.getText().trim();
+
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(getCountryNameFooterElement(), country));
+    	String currentCountryName = getCountryNameFooterElement().getText().trim();
     	return currentCountryName.equalsIgnoreCase(country);
     }
     
@@ -450,17 +450,22 @@ public class Footer {
 
         return isDrawerClosed;
     }
-    
-    public boolean isCorrectCountryNameDisplayedInFooter(){
-    	
-    	Country c = (Country)stateHolder.get("context");
+
+    public boolean isCorrectCountryNameDisplayedInFooter() {
+
+        Country c = (Country) stateHolder.get("context");
         String expectedCountryName = c.getCountryName();
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));    	
-    	String actualCountryName = countryNameInFooter.getText();
-    	
-    	logger.info("Expected country to be selected: {}", expectedCountryName);
-    	logger.info("Actual country selected: {}", actualCountryName);
-    	
-    	return actualCountryName.equalsIgnoreCase(expectedCountryName);
+        WebElement countryNameInFooter = getCountryNameFooterElement();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));
+        String actualCountryName = countryNameInFooter.getText();
+
+        logger.info("Expected country to be selected: {}", expectedCountryName);
+        logger.info("Actual country selected: {}", actualCountryName);
+
+        return actualCountryName.equalsIgnoreCase(expectedCountryName);
+    }
+
+    public WebElement getCountryNameFooterElement() {
+        return footerSection.findElement(By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"));
     }
 }

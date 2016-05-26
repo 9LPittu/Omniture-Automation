@@ -146,7 +146,7 @@ public class HamburgerMenu {
     }
 
     public void click_on_subcategory(String subcategory, String category) {
-    	String currentURL = driver.getCurrentUrl();
+
         getSubcategoryFromMenu(subcategory, category).click();
         logger.info("Actual subcategory clicked: {}", subcategory);
         stateHolder.put("subcategory", subcategory);
