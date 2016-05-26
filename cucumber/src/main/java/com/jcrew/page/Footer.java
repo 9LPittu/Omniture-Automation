@@ -1,24 +1,19 @@
 package com.jcrew.page;
 
-import com.google.common.base.Predicate;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
-import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Footer {
 
@@ -158,17 +153,20 @@ public class Footer {
 
     public void click_sublink_from(String footerSubLink, String footerLink) {
     	
-    	if(footerSubLink.equals("J.Crew Factory")){
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String browser = propertyReader.getProperty("browser");
+    	
+    	if(footerSubLink.equals("J.Crew Factory") && browser.equalsIgnoreCase("phantomjs")){
     		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
-            System.out.println("# of tabs opened before j.crew factory link is clicked:" + tabs.size());
+    		logger.debug("# of tabs opened before j.crew factory link is clicked: {}", tabs.size());
             
             for(int i=1;i<tabs.size();i++){
             	driver.switchTo().window(tabs.get(i));
             	String tabTitle = driver.getTitle();
             	String tabUrl = driver.getCurrentUrl();
             	driver.close();
-            	logger.debug("Tab {} is closed with page title as '{}'",i, tabTitle);
-            	logger.debug("Tab {} is closed with page url as '{}'", i, tabUrl);
+            	logger.debug("Tab is closed with page title as '{}'", tabTitle);
+            	logger.debug("Tab is closed with page url as '{}'", tabUrl);
             }
             
             driver.switchTo().window(tabs.get(0));
