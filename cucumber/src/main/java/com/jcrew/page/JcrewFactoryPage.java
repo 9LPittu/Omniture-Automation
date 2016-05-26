@@ -1,6 +1,5 @@
 package com.jcrew.page;
 
-import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.WebDriver;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 public class JcrewFactoryPage {
 
     private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(Footer.class);
+    private final Logger logger = LoggerFactory.getLogger(JcrewFactoryPage.class);
 
     public JcrewFactoryPage(WebDriver driver) {
         this.driver = driver;
