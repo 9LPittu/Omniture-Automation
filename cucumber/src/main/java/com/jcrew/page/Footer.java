@@ -158,8 +158,8 @@ public class Footer {
 
     public void click_sublink_from(String footerSubLink, String footerLink) {
     	
-    	ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
-    	if(footerSubLink.equals("J.Crew Factory")){    		
+    	if(footerSubLink.equals("J.Crew Factory")){
+    		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
             System.out.println("# of tabs opened before j.crew factory link is clicked:" + tabs.size());
             
             for(int i=1;i<tabs.size();i++){
@@ -170,9 +170,10 @@ public class Footer {
             	logger.debug("Tab is closed with page title as '{}'", tabTitle);
             	logger.debug("Tab is closed with page url as '{}'", tabUrl);
             }
+            
+            driver.switchTo().window(tabs.get(0));
     	}
     	
-    	driver.switchTo().window(tabs.get(0));
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
         WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublink));
