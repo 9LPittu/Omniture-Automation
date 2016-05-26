@@ -30,6 +30,8 @@ public class JcrewFactoryPage {
         boolean isJcrewFactoryPageDisplayed = false;
         for(int i=1;i<=tabs.size();i++){
         	driver.switchTo().window(tabs.get(i));
+        	System.out.println("Current tab URL: " + driver.getCurrentUrl());
+        	System.out.println("Current tab title: " + driver.getTitle());
         	if(Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("factory.jcrew.com"))){
         		isJcrewFactoryPageDisplayed = true;
         		break;
