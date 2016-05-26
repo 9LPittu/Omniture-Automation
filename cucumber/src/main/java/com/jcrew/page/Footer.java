@@ -162,7 +162,7 @@ public class Footer {
     		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
             System.out.println("# of tabs opened before j.crew factory link is clicked:" + tabs.size());
             
-            for(int i=1;i<=tabs.size();i++){
+            for(int i=1;i<tabs.size();i++){
             	driver.switchTo().window(tabs.get(i));
             	String tabTitle = driver.getTitle();
             	String tabUrl = driver.getCurrentUrl();
