@@ -170,12 +170,12 @@ public class HomePage {
 
 	   String searchTerm = "";
 	   TestDataReader testDataReader = TestDataReader.getTestDataReader();
-   	   if(testDataReader.hasProperty(environment + "." + countryGroup + "." + propertyName)){
-		  searchTerm = testDataReader.getData(environment + "." + countryGroup + "." + propertyName);
+   	   if(testDataReader.hasProperty(environment + "." + countryGroup + ".country." + propertyName)){
+		  searchTerm = testDataReader.getData(environment + "." + countryGroup + ".country." + propertyName);
 	   }
    	   else{
-   		   logger.error("'{}' property is not found in the test data properties file", environment + "." + countryGroup + "." + propertyName);
-   		   throw new WebDriverException("'" + environment + "." + countryGroup + "." + propertyName + "' property is not found in the test data properties file");
+   		   logger.error("'{}' property is not found in the test data properties file", environment + "." + countryGroup + ".country." + propertyName);
+   		   throw new WebDriverException("'" + environment + "." + countryGroup + ".country." + propertyName + "' property is not found in the test data properties file");
    	   }
    	   
    	   input_search_term(searchTerm);
