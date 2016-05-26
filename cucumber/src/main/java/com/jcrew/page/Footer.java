@@ -157,6 +157,21 @@ public class Footer {
     }
 
     public void click_sublink_from(String footerSubLink, String footerLink) {
+    	
+    	if(footerSubLink.equals("J.Crew Factory")){
+    		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+            System.out.println("# of tabs opened before j.crew factory link is clicked:" + tabs.size());
+            
+            for(int i=1;i<=tabs.size();i++){
+            	driver.switchTo().window(tabs.get(i));
+            	String tabTitle = driver.getTitle();
+            	String tabUrl = driver.getCurrentUrl();
+            	driver.close();
+            	logger.debug("Tab is closed with page title as '{}'", tabTitle);
+            	logger.debug("Tab is closed with page url as '{}'", tabUrl);
+            }
+    	} 	
+    	
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
         WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublink));
