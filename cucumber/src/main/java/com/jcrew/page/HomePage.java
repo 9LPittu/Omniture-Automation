@@ -161,7 +161,7 @@ public class HomePage {
    
    public void input_search_term_by_reading_from_properties(String propertyName){
 	   
-	   String environment = System.getProperty("environment");	   
+	   String environment = System.getProperty("environment");
 	   String countryGroup = (String) stateHolder.get("countryGroup");
 	   
 	   if(countryGroup.equalsIgnoreCase("PRICEBOOK")){

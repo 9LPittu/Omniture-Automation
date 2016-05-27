@@ -110,7 +110,7 @@ Feature: Welcome Mat for ROW with checkout
       | country_group |
       | PRICEBOOK     |
       | NON-PRICEBOOK |
-
+  
   Scenario Outline: PDP message validation for sold out item, item with variations, vps item and shipping restriction item
     Given User is on clean session in <country_group> homepage page
     And Welcome mat content is displayed
