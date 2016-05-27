@@ -793,28 +793,20 @@ public class SubcategoryPage {
         }
         return result;
     }
-    
-    public void selectFirstProductFromSearchResults(){
-    	
-    	String currentURL = driver.getCurrentUrl();
-    	
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String environment = propertyReader.getProperty("environment");
-    	
-    	Country c = (Country) stateHolder.get("context");
-    	String countryCode = c.getCountry();
-    	
-    	String searchString = "";
-    	if(countryCode.equalsIgnoreCase("us")){
-    		searchString = environment + "/r/search/";
-    	}
-    	else{
-    		searchString = environment + "/" + countryCode + "/r/search/";
-    	}
-    	
-    	if(currentURL.contains(searchString)){
-    		click_first_product_in_grid();
-    	}
+
+    public void selectFirstProductFromSearchResults() {
+
+        String currentURL = driver.getCurrentUrl();
+
+        Country c = (Country) stateHolder.get("context");
+        String homeurl = c.getHomeurl();
+
+        String searchString = homeurl + "r/search/";
+        logger.debug(searchString);
+
+        if (currentURL.contains(searchString)) {
+            click_first_product_in_grid();
+        }
     }
     
     public void storeItemPriceFromArrayPage(WebElement productTileOnArrayPage){

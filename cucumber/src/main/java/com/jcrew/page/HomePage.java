@@ -52,11 +52,14 @@ public class HomePage {
         Util.waitLoadingBar(driver);
     }
 
-    public void input_search_term(String searchTerm) {    	
+    public void input_search_term(String searchTerm) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
         searchInput.clear();
         searchInput.sendKeys(searchTerm);
+
+
     }
+
 
     public void click_on_search_button_for_input_field() {
         String url = driver.getCurrentUrl();
