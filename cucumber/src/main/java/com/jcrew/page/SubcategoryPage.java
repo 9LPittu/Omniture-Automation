@@ -570,7 +570,7 @@ public class SubcategoryPage {
     public void selectRandomItemAndSelectSizeColor(){
 
     	boolean isItemFound = false;
-    	int MAX_ITEMS_TO_CHECK = 5;
+    	int MAX_ITEMS_TO_CHECK = 10;
     	int itemsThreshold;
 
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
