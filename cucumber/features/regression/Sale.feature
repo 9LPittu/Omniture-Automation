@@ -118,7 +118,7 @@ Feature: Sale Regression Suite
 
     Examples:
       |Sale_Dept|
-      |New in Sale|
+     # |New in Sale|
       |women    |
       |men      |
       |girls    |
