@@ -6,14 +6,14 @@ Feature: Sale Regression Suite
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
 
-    #US9874_TC06
-#  Scenario: New in Sale link functional validation
-#    And User clicks on NEW IN SALE subcategory from Sales
-#    Then User is in Sale results page
-#    And Gender selectors are displayed
-#    And The products are sorted by New in sale
-#    And pagination is displayed on the page
-#    And the page url should contain "/r/search/?N=21+227"
+    US9874_TC06
+  Scenario: New in Sale link functional validation
+    And User clicks on NEW IN SALE subcategory from Sales
+    Then User is in Sale results page
+    And Gender selectors are displayed
+    And The products are sorted by New in sale
+    And pagination is displayed on the page
+    And the page url should contain "/r/search/?N=21+227"
 
    #US9874_TC07,US9874_TC08, US9874_TC09, US9874_TC10, US15673_TC03
   Scenario Outline: Sale category links functional validation
@@ -118,7 +118,7 @@ Feature: Sale Regression Suite
 
     Examples:
       |Sale_Dept|
-     # |New in Sale|
+      |New in Sale|
       |women    |
       |men      |
       |girls    |
