@@ -42,8 +42,8 @@ public class DriverFactory {
 
         if ("device".equals(browser)) {
 
-            width = Integer.parseInt(propertyReader.getProperty(browser + "." + "window.width"));
-            height = Integer.parseInt(propertyReader.getProperty(browser + "." + "window.height"));
+            width = Integer.parseInt(propertyReader.getProperty("device.window.width"));
+            height = Integer.parseInt(propertyReader.getProperty("device.window.height"));
         }
         else {
             width = Integer.parseInt(propertyReader.getProperty("desktop.window.width"));
