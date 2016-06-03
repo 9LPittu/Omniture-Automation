@@ -39,11 +39,17 @@ public class DriverFactory {
         final PropertyReader propertyReader = PropertyReader.getPropertyReader();
         final String browser = propertyReader.getProperty("browser");
 
-        if (propertyReader.hasProperty("window.width") && propertyReader.hasProperty("window.height")) {
-            width = Integer.parseInt(propertyReader.getProperty("window.width"));
-            height = Integer.parseInt(propertyReader.getProperty("window.height"));
+
+        if ("device".equals(browser)) {
+
+            width = Integer.parseInt(propertyReader.getProperty(browser + "." + "window.width"));
+            height = Integer.parseInt(propertyReader.getProperty(browser + "." + "window.height"));
         }
-        
+        else {
+            width = Integer.parseInt(propertyReader.getProperty("desktop.window.width"));
+            height = Integer.parseInt(propertyReader.getProperty("desktop.window.height"));
+        }
+
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
         } else {
@@ -122,7 +128,7 @@ public class DriverFactory {
        } else {
             desiredCapabilities = DesiredCapabilities.phantomjs();
             desiredCapabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
-            desiredCapabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
+            desiredCapabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty(browser + ".user.agent"));
             driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
             driver.manage().window().setSize(new Dimension(width, height));
         }
