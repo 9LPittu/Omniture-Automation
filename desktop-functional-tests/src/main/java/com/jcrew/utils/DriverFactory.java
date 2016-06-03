@@ -76,7 +76,7 @@ public class DriverFactory {
 
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
-            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("user.agent"));
+            capabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty("desktop.user.agent"));
 
             driver = new PhantomJSDriver(capabilities);
             driver.manage().window().setSize(new Dimension(width, height));
