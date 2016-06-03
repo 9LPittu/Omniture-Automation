@@ -1,24 +1,19 @@
 package com.jcrew.page;
 
-import com.google.common.base.Predicate;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
-import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Footer {
 
@@ -51,9 +46,6 @@ public class Footer {
     
     @FindBy(className="footer__country-context")
     private WebElement shipToSectionInFooter;
-    
-    @FindBy(xpath=".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']")
-    private WebElement countryNameInFooter;
     
     @FindBy(xpath=".//div[@class='footer__country-context']/descendant::a[@class='footer__country-context__link']")
     private WebElement changeLinkInFooter;
@@ -157,9 +149,30 @@ public class Footer {
     }
 
     public void click_sublink_from(String footerSubLink, String footerLink) {
+    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String browser = propertyReader.getProperty("browser");
+    	
+    	if(footerSubLink.equals("J.Crew Factory") && browser.equalsIgnoreCase("phantomjs")){
+    		ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+    		logger.debug("# of tabs opened before j.crew factory link is clicked: {}", tabs.size());
+            
+            for(int i=1;i<tabs.size();i++){
+            	driver.switchTo().window(tabs.get(i));
+            	String tabTitle = driver.getTitle();
+            	String tabUrl = driver.getCurrentUrl();
+            	driver.close();
+            	logger.debug("Tab is closed with page title as '{}'", tabTitle);
+            	logger.debug("Tab is closed with page url as '{}'", tabUrl);
+            }
+            
+            driver.switchTo().window(tabs.get(0));
+    	}
+    	
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
         WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublink));
+        logger.info("sub link being clicked {}", footerSubLink.toString());
         footerSublink.click();
     }
 
@@ -240,9 +253,9 @@ public class Footer {
     public boolean isSocialIconDisplayed(String socialIcon) {
         List<WebElement> socialNetworkIconsList = footerWrapMain.findElements(By.className("footer__social__menu"));
         boolean iconDisplayed = false;
-        for(WebElement socialNetworkIcon: socialNetworkIconsList) {
-            //Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(contactUsIcon.findElement(By.cssSelector("a[href*='"+icon+"']"))));
-            iconDisplayed =socialNetworkIcon.findElement(By.className("footer-"+socialIcon)).isDisplayed();
+        for (WebElement socialNetworkIcon : socialNetworkIconsList) {
+
+            iconDisplayed = socialNetworkIcon.findElement(By.className("footer-" + socialIcon)).isDisplayed();
         }
         return iconDisplayed;
     }
@@ -289,7 +302,8 @@ public class Footer {
     }
     
     public boolean isCountryNameDisplayedInFooter(){
-    	return countryNameInFooter.isDisplayed();
+
+        return getCountryNameFooterElement().isDisplayed();
     }
     
     public boolean isChangeLinkDisplayedInFooter(){
@@ -312,8 +326,9 @@ public class Footer {
     }
     
     public boolean isChangedCountryNameDsiplayedInFooter(String country){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(countryNameInFooter, country));
-    	String currentCountryName = countryNameInFooter.getText().trim();
+
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(getCountryNameFooterElement(), country));
+    	String currentCountryName = getCountryNameFooterElement().getText().trim();
     	return currentCountryName.equalsIgnoreCase(country);
     }
     
@@ -450,17 +465,22 @@ public class Footer {
 
         return isDrawerClosed;
     }
-    
-    public boolean isCorrectCountryNameDisplayedInFooter(){
-    	
-    	Country c = (Country)stateHolder.get("context");
+
+    public boolean isCorrectCountryNameDisplayedInFooter() {
+
+        Country c = (Country) stateHolder.get("context");
         String expectedCountryName = c.getCountryName();
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));    	
-    	String actualCountryName = countryNameInFooter.getText();
-    	
-    	logger.info("Expected country to be selected: {}", expectedCountryName);
-    	logger.info("Actual country selected: {}", actualCountryName);
-    	
-    	return actualCountryName.equalsIgnoreCase(expectedCountryName);
+        WebElement countryNameInFooter = getCountryNameFooterElement();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));
+        String actualCountryName = countryNameInFooter.getText();
+
+        logger.info("Expected country to be selected: {}", expectedCountryName);
+        logger.info("Actual country selected: {}", actualCountryName);
+
+        return actualCountryName.equalsIgnoreCase(expectedCountryName);
+    }
+
+    public WebElement getCountryNameFooterElement() {
+        return footerSection.findElement(By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"));
     }
 }

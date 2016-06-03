@@ -9,6 +9,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -152,6 +153,9 @@ public class DriverFactory {
         if ("chrome".equals(browser)) {
             DesiredCapabilities chrome = DesiredCapabilities.chrome();
             chrome.setPlatform(Platform.WINDOWS);
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
+            chrome.setCapability(ChromeOptions.CAPABILITY, options);
             driver = getDesktopWebDriver(propertyReader, chrome);
 
         } else if ("firefox".equals(browser)) {

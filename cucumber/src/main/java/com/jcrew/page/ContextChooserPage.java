@@ -176,11 +176,8 @@ public class ContextChooserPage {
 
     	logger.info("Url after clicking on start shopping : {}", driver.getCurrentUrl());
 
-    	
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("url");
-    	
-    	Country country = (Country)stateHolder.get("context");
+
+		Country country = (Country)stateHolder.get("context");
 
 		String expectedURL = country.getHomeurl();
 

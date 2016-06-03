@@ -116,24 +116,60 @@ public class ProductDetailPage {
     public boolean isProductNamePriceListMatchesWithArrayPage() {
 
         String pdpProductNameString = getProductNameFromPDP();
-        String pdpProductPriceString = getProductPriceList();
+        String pdpProductPriceString = getProductPriceList().replace("was ", "");
+        String pdpNowPriceString = getProductNowPriceList();
 
         @SuppressWarnings("unchecked")
         List<Product> productList = (List<Product>) stateHolder.get("productList");
 
-        logger.debug("Looking for: {} - {}", pdpProductNameString, pdpProductPriceString);
+        logger.debug("Looking for item name - '{}'", pdpProductNameString);
+        logger.debug("Looking for item list price - '{}'", pdpProductPriceString);
+        if(!pdpNowPriceString.isEmpty()){
+        	pdpNowPriceString = pdpNowPriceString.replace("now ", "");
+            pdpNowPriceString = pdpNowPriceString.replace("select colors ", "");
+        	logger.debug("Looking for item sale price - '{}'", pdpNowPriceString);
+        }
 
         for (Product product : productList) {
             String productName = product.getProductName();
             productName = cleanProductName(productName);
 
-            String productPrice = product.getPriceList();
-            logger.debug("Found: {} - {}", productName, productPrice);
-            if (productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString)) {
+            String productPrice = product.getPriceWas();
+            String productNowPrice = product.getPriceSale();  
+            
+            //check if price ranges are given in the array page/PDP
+            boolean salePriceValidation = pdpNowPriceString.equals(productNowPrice) || 
+            							  pdpNowPriceString.contains(productNowPrice) ||
+            							  productNowPrice.contains(pdpNowPriceString);
+            
+            if(!salePriceValidation){            	
+            	Country c = (Country) stateHolder.get("context");
+            	String currency = c.getCurrency();
+            	
+            	if(pdpNowPriceString.contains("-")){
+            		Double lowerSalePrice =  Double.parseDouble(pdpNowPriceString.split("-")[0].replace(currency, "").trim());
+            		Double upperSalePrice =  Double.parseDouble(pdpNowPriceString.split("-")[1].replace(currency, "").trim());
+            		
+            		Double expectedNowPrice = Double.parseDouble(productNowPrice.replace(currency, ""));
+            		
+            		if(Double.compare(lowerSalePrice, expectedNowPrice) < 0 && Double.compare(upperSalePrice, expectedNowPrice) > 0){
+            			salePriceValidation = true;
+            		}
+            	}
+            }
+            
+            if (productName.equalsIgnoreCase(pdpProductNameString) && productPrice.equals(pdpProductPriceString) && salePriceValidation) {
+            	if(!productNowPrice.isEmpty()){
+                	logger.debug("Found: {} - {} - {}", productName, productPrice, productNowPrice);
+                }
+                else{
+                	logger.debug("Found: {} - {}", productName, productPrice);
+                }
                 return true;
             }
         }
-
+        
+        logger.error("Not found item details for '{}'", pdpProductNameString);
         return false;
     }
 
@@ -394,6 +430,22 @@ public class ProductDetailPage {
             }
         }
         return productListPrice;
+    }
+    
+    public String getProductNowPriceList() {
+        String productNowListPrice = "";
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetails));
+        if (getVariationsNames().isEmpty()) {
+        	productNowListPrice = productDetails.findElement(By.className("product__price--sale")).getText();
+        } else {
+            List<WebElement> prices = productDetails.findElements(By.className("product__price--sale"));
+            for (WebElement price : prices) {
+                if (price.isDisplayed()) {
+                    return price.getText();
+                }
+            }
+        }
+        return productNowListPrice;
     }
 
 
