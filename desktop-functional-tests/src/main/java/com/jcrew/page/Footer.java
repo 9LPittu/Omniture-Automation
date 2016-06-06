@@ -58,11 +58,13 @@ public class Footer {
     }
 
     public boolean isCountryNameDisplayedInFooter() {
-        return countryNameInFooter.isDisplayed();
+       // return countryNameInFooter.isDisplayed();
+        return shipToSectionInFooter.findElement(By.className("footer__country-context__country")).isDisplayed();
     }
 
     public String getCountryNameInFooter() {
-        return countryNameInFooter.getText();
+       // return countryNameInFooter.getText();
+        return shipToSectionInFooter.findElement(By.className("footer__country-context__country")).getText();
     }
 
     public boolean isChangeLinkDisplayedInFooter() {
