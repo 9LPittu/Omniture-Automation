@@ -58,13 +58,17 @@ public class Footer {
     }
 
     public boolean isCountryNameDisplayedInFooter() {
-       // return countryNameInFooter.isDisplayed();
-        return shipToSectionInFooter.findElement(By.className("footer__country-context__country")).isDisplayed();
+
+        return getCountryNameElementInFooter().isDisplayed();
     }
 
     public String getCountryNameInFooter() {
-       // return countryNameInFooter.getText();
-        return shipToSectionInFooter.findElement(By.className("footer__country-context__country")).getText();
+
+        return getCountryNameElementInFooter().getText();
+    }
+
+    public WebElement getCountryNameElementInFooter() {
+        return shipToSectionInFooter.findElement(By.className("footer__country-context__country"));
     }
 
     public boolean isChangeLinkDisplayedInFooter() {
@@ -72,8 +76,9 @@ public class Footer {
     }
 
     public void clickChangeLinkInFooter() {
-        wait.until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
-        changeLinkInFooter.click();
+        WebElement changeLinkInFooter = shipToSectionInFooter.findElement(By.className("footer__country-context__link"));
+        wait.until(ExpectedConditions.elementToBeClickable(changeLinkInFooter)).click();
+        logger.info("clicked change link");
     }
 
     public boolean isCorrectCountryNameDisplayedInFooter() {
