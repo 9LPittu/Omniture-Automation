@@ -236,7 +236,7 @@ public class SubcategoryPage {
     public void click_first_product_in_grid() {        
     	Util.waitForPageFullyLoaded(driver);
 		final WebElement product = getFirstProduct();
-		final WebElement productLink = product.findElement(By.className("product__image--small"));
+		final WebElement productLink = product.findElement(By.className("js-product__image"));
 		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
 		saveProduct(product);
 		productLink.click();
