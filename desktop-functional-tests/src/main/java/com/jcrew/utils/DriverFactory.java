@@ -1,5 +1,6 @@
 package com.jcrew.utils;
 
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
@@ -20,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
@@ -35,6 +37,8 @@ public class DriverFactory {
     private final int DEFAULT_WINDOW_WIDTH = 400;
     private final int DEFAULT_WINDOW_HEIGHT = 667;
     private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
+    private final StateHolder Holder = StateHolder.getInstance();
+
 
     private int width = DEFAULT_WINDOW_WIDTH;
     private int height = DEFAULT_WINDOW_HEIGHT;
@@ -185,6 +189,51 @@ public class DriverFactory {
             driver.quit();
             driverMap.remove(identifier);
         }
+    }
+
+    public void resetDriver() {
+        String identifier = Thread.currentThread().getName();
+        driverMap.remove(identifier);
+
+        try {
+            WebDriver driver = createNewDriverInstance();
+            deleteBrowserCookies();
+            driverMap.put(identifier, driver);
+        } catch (IOException e) {
+            logger.error("unable to create driver in a reset");
+        }
+    }
+
+    public void deleteBrowserCookies(){
+        Holder.put("deletecookies", true);
+        String identifier = Thread.currentThread().getName();
+        WebDriver driver = driverMap.get(identifier);
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+
+        Set<Cookie> cookies = null;
+        try{
+            cookies = driver.manage().getCookies();
+            String browser = propertyReader.getProperty("browser");
+            if(!cookies.isEmpty()) {
+                if ("iossafari".equals(browser)) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
+                    }
+
+                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser) ) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e){
+            logger.error("Not able to delete cookies", e);
+        }
+
     }
 
 }
