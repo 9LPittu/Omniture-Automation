@@ -70,6 +70,8 @@ public class StartingSteps {
         TestDataReader testData = TestDataReader.getTestDataReader();
 
         getInternationalUrl(testData.getCountry(country_group), "");
+        
+        stateHolder.put("countryGroup", country_group);
     }
 
     public void getInternationalUrl(String selectedCountry, String pageURL) {

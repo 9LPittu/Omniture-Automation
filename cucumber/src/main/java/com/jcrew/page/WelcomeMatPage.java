@@ -74,11 +74,16 @@ public class WelcomeMatPage {
 
     public boolean isWelcomeMatContentDisplayed() {
         String internationalCountry = countryContext.getText();
+        
+        WebElement welcomeMat;
         if (internationalCountry.equalsIgnoreCase("Canada")) {
-            return driver.findElement(By.className("c-header__welcomematCanada--body")).isDisplayed();
+        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("c-header__welcomematCanada--body"))));
         }
-            else return driver.findElement(By.className("c-header__welcomemat--body")).isDisplayed();
-
+        else{
+        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("c-header__welcomemat--body"))));
+        }
+        
+        return welcomeMat.isDisplayed();
     }
 
     public void click_on_start_shopping(String link)  {
