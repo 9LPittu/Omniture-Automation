@@ -53,14 +53,6 @@ public class HomePage {
     }
 
     public void input_search_term(String searchTerm) {
-
-        String environment = System.getProperty("environment");
-        TestDataReader testdataReader = TestDataReader.getTestDataReader();
-
-        if (testdataReader.hasProperty(environment + "." + searchTerm)) {
-            searchTerm = testdataReader.getData(environment + "." + searchTerm);
-        }
-
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
         searchInput.clear();
         searchInput.sendKeys(searchTerm);
@@ -166,4 +158,29 @@ public class HomePage {
     	input_search_term(itemName);
     	click_on_search_button_for_input_field();   	
     }
+   
+   public void input_search_term_by_reading_from_properties(String propertyName){
+	   
+	   String environment = System.getProperty("environment");
+	   String countryGroup = (String) stateHolder.get("countryGroup");
+	   
+	   if(countryGroup.equalsIgnoreCase("PRICEBOOK")){
+		   countryGroup = "pricebook"; 
+	   }
+	   else if(countryGroup.equalsIgnoreCase("NON-PRICEBOOK")){
+		   countryGroup = "nonpricebook";
+	   }
+
+	   String searchTerm = "";
+	   TestDataReader testDataReader = TestDataReader.getTestDataReader();
+   	   if(testDataReader.hasProperty(environment + "." + countryGroup + ".country." + propertyName)){
+		  searchTerm = testDataReader.getData(environment + "." + countryGroup + ".country." + propertyName);
+	   }
+   	   else{
+   		   logger.error("'{}' property is not found in the test data properties file", environment + "." + countryGroup + ".country." + propertyName);
+   		   throw new WebDriverException("'" + environment + "." + countryGroup + ".country." + propertyName + "' property is not found in the test data properties file");
+   	   }
+   	   
+   	   input_search_term(searchTerm);
+   }
 }

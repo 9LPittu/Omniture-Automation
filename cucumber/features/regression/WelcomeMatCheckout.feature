@@ -110,7 +110,7 @@ Feature: Welcome Mat for ROW with checkout
       | country_group |
       | PRICEBOOK     |
       | NON-PRICEBOOK |
-
+  
   Scenario Outline: PDP message validation for sold out item, item with variations, vps item and shipping restriction item
     Given User is on clean session in <country_group> homepage page
     And Welcome mat content is displayed
@@ -119,13 +119,13 @@ Feature: Welcome Mat for ROW with checkout
     And user should see country code in the url for international countries
     And user should see selected country in the footer
     And User presses search button
-    When Enters soldout.item to the search field
+    When user enters soldout.item in search field
     And Clicks on search button for input field
     And user selects first product from search results
     Then User is in product detail page
     Then user should see PDP page with soldout message which includes phone number
     And User presses search button
-    When Enters variations.item to the search field
+    When user enters variations.item in search field
     And Clicks on search button for input field
     And user selects first product from search results
     Then User is in product detail page
@@ -134,7 +134,7 @@ Feature: Welcome Mat for ROW with checkout
     Then User is in product detail page
     And user should see the PDP messages for the selected country
     And User presses search button
-    When Enters shipping.restriction.item to the search field
+    When user enters shipping.restriction.item in search field
     And Clicks on search button for input field
     And user selects first product from search results
     Then User is in product detail page
