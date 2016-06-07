@@ -773,6 +773,7 @@ public class ProductDetailPage {
             WebElement selectedVariationName = selectedVariation.findElement(By.className("product__variation--name"));
             logger.debug("Selected variation {}", selectedVariationName.getText());
             selectedVariation.click();
+            Util.waitForPageFullyLoaded(driver);
         }
     }
 

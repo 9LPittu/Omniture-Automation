@@ -4,7 +4,7 @@ import com.jcrew.page.WelcomeMatPage;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.*;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by 9hvenaga on 4/15/2016.
