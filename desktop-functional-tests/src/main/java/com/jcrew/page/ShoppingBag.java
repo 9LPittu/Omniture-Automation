@@ -56,6 +56,7 @@ public class ShoppingBag {
     }
 
     public void clickCheckoutButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(checkoutButton));
         checkoutButton.click();
     }
 
