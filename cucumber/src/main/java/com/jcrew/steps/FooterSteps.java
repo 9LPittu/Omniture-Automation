@@ -1,8 +1,10 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.Footer;
+import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 
+import com.jcrew.util.StateHolder;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -207,7 +209,10 @@ public class FooterSteps extends DriverFactory {
     
     @And("^user should see selected country in the footer$")
     public void user_should_see_selected_country_in_footer(){
-    	assertTrue("User should see selected country name in the footer",footer.isCorrectCountryNameDisplayedInFooter());
+        StateHolder stateHolder = StateHolder.getInstance();
+        Country c = (Country) stateHolder.get("context");
+        String expectedCountryName = c.getCountryName();
+    	assertEquals("User should see selected country name in the footer",expectedCountryName,footer.isCorrectCountryNameDisplayedInFooter());
     }
     
    
