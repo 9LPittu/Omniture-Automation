@@ -6,7 +6,7 @@ Feature: Sale Regression Suite
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
 
-    #US9874_TC06
+   # US9874_TC06
   Scenario: New in Sale link functional validation
     And User clicks on NEW IN SALE subcategory from Sales
     Then User is in Sale results page

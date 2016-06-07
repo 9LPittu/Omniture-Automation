@@ -145,7 +145,7 @@ public class StartingSteps {
         stateHolder.put("context", context);
         env = context.getHomeurl();
 
-        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent");
+        boolean isProdLikeEn = env.contains("argent");
         boolean isDesktop = browser.equals("firefox") || browser.equals("chrome");
         logger.debug("current url is: " + env);
 
