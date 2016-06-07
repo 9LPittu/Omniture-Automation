@@ -1,11 +1,17 @@
 package com.jcrew.utils;
 
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +21,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
 
@@ -29,6 +37,8 @@ public class DriverFactory {
     private final int DEFAULT_WINDOW_WIDTH = 400;
     private final int DEFAULT_WINDOW_HEIGHT = 667;
     private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
+    private final StateHolder Holder = StateHolder.getInstance();
+
 
     private int width = DEFAULT_WINDOW_WIDTH;
     private int height = DEFAULT_WINDOW_HEIGHT;
@@ -125,7 +135,30 @@ public class DriverFactory {
 
             driver = new RemoteWebDriver(new URL(nodeURL), desiredCapabilities);
 
-       } else {
+       }
+        else if ("tablet".equals(browser)) {
+
+            String tabletName = propertyReader.getProperty(browser+".name");
+            String tabletOs = propertyReader.getProperty(browser+".os.version");
+            String tabletUdid = propertyReader.getProperty(browser+".udid");
+
+            desiredCapabilities = DesiredCapabilities.android();
+            desiredCapabilities.setPlatform(Platform.ANDROID);
+
+            desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, MobilePlatform.ANDROID);
+            desiredCapabilities.setCapability(MobileCapabilityType.DEVICE_NAME, tabletName);
+            desiredCapabilities.setCapability(MobileCapabilityType.VERSION, tabletOs);
+            desiredCapabilities.setCapability(MobileCapabilityType.TAKES_SCREENSHOT, true);
+            desiredCapabilities.setCapability(MobileCapabilityType.ACCEPT_SSL_CERTS, true);
+            desiredCapabilities.setCapability("autoAcceptAlerts", true);
+            desiredCapabilities.setCapability(MobileCapabilityType.BROWSER_NAME, "chrome");
+            desiredCapabilities.setCapability("udid", tabletUdid);
+            desiredCapabilities.setCapability("newCommandTimeout", 240);
+
+            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+
+        }
+        else {
             desiredCapabilities = DesiredCapabilities.phantomjs();
             desiredCapabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             desiredCapabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty(browser + ".user.agent"));
@@ -162,6 +195,51 @@ public class DriverFactory {
             driver.quit();
             driverMap.remove(identifier);
         }
+    }
+
+    public void resetDriver() {
+        String identifier = Thread.currentThread().getName();
+        driverMap.remove(identifier);
+
+        try {
+            WebDriver driver = createNewDriverInstance();
+            deleteBrowserCookies();
+            driverMap.put(identifier, driver);
+        } catch (IOException e) {
+            logger.error("unable to create driver in a reset");
+        }
+    }
+
+    public void deleteBrowserCookies(){
+        Holder.put("deletecookies", true);
+        String identifier = Thread.currentThread().getName();
+        WebDriver driver = driverMap.get(identifier);
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+
+        Set<Cookie> cookies = null;
+        try{
+            cookies = driver.manage().getCookies();
+            String browser = propertyReader.getProperty("browser");
+            if(!cookies.isEmpty()) {
+                if ("iossafari".equals(browser)) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("is_sidecar")) && !((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
+                    }
+
+                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser) ) {
+                    for (Cookie cookie : cookies) {
+                        if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
+                            driver.manage().deleteCookie(cookie);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e){
+            logger.error("Not able to delete cookies", e);
+        }
+
     }
 
 }
