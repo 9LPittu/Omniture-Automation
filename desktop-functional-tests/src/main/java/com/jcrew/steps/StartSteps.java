@@ -53,7 +53,7 @@ public class StartSteps {
     public void user_goes_to_international_homepage(String group) {
         TestDataReader testData = TestDataReader.getTestDataReader();
         String country = testData.getRandomCountry(group);
-
+        driverFactory.deleteBrowserCookies();
         int retry = 0;
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {
