@@ -178,8 +178,8 @@ public class SearchPage {
         String productName = selectedProductNameElement.getText();
         logger.debug("sale product selected now {}", productName);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
-                selectedNoSalePriceProduct.findElement(By.className("product__image--small"))));
-        selectedNoSalePriceProduct.findElement(By.className("product__image--small")).click();
+                selectedNoSalePriceProduct.findElement(By.className("js-product__image"))));
+        selectedNoSalePriceProduct.findElement(By.className("js-product__image")).click();
 
         return productName;
     }
