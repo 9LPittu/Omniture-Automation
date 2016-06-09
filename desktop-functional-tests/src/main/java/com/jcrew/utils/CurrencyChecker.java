@@ -91,6 +91,12 @@ public class CurrencyChecker {
         } else {
             for (WebElement price : prices) {
                 String priceText = price.getText();
+
+                if(priceText.contains("X")) {
+                    int index = priceText.indexOf("X");
+                    priceText= priceText.substring(0,index-1);
+                }
+
                 if (!priceText.isEmpty()) {
                     result &= isValid(priceText, c);
                 }
