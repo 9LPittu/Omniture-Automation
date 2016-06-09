@@ -61,6 +61,7 @@ public class ShoppingBag {
         String urlBeforeClickingCheckoutButton = driver.getCurrentUrl();
         checkoutButton.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlMatches(urlBeforeClickingCheckoutButton)));
+        Util.waitForPageFullyLoaded(driver);
     }
 
     private boolean verifyCurrency() {
