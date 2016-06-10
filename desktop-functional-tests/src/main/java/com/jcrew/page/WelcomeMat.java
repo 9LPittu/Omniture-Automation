@@ -103,5 +103,6 @@ public class WelcomeMat {
     public void goToUsSite(){
         WebElement usSite = footer.findElement(By.className("js-to-us-site"));
         usSite.click();
+        Util.waitForPageFullyLoaded(driver);
     }
 }
