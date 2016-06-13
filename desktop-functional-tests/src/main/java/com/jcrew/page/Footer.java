@@ -5,6 +5,7 @@ import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -61,11 +62,16 @@ public class Footer {
     }
 
     public boolean isCountryNameDisplayedInFooter() {
-        return countryNameInFooter.isDisplayed();
+        return getCountryNameElementInFooter().isDisplayed();
     }
 
     public String getCountryNameInFooter() {
         return countryNameInFooter.getText().toLowerCase();
+    }
+
+    public WebElement getCountryNameElementInFooter() {
+        return shipToSectionInFooter.findElement(By.className("footer__country-context__country"));
+
     }
 
     public boolean isChangeLinkDisplayedInFooter() {
@@ -73,8 +79,9 @@ public class Footer {
     }
 
     public void clickChangeLinkInFooter() {
-        wait.until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
-        changeLinkInFooter.click();
+        WebElement changeLinkInFooter = shipToSectionInFooter.findElement(By.className("footer__country-context__link"));
+        wait.until(ExpectedConditions.elementToBeClickable(changeLinkInFooter)).click();
+        logger.info("clicked change link");
     }
 
     public boolean isCorrectCountryNameDisplayedInFooter() {
@@ -105,6 +112,31 @@ public class Footer {
                 closeIcon.click();
                 wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("js-email-capture--close")));
             }
+        }
+    }
+
+    public void handle_email_pop_up() {
+
+        JavascriptExecutor jse = ((JavascriptExecutor) driver);
+        boolean emailCapture = jse.executeScript("return jcrew.config.showEmailCapture;").equals(true);
+        logger.debug("Email capture? {}", emailCapture);
+
+        if(emailCapture) {
+            try{
+                List<WebElement> email_capture = Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(
+                        By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"))));
+
+                if(email_capture.size() > 0) {
+                    logger.debug("Email capture on, let's turn it off!!");
+                    WebElement close = email_capture.get(0);
+                    Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(close));
+                    close.click();
+                }
+            }
+            catch(Exception e){
+                logger.debug("No email capture displayed...");
+            }
+
         }
     }
 
