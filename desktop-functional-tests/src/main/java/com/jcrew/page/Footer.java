@@ -65,7 +65,7 @@ public class Footer {
     }
 
     public String getCountryNameInFooter() {
-        return countryNameInFooter.getText();
+        return countryNameInFooter.getText().toLowerCase();
     }
 
     public boolean isChangeLinkDisplayedInFooter() {

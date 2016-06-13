@@ -166,6 +166,7 @@ public class ProductDetails {
                 }
 
             } else { //if no variations, get sale price
+                wait.until(ExpectedConditions.visibilityOf(price));
                 productPrice = price.findElement(By.className(PRICE_SALE_CLASS));
                 if (!productPrice.isDisplayed()) {
                     //if no sale price get regular price
