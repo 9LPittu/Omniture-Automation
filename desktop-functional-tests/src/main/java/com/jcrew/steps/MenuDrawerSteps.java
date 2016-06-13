@@ -2,9 +2,13 @@ package com.jcrew.steps;
 
 import com.jcrew.page.MenuDrawer;
 import com.jcrew.utils.DriverFactory;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.List;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -47,9 +51,16 @@ public class MenuDrawerSteps extends DriverFactory {
         menuDrawer.selectCategory(category);
     }
 
+    @Then("Verify menu drawer is displayed")
+    public void verify_drawer_is_displayed() {
+        assertTrue("Drawer is open", menuDrawer.isDrawerOpen());
+    }
 
+    @Then("Verify menu drawer title is ([^\"]*)")
+    public void verify_drawer_title(String title){
+        title = title.toLowerCase();
+        String menuTitle = menuDrawer.getDrawerTitle();
 
-
-
-
+        assertEquals("Menu displayed matches expected title", title, menuTitle);
+    }
 }

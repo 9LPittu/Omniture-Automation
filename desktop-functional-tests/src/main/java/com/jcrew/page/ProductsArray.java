@@ -206,7 +206,7 @@ public class ProductsArray {
         openRefineAccordion();
         List<WebElement> options = accordion.findElements(By.className("accordian__menu__item"));
 
-        int random = Util.randomIndex(options.size());
+        int random = Util.randomIndex(options.size() - 1) + 1;
         WebElement selectedOption = options.get(random).findElement(By.tagName("a"));
 
         logger.debug("Selected {} from refinement", selectedOption.getText());

@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -127,7 +128,6 @@ public class HeaderWrap {
 
     }
 
-
     public void clickSignIn() {
         wait.until(ExpectedConditions.visibilityOf(sign_in));
         WebElement signInLink = sign_in.findElement(By.tagName("a"));
@@ -223,8 +223,21 @@ public class HeaderWrap {
 
     public void clickDeptLinkFromTopNav(String dept) {
         String url = driver.getCurrentUrl();
-        top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '" + dept + "']")).click();
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and "
+                + Util.xpathGetTextLower + " = '" + dept + "']")).click();
 
+        if(!"view all".equals(dept))
+            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+    }
+
+    public List<String> getTopNavOptions() {
+        List<WebElement> options = top_nav.findElements(By.className("department-nav__item"));
+        List<String> optionsString = new ArrayList<>(options.size());
+
+        for(WebElement option : options) {
+            optionsString.add(option.getText().toLowerCase());
+        }
+
+        return optionsString;
     }
 }

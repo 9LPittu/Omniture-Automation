@@ -39,6 +39,10 @@ public class FooterSteps extends DriverFactory {
     public void user_should_see_selected_country_in_footer(){
         assertTrue("User should see selected country name in the footer",footer.isCorrectCountryNameDisplayedInFooter());
     }
-    
+
+    @When("User closes email capture")
+    public void user_closes_email_capture() {
+        footer.closeEmailCapture();
+    }
 
 }

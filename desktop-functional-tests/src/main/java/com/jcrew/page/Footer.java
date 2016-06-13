@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
         import com.jcrew.pojo.Country;
+        import com.jcrew.utils.PropertyReader;
         import com.jcrew.utils.StateHolder;
         import com.jcrew.utils.Util;
         import org.openqa.selenium.By;
@@ -39,6 +40,9 @@ public class Footer {
 
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
+
+    @FindBy(id = "global__email-capture")
+    private WebElement email_capture;
 
     public Footer(WebDriver driver) {
         this.driver = driver;
@@ -85,6 +89,20 @@ public class Footer {
         logger.info("Actual country selected: {}", actualCountryName);
 
         return actualCountryName.equalsIgnoreCase(expectedCountryName);
+    }
+
+    public void closeEmailCapture() {
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String browser = propertyReader.getProperty("browser");
+
+        if ("chrome".equals(browser) || "firefox".equals(browser)) {
+            WebElement closeButton = email_capture.findElement(By.className("js-email-capture--close"));
+            WebElement closeIcon = closeButton.findElement(By.tagName("span"));
+
+            wait.until(ExpectedConditions.elementToBeClickable(closeIcon));
+            closeIcon.click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("js-email-capture--close")));
+        }
     }
 
 }

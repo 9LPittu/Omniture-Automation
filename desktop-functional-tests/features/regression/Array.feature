@@ -15,3 +15,19 @@ Feature: Array page functionality
 
     When User selects a random refinement option
     Then Verify refinement option was selected
+
+  Scenario Outline: Verify that category links are displayed on top nav in the gender landing page
+    When User clicks on <gender> link from top nav
+    Then Verify that top nav options contains view all
+    And Verify that top nav contains less or equal to 8 options
+
+    When User clicks on view all link from top nav
+    Then Verify menu drawer is displayed
+    And Verify menu drawer title is <gender>
+
+    Examples:
+      | gender |
+      | women  |
+      | men    |
+      | girls  |
+      | boys   |
