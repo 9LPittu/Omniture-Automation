@@ -105,6 +105,7 @@ public class LogIn extends DriverFactory {
         createAccountFormIsDisplayed();
         createAnAccount = registerForm.findElement(By.tagName("button"));
         createAnAccount.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlContains("/r/login")));
     }
 
     private WebElement getNewUserField(String field) {
