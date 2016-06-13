@@ -28,6 +28,7 @@ public class StartSteps {
 
     @Before
     public void setupDriver() throws IOException {
+        stateHolder.put("deletecookies", false);
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
 
@@ -47,6 +48,12 @@ public class StartSteps {
                 retry++;
             }
         }
+    }
+
+    @Given("User is on homepage with clean session")
+    public void user_is_on_home_page_with_clean_session() {
+        driverFactory.deleteBrowserCookies();
+        user_is_on_home_page();
     }
 
     @Given("User goes to international homepage for ([^\"]*)")
