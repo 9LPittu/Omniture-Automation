@@ -107,10 +107,9 @@ public class LogIn extends DriverFactory {
         createAnAccount = registerForm.findElement(By.tagName("button"));
 
         wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
+        String url =  driver.getCurrentUrl();
         createAnAccount.click();
-
-
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
 
     }
 
