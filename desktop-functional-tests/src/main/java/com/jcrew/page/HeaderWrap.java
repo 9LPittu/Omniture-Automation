@@ -224,7 +224,7 @@ public class HeaderWrap {
     public void clickDeptLinkFromTopNav(String dept) {
         String url = driver.getCurrentUrl();
         top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and "
-                + Util.xpathGetTextLower + " = '" + dept + "']")).click();
+                + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']")).click();
 
         if(!"view all".equals(dept))
             wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
