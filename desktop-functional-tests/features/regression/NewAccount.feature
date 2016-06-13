@@ -3,7 +3,7 @@
 Feature: Create New Account International
 
   Background:
-    Given User goes to homepage
+    Given User is on homepage with clean session
     When User clicks on sign in using header
     Then User get create account form
     And Selected country matches the current country context
