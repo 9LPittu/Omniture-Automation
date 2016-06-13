@@ -4,6 +4,7 @@ Feature: Create New Account in US
 
   Scenario: Create a new account in US and checkout
     Given User is on homepage with clean session
+    And Handle the Email Capture pop up
     When User clicks on sign in using header
     Then User get create account form
     And Selected country matches the current country context

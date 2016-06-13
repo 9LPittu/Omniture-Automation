@@ -4,6 +4,7 @@ Feature: Sign In
 
   Scenario: User is able to sign in
     Given User is on homepage with clean session
+    And Handle the Email Capture pop up
     When User clicks on sign in using header
     And User fills user data and signs in
     Then Verify user is in My Account main page

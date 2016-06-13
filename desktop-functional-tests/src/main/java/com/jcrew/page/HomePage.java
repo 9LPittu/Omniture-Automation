@@ -5,6 +5,7 @@ package com.jcrew.page;
         import com.jcrew.utils.StateHolder;
         import com.jcrew.utils.Util;
         import org.openqa.selenium.By;
+        import org.openqa.selenium.JavascriptExecutor;
         import org.openqa.selenium.WebDriver;
         import org.openqa.selenium.WebElement;
         import org.openqa.selenium.support.FindBy;
@@ -13,6 +14,8 @@ package com.jcrew.page;
         import org.openqa.selenium.support.ui.WebDriverWait;
         import org.slf4j.Logger;
         import org.slf4j.LoggerFactory;
+
+        import java.util.List;
 
 /**
  * Created by nadiapaolagarcia on 3/30/16.
@@ -46,6 +49,32 @@ public class HomePage {
         String bodyClass = body.getAttribute("class");
 
         return "jcrew home".equals(bodyClass);
+    }
+
+
+    public void handle_email_pop_up() {
+
+        JavascriptExecutor jse = ((JavascriptExecutor) driver);
+        boolean emailCapture = jse.executeScript("return jcrew.config.showEmailCapture;").equals(true);
+        logger.debug("Email capture? {}", emailCapture);
+
+        if(emailCapture) {
+            try{
+                List<WebElement> email_capture = Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(
+                        By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"))));
+
+                if(email_capture.size() > 0) {
+                    logger.debug("Email capture on, let's turn it off!!");
+                    WebElement close = email_capture.get(0);
+                    Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(close));
+                    close.click();
+                }
+            }
+            catch(Exception e){
+                logger.debug("No email capture displayed...");
+            }
+
+        }
     }
 
     public void closeEmailCapture(){

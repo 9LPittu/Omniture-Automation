@@ -29,4 +29,9 @@ public class HomePageSteps extends DriverFactory{
         homePage.closeEmailCapture();
     }
 
+    @When("Handle the Email Capture pop up$")
+    public void handle_email_pop_up() {
+        homePage.handle_email_pop_up();
+    }
+
 }
