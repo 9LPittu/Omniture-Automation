@@ -27,15 +27,17 @@ public class ContextChooser {
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	private final WebDriverWait wait;
 
-
 	@FindBy(xpath = "//a[contains(@class,'js-start-shopping-button')]")
 	private WebElement startShoppingButton;
 	@FindBy(id = "page__international")
 	private WebElement internationalContextChooserPage;
 
+	private HeaderWrap headerWrap;
+
 	public ContextChooser(WebDriver driver) {
 		PageFactory.initElements(driver, this);
 		this.driver = driver;
+		headerWrap = new HeaderWrap(driver);
 		wait = Util.createWebDriverWait(driver);
 		wait.until(ExpectedConditions.visibilityOf(internationalContextChooserPage));
 	}
@@ -152,6 +154,7 @@ public class ContextChooser {
 
 		//Click on country
 		WebElement countryElement = internationalContextChooserPage.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a/span[text()='" + countryName + "']"));
+        wait.until(ExpectedConditions.visibilityOf(countryElement));
 		countryElement.click();
 
 		stateHolder.put("context", country);

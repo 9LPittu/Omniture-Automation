@@ -101,8 +101,10 @@ public class WelcomeMat {
     }
 
     public void goToUsSite(){
+        String url = driver.getCurrentUrl();
         WebElement usSite = footer.findElement(By.className("js-to-us-site"));
         usSite.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         Util.waitForPageFullyLoaded(driver);
     }
 }

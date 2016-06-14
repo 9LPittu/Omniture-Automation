@@ -91,13 +91,11 @@ public class CurrencyChecker {
         } else {
             for (WebElement price : prices) {
                 String priceText = price.getText();
-                logger.info("item price and quantity before  {}", priceText);
-                priceText.replaceAll("\\s+","");
-                if(priceText.contains("x")) {
+                priceText.replaceAll("\\s+", "");
+                if (priceText.contains("x")) {
                     int index = priceText.indexOf("x");
-                    priceText= priceText.substring(0,index-1);
+                    priceText = priceText.substring(0, index - 1);
                 }
-                logger.info("item price and quantity after {}", priceText);
                 if (!priceText.isEmpty()) {
                     result &= isValid(priceText, c);
                 }
@@ -110,16 +108,14 @@ public class CurrencyChecker {
     public static boolean validatePrice(WebElement price, Country c) {
 
         String subTotalprice = price.getText();
-        logger.info("sub total price before trimming {}", subTotalprice);
         subTotalprice = subTotalprice.replace("SUBTOTAL:", "");
-        logger.info("sub total price after trimming {}", subTotalprice);
-         return isValid(subTotalprice, c);
+        return isValid(subTotalprice, c);
 
     }
 
     private static boolean isValid(String price, Country country) {
 
-        if(price.equalsIgnoreCase("free")) {
+        if (price.equalsIgnoreCase("free")) {
             return true;
         }
 
