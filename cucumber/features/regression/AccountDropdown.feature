@@ -1,0 +1,340 @@
+@AccountDropdown @HighLevel
+Feature: Account Dropdown functionality
+
+  Background:
+    Given User is on homepage
+    And Handle the Email Capture pop up
+
+  Scenario: Sign In link displayed in header and functional for multiple pages
+  	And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+  	
+    When User clicks on hamburger menu
+    And user selects any category from hamburger menu
+    And user selects any subcategory
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+    
+    And user selects any item from array page, select any color and size
+    And User is in product detail page
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+    
+    And Add to cart button is pressed
+    And User clicks on item bag
+    Then User should be in shopping bag page
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+    
+    And Clicks on checkout
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+    
+    And Selects to checkout as guest
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+    
+    And Fills shipping address    
+    And Presses continue button on shipping address    
+    And Verifies is in shipping method page
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+    
+    And Uses default value for shipping method
+    And Uses default value for gifts option
+    And Clicks continue button on shipping method page
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+    
+    And Fills required payment data in billing page
+    And Submits payment data in billing page
+    And Clicks on place your order
+    And User should be in order confirmation page
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	
+  Scenario: Sign In link displayed in header and functional for search page
+    When Enters 05389 to the search field
+    And Clicks on search button for input field
+    And User is in search results page
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page  	
+  	
+  Scenario Outline: Sign In link displayed in header and functional for sale page
+    And User clicks on hamburger menu
+    And Selects sale Category from hamburger menu
+    And User is in sale landing page
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+  	
+  	And User clicks on sale department <SaleCategory>
+    Then User is in Sale results page
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page  	
+  	Examples:
+      |SaleCategory|
+      |women|
+      |men  |
+      |boys |
+      |girls|
+      
+  Scenario Outline: Sign In link displayed in header and functional on Department/Gender Landing Pages
+    And User clicks on <gender> link from top nav
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+    Examples:
+      |gender|
+      |Women |
+      |Men   |
+      |Boys  |
+      |Girls |
+      
+  Scenario: Sign In link displayed in header and functional on Shoppable tray page
+    And User clicks on hamburger menu
+    And User selects random tray from available categories
+      | Women | THIS MONTH'S FEATURES | looks we love  |
+      | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
+      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
+      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
+    Then Verifies initial multiple pdp page state
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	
+  Scenario: My Account dropdown open and close is functional on multiple pages
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User provides login information
+    And Hits sign in button
+    
+    Then User is in My Account page
+    And Verify MY ACCOUNT header link is displayed
+    When Clicks on JCrew Logo
+    And Verify user is in homepage
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    When User clicks on hamburger menu
+    And user selects any category from hamburger menu
+    And user selects any subcategory
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    And user selects any item from array page, select any color and size
+    And User is in product detail page
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    And User clicks on item bag
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    And Clicks on checkout
+    And page url should contain /checkout2/shoppingbag.jsp
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    And click on 'CHANGE' button of 'SHIPPING DETAILS' section on 'Review' page
+    And User is on internal /checkout2/shipping.jsp page
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    And Presses continue button on shipping address
+    And Verifies is in shipping method page
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    And Clicks continue button on shipping method page
+    And Verify user is in billing page
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    And Submits payment data in billing page
+    And User is on internal /checkout2/billing.jsp page
+    And Inputs credit card security code
+    Then Clicks on place your order
+    Then User should be in order confirmation page
+    And verify order number is generated
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    Scenario: My Account dropdown open and close is functional on search page
+    And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User provides login information
+    And Hits sign in button    
+    Then User is in My Account page
+    
+    When Enters 05389 to the search field
+    And Clicks on search button for input field
+    And User is in search results page
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed    	
+  	
+  Scenario Outline: My Account dropdown open and close is functional on sale page
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User provides login information
+    And Hits sign in button    
+    Then User is in My Account page
+    
+    And User clicks on hamburger menu
+    And Selects sale Category from hamburger menu
+    And User is in sale landing page
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+  	
+  	And User clicks on sale department <SaleCategory>
+    Then User is in Sale results page
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed  	
+  	Examples:
+      |SaleCategory|
+      |women|
+      |men  |
+      |boys |
+      |girls|      
+      
+  Scenario Outline: My Account dropdown open and close is functional in Department/Gender Landing Pages
+    And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User provides login information
+    And Hits sign in button    
+    Then User is in My Account page
+    
+    And User clicks on <gender> link from top nav
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed
+    Examples:
+      |gender|
+      |Women |
+      |Men   |
+      |Boys  |
+      |Girls |
+      
+  Scenario: My Account dropdown open and close is functional in Shoppable tray page
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User provides login information
+    And Hits sign in button    
+    Then User is in My Account page
+    
+    And User clicks on hamburger menu
+    And User selects random tray from available categories
+      | Women | THIS MONTH'S FEATURES | looks we love  |
+      | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
+      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
+      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
+    Then Verifies initial multiple pdp page state
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then close the My Account dropdown
+    Then user should see My Account dropdown is closed    
+    
+    #SignOut steps
+    And click on MY ACCOUNT link from header
+    And click on Sign Out from My Account dropdown    
+    And Verify user is in homepage
+    And Verify SIGN IN header link is displayed

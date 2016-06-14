@@ -40,6 +40,29 @@ public class Header {
     @FindBy(id = "section1")
     private WebElement genderLandingSection;
 
+    @FindBy(xpath="//li[@id='c-header__userpanel']/a/span[2]")
+    private WebElement signInFromHeader;
+    
+    @FindBy(xpath="//div[@id='c-nav__userpanel']/span[@id='c-header__userpanelrecognized']")
+    private WebElement myAccountFromHeader;
+    
+    @FindBy(xpath="//dl[@class='menu-show']/div[@class='userpanel__inner']")
+    private WebElement myAccountDropdownOpened;
+    
+    @FindBy(xpath="//dl[@class='menu-hide']/div[@class='userpanel__inner']")
+    private WebElement myAccountDropdownClosed;
+    
+    @FindBy(xpath=".//span[contains(@class,'userpanel__icon--close')]")
+    private WebElement closeIconInMyAccountDropdown;
+    
+    @FindBy(xpath=".//dd[@class='c-nav__userpanel--welcomeuser']")
+    private WebElement welcomeMessageInMyAccountDropdown;
+    
+    @FindBy(xpath=".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='My Details']")
+    private WebElement myDetailsInMyAccountDropdown;
+    
+    @FindBy(xpath=".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='Sign Out']")
+    private WebElement signOutInMyAccountDropdown;
 
     public Header(WebDriver driver) {
         this.driver = driver;
@@ -197,5 +220,54 @@ public class Header {
     public String getStoresButtonLink(){
         WebElement stores = driver.findElement(By.cssSelector(".primary-nav__item--stores > .primary-nav__link"));
         return stores.getAttribute("href");
+    }
+    
+    public void clickElementFromHeader(String elementName){    	
+    	WebElement headerElement = null;
+    	switch(elementName.toUpperCase()){
+    		case "SIGN IN":
+    			headerElement = signInFromHeader;
+    			break;
+    		case "MY ACCOUNT":
+    			headerElement = myAccountFromHeader;
+    			break;
+    	}
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(headerElement));
+    	headerElement.click();
+    }
+    
+    public boolean isMyAccountDropdownInExpectedState(String state){
+    	boolean result = false;
+    	if(state.equalsIgnoreCase("opened")){
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(myAccountDropdownOpened));
+    		result =  myAccountDropdownOpened.isDisplayed();
+    	}
+    	else if(state.equalsIgnoreCase("closed")){
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(myAccountDropdownClosed));
+    		result = myAccountDropdownClosed.isDisplayed();
+    	}
+    	
+    	return result;
+    }
+    
+    public boolean isAccountDropdownOptionsDisplayed(){
+    	
+    	boolean isWelcomeMessagePatternMatches = welcomeMessageInMyAccountDropdown.getText().matches("^Welcome, [A-Za-z]+");
+    	
+    	return closeIconInMyAccountDropdown.isDisplayed() &&
+    			welcomeMessageInMyAccountDropdown.isDisplayed() && 
+    			isWelcomeMessagePatternMatches &&
+    			myDetailsInMyAccountDropdown.isDisplayed() &&
+    			signOutInMyAccountDropdown.isDisplayed();
+    }
+    
+    public void closeMyAccountDropdown(){
+    	closeIconInMyAccountDropdown.click();
+    	Util.waitLoadingBar(driver);
+    }
+    
+    public void clickSignOutFromMyAccountDropdown(){
+    	signOutInMyAccountDropdown.click();
+    	Util.waitLoadingBar(driver);
     }
 }

@@ -161,4 +161,29 @@ public class HeaderSteps extends DriverFactory {
     	
     	subcategory.selectRandomItemFromArrayPage();
     }
+    
+    @And("^click on ([^\"]*) from header$")
+    public void click_sign_in_from_header(String headerElementName){
+    	header.clickElementFromHeader(headerElementName);
+    }
+    
+    @Then("^user should see My Account dropdown is ([^\"]*)$")
+    public void user_should_see_my_account_dropdown_opened(String dropdownState){
+    	assertTrue("user should see My Account dropdown " + dropdownState, header.isMyAccountDropdownInExpectedState(dropdownState));
+    }
+    
+    @Then("^user should see welcome message, My Details, Sign Out and close button in My Account dropdown$")
+    public void validate_my_account_dropdown_options(){
+    	assertTrue("user should see welcome message, My Details, Sign Out and close button in My Account dropdown", header.isAccountDropdownOptionsDisplayed());
+    }
+    
+    @Then("^close the My Account dropdown$")
+    public void close_my_account_dropdown(){
+    	header.closeMyAccountDropdown();
+    }
+    
+    @And("^click on Sign Out from My Account dropdown$")
+    public void click_sign_out_from_my_account_dropdown(){
+    	header.clickSignOutFromMyAccountDropdown();
+    }
 }
