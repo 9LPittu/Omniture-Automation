@@ -2,10 +2,11 @@ package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.CurrencyChecker;
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
-import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.List;
 
@@ -60,8 +63,23 @@ public class ShoppingBag {
 
     public void clickCheckoutButton() {
         String urlBeforeClickingCheckoutButton = driver.getCurrentUrl();
-        logger.info("Checkout button: {}", checkoutButton.getAttribute("href"));
-        checkoutButton.click();
+
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        String browser = reader.getProperty("browser");
+
+        if("desktop".equals(browser)) {
+            String href = checkoutButton.getAttribute("href");
+            try {
+                href = URLDecoder.decode(href, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                logger.error("not able to decode!", e);
+            }
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript(href);
+        } else {
+            checkoutButton.click();
+        }
+
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(urlBeforeClickingCheckoutButton)));
         Util.waitForPageFullyLoaded(driver);
     }

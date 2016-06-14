@@ -44,12 +44,16 @@ public class Footer {
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
 
+    @FindBy(className = "c-footer__social")
+    private WebElement footer_social;
+
     public Footer(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(global__footer));
+        wait.until(ExpectedConditions.visibilityOf(footer_social));
     }
 
     public String getCountry() {
