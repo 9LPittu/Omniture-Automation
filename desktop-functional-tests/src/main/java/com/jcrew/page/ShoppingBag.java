@@ -38,10 +38,13 @@ public class ShoppingBag {
     @FindBy(id = "checkout")
     private WebElement articleCheckout;
 
+    private HeaderWrap header;
+
     public ShoppingBag(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
         this.footer = new Footer(driver);
+        this.header = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(checkoutButton));
@@ -56,11 +59,10 @@ public class ShoppingBag {
     }
 
     public void clickCheckoutButton() {
-        wait.until(ExpectedConditions.elementToBeClickable(checkoutButton));
-
         String urlBeforeClickingCheckoutButton = driver.getCurrentUrl();
+        logger.info("Checkout button: {}", checkoutButton.getAttribute("href"));
         checkoutButton.click();
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlMatches(urlBeforeClickingCheckoutButton)));
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(urlBeforeClickingCheckoutButton)));
         Util.waitForPageFullyLoaded(driver);
     }
 

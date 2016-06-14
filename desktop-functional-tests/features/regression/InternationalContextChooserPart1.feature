@@ -92,27 +92,3 @@ Feature: International Country Context - Part 1
       | country_group |
       | PRICEBOOK     |
       | NON-PRICEBOOK |
-
-  Scenario Outline: International context validation on gender landing pages and sale landing page
-    Then Click on change link from footer
-    And User is on context chooser page
-    And User is on internal /r/context-chooser page
-    Given User selects <country_group> at random from context chooser page
-    Then User should land on country specific home page
-    And User should see selected country in the footer
-    And User clicks on <topnav> link from top nav
-    And User should see selected country in the footer
-    And User should see country code in the url for international countries
-
-    Examples:
-      | country_group | topnav |
-      | PRICEBOOK     | Women  |
-      | NON-PRICEBOOK | Women  |
-      | PRICEBOOK     | Men    |
-      | NON-PRICEBOOK | Men    |
-      | PRICEBOOK     | Girls  |
-      | NON-PRICEBOOK | Girls  |
-      | PRICEBOOK     | Boys   |
-      | NON-PRICEBOOK | Boys   |
-      | PRICEBOOK     | sale   |
-      | NON-PRICEBOOK | sale   |

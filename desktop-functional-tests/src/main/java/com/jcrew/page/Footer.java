@@ -85,14 +85,10 @@ public class Footer {
     }
 
     public boolean isCorrectCountryNameDisplayedInFooter() {
-
         Country c = (Country) stateHolder.get("context");
         String expectedCountryName = c.getName();
         wait.until(ExpectedConditions.visibilityOf(countryNameInFooter));
         String actualCountryName = countryNameInFooter.getText();
-
-        logger.info("Expected country to be selected: {}", expectedCountryName);
-        logger.info("Actual country selected: {}", actualCountryName);
 
         return actualCountryName.equalsIgnoreCase(expectedCountryName);
     }

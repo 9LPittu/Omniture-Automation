@@ -22,7 +22,7 @@ public class UserNavigationSteps extends DriverFactory {
     private final UserNavigation navigation = new UserNavigation(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
-    private WebDriver driver;
+    private WebDriver driver = getDriver();
 
     @When("User adds to bag a random product using a main category")
     public void users_add_random_product() {
@@ -34,7 +34,6 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User navigates to a subcategory from main category")
     public void user_navigates_to_subcategory_from_main_category() {
-        WebDriver driver = getDriver();
         String category = testDataReader.getCategory();
         String subCategory = testDataReader.getSubCategory(category);
 
@@ -53,14 +52,13 @@ public class UserNavigationSteps extends DriverFactory {
     public void user_navigates_to_a_pdp () {
         user_navigates_to_subcategory_from_main_category();
 
-        ProductsArray productsArray = new ProductsArray(getDriver());
+        ProductsArray productsArray = new ProductsArray(driver);
         productsArray.selectRandomProduct();
 
     }
 
     @When("User searches for a random search term")
     public void user_searches_for_a_random_search_term() {
-        WebDriver driver = getDriver();
         String term = testDataReader.getSearchWord();
 
         HeaderWrap header = new HeaderWrap(driver);
@@ -73,7 +71,7 @@ public class UserNavigationSteps extends DriverFactory {
     public void users_add_random_product_from_search() {
         user_searches_for_a_random_search_term();
 
-        SearchArray searchArray = new SearchArray(getDriver());
+        SearchArray searchArray = new SearchArray(driver);
         searchArray.selectRandomProduct();
 
         select_product_and_add_to_bag();
@@ -81,8 +79,6 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User navigates to a random sale page")
     public void user_navigates_to_a_random_sale_page() {
-        WebDriver driver = getDriver();
-
         HeaderWrap header = new HeaderWrap(driver);
         header.openMenu();
 
@@ -98,7 +94,7 @@ public class UserNavigationSteps extends DriverFactory {
     public void users_add_random_product_from_sale() {
         user_navigates_to_a_random_sale_page();
 
-        SearchArray searchArray = new SearchArray(getDriver());
+        SearchArray searchArray = new SearchArray(driver);
         searchArray.selectRandomProduct();
 
         select_product_and_add_to_bag();
@@ -106,7 +102,7 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User adds selected product to bag")
     public void select_product_and_add_to_bag() {
-        ProductDetails productDetails = new ProductDetails(getDriver());
+        ProductDetails productDetails = new ProductDetails(driver);
         productDetails.selectRandomColor();
         productDetails.selectRandomSize();
         productDetails.selectRandomQty();
@@ -118,14 +114,14 @@ public class UserNavigationSteps extends DriverFactory {
         StateHolder stateHolder = StateHolder.getInstance();
         Country country = (Country) stateHolder.get("context");
 
-        assertTrue("Is an array url", Util.countryContextURLCompliance(getDriver(), country));
+        assertTrue("Is an array url", Util.countryContextURLCompliance(driver, country));
     }
 
     @Then("^User is on internal ([^\"]*) page$")
     public void user_is_on_page(String page) {
-        Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
-        assertTrue("Browser was expected to be at " + page + " and current page is "+getDriver().getCurrentUrl(),
-                getDriver().getCurrentUrl().endsWith(page));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        assertTrue("Browser was expected to be at " + page + " and current page is "+driver.getCurrentUrl(),
+                driver.getCurrentUrl().endsWith(page));
     }
 
     @Then("^External ([^\"]*) page is opened in a different tab$")
@@ -135,7 +131,11 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("^User presses browser back button$")
     public void user_presses_back_button() throws Throwable {
-        getDriver().navigate().back();
+        String url = driver.getCurrentUrl();
+        System.out.println("Before url: "+url);
+        driver.navigate().back();
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        System.out.println("After url: "+driver.getCurrentUrl());
     }
 
     @Then("User should see country code in the url for international countries")

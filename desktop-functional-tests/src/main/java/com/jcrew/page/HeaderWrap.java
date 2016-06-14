@@ -228,6 +228,8 @@ public class HeaderWrap {
 
         if(!"view all".equals(dept))
             wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+
+        reload();
     }
 
     public List<String> getTopNavOptions() {
