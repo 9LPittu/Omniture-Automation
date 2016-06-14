@@ -184,6 +184,7 @@ public class HeaderWrap {
 
     public String getWelcomeMessage() {
         dropdown = userPanel.findElement(By.tagName("dl"));
+        wait.until(ExpectedConditions.visibilityOf(dropdown));
         WebElement welcomeRow = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel--welcomeuser']"));
         return welcomeRow.getText();
     }

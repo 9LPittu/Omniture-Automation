@@ -37,7 +37,9 @@ public class MyAccountSteps extends DriverFactory {
             user = User.getUser();
 
         Map<String, String> userDetails = myAccount.getUserDetails();
-        boolean equalsIgnoreCase = user.getCountry().equalsIgnoreCase(userDetails.get(myAccount.USER_DETAILS_COUNTRY));
+        String user_country = user.getCountry();
+
+        boolean equalsIgnoreCase = user_country.equalsIgnoreCase(userDetails.get(myAccount.USER_DETAILS_COUNTRY));
 
         assertEquals("First name matches", userDetails.get(myAccount.USER_DETAILS_FIRST_NAME), user.getFirstName());
         assertEquals("Last name matches", userDetails.get(myAccount.USER_DETAILS_LAST_NAME), user.getLastName());
