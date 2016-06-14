@@ -162,7 +162,7 @@ public class HeaderWrap {
             wait.until(ExpectedConditions.visibilityOf(minibag));
 
         } else if ("my account".equalsIgnoreCase(icon)) {
-
+            reload();
             wait.until(ExpectedConditions.visibilityOf(myAccount));
             hoverAction.moveToElement(myAccount);
             hoverAction.perform();
