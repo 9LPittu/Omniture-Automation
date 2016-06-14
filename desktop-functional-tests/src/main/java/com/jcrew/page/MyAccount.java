@@ -87,6 +87,7 @@ public class MyAccount {
         userDetails.put(USER_DETAILS_EMAIL, information.getAttribute("value"));
 
         Select country = new Select(leftContainer.findElement(By.id(USER_DETAILS_COUNTRY)));
+        logger.debug("User details country: {}", country.getFirstSelectedOption().getText());
         userDetails.put(USER_DETAILS_COUNTRY, country.getFirstSelectedOption().getText());
 
         return userDetails;
