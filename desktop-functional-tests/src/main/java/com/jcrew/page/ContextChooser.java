@@ -148,16 +148,15 @@ public class ContextChooser {
 		String url = propertyReader.getProperty("url");
 
 		String selectedCountry = testData.getRandomCountry(country_group);
-
 		Country country = new Country(url, selectedCountry);
-		String countryName = country.getName();
+        logger.info("Selected country: {}", selectedCountry);
 
 		//Click on country
-		WebElement countryElement = internationalContextChooserPage.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a/span[text()='" + countryName + "']"));
+		WebElement countryElement = internationalContextChooserPage.findElement(
+                By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a[@data-country='" + selectedCountry + "']"));
         wait.until(ExpectedConditions.visibilityOf(countryElement));
 		countryElement.click();
 
 		stateHolder.put("context", country);
-		logger.info("Selected country: {}", countryName);
 	}
 }

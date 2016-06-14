@@ -10,14 +10,14 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@International"},
+        tags = {"@International-Part2"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-international.json",
+                "json:target/cucumber-international2.json",
                 "pretty",
-                "html:target/cucumber/international"
+                "html:target/cucumber/international2"
         }
 )
-public class InternationalRunnerTest {
+public class InternationalPart2RunnerTest {
 
 }
