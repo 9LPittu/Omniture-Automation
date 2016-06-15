@@ -82,7 +82,7 @@ public class HeaderWrap {
                 success = true;
                 maxTries--;
             } catch (TimeoutException timeout) {
-                logger.debug("Timed out while waiting for header, refreshing page");
+                logger.debug("Timed out while waiting for footer. Refreshing: {}", driver.getCurrentUrl());
                 driver.navigate().refresh();
             }
         }

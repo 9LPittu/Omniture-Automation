@@ -66,7 +66,7 @@ public class Footer {
                 success = true;
                 maxTries--;
             } catch (TimeoutException timeout) {
-                logger.debug("Timed out while waiting for footer at url, refreshing page", driver.getCurrentUrl());
+                logger.debug("Timed out while waiting for footer. Refreshing: {}", driver.getCurrentUrl());
                 driver.navigate().refresh();
             }
         }
