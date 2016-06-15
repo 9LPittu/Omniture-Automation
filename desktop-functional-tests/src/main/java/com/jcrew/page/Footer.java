@@ -64,7 +64,7 @@ public class Footer {
                 wait.until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
                 success = true;
             } catch (TimeoutException timeout) {
-                logger.debug("Timed out while waiting for fooger, refreshing page");
+                logger.debug("Timed out while waiting for footer, refreshing page");
                 driver.navigate().refresh();
             }
         }

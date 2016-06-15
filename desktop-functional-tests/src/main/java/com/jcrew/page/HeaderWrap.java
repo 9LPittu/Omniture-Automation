@@ -4,10 +4,7 @@ import com.google.common.base.Predicate;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -66,12 +63,27 @@ public class HeaderWrap {
         this.driver = driver;
         this.hoverAction = new Actions(driver);
         this.wait = Util.createWebDriverWait(driver);
+
+        PageFactory.initElements(driver, this);
+
         reload();
     }
 
     public void reload() {
-        PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(global_promo));
+        boolean success = false;
+
+        while(!success) {
+            try {
+
+                wait.until(ExpectedConditions.visibilityOf(global_promo));
+                wait.until(ExpectedConditions.visibilityOf(global_header));
+                wait.until(ExpectedConditions.visibilityOf(bag));
+                success = true;
+            } catch (TimeoutException timeout) {
+                logger.debug("Timed out while waiting for header, refreshing page");
+                driver.navigate().refresh();
+            }
+        }
     }
 
     public void openMenu() {
