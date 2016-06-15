@@ -98,7 +98,7 @@ public class HeaderSteps extends DriverFactory {
         assertTrue("Sign in button is present ", header.isSignInPresent());
     }
 
-    @Then("^My Account button is present$")
+    @Then("^My Account icon is present$")
     public void my_account_button_is_present() throws Throwable {
 
         assertTrue("My Account is present ", header.isMyAccountPresent());
