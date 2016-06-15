@@ -94,9 +94,10 @@ public class Shipping {
                 city.sendKeys(address.getCity());
                 state.sendKeys(address.getState());
                 break;
-            case "au":
             case "ca":
-                wait.until(ExpectedConditions.visibilityOf(city));
+                wait.until(ExpectedConditions.visibilityOf(us_city_state));
+                break;
+            case "au":
                 city.sendKeys(address.getCity());
                 Select state_dropdown = new Select(state_province);
                 state_dropdown.selectByVisibleText(address.getState());
