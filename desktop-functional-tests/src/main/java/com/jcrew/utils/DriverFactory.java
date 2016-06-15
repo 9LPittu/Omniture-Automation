@@ -135,8 +135,7 @@ public class DriverFactory {
 
             driver = new RemoteWebDriver(new URL(nodeURL), desiredCapabilities);
 
-       }
-        else if ("tablet".equals(browser)) {
+       } else if ("tablet".equals(browser)) {
 
             String tabletName = propertyReader.getProperty(browser+".name");
             String tabletOs = propertyReader.getProperty(browser+".os.version");
@@ -157,11 +156,11 @@ public class DriverFactory {
 
             driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
 
-        }
-        else {
+        } else {
             desiredCapabilities = DesiredCapabilities.phantomjs();
             desiredCapabilities.setCapability("phantomjs.cli.args", PHANTOM_JS_ARGS);
             desiredCapabilities.setCapability("phantomjs.page.settings.userAgent", propertyReader.getProperty(browser + ".user.agent"));
+
             driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
             driver.manage().window().setSize(new Dimension(width, height));
         }

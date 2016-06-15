@@ -50,37 +50,24 @@ public class ShoppingBag {
         this.header = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(checkoutButton));
+        wait.until(ExpectedConditions.visibilityOf(orderListing));
     }
 
     public boolean isShoppingBagPage() {
         Country country = (Country) stateHolder.get("context");
-        logger.info("country context is  : {}",country.getName());
+        logger.info("country context is  : {}", country.getName());
         Util.waitForPageFullyLoaded(driver);
         wait.until(ExpectedConditions.visibilityOf(articleCheckout));
-        return  articleCheckout.isDisplayed();
+        return articleCheckout.isDisplayed();
     }
 
     public void clickCheckoutButton() {
-        String urlBeforeClickingCheckoutButton = driver.getCurrentUrl();
+        String url = driver.getCurrentUrl();
+        Util.waitForPageFullyLoaded(driver);
+        wait.until(ExpectedConditions.elementToBeClickable(checkoutButton));
 
-        PropertyReader reader = PropertyReader.getPropertyReader();
-        String browser = reader.getProperty("browser");
-
-        if("desktop".equals(browser)) {
-            String href = checkoutButton.getAttribute("href");
-            try {
-                href = URLDecoder.decode(href, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                logger.error("not able to decode!", e);
-            }
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript(href);
-        } else {
-            checkoutButton.click();
-        }
-
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(urlBeforeClickingCheckoutButton)));
+        checkoutButton.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         Util.waitForPageFullyLoaded(driver);
     }
 

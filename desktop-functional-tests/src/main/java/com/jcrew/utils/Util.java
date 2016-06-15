@@ -42,7 +42,9 @@ public class Util {
     public static void waitForPageFullyLoaded(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
-                return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+                String complete = (String) ((JavascriptExecutor) driver).executeScript("return document.readyState");
+                logger.info("document.readyState returned {}", complete);
+                return complete.equals("complete");
             }
         });
     }
