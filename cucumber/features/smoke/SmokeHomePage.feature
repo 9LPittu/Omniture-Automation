@@ -6,7 +6,7 @@ Feature: Home Page
 
   Scenario: Verification of Header and Footer section in the Home page
     Then JCrew Logo is present
-    And Stores Link is present
+    And Sign In Link is present
     And Hamburger menu is present
     When User clicks on hamburger menu
     Then Hamburger Menu Women Link is present
