@@ -71,14 +71,16 @@ public class HeaderWrap {
 
     public void reload() {
         boolean success = false;
+        int maxTries = 2;
 
-        while(!success) {
+        while(!success & maxTries > 0) {
             try {
 
                 wait.until(ExpectedConditions.visibilityOf(global_promo));
                 wait.until(ExpectedConditions.visibilityOf(global_header));
                 wait.until(ExpectedConditions.visibilityOf(bag));
                 success = true;
+                maxTries--;
             } catch (TimeoutException timeout) {
                 logger.debug("Timed out while waiting for header, refreshing page");
                 driver.navigate().refresh();

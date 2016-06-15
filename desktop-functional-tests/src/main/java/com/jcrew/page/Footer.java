@@ -55,16 +55,18 @@ public class Footer {
 
     private void waitForFooter() {
         boolean success = false;
+        int maxTries = 2;
 
-        while(!success) {
+        while(!success & maxTries > 0) {
             try {
                 wait.until(ExpectedConditions.visibilityOf(global__footer));
                 wait.until(ExpectedConditions.visibilityOf(footer_social));
                 wait.until(ExpectedConditions.visibilityOf(countryNameInFooter));
                 wait.until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
                 success = true;
+                maxTries--;
             } catch (TimeoutException timeout) {
-                logger.debug("Timed out while waiting for footer, refreshing page");
+                logger.debug("Timed out while waiting for footer at url, refreshing page", driver.getCurrentUrl());
                 driver.navigate().refresh();
             }
         }
