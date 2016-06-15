@@ -177,13 +177,18 @@ public class HeaderSteps extends DriverFactory {
     	assertTrue("user should see welcome message, My Details, Sign Out and close button in My Account dropdown", header.isAccountDropdownOptionsDisplayed());
     }
     
-    @Then("^close the My Account dropdown$")
-    public void close_my_account_dropdown(){
-    	header.closeMyAccountDropdown();
+    @When("^user clicks on \"([^\"]*)\" from My Account dropdown$")
+    public void user_click_element_from_my_account_dropdown(String elementName){
+    	header.clickElementFromMyAccountDropdown(elementName);
     }
     
-    @And("^click on Sign Out from My Account dropdown$")
-    public void click_sign_out_from_my_account_dropdown(){
-    	header.clickSignOutFromMyAccountDropdown();
+    @Then("^user should see rewards info in the My Account dropdown$")
+    public void user_should_see_rewards_info_in_my_account_dropdown(){
+    	assertTrue("user should see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown());
+    }
+    
+    @And("^user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section$")
+    public void verify_rewards_section_options(){
+    	assertTrue("user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section", header.isRewardsInfoDisplayedInMyAccountDropDown());
     }
 }

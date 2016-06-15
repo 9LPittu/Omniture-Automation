@@ -150,7 +150,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     When User clicks on hamburger menu
@@ -161,7 +161,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     And user selects any item from array page, select any color and size
@@ -171,7 +171,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     And User clicks on item bag
@@ -180,7 +180,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     And Clicks on checkout
@@ -190,7 +190,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     And click on 'CHANGE' button of 'SHIPPING DETAILS' section on 'Review' page
@@ -200,7 +200,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     And Presses continue button on shipping address
@@ -210,7 +210,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     And Clicks continue button on shipping method page
@@ -220,7 +220,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     And Submits payment data in billing page
@@ -234,7 +234,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     Scenario: My Account dropdown open and close is functional on search page
@@ -252,7 +252,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed    	
   	
   Scenario Outline: My Account dropdown open and close is functional on sale page
@@ -270,7 +270,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
   	
   	And User clicks on sale department <SaleCategory>
@@ -280,7 +280,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed  	
   	Examples:
       |SaleCategory|
@@ -302,7 +302,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
+    When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     Examples:
       |gender|
@@ -330,11 +330,75 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT link from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    Then close the My Account dropdown
-    Then user should see My Account dropdown is closed    
+    When user clicks on "close" from My Account dropdown
+    Then user should see My Account dropdown is closed
     
-    #SignOut steps
+    
+  Scenario: Verify tapping on My Details link under My Account dropdown should navigate user to My Account page    
+    And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User provides login information
+    And Hits sign in button    
+    Then User is in My Account page
+    
     And click on MY ACCOUNT link from header
-    And click on Sign Out from My Account dropdown    
+    When user clicks on "My Details" from My Account dropdown
+    And User is on internal /account/account_detail.jsp?sidecar=true page
+    
+    And User clicks on SIGN OUT link in My Account Page
+    
+    And Verify user is in homepage
+    And Verify SIGN IN header link is displayed
+
+  Scenario: Rewards visibility in Account dropdown
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	
+  	And login with rewards user credentials
+  	
+  	And Hits sign in button
+    Then User is in My Account page
+    
+    And click on MY ACCOUNT link from header
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then user should see rewards info in the My Account dropdown
+    And user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section    
+    When user clicks on "Manage your account" from My Account dropdown
+    And external https://d.comenity.net/jcrew/ page is opened in a different tab
+    
+  Scenario: Signout link from My Account dropdown is functional
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User provides login information
+    And Hits sign in button    
+    Then User is in My Account page
+    And User bag is cleared
+    
+    When User clicks on hamburger menu
+    And user selects any category from hamburger menu
+    And user selects any subcategory 
+    And user selects any item from array page, select any color and size
+    And User is in product detail page
+    And Add to cart button is pressed
+    
+    When user navigates to random page from below list    
+    |Category|
+    |PDP|
+    |Search|
+    |Sale|
+    |MyAccount|
+    |Women|
+    |Men|
+    |Girls|
+    |Boys|
+    |Women_Feature|
+    |ShoppingBag|
+    |ShippingAddress|
+    |ShippingMethod|
+    |Billing|
+    |Review|
+  
+    And click on MY ACCOUNT link from header
+    When user clicks on "Sign Out" from My Account dropdown  
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed

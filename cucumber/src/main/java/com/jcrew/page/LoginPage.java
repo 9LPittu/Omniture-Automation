@@ -468,4 +468,15 @@ public class LoginPage {
     	
     	return errorMessageElement.getText().equalsIgnoreCase(expectedErrorMessage);
     }
+    
+    public void enterRewardUserCredentials(){    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();        
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	
+    	String username = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.username");
+    	String password = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.password");
+    	
+    	input_as_email(username);
+        input_as_password(password);
+    }
 }

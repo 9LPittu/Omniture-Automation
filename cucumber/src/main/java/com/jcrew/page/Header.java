@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +64,12 @@ public class Header {
     
     @FindBy(xpath=".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='Sign Out']")
     private WebElement signOutInMyAccountDropdown;
+    
+    @FindBy(xpath=".//dd[@class='c-nav__userpanel-item--rewards']")
+    private WebElement rewardsSectionInMyAccountDropdown;
+    
+    @FindBy(linkText = "Manage my account")
+    private WebElement manageMyAccountLinkInMyAccountDropdown;
 
     public Header(WebDriver driver) {
         this.driver = driver;
@@ -261,13 +268,49 @@ public class Header {
     			signOutInMyAccountDropdown.isDisplayed();
     }
     
-    public void closeMyAccountDropdown(){
-    	closeIconInMyAccountDropdown.click();
-    	Util.waitLoadingBar(driver);
+    public boolean isRewardsDisplayedInMyAccountDropDown(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(rewardsSectionInMyAccountDropdown));
+    	return rewardsSectionInMyAccountDropdown.isDisplayed();
     }
     
-    public void clickSignOutFromMyAccountDropdown(){
-    	signOutInMyAccountDropdown.click();
+    public boolean isRewardsInfoDisplayedInMyAccountDropDown(){
+    	LocalDate today = LocalDate.now();
+    	
+    	String expectedDateString = "As of " + today.getMonth().name() + " " + (today.getDayOfMonth() - 1) + ", " + today.getYear() + ":";    	
+    	String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
+    	boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
+    	
+    	String rewardsCardBalance = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[2]")).getText();
+    	boolean isRewardBalanceMatches = rewardsCardBalance.matches("^Rewards card balance:\\$\\d+");
+    	
+    	String totalPoints = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[3]")).getText();
+    	boolean isTotalPointsMatches = totalPoints.matches("^Total points: \\d+");
+    	
+    	String pointsToNextReward = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[4]")).getText();
+    	boolean isPointsToNextRewardMatches = pointsToNextReward.matches("^Points to next reward: \\d+");
+    	
+    	return isDateMatches && isRewardBalanceMatches && isTotalPointsMatches && isPointsToNextRewardMatches && manageMyAccountLinkInMyAccountDropdown.isDisplayed();
+    }
+    
+    public void clickElementFromMyAccountDropdown(String myAccountDropdownElementName){
+    	WebElement element = null;
+    	switch(myAccountDropdownElementName.toUpperCase()){
+    		case "SIGN OUT":
+    			element = signOutInMyAccountDropdown;
+    			break;
+    		case "MY DETAILS":
+    			element = myDetailsInMyAccountDropdown;
+    			break;
+    		case "CLOSE":
+    			element = closeIconInMyAccountDropdown;
+    			break;
+    		case "MANAGE YOUR ACCOUNT":
+    			element = manageMyAccountLinkInMyAccountDropdown;
+    			break;
+    	}
+    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
+    	element.click();
     	Util.waitLoadingBar(driver);
     }
 }

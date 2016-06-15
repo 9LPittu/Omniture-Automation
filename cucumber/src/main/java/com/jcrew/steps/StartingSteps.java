@@ -15,6 +15,8 @@ import cucumber.api.java.Before;
 import cucumber.api.java.BeforeStep;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -256,5 +258,18 @@ public class StartingSteps {
     	if(reader.getProperty("environment").equalsIgnoreCase("qa2")){
     		driver.navigate().to(driver.getCurrentUrl() + urlParam);
     	}
+    }
+    
+    @When("user navigates to random page from below list$")
+    public void  user_navigates_to_random_page(List<String> pageUrlList) throws Throwable {
+        TestDataReader testData = TestDataReader.getTestDataReader();
+        String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
+        page = page.toLowerCase();        
+        String pageURL = testData.getData("url." + page);
+
+        String env = reader.getProperty("url");
+        
+        driver.get(env + pageURL);
+        Util.waitLoadingBar(driver);
     }
 }
