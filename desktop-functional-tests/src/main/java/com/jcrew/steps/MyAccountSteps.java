@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.MyAccount;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -16,6 +17,7 @@ import static org.junit.Assert.*;
  */
 public class MyAccountSteps extends DriverFactory {
     MyAccount myAccount = new MyAccount(getDriver());
+    StateHolder stateHolder = StateHolder.getInstance();
 
     @When("User goes to ([^\"]*) using My Account menu")
     public void user_goes_to_option_using_my_account_menu(String option){
@@ -29,12 +31,7 @@ public class MyAccountSteps extends DriverFactory {
 
     @Then("([^\"]*) user information should match My Details page")
     public void sign_in_user_information_should_match_my_details_page(String userType) {
-        User user;
-
-        if("new".equalsIgnoreCase(userType))
-            user = User.getFakeUser();
-        else
-            user = User.getUser();
+        User user = (User) stateHolder.get("signedUser");
 
         Map<String, String> userDetails = myAccount.getUserDetails();
         String user_country = user.getCountry();

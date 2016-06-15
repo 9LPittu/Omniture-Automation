@@ -50,14 +50,19 @@ public class Util {
     }
 
     public static void waitLoadingBar(WebDriver driver){
-        createWebDriverWait(driver).until(new Function<WebDriver, Boolean>(){
-            @Override
-            public Boolean apply(WebDriver webDriver) {
-                WebElement html = webDriver.findElement(By.tagName("html"));
-                String htmlClass = html.getAttribute("class");
-                return !htmlClass.contains("nprogress-busy");
-            }
-        });
+        try {
+            createWebDriverWait(driver).until(new Function<WebDriver, Boolean>() {
+                @Override
+                public Boolean apply(WebDriver webDriver) {
+                    WebElement html = webDriver.findElement(By.tagName("html"));
+                    String htmlClass = html.getAttribute("class");
+                    return !htmlClass.contains("nprogress-busy");
+                }
+            });
+        } catch (StaleElementReferenceException stale) {
+            logger.error("StaleElementReferenceException when waiting for loading bar. " +
+                    "Assuming it is gone and ignoring this exception");
+        }
     }
 
     public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{
