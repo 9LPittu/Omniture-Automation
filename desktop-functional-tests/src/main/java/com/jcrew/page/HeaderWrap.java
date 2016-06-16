@@ -197,7 +197,16 @@ public class HeaderWrap {
     public String getWelcomeMessage() {
         dropdown = userPanel.findElement(By.tagName("dl"));
         WebElement welcomeRow = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel--welcomeuser']"));
-        return welcomeRow.getText();
+        String message = welcomeRow.getText();
+
+        if(message.isEmpty()) {
+            hoverOverIcon("my account");
+            message = welcomeRow.getText();
+        }
+
+        hoverOverIcon("logo");
+
+        return message;
     }
 
     public void goToMyDetailsDropDownMenu(String option) {

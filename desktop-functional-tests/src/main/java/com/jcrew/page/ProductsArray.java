@@ -75,7 +75,7 @@ public class ProductsArray {
         random_product_image.click();
 
         Util.waitLoadingBar(driver);
-        header.reload();
+        new ProductDetails(driver);
     }
 
     private boolean verifyCurrency(String currency) {
