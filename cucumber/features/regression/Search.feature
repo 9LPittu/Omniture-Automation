@@ -68,7 +68,7 @@ Feature: Search Regression Suite
     And Dresses is populated
     When Enters yellow dresses to the search field
     And Hits enter in search field
-    Then Verify yellow dress is displayed
+    Then Verify yellow product is displayed
 
 
   Scenario: Search term should display search array & validate with regular priced product
