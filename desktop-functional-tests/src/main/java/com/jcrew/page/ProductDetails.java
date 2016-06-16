@@ -383,6 +383,7 @@ public class ProductDetails {
         logger.debug("Selected variation {}", selectedVariationName.getText());
         selectedVariation.click();
 
+        wait.until(ExpectedConditions.visibilityOf(price_colors));
     }
 
     public boolean isVPSMessageDisplayed() {
