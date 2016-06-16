@@ -26,6 +26,7 @@ public class ProductsArray {
     private final Logger logger = LoggerFactory.getLogger(ProductsArray.class);
     private final WebDriverWait wait;
     private final Footer footer;
+    private final HeaderWrap header;
     private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final String PRICE_LIST_CLASS = "tile__detail--price--list";
@@ -47,6 +48,7 @@ public class ProductsArray {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
         this.footer = new Footer(driver);
+        this.header = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(productList));
@@ -73,6 +75,7 @@ public class ProductsArray {
         random_product_image.click();
 
         Util.waitLoadingBar(driver);
+        header.reload();
     }
 
     private boolean verifyCurrency(String currency) {
