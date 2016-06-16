@@ -97,6 +97,9 @@ public class ProductDetailPage {
     @FindBy(className = "c-product__colors")
     private WebElement c_product_colors;
 
+    @FindBy(className = "c-product__description")
+    private WebElement productDetailsSection;
+
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -301,12 +304,12 @@ public class ProductDetailPage {
     	WebElement productCodeElement = null;
     	try{
     		productCodeElement = Util.createWebDriverWait(driver,30).until(
-                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='c-product__description']/div/ul/li[contains(text(),'Item')]")));
+                    ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
     	}
     	catch(TimeoutException toe){
     		try{
      			productCodeElement = Util.createWebDriverWait(driver,30).until(
-    	                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='c-product__description']/div/ul/li/a[contains(text(),'Item')]")));
+                        ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
     		}
     		catch(Exception e){
     			throw new WebDriverException("Product/item code is not found on the PDP!");
