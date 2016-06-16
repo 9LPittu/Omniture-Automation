@@ -58,6 +58,7 @@ public class Payment {
 
 
     public void fillPayment() {
+        Util.waitForPageFullyLoaded(driver);
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
 
         creditCardNumber.sendKeys(testDataReader.getData("card.number"));
