@@ -77,6 +77,7 @@ public class Payment {
 
     public void submitPayment() {
         submitButton.click();
+        Util.waitForPageFullyLoaded(driver);
     }
 
 
