@@ -79,9 +79,14 @@ public class Header {
     }
 
     public boolean isHeaderLinkPresent(String headerLink) {
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
+        WebElement headerLinkElement = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(headerWrap.findElement(
+                		By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']"))));
         Util.createWebDriverWait(driver).until(
-            ExpectedConditions.visibilityOf(headerWrap.findElement(By.linkText(headerLink))));
+            ExpectedConditions.elementToBeClickable(headerLinkElement));
 
         return true;
     }
@@ -261,7 +266,7 @@ public class Header {
     	}
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(headerElement));
     	headerElement.click();
-    	logger.info("{} link is clicked from header...", elementName);
+    	logger.info("'{}' link is clicked from header...", elementName);
     	Util.waitLoadingBar(driver);
     }
     
@@ -272,8 +277,8 @@ public class Header {
     		result =  myAccountDropdownOpened.isDisplayed();
     	}
     	else if(state.equalsIgnoreCase("closed")){
-    		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(myAccountDropdownClosed));
-    		result = myAccountDropdownClosed.isDisplayed();
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.visibilityOf(myAccountDropdownClosed)));
+    		result = true;
     	}
     	
     	return result;

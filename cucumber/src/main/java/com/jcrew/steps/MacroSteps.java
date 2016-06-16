@@ -96,16 +96,20 @@ public class MacroSteps {
     public void verify_embedded_headers_links_is_visible() throws Throwable{
         headerSteps.verify_header_link_is_displayed("MENU");
         hamburgerMenuSteps.user_clicks_on_hamburger_menu();
-        hamburgerMenuSteps.hamburger_menu_category_link_is_present("Women");
         
-        if(!stateHolder.hasKey("sidecarusername")){
+        hamburgerMenuSteps.closeBackLinkInHamburgerMenu();
+                
+        hamburgerMenuSteps.hamburger_menu_category_link_is_present("Women");
+    	
+    	if(!stateHolder.hasKey("sidecarusername")){
         	hamburgerMenuSteps.hamburger_menu_user_panel_link("SIGN IN");
         }        
         else{
         	hamburgerMenuSteps.hamburger_menu_user_panel_link("MY ACCOUNT");
         }
-        hamburgerMenuSteps.closes_hamburger_menu();
-
+    	
+    	hamburgerMenuSteps.closes_hamburger_menu();
+        
         headerSteps.verify_header_link_is_displayed("SEARCH");
         headerSteps.presses_search_button();
         headerSteps.search_drawer_is_open();

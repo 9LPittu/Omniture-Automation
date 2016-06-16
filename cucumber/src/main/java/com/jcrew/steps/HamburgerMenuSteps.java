@@ -136,4 +136,8 @@ public class HamburgerMenuSteps extends DriverFactory {
     public void hamburger_menu_user_panel_link(String linkName){
     	assertTrue("User should see '" + linkName + "' in the hamburger menu", hamburgerMenu.isUserPanelLinkPresent(linkName));
     }
+    
+    public void closeBackLinkInHamburgerMenu(){
+    	hamburgerMenu.click_on_back_link();
+    }
 }

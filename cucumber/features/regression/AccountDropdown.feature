@@ -4,7 +4,7 @@ Feature: Account Dropdown functionality
   Background:
     Given User is on homepage
     And Handle the Email Capture pop up
-
+  
   Scenario: Sign In link displayed in header and functional for multiple pages
   	And Verify SIGN IN header link is displayed
   	And click on SIGN IN from header
@@ -22,13 +22,13 @@ Feature: Account Dropdown functionality
     
     And user selects any item from array page, select any color and size
     And User is in product detail page
+    And Add to cart button is pressed
     
     And Verify SIGN IN header link is displayed
   	And click on SIGN IN from header
   	And User is on internal /r/login page
   	And User presses back button
     
-    And Add to cart button is pressed
     And User clicks on item bag
     Then User should be in shopping bag page
     
@@ -76,8 +76,9 @@ Feature: Account Dropdown functionality
     And Verify SIGN IN header link is displayed
   	And click on SIGN IN from header
   	And User is on internal /r/login page
-  	
+  
   Scenario: Sign In link displayed in header and functional for search page
+    And User presses search button
     When Enters Dresses to the search field
     And Clicks on search button for input field
     And User is in search results page
@@ -85,7 +86,7 @@ Feature: Account Dropdown functionality
     And Verify SIGN IN header link is displayed
   	And click on SIGN IN from header
   	And User is on internal /r/login page  	
-  	
+  
   Scenario Outline: Sign In link displayed in header and functional for sale page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
@@ -108,7 +109,7 @@ Feature: Account Dropdown functionality
       |men  |
       |boys |
       |girls|
-      
+   
   Scenario Outline: Sign In link displayed in header and functional on Department/Gender Landing Pages
     And User clicks on <gender> link from top nav
     
@@ -134,7 +135,7 @@ Feature: Account Dropdown functionality
     And Verify SIGN IN header link is displayed
   	And click on SIGN IN from header
   	And User is on internal /r/login page
-  	
+  
   Scenario: My Account dropdown open and close is functional on multiple pages
   	And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -146,8 +147,8 @@ Feature: Account Dropdown functionality
     When Clicks on JCrew Logo
     And Verify user is in homepage
     
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    Then Verify embedded headers links is visible
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -157,8 +158,8 @@ Feature: Account Dropdown functionality
     And user selects any category from hamburger menu
     And user selects any subcategory
     
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    Then Verify embedded headers links is visible
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -166,9 +167,10 @@ Feature: Account Dropdown functionality
     
     And user selects any item from array page, select any color and size
     And User is in product detail page
+    And Add to cart button is pressed
     
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    Then Verify embedded headers links is visible
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -176,8 +178,8 @@ Feature: Account Dropdown functionality
     
     And User clicks on item bag
     
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    Then Verify embedded headers links is visible
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -186,8 +188,8 @@ Feature: Account Dropdown functionality
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
     
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    Then Verify embedded headers links is visible
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -196,8 +198,8 @@ Feature: Account Dropdown functionality
     And click on 'CHANGE' button of 'SHIPPING DETAILS' section on 'Review' page
     And User is on internal /checkout2/shipping.jsp page
     
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    Then Verify embedded headers links is visible
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -206,18 +208,18 @@ Feature: Account Dropdown functionality
     And Presses continue button on shipping address
     And Verifies is in shipping method page
     
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    Then Verify embedded headers links is visible
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
     And Clicks continue button on shipping method page
-    And Verify user is in billing page
+    And page url should contain /checkout2/shippingmethod.jsp
     
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    Then Verify embedded headers links is visible
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -230,8 +232,8 @@ Feature: Account Dropdown functionality
     Then User should be in order confirmation page
     And verify order number is generated
     
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    Then Verify embedded headers links is visible
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -244,12 +246,13 @@ Feature: Account Dropdown functionality
     And Hits sign in button    
     Then User is in My Account page
     
+    And User presses search button
     When Enters Dresses to the search field
     And Clicks on search button for input field
     And User is in search results page
     
     And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -267,7 +270,7 @@ Feature: Account Dropdown functionality
     And User is in sale landing page
     
     And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -277,7 +280,7 @@ Feature: Account Dropdown functionality
     Then User is in Sale results page
     
     And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -299,7 +302,7 @@ Feature: Account Dropdown functionality
     And User clicks on <gender> link from top nav
     
     And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -327,7 +330,7 @@ Feature: Account Dropdown functionality
     Then Verifies initial multiple pdp page state
     
     And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
@@ -340,7 +343,7 @@ Feature: Account Dropdown functionality
     And Hits sign in button    
     Then User is in My Account page
     
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
     And User is on internal /account/account_detail.jsp?sidecar=true page
     
@@ -358,7 +361,7 @@ Feature: Account Dropdown functionality
   	And Hits sign in button
     Then User is in My Account page
     
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     Then user should see rewards info in the My Account dropdown
     And user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section    
@@ -397,7 +400,7 @@ Feature: Account Dropdown functionality
     |Billing|
     |Review|
   
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown  
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
@@ -422,17 +425,17 @@ Feature: Account Dropdown functionality
     Then User is in My Account page
     
     And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
     And User is on internal /account/account_detail.jsp?sidecar=true page
     
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown  
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
@@ -454,6 +457,6 @@ Feature: Account Dropdown functionality
   	And Hits sign in button
     Then User is in My Account page
     
-    And click on MY ACCOUNT link from header
+    And click on MY ACCOUNT from header
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     Then user should NOT see rewards info in the My Account dropdown
