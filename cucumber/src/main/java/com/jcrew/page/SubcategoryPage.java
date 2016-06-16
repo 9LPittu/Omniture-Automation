@@ -392,6 +392,17 @@ public class SubcategoryPage {
         return productInTile.isDisplayed();
     }
 
+    public boolean isEditedSearchTermItemDisplayed(String term) {
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String itemName = testDataReader.getData(propertyReader.getProperty("environment") + "."+term+".product");
+
+        return productTileExistFor(itemName);
+    }
+
+
+
+
     public String getPriceFor(String product) {
         WebElement priceInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
                 "' and contains(@class, 'tile__detail--name')]/../span[contains(@class,'tile__detail--price--list')]"));
