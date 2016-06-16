@@ -64,7 +64,7 @@ public class Footer {
             wait.until(ExpectedConditions.visibilityOf(countryNameInFooter));
             wait.until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
         } catch (TimeoutException timeout) {
-            logger.debug("Timed out while waiting for header in page: {}", driver.getCurrentUrl());
+            logger.debug("Timed out while waiting for footer in page: {}", driver.getCurrentUrl());
             Logs errorLog = driver.manage().logs();
             LogEntries errors = errorLog.get(LogType.BROWSER);
 
