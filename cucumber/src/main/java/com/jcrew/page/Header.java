@@ -34,6 +34,8 @@ public class Header {
     private WebElement searchButton;
     @FindBy(className = "primary-nav__text--stores")
     private WebElement storesLink;
+    @FindBy(id = "c-header__userpanel")
+    private WebElement signInLink;
     @FindBy(id = "js-header__cart")
     private WebElement shoppingBagLink;
     @FindBy(css = ".icon-header.icon-header-bag.icon-bag")
@@ -167,6 +169,24 @@ public class Header {
 
     public void click_on_stores_link() {
         storesLink.click();
+    }
+
+    public boolean isSignInPresent() {
+        WebElement link =  Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//*[@id='c-header__userpanel']/a")));
+        return link.isDisplayed();
+    }
+
+    public boolean isMyAccountPresent() {
+        WebElement link =  Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//*[@id='c-nav__userpanel']/*[@id='c-header__userpanelrecognized']")));
+        return link.isDisplayed();
+    }
+
+    public void click_on_sign_in() {
+        WebElement link =  Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//*[@id='c-header__userpanel']/a")));
+        link.click();
     }
 
     public void click_item_bag() {

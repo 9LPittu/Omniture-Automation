@@ -92,6 +92,23 @@ public class HeaderSteps extends DriverFactory {
         assertTrue("Stores link should be present", header.isStoresLinkPresent());
     }
 
+    @Then("^Sign In Link is present$")
+    public void sign_in_link_is_present() throws Throwable {
+
+        assertTrue("Sign in button is present ", header.isSignInPresent());
+    }
+
+    @Then("^My Account icon is present$")
+    public void my_account_button_is_present() throws Throwable {
+
+        assertTrue("My Account is present ", header.isMyAccountPresent());
+    }
+
+    @When("^User clicks on sign in link$")
+    public void user_clicks_on_sign_in_link() throws Throwable {
+        header.click_on_sign_in();
+    }
+
     @Then("^User clicks on stores link$")
     public void user_clicks_on_stores_link() throws Throwable {
         header.click_on_stores_link();
