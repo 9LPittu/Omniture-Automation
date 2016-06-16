@@ -6,6 +6,10 @@ import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -53,11 +56,10 @@ public class HeaderWrap {
     private WebElement header_logo;
     @FindBy(className = "header__department-nav")
     private WebElement top_nav;
+    @FindBy(xpath = ".//div[@id='c-header__factory-link']/a")
+    private WebElement lookingForFactoryLinkInHeader;
 
     private WebElement dropdown;
-    
-    @FindBy(xpath=".//div[@id='c-header__factory-link']/a")
-    private WebElement lookingForFactoryLinkInHeader;
 
     public HeaderWrap(WebDriver driver) {
         this.driver = driver;
@@ -70,20 +72,17 @@ public class HeaderWrap {
     }
 
     public void reload() {
-        boolean success = false;
-        int maxTries = 2;
+        try {
+            wait.until(ExpectedConditions.visibilityOf(global_promo));
+            wait.until(ExpectedConditions.visibilityOf(global_header));
+            wait.until(ExpectedConditions.visibilityOf(bag));
+        } catch (TimeoutException timeout) {
+            logger.debug("Timed out while waiting for header in page: {}", driver.getCurrentUrl());
+            Logs errorLog = driver.manage().logs();
+            LogEntries errors = errorLog.get(LogType.BROWSER);
 
-        while(!success & maxTries > 0) {
-            try {
-
-                wait.until(ExpectedConditions.visibilityOf(global_promo));
-                wait.until(ExpectedConditions.visibilityOf(global_header));
-                wait.until(ExpectedConditions.visibilityOf(bag));
-                success = true;
-                maxTries--;
-            } catch (TimeoutException timeout) {
-                logger.debug("Timed out while waiting for header. Refreshing: {}", driver.getCurrentUrl());
-                driver.navigate().refresh();
+            for (LogEntry error : errors) {
+                logger.error("Broser logged: {}", error.getMessage());
             }
         }
     }
@@ -119,7 +118,7 @@ public class HeaderWrap {
         String env = propertyReader.getProperty("environment");
         TestDataReader testdataReader = TestDataReader.getTestDataReader();
 
-        if(testdataReader.hasProperty(env+ "." + searchItem)){
+        if (testdataReader.hasProperty(env + "." + searchItem)) {
             searchItem = testdataReader.getData(env + "." + searchItem);
         }
 
@@ -239,7 +238,7 @@ public class HeaderWrap {
         top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and "
                 + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']")).click();
 
-        if(!"view all".equals(dept))
+        if (!"view all".equals(dept))
             wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
 
         reload();
@@ -249,7 +248,7 @@ public class HeaderWrap {
         List<WebElement> options = top_nav.findElements(By.className("department-nav__item"));
         List<String> optionsString = new ArrayList<>(options.size());
 
-        for(WebElement option : options) {
+        for (WebElement option : options) {
             optionsString.add(option.getText().toLowerCase());
         }
 

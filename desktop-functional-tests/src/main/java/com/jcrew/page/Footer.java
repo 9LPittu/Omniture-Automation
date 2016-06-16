@@ -5,6 +5,10 @@ import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -54,20 +58,18 @@ public class Footer {
     }
 
     private void waitForFooter() {
-        boolean success = false;
-        int maxTries = 2;
+       try {
+            wait.until(ExpectedConditions.visibilityOf(global__footer));
+            wait.until(ExpectedConditions.visibilityOf(footer_social));
+            wait.until(ExpectedConditions.visibilityOf(countryNameInFooter));
+            wait.until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
+        } catch (TimeoutException timeout) {
+            logger.debug("Timed out while waiting for header in page: {}", driver.getCurrentUrl());
+            Logs errorLog = driver.manage().logs();
+            LogEntries errors = errorLog.get(LogType.BROWSER);
 
-        while(!success & maxTries > 0) {
-            try {
-                wait.until(ExpectedConditions.visibilityOf(global__footer));
-                wait.until(ExpectedConditions.visibilityOf(footer_social));
-                wait.until(ExpectedConditions.visibilityOf(countryNameInFooter));
-                wait.until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
-                success = true;
-                maxTries--;
-            } catch (TimeoutException timeout) {
-                logger.debug("Timed out while waiting for footer. Refreshing: {}", driver.getCurrentUrl());
-                driver.navigate().refresh();
+            for (LogEntry error : errors) {
+                logger.error("Broser logged: {}", error.getMessage());
             }
         }
     }
