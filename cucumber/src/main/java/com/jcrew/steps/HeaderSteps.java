@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class HeaderSteps extends DriverFactory {
 
@@ -199,9 +199,15 @@ public class HeaderSteps extends DriverFactory {
     	header.clickElementFromMyAccountDropdown(elementName);
     }
     
-    @Then("^user should see rewards info in the My Account dropdown$")
-    public void user_should_see_rewards_info_in_my_account_dropdown(){
-    	assertTrue("user should see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown());
+    @Then("^user ([^\"]*) rewards info in the My Account dropdown$")
+    public void rewards_info_visibility_in_my_account_dropdown(String rewardsVisibility){
+    	if(rewardsVisibility.equalsIgnoreCase("should see")){
+    		assertTrue("user should see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown());
+    	}
+    	else{
+    		assertFalse("user should not see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown());
+    	}
+    	
     }
     
     @And("^user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section$")

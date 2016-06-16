@@ -11,6 +11,7 @@ public class MacroSteps {
     private final FooterSteps footerSteps = new FooterSteps();
     private final HamburgerMenuSteps hamburgerMenuSteps = new HamburgerMenuSteps();
     private final ShoppingBagSteps shoppingBagSteps = new ShoppingBagSteps();
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("^Verify embedded headers are visible and functional$")
     public void verify_embedded_header_and_footer_are_visible_and_functional() throws Throwable {
@@ -91,4 +92,32 @@ public class MacroSteps {
     	footerSteps.verify_social_icons_are_displayed("youtube");    	
     }
     
+    @Then("^Verify embedded headers links is visible$")
+    public void verify_embedded_headers_links_is_visible() throws Throwable{
+        headerSteps.verify_header_link_is_displayed("MENU");
+        hamburgerMenuSteps.user_clicks_on_hamburger_menu();
+        hamburgerMenuSteps.hamburger_menu_category_link_is_present("Women");
+        
+        if(!stateHolder.hasKey("sidecarusername")){
+        	hamburgerMenuSteps.hamburger_menu_user_panel_link("SIGN IN");
+        }        
+        else{
+        	hamburgerMenuSteps.hamburger_menu_user_panel_link("MY ACCOUNT");
+        }
+        hamburgerMenuSteps.closes_hamburger_menu();
+
+        headerSteps.verify_header_link_is_displayed("SEARCH");
+        headerSteps.presses_search_button();
+        headerSteps.search_drawer_is_open();
+
+        if(!stateHolder.hasKey("sidecarusername")){
+        	headerSteps.verify_header_link_is_displayed("SIGN IN");
+        }
+        else{
+        	headerSteps.verify_header_link_is_displayed("MY ACCOUNT");
+        }
+
+        headerSteps.verify_header_bag_icon_is_displayed();
+        headerSteps.verify_bag_button_link();
+    }
 }

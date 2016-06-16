@@ -56,6 +56,9 @@ public class HamburgerMenu {
 
     @FindBy(className = "c-sale__c-category-list")
     private WebElement saleCategoryList;
+    
+    @FindBy(xpath="//div[@class='menu__item--userpanel']")
+    private WebElement userPanelInHamburgerMenu;
 
     public HamburgerMenu(WebDriver driver) {
         this.driver = driver;
@@ -259,5 +262,11 @@ public class HamburgerMenu {
     	String categoryName = (String) stateHolder.get("category");
 		click_on_subcategory(subCategoryText.toUpperCase(),categoryName);
 		stateHolder.put("subcategory", subCategoryText);
+    }
+    
+    public boolean isUserPanelLinkPresent(String linkName){
+    	WebElement userPanelElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(userPanelInHamburgerMenu));
+    	return userPanelElement.findElement(By.xpath(
+    			"//a[contains(@class,'menu__link--userpanel') and text()='" + linkName.toUpperCase() + "']")).isDisplayed();
     }
 }

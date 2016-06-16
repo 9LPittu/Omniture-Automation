@@ -261,6 +261,8 @@ public class Header {
     	}
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(headerElement));
     	headerElement.click();
+    	logger.info("{} link is clicked from header...", elementName);
+    	Util.waitLoadingBar(driver);
     }
     
     public boolean isMyAccountDropdownInExpectedState(String state){
@@ -288,9 +290,14 @@ public class Header {
     			signOutInMyAccountDropdown.isDisplayed();
     }
     
-    public boolean isRewardsDisplayedInMyAccountDropDown(){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(rewardsSectionInMyAccountDropdown));
-    	return rewardsSectionInMyAccountDropdown.isDisplayed();
+    public boolean isRewardsDisplayedInMyAccountDropDown(){    	
+    	if(myAccountDropdownOpened.getText().contains("J.Crew credit card")){
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(rewardsSectionInMyAccountDropdown));
+    		return rewardsSectionInMyAccountDropdown.isDisplayed();
+    	}
+    	else{
+    		return false;
+    	}
     }
     
     public boolean isRewardsInfoDisplayedInMyAccountDropDown(){
@@ -331,6 +338,7 @@ public class Header {
     	
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
     	element.click();
+    	logger.info("{} link is clicked from My Account dropdown...", myAccountDropdownElementName);
     	Util.waitLoadingBar(driver);
     }
 }

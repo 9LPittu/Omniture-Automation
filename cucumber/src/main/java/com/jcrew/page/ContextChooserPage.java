@@ -200,9 +200,7 @@ public class ContextChooserPage {
     
     public void selectGroupRandomCountry(String country_group) {
 	
-		TestDataReader testData = TestDataReader.getTestDataReader();
-		PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("url");
+		TestDataReader testData = TestDataReader.getTestDataReader();		
 		String selectedCountry= "";
 
 		if ("PRICEBOOK".equals(country_group)) {
@@ -223,7 +221,14 @@ public class ContextChooserPage {
 
 		}
 		
-		Country country = new Country(url, selectedCountry );
+		selectCountryOnContextChooserPage(selectedCountry);
+    }
+    
+    public void selectCountryOnContextChooserPage(String countryCode){    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String url = propertyReader.getProperty("url");
+    	
+    	Country country = new Country(url, countryCode);
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
 	
@@ -242,10 +247,28 @@ public class ContextChooserPage {
 		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') "
 				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
     	countryElement.click();
-    	
 
-        stateHolder.put("context", country);
-		
+        stateHolder.put("context", country);		
 		logger.info("Selected country: {}", countryName);
+    }
+    
+    public String[] getInternationalCountriesArray(){
+    	TestDataReader testData = TestDataReader.getTestDataReader();
+    	
+    	String pricebookCountries = testData.getData("pricebookCountries");
+    	String nonPricebookCountries = testData.getData("nonPricebookCountries");
+    	String internationalCountries = pricebookCountries + ";" + nonPricebookCountries;    	
+    	
+    	return internationalCountries.split(";");
+    }
+    
+    public void selectRandomInternationalCountry(){
+    	
+    	String internationalCountriesArray[] = getInternationalCountriesArray();
+    		
+		int countryIndex = Util.randomIndex(internationalCountriesArray.length);
+		String selectedCountry = internationalCountriesArray[countryIndex].toLowerCase();
+		
+		selectCountryOnContextChooserPage(selectedCountry);
     }
 }

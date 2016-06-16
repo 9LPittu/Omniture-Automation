@@ -122,8 +122,6 @@ public class HamburgerMenuSteps extends DriverFactory {
         new LooksWeLoveSteps().user_Selects_Random_Shop_The_Look_Page(category);
 
     }
-
-
     
     @And("^user selects ([^\"]*) subcategory$")
     public void select_subcategory(String subcategory){
@@ -133,5 +131,9 @@ public class HamburgerMenuSteps extends DriverFactory {
     	else{
     		hamburgerMenu.click_random_subcategory();
     	}
+    }
+    
+    public void hamburger_menu_user_panel_link(String linkName){
+    	assertTrue("User should see '" + linkName + "' in the hamburger menu", hamburgerMenu.isUserPanelLinkPresent(linkName));
     }
 }

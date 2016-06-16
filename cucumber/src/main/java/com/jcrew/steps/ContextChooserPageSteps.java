@@ -7,6 +7,7 @@ import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import java.util.List;
 
@@ -72,4 +73,10 @@ public class ContextChooserPageSteps extends DriverFactory {
     public void click_start_shopping_button_country_specific_page(){
     	contextChooser.clickStartShoppingButton();
     }
+    
+    @When("^user selects randomly an international country$")
+    public void user_selects_random_international_country(){
+    	contextChooser.selectRandomInternationalCountry();
+    }
+
 }

@@ -78,7 +78,7 @@ Feature: Account Dropdown functionality
   	And User is on internal /r/login page
   	
   Scenario: Sign In link displayed in header and functional for search page
-    When Enters 05389 to the search field
+    When Enters Dresses to the search field
     And Clicks on search button for input field
     And User is in search results page
     
@@ -244,7 +244,7 @@ Feature: Account Dropdown functionality
     And Hits sign in button    
     Then User is in My Account page
     
-    When Enters 05389 to the search field
+    When Enters Dresses to the search field
     And Clicks on search button for input field
     And User is in search results page
     
@@ -331,8 +331,7 @@ Feature: Account Dropdown functionality
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
-    Then user should see My Account dropdown is closed
-    
+    Then user should see My Account dropdown is closed    
     
   Scenario: Verify tapping on My Details link under My Account dropdown should navigate user to My Account page    
     And click on SIGN IN from header
@@ -366,7 +365,7 @@ Feature: Account Dropdown functionality
     When user clicks on "Manage your account" from My Account dropdown
     And external https://d.comenity.net/jcrew/ page is opened in a different tab
     
-  Scenario: Signout link from My Account dropdown is functional
+  Scenario: Sign out link from My Account dropdown is functional
   	And click on SIGN IN from header
   	And User is on internal /r/login page
   	And User provides login information
@@ -402,3 +401,59 @@ Feature: Account Dropdown functionality
     When user clicks on "Sign Out" from My Account dropdown  
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
+    
+  Scenario: Sign In and My Account dropdown functionality for international context
+  	Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    
+  	When user selects randomly an international country  	
+  	Then user should land on country specific home page
+    And user should see selected country in the footer
+    
+    And Verify SIGN IN header link is displayed
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	And User presses back button
+  	
+  	And click on SIGN IN from header
+  	And User provides login information
+    And Hits sign in button    
+    Then User is in My Account page
+    
+    And Verify MY ACCOUNT header link is displayed
+    And click on MY ACCOUNT link from header
+    Then user should see My Account dropdown is opened
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    When user clicks on "close" from My Account dropdown
+    Then user should see My Account dropdown is closed
+    
+    And click on MY ACCOUNT link from header
+    When user clicks on "My Details" from My Account dropdown
+    And User is on internal /account/account_detail.jsp?sidecar=true page
+    
+    And click on MY ACCOUNT link from header
+    When user clicks on "Sign Out" from My Account dropdown  
+    And Verify user is in homepage
+    And Verify SIGN IN header link is displayed
+
+  Scenario: Rewards should not be shown in Account dropdown for international country
+  	Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    
+  	When user selects randomly an international country
+  	Then user should land on country specific home page
+    And user should see selected country in the footer
+  
+  	And click on SIGN IN from header
+  	And User is on internal /r/login page
+  	
+  	And login with rewards user credentials
+  	
+  	And Hits sign in button
+    Then User is in My Account page
+    
+    And click on MY ACCOUNT link from header
+    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    Then user should NOT see rewards info in the My Account dropdown
