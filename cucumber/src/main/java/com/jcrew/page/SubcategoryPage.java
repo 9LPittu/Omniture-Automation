@@ -392,10 +392,10 @@ public class SubcategoryPage {
         return productInTile.isDisplayed();
     }
 
-    public boolean isYellowDressDisplayed() {
+    public boolean isEditedSearchTermItemDisplayed(String term) {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String itemName = testDataReader.getData(propertyReader.getProperty("environment") + ".yellow.product");
+        String itemName = testDataReader.getData(propertyReader.getProperty("environment") + "."+term+".product");
 
         return productTileExistFor(itemName);
     }

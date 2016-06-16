@@ -185,9 +185,9 @@ public class SubcategoryPageSteps extends DriverFactory {
 
 
 
-    @Then("^Verify yellow dress is displayed$")
-    public void verify_yellow_product_is_displayed() {
-        assertTrue("Product should exist", subcategoryPage.isYellowDressDisplayed());
+    @Then("^Verify ([^\"]*) dress is displayed$")
+    public void verify_yellow_product_is_displayed(String term) {
+        assertTrue("Product should exist", subcategoryPage.isEditedSearchTermItemDisplayed(term));
     }
 
     @Then("^Verifies product information is displayed$")
