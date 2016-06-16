@@ -183,9 +183,11 @@ public class SubcategoryPageSteps extends DriverFactory {
                 subcategoryPage.getCategoryImageHeaderAlt());
     }
 
-    @Then("^Verifies ([^\"]*) product is displayed$")
-    public void verifies_product_is_displayed(String product) {
-        assertTrue("Product should exist", subcategoryPage.productTileExistFor(product));
+
+
+    @Then("^Verify yellow dress is displayed$")
+    public void verify_yellow_product_is_displayed() {
+        assertTrue("Product should exist", subcategoryPage.isYellowDressDisplayed());
     }
 
     @Then("^Verifies product information is displayed$")
