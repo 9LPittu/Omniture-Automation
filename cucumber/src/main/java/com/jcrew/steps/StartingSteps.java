@@ -266,6 +266,7 @@ public class StartingSteps {
         String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
         page = page.toLowerCase();        
         String pageURL = testData.getData("url." + page);
+        logger.info("Randomly selected url is: {}", pageURL);      
 
         String env = reader.getProperty("url");
         

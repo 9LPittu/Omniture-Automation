@@ -122,14 +122,14 @@ Feature: Account Dropdown functionality
       |Men   |
       |Boys  |
       |Girls |
-      
+  
   Scenario: Sign In link displayed in header and functional on Shoppable tray page
     And User clicks on hamburger menu
     And User selects random tray from available categories
-      | Women | THIS MONTH'S FEATURES | looks we love  |
+#      | Women | THIS MONTH'S FEATURES | looks we love  |
       | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
-      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
-      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
+#      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
+#      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
     Then Verifies initial multiple pdp page state
     
     And Verify SIGN IN header link is displayed
@@ -239,7 +239,7 @@ Feature: Account Dropdown functionality
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
-    Scenario: My Account dropdown open and close is functional on search page
+  Scenario: My Account dropdown open and close is functional on search page
     And click on SIGN IN from header
   	And User is on internal /r/login page
   	And User provides login information
@@ -257,7 +257,7 @@ Feature: Account Dropdown functionality
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed    	
-  	
+  
   Scenario Outline: My Account dropdown open and close is functional on sale page
   	And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -291,7 +291,7 @@ Feature: Account Dropdown functionality
       |men  |
       |boys |
       |girls|      
-      
+   
   Scenario Outline: My Account dropdown open and close is functional in Department/Gender Landing Pages
     And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -299,6 +299,7 @@ Feature: Account Dropdown functionality
     And Hits sign in button    
     Then User is in My Account page
     
+    When Clicks on JCrew Logo
     And User clicks on <gender> link from top nav
     
     And Verify MY ACCOUNT header link is displayed
@@ -307,13 +308,16 @@ Feature: Account Dropdown functionality
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
+    
+    And click on MY ACCOUNT from header
+    When user clicks on "Sign Out" from My Account dropdown
     Examples:
       |gender|
       |Women |
       |Men   |
       |Boys  |
       |Girls |
-      
+
   Scenario: My Account dropdown open and close is functional in Shoppable tray page
   	And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -323,10 +327,10 @@ Feature: Account Dropdown functionality
     
     And User clicks on hamburger menu
     And User selects random tray from available categories
-      | Women | THIS MONTH'S FEATURES | looks we love  |
+#      | Women | THIS MONTH'S FEATURES | looks we love  |
       | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
-      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
-      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
+#      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
+#      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
     Then Verifies initial multiple pdp page state
     
     And Verify MY ACCOUNT header link is displayed
@@ -335,7 +339,7 @@ Feature: Account Dropdown functionality
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed    
-    
+  
   Scenario: Verify tapping on My Details link under My Account dropdown should navigate user to My Account page    
     And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -351,7 +355,7 @@ Feature: Account Dropdown functionality
     
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
-
+  
   Scenario: Rewards visibility in Account dropdown
   	And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -367,7 +371,7 @@ Feature: Account Dropdown functionality
     And user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section    
     When user clicks on "Manage your account" from My Account dropdown
     And external https://d.comenity.net/jcrew/ page is opened in a different tab
-    
+  
   Scenario: Sign out link from My Account dropdown is functional
   	And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -404,7 +408,7 @@ Feature: Account Dropdown functionality
     When user clicks on "Sign Out" from My Account dropdown  
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
-    
+  
   Scenario: Sign In and My Account dropdown functionality for international context
   	Then click on change link from footer
     And User is on context chooser page
@@ -439,7 +443,7 @@ Feature: Account Dropdown functionality
     When user clicks on "Sign Out" from My Account dropdown  
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
-
+  
   Scenario: Rewards should not be shown in Account dropdown for international country
   	Then click on change link from footer
     And User is on context chooser page

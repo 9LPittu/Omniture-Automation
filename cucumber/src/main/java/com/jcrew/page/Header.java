@@ -70,9 +70,6 @@ public class Header {
     @FindBy(xpath=".//dd[@class='c-nav__userpanel-item--rewards']")
     private WebElement rewardsSectionInMyAccountDropdown;
     
-    @FindBy(linkText = "Manage my account")
-    private WebElement manageMyAccountLinkInMyAccountDropdown;
-
     public Header(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -286,7 +283,7 @@ public class Header {
     
     public boolean isAccountDropdownOptionsDisplayed(){
     	
-    	boolean isWelcomeMessagePatternMatches = welcomeMessageInMyAccountDropdown.getText().matches("^Welcome, [A-Za-z]+");
+    	boolean isWelcomeMessagePatternMatches = welcomeMessageInMyAccountDropdown.getText().matches("^Welcome, [A-Za-z]+(\\d+)?");
     	
     	return closeIconInMyAccountDropdown.isDisplayed() &&
     			welcomeMessageInMyAccountDropdown.isDisplayed() && 
@@ -296,7 +293,7 @@ public class Header {
     }
     
     public boolean isRewardsDisplayedInMyAccountDropDown(){    	
-    	if(myAccountDropdownOpened.getText().contains("J.Crew credit card")){
+    	if(myAccountDropdownOpened.getText().contains("J.CREW CREDIT CARD")){
     		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(rewardsSectionInMyAccountDropdown));
     		return rewardsSectionInMyAccountDropdown.isDisplayed();
     	}
@@ -313,7 +310,7 @@ public class Header {
     	boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
     	
     	String rewardsCardBalance = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[2]")).getText();
-    	boolean isRewardBalanceMatches = rewardsCardBalance.matches("^Rewards card balance:\\$\\d+");
+    	boolean isRewardBalanceMatches = rewardsCardBalance.matches("^Rewards card balance: \\$\\d+(\\.\\d+)?");
     	
     	String totalPoints = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[3]")).getText();
     	boolean isTotalPointsMatches = totalPoints.matches("^Total points: \\d+");
@@ -321,7 +318,13 @@ public class Header {
     	String pointsToNextReward = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[4]")).getText();
     	boolean isPointsToNextRewardMatches = pointsToNextReward.matches("^Points to next reward: \\d+");
     	
+    	WebElement manageMyAccountLinkInMyAccountDropdown = getManageMyAccountElementInMyAccountDropdown();
+    	
     	return isDateMatches && isRewardBalanceMatches && isTotalPointsMatches && isPointsToNextRewardMatches && manageMyAccountLinkInMyAccountDropdown.isDisplayed();
+    }
+    
+    public WebElement getManageMyAccountElementInMyAccountDropdown(){
+    	return rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[5]"));
     }
     
     public void clickElementFromMyAccountDropdown(String myAccountDropdownElementName){
@@ -337,13 +340,13 @@ public class Header {
     			element = closeIconInMyAccountDropdown;
     			break;
     		case "MANAGE YOUR ACCOUNT":
-    			element = manageMyAccountLinkInMyAccountDropdown;
+    			element = getManageMyAccountElementInMyAccountDropdown();
     			break;
     	}
     	
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
     	element.click();
-    	logger.info("{} link is clicked from My Account dropdown...", myAccountDropdownElementName);
+    	logger.info("'{}' link is clicked from My Account dropdown...", myAccountDropdownElementName.toUpperCase());
     	Util.waitLoadingBar(driver);
     }
 }
