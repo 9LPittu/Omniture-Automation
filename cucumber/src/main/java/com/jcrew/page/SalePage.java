@@ -461,7 +461,7 @@ public class SalePage {
                     By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
                             saleCategory + "']"));
            // /womens_sale_events/40OffSelectStyles_sm.jsp
-            String expectedPromoLinkUrl = link+"s_sale_events/"+(String)stateHolder.get("salePercentage")+"OffSelectStyles_sm.jsp";
+            String expectedPromoLinkUrl = link.trim()+"s_sale_events/"+(String)stateHolder.get("salePercentage")+"OffSelectStyles_sm.jsp";
             logger.debug("expected url calculation according to the promotion sale {}", expectedPromoLinkUrl);
            logger.info("href value{}", secondPromoLink.getAttribute("href"));
             return secondPromoLink.isDisplayed();
