@@ -239,6 +239,9 @@ Feature: Account Dropdown functionality
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
+    And click on MY ACCOUNT from header
+    When user clicks on "Sign Out" from My Account dropdown 
+    
   Scenario: My Account dropdown open and close is functional on search page
     And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -338,7 +341,10 @@ Feature: Account Dropdown functionality
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
-    Then user should see My Account dropdown is closed    
+    Then user should see My Account dropdown is closed
+    
+    And click on MY ACCOUNT from header
+    When user clicks on "Sign Out" from My Account dropdown  
   
   Scenario: Verify tapping on My Details link under My Account dropdown should navigate user to My Account page    
     And click on SIGN IN from header
