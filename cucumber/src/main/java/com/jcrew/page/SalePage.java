@@ -3,6 +3,8 @@ package com.jcrew.page;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.jcrew.pojo.Country;
 import org.openqa.selenium.NoSuchElementException;
@@ -431,6 +433,14 @@ public class SalePage {
     public boolean isSecondPromoDisplayed() {
         try {
             WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
+            String secondPromoMsg = secondPromo.getText();
+            logger.debug("second promo text {}", secondPromoMsg);
+            Pattern p = Pattern.compile("\\d+");
+            Matcher m = p.matcher(secondPromoMsg);
+            while (m.find()) {
+                int salePercentage = Integer.parseInt(m.group());
+                logger.info("% of sale displayed on the second promo {}", salePercentage);
+            }
             return secondPromo.isDisplayed();
         }catch(NoSuchElementException e) {
             logger.debug("second promo was not found");
