@@ -241,6 +241,7 @@ Feature: Account Dropdown functionality
     
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown 
+    And Verify user is in homepage
     
   Scenario: My Account dropdown open and close is functional on search page
     And click on SIGN IN from header
@@ -263,6 +264,7 @@ Feature: Account Dropdown functionality
     
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown
+    And Verify user is in homepage
   
   Scenario Outline: My Account dropdown open and close is functional on sale page
   	And click on SIGN IN from header
@@ -293,7 +295,8 @@ Feature: Account Dropdown functionality
     Then user should see My Account dropdown is closed 
     
     And click on MY ACCOUNT from header
-    When user clicks on "Sign Out" from My Account dropdown 	
+    When user clicks on "Sign Out" from My Account dropdown 
+    And Verify user is in homepage	
   	Examples:
       |SaleCategory|
       |women|
@@ -320,6 +323,7 @@ Feature: Account Dropdown functionality
     
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown
+    And Verify user is in homepage
     Examples:
       |gender|
       |Women |
@@ -350,7 +354,8 @@ Feature: Account Dropdown functionality
     Then user should see My Account dropdown is closed
     
     And click on MY ACCOUNT from header
-    When user clicks on "Sign Out" from My Account dropdown  
+    When user clicks on "Sign Out" from My Account dropdown
+    And Verify user is in homepage 
   
   Scenario: Verify tapping on My Details link under My Account dropdown should navigate user to My Account page    
     And click on SIGN IN from header
@@ -386,6 +391,7 @@ Feature: Account Dropdown functionality
     
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown
+    And Verify user is in homepage
   
   Scenario: Sign out link from My Account dropdown is functional
   	And click on SIGN IN from header
