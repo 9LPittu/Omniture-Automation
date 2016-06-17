@@ -126,10 +126,10 @@ Feature: Account Dropdown functionality
   Scenario: Sign In link displayed in header and functional on Shoppable tray page
     And User clicks on hamburger menu
     And User selects random tray from available categories
-#      | Women | THIS MONTH'S FEATURES | looks we love  |
+      | Women | THIS MONTH'S FEATURES | looks we love  |
       | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
-#      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
-#      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
+      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
+      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
     Then Verifies initial multiple pdp page state
     
     And Verify SIGN IN header link is displayed
@@ -259,7 +259,10 @@ Feature: Account Dropdown functionality
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
-    Then user should see My Account dropdown is closed    	
+    Then user should see My Account dropdown is closed
+    
+    And click on MY ACCOUNT from header
+    When user clicks on "Sign Out" from My Account dropdown
   
   Scenario Outline: My Account dropdown open and close is functional on sale page
   	And click on SIGN IN from header
@@ -287,7 +290,10 @@ Feature: Account Dropdown functionality
     Then user should see My Account dropdown is opened
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
     When user clicks on "close" from My Account dropdown
-    Then user should see My Account dropdown is closed  	
+    Then user should see My Account dropdown is closed 
+    
+    And click on MY ACCOUNT from header
+    When user clicks on "Sign Out" from My Account dropdown 	
   	Examples:
       |SaleCategory|
       |women|
@@ -330,10 +336,10 @@ Feature: Account Dropdown functionality
     
     And User clicks on hamburger menu
     And User selects random tray from available categories
-#      | Women | THIS MONTH'S FEATURES | looks we love  |
+      | Women | THIS MONTH'S FEATURES | looks we love  |
       | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
-#      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
-#      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
+      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
+      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
     Then Verifies initial multiple pdp page state
     
     And Verify MY ACCOUNT header link is displayed
@@ -377,6 +383,9 @@ Feature: Account Dropdown functionality
     And user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section    
     When user clicks on "Manage your account" from My Account dropdown
     And external https://d.comenity.net/jcrew/ page is opened in a different tab
+    
+    And click on MY ACCOUNT from header
+    When user clicks on "Sign Out" from My Account dropdown
   
   Scenario: Sign out link from My Account dropdown is functional
   	And click on SIGN IN from header
