@@ -134,7 +134,7 @@ Feature: Sale Regression Suite
   Scenario Outline: Validation of second promo display
     And User is in sale landing page
     And Second promo is displayed
-    And <promo_link> sale category link is displayed in the second promo
+    And <promo_link> sale category link is displayed and "<URL>" is valid in the second promo
     When <promo_link> in sale page is clicked
     Then the page url should contain "<URL>"
 

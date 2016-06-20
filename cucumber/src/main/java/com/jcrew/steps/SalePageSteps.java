@@ -170,10 +170,9 @@ public class SalePageSteps extends DriverFactory {
         assertTrue("second promo on the sale landing page should be displayed", salePage.isSecondPromoDisplayed());
     }
 
-    @And("^([^\"]*)sale category link is displayed in the second promo$")
-
-    public void verify_second_promo_sale_category_link_is_displayed(String link) {
-        assertTrue("sale link should be displayed in th esecond promo",salePage.isSecondPromoSaleCategoryLinkDisplayed(link));
+    @And("^([^\"]*)sale category link is displayed and \"([^\"]*)\" is valid in the second promo$")
+    public void verify_second_promo_sale_category_link_is_displayed(String link, String url) {
+        assertTrue("sale link should be displayed in th esecond promo",salePage.isSecondPromoSaleCategoryLinkDisplayed(link,url));
     }
 
     @When("^([^\"]*) in sale page is clicked$")

@@ -453,7 +453,7 @@ public class SalePage {
         }
     }
 
-    public boolean isSecondPromoSaleCategoryLinkDisplayed(String link) {
+    public boolean isSecondPromoSaleCategoryLinkDisplayed(String link, String url) {
         try {
             String saleCategory = link.trim().toLowerCase();
             WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
@@ -464,7 +464,7 @@ public class SalePage {
             String expectedPromoLinkUrl = link.trim()+"s_sale_events/"+(String)stateHolder.get("salePercentage")+"OffSelectStyles_sm.jsp";
             logger.debug("expected url calculation according to the promotion sale {}", expectedPromoLinkUrl);
            logger.info("href value{}", secondPromoLink.getAttribute("href"));
-            return secondPromoLink.isDisplayed()&& secondPromoLink.getAttribute("href").equals(expectedPromoLinkUrl);
+            return secondPromoLink.isDisplayed()&& (secondPromoLink.getAttribute("href").equals(expectedPromoLinkUrl)||secondPromoLink.getAttribute("href").contains(url));
         }catch (NoSuchElementException e) {
             logger.debug("the second promo {} link is not found", link);
             return true;
