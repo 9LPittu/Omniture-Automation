@@ -75,7 +75,6 @@ public class HeaderWrap {
         try {
             wait.until(ExpectedConditions.visibilityOf(global_promo));
             wait.until(ExpectedConditions.visibilityOf(global_header));
-            wait.until(ExpectedConditions.visibilityOf(bag));
         } catch (TimeoutException timeout) {
             logger.debug("Timed out while waiting for header in page: {}", driver.getCurrentUrl());
             Logs errorLog = driver.manage().logs();
