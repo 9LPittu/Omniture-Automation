@@ -1,4 +1,4 @@
-@Sale @HighLevel
+ @Sale @HighLevel
 Feature: Sale Regression Suite
 
   Background:
@@ -130,10 +130,11 @@ Feature: Sale Regression Suite
     #Scenario: Verify header copy "sale" should be displayed on the sale page.
 
     #US9874_TC11
+
   Scenario Outline: Validation of second promo display
     And User is in sale landing page
     And Second promo is displayed
-    And <promo_link> sale category link is displayed in the second promo
+    And <promo_link> sale category link is displayed and "<URL>" is valid in the second promo
     When <promo_link> in sale page is clicked
     Then the page url should contain "<URL>"
 
@@ -141,6 +142,8 @@ Feature: Sale Regression Suite
       |promo_link|URL|
       |women|N=21+17|
       |men  |N=21+16|
+      |boys |N=21+18|
+      |girls|N=21+19|
 
     #US9874_TC12, #US9874_TC13, #US9874_TC14
 #    Scenario: Details link display and functionality

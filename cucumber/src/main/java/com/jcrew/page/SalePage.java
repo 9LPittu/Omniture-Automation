@@ -3,6 +3,8 @@ package com.jcrew.page;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.jcrew.pojo.Country;
 import org.openqa.selenium.NoSuchElementException;
@@ -334,8 +336,12 @@ public class SalePage {
     }
 
     public boolean isPageUrlContains(String url){
-        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(url));
-        return driver.getCurrentUrl().toLowerCase().contains(url.toLowerCase());
+        //Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(url));
+        String promoUrl = (String)stateHolder.get("promoLinkUrl");
+
+        String currentUrl = driver.getCurrentUrl();
+        boolean isPromoUrl = (currentUrl.toLowerCase().contains(url.toLowerCase())) || (currentUrl.contains(promoUrl));
+        return isPromoUrl;
     }
 
     public boolean isLeftNavigationTextDisplayedAsPrev(String leftPaginationText){
@@ -431,22 +437,43 @@ public class SalePage {
     public boolean isSecondPromoDisplayed() {
         try {
             WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
+            String secondPromoMsg = secondPromo.getText();
+            logger.debug("second promo text {}", secondPromoMsg);
+            Pattern p = Pattern.compile("\\d+");
+            Matcher m = p.matcher(secondPromoMsg);
+            String salePercentage = "";
+            while (m.find()) {
+                salePercentage = m.group();
+
+            }
+            logger.info("% of sale displayed on the second promo {}", salePercentage);
+
+            stateHolder.put("salePercentage", salePercentage);
+            logger.debug("the sale percentage in the state holder {}", stateHolder.get("salePercentage"));
             return secondPromo.isDisplayed();
-        }catch(NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             logger.debug("second promo was not found");
             return true;
         }
     }
 
-    public boolean isSecondPromoSaleCategoryLinkDisplayed(String link) {
+    public boolean isSecondPromoSaleCategoryLinkDisplayed(String link, String url) {
         try {
             String saleCategory = link.trim().toLowerCase();
             WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
             WebElement secondPromoLink = secondPromo.findElement(
                     By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
                             saleCategory + "']"));
-            return secondPromoLink.isDisplayed();
-        }catch (NoSuchElementException e) {
+
+            link = link.replace("s","");
+            logger.debug("promo link after taking out s is {}", link);
+
+            String expectedPromoLinkUrl = link.trim() + "s_sale_events/" + (String) stateHolder.get("salePercentage") + "OffSelectStyles_sm.jsp";
+            logger.debug("expected url calculation according to the promotion sale {}", expectedPromoLinkUrl);
+            logger.info("href value{} ", secondPromoLink.getAttribute("href"));
+            stateHolder.put("promoLinkUrl", expectedPromoLinkUrl);
+            return secondPromoLink.isDisplayed() && (secondPromoLink.getAttribute("href").contains(expectedPromoLinkUrl) || secondPromoLink.getAttribute("href").contains(url));
+        } catch (NoSuchElementException e) {
             logger.debug("the second promo {} link is not found", link);
             return true;
         }
