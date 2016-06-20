@@ -6,6 +6,8 @@ import com.jcrew.page.HomePage;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DatabaseReader;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.PropertyReader;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -196,7 +198,10 @@ public class HeaderSteps extends DriverFactory {
     
     @When("^user clicks on \"([^\"]*)\" from My Account dropdown$")
     public void user_click_element_from_my_account_dropdown(String elementName){
-    	header.clickElementFromMyAccountDropdown(elementName);
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (!reader.getProperty("environment").equalsIgnoreCase("production") && elementName.equalsIgnoreCase("Manage your account")){
+        	header.clickElementFromMyAccountDropdown(elementName);
+        }
     }
     
     @Then("^user ([^\"]*) rewards info in the My Account dropdown$")

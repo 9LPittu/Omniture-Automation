@@ -51,6 +51,14 @@ public class NavigationSteps extends DriverFactory {
     public void user_is_on_external_page(String page) {
         assertTrue("User is not in an expected page in a different tab " + page, navigation.isCurrentUrl(page));
     }
+    
+    @And("^J.crew credit card ([^\"]*) page is opened in a different tab$")
+    public void jcrew_credit_card_page_is_opened_in_different_tab(String expectedUrl){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (!reader.getProperty("environment").equalsIgnoreCase("production")){
+        	assertTrue("User is not in an expected page in a different tab " + expectedUrl, navigation.isCurrentUrl(expectedUrl));
+        }
+    }
 
     @Then("User is on external ([^\"]*) page")
     public void user_is_on_external_page_same_tab(String page) {

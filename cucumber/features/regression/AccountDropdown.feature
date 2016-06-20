@@ -379,7 +379,7 @@ Feature: Account Dropdown functionality
     Then user should see rewards info in the My Account dropdown
     And user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section    
     When user clicks on "Manage your account" from My Account dropdown
-    And external https://d.comenity.net/jcrew/ page is opened in a different tab
+    And J.crew credit card https://d.comenity.net/jcrew/ page is opened in a different tab    
     
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown

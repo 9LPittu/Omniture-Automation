@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
+import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
@@ -292,35 +293,48 @@ public class Header {
     			signOutInMyAccountDropdown.isDisplayed();
     }
     
-    public boolean isRewardsDisplayedInMyAccountDropDown(){    	
-    	if(myAccountDropdownOpened.getText().contains("J.CREW CREDIT CARD")){
-    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(rewardsSectionInMyAccountDropdown));
-    		return rewardsSectionInMyAccountDropdown.isDisplayed();
-    	}
-    	else{
-    		return false;
-    	}
+    public boolean isRewardsDisplayedInMyAccountDropDown(){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (!reader.getProperty("environment").equalsIgnoreCase("production")){
+        	if(myAccountDropdownOpened.getText().contains("J.CREW CREDIT CARD")){
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(rewardsSectionInMyAccountDropdown));
+        		return rewardsSectionInMyAccountDropdown.isDisplayed();
+        	}
+        	else{
+        		return false;
+        	}
+        }
+        else{
+        	return true;
+        }
     }
     
     public boolean isRewardsInfoDisplayedInMyAccountDropDown(){
-    	LocalDate today = LocalDate.now();
     	
-    	String expectedDateString = "As of " + today.getMonth().name() + " " + (today.getDayOfMonth() - 1) + ", " + today.getYear() + ":";    	
-    	String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
-    	boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
-    	
-    	String rewardsCardBalance = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[2]")).getText();
-    	boolean isRewardBalanceMatches = rewardsCardBalance.matches("^Rewards card balance: \\$\\d+(\\.\\d+)?");
-    	
-    	String totalPoints = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[3]")).getText();
-    	boolean isTotalPointsMatches = totalPoints.matches("^Total points: \\d+");
-    	
-    	String pointsToNextReward = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[4]")).getText();
-    	boolean isPointsToNextRewardMatches = pointsToNextReward.matches("^Points to next reward: \\d+");
-    	
-    	WebElement manageMyAccountLinkInMyAccountDropdown = getManageMyAccountElementInMyAccountDropdown();
-    	
-    	return isDateMatches && isRewardBalanceMatches && isTotalPointsMatches && isPointsToNextRewardMatches && manageMyAccountLinkInMyAccountDropdown.isDisplayed();
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (!reader.getProperty("environment").equalsIgnoreCase("production")){
+	    	LocalDate today = LocalDate.now();
+	    	
+	    	String expectedDateString = "As of " + today.getMonth().name() + " " + (today.getDayOfMonth() - 1) + ", " + today.getYear() + ":";    	
+	    	String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
+	    	boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
+	    	
+	    	String rewardsCardBalance = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[2]")).getText();
+	    	boolean isRewardBalanceMatches = rewardsCardBalance.matches("^Rewards card balance: \\$\\d+(\\.\\d+)?");
+	    	
+	    	String totalPoints = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[3]")).getText();
+	    	boolean isTotalPointsMatches = totalPoints.matches("^Total points: \\d+");
+	    	
+	    	String pointsToNextReward = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[4]")).getText();
+	    	boolean isPointsToNextRewardMatches = pointsToNextReward.matches("^Points to next reward: \\d+");
+	    	
+	    	WebElement manageMyAccountLinkInMyAccountDropdown = getManageMyAccountElementInMyAccountDropdown();
+	    	
+	    	return isDateMatches && isRewardBalanceMatches && isTotalPointsMatches && isPointsToNextRewardMatches && manageMyAccountLinkInMyAccountDropdown.isDisplayed();
+        }
+        else{
+        	return true;
+        }
     }
     
     public WebElement getManageMyAccountElementInMyAccountDropdown(){
