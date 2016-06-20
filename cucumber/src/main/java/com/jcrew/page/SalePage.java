@@ -441,17 +441,17 @@ public class SalePage {
             logger.debug("second promo text {}", secondPromoMsg);
             Pattern p = Pattern.compile("\\d+");
             Matcher m = p.matcher(secondPromoMsg);
-            String salePercentage ="";
+            String salePercentage = "";
             while (m.find()) {
                 salePercentage = m.group();
-                //logger.info("% of sale displayed on the second promo {}", salePercentage);
+
             }
             logger.info("% of sale displayed on the second promo {}", salePercentage);
 
             stateHolder.put("salePercentage", salePercentage);
             logger.debug("the sale percentage in the state holder {}", stateHolder.get("salePercentage"));
             return secondPromo.isDisplayed();
-        }catch(NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             logger.debug("second promo was not found");
             return true;
         }
