@@ -199,7 +199,7 @@ public class HeaderSteps extends DriverFactory {
     @When("^user clicks on \"([^\"]*)\" from My Account dropdown$")
     public void user_click_element_from_my_account_dropdown(String elementName){
     	PropertyReader reader = PropertyReader.getPropertyReader();
-        if (!reader.getProperty("environment").equalsIgnoreCase("production") && elementName.equalsIgnoreCase("Manage your account")){
+        if (!reader.getProperty("environment").equalsIgnoreCase("production") && !elementName.equalsIgnoreCase("Manage your account")){
         	header.clickElementFromMyAccountDropdown(elementName);
         }
     }
