@@ -470,7 +470,7 @@ public class SalePage {
             logger.debug("expected url calculation according to the promotion sale {}", expectedPromoLinkUrl);
             logger.info("href value{} ", secondPromoLink.getAttribute("href"));
             stateHolder.put("promoLinkUrl", expectedPromoLinkUrl);
-            return secondPromoLink.isDisplayed() && (secondPromoLink.getAttribute("href").equals(expectedPromoLinkUrl) || secondPromoLink.getAttribute("href").contains(url));
+            return secondPromoLink.isDisplayed() && (secondPromoLink.getAttribute("href").contains(expectedPromoLinkUrl) || secondPromoLink.getAttribute("href").contains(url));
         } catch (NoSuchElementException e) {
             logger.debug("the second promo {} link is not found", link);
             return true;
