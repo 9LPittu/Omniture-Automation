@@ -2,12 +2,15 @@ package com.jcrew.steps;
 
 import com.jcrew.page.SalePage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.*;
 
 import static org.junit.Assert.*;
+
+import java.util.List;
 
 public class SalePageSteps extends DriverFactory {
 
@@ -163,6 +166,12 @@ public class SalePageSteps extends DriverFactory {
     @And("^User clicks on sale department ([^\"]*)$")
     public void click_on_sale_dept(String dept) {
         salePage.clickOnSaleDept(dept);
+    }
+    
+    @And("^user clicks on random sale department from below list$")
+    public void click_random_sale_department(List<String> dept){
+    	String deptName = dept.get(Util.randomIndex(dept.size()));
+    	salePage.clickOnSaleDept(deptName);
     }
 
     @And("^Second promo is displayed$")

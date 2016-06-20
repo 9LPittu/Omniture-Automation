@@ -87,7 +87,7 @@ Feature: Account Dropdown functionality
   	And click on SIGN IN from header
   	And User is on internal /r/login page  	
   
-  Scenario Outline: Sign In link displayed in header and functional for sale page
+  Scenario: Sign In link displayed in header and functional for sale page
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
     And User is in sale landing page
@@ -97,31 +97,27 @@ Feature: Account Dropdown functionality
   	And User is on internal /r/login page
   	And User presses back button
   	
-  	And User clicks on sale department <SaleCategory>
+  	And user clicks on random sale department from below list
+  	   |women|
+       |men  |
+       |boys |
+       |girls|
     Then User is in Sale results page
     
     And Verify SIGN IN header link is displayed
   	And click on SIGN IN from header
   	And User is on internal /r/login page  	
-  	Examples:
-      |SaleCategory|
-      |women|
-      |men  |
-      |boys |
-      |girls|
    
-  Scenario Outline: Sign In link displayed in header and functional on Department/Gender Landing Pages
-    And User clicks on <gender> link from top nav
+  Scenario: Sign In link displayed in header and functional on Department/Gender Landing Pages
+    And user clicks on random top nav gender link from below list    
+    	 |Women |
+         |Men   |
+         |Boys  |
+         |Girls |
     
     And Verify SIGN IN header link is displayed
   	And click on SIGN IN from header
   	And User is on internal /r/login page
-    Examples:
-      |gender|
-      |Women |
-      |Men   |
-      |Boys  |
-      |Girls |
   
   Scenario: Sign In link displayed in header and functional on Shoppable tray page
     And User clicks on hamburger menu
@@ -266,7 +262,7 @@ Feature: Account Dropdown functionality
     When user clicks on "Sign Out" from My Account dropdown
     And Verify user is in homepage
   
-  Scenario Outline: My Account dropdown open and close is functional on sale page
+  Scenario: My Account dropdown open and close is functional on sale page
   	And click on SIGN IN from header
   	And User is on internal /r/login page
   	And User provides login information
@@ -284,7 +280,11 @@ Feature: Account Dropdown functionality
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
   	
-  	And User clicks on sale department <SaleCategory>
+  	And user clicks on random sale department from below list
+  	   |women|
+       |men  |
+       |boys |
+       |girls|
     Then User is in Sale results page
     
     And Verify MY ACCOUNT header link is displayed
@@ -297,14 +297,8 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown 
     And Verify user is in homepage	
-  	Examples:
-      |SaleCategory|
-      |women|
-      |men  |
-      |boys |
-      |girls|      
-   
-  Scenario Outline: My Account dropdown open and close is functional in Department/Gender Landing Pages
+  	   
+  Scenario: My Account dropdown open and close is functional in Department/Gender Landing Pages
     And click on SIGN IN from header
   	And User is on internal /r/login page
   	And User provides login information
@@ -312,7 +306,11 @@ Feature: Account Dropdown functionality
     Then User is in My Account page
     
     When Clicks on JCrew Logo
-    And User clicks on <gender> link from top nav
+    And user clicks on random top nav gender link from below list    
+    	 |Women |
+         |Men   |
+         |Boys  |
+         |Girls |
     
     And Verify MY ACCOUNT header link is displayed
     And click on MY ACCOUNT from header
@@ -324,12 +322,6 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown
     And Verify user is in homepage
-    Examples:
-      |gender|
-      |Women |
-      |Men   |
-      |Boys  |
-      |Girls |
 
   Scenario: My Account dropdown open and close is functional in Shoppable tray page
   	And click on SIGN IN from header

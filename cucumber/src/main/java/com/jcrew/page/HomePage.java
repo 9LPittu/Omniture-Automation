@@ -183,4 +183,11 @@ public class HomePage {
    	   
    	   input_search_term(searchTerm);
    }
+   
+   public void clickGenderLinkFromTopNav(String gender){
+	   String url = driver.getCurrentUrl();
+       driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '" + gender + "']")).click();
+       Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+       Util.waitLoadingBar(driver);
+   }
 }
