@@ -338,8 +338,10 @@ public class SalePage {
     public boolean isPageUrlContains(String url){
         //Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(url));
         String promoUrl = (String)stateHolder.get("promoLinkUrl");
+
         String currentUrl = driver.getCurrentUrl();
-        return currentUrl.toLowerCase().contains(url.toLowerCase())|| currentUrl.equals(promoUrl);
+        boolean isPromoUrl = (currentUrl.toLowerCase().contains(url.toLowerCase())) || (currentUrl.contains(promoUrl));
+        return isPromoUrl;
     }
 
     public boolean isLeftNavigationTextDisplayedAsPrev(String leftPaginationText){
