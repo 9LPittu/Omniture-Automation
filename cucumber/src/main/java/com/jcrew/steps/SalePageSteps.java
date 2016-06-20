@@ -172,7 +172,7 @@ public class SalePageSteps extends DriverFactory {
 
     @And("^([^\"]*)sale category link is displayed and \"([^\"]*)\" is valid in the second promo$")
     public void verify_second_promo_sale_category_link_is_displayed(String link, String url) {
-        assertTrue("sale link should be displayed in th esecond promo",salePage.isSecondPromoSaleCategoryLinkDisplayed(link,url));
+        assertTrue("sale link should be displayed in the second promo and links to valid url",salePage.isSecondPromoSaleCategoryLinkDisplayed(link,url));
     }
 
     @When("^([^\"]*) in sale page is clicked$")

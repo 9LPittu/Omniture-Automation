@@ -1,4 +1,4 @@
- @HighLevel
+@Sale @HighLevel
 Feature: Sale Regression Suite
 
   Background:
@@ -130,7 +130,7 @@ Feature: Sale Regression Suite
     #Scenario: Verify header copy "sale" should be displayed on the sale page.
 
     #US9874_TC11
-  @Sale
+
   Scenario Outline: Validation of second promo display
     And User is in sale landing page
     And Second promo is displayed
