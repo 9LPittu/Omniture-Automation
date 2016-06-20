@@ -141,7 +141,7 @@ Feature: Sale Regression Suite
     Examples:
       |promo_link|URL|
       |women|N=21+17|
-#      |men  |N=21+16|
+      |men  |N=21+16|
 #      |boys |N=21+18|
 #      |girls|N=21+19|
 
