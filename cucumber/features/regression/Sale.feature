@@ -142,8 +142,8 @@ Feature: Sale Regression Suite
       |promo_link|URL|
       |women|N=21+17|
       |men  |N=21+16|
-#      |boys |N=21+18|
-#      |girls|N=21+19|
+      |boys |N=21+18|
+      |girls|N=21+19|
 
     #US9874_TC12, #US9874_TC13, #US9874_TC14
 #    Scenario: Details link display and functionality
