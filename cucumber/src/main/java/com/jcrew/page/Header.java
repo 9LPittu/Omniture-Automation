@@ -289,7 +289,7 @@ public class Header {
     	boolean result = false;
     	if(state.equalsIgnoreCase("opened")){
     		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(myAccountDropdownOpened));
-    		result =  myAccountDropdownOpened.isDisplayed();
+    		result =  myAccountDropdownOpened.isDisplayed();    		
     	}
     	else if(state.equalsIgnoreCase("closed")){
     		Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.visibilityOf(myAccountDropdownClosed)));
