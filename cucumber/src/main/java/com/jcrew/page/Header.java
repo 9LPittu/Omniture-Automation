@@ -81,6 +81,7 @@ public class Header {
     }
 
     public boolean isHeaderLinkPresent(String headerLink) {
+    	logger.debug("Checking for header link: {}", headerLink);
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
     	
