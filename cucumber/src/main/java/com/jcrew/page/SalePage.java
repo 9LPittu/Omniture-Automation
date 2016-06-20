@@ -336,8 +336,10 @@ public class SalePage {
     }
 
     public boolean isPageUrlContains(String url){
-        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(url));
-        return driver.getCurrentUrl().toLowerCase().contains(url.toLowerCase());
+        //Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(url));
+        String promoUrl = (String)stateHolder.get("promoLinkUrl");
+        String currentUrl = driver.getCurrentUrl();
+        return currentUrl.toLowerCase().contains(url.toLowerCase())|| currentUrl.equals(promoUrl);
     }
 
     public boolean isLeftNavigationTextDisplayedAsPrev(String leftPaginationText){
@@ -464,6 +466,7 @@ public class SalePage {
             String expectedPromoLinkUrl = link.trim()+"s_sale_events/"+(String)stateHolder.get("salePercentage")+"OffSelectStyles_sm.jsp";
             logger.debug("expected url calculation according to the promotion sale {}", expectedPromoLinkUrl);
            logger.info("href value{}", secondPromoLink.getAttribute("href"));
+            stateHolder.put("promoLinkUrl",expectedPromoLinkUrl);
             return secondPromoLink.isDisplayed()&& (secondPromoLink.getAttribute("href").equals(expectedPromoLinkUrl)||secondPromoLink.getAttribute("href").contains(url));
         }catch (NoSuchElementException e) {
             logger.debug("the second promo {} link is not found", link);
