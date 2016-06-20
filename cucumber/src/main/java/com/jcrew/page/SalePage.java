@@ -464,7 +464,7 @@ public class SalePage {
             String expectedPromoLinkUrl = link.trim()+"s_sale_events/"+(String)stateHolder.get("salePercentage")+"OffSelectStyles_sm.jsp";
             logger.debug("expected url calculation according to the promotion sale {}", expectedPromoLinkUrl);
            logger.info("href value{}", secondPromoLink.getAttribute("href"));
-            return secondPromoLink.isDisplayed();
+            return secondPromoLink.isDisplayed()&& secondPromoLink.getAttribute("href").equals(expectedPromoLinkUrl);
         }catch (NoSuchElementException e) {
             logger.debug("the second promo {} link is not found", link);
             return true;
