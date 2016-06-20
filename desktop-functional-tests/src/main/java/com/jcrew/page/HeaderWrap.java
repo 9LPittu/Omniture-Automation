@@ -81,7 +81,7 @@ public class HeaderWrap {
             LogEntries errors = errorLog.get(LogType.BROWSER);
 
             for (LogEntry error : errors) {
-                logger.error("Broser logged: {}", error.getMessage());
+                logger.error("Broser logged: {}", error);
             }
         }
     }
