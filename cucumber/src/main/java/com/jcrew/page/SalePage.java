@@ -462,13 +462,16 @@ public class SalePage {
             WebElement secondPromoLink = secondPromo.findElement(
                     By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
                             saleCategory + "']"));
-           // /womens_sale_events/40OffSelectStyles_sm.jsp
-            String expectedPromoLinkUrl = link.trim()+"s_sale_events/"+(String)stateHolder.get("salePercentage")+"OffSelectStyles_sm.jsp";
+            // /womens_sale_events/40OffSelectStyles_sm.jsp
+            if (link.equals("boys") || link.equals("girls")) {
+                link = link.replace("s", "");
+            }
+            String expectedPromoLinkUrl = link.trim() + "s_sale_events/" + (String) stateHolder.get("salePercentage") + "OffSelectStyles_sm.jsp";
             logger.debug("expected url calculation according to the promotion sale {}", expectedPromoLinkUrl);
-           logger.info("href value{}", secondPromoLink.getAttribute("href"));
-            stateHolder.put("promoLinkUrl",expectedPromoLinkUrl);
-            return secondPromoLink.isDisplayed()&& (secondPromoLink.getAttribute("href").equals(expectedPromoLinkUrl)||secondPromoLink.getAttribute("href").contains(url));
-        }catch (NoSuchElementException e) {
+            logger.info("href value{}", secondPromoLink.getAttribute("href"));
+            stateHolder.put("promoLinkUrl", expectedPromoLinkUrl);
+            return secondPromoLink.isDisplayed() && (secondPromoLink.getAttribute("href").equals(expectedPromoLinkUrl) || secondPromoLink.getAttribute("href").contains(url));
+        } catch (NoSuchElementException e) {
             logger.debug("the second promo {} link is not found", link);
             return true;
         }
