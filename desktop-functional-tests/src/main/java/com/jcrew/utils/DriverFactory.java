@@ -10,8 +10,6 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +20,6 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public class DriverFactory {
 
@@ -32,8 +29,7 @@ public class DriverFactory {
             "--ssl-protocol=any",
             "--local-to-remote-url-access=true",
             "--disk-cache=false",
-            "--ignore-ssl-errors=true",
-            "--webdriver-loglevel=DEBUG"
+            "--ignore-ssl-errors=true"
     };
     private static final Map<String, WebDriver> driverMap = new HashMap<>();
     private final int DEFAULT_WINDOW_WIDTH = 400;
@@ -71,7 +67,7 @@ public class DriverFactory {
         return driver;
     }
 
-    private WebDriver createLocalDriver(PropertyReader propertyReader) {
+    private WebDriver createLocalDriver(PropertyReader propertyReader) throws MalformedURLException {
         final String browser = propertyReader.getProperty("browser");
         WebDriver driver = null;
 
@@ -179,7 +175,7 @@ public class DriverFactory {
                 driver = createNewDriverInstance();
                 driverMap.put(identifier, driver);
             } catch (IOException e) {
-                logger.error("unable to create driver");
+                logger.error("unable to create driver: {}", e);
             }
 
         }
