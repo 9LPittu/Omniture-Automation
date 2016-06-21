@@ -102,41 +102,36 @@ public class HomePage {
 
         if(emailCapture) {                    
             try{
-	            List<WebElement> email_capture = Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfAllElements(emailCaptureClose));
-	            
+	            List<WebElement> email_capture = Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfAllElements(emailCaptureClose));	            
 	            if(email_capture.size() > 0) {
 	            	logger.debug("Email capture on, let's turn it off!!");
 	                WebElement close = email_capture.get(0);
-	                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(close));
+	                Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(close));
 	                close.click();
-	            }
-	            
-	            PropertyReader propertyReader = PropertyReader.getPropertyReader();
-	            if(propertyReader.getProperty("browser").equalsIgnoreCase("chrome")){
-	            	int i=0;
-		            while(i<=5){
-		            	try{
-			            	email_capture = Util.createWebDriverWait(driver, 1).until(ExpectedConditions.visibilityOfAllElements(emailCaptureClose));
-			            	if(email_capture.size()>0){
-			            		WebElement close = email_capture.get(0);
-			            		close.click();
-			            		logger.debug("Attempt to close email capture one more time!!");
-			            		i++;
-			            	}
-		            	}
-		            	catch(Exception e1){
-		            		break;
-		            	}
-		            }
-		            
-		            StartingSteps steps = new StartingSteps();
-		            steps.user_is_on_home_page();
+	                
+	                refreshBrowserIfEmailCapturePersists();
 	            }
             }
             catch(Exception e){
+            	refreshBrowserIfEmailCapturePersists();
             	logger.debug("No email capture displayed...");
-            }
-            
+            }            
+        }
+    }
+    
+    public void refreshBrowserIfEmailCapturePersists(){
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        if(propertyReader.getProperty("browser").equalsIgnoreCase("chrome")){
+        	try{
+        		List<WebElement> email_capture = Util.createWebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfAllElements(emailCaptureClose));
+            	if(email_capture.size() > 0){
+            		driver.navigate().refresh();
+	            	Util.waitLoadingBar(driver);
+            	}
+        	}
+        	catch(Exception e1){
+        		logger.debug("No email capture displayed...");
+        	}
         }
     }
 
