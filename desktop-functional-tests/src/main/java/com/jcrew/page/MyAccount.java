@@ -44,10 +44,10 @@ public class MyAccount {
     public MyAccount(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
-        this.header = new HeaderWrap(driver);
         PageFactory.initElements(driver, this);
 
         wait.until(ExpectedConditions.visibilityOf(main_content));
+        this.header = new HeaderWrap(driver);
     }
 
 
