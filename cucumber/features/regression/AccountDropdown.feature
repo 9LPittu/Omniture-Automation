@@ -235,6 +235,7 @@ Feature: Account Dropdown functionality
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
+    Given User is on homepage
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown 
     And Verify user is in homepage
@@ -295,6 +296,7 @@ Feature: Account Dropdown functionality
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed 
     
+    Given User is on homepage
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown 
     And Verify user is in homepage	
@@ -347,6 +349,7 @@ Feature: Account Dropdown functionality
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
+    Given User is on homepage
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown
     And Verify user is in homepage 
