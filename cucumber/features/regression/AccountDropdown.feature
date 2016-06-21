@@ -140,9 +140,7 @@ Feature: Account Dropdown functionality
     
     Then User is in My Account page
     And Verify MY ACCOUNT header link is displayed
-    When Clicks on JCrew Logo
-    And Verify user is in homepage
-    
+
     Then Verify embedded headers links is visible
     And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
@@ -239,7 +237,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown 
     And Verify user is in homepage
-   
+  
   Scenario: My Account dropdown open and close is functional on search page
     And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -247,6 +245,7 @@ Feature: Account Dropdown functionality
     And Hits sign in button    
     Then User is in My Account page
     
+    Given User is on homepage
     And User presses search button
     When Enters Dresses to the search field
     And Clicks on search button for input field
@@ -308,7 +307,7 @@ Feature: Account Dropdown functionality
     And Hits sign in button    
     Then User is in My Account page
     
-    When Clicks on JCrew Logo
+    Given User is on homepage
     And user clicks on random top nav gender link from below list    
     	 |Women |
          |Men   |
