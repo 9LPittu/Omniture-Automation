@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
+import com.jcrew.steps.StartingSteps;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
@@ -127,6 +128,9 @@ public class HomePage {
 		            		break;
 		            	}
 		            }
+		            
+		            StartingSteps steps = new StartingSteps();
+		            steps.user_is_on_home_page();
 	            }
             }
             catch(Exception e){
