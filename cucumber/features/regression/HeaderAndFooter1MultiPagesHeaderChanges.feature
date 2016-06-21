@@ -1,5 +1,5 @@
 @HeaderAndFooter @HighLevel
-Feature: Embedded Header and Footer Validations
+Feature: Embedded Header and Footer Validations with header changes
 
   Background:
     Given User is on homepage
