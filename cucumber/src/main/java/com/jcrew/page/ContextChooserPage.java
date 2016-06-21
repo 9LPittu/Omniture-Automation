@@ -243,7 +243,7 @@ public class ContextChooserPage {
 		while(i<=2){
 			try{
 				regionHeader.click();
-				Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"))));
+				Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"))));
 				break;
 			}
 			catch(Exception e){
