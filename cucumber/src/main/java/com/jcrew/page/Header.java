@@ -5,10 +5,6 @@ import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
-import org.openqa.selenium.logging.LogEntries;
-import org.openqa.selenium.logging.LogEntry;
-import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -85,24 +81,12 @@ public class Header {
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
     	
-    	try{
-    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
-            WebElement headerLinkElement = Util.createWebDriverWait(driver).until(
-                    ExpectedConditions.visibilityOf(headerWrap.findElement(
-                    		By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']"))));
-            Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(headerLinkElement));
-    	}
-    	catch(Exception e){
-    	    logger.debug("Timed out while waiting for header in page: {}", driver.getCurrentUrl());
-    	    Logs errorLog = driver.manage().logs();
-    	    LogEntries errors = errorLog.get(LogType.BROWSER);
-
-    	    for (LogEntry error : errors) {
-    	        logger.error("Browser logged: {}", error.getMessage());
-    	    }
-    	}
-        
+		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
+        WebElement headerLinkElement = Util.createWebDriverWait(driver).until(
+                ExpectedConditions.visibilityOf(headerWrap.findElement(
+                		By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']"))));
+        Util.createWebDriverWait(driver).until(
+            ExpectedConditions.elementToBeClickable(headerLinkElement));
         return true;
     }
 
