@@ -232,19 +232,29 @@ public class ContextChooserPage {
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
 	
-    	WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));   	
-    	WebElement regionHeader = contextChooser.findElement(By.xpath("//h5[text()='" + regionName + "']"));
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));   	
+    	WebElement regionHeader = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
     	
     	//Click on region to show the countries listed    	
 		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
 		driver.findElement(By.id("page__international")).click();
-		regionHeader.click();
-		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"))));
+		
+		int i = 0;
+		while(i<=2){
+			try{
+				regionHeader.click();
+				Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"))));
+				break;
+			}
+			catch(Exception e){
+				i++;
+			}
+		}	
 
     	//Click on country
 		Util.waitForPageFullyLoaded(driver);
 		Util.waitLoadingBar(driver);
-		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') "
+		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') "
 				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
     	countryElement.click();
 

@@ -311,6 +311,8 @@ public class Footer {
     }
 
     public void clickChangeLinkInFooter(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
     	changeLinkInFooter.click();
     }
     
