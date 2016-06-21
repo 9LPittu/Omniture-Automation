@@ -53,12 +53,11 @@ public class DriverFactory {
             height = Integer.parseInt(propertyReader.getProperty("window.height"));
         }
         
-        driver = createRemoteDriver(propertyReader);
-//        if (propertyReader.isSystemPropertyTrue("remote.execution")) {
-//            driver = createRemoteDriver(propertyReader);
-//        } else {
-//            driver = createLocalDriver(propertyReader);
-//        }
+        if (propertyReader.isSystemPropertyTrue("remote.execution")) {
+            driver = createRemoteDriver(propertyReader);
+        } else {
+            driver = createLocalDriver(propertyReader);
+        }
 
         return driver;
     }
