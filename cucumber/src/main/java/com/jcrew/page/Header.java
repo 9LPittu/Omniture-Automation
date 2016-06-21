@@ -83,8 +83,8 @@ public class Header {
     	
 		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
         WebElement headerLinkElement = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOf(headerWrap.findElement(
-                		By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']"))));
+                ExpectedConditions.elementToBeClickable(
+                		By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']")));
         Util.createWebDriverWait(driver).until(
             ExpectedConditions.elementToBeClickable(headerLinkElement));
         return true;
