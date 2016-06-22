@@ -1,11 +1,13 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
+import com.jcrew.steps.StartingSteps;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -37,6 +39,9 @@ public class HomePage {
 
     @FindBy(className = "c-email-capture")
     private WebElement emailCaptureSection;
+    
+    @FindBys({@FindBy(xpath="//div[@id='global__email-capture']/section/div[@class ='email-capture--close js-email-capture--close']")})
+    private List<WebElement> emailCaptureClose;
 
 
     public HomePage(WebDriver driver) {
@@ -97,20 +102,36 @@ public class HomePage {
 
         if(emailCapture) {                    
             try{
-	            List<WebElement> email_capture = Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(
-	                    By.xpath("//div[@id='global__email-capture']/section/div[@class = 'email-capture--close js-email-capture--close']"))));
-	            
+	            List<WebElement> email_capture = Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfAllElements(emailCaptureClose));	            
 	            if(email_capture.size() > 0) {
 	            	logger.debug("Email capture on, let's turn it off!!");
 	                WebElement close = email_capture.get(0);
-	                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(close));
+	                Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(close));
 	                close.click();
+	                
+	                refreshBrowserIfEmailCapturePersists();
 	            }
             }
             catch(Exception e){
+            	refreshBrowserIfEmailCapturePersists();
             	logger.debug("No email capture displayed...");
-            }
-            
+            }            
+        }
+    }
+    
+    public void refreshBrowserIfEmailCapturePersists(){
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        if(propertyReader.getProperty("browser").equalsIgnoreCase("chrome")){
+        	try{
+        		List<WebElement> email_capture = Util.createWebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfAllElements(emailCaptureClose));
+            	if(email_capture.size() > 0){
+            		driver.navigate().refresh();
+	            	Util.waitLoadingBar(driver);
+            	}
+        	}
+        	catch(Exception e1){
+        		logger.debug("No email capture displayed...");
+        	}
         }
     }
 
@@ -182,5 +203,15 @@ public class HomePage {
    	   }
    	   
    	   input_search_term(searchTerm);
+   }
+   
+   public void clickGenderLinkFromTopNav(String gender){
+	   String url = driver.getCurrentUrl();
+	   WebElement genderElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+			   By.xpath("//span[contains(@class, 'department-nav__text') and text() = '" + gender + "']")));
+			   
+	   genderElement.click();
+       Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+       Util.waitLoadingBar(driver);
    }
 }

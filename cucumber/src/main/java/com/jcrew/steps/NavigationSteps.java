@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.Header;
 import com.jcrew.page.Navigation;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
@@ -12,11 +13,14 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertTrue;
 
 public class NavigationSteps extends DriverFactory {
 
+	private final Logger logger = LoggerFactory.getLogger(NavigationSteps.class);
     private final Navigation navigation = new Navigation(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
     
@@ -38,6 +42,7 @@ public class NavigationSteps extends DriverFactory {
     @Then("^User presses back button$")
     public void user_presses_back_button() throws Throwable {
         getDriver().navigate().back();
+        logger.info("Browser is navigated back...");
     }
 
     @Then("^User is on internal ([^\"]*) page$")
@@ -45,11 +50,20 @@ public class NavigationSteps extends DriverFactory {
     	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
         assertTrue("Browser was expected to be at " + page + " and current page is "+getDriver().getCurrentUrl(),
                 getDriver().getCurrentUrl().endsWith(page));
+        logger.info("Browser url ends with '{}'", page);
     }
 
     @Then("^external ([^\"]*) page is opened in a different tab$")
     public void user_is_on_external_page(String page) {
         assertTrue("User is not in an expected page in a different tab " + page, navigation.isCurrentUrl(page));
+    }
+    
+    @And("^J.crew credit card ([^\"]*) page is opened in a different tab$")
+    public void jcrew_credit_card_page_is_opened_in_different_tab(String expectedUrl){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (!reader.getProperty("environment").equalsIgnoreCase("production")){
+        	assertTrue("User is not in an expected page in a different tab " + expectedUrl, navigation.isCurrentUrl(expectedUrl));
+        }
     }
 
     @Then("User is on external ([^\"]*) page")

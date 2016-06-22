@@ -210,4 +210,9 @@ public class LoginPageSteps extends DriverFactory {
     public void user_should_see_error_message(String expectedErrorMessage){
     	loginPage.isCorrectErrorMessageDisplayed(expectedErrorMessage);
     }
+    
+    @And("^login with rewards user credentials$")
+    public void login_with_reward_user_credentials(){
+    	loginPage.enterRewardUserCredentials();
+    }
 }

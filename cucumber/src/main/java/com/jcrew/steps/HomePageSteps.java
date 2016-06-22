@@ -4,11 +4,16 @@ import com.jcrew.page.Header;
 import com.jcrew.page.HomePage;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.Util;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class HomePageSteps extends DriverFactory {
@@ -98,5 +103,11 @@ public class HomePageSteps extends DriverFactory {
     @When("^user enters ([^\"]*) in search field$")
     public void user_enters_search_term_in_search_field(String searchTerm){
     	homePage.input_search_term_by_reading_from_properties(searchTerm);
+    }
+    
+    @And("^user clicks on random top nav gender link from below list$")
+    public void user_clicks_random_top_nav_gender_link(List<String> gender){
+    	String genderName = gender.get(Util.randomIndex(gender.size()));
+    	homePage.clickGenderLinkFromTopNav(genderName);
     }
 }

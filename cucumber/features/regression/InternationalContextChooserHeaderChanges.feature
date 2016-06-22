@@ -17,7 +17,7 @@ Feature: International Country Context
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And UNITED STATES & CANADA region drawer is displayed
     And ASIA PACIFIC region drawer is displayed
@@ -34,17 +34,17 @@ Feature: International Country Context
 
     And click on "terms of use" link from terms section on the context chooser page
     And User is on internal /footer/termsofuse.jsp?sidecar=true page
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And User presses back button
     And click on "privacy policy" link from terms section on the context chooser page
     And User is on internal /help/privacy_policy.jsp?sidecar=true page
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And User presses back button
     And click on "SEE ALL FAQ & HELP" button from FAQ section on the context chooser page
     And User is on internal /help/international_orders.jsp?sidecar=true page
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And User presses back button
     And click on "borderfree.com" link from FAQ section on the context chooser page
@@ -155,7 +155,7 @@ Feature: International Country Context
     And Add to cart button is pressed
     And User clicks on item bag
     Then User should be in shopping bag page
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
     And Clicks edit button on item bag page
@@ -163,34 +163,34 @@ Feature: International Country Context
     Then Update Bag button is pressed
 	Then User should be in shopping bag page
     And Clicks on checkout
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
     And Selects to checkout as guest
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
     When user fills selected country shipping address
     And Presses continue button on shipping address
     And Verifies is in shipping method page
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
     And Uses default value for shipping method
     #And Uses default value for gifts option
     And Clicks continue button on shipping method page
     And Verify user is in billing page
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
     And Fills required payment data in billing page
     And Submits payment data in billing page
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
     And Clicks on place your order
     And User should be in order confirmation page
-    And Verify embedded headers links
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
 

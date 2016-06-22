@@ -6,6 +6,8 @@ import com.jcrew.page.HomePage;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DatabaseReader;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.PropertyReader;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class HeaderSteps extends DriverFactory {
 
@@ -177,5 +179,44 @@ public class HeaderSteps extends DriverFactory {
     	homePage.click_on_search_button_for_input_field();
     	
     	subcategory.selectRandomItemFromArrayPage();
+    }
+    
+    @And("^click on ([^\"]*) from header$")
+    public void click_sign_in_from_header(String headerElementName){
+    	header.clickElementFromHeader(headerElementName);
+    }
+    
+    @Then("^user should see My Account dropdown is ([^\"]*)$")
+    public void user_should_see_my_account_dropdown_opened(String dropdownState){
+    	assertTrue("user should see My Account dropdown " + dropdownState, header.isMyAccountDropdownInExpectedState(dropdownState));
+    }
+    
+    @Then("^user should see welcome message, My Details, Sign Out and close button in My Account dropdown$")
+    public void validate_my_account_dropdown_options(){
+    	assertTrue("user should see welcome message, My Details, Sign Out and close button in My Account dropdown", header.isAccountDropdownOptionsDisplayed());
+    }
+    
+    @When("^user clicks on \"([^\"]*)\" from My Account dropdown$")
+    public void user_click_element_from_my_account_dropdown(String elementName){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (!reader.getProperty("environment").equalsIgnoreCase("production") && !elementName.equalsIgnoreCase("Manage your account")){
+        	header.clickElementFromMyAccountDropdown(elementName);
+        }
+    }
+    
+    @Then("^user ([^\"]*) rewards info in the My Account dropdown$")
+    public void rewards_info_visibility_in_my_account_dropdown(String rewardsVisibility){
+    	if(rewardsVisibility.equalsIgnoreCase("should see")){
+    		assertTrue("user should see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown());
+    	}
+    	else{
+    		assertFalse("user should not see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown());
+    	}
+    	
+    }
+    
+    @And("^user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section$")
+    public void verify_rewards_section_options(){
+    	assertTrue("user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section", header.isRewardsInfoDisplayedInMyAccountDropDown());
     }
 }

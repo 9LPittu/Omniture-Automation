@@ -7,13 +7,9 @@ import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -200,9 +196,7 @@ public class ContextChooserPage {
     
     public void selectGroupRandomCountry(String country_group) {
 	
-		TestDataReader testData = TestDataReader.getTestDataReader();
-		PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("url");
+		TestDataReader testData = TestDataReader.getTestDataReader();		
 		String selectedCountry= "";
 
 		if ("PRICEBOOK".equals(country_group)) {
@@ -223,29 +217,64 @@ public class ContextChooserPage {
 
 		}
 		
-		Country country = new Country(url, selectedCountry );
+		selectCountryOnContextChooserPage(selectedCountry);
+    }
+    
+    public void selectCountryOnContextChooserPage(String countryCode){    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	String url = propertyReader.getProperty("url");
+    	
+    	Country country = new Country(url, countryCode);
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
 	
-    	WebElement contextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));   	
-    	WebElement regionHeader = contextChooser.findElement(By.xpath("//h5[text()='" + regionName + "']"));
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));   	
+    	WebElement regionHeader = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
     	
     	//Click on region to show the countries listed    	
 		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
 		driver.findElement(By.id("page__international")).click();
-		regionHeader.click();
-		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"))));
+		
+		int i = 0;
+		while(i<=2){
+			try{
+				regionHeader.click();
+				Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"))));
+				break;
+			}
+			catch(Exception e){
+				i++;
+			}
+		}	
 
     	//Click on country
 		Util.waitForPageFullyLoaded(driver);
 		Util.waitLoadingBar(driver);
-		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser') "
+		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') "
 				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
     	countryElement.click();
-    	
 
-        stateHolder.put("context", country);
-		
+        stateHolder.put("context", country);		
 		logger.info("Selected country: {}", countryName);
+    }
+    
+    public String[] getInternationalCountriesArray(){
+    	TestDataReader testData = TestDataReader.getTestDataReader();
+    	
+    	String pricebookCountries = testData.getData("pricebookCountries");
+    	String nonPricebookCountries = testData.getData("nonPricebookCountries");
+    	String internationalCountries = pricebookCountries + ";" + nonPricebookCountries;    	
+    	
+    	return internationalCountries.split(";");
+    }
+    
+    public void selectRandomInternationalCountry(){
+    	
+    	String internationalCountriesArray[] = getInternationalCountriesArray();
+    		
+		int countryIndex = Util.randomIndex(internationalCountriesArray.length);
+		String selectedCountry = internationalCountriesArray[countryIndex].toLowerCase();
+		
+		selectCountryOnContextChooserPage(selectedCountry);
     }
 }
