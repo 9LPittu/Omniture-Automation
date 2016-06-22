@@ -21,7 +21,7 @@ public class Header {
     private final Logger logger = LoggerFactory.getLogger(Header.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
 
-    private final String menuItems[] = {"MENU", "SEARCH", "STORES","BAG"};
+    private final String menuItems[] = {"MENU", "SEARCH", "SIGN IN","BAG"};
 
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;

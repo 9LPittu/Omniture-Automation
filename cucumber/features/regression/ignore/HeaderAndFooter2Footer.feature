@@ -1,4 +1,3 @@
-@HeaderAndFooter @HighLevel
 Feature: Footer Verification In Home Page
 
   Background:
