@@ -1,4 +1,4 @@
-#@AccountDropdown @HighLevel
+@AccountDropdown @HighLevel
 Feature: Account Dropdown functionality
 
   Background:
@@ -426,7 +426,6 @@ Feature: Account Dropdown functionality
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
   
-  @AccountDropdown
   Scenario: Sign In and My Account dropdown functionality for international context
   	Then click on change link from footer
     And User is on context chooser page
@@ -453,7 +452,7 @@ Feature: Account Dropdown functionality
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
-    Given User is on homepage
+    Given User is on international homepage    
     And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
     And User is on internal /account/account_detail.jsp?sidecar=true page
