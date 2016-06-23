@@ -1,8 +1,8 @@
-@AccountDropdown @HighLevel
+#@AccountDropdown @HighLevel
 Feature: Account Dropdown functionality
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
   
   Scenario: Sign In link displayed in header and functional for multiple pages
@@ -426,6 +426,7 @@ Feature: Account Dropdown functionality
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
   
+  @AccountDropdown
   Scenario: Sign In and My Account dropdown functionality for international context
   	Then click on change link from footer
     And User is on context chooser page
