@@ -267,9 +267,9 @@ public class MultiplePdpPage {
     }
 
     public boolean itemsNumberMatchesPicturesSize() {
-        String itemsString = trayCount.getText();
-        itemsString = itemsString.replace(" item", "");
+        String itemsString = trayCount.getText();        
         itemsString = itemsString.replace(" items", "");
+        itemsString = itemsString.replace(" item", "");
         int itemsNumber = Integer.parseInt(itemsString);
 
         return itemsNumber == numProducts;
