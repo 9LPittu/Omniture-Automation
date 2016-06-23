@@ -212,10 +212,10 @@ public class HeaderSteps extends DriverFactory {
     @Then("^user ([^\"]*) rewards info in the My Account dropdown$")
     public void rewards_info_visibility_in_my_account_dropdown(String rewardsVisibility){
     	if(rewardsVisibility.equalsIgnoreCase("should see")){
-    		assertTrue("user should see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown());
+    		assertTrue("user should see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown(rewardsVisibility));
     	}
     	else{
-    		assertFalse("user should not see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown());
+    		assertFalse("user should not see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown(rewardsVisibility));
     	}
     	
     }
