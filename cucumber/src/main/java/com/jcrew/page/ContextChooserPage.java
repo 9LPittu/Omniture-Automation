@@ -253,6 +253,7 @@ public class ContextChooserPage {
 		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') "
 				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
     	countryElement.click();
+    	Util.waitLoadingBar(driver);
 
         stateHolder.put("context", country);		
 		logger.info("Selected country: {}", countryName);
