@@ -1,4 +1,3 @@
-@Context
 Feature: International Country Context
 
   Background:
