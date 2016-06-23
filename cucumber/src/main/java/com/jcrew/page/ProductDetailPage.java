@@ -773,10 +773,12 @@ public class ProductDetailPage {
         } else {
             int randomIndex = Util.randomIndex(productVariations.size());
             WebElement selectedVariation = productVariations.get(randomIndex);
-            WebElement selectedVariationName = selectedVariation.findElement(By.className("product__variation--name"));
-            logger.debug("Selected variation {}", selectedVariationName.getText());
+            WebElement selectedVariationNameElement = selectedVariation.findElement(By.className("product__variation--name"));
+            String selectedVariationName = selectedVariationNameElement.getText();
+            logger.debug("Selected variation {}", selectedVariationName);           
             selectedVariation.click();
-            productName = driver.findElement(By.className("product__name"));
+            productName = driver.findElement(By.className("product__name"));           
+            Util.waitLoadingBar(driver);
         }
     }
 
