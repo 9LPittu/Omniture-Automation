@@ -205,6 +205,7 @@ public class HeaderSteps extends DriverFactory {
         }
         
         if(isElementClickRequired){
+        	System.out.println(elementName + " click is required");
         	header.clickElementFromMyAccountDropdown(elementName);
         }
     }

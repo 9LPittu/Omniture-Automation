@@ -1,4 +1,4 @@
-@AccountDropdown @HighLevel
+#@AccountDropdown @HighLevel
 Feature: Account Dropdown functionality
 
   Background:
@@ -132,6 +132,7 @@ Feature: Account Dropdown functionality
   	And click on SIGN IN from header
   	And User is on internal /r/login page
   
+  @AccountDropdown
   Scenario: My Account dropdown open and close is functional on multiple pages
   	And click on SIGN IN from header
   	And User is on internal /r/login page
