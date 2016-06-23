@@ -482,6 +482,8 @@ public class Footer {
 
     public WebElement getCountryNameFooterElement() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSection));
-        return footerSection.findElement(By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"));
+        WebElement countryNameElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSection.findElement(
+        		                        By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"))));
+        return countryNameElement;
     }
 }

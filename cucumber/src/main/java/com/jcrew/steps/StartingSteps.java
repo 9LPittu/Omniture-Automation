@@ -75,6 +75,12 @@ public class StartingSteps {
         
         stateHolder.put("countryGroup", country_group);
     }
+    
+    @Given("^User is on international homepage$")
+    public void user_goes_to_international_homepage(){
+    	Country c = (Country) stateHolder.get("context");
+    	driver.get(c.getHomeurl());
+    }
 
     public void getInternationalUrl(String selectedCountry, String pageURL) {
         String env = reader.getProperty("url");

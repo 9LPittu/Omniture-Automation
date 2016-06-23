@@ -473,10 +473,15 @@ public class LoginPage {
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();        
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();
     	
-    	String username = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.username");
-    	String password = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.password");
+    	if(!propertyReader.getProperty("environment").equalsIgnoreCase("production")){
+    		String username = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.username");
+    		String password = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.password");
     	
-    	input_as_email(username);
-        input_as_password(password);
+    		input_as_email(username);
+    		input_as_password(password);
+    	}
+    	else{
+    		enter_valid_username_and_password();
+    	}
     }
 }

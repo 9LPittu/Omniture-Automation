@@ -296,20 +296,32 @@ public class Header {
     			signOutInMyAccountDropdown.isDisplayed();
     }
     
-    public boolean isRewardsDisplayedInMyAccountDropDown(){
+    public boolean isRewardsDisplayedInMyAccountDropDown(String rewardsVisibility){
+    	
+    	boolean isRewardsValidationRequired = true;
+    	boolean result = false;
     	PropertyReader reader = PropertyReader.getPropertyReader();
-        if (!reader.getProperty("environment").equalsIgnoreCase("production")){
-        	if(myAccountDropdownOpened.getText().contains("J.CREW CREDIT CARD")){
+    	if(reader.getProperty("environment").equalsIgnoreCase("production")){
+    		isRewardsValidationRequired = false;
+    		if(rewardsVisibility.equalsIgnoreCase("should see")){
+    			result = true;
+    		}
+    		else{
+    			result = false;
+    		}
+    	}
+
+    	if(isRewardsValidationRequired){
+    		if(myAccountDropdownOpened.getText().contains("J.CREW CREDIT CARD")){
         		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(rewardsSectionInMyAccountDropdown));
-        		return rewardsSectionInMyAccountDropdown.isDisplayed();
+        		result = rewardsSectionInMyAccountDropdown.isDisplayed();
         	}
         	else{
-        		return false;
+        		result = false;
         	}
-        }
-        else{
-        	return true;
-        }
+    	}
+    	        
+        return result;
     }
     
     public boolean isRewardsInfoDisplayedInMyAccountDropDown(){

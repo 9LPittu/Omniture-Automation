@@ -2,7 +2,7 @@
 Feature: Account Dropdown functionality
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
   
   Scenario: Sign In link displayed in header and functional for multiple pages
@@ -452,7 +452,7 @@ Feature: Account Dropdown functionality
     When user clicks on "close" from My Account dropdown
     Then user should see My Account dropdown is closed
     
-    Given User is on homepage
+    Given User is on international homepage    
     And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
     And User is on internal /account/account_detail.jsp?sidecar=true page
