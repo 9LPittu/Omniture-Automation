@@ -21,14 +21,13 @@ public class MenuDrawerSteps extends DriverFactory {
         menuDrawer.selectCategory(categories);
     }
 
-    @When("^User selects random subcategory array$")
-    public void user_selects_random_subcategory_array() {
-        menuDrawer.selectSubCategory();
-    }
-
-    @When("^User selects ([^\"]*) subcategory array$")
+    @When("User selects ([^\"]*) subcategory array")
     public void user_selects_specific_subcategory_array(String subcategory) {
-        menuDrawer.selectSubCategory(subcategory);
+        if("random".equalsIgnoreCase(subcategory)) {
+            menuDrawer.selectSubCategory();
+        } else {
+            menuDrawer.selectSubCategory(subcategory);
+        }
     }
 
     @When("User goes back to categories menu")
