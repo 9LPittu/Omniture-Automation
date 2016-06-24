@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@WelcomeMat"},
+        tags = {"@WelcomeMat1"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-welcomematregressionfeatures.json",

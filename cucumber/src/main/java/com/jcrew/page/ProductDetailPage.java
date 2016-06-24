@@ -109,10 +109,12 @@ public class ProductDetailPage {
         Country country = (Country) stateHolder.get("context");
         logger.info("country context is  : {}", country.getCountryName());
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+        
+        WebElement pdpProductName = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='product__name']")));
+
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
-        return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
+        return pdpProductName.isDisplayed() && StringUtils.isNotBlank(pdpProductName.getText()) && isURL;
     }
 
 
