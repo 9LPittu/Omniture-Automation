@@ -99,10 +99,10 @@ public class HeaderWrapSteps extends DriverFactory {
         assertTrue("Options in topnav contains", options.contains(option));
     }
 
-    @Then("Verify that top nav contains less or equal to 8 options")
-    public void verify_top_nav_contains_less() {
+    @Then("Verify that top nav contains less or equal to (\\d+) options")
+    public void verify_top_nav_contains_less(int allowedOptions) {
         List<String> options = header.getTopNavOptions();
 
-        assertTrue("Page contains 8 or less Options in topnav", options.size() <= 8);
+        assertTrue("Page contains 8 or less Options in topnav", options.size() <= allowedOptions);
     }
 }
