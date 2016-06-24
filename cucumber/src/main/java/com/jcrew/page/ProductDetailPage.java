@@ -111,6 +111,7 @@ public class ProductDetailPage {
         Util.waitForPageFullyLoaded(driver);
         
         WebElement pdpProductName = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='product__name']")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
 
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
