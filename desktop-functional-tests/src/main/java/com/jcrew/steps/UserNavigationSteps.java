@@ -132,10 +132,8 @@ public class UserNavigationSteps extends DriverFactory {
     @When("^User presses browser back button$")
     public void user_presses_back_button() throws Throwable {
         String url = driver.getCurrentUrl();
-        System.out.println("Before url: "+url);
         driver.navigate().back();
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
-        System.out.println("After url: "+driver.getCurrentUrl());
     }
 
     @Then("User should see country code in the url for international countries")
