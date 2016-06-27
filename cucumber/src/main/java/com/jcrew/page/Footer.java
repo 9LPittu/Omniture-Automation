@@ -318,10 +318,23 @@ public class Footer {
 
     public void clickChangeLinkInFooter(){    	
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shipToSectionInFooter));
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
-    	changeLinkInFooter.click();
-    	Util.waitLoadingBar(driver);
+    	String url = driver.getCurrentUrl();
+    	
+    	int i = 0;
+    	while(i<=2){
+    		try{
+    			Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
+    	    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
+    	    	changeLinkInFooter.click();
+    	    	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+    	    	Util.waitLoadingBar(driver);
+    	    	break;
+    		}
+    		catch(Exception e){
+    			logger.info("Change link element is not displayed...");
+    			i++;
+    		}
+    	}
     }
     
     public void selectCountry(String country){
@@ -492,9 +505,21 @@ public class Footer {
     }
 
     public WebElement getCountryNameFooterElement() {
-        WebElement footerSection = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//footer[@id='global__footer']")));
-        WebElement countryNameElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSection.findElement(
+    	int i = 0;
+    	WebElement countryNameElement = null;
+    	while(i<=2 && countryNameElement.equals(null)){
+    		try{
+    			WebElement footerSection = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//footer[@id='global__footer']")));
+    			countryNameElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSection.findElement(
         		                        By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"))));
+    			break;
+    		}
+    		catch(Exception e){
+    			logger.info("Country element is not displayed...");
+    			i++;
+    		}
+    	}
+        
         return countryNameElement;
     }
 }
