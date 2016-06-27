@@ -56,9 +56,14 @@ public class Footer {
     @FindBy(xpath = "//footer[@id='global__footer']")
     private WebElement footerSection;
     
+    @FindBy(xpath="//a[contains(@class,'footer__fullsite__link')]")
+    private WebElement viewFullSiteInFooter;
+    
     public Footer(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(viewFullSiteInFooter));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(viewFullSiteInFooter));
     }
 
     public boolean isFooterLinkPresent(String footerLink) {
