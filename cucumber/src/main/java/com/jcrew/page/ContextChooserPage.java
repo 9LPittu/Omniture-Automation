@@ -234,8 +234,7 @@ public class ContextChooserPage {
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
 	
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));   	
-    	WebElement regionHeader = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));  	
     	
     	//Click on region to show the countries listed    	
 		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
@@ -244,8 +243,10 @@ public class ContextChooserPage {
 		int i = 0;
 		while(i<=2){
 			try{
+				WebElement regionHeader = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
 				regionHeader.click();
-				Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"))));
+				Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(
+						By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]")));
 				break;
 			}
 			catch(Exception e){
@@ -256,8 +257,10 @@ public class ContextChooserPage {
     	//Click on country
 		Util.waitForPageFullyLoaded(driver);
 		Util.waitLoadingBar(driver);
-		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') "
-				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
+		WebElement countryElement = Util.createWebDriverWait(driver).until(
+				ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') "
+				                                                     + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" 
+				                                                     + countryName +"']")));
     	countryElement.click();
     	Util.waitLoadingBar(driver);
 

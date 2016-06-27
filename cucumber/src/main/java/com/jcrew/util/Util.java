@@ -120,7 +120,7 @@ public class Util {
         int attempts = 0;
         boolean success = false;
 
-        while (attempts < 2 && !success) {
+        while (attempts <= 2 && !success) {
             try {
                 element.click();
                 success = true;

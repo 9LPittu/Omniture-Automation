@@ -311,11 +311,12 @@ public class Footer {
     	return changeLinkInFooter.isDisplayed();
     }
 
-    public void clickChangeLinkInFooter(){
+    public void clickChangeLinkInFooter(){    	
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shipToSectionInFooter));
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
     	changeLinkInFooter.click();
+    	Util.waitLoadingBar(driver);
     }
     
     public void selectCountry(String country){
@@ -471,17 +472,22 @@ public class Footer {
     }
 
     public String isCorrectCountryNameDisplayedInFooter() {
-        WebElement countryNameInFooter = getCountryNameFooterElement();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));
-        String actualCountryName = countryNameInFooter.getText();
-
-        logger.info("Country selected: {}", actualCountryName);
+    	String actualCountryName;
+    	try{
+    		WebElement countryNameInFooter = getCountryNameFooterElement();
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));
+    		actualCountryName = countryNameInFooter.getText();
+    		logger.info("Country selected: {}", actualCountryName);
+    	}
+    	catch(Exception e){
+    		actualCountryName = "";
+    	}
 
         return actualCountryName;
     }
 
     public WebElement getCountryNameFooterElement() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSection));
+        WebElement footerSection = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//footer[@id='global__footer']")));
         WebElement countryNameElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSection.findElement(
         		                        By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"))));
         return countryNameElement;

@@ -70,8 +70,8 @@ public class MyAccountPage {
             menu = getMenuLink(link);
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
             Util.clickWithStaleRetry(menu);
+            Util.waitLoadingBar(driver);
         }
-
     }
 
     public boolean isInMenuLinkPage(String page) {
