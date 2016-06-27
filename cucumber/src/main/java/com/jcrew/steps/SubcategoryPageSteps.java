@@ -4,6 +4,8 @@ import com.jcrew.page.Header;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.Util;
+
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -384,7 +386,7 @@ public class SubcategoryPageSteps extends DriverFactory {
     
     @And("^Verify proper currency symbol is displayed on product grid list$")
     public void verify_currency_on_product_gridlist(){
-    	assertTrue("Currency on product gridlist",subcategoryPage.isCorrectCurrencySymbolonProductGridList());
+    	assertTrue(Util.getSelectedCountryName() + "Currency on product gridlist",subcategoryPage.isCorrectCurrencySymbolonProductGridList());
     }
     
     @And("^user selects first product from search results$")

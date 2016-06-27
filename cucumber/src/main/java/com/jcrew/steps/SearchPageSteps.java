@@ -5,6 +5,7 @@ import com.jcrew.page.SearchPage;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -26,7 +27,7 @@ public class SearchPageSteps extends DriverFactory {
     @Given("User is in search results page")
     public void user_is_in_search_results_page() {
 
-        assertTrue("User should be in search page", searchPage.isSearchPage());
+        assertTrue(Util.getSelectedCountryName() + "User should be in search page", searchPage.isSearchPage());
 
     }
 

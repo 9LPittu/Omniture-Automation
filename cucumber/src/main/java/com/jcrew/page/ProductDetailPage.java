@@ -680,9 +680,9 @@ public class ProductDetailPage {
     public boolean isCorrectCurrencySymbolonPDP() {
         Country c = (Country) stateHolder.get("context");
 
-        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
+        List<WebElement> productPriceElements = driver.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
 
-        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+        boolean result = CurrencyChecker.validatePrices(productPriceElements, c);
 
         if (result) {
             logger.info("Currency symbol is displayed correctly on all on Product details page");

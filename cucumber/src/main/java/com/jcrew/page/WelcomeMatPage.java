@@ -21,6 +21,9 @@ public class WelcomeMatPage {
 
     @FindBy(className = "c-header__welcomemat")
     private WebElement welcomeMat;
+    
+    @FindBy(className = "c-header__welcomemat--logo")
+    private WebElement welcomeMatLogo;
 
     @FindBy(className = "c-header__welcomemat--country-context")
     private WebElement countryContext;
@@ -51,7 +54,8 @@ public class WelcomeMatPage {
     }
 
     public boolean isJcrewLogoDisplayed() {
-        return driver.findElement(By.className("c-header__welcomemat--logo")).isDisplayed();
+    	WebElement element = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(welcomeMatLogo));
+        return element.isDisplayed();
     }
 
 
@@ -77,10 +81,10 @@ public class WelcomeMatPage {
         
         WebElement welcomeMat;
         if (internationalCountry.equalsIgnoreCase("Canada")) {
-        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("c-header__welcomematCanada--body"))));
+        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='c-header__welcomematCanada--body']")));
         }
         else{
-        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("c-header__welcomemat--body"))));
+        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='c-header__welcomemat--body']")));
         }
         
         return welcomeMat.isDisplayed();
@@ -88,6 +92,7 @@ public class WelcomeMatPage {
 
     public void click_on_start_shopping(String link)  {
         driver.findElement(By.linkText(link)).click();
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isFlagAndNameDisplayedCorrectly() {

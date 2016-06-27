@@ -111,7 +111,7 @@ Feature: International Country Context
       |NONPRICEBOOK  |
 
 
-  Scenario Outline: international context validation on gender landing pages and sale landing page
+  Scenario Outline: international context validation on gender landing pages
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
@@ -210,7 +210,7 @@ Feature: International Country Context
     And Selects sale Category from hamburger menu
     And user should see selected country in the footer
     And user should see country code in the url for international countries
-    And User clicks on WOMEN subcategory from Sales
+    And User clicks on <sale_category> subcategory from Sales
     And user should see selected country in the footer
     And Selects any product from product grid list
     And User is in product detail page
@@ -218,9 +218,15 @@ Feature: International Country Context
     And user should see country code in the url for international countries
 
     Examples:
-      |country_group|
-      |PRICEBOOK|
-      |NONPRICEBOOK|
+      |country_group|sale_category|
+      |PRICEBOOK    |Women        |
+      |NONPRICEBOOK |Women        |
+      |PRICEBOOK    |Men          |
+      |NONPRICEBOOK |Men          |
+      |PRICEBOOK    |Girls        |
+      |NONPRICEBOOK |Girls        |
+      |PRICEBOOK    |Boys         |
+      |NONPRICEBOOK |Boys         |
 
   Scenario Outline: Context is displayed on search page
     Then click on change link from footer

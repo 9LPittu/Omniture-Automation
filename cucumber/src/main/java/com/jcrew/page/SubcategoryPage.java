@@ -791,9 +791,9 @@ public class SubcategoryPage {
     public boolean isCorrectCurrencySymbolonProductGridList() {
         Country c = (Country) stateHolder.get("context");
         
-        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"));
+        List<WebElement> productPriceElements = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"));
 
-        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+        boolean result = CurrencyChecker.validatePrices(productPriceElements, c);
 
         if(result){
         	logger.info("Currency symbol is displayed correctly on all Item prices on Product grid list");

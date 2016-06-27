@@ -4,6 +4,8 @@ import com.jcrew.page.ContextChooserPage;
 
 
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Util;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -66,7 +68,7 @@ public class ContextChooserPageSteps extends DriverFactory {
 
     @Then("^user should land on country specific home page$")
     public void user_should_land_on_country_specific_home_page(){
-    	contextChooser.isUserOnCountrySpecificHomePage();
+    	assertTrue(Util.getSelectedCountryName() + "User should land on country specific home page", contextChooser.isUserOnCountrySpecificHomePage());
     }
     
     @And("^click on 'START SHOPPING' button on country specific home page$")

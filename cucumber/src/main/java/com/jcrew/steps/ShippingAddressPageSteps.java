@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ShippingAddressPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -135,7 +136,7 @@ public class ShippingAddressPageSteps extends DriverFactory {
         
        // shippingAddressPage.selectCityAndState();
 
-        assertTrue("Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
+        assertTrue(Util.getSelectedCountryName() + "Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
 
     }
 }

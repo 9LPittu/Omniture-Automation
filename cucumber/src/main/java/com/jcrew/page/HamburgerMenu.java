@@ -167,6 +167,7 @@ public class HamburgerMenu {
     }
 
     public void click_on_sale_subcategory(String subcategory) {
+    	subcategory = subcategory.trim();
         Util.waitLoadingBar(driver);
         getSubcategoryFromSale(subcategory).click();
         stateHolder.put("sale category", subcategory);

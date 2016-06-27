@@ -53,7 +53,7 @@ public class Footer {
     @FindBy(className="footer__header--social")
     private WebElement socialSharingHeader;
 
-    @FindBy(id = "global__footer")
+    @FindBy(xpath = "//footer[@id='global__footer']")
     private WebElement footerSection;
     
     public Footer(WebDriver driver) {
@@ -298,19 +298,21 @@ public class Footer {
     }
     
     public boolean isShipToSectionDisplayed(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shipToSectionInFooter));
     	return shipToSectionInFooter.isDisplayed();
     }
     
     public boolean isCountryNameDisplayedInFooter(){
-
         return getCountryNameFooterElement().isDisplayed();
     }
     
     public boolean isChangeLinkDisplayedInFooter(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
     	return changeLinkInFooter.isDisplayed();
     }
 
     public void clickChangeLinkInFooter(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shipToSectionInFooter));
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
     	changeLinkInFooter.click();
@@ -469,8 +471,6 @@ public class Footer {
     }
 
     public String isCorrectCountryNameDisplayedInFooter() {
-
-
         WebElement countryNameInFooter = getCountryNameFooterElement();
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));
         String actualCountryName = countryNameInFooter.getText();

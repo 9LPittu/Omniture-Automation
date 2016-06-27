@@ -277,15 +277,15 @@ public class ShoppingBagPage {
                 break;
         }
         
-        List<WebElement> productpricess = driver.findElements(By.xpath(xpath));
+        List<WebElement> productPriceElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
 
-        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+        boolean result = CurrencyChecker.validatePrices(productPriceElements, c);
 
         if(result){
-        	logger.info("Currency symbol is displayed correctly on all on Item prices on " + type);
+        	logger.info("Currency symbol is displayed correctly on all on item prices on " + type);
         }
         else{
-        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices on " + type);
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the item prices on " + type);
         }
 
         return result;

@@ -31,7 +31,7 @@ public class ShoppingBagSteps extends DriverFactory {
 
     @Then("^User should be in shopping bag page$")
     public void user_should_be_in_shopping_bag_page() throws Throwable {
-        assertTrue("Article checkout should have been present",
+        assertTrue(Util.getSelectedCountryName() + "Article checkout should have been present",
                 shoppingBagPage.isArticleCheckoutPresent());
     }
 
@@ -180,7 +180,7 @@ public class ShoppingBagSteps extends DriverFactory {
     @And("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
     public void verify_currency_on_checkout_pages_section(String sectionName) {
 
-        assertTrue("Currency on product details page", shoppingBagPage.isCorrectCurrencySymbol(sectionName.toLowerCase()));
+        assertTrue(Util.getSelectedCountryName() + "Currency on product details page", shoppingBagPage.isCorrectCurrencySymbol(sectionName.toLowerCase()));
 
     }
 }

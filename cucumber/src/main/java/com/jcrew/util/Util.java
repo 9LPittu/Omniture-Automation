@@ -171,4 +171,9 @@ public class Util {
 
         return startsWith & contains == country.isContexturl();
     }
+    
+    public static String getSelectedCountryName(){
+    	Country c = (Country) stateHolder.get("context");
+    	return "Current country selected: '" + c.getCountryName() + "'.";
+    }
 }
