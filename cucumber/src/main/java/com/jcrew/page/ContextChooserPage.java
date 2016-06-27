@@ -50,7 +50,6 @@ public class ContextChooserPage {
     }
     
     public boolean isAllRegionalDrawersClosedByDefault(){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(openedRegionalDrawers));
     	return openedRegionalDrawers.size() == 0; 
     }
     
