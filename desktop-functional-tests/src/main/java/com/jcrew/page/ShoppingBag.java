@@ -2,10 +2,11 @@ package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.CurrencyChecker;
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
-import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,6 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,25 +41,34 @@ public class ShoppingBag {
     @FindBy(id = "checkout")
     private WebElement articleCheckout;
 
+    private HeaderWrap header;
+
     public ShoppingBag(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
         this.footer = new Footer(driver);
+        this.header = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(checkoutButton));
+        wait.until(ExpectedConditions.visibilityOf(orderListing));
     }
 
     public boolean isShoppingBagPage() {
         Country country = (Country) stateHolder.get("context");
-        logger.info("country context is  : {}",country.getName());
+        logger.info("country context is  : {}", country.getName());
         Util.waitForPageFullyLoaded(driver);
         wait.until(ExpectedConditions.visibilityOf(articleCheckout));
-        return  articleCheckout.isDisplayed();
+        return articleCheckout.isDisplayed();
     }
 
     public void clickCheckoutButton() {
+        String url = driver.getCurrentUrl();
+        Util.waitForPageFullyLoaded(driver);
+        wait.until(ExpectedConditions.elementToBeClickable(checkoutButton));
+
         checkoutButton.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        Util.waitForPageFullyLoaded(driver);
     }
 
     private boolean verifyCurrency() {

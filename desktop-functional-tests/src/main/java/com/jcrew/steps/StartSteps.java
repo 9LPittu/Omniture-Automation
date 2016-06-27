@@ -28,6 +28,7 @@ public class StartSteps {
 
     @Before
     public void setupDriver() throws IOException {
+        stateHolder.put("deletecookies", false);
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
 
@@ -49,11 +50,17 @@ public class StartSteps {
         }
     }
 
+    @Given("User is on homepage with clean session")
+    public void user_is_on_home_page_with_clean_session() {
+        driverFactory.deleteBrowserCookies();
+        user_is_on_home_page();
+    }
+
     @Given("User goes to international homepage for ([^\"]*)")
     public void user_goes_to_international_homepage(String group) {
         TestDataReader testData = TestDataReader.getTestDataReader();
         String country = testData.getRandomCountry(group);
-
+        driverFactory.deleteBrowserCookies();
         int retry = 0;
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {

@@ -28,7 +28,7 @@ public class User {
         Faker faker = new Faker();
         fakeUser = new User(false);
         fakeUser.email = faker.internet().emailAddress().replace("@", "@test.").replace("'", "");
-        fakeUser.password = faker.lorem().fixedString(6);
+        fakeUser.password = faker.lorem().fixedString(6).replace(" ","?");
         fakeUser.firstName = faker.name().firstName();
         fakeUser.lastName = faker.name().lastName();
 

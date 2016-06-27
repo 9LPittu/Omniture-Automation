@@ -1,4 +1,4 @@
-@International
+@InternationalCheckout
 
 Feature: User is able to checkout in international context
 
