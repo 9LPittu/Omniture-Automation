@@ -126,8 +126,8 @@ public class MiniBag {
         Country c = (Country) stateHolder.get("context");
 
         List<WebElement> itemprices = wait.until(ExpectedConditions.visibilityOfAllElements(minibag.findElements(By.className("minibag-item__body--price"))));
-
-        return CurrencyChecker.validatePrices(itemprices, c);
+        WebElement subTotalPrice = wait.until(ExpectedConditions.visibilityOf(minibag.findElement(By.className("minibag__subtotal"))));
+        return CurrencyChecker.validatePrices(itemprices, c) && CurrencyChecker.validatePrice(subTotalPrice, c);
 
 
     }

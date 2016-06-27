@@ -22,7 +22,7 @@ public class FooterSteps extends DriverFactory {
     @Then("^Verify country name is displayed in the ship to section of footer$")
     public void verify_country_name_displayed_in_footer(){
         assertTrue("Country name should be displayed in the footer",footer.isCountryNameDisplayedInFooter());
-        assertEquals("Country name should be US","United States",footer.getCountryNameInFooter());
+        assertEquals("Country name should be US","united states",footer.getCountryNameInFooter());
     }
 
     @Then("^Verify change link is displayed in the ship to section of footer$")
@@ -39,6 +39,10 @@ public class FooterSteps extends DriverFactory {
     public void user_should_see_selected_country_in_footer(){
         assertTrue("User should see selected country name in the footer",footer.isCorrectCountryNameDisplayedInFooter());
     }
-    
+
+    @When("User closes email capture")
+    public void user_closes_email_capture() {
+        footer.closeEmailCapture();
+    }
 
 }

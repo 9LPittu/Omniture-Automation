@@ -55,9 +55,12 @@ public class Shipping {
     @FindBy(id = "shoppingAddressValidate")
     private WebElement addresValidate;
 
+    private HeaderWrap header;
+
     public Shipping(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
+        this.header = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(order_listing));
@@ -91,8 +94,10 @@ public class Shipping {
                 city.sendKeys(address.getCity());
                 state.sendKeys(address.getState());
                 break;
-            case "au":
             case "ca":
+                wait.until(ExpectedConditions.visibilityOf(us_city_state));
+                break;
+            case "au":
                 city.sendKeys(address.getCity());
                 Select state_dropdown = new Select(state_province);
                 state_dropdown.selectByVisibleText(address.getState());
@@ -107,8 +112,10 @@ public class Shipping {
     }
 
     public void continueWithDefaultAddress() {
+        String url = driver.getCurrentUrl();
         WebElement continueWithDefault = frmSelectShippingAddress.findElement(By.className("button-submit-bg"));
         continueWithDefault.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
 
 }

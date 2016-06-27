@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -104,7 +105,10 @@ public class LogIn extends DriverFactory {
 
         createAccountFormIsDisplayed();
         createAnAccount = registerForm.findElement(By.tagName("button"));
+
+        wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
         createAnAccount.click();
+
     }
 
     private WebElement getNewUserField(String field) {

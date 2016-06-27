@@ -44,10 +44,10 @@ public class MyAccount {
     public MyAccount(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
-        this.header = new HeaderWrap(driver);
         PageFactory.initElements(driver, this);
 
         wait.until(ExpectedConditions.visibilityOf(main_content));
+        this.header = new HeaderWrap(driver);
     }
 
 
@@ -87,6 +87,7 @@ public class MyAccount {
         userDetails.put(USER_DETAILS_EMAIL, information.getAttribute("value"));
 
         Select country = new Select(leftContainer.findElement(By.id(USER_DETAILS_COUNTRY)));
+        logger.debug("User details country: {}", country.getFirstSelectedOption().getText());
         userDetails.put(USER_DETAILS_COUNTRY, country.getFirstSelectedOption().getText());
 
         return userDetails;

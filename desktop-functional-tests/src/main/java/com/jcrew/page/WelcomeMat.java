@@ -87,7 +87,7 @@ public class WelcomeMat {
         String headerH2Text = headerH2.getText();
 
         if ("CA".equalsIgnoreCase(country.getCountry())) {
-            result = headerH2Text.equalsIgnoreCase("Hello, Canada");
+            result = headerH2Text.equalsIgnoreCase("Hello, Canada!");
         } else {
             result = headerH2Text.equalsIgnoreCase("Around the World");
         }
@@ -101,7 +101,10 @@ public class WelcomeMat {
     }
 
     public void goToUsSite(){
+        String url = driver.getCurrentUrl();
         WebElement usSite = footer.findElement(By.className("js-to-us-site"));
         usSite.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        Util.waitForPageFullyLoaded(driver);
     }
 }

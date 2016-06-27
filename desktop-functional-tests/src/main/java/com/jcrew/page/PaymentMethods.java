@@ -141,6 +141,7 @@ public class PaymentMethods {
         submit.click();
 
         header.reload();
+        Util.waitForPageFullyLoaded(driver);
     }
 
     public int getPaymentMethodsNumber() {
