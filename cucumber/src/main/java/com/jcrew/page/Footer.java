@@ -507,9 +507,9 @@ public class Footer {
     	WebElement countryNameElement = null;
     	while(i<=2 && countryNameElement == null){
     		try{
-    			WebElement footerSection = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//footer[@id='global__footer']")));
-    			countryNameElement = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOf(footerSection.findElement(
-        		                        By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"))));
+    			Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//footer[@id='global__footer']")));
+    			countryNameElement = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(
+        		                        By.xpath("//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']")));
     			break;
     		}
     		catch(Exception e){
