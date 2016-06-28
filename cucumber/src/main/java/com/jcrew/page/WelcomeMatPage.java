@@ -25,7 +25,7 @@ public class WelcomeMatPage {
     @FindBy(className = "c-header__welcomemat--logo")
     private WebElement welcomeMatLogo;
 
-    @FindBy(className = "c-header__welcomemat--country-context")
+    @FindBy(xpath = "//span[@class='c-header__welcomemat--country']")
     private WebElement countryContext;
 
     @FindBy(className = "c-header__welcomemat--flag")

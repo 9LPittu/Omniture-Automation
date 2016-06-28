@@ -13,6 +13,7 @@ Feature: Welcome Mat for ROW with checkout
     When User clicks on START SHOPPING on welcome mat
     Then user should see country code in the url for international countries
     And user should see selected country in the footer
+    And Handle the Email Capture pop up
 
     #Category
     When User clicks on hamburger menu
