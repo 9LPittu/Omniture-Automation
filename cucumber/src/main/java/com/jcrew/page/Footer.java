@@ -323,10 +323,10 @@ public class Footer {
     	int i = 0;
     	while(i<=2){
     		try{
-    			Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
-    	    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
+    			Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
+    	    	Util.createWebDriverWait(driver,20).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
     	    	changeLinkInFooter.click();
-    	    	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+    	    	Util.createWebDriverWait(driver,20).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     	    	Util.waitLoadingBar(driver);
     	    	break;
     		}
@@ -360,12 +360,10 @@ public class Footer {
     }
     
     public void clickSocialSharingIcon(String socialSharingIconName){
-        String currentURL = driver.getCurrentUrl();
     	WebElement socialSharingIcon = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='footer__social__menu']/" +
                 "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]")));
     	socialSharingIcon.click();
-
     }
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){
@@ -509,8 +507,8 @@ public class Footer {
     	WebElement countryNameElement = null;
     	while(i<=2 && countryNameElement.equals(null)){
     		try{
-    			WebElement footerSection = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//footer[@id='global__footer']")));
-    			countryNameElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSection.findElement(
+    			WebElement footerSection = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//footer[@id='global__footer']")));
+    			countryNameElement = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOf(footerSection.findElement(
         		                        By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"))));
     			break;
     		}
