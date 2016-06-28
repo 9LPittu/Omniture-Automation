@@ -4,7 +4,7 @@ Feature: International Country Context
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
 
-  Scenario Outline: international context validation on gender landing pages and sale landing page
+  Scenario Outline: international context validation on gender landing pages
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
