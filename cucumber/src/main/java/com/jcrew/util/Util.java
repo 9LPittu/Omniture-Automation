@@ -56,14 +56,19 @@ public class Util {
     }
 
     public static void waitLoadingBar(WebDriver driver) {
-        createWebDriverWait(driver).until(new Function<WebDriver, Boolean>() {
-            @Override
-            public Boolean apply(WebDriver webDriver) {
-                WebElement html = webDriver.findElement(By.tagName("html"));
-                String htmlClass = html.getAttribute("class");
-                return !htmlClass.contains("nprogress-busy");
-            }
-        });
+        try {
+            createWebDriverWait(driver).until(new Function<WebDriver, Boolean>() {
+                @Override
+                public Boolean apply(WebDriver webDriver) {
+                    WebElement html = webDriver.findElement(By.tagName("html"));
+                    String htmlClass = html.getAttribute("class");
+                    return !htmlClass.contains("nprogress-busy");
+                }
+            });
+        } catch (StaleElementReferenceException stale) {
+            logger.error("Stale Reference Exception when trying to check the loading bar; assuming is gone " +
+                    "and ignoring exception.");
+        }
     }
 
     public static String getPageVariableValue(WebDriver driver, final String variable) throws InterruptedException {
