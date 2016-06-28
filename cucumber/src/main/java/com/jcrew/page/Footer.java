@@ -505,7 +505,7 @@ public class Footer {
     public WebElement getCountryNameFooterElement() {
     	int i = 0;
     	WebElement countryNameElement = null;
-    	while(i<=2 && countryNameElement.equals(null)){
+    	while(i<=2 && countryNameElement == null){
     		try{
     			WebElement footerSection = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//footer[@id='global__footer']")));
     			countryNameElement = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOf(footerSection.findElement(

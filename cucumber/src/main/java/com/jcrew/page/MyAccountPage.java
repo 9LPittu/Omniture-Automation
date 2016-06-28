@@ -56,8 +56,9 @@ public class MyAccountPage {
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//a[@class='my_account_lefnav']")));
-        return myAccountContainer.findElement(By.linkText(link));
-
+        WebElement menuLink = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(
+        		By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]")));
+        return menuLink;
     }
 
     public void click_menu_link(String link) {
