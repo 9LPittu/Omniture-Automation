@@ -5,7 +5,6 @@ Feature: International Country Context - Part 1
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
 
-
     #US9479_TC01, US9479_TC02, US9479_TC04
   #US9479_TC03 -  not automating because the test case is about validating context chooser page with mockup
   #Validate context chooser flag is displayed on all the sidecar pages in the footer
