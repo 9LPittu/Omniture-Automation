@@ -4,6 +4,7 @@ Feature: Sign In
 
   Scenario: User is able to sign in
     Given User goes to homepage
+    And User closes email capture
     When User clicks on sign in using header
     And User fills user data and signs in
     Then Verify user is in My Account main page
@@ -21,7 +22,7 @@ Feature: Sign In
     Then Verify user is in Order History page
 
     When User goes to My Details using header
-    Then Verify user is in My Account main page
+    Then Known user information should match My Details page
 
     When User clicks JCrew logo
     Then Verify user is in homepage

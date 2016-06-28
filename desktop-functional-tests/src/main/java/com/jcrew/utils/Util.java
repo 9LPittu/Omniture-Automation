@@ -11,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 public class Util {
@@ -40,20 +42,27 @@ public class Util {
     public static void waitForPageFullyLoaded(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
-                return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+                String complete = (String) ((JavascriptExecutor) driver).executeScript("return document.readyState");
+                logger.info("document.readyState returned {}", complete);
+                return complete.equals("complete");
             }
         });
     }
 
     public static void waitLoadingBar(WebDriver driver){
-        createWebDriverWait(driver).until(new Function<WebDriver, Boolean>(){
-            @Override
-            public Boolean apply(WebDriver webDriver) {
-                WebElement html = webDriver.findElement(By.tagName("html"));
-                String htmlClass = html.getAttribute("class");
-                return !htmlClass.contains("nprogress-busy");
-            }
-        });
+        try {
+            createWebDriverWait(driver).until(new Function<WebDriver, Boolean>() {
+                @Override
+                public Boolean apply(WebDriver webDriver) {
+                    WebElement html = webDriver.findElement(By.tagName("html"));
+                    String htmlClass = html.getAttribute("class");
+                    return !htmlClass.contains("nprogress-busy");
+                }
+            });
+        } catch (StaleElementReferenceException stale) {
+            logger.error("StaleElementReferenceException when waiting for loading bar. " +
+                    "Assuming it is gone and ignoring this exception");
+        }
     }
 
     public static void clickWithStaleRetry(WebElement element) throws StaleElementReferenceException{
@@ -124,4 +133,21 @@ public class Util {
         return startsWith & contains == country.isContexturl() & hasPattern;
     }
 
+    public static void checkoutNext(WebDriver driver, WebElement checkoutButton) {
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        String browser = reader.getProperty("browser");
+
+        if("desktop".equals(browser)) {
+            String href = checkoutButton.getAttribute("href");
+            try {
+                href = URLDecoder.decode(href, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                logger.error("not able to decode!", e);
+            }
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript(href);
+        } else {
+            checkoutButton.click();
+        }
+    }
 }

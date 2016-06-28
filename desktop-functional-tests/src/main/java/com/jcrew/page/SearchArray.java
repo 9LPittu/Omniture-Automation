@@ -82,12 +82,19 @@ public class SearchArray {
 
 
     public void click_first_product_in_grid() {
-        Util.waitForPageFullyLoaded(driver);
-        final WebElement product = getFirstProduct();
-        final WebElement productLink = product.findElement(By.className("product__image--small"));
-        wait.until(ExpectedConditions.elementToBeClickable(productLink));
-        saveProduct(product);
-        productLink.click();
+        List<WebElement> productTiles = searchResults.findElements(By.className("c-product-tile"));
+        logger.info("This search result page has {} products", productTiles.size());
+
+        WebElement random_product_tile = productTiles.get(0);
+        wait.until(ExpectedConditions.visibilityOf(random_product_tile));
+        WebElement random_product_name = random_product_tile.findElement(By.className(NAME_CLASS));
+
+        logger.info("Selected product: {}", random_product_name.getText());
+
+        WebElement random_product_image = random_product_tile.findElement(By.tagName("img"));
+        wait.until(ExpectedConditions.visibilityOf(random_product_image));
+        random_product_image.click();
+
         Util.waitLoadingBar(driver);
     }
 

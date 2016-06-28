@@ -21,7 +21,6 @@ public class OrderReview {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(OrderReview.class);
     private final WebDriverWait wait;
-    private boolean isProduction = false;
 
     @FindBy(id = "slidertrack")
     private WebElement slidertrack;
@@ -40,11 +39,6 @@ public class OrderReview {
         PageFactory.initElements(driver, this);
 
         wait.until(ExpectedConditions.visibilityOf(slidertrack));
-
-        PropertyReader propertyReader = PropertyReader.getPropertyReader();
-        if (propertyReader.getProperty("url").contains("www.jcrew.com")) {
-            isProduction = true;
-        }
     }
 
     public boolean isReviewPage() {
@@ -52,6 +46,8 @@ public class OrderReview {
     }
 
     public void placeOrder() {
+        Util.waitForPageFullyLoaded(driver);
+
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String env = propertyReader.getProperty("environment");
 
@@ -70,12 +66,4 @@ public class OrderReview {
         securityCode.sendKeys(testDataReader.getData("card.cvv"));
     }
 
-    public void user_places_its_order() {
-        Util.waitForPageFullyLoaded(driver);
-        if (!isProduction) {
-            wait.until(ExpectedConditions.elementToBeClickable(placeYourOrder));
-
-            placeYourOrder.click();
-        }
-    }
 }

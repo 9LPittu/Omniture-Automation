@@ -4,11 +4,12 @@ import com.google.common.base.Predicate;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,8 +17,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -55,22 +56,34 @@ public class HeaderWrap {
     private WebElement header_logo;
     @FindBy(className = "header__department-nav")
     private WebElement top_nav;
+    @FindBy(xpath = ".//div[@id='c-header__factory-link']/a")
+    private WebElement lookingForFactoryLinkInHeader;
 
     private WebElement dropdown;
-    
-    @FindBy(xpath=".//div[@id='c-header__factory-link']/a")
-    private WebElement lookingForFactoryLinkInHeader;
 
     public HeaderWrap(WebDriver driver) {
         this.driver = driver;
         this.hoverAction = new Actions(driver);
         this.wait = Util.createWebDriverWait(driver);
+
+        PageFactory.initElements(driver, this);
+
         reload();
     }
 
     public void reload() {
-        PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(global_promo));
+        try {
+            wait.until(ExpectedConditions.visibilityOf(global_promo));
+            wait.until(ExpectedConditions.visibilityOf(global_header));
+        } catch (TimeoutException timeout) {
+            logger.debug("Timed out while waiting for header in page: {}", driver.getCurrentUrl());
+            Logs errorLog = driver.manage().logs();
+            LogEntries errors = errorLog.get(LogType.BROWSER);
+
+            for (LogEntry error : errors) {
+                logger.error("Broser logged: {}", error);
+            }
+        }
     }
 
     public void openMenu() {
@@ -104,7 +117,7 @@ public class HeaderWrap {
         String env = propertyReader.getProperty("environment");
         TestDataReader testdataReader = TestDataReader.getTestDataReader();
 
-        if(testdataReader.hasProperty(env+ "." + searchItem)){
+        if (testdataReader.hasProperty(env + "." + searchItem)) {
             searchItem = testdataReader.getData(env + "." + searchItem);
         }
 
@@ -126,7 +139,6 @@ public class HeaderWrap {
         Util.waitLoadingBar(driver);
 
     }
-
 
     public void clickSignIn() {
         wait.until(ExpectedConditions.visibilityOf(sign_in));
@@ -162,7 +174,6 @@ public class HeaderWrap {
             wait.until(ExpectedConditions.visibilityOf(minibag));
 
         } else if ("my account".equalsIgnoreCase(icon)) {
-
             wait.until(ExpectedConditions.visibilityOf(myAccount));
             hoverAction.moveToElement(myAccount);
             hoverAction.perform();
@@ -185,7 +196,16 @@ public class HeaderWrap {
     public String getWelcomeMessage() {
         dropdown = userPanel.findElement(By.tagName("dl"));
         WebElement welcomeRow = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel--welcomeuser']"));
-        return welcomeRow.getText();
+        String message = welcomeRow.getText();
+
+        if(message.isEmpty()) {
+            hoverOverIcon("my account");
+            message = welcomeRow.getText();
+        }
+
+        hoverOverIcon("logo");
+
+        return message;
     }
 
     public void goToMyDetailsDropDownMenu(String option) {
@@ -223,8 +243,23 @@ public class HeaderWrap {
 
     public void clickDeptLinkFromTopNav(String dept) {
         String url = driver.getCurrentUrl();
-        top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '" + dept + "']")).click();
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and "
+                + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']")).click();
 
+        if (!"view all".equals(dept))
+            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+
+        reload();
+    }
+
+    public List<String> getTopNavOptions() {
+        List<WebElement> options = top_nav.findElements(By.className("department-nav__item"));
+        List<String> optionsString = new ArrayList<>(options.size());
+
+        for (WebElement option : options) {
+            optionsString.add(option.getText().toLowerCase());
+        }
+
+        return optionsString;
     }
 }

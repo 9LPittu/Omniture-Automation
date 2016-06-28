@@ -66,7 +66,27 @@ public class MenuDrawer {
         categoryLink.click();
     }
 
+    public boolean isDrawerOpen() {
+        String drawerStyle = drawer.getAttribute("style");
+        logger.debug("global__nav style: {}", drawerStyle);
+        return drawerStyle.contains("display: block;");
+    }
 
+    public String getDrawerTitle() {
+        String title = "";
+        WebElement navWrap = drawer.findElement(By.className("nav__wrap"));
+        String navWrapClass = navWrap.getAttribute("class");
+
+        if(navWrapClass.contains("is-offscreen-left-x1")) {
+            WebElement menuLevel = navWrap.findElement(By.className("js-menus--level2"));
+            WebElement displayedMenu = menuLevel.findElement(
+                    By.xpath(".//div[@class='menu__item']/div[contains(@class,'menu__link--header')]"));
+
+            title = displayedMenu.getText().toLowerCase();
+        }
+
+        return title;
+    }
 
     public void selectSubCategory(String subCategory) {
         WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
