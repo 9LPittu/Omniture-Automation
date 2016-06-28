@@ -142,6 +142,7 @@ public class BillingPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(billingOptionsSubmit));
         billingOptionsSubmit.click();
         Util.waitForPageFullyLoaded(driver);
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isBillingPage() {

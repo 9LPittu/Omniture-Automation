@@ -77,6 +77,7 @@ public class WelcomeMatPage {
 
 
     public boolean isWelcomeMatContentDisplayed() {
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryContext));
         String internationalCountry = countryContext.getText();
         
         WebElement welcomeMat;

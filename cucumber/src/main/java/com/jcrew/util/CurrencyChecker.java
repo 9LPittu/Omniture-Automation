@@ -74,8 +74,13 @@ public class CurrencyChecker {
         } else {
             for (WebElement price : prices) {
                 String priceText = price.getText();
-                if (!priceText.isEmpty()) {
-                    result &= isValid(priceText, c);
+                if(!priceText.isEmpty()){                	
+	                String[] pricesArray = priceText.split("–");
+	                for(int i=0;i<pricesArray.length;i++){
+	                	if (!pricesArray[i].isEmpty()) {
+	                        result &= isValid(pricesArray[i].trim(), c);
+	                    }
+	                }
                 }
             }
         }

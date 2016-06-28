@@ -179,8 +179,6 @@ public class ShoppingBagSteps extends DriverFactory {
     
     @And("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
     public void verify_currency_on_checkout_pages_section(String sectionName) {
-
         assertTrue(Util.getSelectedCountryName() + "Currency on product details page", shoppingBagPage.isCorrectCurrencySymbol(sectionName.toLowerCase()));
-
     }
 }

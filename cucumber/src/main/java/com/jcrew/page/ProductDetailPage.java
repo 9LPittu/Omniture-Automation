@@ -298,7 +298,11 @@ public class ProductDetailPage {
     }
 
     public String getSelectedSize() {
-        WebElement productSizeElement = productSizesSection.findElement(By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"));
+    	
+        WebElement productSizeElement = Util.createWebDriverWait(driver).until(
+        		ExpectedConditions.visibilityOf(productSizesSection.findElement(
+        				By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"))));
+        
         return productSizeElement.getAttribute("data-name");
     }
     
