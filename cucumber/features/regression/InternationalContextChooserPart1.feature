@@ -1,4 +1,4 @@
-@Context_Part1
+#@Context_Part1
 Feature: International Country Context - Part 1
 
   Background:
@@ -49,6 +49,7 @@ Feature: International Country Context - Part 1
     And click on "borderfree.com" link from FAQ section on the context chooser page
     And external http://www.pitneybowes.com/us/borderfree-is-now-part-of-pitney-bowes.html page is opened in a different tab
 
+  @Context_Part1
   Scenario Outline: international context validation on all My Account related pages
     Then click on change link from footer
     And User is on context chooser page
@@ -89,7 +90,7 @@ Feature: International Country Context - Part 1
 
     Examples:
       |country_group |
-      |PRICEBOOK     |
+#      |PRICEBOOK     |
       |NONPRICEBOOK  |
 
   Scenario Outline: Forgot Password Page context validtaion
