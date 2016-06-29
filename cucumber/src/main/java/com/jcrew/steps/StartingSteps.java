@@ -102,6 +102,7 @@ public class StartingSteps {
         }
 
         driver.get(env);
+        Util.waitLoadingBar(driver);
     }
 
     @Given("^User is on homepage$")

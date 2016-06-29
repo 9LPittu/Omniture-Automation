@@ -277,6 +277,7 @@ public class ShoppingBagPage {
                 break;
         }
         
+        Util.waitLoadingBar(driver);
         List<WebElement> productPriceElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
 
         boolean result = CurrencyChecker.validatePrices(productPriceElements, c);
@@ -290,5 +291,4 @@ public class ShoppingBagPage {
 
         return result;
     }
-
 }
