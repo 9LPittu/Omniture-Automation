@@ -126,6 +126,14 @@ public class ContextChooserPage {
     	WebElement element = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='page__international']")));
     	element.click();
     	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String browser = propertyReader.getProperty("browser");
+        if(browser.equalsIgnoreCase("firefox")){
+        	//Adding this piece of code as terms of use link click is not working in firefox
+        	driver.navigate().refresh();
+        	Util.waitLoadingBar(driver);
+        }
+    	
     	WebElement link = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
     					  driver.findElement(By.xpath(
     				      "//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"))));    	
