@@ -291,7 +291,7 @@ public class DriverFactory {
                         }
                     }
 
-                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser) ) {
+                } else if ("androidchrome".equals(browser) || "phantomjs".equals(browser) || "firefox".equals(browser) || "chrome".equals(browser)) {
                     for (Cookie cookie : cookies) {
                         if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
                             driver.manage().deleteCookie(cookie);
