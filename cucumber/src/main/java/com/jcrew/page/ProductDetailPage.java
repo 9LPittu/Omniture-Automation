@@ -110,6 +110,7 @@ public class ProductDetailPage {
 	        Country country = (Country) stateHolder.get("context");
 	        logger.info("country context is  : {}", country.getCountryName());
 	        Util.waitForPageFullyLoaded(driver);
+	        Util.waitLoadingBar(driver);
 	        
 	        WebElement pdpProductName = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='product__name']")));
 	        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpProductName));
@@ -732,6 +733,7 @@ public class ProductDetailPage {
 	        return actualSizeMessage.equalsIgnoreCase(expectedSizeMessage);
         }
         catch(Exception e){
+        	Util.logBrowserErrorMessages(driver);
         	return false;
         }
     }
@@ -760,6 +762,7 @@ public class ProductDetailPage {
 	        return actualPDPMessage.equalsIgnoreCase(expectedPDPMessage);
         }
         catch(Exception e){
+        	Util.logBrowserErrorMessages(driver);
         	return false;
         }
     }
@@ -791,6 +794,7 @@ public class ProductDetailPage {
 	        }
     	}
     	catch(Exception e){
+    		Util.logBrowserErrorMessages(driver);
     		result = false;
     	}
     	
@@ -837,6 +841,7 @@ public class ProductDetailPage {
 	        }
     	}
     	catch(Exception e){
+    		Util.logBrowserErrorMessages(driver);
     		result = false;
     	}
     	
@@ -867,6 +872,7 @@ public class ProductDetailPage {
 	        }
     	}
     	catch(Exception e){
+    		Util.logBrowserErrorMessages(driver);
     		result = false;
     	}
     	

@@ -11,6 +11,7 @@ import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -278,7 +279,18 @@ public class ShoppingBagPage {
         }
         
         Util.waitLoadingBar(driver);
-        List<WebElement> productPriceElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
+        List<WebElement> productPriceElements = null;
+        int i = 0;
+        while(i<=2){
+        	try{
+        		productPriceElements = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
+        		break;
+        	}
+        	catch(StaleElementReferenceException sere){
+        		i++;
+        	}
+        }
+        
 
         boolean result = CurrencyChecker.validatePrices(productPriceElements, c);
 
