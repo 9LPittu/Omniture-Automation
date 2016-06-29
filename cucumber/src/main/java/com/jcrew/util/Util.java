@@ -196,4 +196,12 @@ public class Util {
             logger.error("Browser logged: {}", error.getMessage());
         }
     }
+    
+    public static int getDefaultTimeOutValue(){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (reader.getProperty("environment").equalsIgnoreCase("steel"))
+            return DEFAULT_TIMEOUT_STEEL;
+        else
+            return DEFAULT_TIMEOUT;
+    }
 }

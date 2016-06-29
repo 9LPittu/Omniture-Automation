@@ -82,13 +82,26 @@ public class Header {
 	    	Util.waitForPageFullyLoaded(driver);
 	    	Util.waitLoadingBar(driver);
 	    	
-			Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
-	        WebElement headerLinkElement = Util.createWebDriverWait(driver).until(
-	                ExpectedConditions.elementToBeClickable(
-	                		By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']")));
-	        Util.createWebDriverWait(driver).until(
-	            ExpectedConditions.elementToBeClickable(headerLinkElement));
-	        return true;
+	    	int i =0;
+	    	int timeOut = Util.getDefaultTimeOutValue()/3;
+	    	while(i<=2){
+	    		try{
+	    			Util.createWebDriverWait(driver,timeOut).until(ExpectedConditions.visibilityOf(headerWrap));
+	    			
+	    	        WebElement headerLinkElement = Util.createWebDriverWait(driver,timeOut).until(
+	    	                ExpectedConditions.elementToBeClickable(
+	    	                		By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']")));
+	    	        
+	    	        Util.createWebDriverWait(driver,timeOut).until(
+	    	        				ExpectedConditions.elementToBeClickable(headerLinkElement));
+	    	        return true;
+	    		}
+	    		catch(Exception e){
+	    			i++;
+	    		}
+	    	}
+			
+	        return false;
     	}
     	catch(Exception e){
     		return false;
