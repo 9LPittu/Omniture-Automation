@@ -237,8 +237,8 @@ public class ContextChooserPage {
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));  	
     	
     	//Click on region to show the countries listed    	
-		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
-		driver.findElement(By.id("page__international")).click();
+//		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
+//		driver.findElement(By.id("page__international")).click();
 		
 		int i = 0;
 		while(i<=2){
