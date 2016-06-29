@@ -5,69 +5,6 @@ Feature: International Country Context - Part 2
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
 
-  Scenario Outline: Multiple Pages During Checkout Context validations
-    Then click on change link from footer
-    And User is on context chooser page
-    And User is on internal /r/context-chooser page
-    Given user selects <country_group> at random from context chooser page
-    Then user should land on country specific home page
-    And user should see selected country in the footer
-    When User clicks on hamburger menu
-    And user selects any category from hamburger menu
-	And user selects any subcategory
-    And user should see selected country in the footer
-	And user should see country code in the url for international countries
-	And user selects any item from array page, select any color and size
-    And User is in product detail page
-    And user should see selected country in the footer
-    And user should see country code in the url for international countries
-    And Add to cart button is pressed
-    And User clicks on item bag
-    Then User should be in shopping bag page
-    Then Verify embedded headers links is visible
-    Then Verify embedded footer is visible and functional
-    And user should see selected country in the footer
-    And Clicks edit button on item bag page
-	And User is in product detail page
-    Then Update Bag button is pressed
-	Then User should be in shopping bag page
-    And Clicks on checkout
-    Then Verify embedded headers links is visible
-    Then Verify embedded footer is visible and functional
-    And user should see selected country in the footer
-    And Selects to checkout as guest
-    Then Verify embedded headers links is visible
-    Then Verify embedded footer is visible and functional
-    And user should see selected country in the footer
-    When user fills selected country shipping address
-    And Presses continue button on shipping address
-    And Verifies is in shipping method page
-    Then Verify embedded headers links is visible
-    Then Verify embedded footer is visible and functional
-    And user should see selected country in the footer
-    And Uses default value for shipping method
-    #And Uses default value for gifts option
-    And Clicks continue button on shipping method page
-    And Verify user is in billing page
-    Then Verify embedded headers links is visible
-    Then Verify embedded footer is visible and functional
-    And user should see selected country in the footer
-    And Fills required payment data in billing page
-    And Submits payment data in billing page
-    Then Verify embedded headers links is visible
-    Then Verify embedded footer is visible and functional
-    And user should see selected country in the footer
-    And Clicks on place your order
-    And User should be in order confirmation page
-    Then Verify embedded headers links is visible
-    Then Verify embedded footer is visible and functional
-    And user should see selected country in the footer
-
-    Examples:
-      |country_group|
-      |PRICEBOOK|
-      |NONPRICEBOOK|
-
   Scenario Outline: context validation on sale landing page from Hamburger menu
     Then click on change link from footer
     And User is on context chooser page
