@@ -149,7 +149,7 @@ public class SubcategoryPage {
     private List<WebElement> getProductTileElements() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         return Util.createWebDriverWait(driver).
-                until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
+                until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='c-product-tile']")));
     }
 
     private boolean isPriceAndNameValidFor(WebElement product) {

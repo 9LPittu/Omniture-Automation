@@ -712,7 +712,7 @@ public class ProductDetailPage {
     	String expectedSizeMessage = "";
         String actualSizeMessage = "";
     	
-        try{
+        try{        	
 	    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(c_product_colors));
 	        Country c = (Country) stateHolder.get("context");
 	        String countryCode = c.getCountry();

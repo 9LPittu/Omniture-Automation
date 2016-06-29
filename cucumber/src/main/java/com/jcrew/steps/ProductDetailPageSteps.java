@@ -20,7 +20,7 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Given("User is in product detail page")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
-        assertTrue(Util.getSelectedCountryName() + "User should be in detail page",
+        assertTrue(Util.getSelectedCountryName() + "User should be in product detail page",
                 productDetailPage.isProductDetailPage());
     }
     
