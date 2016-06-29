@@ -176,17 +176,20 @@ public class ContextChooserPage {
     }
     
     public boolean isUserOnCountrySpecificHomePage() {
-
-    	logger.info("Url after clicking on start shopping : {}", driver.getCurrentUrl());
-
-		Country country = (Country)stateHolder.get("context");
-
-		String expectedURL = country.getHomeurl();
-
-		Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
-    	Util.waitLoadingBar(driver);
-		logger.debug("expected url at this point should be "+driver.getCurrentUrl()+"  our expected url calculation {}", expectedURL);
-    	return driver.getCurrentUrl().matches(expectedURL);
+    	try{
+    		logger.info("Url after clicking on start shopping : {}", driver.getCurrentUrl());
+			
+    		Country country = (Country)stateHolder.get("context");
+			String expectedURL = country.getHomeurl();
+	
+			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
+	    	Util.waitLoadingBar(driver);
+			logger.debug("expected url at this point should be " + driver.getCurrentUrl() + "  our expected url calculation {}", expectedURL);
+	    	return driver.getCurrentUrl().matches(expectedURL);
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
     
     public void clickStartShoppingButton(){
@@ -233,17 +236,15 @@ public class ContextChooserPage {
     	Country country = new Country(url, countryCode);
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
-	
+		
+		Util.waitLoadingBar(driver);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));  	
     	
-    	//Click on region to show the countries listed    	
-//		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
-//		driver.findElement(By.id("page__international")).click();
-		
+    	//Click on region to display the countries listed    	
 		int i = 0;
 		while(i<=2){
 			try{
-				WebElement regionHeader = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
+				WebElement regionHeader = Util.createWebDriverWait(driver,15).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
 				regionHeader.click();
 				Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(
 						By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]")));

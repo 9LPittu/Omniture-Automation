@@ -14,7 +14,7 @@ public class OrderConfirmationPageSteps extends DriverFactory {
 
     @Then("User should be in order confirmation page")
     public void user_should_be_in_order_confirmation_page() {
-        assertTrue(Util.getSelectedCountryName() + "User should be in order confirmation page", new OrderConfirmationPage(getDriver()).isOrderConfirmationPage());
+        assertTrue(Util.getSelectedCountryName() + "User should be in order confirmation page", orderConfirmation.isOrderConfirmationPage());
     }
     
     @And("verify order number is generated")

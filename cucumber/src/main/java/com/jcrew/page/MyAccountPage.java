@@ -38,10 +38,14 @@ public class MyAccountPage {
     }
 
     public boolean isInAccountPage() {
-        Country country = (Country) stateHolder.get("context");
-        Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
-        return myAccountContainer.isDisplayed();
+    	try{
+	        Util.waitForPageFullyLoaded(driver);
+	        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
+	        return myAccountContainer.isDisplayed();
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
 
     public String getMyAccountHeader() {
@@ -85,7 +89,6 @@ public class MyAccountPage {
             logger.info("expected no "+page+" for "+c.getCountry());
             return true;
         }
-
     }
 
     public void click_order_for_review() {

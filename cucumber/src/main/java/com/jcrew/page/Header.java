@@ -77,17 +77,22 @@ public class Header {
     }
 
     public boolean isHeaderLinkPresent(String headerLink) {
-    	logger.debug("Checking for header link: {}", headerLink);
-    	Util.waitForPageFullyLoaded(driver);
-    	Util.waitLoadingBar(driver);
-    	
-		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
-        WebElement headerLinkElement = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(
-                		By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']")));
-        Util.createWebDriverWait(driver).until(
-            ExpectedConditions.elementToBeClickable(headerLinkElement));
-        return true;
+    	try{
+	    	logger.debug("Checking for header link: {}", headerLink);
+	    	Util.waitForPageFullyLoaded(driver);
+	    	Util.waitLoadingBar(driver);
+	    	
+			Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
+	        WebElement headerLinkElement = Util.createWebDriverWait(driver).until(
+	                ExpectedConditions.elementToBeClickable(
+	                		By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']")));
+	        Util.createWebDriverWait(driver).until(
+	            ExpectedConditions.elementToBeClickable(headerLinkElement));
+	        return true;
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
 
     public boolean isHeaderBagIconPresent() {
@@ -107,9 +112,14 @@ public class Header {
     }
 
     public boolean isSearchDrawerOpen() {
-        WebElement headerSearchInput = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
-        return headerSearchInput.isDisplayed();
+    	try{
+	        WebElement headerSearchInput = Util.createWebDriverWait(driver).until(
+	                ExpectedConditions.visibilityOf(headerWrap.findElement(By.className("header__search__input"))));
+	        return headerSearchInput.isDisplayed();
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
 
     public boolean isSearchDrawerClosed() {
@@ -199,7 +209,12 @@ public class Header {
     }
 
     public boolean isBagLinkDisplaying() {
-        return shoppingBagLink.isDisplayed();
+    	try{
+    		return shoppingBagLink.isDisplayed();
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
 
     public void click_breadcrumb(String breadcrumb) {

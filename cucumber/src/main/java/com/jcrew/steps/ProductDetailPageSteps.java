@@ -3,7 +3,6 @@ package com.jcrew.steps;
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
-import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;

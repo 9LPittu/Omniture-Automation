@@ -80,5 +80,4 @@ public class ContextChooserPageSteps extends DriverFactory {
     public void user_selects_random_international_country(){
     	contextChooser.selectRandomInternationalCountry();
     }
-
 }

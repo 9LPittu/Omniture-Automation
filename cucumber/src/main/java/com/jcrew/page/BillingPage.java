@@ -146,9 +146,14 @@ public class BillingPage {
     }
 
     public boolean isBillingPage() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
-        return creditCardBilling.isDisplayed();
+    	try{
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
+    		return creditCardBilling.isDisplayed();
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
     
     public void enterCreditCardDetails(String cardName){

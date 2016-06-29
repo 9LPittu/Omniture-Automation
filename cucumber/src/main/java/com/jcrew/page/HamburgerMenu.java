@@ -124,7 +124,12 @@ public class HamburgerMenu {
     }
 
     public boolean isCategoryPresent(String category) {
-        return getCategory(category).isDisplayed();
+    	try{
+    		return getCategory(category).isDisplayed();
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
 
     public void click_on_category(String category) {
@@ -266,8 +271,13 @@ public class HamburgerMenu {
     }
     
     public boolean isUserPanelLinkPresent(String linkName){
-    	WebElement userPanelElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(userPanelInHamburgerMenu));
-    	return userPanelElement.findElement(By.xpath(
-    			"//a[contains(@class,'menu__link--userpanel') and text()='" + linkName.toUpperCase() + "']")).isDisplayed();
+    	try{
+    		WebElement userPanelElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(userPanelInHamburgerMenu));
+    		return userPanelElement.findElement(By.xpath(
+    		    	"//a[contains(@class,'menu__link--userpanel') and text()='" + linkName.toUpperCase() + "']")).isDisplayed();
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
 }

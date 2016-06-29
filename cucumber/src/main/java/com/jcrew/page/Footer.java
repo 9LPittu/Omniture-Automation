@@ -207,7 +207,12 @@ public class Footer {
 
 
     public String getFooterHeaderLegend() {
-        return footerWrapMain.findElement(By.tagName("legend")).getText();
+    	try{
+    		return footerWrapMain.findElement(By.tagName("legend")).getText();
+    	}
+    	catch(Exception e){
+    		return "";
+    	}
     }
 
     public boolean isTopHeaderVisible(String text) {
@@ -220,57 +225,72 @@ public class Footer {
 
     public boolean isIconAndTextDisplayed(String icon) {
     	
-        WebElement module = driver.findElement(By.className("footer__help__menu"));
         WebElement contactItem;
         boolean isIconValidationRequired = true;
         boolean isIconDisplayed = true;
         
-    	Country c = (Country) stateHolder.get("context");
-        String countryCode = c.getCountry();
-        
-        if(icon.equalsIgnoreCase("vps") && (countryCode.equalsIgnoreCase("au") || countryCode.equalsIgnoreCase("sg") || countryCode.equalsIgnoreCase("hk") || countryCode.equalsIgnoreCase("de") || countryCode.equalsIgnoreCase("jp") || countryCode.equalsIgnoreCase("ch"))){
-        	isIconValidationRequired = false;
-        }
-        
-        if(icon.equalsIgnoreCase("phone") && countryCode.equalsIgnoreCase("jp")){
-        	isIconValidationRequired = false;
-        }
+        try{
+        	WebElement module = driver.findElement(By.className("footer__help__menu"));
+        	Country c = (Country) stateHolder.get("context");
+            String countryCode = c.getCountry();
+            
+            if(icon.equalsIgnoreCase("vps") && (countryCode.equalsIgnoreCase("au") || countryCode.equalsIgnoreCase("sg") || countryCode.equalsIgnoreCase("hk") || countryCode.equalsIgnoreCase("de") || countryCode.equalsIgnoreCase("jp") || countryCode.equalsIgnoreCase("ch"))){
+            	isIconValidationRequired = false;
+            }
+            
+            if(icon.equalsIgnoreCase("phone") && countryCode.equalsIgnoreCase("jp")){
+            	isIconValidationRequired = false;
+            }
 
-        if(isIconValidationRequired){        	
-        	switch (icon){
-	            case "twitter":
-	                contactItem = module.findElement(By.className("footer__help__item--twitter"));
-	                break;
-	            case "phone":
-	                contactItem = module.findElement(By.className("footer__help__item--phone"));
-	                break;
-	            case "vps":
-	                contactItem = module.findElement(By.className("footer__help__item--vps"));
-	                break;
-	            default:
-	                logger.debug("icon {} not found",icon);
-	                return false;
-        	}
+            if(isIconValidationRequired){        	
+            	switch (icon){
+    	            case "twitter":
+    	                contactItem = module.findElement(By.className("footer__help__item--twitter"));
+    	                break;
+    	            case "phone":
+    	                contactItem = module.findElement(By.className("footer__help__item--phone"));
+    	                break;
+    	            case "vps":
+    	                contactItem = module.findElement(By.className("footer__help__item--vps"));
+    	                break;
+    	            default:
+    	                logger.debug("icon {} not found",icon);
+    	                return false;
+            	}
 
-        	isIconDisplayed = contactItem.findElement(By.tagName("i")).isDisplayed();
+            	isIconDisplayed = contactItem.findElement(By.tagName("i")).isDisplayed();
+            }
         }
-        
+        catch(Exception e){
+        	isIconDisplayed = false;
+        }
+                
         return isIconDisplayed;
-
     }
 
     public boolean isSocialIconDisplayed(String socialIcon) {
-        List<WebElement> socialNetworkIconsList = footerWrapMain.findElements(By.className("footer__social__menu"));
-        boolean iconDisplayed = false;
-        for (WebElement socialNetworkIcon : socialNetworkIconsList) {
-
-            iconDisplayed = socialNetworkIcon.findElement(By.className("footer-" + socialIcon)).isDisplayed();
-        }
+    	boolean iconDisplayed = false;
+    	
+    	try{
+    		List<WebElement> socialNetworkIconsList = footerWrapMain.findElements(By.className("footer__social__menu"));
+            for (WebElement socialNetworkIcon : socialNetworkIconsList) {
+                iconDisplayed = socialNetworkIcon.findElement(By.className("footer-" + socialIcon)).isDisplayed();
+            }
+    	}
+    	catch(Exception e){
+    		iconDisplayed = false;
+    	}
+        
         return iconDisplayed;
     }
 
     public boolean isEmailFieldDisplayed()  {
-        return footerWrapMain.findElement(By.tagName("input")).isDisplayed();
+    	try{
+    		return footerWrapMain.findElement(By.tagName("input")).isDisplayed(); 
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
 
 

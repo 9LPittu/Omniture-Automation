@@ -44,14 +44,19 @@ public class OrderConfirmationPage {
     }
 
     public boolean isOrderConfirmationPage() {
-        if(!isProduction) {
-            Util.waitWithStaleRetry(driver, confirmationNumber);
-            closeBizRateBanner();
-            return confirmationNumber.isDisplayed();
-        } else {
-            logger.debug("waving step in production environment");
-            return true;
-        }
+    	try{
+	        if(!isProduction) {
+	            Util.waitWithStaleRetry(driver, confirmationNumber);
+	            closeBizRateBanner();
+	            return confirmationNumber.isDisplayed();
+	        } else {
+	            logger.debug("waving step in production environment");
+	            return true;
+	        }
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
 
     public void closeBizRateBanner(){
@@ -66,19 +71,24 @@ public class OrderConfirmationPage {
     }
     
     public boolean verifyOrderNumberGenerated(){
-        if(!isProduction) {
-            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(orderNumber));
-
-            if (orderNumber.isDisplayed()) {
-                logger.debug("Order number is generated. Order number is {}", orderNumber.getText().trim());
-            } else {
-                logger.debug("Order number is NOT generated.");
-            }
-
-            return orderNumber.isDisplayed();
-        } else {
-            logger.debug("waving step in production environment");
-            return true;
+        try{
+	    	if(!isProduction) {
+	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(orderNumber));
+	
+	            if (orderNumber.isDisplayed()) {
+	                logger.debug("Order number is generated. Order number is {}", orderNumber.getText().trim());
+	            } else {
+	                logger.debug("Order number is NOT generated.");
+	            }
+	
+	            return orderNumber.isDisplayed();
+	        } else {
+	            logger.debug("waving step in production environment");
+	            return true;
+	        }
         }
-	 }
+        catch(Exception e){
+        	return false;
+        }
+   }
 }

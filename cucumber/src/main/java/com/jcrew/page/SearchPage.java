@@ -70,11 +70,16 @@ public class SearchPage {
 
 
     public boolean isSearchPage() {
-        Country country = (Country) stateHolder.get("context");
-        Util.waitWithStaleRetry(driver, headerSearch);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchResult));
-
-        return headerSearch.isDisplayed() && searchResult.isDisplayed() && Util.countryContextURLCompliance(driver,country);
+    	try{
+	        Country country = (Country) stateHolder.get("context");
+	        Util.waitWithStaleRetry(driver, headerSearch);
+	        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchResult));
+	
+	        return headerSearch.isDisplayed() && searchResult.isDisplayed() && Util.countryContextURLCompliance(driver,country);
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
 
 

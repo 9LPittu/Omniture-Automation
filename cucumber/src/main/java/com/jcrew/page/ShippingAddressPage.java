@@ -159,7 +159,12 @@ public class ShippingAddressPage {
     }
 
     public boolean isBillingAndShippingSameAddress() {
-        return sameBillingAndShippingAddress.isSelected();
+    	try{
+    		return sameBillingAndShippingAddress.isSelected();
+    	}
+    	catch(Exception e){
+    		return false;
+    	}
     }
     
     public boolean isIntlProvincePresent(){
