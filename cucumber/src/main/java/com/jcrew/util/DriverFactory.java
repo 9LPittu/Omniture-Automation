@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -75,7 +76,7 @@ public class DriverFactory {
             	driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {
-            driver = new FirefoxDriver();
+            driver = new FirefoxDriver(getFirefoxProfile());
             if (!isDesktop)
             	driver.manage().window().setSize(new Dimension(width, height));
 
@@ -159,9 +160,9 @@ public class DriverFactory {
             driver = getDesktopWebDriver(propertyReader, chrome);
 
         } else if ("firefox".equals(browser)) {
-
             DesiredCapabilities firefox = DesiredCapabilities.firefox();
             firefox.setPlatform(Platform.WINDOWS);
+            firefox.setCapability(FirefoxDriver.PROFILE, getFirefoxProfile());
             driver = getDesktopWebDriver(propertyReader, firefox);
 
         } else if ("iossafari".equals(browser)) {
@@ -252,6 +253,13 @@ public class DriverFactory {
 
         }
         return driver;
+    }
+    
+    public FirefoxProfile getFirefoxProfile(){
+    	final PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    	FirefoxProfile firefoxProfile = new FirefoxProfile(); 
+    	firefoxProfile.setPreference("general.useragent.override", propertyReader.getProperty("user.agent"));
+    	return firefoxProfile;
     }
 
     public void destroyDriver() {
