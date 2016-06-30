@@ -75,7 +75,7 @@ public class CurrencyChecker {
             for (WebElement price : prices) {
                 String priceText = price.getText();
                 if(!priceText.isEmpty()){                	
-	                String[] pricesArray = priceText.split("–");
+	                String[] pricesArray = priceText.split("\\p{Pd}");
 	                for(int i=0;i<pricesArray.length;i++){
 	                	if (!pricesArray[i].isEmpty()) {
 	                        result &= isValid(pricesArray[i].trim(), c);
