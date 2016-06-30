@@ -302,7 +302,6 @@ public class DriverFactory {
         } catch (Exception e){
             logger.error("Not able to delete cookies", e);
         }
-
     }
 
     public void resetDriver(){
