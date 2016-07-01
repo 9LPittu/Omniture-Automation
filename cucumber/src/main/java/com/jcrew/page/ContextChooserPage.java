@@ -266,12 +266,26 @@ public class ContextChooserPage {
     	//Click on country
 		Util.waitForPageFullyLoaded(driver);
 		Util.waitLoadingBar(driver);
-		WebElement countryElement = Util.createWebDriverWait(driver).until(
-				ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') "
-				                                                     + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" 
-				                                                     + countryName +"']")));
-    	countryElement.click();
-    	Util.waitLoadingBar(driver);
+		
+		String currentUrl = driver.getCurrentUrl();
+		i = 0;
+		while(i<=1){
+			try{
+				WebElement countryElement = Util.createWebDriverWait(driver).until(
+						ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') "
+						                                                     + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" 
+						                                                     + countryName +"']")));
+				Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(countryElement));
+		    	countryElement.click();
+		    	Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/2).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+		    	Util.waitLoadingBar(driver);
+		    	break;
+			}
+			catch(Exception e){
+				i++;
+			}
+		}
+		
 
         stateHolder.put("context", country);		
 		logger.info("Selected country: {}", countryName);
