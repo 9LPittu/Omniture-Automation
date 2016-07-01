@@ -4,6 +4,10 @@ import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class HamburgerMenu {
 
@@ -56,8 +59,8 @@ public class HamburgerMenu {
 
     @FindBy(className = "c-sale__c-category-list")
     private WebElement saleCategoryList;
-    
-    @FindBy(xpath="//div[@class='menu__item--userpanel']")
+
+    @FindBy(xpath = "//div[@class='menu__item--userpanel']")
     private WebElement userPanelInHamburgerMenu;
 
     public HamburgerMenu(WebDriver driver) {
@@ -68,25 +71,24 @@ public class HamburgerMenu {
     public void click_on_hamburger_menu() {
         WebDriverWait wait = Util.createWebDriverWait(driver);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
-        Util.waitWithStaleRetry(driver,hamburgerMenu);
-        
-        int attempts = 0;        
-        while(attempts <= 2){
-        	try{
-        		wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
-        		Util.clickWithStaleRetry(hamburgerMenu);
-        		Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//nav[@id='global__nav']")));
+        Util.waitWithStaleRetry(driver, hamburgerMenu);
+
+        int attempts = 0;
+        while (attempts <= 2) {
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(hamburgerMenu));
+                Util.clickWithStaleRetry(hamburgerMenu);
+                Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//nav[@id='global__nav']")));
                 break;
-        	}
-        	catch(Exception e){
-        		attempts++;
-        	}
+            } catch (Exception e) {
+                attempts++;
+            }
         }
-        
-        if(attempts>=2){
-        	throw new NoSuchElementException("Failed to click on hamburger menu"); 
+
+        if (attempts >= 2) {
+            throw new NoSuchElementException("Failed to click on hamburger menu");
         }
-        
+
     }
 
     public boolean isHamburgerMenuPresent() {
@@ -96,8 +98,19 @@ public class HamburgerMenu {
     }
 
     public void click_on_sign_in_link_from_hamburger_menu() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInLinkFromHamburger));
-        signInLinkFromHamburger.click();
+        try {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInLinkFromHamburger));
+            signInLinkFromHamburger.click();
+        } catch (TimeoutException timeout) {
+            logger.debug("Timeout while waiting for sign in button in hamburger menu");
+            Logs errorlog = driver.manage().logs();
+            LogEntries errors = errorlog.get(LogType.BROWSER);
+
+            for (LogEntry error : errors) {
+                logger.error("Browser logs {}", error.getMessage());
+            }
+
+        }
     }
 
     public void click_on_sign_in_link() {
@@ -115,7 +128,7 @@ public class HamburgerMenu {
             WebElement back = js_menus__level2.findElement(By.className("js-menu__btn--back"));
 
             back.click();
-        } else if(nav__wrap__class.contains("is-offscreen-left-x2")) {
+        } else if (nav__wrap__class.contains("is-offscreen-left-x2")) {
             WebElement js_menus__level3 = nav__wrap.findElement(By.className("js-menus--level3"));
             WebElement back = js_menus__level3.findElement(By.className("js-menu__btn--back"));
 
@@ -137,18 +150,18 @@ public class HamburgerMenu {
 
         getCategory(category).click();
 
-        if("sale".equalsIgnoreCase(category)){
+        if ("sale".equalsIgnoreCase(category)) {
             Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         } else {
             Util.waitLoadingBar(driver);
         }
 
         logger.debug("'{}' category is clicked", category);
-	    stateHolder.put("category", category);
+        stateHolder.put("category", category);
     }
 
     private WebElement getCategory(String category) {
-    	WebElement element = categoryMenu.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + category.toLowerCase() + "']"));
+        WebElement element = categoryMenu.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + category.toLowerCase() + "']"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
         return element;
     }
@@ -165,7 +178,7 @@ public class HamburgerMenu {
         WebElement level3Menus = driver.findElement(
                 By.xpath("//div[@class='c-menus menus--level3 js-menus--level3']/div[@class='menu__item is-lazy-loaded']"));
         WebElement looksWeLove = level3Menus.findElement(
-                    By.xpath(".//span[@class='menu__link__label' and contains(text(),'" + choice + "')]"));
+                By.xpath(".//span[@class='menu__link__label' and contains(text(),'" + choice + "')]"));
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(looksWeLove));
         looksWeLove.click();
@@ -183,7 +196,7 @@ public class HamburgerMenu {
     private WebElement getSubcategoryFromMenu(String subcategory, String category) {
         WebElement categories = getMenuItemElementForCategory(category);
 
-        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(categories,subcategory));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(categories, subcategory));
 
         WebElement categoryLink = categories.findElement(By.linkText(subcategory));
 
@@ -206,7 +219,7 @@ public class HamburgerMenu {
     }
 
     public void close_subcategory_hamburger_menu() {
-    	WebElement closeIcon = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-close"))));
+        WebElement closeIcon = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menuLevel2.findElement(By.className("icon-close"))));
         closeIcon.click();
     }
 
@@ -233,8 +246,8 @@ public class HamburgerMenu {
 
     public void click_random_subcategory() {
 
-        String categorySelected = (String) stateHolder.get("category");        
-                
+        String categorySelected = (String) stateHolder.get("category");
+
         categorySelected = categorySelected.toLowerCase();
 
         String subCategories = testDataReader.getData(categorySelected);
@@ -245,8 +258,8 @@ public class HamburgerMenu {
 
         List<WebElement> menuItemLinks = getMenuItemElementForCategory(categorySelected).findElements(
                 By.xpath(".//a[@class='menu__link menu__link--has-href' and " +
-                                               "contains(@name,'" + categorySelected + ">" + subCatSelected + "')]"));
-        
+                        "contains(@name,'" + categorySelected + ">" + subCatSelected + "')]"));
+
         WebElement subcategory = menuItemLinks.get(Util.randomIndex(menuItemLinks.size()));
         String subCategoryText = subcategory.getText();
 
@@ -264,10 +277,10 @@ public class HamburgerMenu {
         return user != null;
     }
 
-    public void clickSpecificSubcategory(String subCategoryText){
-    	String categoryName = (String) stateHolder.get("category");
-		click_on_subcategory(subCategoryText.toUpperCase(),categoryName);
-		stateHolder.put("subcategory", subCategoryText);
+    public void clickSpecificSubcategory(String subCategoryText) {
+        String categoryName = (String) stateHolder.get("category");
+        click_on_subcategory(subCategoryText.toUpperCase(), categoryName);
+        stateHolder.put("subcategory", subCategoryText);
     }
     
     public boolean isUserPanelLinkPresent(String linkName){

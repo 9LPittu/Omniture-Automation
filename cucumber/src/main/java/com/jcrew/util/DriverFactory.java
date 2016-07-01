@@ -33,7 +33,8 @@ public class DriverFactory {
             "--ssl-protocol=any",
             "--local-to-remote-url-access=true",
             "--disk-cache=false",
-            "--ignore-ssl-errors=true"
+            "--ignore-ssl-errors=true",
+            "--webdriver-loglevel=ERROR"
     };
     private static final Map<String, WebDriver> driverMap = new HashMap<>();
     private final int DEFAULT_WINDOW_WIDTH = 400;
