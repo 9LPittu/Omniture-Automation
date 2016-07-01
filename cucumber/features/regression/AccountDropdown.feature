@@ -119,18 +119,18 @@ Feature: Account Dropdown functionality
   	And click on SIGN IN from header
   	And User is on internal /r/login page
   
-  Scenario: Sign In link displayed in header and functional on Shoppable tray page
-    And User clicks on hamburger menu
-    And User selects random tray from available categories
-      | Women | THIS MONTH'S FEATURES | looks we love  |
-      | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
-      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
-      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
-    Then Verifies initial multiple pdp page state
-    
-    And Verify SIGN IN header link is displayed
-  	And click on SIGN IN from header
-  	And User is on internal /r/login page
+#  Scenario: Sign In link displayed in header and functional on Shoppable tray page
+#    And User clicks on hamburger menu
+#    And User selects random tray from available categories
+#      | Women | THIS MONTH'S FEATURES | looks we love  |
+#      | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
+#      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
+#      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
+#    Then Verifies initial multiple pdp page state
+#    
+#    And Verify SIGN IN header link is displayed
+#  	And click on SIGN IN from header
+#  	And User is on internal /r/login page
   
   Scenario: My Account dropdown open and close is functional on multiple pages
   	And click on SIGN IN from header
@@ -326,32 +326,32 @@ Feature: Account Dropdown functionality
     When user clicks on "Sign Out" from My Account dropdown
     And Verify user is in homepage
 
-  Scenario: My Account dropdown open and close is functional in Shoppable tray page
-  	And click on SIGN IN from header
-  	And User is on internal /r/login page
-  	And User provides login information
-    And Hits sign in button    
-    Then User is in My Account page
-    
-    And User clicks on hamburger menu
-    And User selects random tray from available categories
-      | Women | THIS MONTH'S FEATURES | looks we love  |
-      | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
-      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
-      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
-    Then Verifies initial multiple pdp page state
-    
-    And Verify MY ACCOUNT header link is displayed
-    And click on MY ACCOUNT from header
-    Then user should see My Account dropdown is opened
-    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    When user clicks on "close" from My Account dropdown
-    Then user should see My Account dropdown is closed
-    
-    Given User is on homepage
-    And click on MY ACCOUNT from header
-    When user clicks on "Sign Out" from My Account dropdown
-    And Verify user is in homepage 
+#  Scenario: My Account dropdown open and close is functional in Shoppable tray page
+#  	And click on SIGN IN from header
+#  	And User is on internal /r/login page
+#  	And User provides login information
+#    And Hits sign in button    
+#    Then User is in My Account page
+#    
+#    And User clicks on hamburger menu
+#    And User selects random tray from available categories
+#      | Women | THIS MONTH'S FEATURES | looks we love  |
+#      | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
+#      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
+#      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
+#    Then Verifies initial multiple pdp page state
+#    
+#    And Verify MY ACCOUNT header link is displayed
+#    And click on MY ACCOUNT from header
+#    Then user should see My Account dropdown is opened
+#    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+#    When user clicks on "close" from My Account dropdown
+#    Then user should see My Account dropdown is closed
+#    
+#    Given User is on homepage
+#    And click on MY ACCOUNT from header
+#    When user clicks on "Sign Out" from My Account dropdown
+#    And Verify user is in homepage 
   
   Scenario: Verify tapping on My Details link under My Account dropdown should navigate user to My Account page    
     And click on SIGN IN from header
