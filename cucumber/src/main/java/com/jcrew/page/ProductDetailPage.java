@@ -303,6 +303,11 @@ public class ProductDetailPage {
     	
     	WebElement productCodeElement = null;
     	try{
+    		
+    		WebElement productDetailsAccordion = Util.createWebDriverWait(driver).until(
+    				ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details')]/div/div")));    		
+    		productDetailsAccordion.click();
+    		
     		productCodeElement = Util.createWebDriverWait(driver,30).until(
                     ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
     	}
