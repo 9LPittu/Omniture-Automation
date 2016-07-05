@@ -8,10 +8,18 @@ import com.jcrew.util.DatabaseReader;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 
+import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,9 +31,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class HeaderSteps extends DriverFactory {
-
-	private final Header header = new Header(getDriver());
-	private final HomePage homePage = new HomePage(getDriver());
+    private final Logger logger = LoggerFactory.getLogger(NavigationSteps.class);
+    private final Header header = new Header(getDriver());
+    private final HomePage homePage = new HomePage(getDriver());
     private final SubcategoryPage subcategory = new SubcategoryPage(getDriver());
 
 
@@ -39,8 +47,7 @@ public class HeaderSteps extends DriverFactory {
     public void verify_header_link_is_displayed(String headerLink) throws Throwable {
         if (!headerLink.equalsIgnoreCase("BAG")) {
             assertTrue(headerLink + " should have been present", header.isHeaderLinkPresent(headerLink));
-        }
-        else {
+        } else {
             assertTrue(headerLink + " should have been present", header.isBagLinkDisplaying());
         }
     }
@@ -60,6 +67,22 @@ public class HeaderSteps extends DriverFactory {
     public void presses_search_button() throws Throwable {
         header.click_on_search_button();
     }
+
+    @Then("^Verify GlobalPromo is displayed$")
+    public void VerifyDetailLinkInGlobalPromo() {
+        boolean result = true;
+        List<String> promosText = header.getPromoListText();
+
+        for (String promos : promosText) {
+            promos = promos.toLowerCase();
+            if (promos.contains("code")) {
+                result &= promos.contains("details");
+            }
+        }
+
+        assertTrue("Promo text verification for detail link failed", result);
+    }
+
 
     @And("^Verify ([^\"]*) header links including bag order is valid, ignore ([^\"]*)$")
     public void verify_order_including_bag_is_valid(String headerLinks, String ignoredLinks) throws Throwable {
@@ -149,12 +172,12 @@ public class HeaderSteps extends DriverFactory {
 
     @And("Verify Embedded header is displayed$")
     public void verify_embedded_header_is_present() {
-        assertTrue("Embedded header section should be present",header.isEmbeddedHeaderSectionDisplayed());
+        assertTrue("Embedded header section should be present", header.isEmbeddedHeaderSectionDisplayed());
     }
 
     @Then("Verify all header items are correctly displayed$")
     public void verify_header_is_correctly_displayed() {
-        assertTrue("All menu items are displayed",header.isAllMenuItemsDisplayed());
+        assertTrue("All menu items are displayed", header.isAllMenuItemsDisplayed());
     }
 
     @Then("Verify bag button link$")
@@ -166,62 +189,61 @@ public class HeaderSteps extends DriverFactory {
     public void verify_stores_button_link() {
         assertTrue("Verify stores link", header.getStoresButtonLink().contains("stores.jcrew.com/"));
     }
-    
+
     @When("^\"([^\"]*)\" is run and search for item fetched from DB$")
-    public void sql_query_is_executed_and_item_is_searched(String propertyName) throws FileNotFoundException, ClassNotFoundException, IOException, SQLException{
-    	
-    	DatabaseReader dbReader = new DatabaseReader();
-    	String itemCode = dbReader.executeSQLQueryAgainstDB(propertyName);
-    	
-    	header.click_on_search_button();
-    	
-    	homePage.input_search_term(itemCode);
-    	homePage.click_on_search_button_for_input_field();
-    	
-    	subcategory.selectRandomItemFromArrayPage();
+    public void sql_query_is_executed_and_item_is_searched(String propertyName) throws FileNotFoundException, ClassNotFoundException, IOException, SQLException {
+
+        DatabaseReader dbReader = new DatabaseReader();
+        String itemCode = dbReader.executeSQLQueryAgainstDB(propertyName);
+
+        header.click_on_search_button();
+
+        homePage.input_search_term(itemCode);
+        homePage.click_on_search_button_for_input_field();
+
+        subcategory.selectRandomItemFromArrayPage();
     }
-    
+
     @And("^click on ([^\"]*) from header$")
-    public void click_sign_in_from_header(String headerElementName){
-    	header.clickElementFromHeader(headerElementName);
+    public void click_sign_in_from_header(String headerElementName) {
+        header.clickElementFromHeader(headerElementName);
     }
-    
+
     @Then("^user should see My Account dropdown is ([^\"]*)$")
-    public void user_should_see_my_account_dropdown_opened(String dropdownState){
-    	assertTrue("user should see My Account dropdown " + dropdownState, header.isMyAccountDropdownInExpectedState(dropdownState));
+    public void user_should_see_my_account_dropdown_opened(String dropdownState) {
+        assertTrue("user should see My Account dropdown " + dropdownState, header.isMyAccountDropdownInExpectedState(dropdownState));
     }
-    
+
     @Then("^user should see welcome message, My Details, Sign Out and close button in My Account dropdown$")
-    public void validate_my_account_dropdown_options(){
-    	assertTrue("user should see welcome message, My Details, Sign Out and close button in My Account dropdown", header.isAccountDropdownOptionsDisplayed());
+    public void validate_my_account_dropdown_options() {
+        assertTrue("user should see welcome message, My Details, Sign Out and close button in My Account dropdown", header.isAccountDropdownOptionsDisplayed());
     }
-    
+
     @When("^user clicks on \"([^\"]*)\" from My Account dropdown$")
-    public void user_click_element_from_my_account_dropdown(String elementName){
-    	boolean isElementClickRequired = true;    	
-    	PropertyReader reader = PropertyReader.getPropertyReader();
-        if (reader.getProperty("environment").equalsIgnoreCase("production") && elementName.equalsIgnoreCase("Manage your account")){
-        	isElementClickRequired = false;
+    public void user_click_element_from_my_account_dropdown(String elementName) {
+        boolean isElementClickRequired = true;
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        if (reader.getProperty("environment").equalsIgnoreCase("production") && elementName.equalsIgnoreCase("Manage your account")) {
+            isElementClickRequired = false;
         }
-        
-        if(isElementClickRequired){
-        	header.clickElementFromMyAccountDropdown(elementName);
+
+        if (isElementClickRequired) {
+            header.clickElementFromMyAccountDropdown(elementName);
         }
     }
-    
+
     @Then("^user ([^\"]*) rewards info in the My Account dropdown$")
-    public void rewards_info_visibility_in_my_account_dropdown(String rewardsVisibility){
-    	if(rewardsVisibility.equalsIgnoreCase("should see")){
-    		assertTrue("user should see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown(rewardsVisibility));
-    	}
-    	else{
-    		assertFalse("user should not see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown(rewardsVisibility));
-    	}
-    	
+    public void rewards_info_visibility_in_my_account_dropdown(String rewardsVisibility) {
+        if (rewardsVisibility.equalsIgnoreCase("should see")) {
+            assertTrue("user should see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown(rewardsVisibility));
+        } else {
+            assertFalse("user should not see rewards info in the My Account dropdown", header.isRewardsDisplayedInMyAccountDropDown(rewardsVisibility));
+        }
+
     }
-    
+
     @And("^user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section$")
-    public void verify_rewards_section_options(){
-    	assertTrue("user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section", header.isRewardsInfoDisplayedInMyAccountDropDown());
+    public void verify_rewards_section_options() {
+        assertTrue("user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section", header.isRewardsInfoDisplayedInMyAccountDropDown());
     }
 }

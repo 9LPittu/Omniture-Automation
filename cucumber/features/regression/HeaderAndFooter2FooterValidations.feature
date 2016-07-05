@@ -1,13 +1,15 @@
-@HeaderAndFooter @HighLevel
+@HeaderAndFooter @HighLevel @DevGlobal
 Feature: Footer Verification In Home Page
 
   Background:
     Given User is on homepage
     And Handle the Email Capture pop up
 
+
     #Moved from HomePage.feature
     #US9724_TC01 from BreadCrumbs.feature
   Scenario: Homepage embedded Header, Footer and logo
+    And Verify GlobalPromo is displayed
     Then Verify embedded headers are visible and functional
     Then Verify embedded footer is visible and functional
     And JCrew Logo is present
@@ -16,6 +18,7 @@ Feature: Footer Verification In Home Page
     And Verify SIGN IN header link is displayed
     And Verify BAG header link is displayed
     And Verify MENU, SEARCH header links including bag order is valid, ignore SIGN IN, MY ACCOUNT
+
 
    #tc-01 and tc-02
    #US13389_TC14
