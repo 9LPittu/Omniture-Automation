@@ -847,6 +847,12 @@ public class ProductDetailPage {
     }
     
     public boolean isSizeAndFitDetailsLinkDisplayedAboveAddToBag(){
+    	
+    	List<WebElement> sizeElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//li[contains(@class,'js-product__size sizes-list__item')]")));
+    	if(sizeElements.size()==1){
+    		return true;
+    	}
+    	
     	sizeAndFitDetailsLink = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeAndFitDetailsLink));
     	Point sizeAndDetailsLinkPoint = sizeAndFitDetailsLink.getLocation();
     	int sizeAndDetailsLink_Y_Value = sizeAndDetailsLinkPoint.getY();
