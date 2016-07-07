@@ -315,14 +315,24 @@ public class ProductDetailPageSteps extends DriverFactory {
     
     @Then("^user should see that previously selected color is retained$")
     public void verify_previously_selected_color_is_still_displayed_on_pdp_page(){
-        logger.warn("Ignoring assertion: User should see that the previously selected color is retained. " +
-            "JCSC-731 will not be fixed.");
+
+        if(productDetailPage.isPreviouslySelectedColorStillDisplayedAsSelected())
+            assertTrue("User should see that the previously selected color is retained",
+                    productDetailPage.isPreviouslySelectedColorStillDisplayedAsSelected());
+        else
+            logger.warn("Ignoring assertion: User should see that the previously selected color is retained. " +
+                    "JCSC-731 will not be fixed.");
     }
 
     @And("^user should see that previously selected size is retained$")
     public void verify_previously_selected_size_is_still_displayed_on_pdp_page(){
-        logger.warn("Ignoring assertion: User should see that the previously selected size is retained. " +
-                "JCSC-731 will not be fixed.");
+
+        if(productDetailPage.isPreviouslySelectedSizeStillDisplayedAsSelected())
+            assertTrue("User should see that the previously selected size is retained",
+                    productDetailPage.isPreviouslySelectedSizeStillDisplayedAsSelected());
+        else
+            logger.warn("Ignoring assertion: User should see that the previously selected color is retained. " +
+                    "JCSC-731 will not be fixed.");
     }
 
     @And("^user selects a new color$")
