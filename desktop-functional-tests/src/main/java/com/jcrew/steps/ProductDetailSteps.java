@@ -84,4 +84,34 @@ public class ProductDetailSteps extends DriverFactory {
     public void verify_currency_on_product_PDP(){
         assertTrue("Currency on product details page",productDetails.isCorrectCurrencySymbolonPDP());
     }
+    
+    @Then("^Verify 'size & fit details' link is displayed above the 'Add to Bag' button$")
+    public void verify_size_and_fit_details_link_displayed_above_add_to_bag_button(){
+    	assertTrue("Verify 'size & fit details' link is displayed above the 'Add to Bag' button",productDetails.isSizeAndFitDetailsLinkDisplayedAboveAddToBag());
+    }
+    
+    @Then("^Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button$")
+    public void verify_size_and_fit_drawer_displayed_below_add_to_bag_button(){
+    	assertTrue("Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button",productDetails.isSizeAndFitDrawerDisplayedBelowAddToBag());
+    }
+    
+    @Then("^Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer$")
+    public void verify_product_details_drawer_displayed_below_size_and_fit_drawer(){
+    	assertTrue("Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer",productDetails.isProductDetailsDrawerDisplayedBelowSizeAndFitDrawer());
+    }
+    
+    @When("^user clicks on '([^\"]*)' drawer$")
+    public void user_clicks_pdp_drawer(String drawerName){
+    	productDetails.clickPdpDrawer(drawerName);
+    }
+    
+    @Then("^Verify '([^\"]*)' drawer is ([^\"]*) state$")
+    public void verify_pdp_drawer_state(String drawerName, String expectedState){
+    	assertTrue("Verify " + drawerName + " drawer is " + expectedState,productDetails.isPdpDrawerInExpectedState(drawerName, expectedState));
+    }
+    
+    @Then("^Verify item details are displayed in the 'PRODUCT DETAILS' drawer$")
+    public void verify_item_details_dsiplayed_in_product_details_drawer(){
+    	assertTrue("Verify item details are displayed in the 'PRODUCT DETAILS' drawer",productDetails.isItemDetailsDisplayedInProductDetailsDrawer());
+    }
 }
