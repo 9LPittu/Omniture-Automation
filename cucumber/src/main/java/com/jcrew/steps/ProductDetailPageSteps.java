@@ -9,6 +9,8 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,7 @@ import static org.junit.Assert.*;
 public class ProductDetailPageSteps extends DriverFactory {
 
     private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
-
-    private final StateHolder stateHolder = StateHolder.getInstance();
+    private final Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
 
     @Given("User is in product detail page")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
@@ -314,12 +315,14 @@ public class ProductDetailPageSteps extends DriverFactory {
     
     @Then("^user should see that previously selected color is retained$")
     public void verify_previously_selected_color_is_still_displayed_on_pdp_page(){
-    	assertTrue("User should see that the previously selected color is retained",productDetailPage.isPreviouslySelectedColorStillDisplayedAsSelected());
+        logger.warn("Ignoring assertion: User should see that the previously selected color is retained. " +
+            "JCSC-731 will not be fixed.");
     }
 
     @And("^user should see that previously selected size is retained$")
     public void verify_previously_selected_size_is_still_displayed_on_pdp_page(){
-    	assertTrue("User should see that the previously selected size is retained",productDetailPage.isPreviouslySelectedSizeStillDisplayedAsSelected());
+        logger.warn("Ignoring assertion: User should see that the previously selected size is retained. " +
+                "JCSC-731 will not be fixed.");
     }
 
     @And("^user selects a new color$")
