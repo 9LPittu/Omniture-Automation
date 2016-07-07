@@ -55,6 +55,7 @@ public class OrderConfirmationPage {
 	        }
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -88,6 +89,7 @@ public class OrderConfirmationPage {
 	        }
         }
         catch(Exception e){
+        	e.printStackTrace();
         	return false;
         }
    }

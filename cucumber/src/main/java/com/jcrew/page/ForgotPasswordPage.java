@@ -19,6 +19,7 @@ public class ForgotPasswordPage {
     		return forgotPasswordForm.isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

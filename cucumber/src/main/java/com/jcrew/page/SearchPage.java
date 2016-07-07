@@ -78,6 +78,7 @@ public class SearchPage {
 	        return headerSearch.isDisplayed() && searchResult.isDisplayed() && Util.countryContextURLCompliance(driver,country);
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

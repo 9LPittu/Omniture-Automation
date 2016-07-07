@@ -211,6 +211,7 @@ public class Footer {
     		return footerWrapMain.findElement(By.tagName("legend")).getText();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return "";
     	}
     }
@@ -263,6 +264,7 @@ public class Footer {
         }
         catch(Exception e){
         	isIconDisplayed = false;
+        	e.printStackTrace();
         }
                 
         return isIconDisplayed;
@@ -279,6 +281,7 @@ public class Footer {
     	}
     	catch(Exception e){
     		iconDisplayed = false;
+    		e.printStackTrace();
     	}
         
         return iconDisplayed;
@@ -289,6 +292,7 @@ public class Footer {
     		return footerWrapMain.findElement(By.tagName("input")).isDisplayed(); 
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -357,6 +361,9 @@ public class Footer {
     		catch(Exception e){
     			logger.info("Change link element is not displayed...");
     			i++;
+    			if(i>2){
+    				e.printStackTrace();
+    			}
     		}
     	}
     }
@@ -521,14 +528,7 @@ public class Footer {
     	}
     	catch(Exception e){
     		actualCountryName = "";
-    		
-    		logger.debug("Timed out while waiting for country in page footer: {}", driver.getCurrentUrl());
-    	    Logs errorLog = driver.manage().logs();
-    	    LogEntries errors = errorLog.get(LogType.BROWSER);
-
-    	    for (LogEntry error : errors) {
-    	        logger.error("Browser logged: {}", error.getMessage());
-    	    }
+    		Util.logBrowserErrorMessages(driver);
     	}
 
         return actualCountryName;
@@ -547,6 +547,9 @@ public class Footer {
     		catch(Exception e){
     			logger.info("Country element is not displayed...");
     			i++;
+    			if(i>2){
+    				e.printStackTrace();
+    			}
     		}
     	}
         

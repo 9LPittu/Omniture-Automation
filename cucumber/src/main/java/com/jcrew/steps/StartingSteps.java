@@ -72,6 +72,9 @@ public class StartingSteps {
         	}
         	catch(Exception e){
         		i++;
+        		if(i>2){
+        			e.printStackTrace();
+        		}
         	}
         }
     }

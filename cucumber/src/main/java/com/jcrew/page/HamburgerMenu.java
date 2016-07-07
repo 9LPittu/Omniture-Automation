@@ -141,6 +141,7 @@ public class HamburgerMenu {
     		return getCategory(category).isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -290,6 +291,7 @@ public class HamburgerMenu {
     		    	"//a[contains(@class,'menu__link--userpanel') and text()='" + linkName.toUpperCase() + "']")).isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

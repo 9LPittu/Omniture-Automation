@@ -44,6 +44,7 @@ public class WelcomeMatPage {
 	        return welcomeMat.isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -64,6 +65,7 @@ public class WelcomeMatPage {
     		return element.isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -84,6 +86,7 @@ public class WelcomeMatPage {
 	        }
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -105,6 +108,7 @@ public class WelcomeMatPage {
 	        return welcomeMat.isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -125,6 +129,7 @@ public class WelcomeMatPage {
 	        return countryContext.getText().equalsIgnoreCase(expectedCountryName) && flag;
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -139,6 +144,7 @@ public class WelcomeMatPage {
 	        return currentUrl.equals(expectedUrl)&& currentUrl.contains(pageUrl);
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

@@ -57,6 +57,7 @@ public class ShippingMethodPage {
     		return economyUps.isSelected();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -73,6 +74,7 @@ public class ShippingMethodPage {
 	        return true;
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

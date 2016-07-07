@@ -120,6 +120,7 @@ public class ProductDetailPage {
 	        return pdpProductName.isDisplayed() && StringUtils.isNotBlank(pdpProductName.getText()) && isURL;
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -708,6 +709,7 @@ public class ProductDetailPage {
 	        }
         }
         catch(Exception e){
+        	e.printStackTrace();
         	result = false;
         }
 
@@ -737,8 +739,9 @@ public class ProductDetailPage {
 	        
 	        return actualSizeMessage.equalsIgnoreCase(expectedSizeMessage);
         }
-        catch(Exception e){
+        catch(TimeoutException te){        	
         	Util.logBrowserErrorMessages(driver);
+        	te.printStackTrace();
         	return false;
         }
     }
@@ -766,8 +769,9 @@ public class ProductDetailPage {
 	
 	        return actualPDPMessage.equalsIgnoreCase(expectedPDPMessage);
         }
-        catch(Exception e){
+        catch(TimeoutException te){        	
         	Util.logBrowserErrorMessages(driver);
+        	te.printStackTrace();
         	return false;
         }
     }
@@ -798,10 +802,11 @@ public class ProductDetailPage {
 	            result |= actualSoldOutMessage.equalsIgnoreCase(message);
 	        }
     	}
-    	catch(Exception e){
-    		Util.logBrowserErrorMessages(driver);
-    		result = false;
-    	}
+    	catch(TimeoutException te){        	
+        	Util.logBrowserErrorMessages(driver);
+        	te.printStackTrace();
+        	return false;
+        }
     	
         return result;
     }
@@ -845,10 +850,11 @@ public class ProductDetailPage {
 	            result = true;
 	        }
     	}
-    	catch(Exception e){
-    		Util.logBrowserErrorMessages(driver);
-    		result = false;
-    	}
+    	catch(TimeoutException te){        	
+        	Util.logBrowserErrorMessages(driver);
+        	te.printStackTrace();
+        	return false;
+        }
     	
         return result;
     }
@@ -876,10 +882,11 @@ public class ProductDetailPage {
 	            result = true;
 	        }
     	}
-    	catch(Exception e){
-    		Util.logBrowserErrorMessages(driver);
-    		result = false;
-    	}
+    	catch(TimeoutException te){        	
+        	Util.logBrowserErrorMessages(driver);
+        	te.printStackTrace();
+        	return false;
+        }
     	
         return result;
     }

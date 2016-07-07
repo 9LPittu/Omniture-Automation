@@ -104,6 +104,7 @@ public class Header {
 	        return false;
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -131,6 +132,7 @@ public class Header {
 	        return headerSearchInput.isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -226,6 +228,7 @@ public class Header {
     		return shoppingBagLink.isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

@@ -152,6 +152,7 @@ public class BillingPage {
     		return creditCardBilling.isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

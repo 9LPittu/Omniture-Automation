@@ -44,6 +44,7 @@ public class MyAccountPage {
 	        return myAccountContainer.isDisplayed();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

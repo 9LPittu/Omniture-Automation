@@ -163,6 +163,7 @@ public class ShippingAddressPage {
     		return sameBillingAndShippingAddress.isSelected();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

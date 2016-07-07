@@ -171,6 +171,7 @@ public class LoginPage {
     		return keepMeSignedInCheckBox.isEnabled();
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }

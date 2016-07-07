@@ -196,6 +196,7 @@ public class ContextChooserPage {
 	    	return driver.getCurrentUrl().matches(expectedURL);
     	}
     	catch(Exception e){
+    		e.printStackTrace();
     		return false;
     	}
     }
@@ -283,6 +284,9 @@ public class ContextChooserPage {
 			}
 			catch(Exception e){
 				i++;
+				if(i>1){
+					e.printStackTrace();
+				}
 			}
 		}
 		
