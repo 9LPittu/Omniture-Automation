@@ -607,7 +607,8 @@ public class ProductDetailPage {
 
         List<WebElement> itemColors = driver.findElements(By.xpath("//li[contains(@class,'js-product__color colors-list__item') and not(contains(@class,'is-selected'))]"));
         int randomIndex = Util.randomIndex(itemColors.size());
-        itemColors.get(randomIndex).findElement(By.tagName("img")).click();
+        WebElement colorImage = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(itemColors.get(randomIndex).findElement(By.tagName("img"))));
+        colorImage.click();
         String newSelectedColor = driver.findElement(By.className("product__value")).getText().toLowerCase();
 
         logger.debug("Selected new item color: {}", newSelectedColor);
