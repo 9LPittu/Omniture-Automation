@@ -67,6 +67,7 @@ public class HeaderSteps extends DriverFactory {
     public void presses_search_button() throws Throwable {
         header.click_on_search_button();
     }
+
     @Then("^Verify GlobalPromo$")
     public void VerifyGlobalPromo() {
         boolean result = true;
@@ -79,7 +80,7 @@ public class HeaderSteps extends DriverFactory {
             logger.debug("promo : {}", promo);
             if (promo.contains("code")) {
                 promoDisclaimer = header.ValidatePromoDisclaimer(promoIndex);
-                assertFalse("Promo disclaimer verification",promoDisclaimer.isEmpty());
+                assertFalse("Promo disclaimer verification", promoDisclaimer.isEmpty());
                 result &= promo.contains("details");
             }
 
