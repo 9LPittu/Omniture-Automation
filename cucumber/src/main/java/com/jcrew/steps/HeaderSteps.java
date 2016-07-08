@@ -67,17 +67,23 @@ public class HeaderSteps extends DriverFactory {
     public void presses_search_button() throws Throwable {
         header.click_on_search_button();
     }
-
-    @Then("^Verify GlobalPromo is displayed$")
-    public void VerifyDetailLinkInGlobalPromo() {
+    @Then("^Verify GlobalPromo$")
+    public void VerifyGlobalPromo() {
         boolean result = true;
         List<String> promosText = header.getPromoListText();
+        int promoIndex = 0;
+        String promoDisclaimer;
+        for (String promo : promosText) {
 
-        for (String promos : promosText) {
-            promos = promos.toLowerCase();
-            if (promos.contains("code")) {
-                result &= promos.contains("details");
+            promo = promo.toLowerCase();
+            logger.debug("promo : {}", promo);
+            if (promo.contains("code")) {
+                promoDisclaimer = header.ValidatePromoDisclaimer(promoIndex);
+                assertFalse("Promo disclaimer verification",promoDisclaimer.isEmpty());
+                result &= promo.contains("details");
             }
+
+            promoIndex++;
         }
 
         assertTrue("Promo text verification for detail link failed", result);
