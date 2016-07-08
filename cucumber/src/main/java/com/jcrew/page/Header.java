@@ -71,15 +71,36 @@ public class Header {
     @FindBy(xpath = ".//dd[@class='c-nav__userpanel-item--rewards']")
     private WebElement rewardsSectionInMyAccountDropdown;
 
+    @FindBy(xpath = "//div[@id=\"global__promo\"]/section")
+    private WebElement globalPromoPanel;
+
     public Header(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
+    // Calling this method means promo disclaimer is expected
+    public String ValidatePromoDisclaimer(int index) {
+
+        List<WebElement> promos = globalPromoPanel.findElements(By.xpath(".//div[contains(@class, 'header__promo__align')]"));
+        WebElement promo = promos.get(index);
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(promo));
+
+        WebElement detailLink = promo.findElement(By.xpath(".//a[contains(@class,'js-header__promo__btn--details')]")); //expand disclaimer
+        detailLink.click();
+        String disclaimer = globalPromoPanel.findElement(By.xpath(".//div[@class='js-header__promo__details-pushdown header__promo__details-pushdown']"))
+                .getText();
+        logger.debug("Promo disclaimer {}",
+                disclaimer);
+        detailLink.click();
+
+        return disclaimer;
+    }
+
     public List<String> getPromoListText() {
         List<String> promosText = new ArrayList<String>();
-        WebElement promoPanel = driver.findElement(By.xpath("//div[@id=\"global__promo\"]/section/div[@class=\"header__promo__wrap\"]"));
-        List<WebElement> promos = promoPanel.findElements(By.xpath("//div[contains(@class, 'header__promo__align')]"));
+        List<WebElement> promos = globalPromoPanel.findElements(By.xpath("//div[contains(@class, 'header__promo__align')]"));
 
         for (WebElement promo : promos) {
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(promo));
@@ -87,6 +108,7 @@ public class Header {
         }
         return promosText;
     }
+
 
     public boolean isHeaderLinkPresent(String headerLink) {
         logger.debug("Checking for header link: {}", headerLink);
