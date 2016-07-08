@@ -9,7 +9,7 @@ Feature: Footer Verification In Home Page
     #Moved from HomePage.feature
     #US9724_TC01 from BreadCrumbs.feature
   Scenario: Homepage embedded Header, Footer and logo
-    And Verify GlobalPromo is displayed
+    And Verify GlobalPromo
     Then Verify embedded headers are visible and functional
     Then Verify embedded footer is visible and functional
     And JCrew Logo is present
