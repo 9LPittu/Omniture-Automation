@@ -366,6 +366,8 @@ public class ShoppingBagPage {
                 logger.debug("Unable to increase quantity for product {} from bottom", counter +1 );
             }
             counter = counter + 1;
+            if (addQuantity == true && counter==remainingProducts)
+                throw new WebDriverException("Deleted some gigh price items from Bag. But, unable to increase the count of low priced items");
         } while (addQuantity = true && counter < remainingProducts) ;
 
     }
