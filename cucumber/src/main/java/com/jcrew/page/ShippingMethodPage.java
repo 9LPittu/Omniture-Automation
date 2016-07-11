@@ -6,7 +6,6 @@ import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -54,7 +53,13 @@ public class ShippingMethodPage {
     }
 
     public boolean isEconomyUps() {
-        return economyUps.isSelected();
+    	try{
+    		return economyUps.isSelected();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     public boolean isNoGifts() {
@@ -63,9 +68,15 @@ public class ShippingMethodPage {
 
 
     public boolean isShippingMethodPage() {
-        Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodContainer));
-        return true;
+    	try{
+	        Util.waitForPageFullyLoaded(driver);
+	        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodContainer));
+	        return true;
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     public boolean isPageLoaded() {

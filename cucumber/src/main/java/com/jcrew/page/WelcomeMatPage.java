@@ -21,8 +21,11 @@ public class WelcomeMatPage {
 
     @FindBy(className = "c-header__welcomemat")
     private WebElement welcomeMat;
+    
+    @FindBy(className = "c-header__welcomemat--logo")
+    private WebElement welcomeMatLogo;
 
-    @FindBy(className = "c-header__welcomemat--country-context")
+    @FindBy(xpath = "//span[@class='c-header__welcomemat--country']")
     private WebElement countryContext;
 
     @FindBy(className = "c-header__welcomemat--flag")
@@ -36,8 +39,14 @@ public class WelcomeMatPage {
     }
 
     public boolean  isWelcomeMatDisplayed() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(welcomeMat));
-        return welcomeMat.isDisplayed();
+    	try{
+	        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(welcomeMat));
+	        return welcomeMat.isDisplayed();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
 
@@ -51,62 +60,92 @@ public class WelcomeMatPage {
     }
 
     public boolean isJcrewLogoDisplayed() {
-        return driver.findElement(By.className("c-header__welcomemat--logo")).isDisplayed();
+    	try{
+    		WebElement element = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(welcomeMatLogo));
+    		return element.isDisplayed();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
 
     public boolean isWelcomeHeaderMessageDisplayed(String msg1, String msg2) {
-
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryContext));
-        String internationalCountry = countryContext.getText();
-        logger.info(internationalCountry);
-        WebElement msgHeader = driver.findElement(By.className("c-header__welcomemat--header"));
-        if (internationalCountry.equalsIgnoreCase("Canada")) {
-             logger.info("country is canada");
-            return msgHeader.getText().contains(msg1);
-        } else {
-            logger.info("not canada");
-            return msgHeader.getText().contains(msg2);
-        }
-
+    	try{
+	        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryContext));
+	        String internationalCountry = countryContext.getText();
+	        logger.info(internationalCountry);
+	        WebElement msgHeader = driver.findElement(By.className("c-header__welcomemat--header"));
+	        if (internationalCountry.equalsIgnoreCase("Canada")) {
+	             logger.info("country is canada");
+	            return msgHeader.getText().contains(msg1);
+	        } else {
+	            logger.info("not canada");
+	            return msgHeader.getText().contains(msg2);
+	        }
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
 
     public boolean isWelcomeMatContentDisplayed() {
-        String internationalCountry = countryContext.getText();
-        
-        WebElement welcomeMat;
-        if (internationalCountry.equalsIgnoreCase("Canada")) {
-        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("c-header__welcomematCanada--body"))));
-        }
-        else{
-        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(driver.findElement(By.className("c-header__welcomemat--body"))));
-        }
-        
-        return welcomeMat.isDisplayed();
+    	try{
+	    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryContext));
+	        String internationalCountry = countryContext.getText();
+	        
+	        WebElement welcomeMat;
+	        if (internationalCountry.equalsIgnoreCase("Canada")) {
+	        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='c-header__welcomematCanada--body']")));
+	        }
+	        else{
+	        	welcomeMat = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='c-header__welcomemat--body']")));
+	        }
+	        
+	        return welcomeMat.isDisplayed();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     public void click_on_start_shopping(String link)  {
         driver.findElement(By.linkText(link)).click();
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isFlagAndNameDisplayedCorrectly() {
-        Country c = (Country)stateHolder.get("context");
-        String expectedCountryName = c.getCountryName();
-        String expectedCountryFlag = expectedCountryName.replaceAll("\\s", "").toLowerCase();
-        logger.info("is in the expected country context",countryContext.getText());
-        boolean flag = countryFlag.getAttribute("class").contains(expectedCountryFlag);
-        logger.info("Is flag displayed? {}", flag);
-        return countryContext.getText().equalsIgnoreCase(expectedCountryName) && flag;
+    	try{
+	        Country c = (Country)stateHolder.get("context");
+	        String expectedCountryName = c.getCountryName();
+	        String expectedCountryFlag = expectedCountryName.replaceAll("\\s", "").toLowerCase();
+	        logger.info("is in the expected country context",countryContext.getText());
+	        boolean flag = countryFlag.getAttribute("class").contains(expectedCountryFlag);
+	        logger.info("Is flag displayed? {}", flag);
+	        return countryContext.getText().equalsIgnoreCase(expectedCountryName) && flag;
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     public boolean isInInitialInternationalPage() {
-        String expectedUrl = (String)stateHolder.get("randomUrl");
-        String pageUrl = (String)stateHolder.get("pageUrl");
-        logger.info("expected url  {}",expectedUrl);
-        String currentUrl = driver.getCurrentUrl();
-        logger.info("current url  {}",currentUrl);
-        return currentUrl.equals(expectedUrl)&& currentUrl.contains(pageUrl);
-
+    	try{
+	        String expectedUrl = (String)stateHolder.get("randomUrl");
+	        String pageUrl = (String)stateHolder.get("pageUrl");
+	        logger.info("expected url  {}",expectedUrl);
+	        String currentUrl = driver.getCurrentUrl();
+	        logger.info("current url  {}",currentUrl);
+	        return currentUrl.equals(expectedUrl)&& currentUrl.contains(pageUrl);
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 }

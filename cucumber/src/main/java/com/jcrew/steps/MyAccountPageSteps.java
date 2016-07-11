@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.MyAccountPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -14,7 +15,7 @@ public class MyAccountPageSteps extends DriverFactory {
 
     @Then("^User is in My Account page$")
     public void user_is_in_My_Account_page() throws Throwable {
-        assertTrue("User should be in My Account Page", myAccountPage.isInAccountPage());
+        assertTrue(Util.getSelectedCountryName() + "User should be in My Account Page", myAccountPage.isInAccountPage());
     }
 
     @And("^Verifies page displays My Account title$")
@@ -34,7 +35,7 @@ public class MyAccountPageSteps extends DriverFactory {
 
     @And("^User should be in ([^\"]*) menu link page$")
     public void User_should_be_in_page(String page) throws Throwable {
-        assertTrue("User should have been in menu link " + page,
+        assertTrue(Util.getSelectedCountryName() + "User should have been in menu link " + page,
                 myAccountPage.isInMenuLinkPage(page));
     }
 

@@ -194,6 +194,7 @@ public class WishlistPage {
 
     	WebElement productData = getProductData(productName);
     	String sizeNameInWishlist = productData.getAttribute("data-size");
+        sizeNameInWishlist = sizeNameInWishlist.replace("SIZE","");
 
     	return sizeNameInWishlist.equalsIgnoreCase(expectedSizeName);
     }

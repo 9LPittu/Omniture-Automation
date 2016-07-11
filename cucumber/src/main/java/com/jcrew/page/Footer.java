@@ -6,6 +6,10 @@ import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -53,12 +57,17 @@ public class Footer {
     @FindBy(className="footer__header--social")
     private WebElement socialSharingHeader;
 
-    @FindBy(id = "global__footer")
+    @FindBy(xpath = "//footer[@id='global__footer']")
     private WebElement footerSection;
+    
+    @FindBy(xpath="//a[contains(@class,'footer__fullsite__link')]")
+    private WebElement viewFullSiteInFooter;
     
     public Footer(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(viewFullSiteInFooter));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(viewFullSiteInFooter));
     }
 
     public boolean isFooterLinkPresent(String footerLink) {
@@ -198,7 +207,13 @@ public class Footer {
 
 
     public String getFooterHeaderLegend() {
-        return footerWrapMain.findElement(By.tagName("legend")).getText();
+    	try{
+    		return footerWrapMain.findElement(By.tagName("legend")).getText();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return "";
+    	}
     }
 
     public boolean isTopHeaderVisible(String text) {
@@ -211,57 +226,75 @@ public class Footer {
 
     public boolean isIconAndTextDisplayed(String icon) {
     	
-        WebElement module = driver.findElement(By.className("footer__help__menu"));
         WebElement contactItem;
         boolean isIconValidationRequired = true;
         boolean isIconDisplayed = true;
         
-    	Country c = (Country) stateHolder.get("context");
-        String countryCode = c.getCountry();
-        
-        if(icon.equalsIgnoreCase("vps") && (countryCode.equalsIgnoreCase("au") || countryCode.equalsIgnoreCase("sg") || countryCode.equalsIgnoreCase("hk") || countryCode.equalsIgnoreCase("de") || countryCode.equalsIgnoreCase("jp") || countryCode.equalsIgnoreCase("ch"))){
-        	isIconValidationRequired = false;
-        }
-        
-        if(icon.equalsIgnoreCase("phone") && countryCode.equalsIgnoreCase("jp")){
-        	isIconValidationRequired = false;
-        }
+        try{
+        	WebElement module = driver.findElement(By.className("footer__help__menu"));
+        	Country c = (Country) stateHolder.get("context");
+            String countryCode = c.getCountry();
+            
+            if(icon.equalsIgnoreCase("vps") && (countryCode.equalsIgnoreCase("au") || countryCode.equalsIgnoreCase("sg") || countryCode.equalsIgnoreCase("hk") || countryCode.equalsIgnoreCase("de") || countryCode.equalsIgnoreCase("jp") || countryCode.equalsIgnoreCase("ch"))){
+            	isIconValidationRequired = false;
+            }
+            
+            if(icon.equalsIgnoreCase("phone") && countryCode.equalsIgnoreCase("jp")){
+            	isIconValidationRequired = false;
+            }
 
-        if(isIconValidationRequired){        	
-        	switch (icon){
-	            case "twitter":
-	                contactItem = module.findElement(By.className("footer__help__item--twitter"));
-	                break;
-	            case "phone":
-	                contactItem = module.findElement(By.className("footer__help__item--phone"));
-	                break;
-	            case "vps":
-	                contactItem = module.findElement(By.className("footer__help__item--vps"));
-	                break;
-	            default:
-	                logger.debug("icon {} not found",icon);
-	                return false;
-        	}
+            if(isIconValidationRequired){        	
+            	switch (icon){
+    	            case "twitter":
+    	                contactItem = module.findElement(By.className("footer__help__item--twitter"));
+    	                break;
+    	            case "phone":
+    	                contactItem = module.findElement(By.className("footer__help__item--phone"));
+    	                break;
+    	            case "vps":
+    	                contactItem = module.findElement(By.className("footer__help__item--vps"));
+    	                break;
+    	            default:
+    	                logger.debug("icon {} not found",icon);
+    	                return false;
+            	}
 
-        	isIconDisplayed = contactItem.findElement(By.tagName("i")).isDisplayed();
+            	isIconDisplayed = contactItem.findElement(By.tagName("i")).isDisplayed();
+            }
         }
-        
+        catch(Exception e){
+        	isIconDisplayed = false;
+        	e.printStackTrace();
+        }
+                
         return isIconDisplayed;
-
     }
 
     public boolean isSocialIconDisplayed(String socialIcon) {
-        List<WebElement> socialNetworkIconsList = footerWrapMain.findElements(By.className("footer__social__menu"));
-        boolean iconDisplayed = false;
-        for (WebElement socialNetworkIcon : socialNetworkIconsList) {
-
-            iconDisplayed = socialNetworkIcon.findElement(By.className("footer-" + socialIcon)).isDisplayed();
-        }
+    	boolean iconDisplayed = false;
+    	
+    	try{
+    		List<WebElement> socialNetworkIconsList = footerWrapMain.findElements(By.className("footer__social__menu"));
+            for (WebElement socialNetworkIcon : socialNetworkIconsList) {
+                iconDisplayed = socialNetworkIcon.findElement(By.className("footer-" + socialIcon)).isDisplayed();
+            }
+    	}
+    	catch(Exception e){
+    		iconDisplayed = false;
+    		e.printStackTrace();
+    	}
+        
         return iconDisplayed;
     }
 
     public boolean isEmailFieldDisplayed()  {
-        return footerWrapMain.findElement(By.tagName("input")).isDisplayed();
+    	try{
+    		return footerWrapMain.findElement(By.tagName("input")).isDisplayed(); 
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
 
@@ -298,22 +331,41 @@ public class Footer {
     }
     
     public boolean isShipToSectionDisplayed(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shipToSectionInFooter));
     	return shipToSectionInFooter.isDisplayed();
     }
     
     public boolean isCountryNameDisplayedInFooter(){
-
         return getCountryNameFooterElement().isDisplayed();
     }
     
     public boolean isChangeLinkDisplayedInFooter(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
     	return changeLinkInFooter.isDisplayed();
     }
 
-    public void clickChangeLinkInFooter(){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
-    	changeLinkInFooter.click();
+    public void clickChangeLinkInFooter(){    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shipToSectionInFooter));
+    	String url = driver.getCurrentUrl();
+    	
+    	int i = 0;
+    	while(i<=2){
+    		try{
+    			Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
+    	    	Util.createWebDriverWait(driver,20).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
+    	    	changeLinkInFooter.click();
+    	    	Util.createWebDriverWait(driver,20).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+    	    	Util.waitLoadingBar(driver);
+    	    	break;
+    		}
+    		catch(Exception e){
+    			logger.info("Change link element is not displayed...");
+    			i++;
+    			if(i>2){
+    				e.printStackTrace();
+    			}
+    		}
+    	}
     }
     
     public void selectCountry(String country){
@@ -339,12 +391,10 @@ public class Footer {
     }
     
     public void clickSocialSharingIcon(String socialSharingIconName){
-        String currentURL = driver.getCurrentUrl();
     	WebElement socialSharingIcon = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='footer__social__menu']/" +
                 "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]")));
     	socialSharingIcon.click();
-
     }
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){
@@ -469,21 +519,40 @@ public class Footer {
     }
 
     public String isCorrectCountryNameDisplayedInFooter() {
-
-
-        WebElement countryNameInFooter = getCountryNameFooterElement();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));
-        String actualCountryName = countryNameInFooter.getText();
-
-        logger.info("Country selected: {}", actualCountryName);
+    	String actualCountryName;
+    	try{
+    		WebElement countryNameInFooter = getCountryNameFooterElement();
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(countryNameInFooter));
+    		actualCountryName = countryNameInFooter.getText();
+    		logger.info("Country selected: {}", actualCountryName);
+    	}
+    	catch(Exception e){
+    		actualCountryName = "";
+    		Util.logBrowserErrorMessages(driver);
+    	}
 
         return actualCountryName;
     }
 
     public WebElement getCountryNameFooterElement() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSection));
-        WebElement countryNameElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(footerSection.findElement(
-        		                        By.xpath(".//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']"))));
+    	int i = 0;
+    	WebElement countryNameElement = null;
+    	while(i<=2 && countryNameElement == null){
+    		try{
+    			Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//footer[@id='global__footer']")));
+    			countryNameElement = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfElementLocated(
+        		                        By.xpath("//div[@class='footer__country-context']/descendant::span[@class='footer__country-context__country']")));
+    			break;
+    		}
+    		catch(Exception e){
+    			logger.info("Country element is not displayed...");
+    			i++;
+    			if(i>2){
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+        
         return countryNameElement;
     }
 }

@@ -38,10 +38,15 @@ public class MyAccountPage {
     }
 
     public boolean isInAccountPage() {
-        Country country = (Country) stateHolder.get("context");
-        Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
-        return myAccountContainer.isDisplayed();
+    	try{
+	        Util.waitForPageFullyLoaded(driver);
+	        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
+	        return myAccountContainer.isDisplayed();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     public String getMyAccountHeader() {
@@ -55,9 +60,10 @@ public class MyAccountPage {
     private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
-
-        return myAccountContainer.findElement(By.linkText(link));
-
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//a[@class='my_account_lefnav']")));
+        WebElement menuLink = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(
+        		By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]")));
+        return menuLink;
     }
 
     public void click_menu_link(String link) {
@@ -70,8 +76,8 @@ public class MyAccountPage {
             menu = getMenuLink(link);
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
             Util.clickWithStaleRetry(menu);
+            Util.waitLoadingBar(driver);
         }
-
     }
 
     public boolean isInMenuLinkPage(String page) {
@@ -84,7 +90,6 @@ public class MyAccountPage {
             logger.info("expected no "+page+" for "+c.getCountry());
             return true;
         }
-
     }
 
     public void click_order_for_review() {

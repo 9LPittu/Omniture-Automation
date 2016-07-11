@@ -26,7 +26,7 @@ public class ContextChooserPage {
     private final Logger logger = LoggerFactory.getLogger(ContextChooserPage.class);    
     private final StateHolder stateHolder = StateHolder.getInstance();
     
-    @FindBys({@FindBy(xpath=".//div[@class='context-chooser__column']/div/h5/i[not(@class='js-icon icon-see-more')]")})
+    @FindBys({@FindBy(xpath="//div[@class='context-chooser__column']/div/h5/i[not(@class='js-icon icon-see-more')]")})
     private List<WebElement> openedRegionalDrawers;
     
     @FindBy(xpath="//a[contains(@class,'js-start-shopping-button')]")
@@ -38,13 +38,13 @@ public class ContextChooserPage {
     }
     
     public boolean isInternationalContextChooserPageDisplayed() {
-    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
+    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='page__international']")));
         return internationalContextChooser.isDisplayed();
     }
 
     public boolean isRegionDisplayed(String region) {
 
-    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
+    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='page__international']")));
     	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + region + "']"));    	
     	return regionHeader.isDisplayed();
     }
@@ -55,7 +55,7 @@ public class ContextChooserPage {
     
     public boolean isCountriesDisplayedCorrectlyUnderRegion(String region){
     	
-    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__international")));
+    	WebElement internationalContextChooser = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='page__international']")));
     	WebElement regionHeader = internationalContextChooser.findElement(By.xpath("//h5[text()='" + region + "']"));   	
 		regionHeader.click();
     	
@@ -123,19 +123,34 @@ public class ContextChooserPage {
     }
     
     public void clickLinkFromTermsSectionOnContextChooserPage(String linkName){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
-    	driver.findElement(By.id("page__international")).click();
-    	WebElement link = driver.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));    	
+    	WebElement element = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='page__international']")));
+    	element.click();
+    	
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String browser = propertyReader.getProperty("browser");
+        if(browser.equalsIgnoreCase("firefox")){
+        	//Adding this piece of code as terms of use link click is not working in firefox
+        	driver.navigate().refresh();
+        	Util.waitLoadingBar(driver);
+        }
+    	
+    	WebElement link = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+    					  driver.findElement(By.xpath(
+    				      "//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"))));    	
     	link.click();
     }
     
     public void clickButtonFromFAQSectionOnContextChooserPage(String buttonName){
-    	WebElement button = driver.findElement(By.xpath("//section[@class='r-international__faq']/a[" + Util.xpathGetTextLower + "='" + buttonName.toLowerCase() +"']"));
+    	WebElement button = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+    						driver.findElement(By.xpath(
+    					    "//section[@class='r-international__faq']/a[" + Util.xpathGetTextLower + "='" + buttonName.toLowerCase() +"']"))));
     	button.click();
     }
     
     public void clickLinkFromFAQSectionOnContextChooserPage(String linkName){
-    	WebElement link = driver.findElement(By.xpath("//section[@class='r-international__faq']/article/section/p/a[text()='borderfree.com']"));
+    	WebElement link = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+    			          driver.findElement(By.xpath(
+    			          "//section[@class='r-international__faq']/article/section/p/a[text()='" + linkName + "']"))));
     	link.click();
     }
     
@@ -169,18 +184,21 @@ public class ContextChooserPage {
     }
     
     public boolean isUserOnCountrySpecificHomePage() {
-
-    	logger.info("Url after clicking on start shopping : {}", driver.getCurrentUrl());
-
-
-		Country country = (Country)stateHolder.get("context");
-
-		String expectedURL = country.getHomeurl();
-
-		Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
-    	Util.waitLoadingBar(driver);
-		logger.debug("expected url at this point should be "+driver.getCurrentUrl()+"  our expected url calculation {}", expectedURL);
-    	return driver.getCurrentUrl().matches(expectedURL);
+    	try{
+    		logger.info("Url after clicking on start shopping : {}", driver.getCurrentUrl());
+			
+    		Country country = (Country)stateHolder.get("context");
+			String expectedURL = country.getHomeurl();
+	
+			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(expectedURL));
+	    	Util.waitLoadingBar(driver);
+			logger.debug("expected url at this point should be " + driver.getCurrentUrl() + "  our expected url calculation {}", expectedURL);
+	    	return driver.getCurrentUrl().matches(expectedURL);
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
     
     public void clickStartShoppingButton(){
@@ -198,6 +216,7 @@ public class ContextChooserPage {
 	
 		TestDataReader testData = TestDataReader.getTestDataReader();		
 		String selectedCountry= "";
+		country_group = country_group.trim();
 
 		if ("PRICEBOOK".equals(country_group)) {
 
@@ -214,7 +233,6 @@ public class ContextChooserPage {
 
 			int countryindex = Util.randomIndex(nonPricebookCountriesArray.length);
 			selectedCountry = nonPricebookCountriesArray[countryindex].toLowerCase();
-
 		}
 		
 		selectCountryOnContextChooserPage(selectedCountry);
@@ -227,19 +245,18 @@ public class ContextChooserPage {
     	Country country = new Country(url, countryCode);
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
-	
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));   	
-    	WebElement regionHeader = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
-    	
-    	//Click on region to show the countries listed    	
-		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("page__international")));
-		driver.findElement(By.id("page__international")).click();
 		
+		Util.waitLoadingBar(driver);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("context-chooser__row")));  	
+    	
+    	//Click on region to display the countries listed    	
 		int i = 0;
 		while(i<=2){
 			try{
+				WebElement regionHeader = Util.createWebDriverWait(driver,15).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
 				regionHeader.click();
-				Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]"))));
+				Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(
+						By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]")));
 				break;
 			}
 			catch(Exception e){
@@ -250,10 +267,29 @@ public class ContextChooserPage {
     	//Click on country
 		Util.waitForPageFullyLoaded(driver);
 		Util.waitLoadingBar(driver);
-		WebElement countryElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') "
-				                                                                                                 + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" + countryName +"']"))));
-    	countryElement.click();
-    	Util.waitLoadingBar(driver);
+		
+		String currentUrl = driver.getCurrentUrl();
+		i = 0;
+		while(i<=1){
+			try{
+				WebElement countryElement = Util.createWebDriverWait(driver).until(
+						ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') "
+						                                                     + "and contains(@class,'is-expanded')]/ul/li/a/span[text()='" 
+						                                                     + countryName +"']")));
+				Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(countryElement));
+		    	countryElement.click();
+		    	Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/2).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+		    	Util.waitLoadingBar(driver);
+		    	break;
+			}
+			catch(Exception e){
+				i++;
+				if(i>1){
+					e.printStackTrace();
+				}
+			}
+		}
+		
 
         stateHolder.put("context", country);		
 		logger.info("Selected country: {}", countryName);

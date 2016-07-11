@@ -54,7 +54,6 @@ public class StartingSteps {
 
     @Given("User is on clean session international ([^\"]*) page$")
     public void  user_goes_to_international_page(String country_group, List<String> pageUrlList) throws Throwable {
-        driverFactory.deleteBrowserCookies();
 
         TestDataReader testData = TestDataReader.getTestDataReader();
         String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
@@ -63,7 +62,21 @@ public class StartingSteps {
         String pageURL = testData.getData("url." + page);
         stateHolder.put("pageUrl", pageURL);
 
-        getInternationalUrl(testData.getCountry(country_group), pageURL);
+        int i = 0;
+        while(i<=2){
+        	try{
+        		driverFactory.deleteBrowserCookies();
+        		getInternationalUrl(testData.getCountry(country_group), pageURL);
+        		Util.createWebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
+        		break;
+        	}
+        	catch(Exception e){
+        		i++;
+        		if(i>2){
+        			e.printStackTrace();
+        		}
+        	}
+        }
     }
 
     @Given("User is on clean session in ([^\"]*) homepage page$")
@@ -102,6 +115,7 @@ public class StartingSteps {
         }
 
         driver.get(env);
+        Util.waitLoadingBar(driver);
     }
 
     @Given("^User is on homepage$")

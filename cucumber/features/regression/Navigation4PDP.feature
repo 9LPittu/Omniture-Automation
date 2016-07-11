@@ -4,6 +4,7 @@ Feature: Multiple Items Random
   Background:
     Given User bag is cleared
     And User is on homepage
+    And Handle the Email Capture pop up
 
   Scenario: Validate PDP's work for Women
     When User clicks on hamburger menu
@@ -11,6 +12,21 @@ Feature: Multiple Items Random
     And user selects any subcategory
     And user selects any item from array page, select any color and size
     Then User is in product detail page
+    
+    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+    
+    Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
+    Then Verify 'SIZE & FIT' drawer is expanded state
+    When user clicks on 'SIZE & FIT' drawer    
+    Then Verify 'SIZE & FIT' drawer is collapsed state
+    
+    Then Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer    
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state   
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is expanded state
+    Then Verify item details are displayed in the 'PRODUCT DETAILS' drawer    
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state
 
   Scenario: Validate PDP's work for Men
     When User clicks on hamburger menu
@@ -18,6 +34,21 @@ Feature: Multiple Items Random
     And user selects any subcategory
     And user selects any item from array page, select any color and size
     Then User is in product detail page
+    
+    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+    
+    Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
+    Then Verify 'SIZE & FIT' drawer is expanded state
+    When user clicks on 'SIZE & FIT' drawer    
+    Then Verify 'SIZE & FIT' drawer is collapsed state
+    
+    Then Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer    
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state   
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is expanded state
+    Then Verify item details are displayed in the 'PRODUCT DETAILS' drawer    
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state
 
   Scenario: Validate PDP's work for Girls
     When User clicks on hamburger menu
@@ -25,6 +56,21 @@ Feature: Multiple Items Random
     And user selects any subcategory
     And user selects any item from array page, select any color and size
     Then User is in product detail page
+    
+    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+    
+    Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
+    Then Verify 'SIZE & FIT' drawer is expanded state
+    When user clicks on 'SIZE & FIT' drawer    
+    Then Verify 'SIZE & FIT' drawer is collapsed state
+    
+    Then Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer    
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state   
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is expanded state
+    Then Verify item details are displayed in the 'PRODUCT DETAILS' drawer    
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state
 
   Scenario: Validate PDP's work for Boys
     When User clicks on hamburger menu
@@ -32,6 +78,21 @@ Feature: Multiple Items Random
     And user selects any subcategory
     And user selects any item from array page, select any color and size
     Then User is in product detail page
+    
+    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+    
+    Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
+    Then Verify 'SIZE & FIT' drawer is expanded state
+    When user clicks on 'SIZE & FIT' drawer    
+    Then Verify 'SIZE & FIT' drawer is collapsed state
+    
+    Then Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer    
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state   
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is expanded state
+    Then Verify item details are displayed in the 'PRODUCT DETAILS' drawer    
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state
 
   Scenario: Validate PDP's work for sweaters search
     When User presses search button
@@ -40,6 +101,21 @@ Feature: Multiple Items Random
     Then Search results are displayed
     And Selects the first product from product grid list
     And User is in product detail page
+    
+    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+    
+    Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
+    Then Verify 'SIZE & FIT' drawer is expanded state
+    When user clicks on 'SIZE & FIT' drawer    
+    Then Verify 'SIZE & FIT' drawer is collapsed state
+    
+    Then Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer    
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state   
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is expanded state
+    Then Verify item details are displayed in the 'PRODUCT DETAILS' drawer    
+    When user clicks on 'PRODUCT DETAILS' drawer
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state
 
 #  Scenario: Verify preorder button is displayed
 #    When User presses search button

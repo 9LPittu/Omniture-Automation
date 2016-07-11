@@ -400,10 +400,13 @@ public class SalePage {
 
     public void clickSaleLinkFromTopNav(String dept) {
         String url = driver.getCurrentUrl();
-        driver.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '" + dept + "']")).click();
+        
+        WebElement deptElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+        		By.xpath("//span[contains(@class, 'department-nav__text') and text() = '" + dept + "']")));
+        deptElement.click();
+        
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         Util.waitLoadingBar(driver);
-
     }
 
     public void clickOnSaleDept(String dept) {

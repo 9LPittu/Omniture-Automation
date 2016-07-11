@@ -13,6 +13,7 @@ import com.jcrew.util.Util;
 import com.jcrew.util.TestDataReader;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -280,15 +281,27 @@ public class ShoppingBagPage {
                 break;
         }
         
-        List<WebElement> productpricess = driver.findElements(By.xpath(xpath));
+        Util.waitLoadingBar(driver);
+        List<WebElement> productPriceElements = null;
+        int i = 0;
+        while(i<=2){
+        	try{
+        		productPriceElements = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath)));
+        		break;
+        	}
+        	catch(StaleElementReferenceException sere){
+        		i++;
+        	}
+        }
+        
 
-        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+        boolean result = CurrencyChecker.validatePrices(productPriceElements, c);
 
         if(result){
-        	logger.info("Currency symbol is displayed correctly on all on Item prices on " + type);
+        	logger.info("Currency symbol is displayed correctly on all on item prices on " + type);
         }
         else{
-        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices on " + type);
+        	logger.debug("Currency symbol is not displayed correctly on all / any of the item prices on " + type);
         }
 
         return result;
@@ -357,8 +370,4 @@ public class ShoppingBagPage {
 
     }
 
-    }
-
-
-
-
+}

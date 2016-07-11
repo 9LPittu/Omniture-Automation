@@ -2,6 +2,8 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ShippingMethodPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Util;
+
 import cucumber.api.java.en.And;
 
 import static org.junit.Assert.assertTrue;
@@ -13,13 +15,13 @@ public class ShippingMethodPageSteps extends DriverFactory {
     @And("^Verifies is in shipping method page$")
     public void verifies_is_in_shipping_method_page() throws Throwable {
 
-        assertTrue("User should be in shipping method page", shippingMethodPage.isShippingMethodPage());
+        assertTrue(Util.getSelectedCountryName() + "User should be in shipping method page", shippingMethodPage.isShippingMethodPage());
     }
 
     @And("^Uses default value for shipping method$")
     public void uses_default_value_for_shipping_method() throws Throwable {
 
-        assertTrue("Economy UPS checkbox should be selected", shippingMethodPage.isEconomyUps());
+        assertTrue(Util.getSelectedCountryName() + "Economy UPS checkbox should be selected", shippingMethodPage.isEconomyUps());
 
     }
 

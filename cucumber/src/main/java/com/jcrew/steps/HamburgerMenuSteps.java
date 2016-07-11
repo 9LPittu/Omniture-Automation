@@ -22,7 +22,7 @@ public class HamburgerMenuSteps extends DriverFactory {
 
     @Then("^Hamburger Menu ([^\"]*) Link is present$")
     public void hamburger_menu_category_link_is_present(String category) {
-        assertTrue(category + " category should have been present", hamburgerMenu.isCategoryPresent(category));
+        assertTrue(Util.getSelectedCountryName() + category + " category should have been present", hamburgerMenu.isCategoryPresent(category));
     }
 
     @When("^User clicks on ([^\"]*) subcategory from ([^\"]*) Category$")
@@ -134,7 +134,7 @@ public class HamburgerMenuSteps extends DriverFactory {
     }
     
     public void hamburger_menu_user_panel_link(String linkName){
-    	assertTrue("User should see '" + linkName + "' in the hamburger menu", hamburgerMenu.isUserPanelLinkPresent(linkName));
+    	assertTrue(Util.getSelectedCountryName() + "User should see '" + linkName + "' in the hamburger menu", hamburgerMenu.isUserPanelLinkPresent(linkName));
     }
     
     public void closeBackLinkInHamburgerMenu(){

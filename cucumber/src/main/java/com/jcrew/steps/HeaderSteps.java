@@ -7,6 +7,7 @@ import com.jcrew.page.SubcategoryPage;
 import com.jcrew.util.DatabaseReader;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -38,22 +39,22 @@ public class HeaderSteps extends DriverFactory {
     @Then("^Verify ([^\"]*) header link is displayed$")
     public void verify_header_link_is_displayed(String headerLink) throws Throwable {
         if (!headerLink.equalsIgnoreCase("BAG")) {
-            assertTrue(headerLink + " should have been present", header.isHeaderLinkPresent(headerLink));
+            assertTrue(Util.getSelectedCountryName() + headerLink + " should have been present", header.isHeaderLinkPresent(headerLink));
         }
         else {
-            assertTrue(headerLink + " should have been present", header.isBagLinkDisplaying());
+            assertTrue(Util.getSelectedCountryName() + headerLink + " should have been present", header.isBagLinkDisplaying());
         }
     }
 
     @Then("^Verify header bag icon is displayed$")
     public void verify_header_bag_icon_is_displayed() throws Throwable {
-        assertTrue("Bag icon should have been present", header.isHeaderBagIconPresent());
+        assertTrue(Util.getSelectedCountryName() + "Bag icon should have been present", header.isHeaderBagIconPresent());
     }
 
 
     @And("^Search drawer is open$")
     public void search_drawer_is_open() throws Throwable {
-        assertTrue("Search box should have been displayed", header.isSearchDrawerOpen());
+        assertTrue(Util.getSelectedCountryName() + "Search box should have been displayed", header.isSearchDrawerOpen());
     }
 
     @And("^User presses search button$")
@@ -159,7 +160,7 @@ public class HeaderSteps extends DriverFactory {
 
     @Then("Verify bag button link$")
     public void verify_bag_button_link() {
-        assertTrue("Verify bag link", header.getBagButtonLink().contains("/checkout2/shoppingbag.jsp?sidecar=true"));
+        assertTrue(Util.getSelectedCountryName() + "Verify bag link", header.getBagButtonLink().contains("/checkout2/shoppingbag.jsp?sidecar=true"));
     }
 
     @Then("Verify stores button link$")

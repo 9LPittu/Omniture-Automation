@@ -59,7 +59,7 @@ public class MenuDrawer {
         wait.until(ExpectedConditions.visibilityOf(level1Menus));
 
         WebElement categoryLink = level1Menus.findElement(
-                By.xpath(".//a[contains(" + Util.xpathGetTextLower + ",'" + selectedCategory.toLowerCase() + "')]"));
+                By.xpath(".//a[" + Util.xpathGetTextLower + "='" + selectedCategory.toLowerCase() + "']"));
 
         logger.info("Selected category: {}", categoryLink.getText());
         wait.until(ExpectedConditions.elementToBeClickable(categoryLink));
