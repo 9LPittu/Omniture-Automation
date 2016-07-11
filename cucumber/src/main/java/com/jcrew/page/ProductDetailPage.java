@@ -99,6 +99,15 @@ public class ProductDetailPage {
 
     @FindBy(className = "c-product__description")
     private WebElement productDetailsSection;
+    
+    @FindBy(xpath="//a[contains(@class,'js-link__size-fit') and text()='Size & Fit Details']")
+    private WebElement sizeAndFitDetailsLink;
+    
+    @FindBy(xpath="//div[@class='product__size-fit product__description']/div/div/span")
+    private WebElement sizeAndFitDrawer;
+    
+    @FindBy(xpath="//div[@class='product__details product__description']/div/div/span")
+    private WebElement productDetailsDrawer;
 
     public ProductDetailPage(WebDriver driver) {
         this.driver = driver;
@@ -621,7 +630,8 @@ public class ProductDetailPage {
 
         List<WebElement> itemColors = driver.findElements(By.xpath("//li[contains(@class,'js-product__color colors-list__item') and not(contains(@class,'is-selected'))]"));
         int randomIndex = Util.randomIndex(itemColors.size());
-        itemColors.get(randomIndex).findElement(By.tagName("img")).click();
+        WebElement colorImage = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(itemColors.get(randomIndex).findElement(By.tagName("img"))));
+        colorImage.click();
         String newSelectedColor = driver.findElement(By.className("product__value")).getText().toLowerCase();
 
         logger.debug("Selected new item color: {}", newSelectedColor);
@@ -889,5 +899,102 @@ public class ProductDetailPage {
         }
     	
         return result;
+    }
+    
+    public boolean isSizeAndFitDetailsLinkDisplayedAboveAddToBag(){
+    	
+    	List<WebElement> sizeElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//li[contains(@class,'js-product__size sizes-list__item')]")));
+    	if(sizeElements.size()==1){
+    		return true;
+    	}
+    	
+    	sizeAndFitDetailsLink = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeAndFitDetailsLink));
+    	Point sizeAndDetailsLinkPoint = sizeAndFitDetailsLink.getLocation();
+    	int sizeAndDetailsLink_Y_Value = sizeAndDetailsLinkPoint.getY();
+    	
+    	int addToBag_Y_Value = getAddToBag_Y_Coordinate();
+    	
+    	return sizeAndDetailsLink_Y_Value < addToBag_Y_Value;
+    }
+    
+    public int getAddToBag_Y_Coordinate(){
+    	addToBag = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
+    	Point addToBagPoint = addToBag.getLocation();
+    	int addToBag_Y_Value = addToBagPoint.getY();
+    	return addToBag_Y_Value;
+    }
+    
+    public int getSizeAndFitDrawer_Y_Coordinate(){
+    	sizeAndFitDrawer = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeAndFitDrawer));
+    	Point sizeAndFitDrawerPoint = sizeAndFitDrawer.getLocation();
+    	int sizeAndDetailsDrawer_Y_Value = sizeAndFitDrawerPoint.getY();
+    	return sizeAndDetailsDrawer_Y_Value;
+    }
+    
+    public boolean isSizeAndFitDrawerDisplayedBelowAddToBag(){    	
+    	int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();    	
+    	int addToBag_Y_Value = getAddToBag_Y_Coordinate();    	
+    	return sizeAndDetailsDrawer_Y_Value > addToBag_Y_Value;
+    }
+    
+    public boolean isProductDetailsDrawerDisplayedBelowSizeAndFitDrawer(){
+    	int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();
+    	
+    	productDetailsDrawer = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
+    	Point productDetailsDrawerPoint = productDetailsDrawer.getLocation();
+    	int productDetailsDrawer_Y_Value = productDetailsDrawerPoint.getY();
+    	
+    	return sizeAndDetailsDrawer_Y_Value < productDetailsDrawer_Y_Value;
+    }
+    
+    public void clickPdpDrawer(String drawerName){
+    	WebElement drawerElement = null;
+    	
+    	switch(drawerName.toUpperCase()){
+    		case "SIZE & FIT":
+    			drawerElement = sizeAndFitDrawer;
+    			break;
+    		case "PRODUCT DETAILS":
+    			drawerElement = productDetailsDrawer;
+    			break;
+    	}
+    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(drawerElement));
+    	drawerElement.click();
+    	Util.waitLoadingBar(driver);
+    }
+    
+    public boolean isPdpDrawerInExpectedState(String drawerName, String expectedState){
+    	WebElement drawerElement = null;
+    	
+    	switch(drawerName.toUpperCase()){
+    		case "SIZE & FIT":
+    			drawerElement = sizeAndFitDrawer;
+    			break;
+    		case "PRODUCT DETAILS":
+    			drawerElement = productDetailsDrawer;
+    			break;
+    	}
+    	
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(drawerElement));
+    	
+    	WebElement drawerStateElement = null;
+    	switch(expectedState.toLowerCase()){
+    		case "expanded":
+    			drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-less']"));
+    			break;
+    		case "collapsed":
+    			drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-more']"));
+    			break;
+    	}
+    	
+    	return drawerStateElement.isDisplayed();
+    			
+    }
+    
+    public boolean isItemDetailsDisplayedInProductDetailsDrawer(){
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
+    	String productDetailsDrawerText = productDetailsDrawer.getText();
+    	return !StringUtils.isBlank(productDetailsDrawerText);
     }
 }
