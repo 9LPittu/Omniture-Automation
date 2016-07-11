@@ -339,6 +339,7 @@ public class ShoppingBagPage {
         Collections.reverse(prices);
         Double lowestPrice = prices.get(count-1);
 
+        logger.info("Actual subtotal is {} and number of items in Bag are {} ", dblSubTotalValue, count );
         int currentItem = 0;
         while ((dblSubTotalValue > dblCCThresholdValue) && (currentItem < count - 1 ) ) {
             String price =  prices.get(currentItem).toString();
@@ -347,28 +348,34 @@ public class ShoppingBagPage {
             Util.waitLoadingBar(driver);
             dblSubTotalValue = dblSubTotalValue - prices.get(currentItem) + lowestPrice;
             currentItem = currentItem + 1;
-            String newSubTotalValue = getSubtotalValue().replaceAll("[^0-9\\.]", "").trim();
         }
 
         int remainingProducts  = count-currentItem;
-        int counter = 0;
+        int counter = 1;
         Boolean addQuantity = true;
         do {
-            String price = prices.get(count-(counter+1)).toString();
+            String price = prices.get(count-counter).toString();
             WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
             WebElement qty = productContainer.findElement(By.className("item-qty"));
             try {
                 Select quantity = new Select(qty);
-                String requiredQuantity = "" + (counter +1);
+                String requiredQuantity = "" + (currentItem +1);
                 quantity.selectByVisibleText(requiredQuantity);
+                Util.waitLoadingBar(driver);
                 addQuantity = false;
             } catch (Exception e) {
-                logger.debug("Unable to increase quantity for product {} from bottom", counter +1 );
+                logger.debug("Unable to increase quantity for product {} from bottom", counter);
             }
-            counter = counter + 1;
-            if (addQuantity == true && counter==remainingProducts)
+
+            if (addQuantity == false) {
+                String newSubTotalValue = getSubtotalValue().replaceAll("[^0-9\\.]", "").trim();
+                logger.info("Updated subtotal is {} and number of items in Bag are {} ", newSubTotalValue, count);
+            }
+
+            if (addQuantity == true && counter == remainingProducts)
                 throw new WebDriverException("Deleted some gigh price items from Bag. But, unable to increase the count of low priced items");
-        } while (addQuantity = true && counter < remainingProducts) ;
+            counter = counter + 1;
+        } while (addQuantity = true && counter <= remainingProducts);
 
     }
 
