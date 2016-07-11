@@ -29,6 +29,7 @@ Feature: Guest User Checkout Process
     Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
     And Move to mobile site
+    Then make sure that subtotal is less than creditcard threshold
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
     And click on CHECK OUT AS A GUEST button

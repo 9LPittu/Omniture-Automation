@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -9,9 +10,11 @@ import com.jcrew.pojo.Product;
 import com.jcrew.util.CurrencyChecker;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+import com.jcrew.util.TestDataReader;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -20,7 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.util.ArrayList;
 
 public class ShoppingBagPage {
 
@@ -291,4 +294,70 @@ public class ShoppingBagPage {
         return result;
     }
 
-}
+    public void applyCreditCardThreshold(){
+        Country c = (Country) stateHolder.get("context");
+        String country = c.getCountry().toLowerCase();
+
+        String subtotalValue = getSubtotalValue().replaceAll("[^0-9\\.]", "").trim();
+        Double dblSubTotalValue = Double.parseDouble(subtotalValue);
+
+        TestDataReader dataReader = TestDataReader.getTestDataReader();
+        String ccThresholdValue = dataReader.getData(country+".CreditCardThreshold");
+        Double dblCCThresholdValue = Double.parseDouble(ccThresholdValue);
+
+        if (dblSubTotalValue > dblCCThresholdValue)
+           removeProductsAboveThreshold(dblSubTotalValue, dblCCThresholdValue);
+    }
+
+
+    public void removeProductsAboveThreshold(Double dblSubTotalValue, Double dblCCThresholdValue) {
+        List<WebElement> productprices = orderListing.findElements(By.className("item-price"));
+        int count = productprices.size();
+        if (count == 0)
+            throw new WebDriverException("Unable to retrieve product price from shopping bag page");
+
+        List<Double> prices = new ArrayList<>();
+        for (WebElement productprice : productprices) {
+            String strPrice = productprice.getText().replaceAll("[^0-9\\.]", "").trim();
+            Double dblPrice = Double.parseDouble(strPrice);
+            prices.add(dblPrice);
+        }
+        Collections.sort(prices);
+        Collections.reverse(prices);
+
+        int currentItem = 0;
+        while ((dblSubTotalValue > dblCCThresholdValue) && (currentItem < count - 1 ) ) {
+            String price =  prices.get(currentItem).toString();
+            WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
+            productContainer.findElement(By.className("item-remove")).click();
+            Util.waitLoadingBar(driver);
+            dblSubTotalValue = dblSubTotalValue - prices.get(currentItem);
+            currentItem = currentItem + 1;
+            String newSubTotalValue = getSubtotalValue().replaceAll("[^0-9\\.]", "").trim();
+        }
+
+        int remainingProducts  = count-currentItem;
+        int counter = 0;
+        Boolean addQuantity = true;
+        do {
+            String price = prices.get(count-(counter+1)).toString();
+            WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
+            WebElement qty = productContainer.findElement(By.className("item-qty"));
+            try {
+                Select quantity = new Select(qty);
+                String requiredQuantity = "" + (counter +1);
+                quantity.selectByVisibleText(requiredQuantity);
+                addQuantity = false;
+            } catch (Exception e) {
+                logger.debug("Unable to increase quantity for product {} from bottom", counter +1 );
+            }
+            counter = counter + 1;
+        } while (addQuantity = true && counter < remainingProducts) ;
+
+    }
+
+    }
+
+
+
+
