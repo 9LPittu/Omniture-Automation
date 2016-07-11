@@ -61,6 +61,11 @@ public class ProductsArray {
     }
 
     public void selectRandomProduct() {
+    	
+    	//Close the email capture if it is displayed
+    	Footer footer = new Footer(driver);
+    	footer.closeEmailCapture();
+    	
         List<WebElement> productTiles = getProductTiles();
         logger.info("This subcategory has {} products", productTiles.size());
 
