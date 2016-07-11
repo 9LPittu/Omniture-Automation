@@ -44,6 +44,7 @@ Feature: Registered User Checkout Process
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
     And Move to mobile site
+    Then make sure that subtotal is less than creditcard threshold
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
@@ -71,6 +72,7 @@ Feature: Registered User Checkout Process
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
     And Move to mobile site
+    Then make sure that subtotal is less than creditcard threshold
     And items count should be displayed as 2 in the bag
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
