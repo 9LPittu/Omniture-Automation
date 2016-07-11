@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -458,7 +457,7 @@ public class ProductDetails {
     
     public boolean isSizeAndFitDetailsLinkDisplayedAboveAddToBag(){
     	
-    	List<WebElement> sizeElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//li[contains(@class,'js-product__size sizes-list__item')]")));
+    	List<WebElement> sizeElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//li[contains(@class,'js-product__size sizes-list__item')]")));
     	if(sizeElements.size()==1){
     		return true;
     	}   	
@@ -487,7 +486,7 @@ public class ProductDetails {
     			break;
     	}
     	
-    	element = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+    	element = wait.until(ExpectedConditions.visibilityOf(element));
     	Point point = element.getLocation();
     	int yCoordinate = point.getY();
     	return yCoordinate;
@@ -505,7 +504,7 @@ public class ProductDetails {
     			break;
     	}
     	
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(drawerElement));
+    	wait.until(ExpectedConditions.elementToBeClickable(drawerElement));
     	drawerElement.click();
     	Util.waitLoadingBar(driver);
     }
@@ -522,7 +521,7 @@ public class ProductDetails {
     			break;
     	}
     	
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(drawerElement));
+    	wait.until(ExpectedConditions.elementToBeClickable(drawerElement));
     	
     	WebElement drawerStateElement = null;
     	switch(expectedState.toLowerCase()){
@@ -539,7 +538,7 @@ public class ProductDetails {
     }
     
     public boolean isItemDetailsDisplayedInProductDetailsDrawer(){
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
+    	wait.until(ExpectedConditions.visibilityOf(productDetailsDrawer));
     	String productDetailsDrawerText = productDetailsDrawer.getText();
     	return !StringUtils.isBlank(productDetailsDrawerText);
     }
