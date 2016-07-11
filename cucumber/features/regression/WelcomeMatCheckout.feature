@@ -13,6 +13,7 @@ Feature: Welcome Mat for ROW with checkout
     When User clicks on START SHOPPING on welcome mat
     Then user should see country code in the url for international countries
     And user should see selected country in the footer
+    And Handle the Email Capture pop up
 
     #Category
     When User clicks on hamburger menu
@@ -70,47 +71,37 @@ Feature: Welcome Mat for ROW with checkout
     Then User should be in shopping bag page
     And Verify proper currency symbol is displayed on item section on Checkout page
     And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And user should see selected country in the footer
     And Clicks on checkout
     And user should see selected country in the footer
-    And Selects to checkout as guest
-    And Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
-    And user should see selected country in the footer
+    And Selects to checkout as guest   
     When user fills selected country shipping address
+    And user should see selected country in the footer
     And Presses continue button on shipping address
     And Verifies is in shipping method page
-    And Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
     And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And user should see selected country in the footer
     And Uses default value for shipping method
     And Clicks continue button on shipping method page
     And Verify user is in billing page
-    And Verify proper currency symbol is displayed on item section on Checkout page
     And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And user should see selected country in the footer
     And Fills required payment data in billing page
     And Submits payment data in billing page
     And Verify proper currency symbol is displayed on item section on Checkout page
     And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And user should see selected country in the footer
     And Clicks on place your order
     And User should be in order confirmation page
     And Verify proper currency symbol is displayed on item section on Checkout page
     And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And user should see selected country in the footer
 
     Examples:
       | country_group |
       | PRICEBOOK     |
       | NON-PRICEBOOK |
-  
+
   Scenario Outline: PDP message validation for sold out item, item with variations, vps item and shipping restriction item
     Given User is on clean session in <country_group> homepage page
     And Welcome mat content is displayed

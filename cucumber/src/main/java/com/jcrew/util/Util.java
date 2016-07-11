@@ -8,6 +8,10 @@ import com.jcrew.pojo.Product;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -125,7 +129,7 @@ public class Util {
         int attempts = 0;
         boolean success = false;
 
-        while (attempts < 2 && !success) {
+        while (attempts <= 2 && !success) {
             try {
                 element.click();
                 success = true;
@@ -175,5 +179,29 @@ public class Util {
         boolean contains = url.contains("/" + countryCode + "/");
 
         return startsWith & contains == country.isContexturl();
+    }
+    
+    public static String getSelectedCountryName(){
+    	Country c = (Country) stateHolder.get("context");
+    	return "Current country selected: '" + c.getCountryName() + "'.";
+    }
+    
+    public static void logBrowserErrorMessages(WebDriver driver){
+        logger.debug("Current URL of the page: {}", driver.getCurrentUrl());
+        
+        Logs errorLog = driver.manage().logs();
+        LogEntries errors = errorLog.get(LogType.BROWSER);
+
+        for (LogEntry error : errors) {
+            logger.error("Browser logged: {}", error.getMessage());
+        }
+    }
+    
+    public static int getDefaultTimeOutValue(){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (reader.getProperty("environment").equalsIgnoreCase("steel"))
+            return DEFAULT_TIMEOUT_STEEL;
+        else
+            return DEFAULT_TIMEOUT;
     }
 }

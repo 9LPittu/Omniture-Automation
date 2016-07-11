@@ -142,12 +142,19 @@ public class BillingPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(billingOptionsSubmit));
         billingOptionsSubmit.click();
         Util.waitForPageFullyLoaded(driver);
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isBillingPage() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
-        return creditCardBilling.isDisplayed();
+    	try{
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(creditCardBilling));
+    		return creditCardBilling.isDisplayed();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
     
     public void enterCreditCardDetails(String cardName){

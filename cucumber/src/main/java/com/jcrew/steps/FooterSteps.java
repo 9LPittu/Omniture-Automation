@@ -5,6 +5,8 @@ import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.Util;
+
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -18,7 +20,7 @@ public class FooterSteps extends DriverFactory {
 
     @And("^Verify ([^\"]*) footer link is displayed$")
     public void verify_footer_link_is_displayed(String footerLink) throws Throwable {
-        assertTrue(footerLink + " should have been present", footer.isFooterLinkPresent(footerLink));
+        assertTrue(Util.getSelectedCountryName() + footerLink + " should have been present", footer.isFooterLinkPresent(footerLink));
     }
 
     @Then("^Click on footer link ([^\"]*) to open$")
@@ -48,7 +50,7 @@ public class FooterSteps extends DriverFactory {
 
     @And("^Verify ([^\"]*) footer header legend is displayed$")
     public void verify_footer_header_is_displayed(String footerHeader) throws Throwable {
-        assertEquals("Footer header should have been the same", footerHeader,
+        assertEquals(Util.getSelectedCountryName() + "Footer header should have been the same", footerHeader,
                 footer.getFooterHeaderLegend());
     }
 
@@ -64,17 +66,17 @@ public class FooterSteps extends DriverFactory {
 
     @And("Contact Us section ([^\"]*) icon is displayed$")
     public void verify_icon_and_text_is_displayed(String icon) {
-        assertTrue(icon+ "should be displayed", footer.isIconAndTextDisplayed(icon));
+        assertTrue(Util.getSelectedCountryName() + icon+ "should be displayed", footer.isIconAndTextDisplayed(icon));
     }
 
     @And("Verify email field is displayed$")
     public void verify_email_field_is_displayed() {
-        assertTrue("Email field should be displayed", footer.isEmailFieldDisplayed());
+        assertTrue(Util.getSelectedCountryName() + "Email field should be displayed", footer.isEmailFieldDisplayed());
     }
 
     @And("Verify ([^\"]*) icon is displayed under Get To Know Us section")
     public void verify_social_icons_are_displayed(String socialIcon) {
-        assertTrue("Social network icon should be displayed", footer.isSocialIconDisplayed(socialIcon));
+        assertTrue(Util.getSelectedCountryName() + "Social network icon should be displayed", footer.isSocialIconDisplayed(socialIcon));
     }
     
     @Then("^user should see email subscription field under LIKE BEING FIRST section$")
@@ -212,8 +214,6 @@ public class FooterSteps extends DriverFactory {
         StateHolder stateHolder = StateHolder.getInstance();
         Country c = (Country) stateHolder.get("context");
         String expectedCountryName = c.getCountryName();
-    	assertEquals("User should see selected country name in the footer",expectedCountryName,footer.isCorrectCountryNameDisplayedInFooter());
-    }
-    
-   
+    	assertEquals(Util.getSelectedCountryName() + "User should see selected country name in the footer",expectedCountryName,footer.isCorrectCountryNameDisplayedInFooter());
+    }  
 }

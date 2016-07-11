@@ -43,7 +43,7 @@ public class LoginPageSteps extends DriverFactory {
 
     @And("^Check box is enabled$")
     public void check_box_is_enabled() throws Throwable {
-        assertTrue("keep me signed in should be enabled by default", loginPage.isCheckBoxEnabled());
+        assertTrue(Util.getSelectedCountryName() + "keep me signed in should be enabled by default", loginPage.isCheckBoxEnabled());
 
     }
 

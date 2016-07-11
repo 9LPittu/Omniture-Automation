@@ -167,7 +167,13 @@ public class LoginPage {
     }
 
     public boolean isCheckBoxEnabled() {
-        return keepMeSignedInCheckBox.isEnabled();
+    	try{
+    		return keepMeSignedInCheckBox.isEnabled();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     public boolean isMyAccountLinkForMobileDisplayed() {

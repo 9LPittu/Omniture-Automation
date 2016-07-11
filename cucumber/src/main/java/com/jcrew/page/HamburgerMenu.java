@@ -137,7 +137,13 @@ public class HamburgerMenu {
     }
 
     public boolean isCategoryPresent(String category) {
-        return getCategory(category).isDisplayed();
+    	try{
+    		return getCategory(category).isDisplayed();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 
     public void click_on_category(String category) {
@@ -180,6 +186,7 @@ public class HamburgerMenu {
     }
 
     public void click_on_sale_subcategory(String subcategory) {
+    	subcategory = subcategory.trim();
         Util.waitLoadingBar(driver);
         getSubcategoryFromSale(subcategory).click();
         stateHolder.put("sale category", subcategory);
@@ -276,10 +283,16 @@ public class HamburgerMenu {
         click_on_subcategory(subCategoryText.toUpperCase(), categoryName);
         stateHolder.put("subcategory", subCategoryText);
     }
-
-    public boolean isUserPanelLinkPresent(String linkName) {
-        WebElement userPanelElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(userPanelInHamburgerMenu));
-        return userPanelElement.findElement(By.xpath(
-                "//a[contains(@class,'menu__link--userpanel') and text()='" + linkName.toUpperCase() + "']")).isDisplayed();
+    
+    public boolean isUserPanelLinkPresent(String linkName){
+    	try{
+    		WebElement userPanelElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(userPanelInHamburgerMenu));
+    		return userPanelElement.findElement(By.xpath(
+    		    	"//a[contains(@class,'menu__link--userpanel') and text()='" + linkName.toUpperCase() + "']")).isDisplayed();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 }
