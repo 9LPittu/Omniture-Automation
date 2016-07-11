@@ -456,50 +456,41 @@ public class ProductDetails {
 
     }
     
-public boolean isSizeAndFitDetailsLinkDisplayedAboveAddToBag(){
+    public boolean isSizeAndFitDetailsLinkDisplayedAboveAddToBag(){
     	
     	List<WebElement> sizeElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//li[contains(@class,'js-product__size sizes-list__item')]")));
     	if(sizeElements.size()==1){
     		return true;
-    	}
+    	}   	
     	
-    	sizeAndFitDetailsLink = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeAndFitDetailsLink));
-    	Point sizeAndDetailsLinkPoint = sizeAndFitDetailsLink.getLocation();
-    	int sizeAndDetailsLink_Y_Value = sizeAndDetailsLinkPoint.getY();
-    	
-    	int addToBag_Y_Value = getAddToBag_Y_Coordinate();
+    	int sizeAndDetailsLink_Y_Value = getYCoordinate("size & fit details");    	
+    	int addToBag_Y_Value = getYCoordinate("add to bag");
     	
     	return sizeAndDetailsLink_Y_Value < addToBag_Y_Value;
     }
     
-    public int getAddToBag_Y_Coordinate(){
-    	addToBag = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
-    	Point addToBagPoint = addToBag.getLocation();
-    	int addToBag_Y_Value = addToBagPoint.getY();
-    	return addToBag_Y_Value;
-    }
-    
-    public int getSizeAndFitDrawer_Y_Coordinate(){
-    	sizeAndFitDrawer = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeAndFitDrawer));
-    	Point sizeAndFitDrawerPoint = sizeAndFitDrawer.getLocation();
-    	int sizeAndDetailsDrawer_Y_Value = sizeAndFitDrawerPoint.getY();
-    	return sizeAndDetailsDrawer_Y_Value;
-    }
-    
-    public boolean isSizeAndFitDrawerDisplayedBelowAddToBag(){    	
-    	int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();    	
-    	int addToBag_Y_Value = getAddToBag_Y_Coordinate();    	
-    	return sizeAndDetailsDrawer_Y_Value > addToBag_Y_Value;
-    }
-    
-    public boolean isProductDetailsDrawerDisplayedBelowSizeAndFitDrawer(){
-    	int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();
+    public int getYCoordinate(String elementName){
+    	WebElement element = null;
     	
-    	productDetailsDrawer = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
-    	Point productDetailsDrawerPoint = productDetailsDrawer.getLocation();
-    	int productDetailsDrawer_Y_Value = productDetailsDrawerPoint.getY();
+    	switch(elementName.toLowerCase()){
+    		case "size & fit details":
+    			element = sizeAndFitDetailsLink;
+    			break;    		
+    		case "add to bag":
+    			element = addToBag;
+    			break;
+    		case "size & fit":
+    			element = sizeAndFitDrawer;
+    			break;
+    		case "product details":
+    			element = productDetailsDrawer;
+    			break;
+    	}
     	
-    	return sizeAndDetailsDrawer_Y_Value < productDetailsDrawer_Y_Value;
+    	element = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+    	Point point = element.getLocation();
+    	int yCoordinate = point.getY();
+    	return yCoordinate;
     }
     
     public void clickPdpDrawer(String drawerName){

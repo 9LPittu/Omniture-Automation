@@ -2,10 +2,15 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetails;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.Util;
+
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertTrue;
+
+import org.openqa.selenium.Point;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -91,13 +96,17 @@ public class ProductDetailSteps extends DriverFactory {
     }
     
     @Then("^Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button$")
-    public void verify_size_and_fit_drawer_displayed_below_add_to_bag_button(){
-    	assertTrue("Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button",productDetails.isSizeAndFitDrawerDisplayedBelowAddToBag());
+    public void verify_size_and_fit_drawer_displayed_below_add_to_bag_button(){    	
+    	int sizeAndDetailsDrawer_Y_Value = productDetails.getYCoordinate("SIZE & FIT");    	
+    	int addToBag_Y_Value = productDetails.getYCoordinate("Add to Bag");
+    	assertTrue("Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button", sizeAndDetailsDrawer_Y_Value > addToBag_Y_Value);
     }
     
     @Then("^Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer$")
     public void verify_product_details_drawer_displayed_below_size_and_fit_drawer(){
-    	assertTrue("Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer",productDetails.isProductDetailsDrawerDisplayedBelowSizeAndFitDrawer());
+    	int sizeAndDetailsDrawer_Y_Value = productDetails.getYCoordinate("SIZE & FIT");    	
+    	int productDetailsDrawer_Y_Value = productDetails.getYCoordinate("PRODUCT DETAILS");  	
+    	assertTrue("Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer",sizeAndDetailsDrawer_Y_Value < productDetailsDrawer_Y_Value);
     }
     
     @When("^user clicks on '([^\"]*)' drawer$")

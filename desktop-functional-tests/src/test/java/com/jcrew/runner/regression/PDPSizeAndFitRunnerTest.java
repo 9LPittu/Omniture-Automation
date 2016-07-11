@@ -7,12 +7,12 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"PDPSizeAndFit"},
+        tags = {"@PDPSizeAndFit"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-pdp-size-and_fit.json",
+                "json:target/cucumber-pdp-size-and-fit.json",
                 "pretty",
-                "html:target/cucumber/pdp-size-and_fit"
+                "html:target/cucumber/pdp-size-and-fit"
         }
 )
 public class PDPSizeAndFitRunnerTest {

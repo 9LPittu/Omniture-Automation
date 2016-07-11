@@ -8,7 +8,7 @@ Feature: PDP Size and Fit functionality
   Scenario: Validate PDP Size & Fit for Women
     When User opens menu
     And User selects women category from menu
-    And User navigates to a subcategory from main category
+    When User selects random subcategory array
     And User selects random product from product array
     And User is in product detail page
     
@@ -26,11 +26,11 @@ Feature: PDP Size and Fit functionality
     Then Verify item details are displayed in the 'PRODUCT DETAILS' drawer    
     When user clicks on 'PRODUCT DETAILS' drawer
     Then Verify 'PRODUCT DETAILS' drawer is collapsed state
-    
+  
   Scenario: Validate PDP Size & Fit for Men
     When User opens menu
     And User selects men category from menu
-    And User navigates to a subcategory from main category
+    When User selects random subcategory array
     And User selects random product from product array
     And User is in product detail page
     
@@ -52,7 +52,7 @@ Feature: PDP Size and Fit functionality
   Scenario: Validate PDP Size & Fit for Boys
     When User opens menu
     And User selects boys category from menu
-    And User navigates to a subcategory from main category
+    When User selects random subcategory array
     And User selects random product from product array
     And User is in product detail page
     
@@ -74,7 +74,7 @@ Feature: PDP Size and Fit functionality
  Scenario: Validate PDP Size & Fit for Girls
     When User opens menu
     And User selects girls category from menu
-    And User navigates to a subcategory from main category
+    When User selects random subcategory array
     And User selects random product from product array
     And User is in product detail page
     
