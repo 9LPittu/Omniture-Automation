@@ -21,7 +21,6 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
-
     private final Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
 
     @Given("User is in product detail page")
