@@ -324,6 +324,7 @@ public class ShoppingBagPage {
         }
         Collections.sort(prices);
         Collections.reverse(prices);
+        Double lowestPrice = prices.get(count-1);
 
         int currentItem = 0;
         while ((dblSubTotalValue > dblCCThresholdValue) && (currentItem < count - 1 ) ) {
@@ -331,7 +332,7 @@ public class ShoppingBagPage {
             WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
             productContainer.findElement(By.className("item-remove")).click();
             Util.waitLoadingBar(driver);
-            dblSubTotalValue = dblSubTotalValue - prices.get(currentItem);
+            dblSubTotalValue = dblSubTotalValue - prices.get(currentItem) + lowestPrice;
             currentItem = currentItem + 1;
             String newSubTotalValue = getSubtotalValue().replaceAll("[^0-9\\.]", "").trim();
         }

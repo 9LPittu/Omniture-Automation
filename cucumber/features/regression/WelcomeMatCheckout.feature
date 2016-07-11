@@ -72,6 +72,7 @@ Feature: Welcome Mat for ROW with checkout
     And Verify proper currency symbol is displayed on summary section on Checkout page
     And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And user should see selected country in the footer
+    Then make sure that subtotal is less than creditcard threshold
     And Clicks on checkout
     And user should see selected country in the footer
     And Selects to checkout as guest
