@@ -39,6 +39,8 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
     And in wishlist page, user should see the size selected on the PDP page
     And in wishlist page, user should see the quantity as 1
     And edit item from wishlist
+    And user selects a new color
+    And user selects a new size
     Then User is in product detail page
     When Add to cart button is pressed
     Then A minicart modal should appear with message '1 item has been added to your cart.'
