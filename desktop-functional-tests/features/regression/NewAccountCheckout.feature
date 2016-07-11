@@ -1,5 +1,4 @@
 @NewAccount
-
 Feature: Create New Account in US
 
   Scenario: Create a new account in US and checkout

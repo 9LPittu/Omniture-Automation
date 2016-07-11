@@ -1,5 +1,4 @@
 @InternationalCheckout
-
 Feature: User is able to checkout in international context
 
   Scenario Outline: User is able to checkout in international page
