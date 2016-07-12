@@ -308,22 +308,22 @@ public class ShoppingBagPage {
     }
 
     public void applyCreditCardThreshold(){
-        Country c = (Country) stateHolder.get("context");
-        String country = c.getCountry().toLowerCase();
+        Country country = (Country) stateHolder.get("context");
+        String countryname = country.getCountry().toLowerCase();
 
         String subtotalValue = getSubtotalValue().replaceAll("[^0-9\\.]", "").trim();
         Double dblSubTotalValue = Double.parseDouble(subtotalValue);
 
         TestDataReader dataReader = TestDataReader.getTestDataReader();
-        String ccThresholdValue = dataReader.getData(country+".CreditCardThreshold");
+        String ccThresholdValue = dataReader.getData(countryname+".CreditCardThreshold");
         Double dblCCThresholdValue = Double.parseDouble(ccThresholdValue);
 
         if (dblSubTotalValue > dblCCThresholdValue)
-           removeProductsAboveThreshold(dblSubTotalValue, dblCCThresholdValue);
+           removeProductsAboveThreshold(dblSubTotalValue, dblCCThresholdValue, country);
     }
 
 
-    public void removeProductsAboveThreshold(Double dblSubTotalValue, Double dblCCThresholdValue) {
+    public void removeProductsAboveThreshold(Double dblSubTotalValue, Double dblCCThresholdValue, Country country) {
         List<WebElement> productprices = orderListing.findElements(By.className("item-price"));
         int count = productprices.size();
         if (count == 0)
@@ -356,6 +356,7 @@ public class ShoppingBagPage {
         Boolean addQuantity = true;
         do {
             String price = prices.get(count-counter).toString();
+            price = CurrencyChecker.convertToCurrency(price, country);
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(orderListing));
             WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
             WebElement qty = productContainer.findElement(By.className("item-qty"));
