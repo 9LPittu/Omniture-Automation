@@ -14,8 +14,13 @@ public class ForgotPasswordPage {
         PageFactory.initElements(driver, this);
     }
 
-
     public boolean isForgotPasswordPage() {
-        return forgotPasswordForm.isDisplayed();
+    	try{
+    		return forgotPasswordForm.isDisplayed();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 }

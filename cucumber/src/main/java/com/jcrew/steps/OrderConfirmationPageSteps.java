@@ -3,6 +3,8 @@ package com.jcrew.steps;
 import static org.junit.Assert.assertTrue;
 import com.jcrew.page.OrderConfirmationPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Util;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
@@ -12,11 +14,11 @@ public class OrderConfirmationPageSteps extends DriverFactory {
 
     @Then("User should be in order confirmation page")
     public void user_should_be_in_order_confirmation_page() {
-        assertTrue("User should be in order confirmation page", new OrderConfirmationPage(getDriver()).isOrderConfirmationPage());
+        assertTrue(Util.getSelectedCountryName() + "User should be in order confirmation page", orderConfirmation.isOrderConfirmationPage());
     }
     
     @And("verify order number is generated")
 	public void verify_order_number_generated() throws InterruptedException{
-		assertTrue("Order number should be generated", orderConfirmation.verifyOrderNumberGenerated());
+		assertTrue(Util.getSelectedCountryName() + "Order number should be generated", orderConfirmation.verifyOrderNumberGenerated());
 	}	
 }

@@ -149,7 +149,7 @@ public class SubcategoryPage {
     private List<WebElement> getProductTileElements() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         return Util.createWebDriverWait(driver).
-                until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
+                until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[@class='c-product-tile']")));
     }
 
     private boolean isPriceAndNameValidFor(WebElement product) {
@@ -791,9 +791,9 @@ public class SubcategoryPage {
     public boolean isCorrectCurrencySymbolonProductGridList() {
         Country c = (Country) stateHolder.get("context");
         
-        List<WebElement> productpricess = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"));
+        List<WebElement> productPriceElements = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"));
 
-        boolean result = CurrencyChecker.validatePrices(productpricess, c);
+        boolean result = CurrencyChecker.validatePrices(productPriceElements, c);
 
         if(result){
         	logger.info("Currency symbol is displayed correctly on all Item prices on Product grid list");

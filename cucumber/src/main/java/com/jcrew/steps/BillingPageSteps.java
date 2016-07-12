@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.BillingPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -21,7 +22,7 @@ public class BillingPageSteps extends DriverFactory {
 
     @And("^Verify user is in billing page$")
     public void verify_user_is_in_billing_page() throws Throwable {
-        assertTrue("User should be in billing page", billingPage.isBillingPage());
+        assertTrue(Util.getSelectedCountryName() + "User should be in billing page", billingPage.isBillingPage());
     }
 
     @And("^Submits payment data in billing page$")

@@ -61,8 +61,7 @@ public class HomePage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(searchInput));
         searchInput.clear();
         searchInput.sendKeys(searchTerm);
-
-
+        logger.info("Input search term: {}", searchTerm);
     }
 
 

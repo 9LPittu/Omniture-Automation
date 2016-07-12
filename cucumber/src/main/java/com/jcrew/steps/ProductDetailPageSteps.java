@@ -20,11 +20,12 @@ import static org.junit.Assert.*;
 public class ProductDetailPageSteps extends DriverFactory {
 
     private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private final Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
 
     @Given("User is in product detail page")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
-        assertTrue("User should be in detail page",
+        assertTrue(Util.getSelectedCountryName() + "User should be in product detail page",
                 productDetailPage.isProductDetailPage());
     }
     
@@ -347,18 +348,18 @@ public class ProductDetailPageSteps extends DriverFactory {
     
     @And("^Verify proper currency symbol is displayed on PDP page$")
     public void verify_currency_on_product_PDP(){
-    	assertTrue("Currency on product details page",productDetailPage.isCorrectCurrencySymbolonPDP());
+    	assertTrue(Util.getSelectedCountryName() + "Currency on product details page",productDetailPage.isCorrectCurrencySymbolonPDP());
     }
     
     @And("^user should see the PDP messages for the selected country$")
     public void user_should_see_pdp_messages(){
-    	assertTrue("User should see size related messages on the PDP page for the selected country",productDetailPage.isSizeMessageDisplayedOnPDP());
-    	assertTrue("User should see message on the PDP page for the selected country",productDetailPage.isMessageDisplayedOnPDP());
+    	assertTrue(Util.getSelectedCountryName() + "User should see size related messages on the PDP page for the selected country",productDetailPage.isSizeMessageDisplayedOnPDP());
+    	assertTrue(Util.getSelectedCountryName() + "User should see message on the PDP page for the selected country",productDetailPage.isMessageDisplayedOnPDP());
     }
     
     @Then("^user should see PDP page with soldout message which includes phone number$")
     public void user_should_see_pdp_page_soldout_message_which_includes_phone_number(){
-    	assertTrue("user should see PDP page with soldout message which includes phone number", productDetailPage.isSoldOutMessageDisplayed());
+    	assertTrue(Util.getSelectedCountryName() + "user should see PDP page with soldout message which includes phone number", productDetailPage.isSoldOutMessageDisplayed());
     }
     
     @And("^user selects random variant on the PDP page$")
@@ -368,12 +369,12 @@ public class ProductDetailPageSteps extends DriverFactory {
     
     @Then("^user should see PDP page with message for vps item$")
     public void user_should_see_PDP_page_with_vps_item_message(){
-    	assertTrue("user should see PDP page with message for vps item",productDetailPage.isVPSMessageDisplayed());
+    	assertTrue(Util.getSelectedCountryName() + "user should see PDP page with message for vps item",productDetailPage.isVPSMessageDisplayed());
     }
     
     @Then("user should see PDP page with shipping restriction message")
     public void user_should_see_PDP_page_with_shipping_restriction_message(){
-    	assertTrue("user should see PDP page with shipping restriction message",productDetailPage.isShippingRestrictionMessageDisplayed());
+    	assertTrue(Util.getSelectedCountryName() + "user should see PDP page with shipping restriction message",productDetailPage.isShippingRestrictionMessageDisplayed());
     }
     
     @Then("^Verify 'size & fit details' link is displayed above the 'Add to Bag' button$")
