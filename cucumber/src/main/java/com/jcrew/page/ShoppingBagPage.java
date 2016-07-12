@@ -343,6 +343,7 @@ public class ShoppingBagPage {
         int currentItem = 0;
         while ((dblSubTotalValue > dblCCThresholdValue) && (currentItem < count - 1 ) ) {
             String price =  prices.get(currentItem).toString();
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(orderListing));
             WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
             productContainer.findElement(By.className("item-remove")).click();
             Util.waitLoadingBar(driver);
@@ -355,6 +356,7 @@ public class ShoppingBagPage {
         Boolean addQuantity = true;
         do {
             String price = prices.get(count-counter).toString();
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(orderListing));
             WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
             WebElement qty = productContainer.findElement(By.className("item-qty"));
             try {
@@ -373,7 +375,7 @@ public class ShoppingBagPage {
             }
 
             if (addQuantity == true && counter == remainingProducts)
-                throw new WebDriverException("Deleted some gigh price items from Bag. But, unable to increase the count of low priced items");
+                throw new WebDriverException("Deleted " + currentItem + " high price item(s) from Bag. But, unable to increase corresponding count on low priced items");
             counter = counter + 1;
         } while (addQuantity = true && counter <= remainingProducts);
 
