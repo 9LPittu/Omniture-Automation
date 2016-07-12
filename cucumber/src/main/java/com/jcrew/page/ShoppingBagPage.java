@@ -324,6 +324,7 @@ public class ShoppingBagPage {
 
 
     public void removeProductsAboveThreshold(Double dblSubTotalValue, Double dblCCThresholdValue, Country country) {
+        String countryname = country.getCountry().toLowerCase();
         List<WebElement> productprices = orderListing.findElements(By.className("item-price"));
         int count = productprices.size();
         if (count == 0)
@@ -331,7 +332,10 @@ public class ShoppingBagPage {
 
         List<Double> prices = new ArrayList<>();
         for (WebElement productprice : productprices) {
-            String strPrice = productprice.getText().replaceAll("[^0-9\\.]", "").trim();
+            String strPrice = productprice.getText();
+            if (countryname == "de")
+                strPrice = CurrencyChecker.formatEuroCurrencyFormatToUSCurrencyFormat(strPrice,country);
+            strPrice = strPrice.replaceAll("[^0-9\\.]", "").trim();
             Double dblPrice = Double.parseDouble(strPrice);
             prices.add(dblPrice);
         }
@@ -343,6 +347,7 @@ public class ShoppingBagPage {
         int currentItem = 0;
         while ((dblSubTotalValue > dblCCThresholdValue) && (currentItem < count - 1 ) ) {
             String price =  prices.get(currentItem).toString();
+            price = CurrencyChecker.convertToCurrency(price, country);
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(orderListing));
             WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
             productContainer.findElement(By.className("item-remove")).click();

@@ -99,6 +99,19 @@ public class CurrencyChecker {
         return price.toUpperCase();
     }
 
+    public static String formatEuroCurrencyFormatToUSCurrencyFormat(String strPrice, Country country){
+        String countryname = country.getCountry().toLowerCase();
+        if (countryname == "de") {
+            strPrice = strPrice.replaceAll("\\.", "|");
+            strPrice = strPrice.replaceAll(",", ".");
+            strPrice = strPrice.replaceAll("\\|", ",");
+            return strPrice;
+        }   else {
+            return strPrice;
+        }
+    }
+
+
     public static String convertToCurrency(String price, Country country) {
         String countryname = country.getCountry().toLowerCase();
         switch (countryname) {
