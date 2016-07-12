@@ -80,7 +80,7 @@ public class ShoppingBagPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutLink));
 
         checkoutLink.click();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.invisibilityOfElementLocated(By.id("checkout")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.titleContains("Shopping Bag")));
         Util.waitForPageFullyLoaded(driver);
     }
 
