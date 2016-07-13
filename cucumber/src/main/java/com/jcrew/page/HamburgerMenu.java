@@ -207,9 +207,16 @@ public class HamburgerMenu {
 
     private WebElement getSubcategoryFromSale(String subcategory) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleCategoryList));
-        return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
-                Util.xpathGetTextLower + " = " +
-                "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
+        
+        WebElement subCategoryElementFromSale = Util.createWebDriverWait(driver).until(
+        		  ExpectedConditions.visibilityOf(saleCategoryList.findElement(
+        		  By.xpath(".//div[@class='c-category__header accordian__header' and " +
+                  Util.xpathGetTextLower + " = " +
+                  "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."))));
+        
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(subCategoryElementFromSale));
+        
+        return subCategoryElementFromSale;
     }
 
     private WebElement getMenuItemElementForCategory(String category) {

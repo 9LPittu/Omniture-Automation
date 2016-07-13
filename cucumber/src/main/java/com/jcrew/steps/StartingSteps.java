@@ -80,13 +80,25 @@ public class StartingSteps {
     }
 
     @Given("User is on clean session in ([^\"]*) homepage page$")
-    public void  user_goes_to_international_homepage(String country_group) throws Throwable {
-        driverFactory.deleteBrowserCookies();
+    public void  user_goes_to_international_homepage(String country_group) throws Throwable {        
         TestDataReader testData = TestDataReader.getTestDataReader();
-
-        getInternationalUrl(testData.getCountry(country_group), "");
         
-        stateHolder.put("countryGroup", country_group);
+        int i = 0;
+        while(i<=2){
+        	try{
+        		driverFactory.deleteBrowserCookies();
+        		getInternationalUrl(testData.getCountry(country_group), "");
+        		Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
+        		stateHolder.put("countryGroup", country_group);
+        		break;
+        	}
+        	catch(Exception e){
+        		i++;
+        		if(i>2){
+        			e.printStackTrace();
+        		}
+        	}
+        }
     }
     
     @Given("^User is on international homepage$")
