@@ -6,6 +6,7 @@ Feature: Home Page
 
   Scenario: Verification of Header and Footer section in the Home page
     Then JCrew Logo is present
+    And Verify GlobalPromo
     And Sign In Link is present
     And Hamburger menu is present
     When User clicks on hamburger menu
