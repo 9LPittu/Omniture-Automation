@@ -386,8 +386,15 @@ public class SubcategoryPage {
     }
 
     public boolean productTileExistFor(String product) {
-        WebElement productInTile = productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]"));
+        String xpath;
+        if (product.contains("'")) {
+            xpath = "//span[text()=\"" + product +
+                    "\" and contains(@class, 'tile__detail--name')]";
+        } else {
+            xpath =  "//span[text()='" + product +
+                    "' and contains(@class, 'tile__detail--name')]";
+        }
+        WebElement productInTile = productGrid.findElement(By.xpath(xpath));
 
         return productInTile.isDisplayed();
     }
