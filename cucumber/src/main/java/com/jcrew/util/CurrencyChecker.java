@@ -101,7 +101,7 @@ public class CurrencyChecker {
 
     public static String formatEuroCurrencyFormatToUSCurrencyFormat(String strPrice, Country country){
         String countryname = country.getCountry().toLowerCase();
-        if (countryname == "de") {
+        if (countryname.equalsIgnoreCase("de")) {
             strPrice = strPrice.replaceAll("\\.", "|");
             strPrice = strPrice.replaceAll(",", ".");
             strPrice = strPrice.replaceAll("\\|", ",");
