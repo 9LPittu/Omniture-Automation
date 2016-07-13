@@ -27,9 +27,9 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
     And in wishlist page, user should see the quantity as 1
     And edit item from wishlist
     And User is in product detail page
-    Then user should see that previously selected color is retained
-    And user should see that previously selected size is retained
-    And Verify 1 items are specified as quantity
+  #  Then user should see that previously selected color is retained
+  #  And user should see that previously selected size is retained
+  #  And Verify 1 items are specified as quantity
     And Verify update wishlist button is displayed
     And user selects a new color
     And user selects a new size
