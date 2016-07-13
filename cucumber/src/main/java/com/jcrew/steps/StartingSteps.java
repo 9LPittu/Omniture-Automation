@@ -67,7 +67,7 @@ public class StartingSteps {
         	try{
         		driverFactory.deleteBrowserCookies();
         		getInternationalUrl(testData.getCountry(country_group), pageURL);
-        		Util.createWebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
+        		Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
         		break;
         	}
         	catch(Exception e){
