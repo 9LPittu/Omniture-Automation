@@ -116,8 +116,7 @@ public class CurrencyChecker {
         String countryname = country.getCountry().toLowerCase();
         switch (countryname) {
             case "us":
-            case "hk":
-            case "de":
+            case "hk": {
                 String numberValue = "";
                 String decimalValue = "";
                 String formattedNumber = "";
@@ -128,16 +127,30 @@ public class CurrencyChecker {
                     numberValue = price;
                 }
                 Double numberToBeFormatted = Double.parseDouble(numberValue);
-                if (countryname == "de") {
-                    formattedNumber = NumberFormat.getInstance(Locale.GERMAN).format(numberToBeFormatted);
-                    if (decimalValue != "")
-                        formattedNumber = formattedNumber + "," + decimalValue;
-                } else {
-                    formattedNumber = NumberFormat.getInstance(Locale.US).format(numberToBeFormatted);
-                    if (decimalValue != "")
-                        formattedNumber = formattedNumber + "." + decimalValue;
-                }
+                formattedNumber = NumberFormat.getInstance(Locale.US).format(numberToBeFormatted);
+                if ((decimalValue != "") && (!countryname.equalsIgnoreCase("hk")))
+                    formattedNumber = formattedNumber + "." + decimalValue;
                 return formattedNumber;
+            }
+            case "de": {
+                String numberValue = "";
+                String decimalValue = "";
+                String formattedNumber = "";
+                if (price.contains(".")) {
+                    numberValue = price.split("\\.")[0];
+                    decimalValue = price.split("\\.")[1];
+                } else {
+                    numberValue = price;
+                }
+                Double numberToBeFormatted = Double.parseDouble(numberValue);
+                formattedNumber = NumberFormat.getInstance(Locale.GERMAN).format(numberToBeFormatted);
+                if (decimalValue != "")
+                    formattedNumber = formattedNumber + "," + decimalValue;
+
+                return formattedNumber;
+            }
+            case "jp":
+                return price.replaceAll("\\.0", "");
             default:
                 return price;
         }
