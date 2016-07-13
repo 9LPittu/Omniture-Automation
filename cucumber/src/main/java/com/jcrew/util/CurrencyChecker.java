@@ -122,8 +122,8 @@ public class CurrencyChecker {
                 String decimalValue = "";
                 String formattedNumber = "";
                 if (price.contains(".")) {
-                    numberValue = price.split(".")[0];
-                    decimalValue = price.split(".")[1];
+                    numberValue = price.split("\\.")[0];
+                    decimalValue = price.split("\\.")[1];
                 } else {
                     numberValue = price;
                 }
