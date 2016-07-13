@@ -51,7 +51,7 @@ Feature: Registered User Checkout Process
     And enter login information on sign in page
     And click on SIGN IN & CHECK OUT button
     And page url should contain /checkout2/signin.jsp
-    And items count should be 2 on the review page
+    And items count should be displayed as 2 in the bag
     And product name and price on review page should be displayed correctly
     And Inputs credit card security code
     Then Clicks on place your order
@@ -84,7 +84,7 @@ Feature: Registered User Checkout Process
     And enter "Visa_Card1" details on billing page
     And click on 'SAVE & CONTINUE' button
     And User is on external /checkout2/billing.jsp page
-    And items count should be 2 on the review page
+    And items count should be displayed as 2 in the bag
     And product name and price on review page should be displayed correctly
     Then Clicks on place your order
     Then User should be in order confirmation page
