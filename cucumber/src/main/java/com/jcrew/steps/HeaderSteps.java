@@ -8,8 +8,6 @@ import com.jcrew.util.DatabaseReader;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.Util;
-
-import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -32,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class HeaderSteps extends DriverFactory {
-    private final Logger logger = LoggerFactory.getLogger(NavigationSteps.class);
+    private final Logger logger = LoggerFactory.getLogger(HeaderSteps.class);
     private final Header header = new Header(getDriver());
     private final HomePage homePage = new HomePage(getDriver());
     private final SubcategoryPage subcategory = new SubcategoryPage(getDriver());
