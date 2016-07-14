@@ -181,4 +181,11 @@ public class ShoppingBagSteps extends DriverFactory {
     public void verify_currency_on_checkout_pages_section(String sectionName) {
         assertTrue(Util.getSelectedCountryName() + "Currency on product details page", shoppingBagPage.isCorrectCurrencySymbol(sectionName.toLowerCase()));
     }
+
+
+    @Then("^make sure that subtotal is less than creditcard threshold$")
+        public void make_sure_that_subtotal_is_less_than_creditcard_threshold() {
+        shoppingBagPage.applyCreditCardThreshold();
+    }
+
 }

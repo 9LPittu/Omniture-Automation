@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -9,10 +10,12 @@ import com.jcrew.pojo.Product;
 import com.jcrew.util.CurrencyChecker;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
+import com.jcrew.util.TestDataReader;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -21,7 +24,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.util.ArrayList;
 
 public class ShoppingBagPage {
 
@@ -77,7 +80,7 @@ public class ShoppingBagPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutLink));
 
         checkoutLink.click();
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.titleContains("Shopping Bag")));
         Util.waitForPageFullyLoaded(driver);
     }
 
@@ -303,4 +306,90 @@ public class ShoppingBagPage {
 
         return result;
     }
+
+    public void applyCreditCardThreshold(){
+        Country country = (Country) stateHolder.get("context");
+        String countryname = country.getCountry().toLowerCase();
+
+        String subtotalValue = getSubtotalValue().trim();
+        if (countryname.equalsIgnoreCase("de"))
+            subtotalValue = CurrencyChecker.formatEuroCurrencyFormatToUSCurrencyFormat(subtotalValue,country);
+        subtotalValue=subtotalValue.replaceAll("[^0-9\\.]", "").trim();
+        Double dblSubTotalValue = Double.parseDouble(subtotalValue);
+
+        TestDataReader dataReader = TestDataReader.getTestDataReader();
+        String ccThresholdValue = dataReader.getData(countryname+".CreditCardThreshold");
+        Double dblCCThresholdValue = Double.parseDouble(ccThresholdValue);
+
+        if (dblSubTotalValue > dblCCThresholdValue)
+           removeProductsAboveThreshold(dblSubTotalValue, dblCCThresholdValue, country);
+    }
+
+
+    public void removeProductsAboveThreshold(Double dblSubTotalValue, Double dblCCThresholdValue, Country country) {
+        String countryname = country.getCountry().toLowerCase();
+        List<WebElement> productprices = orderListing.findElements(By.className("item-price"));
+        int count = productprices.size();
+        if (count == 0)
+            throw new WebDriverException("Unable to retrieve product price from shopping bag page");
+        if (count == 1)
+            throw new WebDriverException("Shopping bag has only 1 item . So, even though subtotal " + dblSubTotalValue + ", is greater than credit card threshold amount for the country " + countryname + ", we cannot do any modifications to Bag." );
+
+        List<Double> prices = new ArrayList<>();
+        for (WebElement productprice : productprices) {
+            String strPrice = productprice.getText();
+            if (countryname.equalsIgnoreCase("de"))
+                strPrice = CurrencyChecker.formatEuroCurrencyFormatToUSCurrencyFormat(strPrice,country);
+            strPrice = strPrice.replaceAll("[^0-9\\.]", "").trim();
+            Double dblPrice = Double.parseDouble(strPrice);
+            prices.add(dblPrice);
+        }
+        Collections.sort(prices);
+        Collections.reverse(prices);
+        Double lowestPrice = prices.get(count-1);
+
+        logger.info("Actual subtotal is {} and number of items in Bag are {} ", dblSubTotalValue, count );
+        int currentItem = 0;
+        while ((dblSubTotalValue > dblCCThresholdValue) && (currentItem < count - 1 ) ) {
+            String price =  prices.get(currentItem).toString();
+            price = CurrencyChecker.convertToCurrency(price, country);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(orderListing));
+            WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
+            productContainer.findElement(By.className("item-remove")).click();
+            Util.waitLoadingBar(driver);
+            dblSubTotalValue = dblSubTotalValue - prices.get(currentItem) + lowestPrice;
+            currentItem = currentItem + 1;
+        }
+
+        int remainingProducts  = count-currentItem;
+        int counter = 1;
+        Boolean addQuantity = true;
+        do {
+            String price = prices.get(count-counter).toString();
+            price = CurrencyChecker.convertToCurrency(price, country);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(orderListing));
+            WebElement productContainer = orderListing.findElement(By.xpath(".//div[@class='item-price' and contains(text(),'" + price + "')]/ancestor::div[@class='item-row-multi clearfix']"));
+            WebElement qty = productContainer.findElement(By.className("item-qty"));
+            try {
+                Select quantity = new Select(qty);
+                String requiredQuantity = "" + (currentItem +1);
+                quantity.selectByVisibleText(requiredQuantity);
+                Util.waitLoadingBar(driver);
+                addQuantity = false;
+            } catch (Exception e) {
+                logger.debug("Unable to increase quantity for product {} from bottom", counter);
+            }
+
+            if (addQuantity == false) {
+                String newSubTotalValue = getSubtotalValue().replaceAll("[^0-9\\.]", "").trim();
+                logger.info("Updated subtotal is {} and number of items in Bag are {} ", newSubTotalValue, count);
+            }
+
+            if (addQuantity == true && counter == remainingProducts && (countryname.equalsIgnoreCase("us") || remainingProducts == 1 ))
+                throw new WebDriverException("Deleted " + currentItem + " high price item(s) from Bag. But, unable to increase corresponding count on low priced items");
+            counter = counter + 1;
+        } while (addQuantity = true && counter <= remainingProducts);
+
+    }
+
 }

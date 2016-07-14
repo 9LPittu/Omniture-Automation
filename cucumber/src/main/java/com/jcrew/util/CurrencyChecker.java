@@ -4,11 +4,13 @@ import com.jcrew.pojo.Country;
 import org.openqa.selenium.WebElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.lang.String;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.text.NumberFormat;
 /**
  * Created by nadiapaolagarcia on 4/28/16.
  */
@@ -95,6 +97,63 @@ public class CurrencyChecker {
         price = price.replace("select colors", "");
 
         return price.toUpperCase();
+    }
+
+    public static String formatEuroCurrencyFormatToUSCurrencyFormat(String strPrice, Country country){
+        String countryname = country.getCountry().toLowerCase();
+        if (countryname.equalsIgnoreCase("de")) {
+            strPrice = strPrice.replaceAll("\\.", "|");
+            strPrice = strPrice.replaceAll(",", ".");
+            strPrice = strPrice.replaceAll("\\|", ",");
+            return strPrice;
+        }   else {
+            return strPrice;
+        }
+    }
+
+
+    public static String convertToCurrency(String price, Country country) {
+        String countryname = country.getCountry().toLowerCase();
+        switch (countryname) {
+            case "us":
+            case "hk": {
+                String numberValue = "";
+                String decimalValue = "";
+                String formattedNumber = "";
+                if (price.contains(".")) {
+                    numberValue = price.split("\\.")[0];
+                    decimalValue = price.split("\\.")[1];
+                } else {
+                    numberValue = price;
+                }
+                Double numberToBeFormatted = Double.parseDouble(numberValue);
+                formattedNumber = NumberFormat.getInstance(Locale.US).format(numberToBeFormatted);
+                if ((decimalValue != "") && (!countryname.equalsIgnoreCase("hk")))
+                    formattedNumber = formattedNumber + "." + decimalValue;
+                return formattedNumber;
+            }
+            case "de": {
+                String numberValue = "";
+                String decimalValue = "";
+                String formattedNumber = "";
+                if (price.contains(".")) {
+                    numberValue = price.split("\\.")[0];
+                    decimalValue = price.split("\\.")[1];
+                } else {
+                    numberValue = price;
+                }
+                Double numberToBeFormatted = Double.parseDouble(numberValue);
+                formattedNumber = NumberFormat.getInstance(Locale.GERMAN).format(numberToBeFormatted);
+                if (decimalValue != "")
+                    formattedNumber = formattedNumber + "," + decimalValue;
+
+                return formattedNumber;
+            }
+            case "jp":
+                return price.replaceAll("\\.0", "");
+            default:
+                return price;
+        }
     }
 
 }
