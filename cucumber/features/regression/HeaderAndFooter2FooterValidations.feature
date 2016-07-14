@@ -8,6 +8,7 @@ Feature: Footer Verification In Home Page
     #Moved from HomePage.feature
     #US9724_TC01 from BreadCrumbs.feature
   Scenario: Homepage embedded Header, Footer and logo
+    And Verify GlobalPromo
     Then Verify embedded headers are visible and functional
     Then Verify embedded footer is visible and functional
     And JCrew Logo is present
@@ -16,6 +17,7 @@ Feature: Footer Verification In Home Page
     And Verify SIGN IN header link is displayed
     And Verify BAG header link is displayed
     And Verify MENU, SEARCH header links including bag order is valid, ignore SIGN IN, MY ACCOUNT
+
 
    #tc-01 and tc-02
    #US13389_TC14

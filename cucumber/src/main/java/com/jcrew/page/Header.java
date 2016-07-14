@@ -21,7 +21,7 @@ public class Header {
     private final Logger logger = LoggerFactory.getLogger(Header.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
 
-    private final String menuItems[] = {"MENU", "SEARCH", "SIGN IN","BAG"};
+    private final String menuItems[] = {"MENU", "SEARCH", "SIGN IN", "BAG"};
 
     @FindBy(className = "header__primary-nav__wrap")
     private WebElement headerWrap;
@@ -44,39 +44,74 @@ public class Header {
     @FindBy(id = "section1")
     private WebElement genderLandingSection;
 
-    @FindBy(xpath="//li[@id='c-header__userpanel']/a/span[2]")
+    @FindBy(xpath = "//li[@id='c-header__userpanel']/a/span[2]")
     private WebElement signInFromHeader;
-    
-    @FindBy(xpath="//div[@id='c-nav__userpanel']/span[@id='c-header__userpanelrecognized']")
+
+    @FindBy(xpath = "//div[@id='c-nav__userpanel']/span[@id='c-header__userpanelrecognized']")
     private WebElement myAccountFromHeader;
-    
-    @FindBy(xpath="//dl[@class='menu-show']/div[@class='userpanel__inner']")
+
+    @FindBy(xpath = "//dl[@class='menu-show']/div[@class='userpanel__inner']")
     private WebElement myAccountDropdownOpened;
-    
-    @FindBy(xpath="//dl[@class='menu-hide']/div[@class='userpanel__inner']")
+
+    @FindBy(xpath = "//dl[@class='menu-hide']/div[@class='userpanel__inner']")
     private WebElement myAccountDropdownClosed;
-    
-    @FindBy(xpath=".//span[contains(@class,'userpanel__icon--close')]")
+
+    @FindBy(xpath = ".//span[contains(@class,'userpanel__icon--close')]")
     private WebElement closeIconInMyAccountDropdown;
-    
-    @FindBy(xpath=".//dd[@class='c-nav__userpanel--welcomeuser']")
+
+    @FindBy(xpath = ".//dd[@class='c-nav__userpanel--welcomeuser']")
     private WebElement welcomeMessageInMyAccountDropdown;
-    
-    @FindBy(xpath=".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='My Details']")
+
+    @FindBy(xpath = ".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='My Details']")
     private WebElement myDetailsInMyAccountDropdown;
-    
-    @FindBy(xpath=".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='Sign Out']")
+
+    @FindBy(xpath = ".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='Sign Out']")
     private WebElement signOutInMyAccountDropdown;
-    
-    @FindBy(xpath=".//dd[@class='c-nav__userpanel-item--rewards']")
+
+    @FindBy(xpath = ".//dd[@class='c-nav__userpanel-item--rewards']")
     private WebElement rewardsSectionInMyAccountDropdown;
-    
+
+    @FindBy(xpath = "//div[@id=\"global__promo\"]/section")
+    private WebElement globalPromoPanel;
+
     public Header(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
+    // Calling this method means promo disclaimer is expected
+    public String ValidatePromoDisclaimer(int index) {
+
+        List<WebElement> promos = globalPromoPanel.findElements(By.xpath(".//div[contains(@class, 'header__promo__align')]"));
+        WebElement promo = promos.get(index);
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(promo));
+
+        WebElement detailLink = promo.findElement(By.xpath(".//a[contains(@class,'js-header__promo__btn--details')]")); //expand disclaimer
+        detailLink.click();
+        String disclaimer = globalPromoPanel.findElement(By.xpath(".//div[@class='js-header__promo__details-pushdown header__promo__details-pushdown']"))
+                .getText();
+        logger.debug("Promo disclaimer {}",
+                disclaimer);
+        detailLink.click();
+
+        return disclaimer;
+    }
+
+    public List<String> getPromoListText() {
+        List<String> promosText = new ArrayList<String>();
+        List<WebElement> promos = globalPromoPanel.findElements(By.xpath("//div[contains(@class, 'header__promo__align')]"));
+
+        for (WebElement promo : promos) {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(promo));
+            promosText.add(promo.getText());
+        }
+        return promosText;
+    }
+
+
     public boolean isHeaderLinkPresent(String headerLink) {
+
     	try{
 	    	logger.debug("Checking for header link: {}", headerLink);
 	    	Util.waitForPageFullyLoaded(driver);
@@ -107,6 +142,7 @@ public class Header {
     		e.printStackTrace();
     		return false;
     	}
+
     }
 
     public boolean isHeaderBagIconPresent() {
@@ -169,7 +205,6 @@ public class Header {
     }
 
 
-
     public Point getLogoPosition() {
         return headerLogo.getLocation();
     }
@@ -201,19 +236,19 @@ public class Header {
     }
 
     public boolean isSignInPresent() {
-        WebElement link =  Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(
+        WebElement link = Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//*[@id='c-header__userpanel']/a")));
         return link.isDisplayed();
     }
 
     public boolean isMyAccountPresent() {
-        WebElement link =  Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(
+        WebElement link = Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//*[@id='c-nav__userpanel']/*[@id='c-header__userpanelrecognized']")));
         return link.isDisplayed();
     }
 
     public void click_on_sign_in() {
-        WebElement link =  Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(
+        WebElement link = Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//*[@id='c-header__userpanel']/a")));
         link.click();
     }
@@ -234,19 +269,19 @@ public class Header {
     }
 
     public void click_breadcrumb(String breadcrumb) {
-        Util.waitWithStaleRetry(driver,breadcrumbSection);
+        Util.waitWithStaleRetry(driver, breadcrumbSection);
         WebElement breadcrumbElement = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']")));
         breadcrumbElement.click();
     }
 
-    public boolean isGenderLandingPage(String gender){
+    public boolean isGenderLandingPage(String gender) {
         Country country = (Country) stateHolder.get("context");
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(genderLandingSection));
-        WebElement genderPageElement =genderLandingSection.findElement(By.xpath("//h2[contains(text(),'NEW FOR "+gender.toUpperCase()+"')]"));
+        WebElement genderPageElement = genderLandingSection.findElement(By.xpath("//h2[contains(text(),'NEW FOR " + gender.toUpperCase() + "')]"));
 
         boolean isDisplayed = genderPageElement.isDisplayed();
-        boolean isURL = Util.countryContextURLCompliance(driver,country);
+        boolean isURL = Util.countryContextURLCompliance(driver, country);
 
         return isDisplayed & isURL;
     }
@@ -265,148 +300,144 @@ public class Header {
         return headerWrap.isDisplayed();
     }
 
-    public boolean isAllMenuItemsDisplayed(){
+    public boolean isAllMenuItemsDisplayed() {
         boolean result = true;
 
-        for(String item:menuItems){
+        for (String item : menuItems) {
             result &= isHeaderLinkPresent(item);
         }
 
         return result;
     }
 
-    public String getBagButtonLink(){
+    public String getBagButtonLink() {
         return shoppingBagLink.getAttribute("href");
     }
 
-    public String getStoresButtonLink(){
+    public String getStoresButtonLink() {
         WebElement stores = driver.findElement(By.cssSelector(".primary-nav__item--stores > .primary-nav__link"));
         return stores.getAttribute("href");
     }
-    
-    public void clickElementFromHeader(String elementName){    	
-    	WebElement headerElement = null;
-    	switch(elementName.toUpperCase()){
-    		case "SIGN IN":
-    			headerElement = signInFromHeader;
-    			break;
-    		case "MY ACCOUNT":
-    			headerElement = myAccountFromHeader;
-    			break;
-    	}
-    	
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerElement));
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(headerElement));
-    	headerElement.click();
-    	logger.info("'{}' link is clicked from header...", elementName);
-    	Util.waitLoadingBar(driver);
-    }
-    
-    public boolean isMyAccountDropdownInExpectedState(String state){
-    	boolean result = false;
-    	if(state.equalsIgnoreCase("opened")){
-    		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(myAccountDropdownOpened));
-    		result =  myAccountDropdownOpened.isDisplayed();    		
-    	}
-    	else if(state.equalsIgnoreCase("closed")){
-    		Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.visibilityOf(myAccountDropdownClosed)));
-    		result = true;
-    	}
-    	
-    	return result;
-    }
-    
-    public boolean isAccountDropdownOptionsDisplayed(){
-    	
-    	boolean isWelcomeMessagePatternMatches = welcomeMessageInMyAccountDropdown.getText().matches("^Welcome, [A-Za-z]+(\\d+)?");
-    	
-    	return closeIconInMyAccountDropdown.isDisplayed() &&
-    			welcomeMessageInMyAccountDropdown.isDisplayed() && 
-    			isWelcomeMessagePatternMatches &&
-    			myDetailsInMyAccountDropdown.isDisplayed() &&
-    			signOutInMyAccountDropdown.isDisplayed();
-    }
-    
-    public boolean isRewardsDisplayedInMyAccountDropDown(String rewardsVisibility){
-    	
-    	boolean isRewardsValidationRequired = true;
-    	boolean result = false;
-    	PropertyReader reader = PropertyReader.getPropertyReader();
-    	if(reader.getProperty("environment").equalsIgnoreCase("production")){
-    		isRewardsValidationRequired = false;
-    		if(rewardsVisibility.equalsIgnoreCase("should see")){
-    			result = true;
-    		}
-    		else{
-    			result = false;
-    		}
-    	}
 
-    	if(isRewardsValidationRequired){
-    		if(myAccountDropdownOpened.getText().contains("J.CREW CREDIT CARD")){
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(rewardsSectionInMyAccountDropdown));
-        		result = rewardsSectionInMyAccountDropdown.isDisplayed();
-        	}
-        	else{
-        		result = false;
-        	}
-    	}
-    	        
+    public void clickElementFromHeader(String elementName) {
+        WebElement headerElement = null;
+        switch (elementName.toUpperCase()) {
+            case "SIGN IN":
+                headerElement = signInFromHeader;
+                break;
+            case "MY ACCOUNT":
+                headerElement = myAccountFromHeader;
+                break;
+        }
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerElement));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(headerElement));
+        headerElement.click();
+        logger.info("'{}' link is clicked from header...", elementName);
+        Util.waitLoadingBar(driver);
+    }
+
+    public boolean isMyAccountDropdownInExpectedState(String state) {
+        boolean result = false;
+        if (state.equalsIgnoreCase("opened")) {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(myAccountDropdownOpened));
+            result = myAccountDropdownOpened.isDisplayed();
+        } else if (state.equalsIgnoreCase("closed")) {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.visibilityOf(myAccountDropdownClosed)));
+            result = true;
+        }
+
         return result;
     }
-    
-    public boolean isRewardsInfoDisplayedInMyAccountDropDown(){
-    	
-    	PropertyReader reader = PropertyReader.getPropertyReader();
-        if (!reader.getProperty("environment").equalsIgnoreCase("production")){
-	    	LocalDate today = LocalDate.now();
-	    	
-	    	String expectedDateString = "As of " + today.getMonth().name() + " " + (today.getDayOfMonth() - 1) + ", " + today.getYear() + ":";    	
-	    	String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
-	    	boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
-	    	
-	    	String rewardsCardBalance = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[2]")).getText();
-	    	boolean isRewardBalanceMatches = rewardsCardBalance.matches("^Rewards card balance: \\$\\d+(\\.\\d+)?");
-	    	
-	    	String totalPoints = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[3]")).getText();
-	    	boolean isTotalPointsMatches = totalPoints.matches("^Total points: \\d+");
-	    	
-	    	String pointsToNextReward = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[4]")).getText();
-	    	boolean isPointsToNextRewardMatches = pointsToNextReward.matches("^Points to next reward: \\d+");
-	    	
-	    	WebElement manageMyAccountLinkInMyAccountDropdown = getManageMyAccountElementInMyAccountDropdown();
-	    	
-	    	return isDateMatches && isRewardBalanceMatches && isTotalPointsMatches && isPointsToNextRewardMatches && manageMyAccountLinkInMyAccountDropdown.isDisplayed();
+
+    public boolean isAccountDropdownOptionsDisplayed() {
+
+        boolean isWelcomeMessagePatternMatches = welcomeMessageInMyAccountDropdown.getText().matches("^Welcome, [A-Za-z]+(\\d+)?");
+
+        return closeIconInMyAccountDropdown.isDisplayed() &&
+                welcomeMessageInMyAccountDropdown.isDisplayed() &&
+                isWelcomeMessagePatternMatches &&
+                myDetailsInMyAccountDropdown.isDisplayed() &&
+                signOutInMyAccountDropdown.isDisplayed();
+    }
+
+    public boolean isRewardsDisplayedInMyAccountDropDown(String rewardsVisibility) {
+
+        boolean isRewardsValidationRequired = true;
+        boolean result = false;
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        if (reader.getProperty("environment").equalsIgnoreCase("production")) {
+            isRewardsValidationRequired = false;
+            if (rewardsVisibility.equalsIgnoreCase("should see")) {
+                result = true;
+            } else {
+                result = false;
+            }
         }
-        else{
-        	return true;
+
+        if (isRewardsValidationRequired) {
+            if (myAccountDropdownOpened.getText().contains("J.CREW CREDIT CARD")) {
+                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(rewardsSectionInMyAccountDropdown));
+                result = rewardsSectionInMyAccountDropdown.isDisplayed();
+            } else {
+                result = false;
+            }
+        }
+
+        return result;
+    }
+
+    public boolean isRewardsInfoDisplayedInMyAccountDropDown() {
+
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        if (!reader.getProperty("environment").equalsIgnoreCase("production")) {
+            LocalDate today = LocalDate.now();
+
+            String expectedDateString = "As of " + today.getMonth().name() + " " + (today.getDayOfMonth() - 1) + ", " + today.getYear() + ":";
+            String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
+            boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
+
+            String rewardsCardBalance = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[2]")).getText();
+            boolean isRewardBalanceMatches = rewardsCardBalance.matches("^Rewards card balance: \\$\\d+(\\.\\d+)?");
+
+            String totalPoints = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[3]")).getText();
+            boolean isTotalPointsMatches = totalPoints.matches("^Total points: \\d+");
+
+            String pointsToNextReward = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[4]")).getText();
+            boolean isPointsToNextRewardMatches = pointsToNextReward.matches("^Points to next reward: \\d+");
+
+            WebElement manageMyAccountLinkInMyAccountDropdown = getManageMyAccountElementInMyAccountDropdown();
+
+            return isDateMatches && isRewardBalanceMatches && isTotalPointsMatches && isPointsToNextRewardMatches && manageMyAccountLinkInMyAccountDropdown.isDisplayed();
+        } else {
+            return true;
         }
     }
-    
-    public WebElement getManageMyAccountElementInMyAccountDropdown(){
-    	return rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[5]"));
+
+    public WebElement getManageMyAccountElementInMyAccountDropdown() {
+        return rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[5]"));
     }
-    
-    public void clickElementFromMyAccountDropdown(String myAccountDropdownElementName){
-    	WebElement element = null;
-    	switch(myAccountDropdownElementName.toUpperCase()){
-    		case "SIGN OUT":
-    			element = signOutInMyAccountDropdown;
-    			break;
-    		case "MY DETAILS":
-    			element = myDetailsInMyAccountDropdown;
-    			break;
-    		case "CLOSE":
-    			element = closeIconInMyAccountDropdown;
-    			break;
-    		case "MANAGE YOUR ACCOUNT":
-    			element = getManageMyAccountElementInMyAccountDropdown();
-    			break;
-    	}
-    	
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
-    	element.click();
-    	logger.info("'{}' link is clicked from My Account dropdown...", myAccountDropdownElementName.toUpperCase());
-    	Util.waitLoadingBar(driver);
+
+    public void clickElementFromMyAccountDropdown(String myAccountDropdownElementName) {
+        WebElement element = null;
+        switch (myAccountDropdownElementName.toUpperCase()) {
+            case "SIGN OUT":
+                element = signOutInMyAccountDropdown;
+                break;
+            case "MY DETAILS":
+                element = myDetailsInMyAccountDropdown;
+                break;
+            case "CLOSE":
+                element = closeIconInMyAccountDropdown;
+                break;
+            case "MANAGE YOUR ACCOUNT":
+                element = getManageMyAccountElementInMyAccountDropdown();
+                break;
+        }
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
+        logger.info("'{}' link is clicked from My Account dropdown...", myAccountDropdownElementName.toUpperCase());
+        Util.waitLoadingBar(driver);
     }
 }
