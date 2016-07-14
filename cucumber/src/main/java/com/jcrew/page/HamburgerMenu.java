@@ -188,9 +188,23 @@ public class HamburgerMenu {
     public void click_on_sale_subcategory(String subcategory) {
     	subcategory = subcategory.trim();
         Util.waitLoadingBar(driver);
-        getSubcategoryFromSale(subcategory).click();
-        stateHolder.put("sale category", subcategory);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("search"));
+        
+        int i = 0;
+        while(i<=2){
+        	try{
+        		getSubcategoryFromSale(subcategory, Util.getDefaultTimeOutValue()/3).click();
+        		Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.urlContains("search"));
+                stateHolder.put("sale category", subcategory);
+                break;
+        	}
+        	catch(Exception e){
+        		i++;
+        		if(i>2){
+        			e.printStackTrace();
+        		}
+        	}
+        }
+        
         Util.waitLoadingBar(driver);
     }
 
@@ -205,11 +219,18 @@ public class HamburgerMenu {
         return categoryLink;
     }
 
-    private WebElement getSubcategoryFromSale(String subcategory) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleCategoryList));
-        return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
-                Util.xpathGetTextLower + " = " +
-                "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
+    private WebElement getSubcategoryFromSale(String subcategory, int timeOut) {
+        Util.createWebDriverWait(driver, timeOut).until(ExpectedConditions.visibilityOf(saleCategoryList));
+        
+        WebElement subCategoryElementFromSale = Util.createWebDriverWait(driver, timeOut).until(
+        		  ExpectedConditions.visibilityOf(saleCategoryList.findElement(
+        		  By.xpath(".//div[@class='c-category__header accordian__header' and " +
+                  Util.xpathGetTextLower + " = " +
+                  "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."))));
+        
+        Util.createWebDriverWait(driver, timeOut).until(ExpectedConditions.elementToBeClickable(subCategoryElementFromSale));
+        
+        return subCategoryElementFromSale;
     }
 
     private WebElement getMenuItemElementForCategory(String category) {
