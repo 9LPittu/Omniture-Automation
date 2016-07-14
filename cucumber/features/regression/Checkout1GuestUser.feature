@@ -29,6 +29,7 @@ Feature: Guest User Checkout Process
     Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
     And Move to mobile site
+    Then make sure that subtotal is less than creditcard threshold
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
     And click on CHECK OUT AS A GUEST button
@@ -48,7 +49,7 @@ Feature: Guest User Checkout Process
     And enter email address as "jcrewcolab@gmail.com"
     And Submits payment data in billing page
     And User is on internal /checkout2/billing.jsp page
-    And items count should be 2 on the review page
+    And items count should be displayed as 2 in the bag
     And product name and price on review page should be displayed correctly    
     Then Clicks on place your order
     Then User should be in order confirmation page
@@ -79,6 +80,7 @@ Feature: Guest User Checkout Process
     Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
     And Move to mobile site
+    Then make sure that subtotal is less than creditcard threshold
     And Clicks on checkout
     And page url should contain /checkout2/shoppingbag.jsp
     And click on CHECK OUT AS A GUEST button
@@ -110,7 +112,7 @@ Feature: Guest User Checkout Process
     And click on 'USE ADDRESS AS ENTERED' button in the Billing page 
     And Submits payment data in billing page
     And User is on internal /checkout2/billing.jsp page
-    And items count should be 2 on the review page
+    And items count should be displayed as 2 in the bag
     And product name and price on review page should be displayed correctly
     Then Clicks on place your order
     Then User should be in order confirmation page
