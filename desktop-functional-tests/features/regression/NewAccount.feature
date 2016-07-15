@@ -1,4 +1,4 @@
-@1NewAccount1
+@NewAccount
 
 Feature: Create New Account International
 
