@@ -33,6 +33,7 @@ public class LogIn extends DriverFactory {
     private final WebDriverWait wait;
     private final HeaderWrap header;
     private final StateHolder stateHolder = StateHolder.getInstance();
+
     private final User fakeUser = User.getNewFakeUser();
     private final User knownUser = User.getUser();
     private final String signupForEmails_HK_Text = "J.Crew would like to use your contact details to send you " +
@@ -49,6 +50,7 @@ public class LogIn extends DriverFactory {
     private WebElement sidecarPassword;
     @FindBy(xpath = "//button[@class='btn--primary btn--signin js-button-submit']")
     private WebElement signInHereButton;
+
     @FindBy(id = "js-intl-email-optin")
     private WebElement internationalEmailOption;
 
@@ -209,6 +211,7 @@ public class LogIn extends DriverFactory {
                 setSelectedCountryByGroup(value);
             } else {
                 WebElement fieldInput = fieldDiv.findElement(By.tagName("input"));
+                fieldInput.clear();
                 fieldInput.sendKeys(value);
             }
         }
