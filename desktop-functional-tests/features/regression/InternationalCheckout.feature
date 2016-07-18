@@ -26,7 +26,7 @@ Feature: User is able to checkout in international context
 
     When User adds selected product to bag
     #Sale
-    And User navigates to specific women sale page
+    And User navigates to a random sale page
     Then Verify proper currency symbol is displayed on product grid list
 
     When User selects random product from array
@@ -94,6 +94,7 @@ Feature: User is able to checkout in international context
     And Verify country context matches selected country
 
     When User clicks on Start Shopping
+    And User closes email capture
     And User searches for the item soldout.item
     Then User is in product detail page
     And Verify sold out message is displayed on PDP
