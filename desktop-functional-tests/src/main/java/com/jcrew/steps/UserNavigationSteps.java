@@ -47,7 +47,6 @@ public class UserNavigationSteps extends DriverFactory {
     }
 
 
-
     @When("User navigates to a pdp")
     public void user_navigates_to_a_pdp () {
         user_navigates_to_subcategory_from_main_category();
@@ -66,7 +65,6 @@ public class UserNavigationSteps extends DriverFactory {
 
     }
 
-
     @When("User adds to bag a random product from a search")
     public void users_add_random_product_from_search() {
         user_searches_for_a_random_search_term();
@@ -79,9 +77,6 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User navigates to a random sale page")
     public void user_navigates_to_a_random_sale_page() {
-        HeaderWrap header = new HeaderWrap(driver);
-        header.openMenu();
-
         MenuDrawer menuDrawer = new MenuDrawer(driver);
         menuDrawer.openSaleLandingPage();
 
@@ -107,6 +102,9 @@ public class UserNavigationSteps extends DriverFactory {
         productDetails.selectRandomSize();
         productDetails.selectRandomQty();
         productDetails.addToBag();
+
+        HeaderWrap header = new HeaderWrap(driver);
+        header.waitUntilNoCheckOutDropdown();
     }
 
     @Then("Verify international page url")

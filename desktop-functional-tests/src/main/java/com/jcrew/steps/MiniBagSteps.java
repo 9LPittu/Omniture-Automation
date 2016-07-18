@@ -5,6 +5,7 @@ import com.jcrew.page.MiniBag;
 import com.jcrew.page.ProductDetails;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
 import org.openqa.selenium.NoSuchElementException;
@@ -25,16 +26,32 @@ public class MiniBagSteps extends DriverFactory {
     MiniBag miniBag = new MiniBag(getDriver());
     HeaderWrap headerWrap = new HeaderWrap(getDriver());
     StateHolder holder = StateHolder.getInstance();
+    final boolean isBrowser;
+
+    public MiniBagSteps() {
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String browser = propertyReader.getProperty("browser");
+
+        isBrowser = "chrome".equalsIgnoreCase(browser) | "firefox".equalsIgnoreCase(browser);
+    }
 
     @Then("Verify mini bag contains (\\d+) item")
     public void verify_mini_bag_contains_x_item(int items) {
-        assertEquals("Mini bag contains expected " + items + " items", items, miniBag.getItemsNumber());
+        if(isBrowser) {
+            assertEquals("Mini bag contains expected " + items + " items", items, miniBag.getItemsNumber());
+        } else {
+            logger.warn("Not able to verify mini bag in phantomJS, skipping assert");
+        }
     }
 
     @Then("Verify mini bag contains a message to show more and 3 items")
     public void verify_mini_bag_contains_x_item_and_message() {
-        assertEquals("Mini bag contains 3 items in stack", miniBag.getItemsNumber(), 3);
-        assertTrue("Mini bag shows message to see more items", miniBag.showsMoreItems());
+        if(isBrowser) {
+            assertEquals("Mini bag contains 3 items in stack", miniBag.getItemsNumber(), 3);
+            assertTrue("Mini bag shows message to see more items", miniBag.showsMoreItems());
+        } else {
+            logger.warn("Not able to verify mini bag in phantomJS, skipping assert");
+        }
     }
 
     @Then("Verify subtotal in mini bag matches items")
@@ -62,41 +79,48 @@ public class MiniBagSteps extends DriverFactory {
         Product topProduct = products.peek();
 
         assertTrue("First product in bag is the recently added product", firstProduct.equals(topProduct));
+
+        headerWrap.hoverOverIcon("logo");
+        headerWrap.waitUntilNoCheckOutDropdown();
     }
 
     @Then("Verify each item links to product PDP")
     public void verify_each_item_links_to_product_pdp() {
-        int items = miniBag.getItemsNumber();
+        if(isBrowser) {
+            int items = miniBag.getItemsNumber();
 
-        Stack<Product> bagStack = (Stack<Product>) holder.get("bag_items");
-        assertTrue("Number of items in mini bag (" + items + ") are less or equal " +
-                "than expected (" + bagStack.size() + ")", items <= bagStack.size());
+            Stack<Product> bagStack = (Stack<Product>) holder.get("bag_items");
+            assertTrue("Number of items in mini bag (" + items + ") are less or equal " +
+                    "than expected (" + bagStack.size() + ")", items <= bagStack.size());
 
-        Stack<Product> original = (Stack<Product>) bagStack.clone();
+            Stack<Product> original = (Stack<Product>) bagStack.clone();
 
-        logger.debug("Checking {} items in bag", items);
+            logger.debug("Checking {} items in bag", items);
 
-        for (int i = 0; i < items; i++) {
-            headerWrap.hoverOverIcon("bag");
-            miniBag.clickOnItem(i);
-            ProductDetails pdp = new ProductDetails(getDriver());
-            Product product;
-            try {
+            for (int i = 0; i < items; i++) {
+                headerWrap.hoverOverIcon("bag");
+                miniBag.clickOnItem(i);
+                ProductDetails pdp = new ProductDetails(getDriver());
+                Product product;
+                try {
 
-                product = pdp.getProduct();
-                assertTrue("Product " + i + " in bag gets to PDP", product.equals(bagStack.pop(), true));
+                    product = pdp.getProduct();
+                    assertTrue("Product " + i + " in bag gets to PDP", product.equals(bagStack.pop(), true));
 
-            } catch (NoSuchElementException notExpectedPDP) {
-                if (notExpectedPDP.getMessage().contains("js-product__size")) {
-                    logger.error("PDP does not pre-selected the expected size displayed in minibag. This error is reported in JCSC-1003.");
-                    bagStack.pop();
-                } else {
-                    throw notExpectedPDP;
+                } catch (NoSuchElementException notExpectedPDP) {
+                    if (notExpectedPDP.getMessage().contains("js-product__size")) {
+                        logger.error("PDP does not pre-selected the expected size displayed in minibag. This error is reported in JCSC-1003.");
+                        bagStack.pop();
+                    } else {
+                        throw notExpectedPDP;
+                    }
                 }
             }
-        }
 
-        holder.put("bag_items", original);
+            holder.put("bag_items", original);
+        } else {
+            logger.warn("Not able to verify mini bag in phantomJS, skipping assert");
+        }
     }
 
     @Then("Verify message link matches button link")

@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
+import com.thoughtworks.selenium.webdriven.commands.Check;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,12 +17,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by nadiapaolagarcia on 4/8/16.
  */
-public class OrderReview {
-
-    private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(OrderReview.class);
-    private final WebDriverWait wait;
-
+public class CheckoutReview extends Checkout{
     @FindBy(id = "slidertrack")
     private WebElement slidertrack;
     @FindBy(id = "billing-details")
@@ -32,9 +28,8 @@ public class OrderReview {
     @FindBy(xpath = ".//*[@id='orderSummaryContainer']/div/a")
     private WebElement placeYourOrder;
 
-    public OrderReview(WebDriver driver) {
-        this.driver = driver;
-        this.wait = Util.createWebDriverWait(driver);
+    public CheckoutReview(WebDriver driver) {
+        super(driver);
 
         PageFactory.initElements(driver, this);
 

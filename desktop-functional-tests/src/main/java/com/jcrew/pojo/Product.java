@@ -112,7 +112,7 @@ public class Product {
         price = price.trim().toLowerCase();
         price = price.replace("now", "");
         price = price.replace("was", "");
-        this.price = price.replaceAll("[^0-9.]", "");
+        this.price = price.replaceAll("[^0-9.,]", "");
         this.currency = price.replace(this.price, "").trim();
     }
 
@@ -171,8 +171,6 @@ public class Product {
                 debug += this.price + "\t| " + product.price + "\t| " + result + "\n";
                 result &= (this.currency.equalsIgnoreCase(product.currency));
                 debug += this.currency + "\t| " + product.currency + "\t| " + result + "\n";
-                result &= (this.quantity.equalsIgnoreCase(product.quantity));
-                debug += this.quantity + "\t| " + product.quantity + "\t| " + result + "\n";
             }
 
             logger.debug(debug);
