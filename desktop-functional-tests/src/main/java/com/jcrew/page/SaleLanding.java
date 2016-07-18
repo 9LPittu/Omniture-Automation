@@ -26,8 +26,8 @@ public class SaleLanding {
     @FindBy(id = "page__sale")
     private WebElement page__sale;
 
-    @FindBy(className = "c-sale__c-category-list")
-    private WebElement saleCategoryList;
+    @FindBy(id = "c-promo-categories")
+    private WebElement saleCategory;
 
     public SaleLanding(WebDriver driver) {
         this.driver = driver;
@@ -58,10 +58,10 @@ public class SaleLanding {
     }
 
     private WebElement getSubcategoryFromSale(String subcategory) {
-        wait.until(ExpectedConditions.visibilityOf(saleCategoryList));
-        return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
-                Util.xpathGetTextLower + " = " +
-                "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
+        wait.until(ExpectedConditions.visibilityOf(saleCategory));
+
+        return saleCategory.findElement(
+                By.xpath(".//a[@class='js-sale__link' and @data-label='" + subcategory.toLowerCase() + "']"));
     }
 
 }

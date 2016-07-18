@@ -106,13 +106,6 @@ public class HeaderWrap {
     }
 
     public void searchFor(String searchItem) {
-        search.click();
-
-        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
-        WebElement searchHeader = global_header.findElement(By.className("js-c-header__search"));
-        WebElement searchInput = searchHeader.findElement(By.className("js-header__search__input"));
-        WebElement searchButton = searchHeader.findElement(By.className("js-header__search__button--find"));
-
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String env = propertyReader.getProperty("environment");
         TestDataReader testdataReader = TestDataReader.getTestDataReader();
@@ -121,10 +114,7 @@ public class HeaderWrap {
             searchItem = testdataReader.getData(env + "." + searchItem);
         }
 
-        searchInput.sendKeys(searchItem);
-        searchButton.click();
-        logger.info("Searching for {}", searchItem);
-        Util.waitLoadingBar(driver);
+        searchForSpecificTerm(searchItem);
     }
 
     public void searchForSpecificTerm(String searchTerm) {
