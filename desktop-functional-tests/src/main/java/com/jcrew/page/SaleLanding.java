@@ -60,9 +60,12 @@ public class SaleLanding {
 
     private WebElement getSubcategoryFromSale(String subcategory) {
         wait.until(ExpectedConditions.visibilityOf(saleCategory));
-
-        return saleCategory.findElement(
+        WebElement sale = saleCategory.findElement(
                 By.xpath(".//a[@class='js-sale__link' and @data-label='" + subcategory.toLowerCase() + "']"));
+
+        logger.debug("Opening sale link {}", sale.getAttribute("href"));
+
+        return sale;
     }
 
 }
