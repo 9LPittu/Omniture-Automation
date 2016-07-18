@@ -1,6 +1,6 @@
 @MiniCart
 
-Feature: Add products from category, search and sale, check mini bag and checkout
+Feature: Check mini bag when adding products from category, search and sale
 
   Background:
     Given User goes to homepage
@@ -24,13 +24,12 @@ Feature: Add products from category, search and sale, check mini bag and checkou
 
     When User adds to bag a random product using a main category
     And User hovers over bag
-    Then Verify mini bag contains a message to show more and 3 items
+    Then Verify subtotal in mini bag matches items
+    And Verify mini bag contains a message to show more and 3 items
     And Verify first item is the recently added product
     And Verify message link matches button link
-    And Verify subtotal in mini bag matches items
 
-    When User opens menu
-    And User goes to home using menu drawer
+    When User goes to homepage
     And User hovers over bag
     Then Verify each item links to product PDP
 
