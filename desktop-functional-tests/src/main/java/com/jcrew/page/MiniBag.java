@@ -63,7 +63,9 @@ public class MiniBag {
         WebElement information;
 
         information = item.findElement(By.className(ITEM_NAME_CLASS));
-        product.setName(information.getText());
+        String name = information.getText();
+        name = name.replace("Pre-order ", "");
+        product.setName(name);
         information = item.findElement(By.className(ITEM_COLOR_CLASS));
         product.setColor(information.getText());
         information = item.findElement(By.className(ITEM_SIZE_CLASS));

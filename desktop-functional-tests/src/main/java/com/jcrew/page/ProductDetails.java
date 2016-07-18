@@ -224,7 +224,7 @@ public class ProductDetails {
         holder.put("bag_items", productsInBag);
 
         addToBagButton.click();
-        headerWrap.waitUntilNoCheckOutDropdown();
+        headerWrap.waitUntilCheckOutDropdown();
     }
 
     private boolean verifyCurrency(String currency) {

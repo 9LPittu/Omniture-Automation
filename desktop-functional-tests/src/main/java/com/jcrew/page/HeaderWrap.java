@@ -75,20 +75,23 @@ public class HeaderWrap {
         try {
             wait.until(ExpectedConditions.visibilityOf(global_promo));
             wait.until(ExpectedConditions.visibilityOf(global_header));
+            wait.until(ExpectedConditions.visibilityOf(bag));
         } catch (TimeoutException timeout) {
             logger.debug("Timed out while waiting for header in page: {}", driver.getCurrentUrl());
             Logs errorLog = driver.manage().logs();
             LogEntries errors = errorLog.get(LogType.BROWSER);
 
             for (LogEntry error : errors) {
-                logger.error("Broser logged: {}", error);
+                logger.error("Browser logged: {}", error);
             }
         }
     }
 
     public void openMenu() {
-        menu.click();
-        wait.until(ExpectedConditions.visibilityOf(global_nav));
+        if(!global_nav.isDisplayed()) {
+            menu.click();
+            wait.until(ExpectedConditions.visibilityOf(global_nav));
+        }
     }
 
     public void clickLogo() {
@@ -106,12 +109,6 @@ public class HeaderWrap {
     }
 
     public void searchFor(String searchItem) {
-        search.click();
-
-        wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
-        WebElement searchHeader = global_header.findElement(By.className("js-c-header__search"));
-        WebElement searchInput = searchHeader.findElement(By.className("js-header__search__input"));
-        WebElement searchButton = searchHeader.findElement(By.className("js-header__search__button--find"));
 
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String env = propertyReader.getProperty("environment");
@@ -121,10 +118,7 @@ public class HeaderWrap {
             searchItem = testdataReader.getData(env + "." + searchItem);
         }
 
-        searchInput.sendKeys(searchItem);
-        searchButton.click();
-        logger.info("Searching for {}", searchItem);
-        Util.waitLoadingBar(driver);
+        searchForSpecificTerm(searchItem);
     }
 
     public void searchForSpecificTerm(String searchTerm) {
@@ -198,7 +192,7 @@ public class HeaderWrap {
         WebElement welcomeRow = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel--welcomeuser']"));
         String message = welcomeRow.getText();
 
-        if(message.isEmpty()) {
+        if (message.isEmpty()) {
             hoverOverIcon("my account");
             message = welcomeRow.getText();
         }
@@ -227,18 +221,27 @@ public class HeaderWrap {
     }
 
     public void waitUntilNoCheckOutDropdown() {
-        List<WebElement> checkoutDropdown = global_header.findElements(By.className("js-header__cart"));
 
-        if (checkoutDropdown.size() > 0) {
-            wait.until(new Predicate<WebDriver>() {
-                @Override
-                public boolean apply(WebDriver driver) {
-                    List<WebElement> headerCart = global_header.findElements(By.className("js-header__cart"));
+        wait.until(new Predicate<WebDriver>() {
+            @Override
+            public boolean apply(WebDriver driver) {
+                logger.info("minibag class: {}", minibag.getAttribute("class"));
+                return !minibag.isDisplayed();
+            }
+        });
 
-                    return headerCart.size() == 0;
-                }
-            });
-        }
+    }
+
+    public void waitUntilCheckOutDropdown() {
+
+        wait.until(new Predicate<WebDriver>() {
+            @Override
+            public boolean apply(WebDriver driver) {
+                logger.info("minibag class: {}", minibag.getAttribute("class"));
+                return minibag.isDisplayed();
+            }
+        });
+
     }
 
     public void clickDeptLinkFromTopNav(String dept) {
