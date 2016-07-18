@@ -26,7 +26,7 @@ Feature: User is able to checkout in international context
 
     When User adds selected product to bag
     #Sale
-    And User navigates to women sale page
+    And User navigates to specific women sale page
     Then Verify proper currency symbol is displayed on product grid list
 
     When User selects random product from array

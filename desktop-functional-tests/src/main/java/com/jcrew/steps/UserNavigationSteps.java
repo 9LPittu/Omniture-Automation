@@ -85,7 +85,7 @@ public class UserNavigationSteps extends DriverFactory {
 
     }
 
-    @When("User navigates to ([^\"]*) sale page")
+    @When("User navigates to specific ([^\"]*) sale page")
     public void user_navigates_specific_sale_page(String specific) {
         MenuDrawer menuDrawer = new MenuDrawer(driver);
         menuDrawer.openSaleLandingPage();
