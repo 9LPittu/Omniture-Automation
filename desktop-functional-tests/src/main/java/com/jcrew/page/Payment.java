@@ -76,7 +76,10 @@ public class Payment {
     }
 
     public void submitPayment() {
+        String currentURl = driver.getCurrentUrl();
         submitButton.click();
+
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURl)));
         Util.waitForPageFullyLoaded(driver);
     }
 
