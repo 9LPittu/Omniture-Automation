@@ -1,4 +1,4 @@
-package com.jcrew.runner.regression;
+package com.jcrew.runner.hold;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
