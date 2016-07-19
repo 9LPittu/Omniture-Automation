@@ -1,50 +1,38 @@
 package com.jcrew.page;
 
-import com.jcrew.pojo.Country;
-import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by nadiapaolagarcia on 4/18/16.
  */
-public class WelcomeMat {
-    private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(WelcomeMat.class);
-    private final WebDriverWait wait;
-    private final StateHolder stateHolder = StateHolder.getInstance();
-    private final Country country;
+public class WelcomeMat extends PageObject{
 
+    @FindBy(className = "js-global-welcomemat-wrapper")
     private WebElement welcomemat;
+    @FindBy(className = "c-header__welcomemat--logo")
     private WebElement logo;
+    @FindBy(className = "c-header__welcomemat--country-context")
     private WebElement country_context;
+    @FindBy(className = "c-header__welcomemat--header")
     private WebElement header;
     private WebElement body;
+    @FindBy(className = "c-header__welcomemat--footer")
     private WebElement footer;
+    @FindBy(className = "c-header__welcomemat--terms")
     private WebElement terms;
 
     public WelcomeMat(WebDriver driver) {
-        this.driver = driver;
-        this.wait = Util.createWebDriverWait(driver);
-        this.country = (Country) stateHolder.get("context");
+        super(driver);
 
         PageFactory.initElements(driver, this);
 
-        welcomemat = wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.className("js-global-welcomemat-wrapper")));
-
-        logo = welcomemat.findElement(By.className("c-header__welcomemat--logo"));
-        country_context = welcomemat.findElement(By.className("c-header__welcomemat--country-context"));
-        header = welcomemat.findElement(By.className("c-header__welcomemat--header"));
-        footer = welcomemat.findElement(By.className("c-header__welcomemat--footer"));
-        terms = welcomemat.findElement(By.className("c-header__welcomemat--terms"));
+        wait.until(ExpectedConditions.visibilityOf(welcomemat));
 
         if ("CA".equalsIgnoreCase(country.getCountry())) {
             body = welcomemat.findElement(By.className("c-header__welcomematCanada--byline"));
@@ -65,34 +53,25 @@ public class WelcomeMat {
                 && terms.isDisplayed();
     }
 
-    public boolean verifyCountryContext() {
-        boolean result;
-        String countryName = country.getName().toLowerCase();
-        String countryFlagName = countryName.replace(" ", "");
-
+    public String getCountry() {
         String countryContextText = country_context.getText().toLowerCase();
-        result = countryContextText.equals(countryName);
+        logger.debug("Country name in welcome mat: {}", countryContextText);
 
-        WebElement flag = country_context.findElement(By.className("c-header__welcomemat--flag"));
-        String flagClass = flag.getAttribute("class");
-
-        result &= flagClass.contains(countryFlagName);
-
-        return result;
+        return countryContextText;
     }
 
-    public boolean verifyWelcomeMessage() {
-        boolean result;
+    public String getCountryFlagClass() {
+        WebElement flag = country_context.findElement(By.className("c-header__welcomemat--flag"));
+        String flagClass = flag.getAttribute("class");
+        logger.debug("Country flag class in welcome mat: {}", flagClass);
+
+        return flagClass;
+    }
+
+    public String getWelcomeMessage() {
         WebElement headerH2 = header.findElement(By.tagName("h2"));
-        String headerH2Text = headerH2.getText();
 
-        if ("CA".equalsIgnoreCase(country.getCountry())) {
-            result = headerH2Text.equalsIgnoreCase("Hello, Canada!");
-        } else {
-            result = headerH2Text.equalsIgnoreCase("Around the World");
-        }
-
-        return result;
+        return headerH2.getText();
     }
 
     public void clickStartShopping() {

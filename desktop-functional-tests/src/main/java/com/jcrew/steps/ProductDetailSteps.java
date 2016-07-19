@@ -43,7 +43,7 @@ public class ProductDetailSteps extends DriverFactory {
         assertTrue("Currency and URL are expected for country", productDetails.verifyContext());
     }
     
-    @Then("User is in product detail page")
+    @Then("Verify product detail page is displayed")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
         assertTrue("User should be in detail page",
         		productDetails.isProductDetailPage());

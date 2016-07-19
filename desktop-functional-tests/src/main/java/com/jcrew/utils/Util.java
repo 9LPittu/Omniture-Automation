@@ -104,10 +104,14 @@ public class Util {
         }
     }
 
-    public static void scrollToElement(WebDriver driver, WebElement element){
-        Actions action = new Actions(driver);
-        createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
-        action.moveToElement(element);
+    public static boolean countryContextURLCompliance(String url, Country country) {
+        String countryURL = country.getHomeurl();
+        String countryCode = country.getCountry();
+
+        boolean startsWith = url.startsWith(countryURL);
+        boolean contains = url.contains("/" + countryCode + "/");
+
+        return startsWith & contains == country.isContexturl();
     }
 
     public static boolean countryContextURLCompliance(WebDriver driver, Country country) {

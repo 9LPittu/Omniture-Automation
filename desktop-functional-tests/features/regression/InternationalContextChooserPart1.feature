@@ -42,32 +42,32 @@ Feature: International Country Context - Part 1
     And User is on internal /r/context-chooser page
     Given User selects <country_group> at random from context chooser page
     Then User should land on country specific home page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
     When User clicks on sign in using header
     And User fills user data and signs in
     Then Verify user is in My Account main page
     When User clicks on My Details link in My Account Page
     Then User should be in account/details? menu link page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
     When User clicks on Email Preferences link in My Account Page
     Then User should be in account/email_preferences.jsp menu link page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
     When User clicks on Catalog Preferences link in My Account Page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
     When User clicks on Gift Card Balance link in My Account Page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
     When User clicks on Payment Methods link in My Account Page
     Then User should be in account/payment_info.jsp menu link page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
     When User clicks on Address Book link in My Account Page
     Then User should be in account/address_book.jsp menu link page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
     When User clicks on Order History link in My Account Page
     Then User should be in account/reg_user_order_history.jsp menu link page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
     When User clicks on My Wishlist link in My Account Page
     Then User should be in /wishlist menu link page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
 
     Examples:
       | country_group |
@@ -81,11 +81,11 @@ Feature: International Country Context - Part 1
     And User is on internal /r/context-chooser page
     Given User selects <country_group> at random from context chooser page
     Then User should land on country specific home page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
     When User clicks on sign in using header
     And Clicks on forgot password link
     And Verify user is in forgot password page
-    And User should see selected country in the footer
+    And Verify selected country is in footer
 
     Examples:
       | country_group |

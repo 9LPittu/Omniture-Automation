@@ -14,13 +14,13 @@ Feature: User is able to checkout in international context
     #Category
     When User navigates to a subcategory from main category
     Then Verify context in the array page
-    And User should see selected country in the footer
-    And User should see country code in the url for international countries
+    And Verify selected country is in footer
+    And Verify country code in the url for international countries
     And Verify proper currency symbol is displayed on product grid list
 
     When User selects random product from product array
-    Then User is in product detail page
-    And User should see selected country in the footer
+    Then Verify product detail page is displayed
+    And Verify selected country is in footer
     And Verify context in the product detail page
     And Verify proper currency symbol is displayed on PDP page
 
@@ -30,17 +30,17 @@ Feature: User is able to checkout in international context
     Then Verify proper currency symbol is displayed on product grid list
 
     When User selects random product from array
-    And User is in product detail page
+    And Verify product detail page is displayed
     Then Verify proper currency symbol is displayed on PDP page
-    And User adds selected product to bag
 
+    When User adds selected product to bag
     #Search
-    When User searches specific term dresses
+    And User searches specific term dresses
     Then User is in search results page
     And Verify proper currency symbol is displayed on product grid list
 
     When User selects random product from array
-    Then User is in product detail page
+    Then Verify product detail page is displayed
     Then Verify proper currency symbol is displayed on PDP page
 
     When User adds selected product to bag
@@ -96,24 +96,24 @@ Feature: User is able to checkout in international context
     When User clicks on Start Shopping
     And User closes email capture
     And User searches for the item soldout.item
-    Then User is in product detail page
+    Then Verify product detail page is displayed
     And Verify sold out message is displayed on PDP
 
     When User searches for the item shipping.restriction.item
-    Then User is in product detail page
+    Then Verify product detail page is displayed
     And Verify shipping restriction message is displayed on PDP
 
     When User searches for the item variations.item
     And User selects first product from search results
-    Then User is in product detail page
+    Then Verify product detail page is displayed
     And Verify PDP message is displayed for the selected country
 
     When User selects random variant on the PDP page
-    Then User is in product detail page
+    Then Verify product detail page is displayed
     And Verify PDP message is displayed for the selected country
 #    currently vps is set up only in bronze in canada context. Will run the below when data is available
 #    And User searches for the vps.item
-#    Then User is in product detail page
+#    Then Verify product detail page is displayed
 #   Then Verify VPS item message is displayed on PDP
     Examples:
       | country_group |

@@ -18,25 +18,20 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 3/30/16.
  */
-public class HomePage {
-    private final WebDriver driver;
+public class HomePage extends PageObject{
     private HeaderWrap headerWrap;
     private Footer footer;
-    private final Logger logger = LoggerFactory.getLogger(HomePage.class);
-    private final StateHolder stateHolder = StateHolder.getInstance();
-    private WebDriverWait wait;
 
     @FindBy(id = "page__home")
     private WebElement pageContent;
 
     public HomePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
+        PageFactory.initElements(driver, this);
+        wait.until(ExpectedConditions.visibilityOf(pageContent));
+
         headerWrap = new HeaderWrap(driver);
         footer = new Footer(driver);
-        wait = Util.createWebDriverWait(driver);
-        PageFactory.initElements(driver, this);
-
-        wait.until(ExpectedConditions.visibilityOf(pageContent));
     }
 
     public boolean isHomePage() {
@@ -46,17 +41,5 @@ public class HomePage {
 
         return "jcrew home".equals(bodyClass);
     }
-
-    public boolean verifyInternational() {
-        Country country = (Country) stateHolder.get("context");
-        String countryName = country.getName();
-        String countryFooter = footer.getCountry();
-
-        boolean urlCompliance = Util.countryContextURLCompliance(driver, country);
-        boolean footerCompliance = countryName.equalsIgnoreCase(countryFooter);
-
-        return urlCompliance & footerCompliance;
-    }
-
 
 }
