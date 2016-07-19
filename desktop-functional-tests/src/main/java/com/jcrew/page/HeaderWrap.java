@@ -121,11 +121,12 @@ public class HeaderWrap {
     }
 
     public void searchForSpecificTerm(String searchTerm) {
-        search.click();
+
         wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
         WebElement searchHeader = global_header.findElement(By.className("js-c-header__search"));
         WebElement searchInput = searchHeader.findElement(By.className("js-header__search__input"));
         WebElement searchButton = searchHeader.findElement(By.className("js-header__search__button--find"));
+        search.click();
         searchInput.sendKeys(searchTerm);
         searchButton.click();
         logger.info("Searching for {}", searchTerm);
