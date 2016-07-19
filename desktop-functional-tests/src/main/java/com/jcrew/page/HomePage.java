@@ -31,16 +31,17 @@ public class HomePage {
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
-        headerWrap = new HeaderWrap(driver);
-        footer = new Footer(driver);
+
         wait = Util.createWebDriverWait(driver);
         PageFactory.initElements(driver, this);
 
         wait.until(ExpectedConditions.visibilityOf(pageContent));
+        headerWrap = new HeaderWrap(driver);
+        footer = new Footer(driver);
     }
 
     public boolean isHomePage() {
-        headerWrap.reload();
+        wait.until(ExpectedConditions.visibilityOf(pageContent));
         WebElement body = driver.findElement(By.tagName("body"));
         String bodyClass = body.getAttribute("class");
 
