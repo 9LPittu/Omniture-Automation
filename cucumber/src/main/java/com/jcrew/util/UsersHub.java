@@ -65,7 +65,7 @@ public class UsersHub {
 	
 	private int getAvailableUsersCount() throws SQLException, ClassNotFoundException{	
 				
-		String getUsersCountSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS where Environment='"  + environment + "' and Allocation = 'N'";		
+		String getUsersCountSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'";
 		ResultSet rs = executeSQLQuery(getUsersCountSQLQuery);
 		int numOfRecords = 0;
 		if(rs!=null){
@@ -82,7 +82,7 @@ public class UsersHub {
 	
 	public void retrieveUserCredentialsFromDBAndStoreInMap() throws SQLException, ClassNotFoundException{
 		if(getAvailableUsersCount() > 0){
-			String getUserCredentialsSQLQuery = "select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where Environment='"  + environment + "' and Allocation = 'N'";
+			String getUserCredentialsSQLQuery = "select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'";
 			ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
 			if(rs!=null){
 				while(rs.next()){
@@ -93,7 +93,7 @@ public class UsersHub {
 				}
 			}
 			
-			String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' where username='" + stateHolder.get("sidecarusername") + "' and Environment='"  + environment + "'";
+			String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' where brand='jcrew' and username='" + stateHolder.get("sidecarusername") + "' and Environment='"  + environment + "'";
 			executeSQLQuery(updateAllocationFlagSQLQuery);
 		}
 		else{
@@ -106,7 +106,7 @@ public class UsersHub {
 	
 	public void releaseUserCredentials() throws SQLException, ClassNotFoundException{
 		String currentUserName = (String) stateHolder.get("sidecarusername");
-		String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where username='" + currentUserName + "' and environment='"  + environment + "'";
+		String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where brand='jcrew' and username='" + currentUserName + "' and environment='"  + environment + "'";
 		executeSQLQuery(updateAllocationFlagSQLQuery);
 		logger.info("User '{}' is released in DB for '{}' environment" , currentUserName, environment);
 		closeDBConnection();
