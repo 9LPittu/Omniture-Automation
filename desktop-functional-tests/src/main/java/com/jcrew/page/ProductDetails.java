@@ -224,7 +224,7 @@ public class ProductDetails {
         holder.put("bag_items", productsInBag);
 
         addToBagButton.click();
-        headerWrap.waitUntilNoCheckOutDropdown();
+        headerWrap.waitUntilCheckOutDropdown();
     }
 
     private boolean verifyCurrency(String currency) {
@@ -349,6 +349,7 @@ public class ProductDetails {
             expectedSizeMessage = testDataReader.getData("pdp.size.message");
             logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 
+            wait.until(ExpectedConditions.visibilityOf(reviewSummary));
             wait.until(ExpectedConditions.visibilityOf(sizeMessage));
             actualSizeMessage = sizeMessage.getText().trim();
             logger.info("Actual Size Message on PDP: {}", actualSizeMessage);

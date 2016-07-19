@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.*;
 import com.jcrew.utils.DriverFactory;
+import com.thoughtworks.selenium.webdriven.commands.Check;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -84,14 +85,20 @@ public class CheckOutSteps extends DriverFactory {
 
     @When("User reviews and places order")
     public void user_reviews_and_places_order() {
-        OrderReview review = new OrderReview(getDriver());
+        CheckoutReview review = new CheckoutReview(getDriver());
         review.placeOrder();
     }
 
     @Then("User gets an order confirmation number")
     public void user_gets_an_order_confirmation_number() {
-        OrderConfirmation confirmation = new OrderConfirmation(getDriver());
-        assertTrue("Confirmation number in page", confirmation.orderNumberIsVisible());
+        Checkout checkoutPage = new Checkout(getDriver());
+
+        if(checkoutPage.isOrderConfirmationPage()) {
+            assertTrue("Confirmation number in page", checkoutPage.orderNumberIsVisible());
+        } else {
+            float total = checkoutPage.getOrderTotal();
+            assertTrue("Order total is " + total + " than threshold and there is no error", checkoutPage.hasErrors());
+        }
     }
 
     @When("In Shipping Address Page, user clicks continue")
@@ -108,20 +115,20 @@ public class CheckOutSteps extends DriverFactory {
 
     @When("In Review page, user fills cvv and places order")
     public void review_fill_cvv_and_continue() {
-        OrderReview review = new OrderReview(getDriver());
+        CheckoutReview review = new CheckoutReview(getDriver());
         review.fillSecurityCode();
         review.placeOrder();
     }
 
     @Then("Verify user is in review page$")
     public void verify_user_is_in_review_page() {
-        OrderReview review = new OrderReview(getDriver());
+        CheckoutReview review = new CheckoutReview(getDriver());
         assertTrue("User should be in review page",review.isReviewPage() );
     }
 
     @Then("Verify user is in order confirmation page")
     public void verify_user_is_in_order_confirmation_page() {
-        OrderConfirmation confirmation = new OrderConfirmation(getDriver());
+        Checkout confirmation = new Checkout(getDriver());
         assertTrue("User should be in order confirmation page", confirmation.isOrderConfirmationPage());
     }
 

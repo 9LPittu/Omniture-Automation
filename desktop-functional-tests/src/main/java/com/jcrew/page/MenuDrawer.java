@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Predicate;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
@@ -119,24 +120,10 @@ public class MenuDrawer {
         WebElement navWrap = drawer.findElement(By.className("nav__wrap"));
         String navWrapClass = navWrap.getAttribute("class");
 
-        while (!"nav__wrap".equals(navWrapClass)) {
-            String navWrapClasses[] = navWrapClass.split(" ");
-            WebElement visibleLevel = drawer;
-
-            if ("is-offscreen-left-x1".equals(navWrapClasses[1])) {
-                visibleLevel = drawer.findElement(By.className("js-menus--level2"));
-
-            } else if ("is-offscreen-left-x2".equals(navWrapClasses[1])) {
-                visibleLevel = drawer.findElement(By.className("js-menus--level3"));
-            }
-
-            wait.until(ExpectedConditions.visibilityOf(visibleLevel));
-            WebElement back = visibleLevel.findElement(By.className("btn__label"));
-
-            wait.until(ExpectedConditions.elementToBeClickable(back));
-            back.click();
-
-            navWrapClass = navWrap.getAttribute("class");
+        if (!"nav__wrap".equals(navWrapClass)) {
+            HeaderWrap headerWrap = new HeaderWrap(driver);
+            headerWrap.clickLogo();
+            headerWrap.openMenu();
         }
     }
 
@@ -146,5 +133,8 @@ public class MenuDrawer {
 
         wait.until(ExpectedConditions.visibilityOf(homeLink));
         homeLink.click();
+
+        HeaderWrap header = new HeaderWrap(driver);
+        header.reload();
     }
 }

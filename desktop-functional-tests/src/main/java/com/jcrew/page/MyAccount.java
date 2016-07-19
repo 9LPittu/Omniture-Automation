@@ -110,16 +110,32 @@ public class MyAccount {
     }
 
     public void click_menu_link(String link) {
-        WebElement menu;
+        WebElement menu = null;
 
         Country c = (Country) stateHolder.get("context");
+
         // to validate the my account page left nav links
         //US: Gift card balance, Catalog Preferences,My Details, Email Preferences, Payment Methods, Address Book, Order History, Wish list & Sign Out
         //CANADA: All the above except Gift card balance will be there
         //All the other countries: Gift card Balance and Catalog Preferences will not be present
-        boolean ifOtherCountries = !(link.equals("GIFT CARD BALANCE") || link.equals("CATALOG PREFERENCES"));
-        if (("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry()) || ifOtherCountries) {
-            menu = getMenuLink(link);
+
+        switch (c.getCountry()) {
+            case "us":
+                menu = getMenuLink(link);
+                break;
+            case "ca":
+                if(!link.equalsIgnoreCase("GIFT CARD BALANCE")) {
+                    menu = getMenuLink(link);
+                }
+                break;
+            default:
+                if(!link.equalsIgnoreCase("GIFT CARD BALANCE") && !link.equalsIgnoreCase("CATALOG PREFERENCES") ) {
+                    menu = getMenuLink(link);
+                }
+                break;
+        }
+
+        if(menu != null) {
             wait.until(ExpectedConditions.elementToBeClickable(menu));
             Util.clickWithStaleRetry(menu);
         }
