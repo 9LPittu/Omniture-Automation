@@ -26,8 +26,8 @@ public class SaleLanding {
     @FindBy(id = "page__sale")
     private WebElement page__sale;
 
-    @FindBy(className = "c-sale__c-category-list")
-    private WebElement saleCategoryList;
+    @FindBy(id = "c-promo-categories")
+    private WebElement saleCategory;
 
     public SaleLanding(WebDriver driver) {
         this.driver = driver;
@@ -40,12 +40,13 @@ public class SaleLanding {
     public void selectRandomSaleCategory() {
         List<WebElement> categoryListItem = page__sale.findElements(By.className("c-category__list-item"));
         WebElement randomItem = Util.randomIndex(categoryListItem);
-        WebElement randomItemLink = randomItem.findElement(By.xpath(".//parent::a"));
-        String data_name = randomItemLink.getAttribute("data-label");
+        WebElement randomItemLink = randomItem.findElement(By.tagName("a"));
 
-        logger.info("Selected {} for sale category", data_name);
+        logger.info("Selected {} for sale category with link {}",
+                randomItemLink.getAttribute("data-label"),
+                randomItemLink.getAttribute("href"));
 
-        randomItem.click();
+        randomItemLink.click();
         Util.waitLoadingBar(driver);
     }
 
@@ -58,10 +59,13 @@ public class SaleLanding {
     }
 
     private WebElement getSubcategoryFromSale(String subcategory) {
-        wait.until(ExpectedConditions.visibilityOf(saleCategoryList));
-        return saleCategoryList.findElement(By.xpath(".//div[@class='c-category__header accordian__header' and " +
-                Util.xpathGetTextLower + " = " +
-                "translate('" + subcategory + "', 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')]/.."));
+        wait.until(ExpectedConditions.visibilityOf(saleCategory));
+        WebElement sale = saleCategory.findElement(
+                By.xpath(".//a[@class='js-sale__link' and @data-label='" + subcategory.toLowerCase() + "']"));
+
+        logger.debug("Opening sale link {}", sale.getAttribute("href"));
+
+        return sale;
     }
 
 }

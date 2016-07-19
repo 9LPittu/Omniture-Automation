@@ -102,6 +102,9 @@ public class Shipping {
                 Select state_dropdown = new Select(state_province);
                 state_dropdown.selectByVisibleText(address.getState());
                 break;
+            case "us":
+                wait.until(ExpectedConditions.visibilityOf(us_city_state));
+                break;
         }
 
     }
