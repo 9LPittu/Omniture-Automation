@@ -30,13 +30,15 @@ Feature: Sign In
     When User hovers over My Account
     Then Dropdown should welcome user by first name
 
+
     When User navigates to a subcategory from main category
     And User hovers over My Account
     Then Dropdown should welcome user by first name
 
-    When User navigates to a pdp
+    And User selects random product from product array
     And User hovers over My Account
     Then Dropdown should welcome user by first name
+
 
     When User searches for a random search term
     And User hovers over My Account
