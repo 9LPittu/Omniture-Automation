@@ -12,7 +12,7 @@ Feature: PDP Size and Fit functionality
     And User selects random product from product array
     And User is in product detail page
     
-    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button     
+#    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button
     
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
     Then Verify 'SIZE & FIT' drawer is expanded state
@@ -34,7 +34,7 @@ Feature: PDP Size and Fit functionality
     And User selects random product from product array
     And User is in product detail page
     
-    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button     
+#    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button
     
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
     Then Verify 'SIZE & FIT' drawer is expanded state
@@ -56,7 +56,7 @@ Feature: PDP Size and Fit functionality
     And User selects random product from product array
     And User is in product detail page
     
-    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button     
+#    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button
     
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
     Then Verify 'SIZE & FIT' drawer is expanded state
@@ -78,7 +78,7 @@ Feature: PDP Size and Fit functionality
     And User selects random product from product array
     And User is in product detail page
     
-    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button     
+#    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button
     
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
     Then Verify 'SIZE & FIT' drawer is expanded state
