@@ -12,9 +12,9 @@ Feature: Sign In
     When User hovers over My Account
     Then Dropdown should welcome user by first name
 
-    # Commenting below 4 steps to avoid failure due to JCSC-1367
-    #When User goes to My Details using My Account menu
-    #Then Known user information should match My Details page
+    # JCSC-1367 for steel
+    When User goes to My Details using My Account menu
+    Then Known user information should match My Details page
 
     When User goes to Wishlist using header
     Then Verify user is in wishlist page
@@ -22,8 +22,8 @@ Feature: Sign In
     When User goes to Order History using header
     Then Verify user is in Order History page
 
-#    When User goes to My Details using header
-#    Then Known user information should match My Details page
+    When User goes to My Details using header
+    Then Known user information should match My Details page
 
     When User clicks JCrew logo
     Then Verify user is in homepage
