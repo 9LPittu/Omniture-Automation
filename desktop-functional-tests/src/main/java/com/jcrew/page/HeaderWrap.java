@@ -88,6 +88,7 @@ public class HeaderWrap {
     }
 
     public void openMenu() {
+        PageFactory.initElements(driver, this);
         if(!global_nav.isDisplayed()) {
             menu.click();
             wait.until(ExpectedConditions.visibilityOf(global_nav));
@@ -100,6 +101,9 @@ public class HeaderWrap {
         } else {
             clickBreadCrumb("J.Crew");
         }
+
+        HomePage homePage = new HomePage(driver);
+        logger.debug("We are in homepage after clicking logo or breadcrumb: {}",homePage.isHomePage());
     }
 
     public void clickBreadCrumb(String text) {
@@ -121,17 +125,15 @@ public class HeaderWrap {
     }
 
     public void searchForSpecificTerm(String searchTerm) {
-
         wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
-        WebElement searchHeader = global_header.findElement(By.className("js-c-header__search"));
-        WebElement searchInput = searchHeader.findElement(By.className("js-header__search__input"));
-        WebElement searchButton = searchHeader.findElement(By.className("js-header__search__button--find"));
         search.click();
+        WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
+        WebElement searchInput = searchHeader.findElement(By.xpath(".//input[contains(@class,'js-header__search__input')]"));
         searchInput.sendKeys(searchTerm);
+        WebElement searchButton = searchHeader.findElement(By.xpath(".//a[contains(@class, 'js-header__search__button')]"));
         searchButton.click();
         logger.info("Searching for {}", searchTerm);
         Util.waitLoadingBar(driver);
-
     }
 
     public void clickSignIn() {
