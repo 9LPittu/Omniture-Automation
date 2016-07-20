@@ -2,12 +2,9 @@ package com.jcrew.page;
 
 import com.google.common.base.Predicate;
 import com.jcrew.utils.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -17,38 +14,50 @@ import java.util.List;
  */
 public class EmailCapture extends PageObject {
 
-    @FindBy(id = "global__email-capture")
-    private WebElement global__email_capture;
-
     private final WebDriverWait shortWait;
 
     public EmailCapture(WebDriver driver) {
         super(driver);
-        this.shortWait = Util.createWebDriverWait(driver, 5);
+        this.shortWait = Util.createWebDriverWait(driver, 10);
 
         PageFactory.initElements(driver, this);
     }
 
     public void closeEmailCapture() {
 
-        if (global__email_capture.isDisplayed()) {
-            List<WebElement> close_email_capture = global__email_capture.findElements(By.className("js-email-capture--close"));
+        try {
+            List<WebElement> global__email_capture_list = shortWait.until(
+                    ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id='global__email-capture']")));
 
-            if (close_email_capture.size() > 0) {
-                logger.debug("Email capture is visible, closing.");
-                final WebElement close = close_email_capture.get(0);
+            if (global__email_capture_list.size() > 0) {
+                List<WebElement> close_email_capture =
+                        global__email_capture_list.get(0).findElements(By.className("js-email-capture--close"));
 
-                wait.until(new Predicate<WebDriver>() {
-                    @Override
-                    public boolean apply(WebDriver driver) {
-                        try {
-                            close.click();
-                        } catch (WebDriverException wde) {
-                            return false;
+                if (close_email_capture.size() > 0) {
+                    logger.debug("Email capture is visible, closing.");
+                    final WebElement close = close_email_capture.get(0);
+
+                    wait.until(new Predicate<WebDriver>() {
+                        @Override
+                        public boolean apply(WebDriver driver) {
+                            try {
+                                logger.debug("Close: {}", close.getAttribute("class"));
+                                close.click();
+                                wait.until(ExpectedConditions.stalenessOf(close));
+                            } catch (WebDriverException wde) {
+                                return false;
+                            }
+                            return true;
                         }
-                        return true;
-                    }
-                });
+                    });
+                }
+            }
+        } catch (TimeoutException timeout) {
+            //for some reason, in zanker, the email capture is not displayed with PhantomJS, but the overlay is.
+            //catching this timeout and ignoring.
+            WebElement overlay = driver.findElement(By.className("js-global__overlay--emailcapture"));
+            if(overlay.isDisplayed()) {
+                logger.error("No email caputre, but we have the email capture overlay");
             }
         }
     }

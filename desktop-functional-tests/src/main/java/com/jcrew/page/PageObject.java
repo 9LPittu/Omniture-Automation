@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public abstract class PageObject {
 
     protected final WebDriver driver;
-    protected final Logger logger = LoggerFactory.getLogger(MenuDrawer.class);
+    protected final Logger logger = LoggerFactory.getLogger(PageObject.class);
     protected final WebDriverWait wait;
 
     protected final StateHolder stateHolder = StateHolder.getInstance();
