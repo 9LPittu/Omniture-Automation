@@ -42,13 +42,14 @@ public class UserNavigationSteps extends DriverFactory {
 
         MenuDrawer menuDrawer = new MenuDrawer(driver);
         menuDrawer.selectCategory(category);
-
+        Util.waitLoadingBar(driver);
         menuDrawer.selectSubCategory(subCategory);
     }
 
 
     @When("User navigates to a pdp")
     public void user_navigates_to_a_pdp () {
+
         user_navigates_to_subcategory_from_main_category();
 
         ProductsArray productsArray = new ProductsArray(driver);
