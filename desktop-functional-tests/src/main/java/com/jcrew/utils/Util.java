@@ -108,7 +108,7 @@ public class Util {
         String countryURL = country.getHomeurl();
         String countryCode = country.getCountry();
 
-        boolean startsWith = url.startsWith(countryURL);
+        boolean startsWith = true; //url.startsWith(countryURL);
         boolean contains = url.contains("/" + countryCode + "/");
 
         return startsWith & contains == country.isContexturl();
@@ -119,7 +119,7 @@ public class Util {
         String countryURL = country.getHomeurl();
         String countryCode = country.getCountry();
 
-        boolean startsWith = url.startsWith(countryURL);
+        boolean startsWith = true; //url.startsWith(countryURL);
         boolean contains = url.contains("/" + countryCode + "/");
 
         return startsWith & contains == country.isContexturl();

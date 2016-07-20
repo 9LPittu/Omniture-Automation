@@ -90,7 +90,7 @@ public class ProductDetails {
         headerWrap = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(reviewSummary));
+        wait.until(ExpectedConditions.visibilityOf(addToBagButton));
     }
 
     public void selectRandomColor() {

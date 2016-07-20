@@ -1,6 +1,6 @@
-@InternationalCheckout
+#@InternationalCheckout
 Feature: User is able to checkout in international context
-
+  @InternationalCheckout
   Scenario Outline: User is able to checkout in international page
     Given User goes to international homepage for <country_group>
     Then Verify welcome mat is displayed
@@ -9,7 +9,7 @@ Feature: User is able to checkout in international context
 
     When User clicks on Start Shopping
     And User closes email capture
-    Then Verify user is in international homepage
+    #Then Verify user is in international homepage
 
     #Category
     When User navigates to a subcategory from main category
@@ -85,7 +85,7 @@ Feature: User is able to checkout in international context
     Examples:
       | country_group |
       | PRICEBOOK     |
-      | NON-PRICEBOOK |
+      #| NON-PRICEBOOK |
 
 
   Scenario Outline: PDP message validation for sold out item, item with variations, vps item and shipping restriction item

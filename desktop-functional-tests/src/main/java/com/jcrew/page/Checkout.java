@@ -18,17 +18,13 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 7/15/16.
  */
-public class Checkout {
-    protected final WebDriver driver;
-    protected final Logger logger = LoggerFactory.getLogger(Checkout.class);
-    protected final WebDriverWait wait;
+public class Checkout extends PageObject{
 
     @FindBy(xpath = "//section[@class='checkout-container']")
     private  WebElement checkoutContainer;
 
     public Checkout(WebDriver driver) {
-        this.driver = driver;
-        this.wait = Util.createWebDriverWait(driver);
+        super(driver);
     }
 
     public float getOrderTotal() {

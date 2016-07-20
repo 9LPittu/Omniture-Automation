@@ -21,21 +21,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
-public class ProductsArray {
-    private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(ProductsArray.class);
-    private final WebDriverWait wait;
-    private final Footer footer;
-    private final HeaderWrap header;
-    private final StateHolder stateHolder = StateHolder.getInstance();
-
-    private final String PRICE_LIST_CLASS = "tile__detail--price--list";
-    private final String PRICE_WAS_CLASS = "tile__detail--price--was";
-    private final String NAME_CLASS = "tile__detail--name";
-    private final String SHIPPING_CLASS = "tile__detail--shipping";
-    private final String PRICE_SALE_CLASS = "tile__detail--price--sale";
-    private final String COLOR_COUNTS_CLASS = "js-tile__detail--colors-count";
-    private final String CUSTOM_MESSAGE = "monetate_custom_index_text";
+public class ProductsArray extends Array{
 
     @FindBy(id = "c-product__list")
     private WebElement productList;
@@ -45,19 +31,16 @@ public class ProductsArray {
     private WebElement itemCount;
 
     public ProductsArray(WebDriver driver) {
-        this.driver = driver;
-        this.wait = Util.createWebDriverWait(driver);
-        this.footer = new Footer(driver);
-        this.header = new HeaderWrap(driver);
+        super(driver);
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(productList));
+        footer = new Footer(driver);
+        header = new HeaderWrap(driver);
     }
 
     private List<WebElement> getProductTiles() {
-        List<WebElement> productTiles = productList.findElements(By.className("c-product-tile"));
-
-        return productTiles;
+        return getProductTiles(productList);
     }
 
     public void selectRandomProduct() {
@@ -76,66 +59,6 @@ public class ProductsArray {
 
         Util.waitLoadingBar(driver);
         new ProductDetails(driver);
-    }
-
-    private boolean verifyCurrency(String currency) {
-        boolean result = true;
-
-        List<WebElement> productTiles = getProductTiles();
-        Iterator<WebElement> productTilesIterator = productTiles.iterator();
-        WebElement tile = null;
-
-        while (result & productTilesIterator.hasNext()) {
-            tile = productTilesIterator.next();
-            List<WebElement> priceList = tile.findElements(By.className(PRICE_LIST_CLASS));
-            List<WebElement> priceWas = tile.findElements(By.className(PRICE_WAS_CLASS));
-            List<WebElement> priceSale = tile.findElements(By.className(PRICE_SALE_CLASS));
-            WebElement price;
-            String priceText;
-
-            if (priceList.size() > 0) {
-                price = priceList.get(0);
-                priceText = price.getText();
-
-                result = CurrencyChecker.listPrice(currency, priceText);
-                if (!result) {
-                    logger.error("Array: Not able to check list price currency format for item {}", tile.getText());
-                }
-            }
-
-            if (priceWas.size() > 0) {
-                price = priceWas.get(0);
-                priceText = price.getText();
-
-                result &= CurrencyChecker.wasPrice(currency, priceText);
-                if (!result) {
-                    logger.error("Array: Not able to check was price currency format for item {}", tile.getText());
-                }
-            }
-
-            if (priceSale.size() > 0) {
-                price = priceSale.get(0);
-                priceText = price.getText();
-
-                result &= CurrencyChecker.anyPriceSaleType(currency, priceText);
-                if (!result) {
-                    logger.error("Array: Not able to check sale price currency format for item {}", tile.getText());
-                }
-            }
-
-        }
-
-        return result;
-    }
-
-    public boolean verifyContext() {
-        Country country = (Country) stateHolder.get("context");
-        String countryFooter = footer.getCountry();
-
-        boolean result = Util.countryContextURLCompliance(driver, country);
-        result &= countryFooter.equalsIgnoreCase(country.getName());
-
-        return result;
     }
 
     public boolean isCorrectCurrencySymbolonProductGridList() {
@@ -204,7 +127,6 @@ public class ProductsArray {
     }
 
     public void selectRefinement() {
-        stateHolder.put("itemsBefore", getItemsText());
         WebElement accordion = categoryFilters.findElement(By.className("js-accordian__wrap"));
         openRefineAccordion();
         List<WebElement> options = accordion.findElements(By.className("accordian__menu__item"));
@@ -215,6 +137,7 @@ public class ProductsArray {
         logger.debug("Selected {} from refinement", selectedOption.getText());
         stateHolder.put("itemsBefore", getItemsText());
         stateHolder.put("selectedRefinement", selectedOption.getText().toLowerCase());
+
         selectedOption.click();
     }
 }

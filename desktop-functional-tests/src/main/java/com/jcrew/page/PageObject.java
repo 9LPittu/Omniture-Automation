@@ -27,6 +27,7 @@ public abstract class PageObject {
     }
 
     public boolean verifyURL() {
+        logger.debug("Verifying URL {} context compliance", driver.getCurrentUrl());
         return Util.countryContextURLCompliance(driver.getCurrentUrl(), country);
     }
 }

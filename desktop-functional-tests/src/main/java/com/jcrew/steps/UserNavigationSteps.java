@@ -77,6 +77,9 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User navigates to a random sale page")
     public void user_navigates_to_a_random_sale_page() {
+        HeaderWrap header = new HeaderWrap(driver);
+        header.openMenu();
+
         MenuDrawer menuDrawer = new MenuDrawer(driver);
         menuDrawer.openSaleLandingPage();
 

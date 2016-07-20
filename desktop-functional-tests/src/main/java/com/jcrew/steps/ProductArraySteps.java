@@ -1,8 +1,10 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.Footer;
 import com.jcrew.page.ProductsArray;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.Util;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -26,7 +28,14 @@ public class ProductArraySteps extends DriverFactory {
 
     @Then("Verify context in the array page")
     public void verify_that_all_products_in_first_page_contains_expected_cucrrency() {
-        assertTrue("all products in first page contains expected currency", productsArray.verifyContext());
+        String countryName = productsArray.country.getName();
+
+        assertTrue("Category Array url contains expected country code", productsArray.verifyURL());
+
+        Footer footer = new Footer(getDriver());
+        assertEquals("Homepage footer matches expected country",
+                countryName.toLowerCase(),
+                footer.getCountry().toLowerCase());
     }
 
     @Then("^Verify proper currency symbol is displayed on product grid list$")

@@ -74,14 +74,6 @@ public class CurrencyChecker {
         return result;
     }
 
-    public static boolean anyPriceSaleType(String currency, String price) {
-        boolean result = nowPrice(currency, price);
-        result |= selectColorPrice(currency, price);
-        result |= selectColorRangePrice(currency, price);
-
-        return result;
-    }
-
     public static boolean validatePrices(List<WebElement> prices, Country c) {
         boolean result = true;
 
