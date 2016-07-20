@@ -110,8 +110,10 @@ public class Shipping {
     }
 
     public void saveShippingAddress() {
+        String currentUrl = driver.getCurrentUrl();
         WebElement saveShippingAddress = shippingAddress.findElement(By.className("button-submit-bg"));
         saveShippingAddress.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
     }
 
     public void continueWithDefaultAddress() {

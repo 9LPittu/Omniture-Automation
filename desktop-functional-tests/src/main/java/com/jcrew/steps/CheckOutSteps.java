@@ -1,10 +1,12 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.*;
+import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
-import com.thoughtworks.selenium.webdriven.commands.Check;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -12,30 +14,6 @@ import static org.junit.Assert.assertTrue;
  * Created by nadiapaolagarcia on 4/8/16.
  */
 public class CheckOutSteps extends DriverFactory {
-    ShoppingBag shoppingBag = new ShoppingBag(getDriver());
-
-    @Then("User is in shopping bag page$")
-    public void verify_user_is_in_bag_page() {
-
-        assertTrue("User should be in shopping bag page", shoppingBag.isShoppingBagPage());
-    }
-
-    @Then("^Verify proper currency symbol is displayed on ([^\"]*) section on Checkout page$")
-    public void verify_currency_on_checkout_pages_section(String sectionName) {
-
-        assertTrue("Currency on "+sectionName+" section should be displayed correctly", shoppingBag.isCorrectCurrencySymbol(sectionName.toLowerCase()));
-
-    }
-
-    @When("User clicks check out button")
-    public void user_clicks_check_out_button() {
-        shoppingBag.clickCheckoutButton();
-    }
-
-    @Then("Verify that shopping bag has expected context")
-    public void verify_that_shopping_bag_has_expected_context() {
-        assertTrue("Shopping bag has the expected context", shoppingBag.verifyContext());
-    }
 
     @When("User selects guest check out")
     public void user_selects_guest_check_out() {
@@ -93,7 +71,7 @@ public class CheckOutSteps extends DriverFactory {
     public void user_gets_an_order_confirmation_number() {
         Checkout checkoutPage = new Checkout(getDriver());
 
-        if(checkoutPage.isOrderConfirmationPage()) {
+        if (checkoutPage.isOrderConfirmationPage()) {
             assertTrue("Confirmation number in page", checkoutPage.orderNumberIsVisible());
         } else {
             float total = checkoutPage.getOrderTotal();
@@ -123,7 +101,7 @@ public class CheckOutSteps extends DriverFactory {
     @Then("Verify user is in review page$")
     public void verify_user_is_in_review_page() {
         CheckoutReview review = new CheckoutReview(getDriver());
-        assertTrue("User should be in review page",review.isReviewPage() );
+        assertTrue("User should be in review page", review.isReviewPage());
     }
 
     @Then("Verify user is in order confirmation page")
@@ -132,4 +110,41 @@ public class CheckOutSteps extends DriverFactory {
         assertTrue("User should be in order confirmation page", confirmation.isOrderConfirmationPage());
     }
 
+    @Then("^Verify items prices matches context$")
+    public void verify_items_prices_matches_context() {
+        Checkout checkout = new Checkout(getDriver());
+
+        List<String> itemsPrice = checkout.getItemsPrice();
+        for (String price : itemsPrice) {
+            assertTrue("Item price " + price + " matches country context",
+                    CurrencyChecker.isValid(price, checkout.country));
+        }
+    }
+
+    @Then("^Verify subtotal matches context$")
+    public void verify_subtotal_matches_context() {
+        Checkout checkout = new Checkout(getDriver());
+
+        String subtotal = checkout.getSubtotal();
+        assertTrue("Subtotal " + subtotal + " matches country context",
+                    CurrencyChecker.isValid(subtotal, checkout.country));
+    }
+
+    @Then("^Verify shipping matches context$")
+    public void verify_shipping_matches_context() {
+        Checkout checkout = new Checkout(getDriver());
+
+        String shipping = checkout.getShipping();
+        assertTrue("Shipping " + shipping + " matches country context",
+                CurrencyChecker.isValid(shipping, checkout.country));
+    }
+
+    @Then("^Verify total matches context$")
+    public void verify_total_matches_context() {
+        Checkout checkout = new Checkout(getDriver());
+
+        String total = checkout.getTotal();
+        assertTrue("Subtotal " + total + " matches country context",
+                CurrencyChecker.isValid(total, checkout.country));
+    }
 }

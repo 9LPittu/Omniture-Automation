@@ -1,6 +1,6 @@
-#@InternationalCheckout
+@InternationalCheckout
 Feature: User is able to checkout in international context
-  @InternationalCheckout
+
   Scenario Outline: User is able to checkout in international page
     Given User goes to international homepage for <country_group>
     Then Verify welcome mat is displayed
@@ -27,7 +27,7 @@ Feature: User is able to checkout in international context
     When User adds selected product to bag
     #Sale
     And User navigates to a random sale page
-    Then Verify proper currency symbol is displayed on product grid list
+    Then Verify proper currency symbol is displayed on search grid list
 
     When User selects random product from array
     And Verify product detail page is displayed
@@ -37,7 +37,7 @@ Feature: User is able to checkout in international context
     #Search
     And User searches specific term dresses
     Then User is in search results page
-    And Verify proper currency symbol is displayed on product grid list
+    And Verify proper currency symbol is displayed on search grid list
 
     When User selects random product from array
     Then Verify product detail page is displayed
@@ -49,43 +49,49 @@ Feature: User is able to checkout in international context
 
     When User clicks in bag
     Then User is in shopping bag page
-    And Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And Verify items prices matches context
+    And Verify subtotal matches context
+    And Verify shipping matches context
+    And Verify total matches context
 
     When User clicks check out button
     And User selects guest check out
-    Then Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    Then Verify items prices matches context
+    And Verify subtotal matches context
+    And Verify shipping matches context
+    And Verify total matches context
 
     When Guest user fills shipping address and continue
-    Then Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
-    And Verifies is in shipping method page
+    Then Verifies is in shipping method page
+    And Verify items prices matches context
+    And Verify subtotal matches context
+    And Verify shipping matches context
+    And Verify total matches context
 
     When User selects random shipping method and continue
     Then Verify user is in billing page
-    And Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And Verify items prices matches context
+    And Verify subtotal matches context
+    And Verify shipping matches context
+    And Verify total matches context
 
     When User fills payment method and continue
     Then Verify user is in review page
-    And Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And Verify items prices matches context
+    And Verify subtotal matches context
+    And Verify shipping matches context
+    And Verify total matches context
 
     When User reviews and places order
     Then User gets an order confirmation number
-    And Verify proper currency symbol is displayed on item section on Checkout page
-    And Verify proper currency symbol is displayed on summary section on Checkout page
-    And Verify proper currency symbol is displayed on shipping method section on Checkout page
+    And Verify items prices matches context
+    And Verify subtotal matches context
+    And Verify shipping matches context
+    And Verify total matches context
     Examples:
       | country_group |
       | PRICEBOOK     |
-      #| NON-PRICEBOOK |
+      | NON-PRICEBOOK |
 
 
   Scenario Outline: PDP message validation for sold out item, item with variations, vps item and shipping restriction item

@@ -1,10 +1,10 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.Footer;
-import com.jcrew.page.ProductsArray;
+import com.jcrew.page.ArrayCategory;
+import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
-import com.jcrew.utils.Util;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -17,8 +17,8 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
-public class ProductArraySteps extends DriverFactory {
-    ProductsArray productsArray = new ProductsArray(getDriver());
+public class ArrayCategorySteps extends DriverFactory {
+    ArrayCategory productsArray = new ArrayCategory(getDriver());
     StateHolder holder = StateHolder.getInstance();
 
     @When("User selects random product from product array")
@@ -40,7 +40,23 @@ public class ProductArraySteps extends DriverFactory {
 
     @Then("^Verify proper currency symbol is displayed on product grid list$")
     public void verify_currency_on_product_gridlist(){
-        assertTrue("Currency on product gridlist", productsArray.isCorrectCurrencySymbolonProductGridList());
+        List<String> listPrice = productsArray.getListPrices();
+        for(String price : listPrice) {
+            assertTrue("List price " + price + " matches country context",
+                    CurrencyChecker.isValid(price, productsArray.country));
+        }
+
+        List<String> salePrice = productsArray.getSalePrices();
+        for(String price : salePrice) {
+            assertTrue("Sale price " + price + " matches country context",
+                    CurrencyChecker.isValid(price, productsArray.country));
+        }
+
+        List<String> wasPrice = productsArray.getWasPrices();
+        for(String price : wasPrice) {
+            assertTrue("Was price " + price + " matches country context",
+                    CurrencyChecker.isValid(price, productsArray.country));
+        }
     }
 
     @Then("Verify refine dropdown text is ([^\"]*)")

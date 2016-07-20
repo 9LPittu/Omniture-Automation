@@ -21,11 +21,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
-public class SearchArray {
-    private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(SearchArray.class);
-    private final WebDriverWait wait;
-    private final StateHolder stateHolder = StateHolder.getInstance();
+public class ArraySearch extends Array{
 
     private final String PRICE_LIST_CLASS = "tile__detail--price--list";
     private final String NAME_CLASS = "tile__detail--name";
@@ -46,9 +42,8 @@ public class SearchArray {
     private WebElement productGrid;
 
 
-    public SearchArray(WebDriver driver) {
-        this.driver = driver;
-        wait = Util.createWebDriverWait(driver);
+    public ArraySearch(WebDriver driver) {
+        super(driver);
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(pageSearch));
@@ -56,7 +51,7 @@ public class SearchArray {
     }
 
     public void selectRandomProduct() {
-        List<WebElement> productTiles = searchResults.findElements(By.className("c-product-tile"));
+        List<WebElement> productTiles = getProductTiles(searchResults);
         logger.info("This search result page has {} products", productTiles.size());
 
         WebElement random_product_tile = Util.randomIndex(productTiles);
@@ -73,7 +68,6 @@ public class SearchArray {
     }
 
     public boolean isSearchPage() {
-        Country country = (Country) stateHolder.get("context");
         Util.waitWithStaleRetry(driver, headerSearch);
         wait.until(ExpectedConditions.visibilityOf(searchResults));
 
@@ -82,10 +76,7 @@ public class SearchArray {
 
 
     public void click_first_product_in_grid() {
-        List<WebElement> productTiles = searchResults.findElements(By.className("c-product-tile"));
-        logger.info("This search result page has {} products", productTiles.size());
-
-        WebElement random_product_tile = productTiles.get(0);
+        WebElement random_product_tile = getFirstProduct();
         wait.until(ExpectedConditions.visibilityOf(random_product_tile));
         WebElement random_product_name = random_product_tile.findElement(By.className(NAME_CLASS));
 
@@ -99,52 +90,21 @@ public class SearchArray {
     }
 
     private WebElement getFirstProduct() {
-        return getProductTileElements().get(0);
+        return getProductTiles(searchResults).get(0);
     }
 
-    private List<WebElement> getProductTileElements() {
-        wait.until(ExpectedConditions.visibilityOf(productGrid));
-        return wait.until(ExpectedConditions.visibilityOfAllElements(productGrid.findElements(By.className("c-product-tile"))));
+    public List<String> getListPrices() {
 
+        return getListPrices(searchResults);
     }
 
+    public List<String> getWasPrices() {
 
-    private void saveProduct(WebElement productElement) {
-        Product product = new Product();
-        product.setProductName(getProductName(productElement));
-        product.setPriceList(getProductPrice(productElement));
-
-        logger.debug("Selected product is {}", product.getProductName());
-        logger.debug("Selected product price is {}", product.getPriceList());
-
-        @SuppressWarnings("unchecked")
-        List<Product> productList = (List<Product>) stateHolder.get("productList");
-
-        if (productList == null) {
-            productList = new ArrayList<>();
-        }
-
-        productList.add(product);
-        stateHolder.put("productList", productList);
-
+        return getWasPrices(searchResults);
     }
 
-    private String getProductName(WebElement randomProductSelected) {
-        WebElement productName = randomProductSelected.findElement(
-                By.xpath(".//a[contains(@class,'product-tile__details')]/span[contains(@class,'tile__detail--name')]"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
-        return productName.getText().trim();
+    public List<String> getSalePrices() {
+
+        return getSalePrices(searchResults);
     }
-
-    private String getProductPrice(WebElement productSelected) {
-        List<WebElement> productPrices = productSelected.findElements(By.className("tile__detail--price--list"));
-        String price = "";
-        if (!productPrices.isEmpty()) {
-            price = productPrices.get(0).getText().trim();
-        }
-
-        return price;
-    }
-
-
 }

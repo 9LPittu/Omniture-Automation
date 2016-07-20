@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,38 @@ public abstract class Array extends PageObject{
 
     protected List<WebElement> getProductTiles(WebElement productList) {
         return productList.findElements(By.className("c-product-tile"));
+    }
+    protected List<String> getListPrices(WebElement productList) {
+        List<WebElement> listPricesElements = productList.findElements(By.className(PRICE_LIST_CLASS));
+        List<String> listPrices = new ArrayList<>(listPricesElements.size());
+
+        for (WebElement price:listPricesElements ) {
+            listPrices.add(price.getText());
+        }
+
+        return listPrices;
+    }
+
+    protected List<String> getWasPrices(WebElement productList) {
+        List<WebElement> listPricesElements = productList.findElements(By.className(PRICE_WAS_CLASS));
+        List<String> listPrices = new ArrayList<>(listPricesElements.size());
+
+        for (WebElement price:listPricesElements ) {
+            listPrices.add(price.getText());
+        }
+
+        return listPrices;
+    }
+
+    protected List<String> getSalePrices(WebElement productList) {
+        List<WebElement> listPricesElements = productList.findElements(By.className(PRICE_SALE_CLASS));
+        List<String> listPrices = new ArrayList<>(listPricesElements.size());
+
+        for (WebElement price:listPricesElements ) {
+            listPrices.add(price.getText());
+        }
+
+        return listPrices;
     }
 
 }

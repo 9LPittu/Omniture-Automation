@@ -1,7 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.PropertyReader;
-import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -9,10 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,26 +20,48 @@ public class Checkout extends PageObject{
 
     @FindBy(xpath = "//section[@class='checkout-container']")
     private  WebElement checkoutContainer;
+    @FindBy(id = "order-summary")
+    private WebElement order_summary;
+    @FindBy(id = "order-listing")
+    protected WebElement orderListing;
 
     public Checkout(WebDriver driver) {
         super(driver);
+        PageFactory.initElements(driver, this);
     }
 
     public float getOrderTotal() {
-        WebElement order_summary = wait.until(ExpectedConditions.visibilityOf(
-                driver.findElement(By.xpath(".//*[@id='order-summary']"))));
-        WebElement totalLine = order_summary.findElement(By.className("summary-total"));
-        WebElement totalNumber = totalLine.findElement(By.className("summary-value"));
+        String total = getTotal();
 
-        String sTotal = totalNumber.getText();
-        sTotal = sTotal.replaceAll("[^0-9]", "");
-
-        int iTotal = Integer.parseInt(sTotal);
-        float fTotal = (float) iTotal /100;
+        float fTotal = CurrencyChecker.getPrice(total, country);
 
         logger.info("Order total is {}", fTotal);
         return fTotal;
 
+    }
+
+    public String getTotal() {
+        wait.until(ExpectedConditions.visibilityOf(order_summary));
+        WebElement totalLine = order_summary.findElement(By.className("summary-total"));
+        WebElement totalNumber = totalLine.findElement(By.className("summary-value"));
+
+        return totalNumber.getText();
+    }
+
+    public String getSubtotal() {
+        wait.until(ExpectedConditions.visibilityOf(order_summary));
+        WebElement totalLine = order_summary.findElement(By.className("summary-subtotal"));
+        WebElement totalNumber = totalLine.findElement(By.className("summary-value"));
+
+        return totalNumber.getText();
+    }
+
+    public String getShipping() {
+        wait.until(ExpectedConditions.visibilityOf(order_summary));
+        WebElement totalLine = order_summary.findElement(By.className("summary-shipping"));
+        WebElement totalNumber = totalLine.findElement(By.className("summary-value"));
+
+        return totalNumber.getText();
     }
 
     public boolean hasErrors() {
@@ -74,5 +94,19 @@ public class Checkout extends PageObject{
         } catch (NoSuchElementException noConfirmationNumber) {
             return false;
         }
+    }
+
+    public List<String> getItemsPrice() {
+        wait.until(ExpectedConditions.visibilityOf(orderListing));
+        List<WebElement> productpricess = orderListing.findElements(By.xpath("//div[contains(@class,'item-price') " +
+                "or contains(@class,'item-total')]"));
+        List<String> prices = new ArrayList<>(productpricess.size());
+
+        for(WebElement priceElement : productpricess) {
+            prices.add(priceElement.getText());
+        }
+
+        return prices;
+
     }
 }

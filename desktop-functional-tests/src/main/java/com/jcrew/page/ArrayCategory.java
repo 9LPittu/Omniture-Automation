@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
-public class ProductsArray extends Array{
+public class ArrayCategory extends Array{
 
     @FindBy(id = "c-product__list")
     private WebElement productList;
@@ -30,7 +30,7 @@ public class ProductsArray extends Array{
     @FindBy(id = "c-category__item-count")
     private WebElement itemCount;
 
-    public ProductsArray(WebDriver driver) {
+    public ArrayCategory(WebDriver driver) {
         super(driver);
 
         PageFactory.initElements(driver, this);
@@ -41,6 +41,21 @@ public class ProductsArray extends Array{
 
     private List<WebElement> getProductTiles() {
         return getProductTiles(productList);
+    }
+
+    public List<String> getListPrices() {
+
+        return getListPrices(productList);
+    }
+
+    public List<String> getWasPrices() {
+
+        return getWasPrices(productList);
+    }
+
+    public List<String> getSalePrices() {
+
+        return getSalePrices(productList);
     }
 
     public void selectRandomProduct() {
@@ -59,15 +74,6 @@ public class ProductsArray extends Array{
 
         Util.waitLoadingBar(driver);
         new ProductDetails(driver);
-    }
-
-    public boolean isCorrectCurrencySymbolonProductGridList() {
-        Country c = (Country) stateHolder.get("context");
-
-        List<WebElement> productpricess = wait.until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"))));
-
-        return CurrencyChecker.validatePrices(productpricess, c);
-
     }
 
     public String getRefineText() {

@@ -28,13 +28,8 @@ import java.util.Stack;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
-public class ProductDetails {
-    private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(ProductDetails.class);
-    private final WebDriverWait wait;
-    private final StateHolder holder = StateHolder.getInstance();
+public class ProductDetails extends PageObject{
     private final HeaderWrap headerWrap;
-    private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final String PRICE_SALE_CLASS = "product__price--sale";
     private final String PRICE_LIST_CLASS = "product__price--list";
@@ -65,32 +60,27 @@ public class ProductDetails {
     private WebElement sizeMessage;
     @FindBy(xpath = "//div[@class='c-product_pdpMessage']/div")
     private WebElement pdpMessage;
-    @FindBy(id = "page__p")
-    private WebElement page__p;
     @FindBy(xpath = "//div[@id='c-product__no-intl-shipping']")
     private WebElement shippingRestrictionMessage;
     @FindBy(className = "product__name")
     private WebElement productName;
-
     @FindBy(id = "btn__add-to-bag")
     private WebElement addToBag;
-    
     @FindBy(xpath="//a[contains(@class,'js-link__size-fit') and text()='Size & Fit Details']")
     private WebElement sizeAndFitDetailsLink;
-    
     @FindBy(xpath="//div[@class='product__size-fit product__description']/div/div/span")
     private WebElement sizeAndFitDrawer;
-    
     @FindBy(xpath="//div[@class='product__details product__description']/div/div/span")
     private WebElement productDetailsDrawer;
+    @FindBy(id = "c-product__details")
+    private WebElement product__details;
 
     public ProductDetails(WebDriver driver) {
-        this.driver = driver;
-        wait = Util.createWebDriverWait(driver);
+        super(driver);
         headerWrap = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(addToBagButton));
+        wait.until(ExpectedConditions.visibilityOf(product__details));
     }
 
     public void selectRandomColor() {
@@ -210,7 +200,7 @@ public class ProductDetails {
     }
 
     public void addToBag() {
-        Stack<Product> productsInBag = (Stack<Product>) holder.get("bag_items");
+        Stack<Product> productsInBag = (Stack<Product>) stateHolder.get("bag_items");
 
         if (productsInBag == null) {
             productsInBag = new Stack<>();
@@ -221,41 +211,10 @@ public class ProductDetails {
         productsInBag.add(product);
 
         logger.info("Adding to bag {}", product);
-        holder.put("bag_items", productsInBag);
+        stateHolder.put("bag_items", productsInBag);
 
         addToBagButton.click();
         headerWrap.waitUntilCheckOutDropdown();
-    }
-
-    private boolean verifyCurrency(String currency) {
-        List<WebElement> salePrices = page__p.findElements(By.className(PRICE_SALE_CLASS));
-        List<WebElement> listPrices = page__p.findElements(By.className(PRICE_LIST_CLASS));
-
-        List<WebElement> allPrices = new ArrayList<>();
-        allPrices.addAll(salePrices);
-        allPrices.addAll(listPrices);
-
-        Iterator<WebElement> allPricesIterator = allPrices.iterator();
-
-        boolean result = true;
-
-        while (result & allPricesIterator.hasNext()) {
-            WebElement priceElement = allPricesIterator.next();
-
-            if (priceElement.isDisplayed()) {
-                String price = priceElement.getText();
-
-                result = CurrencyChecker.anyPriceType(currency, price);
-
-                if (!result) {
-                    logger.error("PDP: Not able to check price currency format {}", price);
-                }
-            }
-
-        }
-
-
-        return result;
     }
 
     public boolean verifyContext() {
@@ -446,13 +405,15 @@ public class ProductDetails {
         return result;
     }
 
-    public boolean isCorrectCurrencySymbolonPDP() {
-        Country c = (Country) stateHolder.get("context");
+    public List<String> getAllPrices() {
+        List<WebElement> productpricess = product__details.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
+        List<String> prices = new ArrayList<>(productpricess.size());
 
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//section[@id='c-product__details']"))));
-        List<WebElement> productpricess = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//span[contains(@class,'product__price--')]")));
+        for(WebElement price : productpricess) {
+            prices.add(price.getText());
+        }
 
-        return CurrencyChecker.validatePrices(productpricess, c);
+        return prices;
 
     }
     

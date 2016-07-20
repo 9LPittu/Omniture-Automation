@@ -105,9 +105,9 @@ public class CurrencyChecker {
 
     }
 
-    private static boolean isValid(String price, Country country) {
+    public static boolean isValid(String price, Country country) {
 
-        if (price.equalsIgnoreCase("free")) {
+        if (price.equalsIgnoreCase("free") | price.isEmpty()) {
             return true;
         }
 
@@ -152,6 +152,34 @@ public class CurrencyChecker {
             logger.debug("price: {} regex: {}", price, regex);
 
         return matches;
+    }
+
+    public static float getPrice(String sPrice, Country country) {
+        int iTotal;
+        float fTotal;
+        switch (country.getCountry().toLowerCase()) {
+            case "de":
+            case "au":
+            case "sg":
+            case "ch":
+            case "uk":
+            case "ca":
+            case "us":
+                sPrice = sPrice.replaceAll("[^0-9]", "");
+                iTotal = Integer.parseInt(sPrice);
+                fTotal = (float) iTotal /100;
+                break;
+            case "hk":
+            case "jp":
+                sPrice = sPrice.replaceAll("[^0-9]", "");
+                fTotal = Float.parseFloat(sPrice);
+                break;
+            default:
+                logger.debug("Country {} not recognized", country.getCountry());
+                fTotal = 0;
+        }
+
+        return fTotal;
     }
 
     private static String cleanPrice(String price) {
