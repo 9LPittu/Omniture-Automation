@@ -35,7 +35,7 @@ public class HomePage extends PageObject{
     }
 
     public boolean isHomePage() {
-        headerWrap.reload();
+        wait.until(ExpectedConditions.visibilityOf(pageContent));
         WebElement body = driver.findElement(By.tagName("body"));
         String bodyClass = body.getAttribute("class");
 

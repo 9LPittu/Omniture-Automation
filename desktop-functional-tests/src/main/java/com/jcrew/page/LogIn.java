@@ -81,7 +81,6 @@ public class LogIn extends DriverFactory {
         sidecarUser.sendKeys(knownUser.getEmail());
         sidecarPassword.sendKeys(knownUser.getPassword());
         signInHereButton.click();
-        header.reload();
         stateHolder.put("signedUser", knownUser);
     }
 
