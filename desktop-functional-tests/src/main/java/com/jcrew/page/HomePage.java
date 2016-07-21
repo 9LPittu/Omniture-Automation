@@ -18,7 +18,9 @@ public class HomePage extends PageObject{
     private WebElement pageContent;
 
     public HomePage(WebDriver driver) {
+
         super(driver);
+
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(pageContent));
 
