@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public abstract class PageObject {
 
     protected final WebDriver driver;
-    protected final Logger logger = LoggerFactory.getLogger(MenuDrawer.class);
+    protected final Logger logger = LoggerFactory.getLogger(PageObject.class);
     protected final WebDriverWait wait;
 
     protected final StateHolder stateHolder = StateHolder.getInstance();
@@ -27,7 +27,6 @@ public abstract class PageObject {
     }
 
     public boolean verifyURL() {
-        logger.debug("Verifying URL {} context compliance", driver.getCurrentUrl());
-        return Util.countryContextURLCompliance(driver.getCurrentUrl(), country);
+        return Util.countryContextURLCompliance(driver, country);
     }
 }
