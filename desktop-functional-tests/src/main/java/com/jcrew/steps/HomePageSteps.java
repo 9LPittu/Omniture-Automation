@@ -1,9 +1,10 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.Footer;
 import com.jcrew.page.HomePage;
+import com.jcrew.pojo.Country;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 import static org.junit.Assert.*;
 
@@ -20,7 +21,15 @@ public class HomePageSteps extends DriverFactory{
 
     @Then("Verify user is in international homepage")
     public void verify_user_is_in_international_hompage(){
-        assertTrue("user is in homepage",homePage.isHomePage());
-        assertTrue("homepage matches expected country", homePage.verifyInternational());
+        Country country = homePage.country;
+        String countryName = country.getName();
+
+        assertTrue("user is in homepage", homePage.isHomePage());
+        assertTrue("Homepage url contains expected country code", homePage.verifyURL());
+
+        Footer footer = new Footer(getDriver());
+        assertEquals("Homepage footer matches expected country",
+                countryName.toLowerCase(),
+                footer.getCountry().toLowerCase());
     }
 }
