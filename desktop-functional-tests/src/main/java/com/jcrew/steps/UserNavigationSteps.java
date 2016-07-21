@@ -145,7 +145,7 @@ public class UserNavigationSteps extends DriverFactory {
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
 
-    @Then("User should see country code in the url for international countries")
+    @Then("Verify country code in the url for international countries")
     public void user_should_see_country_code_in_url_for_international_countries(){
     	
         Country country = (Country)stateHolder.get("context");

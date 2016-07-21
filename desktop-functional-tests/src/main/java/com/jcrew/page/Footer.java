@@ -117,21 +117,4 @@ public class Footer {
         return actualCountryName.equalsIgnoreCase(expectedCountryName);
     }
 
-    public void closeEmailCapture() {
-        PropertyReader propertyReader = PropertyReader.getPropertyReader();
-        String browser = propertyReader.getProperty("browser");
-
-        if ("chrome".equals(browser) || "firefox".equals(browser)) {
-            List<WebElement> email_capture_list = driver.findElements(By.id("global__email-capture"));
-            if(email_capture_list.size() > 0) {
-                WebElement email_capture = email_capture_list.get(0);
-                WebElement closeButton = email_capture.findElement(By.className("js-email-capture--close"));
-                WebElement closeIcon = closeButton.findElement(By.tagName("span"));
-
-                wait.until(ExpectedConditions.elementToBeClickable(closeIcon));
-                closeIcon.click();
-                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("js-email-capture--close")));
-            }
-        }
-    }
 }

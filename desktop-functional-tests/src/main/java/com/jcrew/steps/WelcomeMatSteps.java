@@ -1,10 +1,12 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.WelcomeMat;
+import com.jcrew.pojo.Country;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -20,13 +22,30 @@ public class WelcomeMatSteps extends DriverFactory {
 
     @Then("Verify country context matches selected country")
     public void verify_country_context_matches_selected_country() {
-        assertTrue("Welcome mat country matches selected country", welcomeMat.verifyCountryContext());
+        Country country = welcomeMat.country;
+        String countryName = country.getName().toLowerCase();
+        String countryFlagName = countryName.replace(" ", "");
+
+        assertEquals("Welcome mat country name matches selected country", countryName, welcomeMat.getCountry());
+        assertTrue("Welcome mat country flag matches selected country", welcomeMat.getCountryFlagClass().contains(countryFlagName));
 
     }
 
     @Then("Verify welcome message")
     public void verify_welcome_message() {
-        assertTrue("Welcome message is expected for this country", welcomeMat.verifyWelcomeMessage());
+        Country country = welcomeMat.country;
+        String countryCode = country.getCountry();
+
+        String expectedWelcomeMessage;
+        if ("CA".equalsIgnoreCase(countryCode)) {
+            expectedWelcomeMessage = "Hello, Canada!";
+        } else {
+            expectedWelcomeMessage = "Around the World";
+        }
+
+        assertEquals("Welcome message is expected for this country",
+                expectedWelcomeMessage.toLowerCase(),
+                welcomeMat.getWelcomeMessage().toLowerCase());
     }
 
     @When("User clicks on Start Shopping")
