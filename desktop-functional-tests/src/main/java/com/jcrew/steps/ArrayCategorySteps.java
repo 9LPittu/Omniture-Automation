@@ -41,20 +41,21 @@ public class ArrayCategorySteps extends DriverFactory {
     @Then("^Verify proper currency symbol is displayed on product grid list$")
     public void verify_currency_on_product_gridlist(){
         List<String> listPrice = productsArray.getListPrices();
+        String countryName = productsArray.country.getName();
         for(String price : listPrice) {
-            assertTrue("List price " + price + " matches country context",
+            assertTrue("List price " + price + " matches country context "+countryName,
                     CurrencyChecker.isValid(price, productsArray.country));
         }
 
         List<String> salePrice = productsArray.getSalePrices();
         for(String price : salePrice) {
-            assertTrue("Sale price " + price + " matches country context",
+            assertTrue("Sale price " + price + " matches country context "+countryName,
                     CurrencyChecker.isValid(price, productsArray.country));
         }
 
         List<String> wasPrice = productsArray.getWasPrices();
         for(String price : wasPrice) {
-            assertTrue("Was price " + price + " matches country context",
+            assertTrue("Was price " + price + " matches country context "+countryName,
                     CurrencyChecker.isValid(price, productsArray.country));
         }
     }

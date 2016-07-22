@@ -31,21 +31,22 @@ public class ArraySearchSteps extends DriverFactory {
 
     @Then("^Verify proper currency symbol is displayed on search grid list$")
     public void verify_currency_on_product_gridlist(){
+        String countryName = searchArray.country.getName();
         List<String> listPrice = searchArray.getListPrices();
         for(String price : listPrice) {
-            assertTrue("List price " + price + " matches country context",
+            assertTrue("List price " + price + " matches country context "+countryName,
                     CurrencyChecker.isValid(price, searchArray.country));
         }
 
         List<String> salePrice = searchArray.getSalePrices();
         for(String price : salePrice) {
-            assertTrue("Sale price " + price + " matches country context",
+            assertTrue("Sale price " + price + " matches country context "+countryName,
                     CurrencyChecker.isValid(price, searchArray.country));
         }
 
         List<String> wasPrice = searchArray.getWasPrices();
         for(String price : wasPrice) {
-            assertTrue("Was price " + price + " matches country context",
+            assertTrue("Was price " + price + " matches country context "+countryName,
                     CurrencyChecker.isValid(price, searchArray.country));
         }
     }

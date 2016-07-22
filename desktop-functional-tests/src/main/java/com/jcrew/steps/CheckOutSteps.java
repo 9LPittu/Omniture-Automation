@@ -113,10 +113,10 @@ public class CheckOutSteps extends DriverFactory {
     @Then("^Verify currency symbol of each item matches the context$")
     public void verify_items_currency_sign_matches_context() {
         Checkout checkout = new Checkout(getDriver());
-
+        String countryName = checkout.country.getName();
         List<String> itemsPrice = checkout.getItemsPrice();
         for (String price : itemsPrice) {
-            assertTrue("Item price " + price + " matches country context",
+            assertTrue("Item price " + price + " matches country context " + countryName,
                     CurrencyChecker.isValid(price, checkout.country));
         }
     }
@@ -124,19 +124,20 @@ public class CheckOutSteps extends DriverFactory {
     @Then("^Verify currency symbol of subtotal in summary matches the context$")
     public void verify_subtotal_currency_sign_matches_context() {
         Checkout checkout = new Checkout(getDriver());
-
+        String countryName = checkout.country.getName();
         String subtotal = checkout.getSubtotal();
-        assertTrue("Subtotal " + subtotal + " matches country context",
+        assertTrue("Subtotal " + subtotal + " matches country context " + countryName,
                     CurrencyChecker.isValid(subtotal, checkout.country));
     }
 
     @Then("^Verify currency symbol of shipping in summary matches the context$")
     public void verify_shipping_currency_sign_matches_context() {
         Checkout checkout = new Checkout(getDriver());
-
         String shipping = checkout.getShipping();
-        assertTrue("Shipping " + shipping + " matches country context",
+        String countryName = checkout.country.getName();
+        assertTrue("Shipping " + shipping + " matches country context " + countryName,
                 CurrencyChecker.isValid(shipping, checkout.country));
+
     }
 
     @Then("^Verify currency symbol of total matches the context$")
@@ -144,7 +145,8 @@ public class CheckOutSteps extends DriverFactory {
         Checkout checkout = new Checkout(getDriver());
 
         String total = checkout.getTotal();
-        assertTrue("Subtotal " + total + " matches country context",
+        String countryName = checkout.country.getName();
+        assertTrue("Subtotal " + total + " matches country context " + countryName,
                 CurrencyChecker.isValid(total, checkout.country));
     }
 }

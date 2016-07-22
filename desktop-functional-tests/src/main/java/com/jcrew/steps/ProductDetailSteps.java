@@ -87,9 +87,9 @@ public class ProductDetailSteps extends DriverFactory {
     @Then("^Verify proper currency symbol is displayed on PDP page$")
     public void verify_currency_on_product_PDP(){
         List<String> listPrice = productDetails.getAllPrices();
-
+        String countryName = productDetails.country.getName();
         for(String price : listPrice) {
-            assertTrue("Price " + price + " matches country context",
+            assertTrue("Price " + price + " matches country context " + countryName,
                     CurrencyChecker.isValid(price, productDetails.country));
         }
     }
