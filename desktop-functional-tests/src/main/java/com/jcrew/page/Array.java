@@ -12,6 +12,7 @@ import java.util.List;
  */
 public abstract class Array extends PageObject{
 
+    protected final String PRODUCT_TITLE_CLASS = "c-product-tile";
     protected final String PRICE_LIST_CLASS = "tile__detail--price--list";
     protected final String PRICE_WAS_CLASS = "tile__detail--price--was";
     protected final String NAME_CLASS = "tile__detail--name";
@@ -28,8 +29,21 @@ public abstract class Array extends PageObject{
     }
 
     protected List<WebElement> getProductTiles(WebElement productList) {
-        return productList.findElements(By.className("c-product-tile"));
+        return productList.findElements(By.className(PRODUCT_TITLE_CLASS));
     }
+
+    protected List<String> getListPrices(WebElement productList,String priceType) {
+        List<WebElement> listPricesElements = productList.findElements(By.className(priceType));
+        List<String> listPrices = new ArrayList<>(listPricesElements.size());
+
+        for (WebElement price:listPricesElements ) {
+            listPrices.add(price.getText());
+        }
+
+        return listPrices;
+    }
+
+    /*
     protected List<String> getListPrices(WebElement productList) {
         List<WebElement> listPricesElements = productList.findElements(By.className(PRICE_LIST_CLASS));
         List<String> listPrices = new ArrayList<>(listPricesElements.size());
@@ -62,5 +76,5 @@ public abstract class Array extends PageObject{
 
         return listPrices;
     }
-
+*/
 }

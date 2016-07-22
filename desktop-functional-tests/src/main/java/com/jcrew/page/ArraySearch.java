@@ -23,12 +23,6 @@ import java.util.List;
  */
 public class ArraySearch extends Array{
 
-    private final String PRICE_LIST_CLASS = "tile__detail--price--list";
-    private final String NAME_CLASS = "tile__detail--name";
-    private final String SHIPPING_CLASS = "tile__detail--shipping";
-    private final String PRICE_SALE_CLASS = "tile__detail--price--sale";
-    private final String COLOR_COUNTS_CLASS = "js-tile__detail--colors-count";
-    private final String CUSTOM_MESSAGE = "monetate_custom_index_text";
 
     @FindBy(id = "page__search")
     private WebElement pageSearch;
@@ -95,16 +89,16 @@ public class ArraySearch extends Array{
 
     public List<String> getListPrices() {
 
-        return getListPrices(searchResults);
+        return getListPrices(searchResults,PRICE_LIST_CLASS);
     }
 
     public List<String> getWasPrices() {
 
-        return getWasPrices(searchResults);
+        return getListPrices(searchResults,PRICE_WAS_CLASS);
     }
 
     public List<String> getSalePrices() {
 
-        return getSalePrices(searchResults);
+        return getListPrices(searchResults,PRICE_SALE_CLASS);
     }
 }

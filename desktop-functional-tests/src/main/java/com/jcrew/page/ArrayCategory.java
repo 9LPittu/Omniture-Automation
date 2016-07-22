@@ -45,17 +45,15 @@ public class ArrayCategory extends Array{
 
     public List<String> getListPrices() {
 
-        return getListPrices(productList);
+        return getListPrices(productList,PRICE_LIST_CLASS);
     }
 
     public List<String> getWasPrices() {
-
-        return getWasPrices(productList);
+        return getListPrices(productList,PRICE_WAS_CLASS);
     }
 
     public List<String> getSalePrices() {
-
-        return getSalePrices(productList);
+        return getListPrices(productList,PRICE_SALE_CLASS);
     }
 
     public void selectRandomProduct() {
