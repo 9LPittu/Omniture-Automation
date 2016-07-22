@@ -9,7 +9,7 @@ Feature: User is able to checkout in international context
 
     When User clicks on Start Shopping
     And User closes email capture
-    #Then Verify user is in international homepage
+    Then Verify user is in international homepage
 
     #Category
     When User navigates to a subcategory from main category
@@ -49,45 +49,45 @@ Feature: User is able to checkout in international context
 
     When User clicks in bag
     Then User is in shopping bag page
-    And Verify items prices matches context
-    And Verify subtotal matches context
-    And Verify shipping matches context
-    And Verify total matches context
+    And Verify currency symbol of each item matches the context
+    And Verify currency symbol of subtotal in summary matches the context
+    And Verify currency symbol of shipping in summary matches the context
+    And Verify currency symbol of total matches the context
 
     When User clicks check out button
     And User selects guest check out
-    Then Verify items prices matches context
-    And Verify subtotal matches context
-    And Verify shipping matches context
-    And Verify total matches context
+    Then Verify currency symbol of each item matches the context
+    And Verify currency symbol of subtotal in summary matches the context
+    And Verify currency symbol of shipping in summary matches the context
+    And Verify currency symbol of total matches the context
 
     When Guest user fills shipping address and continue
     Then Verifies is in shipping method page
-    And Verify items prices matches context
-    And Verify subtotal matches context
-    And Verify shipping matches context
-    And Verify total matches context
+    And Verify currency symbol of each item matches the context
+    And Verify currency symbol of subtotal in summary matches the context
+    And Verify currency symbol of shipping in summary matches the context
+    And Verify currency symbol of total matches the context
 
     When User selects random shipping method and continue
     Then Verify user is in billing page
-    And Verify items prices matches context
-    And Verify subtotal matches context
-    And Verify shipping matches context
-    And Verify total matches context
+    And Verify currency symbol of each item matches the context
+    And Verify currency symbol of subtotal in summary matches the context
+    And Verify currency symbol of shipping in summary matches the context
+    And Verify currency symbol of total matches the context
 
     When User fills payment method and continue
     Then Verify user is in review page
-    And Verify items prices matches context
-    And Verify subtotal matches context
-    And Verify shipping matches context
-    And Verify total matches context
+    And Verify currency symbol of each item matches the context
+    And Verify currency symbol of subtotal in summary matches the context
+    And Verify currency symbol of shipping in summary matches the context
+    And Verify currency symbol of total matches the context
 
     When User reviews and places order
     Then User gets an order confirmation number
-    And Verify items prices matches context
-    And Verify subtotal matches context
-    And Verify shipping matches context
-    And Verify total matches context
+    And Verify currency symbol of each item matches the context
+    And Verify currency symbol of subtotal in summary matches the context
+    And Verify currency symbol of shipping in summary matches the context
+    And Verify currency symbol of total matches the context
     Examples:
       | country_group |
       | PRICEBOOK     |

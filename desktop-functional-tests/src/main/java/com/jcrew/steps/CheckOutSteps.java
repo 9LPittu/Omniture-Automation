@@ -110,7 +110,7 @@ public class CheckOutSteps extends DriverFactory {
         assertTrue("User should be in order confirmation page", confirmation.isOrderConfirmationPage());
     }
 
-    @Then("^Verify items prices matches context$")
+    @Then("^Verify currency symbol of each item matches the context$")
     public void verify_items_prices_matches_context() {
         Checkout checkout = new Checkout(getDriver());
 
@@ -121,7 +121,7 @@ public class CheckOutSteps extends DriverFactory {
         }
     }
 
-    @Then("^Verify subtotal matches context$")
+    @Then("^Verify currency symbol of subtotal in summary matches the context$")
     public void verify_subtotal_matches_context() {
         Checkout checkout = new Checkout(getDriver());
 
@@ -130,7 +130,7 @@ public class CheckOutSteps extends DriverFactory {
                     CurrencyChecker.isValid(subtotal, checkout.country));
     }
 
-    @Then("^Verify shipping matches context$")
+    @Then("^Verify currency symbol of shipping in summary matches the context$")
     public void verify_shipping_matches_context() {
         Checkout checkout = new Checkout(getDriver());
 
@@ -139,7 +139,7 @@ public class CheckOutSteps extends DriverFactory {
                 CurrencyChecker.isValid(shipping, checkout.country));
     }
 
-    @Then("^Verify total matches context$")
+    @Then("^Verify currency symbol of total matches the context$")
     public void verify_total_matches_context() {
         Checkout checkout = new Checkout(getDriver());
 
