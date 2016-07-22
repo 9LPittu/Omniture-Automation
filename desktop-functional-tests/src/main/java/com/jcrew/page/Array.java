@@ -1,8 +1,10 @@
 package com.jcrew.page;
 
+import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public abstract class Array extends PageObject{
         return productList.findElements(By.className(PRODUCT_TITLE_CLASS));
     }
 
+
     protected List<String> getListPrices(WebElement productList,String priceType) {
         List<WebElement> listPricesElements = productList.findElements(By.className(priceType));
         List<String> listPrices = new ArrayList<>(listPricesElements.size());
@@ -42,39 +45,21 @@ public abstract class Array extends PageObject{
 
         return listPrices;
     }
+    public void selectRandomProduct(WebElement productList) {
+        List<WebElement> productTiles = getProductTiles(productList);
+        logger.info("This array page has {} products", productTiles.size());
 
-    /*
-    protected List<String> getListPrices(WebElement productList) {
-        List<WebElement> listPricesElements = productList.findElements(By.className(PRICE_LIST_CLASS));
-        List<String> listPrices = new ArrayList<>(listPricesElements.size());
+        WebElement random_product_tile = Util.randomIndex(productTiles);
+        wait.until(ExpectedConditions.visibilityOf(random_product_tile));
+        WebElement random_product_name = random_product_tile.findElement(By.className(NAME_CLASS));
 
-        for (WebElement price:listPricesElements ) {
-            listPrices.add(price.getText());
-        }
+        logger.info("Selected product: {}", random_product_name.getText());
 
-        return listPrices;
+        WebElement random_product_image = random_product_tile.findElement(By.tagName("img"));
+        wait.until(ExpectedConditions.visibilityOf(random_product_image));
+        random_product_image.click();
+
+        Util.waitLoadingBar(driver);
+        new ProductDetails(driver);
     }
-
-    protected List<String> getWasPrices(WebElement productList) {
-        List<WebElement> listPricesElements = productList.findElements(By.className(PRICE_WAS_CLASS));
-        List<String> listPrices = new ArrayList<>(listPricesElements.size());
-
-        for (WebElement price:listPricesElements ) {
-            listPrices.add(price.getText());
-        }
-
-        return listPrices;
-    }
-
-    protected List<String> getSalePrices(WebElement productList) {
-        List<WebElement> listPricesElements = productList.findElements(By.className(PRICE_SALE_CLASS));
-        List<String> listPrices = new ArrayList<>(listPricesElements.size());
-
-        for (WebElement price:listPricesElements ) {
-            listPrices.add(price.getText());
-        }
-
-        return listPrices;
-    }
-*/
 }
