@@ -27,7 +27,7 @@ public class ArrayCategorySteps extends DriverFactory {
     }
 
     @Then("Verify context in the array page")
-    public void verify_that_all_products_in_first_page_contains_expected_cucrrency() {
+    public void verify_context_in_url_and_footer_in_array_page() {
         String countryName = productsArray.country.getName();
 
         assertTrue("Category Array url contains expected country code", productsArray.verifyURL());

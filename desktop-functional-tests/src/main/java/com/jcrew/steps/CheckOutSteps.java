@@ -111,7 +111,7 @@ public class CheckOutSteps extends DriverFactory {
     }
 
     @Then("^Verify currency symbol of each item matches the context$")
-    public void verify_items_prices_matches_context() {
+    public void verify_items_currency_sign_matches_context() {
         Checkout checkout = new Checkout(getDriver());
 
         List<String> itemsPrice = checkout.getItemsPrice();
@@ -122,7 +122,7 @@ public class CheckOutSteps extends DriverFactory {
     }
 
     @Then("^Verify currency symbol of subtotal in summary matches the context$")
-    public void verify_subtotal_matches_context() {
+    public void verify_subtotal_currency_sign_matches_context() {
         Checkout checkout = new Checkout(getDriver());
 
         String subtotal = checkout.getSubtotal();
@@ -131,7 +131,7 @@ public class CheckOutSteps extends DriverFactory {
     }
 
     @Then("^Verify currency symbol of shipping in summary matches the context$")
-    public void verify_shipping_matches_context() {
+    public void verify_shipping_currency_sign_matches_context() {
         Checkout checkout = new Checkout(getDriver());
 
         String shipping = checkout.getShipping();
@@ -140,7 +140,7 @@ public class CheckOutSteps extends DriverFactory {
     }
 
     @Then("^Verify currency symbol of total matches the context$")
-    public void verify_total_matches_context() {
+    public void verify_total_currency_sign_matches_context() {
         Checkout checkout = new Checkout(getDriver());
 
         String total = checkout.getTotal();
