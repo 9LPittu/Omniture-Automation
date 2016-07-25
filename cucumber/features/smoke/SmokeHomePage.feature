@@ -8,7 +8,7 @@ Feature: Home Page
     Then JCrew Logo is present
     And Verify GlobalPromo
     And Sign In Link is present
-    And Hamburger menu is present
+    And Shop icon is present
     When User clicks on hamburger menu
     Then Hamburger Menu Women Link is present
     And Hamburger Menu Men Link is present
