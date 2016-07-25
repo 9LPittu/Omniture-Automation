@@ -12,7 +12,7 @@ Feature: Account Page
   Scenario: Header and Footer display validations in non responsive Account page
     Then JCrew Logo is present
     And My Account icon is present
-    And Hamburger menu is present
+    And Shop icon is present
     When User clicks on hamburger menu
     Then Hamburger Menu Women Link is present
     And Hamburger Menu Men Link is present
