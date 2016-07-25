@@ -92,8 +92,8 @@ public class HamburgerMenu {
     }
 
     public boolean isHamburgerMenuPresent() {
-        boolean isIconDisplayed = hamburgerMenuLink.findElement(By.className("icon-header-menu")).isDisplayed();
-        boolean isMenuTextDisplayed = hamburgerMenuLink.findElement(By.className("primary-nav__item--menu")).isDisplayed();
+        boolean isIconDisplayed = hamburgerMenuLink.findElement(By.className("icon-header-shop")).isDisplayed();
+        boolean isMenuTextDisplayed = hamburgerMenuLink.findElement(By.className("primary-nav__text--shop")).isDisplayed();
         return isIconDisplayed && isMenuTextDisplayed;
     }
 
