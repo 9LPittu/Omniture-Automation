@@ -110,8 +110,8 @@ public class CheckOutSteps extends DriverFactory {
         assertTrue("User should be in order confirmation page", confirmation.isOrderConfirmationPage());
     }
 
-    @Then("^Verify currency symbol of each item matches the context$")
-    public void verify_items_currency_sign_matches_context() {
+    @Then("^Verify proper currency symbol for the items is displayed on bag page$")
+    public void verify_items_currency_sign_matches_context_on_bag_page() {
         Checkout checkout = new Checkout(getDriver());
         String countryName = checkout.country.getName();
         List<String> itemsPrice = checkout.getItemsPrice();
@@ -121,8 +121,8 @@ public class CheckOutSteps extends DriverFactory {
         }
     }
 
-    @Then("^Verify currency symbol of subtotal in summary matches the context$")
-    public void verify_subtotal_currency_sign_matches_context() {
+    @Then("^Verify proper currency symbol for subtotal is displayed on bag page$")
+    public void verify_subtotal_currency_sign_matches_context_on_bag_page() {
         Checkout checkout = new Checkout(getDriver());
         String countryName = checkout.country.getName();
         String subtotal = checkout.getSubtotal();
@@ -130,21 +130,21 @@ public class CheckOutSteps extends DriverFactory {
                     CurrencyChecker.isValid(subtotal, checkout.country));
     }
 
-    @Then("^Verify currency symbol of shipping in summary matches the context$")
+    @Then("^Verify proper currency symbol for shipping is displayed on bag page$")
     public void verify_shipping_currency_sign_matches_context() {
         Checkout checkout = new Checkout(getDriver());
-        String shipping = checkout.getShipping();
+        String shipping = checkout.getEstimatedShipping();
         String countryName = checkout.country.getName();
         assertTrue("Shipping " + shipping + " matches country context " + countryName,
                 CurrencyChecker.isValid(shipping, checkout.country));
 
     }
 
-    @Then("^Verify currency symbol of total matches the context$")
+    @Then("^Verify proper currency symbol for total is displayed on bag page$")
     public void verify_total_currency_sign_matches_context() {
         Checkout checkout = new Checkout(getDriver());
 
-        String total = checkout.getTotal();
+        String total = checkout.getEstimatedTotal();
         String countryName = checkout.country.getName();
         assertTrue("Subtotal " + total + " matches country context " + countryName,
                 CurrencyChecker.isValid(total, checkout.country));

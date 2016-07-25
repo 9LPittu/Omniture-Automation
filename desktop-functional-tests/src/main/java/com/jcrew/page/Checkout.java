@@ -31,7 +31,7 @@ public class Checkout extends PageObject{
     }
 
     public float getOrderTotal() {
-        String total = getTotal();
+        String total = getEstimatedTotal();
 
         float fTotal = CurrencyChecker.getPrice(total, country);
 
@@ -40,28 +40,28 @@ public class Checkout extends PageObject{
 
     }
 
-    public String getTotal() {
+    public String getEstimatedTotal() {
         wait.until(ExpectedConditions.visibilityOf(order_summary));
-        WebElement totalLine = order_summary.findElement(By.className("summary-total"));
-        WebElement totalNumber = totalLine.findElement(By.className("summary-value"));
+        WebElement estimatedTotal = order_summary.findElement(By.className("summary-total"));
+        WebElement estimatedTotalvalue = estimatedTotal.findElement(By.className("summary-value"));
 
-        return totalNumber.getText();
+        return estimatedTotalvalue.getText();
     }
 
     public String getSubtotal() {
         wait.until(ExpectedConditions.visibilityOf(order_summary));
-        WebElement totalLine = order_summary.findElement(By.className("summary-subtotal"));
-        WebElement totalNumber = totalLine.findElement(By.className("summary-value"));
+        WebElement subTotal = order_summary.findElement(By.className("summary-subtotal"));
+        WebElement subTotalvalue = subTotal.findElement(By.className("summary-value"));
 
-        return totalNumber.getText();
+        return subTotalvalue.getText();
     }
 
-    public String getShipping() {
+    public String getEstimatedShipping() {
         wait.until(ExpectedConditions.visibilityOf(order_summary));
-        WebElement totalLine = order_summary.findElement(By.className("summary-shipping"));
-        WebElement totalNumber = totalLine.findElement(By.className("summary-value"));
+        WebElement estimatedShipping = order_summary.findElement(By.className("summary-shipping"));
+        WebElement estimatedShippingvalue = estimatedShipping.findElement(By.className("summary-value"));
 
-        return totalNumber.getText();
+        return estimatedShippingvalue.getText();
     }
 
     public boolean hasErrors() {
