@@ -74,18 +74,18 @@ public class ArraySearch extends Array{
         return getProductTiles(searchResults).get(0);
     }
 
-    public List<String> getListPrices() {
+    public List<String> getPrices() {
 
-        return getListPrices(searchResults,PRICE_LIST_CLASS);
+        return getProductPrices(searchResults,PRICE_LIST_CLASS);
     }
 
     public List<String> getWasPrices() {
 
-        return getListPrices(searchResults,PRICE_WAS_CLASS);
+        return getProductPrices(searchResults,PRICE_WAS_CLASS);
     }
 
     public List<String> getSalePrices() {
 
-        return getListPrices(searchResults,PRICE_SALE_CLASS);
+        return getProductPrices(searchResults,PRICE_SALE_CLASS);
     }
 }

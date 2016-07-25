@@ -32,7 +32,7 @@ public class ArraySearchSteps extends DriverFactory {
     @Then("^Verify proper currency symbol is displayed on search grid list$")
     public void verify_currency_on_product_gridlist(){
         String countryName = searchArray.country.getName();
-        List<String> listPrice = searchArray.getListPrices();
+        List<String> listPrice = searchArray.getPrices();
         for(String price : listPrice) {
             assertTrue("List price " + price + " matches country context "+countryName,
                     CurrencyChecker.isValid(price, searchArray.country));

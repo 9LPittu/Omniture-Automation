@@ -16,10 +16,10 @@ public abstract class Array extends PageObject{
 
     protected final String PRODUCT_TITLE_CLASS = "c-product-tile";
     protected final String PRICE_LIST_CLASS = "tile__detail--price--list";
+    protected final String PRICE_SALE_CLASS = "tile__detail--price--sale";
     protected final String PRICE_WAS_CLASS = "tile__detail--price--was";
     protected final String NAME_CLASS = "tile__detail--name";
     protected final String SHIPPING_CLASS = "tile__detail--shipping";
-    protected final String PRICE_SALE_CLASS = "tile__detail--price--sale";
     protected final String COLOR_COUNTS_CLASS = "js-tile__detail--colors-count";
     protected final String CUSTOM_MESSAGE = "monetate_custom_index_text";
 
@@ -35,15 +35,15 @@ public abstract class Array extends PageObject{
     }
 
 
-    protected List<String> getListPrices(WebElement productList,String priceType) {
-        List<WebElement> listPricesElements = productList.findElements(By.className(priceType));
-        List<String> listPrices = new ArrayList<>(listPricesElements.size());
+    protected List<String> getProductPrices(WebElement productList,String priceType) {
+        List<WebElement> priceList = productList.findElements(By.className(priceType));
+        List<String> productPrices = new ArrayList<>(priceList.size());
 
-        for (WebElement price:listPricesElements ) {
-            listPrices.add(price.getText());
+        for (WebElement price:priceList ) {
+            productPrices.add(price.getText());
         }
 
-        return listPrices;
+        return productPrices;
     }
     public void selectRandomProduct(WebElement productList) {
         List<WebElement> productTiles = getProductTiles(productList);

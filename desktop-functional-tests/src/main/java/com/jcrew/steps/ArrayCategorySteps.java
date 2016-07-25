@@ -40,7 +40,7 @@ public class ArrayCategorySteps extends DriverFactory {
 
     @Then("^Verify proper currency symbol is displayed on product grid list$")
     public void verify_currency_on_product_gridlist(){
-        List<String> listPrice = productsArray.getListPrices();
+        List<String> listPrice = productsArray.getPrices();
         String countryName = productsArray.country.getName();
         for(String price : listPrice) {
             assertTrue("List price " + price + " matches country context "+countryName,

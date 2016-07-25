@@ -43,17 +43,17 @@ public class ArrayCategory extends Array{
         return getProductTiles(productList);
     }
 
-    public List<String> getListPrices() {
+    public List<String> getPrices() {
 
-        return getListPrices(productList,PRICE_LIST_CLASS);
+        return getProductPrices(productList,PRICE_LIST_CLASS);
     }
 
     public List<String> getWasPrices() {
-        return getListPrices(productList,PRICE_WAS_CLASS);
+        return getProductPrices(productList,PRICE_WAS_CLASS);
     }
 
     public List<String> getSalePrices() {
-        return getListPrices(productList,PRICE_SALE_CLASS);
+        return getProductPrices(productList,PRICE_SALE_CLASS);
     }
     public void selectRandomProduct() {
         selectRandomProduct(productList);
