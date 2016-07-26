@@ -46,9 +46,9 @@ public class HamburgerMenuSteps extends DriverFactory {
     }
 
 
-    @Then("^Shop icon is present$")
+    @Then("^Menu icon is present$")
     public void hamburger_menu_is_present() {
-        assertTrue("Shop icon is present", hamburgerMenu.isHamburgerMenuPresent());
+        assertTrue("Menu icon is present", hamburgerMenu.isHamburgerMenuPresent());
     }
 
     @Given("^User clicks on hamburger menu$")
