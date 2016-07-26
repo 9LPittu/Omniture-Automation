@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class ShoppingBagSteps extends DriverFactory {
     ShoppingBag shoppingBag = new ShoppingBag(getDriver());
 
-    @Then("User is in shopping bag page$")
+    @Then("Verify user is in shopping bag page$")
     public void verify_user_is_in_bag_page() {
 
         assertTrue("User should be in shopping bag page", shoppingBag.isShoppingBagPage());

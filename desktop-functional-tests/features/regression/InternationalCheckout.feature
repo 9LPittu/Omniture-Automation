@@ -57,39 +57,39 @@ Feature: User is able to checkout in international context
 
     When User clicks check out button
     And User selects guest check out
-    Then User is in shopping bag page
+    Then Verify user is in shopping bag page
     Then Verify proper currency symbol for the items is displayed on bag page
     And Verify proper currency symbol for subtotal is displayed on bag page
     And Verify proper currency symbol for shipping is displayed on bag page
-    And Verify proper currency symbol for shipping is displayed on bag page
+    And Verify proper currency symbol for total is displayed on bag page
 
     When Guest user fills shipping address and continue
-    Then Verifies is in shipping method page
+    Then Verify user is in shipping method page
     And Verify proper currency symbol for the items is displayed on bag page
     And Verify proper currency symbol for subtotal is displayed on bag page
     And Verify proper currency symbol for shipping is displayed on bag page
-    And Verify proper currency symbol for shipping is displayed on bag page
+    And Verify proper currency symbol for total is displayed on bag page
 
     When User selects random shipping method and continue
     Then Verify user is in billing page
     And Verify proper currency symbol for the items is displayed on bag page
     And Verify proper currency symbol for subtotal is displayed on bag page
     And Verify proper currency symbol for shipping is displayed on bag page
-    And Verify proper currency symbol for shipping is displayed on bag page
+    And Verify proper currency symbol for total is displayed on bag page
 
     When User fills payment method and continue
     Then Verify user is in review page
     And Verify proper currency symbol for the items is displayed on bag page
     And Verify proper currency symbol for subtotal is displayed on bag page
     And Verify proper currency symbol for shipping is displayed on bag page
-    And Verify proper currency symbol for shipping is displayed on bag page
+    And Verify proper currency symbol for total is displayed on bag page
 
     When User reviews and places order
     Then User gets an order confirmation number
     And Verify proper currency symbol for the items is displayed on bag page
     And Verify proper currency symbol for subtotal is displayed on bag page
     And Verify proper currency symbol for shipping is displayed on bag page
-    And Verify proper currency symbol for shipping is displayed on bag page
+    And Verify proper currency symbol for total is displayed on bag page
     Examples:
       | country_group |
       | PRICEBOOK     |

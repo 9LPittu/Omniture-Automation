@@ -34,7 +34,7 @@ public class CheckOutSteps extends DriverFactory {
         shipping.saveShippingAddress();
     }
 
-    @Then("^Verifies is in shipping method page$")
+    @Then("^Verify user is in shipping method page$")
     public void verifies_is_in_shipping_method_page() throws Throwable {
         ShippingMethod shippingMethod = new ShippingMethod(getDriver());
 
