@@ -104,8 +104,7 @@ public class StartSteps {
         stateHolder.put("context", countrySettings);
 
         String homeURL = countrySettings.getHomeurl();
-        String intlPageURL = homeURL + pageURL;
-
+        String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
         logger.debug("getting url: " + intlPageURL);
         driver.get(intlPageURL);
     }
