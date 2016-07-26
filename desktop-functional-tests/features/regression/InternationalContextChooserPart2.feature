@@ -21,7 +21,7 @@ Feature: International Country Context - Part 2
     And Verify context in the product detail page
     And User adds selected product to bag
     And User clicks in bag
-    And User is in shopping bag page
+    And Verify user is in shopping bag page
     And Verify that shopping bag has expected context
     And User clicks check out button
     And Verify selected country is in footer
