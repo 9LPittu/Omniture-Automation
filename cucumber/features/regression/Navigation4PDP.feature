@@ -13,7 +13,7 @@ Feature: Multiple Items Random
     And user selects any item from array page, select any color and size
     Then User is in product detail page
     
-    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+#    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button
     
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
     Then Verify 'SIZE & FIT' drawer is expanded state
@@ -35,7 +35,7 @@ Feature: Multiple Items Random
     And user selects any item from array page, select any color and size
     Then User is in product detail page
     
-    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+ #   Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button
     
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
     Then Verify 'SIZE & FIT' drawer is expanded state
@@ -57,7 +57,7 @@ Feature: Multiple Items Random
     And user selects any item from array page, select any color and size
     Then User is in product detail page
     
-    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+ #   Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button
     
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
     Then Verify 'SIZE & FIT' drawer is expanded state
@@ -79,7 +79,7 @@ Feature: Multiple Items Random
     And user selects any item from array page, select any color and size
     Then User is in product detail page
     
-    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+#    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button
     
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
     Then Verify 'SIZE & FIT' drawer is expanded state
@@ -102,7 +102,7 @@ Feature: Multiple Items Random
     And Selects the first product from product grid list
     And User is in product detail page
     
-    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button    
+#    Then Verify 'size & fit details' link is displayed above the 'Add to Bag' button
     
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
     Then Verify 'SIZE & FIT' drawer is expanded state
