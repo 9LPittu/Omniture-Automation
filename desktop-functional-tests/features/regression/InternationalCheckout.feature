@@ -49,7 +49,7 @@ Feature: User is able to checkout in international context
 
     #Bag
     When User clicks in bag
-    Then User is in shopping bag page
+    Then Verify user is in shopping bag page
     And Verify proper currency symbol for the items is displayed on bag page
     And Verify proper currency symbol for subtotal is displayed on bag page
     And Verify proper currency symbol for shipping is displayed on bag page

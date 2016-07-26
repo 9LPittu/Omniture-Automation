@@ -1,0 +1,22 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building jcrew-functional-tests-desktop 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ jcrew-functional-tests-desktop ---
+[INFO] Deleting c:\jcrew\jc\sidecar-functional-tests\desktop-functional-tests\target
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 2.649 s
+[INFO] Finished at: 2016-07-26T10:12:07-04:00
+[INFO] Final Memory: 10M/155M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-clean-plugin:2.5:clean (default-clean) on project jcrew-functional-tests-desktop: Failed to clean project: Failed to delete C:\jcrew\jc\sidecar-functional-tests\desktop-functional-tests\target -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
