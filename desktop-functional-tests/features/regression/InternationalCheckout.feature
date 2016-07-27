@@ -56,13 +56,8 @@ Feature: User is able to checkout in international context
     And Verify proper currency symbol for total is displayed on bag page
 
     When User clicks check out button
-    And User selects guest check out
-    Then Verify user is in shopping bag page
-    Then Verify proper currency symbol for the items is displayed on bag page
-    And Verify proper currency symbol for subtotal is displayed on bag page
-    And Verify proper currency symbol for shipping is displayed on bag page
-    And Verify proper currency symbol for total is displayed on bag page
-
+    Then User selects guest check out
+    Then Verify user is in shipping address page
     When Guest user fills shipping address and continue
     Then Verify user is in shipping method page
     And Verify proper currency symbol for the items is displayed on bag page
