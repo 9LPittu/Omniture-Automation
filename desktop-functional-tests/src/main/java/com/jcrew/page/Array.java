@@ -45,7 +45,7 @@ public abstract class Array extends PageObject{
 
         return productPrices;
     }
-    public void selectRandomProduct(WebElement productList) {
+    protected void selectRandomProduct(WebElement productList) {
         List<WebElement> productTiles = getProductTiles(productList);
         logger.info("This array page has {} products", productTiles.size());
 
