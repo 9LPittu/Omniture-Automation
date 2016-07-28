@@ -65,7 +65,7 @@ public class StartSteps {
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {
             try {
-                getHomePage(country);
+                getIntlHomePage(country);
                 waitForHeaderPromo();
                 successfulLoad = true;
             } catch (TimeoutException te) {
@@ -104,8 +104,7 @@ public class StartSteps {
         stateHolder.put("context", countrySettings);
 
         String homeURL = countrySettings.getHomeurl();
-        String intlPageURL = homeURL + pageURL;
-
+        String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
         logger.debug("getting url: " + intlPageURL);
         driver.get(intlPageURL);
     }
@@ -126,15 +125,15 @@ public class StartSteps {
         driver.get(envUrl);
     }
 
-    private void getHomePage(String country) {
+    private void getIntlHomePage(String country) {
         String envUrl = reader.getProperty("url");
 
         Country context = new Country(envUrl, country);
         stateHolder.put("context", context);
         envUrl = context.getHomeurl();
-
-        logger.debug("getting url: " + envUrl);
-        driver.get(envUrl);
+        String intlHomeURL = envUrl +"/"+ context + "/" ;
+        logger.debug("getting url: " + intlHomeURL);
+        driver.get(intlHomeURL);
     }
     
 }

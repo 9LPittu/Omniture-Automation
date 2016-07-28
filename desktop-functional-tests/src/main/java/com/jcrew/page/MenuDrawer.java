@@ -1,7 +1,5 @@
 package com.jcrew.page;
 
-import com.google.common.base.Predicate;
-import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

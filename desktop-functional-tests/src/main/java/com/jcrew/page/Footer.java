@@ -59,6 +59,7 @@ public class Footer {
 
     private void waitForFooter() {
        try {
+            new Footer(driver);
             wait.until(ExpectedConditions.visibilityOf(global__footer));
             wait.until(ExpectedConditions.visibilityOf(footer_social));
             wait.until(ExpectedConditions.visibilityOf(countryNameInFooter));

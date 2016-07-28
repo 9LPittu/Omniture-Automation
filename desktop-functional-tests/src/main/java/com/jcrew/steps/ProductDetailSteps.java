@@ -1,16 +1,15 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetails;
+import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
-import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import static org.junit.Assert.assertTrue;
+import java.util.List;
 
-import org.openqa.selenium.Point;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -87,7 +86,12 @@ public class ProductDetailSteps extends DriverFactory {
 
     @Then("^Verify proper currency symbol is displayed on PDP page$")
     public void verify_currency_on_product_PDP(){
-        assertTrue("Currency on product details page",productDetails.isCorrectCurrencySymbolonPDP());
+        List<String> listPrice = productDetails.getAllPrices();
+        String countryName = productDetails.country.getName();
+        for(String price : listPrice) {
+            assertTrue("Price " + price + " matches country context " + countryName,
+                    CurrencyChecker.isValid(price, productDetails.country));
+        }
     }
     
     @Then("^Verify 'size & fit details' link is displayed above the 'Add to Bag' button$")

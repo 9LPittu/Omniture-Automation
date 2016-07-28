@@ -162,12 +162,13 @@ public class HeaderWrap {
             if ("chrome".equals(browser) || "firefox".equals(browser)) {
                 hoverAction.moveToElement(bag);
                 hoverAction.perform();
+
+                wait.until(ExpectedConditions.visibilityOf(minibag));
             } else {
                 JavascriptExecutor jse = (JavascriptExecutor) driver;
                 jse.executeScript(
                         "jcrew.jQuery('.primary-nav__item--bag-filled').trigger('mouseenter');");
             }
-            wait.until(ExpectedConditions.visibilityOf(minibag));
 
         } else if ("my account".equalsIgnoreCase(icon)) {
             wait.until(ExpectedConditions.visibilityOf(myAccount));

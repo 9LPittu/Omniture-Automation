@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by nadiapaolagarcia on 4/8/16.
  */
-public class Shipping {
+public class Shipping extends Checkout{
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(Shipping.class);
     private final WebDriverWait wait;
@@ -54,16 +54,26 @@ public class Shipping {
     private WebElement state_province;
     @FindBy(id = "shoppingAddressValidate")
     private WebElement addresValidate;
+    @FindBy(id = "checkout")
+    private WebElement articleCheckout;
 
     private HeaderWrap header;
 
     public Shipping(WebDriver driver) {
+        super(driver);
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
         this.header = new HeaderWrap(driver);
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(order_listing));
+    }
+    public boolean isShippingAddressPage(){
+        logger.info("country context is  : {}", country.getName());
+        Util.waitForPageFullyLoaded(driver);
+        wait.until(ExpectedConditions.visibilityOf(articleCheckout));
+
+        return articleCheckout.isDisplayed();
     }
 
     public void fillGuestData() {
@@ -110,8 +120,10 @@ public class Shipping {
     }
 
     public void saveShippingAddress() {
+        String currentUrl = driver.getCurrentUrl();
         WebElement saveShippingAddress = shippingAddress.findElement(By.className("button-submit-bg"));
         saveShippingAddress.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
     }
 
     public void continueWithDefaultAddress() {

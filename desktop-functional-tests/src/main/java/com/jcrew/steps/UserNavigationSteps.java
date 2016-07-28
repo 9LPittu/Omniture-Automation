@@ -6,7 +6,6 @@ import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
@@ -52,7 +51,7 @@ public class UserNavigationSteps extends DriverFactory {
 
         user_navigates_to_subcategory_from_main_category();
 
-        ProductsArray productsArray = new ProductsArray(driver);
+        ArrayCategory productsArray = new ArrayCategory(driver);
         productsArray.selectRandomProduct();
 
     }
@@ -70,7 +69,7 @@ public class UserNavigationSteps extends DriverFactory {
     public void users_add_random_product_from_search() {
         user_searches_for_a_random_search_term();
 
-        SearchArray searchArray = new SearchArray(driver);
+        ArraySearch searchArray = new ArraySearch(driver);
         searchArray.selectRandomProduct();
 
         select_product_and_add_to_bag();
@@ -78,6 +77,9 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User navigates to a random sale page")
     public void user_navigates_to_a_random_sale_page() {
+        HeaderWrap header = new HeaderWrap(driver);
+        header.openMenu();
+
         MenuDrawer menuDrawer = new MenuDrawer(driver);
         menuDrawer.openSaleLandingPage();
 
@@ -100,7 +102,7 @@ public class UserNavigationSteps extends DriverFactory {
     public void users_add_random_product_from_sale() {
         user_navigates_to_a_random_sale_page();
 
-        SearchArray searchArray = new SearchArray(driver);
+        ArraySearch searchArray = new ArraySearch(driver);
         searchArray.selectRandomProduct();
 
         select_product_and_add_to_bag();
@@ -164,7 +166,7 @@ public class UserNavigationSteps extends DriverFactory {
         String currentUrl = driver.getCurrentUrl();
 
         if(currentUrl.contains("/r/search/")) {
-            SearchArray productsArray = new SearchArray(getDriver());
+            ArraySearch productsArray = new ArraySearch(getDriver());
             productsArray.click_first_product_in_grid();
         }
     }
