@@ -29,7 +29,7 @@ public class CheckOutSteps extends DriverFactory {
     @Then("Verify user is in shipping address page")
     public void verifies_user_is_in_shipping_address_page(){
         Shipping shipping = new Shipping(getDriver());
-        assertTrue("User should be in shopping bag page", shipping.isShippingAddressPage());
+        assertTrue("User should be in shipping address page", shipping.isShippingAddressPage());
     }
     @When("Guest user fills shipping address and continue")
     public void guest_user_fills_shipping_address() {
