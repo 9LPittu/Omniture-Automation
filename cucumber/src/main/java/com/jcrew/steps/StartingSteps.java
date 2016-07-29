@@ -93,10 +93,13 @@ public class StartingSteps {
         		break;
         	}
         	catch(Exception e){
-        		i++;
+        		i++;        		
         		if(i>2){
         			e.printStackTrace();
         		}
+        		
+        		driverFactory.destroyDriver();
+        		driver = driverFactory.getDriver();
         	}
         }
     }
