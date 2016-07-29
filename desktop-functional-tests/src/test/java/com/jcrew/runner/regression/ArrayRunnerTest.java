@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression"},
+        features = {"features/regression/Array"},
         tags = {"@Array"},
         glue = {"com.jcrew.steps"},
         format = {
