@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -393,14 +394,11 @@ public class Header {
         PropertyReader reader = PropertyReader.getPropertyReader();
         if (!reader.getProperty("environment").equalsIgnoreCase("production")) {
             
-        	Calendar cal = Calendar.getInstance();
-    		cal.add(Calendar.DATE, -1);
+        	DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
+        	Calendar calendar = Calendar.getInstance();
+        	calendar.add(Calendar.DATE, -1);
     		
-    		int day = cal.get(Calendar.DAY_OF_MONTH);
-    		String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-    		int year = cal.get(Calendar.YEAR);
-            
-            String expectedDateString = "As of " + month + " " + day + ", " + year + ":";
+        	String expectedDateString = "As of " + dateFormat.format(calendar.getTime()) + ":";
             String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
             boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
 
