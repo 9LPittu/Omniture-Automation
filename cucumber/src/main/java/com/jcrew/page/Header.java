@@ -11,9 +11,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class Header {
 
@@ -391,9 +392,15 @@ public class Header {
 
         PropertyReader reader = PropertyReader.getPropertyReader();
         if (!reader.getProperty("environment").equalsIgnoreCase("production")) {
-            LocalDate today = LocalDate.now();
-
-            String expectedDateString = "As of " + today.getMonth().name() + " " + (today.getDayOfMonth() - 1) + ", " + today.getYear() + ":";
+            
+        	Calendar cal = Calendar.getInstance();
+    		cal.add(Calendar.DATE, -1);
+    		
+    		int day = cal.get(Calendar.DAY_OF_MONTH);
+    		String month = cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+    		int year = cal.get(Calendar.YEAR);
+            
+            String expectedDateString = "As of " + month + " " + day + ", " + year + ":";
             String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
             boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
 
