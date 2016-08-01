@@ -420,7 +420,7 @@ public class Header {
     }
 
     public WebElement getManageMyAccountElementInMyAccountDropdown() {
-        return rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[5]"));
+        return rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[5]/a"));
     }
 
     public void clickElementFromMyAccountDropdown(String myAccountDropdownElementName) {
