@@ -11,8 +11,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.LocalDate;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class Header {
@@ -391,20 +392,30 @@ public class Header {
 
         PropertyReader reader = PropertyReader.getPropertyReader();
         if (!reader.getProperty("environment").equalsIgnoreCase("production")) {
-            LocalDate today = LocalDate.now();
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, -1);
 
-            String expectedDateString = "As of " + today.getMonth().name() + " " + (today.getDayOfMonth() - 1) + ", " + today.getYear() + ":";
+            String expectedDateString = "As of " + dateFormat.format(calendar.getTime()) + ":";
             String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
             boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
+            logger.error("Expected {} but got {}", expectedDateString, dateInPage);
+
 
             String rewardsCardBalance = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[2]")).getText();
             boolean isRewardBalanceMatches = rewardsCardBalance.matches("^Rewards card balance: \\$\\d+(\\.\\d+)?");
+            logger.error("Pattern is {} but got {}", "^Rewards card balance: \\$\\d+(\\.\\d+)?",rewardsCardBalance);
+
 
             String totalPoints = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[3]")).getText();
             boolean isTotalPointsMatches = totalPoints.matches("^Total points: \\d+");
+            logger.error("Pattern is {} but got {}", "^Total points: \\d+",totalPoints);
+
 
             String pointsToNextReward = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[4]")).getText();
             boolean isPointsToNextRewardMatches = pointsToNextReward.matches("^Points to next reward: \\d+");
+            logger.error("Pattern is {} but got {}", "^Points to next reward: \\d+",pointsToNextReward);
+
 
             WebElement manageMyAccountLinkInMyAccountDropdown = getManageMyAccountElementInMyAccountDropdown();
 
@@ -415,7 +426,7 @@ public class Header {
     }
 
     public WebElement getManageMyAccountElementInMyAccountDropdown() {
-        return rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[5]"));
+        return rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[5]/a"));
     }
 
     public void clickElementFromMyAccountDropdown(String myAccountDropdownElementName) {
