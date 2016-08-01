@@ -15,15 +15,17 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import com.jcrew.pojo.Country;
 
 public class SubcategoryPage {
 
     private final StateHolder stateHolder = StateHolder.getInstance();
-    
+
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(SubcategoryPage.class);
     @FindBy(css = "button.get-quickshop")
@@ -38,10 +40,10 @@ public class SubcategoryPage {
     private WebElement shoppingBagLink;
     @FindBy(id = "qsLightBox")
     private WebElement quickShopModal;
-    
+
     @FindBy(xpath = "//div[@class='product__grid']")
     private WebElement productGrid;
-    
+
     @FindBy(id = "c-product__list")
     private WebElement productList;
     @FindBy(css = ".category__page-title > h2")
@@ -64,7 +66,7 @@ public class SubcategoryPage {
     private List<WebElement> accordionElements;
     @FindBy(id = "c-category__navigation")
     private WebElement endCapNavigationSection;
-    
+
     @FindBy(className = "product__name")
     private WebElement productName;
 
@@ -233,14 +235,14 @@ public class SubcategoryPage {
         return result;
     }
 
-    public void click_first_product_in_grid() {        
-    	Util.waitForPageFullyLoaded(driver);
-		final WebElement product = getFirstProduct();
-		final WebElement productLink = product.findElement(By.className("js-product__image"));
-		Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
-		saveProduct(product);
-		productLink.click();
-		Util.waitLoadingBar(driver);
+    public void click_first_product_in_grid() {
+        Util.waitForPageFullyLoaded(driver);
+        final WebElement product = getFirstProduct();
+        final WebElement productLink = product.findElement(By.className("js-product__image"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productLink));
+        saveProduct(product);
+        productLink.click();
+        Util.waitLoadingBar(driver);
     }
 
     public void click_first_product_with_xpath(String finder) {
@@ -391,7 +393,7 @@ public class SubcategoryPage {
             xpath = "//span[text()=\"" + product +
                     "\" and contains(@class, 'tile__detail--name')]";
         } else {
-            xpath =  "//span[text()='" + product +
+            xpath = "//span[text()='" + product +
                     "' and contains(@class, 'tile__detail--name')]";
         }
         WebElement productInTile = productGrid.findElement(By.xpath(xpath));
@@ -402,12 +404,10 @@ public class SubcategoryPage {
     public boolean isEditedSearchTermItemDisplayed(String term) {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String itemName = testDataReader.getData(propertyReader.getProperty("environment") + "."+term+".product");
+        String itemName = testDataReader.getData(propertyReader.getProperty("environment") + "." + term + ".product");
 
         return productTileExistFor(itemName);
     }
-
-
 
 
     public String getPriceFor(String product) {
@@ -442,7 +442,7 @@ public class SubcategoryPage {
     public String getWasPriceFor(String product) {
         WebElement wasPriceInTitle = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(productGrid.findElement(By.xpath("//span[text()='" + product +
-                "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--was')]"))));
+                        "' and contains(@class, 'tile__detail--name')]/../div[contains(@class,'tile__detail--price--was')]"))));
 
         return wasPriceInTitle.getText();
     }
@@ -585,166 +585,161 @@ public class SubcategoryPage {
         stateHolder.put("productList", productList);
     }
 
-    public void selectRandomItemAndSelectSizeColor(){
+    public void selectRandomItemAndSelectSizeColor() {
 
-    	boolean isItemFound = false;
-    	int MAX_ITEMS_TO_CHECK = 10;
-    	int itemsThreshold;
+        boolean isItemFound = false;
+        int MAX_ITEMS_TO_CHECK = 10;
+        int itemsThreshold;
 
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
 
-    	List<WebElement> arrayPageItems = getArrayPageProductTileElements();
+        List<WebElement> arrayPageItems = getArrayPageProductTileElements();
 
-    	//checking items are displayed on the array page
-    	if(arrayPageItems.size()==0){
-    		throw new WebDriverException("No items are displayed on the array page (or) element properties are changed");
-    	}
+        //checking items are displayed on the array page
+        if (arrayPageItems.size() == 0) {
+            throw new WebDriverException("No items are displayed on the array page (or) element properties are changed");
+        }
 
-    	//Setting the threshold on the items to be checked
-    	if(arrayPageItems.size() > MAX_ITEMS_TO_CHECK){
-    		itemsThreshold = MAX_ITEMS_TO_CHECK;
-    	}
-    	else{
-    		itemsThreshold = arrayPageItems.size();
-    	}
-    	
-    	for(int loopCntr=0;loopCntr<itemsThreshold;loopCntr++){
-    		try{
-    			String arrayPageItemName = "";
-    			arrayPageItems = getArrayPageProductTileElements();
+        //Setting the threshold on the items to be checked
+        if (arrayPageItems.size() > MAX_ITEMS_TO_CHECK) {
+            itemsThreshold = MAX_ITEMS_TO_CHECK;
+        } else {
+            itemsThreshold = arrayPageItems.size();
+        }
 
-    			//Capture the array page item name & price
-    			List<WebElement> itemNameElements = driver.findElements(By.xpath("//a[contains(@class,'product-tile__details')]/span[1]"));
-    			WebElement itemNameElement = itemNameElements.get(loopCntr);
-    			arrayPageItemName = itemNameElement.getText().trim();
-        		storeItemPriceFromArrayPage(arrayPageItems.get(loopCntr));
+        for (int loopCntr = 0; loopCntr < itemsThreshold; loopCntr++) {
+            try {
+                String arrayPageItemName = "";
+                arrayPageItems = getArrayPageProductTileElements();
 
-        		//Click on array page item
-        		itemNameElement.click();
-        		logger.debug("Array page item '{}' is clicked", arrayPageItemName);
+                //Capture the array page item name & price
+                List<WebElement> itemNameElements = driver.findElements(By.xpath("//a[contains(@class,'product-tile__details')]/span[1]"));
+                WebElement itemNameElement = itemNameElements.get(loopCntr);
+                arrayPageItemName = itemNameElement.getText().trim();
+                storeItemPriceFromArrayPage(arrayPageItems.get(loopCntr));
 
-    			//Wait till the PDP page is displayed
-        		Util.waitForPageFullyLoaded(driver);        		
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
-        		logger.debug("PDP page is displayed!!!");
-        		
-        		List<WebElement> itemColors = Util.createWebDriverWait(driver,20).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath(".//img[@class='colors-list__image']"))));
+                //Click on array page item
+                itemNameElement.click();
+                logger.debug("Array page item '{}' is clicked", arrayPageItemName);
 
-	  			//If colors are not available then navigate back to array page
-	  			if(itemColors.size() == 0){
-	  				navigateBackToArrayPage();
-	  				continue;
-	  			}
-	  			else{
-	  				logger.debug("Color element(s) found!!!");
-	  			}
+                //Wait till the PDP page is displayed
+                Util.waitForPageFullyLoaded(driver);
+                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
+                logger.debug("PDP page is displayed!!!");
 
-	  			//Click on each color at random and check any sizes are available
-	  			String colorName = "";
-	  			boolean isValidItemSizesAvailable = false;
-	  			for(WebElement itemColor:itemColors){
+                List<WebElement> itemColors = Util.createWebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath(".//img[@class='colors-list__image']"))));
 
-	  				itemColor.click();
+                //If colors are not available then navigate back to array page
+                if (itemColors.size() == 0) {
+                    navigateBackToArrayPage();
+                    continue;
+                } else {
+                    logger.debug("Color element(s) found!!!");
+                }
 
-	  				//check atleast one size is available for a particular color
-	  				List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"));
-	  				if(itemSizes.size() > 0){
-	  					WebElement productPriceColors = driver.findElement(By.xpath("//div[@class='product__price-colors']"));
-	  					colorName = productPriceColors.findElement(By.className("product__value")).getText();
-	  					isValidItemSizesAvailable = true;
-	  					break;
-	  				}
-	  			}
+                //Click on each color at random and check any sizes are available
+                String colorName = "";
+                boolean isValidItemSizesAvailable = false;
+                for (WebElement itemColor : itemColors) {
 
-	  			//If there are no sizes available i.e., item is OUT OF STOCK(OOS) then navigate back to array page
-	  			if(!isValidItemSizesAvailable){
-	  				navigateBackToArrayPage();
-	  				continue;
-	  			}
+                    itemColor.click();
 
-	  			logger.debug("Selected item name: {}", arrayPageItemName);
-	  			logger.debug("Selected item list price: {}", stateHolder.get("listPrice"));
-	  			if(stateHolder.get("salePrice")!=""){
-	  				logger.debug("Selected item now/select colors price: {}", stateHolder.get("salePrice"));
-	  			}
-	  			logger.debug("Selected item color: {}", colorName);
+                    //check atleast one size is available for a particular color
+                    List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"));
+                    if (itemSizes.size() > 0) {
+                        WebElement productPriceColors = driver.findElement(By.xpath("//div[@class='product__price-colors']"));
+                        colorName = productPriceColors.findElement(By.className("product__value")).getText();
+                        isValidItemSizesAvailable = true;
+                        break;
+                    }
+                }
 
-	            //Select random size from the available sizes	  			
-	  			List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"));
-	  			
-	  			int itemSizeIndex = Util.randomIndex(itemSizes.size());	  			
-	            String sizeName = itemSizes.get(itemSizeIndex).getText();
-	            itemSizes.get(itemSizeIndex).click();
-	            logger.debug("Selected item size: {}", sizeName);
-	            
-	            String itemFinalPrice = getItemPriceFromPDP();
+                //If there are no sizes available i.e., item is OUT OF STOCK(OOS) then navigate back to array page
+                if (!isValidItemSizesAvailable) {
+                    navigateBackToArrayPage();
+                    continue;
+                }
 
-	            //Save all item related details in stateholder
-	            Product product = new Product();
+                logger.debug("Selected item name: {}", arrayPageItemName);
+                logger.debug("Selected item list price: {}", stateHolder.get("listPrice"));
+                if (stateHolder.get("salePrice") != "") {
+                    logger.debug("Selected item now/select colors price: {}", stateHolder.get("salePrice"));
+                }
+                logger.debug("Selected item color: {}", colorName);
 
-	            product.setProductName(arrayPageItemName);	            
-	            product.setPriceWas((String) stateHolder.get("listPrice"));
-	            product.setPriceSale((String) stateHolder.get("salePrice"));
-	            product.setPriceList(itemFinalPrice);
-	            product.setSelectedColor(colorName);
-	            product.setSelectedSize(sizeName);
+                //Select random size from the available sizes
+                List<WebElement> itemSizes = driver.findElements(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"));
 
-	            @SuppressWarnings("unchecked")
-				List<Product> productList = (List<Product>) stateHolder.get("productList");
+                int itemSizeIndex = Util.randomIndex(itemSizes.size());
+                String sizeName = itemSizes.get(itemSizeIndex).getText();
+                itemSizes.get(itemSizeIndex).click();
+                logger.debug("Selected item size: {}", sizeName);
 
-	            if (productList == null) {
-	                productList = new ArrayList<>();
-	            }
+                String itemFinalPrice = getItemPriceFromPDP();
 
-	            productList.add(product);
-	            stateHolder.put("productList", productList);
+                //Save all item related details in stateholder
+                Product product = new Product();
 
-	  			isItemFound = true;
-	            break;
-    		}
-    		catch(Exception e){
-    			try{
-	    			boolean isPDP = driver.findElement(By.xpath(".//h1[@class='product__name']")).isDisplayed();
-	    			if (isPDP){
-	    				navigateBackToArrayPage();
-	    			}
-    			}
-    			catch(Exception e1){
-    				logger.info("PDP page is not displayed", e1);
-    			}
-    		}
-    	}
+                product.setProductName(arrayPageItemName);
+                product.setPriceWas((String) stateHolder.get("listPrice"));
+                product.setPriceSale((String) stateHolder.get("salePrice"));
+                product.setPriceList(itemFinalPrice);
+                product.setSelectedColor(colorName);
+                product.setSelectedSize(sizeName);
 
-    	if(!isItemFound){
-    		throw new WebDriverException("No item is found with appropriate color and size");
-    	}
+                @SuppressWarnings("unchecked")
+                List<Product> productList = (List<Product>) stateHolder.get("productList");
+
+                if (productList == null) {
+                    productList = new ArrayList<>();
+                }
+
+                productList.add(product);
+                stateHolder.put("productList", productList);
+
+                isItemFound = true;
+                break;
+            } catch (Exception e) {
+                try {
+                    boolean isPDP = driver.findElement(By.xpath(".//h1[@class='product__name']")).isDisplayed();
+                    if (isPDP) {
+                        navigateBackToArrayPage();
+                    }
+                } catch (Exception e1) {
+                    logger.info("PDP page is not displayed", e1);
+                }
+            }
+        }
+
+        if (!isItemFound) {
+            throw new WebDriverException("No item is found with appropriate color and size");
+        }
     }
 
-    public void navigateBackToArrayPage(){
-    	driver.navigate().back();
-		Util.waitForPageFullyLoaded(driver);
-		logger.debug("Navigated back to Array page");
+    public void navigateBackToArrayPage() {
+        driver.navigate().back();
+        Util.waitForPageFullyLoaded(driver);
+        logger.debug("Navigated back to Array page");
     }
-    
-    public List<WebElement> getArrayPageProductTileElements(){
-    	List<WebElement> arrayPageproductTileElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//div[@class='c-product-tile']"))));
-    	return arrayPageproductTileElements;
+
+    public List<WebElement> getArrayPageProductTileElements() {
+        List<WebElement> arrayPageproductTileElements = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath("//div[@class='c-product-tile']"))));
+        return arrayPageproductTileElements;
     }
-    
-    public void selectRandomItemFromArrayPage(){
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String environment = propertyReader.getProperty("url");
-    	
-    	if(driver.getCurrentUrl().startsWith((environment + "/r/search/"))){
-    		//for some items array page is displayed
-    		click_any_product_in_grid();
-    	}
-    	else{
-    		//for some items PDP page is displayed directly
-    		saveProductDetailsFromPDPPage();
-    	}
+
+    public void selectRandomItemFromArrayPage() {
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String environment = propertyReader.getProperty("url");
+
+        if (driver.getCurrentUrl().startsWith((environment + "/r/search/"))) {
+            //for some items array page is displayed
+            click_any_product_in_grid();
+        } else {
+            //for some items PDP page is displayed directly
+            saveProductDetailsFromPDPPage();
+        }
     }
-    
+
     public void saveProductDetailsFromPDPPage() {
 
         //capture the product name
@@ -769,8 +764,24 @@ public class SubcategoryPage {
         stateHolder.put("productList", productList);
     }
 
+    public String getCookiePath(String cookieName) {
+        String cookiePath;
+        Cookie cookie = driver.manage().getCookieNamed(cookieName);
+        if (cookie == null) {
+            cookiePath = "";
+            Set<Cookie> cookieSet = driver.manage().getCookies();
+            for (Cookie c : cookieSet) {
+                logger.debug("domain : {} cookie : {}", c.getDomain(), c.getName());
+            }
+
+        } else {
+            cookiePath = cookie.getPath();
+        }
+        return cookiePath;
+    }
+
     public boolean isItemDisplayedInSearchResultsPage(String propertyName) {
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
         String itemName = testDataReader.getData(propertyReader.getProperty("environment") + "." + propertyName);
 
@@ -779,7 +790,7 @@ public class SubcategoryPage {
     }
 
     public boolean isPriceMatchesForSaleItem(String saleItemPropertyName, String priceType, String pricePropertyName) {
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        PropertyReader propertyReader = PropertyReader.getPropertyReader();
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
         String itemName = testDataReader.getData(propertyReader.getProperty("environment") + "." + saleItemPropertyName);
         String expectedItemPrice = testDataReader.getData(propertyReader.getProperty("environment") + "." + pricePropertyName);
@@ -793,21 +804,20 @@ public class SubcategoryPage {
 
         return expectedItemPrice.equalsIgnoreCase(price);
     }
-    
-    
+
+
     public boolean isCorrectCurrencySymbolonProductGridList() {
         Country c = (Country) stateHolder.get("context");
-        
+
         List<WebElement> productPriceElements = driver.findElements(By.xpath("//span[contains(@class,'tile__detail--price--')]"));
 
         boolean result = CurrencyChecker.validatePrices(productPriceElements, c);
 
-        if(result){
-        	logger.info("Currency symbol is displayed correctly on all Item prices on Product grid list");
-        	
-        }
-        else{
-        	logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
+        if (result) {
+            logger.info("Currency symbol is displayed correctly on all Item prices on Product grid list");
+
+        } else {
+            logger.debug("Currency symbol is not displayed correctly on all / any of the Item prices  on Product grid list");
         }
         return result;
     }
@@ -826,143 +836,138 @@ public class SubcategoryPage {
             click_first_product_in_grid();
         }
     }
-    
-    public void storeItemPriceFromArrayPage(WebElement productTileOnArrayPage){
-    	
-    	String listPrice = "";
-    	String salePrice = "";
-    	
-    	List<WebElement> productPriceElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(productTileOnArrayPage.findElements(By.xpath(".//*[contains(@class,'tile__detail tile__detail--price')]"))));    	
-    	WebElement itemNameElement = productTileOnArrayPage.findElement(By.xpath(".//span[@class='tile__detail tile__detail--name']"));
-    	
-    	if(productPriceElement.size() > 0){    		
-    		listPrice = productPriceElement.get(0).getText().trim();
-    		listPrice = listPrice.replace("was ", "");
-			stateHolder.put("listPrice", listPrice);
-			
-			if(productPriceElement.size() > 1) {
-				salePrice = productPriceElement.get(1).getText().trim().toLowerCase();
-				salePrice = salePrice.replace("now ", "");
+
+    public void storeItemPriceFromArrayPage(WebElement productTileOnArrayPage) {
+
+        String listPrice = "";
+        String salePrice = "";
+
+        List<WebElement> productPriceElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(productTileOnArrayPage.findElements(By.xpath(".//*[contains(@class,'tile__detail tile__detail--price')]"))));
+        WebElement itemNameElement = productTileOnArrayPage.findElement(By.xpath(".//span[@class='tile__detail tile__detail--name']"));
+
+        if (productPriceElement.size() > 0) {
+            listPrice = productPriceElement.get(0).getText().trim();
+            listPrice = listPrice.replace("was ", "");
+            stateHolder.put("listPrice", listPrice);
+
+            if (productPriceElement.size() > 1) {
+                salePrice = productPriceElement.get(1).getText().trim().toLowerCase();
+                salePrice = salePrice.replace("now ", "");
                 salePrice = salePrice.replace("select colors ", "");
-			}
-	        stateHolder.put("salePrice", salePrice);
-    	}
-    	else{
-    		logger.error("Price from array page is not retrieved for the item '{}'", itemNameElement);
-    		throw new WebDriverException("Price from array page is not retrieved for the item '" + itemNameElement + "'");
-    	}
+            }
+            stateHolder.put("salePrice", salePrice);
+        } else {
+            logger.error("Price from array page is not retrieved for the item '{}'", itemNameElement);
+            throw new WebDriverException("Price from array page is not retrieved for the item '" + itemNameElement + "'");
+        }
     }
-    
-    public String getItemPriceFromPDP(){
-    	
-    	String listPrice = "";    			
-		String salePrice = "";
-    	String itemFinalPrice = "";
-    	List<WebElement> productVariations = driver.findElements(By.xpath(".//div[@id='c-product__variations']/div"));
-    	WebElement productDetailsSection = driver.findElement(By.xpath(".//section[@id='c-product__details']"));
-    	List<WebElement> productPrices; 
-    	
-    	if(productVariations.size() == 0){
-    		//If item has no variations    		
-    		itemFinalPrice = getItemPriceWithVariedPricesForColorsOnPDP(productDetailsSection);
-    		
-    		if(itemFinalPrice.isEmpty()){
-	    		productPrices = productDetailsSection.findElements(By.xpath(".//div[@id='c-product__price']/div"));
-	    		
-	    		if(productPrices.size() > 0){    			
-	    			listPrice = getItemListPriceFromPDP(productPrices);    			
-	    			salePrice = getItemSalePriceFromPDP(productPrices);
-	    			
-	    			//store the price depending on list/sale price is displayed
-	    			if(salePrice.isEmpty()){
-	    				itemFinalPrice = listPrice;
-	    			}
-	    			else{
-	    				itemFinalPrice = salePrice;
-	    			}
-	    		}
-    		}
-    	}    	
-    	else{
-    		//If item has variations
-    		itemFinalPrice = getItemPriceWithVariedPricesForColorsOnPDP(productDetailsSection);
-    		
-    		if(itemFinalPrice.isEmpty()){
-    			listPrice = productVariations.get(0).findElement(By.xpath("//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]"
-    					+ "/../../following-sibling::div/span[contains(@class,'product__variation--price') "
-    					+ "and not(contains(@class,'sale'))]")).getText().toLowerCase();
-    			
-    			listPrice = listPrice.replace("was ", "");
-    			
-    			salePrice = productVariations.get(0).findElement(By.xpath("//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]"
-    					+ "/../../following-sibling::div/span[contains(@class,'product__variation--price') "
-    					+ "and contains(@class,'sale')]")).getText();
-    					
-    			if(!salePrice.isEmpty()){
-    				salePrice = salePrice.toLowerCase();
-        			salePrice = salePrice.replace("now ", "");
-        			itemFinalPrice = salePrice;
-    			}
-    			else{
-    				itemFinalPrice = listPrice;
-    			}
-    		}
-    	}
-    	
-    	if(itemFinalPrice.isEmpty()){
-    		throw new WebDriverException("Failed to retrieve item price from PDP!");
-    	}
-    	
-    	return itemFinalPrice;
+
+    public String getItemPriceFromPDP() {
+
+        String listPrice = "";
+        String salePrice = "";
+        String itemFinalPrice = "";
+        List<WebElement> productVariations = driver.findElements(By.xpath(".//div[@id='c-product__variations']/div"));
+        WebElement productDetailsSection = driver.findElement(By.xpath(".//section[@id='c-product__details']"));
+        List<WebElement> productPrices;
+
+        if (productVariations.size() == 0) {
+            //If item has no variations
+            itemFinalPrice = getItemPriceWithVariedPricesForColorsOnPDP(productDetailsSection);
+
+            if (itemFinalPrice.isEmpty()) {
+                productPrices = productDetailsSection.findElements(By.xpath(".//div[@id='c-product__price']/div"));
+
+                if (productPrices.size() > 0) {
+                    listPrice = getItemListPriceFromPDP(productPrices);
+                    salePrice = getItemSalePriceFromPDP(productPrices);
+
+                    //store the price depending on list/sale price is displayed
+                    if (salePrice.isEmpty()) {
+                        itemFinalPrice = listPrice;
+                    } else {
+                        itemFinalPrice = salePrice;
+                    }
+                }
+            }
+        } else {
+            //If item has variations
+            itemFinalPrice = getItemPriceWithVariedPricesForColorsOnPDP(productDetailsSection);
+
+            if (itemFinalPrice.isEmpty()) {
+                listPrice = productVariations.get(0).findElement(By.xpath("//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]"
+                        + "/../../following-sibling::div/span[contains(@class,'product__variation--price') "
+                        + "and not(contains(@class,'sale'))]")).getText().toLowerCase();
+
+                listPrice = listPrice.replace("was ", "");
+
+                salePrice = productVariations.get(0).findElement(By.xpath("//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]"
+                        + "/../../following-sibling::div/span[contains(@class,'product__variation--price') "
+                        + "and contains(@class,'sale')]")).getText();
+
+                if (!salePrice.isEmpty()) {
+                    salePrice = salePrice.toLowerCase();
+                    salePrice = salePrice.replace("now ", "");
+                    itemFinalPrice = salePrice;
+                } else {
+                    itemFinalPrice = listPrice;
+                }
+            }
+        }
+
+        if (itemFinalPrice.isEmpty()) {
+            throw new WebDriverException("Failed to retrieve item price from PDP!");
+        }
+
+        return itemFinalPrice;
     }
-    
-    public String getItemListPriceFromPDP(List<WebElement> productPrices){
-    	//capturing list price
-		WebElement listPriceElement = productPrices.get(0).findElement(By.xpath("//span[contains(@class,'product__price--list')]"));
-		String listPrice = listPriceElement.getText().trim();
-		if(!listPrice.isEmpty()){
-			listPrice = listPrice.replace("Was ", "");
-			listPrice = listPrice.replace("was ", "");
-		}
-		
-		return listPrice;
+
+    public String getItemListPriceFromPDP(List<WebElement> productPrices) {
+        //capturing list price
+        WebElement listPriceElement = productPrices.get(0).findElement(By.xpath("//span[contains(@class,'product__price--list')]"));
+        String listPrice = listPriceElement.getText().trim();
+        if (!listPrice.isEmpty()) {
+            listPrice = listPrice.replace("Was ", "");
+            listPrice = listPrice.replace("was ", "");
+        }
+
+        return listPrice;
     }
-    
-    public String getItemSalePriceFromPDP(List<WebElement> productPrices){
-    	//capturing sale price
-		WebElement salePriceElement = productPrices.get(0).findElement(By.xpath("//span[contains(@class,'product__price--sale')]"));
-		String salePrice = salePriceElement.getText().trim();
-		if(!salePrice.isEmpty()){
-			salePrice = salePrice.replace("Now ", "");
-			salePrice = salePrice.replace("now ", "");
-		}
-		
-		return salePrice;
+
+    public String getItemSalePriceFromPDP(List<WebElement> productPrices) {
+        //capturing sale price
+        WebElement salePriceElement = productPrices.get(0).findElement(By.xpath("//span[contains(@class,'product__price--sale')]"));
+        String salePrice = salePriceElement.getText().trim();
+        if (!salePrice.isEmpty()) {
+            salePrice = salePrice.replace("Now ", "");
+            salePrice = salePrice.replace("now ", "");
+        }
+
+        return salePrice;
     }
-    
-    public String getItemColorBasedPriceFromPDP(List<WebElement> productPrices){
-    	
-    	String itemColorPrice;
-    	
-    	try{
-    		WebElement itemColorPriceElement = productPrices.get(0).findElement(By.xpath("//li[contains(@class,'colors-list__item') and contains(@class,'is-selected')]/../../../span[1]"));
-    		itemColorPrice = itemColorPriceElement.getText().trim();
-    	}
-    	catch(Exception e){
-    		itemColorPrice = "";
-    	}
-    	
-		return itemColorPrice;
+
+    public String getItemColorBasedPriceFromPDP(List<WebElement> productPrices) {
+
+        String itemColorPrice;
+
+        try {
+            WebElement itemColorPriceElement = productPrices.get(0).findElement(By.xpath("//li[contains(@class,'colors-list__item') and contains(@class,'is-selected')]/../../../span[1]"));
+            itemColorPrice = itemColorPriceElement.getText().trim();
+        } catch (Exception e) {
+            itemColorPrice = "";
+        }
+
+        return itemColorPrice;
     }
-    
-    public List<WebElement> getElementsGroupWithVariedPriceForColors(WebElement productDetailsSection){
-    	List<WebElement> variedPriceForColorsElement = productDetailsSection.findElements(By.xpath(".//div[@id='c-product__price-colors']/div"));
-    	return variedPriceForColorsElement;
+
+    public List<WebElement> getElementsGroupWithVariedPriceForColors(WebElement productDetailsSection) {
+        List<WebElement> variedPriceForColorsElement = productDetailsSection.findElements(By.xpath(".//div[@id='c-product__price-colors']/div"));
+        return variedPriceForColorsElement;
     }
-    
-    public String getItemPriceWithVariedPricesForColorsOnPDP(WebElement productDetailsSection){
-    	List<WebElement> variedPriceForColorsElement = getElementsGroupWithVariedPriceForColors(productDetailsSection);
-		String itemPriceForSelectedColor = getItemColorBasedPriceFromPDP(variedPriceForColorsElement);
-		return itemPriceForSelectedColor;
+
+    public String getItemPriceWithVariedPricesForColorsOnPDP(WebElement productDetailsSection) {
+        List<WebElement> variedPriceForColorsElement = getElementsGroupWithVariedPriceForColors(productDetailsSection);
+        String itemPriceForSelectedColor = getItemColorBasedPriceFromPDP(variedPriceForColorsElement);
+        return itemPriceForSelectedColor;
     }
 }

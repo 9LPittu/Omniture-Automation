@@ -41,7 +41,7 @@ public class StartingSteps {
 
     @Before
     public void setupDriver() throws IOException {
-    	stateHolder.put("deletecookies", false);
+        stateHolder.put("deletecookies", false);
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
     }
@@ -53,7 +53,7 @@ public class StartingSteps {
     }
 
     @Given("User is on clean session international ([^\"]*) page$")
-    public void  user_goes_to_international_page(String country_group, List<String> pageUrlList) throws Throwable {
+    public void user_goes_to_international_page(String country_group, List<String> pageUrlList) throws Throwable {
 
         TestDataReader testData = TestDataReader.getTestDataReader();
         String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
@@ -63,48 +63,46 @@ public class StartingSteps {
         stateHolder.put("pageUrl", pageURL);
 
         int i = 0;
-        while(i<=2){
-        	try{
-        		driverFactory.deleteBrowserCookies();
-        		getInternationalUrl(testData.getCountry(country_group), pageURL);
-        		Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
-        		break;
-        	}
-        	catch(Exception e){
-        		i++;
-        		if(i>2){
-        			e.printStackTrace();
-        		}
-        	}
+        while (i <= 2) {
+            try {
+                driverFactory.deleteBrowserCookies();
+                getInternationalUrl(testData.getCountry(country_group), pageURL);
+                Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue() / 3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
+                break;
+            } catch (Exception e) {
+                i++;
+                if (i > 2) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     @Given("User is on clean session in ([^\"]*) homepage page$")
-    public void  user_goes_to_international_homepage(String country_group) throws Throwable {        
+    public void user_goes_to_international_homepage(String country_group) throws Throwable {
         TestDataReader testData = TestDataReader.getTestDataReader();
-        
+
         int i = 0;
-        while(i<=2){
-        	try{
-        		driverFactory.deleteBrowserCookies();
-        		getInternationalUrl(testData.getCountry(country_group), "");
-        		Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
-        		stateHolder.put("countryGroup", country_group);
-        		break;
-        	}
-        	catch(Exception e){
-        		i++;
-        		if(i>2){
-        			e.printStackTrace();
-        		}
-        	}
+        while (i <= 2) {
+            try {
+                driverFactory.deleteBrowserCookies();
+                getInternationalUrl(testData.getCountry(country_group), "");
+                Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue() / 3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
+                stateHolder.put("countryGroup", country_group);
+                break;
+            } catch (Exception e) {
+                i++;
+                if (i > 2) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
-    
+
     @Given("^User is on international homepage$")
-    public void user_goes_to_international_homepage(){
-    	Country c = (Country) stateHolder.get("context");
-    	driver.get(c.getHomeurl());
+    public void user_goes_to_international_homepage() {
+        Country c = (Country) stateHolder.get("context");
+        driver.get(c.getHomeurl());
     }
 
     public void getInternationalUrl(String selectedCountry, String pageURL) {
@@ -118,12 +116,12 @@ public class StartingSteps {
         env = selectedCountryHomeUrl + pageURL;
         stateHolder.put("randomUrl", env);
 
-        boolean isProdLikeEn = env.contains("aka-int-www")|| env.contains("argent");
+        boolean isProdLikeEn = env.contains("aka-int-www") || env.contains("argent");
 
-        if(!isProdLikeEn && reader.isSystemPropertyTrue("force.cache")) {
+        if (!isProdLikeEn && reader.isSystemPropertyTrue("force.cache")) {
             logger.debug("Forcing Akamai cache");
             UUID uuid = UUID.randomUUID();
-            env = env + "?c="+uuid.toString();
+            env = env + "?c=" + uuid.toString();
         }
 
         driver.get(env);
@@ -137,6 +135,29 @@ public class StartingSteps {
         while (retry < 2 && !successfulLoad) {
             try {
                 getInitialPage();
+                waitForHeaderPromo();
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1);
+                retry++;
+            }
+        }
+    }
+
+    @And("^User is on homepage with siteid$")
+    public void user_goes_to_homepage_with_siteid() {
+        int retry = 0;
+        boolean successfulLoad = false;
+
+        String env = reader.getProperty("url");
+
+        Country context = new Country(env, reader.getProperty("country"));
+        env = context.getHomeurl() + "?siteId=asdfsadf&srcCode=asdfsadf";
+        stateHolder.put("context", context);
+
+        while (retry < 2 && !successfulLoad) {
+            try {
+                driver.get(env);
                 waitForHeaderPromo();
                 successfulLoad = true;
             } catch (TimeoutException te) {
@@ -161,7 +182,7 @@ public class StartingSteps {
         }
     }
 
-    private void waitForHeaderPromo(){
+    private void waitForHeaderPromo() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
 
@@ -183,41 +204,42 @@ public class StartingSteps {
         boolean isDesktop = browser.equals("firefox") || browser.equals("chrome");
         logger.debug("current url is: " + env);
 
-        if(isProdLikeEn && isDesktop){
+        if (isProdLikeEn && isDesktop) {
             logger.debug("Opening enable responsive page");
             driver.get(env + "/enableResponsive_sm.jsp");
             driver.findElement(By.linkText("click to browse")).click();
         } else {
 
-            if(reader.isSystemPropertyTrue("force.cache")) {
+            if (reader.isSystemPropertyTrue("force.cache")) {
                 logger.debug("Forcing Akamai cache");
                 UUID uuid = UUID.randomUUID();
-                env = env + "?c="+uuid.toString();
+                env = env + "?c=" + uuid.toString();
             }
 
             driver.get(env);
         }
     }
 
-    public void getTheInitialPage(String pageUrl){
+    public void getTheInitialPage(String pageUrl) {
         String env = saccountreader.getProperty(pageUrl);
-        logger.debug("current url is: "+env);
+        logger.debug("current url is: " + env);
         driver.get(env);
         String strTitle = saccountreader.getProperty("title." + pageUrl);
         Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains(strTitle));
     }
-    
+
     @And("user should see country code in the url for international countries")
-    public void user_should_see_country_code_in_url_for_international_countries(){
-        Country c = (Country)stateHolder.get("context");
-    	assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
-    			Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(c.getHomeurl())));
+    public void user_should_see_country_code_in_url_for_international_countries() {
+        Country c = (Country) stateHolder.get("context");
+        assertTrue("Country code '" + c.getCountry() + "' should be displayed in the url except United States",
+                Util.createWebDriverWait(driver).until(ExpectedConditions.urlMatches(c.getHomeurl())));
     }
 
     @And("^User goes to homepage$")
     public void user_goes_to_homepage() throws Throwable {
         driver.get(reader.getProperty("url"));
     }
+
 
     @And("^User bag is cleared$")
     public void user_bag_is_cleared() {
@@ -226,7 +248,7 @@ public class StartingSteps {
     }
 
     @And("^Deletes browser cookies$")
-    public void deletes_browser_cookies(){
+    public void deletes_browser_cookies() {
         driverFactory.deleteBrowserCookies();
         stateHolder.put("deletecookies", true);
     }
@@ -240,27 +262,26 @@ public class StartingSteps {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
                 deletes_browser_cookies();
-            } catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 logger.error("An exception happened when taking step screenshot after scenario", e);
                 driverFactory.resetDriver();
             }
         }
 
-        if (driverFactory != null && (boolean)stateHolder.get("deletecookies")) {
+        if (driverFactory != null && (boolean) stateHolder.get("deletecookies")) {
             driverFactory.destroyDriver();
         }
-        
-    	PropertyReader reader = PropertyReader.getPropertyReader();        
-    	if(!reader.getProperty("environment").equalsIgnoreCase("ci") && stateHolder.hasKey("sidecarusername")){
-    		try{
-    			UsersHub userHub = UsersHub.getUsersHubInstance();
-    			userHub.releaseUserCredentials();
-    		}
-    		catch(Exception e){
-            	logger.error("Failed to release user '{}' in DB!!!", (String) stateHolder.get("sidecarusername"));
+
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        if (!reader.getProperty("environment").equalsIgnoreCase("ci") && stateHolder.hasKey("sidecarusername")) {
+            try {
+                UsersHub userHub = UsersHub.getUsersHubInstance();
+                userHub.releaseUserCredentials();
+            } catch (Exception e) {
+                logger.error("Failed to release user '{}' in DB!!!", (String) stateHolder.get("sidecarusername"));
             }
-    	}
-        
+        }
+
         stateHolder.clear();
     }
 
@@ -283,25 +304,25 @@ public class StartingSteps {
             }
         }
     }
-    
+
     @And("^user appends ([^\"]*) to the url in the browser and navigate to the page$")
-    public void user_appends_and_navigates_to_url(String urlParam){
-    	PropertyReader reader = PropertyReader.getPropertyReader();        
-    	if(reader.getProperty("environment").equalsIgnoreCase("qa2")){
-    		driver.navigate().to(driver.getCurrentUrl() + urlParam);
-    	}
+    public void user_appends_and_navigates_to_url(String urlParam) {
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        if (reader.getProperty("environment").equalsIgnoreCase("qa2")) {
+            driver.navigate().to(driver.getCurrentUrl() + urlParam);
+        }
     }
-    
+
     @When("user navigates to random page from below list$")
-    public void  user_navigates_to_random_page(List<String> pageUrlList) throws Throwable {
+    public void user_navigates_to_random_page(List<String> pageUrlList) throws Throwable {
         TestDataReader testData = TestDataReader.getTestDataReader();
         String page = pageUrlList.get(Util.randomIndex(pageUrlList.size()));
-        page = page.toLowerCase();        
+        page = page.toLowerCase();
         String pageURL = testData.getData("url." + page);
-        logger.info("Randomly selected url is: {}", pageURL);      
+        logger.info("Randomly selected url is: {}", pageURL);
 
         String env = reader.getProperty("url");
-        
+
         driver.get(env + pageURL);
         Util.waitLoadingBar(driver);
     }
