@@ -7,6 +7,7 @@ import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.api.java.en.And;
 
 import java.util.List;
 
@@ -70,12 +71,28 @@ public class ArrayCategorySteps extends DriverFactory {
         }
     }
 
+    @And("Verify refine dropdown is displayed")
+    public void verify_refine_dropdown(){
+        assertTrue("Refine dropdown should be displayed in category array page", productsArray.isRefineDropdownDisplayed());
+    }
+
     @Then("Verify refine dropdown text is ([^\"]*)")
     public void verify_dropdown_text(String text) {
         text = text.toLowerCase();
         String labelText = productsArray.getRefineText();
 
         assertEquals("Dropdown text", text, labelText);
+    }
+
+    @When("User expands refine dropdown")
+    public void expand_refine_dropdown() {
+        productsArray.openRefineAccordion();
+    }
+
+    @Then("Verify refine dropdown is ([^\"]*)")
+    public void verify_refine_dropdown_state(String expectedState){
+        String actualState = productsArray.retrieveDropdownState();
+        assertEquals("Refine dropdown state", expectedState.toLowerCase(), actualState.toLowerCase());
     }
 
     @Then("Verify refine options matches available lists")
@@ -115,4 +132,9 @@ public class ArrayCategorySteps extends DriverFactory {
         assertTrue("Number of items were reduced", itemsBefore > Integer.parseInt(productsArray.getItemsText()));
         assertTrue("There is only one list in the grid", productsArray.getNumberOfLists() == 1);
     }
+
+    @Then("Verify user is in ([^\"]*) category array page")
+        public void is_category_array_page(String subCategoryName) {
+        assertTrue("Category array page for " + subCategoryName + " should be displayed", productsArray.isCategoryArrayPage(subCategoryName));
+        }
 }

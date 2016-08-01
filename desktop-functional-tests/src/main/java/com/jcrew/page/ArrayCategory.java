@@ -43,6 +43,12 @@ public class ArrayCategory extends Array{
         return getProductTiles(productList);
     }
 
+    public boolean isCategoryArrayPage(String subCategoryName) {
+        WebElement subCategoty = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[" + Util.xpathGetTextLower + "='" + subCategoryName.toLowerCase() + "']"))));
+        return subCategoty.isDisplayed();
+    }
+
+
     public List<String> getPrices() {
 
         return getProductPrices(productList,PRICE_LIST_CLASS);
@@ -59,14 +65,18 @@ public class ArrayCategory extends Array{
         selectRandomProduct(productList);
     }
 
+    public boolean isRefineDropdownDisplayed() {
+        WebElement dropDown = categoryFilters.findElement(By.xpath(".//h3/span[contains(@class,'js-label')]"));
+        return dropDown.isDisplayed();
+    }
+
     public String getRefineText() {
         WebElement dropDown = categoryFilters.findElement(By.xpath(".//h3/span[contains(@class,'js-label')]"));
         return dropDown.getText().toLowerCase();
     }
 
-    private void openRefineAccordion() {
-        WebElement accordion = categoryFilters.findElement(By.className("js-accordian__wrap"));
-        wait.until(ExpectedConditions.visibilityOf(accordion));
+    public void openRefineAccordion() {
+        WebElement accordion = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.className("js-accordian__wrap"))));
         String accordionClass = accordion.getAttribute("class");
 
         if(!accordionClass.contains("is-expanded")) {
@@ -74,6 +84,17 @@ public class ArrayCategory extends Array{
             accordionHeader.click();
         } else {
             logger.info("Refine dropdown already open");
+        }
+    }
+
+    public String retrieveDropdownState(){
+        WebElement accordion = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.className("js-accordian__wrap"))));
+        String accordionClass = accordion.getAttribute("class");
+
+        if(!accordionClass.contains("is-expanded")) {
+            return "open";
+        } else {
+            return "closed";
         }
     }
 
