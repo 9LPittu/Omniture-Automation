@@ -155,6 +155,8 @@ public class StartingSteps {
         env = context.getHomeurl() + "?siteId=asdfsadf&srcCode=asdfsadf";
         stateHolder.put("context", context);
 
+        logger.debug("current url is: " + env);
+
         while (retry < 2 && !successfulLoad) {
             try {
                 driver.get(env);
