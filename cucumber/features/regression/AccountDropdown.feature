@@ -1,4 +1,4 @@
-@AccountDropdown @HighLevel
+#@AccountDropdown @HighLevel
 Feature: Account Dropdown functionality
 
   Background:
@@ -368,7 +368,8 @@ Feature: Account Dropdown functionality
     
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
-  
+
+  @AccountDropdown
   Scenario: Rewards visibility in Account dropdown
   	And click on SIGN IN from header
   	And User is on internal /r/login page
