@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class Header {
 
@@ -391,12 +392,13 @@ public class Header {
     public boolean isRewardsInfoDisplayedInMyAccountDropDown() {
 
         PropertyReader reader = PropertyReader.getPropertyReader();
-        if (!reader.getProperty("environment").equalsIgnoreCase("production")) {
-            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DATE, -1);
-
-            String expectedDateString = "As of " + dateFormat.format(calendar.getTime()) + ":";
+        if (!reader.getProperty("environment").equalsIgnoreCase("production")) {           
+        	DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
+        	Calendar calendar = Calendar.getInstance();
+        	calendar.add(Calendar.DATE, -1);
+    		
+        	String expectedDateString = "As of " + dateFormat.format(calendar.getTime()) + ":";
+      
             String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
             boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
             logger.error("Expected {} but got {}", expectedDateString, dateInPage);

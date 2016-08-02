@@ -83,19 +83,23 @@ public class StartingSteps {
         TestDataReader testData = TestDataReader.getTestDataReader();
 
         int i = 0;
-        while (i <= 2) {
-            try {
-                driverFactory.deleteBrowserCookies();
-                getInternationalUrl(testData.getCountry(country_group), "");
-                Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue() / 3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
-                stateHolder.put("countryGroup", country_group);
-                break;
-            } catch (Exception e) {
-                i++;
-                if (i > 2) {
-                    e.printStackTrace();
-                }
-            }
+        while(i<=2){
+        	try{
+        		driverFactory.deleteBrowserCookies();
+        		getInternationalUrl(testData.getCountry(country_group), "");
+        		Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@class,'c-header__welcomemat--button')]")));
+        		stateHolder.put("countryGroup", country_group);
+        		break;
+        	}
+        	catch(Exception e){
+        		i++;        		
+        		if(i>2){
+        			e.printStackTrace();
+        		}
+        		
+        		driverFactory.destroyDriver();
+        		driver = driverFactory.getDriver();
+        	}
         }
     }
 

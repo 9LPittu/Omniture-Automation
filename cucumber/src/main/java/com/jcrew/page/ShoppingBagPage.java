@@ -206,7 +206,9 @@ public class ShoppingBagPage {
     
     public boolean isBagItemsCountMatches(int itemsCount){
         Util.waitForPageFullyLoaded(driver);
+        Util.waitLoadingBar(driver);
     	Util.waitWithStaleRetry(driver,cartSize);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(cartSize, ")"));    	
     	String bagItemsCount = cartSize.getText().trim();
     	bagItemsCount = bagItemsCount.replace("(", "");
     	bagItemsCount = bagItemsCount.replace(")", "");

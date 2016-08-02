@@ -24,7 +24,7 @@ public class ReviewPage {
     private boolean isProduction = false;
 	
     private final WebDriver driver;
-    @FindBy(xpath = ".//*[@id='orderSummaryContainer']/div/a")
+    @FindBy(xpath = ".//div[@id='orderSummaryContainer']/div/a")
     private WebElement placeYourOrder;
 
     @FindBy(id = "errors")
@@ -65,7 +65,9 @@ public class ReviewPage {
 
     public void user_places_its_order() {
         Util.waitForPageFullyLoaded(driver);
+        Util.waitLoadingBar(driver);
         if(!isProduction) {
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(placeYourOrder));
             Util.createWebDriverWait(driver).
                     until(ExpectedConditions.elementToBeClickable(placeYourOrder));
 
