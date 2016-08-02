@@ -383,7 +383,7 @@ public class ProductDetailPage {
     }
 
     public String getWishlistButtonMessage() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(wishList));
+        Util.waitWithStaleRetry(driver, wishList);
         return wishList.getText();
     }
 
