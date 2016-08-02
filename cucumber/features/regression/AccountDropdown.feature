@@ -368,7 +368,7 @@ Feature: Account Dropdown functionality
     
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
-  
+
   Scenario: Rewards visibility in Account dropdown
   	And click on SIGN IN from header
   	And User is on internal /r/login page

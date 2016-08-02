@@ -50,10 +50,26 @@ public class StartSteps {
         }
     }
 
-    @Given("User is on homepage with clean session")
+    @Given("^User is on homepage with clean session$")
     public void user_is_on_home_page_with_clean_session() {
         driverFactory.deleteBrowserCookies();
         user_is_on_home_page();
+    }
+    @Given("^User is on homepage with siteid$")
+    public void user_is_on_home_page_with_siteid(){
+        driverFactory.deleteBrowserCookies();
+        int retry = 0;
+        boolean successfulLoad = false;
+        while (retry < 2 && !successfulLoad) {
+            try {
+                getHomePageWithSideID();
+                waitForHeaderPromo();
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1);
+                retry++;
+            }
+        }
     }
 
     @Given("User goes to international homepage for ([^\"]*)")
@@ -135,5 +151,15 @@ public class StartSteps {
         logger.debug("getting url: " + intlHomeURL);
         driver.get(intlHomeURL);
     }
-    
+    private void getHomePageWithSideID(){
+        String country = reader.getProperty("country");
+        String envUrl = reader.getProperty("url");
+
+        Country context = new Country(envUrl, country);
+        stateHolder.put("context", context);
+        envUrl = context.getHomeurl();
+        envUrl=envUrl + "?siteId=asdfsadf&srcCode=asdfsadf";
+        logger.debug("getting url: " + envUrl);
+        driver.get(envUrl);
+    }
 }

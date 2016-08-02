@@ -392,24 +392,32 @@ public class Header {
     public boolean isRewardsInfoDisplayedInMyAccountDropDown() {
 
         PropertyReader reader = PropertyReader.getPropertyReader();
-        if (!reader.getProperty("environment").equalsIgnoreCase("production")) {
-            
+        if (!reader.getProperty("environment").equalsIgnoreCase("production")) {           
         	DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
         	Calendar calendar = Calendar.getInstance();
         	calendar.add(Calendar.DATE, -1);
     		
         	String expectedDateString = "As of " + dateFormat.format(calendar.getTime()) + ":";
+      
             String dateInPage = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[1]")).getText();
             boolean isDateMatches = dateInPage.equalsIgnoreCase(expectedDateString);
+            logger.error("Expected {} but got {}", expectedDateString, dateInPage);
+
 
             String rewardsCardBalance = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[2]")).getText();
             boolean isRewardBalanceMatches = rewardsCardBalance.matches("^Rewards card balance: \\$\\d+(\\.\\d+)?");
+            logger.error("Pattern is {} but got {}", "^Rewards card balance: \\$\\d+(\\.\\d+)?",rewardsCardBalance);
+
 
             String totalPoints = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[3]")).getText();
             boolean isTotalPointsMatches = totalPoints.matches("^Total points: \\d+");
+            logger.error("Pattern is {} but got {}", "^Total points: \\d+",totalPoints);
+
 
             String pointsToNextReward = rewardsSectionInMyAccountDropdown.findElement(By.xpath(".//p[4]")).getText();
             boolean isPointsToNextRewardMatches = pointsToNextReward.matches("^Points to next reward: \\d+");
+            logger.error("Pattern is {} but got {}", "^Points to next reward: \\d+",pointsToNextReward);
+
 
             WebElement manageMyAccountLinkInMyAccountDropdown = getManageMyAccountElementInMyAccountDropdown();
 

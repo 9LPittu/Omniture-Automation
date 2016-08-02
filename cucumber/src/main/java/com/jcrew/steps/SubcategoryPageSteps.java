@@ -65,6 +65,12 @@ public class SubcategoryPageSteps extends DriverFactory {
         subcategoryPage.click_any_product_in_grid();
     }
 
+    @And("Verify ([^\"]*) cookie path value is ([^\"]*)")
+    public void verify_cookie_path_value(String cookieName, String expectedCookiePath) {
+        assertEquals("Cookie path value is ", expectedCookiePath,
+                subcategoryPage.getCookiePath(cookieName));
+    }
+
     @Then("^User should be in ([^\"]*) page for women$")
     public void user_should_be_in_subcategory_page_for_women(String subcategory) {
         assertTrue("A Subcategory page should have a product grid",
@@ -86,6 +92,7 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertTrue("Page title should be: " + subcategory + " and was: " + expectedSubcategory,
                 subcategory.equalsIgnoreCase(expectedSubcategory));
     }
+
 
     @And("^Category title for ([^\"]*) should match below global promo$")
     public void category_title_for_subcategory_should_match_below_global_promo(String subcategory) {
@@ -167,6 +174,7 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertTrue("Category header should not have been present but it is",
                 !subcategoryPage.isCategoryHeaderPresent());
     }
+
     @Then("^Category header should be present$")
     public void category_header_should_be_present() {
         assertTrue("Category header should not have been present but it is",
@@ -184,7 +192,6 @@ public class SubcategoryPageSteps extends DriverFactory {
         assertEquals("Image for category should have been displayed ", stateHolder.get("subcategory").toString(),
                 subcategoryPage.getCategoryImageHeaderAlt());
     }
-
 
 
     @Then("^Verify ([^\"]*) product is displayed$")
@@ -370,27 +377,27 @@ public class SubcategoryPageSteps extends DriverFactory {
     }
 
     @And("^user selects any item from array page, select any color and size$")
-    public void user_selects_any_item_from_array_page_select_any_size_color(){
-    	subcategoryPage.selectRandomItemAndSelectSizeColor();
+    public void user_selects_any_item_from_array_page_select_any_size_color() {
+        subcategoryPage.selectRandomItemAndSelectSizeColor();
     }
 
     @Then("^user should see \"([^\"]*)\" in search results$")
-    public void verify_item_is_displayed_in_search_results_page(String propertyName){
-    	assertTrue("Product should exist", subcategoryPage.isItemDisplayedInSearchResultsPage(propertyName));
+    public void verify_item_is_displayed_in_search_results_page(String propertyName) {
+        assertTrue("Product should exist", subcategoryPage.isItemDisplayedInSearchResultsPage(propertyName));
     }
-    
+
     @And("^([^\"]*) price of \"([^\"]*)\" should match with expected \"([^\"]*)\"$")
-    public void verify_item_price_in_search_results_page(String priceType, String saleItemPropertyName, String expectedPricePropertyName){
-    	assertTrue(priceType + " price should match", subcategoryPage.isPriceMatchesForSaleItem(saleItemPropertyName, priceType, expectedPricePropertyName));
+    public void verify_item_price_in_search_results_page(String priceType, String saleItemPropertyName, String expectedPricePropertyName) {
+        assertTrue(priceType + " price should match", subcategoryPage.isPriceMatchesForSaleItem(saleItemPropertyName, priceType, expectedPricePropertyName));
     }
-    
+
     @And("^Verify proper currency symbol is displayed on product grid list$")
-    public void verify_currency_on_product_gridlist(){
-    	assertTrue(Util.getSelectedCountryName() + "Currency on product gridlist",subcategoryPage.isCorrectCurrencySymbolonProductGridList());
+    public void verify_currency_on_product_gridlist() {
+        assertTrue(Util.getSelectedCountryName() + "Currency on product gridlist", subcategoryPage.isCorrectCurrencySymbolonProductGridList());
     }
-    
+
     @And("^user selects first product from search results$")
-    public void user_selects_first_product_from_search_results(){
-    	subcategoryPage.selectFirstProductFromSearchResults();
+    public void user_selects_first_product_from_search_results() {
+        subcategoryPage.selectFirstProductFromSearchResults();
     }
 }

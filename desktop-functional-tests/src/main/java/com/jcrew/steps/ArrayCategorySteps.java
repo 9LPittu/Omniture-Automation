@@ -26,6 +26,16 @@ public class ArrayCategorySteps extends DriverFactory {
         productsArray.selectRandomProduct();
     }
 
+    @Then("Verify ([^\"]*) cookie path value is ([^\"]*)")
+    public void verify_cookie_path_value(String cookieName,String expectedCookiePath){
+        String cookiePath=productsArray.getCookiePath(cookieName);
+        assertEquals("Cookie path value is ",expectedCookiePath,cookiePath);
+    }
+
+    @Then("Verify user is in category array page")
+    public void is_in_category_array_page(){
+       assertTrue("User is in a Category array page",productsArray.isCategoryArray());
+    }
     @Then("Verify context in the array page")
     public void verify_context_in_url_and_footer_in_array_page() {
         String countryName = productsArray.country.getName();

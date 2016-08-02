@@ -129,4 +129,7 @@ public class ArrayCategory extends Array{
 
         selectedOption.click();
     }
+    public boolean isCategoryArray(){
+        return productList.isDisplayed();
+    }
 }
