@@ -33,10 +33,6 @@ public class ArrayCategorySteps extends DriverFactory {
         assertEquals("Cookie path value is ",expectedCookiePath,cookiePath);
     }
 
-    @Then("Verify user is in category array page")
-    public void is_in_category_array_page(){
-       assertTrue("User is in a Category array page",productsArray.isCategoryArray());
-    }
     @Then("Verify context in the array page")
     public void verify_context_in_url_and_footer_in_array_page() {
         String countryName = productsArray.country.getName();
@@ -71,7 +67,7 @@ public class ArrayCategorySteps extends DriverFactory {
         }
     }
 
-    @And("Verify refine dropdown is displayed")
+    @And("Verify refine dropdown displayed in array page")
     public void verify_refine_dropdown(){
         assertTrue("Refine dropdown should be displayed in category array page", productsArray.isRefineDropdownDisplayed());
     }
@@ -136,5 +132,5 @@ public class ArrayCategorySteps extends DriverFactory {
     @Then("Verify user is in ([^\"]*) category array page")
         public void is_category_array_page(String subCategoryName) {
         assertTrue("Category array page for " + subCategoryName + " should be displayed", productsArray.isCategoryArrayPage(subCategoryName));
-        }
+    }
 }

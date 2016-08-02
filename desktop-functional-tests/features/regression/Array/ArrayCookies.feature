@@ -10,7 +10,7 @@ Feature: Cookie validation in array pages
     And User selects <gender> category from menu
     And User selects <category> subcategory array
 
-    Then Verify user is in category array page
+    Then Verify user is in <category> category array page
     And Verify jcrew_siteid cookie path value is /
     And Verify jcrew_srccode cookie path value is /
 

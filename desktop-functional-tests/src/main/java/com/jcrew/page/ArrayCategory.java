@@ -91,7 +91,7 @@ public class ArrayCategory extends Array{
         WebElement accordion = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.className("js-accordian__wrap"))));
         String accordionClass = accordion.getAttribute("class");
 
-        if(!accordionClass.contains("is-expanded")) {
+        if(accordionClass.contains("is-expanded")) {
             return "open";
         } else {
             return "closed";
