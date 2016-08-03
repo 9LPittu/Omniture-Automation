@@ -204,17 +204,27 @@ public class ShoppingBagPage {
         return title.contains(pageTitle);
     }
     
-    public boolean isBagItemsCountMatches(int itemsCount){
+    public boolean isBagItemsCountMatches(int itemsCount) {
         Util.waitForPageFullyLoaded(driver);
         Util.waitLoadingBar(driver);
-    	Util.waitWithStaleRetry(driver,cartSize);
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(cartSize, ")"));    	
-    	String bagItemsCount = cartSize.getText().trim();
-    	bagItemsCount = bagItemsCount.replace("(", "");
-    	bagItemsCount = bagItemsCount.replace(")", "");
-    	int actualItemsCount = Integer.parseInt(bagItemsCount);
-
-    	return actualItemsCount == itemsCount;
+        Util.waitWithStaleRetry(driver, cartSize);
+        int actualItemsCount = 0;
+        Boolean success = false;
+        int retry = 0;
+        while (retry <= 3 && !success) {
+            try {
+                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(cartSize));
+                Util.createWebDriverWait(driver).until(ExpectedConditions.textToBePresentInElement(cartSize, ")"));
+                String bagItemsCount = cartSize.getText().trim();
+                bagItemsCount = bagItemsCount.replace("(", "");
+                bagItemsCount = bagItemsCount.replace(")", "");
+                actualItemsCount = Integer.parseInt(bagItemsCount);
+                success = true;
+            } catch (Exception NumberFormatException) {
+              retry ++;
+            }
+        }
+        return actualItemsCount == itemsCount;
     }
     
     public boolean isBreadcrumbDisplayed(String breadcrumbText){

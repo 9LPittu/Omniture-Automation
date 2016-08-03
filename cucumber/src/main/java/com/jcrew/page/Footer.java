@@ -405,7 +405,7 @@ public class Footer {
     
     public void clickViewFullSite(){
     	WebElement viewFullSiteLink  = driver.findElement(
-                By.xpath("//a[@class='footer__fullsite__link js-footer__fullsite__link']"));
+                By.xpath("//a[contains(@class,'footer__fullsite__link js-footer__fullsite__link')]"));
     	viewFullSiteLink.click();
     }
     
