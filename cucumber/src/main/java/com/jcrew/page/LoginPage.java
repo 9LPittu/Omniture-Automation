@@ -132,7 +132,7 @@ public class LoginPage {
     }
 
     public String getEmailErrorMessage() {
-        WebElement emailInvalidMsg = Util.createWebDriverWait(driver).until(ExpectedConditions.presenceOfElementLocated(By.className("js-invalid-msg")));
+        WebElement emailInvalidMsg = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-invalid-msg")));
         return emailInvalidMsg.getText();
     }
 
