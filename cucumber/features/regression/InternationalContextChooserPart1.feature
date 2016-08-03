@@ -47,7 +47,7 @@ Feature: International Country Context - Part 1
     Then Verify embedded footer is visible and functional
     And User presses back button
     And click on "borderfree.com" link from FAQ section on the context chooser page
-    And external http://www.pitneybowes.com/us/borderfree-is-now-part-of-pitney-bowes.html page is opened in a different tab
+    And external https://www.borderfree.com/#/ page is opened in a different tab
 
   Scenario Outline: international context validation on all My Account related pages
     Then click on change link from footer
