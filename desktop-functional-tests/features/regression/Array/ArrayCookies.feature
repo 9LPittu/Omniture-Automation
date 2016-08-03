@@ -17,4 +17,4 @@ Feature: Cookie validation in array pages
     Examples:
       | gender | category |
       | Women  | sweaters |
-      | Men    | pants    |
+      | Men    | shorts   |
