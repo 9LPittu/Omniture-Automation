@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.UsersHub;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.AfterStep;
@@ -58,6 +59,8 @@ public class FinalSteps {
 
         driverFactory.destroyDriver();
         holder.clear();
+        UsersHub userHub = UsersHub.getInstance();
+        userHub.releaseUserCredentials();
 
     }
 

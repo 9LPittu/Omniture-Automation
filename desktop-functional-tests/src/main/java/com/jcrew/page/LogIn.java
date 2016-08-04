@@ -77,7 +77,7 @@ public class LogIn extends DriverFactory {
     }
 
     public void signIn() {
-        logger.info("{}/{}", knownUser.getEmail(), knownUser.getPassword());
+        logger.info("User and password used {} / {}", knownUser.getEmail(), knownUser.getPassword());
         sidecarUser.sendKeys(knownUser.getEmail());
         sidecarPassword.sendKeys(knownUser.getPassword());
         signInHereButton.click();

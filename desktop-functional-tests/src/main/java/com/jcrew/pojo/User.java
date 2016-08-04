@@ -2,6 +2,11 @@ package com.jcrew.pojo;
 
 import com.github.javafaker.Faker;
 import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.UsersHub;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.SQLException;
 
 /**
  * Created by nadiapaolagarcia on 3/29/16.
@@ -14,28 +19,43 @@ public class User {
     private String lastName;
     private String country;
     private String countryCode;
-    private static User user = null;
+
     private static User fakeUser = null;
+    private static final Logger logger = LoggerFactory.getLogger(User.class);
+
+
+    public User(String userName, String password, String firstName, String lastName, String country) {
+        this.email = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+
+    }
 
     public static User getUser() {
-        if (user == null)
-            user = new User(true);
+        UsersHub usersHub = UsersHub.getInstance();
+        try {
+            return usersHub.getUser();
+        } catch (SQLException e) {
+            logger.error("Failed to get user from DB. getting from properties file");
+            return new User(true);
+        }
 
-        return user;
     }
 
     public static User getNewFakeUser() {
         Faker faker = new Faker();
         fakeUser = new User(false);
         fakeUser.email = faker.internet().emailAddress().replace("@", "@test.").replace("'", "");
-        fakeUser.password = faker.lorem().fixedString(6).replace(" ","?");
+        fakeUser.password = faker.lorem().fixedString(6).replace(" ", "?");
         fakeUser.firstName = faker.name().firstName();
         fakeUser.lastName = faker.name().lastName();
 
         return fakeUser;
     }
 
-    public static User getFakeUser(){
+    public static User getFakeUser() {
         if (fakeUser == null)
             getNewFakeUser();
 
@@ -43,7 +63,7 @@ public class User {
     }
 
     private User(boolean fromProperties) {
-        if(fromProperties) {
+        if (fromProperties) {
             PropertyReader reader = PropertyReader.getPropertyReader();
             String userId = reader.getProperty("userID");
             this.email = reader.getProperty(userId + ".email");
