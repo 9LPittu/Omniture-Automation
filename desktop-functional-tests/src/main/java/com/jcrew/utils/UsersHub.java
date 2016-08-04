@@ -137,19 +137,4 @@ public class UsersHub {
         conn = null;
         logger.info("DB connection is closed...");
     }
-/*
-    private String getUserAddressWhereClause(String userType, String addressType) {
-        String whereClause = "";
-
-        if (!userType.isEmpty()) {
-            whereClause += " and " + "usertype='" + userType + "'";
-        }
-
-        if (!addressType.isEmpty()) {
-            whereClause += " and " + "addresstype='" + addressType + "'";
-        }
-
-        return whereClause;
-    }
-*/
 }
