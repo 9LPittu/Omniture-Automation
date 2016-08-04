@@ -76,7 +76,7 @@ public class ArrayCategory extends Array{
     }
 
     public void openRefineAccordion() {
-        WebElement accordion = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.className("js-accordian__wrap"))));
+        WebElement accordion = getAccordianElement();
         String accordionClass = accordion.getAttribute("class");
 
         if(!accordionClass.contains("is-expanded")) {
@@ -88,7 +88,7 @@ public class ArrayCategory extends Array{
     }
 
     public String retrieveDropdownState(){
-        WebElement accordion = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.className("js-accordian__wrap"))));
+        WebElement accordion = getAccordianElement();
         String accordionClass = accordion.getAttribute("class");
 
         if(accordionClass.contains("is-expanded")) {
@@ -152,5 +152,10 @@ public class ArrayCategory extends Array{
     }
     public boolean isCategoryArray(){
         return productList.isDisplayed();
+    }
+
+    public WebElement getAccordianElement() {
+        WebElement accordian = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.className("js-accordian__wrap"))));
+        return accordian;
     }
 }
