@@ -67,7 +67,7 @@ public class ArrayCategorySteps extends DriverFactory {
         }
     }
 
-    @And("Verify refine dropdown displayed in array page")
+    @Then("Verify refine dropdown displayed in array page")
     public void verify_refine_dropdown(){
         assertTrue("Refine dropdown should be displayed in category array page", productsArray.isRefineDropdownDisplayed());
     }
