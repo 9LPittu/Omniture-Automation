@@ -33,7 +33,7 @@ Feature: International Country Context - Part 1
     And User is on internal /help/international_orders.jsp?sidecar=true page
     And User presses browser back button
     And Click on "borderfree.com" link from FAQ section on the context chooser page
-    And External http://www.pitneybowes.com/us/borderfree-is-now-part-of-pitney-bowes.html page is opened in a different tab
+    And External https://www.borderfree.com/#/ page is opened in a different tab
 
 
   Scenario Outline: International context validation on all My Account related pages
