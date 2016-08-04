@@ -79,15 +79,12 @@ public class UsersHub {
         int numOfRecords = 0;
         if (rs != null) {
             try {
-                while (rs.next()) {
+                rs.next();
                     numOfRecords = Integer.parseInt(rs.getString(1));
-                    break;
-                }
             } catch (Exception e) {
                 throw new SQLException("Exception occurred when retrieving records count from DB..." + e.getMessage());
             }
         }
-
         logger.info("# of users currently available for '{}' environment: {}", environment.toLowerCase(), numOfRecords);
 
         return numOfRecords;
@@ -99,11 +96,15 @@ public class UsersHub {
             String getUserCredentialsSQLQuery = "select username, userpassword, firstname,lastname,DEFAULT_ADDRESS_COUNTRY from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
             ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
             if (rs != null) {
-                rs.first();
-                user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
-                logger.info("Current available username for '{}' environment: {}", user.getEmail(), environment);
-                String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' where brand='jcrew' and username='" + user.getEmail() + "' and Environment='" + environment + "'";
-                executeSQLQuery(updateAllocationFlagSQLQuery);
+                try {
+                    rs.next();
+                    user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                    logger.info("Current available username for '{}' environment: {}", user.getEmail(), environment);
+                    String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' where brand='jcrew' and username='" + user.getEmail() + "' and Environment='" + environment + "'";
+                    executeSQLQuery(updateAllocationFlagSQLQuery);
+                }catch (SQLException e){
+                    throw new SQLException("Exception occurred when retrieving user credentials from DB..." + e.getMessage());
+                }
             }
         } else {
             logger.error("No username records are available in DB for '" + environment + "' environment");
