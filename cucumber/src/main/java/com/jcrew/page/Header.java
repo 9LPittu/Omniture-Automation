@@ -333,6 +333,7 @@ public class Header {
         }
 
         Util.waitWithStaleRetry(driver, headerElement);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerElement));
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(headerElement));
         headerElement.click();
         logger.info("'{}' link is clicked from header...", elementName);
