@@ -363,6 +363,7 @@ Feature: Account Dropdown functionality
     And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
     And User should be in /r/account/details menu link page
+    And User presses back button
     And User clicks on SIGN OUT link in My Account Page
     
     And Verify user is in homepage
