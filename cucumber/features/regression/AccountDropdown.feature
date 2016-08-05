@@ -362,8 +362,7 @@ Feature: Account Dropdown functionality
     
     And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
-    And User is on internal /account/account_detail.jsp?sidecar=true page
-    
+    And User should be in /r/account/details menu link page
     And User clicks on SIGN OUT link in My Account Page
     
     And Verify user is in homepage
@@ -455,7 +454,8 @@ Feature: Account Dropdown functionality
     Given User is on international homepage    
     And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
-    And User is on internal /account/account_detail.jsp?sidecar=true page
+    And User should be in /r/account/details menu link page
+
     
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown  
