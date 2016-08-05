@@ -29,6 +29,7 @@ Feature: My Account Page
     When User clicks on MY DETAILS link in My Account Page
     And User should be in /r/account/details menu link page
     And Verify Embedded header is displayed
+    And User presses back button
     When User clicks on EMAIL PREFERENCES link in My Account Page
     Then User should be in email_preferences.jsp menu link page
     And Verify J crew breadcrumb is not displayed
