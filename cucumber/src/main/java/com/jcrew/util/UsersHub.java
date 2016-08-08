@@ -64,9 +64,7 @@ public class UsersHub {
 		return rs;
 	}
 	
-	private int getAvailableUsersCount() throws SQLException, ClassNotFoundException{	
-				
-		String getUsersCountSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'";
+	private int getAvailableUsersCount(String getUsersCountSQLQuery) throws SQLException, ClassNotFoundException{
 		ResultSet rs = executeSQLQuery(getUsersCountSQLQuery);
 		int numOfRecords = 0;
 		if(rs!=null){
@@ -80,24 +78,30 @@ public class UsersHub {
 		
 		return numOfRecords;
 	}
-	private String getQueryFromUserType(String userType){
-		String getUserCredentialsSQLQuery = "select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'";
+	private String getQueryFromUserType(String queryType,String userType){
+		String getUserSQLQuery;
+		if(queryType.equalsIgnoreCase("count")){
+			getUserSQLQuery= "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'";
+		}else{
+			getUserSQLQuery="select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'";
+		}
 		switch (userType) {
 			default:
-				getUserCredentialsSQLQuery = getUserCredentialsSQLQuery + " and usertype is Null";
+				getUserSQLQuery = getUserSQLQuery + " and usertype is Null";
 				break;
 			case UsersHub.LOYALTY:
-				getUserCredentialsSQLQuery = getUserCredentialsSQLQuery + " and usertype = 'loyalty'";
+				getUserSQLQuery = getUserSQLQuery + " and usertype = 'loyalty'";
 				break;
 			case UsersHub.NO_LOYALTY:
-				getUserCredentialsSQLQuery = getUserCredentialsSQLQuery + " and usertype = 'noLoyalty'";
+				getUserSQLQuery = getUserSQLQuery + " and usertype = 'noLoyalty'";
 				break;
 		}
-		return getUserCredentialsSQLQuery;
+		return getUserSQLQuery;
 	}
 	public void retrieveUserCredentialsFromDBAndStoreInMap(String userType) throws SQLException, ClassNotFoundException{
-		if(getAvailableUsersCount() > 0){
-			ResultSet rs = executeSQLQuery(getQueryFromUserType(userType));
+		String countQuery=getQueryFromUserType("count",userType);
+		if(getAvailableUsersCount(countQuery) > 0){
+			ResultSet rs = executeSQLQuery(getQueryFromUserType("extract",userType));
 			if(rs!=null){
 				while(rs.next()){
 					stateHolder.put("sidecarusername", rs.getString(1));
