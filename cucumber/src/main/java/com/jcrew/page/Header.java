@@ -46,7 +46,7 @@ public class Header {
     @FindBy(id = "section1")
     private WebElement genderLandingSection;
 
-    @FindBy(xpath = "//li[@id='c-header__userpanel']/a/span[2]")
+    @FindBy(xpath = "//li[@id='c-header__userpanel']/a/span[contains(text(),'sign in')]")
     private WebElement signInFromHeader;
 
     @FindBy(xpath = "//div[@id='c-nav__userpanel']/span[@id='c-header__userpanelrecognized']")
@@ -333,7 +333,12 @@ public class Header {
         }
 
         Util.waitWithStaleRetry(driver, headerElement);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(headerElement));
+        try {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(headerElement));
+        } catch (ElementNotVisibleException e) {
+            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerElement));
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(headerElement));
+        }
         headerElement.click();
         logger.info("'{}' link is clicked from header...", elementName);
         Util.waitLoadingBar(driver);
