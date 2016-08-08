@@ -5,10 +5,6 @@ Feature: My Account Page
     Given User is on homepage
     And Handle the Email Capture pop up
     And Goes to sign in page
-    And User provides login information
-    And Check box is enabled
-    And Hits sign in button
-    And User is in My Account page
 
     @wip
   Scenario: Verify My Account page and sign out
@@ -26,6 +22,10 @@ Feature: My Account Page
 
   #US9724_TC16: Validate no breadcrumbs are displayed on Account related pages
   Scenario: Verify account page links
+    And User provides loyalty login information
+    And Check box is enabled
+    And Hits sign in button
+    And User is in My Account page
     When Verifies page displays My Account title
     When User clicks on MY DETAILS link in My Account Page
     And User should be in /r/account/details menu link page
@@ -58,3 +58,7 @@ Feature: My Account Page
     Then User should be in /wishlist menu link page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
+
+    And User presses back button
+    And User presses back button
+
