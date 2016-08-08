@@ -8,6 +8,7 @@ import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +33,9 @@ public class MyAccountPage {
     @FindBy (id = "containerBorderLeft")
     private WebElement myAccountRightContent;
 
+    @FindBy(className = "c-account__left__nav")
+    private WebElement myAccountLeftNav;
+
     public MyAccountPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -55,6 +59,17 @@ public class MyAccountPage {
 
     public boolean isMenuLinkPresent(String link) {
         return Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(getMenuLink(link))).isDisplayed();
+    }
+
+    public boolean isMenuLinkNotPresent(String link){
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
+        try{
+            WebElement menuLink = driver.findElement(By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]"));
+            return false;
+        }catch (NoSuchElementException e) {
+            return true;
+        }
     }
 
     private WebElement getMenuLink(String link) {

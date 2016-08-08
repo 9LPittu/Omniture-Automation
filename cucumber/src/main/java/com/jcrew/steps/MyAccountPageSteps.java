@@ -7,6 +7,7 @@ import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class MyAccountPageSteps extends DriverFactory {
@@ -25,7 +26,11 @@ public class MyAccountPageSteps extends DriverFactory {
 
     @And("^Validates link ([^\"]*) is displayed in My Account Page$")
     public void validates_link_is_displayed_in_My_Account_Page(String link) throws Throwable {
-        assertTrue(link + " link should have been present", myAccountPage.isMenuLinkPresent(link));
+        assertTrue(link + " link should have been present in myAccount page", myAccountPage.isMenuLinkPresent(link));
+    }
+    @And("^Validates link ([^\"]*) is not displayed in My Account Page$")
+    public void validates_link_is_not_displayed_in_My_Account_Page(String link) throws Throwable {
+        assertTrue(link + " link should not present in myAccount page", myAccountPage.isMenuLinkNotPresent(link));
     }
 
     @Then("^User clicks on ([^\"]*) link in My Account Page$")
