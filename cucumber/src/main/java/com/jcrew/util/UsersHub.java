@@ -19,7 +19,8 @@ public class UsersHub {
 	private static final PropertyReader propertyReader = PropertyReader.getPropertyReader();
     Connection conn;    
     String environment = propertyReader.getProperty("environment").toLowerCase();
-    
+	public static final String LOYALTY = "loyalty";
+	public static final String NO_LOYALTY = "noLoyalty";
     private UsersHub(){
     	
     }
@@ -79,11 +80,24 @@ public class UsersHub {
 		
 		return numOfRecords;
 	}
-	
-	public void retrieveUserCredentialsFromDBAndStoreInMap() throws SQLException, ClassNotFoundException{
+	private String getQueryFromUserType(String userType){
+		String getUserCredentialsSQLQuery = "select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'";
+		switch (userType) {
+			default:
+				getUserCredentialsSQLQuery = getUserCredentialsSQLQuery + " and usertype is Null";
+				break;
+			case UsersHub.LOYALTY:
+				getUserCredentialsSQLQuery = getUserCredentialsSQLQuery + " and usertype = 'loyalty'";
+				break;
+			case UsersHub.NO_LOYALTY:
+				getUserCredentialsSQLQuery = getUserCredentialsSQLQuery + " and usertype = 'noLoyalty'";
+				break;
+		}
+		return getUserCredentialsSQLQuery;
+	}
+	public void retrieveUserCredentialsFromDBAndStoreInMap(String userType) throws SQLException, ClassNotFoundException{
 		if(getAvailableUsersCount() > 0){
-			String getUserCredentialsSQLQuery = "select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'";
-			ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
+			ResultSet rs = executeSQLQuery(getQueryFromUserType(userType));
 			if(rs!=null){
 				while(rs.next()){
 					stateHolder.put("sidecarusername", rs.getString(1));

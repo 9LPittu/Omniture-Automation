@@ -61,4 +61,12 @@ Feature: My Account Page
 
     And User presses back button
     And User presses back button
+    Then User should be in reg_user_order_history.jsp menu link page
+
+    When User clicks on J.Crew Card Rewards Status link in My Account Page
+    Then User should be in r/account/jccc-rewards menu link page
+
+
+    When User clicks on SIGN OUT link in My Account Page
+    Then Verify user is in homepage
 

@@ -135,10 +135,10 @@ public class LoginPage {
         WebElement emailInvalidMsg = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-invalid-msg")));
         return emailInvalidMsg.getText();
     }
-    public void enter_valid_username_and_password(String userType){
-
+    public void enter_valid_username_and_password(){
+        enter_valid_username_and_password("");
     }
-    public void enter_valid_username_and_password() {
+    public void enter_valid_username_and_password(String userType) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         PropertyReader reader = PropertyReader.getPropertyReader();
         
@@ -152,7 +152,7 @@ public class LoginPage {
         	try{
         		if(!stateHolder.hasKey("sidecarusername")){
             		UsersHub userHub = UsersHub.getUsersHubInstance();
-            		userHub.retrieveUserCredentialsFromDBAndStoreInMap();
+            		userHub.retrieveUserCredentialsFromDBAndStoreInMap(userType);
             		
             		username = (String) stateHolder.get("sidecarusername");
                 	password = (String) stateHolder.get("sidecaruserpassword");
