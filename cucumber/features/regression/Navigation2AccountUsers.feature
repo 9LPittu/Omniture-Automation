@@ -1,4 +1,4 @@
-@Account @HighLevel
+@AccountDev @HighLevel
 Feature: My Account Page
 
   Background:
@@ -10,6 +10,7 @@ Feature: My Account Page
     And Hits sign in button
     And User is in My Account page
 
+    @wip
   Scenario: Verify My Account page and sign out
     When Clicks on JCrew Logo
     And Verify user is in homepage
