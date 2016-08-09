@@ -63,8 +63,9 @@ Feature: International Country Context - Part 1
     And User is in My Account page
     And user should see selected country in the footer
     When User clicks on MY DETAILS link in My Account Page
-    Then User should be in account_detail.jsp menu link page
+    And User should be in /r/account/details menu link page
     And user should see selected country in the footer
+    And User presses back button
     When User clicks on EMAIL PREFERENCES link in My Account Page
     Then User should be in email_preferences.jsp menu link page
     And user should see selected country in the footer
