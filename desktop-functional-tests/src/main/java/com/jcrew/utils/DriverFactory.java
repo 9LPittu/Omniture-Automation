@@ -111,7 +111,7 @@ public class DriverFactory {
             driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
             driver.manage().window().setSize(new Dimension(width, height));
 
-        } else if (("ipad".equals(browser))||("ipad7.1".equals(browser))) {
+        } else if (("ipad".equals(browser))||("ipad9.3".equals(browser))) {
 
             String ipadName = propertyReader.getProperty(browser+".name");
             String ipadOs = propertyReader.getProperty(browser+".os.version");
