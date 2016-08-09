@@ -36,6 +36,8 @@ public class MyAccountPage {
     @FindBy(className = "c-account__left__nav")
     private WebElement myAccountLeftNav;
 
+
+
     public MyAccountPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -66,7 +68,7 @@ public class MyAccountPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         try{
             WebElement menuLink = driver.findElement(By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]"));
-            return false;
+            return !(menuLink.isDisplayed());
         }catch (NoSuchElementException e) {
             return true;
         }

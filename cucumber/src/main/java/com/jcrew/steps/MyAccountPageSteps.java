@@ -38,11 +38,7 @@ public class MyAccountPageSteps extends DriverFactory {
         myAccountPage.click_menu_link(link);
     }
 
-    @And("^User should be in ([^\"]*) menu link page$")
-    public void User_should_be_in_page(String page) throws Throwable {
-        assertTrue(Util.getSelectedCountryName() + "User should have been in menu link " + page,
-                myAccountPage.isInMenuLinkPage(page));
-    }
+
 
     @Then("^User selects an order listed for review$")
     public void user_selects_an_order_listed_for_review() throws Throwable {
