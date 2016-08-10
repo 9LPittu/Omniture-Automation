@@ -12,11 +12,6 @@ public class Product {
     private final Logger logger = LoggerFactory.getLogger(Product.class);
     private String productName;
     private String priceList;
-    private String variations;
-    private String colorsCount;
-    private String priceWas;
-    private String priceSale;
-    private String selectedVariation;
     private String selectedColor;
     private String selectedSize;
     private String color;
@@ -25,6 +20,7 @@ public class Product {
     private String quantity;
     private String price;
     private String currency;
+    private String itemNumber;
     private boolean isSoldOut = false;
 
     public Product() {
@@ -114,6 +110,14 @@ public class Product {
         price = price.replace("was", "");
         this.price = price.replaceAll("[^0-9.,]", "");
         this.currency = price.replace(this.price, "").trim();
+    }
+    
+    public String getItemNumber() {
+        return itemNumber.trim();
+    }
+
+    public void setItemNumber(String itemNumber) {
+        this.itemNumber = itemNumber.trim();
     }
 
     public String toString() {

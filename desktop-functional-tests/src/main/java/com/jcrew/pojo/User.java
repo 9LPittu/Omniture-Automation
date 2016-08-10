@@ -20,9 +20,18 @@ public class User {
     private String country;
     private String countryCode;
 
+    private static User user = null;
     private static User fakeUser = null;
-    private static final Logger logger = LoggerFactory.getLogger(User.class);
+    private static User noDefaultUser = null;
+    private static User multipleUser = null;
+    private static User noDefaultMultipleUser = null;
 
+    public static final String DEFAULT = "user";
+    public static final String NO_DEFAULT = "noDefaultUser";
+    public static final String MULTIPLE = "multiple";
+    public static final String NO_DEFAULT_MULTIPLE = "noDefaultMultiple";
+    
+    private static final Logger logger = LoggerFactory.getLogger(User.class);
 
     public User(String userName, String password, String firstName, String lastName, String country) {
         this.email = userName;
