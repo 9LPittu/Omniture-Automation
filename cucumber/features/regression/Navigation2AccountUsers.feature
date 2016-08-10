@@ -13,7 +13,7 @@ Feature: My Account Page
     And User clicks on hamburger menu
     Then My Account link is present
     And User clicks on My Account link
-    Then User is in My Account page
+    Then User is in My Account home page
     When User clicks on SIGN OUT link in My Account Page
     Then Verify user is in homepage
     And User is signed out
@@ -25,7 +25,7 @@ Feature: My Account Page
     And User provides loyalty login information
     And Check box is enabled
     And Hits sign in button
-    And User is in My Account page
+    And User is in My Account home page
     When Verifies page displays My Account title
     When User clicks on MY DETAILS link in My Account Page
     And User should be in /r/account/details menu link page
@@ -61,7 +61,7 @@ Feature: My Account Page
 
     And User presses back button
     And User presses back button
-    And User is in My Account page
+    And User is in My Account home page
 
     When User clicks on J.Crew Card Rewards Status link in My Account Page
     Then User should be in r/account/jccc-rewards menu link page
@@ -74,7 +74,7 @@ Feature: My Account Page
     And User provides noLoyalty login information
     And Check box is enabled
     And Hits sign in button
-    And User is in My Account page
+    And User is in My Account home page
     When Verifies page displays My Account title
     When User clicks on MY DETAILS link in My Account Page
     And User should be in /r/account/details menu link page
@@ -113,7 +113,7 @@ Feature: My Account Page
     And Verify Embedded header is displayed
     And User presses back button
     And User presses back button
-    And User is in My Account page
+    And User is in My Account home page
 
     And Validates link J.Crew Card Rewards Status is not displayed in My Account Page
 

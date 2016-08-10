@@ -138,7 +138,7 @@ Feature: Account Dropdown functionality
   	And User provides login information
     And Hits sign in button
     
-    Then User is in My Account page
+    Then User is in My Account home page
     And Verify MY ACCOUNT header link is displayed
 
     Then Verify embedded headers links is visible
@@ -243,7 +243,7 @@ Feature: Account Dropdown functionality
   	And User is on internal /r/login page
   	And User provides login information
     And Hits sign in button    
-    Then User is in My Account page
+    Then User is in My Account home page
     
     Given User is on homepage
     And User presses search button
@@ -268,7 +268,7 @@ Feature: Account Dropdown functionality
   	And User is on internal /r/login page
   	And User provides login information
     And Hits sign in button    
-    Then User is in My Account page
+    Then User is in My Account home page
     
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
@@ -305,7 +305,7 @@ Feature: Account Dropdown functionality
   	And User is on internal /r/login page
   	And User provides login information
     And Hits sign in button    
-    Then User is in My Account page
+    Then User is in My Account home page
     
     Given User is on homepage
     And user clicks on random top nav gender link from below list    
@@ -331,7 +331,7 @@ Feature: Account Dropdown functionality
 #  	And User is on internal /r/login page
 #  	And User provides login information
 #    And Hits sign in button    
-#    Then User is in My Account page
+#    Then User is in My Account home page
 #    
 #    And User clicks on hamburger menu
 #    And User selects random tray from available categories
@@ -358,7 +358,7 @@ Feature: Account Dropdown functionality
   	And User is on internal /r/login page
   	And User provides login information
     And Hits sign in button    
-    Then User is in My Account page
+    Then User is in My Account home page
     
     And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
@@ -376,7 +376,7 @@ Feature: Account Dropdown functionality
   	And login with rewards user credentials
   	
   	And Hits sign in button
-    Then User is in My Account page
+    Then User is in My Account home page
     
     And click on MY ACCOUNT from header
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
@@ -394,7 +394,7 @@ Feature: Account Dropdown functionality
   	And User is on internal /r/login page
   	And User provides login information
     And Hits sign in button    
-    Then User is in My Account page
+    Then User is in My Account home page
     And User bag is cleared
     
     When User clicks on hamburger menu
@@ -443,7 +443,7 @@ Feature: Account Dropdown functionality
   	And click on SIGN IN from header
   	And User provides login information
     And Hits sign in button    
-    Then User is in My Account page
+    Then User is in My Account home page
     
     And Verify MY ACCOUNT header link is displayed
     And click on MY ACCOUNT from header
@@ -478,7 +478,7 @@ Feature: Account Dropdown functionality
   	And login with rewards user credentials
   	
   	And Hits sign in button
-    Then User is in My Account page
+    Then User is in My Account home page
     
     And click on MY ACCOUNT from header
     Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown

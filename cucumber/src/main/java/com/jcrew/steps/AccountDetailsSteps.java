@@ -4,6 +4,7 @@ import com.jcrew.page.AccountDetailsPage;
 import com.jcrew.page.MyAccountPage;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.Util;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 
 import static org.junit.Assert.assertTrue;
@@ -29,9 +30,30 @@ public class AccountDetailsSteps extends DriverFactory {
         assertTrue(Util.getSelectedCountryName() + "User should be in user detail page",
                 accountDetailsPage.isMyDetailPage());
     }
-    @And("^Verify ([^\"]*) is displayed in My details form$")
+    @And ("^Verify Birth date is editable if not set in My details form$")
+    public void validate_birth_feild_in_user_detail_form(){
+
+        assertTrue("Birth date and month should display in my account details form",
+                accountDetailsPage.validateField("Birth", "isDisplayed"));
+        assertTrue("Birth fields is editable if not set",accountDetailsPage.isBirthFieldStatusValid());
+    }
+    @And("^Click on Change Password in my details form$")
+    public void click_on_change_password_link(){
+        accountDetailsPage.clickChangePassword();
+    }
+    @And("^User selects ([^\"]*) from my details dropdown$")
+    public void user_selects_from_drop_down_in_my_detail_page(String value){
+        accountDetailsPage.selectFromList(value);
+
+    }
+
+    @And("^Verify ([^\"]*) in my details form$")
     public void validate_feild_in_user_detail_form(String fieldName){
-        assertTrue(fieldName + " should display in my account details form",
-                accountDetailsPage.validateField(fieldName,"isDisplayed"));
+            assertTrue(fieldName + " should display in my account details form",
+                     accountDetailsPage.validateField(fieldName, "isDisplayed"));
+
+            assertTrue(fieldName + " should be enabled in my account details form",
+                    accountDetailsPage.validateField(fieldName, "isEnabled"));
+
     }
 }

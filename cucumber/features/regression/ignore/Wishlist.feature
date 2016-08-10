@@ -5,7 +5,7 @@ Feature: Add items to Wishlist from PDP and Shoppable Tray
     And Goes to sign in page
     And User provides login information
     And Hits sign in button
-    When User is in My Account page
+    When User is in My Account home page
     And User clicks on WISHLIST link in My Account Page
     Then User should be in wishlist page
     And Deletes all previous wishlist items from the list

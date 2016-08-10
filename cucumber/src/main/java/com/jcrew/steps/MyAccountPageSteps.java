@@ -14,7 +14,7 @@ public class MyAccountPageSteps extends DriverFactory {
 
     private final MyAccountPage myAccountPage = new MyAccountPage(getDriver());
 
-    @Then("^User is in My Account page$")
+    @Then("^User is in My Account home page$")
     public void user_is_in_My_Account_page() throws Throwable {
         assertTrue(Util.getSelectedCountryName() + "User should be in My Account Page", myAccountPage.isInAccountPage());
     }
