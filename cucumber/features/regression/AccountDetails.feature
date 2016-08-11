@@ -6,12 +6,49 @@ Feature: My Account Page
     And Handle the Email Capture pop up
     And Goes to sign in page
 
-  Scenario: Validate existing user is able to set birthday if not provided
+  Scenario: Validate error messages and update details in my details form
+    And Enter random first name as First Name in create account section
+    And Enter random last name as Last Name in create account section
+    And Enter random email as Email in create account section
+    And Enter random password as Password in create account section
+    And selects any country from the country list
+    And User clicks on create an account button
+    And Verify user is in homepage
+
+    And click on MY ACCOUNT from header
+    When user clicks on "My Details" from My Account dropdown
+
+    And Verify birthdate is enabled
+    And Update first name to invalid and verify 'Please enter first name.' error message
+    And Update last name to invalid and verify 'Please enter last name.' error message
+    And Update email to invalid and verify 'Please enter a valid email address.' error message
+
+    And Select March as Month from date
+    And Verify 'Please enter Day.' error message should display for birth field
+    And Select Month as Month from date
+
+    And Select 01 as day from date
+    And Verify 'Please enter Month.' error message should display for birth field
+    And User scrolls up the page
+    And click on MY ACCOUNT from header
+    When user clicks on "My Details" from My Account dropdown
+
+    And Update first name in my details form
+    And Update last name in my details form
+    And Update email in my details form
+
+    And Select March as Month from date
+    And Select 01 as day from date
+
+    And click on save button
+    And verify confirmation message displayed
+    And Verify birthdate is disabled
+
 
 
   @wip
-  Scenario: Validate My Detail drop down is functional
-    When User provides noLoyalty login information
+  Scenario Outline: Validate My Detail drop down is functional for loyality and non-loyality user
+    When User provides <userType> login information
     And Check box is enabled
     And Hits sign in button
 
@@ -70,37 +107,13 @@ Feature: My Account Page
     When User presses back button
     Then My Details form should display
 
+    And validate J.Crew Card Rewards Status option <isRewards> for <userType> user
+
     When User selects Sign Out from my details dropdown
     Then Verify user is in homepage
 
-
-  @wip
-  Scenario Outline: Validate fields in my details form
-    And User provides <userType> login information
-    And Check box is enabled
-    And Hits sign in button
-    And User is in My Account home page
-    And User should be in /account/home.jsp menu link page
-    When User clicks on MY DETAILS link in My Account Page
-    And My Details form should display
-    And User should be in /r/account/details menu link page
-
-    Then Verify first name in my details form
-
-    And Verify last name in my details form
-
-    And Verify email in my details form
-    And Verify Birth date is editable if not set in My details form
-    And Verify country in my details form
-    And Click on Change Password in my details form
-
-    And Verify Old password in my details form
-    And Verify New password in my details form
-    And Verify re-enter password in my details form
-
-    And Verify save button in my details form
-
     Examples:
-      | userType  |
-      | loyalty   |
-      | noLoyalty |
+    |userType |isRewards    |
+    |noLoyalty|notVisible   |
+    |loyalty  |visible      |
+

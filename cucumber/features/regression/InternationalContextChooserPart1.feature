@@ -57,11 +57,12 @@ Feature: International Country Context - Part 1
     Then user should land on country specific home page
     And user should see selected country in the footer
     When Goes to sign in page
-    And User provides login information
+    And User provides loyalty login information
     And Check box is enabled
     And Hits sign in button
     And User is in My Account home page
     And user should see selected country in the footer
+    And Validate J.Crew Card Rewards Status link notVisible in My Account Page for loyalty user
     When User clicks on MY DETAILS link in My Account Page
     And User should be in /r/account/details menu link page
     And user should see selected country in the footer

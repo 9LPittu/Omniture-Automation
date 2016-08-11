@@ -59,9 +59,6 @@ public class MyAccountPage {
         return myAccountContent.findElement(By.tagName("h2")).getText();
     }
 
-    public boolean isMenuLinkPresent(String link) {
-        return Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(getMenuLink(link))).isDisplayed();
-    }
 
     public boolean isMenuLinkNotPresent(String link){
         Util.waitForPageFullyLoaded(driver);

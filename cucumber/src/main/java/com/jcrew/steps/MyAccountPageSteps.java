@@ -24,13 +24,14 @@ public class MyAccountPageSteps extends DriverFactory {
         assertEquals("Header is not what is expected", "MY ACCOUNT", myAccountPage.getMyAccountHeader());
     }
 
-    @And("^Validates link ([^\"]*) is displayed in My Account Page$")
-    public void validates_link_is_displayed_in_My_Account_Page(String link) throws Throwable {
-        assertTrue(link + " link should have been present in myAccount page", myAccountPage.isMenuLinkPresent(link));
-    }
-    @And("^Validates link ([^\"]*) is not displayed in My Account Page$")
-    public void validates_link_is_not_displayed_in_My_Account_Page(String link) throws Throwable {
-        assertTrue(link + " link should not present in myAccount page", myAccountPage.isMenuLinkNotPresent(link));
+    @And("Validate ([^\"]*) link ([^\"]*) in My Account Page for ([^\"]*) user")
+    public void verify_link_displayed_on_myAccount_page(String link,String visible,String userType){
+        if("notVisible".equalsIgnoreCase(visible)){
+            assertTrue(link +" link is not visible for user "+userType,myAccountPage.isMenuLinkNotPresent(link));
+        }else{
+            assertFalse(link +" link is visible for user "+userType,myAccountPage.isMenuLinkNotPresent(link));
+        }
+
     }
 
     @Then("^User clicks on ([^\"]*) link in My Account Page$")

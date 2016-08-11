@@ -7,6 +7,8 @@ import com.jcrew.util.Util;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -30,30 +32,64 @@ public class AccountDetailsSteps extends DriverFactory {
         assertTrue(Util.getSelectedCountryName() + "User should be in user detail page",
                 accountDetailsPage.isMyDetailPage());
     }
-    @And ("^Verify Birth date is editable if not set in My details form$")
-    public void validate_birth_feild_in_user_detail_form(){
 
-        assertTrue("Birth date and month should display in my account details form",
-                accountDetailsPage.validateField("Birth", "isDisplayed"));
-        assertTrue("Birth fields is editable if not set",accountDetailsPage.isBirthFieldStatusValid());
-    }
     @And("^Click on Change Password in my details form$")
     public void click_on_change_password_link(){
         accountDetailsPage.clickChangePassword();
     }
+
+
     @And("^User selects ([^\"]*) from my details dropdown$")
     public void user_selects_from_drop_down_in_my_detail_page(String value){
         accountDetailsPage.selectFromList(value);
 
     }
-
-    @And("^Verify ([^\"]*) in my details form$")
-    public void validate_feild_in_user_detail_form(String fieldName){
-            assertTrue(fieldName + " should display in my account details form",
-                     accountDetailsPage.validateField(fieldName, "isDisplayed"));
-
-            assertTrue(fieldName + " should be enabled in my account details form",
-                    accountDetailsPage.validateField(fieldName, "isEnabled"));
+    @And("validate ([^\"]*) option ([^\"]*) for ([^\"]*) user")
+    public void verify_option_exists_for_user(String option,String visible, String userType){
+        if("notVisible".equalsIgnoreCase(visible)){
+            assertFalse(option +" option is not visible for user "+userType,accountDetailsPage.isOptionAvailable(option));
+        }else{
+            assertTrue(option +" option is visible for user "+userType,accountDetailsPage.isOptionAvailable(option));
+        }
 
     }
+
+    @And("Verify birthdate is enabled")
+    public void verify_birthfields_is_enabled(){
+        assertFalse("Birth fields is enabled ",accountDetailsPage.isBirthFieldsDisabled());
+    }
+    @And("Verify birthdate is disabled")
+    public void verify_birthfields_is_disabled(){
+        assertTrue("Birth fields is disabled ",accountDetailsPage.isBirthFieldsDisabled());
+    }
+
+    @And("Update ([^\"]*) to invalid and verify \'([^\"]*)\' error message")
+    public void verify_error_message(String fieldLabel,String errMsgExpected){
+        assertEquals(fieldLabel + " error message should match",errMsgExpected,accountDetailsPage.getErrorMessage(fieldLabel));
+
+    }
+    @And("Verify \'([^\"]*)\' error message should display for birth field")
+    public void verify_birth_error_message(String errMsgExpected){
+        assertEquals("Birth error message should match",errMsgExpected,accountDetailsPage.getBirthErrorMessage());
+
+    }
+    @And("Update ([^\"]*) in my details form")
+    public void user_updates_my_details(String fieldLabel){
+        accountDetailsPage.updateDetails(fieldLabel);
+    }
+    @And("click on save button")
+    public void click_Save(){
+        accountDetailsPage.saveUpdates();
+
+    }
+    @And("verify confirmation message displayed")
+    public void validate_confirmation_msg(){
+        assertEquals("","Your information has been updated.",accountDetailsPage.getConfirmatonMsg());
+    }
+
+    @And("Select ([^\"]*) as ([^\"]*) from date")
+    public void user_selects_Month(String value,String dateType){
+        accountDetailsPage.selectDate(dateType,value);
+    }
+
 }

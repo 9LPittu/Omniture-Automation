@@ -89,9 +89,6 @@ public class UsersHub {
             getUserSQLQuery = "select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
         }
         switch (userType) {
-            default:
-                getUserSQLQuery = getUserSQLQuery + " and usertype is Null";
-                break;
             case UsersHub.LOYALTY:
                 getUserSQLQuery = getUserSQLQuery + " and usertype = 'loyalty'";
                 break;
