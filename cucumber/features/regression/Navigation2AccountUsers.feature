@@ -21,7 +21,7 @@ Feature: My Account Page
     And Deletes browser cookies
 
   #US9724_TC16: Validate no breadcrumbs are displayed on Account related pages
-  Scenario Outline: Verify account page links for loyalty user
+  Scenario Outline: Verify left nav links in account page
     And Goes to sign in page
     And User provides <userType> login information
     And Check box is enabled
@@ -64,7 +64,7 @@ Feature: My Account Page
     And User presses back button
     And User is in My Account home page
 
-    And Validate J.Crew Card Rewards Status link <isRewards> in My Account Page for <userType> user
+    And Validate J.Crew Card Rewards Status link <isRewards> in My Account Page
 
     And User presses back button
     When User clicks on SIGN OUT link in My Account Page
@@ -75,7 +75,7 @@ Feature: My Account Page
       |noLoyalty|notVisible   |
       |loyalty  |visible      |
 
-  Scenario: Verify rewards links is functional for loyalty user
+  Scenario: Verify left nav link rewards is functional for loyalty user in myaccount page
     And Goes to sign in page
     And User provides loyalty login information
     And Check box is enabled

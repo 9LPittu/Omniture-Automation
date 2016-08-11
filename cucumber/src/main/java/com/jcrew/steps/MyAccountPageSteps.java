@@ -24,12 +24,12 @@ public class MyAccountPageSteps extends DriverFactory {
         assertEquals("Header is not what is expected", "MY ACCOUNT", myAccountPage.getMyAccountHeader());
     }
 
-    @And("Validate ([^\"]*) link ([^\"]*) in My Account Page for ([^\"]*) user")
-    public void verify_link_displayed_on_myAccount_page(String link,String visible,String userType){
+    @And("Validate ([^\"]*) link ([^\"]*) in My Account Page")
+    public void verify_link_displayed_on_myAccount_page(String link,String visible){
         if("notVisible".equalsIgnoreCase(visible)){
-            assertTrue(link +" link is not visible for user "+userType,myAccountPage.isMenuLinkNotPresent(link));
+            assertTrue(link +" link is not visible for user ",myAccountPage.isMenuLinkNotPresent(link));
         }else{
-            assertFalse(link +" link is visible for user "+userType,myAccountPage.isMenuLinkNotPresent(link));
+            assertFalse(link +" link is visible for user ",myAccountPage.isMenuLinkNotPresent(link));
         }
 
     }

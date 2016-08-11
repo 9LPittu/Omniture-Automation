@@ -32,6 +32,9 @@ Feature: My Account Page
     And User scrolls up the page
     And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
+    And Verify Embedded header is displayed
+
+    And Verify embedded footer is visible and functional
 
     And Update first name in my details form
     And Update last name in my details form
@@ -46,8 +49,7 @@ Feature: My Account Page
 
 
 
-  @wip
-  Scenario Outline: Validate My Detail drop down is functional for loyality and non-loyality user
+  Scenario Outline: Validate My Detail drop down is functional
     When User provides <userType> login information
     And Check box is enabled
     And Hits sign in button
@@ -64,6 +66,10 @@ Feature: My Account Page
 
     When User presses back button
     Then My Details form should display
+
+    When User selects My Details from my details dropdown
+    Then My Details form should display
+    And User should be in /r/account/details menu link page
 
     When User selects Email Preferences from my details dropdown
     Then User should be in email_preferences.jsp menu link page
@@ -116,4 +122,3 @@ Feature: My Account Page
     |userType |isRewards    |
     |noLoyalty|notVisible   |
     |loyalty  |visible      |
-

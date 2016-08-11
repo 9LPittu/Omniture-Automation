@@ -49,7 +49,7 @@ Feature: International Country Context - Part 1
     And click on "borderfree.com" link from FAQ section on the context chooser page
     And external https://www.borderfree.com/#/ page is opened in a different tab
 
-  Scenario Outline: international context validation on all My Account related pages
+  Scenario Outline: International context validation on all My Account related pages
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
@@ -62,7 +62,7 @@ Feature: International Country Context - Part 1
     And Hits sign in button
     And User is in My Account home page
     And user should see selected country in the footer
-    And Validate J.Crew Card Rewards Status link notVisible in My Account Page for loyalty user
+    And Validate J.Crew Card Rewards Status link notVisible in My Account Page
     When User clicks on MY DETAILS link in My Account Page
     And User should be in /r/account/details menu link page
     And user should see selected country in the footer

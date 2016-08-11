@@ -45,11 +45,11 @@ public class AccountDetailsSteps extends DriverFactory {
 
     }
     @And("validate ([^\"]*) option ([^\"]*) for ([^\"]*) user")
-    public void verify_option_exists_for_user(String option,String visible, String userType){
+    public void verify_option_exists_for_user(String option,String visible){
         if("notVisible".equalsIgnoreCase(visible)){
-            assertFalse(option +" option is not visible for user "+userType,accountDetailsPage.isOptionAvailable(option));
+            assertFalse(option +" option is not available to user ",accountDetailsPage.isOptionAvailable(option));
         }else{
-            assertTrue(option +" option is visible for user "+userType,accountDetailsPage.isOptionAvailable(option));
+            assertTrue(option +" option is available for user ",accountDetailsPage.isOptionAvailable(option));
         }
 
     }
