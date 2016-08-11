@@ -20,7 +20,6 @@ public class UserNavigationSteps extends DriverFactory {
     TestDataReader testDataReader = TestDataReader.getTestDataReader();
     private final UserNavigation navigation = new UserNavigation(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
-    private DriverFactory driverFactory;
     private WebDriver driver = getDriver();
 
     @When("User adds to bag a random product using a main category")

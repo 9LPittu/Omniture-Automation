@@ -1,7 +1,6 @@
 package com.jcrew.steps;
 
 import com.jcrew.utils.DriverFactory;
-import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.UsersHub;
 import cucumber.api.Scenario;

@@ -1,5 +1,4 @@
 @MiniCart
-
 Feature: Check mini bag when adding products from category, search and sale
 
   Background:
@@ -35,9 +34,9 @@ Feature: Check mini bag when adding products from category, search and sale
 
     When User clicks in bag
     And User clicks check out button
-    And User selects guest check out
-    And Guest user fills shipping address and continue
-    And User selects random shipping method and continue
+    And User checks out as guest
+    And User fills shipping data and continues
+    And User selects a random shipping method and continues
     And User fills payment method and continue
-    And User reviews and places order
-    Then User gets an order confirmation number
+    And User clicks on PLACE MY ORDER
+    Then Verify user gets a confirmation number

@@ -23,10 +23,10 @@ import java.util.Set;
 public abstract class PageObject {
 
     protected final WebDriver driver;
-    protected final Logger logger = LoggerFactory.getLogger(PageObject.class);
+    public final Logger logger = LoggerFactory.getLogger(PageObject.class);
     protected final WebDriverWait wait;
 
-    protected final StateHolder stateHolder = StateHolder.getInstance();
+    public final StateHolder stateHolder = StateHolder.getInstance();
     public final Country country;
 
     public PageObject(WebDriver driver) {
@@ -37,6 +37,12 @@ public abstract class PageObject {
 
     public boolean verifyURL() {
         return Util.countryContextURLCompliance(driver, country);
+    }
+    
+    public boolean urlContains(String url) {
+        String driverCurrentUrl = driver.getCurrentUrl();
+        logger.debug("current url: {}, expecting to contain: {}", driverCurrentUrl, url);
+        return driverCurrentUrl.contains(url);
     }
 
     public String getCookiePath(String cookieName) {

@@ -38,13 +38,11 @@ public class CheckoutBilling extends Checkout {
     private WebElement expirationMonth;
     @FindBy(id = "expirationYear")
     private WebElement expirationYear;
-
     @FindBy(id = "address-entry-new")
     private WebElement newAddressEntry;
 
     public CheckoutBilling(WebDriver driver) {
         super(driver);
-
         wait.until(ExpectedConditions.visibilityOf(payment_page));
     }
 

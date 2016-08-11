@@ -4,7 +4,6 @@ import com.google.common.base.Predicate;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
-import com.thoughtworks.selenium.webdriven.commands.Check;
 
 import java.util.List;
 
@@ -14,9 +13,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by nadiapaolagarcia on 4/8/16.
@@ -60,10 +56,6 @@ public class CheckoutReview extends Checkout{
         logger.debug("Review id: {}", getBodyAttribute("id"));
 
         return bodyId.equals("review");
-    }
-
-    public boolean isReviewPage() {
-        return pageMessage.isDisplayed();
     }
 
     public void placeOrder() {

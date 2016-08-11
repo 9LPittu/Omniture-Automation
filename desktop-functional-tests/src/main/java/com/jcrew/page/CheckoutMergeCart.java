@@ -1,6 +1,6 @@
-package com.madewell.page;
+package com.jcrew.page;
 
-import com.madewell.pojo.Product;
+import com.jcrew.pojo.Product;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,6 +20,8 @@ public class CheckoutMergeCart extends Checkout {
     private WebElement actionsTop;
     @FindBy(id = "userMergeCart")
     private WebElement form;
+    @FindBy(className="item-egc")
+    private WebElement giftCardElement;
 
     public CheckoutMergeCart(WebDriver driver) {
         super(driver);
@@ -74,5 +76,50 @@ public class CheckoutMergeCart extends Checkout {
     	}
     	
     	return element;
+    }
+    
+public String getItemStatusFromMergeCart(String itemType){
+    	
+    	String itemCode = "";
+    	switch(itemType.toUpperCase()){
+    		case "FEW LEFT":
+    			itemCode = stateHolder.get("fewLeftItem");
+    			break;
+    		case "REGULAR":
+    			itemCode = stateHolder.get("regularItem");
+    			break;    
+    		case "BACKORDERED":
+    			itemCode = stateHolder.get("backorderedItem");
+    			break;
+    	}
+    	
+    	WebElement itemCodeElement = form.findElement(By.xpath(".//span[contains(@class,'item-value') and text()='" + itemCode.toUpperCase() + "']"));    	
+    	WebElement itemStatusElement = itemCodeElement.findElement(By.xpath(".//ancestor::li/following-sibling::li[@class='item-status']"));
+    	String status = itemStatusElement.getText().trim();
+    	return status;
+    }
+    
+    public String getEgiftCardSenderName(){
+    	WebElement senderNameElement = giftCardElement.findElement(By.xpath(".//ul[@class='item-description']/li[1]/span"));
+    	String senderName = senderNameElement.getText().trim();
+    	return senderName;
+    }
+    
+    public String getEgiftCardRecipientName(){
+    	WebElement recipientNameElement = giftCardElement.findElement(By.xpath(".//ul[@class='item-description']/li[2]/span"));
+    	String recipientName = recipientNameElement.getText().trim();
+    	return recipientName;
+    }
+    
+    public String getEgiftCardRecipientEmailAddress(){
+    	WebElement recipientEmailElement = giftCardElement.findElement(By.xpath(".//ul[@class='item-description']/li[3]/span"));
+    	String recipientEmail = recipientEmailElement.getText().trim();
+    	return recipientEmail;
+    }
+    
+    public String getEgiftCardDateSent(){
+    	WebElement dateSentElement = giftCardElement.findElement(By.xpath(".//ul[@class='item-description']/li[4]/span"));
+    	String dateSent = dateSentElement.getText().trim();
+    	return dateSent;
     }
 }

@@ -1,7 +1,7 @@
-package com.madewell.page;
+package com.jcrew.page;
 
-import com.madewell.pojo.ShippingMethod;
-import com.madewell.utils.Util;
+import com.jcrew.pojo.ShippingMethod;
+import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

@@ -1,4 +1,4 @@
-package com.madewell.page;
+package com.jcrew.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

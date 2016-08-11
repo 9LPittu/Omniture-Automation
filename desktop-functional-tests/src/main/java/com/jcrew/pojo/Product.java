@@ -3,8 +3,6 @@ package com.jcrew.pojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
-
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */

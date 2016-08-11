@@ -1,6 +1,7 @@
 package com.jcrew.pojo;
 
 import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.TestDataReader;
 
 /**
  * Created by nadiapaolagarcia on 4/19/16.
@@ -12,6 +13,17 @@ public class Address {
     String state;
     String zipcode;
     String phone;
+    
+    TestDataReader dataReader = TestDataReader.getTestDataReader();
+    
+    public Address() {
+        this.line1 = dataReader.getData("address.line1");
+        this.line2 = dataReader.getData("address.line2");
+        this.city = dataReader.getData("address.city");
+        this.state = dataReader.getData("address.state");
+        this.zipcode = dataReader.getData("address.zipcode");
+        this.phone = dataReader.getData("address.phone");
+    }
 
     public Address(String country) {
         PropertyReader properties = PropertyReader.getPropertyReader();

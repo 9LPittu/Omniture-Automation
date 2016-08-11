@@ -13,7 +13,6 @@ public class Country {
     private String region;
     private boolean contexturl;
     
-    private String countryCode;
     private String countryName;
     private String companyName;
     private String address1;

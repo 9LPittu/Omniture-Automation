@@ -2,6 +2,7 @@ package com.jcrew.pojo;
 
 import com.github.javafaker.Faker;
 import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.UserReader;
 import com.jcrew.utils.UsersHub;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ public class User {
     private String country;
     private String countryCode;
 
+    private static UserReader reader = UserReader.getUserReader();
     private static User user = null;
     private static User fakeUser = null;
     private static User noDefaultUser = null;
@@ -52,6 +54,44 @@ public class User {
         }
 
     }
+    
+    public static User getUser(String userType) {
+        User theUser;
+
+        switch (userType) {
+            default:
+            case "default":
+                if (user == null) {
+                    String userId = reader.getProperty(DEFAULT);
+                    user = new User(userId);
+                }
+                theUser = user;
+                break;
+            case "noDefaultUser":
+                if (noDefaultUser == null) {
+                    String userId = reader.getProperty(NO_DEFAULT);
+                    noDefaultUser = new User(userId);
+                }
+                theUser = noDefaultUser;
+                break;
+            case "multiple":
+                if (multipleUser == null) {
+                    String userId = reader.getProperty(MULTIPLE);
+                    multipleUser = new User(userId);
+                }
+                theUser = multipleUser;
+                break;
+            case "noDefaultMultiple":
+                if (noDefaultMultipleUser == null) {
+                    String userId = reader.getProperty(NO_DEFAULT_MULTIPLE);
+                    noDefaultMultipleUser = new User(userId);
+                }
+                theUser = noDefaultMultipleUser;
+                break;
+        }
+
+        return theUser;
+    }
 
     public static User getNewFakeUser() {
         Faker faker = new Faker();
@@ -82,6 +122,16 @@ public class User {
             this.country = reader.getProperty(userId + ".country", "United States");
             this.countryCode = reader.getProperty(userId + ".countryCode", "US");
         }
+    }
+    
+    private User(String userId) {
+        this.email = reader.getProperty(userId + ".email");
+        this.password = reader.getProperty(userId + ".password");
+        this.firstName = reader.getProperty(userId + ".firstName", "Automation");
+        this.lastName = reader.getProperty(userId + ".lastName", "User");
+        this.country = reader.getProperty(userId + ".country", "United States");
+        this.countryCode = reader.getProperty(userId + ".countryCode", "US");
+
     }
 
     public String getEmail() {

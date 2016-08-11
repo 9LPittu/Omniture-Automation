@@ -1,8 +1,8 @@
-package com.madewell.page;
+package com.jcrew.page;
 
 import com.google.common.collect.Lists;
-import com.madewell.pojo.Product;
-import com.madewell.utils.Util;
+import com.jcrew.pojo.Product;
+import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebDriver;
@@ -17,16 +17,17 @@ import java.util.List;
  * Created by nadiapaolagarcia on 5/3/16.
  */
 public class CheckoutShoppingBag extends Checkout {
-
+	
     @FindBy(id = "button-checkout")
     private WebElement checkoutNow;
     @FindBy(id = "giftCardContainer")
     private WebElement giftCard;
     @FindBy(id = "help-header")
-    private WebElement help;
-    
+    private WebElement help;    
     @FindBy(className="checkout-container")
     private WebElement checkoutContainer;
+    
+    private final Footer footer;
 
     public CheckoutShoppingBag(WebDriver driver) {
         super(driver);
@@ -36,6 +37,7 @@ public class CheckoutShoppingBag extends Checkout {
 
         driver.get(url);
         wait.until(ExpectedConditions.visibilityOf(checkoutNow));
+        this.footer = new Footer(driver);
     }
 
     public boolean isDisplayed() {
@@ -223,4 +225,11 @@ public class CheckoutShoppingBag extends Checkout {
     	String itemCode = editButton.findElement(By.xpath("../../li[1]")).getText().replace("Item ", "");
     	return itemCode;
     }
+
+    public boolean verifyContext() {
+        String countryFooter = footer.getCountry();
+        boolean result = countryFooter.equalsIgnoreCase(country.getName());
+        return result;
+    }
+
 }

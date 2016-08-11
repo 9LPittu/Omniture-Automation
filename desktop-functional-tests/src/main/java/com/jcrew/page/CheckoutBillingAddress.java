@@ -1,7 +1,7 @@
-package com.madewell.page;
+package com.jcrew.page;
 
-import com.madewell.pojo.Address;
-import com.madewell.pojo.User;
+import com.jcrew.pojo.Address;
+import com.jcrew.pojo.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
