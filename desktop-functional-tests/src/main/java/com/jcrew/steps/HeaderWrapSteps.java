@@ -102,6 +102,6 @@ public class HeaderWrapSteps extends DriverFactory {
     public void verify_top_nav_contains_less(int allowedOptions) {
         List<String> options = header.getTopNavOptions();
 
-        assertTrue("Page contains 8 or less Options in topnav", options.size() <= allowedOptions);
+        assertTrue("Page contains " + allowedOptions + " or less Options in topnav", options.size() <= allowedOptions);
     }
 }

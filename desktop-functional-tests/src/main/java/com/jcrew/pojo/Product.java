@@ -74,7 +74,9 @@ public class Product {
     }
 
     public void setSize(String size) {
-        size = size.toLowerCase().replace("size", "");
+    	if(!size.equalsIgnoreCase("one size")) {
+            size = size.toLowerCase().replace("size", "");
+        }
         this.size = size.trim();
     }
 

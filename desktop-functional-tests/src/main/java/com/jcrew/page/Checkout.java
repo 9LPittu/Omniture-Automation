@@ -199,6 +199,7 @@ public abstract class Checkout extends PageObject{
 
                 WebElement priceElement = productElement.findElement(By.className("item-price"));
                 String price = priceElement.getText().trim();
+                price = price.replaceAll("[^0-9.,]", "");
 
                 List<WebElement> descriptionElements = productElement.findElements(By.className("item-label"));
 

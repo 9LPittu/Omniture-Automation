@@ -21,7 +21,7 @@ public class TestDataReader {
         try {
             loadProperties();
         } catch (IOException e) {
-            logger.debug("Unable to load test data file.");
+            logger.debug("Unable to load test data file.", e);
         }
     }
 
@@ -30,10 +30,22 @@ public class TestDataReader {
     }
 
     private void loadProperties() throws IOException {
-        String testData = "TestData.properties";
+    	String testData = "properties/TestData.properties";
 
-        FileInputStream environmentInput = new FileInputStream(testData);
-        testDataProperties.load(environmentInput);
+        FileInputStream propertiesInput = new FileInputStream(testData);
+        testDataProperties.load(propertiesInput);
+
+        String env = System.getProperty("environment", "ci");
+        String environmentData = "properties/environment/" + env+ ".properties";
+
+        propertiesInput = new FileInputStream(environmentData);
+        testDataProperties.load(propertiesInput);
+
+        String country = System.getProperty("country", "us");
+        String countryPath = "properties/countries/" + country +".properties";
+        logger.debug("country path: {}", countryPath);
+        propertiesInput = new FileInputStream(countryPath);
+        testDataProperties.load(propertiesInput);
     }
 
     public String getData(String key) {

@@ -25,17 +25,31 @@ public class Address {
         this.phone = dataReader.getData("address.phone");
     }
 
-    public Address(String country) {
-        PropertyReader properties = PropertyReader.getPropertyReader();
-        country = country.toLowerCase();
-
-        this.line1 = properties.getProperty(country + ".address.line1");
-        this.line2 = properties.getProperty(country + ".address.line2");
-        this.city = properties.getProperty(country + ".address.city");
-        this.state = properties.getProperty(country + ".address.state");
-        this.zipcode = properties.getProperty(country + ".address.zipcode");
-        this.phone = properties.getProperty(country + ".address.phone");
+//    public Address(String country) {
+//        PropertyReader properties = PropertyReader.getPropertyReader();
+//        country = country.toLowerCase();
+//
+//        this.line1 = properties.getProperty(country + ".address.line1");
+//        this.line2 = properties.getProperty(country + ".address.line2");
+//        this.city = properties.getProperty(country + ".address.city");
+//        this.state = properties.getProperty(country + ".address.state");
+//        this.zipcode = properties.getProperty(country + ".address.zipcode");
+//        this.phone = properties.getProperty(country + ".address.phone");
+//    }
+    
+    public Address(String prefix) {
+    	prefix = prefix.toLowerCase();
+        load(prefix);
     }
+    
+    private void load(String prefix) {
+        this.line1 = dataReader.getData(prefix + ".address.line1");
+        this.line2 = dataReader.getData(prefix + ".address.line2");
+        this.city = dataReader.getData(prefix + ".address.city");
+        this.state = dataReader.getData(prefix + ".address.state");
+        this.zipcode = dataReader.getData(prefix + ".address.zipcode");
+        this.phone = dataReader.getData(prefix + ".address.phone");
+     }
 
     public String getLine1() {
         return line1;

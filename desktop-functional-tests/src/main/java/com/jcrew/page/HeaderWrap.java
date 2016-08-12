@@ -268,4 +268,18 @@ public class HeaderWrap {
 
         return optionsString;
     }
+    
+    public int getItemsInBag() {
+        wait.until(ExpectedConditions.visibilityOf(global_promo));
+        wait.until(ExpectedConditions.visibilityOf(bag));
+        WebElement cart_size = bag.findElement(By.className("js-cart-size"));
+        String cartSizeText = cart_size.getText().trim();
+
+        if (cartSizeText.isEmpty())
+            cartSizeText = "0";
+
+        cartSizeText = cartSizeText.replaceAll("[^0-9]", "");
+
+        return Integer.parseInt(cartSizeText);
+    }
 }

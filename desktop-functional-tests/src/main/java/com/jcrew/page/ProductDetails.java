@@ -8,7 +8,9 @@ import com.jcrew.utils.Util;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -67,7 +69,9 @@ public class ProductDetails extends PageObject{
     @FindBy(xpath="//div[@class='product__details product__description']/div/div/span")
     private WebElement productDetailsDrawer;
     @FindBy(id = "c-product__details")
-    private WebElement product__details;
+    private WebElement product__details;    
+    @FindBy(className = "c-product__description")
+    private WebElement productDetailsSection;
 
     public ProductDetails(WebDriver driver) {
         super(driver);
@@ -80,7 +84,8 @@ public class ProductDetails extends PageObject{
     public void selectRandomColor() {
         wait.until(ExpectedConditions.visibilityOf(price_colors));
         List<WebElement> availableColors =
-                price_colors.findElements(By.xpath(".//li[@class='js-product__color colors-list__item']"));
+                price_colors.findElements(By.xpath(".//li[@class='js-product__color colors-list__item'"
+                								 + " and not(contains(@class,'is-selected'))]"));
 
         if (availableColors.size() > 0) {
             WebElement selectedColor = Util.randomIndex(availableColors);
@@ -92,8 +97,9 @@ public class ProductDetails extends PageObject{
     public void selectRandomSize() {
         wait.until(ExpectedConditions.visibilityOf(sizes));
         String availableSizesSelector = ".//li[contains(@class,'js-product__size sizes-list__item') " +
-                "and not(contains(@class,'is-unavailable')) " +
-                "and not(contains(@class,'is-selected'))]";
+                						"and not(contains(@class,'is-unavailable')) " +
+                						"and not(contains(@class,'is-selected'))]";
+        
         List<WebElement> availableSizes = sizes.findElements(By.xpath(availableSizesSelector));
 
         if (availableSizes.size() > 0) {
@@ -109,8 +115,7 @@ public class ProductDetails extends PageObject{
 
         int availableQty = qty.getOptions().size();
         if (availableQty > 1) {
-            int randomQty = Util.randomIndex(availableQty - 1) + 1; //
-
+            int randomQty = Util.randomIndex(availableQty - 1) + 1;
             qty.selectByValue(Integer.toString(randomQty));
         }
     }
@@ -167,8 +172,9 @@ public class ProductDetails extends PageObject{
                 }
             }
         }
-
-        return productPrice.getText();
+        
+        String price = productPrice.getText();
+        return price;
     }
 
     private boolean isSoldOut() {
@@ -182,10 +188,13 @@ public class ProductDetails extends PageObject{
         product.setName(getProductName());
 
         if (!isSoldOut()) {
+        	product.setName(getProductName());
             product.setColor(getSelectedColor());
             product.setSize(getSelectedSize());
             product.setQuantity(getQuantity());
-            product.setPrice(getPrice());
+            product.setPrice(getPrice());            
+            product.setItemNumber(getProductCodeFromPDP());
+            product.setQuantity(getQuantity());            
         } else {
             product.setSoldOut(true);
         }
@@ -203,6 +212,11 @@ public class ProductDetails extends PageObject{
         Product product = getProduct();
 
         productsInBag.add(product);
+        
+        stateHolder.addToList("toBag", product);
+
+        int itemsInBag = headerWrap.getItemsInBag();
+        stateHolder.put("itemsInBag", itemsInBag);
 
         logger.info("Adding to bag {}", product);
         stateHolder.put("bag_items", productsInBag);
@@ -498,5 +512,31 @@ public class ProductDetails extends PageObject{
     	String productDetailsDrawerText = productDetailsDrawer.getText();
     	return !StringUtils.isBlank(productDetailsDrawerText);
     }
-
+    
+    public String getProductCodeFromPDP(){
+    	
+    	WebElement productCodeElement = null;
+    	try{
+    		
+    		WebElement productDetailsAccordion = Util.createWebDriverWait(driver).until(
+    				ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details')]/div/div")));    		
+    		productDetailsAccordion.click();
+    		
+    		productCodeElement = Util.createWebDriverWait(driver,30).until(
+                    ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
+    	}
+    	catch(TimeoutException toe){
+    		try{
+     			productCodeElement = Util.createWebDriverWait(driver,30).until(
+                        ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
+    		}
+    		catch(Exception e){
+    			throw new WebDriverException("Product/item code is not found on the PDP!");
+    		}
+    	}
+    	
+    	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
+    	productCodeText = productCodeText.replace(".", "").toUpperCase();
+    	return productCodeText;
+    }
 }
