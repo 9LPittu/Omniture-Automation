@@ -1,4 +1,4 @@
-@AccountDev @HighLevel
+@Account @HighLevel
 Feature: My Account Page
 
   Background:
@@ -49,7 +49,7 @@ Feature: My Account Page
 
 
 
-  Scenario Outline: Validate My Detail drop down is functional
+  Scenario Outline: Validate drop down is functional in My details form
     When User provides <userType> login information
     And Check box is enabled
     And Hits sign in button
@@ -113,7 +113,7 @@ Feature: My Account Page
     When User presses back button
     Then My Details form should display
 
-    And validate J.Crew Card Rewards Status option <isRewards> for <userType> user
+    And validate J.Crew Card Rewards Status option is <isRewards>
 
     When User selects Sign Out from my details dropdown
     Then Verify user is in homepage

@@ -1,13 +1,13 @@
-@Account @HighLevel
+@AccountDev @HighLevel
 Feature: My Account Page
 
   Background:
     Given User is on homepage
     And Handle the Email Capture pop up
+    And Goes to sign in page
 
     @wip
   Scenario: Verify My Account page and sign out
-    And Goes to sign in page
     When Clicks on JCrew Logo
     And Verify user is in homepage
     And User clicks on hamburger menu
@@ -22,7 +22,6 @@ Feature: My Account Page
 
   #US9724_TC16: Validate no breadcrumbs are displayed on Account related pages
   Scenario Outline: Verify left nav links in account page
-    And Goes to sign in page
     And User provides <userType> login information
     And Check box is enabled
     And Hits sign in button
@@ -76,7 +75,6 @@ Feature: My Account Page
       |loyalty  |visible      |
 
   Scenario: Verify left nav link rewards is functional for loyalty user in myaccount page
-    And Goes to sign in page
     And User provides loyalty login information
     And Check box is enabled
     And Hits sign in button

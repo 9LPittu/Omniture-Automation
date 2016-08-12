@@ -44,7 +44,7 @@ public class AccountDetailsSteps extends DriverFactory {
         accountDetailsPage.selectFromList(value);
 
     }
-    @And("validate ([^\"]*) option ([^\"]*) for ([^\"]*) user")
+    @And("validate ([^\"]*) option is ([^\"]*)")
     public void verify_option_exists_for_user(String option,String visible){
         if("notVisible".equalsIgnoreCase(visible)){
             assertFalse(option +" option is not available to user ",accountDetailsPage.isOptionAvailable(option));

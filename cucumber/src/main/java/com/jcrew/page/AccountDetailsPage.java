@@ -90,10 +90,17 @@ public class AccountDetailsPage {
        formElement.sendKeys("new"+value);
    }
    public void saveUpdates(){
-      WebElement formElement=getformElement("save button");
-       formElement.click();
+       Util.waitForPageFullyLoaded(driver);
+       getformElement("save button").click();
        Util.waitForPageFullyLoaded(driver);
    }
+    public String getConfirmatonMsg(){
+        WebElement formElement=myDetailSection.findElement(By.className("my-details-form__confirm-message"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(formElement));
+
+        return formElement.getText();
+    }
+
 
     public String getBirthErrorMessage(){
         return getformElement("Birth").findElement(By.xpath("following-sibling::span")).getText();
@@ -109,10 +116,7 @@ public class AccountDetailsPage {
         WebElement span = formElement.findElement(By.xpath("following-sibling::span"));
         return span.getText();
     }
-   public String getConfirmatonMsg(){
 
-      return myDetailSection.findElement(By.className("my-details-form__confirm-message")).getText();
-   }
         public void clickChangePassword(){
             WebElement changePassword = myDetailForm.findElement(By.className("my-details-form__change-password-link"));
             changePassword.click();
@@ -144,6 +148,7 @@ public class AccountDetailsPage {
                 formElement = myDetailForm.findElement(By.className("my-details-form__country_select"));
                 break;
             case "save button":
+
                 formElement = myDetailForm.findElement(By.className("my-details-form__btn-submit"));
                 break;
             case "Old password":
