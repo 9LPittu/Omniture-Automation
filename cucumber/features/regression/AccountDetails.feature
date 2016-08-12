@@ -1,5 +1,5 @@
 @Account @HighLevel
-Feature: My Account Page
+Feature: Account details Page validations
 
   Background:
     Given User is on homepage with clean session
