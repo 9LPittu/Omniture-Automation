@@ -90,10 +90,13 @@ public class UsersHub {
         }
         switch (userType) {
             case UsersHub.LOYALTY:
-                getUserSQLQuery = getUserSQLQuery + " and usertype = 'loyalty'";
+                getUserSQLQuery = getUserSQLQuery + " and usertype = '"+UsersHub.LOYALTY+"'";
                 break;
             case UsersHub.NO_LOYALTY:
-                getUserSQLQuery = getUserSQLQuery + " and usertype = 'noLoyalty'";
+                getUserSQLQuery = getUserSQLQuery + " and usertype = '"+UsersHub.NO_LOYALTY+"'";
+                break;
+            default:
+                getUserSQLQuery = getUserSQLQuery + " and userType is null";
                 break;
         }
         return getUserSQLQuery;
