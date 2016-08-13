@@ -12,23 +12,29 @@ Feature: Account details Page validations
     And Enter random email as Email in create account section
     And Enter random password as Password in create account section
     And selects any country from the country list
+
     And User clicks on create an account button
     And Verify user is in homepage
 
     And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
 
-    And Verify birthdate is enabled
-    And Update first name to invalid and verify 'Please enter first name.' error message
-    And Update last name to invalid and verify 'Please enter last name.' error message
-    And Update email to invalid and verify 'Please enter a valid email address.' error message
+    And Verify birth field is enabled
+    And Verify 'Add your birthday and we'll send you something special on your big day!' copy displayed
+
+    And Update first name with invalid data
+    And Verify 'Please enter first name.' error message displayed for first name field
+    And Update last name with invalid data
+    And Verify 'Please enter last name.' error message displayed for last name field
+    And Update email with invalid data
+    And Verify 'Please enter a valid email address.' error message displayed for email field
 
     And Select March as Month from date
-    And Verify 'Please enter Day.' error message should display for birth field
+    And Verify 'Please enter Day.' error message displayed for Birth field
     And Select Month as Month from date
 
     And Select 01 as day from date
-    And Verify 'Please enter Month.' error message should display for birth field
+    And Verify 'Please enter Month.' error message displayed for Birth field
     And User scrolls up the page
     And click on MY ACCOUNT from header
     When user clicks on "My Details" from My Account dropdown
@@ -36,17 +42,19 @@ Feature: Account details Page validations
 
     And Verify embedded footer is visible and functional
 
-    And Update first name in my details form
-    And Update last name in my details form
-    And Update email in my details form
+    And Update first name with valid data
+    And Update last name with valid data
+    And Update email with valid data
 
     And Select March as Month from date
     And Select 01 as day from date
-
+    And Click on Change Password in my details form
+    And Enter old and new password details
     And click on save button
     And verify confirmation message displayed
-    And Verify birthdate is disabled
 
+    And Verify birth field is disabled
+    And Verify 'Better than cake: make sure you are signed up for emails to get a special gift on your big day!' copy displayed
 
 
   Scenario Outline: Validate drop down is functional in My details form

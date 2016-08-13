@@ -19,7 +19,7 @@ public class AccountDetailsPage {
     private final Logger logger = LoggerFactory.getLogger(AccountDetailsPage.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
 
-    @FindBy(id="account_navigation")
+    @FindBy(id = "account_navigation")
     private WebElement accountNavSection;
 
     @FindBy(id = "account_content")
@@ -35,106 +35,126 @@ public class AccountDetailsPage {
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
     }
-    public boolean isMyDetailPage(){
+
+    public boolean isMyDetailPage() {
         try {
             Util.waitForPageFullyLoaded(driver);
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
             return myDetailForm.isDisplayed();
-        }catch (Exception e){
+        } catch (Exception e) {
 
             return false;
         }
     }
-    public void selectDate(String dateType,String value){
 
-        WebElement birthWrap=getformElement("Birth");
+    public void selectDate(String dateType, String value) {
+
+        WebElement birthWrap = getformElement("Birth");
         WebElement list;
-        if("Month".equalsIgnoreCase(dateType)){
-            list=birthWrap.findElement(By.id(month));
-        }else{
-            list=birthWrap.findElement(By.id(day));
+        if ("Month".equalsIgnoreCase(dateType)) {
+            list = birthWrap.findElement(By.id(month));
+        } else {
+            list = birthWrap.findElement(By.id(day));
         }
         list.click();
-        WebElement item = list.findElement(By.xpath("//li[contains(text(), '"+value+"')]"));
+        WebElement item = list.findElement(By.xpath("//li[contains(text(), '" + value + "')]"));
         item.click();
         Util.waitForPageFullyLoaded(driver);
     }
 
 
-    public void selectFromList(String value){
+    public void selectFromList(String value) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavSection));
         WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
         openMyDetailsList(navList);
-        WebElement item = navList.findElement(By.xpath("//li[contains(text(), '"+value+"')]"));
+        WebElement item = navList.findElement(By.xpath("//li[contains(text(), '" + value + "')]"));
         item.click();
     }
-    public boolean isOptionAvailable(String value){
+
+    public boolean isOptionAvailable(String value) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavSection));
         WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
-        try{
-            WebElement item = navList.findElement(By.xpath("//li[contains(text(), '"+value+"')]"));
+
+        try {
+            navList.findElement(By.xpath("//li[contains(text(), '" + value + "')]"));
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
 
     }
 
-   public void updateDetails(String fieldLabel){
-       WebElement formElement;
-       String value;
-       Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
-       formElement=getformElement(fieldLabel);
-       value=formElement.getAttribute("value");
-       formElement.clear();
-       formElement.sendKeys("new"+value);
-   }
-   public void saveUpdates(){
-       Util.waitForPageFullyLoaded(driver);
-       getformElement("save button").click();
-       Util.waitForPageFullyLoaded(driver);
-   }
-    public String getConfirmatonMsg(){
-        WebElement formElement=myDetailSection.findElement(By.className("my-details-form__confirm-message"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(formElement));
+    public void saveUpdates() {
+        Util.waitForPageFullyLoaded(driver);
+        getformElement("save button").click();
+        Util.waitForPageFullyLoaded(driver);
+    }
 
-        return formElement.getText();
+    public String getConfirmatonMsg() {
+        WebElement confimation = myDetailSection.findElement(By.className("my-details-form__confirm-message"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(confimation));
+        return confimation.getText();
+    }
+
+    public String getBirthdayCopy() {
+        WebElement birthCopy;
+        WebElement birthCopyWrap = myDetailForm.findElement(By.className("my-details-form__label"));
+        birthCopy = birthCopyWrap.findElement(By.xpath("//span[contains(@class,'is-birth-date-empty')]"));
+
+        if (!(birthCopy.getAttribute("class").contains("is-hidden"))) {
+            return birthCopy.getText();
+        } else {
+            birthCopy = birthCopyWrap.findElement(By.xpath("//span[contains(@class,'is-birth-date-populated')]"));
+            return birthCopy.getText();
+        }
     }
 
 
-    public String getBirthErrorMessage(){
-        return getformElement("Birth").findElement(By.xpath("following-sibling::span")).getText();
-    }
-
-    public String getErrorMessage(String fieldLabel){
+    public void updateDetails(String fieldLabel, String updateType) {
         WebElement formElement;
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
-        formElement=getformElement(fieldLabel);
-        formElement.clear();
-        formElement.sendKeys(Keys.TAB);
-        formElement.click();
-        WebElement span = formElement.findElement(By.xpath("following-sibling::span"));
-        return span.getText();
+        formElement = getformElement(fieldLabel);
+        if ("invalid".equalsIgnoreCase(updateType)) {
+            formElement.clear();
+            formElement.sendKeys(Keys.TAB);
+            formElement.click();
+        } else {
+            String oldValue = formElement.getAttribute("value");
+            formElement.clear();
+            formElement.sendKeys("new" + oldValue);
+        }
     }
 
-        public void clickChangePassword(){
-            WebElement changePassword = myDetailForm.findElement(By.className("my-details-form__change-password-link"));
-            changePassword.click();
-        }
-    public boolean isBirthFieldsDisabled(){
+    public String getErrorMessage(String fieldLabel) {
+        return getformElement(fieldLabel).findElement(By.xpath("following-sibling::span")).getText();
+    }
+
+    public void clickChangePassword() {
+        getformElement("change password").click();
+    }
+    public void fillChangePasswordFileds(){
+        getformElement("Old password").sendKeys((String) stateHolder.get("fakenewuserPassword"));
+        getformElement("New password").sendKeys("TestNewPassword");
+        getformElement("re-enter password").sendKeys("TestNewPassword");
+    }
+    public boolean isBirthField(String btnStatus) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
         WebElement birthWrap = getformElement("Birth");
-        String monthClass  = birthWrap.findElement(By.id(month)).getAttribute("class");
-        String dateClass  = birthWrap.findElement(By.id(day)).getAttribute("class");
+        String monthClass = birthWrap.findElement(By.id(month)).getAttribute("class");
+        String dateClass = birthWrap.findElement(By.id(day)).getAttribute("class");
 
-        return ( (monthClass.contains("is-disabled")) & (dateClass.contains("is-disabled")) );
+        if ("disabled".equalsIgnoreCase(btnStatus)) {
+            return ((monthClass.contains("is-disabled")) & (dateClass.contains("is-disabled")));
+        } else {
+            return !((monthClass.contains("is-disabled")) & (dateClass.contains("is-disabled")));
+        }
+
     }
 
-
-    private WebElement getformElement(String fieldLabel){
+    private WebElement getformElement(String fieldLabel) {
         WebElement formElement;
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
-        switch (fieldLabel){
+        switch (fieldLabel) {
             case "first name":
                 formElement = myDetailForm.findElement(By.id("my-details-form__first-name"));
                 break;
@@ -148,8 +168,10 @@ public class AccountDetailsPage {
                 formElement = myDetailForm.findElement(By.className("my-details-form__country_select"));
                 break;
             case "save button":
-
                 formElement = myDetailForm.findElement(By.className("my-details-form__btn-submit"));
+                break;
+            case "change password":
+                formElement = myDetailForm.findElement(By.className("my-details-form__change-password-link"));
                 break;
             case "Old password":
                 formElement = myDetailForm.findElement(By.id("my-details-form__old-password"));
@@ -169,14 +191,14 @@ public class AccountDetailsPage {
         return formElement;
     }
 
-    private void openMyDetailsList(WebElement navList){
+    private void openMyDetailsList(WebElement navList) {
         int attempts = 0;
         boolean success = false;
 
         while (attempts <= 2 && !success) {
             try {
                 navList.click();
-                if(navList.getAttribute("style").contains("block")){
+                if (navList.getAttribute("style").contains("block")) {
                     success = true;
                 }
             } catch (Exception exception) {

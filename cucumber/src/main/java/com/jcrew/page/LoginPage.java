@@ -312,7 +312,7 @@ public class LoginPage {
             case "random email":
                 fieldInput = faker.internet().emailAddress().replace("'", "");
                 logger.info("email generated is : {}", fieldInput);
-                stateHolder.put("fakenewuser",fieldInput);
+                stateHolder.put("fakenewuserID",fieldInput);
                 break;
             case "random password":
                 fieldInput = faker.name().fullName().replaceAll("\\s", "");
