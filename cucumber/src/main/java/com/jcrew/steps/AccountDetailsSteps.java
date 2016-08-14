@@ -24,9 +24,10 @@ public class AccountDetailsSteps extends DriverFactory {
         assertTrue(Util.getSelectedCountryName() + "User should have been in menu link " + page,
                 myAccountPage.isInMenuLinkPage(page));
     }
+
     @And("^User navigates to my detail form$")
-    public void user_navigates_to_my_details_form(){
-        assertTrue(Util.getSelectedCountryName() + "User navigated back to mydetail page",accountDetailsPage.toMyDetailPage());
+    public void user_navigates_to_my_details_form() {
+        assertTrue(Util.getSelectedCountryName() + "User navigated back to mydetail page", accountDetailsPage.toMyDetailPage());
     }
 
     @And("^My Details form should display$")
@@ -39,8 +40,9 @@ public class AccountDetailsSteps extends DriverFactory {
     public void click_on_change_password_link() {
         accountDetailsPage.clickChangePassword();
     }
+
     @And("Enter old and new password details")
-    public void change_password(){
+    public void change_password() {
         accountDetailsPage.fillChangePasswordFileds();
     }
 
@@ -50,9 +52,9 @@ public class AccountDetailsSteps extends DriverFactory {
 
     }
 
-  @And("Verify ([^\"]*) reward link for ([^\"]*) user in My details dropdown")
-    public void reward_link_displayed_in_dropdown_for_user(String link,String userType){
-        assertTrue(link +" link displayed for user type "+userType,accountDetailsPage.verifyRewardLink(link,userType));
+    @And("Verify ([^\"]*) reward link for ([^\"]*) user in My details dropdown")
+    public void reward_link_displayed_in_dropdown_for_user(String link, String userType) {
+        assertTrue(link + " link displayed for user type " + userType, accountDetailsPage.verifyRewardLink(link, userType));
     }
 
     @And("Verify birth field is ([^\"]*)")

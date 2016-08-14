@@ -77,29 +77,31 @@ public class AccountDetailsPage {
         Util.waitForPageFullyLoaded(driver);
     }
 
-    public boolean verifyRewardLink(String link,String userType){
-        boolean expected=false;
-        Country c = (Country)stateHolder.get("context");
+    public boolean verifyRewardLink(String link, String userType) {
+        boolean expected = false;
+        Country c = (Country) stateHolder.get("context");
 
-        if(userType.equalsIgnoreCase(UsersHub.LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())) )
+        if (userType.equalsIgnoreCase(UsersHub.LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())))
             expected = true;
 
         return expected == isMenuLinkPresent(link);
 
     }
-    private boolean isMenuLinkPresent(String link){
+
+    private boolean isMenuLinkPresent(String link) {
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavSection));
-        try{
+        try {
             WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
             openMyDetailsList(navList);
 //            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(navList.findElement(By.xpath("//li[contains(text(), '" + link + "')]"))));
             WebElement item = navList.findElement(By.xpath("//li[contains(text(), '" + link + "')]"));
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
+
     public void selectFromList(String link) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavSection));
         Country c = (Country) stateHolder.get("context");
@@ -108,12 +110,12 @@ public class AccountDetailsPage {
 
         boolean ifReward = link.equalsIgnoreCase("J.Crew Card Rewards Status");
         boolean testRewardVisible = true;
-         if(ifReward){
-             testRewardVisible = ((userType.equalsIgnoreCase(UsersHub.LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
-         }
+        if (ifReward) {
+            testRewardVisible = ((userType.equalsIgnoreCase(UsersHub.LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
+        }
 
         boolean ifOtherCountries = !(link.equalsIgnoreCase("GIFT CARD BALANCE") || link.equalsIgnoreCase("CATALOG PREFERENCES"));
-        if((("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry())|| ifOtherCountries) && testRewardVisible ) {
+        if ((("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry()) || ifOtherCountries) && testRewardVisible) {
             WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
             openMyDetailsList(navList);
 
