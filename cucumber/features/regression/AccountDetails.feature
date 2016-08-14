@@ -56,8 +56,7 @@ Feature: Account details Page validations
     And Verify birth field is disabled
     And Verify 'Better than cake: make sure you are signed up for emails to get a special gift on your big day!' copy displayed
 
-
-  Scenario Outline: Validate drop down is functional in My details form
+  Scenario Outline: Validate drop down in My details form is functional for domestic users
     When User provides <userType> login information
     And Check box is enabled
     And Hits sign in button
@@ -70,63 +69,58 @@ Feature: Account details Page validations
     And User should be in /r/account/details menu link page
 
     When User selects Home from my details dropdown
-    And User should be in /account/home.jsp menu link page
+    Then User should be in /account/home.jsp menu link page
 
-    When User presses back button
-    Then My Details form should display
-
-    When User selects My Details from my details dropdown
-    Then My Details form should display
-    And User should be in /r/account/details menu link page
+    And User presses back button
 
     When User selects Email Preferences from my details dropdown
     Then User should be in email_preferences.jsp menu link page
 
-    When User presses back button
-    Then My Details form should display
-
-
+    And User presses back button
     When User selects Catalog Preferences from my details dropdown
     Then User should be in catalog_preferences.jsp menu link page
 
-    When User presses back button
-    Then My Details form should display
+    And User presses back button
 
     When User selects Payment Methods from my details dropdown
     Then User should be in payment_info.jsp menu link page
 
-    When User presses back button
-    Then My Details form should display
+    And User presses back button
 
     When User selects Gift Card Balance from my details dropdown
     Then User should be in checkout/giftcard_balance1.jsp menu link page
 
     When User presses back button
-    Then My Details form should display
 
     When User selects Address Book from my details dropdown
     Then User should be in address_book.jsp menu link page
+
     And User presses back button
 
     When User selects Order History from my details dropdown
     Then User should be in reg_user_order_history.jsp menu link page
 
-    When User presses back button
-    Then My Details form should display
+    And User presses back button
 
     When User selects My Wishlist from my details dropdown
     Then User should be in /wishlist menu link page
+
     And User presses back button
+    And User presses back button
+    And User navigates to my detail form
+
+    And Verify J.Crew Card Rewards Status reward link for <userType> user in My details dropdown
+
+    When User selects J.Crew Card Rewards Status from my details dropdown
+    Then User should be in /r/account/jccc-rewards menu link page
 
     When User presses back button
-    Then My Details form should display
-
-    And validate J.Crew Card Rewards Status option is <isRewards>
+    And User navigates to my detail form
 
     When User selects Sign Out from my details dropdown
     Then Verify user is in homepage
 
     Examples:
-    |userType |isRewards    |
-    |noLoyalty|notVisible   |
-    |loyalty  |visible      |
+      |userType |
+      |loyalty  |
+      |noLoyalty|

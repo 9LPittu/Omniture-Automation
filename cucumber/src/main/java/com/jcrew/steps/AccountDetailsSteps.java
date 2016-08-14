@@ -24,6 +24,10 @@ public class AccountDetailsSteps extends DriverFactory {
         assertTrue(Util.getSelectedCountryName() + "User should have been in menu link " + page,
                 myAccountPage.isInMenuLinkPage(page));
     }
+    @And("^User navigates to my detail form$")
+    public void user_navigates_to_my_details_form(){
+        assertTrue(Util.getSelectedCountryName() + "User navigated back to mydetail page",accountDetailsPage.toMyDetailPage());
+    }
 
     @And("^My Details form should display$")
     public void user_details_form_should_display() {
@@ -46,14 +50,9 @@ public class AccountDetailsSteps extends DriverFactory {
 
     }
 
-    @And("validate ([^\"]*) option is ([^\"]*)")
-    public void verify_option_exists_for_user(String option, String visible) {
-        if ("notVisible".equalsIgnoreCase(visible)) {
-            assertFalse(option + " option is not available to user ", accountDetailsPage.isOptionAvailable(option));
-        } else {
-            assertTrue(option + " option is available for user ", accountDetailsPage.isOptionAvailable(option));
-        }
-
+  @And("Verify ([^\"]*) reward link for ([^\"]*) user in My details dropdown")
+    public void reward_link_displayed_in_dropdown_for_user(String link,String userType){
+        assertTrue(link +" link displayed for user type "+userType,accountDetailsPage.verifyRewardLink(link,userType));
     }
 
     @And("Verify birth field is ([^\"]*)")

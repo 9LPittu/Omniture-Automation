@@ -5,6 +5,7 @@ import java.util.List;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.UsersHub;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -60,14 +61,15 @@ public class MyAccountPage {
     }
 
 
-    public boolean isMenuLinkNotPresent(String link){
+
+    public boolean isMenuLinkPresent(String link){
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         try{
             WebElement menuLink = driver.findElement(By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]"));
-            return !(menuLink.isDisplayed());
+            return (menuLink.isDisplayed());
         }catch (NoSuchElementException e) {
-            return true;
+            return false;
         }
     }
 
@@ -84,9 +86,17 @@ public class MyAccountPage {
         WebElement menu;
 
         Country c = (Country)stateHolder.get("context");
+        String userType = (String) stateHolder.get("sidecarusertype");
 
-        boolean ifOtherCountries = !(link.equals("GIFT CARD BALANCE")|| link.equals("CATALOG PREFERENCES"));
-        if(("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry())|| ifOtherCountries) {
+        boolean ifReward = link.equalsIgnoreCase("J.Crew Card Rewards Status");
+        boolean testRewardVisible = true;
+        if(ifReward){
+            testRewardVisible = ((userType.equalsIgnoreCase(UsersHub.LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
+        }
+
+
+        boolean forOtherCountries = !(link.equals("GIFT CARD BALANCE")|| link.equals("CATALOG PREFERENCES"));
+        if((("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry())|| forOtherCountries) && testRewardVisible ) {
             menu = getMenuLink(link);
             Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(menu));
             Util.clickWithStaleRetry(menu);
@@ -94,12 +104,22 @@ public class MyAccountPage {
         }
     }
 
+
     public boolean isInMenuLinkPage(String page) {
         Country c = (Country)stateHolder.get("context");
+        String userType = (String) stateHolder.get("sidecarusertype");
+
+        boolean ifReward = page.contains("rewards");
+        boolean testRewardVisible = true;
+        if(ifReward){
+            testRewardVisible = ((userType.equalsIgnoreCase(UsersHub.LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
+        }
+
         boolean forOtherCountries = !( page.contains("giftcard")|| page.contains("catalog_preferences"));
 
-        if (("ca".equals(c.getCountry()) && !(page.contains("giftcard"))) || "us".equals(c.getCountry()) || forOtherCountries)
-           return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        if ((("ca".equals(c.getCountry()) && !(page.contains("giftcard"))) || "us".equals(c.getCountry()) || forOtherCountries) && testRewardVisible) {
+            return Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
+        }
         else {
             logger.info("expected no "+page+" for "+c.getCountry());
             return true;

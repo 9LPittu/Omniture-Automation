@@ -1,7 +1,9 @@
 package com.jcrew.page;
 
 
+import com.jcrew.pojo.Country;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.UsersHub;
 import com.jcrew.util.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -47,6 +49,19 @@ public class AccountDetailsPage {
         }
     }
 
+
+    public boolean toMyDetailPage() {
+        try {
+            return myDetailForm.isDisplayed();
+        } catch (Exception e) {
+            MyAccountPage myAccountPage = new MyAccountPage(driver);
+            if (myAccountPage.isInAccountPage()) {
+                myAccountPage.click_menu_link("MY DETAILS");
+            }
+            return isMyDetailPage();
+        }
+    }
+
     public void selectDate(String dateType, String value) {
 
         WebElement birthWrap = getformElement("Birth");
@@ -62,26 +77,50 @@ public class AccountDetailsPage {
         Util.waitForPageFullyLoaded(driver);
     }
 
+    public boolean verifyRewardLink(String link,String userType){
+        boolean expected=false;
+        Country c = (Country)stateHolder.get("context");
 
-    public void selectFromList(String value) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavSection));
-        WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
-        openMyDetailsList(navList);
-        WebElement item = navList.findElement(By.xpath("//li[contains(text(), '" + value + "')]"));
-        item.click();
+        if(userType.equalsIgnoreCase(UsersHub.LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())) )
+            expected = true;
+
+        return expected == isMenuLinkPresent(link);
+
     }
-
-    public boolean isOptionAvailable(String value) {
+    private boolean isMenuLinkPresent(String link){
+        Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavSection));
-        WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
-
-        try {
-            navList.findElement(By.xpath("//li[contains(text(), '" + value + "')]"));
+        try{
+            WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
+            openMyDetailsList(navList);
+//            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(navList.findElement(By.xpath("//li[contains(text(), '" + link + "')]"))));
+            WebElement item = navList.findElement(By.xpath("//li[contains(text(), '" + link + "')]"));
             return true;
-        } catch (Exception e) {
+        }catch (Exception e) {
             return false;
         }
+    }
+    public void selectFromList(String link) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavSection));
+        Country c = (Country) stateHolder.get("context");
 
+        String userType = (String) stateHolder.get("sidecarusertype");
+
+        boolean ifReward = link.equalsIgnoreCase("J.Crew Card Rewards Status");
+        boolean testRewardVisible = true;
+         if(ifReward){
+             testRewardVisible = ((userType.equalsIgnoreCase(UsersHub.LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
+         }
+
+        boolean ifOtherCountries = !(link.equalsIgnoreCase("GIFT CARD BALANCE") || link.equalsIgnoreCase("CATALOG PREFERENCES"));
+        if((("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry())|| ifOtherCountries) && testRewardVisible ) {
+            WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
+            openMyDetailsList(navList);
+
+            WebElement item = navList.findElement(By.xpath("//li[contains(text(), '" + link + "')]"));
+
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", item);
+        }
     }
 
     public void saveUpdates() {
@@ -132,11 +171,13 @@ public class AccountDetailsPage {
     public void clickChangePassword() {
         getformElement("change password").click();
     }
-    public void fillChangePasswordFileds(){
+
+    public void fillChangePasswordFileds() {
         getformElement("Old password").sendKeys((String) stateHolder.get("fakenewuserPassword"));
         getformElement("New password").sendKeys("TestNewPassword");
         getformElement("re-enter password").sendKeys("TestNewPassword");
     }
+
     public boolean isBirthField(String btnStatus) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
         WebElement birthWrap = getformElement("Birth");
@@ -198,6 +239,7 @@ public class AccountDetailsPage {
         while (attempts <= 2 && !success) {
             try {
                 navList.click();
+                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(navList));
                 if (navList.getAttribute("style").contains("block")) {
                     success = true;
                 }

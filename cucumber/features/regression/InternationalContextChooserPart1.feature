@@ -62,7 +62,9 @@ Feature: International Country Context - Part 1
     And Hits sign in button
     And User is in My Account home page
     And user should see selected country in the footer
-    And Validate J.Crew Card Rewards Status link notVisible in My Account Page
+
+    And Verify J.Crew Card Rewards Status link not displayed in My Account Page
+
     When User clicks on MY DETAILS link in My Account Page
     And User should be in /r/account/details menu link page
     And user should see selected country in the footer
@@ -173,3 +175,76 @@ Feature: International Country Context - Part 1
       |country_group|
       |PRICEBOOK|
       |NONPRICEBOOK|
+
+  Scenario Outline: Validate drop down in My details form is functional for international users
+
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects <country_group> at random from context chooser page
+    Then user should land on country specific home page
+    And Goes to sign in page
+    When User provides <userType> login information
+    And Check box is enabled
+    And Hits sign in button
+
+    When User is in My Account home page
+    And User should be in /account/home.jsp menu link page
+
+    When User clicks on MY DETAILS link in My Account Page
+    Then My Details form should display
+    And User should be in /r/account/details menu link page
+
+    When User selects Home from my details dropdown
+    Then User should be in /account/home.jsp menu link page
+
+    And User presses back button
+
+    When User selects Email Preferences from my details dropdown
+    Then User should be in email_preferences.jsp menu link page
+
+    And User presses back button
+
+    When User selects Catalog Preferences from my details dropdown
+    Then User should be in catalog_preferences.jsp menu link page
+
+    And User presses back button
+
+    When User selects Payment Methods from my details dropdown
+    Then User should be in payment_info.jsp menu link page
+
+    And User presses back button
+
+    When User selects Gift Card Balance from my details dropdown
+    Then User should be in checkout/giftcard_balance1.jsp menu link page
+
+    And User presses back button
+
+
+    When User selects Address Book from my details dropdown
+    Then User should be in address_book.jsp menu link page
+
+    And User presses back button
+
+    When User selects Order History from my details dropdown
+    Then User should be in reg_user_order_history.jsp menu link page
+
+    And User presses back button
+
+    When User selects My Wishlist from my details dropdown
+    Then User should be in /wishlist menu link page
+    And User presses back button
+
+    And User presses back button
+    And User navigates to my detail form
+
+
+    And Verify J.Crew Card Rewards Status reward link for <userType> user in My details dropdown
+
+    When User selects Sign Out from my details dropdown
+    Then Verify user is in homepage
+
+    Examples:
+      |country_group |userType |
+      |PRICEBOOK     |noLoyalty|
+      |NONPRICEBOOK  |loyalty  |

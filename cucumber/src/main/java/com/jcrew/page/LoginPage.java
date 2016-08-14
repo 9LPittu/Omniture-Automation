@@ -163,7 +163,7 @@ public class LoginPage {
             	password = reader.getProperty("checkout.signed.in.password");
         	}
         }
-        
+        stateHolder.put("sidecarusertype", userType);
         input_as_email(username);
         input_as_password(password);
     }
