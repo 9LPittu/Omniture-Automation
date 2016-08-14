@@ -63,7 +63,7 @@ Feature: International Country Context - Part 1
     And User is in My Account home page
     And user should see selected country in the footer
 
-    And Verify J.Crew Card Rewards Status link not displayed in My Account Page
+    And Verify J.Crew Card Rewards Status reward link for loyalty user in My account page
 
     When User clicks on MY DETAILS link in My Account Page
     And User should be in /r/account/details menu link page

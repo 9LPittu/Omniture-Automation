@@ -63,16 +63,17 @@ Feature: My Account Page
     And User presses back button
     And User is in My Account home page
 
-    And Validate J.Crew Card Rewards Status link <isRewards> in My Account Page
+
+    And Verify J.Crew Card Rewards Status reward link for <userType> user in My account page
 
     And User presses back button
     When User clicks on SIGN OUT link in My Account Page
     Then Verify user is in homepage
 
     Examples:
-      |userType |isRewards    |
-      |noLoyalty|notVisible   |
-      |loyalty  |visible      |
+      |userType |
+      |noLoyalty|
+      |loyalty  |
 
   Scenario: Verify left nav link rewards is functional for loyalty user in myaccount page
     And User provides loyalty login information

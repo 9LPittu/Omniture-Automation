@@ -79,6 +79,17 @@ public class MyAccountPage {
         return menuLink;
     }
 
+    public boolean verifyRewardLink(String link, String userType) {
+        boolean expected = false;
+        Country c = (Country) stateHolder.get("context");
+
+        if (userType.equalsIgnoreCase(UsersHub.LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())))
+            expected = true;
+
+        return expected == isMenuLinkPresent(link);
+
+    }
+
     public void click_menu_link(String link) {
         WebElement menu;
 

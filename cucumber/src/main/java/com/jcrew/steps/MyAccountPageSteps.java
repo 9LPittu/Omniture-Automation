@@ -26,9 +26,9 @@ public class MyAccountPageSteps extends DriverFactory {
     }
 
 
-    @And("Verify ([^\"]*) link not displayed in My Account Page")
-    public void verify_link_displayed_on_myAccount_page(String link) {
-        assertFalse(link + " link is not visible for user ", myAccountPage.isMenuLinkPresent(link));
+    @And("Verify ([^\"]*) reward link for ([^\"]*) user in My account page")
+    public void reward_link_displayed_in_dropdown_for_user(String link, String userType) {
+        assertTrue(link + " link displayed for user type " + userType, myAccountPage.verifyRewardLink(link, userType));
     }
 
     @Then("^User clicks on ([^\"]*) link in My Account Page$")
