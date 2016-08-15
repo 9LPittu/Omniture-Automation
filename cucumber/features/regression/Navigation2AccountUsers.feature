@@ -1,4 +1,4 @@
-@AccountDev @HighLevel
+@Account @HighLevel
 Feature: My Account Page
 
   Background:
