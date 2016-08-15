@@ -3,6 +3,7 @@ Feature: Shoppable Tray
 
   Background: Navigate to a multiple pdp page in any category
     Given User is on homepage
+    And Handle the Email Capture pop up
     And User clicks on hamburger menu
     And User selects random tray from available categories
       | Women | THIS MONTH'S FEATURES | looks we love  |
