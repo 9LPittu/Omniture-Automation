@@ -267,6 +267,10 @@ public class StartingSteps {
             try {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
+
+                String log = Util.logBrowserErrors(driver);
+                scenario.embed(log.getBytes(), "text/plain");
+
                 deletes_browser_cookies();
             } catch (RuntimeException e) {
                 logger.error("An exception happened when taking step screenshot after scenario", e);
