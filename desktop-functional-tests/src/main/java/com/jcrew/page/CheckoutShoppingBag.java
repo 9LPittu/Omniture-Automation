@@ -192,6 +192,7 @@ public class CheckoutShoppingBag extends Checkout {
 
         WebElement priceElement = firstItemInBag.findElement(By.className("item-price"));
         String actualPrice = priceElement.getText().trim();
+        actualPrice = actualPrice.replaceAll("[^0-9.,]", "");
 
         List<WebElement> descriptionElements = firstItemInBag.findElements(By.className("item-label"));
 

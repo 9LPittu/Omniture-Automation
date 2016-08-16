@@ -5,22 +5,28 @@ Feature: Guest user is able to checkout
     Given User goes to homepage
     And User closes email capture
     When User opens menu
-    And User clicks on Clothing in drawer
-    And User selects random item from submenu
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
+	And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
 
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    And User clicks bag in header
+    When User clicks in bag
+
     Then Verify products added matches with products in bag
     And Verify all products have edit and remove buttons
     And Verify bag has a promo code section
     And Verify bag has a gift card section
     And Verify bag has a order summary section
     And Verify bag has a paypal button
-    And Verify bag has a help section with phone 1 866 544 1937 for questions
+    And Verify bag has a help section with phone 800 562 0258 for questions
 
     When User fills zip code field with 10003
     Then Verify estimated tax is populated
@@ -38,8 +44,8 @@ Feature: Guest user is able to checkout
     And Verify that this shipping methods are available including Thursday cut
       | method                                       | price  | text                                                              | thursday |
       | Economy via UPS SurePost (6-8 business days) | FREE   | Your order will be delivered by the United States Postal Service. | false    |
-      | Standard (3-6 business days)                 | $5.00  |                                                                   | false    |
-      | Expedited (2-3 Business days)                | $15.00 |                                                                   | false    |
+      | Standard (3-6 business days)                 | $8.00  |                                                                   | false    |
+      | Expedited (2-3 business days)                | $20.00 |                                                                   | false    |
       | Overnight (1-2 business days)                | $25.00 | Orders must be placed by 11am ET M-Th. more info                  | false    |
       | Saturday Delivery                            | $35.00 |                                                                   | true     |
     And Verify Shipping Options Page contains gift option section
@@ -51,8 +57,10 @@ Feature: Guest user is able to checkout
     Then Verify Billing page is displayed
     And Verify available payment methods from list
       | Credit/Debit Card |
-      | PayPal            |
+      | PayPal            |      
+      | MasterPass		  |
     And Verify accepted cards from list
+      | jccc |
       | visa |
       | mc   |
       | amex |

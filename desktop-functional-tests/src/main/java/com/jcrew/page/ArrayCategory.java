@@ -56,6 +56,18 @@ public class ArrayCategory extends Array{
     }
     public void selectRandomProduct() {
         selectRandomProduct(productList);
+        
+        try{
+        	 WebElement errorMessageElement = Util.createWebDriverWait(driver, 2).until(ExpectedConditions.visibilityOfElementLocated(
+        								By.xpath("//div[@class='c-inline-error']")));
+        	 logger.info("Handling oops error message ...");
+        	 errorMessageElement.findElement(By.linkText("retry")).click();
+        	 Util.waitLoadingBar(driver);
+        	 
+        }
+        catch(Exception e){
+        	logger.info("Oops error message is not displayed");
+        }
     }
 
     public boolean isRefineDropdownDisplayed() {

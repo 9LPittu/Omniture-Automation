@@ -122,6 +122,9 @@ public class HeaderWrap {
         }
 
         searchForSpecificTerm(searchItem);
+        
+        ArraySearch searchArray = new ArraySearch(driver);
+        searchArray.selectRandomProduct();
     }
 
     public void searchForSpecificTerm(String searchTerm) {
@@ -129,6 +132,7 @@ public class HeaderWrap {
         search.click();
         WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
         WebElement searchInput = searchHeader.findElement(By.xpath(".//input[contains(@class,'js-header__search__input')]"));
+        searchInput.clear();
         searchInput.sendKeys(searchTerm);
         WebElement searchButton = searchHeader.findElement(By.xpath(".//a[contains(@class, 'js-header__search__button')]"));
         searchButton.click();

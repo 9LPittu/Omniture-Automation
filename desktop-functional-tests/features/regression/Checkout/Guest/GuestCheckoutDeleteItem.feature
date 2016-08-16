@@ -7,24 +7,31 @@ Feature: User is able to remove item from shopping bag during Guest checkout
     
     #Add Item 1 to bag
     When User opens menu
-    And User clicks on Clothing in drawer
-    And User selects random item from submenu
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
+    And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
     
     #Add Item 2 to bag
     When User opens menu
-    And User selects random item from submenu
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
     
-    And User clicks bag in header
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
+
+    When User clicks in bag
+
     Then Verify shopping bag is displayed
     Then Verify products added matches with products in bag
     

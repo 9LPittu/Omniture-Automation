@@ -121,8 +121,13 @@ public class CheckoutBillingSteps extends DriverFactory {
 
         int subtotalInt = Integer.parseInt(subtotal);
         int promoInt = Integer.parseInt(promo) * 10;
+        
+        boolean result = false;
+        if(subtotalInt==promoInt || (subtotalInt + 0.001)==promoInt){
+        	result = true;
+        }
 
-        assertEquals("Promo was applied correctly", subtotalInt, promoInt);
+        assertTrue("Promo was applied correctly", result);
     }
 
     @When("^User adds new billing address$")

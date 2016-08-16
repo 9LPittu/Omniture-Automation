@@ -170,6 +170,9 @@ public class UserNavigationSteps extends DriverFactory {
         }
     }
 
-
-
+    @When("^User navigates to product ([^\"]*) with multiple colors and multiple sizes$")
+    public void search_product_from_reading_testdata(String sequenceNum) {
+        HeaderWrap header = new HeaderWrap(getDriver());
+        header.searchFor(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
+    }
 }

@@ -72,6 +72,9 @@ public class ProductDetails extends PageObject{
     private WebElement product__details;    
     @FindBy(className = "c-product__description")
     private WebElement productDetailsSection;
+    
+    @FindBy(xpath = "//button[@id='btn__add-to-bag' and text()='Update Bag']")
+    private WebElement updateBagButton;
 
     public ProductDetails(WebDriver driver) {
         super(driver);
@@ -120,12 +123,12 @@ public class ProductDetails extends PageObject{
         }
     }
 
-    private String getSelectedColor() {
+    public String getSelectedColor() {
         WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
         return selectedColor.getAttribute("data-name");
     }
 
-    private String getSelectedSize() {
+    public String getSelectedSize() {
         WebElement selectedSize = sizes.findElement(
                 By.xpath(".//li[contains(@class,'js-product__size') and contains(@class,'is-selected')]"));
         return selectedSize.getAttribute("data-name");
@@ -271,6 +274,12 @@ public class ProductDetails extends PageObject{
         thisProduct.setSelectedSize(getSelectedSize());
 
         stateHolder.put("recentlyAdded", thisProduct);
+        
+        stateHolder.addToList("toBag", getProduct());
+        stateHolder.addToList("editedItem", getProduct());
+
+        int itemsInBag = headerWrap.getItemsInBag();
+        stateHolder.put("itemsInBag", itemsInBag);
 
         Util.clickWithStaleRetry(addToBag);
     }
@@ -518,9 +527,11 @@ public class ProductDetails extends PageObject{
     	WebElement productCodeElement = null;
     	try{
     		
-    		WebElement productDetailsAccordion = Util.createWebDriverWait(driver).until(
-    				ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details')]/div/div")));    		
-    		productDetailsAccordion.click();
+    		//Currently the accordion is displayed in expanded mode in desktop. So, commenting the below code
+    		//When PDP size and Fit is available, then the below code will be uncommented.
+    		//WebElement productDetailsAccordion = Util.createWebDriverWait(driver).until(
+    		//		ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details')]/div/div")));    		
+    		//productDetailsAccordion.click();
     		
     		productCodeElement = Util.createWebDriverWait(driver,30).until(
                     ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
@@ -538,5 +549,10 @@ public class ProductDetails extends PageObject{
     	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
     	productCodeText = productCodeText.replace(".", "").toUpperCase();
     	return productCodeText;
+    }
+    
+    public boolean isUpdateBagButtonDisplayed() {
+        updateBagButton = wait.until(ExpectedConditions.visibilityOf(updateBagButton));
+        return updateBagButton.isDisplayed();
     }
 }

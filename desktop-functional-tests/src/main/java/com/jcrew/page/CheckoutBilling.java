@@ -58,14 +58,14 @@ public class CheckoutBilling extends Checkout {
         TestDataReader testData = TestDataReader.getTestDataReader();
         User checkoutUSer;
 
-        creditCardNumber.sendKeys(testData.getData("credit.card.number"));
-        secuirtyCode.sendKeys(testData.getData("credit.card.cvv"));
+        creditCardNumber.sendKeys(testData.getData("card.number"));
+        secuirtyCode.sendKeys(testData.getData("card.cvv"));
 
         Select month = new Select(expirationMonth);
-        month.selectByVisibleText(testData.getData("credit.card.month"));
+        month.selectByVisibleText(testData.getData("card.month"));
 
         Select year = new Select(expirationYear);
-        year.selectByVisibleText(testData.getData("credit.card.year"));
+        year.selectByVisibleText(testData.getData("card.year"));
 
         if (isGuest) {
             checkoutUSer = User.getFakeUser();

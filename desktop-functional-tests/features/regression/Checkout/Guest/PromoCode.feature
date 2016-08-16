@@ -5,15 +5,20 @@ Feature: Guest user is able to checkout with promo code
     Given User goes to homepage
     And User closes email capture
     When User opens menu
-    And User clicks on Clothing in drawer
-    And User selects random item from submenu
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
+    And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
 
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    And User clicks bag in header
+    When User clicks in bag
     Then Verify products added matches with products in bag
 
     When User clicks in CHECK OUT NOW button
@@ -30,7 +35,7 @@ Feature: Guest user is able to checkout with promo code
     Then Verify Billing page is displayed
 
     When User adds a promo code Test-invalid in Payment Method page
-    Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 866.544.1937 for help.
+    Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 800 562 0258 for help.
 
     When User adds a promo code Test-10p in Payment Method page
     Then Verify promo details contains: 10% off (no min)

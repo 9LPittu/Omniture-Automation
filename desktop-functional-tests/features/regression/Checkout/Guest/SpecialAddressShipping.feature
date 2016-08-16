@@ -5,15 +5,20 @@ Feature: Expected Shipping Options for special addresses
     Given User goes to homepage
     And User closes email capture
     When User opens menu
-    And User clicks on Clothing in drawer
-    And User selects random item from submenu
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
+     And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
 
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    And User clicks bag in header
+    When User clicks in bag
     Then Verify products added matches with products in bag
 
     When User clicks in CHECK OUT NOW button
@@ -24,4 +29,4 @@ Feature: Expected Shipping Options for special addresses
     Then Verify Shipping And Gift Options page is displayed
     And Verify that this shipping methods are available including Thursday cut
       | method                      | price | text | thursday |
-      | Economy (6-8 business Days) | FREE  |      | false    |
+      | Economy (6-8 business days) | FREE  |      | false    |
