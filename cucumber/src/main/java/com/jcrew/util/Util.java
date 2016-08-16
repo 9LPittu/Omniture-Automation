@@ -204,4 +204,20 @@ public class Util {
         else
             return DEFAULT_TIMEOUT;
     }
+
+    public static String logBrowserErrors(WebDriver driver) {
+        Logs errorlog = driver.manage().logs();
+        LogEntries errors = errorlog.get(LogType.BROWSER);
+        String errorMessage = "";
+
+        for (LogEntry error : errors) {
+            logger.error("Browser logs {}", error.getMessage());
+            errorMessage += error.getMessage() + "\n";
+        }
+
+        if(!errorMessage.isEmpty())
+            errorMessage = "Browser log: \n" + errorMessage;
+
+        return errorMessage;
+    }
 }
