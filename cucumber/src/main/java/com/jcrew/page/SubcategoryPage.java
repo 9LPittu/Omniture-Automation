@@ -396,6 +396,7 @@ public class SubcategoryPage {
             xpath = "//span[text()='" + product +
                     "' and contains(@class, 'tile__detail--name')]";
         }
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productGrid));
         WebElement productInTile = productGrid.findElement(By.xpath(xpath));
 
         return productInTile.isDisplayed();
