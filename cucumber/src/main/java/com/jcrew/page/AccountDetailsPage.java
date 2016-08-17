@@ -80,7 +80,6 @@ public class AccountDetailsPage {
     public boolean verifyRewardLink(String link, String userCategory) {
         boolean expected = false;
         Country c = (Country) stateHolder.get("context");
-
         if (userCategory.equalsIgnoreCase(UsersHub.CAT_LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())))
             expected = true;
 
@@ -93,8 +92,6 @@ public class AccountDetailsPage {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavSection));
         try {
             WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
-            //openMyDetailsList(navList);
-            navList.click();
             navList.findElement(By.xpath("//li[contains(text(), '" + link + "')]"));
             return true;
         } catch (Exception e) {
@@ -117,9 +114,6 @@ public class AccountDetailsPage {
         boolean ifOtherCountries = !(link.equalsIgnoreCase("GIFT CARD BALANCE") || link.equalsIgnoreCase("CATALOG PREFERENCES"));
         if ((("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry()) || ifOtherCountries) && testRewardVisible) {
             WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
-          //  openMyDetailsList(navList);
-            navList.click();
-
             WebElement item = navList.findElement(By.xpath("//li[contains(text(), '" + link + "')]"));
 
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", item);
@@ -234,23 +228,5 @@ public class AccountDetailsPage {
         }
         return formElement;
     }
-/*
-    private void openMyDetailsList(WebElement navList) {
-        int attempts = 0;
-        boolean success = false;
 
-        while (attempts <= 2 && !success) {
-            try {
-                navList.click();
-                Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(navList));
-                if (navList.getAttribute("style").contains("block")) {
-                    success = true;
-                }
-            } catch (Exception exception) {
-                logger.debug("Exception while trying to open list box");
-            }
-            attempts++;
-        }
-    }
-*/
 }
