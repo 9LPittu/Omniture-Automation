@@ -3,6 +3,7 @@ Feature: Global Header: Breadcrumbs
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
 
   #US9724_TC02
   Scenario Outline: Validate J crew logo display and functionality on Department/Gender Landing Pages

@@ -74,7 +74,8 @@ public class HomePageSteps extends DriverFactory {
 
      @And("Handle the Email Capture pop up$")
      public void handle_email_pop_up() {
-         homePage.handle_email_pop_up();
+         if(!reader.getProperty("browser").equalsIgnoreCase("phantomjs"))
+            homePage.handle_email_pop_up();
      }
 
 

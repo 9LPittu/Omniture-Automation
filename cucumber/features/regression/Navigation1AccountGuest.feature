@@ -5,11 +5,11 @@ Feature: Sign In Page
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
     And Goes to sign in page
+    Then Login page is loaded
 
   @HighLevel
   Scenario: Error message validation for incorrect email and password
-    When Login page is loaded
-    And User enters invalid as email
+    When User enters invalid as email
     And Changes focus to password field
     Then An error message saying Please enter a valid email address. should appear
     And Sign in button should be deactivated
@@ -20,8 +20,8 @@ Feature: Sign In Page
    #US9890: Account Register and Errors
   #US9890_TC01 to US9890_TC05
   Scenario: Validate create an account section
-    Then Breadcrumb should display J.Crew
-    And Clicks on J.Crew Breadcrumb
+    And Breadcrumb should display J.Crew
+    When Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
     And User presses back button
     And Registration benefits copy is displayed as Three reasons why you should: Quick checkout, shareable wishlists and easy order tracking.
@@ -37,7 +37,7 @@ Feature: Sign In Page
 
   #US9890_TC04 (step 5)
   Scenario Outline: Validate error message display when invalid or null email address is given
-    And Enter tester as First Name in create account section
+    When Enter tester as First Name in create account section
     And Enter automation as Last Name in create account section
     And Enter <emailinput> as Email in create account section
     And Enter Jcrewtest as Password in create account section
@@ -50,7 +50,7 @@ Feature: Sign In Page
 
 
   Scenario: Validate error message display when existing email address is given
-    And Enter tester as First Name in create account section
+    When Enter tester as First Name in create account section
     And Enter automation as Last Name in create account section
     And Enter test2@test.com as Email in create account section
     And Enter Jcrewtest as Password in create account section
@@ -89,7 +89,7 @@ Feature: Sign In Page
   #Not working as expected at present----in reference to JCSC-864
   # changed the implementation to verify we land in home page after creating account
   Scenario: create new account from pdp page
-    And User clicks on hamburger menu
+    When User clicks on hamburger menu
     And user selects any category from hamburger menu
 	And user selects any subcategory
     And Selects the first product from product grid list
