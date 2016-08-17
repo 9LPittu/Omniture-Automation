@@ -175,4 +175,9 @@ public class UserNavigationSteps extends DriverFactory {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
     }
+    
+    @When("This script cleans bag for current user")
+    public void clean_bag_for_current_user() {
+    	navigation.clearBag();
+    }
 }

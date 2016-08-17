@@ -1,7 +1,9 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.pojo.Product;
 import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
@@ -27,6 +29,7 @@ public class HeaderWrap {
 
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(HeaderWrap.class);
+    public final StateHolder stateHolder = StateHolder.getInstance();
     private final WebDriverWait wait;
     private final Actions hoverAction;
 
@@ -213,7 +216,18 @@ public class HeaderWrap {
         hoverOverIcon("my account");
         dropdown = userPanel.findElement(By.tagName("dl"));
         WebElement optionElement = dropdown.findElement(By.linkText(option));
+        
+        String url = driver.getCurrentUrl();
         optionElement.click();
+        Util.waitLoadingBar(driver);
+        
+        if("sign out".equalsIgnoreCase(option)) {
+			List<Product> bag = stateHolder.getList("toBag");
+            stateHolder.put("userBag", bag);
+            stateHolder.remove("toBag");
+
+            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        }
     }
 
     public boolean isSignInVisible() {
@@ -285,5 +299,10 @@ public class HeaderWrap {
         cartSizeText = cartSizeText.replaceAll("[^0-9]", "");
 
         return Integer.parseInt(cartSizeText);
+    }
+    
+    public boolean isLogoVisible() {
+        WebElement logo = global_header.findElement(By.className("c-header__logo"));
+        return logo.isDisplayed();
     }
 }

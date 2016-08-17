@@ -60,7 +60,10 @@ public class CheckoutSignIn extends Checkout {
     
     public void enterLoginCredentials(String emailAddress, String password){
     	
+    	loginUser.clear();
     	loginUser.sendKeys(emailAddress);
+    	
+    	loginPassword.clear();
         loginPassword.sendKeys(password);
 
         String url = driver.getCurrentUrl();

@@ -104,4 +104,9 @@ public class HeaderWrapSteps extends DriverFactory {
 
         assertTrue("Page contains " + allowedOptions + " or less Options in topnav", options.size() <= allowedOptions);
     }
+    
+    @Then("Verify jcrew logo is visible")
+    public void is_logo_visible() {
+        header.isLogoVisible();
+    }
 }

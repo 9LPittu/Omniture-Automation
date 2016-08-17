@@ -11,10 +11,11 @@ import java.util.Properties;
 public class UsersHub {
     private static UsersHub usersHub;
     private final Logger logger = LoggerFactory.getLogger(UsersHub.class);
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();
     private final DatabaseReader databaseReader = new DatabaseReader();
     private static final PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    String environment = propertyReader.getProperty("environment").toLowerCase();
+    String environment = propertyReader.getProperty("environment").toLowerCase();    
     private User user = null;
     Connection conn;
 
@@ -89,6 +90,33 @@ public class UsersHub {
 
         return numOfRecords;
     }
+    
+    private int getAvailableUsersCount(String userType, String addressType) throws SQLException{
+		
+		String getUsersCountSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS "
+										+ "where brand='jcrew' and Environment='"  + environment 
+										+ "' and Allocation = 'N'" + getUserAddressWhereClause(userType, addressType);
+		
+		ResultSet rs = null;
+		rs = executeSQLQuery(getUsersCountSQLQuery);
+		
+		int numOfRecords = 0;
+		if(rs!=null){
+			try {
+				while(rs.next()){
+				  numOfRecords = Integer.parseInt(rs.getString(1));
+				  break;
+				}
+			}
+			catch (Exception e) {
+				throw new SQLException("Exception occurred when retrieving records count from DB..." + e.getMessage());
+			}
+		}
+			
+		logger.info("# of users currently available for '{}' environment: {}", environment.toLowerCase(), numOfRecords);
+		
+		return numOfRecords;
+	}
 
     public synchronized User getUser() throws SQLException {
 
@@ -115,6 +143,43 @@ public class UsersHub {
         closeDBConnection();
         return user;
     }
+    
+    public synchronized void retrieveUserCredentialsFromDBAndStoreInMap(String userType, String addressType) throws SQLException{
+		if(getAvailableUsersCount(userType, addressType) > 0){
+			String getUserCredentialsSQLQuery = "select username, userpassword, firstname from JCINT2_CUSTOM.SIDECARQAUSERS "
+										+ "where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'"
+										+ getUserAddressWhereClause(userType, addressType);
+			
+			ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
+			if(rs!=null){
+				try {
+					while(rs.next()){
+						stateHolder.put("sidecarusername", rs.getString(1));
+						logger.info("Current available username for '{}' environment: {}", environment, rs.getString(1));
+						stateHolder.put("sidecaruserpassword", rs.getString(2));
+						stateHolder.put("sidecaruserfirstname", rs.getString(3));
+						break;
+					}
+				}
+				catch (SQLException e) {
+					throw new SQLException("Exception occurred when retrieving user credentials from DB..." + e.getMessage());					
+				}
+			}
+			
+			String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' "
+								+ "where brand='jcrew' and username='" + stateHolder.get("sidecarusername") + 
+								"' and Environment='"  + environment + "'" + getUserAddressWhereClause(userType, addressType);
+			
+			executeSQLQuery(updateAllocationFlagSQLQuery);
+		}
+		else{
+			logger.error("No username records are available in DB for '" + environment + "' environment");
+			throw new SQLException("No username records are available in DB for '" + environment + "' environment");
+		}
+		
+		closeDBConnection();
+	}
+
 
     public void releaseUserCredentials() {
         if (user != null) {
@@ -137,4 +202,18 @@ public class UsersHub {
         conn = null;
         logger.info("DB connection is closed...");
     }
+    
+    public String getUserAddressWhereClause(String userType, String addressType){
+		String whereClause = "";
+		
+		if(!userType.isEmpty()){
+			whereClause += " and " + "usertype='" + userType + "'";
+		}
+		
+		if(!addressType.isEmpty()){
+			whereClause += " and " + "addresstype='" + addressType + "'";
+		}
+		
+		return whereClause;
+	}
 }

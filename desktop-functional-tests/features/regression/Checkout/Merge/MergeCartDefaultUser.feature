@@ -4,40 +4,49 @@ Feature: Default user gets confirmation to merge cart
   Background: Clean bag for user
     Given User goes to homepage
     And User closes email capture
-    When User opens menu
-    And User clicks user button SIGN IN TO MY ACCOUNT in drawer
-    And User fills form and signs in
-    And This script cleans bag for current user
+    When User clicks on sign in using header
+    And User fills form and signs in    
+    And This script cleans bag for current user    
     And User goes to homepage
 
     When User opens menu
-    And User clicks on Clothing in drawer
-    And User selects random item from submenu
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
-
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    And User clicks on menu
-    When User goes back in drawer
-    And User clicks user button My Account in drawer
-    And User signs out
+    And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size
+    And User adds product to bag
+    
+    And User signs out using header
 
   Scenario: User checks out only with recently added products
     Given User goes to homepage
     When User opens menu
-    And User clicks on Clothing in drawer
-    And User clicks on Tees & More in drawer
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
-
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    And User clicks bag in header
+    And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size
+    And User adds product to bag
+    
+    When User clicks in bag
+    
     And User clicks in CHECK OUT NOW button
+    
     And User signs in and checks out
+    
     Then Verify user is in Merge Cart page
     And Verify user is welcome to Merge Cart page
     And Verify 'Save to Wishlist & Continue' button is available in Merge Cart Page    
@@ -60,16 +69,23 @@ Feature: Default user gets confirmation to merge cart
   Scenario: User checks out with a merged bag
     Given User goes to homepage
     When User opens menu
-    And User clicks on Clothing in drawer
-    And User clicks on Tees & More in drawer
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
-
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    And User clicks bag in header
+    And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size
+    And User adds product to bag
+    
+    When User clicks in bag
+    
     And User clicks in CHECK OUT NOW button
+    
     And User signs in and checks out
     Then Verify user is in Merge Cart page
     And Verify user is welcome to Merge Cart page
@@ -79,7 +95,7 @@ Feature: Default user gets confirmation to merge cart
 
     When User clicks Add items to bag & Review Order
     Then Verify shopping bag is displayed
-    And Verify madewell logo is visible
+    And Verify jcrew logo is visible    
     And Verify that title is Shopping Bag
     And Verify products added matches with products in bag
 
