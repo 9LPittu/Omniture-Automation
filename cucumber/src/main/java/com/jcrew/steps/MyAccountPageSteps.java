@@ -27,8 +27,8 @@ public class MyAccountPageSteps extends DriverFactory {
 
 
     @And("Verify ([^\"]*) reward link for ([^\"]*) user in My account page")
-    public void reward_link_displayed_in_dropdown_for_user(String link, String userType) {
-        assertTrue(link + " link displayed for user type " + userType, myAccountPage.verifyRewardLink(link, userType));
+    public void reward_link_displayed_in_dropdown_for_user(String link, String userCategory) {
+        assertTrue(link + " link displayed for user category " + userCategory, myAccountPage.verifyRewardLink(link, userCategory));
     }
 
     @Then("^User clicks on ([^\"]*) link in My Account Page$")

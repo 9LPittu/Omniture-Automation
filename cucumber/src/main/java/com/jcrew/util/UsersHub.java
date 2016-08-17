@@ -19,8 +19,8 @@ public class UsersHub {
     private static final PropertyReader propertyReader = PropertyReader.getPropertyReader();
     Connection conn;
     String environment = propertyReader.getProperty("environment").toLowerCase();
-    public static final String LOYALTY = "loyalty";
-    public static final String NO_LOYALTY = "noLoyalty";
+    public static final String CAT_LOYALTY = "loyalty";
+    public static final String CAT_NO_LOYALTY = "noLoyalty";
 
     private UsersHub() {
 
@@ -65,8 +65,8 @@ public class UsersHub {
         return rs;
     }
 
-    private int getAvailableUsersCount(String getUsersCountSQLQuery) throws SQLException, ClassNotFoundException {
-        ResultSet rs = executeSQLQuery(getUsersCountSQLQuery);
+    private int getAvailableUsersCount(String userCategory) throws SQLException, ClassNotFoundException {
+        ResultSet rs = executeSQLQuery(getQuery("count", userCategory));
         int numOfRecords = 0;
         if (rs != null) {
             while (rs.next()) {
@@ -80,7 +80,7 @@ public class UsersHub {
         return numOfRecords;
     }
 
-    private String getQueryFromUserType(String queryType, String userType) {
+    private String getQuery(String queryType,String userCategory) throws ClassNotFoundException {
         String getUserSQLQuery;
         if (queryType.equalsIgnoreCase("count")) {
             getUserSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
@@ -88,23 +88,23 @@ public class UsersHub {
         else {
             getUserSQLQuery = "select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
         }
-        switch (userType) {
-            case UsersHub.LOYALTY:
-                getUserSQLQuery = getUserSQLQuery + " and usertype = '"+UsersHub.LOYALTY+"'";
+        switch (userCategory) {
+            case UsersHub.CAT_LOYALTY:
+                getUserSQLQuery = getUserSQLQuery + " and usercategory = '"+UsersHub.CAT_LOYALTY+"'";
                 break;
-            case UsersHub.NO_LOYALTY:
-                getUserSQLQuery = getUserSQLQuery + " and usertype = '"+UsersHub.NO_LOYALTY+"'";
+            case UsersHub.CAT_NO_LOYALTY:
+                getUserSQLQuery = getUserSQLQuery + " and usercategory = '"+UsersHub.CAT_NO_LOYALTY+"'";
                 break;
             default:
-                getUserSQLQuery = getUserSQLQuery + " and userType is null";
+                getUserSQLQuery = getUserSQLQuery + " and usercategory is null";
                 break;
         }
         return getUserSQLQuery;
     }
 
-    public void retrieveUserCredentialsFromDBAndStoreInMap(String userType) throws SQLException, ClassNotFoundException {
-        if (getAvailableUsersCount(getQueryFromUserType("count", userType)) > 0) {
-            ResultSet rs = executeSQLQuery(getQueryFromUserType("extract", userType));
+    public void retrieveUserCredentialsFromDBAndStoreInMap(String userCategory) throws SQLException, ClassNotFoundException {
+        if (getAvailableUsersCount(userCategory) > 0) {
+            ResultSet rs = executeSQLQuery(getQuery("extract", userCategory));
             if (rs != null) {
                 while (rs.next()) {
                     stateHolder.put("sidecarusername", rs.getString(1));

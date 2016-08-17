@@ -22,7 +22,7 @@ Feature: My Account Page
 
   #US9724_TC16: Validate no breadcrumbs are displayed on Account related pages
   Scenario Outline: Verify left nav links in account page
-    And User provides <userType> login information
+    And User provides <userCategory> category login information
     And Check box is enabled
     And Hits sign in button
     And User is in My Account home page
@@ -64,19 +64,19 @@ Feature: My Account Page
     And User is in My Account home page
 
 
-    And Verify J.Crew Card Rewards Status reward link for <userType> user in My account page
+    And Verify J.Crew Card Rewards Status reward link for <userCategory> user in My account page
 
     And User presses back button
     When User clicks on SIGN OUT link in My Account Page
     Then Verify user is in homepage
 
     Examples:
-      |userType |
+      |userCategory |
       |noLoyalty|
       |loyalty  |
 
   Scenario: Verify left nav link rewards is functional for loyalty user in myaccount page
-    And User provides loyalty login information
+    And User provides loyalty category login information
     And Check box is enabled
     And Hits sign in button
     And User is in My Account home page

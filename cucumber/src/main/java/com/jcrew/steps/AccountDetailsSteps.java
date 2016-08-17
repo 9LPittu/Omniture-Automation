@@ -53,8 +53,8 @@ public class AccountDetailsSteps extends DriverFactory {
     }
 
     @And("Verify ([^\"]*) reward link for ([^\"]*) user in My details dropdown")
-    public void reward_link_displayed_in_dropdown_for_user(String link, String userType) {
-        assertTrue(link + " link displayed for user type " + userType, accountDetailsPage.verifyRewardLink(link, userType));
+    public void reward_link_displayed_in_dropdown_for_user(String link, String userCategory) {
+        assertTrue(link + " link displayed for user category " + userCategory, accountDetailsPage.verifyRewardLink(link, userCategory));
     }
 
     @And("Verify birth field is ([^\"]*)")

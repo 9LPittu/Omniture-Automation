@@ -138,7 +138,7 @@ public class LoginPage {
     public void enter_valid_username_and_password(){
         enter_valid_username_and_password("");
     }
-    public void enter_valid_username_and_password(String userType) {
+    public void enter_valid_username_and_password(String userCategory) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         PropertyReader reader = PropertyReader.getPropertyReader();
         
@@ -152,7 +152,7 @@ public class LoginPage {
         	try{
         		if(!stateHolder.hasKey("sidecarusername")){
             		UsersHub userHub = UsersHub.getUsersHubInstance();
-            		userHub.retrieveUserCredentialsFromDBAndStoreInMap(userType);
+            		userHub.retrieveUserCredentialsFromDBAndStoreInMap(userCategory);
             		
             		username = (String) stateHolder.get("sidecarusername");
                 	password = (String) stateHolder.get("sidecaruserpassword");
@@ -163,7 +163,7 @@ public class LoginPage {
             	password = reader.getProperty("checkout.signed.in.password");
         	}
         }
-        stateHolder.put("sidecarusertype", userType);
+        stateHolder.put("sidecaruserCategory", userCategory);
         input_as_email(username);
         input_as_password(password);
     }

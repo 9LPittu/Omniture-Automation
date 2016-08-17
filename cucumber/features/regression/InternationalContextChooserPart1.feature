@@ -57,7 +57,7 @@ Feature: International Country Context - Part 1
     Then user should land on country specific home page
     And user should see selected country in the footer
     When Goes to sign in page
-    And User provides loyalty login information
+    And User provides loyalty category login information
     And Check box is enabled
     And Hits sign in button
     And User is in My Account home page
@@ -184,7 +184,7 @@ Feature: International Country Context - Part 1
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And Goes to sign in page
-    When User provides <userType> login information
+    When User provides <userCategory> category login information
     And Check box is enabled
     And Hits sign in button
 
@@ -239,12 +239,12 @@ Feature: International Country Context - Part 1
     And User navigates to my detail form
 
 
-    And Verify J.Crew Card Rewards Status reward link for <userType> user in My details dropdown
+    And Verify J.Crew Card Rewards Status reward link for <userCategory> user in My details dropdown
 
     When User selects Sign Out from my details dropdown
     Then Verify user is in homepage
 
     Examples:
-      |country_group |userType |
+      |country_group |userCategory |
       |PRICEBOOK     |noLoyalty|
       |NONPRICEBOOK  |loyalty  |

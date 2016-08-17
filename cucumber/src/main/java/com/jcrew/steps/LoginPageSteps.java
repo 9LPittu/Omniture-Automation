@@ -35,9 +35,11 @@ public class LoginPageSteps extends DriverFactory {
     public void hits_sign_in_button() throws Throwable {
         loginPage.click_sign_in_button();
     }
-    @When("^User provides ([^\"]*) login information$")
-    public void user_provides_login_information(String userType) throws Throwable {
-        loginPage.enter_valid_username_and_password(userType);
+
+
+    @When("^User provides ([^\"]*) category login information$")
+    public void user_provides_login_information(String userCategory) throws Throwable {
+        loginPage.enter_valid_username_and_password(userCategory);
     }
 
     @When("^User provides login information$")

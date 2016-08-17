@@ -79,11 +79,11 @@ public class MyAccountPage {
         return menuLink;
     }
 
-    public boolean verifyRewardLink(String link, String userType) {
+    public boolean verifyRewardLink(String link, String userCategory) {
         boolean expected = false;
         Country c = (Country) stateHolder.get("context");
 
-        if (userType.equalsIgnoreCase(UsersHub.LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())))
+        if (userCategory.equalsIgnoreCase(UsersHub.CAT_LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())))
             expected = true;
 
         return expected == isMenuLinkPresent(link);
@@ -94,12 +94,12 @@ public class MyAccountPage {
         WebElement menu;
 
         Country c = (Country) stateHolder.get("context");
-        String userType = (String) stateHolder.get("sidecarusertype");
+        String userCategory = (String) stateHolder.get("sidecaruserCategory");
 
         boolean ifReward = link.equalsIgnoreCase("J.Crew Card Rewards Status");
         boolean testRewardVisible = true;
         if (ifReward) {
-            testRewardVisible = ((userType.equalsIgnoreCase(UsersHub.LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
+            testRewardVisible = ((userCategory.equalsIgnoreCase(UsersHub.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
         }
 
 
@@ -115,12 +115,12 @@ public class MyAccountPage {
 
     public boolean isInMenuLinkPage(String page) {
         Country c = (Country) stateHolder.get("context");
-        String userType = (String) stateHolder.get("sidecarusertype");
+        String userCategory = (String) stateHolder.get("sidecaruserCategory");
 
         boolean ifReward = page.contains("rewards");
         boolean testRewardVisible = true;
         if (ifReward) {
-            testRewardVisible = ((userType.equalsIgnoreCase(UsersHub.LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
+            testRewardVisible = ((userCategory.equalsIgnoreCase(UsersHub.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
         }
 
         boolean forOtherCountries = !(page.contains("giftcard") || page.contains("catalog_preferences"));
