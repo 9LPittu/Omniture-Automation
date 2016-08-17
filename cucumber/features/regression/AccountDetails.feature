@@ -11,7 +11,7 @@ Feature: Account details Page validations
     And Enter random last name as Last Name in create account section
     And Enter random email as Email in create account section
     And Enter random password as Password in create account section
-    And selects any country from the country list
+    And United States is selected as default value
     And User clicks on create an account button
     Then Verify user is in homepage
 
