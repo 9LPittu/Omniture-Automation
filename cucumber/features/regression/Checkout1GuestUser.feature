@@ -3,6 +3,7 @@ Feature: Guest User Checkout Process
 
   Background:
     Given User is on homepage with clean session
+    And Handle the Email Capture pop up
     And User bag is cleared
     And User is on homepage
 

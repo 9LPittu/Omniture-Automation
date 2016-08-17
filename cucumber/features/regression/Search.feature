@@ -3,6 +3,7 @@ Feature: Search Regression Suite
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
     And User presses search button
 
     #Repeated

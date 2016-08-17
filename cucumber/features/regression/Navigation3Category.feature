@@ -3,6 +3,7 @@ Feature: Regression Tests Category Feature
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
 

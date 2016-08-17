@@ -3,6 +3,7 @@ Feature: Sale Regression Suite
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
 
