@@ -6,6 +6,7 @@ Feature: Account details Page validations
     And Handle the Email Capture pop up
     And Goes to sign in page
 
+  @HighLevel
   Scenario: Validate drop down in My details form is functional for domestic users
 
     When enter login information on sign in page
@@ -56,6 +57,7 @@ Feature: Account details Page validations
     And User selects Sign Out from my details dropdown
     Then Verify user is in homepage
 
+  @HighLevel
   Scenario: Validate error messages and update details in my details form
     When Enter random first name as First Name in create account section
     And Enter random last name as Last Name in create account section
@@ -104,7 +106,7 @@ Feature: Account details Page validations
     And Verify birth field is disabled
     And Verify 'Better than cake: make sure you are signed up for emails to get a special gift on your big day!' copy displayed
 
-  @HighLevel
+
   Scenario Outline: Validate rewards link is visible only for loyalty user in mydetail page
 
     When User provides <userCategory> category login information

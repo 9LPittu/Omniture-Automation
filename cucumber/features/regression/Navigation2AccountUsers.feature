@@ -20,6 +20,7 @@ Feature: My Account Page
     And Verify BAG header link is displayed
     And Deletes browser cookies
 
+  @HighLevel
   #US9724_TC16: Validate no breadcrumbs are displayed on Account related pages
   Scenario: Verify left nav links in account page
     And User provides <userCategory> category login information
@@ -69,7 +70,7 @@ Feature: My Account Page
 
 
 
-  @HighLevel
+
   Scenario Outline: Verify rewards link in left nav is functional for loyalty user in myaccount page
 
     And User provides <userCategory> category login information
