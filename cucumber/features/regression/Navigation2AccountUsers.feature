@@ -6,19 +6,6 @@ Feature: My Account Page
     And Handle the Email Capture pop up
     And Goes to sign in page
 
-    @wip
-  Scenario: Verify My Account page and sign out
-    When Clicks on JCrew Logo
-    And Verify user is in homepage
-    And User clicks on hamburger menu
-    Then My Account link is present
-    And User clicks on My Account link
-    Then User is in My Account home page
-    When User clicks on SIGN OUT link in My Account Page
-    Then Verify user is in homepage
-    And User is signed out
-    And Verify BAG header link is displayed
-    And Deletes browser cookies
 
   @HighLevel
   Scenario: Verify left nav links in account page
