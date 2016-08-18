@@ -55,7 +55,7 @@ Feature: Global Header: Breadcrumbs
     |gender|category|breadcrumb_text|
     |Women |SWEATERS| J.Crew/Women  |
     |Men   |CASUAL SHIRTS|J.Crew/Men|
-    |Girls |COLLECTIBLE TEES|J.Crew/Girls|
+    |Girls |SKIRTS|J.Crew/Girls|
     |Boys  |SHIRTS          |J.Crew/Boys |
 
     #US9724_TC06--context chooser not available in the application at this time

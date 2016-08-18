@@ -24,6 +24,7 @@ Feature: Sign In Page
     When Clicks on J.Crew Breadcrumb
     And Verify user is in homepage
     And User presses back button
+    And Login page is loaded
     And Registration benefits copy is displayed as Three reasons why you should: Quick checkout, shareable wishlists and easy order tracking.
     And First Name field is displayed in registration section and max 30 characters allowed
     And Last Name field is displayed in registration section and max 30 characters allowed
@@ -97,6 +98,7 @@ Feature: Sign In Page
     And User clicks on hamburger menu
     And User clicks on back link
     And Goes to sign in page from menu
+    And Login page is loaded
     And Enter random first name as First Name in create account section
     And Enter random last name as Last Name in create account section
     And Enter random email as Email in create account section
