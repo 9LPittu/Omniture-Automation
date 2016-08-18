@@ -47,9 +47,6 @@ public class LoginPage {
     @FindBy(xpath = ".//*[@id='frmGuestCheckOut']/descendant::a[text()='Check Out as a Guest']")
     private WebElement checkoutAsGuestButton;
 
-    @FindBy(id = "loginUser")
-    private WebElement emailAddressField;
-
     @FindBy(id = "loginPassword")
     private WebElement passwordField;
 
@@ -254,12 +251,12 @@ public class LoginPage {
     }
 
     public void enterEmailAddressOnSignInPage(String emailAddress) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailAddressField));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
         if (emailAddress.equalsIgnoreCase("any")) {        	
     		PropertyReader reader = PropertyReader.getPropertyReader();
             emailAddress = reader.getProperty("checkout.signed.in.username");
         }
-        emailAddressField.sendKeys(emailAddress);
+        emailInput.sendKeys(emailAddress);
     }
 
     public void enterPasswordOnSignInPage(String password) {
@@ -278,8 +275,8 @@ public class LoginPage {
     		emailAddress = (String) stateHolder.get("sidecarusername");
     		password = (String) stateHolder.get("sidecaruserpassword");
     	}
-    	
-    	emailAddressField.sendKeys(emailAddress);
+
+        emailInput.sendKeys(emailAddress);
     	passwordField.sendKeys(password);
     }
 
