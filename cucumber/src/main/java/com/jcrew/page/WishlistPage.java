@@ -84,6 +84,8 @@ public class WishlistPage {
     }
 
     private WebElement getProductData(String productName) {
+        if (productName.contains("é"))
+            productName = productName.replaceAll("é","&eacute;");
         WebElement data = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@data-itemtitle='" +
                 productName + "']")));
