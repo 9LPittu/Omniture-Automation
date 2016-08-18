@@ -22,7 +22,7 @@ Feature: My Account Page
 
   @HighLevel
   Scenario: Verify left nav links in account page
-    And User provides <userCategory> category login information
+    And User provides login information
     And Check box is enabled
     And Hits sign in button
     And User is in My Account home page

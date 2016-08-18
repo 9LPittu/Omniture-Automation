@@ -9,7 +9,7 @@ Feature: Account details Page validations
   @HighLevel
   Scenario: Validate drop down in My details form is functional for domestic users
 
-    When enter login information on sign in page
+    When User provides login information
     And Check box is enabled
     And Hits sign in button
     Then User is in My Account home page

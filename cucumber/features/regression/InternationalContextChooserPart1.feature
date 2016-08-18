@@ -57,7 +57,7 @@ Feature: International Country Context - Part 1
     Then user should land on country specific home page
     And user should see selected country in the footer
     When Goes to sign in page
-    And enter login information on sign in page
+    And User provides login information
     And Check box is enabled
     And Hits sign in button
     And User is in My Account home page
