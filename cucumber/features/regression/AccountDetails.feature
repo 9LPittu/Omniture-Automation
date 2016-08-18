@@ -1,10 +1,60 @@
-@Account @HighLevel
+@Account
 Feature: Account details Page validations
 
   Background:
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
     And Goes to sign in page
+
+  Scenario: Validate drop down in My details form is functional for domestic users
+
+    When enter login information on sign in page
+    And Check box is enabled
+    And Hits sign in button
+    Then User is in My Account home page
+    And User should be in /account/home.jsp menu link page
+
+    When User clicks on MY DETAILS link in My Account Page
+    Then My Details form should display
+    And User should be in /r/account/details menu link page
+
+    When User selects Home from my details dropdown
+    Then User should be in /account/home.jsp menu link page
+
+    When User presses back button
+    And User selects Email Preferences from my details dropdown
+    Then User should be in email_preferences.jsp menu link page
+
+    When User presses back button
+    And User selects Catalog Preferences from my details dropdown
+    Then User should be in catalog_preferences.jsp menu link page
+
+    When User presses back button
+    And User selects Payment Methods from my details dropdown
+    Then User should be in payment_info.jsp menu link page
+
+    When User presses back button
+    And User selects Gift Card Balance from my details dropdown
+    Then User should be in checkout/giftcard_balance1.jsp menu link page
+
+    When User presses back button
+    And User selects Address Book from my details dropdown
+    Then User should be in address_book.jsp menu link page
+
+    When User presses back button
+    And User selects Order History from my details dropdown
+    Then User should be in reg_user_order_history.jsp menu link page
+
+    When User presses back button
+    And User selects My Wishlist from my details dropdown
+    Then User should be in /wishlist menu link page
+
+    When User presses back button
+    And User presses back button
+
+    And User navigates to my detail form
+    And User selects Sign Out from my details dropdown
+    Then Verify user is in homepage
 
   Scenario: Validate error messages and update details in my details form
     When Enter random first name as First Name in create account section
@@ -54,7 +104,8 @@ Feature: Account details Page validations
     And Verify birth field is disabled
     And Verify 'Better than cake: make sure you are signed up for emails to get a special gift on your big day!' copy displayed
 
-  Scenario Outline: Validate drop down in My details form is functional for domestic users
+  @HighLevel
+  Scenario Outline: Validate rewards link is visible only for loyalty user in mydetail page
 
     When User provides <userCategory> category login information
     And Check box is enabled
@@ -66,49 +117,10 @@ Feature: Account details Page validations
     Then My Details form should display
     And User should be in /r/account/details menu link page
 
-    When User selects Home from my details dropdown
-    Then User should be in /account/home.jsp menu link page
-
-    When User presses back button
-    And User selects Email Preferences from my details dropdown
-    Then User should be in email_preferences.jsp menu link page
-
-    When User presses back button
-    And User selects Catalog Preferences from my details dropdown
-    Then User should be in catalog_preferences.jsp menu link page
-
-    When User presses back button
-    And User selects Payment Methods from my details dropdown
-    Then User should be in payment_info.jsp menu link page
-
-    When User presses back button
-    And User selects Gift Card Balance from my details dropdown
-    Then User should be in checkout/giftcard_balance1.jsp menu link page
-
-    When User presses back button
-    And User selects Address Book from my details dropdown
-    Then User should be in address_book.jsp menu link page
-
-    When User presses back button
-    And User selects Order History from my details dropdown
-    Then User should be in reg_user_order_history.jsp menu link page
-
-    When User presses back button
-    And User selects My Wishlist from my details dropdown
-    Then User should be in /wishlist menu link page
-
-    When User presses back button
-    And User presses back button
-    And User navigates to my detail form
     Then Verify J.Crew Card Rewards Status reward link for <userCategory> user in My details dropdown
 
     When User selects J.Crew Card Rewards Status from my details dropdown
     Then User should be in /r/account/jccc-rewards menu link page
-
-    When User presses back button
-    And User navigates to my detail form
-    And User selects Sign Out from my details dropdown
-    Then Verify user is in homepage
 
     Examples:
       |userCategory |

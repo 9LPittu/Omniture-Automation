@@ -1,4 +1,4 @@
-@Account @HighLevel
+@Account
 Feature: My Account Page
 
   Background:
@@ -21,7 +21,7 @@ Feature: My Account Page
     And Deletes browser cookies
 
   #US9724_TC16: Validate no breadcrumbs are displayed on Account related pages
-  Scenario Outline: Verify left nav links in account page
+  Scenario: Verify left nav links in account page
     And User provides <userCategory> category login information
     And Check box is enabled
     And Hits sign in button
@@ -63,29 +63,28 @@ Feature: My Account Page
     And User presses back button
     And User is in My Account home page
 
-
-    And Verify J.Crew Card Rewards Status reward link for <userCategory> user in My account page
-
-    And User presses back button
     When User clicks on SIGN OUT link in My Account Page
     Then Verify user is in homepage
+    And User is signed out
 
-    Examples:
-      |userCategory |
-      |noLoyalty|
-      |loyalty  |
 
-  Scenario: Verify left nav link rewards is functional for loyalty user in myaccount page
-    And User provides loyalty category login information
+
+  @HighLevel
+  Scenario Outline: Verify rewards link in left nav is functional for loyalty user in myaccount page
+
+    And User provides <userCategory> category login information
     And Check box is enabled
     And Hits sign in button
     And User is in My Account home page
     When Verifies page displays My Account title
 
+    And Verify J.Crew Card Rewards Status reward link for <userCategory> user in My account page
+
     When User clicks on J.Crew Card Rewards Status link in My Account Page
     Then User should be in /r/account/jccc-rewards menu link page
 
-    And User presses back button
 
-    When User clicks on SIGN OUT link in My Account Page
-    Then Verify user is in homepage
+    Examples:
+      |userCategory |
+      |noLoyalty|
+      |loyalty  |
