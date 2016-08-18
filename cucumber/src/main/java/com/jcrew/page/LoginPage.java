@@ -47,9 +47,6 @@ public class LoginPage {
     @FindBy(xpath = ".//*[@id='frmGuestCheckOut']/descendant::a[text()='Check Out as a Guest']")
     private WebElement checkoutAsGuestButton;
 
-    @FindBy(id = "loginPassword")
-    private WebElement passwordField;
-
     @FindBy(css = ".button-general.button-submit")
     private WebElement signInAndCheckOut;
 
@@ -264,7 +261,7 @@ public class LoginPage {
     		PropertyReader reader = PropertyReader.getPropertyReader();
             password = reader.getProperty("checkout.signed.in.password");
         }
-        passwordField.sendKeys(password);
+        passwordInput.sendKeys(password);
     }
     
     public void enterLoginInformationOnSignInPage(){
@@ -277,7 +274,7 @@ public class LoginPage {
     	}
 
         emailInput.sendKeys(emailAddress);
-    	passwordField.sendKeys(password);
+        passwordInput.sendKeys(password);
     }
 
     public void click_signInAndCheckOut() {
