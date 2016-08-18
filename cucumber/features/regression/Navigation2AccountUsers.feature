@@ -21,7 +21,6 @@ Feature: My Account Page
     And Deletes browser cookies
 
   @HighLevel
-  #US9724_TC16: Validate no breadcrumbs are displayed on Account related pages
   Scenario: Verify left nav links in account page
     And User provides <userCategory> category login information
     And Check box is enabled
