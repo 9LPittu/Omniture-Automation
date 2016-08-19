@@ -208,7 +208,7 @@ Feature: International Country Context - Part 1
     When User selects Catalog Preferences from my details dropdown
     Then User should be in catalog_preferences.jsp menu link page
 
-    And User presses back button
+    And User navigates to my detail form
 
     When User selects Payment Methods from my details dropdown
     Then User should be in payment_info.jsp menu link page
@@ -218,7 +218,7 @@ Feature: International Country Context - Part 1
     When User selects Gift Card Balance from my details dropdown
     Then User should be in checkout/giftcard_balance1.jsp menu link page
 
-    And User presses back button
+    And User navigates to my detail form
 
 
     When User selects Address Book from my details dropdown
