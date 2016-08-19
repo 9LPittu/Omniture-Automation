@@ -25,6 +25,12 @@ public class LoginPage {
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
     private final WebDriver driver;
 
+    @FindBy(id = "loginUser")
+    private WebElement emailInputCheckout;
+
+    @FindBy(id = "loginPassword")
+    private WebElement passwordInputCheckout;
+
     @FindBy(id = "sidecarUser")
     private WebElement emailInput;
     @FindBy(id = "sidecarPassword")
@@ -273,8 +279,8 @@ public class LoginPage {
     		password = (String) stateHolder.get("sidecaruserpassword");
     	}
 
-        emailInput.sendKeys(emailAddress);
-        passwordInput.sendKeys(password);
+        emailInputCheckout.sendKeys(emailAddress);
+        passwordInputCheckout.sendKeys(password);
     }
 
     public void click_signInAndCheckOut() {
