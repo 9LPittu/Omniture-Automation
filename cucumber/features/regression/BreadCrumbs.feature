@@ -3,6 +3,7 @@ Feature: Global Header: Breadcrumbs
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
 
   #US9724_TC02
   Scenario Outline: Validate J crew logo display and functionality on Department/Gender Landing Pages
@@ -54,7 +55,7 @@ Feature: Global Header: Breadcrumbs
     |gender|category|breadcrumb_text|
     |Women |SWEATERS| J.Crew/Women  |
     |Men   |CASUAL SHIRTS|J.Crew/Men|
-    |Girls |COLLECTIBLE TEES|J.Crew/Girls|
+    |Girls |SKIRTS|J.Crew/Girls|
     |Boys  |SHIRTS          |J.Crew/Boys |
 
     #US9724_TC06--context chooser not available in the application at this time

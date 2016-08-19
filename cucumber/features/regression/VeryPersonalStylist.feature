@@ -3,6 +3,7 @@ Feature: Very Personal Stylist Product Feature
 
   Background:
     Given User is on homepage
+    And Handle the Email Capture pop up
 
   Scenario: Very Personal Stylist Product Validation
     When User presses search button

@@ -15,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +55,7 @@ public class DriverFactory {
             width = Integer.parseInt(propertyReader.getProperty("window.width"));
             height = Integer.parseInt(propertyReader.getProperty("window.height"));
         }
-        
+
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
         } else {
@@ -164,6 +165,7 @@ public class DriverFactory {
             DesiredCapabilities firefox = DesiredCapabilities.firefox();
             firefox.setPlatform(Platform.WINDOWS);
             firefox.setCapability(FirefoxDriver.PROFILE, getFirefoxProfile());
+            firefox.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
             driver = getDesktopWebDriver(propertyReader, firefox);
 
         } else if ("iossafari".equals(browser)) {

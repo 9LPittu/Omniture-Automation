@@ -60,7 +60,7 @@ Feature: International Country Context
     And User provides login information
     And Check box is enabled
     And Hits sign in button
-    And User is in My Account page
+    And User is in My Account home page
     And user should see selected country in the footer
     When User clicks on MY DETAILS link in My Account Page
     And User should be in /r/account/details menu link page

@@ -47,12 +47,6 @@ public class LoginPage {
     @FindBy(xpath = ".//*[@id='frmGuestCheckOut']/descendant::a[text()='Check Out as a Guest']")
     private WebElement checkoutAsGuestButton;
 
-    @FindBy(id = "loginUser")
-    private WebElement emailAddressField;
-
-    @FindBy(id = "loginPassword")
-    private WebElement passwordField;
-
     @FindBy(css = ".button-general.button-submit")
     private WebElement signInAndCheckOut;
 
@@ -135,8 +129,10 @@ public class LoginPage {
         WebElement emailInvalidMsg = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-invalid-msg")));
         return emailInvalidMsg.getText();
     }
-
-    public void enter_valid_username_and_password() {
+    public void enter_valid_username_and_password(){
+        enter_valid_username_and_password("");
+    }
+    public void enter_valid_username_and_password(String userCategory) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         PropertyReader reader = PropertyReader.getPropertyReader();
         
@@ -150,7 +146,7 @@ public class LoginPage {
         	try{
         		if(!stateHolder.hasKey("sidecarusername")){
             		UsersHub userHub = UsersHub.getUsersHubInstance();
-            		userHub.retrieveUserCredentialsFromDBAndStoreInMap();
+            		userHub.retrieveUserCredentialsFromDBAndStoreInMap(userCategory);
             		
             		username = (String) stateHolder.get("sidecarusername");
                 	password = (String) stateHolder.get("sidecaruserpassword");
@@ -161,7 +157,7 @@ public class LoginPage {
             	password = reader.getProperty("checkout.signed.in.password");
         	}
         }
-        
+        stateHolder.put("sidecaruserCategory", userCategory);
         input_as_email(username);
         input_as_password(password);
     }
@@ -225,7 +221,7 @@ public class LoginPage {
 
     public void click_forgot_password_link() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(signInForm));
-        WebElement forgotPasswordLink = signInForm.findElement(By.linkText("I forgot my password!"));
+        WebElement forgotPasswordLink = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.linkText("I forgot my password!")));
         Util.createWebDriverWait(driver).until(
                 ExpectedConditions.elementToBeClickable(forgotPasswordLink));
         String url = driver.getCurrentUrl();
@@ -252,12 +248,12 @@ public class LoginPage {
     }
 
     public void enterEmailAddressOnSignInPage(String emailAddress) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailAddressField));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
         if (emailAddress.equalsIgnoreCase("any")) {        	
     		PropertyReader reader = PropertyReader.getPropertyReader();
             emailAddress = reader.getProperty("checkout.signed.in.username");
         }
-        emailAddressField.sendKeys(emailAddress);
+        emailInput.sendKeys(emailAddress);
     }
 
     public void enterPasswordOnSignInPage(String password) {
@@ -265,7 +261,7 @@ public class LoginPage {
     		PropertyReader reader = PropertyReader.getPropertyReader();
             password = reader.getProperty("checkout.signed.in.password");
         }
-        passwordField.sendKeys(password);
+        passwordInput.sendKeys(password);
     }
     
     public void enterLoginInformationOnSignInPage(){
@@ -276,9 +272,9 @@ public class LoginPage {
     		emailAddress = (String) stateHolder.get("sidecarusername");
     		password = (String) stateHolder.get("sidecaruserpassword");
     	}
-    	
-    	emailAddressField.sendKeys(emailAddress);
-    	passwordField.sendKeys(password);
+
+        emailInput.sendKeys(emailAddress);
+        passwordInput.sendKeys(password);
     }
 
     public void click_signInAndCheckOut() {
@@ -309,10 +305,13 @@ public class LoginPage {
                 break;
             case "random email":
                 fieldInput = faker.internet().emailAddress().replace("'", "");
+                logger.info("email generated is : {}", fieldInput);
+                stateHolder.put("fakenewuserID",fieldInput);
                 break;
             case "random password":
                 fieldInput = faker.name().fullName().replaceAll("\\s", "");
                 logger.info("password generated is : {}", fieldInput);
+                stateHolder.put("fakenewuserPassword",fieldInput);
                 break;
             default:
                 fieldInput = input;

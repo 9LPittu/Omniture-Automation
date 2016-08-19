@@ -7,7 +7,7 @@ Feature: Account Page
     And User provides login information
     And Check box is enabled
     And Hits sign in button
-    And User is in My Account page
+    And User is in My Account home page
 
   Scenario: Header and Footer display validations in non responsive Account page
     Then JCrew Logo is present
