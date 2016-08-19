@@ -5,41 +5,37 @@ Feature: Editing items from shopping bag
     Given User goes to homepage
     And User closes email capture
     When User opens menu
-    And User clicks on Clothing in drawer
-    And User clicks on Shirts & Tops in drawer
-    And User clicks on random product with colors in category array
-    Then Verify a product detail page is displayed
+    And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
 
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    Then Verify that add to bag confirmation message is displayed
-    And Verify that the number of items in bag is updated with plus 1
+    When User goes to homepage
+    And User clicks on sale link from top nav
+    And User selects random sale category
+    When User selects random product from array
+    And Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
 
-    Given User goes to homepage
-    When User clicks sale from top nav
-    Then Verify that search array is displayed
-    And User clicks on first product in search array
-    Then Verify a product detail page is displayed
+    When User searches for a random search term
+    Then Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
 
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    Then Verify that add to bag confirmation message is displayed
-    And Verify that the number of items in bag is updated with plus 1
-
-    When User searches for dress
-    Then Verify that search array is displayed
-    And User clicks on first product in search array
-    Then Verify a product detail page is displayed
-
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    Then Verify that add to bag confirmation message is displayed
-    And Verify that the number of items in bag is updated with plus 1
-
-    When User clicks bag in header
+    When User clicks in bag
     Then Verify products added matches with products in bag
     And Verify all products have edit and remove buttons
 
@@ -53,5 +49,17 @@ Feature: Editing items from shopping bag
     Then Verify products added matches with products in bag
 
     #User is able to edit item from shopping bag
-    When User edits last item from bag
-    #This edit is not ready for automation, needs to be revisited
+    When User edits last item from bag    
+    Then Verify that page contains a selected color    
+    Then Verify that page contains a selected size
+    
+    Then Verify UPDATE BAG button is displayed     
+    
+    When User selects random color
+    And User selects random size
+    When Update Bag button is pressed
+    
+    When User clicks in bag
+    Then Verify shopping bag is displayed
+    And Verify products added matches with products in bag
+    Then Verify edited item is displayed first in shopping bag

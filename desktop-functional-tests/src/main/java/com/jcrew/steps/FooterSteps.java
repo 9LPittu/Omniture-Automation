@@ -38,5 +38,14 @@ public class FooterSteps extends DriverFactory {
     public void user_should_see_selected_country_in_footer(){
         assertTrue("User should see selected country name in the footer",footer.isCorrectCountryNameDisplayedInFooter());
     }
-
+    
+    @Then("^Verify ([^\"]*) link is displayed under ([^\"]*) accordion in footer$")
+    public void verify_link_in_footer(String linkText, String accordionName) {
+        assertTrue(linkText + " link is displayed in the accordion in footer", footer.isLinkDisplayedInAccordion(linkText, accordionName));
+    }
+    
+    @When("^User clicks on ([^\"]*) link under ([^\"]*) accordion in footer$")
+    public void click_link_in_footer(String footerLink, String accordionName){
+    	footer.clickFooterLinkFromDrawer(footerLink, accordionName);
+    }
 }

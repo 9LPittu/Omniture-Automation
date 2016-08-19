@@ -114,5 +114,39 @@ public class Footer {
 
         return actualCountryName.equalsIgnoreCase(expectedCountryName);
     }
+    
+    public boolean isLinkDisplayedInAccordion(String linkText, String accordionName){
+    	WebElement footerLink = getAccordianLink(linkText, accordionName);
+        return footerLink.isDisplayed();
+    }
+    
+    private WebElement getAccordianLink(String link, String accordion) {
+        WebElement drawerElement = getAccordionElement(accordion);
+        String xpath;
 
+        if (link.contains("'")) {
+            xpath = ".//a[contains(@class,'accordian__menu__link ') and text()=\"" + link + "\"]";
+        } else {
+            xpath = ".//a[contains(@class,'accordian__menu__link ') and text()='" + link + "']";
+        }
+
+        return drawerElement.findElement(By.xpath(xpath));
+    }
+    
+    private WebElement getAccordionElement(String name) {
+    	waitForFooter();
+        WebElement header = footerWrapMain.findElement(
+                By.xpath(".//h6[contains(@class,'footer__header') and text()='" + name + "']"));
+        WebElement accordion = header.findElement(By.xpath(".//parent::div[contains(@class,'accordian__wrap--footer')]"));
+
+        return wait.until(ExpectedConditions.visibilityOf(accordion));
+    }
+    
+    public void clickFooterLinkFromDrawer(String linkText, String drawer) {
+        WebElement footerLink = getAccordianLink(linkText, drawer);
+        wait.until(ExpectedConditions.elementToBeClickable(footerLink));
+
+        footerLink.click();
+        Util.waitLoadingBar(driver);
+    }
 }

@@ -41,8 +41,7 @@ Feature: Default user gets confirmation to merge cart
     And User selects random size
     And User adds product to bag
     
-    When User clicks in bag
-    
+    When User clicks in bag    
     And User clicks in CHECK OUT NOW button
     
     And User signs in and checks out

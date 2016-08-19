@@ -5,28 +5,28 @@ Feature: Default shipping, Billing and Shipping Method on Review page for regist
   	Given User goes to homepage
   	And User closes email capture
   	
-    When User opens menu
-    And User clicks user button SIGN IN TO MY ACCOUNT in drawer
+    When User clicks on sign in using header
     And User fills form and signs in
-    And This script cleans bag for current user
+    And This script cleans bag for current user    
+    And User goes to homepage
+    And User signs out using header
     
     And User goes to homepage
     When User opens menu
-    And User clicks user button My Account in drawer
-    And User signs out
+        And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
     
-    And User goes to homepage
-    When User opens menu
-    And User clicks on Clothing in drawer
-    And User clicks on Tees & More in drawer
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
-    
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    
-    And User clicks bag in header
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
+
+    When User clicks in bag
     And User clicks in CHECK OUT NOW button    
     And User signs in and checks out
     
@@ -46,23 +46,26 @@ Feature: Default shipping, Billing and Shipping Method on Review page for regist
   	Given User goes to homepage
   	And User closes email capture
   	
-    When User opens menu
-    And User clicks user button SIGN IN TO MY ACCOUNT in drawer
+    When User clicks on sign in using header
     And User fills form and signs in
     And This script cleans bag for current user
     And User goes to homepage
     When User opens menu
     
-    And User clicks on Clothing in drawer
-    And User clicks on Tees & More in drawer
-    And User clicks on random product in category array
-    Then Verify a product detail page is displayed
+    And User selects random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
+    And User selects random subcategory array
+    And User selects random product from product array
+    And Verify product detail page is displayed
     
-    When User selects a color
-    And User selects size
-    And User clicks ADD TO BAG button
-    
-    And User clicks bag in header
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
+
+    When User clicks in bag
     And User clicks in CHECK OUT NOW button
     
     Then Verify user is in review page

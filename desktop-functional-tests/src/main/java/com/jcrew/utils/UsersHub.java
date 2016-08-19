@@ -182,18 +182,24 @@ public class UsersHub {
 
 
     public void releaseUserCredentials() {
+    	
+    	String currentUserName = "";
         if (user != null) {
-            String currentUserName = user.getEmail();
-            String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where brand='jcrew' and username='" + currentUserName + "' and environment='" + environment + "'";
-            try {
-                executeSQLQuery(updateAllocationFlagSQLQuery);
+            currentUserName = user.getEmail();
+        }
+        else{
+        	currentUserName = (String) stateHolder.get("sidecarusername");
+        }
+        
+        String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where brand='jcrew' and username='" + currentUserName + "' and environment='" + environment + "'";
+        try {
+            executeSQLQuery(updateAllocationFlagSQLQuery);
 
-                logger.info("User '{}' is released in DB for '{}' environment", currentUserName, environment);
-                closeDBConnection();
-                user = null;
-            } catch (SQLException e) {
-                logger.error("Failed to release user '{}' in DB!!!", user.getEmail());
-            }
+            logger.info("User '{}' is released in DB for '{}' environment", currentUserName, environment);
+            closeDBConnection();
+            user = null;
+        } catch (SQLException e) {
+            logger.error("Failed to release user '{}' in DB!!!", currentUserName);
         }
     }
 

@@ -72,7 +72,7 @@ public class CheckoutConfirmationSteps extends DriverFactory {
             String title = confirmation.getSubtitle();
 
             assertTrue("Confirmation message is dsiplayed",
-                    title.equalsIgnoreCase("THANK YOU FOR SHOPPING AT MADEWELL.COM"));
+                    title.equalsIgnoreCase("THANK YOU FOR SHOPPING AT JCREW.COM"));
         }
     }
     

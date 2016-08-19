@@ -57,9 +57,11 @@ public class FinalSteps {
         }
 
         driverFactory.destroyDriver();
-        holder.clear();
+        
         UsersHub userHub = UsersHub.getInstance();
         userHub.releaseUserCredentials();
+        
+        holder.clear();
 
     }
 

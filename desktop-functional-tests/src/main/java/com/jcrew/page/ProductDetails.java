@@ -555,4 +555,38 @@ public class ProductDetails extends PageObject{
         updateBagButton = wait.until(ExpectedConditions.visibilityOf(updateBagButton));
         return updateBagButton.isDisplayed();
     }
+    
+    public void selectColor(String colorName) {
+        wait.until(ExpectedConditions.visibilityOf(price_colors));
+
+        List<WebElement> colors = price_colors.findElements(
+                By.xpath(".//li[contains(@class, 'js-product__color') and @data-name='" + colorName.toUpperCase() + "']"));
+
+        if (colors.size() > 0) {
+            WebElement selectedColor = colors.get(0);
+            WebElement selectedColorImage = selectedColor.findElement(By.tagName("img"));
+
+            logger.info("Selecting specified color {}", colorName);
+
+            wait.until(ExpectedConditions.visibilityOf(selectedColorImage));
+            selectedColorImage.click();
+        } else {
+            logger.info("Color " + colorName + " not found");
+        }
+    }
+    
+    public void selectSize(String size) {
+        List<WebElement> productSizes = sizes.findElements(
+                By.xpath(".//li[contains(@class,'js-product__size') and @data-name='" + size.toUpperCase() + "']"));
+
+        if (productSizes.size() > 0) {
+            WebElement selectedSize = productSizes.get(0);
+            WebElement selectedSizeLabel = selectedSize.findElement(By.className("btn__label"));
+            selectedSizeLabel.click();
+
+            logger.info("Selecting specified size {}", size);
+        } else {
+            logger.info("Size " + size + " not found");
+        }
+    }
 }

@@ -123,7 +123,7 @@ public class CheckoutBillingSteps extends DriverFactory {
         int promoInt = Integer.parseInt(promo) * 10;
         
         boolean result = false;
-        if(subtotalInt==promoInt || (subtotalInt + 0.001)==promoInt){
+        if(subtotalInt==promoInt || (subtotalInt + 1)==promoInt){
         	result = true;
         }
 
