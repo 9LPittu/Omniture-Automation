@@ -184,7 +184,7 @@ Feature: International Country Context - Part 1
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And Goes to sign in page
-    And enter login information on sign in page
+    And User provides login information
     And Check box is enabled
     And Hits sign in button
 
