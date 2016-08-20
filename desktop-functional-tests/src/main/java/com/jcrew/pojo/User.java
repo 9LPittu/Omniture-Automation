@@ -19,18 +19,19 @@ public class User {
     private String lastName;
     private String country;
     private String countryCode;
+    private String userCategory;
 
     private static User fakeUser = null;
     private static final Logger logger = LoggerFactory.getLogger(User.class);
 
 
-    public User(String userName, String password, String firstName, String lastName, String country) {
+    public User(String userName, String password, String firstName, String lastName, String country,String userCategory) {
         this.email = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
-
+        this.userCategory = userCategory;
     }
 
     public static User getUser() {

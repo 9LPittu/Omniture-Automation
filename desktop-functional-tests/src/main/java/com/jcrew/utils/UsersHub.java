@@ -90,7 +90,8 @@ public class UsersHub {
         return numOfRecords;
     }
 
-    public synchronized User getUser() throws SQLException {
+    public synchronized User getUser(String userCategory) throws SQLException {
+        if (!(user == null)) return user;
 
         if (getAvailableUsersCount() > 0) {
             String getUserCredentialsSQLQuery = "select username, userpassword, firstname,lastname,DEFAULT_ADDRESS_COUNTRY from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
@@ -98,7 +99,7 @@ public class UsersHub {
             if (rs != null) {
                 try {
                     rs.next();
-                    user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                    user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),userCategory);
                     logger.info("Current available username for '{}' environment: {}", user.getEmail(), environment);
                     String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' where brand='jcrew' and username='" + user.getEmail() + "' and Environment='" + environment + "'";
                     executeSQLQuery(updateAllocationFlagSQLQuery);
