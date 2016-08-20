@@ -35,7 +35,7 @@ public class LogIn extends DriverFactory {
     private final StateHolder stateHolder = StateHolder.getInstance();
 
     private final User fakeUser = User.getNewFakeUser();
-    private final User knownUser = User.getUser();
+    private User knownUser;
     private final String signupForEmails_HK_Text = "J.Crew would like to use your contact details to send you " +
             "information about our fashion apparel, accessories, shoes, bags, jewelry, electronics, health and " +
             "beauty products and decoration and home goods, as well as upcoming collections, sales, promotions and " +
@@ -76,12 +76,16 @@ public class LogIn extends DriverFactory {
         wait.until(ExpectedConditions.elementToBeClickable(signInHereButton));
     }
 
-    public void signIn() {
+    public void signIn(String userCategory){
+        knownUser = User.getUser(userCategory);
         logger.info("User and password used {} / {}", knownUser.getEmail(), knownUser.getPassword());
         sidecarUser.sendKeys(knownUser.getEmail());
         sidecarPassword.sendKeys(knownUser.getPassword());
         signInHereButton.click();
         stateHolder.put("signedUser", knownUser);
+    }
+    public void signIn() {
+        signIn("");
     }
 
     public boolean hasExpectedPattern(String pattern) {
