@@ -24,6 +24,8 @@ public class User {
     private static User fakeUser = null;
     private static final Logger logger = LoggerFactory.getLogger(User.class);
 
+    public static final String CAT_LOYALTY = "loyalty";
+    public static final String CAT_NO_LOYALTY = "noLoyalty";
 
     public User(String userName, String password, String firstName, String lastName, String country,String userCategory) {
         this.email = userName;
@@ -34,10 +36,10 @@ public class User {
         this.userCategory = userCategory;
     }
 
-    public static User getUser() {
+    public static User getUser(String userCategory) {
         UsersHub usersHub = UsersHub.getInstance();
         try {
-            return usersHub.getUser();
+            return usersHub.getUser(userCategory);
         } catch (SQLException e) {
             logger.error("Failed to get user from DB. getting from properties file");
             return new User(true);
