@@ -76,6 +76,11 @@ public class LogIn extends DriverFactory {
         wait.until(ExpectedConditions.elementToBeClickable(signInHereButton));
     }
 
+    public boolean isSignPage(){
+        wait.until(ExpectedConditions.visibilityOf(signInForm));
+        return signInForm.isDisplayed();
+    }
+
     public void signIn(String userCategory){
         knownUser = User.getUser(userCategory);
         logger.info("User and password used {} / {}", knownUser.getEmail(), knownUser.getPassword());

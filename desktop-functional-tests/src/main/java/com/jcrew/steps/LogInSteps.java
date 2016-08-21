@@ -22,6 +22,10 @@ import static org.junit.Assert.*;
 public class LogInSteps extends DriverFactory {
     LogIn logIn = new LogIn(getDriver());
 
+    @Then("User goes to sign in page")
+    public void user_in_signin_page(){
+        assertTrue("User in sign in page",logIn.isSignPage());
+    }
     @When("User fills user data and signs in")
     public void fills_user_data() {
         logIn.signIn();

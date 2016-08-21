@@ -36,15 +36,16 @@ public class User {
         this.userCategory = userCategory;
     }
 
+    public static User getUser(){
+        return getUser("");
+    }
     public static User getUser(String userCategory) {
-        UsersHub usersHub = UsersHub.getInstance();
         try {
-            return usersHub.getUser(userCategory);
+            return UsersHub.getInstance().getUser(userCategory);
         } catch (SQLException e) {
             logger.error("Failed to get user from DB. getting from properties file");
             return new User(true);
         }
-
     }
 
     public static User getNewFakeUser() {
