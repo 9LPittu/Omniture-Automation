@@ -161,7 +161,7 @@ public class LoginPageSteps extends DriverFactory {
 
     @And("^([^\"]*) is selected as default value$")
     public void verify_default_value_for_country_list_box(String defaultcountry) {
-         assertEquals("Default country to be selected not as expected", defaultcountry, loginPage.getDefaultCountrySelected());
+         assertEquals("Default country to be selected not as expected", defaultcountry.toLowerCase(), loginPage.getDefaultCountrySelected().toLowerCase());
 
     }
 

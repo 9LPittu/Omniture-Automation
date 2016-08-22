@@ -184,7 +184,7 @@ Feature: International Country Context - Part 1
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And Goes to sign in page
-    And enter login information on sign in page
+    And User provides login information
     And Check box is enabled
     And Hits sign in button
 
@@ -208,7 +208,7 @@ Feature: International Country Context - Part 1
     When User selects Catalog Preferences from my details dropdown
     Then User should be in catalog_preferences.jsp menu link page
 
-    And User presses back button
+    And User navigates to my detail form
 
     When User selects Payment Methods from my details dropdown
     Then User should be in payment_info.jsp menu link page
@@ -218,7 +218,7 @@ Feature: International Country Context - Part 1
     When User selects Gift Card Balance from my details dropdown
     Then User should be in checkout/giftcard_balance1.jsp menu link page
 
-    And User presses back button
+    And User navigates to my detail form
 
 
     When User selects Address Book from my details dropdown
