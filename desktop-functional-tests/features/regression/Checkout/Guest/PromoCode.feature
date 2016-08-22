@@ -1,5 +1,5 @@
 @GuestCheckout-Part3
-Feature: Guest user is able to checkout with promo code
+Feature: Checkout - Guest user is able to checkout with promo code
 
   Scenario: Guest user is able to checkout with promo code
     Given User goes to homepage

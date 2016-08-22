@@ -1,5 +1,5 @@
 @RegisteredCheckout
-Feature: Express user is able to edit data in review page
+Feature: Checkout - Express user is able to edit data in review page
 
   Scenario: Express user is able to edit shipping address, shipping method and billing data in review page
   	Given User goes to homepage

@@ -1,5 +1,5 @@
 @GuestCheckout-Part1
-Feature: User is able to gift receipt to order during Guest checkout
+Feature: Checkout - User is able to gift receipt to order during Guest checkout
 
   Scenario: User is able to gift receipt to order during Guest checkout
     Given User goes to homepage

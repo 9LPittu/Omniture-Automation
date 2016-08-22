@@ -1,5 +1,5 @@
 @GuestCheckout-Part1
-Feature: Guest user is able to edit data in review page
+Feature: Checkout - Guest user is able to edit data in review page
 
   Scenario: Guest user is able to edit data in review page
     Given User goes to homepage

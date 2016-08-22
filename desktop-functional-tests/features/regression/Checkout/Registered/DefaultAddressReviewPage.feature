@@ -1,5 +1,5 @@
 @RegisteredCheckout
-Feature: Default shipping, Billing and Shipping Method on Review page for registered user
+Feature: Checkout - Default shipping, Billing and Shipping Method on Review page for registered user
 
   Scenario: Verify default shipping, billing and shipping method on Review page  for registered user
   	Given User goes to homepage

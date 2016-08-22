@@ -1,5 +1,5 @@
 @GuestCheckout-Part1
-Feature: Guest user is able to add billing address
+Feature: Checkout - Guest user is able to add billing address
 
   Scenario: Guest user is able to add billing address
     Given User goes to homepage

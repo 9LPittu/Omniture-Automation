@@ -1,5 +1,5 @@
 @GuestCheckout-Part2
-Feature: User is able to edit item from shopping bag during Guest checkout
+Feature: Checkout - User is able to edit item from shopping bag during Guest checkout
 
   Scenario: User is able to edit item from shopping bag during Guest checkout
     Given User goes to homepage

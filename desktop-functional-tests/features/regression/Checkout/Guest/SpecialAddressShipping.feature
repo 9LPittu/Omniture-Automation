@@ -1,5 +1,5 @@
 @GuestCheckout-Part3
-Feature: Expected Shipping Options for special addresses
+Feature: Checkout - Expected Shipping Options for special addresses
 
   Scenario: Expected Shipping Options for APO
     Given User goes to homepage

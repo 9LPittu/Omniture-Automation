@@ -1,5 +1,5 @@
 @MergeCheckout
-Feature: Users with clean bag do not get a Merge Cart page
+Feature: Checkout - Users with clean bag do not get a Merge Cart page
 
   Scenario: Registered user does not get to a merge cart page
     Given User goes to homepage

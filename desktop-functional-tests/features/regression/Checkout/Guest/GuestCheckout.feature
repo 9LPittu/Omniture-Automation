@@ -1,5 +1,5 @@
 @GuestCheckout-Part2
-Feature: Guest user is able to checkout
+Feature: Checkout - Guest user is able to checkout
 
   Scenario: Guest user is able to checkout
     Given User goes to homepage

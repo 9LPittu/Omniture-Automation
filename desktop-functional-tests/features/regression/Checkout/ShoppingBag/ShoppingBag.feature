@@ -1,5 +1,5 @@
 @ShoppingBag
-Feature: Editing items from shopping bag
+Feature: Checkout - Editing items from shopping bag
 
   Scenario: Multiple shopping bag functions
     Given User goes to homepage

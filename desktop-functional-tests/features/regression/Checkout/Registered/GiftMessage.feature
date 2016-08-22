@@ -1,5 +1,5 @@
 @RegisteredCheckout
-Feature: Registered user is able to add a gift message
+Feature: Checkout - Registered user is able to add a gift message
 
   Background: Clean bag for user
     Given User goes to homepage
