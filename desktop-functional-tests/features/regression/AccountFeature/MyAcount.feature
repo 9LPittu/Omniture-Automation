@@ -11,22 +11,23 @@ Feature: My Account page validations
     And User fills user data and signs in
     Then Verify user is in My Account main page
 
-    When User clicks on MY DETAILS link in My Account Page
+    When User clicks on My Details link in My Account Page
     Then Verify user is in account details page
     And User should be in account/account_detail.jsp? menu link page
 
 
-    When User clicks on EMAIL PREFERENCES link in My Account Page
+    When User clicks on Email Preferences link in My Account Page
     Then User should be in account/email_preferences.jsp menu link page
 
 
-    When User clicks on CATALOG PREFERENCES link in My Account Page
+    When User clicks on Catalog Preferences link in My Account Page
+    Then User should be in account/catalog_preferences.jsp menu link page
 
-    When User clicks on GIFT CARD BALANCE link in My Account Page
-
-    When User clicks on PAYMENT METHODS link in My Account Page
+    When User clicks on Payment Methods link in My Account Page
     Then User should be in account/payment_info.jsp menu link page
 
+    When User clicks on Gift Card Balance link in My Account Page
+    Then User should be in checkout/giftcard_balance1.jsp menu link page
 
     When User clicks on ADDRESS BOOK link in My Account Page
     Then User should be in account/address_book.jsp menu link page

@@ -1,4 +1,4 @@
-@Account
+@AccountWIP
 Feature: Account details Page validations
 
   Background:
