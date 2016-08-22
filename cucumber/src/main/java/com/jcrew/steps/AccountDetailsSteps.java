@@ -3,9 +3,11 @@ package com.jcrew.steps;
 import com.jcrew.page.AccountDetailsPage;
 import com.jcrew.page.MyAccountPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.PropertyReader;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
-import cucumber.api.java.en.And;
 
+import cucumber.api.java.en.And;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +19,7 @@ public class AccountDetailsSteps extends DriverFactory {
 
     private final AccountDetailsPage accountDetailsPage = new AccountDetailsPage(getDriver());
     private final MyAccountPage myAccountPage = new MyAccountPage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
 
     @And("^User should be in ([^\"]*) menu link page$")
@@ -54,7 +57,14 @@ public class AccountDetailsSteps extends DriverFactory {
 
     @And("Verify ([^\"]*) reward link for ([^\"]*) user in My details dropdown")
     public void reward_link_displayed_in_dropdown_for_user(String link, String userCategory) {
-        assertTrue(link + " link displayed for user category " + userCategory, accountDetailsPage.verifyRewardLink(link, userCategory));
+    	String user;
+    	if(stateHolder.hasKey("sidecarusername")) {
+    		user = (String) stateHolder.get("sidecarusername");
+    	}	else {
+    		PropertyReader reader = PropertyReader.getPropertyReader();
+    		user = reader.getProperty("checkout.signed.in.username");
+    	}
+        assertTrue(link + " link displayed for user category " + userCategory + " and user " + user , accountDetailsPage.verifyRewardLink(link, userCategory));
     }
 
     @And("Verify birth field is ([^\"]*)")
