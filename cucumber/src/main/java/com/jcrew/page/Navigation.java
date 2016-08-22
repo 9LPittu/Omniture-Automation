@@ -57,33 +57,33 @@ public class Navigation {
         String browser = reader.getProperty("browser");
         String targetPage;
 
-        if("iossafari".equals(browser) ||"androidchrome".equals(browser)) {
-            switch (page){
-                case "facebook":
-                    targetPage = "https://m.facebook.com/jcrew";
-                    break;
-                case "twitter":
-                    targetPage = "https://mobile.twitter.com/jcrew";
-                    break;
-                case "youtube":
-                    targetPage = "https://m.youtube.com/user/jcrewinsider";
-                    break;
-                default:
-                    targetPage = page;
+        if("phantomjs".equals(browser)) {
+        	switch (page){
+            case "facebook":
+                targetPage = "https://www.facebook.com/jcrew";
+                break;
+            case "twitter":
+                targetPage = "https://twitter.com/jcrew";
+                break;
+            case "youtube":
+                targetPage = "https://www.youtube.com/user/jcrewinsider";
+                break;
+            default:
+                targetPage = page;
             }
         } else {
-            switch (page){
-                case "facebook":
-                    targetPage = "https://www.facebook.com/jcrew";
-                    break;
-                case "twitter":
-                    targetPage = "https://twitter.com/jcrew";
-                    break;
-                case "youtube":
-                    targetPage = "https://www.youtube.com/user/jcrewinsider";
-                    break;
-                default:
-                    targetPage = page;
+        	switch (page){
+            case "facebook":
+                targetPage = "https://m.facebook.com/jcrew";
+                break;
+            case "twitter":
+                targetPage = "https://mobile.twitter.com/jcrew";
+                break;
+            case "youtube":
+                targetPage = "https://m.youtube.com/user/jcrewinsider";
+                break;
+            default:
+                targetPage = page;
             }
         }
 

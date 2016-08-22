@@ -28,7 +28,7 @@ public class PropertyReader {
 
     private void loadProperties() throws IOException {
         String execEnvironment = System.getProperty("environment", "ci");
-        String execViewport = System.getProperty("viewport", "phantomjs");
+        String execViewport = System.getProperty("viewport", "firefox");
         String country = System.getProperty("country", "us");
 
         FileInputStream inputFile = new FileInputStream("environment.properties");
