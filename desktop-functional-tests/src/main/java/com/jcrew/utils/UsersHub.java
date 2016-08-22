@@ -183,7 +183,7 @@ public class UsersHub {
 
     public void releaseUserCredentials() {
     	
-    	String currentUserName = "";
+    	String currentUserName = null;
         if (user != null) {
             currentUserName = user.getEmail();
         }
@@ -191,7 +191,7 @@ public class UsersHub {
         	currentUserName = (String) stateHolder.get("sidecarusername");
         }
         
-        if(!currentUserName.isEmpty()){
+        if(currentUserName!=null){
 	        String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where brand='jcrew' and username='" + currentUserName + "' and environment='" + environment + "'";
 	        try {
 	            executeSQLQuery(updateAllocationFlagSQLQuery);
