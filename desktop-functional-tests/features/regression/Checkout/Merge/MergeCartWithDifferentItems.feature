@@ -25,7 +25,7 @@ Feature: Merge cart page validation for e-gift card, regular item, backorder ite
     
 	#Add e-gift card to bag
 	Then Verify The J.Crew Gift Card link is displayed under Our Cards accordion in footer
-	When User clicks on J.Crew Gift Card link under Our Cards accordion in footer	
+	When User clicks on The J.Crew Gift Card link under Our Cards accordion in footer	
 	When User adds e-gift card worth any value to bag
 	 	
 	#sign out 
@@ -34,7 +34,7 @@ Feature: Merge cart page validation for e-gift card, regular item, backorder ite
 	#Add item as guest user
     When User goes to homepage
     When User opens menu
-        And User selects random category from list
+    And User selects random category from list
     	|Women|
     	|Men|
     	|Girls|

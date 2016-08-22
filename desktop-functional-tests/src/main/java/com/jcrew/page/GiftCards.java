@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -104,14 +105,20 @@ public class GiftCards  extends PageObject {
     	String tomorrowDate = dateFormat.format(calendar.getTime());
     	dateToBeSent.sendKeys(tomorrowDate);
     	logger.info("Date to be sent entered: {}", tomorrowDate);
-    	stateHolder.put("giftCardDateSent", tomorrowDate);
+    	stateHolder.put("giftCardDateSent", tomorrowDate);    	
     	
     	//enter gift message
     	giftMessage.sendKeys("This is automation gift message");
     	
-    	addToBag.click();
+    	try{
+    		Util.scrollToElement(driver, addToBag);
+    		addToBag.click();
+    	}
+    	catch(WebDriverException e){
+    		JavascriptExecutor jse = (JavascriptExecutor)driver;
+    		jse.executeScript("arguments[0].click();", addToBag);
+    	}
     	
-    	HeaderWrap headerWrap = new HeaderWrap(driver);
-    	headerWrap.waitUntilCheckOutDropdown();
+    	wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(senderName)));
     }
 }
