@@ -1,4 +1,4 @@
-@Account
+@AccountDev
 Feature: My Account page validations
 
   Background:
@@ -13,7 +13,7 @@ Feature: My Account page validations
 
     When User clicks on My Details link in My Account Page
     Then Verify user is in account details page
-    And User should be in account/account_detail.jsp? menu link page
+    And User should be in r/account/details menu link page
 
 
     When User clicks on Email Preferences link in My Account Page
@@ -29,15 +29,17 @@ Feature: My Account page validations
     When User clicks on Gift Card Balance link in My Account Page
     Then User should be in checkout/giftcard_balance1.jsp menu link page
 
-    When User clicks on ADDRESS BOOK link in My Account Page
+    When User clicks on Address Book link in My Account Page
     Then User should be in account/address_book.jsp menu link page
 
 
-    When User clicks on ORDER HISTORY link in My Account Page
+    When User clicks on Order History link in My Account Page
     Then User should be in account/reg_user_order_history.jsp menu link page
 
 
-    When User clicks on WISHLIST link in My Account Page
+    When User clicks on My Wishlist link in My Account Page
     Then User should be in /wishlist menu link page
+
+    When User clicks on Sign Out link in My Account Page
 
 

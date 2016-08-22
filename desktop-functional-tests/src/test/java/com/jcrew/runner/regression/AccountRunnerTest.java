@@ -5,13 +5,13 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 /**
- * Created by nadiapaolagarcia on 3/30/16.
+ * Created by 9msyed on 8/22/2016.
  */
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/AccountFeature"},
-        tags = {"@NewAccount"},
+        tags = {"@AccountDev"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-newaccountressionfeatures.json",
@@ -19,5 +19,5 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber/newaccountregressionfeatures"
         }
 )
-public class NewAccountRunnerTest {
+public class AccountRunnerTest {
 }
