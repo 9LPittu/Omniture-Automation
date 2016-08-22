@@ -70,7 +70,8 @@ Feature: Account details Page validations
     When click on MY ACCOUNT from header
     And user clicks on "My Details" from My Account dropdown
     Then Verify birth field is enabled
-    And Verify 'Add your birthday and we'll send you something special on your big day!' copy displayed
+
+#    And Verify 'Add your birthday and we'll send you something special on your big day!' copy displayed
 
     When Update first name with invalid data
     Then Verify 'Please enter first name.' error message displayed for first name field
@@ -104,7 +105,7 @@ Feature: Account details Page validations
     And click on save button
     Then verify confirmation message displayed
     And Verify birth field is disabled
-    And Verify 'Better than cake: make sure you are signed up for emails to get a special gift on your big day!' copy displayed
+#    And Verify 'Better than cake: make sure you are signed up for emails to get a special gift on your big day!' copy displayed
 
 
   Scenario Outline: Validate rewards link is visible only for loyalty user in mydetail page
