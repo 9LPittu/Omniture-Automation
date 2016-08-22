@@ -184,6 +184,7 @@ public abstract class Checkout extends PageObject{
         for (int i = 0; i < products.size() && result; i++) {
             Product fromPDP = (Product) products.get(i);
             String productName = fromPDP.getName();
+            productName.replaceAll("PRE-ORDER ", "");
 
             logger.debug("Looking for product {}, item number {}, in size {} in color {} with price {}",
                     productName, fromPDP.getItemNumber(), fromPDP.getSize(), fromPDP.getColor(), fromPDP.getPrice());
