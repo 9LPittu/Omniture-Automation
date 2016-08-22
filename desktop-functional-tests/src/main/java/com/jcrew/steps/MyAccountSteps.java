@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.MyAccount;
+import com.jcrew.page.AccountDetail;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
@@ -17,6 +18,7 @@ import static org.junit.Assert.*;
  */
 public class MyAccountSteps extends DriverFactory {
     MyAccount myAccount = new MyAccount(getDriver());
+    AccountDetail accountDetails = new AccountDetail(getDriver());
     StateHolder stateHolder = StateHolder.getInstance();
 
     @When("User goes to ([^\"]*) using My Account menu")
@@ -33,7 +35,7 @@ public class MyAccountSteps extends DriverFactory {
     public void sign_in_user_information_should_match_my_details_page(String userType) {
         User user = (User) stateHolder.get("signedUser");
 
-        Map<String, String> userDetails = myAccount.getUserDetails();
+        Map<String, String> userDetails = accountDetails.getUserDetails();
         String user_country = user.getCountry();
 
         boolean equalsIgnoreCase = user_country.equalsIgnoreCase(userDetails.get(myAccount.USER_DETAILS_COUNTRY));
@@ -49,9 +51,9 @@ public class MyAccountSteps extends DriverFactory {
         assertTrue("User is in order history page",myAccount.isOrderHistoryPage());
     }
 
-    @Then("^User clicks on ([^\"]*) link in My Account Page$")
-    public void user_clicks_on_link_in_my_account_page(String link) throws Throwable {
-        myAccount.click_menu_link(link);
+    @Then("^User clicks on ([^\"]*) link in ([^\"]*) Page$")
+    public void user_clicks_on_link_in_my_account_page(String link,String page) throws Throwable {
+        myAccount.click_menu_link(link,page);
     }
 
     @Then("^User should be in ([^\"]*) menu link page$")

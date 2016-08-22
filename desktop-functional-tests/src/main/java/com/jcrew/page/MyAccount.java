@@ -72,27 +72,6 @@ public class MyAccount {
         option.click();
     }
 
-    public Map<String, String> getUserDetails() {
-        HashMap<String, String> userDetails = new HashMap<>();
-
-        wait.until(ExpectedConditions.visibilityOf(leftContainer));
-
-        WebElement information = leftContainer.findElement(By.id(USER_DETAILS_FIRST_NAME));
-        userDetails.put(USER_DETAILS_FIRST_NAME, information.getAttribute("value"));
-
-        information = leftContainer.findElement(By.id(USER_DETAILS_LAST_NAME));
-        userDetails.put(USER_DETAILS_LAST_NAME, information.getAttribute("value"));
-
-        information = leftContainer.findElement(By.id(USER_DETAILS_EMAIL));
-        userDetails.put(USER_DETAILS_EMAIL, information.getAttribute("value"));
-
-        Select country = new Select(leftContainer.findElement(By.id(USER_DETAILS_COUNTRY)));
-        logger.debug("User details country: {}", country.getFirstSelectedOption().getText());
-        userDetails.put(USER_DETAILS_COUNTRY, country.getFirstSelectedOption().getText());
-
-        return userDetails;
-    }
-
     public boolean isOrderHistoryPage() {
         wait.until(ExpectedConditions.visibilityOf(main_content_history));
         WebElement myAccountBanner = main_content_history.findElement(By.tagName("h2"));
@@ -109,7 +88,7 @@ public class MyAccount {
         return expectedContent & expectedURL;
     }
 
-    public void click_menu_link(String link) {
+    public void click_menu_link(String link,String page) {
         WebElement menu = null;
 
         Country c = (Country) stateHolder.get("context");
@@ -121,16 +100,16 @@ public class MyAccount {
 
         switch (c.getCountry()) {
             case "us":
-                menu = getMenuLink(link);
+                menu = getMenuLink(link,page);
                 break;
             case "ca":
                 if(!link.equalsIgnoreCase("GIFT CARD BALANCE")) {
-                    menu = getMenuLink(link);
+                    menu = getMenuLink(link,page);
                 }
                 break;
             default:
                 if(!link.equalsIgnoreCase("GIFT CARD BALANCE") && !link.equalsIgnoreCase("CATALOG PREFERENCES") ) {
-                    menu = getMenuLink(link);
+                    menu = getMenuLink(link,page);
                 }
                 break;
         }
@@ -141,12 +120,16 @@ public class MyAccount {
         }
     }
 
-    private WebElement getMenuLink(String link) {
+    private WebElement getMenuLink(String link,String page) {
         Util.waitForPageFullyLoaded(driver);
-        wait.until(ExpectedConditions.visibilityOf(main_inside));
         Country country = (Country) stateHolder.get("context");
         logger.debug(country.getCountry());
-        return main_inside.findElement(By.linkText(link));
+     if("My Account".equalsIgnoreCase(page)) {
+         wait.until(ExpectedConditions.visibilityOf(main_inside));
+         return main_inside.findElement(By.linkText(link));
+     }else{
+         return new AccountDetail(driver).getMenuLink(link,page);
+     }
     }
 
     public boolean isInMenuLinkPage(String page) {

@@ -7,9 +7,9 @@ Feature: Account details Page validations
     When User clicks on sign in using header
     Then User goes to sign in page
 
-  @HighLevel
-  Scenario: Validate drop down in My details form is functional for domestic users
 
+  @NotForDesktop
+  Scenario: Validate drop down in My details form is functional for domestic users
     And User fills user data and signs in
     Then Verify user is in My Account main page
     And User should be in /account/home.jsp menu link page
@@ -58,12 +58,13 @@ Feature: Account details Page validations
 
   @HighLevel
   Scenario: Validate error messages and update details in my details form
-    When Enter random first name as First Name in create account section
-    And Enter random last name as Last Name in create account section
-    And Enter random email as Email in create account section
-    And Enter random password as Password in create account section
-    And United States is selected as default value
-    And User clicks on create an account button
+    When User get create account form
+    And first name field is filled with new data
+    And last name field is filled with new data
+    And email field is filled with new data
+    And password field is filled with new data
+    And User selects US country
+    And User clicks Create An Account button
     Then Verify user is in homepage
 
     When click on MY ACCOUNT from header
