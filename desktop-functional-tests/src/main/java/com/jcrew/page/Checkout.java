@@ -195,6 +195,7 @@ public abstract class Checkout extends PageObject{
                 WebElement productElement = productsInBag.get(j);
                 WebElement nameElement = productElement.findElement(By.className("item-name"));
                 String name = nameElement.getText().trim();
+                name.replaceAll("PRE-ORDER ", "");
 
                 String quantity = getQuantity(productElement);
 
