@@ -328,7 +328,7 @@ public class ProductDetailPage {
     	try{
     		
     		WebElement productDetailsAccordion = Util.createWebDriverWait(driver).until(
-    				ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details')]/div/div")));    		
+    				ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details product__description')]/div/div")));    		
     		productDetailsAccordion.click();
     		
     		productCodeElement = Util.createWebDriverWait(driver,30).until(
