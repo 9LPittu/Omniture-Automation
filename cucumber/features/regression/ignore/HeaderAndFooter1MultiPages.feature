@@ -4,9 +4,8 @@ Feature: Embedded Header and Footer Validations
     Given User is on homepage
     And Handle the Email Capture pop up
 
-  Scenario: Account Registration Header Links
+  Scenario: Login Page Header Links
     When Goes to sign in page
-    And Clicks on create new account
     Then Verify embedded headers links
     Then Verify embedded footer is visible and functional
 
