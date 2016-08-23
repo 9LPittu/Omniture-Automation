@@ -1,5 +1,8 @@
 package com.jcrew.runner.regression.highlevel;
 
+/**
+ * Created by 9hvenaga on 4/25/2016.
+ */
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
@@ -7,13 +10,14 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@Account,@Category,@PDP,@Bag","@HighLevel"},
+        tags = {"@WelcomeMat","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-navigationregressionfeatures.json",
+                "json:target/cucumber-welcomematregressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/navigationregressionfeatures"
+                "html:target/cucumber/welcomematregressionfeatures"
         }
 )
-public class NavigationFeaturesRunnerTest {
+
+public class WelcomeMatRunnerTest {
 }
