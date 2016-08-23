@@ -378,11 +378,11 @@ public class SalePage {
         stateHolder.put("firstPageItemName",arrayPageItemNames.get(0).getText());
 
         Select list = new Select(paginationDropdown);
-        int randomNumber = Util.randomIndex(list.getOptions().size());
-        list.selectByIndex(randomNumber);
+        int randomNumber = Util.randomIndex(list.getOptions().size()-1);
+        list.selectByIndex(randomNumber + 1);
 
         //wait till page is changed
-        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("Npge=" + String.valueOf(randomNumber+1)));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("Npge=" + String.valueOf(randomNumber+2)));
         Util.waitLoadingBar(driver);
     }
 

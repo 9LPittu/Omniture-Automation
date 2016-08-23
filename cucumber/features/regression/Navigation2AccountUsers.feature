@@ -2,7 +2,7 @@
 Feature: My Account Page
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     And Goes to sign in page
 

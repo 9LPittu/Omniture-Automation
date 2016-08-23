@@ -5,6 +5,7 @@ Feature: Account details Page validations
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
     And Goes to sign in page
+    Then Login page is loaded
 
   @HighLevel
   Scenario: Validate drop down in My details form is functional for domestic users
