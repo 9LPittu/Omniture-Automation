@@ -41,7 +41,6 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
-
     }
 
     public static User getUser() {
@@ -52,7 +51,6 @@ public class User {
             logger.error("Failed to get user from DB. getting from properties file");
             return new User(true);
         }
-
     }
     
     public static User getUser(String userType) {

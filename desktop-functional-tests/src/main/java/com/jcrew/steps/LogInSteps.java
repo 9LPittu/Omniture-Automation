@@ -138,23 +138,24 @@ public class LogInSteps extends DriverFactory {
     }
     
     public void login(String userType, String addressType, String userClassUserType){
-    	if(!logIn.stateHolder.hasKey("sidecarusername")){
-    		UsersHub userHub = UsersHub.getInstance();
-    		
-    		try {
-				userHub.retrieveUserCredentialsFromDBAndStoreInMap(userType, addressType);
-			} 
-    		catch (SQLException e) {				
-				e.printStackTrace();
-			}
-    	}
-    	
-    	emailAddress = logIn.stateHolder.get("sidecarusername");
-		password = logIn.stateHolder.get("sidecaruserpassword");
+		UsersHub userHub = UsersHub.getInstance();
+		User user = null;
 		
-		boolean result = logIn.submitUserCredentials(emailAddress,password);
+		try {
+			  user = userHub.getUser(userType, addressType);
+			  emailAddress = user.getEmail();
+		      password = user.getPassword();
+		} 
+		catch (SQLException e) {				
+			e.printStackTrace();
+		}
+    	
+		boolean result = logIn.submitUserCredentials(emailAddress, password);
 		if(!result){
 			logIn.signIn(userClassUserType);
+		}
+		else{
+			logIn.stateHolder.put("sidecaruserfirstname", user.getFirstName());
 		}
     }
 

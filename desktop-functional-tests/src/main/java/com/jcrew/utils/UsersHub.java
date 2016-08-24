@@ -103,10 +103,8 @@ public class UsersHub {
 		int numOfRecords = 0;
 		if(rs!=null){
 			try {
-				while(rs.next()){
-				  numOfRecords = Integer.parseInt(rs.getString(1));
-				  break;
-				}
+				rs.next();
+                numOfRecords = Integer.parseInt(rs.getString(1));
 			}
 			catch (Exception e) {
 				throw new SQLException("Exception occurred when retrieving records count from DB..." + e.getMessage());
@@ -144,22 +142,18 @@ public class UsersHub {
         return user;
     }
     
-    public synchronized void retrieveUserCredentialsFromDBAndStoreInMap(String userType, String addressType) throws SQLException{
+    public synchronized User getUser(String userType, String addressType) throws SQLException{
 		if(getAvailableUsersCount(userType, addressType) > 0){
-			String getUserCredentialsSQLQuery = "select username, userpassword, firstname from JCINT2_CUSTOM.SIDECARQAUSERS "
+			String getUserCredentialsSQLQuery = "select username, userpassword, firstname, lastname, DEFAULT_ADDRESS_COUNTRY from JCINT2_CUSTOM.SIDECARQAUSERS "
 										+ "where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'"
 										+ getUserAddressWhereClause(userType, addressType);
 			
 			ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
 			if(rs!=null){
 				try {
-					while(rs.next()){
-						stateHolder.put("sidecarusername", rs.getString(1));
-						logger.info("Current available username for '{}' environment: {}", environment, rs.getString(1));
-						stateHolder.put("sidecaruserpassword", rs.getString(2));
-						stateHolder.put("sidecaruserfirstname", rs.getString(3));
-						break;
-					}
+					  rs.next();
+					  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+					  logger.info("Current available username for '{}' environment: {}", environment, user.getEmail());
 				}
 				catch (SQLException e) {
 					throw new SQLException("Exception occurred when retrieving user credentials from DB..." + e.getMessage());					
@@ -178,6 +172,8 @@ public class UsersHub {
 		}
 		
 		closeDBConnection();
+		
+		return user;
 	}
 
 
