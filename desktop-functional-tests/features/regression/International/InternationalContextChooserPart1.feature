@@ -46,6 +46,9 @@ Feature: International Country Context - Part 1
     When User clicks on sign in using header
     And User fills user data and signs in
     Then Verify user is in My Account main page
+
+    And Verify J.Crew Card Rewards Status reward link for <userCategory> user in My account page
+
     When User clicks on MY DETAILS link in My Account Page
     Then User should be in account/account_detail.jsp? menu link page
     And Verify selected country is in footer

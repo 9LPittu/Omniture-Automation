@@ -200,29 +200,5 @@ public class AccountDetail extends PageObject {
         return formElement;
     }
 
-/*
-    public Map<String, String> getUserDetails() {
-        HashMap<String, String> userDetails = new HashMap<>();
 
-        wait
-        containerBorderLeft
-        wait.until(ExpectedConditions.visibilityOf(leftContainer));
-
-        WebElement information = leftContainer.findElement(By.id(USER_DETAILS_FIRST_NAME));
-        userDetails.put(USER_DETAILS_FIRST_NAME, information.getAttribute("value"));
-
-        information = leftContainer.findElement(By.id(USER_DETAILS_LAST_NAME));
-        userDetails.put(USER_DETAILS_LAST_NAME, information.getAttribute("value"));
-
-        information = leftContainer.findElement(By.id(USER_DETAILS_EMAIL));
-        userDetails.put(USER_DETAILS_EMAIL, information.getAttribute("value"));
-
-        Select country = new Select(leftContainer.findElement(By.id(USER_DETAILS_COUNTRY)));
-        logger.debug("User details country: {}", country.getFirstSelectedOption().getText());
-        userDetails.put(USER_DETAILS_COUNTRY, country.getFirstSelectedOption().getText());
-
-        return userDetails;
-    }
-
-*/
 }

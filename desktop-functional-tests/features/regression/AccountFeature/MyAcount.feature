@@ -7,7 +7,6 @@ Feature: My Account page validations
     When User clicks on sign in using header
     Then User goes to sign in page
 
-  @Highlevel
   Scenario: verify left nav links in my account pages are functional for domestic user
     And User fills user data and signs in
     Then Verify user is in My Account main page
@@ -53,7 +52,7 @@ Feature: My Account page validations
 
     And Verify J.Crew Card Rewards Status reward link for <userCategory> user in My account page
 
-    When User clicks on J.Crew Card Rewards Status link in My Account Page
+    When User clicks on J.Crew Card Rewards Status reward link from My Account Page
     Then User should be in /r/account/jccc-rewards menu link page
 
     Examples:
