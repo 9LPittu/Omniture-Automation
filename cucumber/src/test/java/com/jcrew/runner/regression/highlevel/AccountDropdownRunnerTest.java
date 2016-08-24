@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@Account,@Category,@PDP,@Bag","@HighLevel"},
+        tags = {"@AccountDropdown","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-navigationregressionfeatures.json",
+                "json:target/cucumber-regression-account-dropdown.json",
                 "pretty",
-                "html:target/cucumber/navigationregressionfeatures"
+                "html:target/cucumber/regression-account-dropdown"
         }
 )
-public class NavigationFeaturesRunnerTest {
+public class AccountDropdownRunnerTest {
 }

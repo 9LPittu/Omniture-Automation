@@ -1,4 +1,4 @@
-@WelcomeMat
+@WelcomeMat @HighLevel
 Feature: Welcome Mat for ROW with checkout
 
 #US15294_TC01,US15294_TC03,US15294_TC04,US15294_TC05

@@ -7,13 +7,14 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression"},
-        tags = {"@Account,@Category,@PDP,@Bag","@HighLevel"},
+        tags = {"@Context_Part2","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-navigationregressionfeatures.json",
+                "json:target/cucumber-international-context-part2-regression-features.json",
                 "pretty",
-                "html:target/cucumber/navigationregressionfeatures"
+                "html:target/cucumber/international-context-part2-regression-features"
         }
 )
-public class NavigationFeaturesRunnerTest {
+
+public class InternationalContextPart2RunnerTest {
 }
