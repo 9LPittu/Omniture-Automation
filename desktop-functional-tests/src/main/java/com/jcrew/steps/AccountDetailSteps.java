@@ -25,6 +25,12 @@ public class AccountDetailSteps extends DriverFactory{
     public void verify_birth_field(String isEnabled) {
         assertTrue("Verify birthday filed should be " + isEnabled, accountDetail.isBirthField(isEnabled));
     }
+
+    @And("Verify \'([^\"]*)\' copy displayed")
+    public void verify_birth_copy_displayed(String expectedCopy) {
+        assertEquals("Verify birth copy displayed", expectedCopy, accountDetail.getBirthdayCopy());
+    }
+
     @And("User update ([^\"]*) with ([^\"]*) data")
     public void update_field(String filedName,String updateType){
         accountDetail.updateDetails(filedName, updateType);

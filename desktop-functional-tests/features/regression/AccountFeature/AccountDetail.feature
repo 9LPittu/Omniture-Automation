@@ -57,24 +57,4 @@ Feature: Account details Page validations
 #    And Verify 'Better than cake: make sure you are signed up for emails to get a special gift on your big day!' copy displayed
 
 
-  Scenario Outline: Validate rewards link is visible only for loyalty user in mydetail page
 
-    When User provides <userCategory> category login information
-    And Check box is enabled
-    And Hits sign in button
-    Then User is in My Account home page
-    And User should be in /account/home.jsp menu link page
-
-    When User clicks on MY DETAILS link in My Account Page
-    Then My Details form should display
-    And User should be in /r/account/details menu link page
-
-    Then Verify J.Crew Card Rewards Status reward link for <userCategory> user in My details dropdown
-
-    When User selects J.Crew Card Rewards Status from my details dropdown
-    Then User should be in /r/account/jccc-rewards menu link page
-
-    Examples:
-      |userCategory |
-      |loyalty  |
-      |noLoyalty|

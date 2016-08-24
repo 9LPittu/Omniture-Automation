@@ -115,6 +115,18 @@ public class AccountDetail extends PageObject {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(confimation));
         return confimation.getText();
     }
+    public String getBirthdayCopy() {
+        WebElement birthCopy;
+        WebElement birthCopyWrap = accountDetailForm.findElement(By.className("my-details-form__label"));
+        birthCopy = birthCopyWrap.findElement(By.xpath("//span[contains(@class,'is-birth-date-empty')]"));
+
+        if (!(birthCopy.getAttribute("class").contains("is-hidden"))) {
+            return birthCopy.getText();
+        } else {
+            birthCopy = birthCopyWrap.findElement(By.xpath("//span[contains(@class,'is-birth-date-populated')]"));
+            return birthCopy.getText();
+        }
+    }
 
     public WebElement getMenuLink(String link){
         Util.waitForPageFullyLoaded(driver);
