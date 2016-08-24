@@ -1,9 +1,11 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.User;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -120,6 +122,9 @@ public class MyAccount {
         }
     }
 
+
+
+
     private WebElement getMenuLink(String link,String page) {
         Util.waitForPageFullyLoaded(driver);
         Country country = (Country) stateHolder.get("context");
@@ -130,6 +135,17 @@ public class MyAccount {
      }else{
          return new AccountDetail(driver).getMenuLink(link);
      }
+    }
+
+    public boolean verifyRewardLink(String link, String userCategory) {
+        boolean expected = false;
+        Country c = (Country) stateHolder.get("context");
+
+        if (userCategory.equalsIgnoreCase(User.CAT_LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())))
+            expected = true;
+
+        return expected == isMenuLinkPresent(link);
+
     }
 
     public boolean isInMenuLinkPage(String page) {
@@ -151,4 +167,16 @@ public class MyAccount {
         }
 
     }
+
+    public boolean isMenuLinkPresent(String link) {
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(main_inside));
+        try {
+            WebElement menuLink = driver.findElement(By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]"));
+            return (menuLink.isDisplayed());
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
 }

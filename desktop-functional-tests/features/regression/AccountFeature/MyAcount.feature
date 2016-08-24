@@ -42,25 +42,17 @@ Feature: My Account page validations
     Then User should be in /wishlist menu link page
     And User presses browser back button
 
-
     When User clicks on Sign Out link in My Account Page
 
 
   Scenario Outline: Validate rewards link is visible only for loyalty user in my account pages
 
-    When User provides <userCategory> category login information
-    And Check box is enabled
-    And Hits sign in button
-    Then User is in My Account home page
-    And User should be in /account/home.jsp menu link page
+    When User fills <userCategory> category data and signs in
+    Then Verify user is in My Account main page
 
-    When User clicks on MY DETAILS link in My Account Page
-    Then My Details form should display
-    And User should be in /r/account/details menu link page
+    And Verify J.Crew Card Rewards Status reward link for <userCategory> user in My account page
 
-    Then Verify J.Crew Card Rewards Status reward link for <userCategory> user in My details dropdown
-
-    When User selects J.Crew Card Rewards Status from my details dropdown
+    When User clicks on J.Crew Card Rewards Status link in My Account Page
     Then User should be in /r/account/jccc-rewards menu link page
 
     Examples:

@@ -51,6 +51,11 @@ public class MyAccountSteps extends DriverFactory {
         assertTrue("User is in order history page",myAccount.isOrderHistoryPage());
     }
 
+    @And("Verify ([^\"]*) reward link for ([^\"]*) user in My account page")
+    public void reward_link_displayed_in_dropdown_for_user(String link, String userCategory) {
+        assertTrue(link + " link displayed for user category " + userCategory, myAccount.verifyRewardLink(link, userCategory));
+    }
+
     @Then("^User clicks on ([^\"]*) link in ([^\"]*) Page$")
     public void user_clicks_on_link_in_my_account_page(String link,String page) throws Throwable {
         myAccount.click_menu_link(link,page);
