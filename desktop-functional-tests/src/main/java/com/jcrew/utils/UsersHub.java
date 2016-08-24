@@ -120,7 +120,7 @@ public class UsersHub {
             getUserSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
         }
         else {
-            getUserSQLQuery = "select username, userpassword from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
+            getUserSQLQuery = "select username, userpassword,firstname,lastname,default_address_country from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
         }
         switch (userCategory) {
             case User.CAT_LOYALTY:

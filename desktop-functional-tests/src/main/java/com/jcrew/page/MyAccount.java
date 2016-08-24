@@ -98,10 +98,13 @@ public class MyAccount {
 
         Country c = (Country) stateHolder.get("context");
 
+
         // to validate the my account page left nav links
         //US: Gift card balance, Catalog Preferences,My Details, Email Preferences, Payment Methods, Address Book, Order History, Wish list & Sign Out
         //CANADA: All the above except Gift card balance will be there
         //All the other countries: Gift card Balance and Catalog Preferences will not be present
+
+
 
         switch (c.getCountry()) {
             case "us":
@@ -130,14 +133,22 @@ public class MyAccount {
 
     private WebElement getMenuLink(String link,String page) {
         Util.waitForPageFullyLoaded(driver);
-        Country country = (Country) stateHolder.get("context");
-        logger.debug(country.getCountry());
-     if("My Account".equalsIgnoreCase(page)) {
-         wait.until(ExpectedConditions.visibilityOf(main_inside));
-         return main_inside.findElement(By.linkText(link));
-     }else{
-         return new AccountDetail(driver).getMenuLink(link);
-     }
+        Country c = (Country) stateHolder.get("context");
+        User user = (User) stateHolder.get("sidecaruserCategory");
+        logger.debug(c.getCountry());
+
+        boolean isRewardLink = link.equalsIgnoreCase("J.Crew Card Rewards Status");
+        boolean isRewardsVisible = true;
+
+        if (isRewardLink)
+            isRewardsVisible = ((user.getUserCategory().equalsIgnoreCase(User.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && isRewardLink);
+
+         if("My Account".equalsIgnoreCase(page)) {
+             wait.until(ExpectedConditions.visibilityOf(main_inside));
+             return main_inside.findElement(By.linkText(link));
+         }else{
+             return new AccountDetail(driver).getMenuLink(link);
+         }
     }
 
     public boolean verifyRewardLink(String link, String userCategory) {

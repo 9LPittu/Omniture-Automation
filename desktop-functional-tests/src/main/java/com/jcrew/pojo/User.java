@@ -111,6 +111,9 @@ public class User {
         this.countryCode = countryCode;
     }
 
+    public String getUserCategory(){
+        return userCategory;
+    }
     public static String getSomePassword(int characters) {
         Faker faker = new Faker();
         return faker.lorem().fixedString(characters);
