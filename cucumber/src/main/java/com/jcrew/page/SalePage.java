@@ -341,6 +341,9 @@ public class SalePage {
 
         String currentUrl = driver.getCurrentUrl();
         boolean isPromoUrl = (currentUrl.toLowerCase().contains(url.toLowerCase())) || (currentUrl.contains(promoUrl));
+
+        if (url.equalsIgnoreCase("n="))
+            isPromoUrl &= !currentUrl.endsWith(url.toLowerCase());
         return isPromoUrl;
     }
 
@@ -484,13 +487,14 @@ public class SalePage {
     }
 
     public void clickOnSecondPromoSaleCategoryLink(String link)  {
-        try {
+            try {
             String saleCategory = link.trim().toLowerCase();
             WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
             WebElement secondPromoLink = secondPromo.findElement(
                     By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
                             saleCategory + "']"));
             secondPromoLink.click();
+            Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("/r/search"));
         }catch (NoSuchElementException e) {
             logger.debug("the link {} cannot be clicked as it is not found", link);
             clickOnSaleDept(link);

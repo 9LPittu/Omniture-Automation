@@ -141,10 +141,10 @@ Feature: Sale Regression Suite
 
     Examples:
       |promo_link|URL|
-      |women|N=21+17|
-      |men  |N=21+16|
-      |boys |N=21+18|
-      |girls|N=21+19|
+      |women|N=|
+      |men  |N=|
+      |boys |N=|
+      |girls|N=|
 
     #US9874_TC12, #US9874_TC13, #US9874_TC14
 #    Scenario: Details link display and functionality

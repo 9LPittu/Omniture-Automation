@@ -82,7 +82,7 @@ public class LoginPage {
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("/r/login"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("registered-email")));
     }
 
     public void input_as_email(String email) {
