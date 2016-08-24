@@ -143,35 +143,36 @@ public class UsersHub {
     }
     
     public synchronized User getUser(String userType, String addressType) throws SQLException{
-		if(getAvailableUsersCount(userType, addressType) > 0){
-			String getUserCredentialsSQLQuery = "select username, userpassword, firstname, lastname, DEFAULT_ADDRESS_COUNTRY from JCINT2_CUSTOM.SIDECARQAUSERS "
-										+ "where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'"
-										+ getUserAddressWhereClause(userType, addressType);
-			
-			ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
-			if(rs!=null){
-				try {
-					  rs.next();
-					  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
-					  logger.info("Current available username for '{}' environment: {}", environment, user.getEmail());
+    	if(user==null){
+			if(getAvailableUsersCount(userType, addressType) > 0){
+				String getUserCredentialsSQLQuery = "select username, userpassword, firstname, lastname, DEFAULT_ADDRESS_COUNTRY from JCINT2_CUSTOM.SIDECARQAUSERS "
+											+ "where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'"
+											+ getUserAddressWhereClause(userType, addressType);
+				
+				ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
+				if(rs!=null){
+					try {
+						  rs.next();
+						  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+						  logger.info("Current available username for '{}' environment: {}", environment, user.getEmail());
+					}
+					catch (SQLException e) {
+						throw new SQLException("Exception occurred when retrieving user credentials from DB..." + e.getMessage());					
+					}
 				}
-				catch (SQLException e) {
-					throw new SQLException("Exception occurred when retrieving user credentials from DB..." + e.getMessage());					
-				}
+				
+				String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' "
+									+ "where brand='jcrew' and username='" + stateHolder.get("sidecarusername") + 
+									"' and Environment='"  + environment + "'" + getUserAddressWhereClause(userType, addressType);
+				
+				executeSQLQuery(updateAllocationFlagSQLQuery);
 			}
-			
-			String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' "
-								+ "where brand='jcrew' and username='" + stateHolder.get("sidecarusername") + 
-								"' and Environment='"  + environment + "'" + getUserAddressWhereClause(userType, addressType);
-			
-			executeSQLQuery(updateAllocationFlagSQLQuery);
-		}
-		else{
-			logger.error("No username records are available in DB for '" + environment + "' environment");
-			throw new SQLException("No username records are available in DB for '" + environment + "' environment");
-		}
-		
-		closeDBConnection();
+			else{
+				logger.error("No username records are available in DB for '" + environment + "' environment");
+				throw new SQLException("No username records are available in DB for '" + environment + "' environment");
+			}
+			closeDBConnection();
+    	}
 		
 		return user;
 	}

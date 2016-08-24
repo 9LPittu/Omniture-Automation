@@ -58,7 +58,7 @@ public class CheckoutSignIn extends Checkout {
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
     
-    public void enterLoginCredentials(String emailAddress, String password){
+    public boolean enterLoginCredentials(String emailAddress, String password){
     	
     	loginUser.clear();
     	loginUser.sendKeys(emailAddress);
@@ -69,6 +69,7 @@ public class CheckoutSignIn extends Checkout {
         String url = driver.getCurrentUrl();
         WebElement submit = signInForm.findElement(By.className("button-submit"));
         submit.click();
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        boolean result = wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        return result;
     }
 }
