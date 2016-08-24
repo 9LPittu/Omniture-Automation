@@ -47,7 +47,7 @@ public class HomePage {
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("page__home")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
     }
@@ -75,10 +75,7 @@ public class HomePage {
 
     public boolean isHomePage() {
         Country country = (Country)stateHolder.get("context");
-
         WebDriverWait wait = Util.createWebDriverWait(driver);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         final WebElement pageHome = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page__home")));
 
         Util.waitWithStaleRetry(driver,pageHome);
