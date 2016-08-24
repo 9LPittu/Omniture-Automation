@@ -243,9 +243,11 @@ public class LogIn extends DriverFactory {
                 break;
             case "email":
                 value = user.getEmail();
+                stateHolder.put("fakenewuserID",value);
                 break;
             case "password":
                 value = user.getPassword();
+                stateHolder.put("fakenewuserPassword",value);
                 break;
             case "country":
                 value = user.getCountry();

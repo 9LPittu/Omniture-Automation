@@ -17,7 +17,7 @@ Feature: Create New Account International
       | last name  | Please enter last name.             |
       | email      | Please enter a valid email address. |
       | password   | Please enter password.              |
-    When email field is filled with "invalid"
+    When email field is filled with invalid data "invalid"
     Then Fields will get error messages, ignore case
       | email | Please enter a valid email address. |
     When email field is filled with new data

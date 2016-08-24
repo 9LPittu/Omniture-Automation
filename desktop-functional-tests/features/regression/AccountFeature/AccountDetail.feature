@@ -7,55 +7,6 @@ Feature: Account details Page validations
     When User clicks on sign in using header
     Then User goes to sign in page
 
-
-  @NotForDesktop
-  Scenario: Validate drop down in My details form is functional for domestic users
-    And User fills user data and signs in
-    Then Verify user is in My Account main page
-    And User should be in /account/home.jsp menu link page
-
-    When User clicks on MY DETAILS link in My Account Page
-    Then Verify user is in account details page
-    And User should be in /r/account/details menu link page
-
-    When User selects Home from my details dropdown
-    Then User should be in /account/home.jsp menu link page
-
-    When User presses back button
-    And User selects Email Preferences from my details dropdown
-    Then User should be in email_preferences.jsp menu link page
-
-    When User presses back button
-    And User selects Catalog Preferences from my details dropdown
-    Then User should be in catalog_preferences.jsp menu link page
-
-    When User presses back button
-    And User selects Payment Methods from my details dropdown
-    Then User should be in payment_info.jsp menu link page
-
-    When User presses back button
-    And User selects Gift Card Balance from my details dropdown
-    Then User should be in checkout/giftcard_balance1.jsp menu link page
-
-    When User presses back button
-    And User selects Address Book from my details dropdown
-    Then User should be in address_book.jsp menu link page
-
-    When User presses back button
-    And User selects Order History from my details dropdown
-    Then User should be in reg_user_order_history.jsp menu link page
-
-    When User presses back button
-    And User selects My Wishlist from my details dropdown
-    Then User should be in /wishlist menu link page
-
-    When User presses back button
-    And User presses back button
-
-    And User navigates to my detail form
-    And User selects Sign Out from my details dropdown
-    Then Verify user is in homepage
-
   @HighLevel
   Scenario: Validate error messages and update details in my details form
     When User get create account form
@@ -67,19 +18,19 @@ Feature: Account details Page validations
     And User clicks Create An Account button
     Then Verify user is in homepage
 
-    When click on MY ACCOUNT from header
-    And user clicks on "My Details" from My Account dropdown
-    Then Verify birth field is enabled
+    When User goes to My Details using header
+    Then Verify user is in account details page
+    And Verify birth field is enabled
 
 #    And Verify 'Add your birthday and we'll send you something special on your big day!' copy displayed
 
-    When Update first name with invalid data
+    And User update first name with invalid data
     Then Verify 'Please enter first name.' error message displayed for first name field
 
-    When Update last name with invalid data
+    When User update last name with invalid data
     Then Verify 'Please enter last name.' error message displayed for last name field
 
-    When Update email with invalid data
+    When User update email with invalid data
     And Verify 'Please enter a valid email address.' error message displayed for email field
 
     When Select March as Month from date
@@ -89,15 +40,13 @@ Feature: Account details Page validations
     And Select 01 as day from date
     Then Verify 'Please enter Month.' error message displayed for Birth field
 
-    When User scrolls up the page
-    And click on MY ACCOUNT from header
-    And user clicks on "My Details" from My Account dropdown
-    Then Verify Embedded header is displayed
-    And Verify embedded footer is visible and functional
 
-    When Update first name with valid data
-    And Update last name with valid data
-    And Update email with valid data
+    When User goes to My Details using header
+    Then Verify user is in account details page
+
+    When User update first name with valid data
+    And User update last name with valid data
+    And User update email with valid data
     And Select March as Month from date
     And Select 01 as day from date
     And Click on Change Password in my details form

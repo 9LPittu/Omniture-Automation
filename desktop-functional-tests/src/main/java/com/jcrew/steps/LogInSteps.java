@@ -71,12 +71,12 @@ public class LogInSteps extends DriverFactory {
         assertFalse("Field " + field + " should not display error message", logIn.hasErrorMessage(field));
     }
 
-    @When("([^\"]*) field is filled with \"([^\"]*)\"")
+    @When("^([^\"]*) field is filled with invalid data \"([^\"]*)\"$")
     public void field_is_filled_with(String field, String value) {
         logIn.fillField(field, value);
     }
 
-    @When("([^\"]*) field is filled with ([^\"]*) data")
+    @When("^([^\"]*) field is filled with ([^\"]*) data$")
     public void field_is_filled_with_new_data(String field, String userType) {
         if("new".equalsIgnoreCase(userType))
             logIn.fillField(field, true);

@@ -128,7 +128,7 @@ public class MyAccount {
          wait.until(ExpectedConditions.visibilityOf(main_inside));
          return main_inside.findElement(By.linkText(link));
      }else{
-         return new AccountDetail(driver).getMenuLink(link,page);
+         return new AccountDetail(driver).getMenuLink(link);
      }
     }
 
