@@ -190,7 +190,7 @@ Feature: Footer Verification In Home Page
     And Click on sublink Madewell from Our Brands footer link
     And Verify user is on the madewell page
     And page url should contain srcCode=JCFooter
-    And external https://www.madewell.com/index.jsp page is opened in a different tab
+    And external madewell page is opened in a different tab
 
 
 
