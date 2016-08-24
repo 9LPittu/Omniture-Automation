@@ -1,4 +1,4 @@
-@AccountWIP
+@AccountDev
 Feature: Account details Page validations
 
   Background:
@@ -7,7 +7,6 @@ Feature: Account details Page validations
     When User clicks on sign in using header
     Then User goes to sign in page
 
-  @HighLevel
   Scenario: Validate error messages and update details in my details form
     When User get create account form
     And first name field is filled with new data
@@ -55,6 +54,3 @@ Feature: Account details Page validations
     Then verify confirmation message displayed
     And Verify birth field is disabled
 #    And Verify 'Better than cake: make sure you are signed up for emails to get a special gift on your big day!' copy displayed
-
-
-

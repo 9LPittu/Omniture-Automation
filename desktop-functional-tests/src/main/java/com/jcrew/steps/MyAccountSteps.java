@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  */
 public class MyAccountSteps extends DriverFactory {
     MyAccount myAccount = new MyAccount(getDriver());
-    AccountDetail accountDetails = new AccountDetail(getDriver());
+
     StateHolder stateHolder = StateHolder.getInstance();
 
     @When("User goes to ([^\"]*) using My Account menu")
@@ -35,7 +35,7 @@ public class MyAccountSteps extends DriverFactory {
     public void sign_in_user_information_should_match_my_details_page(String userType) {
         User user = (User) stateHolder.get("signedUser");
 
-        Map<String, String> userDetails = accountDetails.getUserDetails();
+        Map<String, String> userDetails = myAccount.getLoggedInUserDetails();
         String user_country = user.getCountry();
 
         boolean equalsIgnoreCase = user_country.equalsIgnoreCase(userDetails.get(myAccount.USER_DETAILS_COUNTRY));
@@ -52,8 +52,10 @@ public class MyAccountSteps extends DriverFactory {
     }
 
     @And("Verify ([^\"]*) reward link for ([^\"]*) user in My account page")
-    public void reward_link_displayed_in_dropdown_for_user(String link, String userCategory) {
-        assertTrue(link + " link displayed for user category " + userCategory, myAccount.verifyRewardLink(link, userCategory));
+    public void reward_link_displayed_for_user(String link, String userCategory) {
+        User signedInUser = (User ) stateHolder.get("signedUser");
+        assertTrue(link + " link displayed for "+signedInUser.getEmail()+" user and category " + userCategory,
+                myAccount.verifyRewardLink(link, userCategory));
     }
 
     @Then("^User clicks on ([^\"]*) link in ([^\"]*) Page$")

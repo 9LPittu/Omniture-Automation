@@ -89,9 +89,7 @@ public class LogIn extends DriverFactory {
         signInHereButton.click();
         stateHolder.put("signedUser", knownUser);
     }
-    public void signIn() {
-        signIn("");
-    }
+
 
     public boolean hasExpectedPattern(String pattern) {
         Country country = (Country) stateHolder.get("context");
