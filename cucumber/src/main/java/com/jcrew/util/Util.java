@@ -150,7 +150,7 @@ public class Util {
         boolean success = false;
         WebDriverWait wait = createWebDriverWait(driver);
 
-        while (attempts < 20 && !success) {
+        while (attempts < 4 && !success) {
             try {
                 wait.until(ExpectedConditions.visibilityOf(element));
                 success = true;
