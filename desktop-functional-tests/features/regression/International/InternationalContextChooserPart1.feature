@@ -50,7 +50,7 @@ Feature: International Country Context - Part 1
     And Verify J.Crew Card Rewards Status reward link for <userCategory> user in My account page
 
     When User clicks on My Details link in My Account Page
-    Then User should be in account/account_detail.jsp? menu link page
+    Then User should be in r/account/details menu link page
     And Verify selected country is in footer
 
     When User clicks on Home link in Account detail Page
