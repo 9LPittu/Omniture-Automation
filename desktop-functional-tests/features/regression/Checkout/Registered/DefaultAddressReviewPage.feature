@@ -1,6 +1,6 @@
 @RegisteredCheckout
 Feature: Checkout - Default shipping, Billing and Shipping Method on Review page for registered user
-
+ 
   Scenario: Verify default shipping, billing and shipping method on Review page  for registered user
   	Given User goes to homepage
   	And User closes email capture
@@ -13,7 +13,7 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     
     And User goes to homepage
     When User opens menu
-        And User selects random category from list
+    And User selects random category from list
     	|Women|
     	|Men|
     	|Girls|

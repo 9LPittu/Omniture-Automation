@@ -154,6 +154,7 @@ public class UsersHub {
 					try {
 						  rs.next();
 						  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+						  logger.info("userType - " + userType + ", addressType - " + addressType);
 						  logger.info("Current available username for '{}' environment: {}", environment, user.getEmail());
 					}
 					catch (SQLException e) {
