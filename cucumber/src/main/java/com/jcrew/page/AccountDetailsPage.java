@@ -36,6 +36,9 @@ public class AccountDetailsPage {
     public AccountDetailsPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
+        Util.waitWithStaleRetry(driver,myDetailForm);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
     }
 
     public boolean isMyDetailPage() {
