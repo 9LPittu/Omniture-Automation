@@ -42,6 +42,7 @@ public class AccountDetailsPage {
         try {
             Util.waitForPageFullyLoaded(driver);
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
+            Util.waitWithStaleRetry(driver,myDetailForm);
             return myDetailForm.isDisplayed();
         } catch (Exception e) {
 
