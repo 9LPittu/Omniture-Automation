@@ -1,4 +1,4 @@
-@AccountDev
+@Account
 Feature: Account details Page validations
 
   Background:
