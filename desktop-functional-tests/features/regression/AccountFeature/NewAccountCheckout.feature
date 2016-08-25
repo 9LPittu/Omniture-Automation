@@ -18,7 +18,9 @@ Feature: Create New Account in US
     Then Verify user is in homepage
 
     When User goes to My Details using header
-    And User goes to Payment Methods using My Account menu
+    When User clicks on Home link in Account detail Page
+
+    When User clicks on Payment Methods link in My Account Page
     Then Verify user is in Payment Methods page
     And User has 0 payment methods
 
