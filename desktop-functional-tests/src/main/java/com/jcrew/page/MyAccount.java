@@ -52,9 +52,6 @@ public class MyAccount {
         this.header = new HeaderWrap(driver);
     }
 
-    public Map<String, String> getLoggedInUserDetails() {
-        return  new AccountDetail(driver).getUserDetails();
-    }
 
     public boolean isMyAccountMainPage() {
         WebElement myAccountBanner = main_content.findElement(By.tagName("h2"));

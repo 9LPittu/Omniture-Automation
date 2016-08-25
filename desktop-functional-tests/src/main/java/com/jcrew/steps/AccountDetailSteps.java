@@ -1,9 +1,12 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.AccountDetail;
+import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -36,6 +39,12 @@ public class AccountDetailSteps extends DriverFactory{
         accountDetail.updateDetails(filedName, updateType);
 
     }
+
+    @Then("([^\"]*) user information should match My Details page")
+    public void sign_in_user_information_should_match_my_details_page(String strIsNewUser) {
+       assertTrue("Logged in user info should match with account detail",accountDetail.isAccountInfoMatched());
+    }
+
     @And("Verify \'([^\"]*)\' error message displayed for ([^\"]*) field")
     public void verify_error_message(String errMsgExpected, String fieldLabel) {
         assertEquals(fieldLabel + " error message should match", errMsgExpected, accountDetail.getErrorMessage(fieldLabel));

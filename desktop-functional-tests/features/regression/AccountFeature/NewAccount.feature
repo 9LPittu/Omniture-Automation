@@ -47,6 +47,7 @@ Feature: Create New Account International
     And User clicks Create An Account button
     Then Verify user is in homepage
     When User goes to My Details using header
+    Then Verify user is in account details page
     Then New user information should match My Details page
     Examples:
       | country_group |

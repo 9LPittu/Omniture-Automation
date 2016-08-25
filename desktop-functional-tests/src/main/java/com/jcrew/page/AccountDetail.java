@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -14,6 +15,9 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by msayed3 on 8/20/2016.
@@ -28,7 +32,6 @@ public class AccountDetail extends PageObject {
 
     @FindBy(id = "account_content")
     WebElement accountContentSection;
-
 
 
     public final String USER_DETAILS_FIRST_NAME = "my-details-form__first-name";
@@ -67,9 +70,24 @@ public class AccountDetail extends PageObject {
     public String getErrorMessage(String fieldLabel) {
         return getformElement(fieldLabel).findElement(By.xpath("following-sibling::span")).getText();
     }
+
+    public boolean isAccountInfoMatched(){
+        User loggedInUser = (User) stateHolder.get("signedUser");
+
+        Map<String, String> userDetails = getUserDetails();
+
+        boolean equalsFirstName = userDetails.get(USER_DETAILS_FIRST_NAME).equalsIgnoreCase(loggedInUser.getFirstName());
+        boolean equalsLastName =  userDetails.get(USER_DETAILS_LAST_NAME).equalsIgnoreCase(loggedInUser.getLastName());
+        boolean equalsEmail =  userDetails.get(USER_DETAILS_EMAIL).equalsIgnoreCase(loggedInUser.getEmail());
+        boolean equalsCountry = userDetails.get(USER_DETAILS_COUNTRY).equalsIgnoreCase(loggedInUser.getCountry());
+        logger.debug("Compare account info in account detail page first {},lastname {},email {},country {}",equalsFirstName,
+                equalsLastName,equalsEmail,equalsCountry);
+        return (equalsFirstName && equalsLastName && equalsEmail && equalsCountry);
+    }
     public void clickChangePassword() {
         getformElement("change password").click();
     }
+
     public void fillChangePasswordFileds() {
         getformElement("Old password").sendKeys((String) stateHolder.get("fakenewuserPassword"));
         getformElement("New password").sendKeys("TestNewPassword");
@@ -141,7 +159,6 @@ public class AccountDetail extends PageObject {
         HashMap<String, String> userDetails = new HashMap<>();
 
 
-
         wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
 
         WebElement information = accountDetailForm.findElement(By.id(USER_DETAILS_FIRST_NAME));
@@ -153,9 +170,10 @@ public class AccountDetail extends PageObject {
         information = accountDetailForm.findElement(By.id(USER_DETAILS_EMAIL));
         userDetails.put(USER_DETAILS_EMAIL, information.getAttribute("value"));
 
-        Select country = new Select(accountDetailForm.findElement(By.id(USER_DETAILS_COUNTRY)));
-        logger.debug("User details country: {}", country.getFirstSelectedOption().getText());
-        userDetails.put(USER_DETAILS_COUNTRY, country.getFirstSelectedOption().getText());
+
+        information = accountDetailForm.findElement(By.xpath("//span[@class='my-details-form__selected-country']"));
+        logger.debug("User details country: {}", information.getText());
+        userDetails.put(USER_DETAILS_COUNTRY, information.getText());
 
         return userDetails;
     }

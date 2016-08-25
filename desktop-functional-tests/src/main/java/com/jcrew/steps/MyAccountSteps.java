@@ -31,20 +31,6 @@ public class MyAccountSteps extends DriverFactory {
         assertTrue("User is in My Account page", myAccount.isMyAccountMainPage());
     }
 
-    @Then("([^\"]*) user information should match My Details page")
-    public void sign_in_user_information_should_match_my_details_page(String userType) {
-        User user = (User) stateHolder.get("signedUser");
-
-        Map<String, String> userDetails = myAccount.getLoggedInUserDetails();
-        String user_country = user.getCountry();
-
-        boolean equalsIgnoreCase = user_country.equalsIgnoreCase(userDetails.get(myAccount.USER_DETAILS_COUNTRY));
-
-        assertEquals("First name matches", userDetails.get(myAccount.USER_DETAILS_FIRST_NAME), user.getFirstName());
-        assertEquals("Last name matches", userDetails.get(myAccount.USER_DETAILS_LAST_NAME), user.getLastName());
-        assertEquals("Email matches", userDetails.get(myAccount.USER_DETAILS_EMAIL), user.getEmail());
-        assertTrue("Country matches", equalsIgnoreCase);
-    }
 
     @Then("Verify user is in Order History page")
     public void user_is_in_order_history_page() {
