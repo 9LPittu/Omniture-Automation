@@ -24,17 +24,18 @@ public class CheckoutMergeCartSteps extends DriverFactory {
 
     @Then("Verify user is welcome to Merge Cart page")
     public void user_is_welcome() {
-    	String user = "";
-    	if(mergeCart.stateHolder.hasKey("sidecarusername")){
-    		user = (String) mergeCart.stateHolder.get("sidecaruserfirstname");
+    	String userFirstName = "";
+    	if(mergeCart.stateHolder.hasKey("userObject")){
+    		User user = mergeCart.stateHolder.get("userObject");
+    		userFirstName = user.getFirstName();
     	}
     	else{        
-    		user = User.getUser(User.DEFAULT).getFirstName();
+    		userFirstName = User.getUser(User.DEFAULT).getFirstName();
     	}
         
         String userName = mergeCart.getUserName();
 
-        assertEquals("User is welcome to merge cart page", user.toLowerCase(), userName.toLowerCase());
+        assertEquals("User is in welcome to merge cart page", userFirstName.toLowerCase(), userName.toLowerCase());
     }
 
     @Then("Verify user is in Merge Cart page")

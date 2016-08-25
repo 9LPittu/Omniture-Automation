@@ -142,9 +142,10 @@ public class LogInSteps extends DriverFactory {
 		User user = null;
 		
 		try {
-			  user = userHub.getUser(userType, addressType);
+			  user = userHub.getUser(userType, addressType);			  
 			  emailAddress = user.getEmail();
 		      password = user.getPassword();
+		      logIn.stateHolder.put("userObject", user);
 		} 
 		catch (SQLException e) {				
 			e.printStackTrace();
@@ -153,10 +154,7 @@ public class LogInSteps extends DriverFactory {
 		boolean result = logIn.submitUserCredentials(emailAddress, password);
 		if(!result){
 			logIn.signIn(userClassUserType);
-		}
-		else{
-			logIn.stateHolder.put("sidecaruserfirstname", user.getFirstName());
-		}
+		}		
     }
 
 }

@@ -20,15 +20,8 @@ public class CheckoutSignInSteps extends DriverFactory {
 
     @When("User signs in and checks out")
     public void sign_in_and_check_out() {
-    	UsersHub userHub = UsersHub.getInstance();
-    	User user = null;
+    	User user = signIn.stateHolder.get("userObject");
     	
-    	try {
-			 user = userHub.getUser("express", "single");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
     	boolean result = signIn.enterLoginCredentials(user.getEmail(), user.getPassword());
     	if(!result){
     		signIn.signInAndCheckout(signIn.DEFAULT);
@@ -37,14 +30,7 @@ public class CheckoutSignInSteps extends DriverFactory {
     
     @When("User signs in with no default user and checks out")
     public void sign_in_no_default_and_check_out() {
-    	UsersHub userHub = UsersHub.getInstance();
-    	User user = null;
-    	
-    	try {
-			 user = userHub.getUser("nonexpress", "single");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    	User user = signIn.stateHolder.get("userObject");
 
     	boolean result = signIn.enterLoginCredentials(user.getEmail(), user.getPassword());
     	if(!result){
@@ -54,14 +40,7 @@ public class CheckoutSignInSteps extends DriverFactory {
 
     @When("User signs in with multiple address user and checks out")
     public void sign_in_multiple_and_check_out() {
-    	UsersHub userHub = UsersHub.getInstance();
-    	User user = null;
-    	
-    	try {
-			 user = userHub.getUser("express", "multiple");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    	User user = signIn.stateHolder.get("userObject");
 
     	boolean result = signIn.enterLoginCredentials(user.getEmail(), user.getPassword());
     	if(!result){
@@ -71,14 +50,7 @@ public class CheckoutSignInSteps extends DriverFactory {
     
     @When("User signs in with no default multiple address user and checks out")
     public void sign_in_no_default_multiple_and_check_out() {
-    	UsersHub userHub = UsersHub.getInstance();
-    	User user = null;
-    	
-    	try {
-			 user = userHub.getUser("nonexpress", "multiple");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    	User user = signIn.stateHolder.get("userObject");
 
     	boolean result = signIn.enterLoginCredentials(user.getEmail(), user.getPassword());
     	if(!result){
