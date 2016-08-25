@@ -43,7 +43,7 @@ Feature: Checkout - Guest user is able to checkout
     Then Verify Shipping And Gift Options page is displayed
     And Verify that this shipping methods are available including Thursday cut
       | method                                       | price  | text                                                              | thursday |
-      | Economy via UPS SurePost (6-8 business days) | FREE   | Your order will be delivered by the United States Postal Service. | false    |
+      | Economy via UPS SurePost (6-8 business days) | $5.00  | Your order will be delivered by the United States Postal Service. | false    |
       | Standard (3-6 business days)                 | $8.00  |                                                                   | false    |
       | Expedited (2-3 business days)                | $20.00 |                                                                   | false    |
       | Overnight (1-2 business days)                | $25.00 | Orders must be placed by 11am ET M-Th. more info                  | false    |
@@ -51,7 +51,7 @@ Feature: Checkout - Guest user is able to checkout
     And Verify Shipping Options Page contains gift option section
     And Verify that this shipping method is selected by default
       | method                                       | price  | text                                                              |
-      | Economy via UPS SurePost (6-8 business days) | FREE   | Your order will be delivered by the United States Postal Service. |
+      | Economy via UPS SurePost (6-8 business days) | $5.00  | Your order will be delivered by the United States Postal Service. |
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
