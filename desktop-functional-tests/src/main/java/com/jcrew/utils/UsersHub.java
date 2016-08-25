@@ -179,8 +179,11 @@ public class UsersHub {
 
     public void releaseUserCredentials() {
     	
-    	String currentUserName = user.getEmail();
-        if(stateHolder.hasKey("userObject")) {            
+    	String currentUserName = null;
+    	if (user != null){
+    		currentUserName = user.getEmail();
+    	}
+    	else if(stateHolder.hasKey("userObject")) {            
         	user =  stateHolder.get("userObject");
         	currentUserName = user.getEmail();
         }
