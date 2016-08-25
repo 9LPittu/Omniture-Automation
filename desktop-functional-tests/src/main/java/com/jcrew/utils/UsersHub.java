@@ -180,12 +180,11 @@ public class UsersHub {
     public void releaseUserCredentials() {
     	
     	String currentUserName = null;
-        if (user != null) {
-            currentUserName = user.getEmail();
+        if(user == null) {            
+        	user =  stateHolder.get("userObject");
         }
-        else{
-        	currentUserName = (String) stateHolder.get("sidecarusername");
-        }
+
+        currentUserName = user.getEmail();
         
         if(currentUserName!=null){
 	        String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where brand='jcrew' and username='" + currentUserName + "' and environment='" + environment + "'";
