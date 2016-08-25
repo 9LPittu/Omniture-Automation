@@ -103,7 +103,7 @@ public class UsersHub {
 		int numOfRecords = 0;
 		if(rs!=null){
 			try {
-				rs.next();
+				rs.first();
                 numOfRecords = Integer.parseInt(rs.getString(1));
 			}
 			catch (Exception e) {
@@ -151,7 +151,7 @@ public class UsersHub {
 			ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
 			if(rs!=null){
 				try {
-					  rs.next();
+					  rs.first();
 					  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 					  logger.info("userType - " + userType + ", addressType - " + addressType);
 					  logger.info("Current available username for '{}' environment: {}", environment, user.getEmail());
