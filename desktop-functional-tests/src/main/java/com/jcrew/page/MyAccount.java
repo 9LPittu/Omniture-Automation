@@ -90,20 +90,20 @@ public class MyAccount {
         return expectedContent & expectedURL;
     }
 
-    public void click_reward_link(String link,String page){
+    public void click_reward_link(String link){
         WebElement menu = null;
         User signedInUser = (User ) stateHolder.get("signedUser");
         Country c = (Country) stateHolder.get("context");
         boolean rewardLinkShouldExists = ((signedInUser.getUserCategory().equalsIgnoreCase(User.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()));
         if (rewardLinkShouldExists){
-            menu = getMenuLink(link,page);
+            menu = getMenuLink(link);
             wait.until(ExpectedConditions.elementToBeClickable(menu));
             Util.clickWithStaleRetry(menu);
         }
 
     }
 
-    public void click_menu_link(String link,String page) {
+    public void click_menu_link(String link) {
         WebElement menu = null;
 
         Country c = (Country) stateHolder.get("context");
@@ -118,16 +118,16 @@ public class MyAccount {
 
         switch (c.getCountry()) {
             case "us":
-                menu = getMenuLink(link,page);
+                menu = getMenuLink(link);
                 break;
             case "ca":
                 if(!link.equalsIgnoreCase("GIFT CARD BALANCE")) {
-                    menu = getMenuLink(link,page);
+                    menu = getMenuLink(link);
                 }
                 break;
             default:
                 if(!link.equalsIgnoreCase("GIFT CARD BALANCE") && !link.equalsIgnoreCase("CATALOG PREFERENCES") ) {
-                    menu = getMenuLink(link,page);
+                    menu = getMenuLink(link);
                 }
                 break;
         }
@@ -141,17 +141,12 @@ public class MyAccount {
 
 
 
-    private WebElement getMenuLink(String link,String page) {
+    private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
         Country c = (Country) stateHolder.get("context");
         logger.debug(c.getCountry());
-
-         if(("My Account".equalsIgnoreCase(page))) {
-             wait.until(ExpectedConditions.visibilityOf(main_inside));
-             return main_inside.findElement(By.linkText(link));
-         }else{
-             return new AccountDetail(driver).getMenuLink(link);
-         }
+        wait.until(ExpectedConditions.visibilityOf(main_inside));
+       return main_inside.findElement(By.linkText(link));
     }
 
     public boolean verifyRewardLink(String link, String userCategory) {

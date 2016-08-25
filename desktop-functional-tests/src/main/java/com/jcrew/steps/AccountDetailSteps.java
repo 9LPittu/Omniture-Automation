@@ -59,6 +59,11 @@ public class AccountDetailSteps extends DriverFactory{
         accountDetail.saveUpdates();
 
     }
+    @And("User clicks on ([^\"]*) link in Account detail Page")
+    public void click_on_link_from_account_detail_page(String linkText){
+        accountDetail.clickLeftNavLinks(linkText);
+
+    }
     @And("verify confirmation message displayed")
     public void validate_confirmation_msg() {
         assertEquals("", "Your information has been updated.", accountDetail.getConfirmatonMsg());

@@ -142,17 +142,17 @@ public class AccountDetail extends PageObject {
             return birthCopy.getText();
         }
     }
-
-    public WebElement getMenuLink(String link){
+    public void clickLeftNavLinks(String linkText){
         Util.waitForPageFullyLoaded(driver);
         Country country = (Country) stateHolder.get("context");
         logger.debug(country.getCountry());
         wait.until(ExpectedConditions.visibilityOf(accountNavigationSection));
         WebElement linksTray = accountNavigationSection.findElement(By.className("account__navigation__items"));
-        WebElement linkElement = linksTray.findElement(By.xpath("//li[text() ='"+link+"']"));
-
-        return linkElement;
+        WebElement linkElement = linksTray.findElement(By.xpath("//li[text() ='"+linkText+"']"));
+        linkElement.click();
+        Util.waitForPageFullyLoaded(driver);
     }
+
 
 
     public Map<String, String> getUserDetails() {

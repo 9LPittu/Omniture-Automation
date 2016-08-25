@@ -44,16 +44,16 @@ public class MyAccountSteps extends DriverFactory {
                 myAccount.verifyRewardLink(link, userCategory));
     }
 
-    @Then("User clicks on ([^\"]*) reward link from ([^\"]*) Page")
-    public void user_clicks_on_reward_link_in_my_account_page(String link,String page) throws Throwable {
-        myAccount.click_reward_link(link,page);
+    @Then("User clicks on ([^\"]*) reward link from My Account Page")
+    public void user_clicks_on_reward_link_in_my_account_page(String link) throws Throwable {
+        myAccount.click_reward_link(link);
     }
 
 
 
-    @Then("^User clicks on ([^\"]*) link in ([^\"]*) Page$")
-    public void user_clicks_on_link_in_my_account_page(String link,String page) throws Throwable {
-        myAccount.click_menu_link(link,page);
+    @Then("^User clicks on ([^\"]*) link in My Account Page$")
+    public void user_clicks_on_link_in_my_account_page(String link) throws Throwable {
+        myAccount.click_menu_link(link);
     }
 
     @Then("^User should be in ([^\"]*) menu link page$")
