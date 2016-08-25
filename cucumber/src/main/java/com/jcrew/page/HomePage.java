@@ -30,6 +30,8 @@ public class HomePage {
     @FindBy(className = "closePopup")
     private WebElement closePopupLink;
 
+    @FindBy(id = "page__home")
+    private WebElement pageHome;
 
     @FindBy(className = "header__search__input")
     private WebElement searchInput;
@@ -74,9 +76,6 @@ public class HomePage {
 
     public boolean isHomePage() {
         Country country = (Country)stateHolder.get("context");
-        WebDriverWait wait = Util.createWebDriverWait(driver);
-        final WebElement pageHome = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("page__home")));
-
         Util.waitWithStaleRetry(driver,pageHome);
         boolean isDisplayed = pageHome.isDisplayed();
 

@@ -145,6 +145,7 @@ public class Util {
     }
 
     public static void waitWithStaleRetry(WebDriver driver, WebElement element) throws StaleElementReferenceException {
+        Calendar calendar = Calendar.getInstance();
         int attempts = 0;
         boolean success = false;
         WebDriverWait wait = createWebDriverWait(driver);
@@ -153,9 +154,18 @@ public class Util {
             try {
                 wait.until(ExpectedConditions.visibilityOf(element));
                 success = true;
+
             } catch (StaleElementReferenceException staleException) {
+                Boolean iterate = true;
+                long startTime = calendar.getTimeInMillis();
+                do {
+                    long currentTime = calendar.getTimeInMillis();
+                    long timeDifference = currentTime - startTime;
+                    iterate = timeDifference < 5000;
+                }while(iterate);
+
                 logger.debug("Stale Element Exception when retrying to wait");
-            }
+        }
             attempts++;
         }
 
