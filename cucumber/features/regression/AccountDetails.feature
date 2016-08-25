@@ -93,7 +93,8 @@ Feature: Account details Page validations
     When User scrolls up the page
     And click on MY ACCOUNT from header
     And user clicks on "My Details" from My Account dropdown
-    Then Verify Embedded header is displayed
+    Then My Details form should display
+    And Verify Embedded header is displayed
     And Verify embedded footer is visible and functional
 
     When Update first name with valid data
