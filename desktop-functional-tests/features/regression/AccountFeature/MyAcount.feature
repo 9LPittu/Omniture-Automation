@@ -41,7 +41,7 @@ Feature: My Account page validations
     When User clicks on My Wishlist link in My Account Page
     Then User should be in /wishlist menu link page
     And User presses browser back button
-
+    And User presses browser back button
     When User clicks on Sign Out link in My Account Page
 
 

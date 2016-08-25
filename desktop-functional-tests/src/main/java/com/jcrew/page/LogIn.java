@@ -230,7 +230,7 @@ public class LogIn extends DriverFactory {
         if (useFakeUser)
             user = fakeUser;
         else
-            user = knownUser;
+            user = User.getUser();
 
         switch (field) {
             case "first name":
