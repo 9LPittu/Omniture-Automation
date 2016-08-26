@@ -183,7 +183,8 @@ public class UsersHub {
     	if (user != null){
     		currentUserName = user.getEmail();
     	}
-    	else if(stateHolder.hasKey("userObject")) {            
+    	else if(stateHolder.hasKey("userObject")) {
+    		logger.info("Retrieiving user details from stateholder...");
         	user =  stateHolder.get("userObject");
         	currentUserName = user.getEmail();
         }
