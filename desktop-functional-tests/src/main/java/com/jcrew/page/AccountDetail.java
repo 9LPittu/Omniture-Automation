@@ -6,10 +6,7 @@ import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -153,6 +150,28 @@ public class AccountDetail extends PageObject {
         WebElement linkElement = linksTray.findElement(By.xpath("//li[text() ='"+linkText+"']"));
         linkElement.click();
         Util.waitForPageFullyLoaded(driver);
+    }
+    public boolean verifyRewardLink(String link, String userCategory) {
+        boolean expected = false;
+        Country c = (Country) stateHolder.get("context");
+
+        if (userCategory.equalsIgnoreCase(User.CAT_LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())))
+            expected = true;
+
+        return expected == isMenuLinkPresent(link);
+    }
+
+    public boolean isMenuLinkPresent(String link) {
+        Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavigationSection));
+        try {
+            wait.until(ExpectedConditions.visibilityOf(accountNavigationSection));
+            WebElement linksTray = accountNavigationSection.findElement(By.className("account__navigation__items"));
+            WebElement linkElement = linksTray.findElement(By.xpath("//li[text() ='"+link+"']"));
+            return (linkElement.isDisplayed());
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
 

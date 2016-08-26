@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.AccountDetail;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class AccountDetailSteps extends DriverFactory{
 
     AccountDetail accountDetail = new AccountDetail(getDriver());
+    StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("Verify user is in account details page")
     public void user_is_in_my_account_page(){
@@ -75,5 +77,12 @@ public class AccountDetailSteps extends DriverFactory{
     @And("Enter old and new password details")
     public void change_password() {
         accountDetail.fillChangePasswordFileds();
+    }
+
+    @And("Verify ([^\"]*) reward link for ([^\"]*) user in account detail page")
+    public void reward_link_displayed_for_user(String link, String userCategory) {
+        User signedInUser = (User ) stateHolder.get("signedUser");
+        assertTrue(link + " link displayed for "+signedInUser.getEmail()+" user and category " + userCategory,
+                accountDetail.verifyRewardLink(link, userCategory));
     }
 }
