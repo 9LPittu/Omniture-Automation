@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 
+import com.github.javafaker.Faker;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
@@ -89,9 +90,10 @@ public class AccountDetail extends PageObject {
     }
 
     public void fillChangePasswordFileds() {
+        String newPassword = new Faker().lorem().fixedString(6).replaceAll(" ","_");
         getformElement("Old password").sendKeys((String) stateHolder.get("fakenewuserPassword"));
-        getformElement("New password").sendKeys("TestNewPassword");
-        getformElement("re-enter password").sendKeys("TestNewPassword");
+        getformElement("New password").sendKeys(newPassword);
+        getformElement("re-enter password").sendKeys(newPassword);
     }
     public boolean isBirthField(String btnStatus) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountDetailForm));
