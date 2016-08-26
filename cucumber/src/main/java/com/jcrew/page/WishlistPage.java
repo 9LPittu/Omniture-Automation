@@ -173,31 +173,21 @@ public class WishlistPage {
         return product;
     }
     
-    public boolean isPDPPageColorDisplayedInWishlist(){
+    public String getColorOnWishlist(String productName){
     	@SuppressWarnings("unchecked")
-		List<Product> productList = (List<Product>) stateHolder.get("productList");
-    	Product product = productList.get(0);
-    	String productName = product.getProductName();
-    	String expectedColorName = product.getSelectedColor();
-
-    	WebElement productData = getProductData(productName);
+		WebElement productData = getProductData(productName);
     	String colorNameInWishlist = productData.getAttribute("data-color");
 
-    	return colorNameInWishlist.equalsIgnoreCase(expectedColorName);
+    	return colorNameInWishlist;
     }
 
-    public boolean isPDPPageSizeDisplayedInWishlist(){
+    public String getSizeOnWishlist(String productName){
     	@SuppressWarnings("unchecked")
-		List<Product> productList = (List<Product>) stateHolder.get("productList");
-    	Product product = productList.get(0);
-    	String productName = product.getProductName();
-    	String expectedSizeName = product.getSelectedSize();
-
     	WebElement productData = getProductData(productName);
     	String sizeNameInWishlist = productData.getAttribute("data-size");
         sizeNameInWishlist = sizeNameInWishlist.replace("SIZE","");
 
-    	return sizeNameInWishlist.equalsIgnoreCase(expectedSizeName);
+    	return sizeNameInWishlist;
     }
 
     public boolean isPDPPageQuantityDisplayedInWishlist(){

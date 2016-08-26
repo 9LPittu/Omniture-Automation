@@ -147,6 +147,13 @@ public class Header {
 
     }
 
+    public String getHeaderLinkHref(String headerLink) {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(headerWrap));
+        WebElement headerLinkElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//span[contains(@class,'primary-nav__text') and " + Util.xpathGetTextLower + "='" + headerLink.toLowerCase() + "']/parent::a")));
+        return headerLinkElement.getAttribute("href");
+    }
+
     public boolean isHeaderBagIconPresent() {
         try {
             return bagIcon.isDisplayed();

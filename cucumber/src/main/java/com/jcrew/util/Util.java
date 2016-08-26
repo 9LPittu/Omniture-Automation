@@ -135,6 +135,7 @@ public class Util {
                 success = true;
             } catch (StaleElementReferenceException staleException) {
                 logger.debug("Stale Element Exception when retrying to click");
+                wait(5000);
             }
             attempts++;
         }
@@ -144,7 +145,7 @@ public class Util {
         }
     }
 
-    public static void waitWithStaleRetry(WebDriver driver, WebElement element) throws StaleElementReferenceException {
+    public static boolean waitWithStaleRetry(WebDriver driver, WebElement element) throws StaleElementReferenceException {
         int attempts = 0;
         boolean success = false;
         WebDriverWait wait = createWebDriverWait(driver);
@@ -153,16 +154,23 @@ public class Util {
             try {
                 wait.until(ExpectedConditions.visibilityOf(element));
                 success = true;
+
             } catch (StaleElementReferenceException staleException) {
                 logger.debug("Stale Element Exception when retrying to wait");
+                wait(5000);
+
             }
             attempts++;
         }
 
-        if (!success) {
+        if (success) {
+            return true;
+        } else {
             throw new StaleElementReferenceException("Failed to wait element");
         }
+
     }
+
 
     public static void scrollToElement(WebDriver driver, WebElement element) {
         Actions action = new Actions(driver);
@@ -219,5 +227,16 @@ public class Util {
             errorMessage = "Browser log: \n" + errorMessage;
 
         return errorMessage;
+    }
+    public static void wait(int waitTime) {
+        Boolean iterate = true;
+        Calendar calendar =Calendar.getInstance();
+        long startTime = calendar.getTimeInMillis();
+        do {
+            Calendar calendar1 =Calendar.getInstance();
+            long currentTime = calendar1.getTimeInMillis();
+            long timeDifference = currentTime - startTime;
+            iterate = timeDifference < waitTime;
+        }while(iterate);
     }
 }

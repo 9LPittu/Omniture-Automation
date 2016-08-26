@@ -64,10 +64,7 @@ Feature: Account Dropdown functionality
     And Clicks continue button on shipping method page
     
     And Verify SIGN IN header link is displayed
-  	And click on SIGN IN from header
-  	And User is on internal /r/login page
-  	And User presses back button
-    
+    And Verify SIGN IN header link points to the url /r/login
     And Fills required payment data in billing page
     And Submits payment data in billing page
     And Clicks on place your order

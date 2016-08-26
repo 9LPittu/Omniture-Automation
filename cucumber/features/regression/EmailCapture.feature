@@ -1,10 +1,8 @@
 @Email @HighLevel
 Feature: Handling email capture pop up
 
-  Background:
-    Given User is on homepage with clean session
-
   Scenario: Email capture option should be displayed on fresh session.
+    Given User is on homepage with clean session
     And Close the email pop up
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
@@ -22,6 +20,7 @@ Feature: Handling email capture pop up
     And Email pop up is not displayed
 
   Scenario: Email capture is closed after subscribing with valid email id
+    Given User is on homepage with clean session
     And Enter the valid email address and submit
     And Verify footer section in the page is displayed
     And User clicks on hamburger menu
@@ -40,7 +39,7 @@ Feature: Handling email capture pop up
     And Email pop up is not displayed
 
   Scenario:  Email capture option should be displayed on fresh session on landing pages (jsp pages)
-    And User goes to /womens-clothing.jsp?sidecar=true page
+    And User navigates to /womens-clothing.jsp?sidecar=true with clean session
     And Close the email pop up
     And Verify footer section in the page is displayed
     And User clicks on hamburger menu

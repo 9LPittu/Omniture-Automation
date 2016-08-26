@@ -52,6 +52,21 @@ public class StartingSteps {
         user_is_on_home_page();
     }
 
+    @Given("User navigates to ([^\"]*) with clean session")
+    public void user_navigates_with_clean_session(String extensionUrl) {
+        String country = reader.getProperty("country");
+        String env = reader.getProperty("url");
+
+        Country context = new Country(env, country);
+        stateHolder.put("context", context);
+        env = context.getHomeurl();
+
+        driverFactory.deleteBrowserCookies();
+        String url = reader.getProperty("url");
+        driver.get(env + extensionUrl);
+        Util.waitLoadingBar(driver);
+    }
+
     @Given("User is on clean session international ([^\"]*) page$")
     public void user_goes_to_international_page(String country_group, List<String> pageUrlList) throws Throwable {
 
