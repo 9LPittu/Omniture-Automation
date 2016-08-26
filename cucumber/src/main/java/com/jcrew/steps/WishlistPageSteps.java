@@ -2,9 +2,13 @@ package com.jcrew.steps;
 
 
 import com.jcrew.page.WishlistPage;
+import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class WishlistPageSteps extends DriverFactory {
 
     private final WishlistPage wishlistPage = new WishlistPage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
 
     @And("^User should be in wishlist page$")
@@ -65,7 +70,12 @@ public class WishlistPageSteps extends DriverFactory {
 
     @And("^in wishlist page, user should see the size selected on the PDP page$")
     public void user_should_see_size_selected_on_pdp_in_wishlist_page(){
-    	assertTrue("In wishlist page, user should see the size selected on the PDP page", wishlistPage.isPDPPageSizeDisplayedInWishlist());
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
+        Product product = productList.get(0);
+        String productName = product.getProductName();
+        String expectedSizeName = product.getSelectedSize().toLowerCase().trim();
+        String actualSizeName = wishlistPage.getSizeOnWishlist(productName).toLowerCase().trim();
+    	assertEquals("In wishlist page, user should see the size selected on the PDP page", expectedSizeName, actualSizeName);
     }
 
     @And("^in wishlist page, user should see the quantity as (\\d+)$")
