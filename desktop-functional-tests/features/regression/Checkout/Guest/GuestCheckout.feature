@@ -46,7 +46,7 @@ Feature: Checkout - Guest user is able to checkout
       | Economy (6-8 business days)                  | FREE   | Your order will be delivered by the United States Postal Service. | false    |
       | Standard (3-6 business days)                 | $8.00  |                                                                   | false    |
       | Expedited (2-3 business days)                | $20.00 |                                                                   | false    |
-      | Overnight (1-2 business days)                | $25.00 | Orders must be placed by 11am ET M-Th. more info                  | false    |
+      | Overnight (1-2 business days)                | $25.00 | 																  | false    |
       | Saturday		                             | $35.00 |                                                                   | true     |
     And Verify Shipping Options Page contains gift option section
     And Verify that this shipping method is selected by default
