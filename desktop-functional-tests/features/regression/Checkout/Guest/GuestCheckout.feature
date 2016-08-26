@@ -47,7 +47,7 @@ Feature: Checkout - Guest user is able to checkout
       | Standard (3-6 business days)                 | $8.00  |                                                                   | false    |
       | Expedited (2-3 business days)                | $20.00 |                                                                   | false    |
       | Overnight (1-2 business days)                | $25.00 | Orders must be placed by 11am ET M-Th. more info                  | false    |
-      | Saturday Delivery                            | $35.00 |                                                                   | true     |
+      | Saturday		                             | $35.00 |                                                                   | true     |
     And Verify Shipping Options Page contains gift option section
     And Verify that this shipping method is selected by default
       | method                                       | price  | text                                                              |
