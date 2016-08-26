@@ -52,9 +52,11 @@ public class FinalSteps {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
                 
-                User user = holder.get("userObject");
-                String userName = "Email address: " + user.getEmail();
-                scenario.embed(userName.getBytes(), "text/plain");
+                if(holder.hasKey("userObject")){
+                	User user = holder.get("userObject");
+                	String userName = "Email address: " + user.getEmail();
+                	scenario.embed(userName.getBytes(), "text/plain");
+                }
                 
             } catch (WebDriverException e) {
                 logger.error("An exception happened when taking step screenshot after scenario", e);
