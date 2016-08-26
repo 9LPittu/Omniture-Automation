@@ -39,7 +39,7 @@ public class LooksWeLovePage {
                 locator = By.xpath("//a[@class='section-button shop-now']");
                 break;
             case "men":
-                locator = By.className("image-box__link");
+                locator = By.xpath("//div[text()='SHOP THIS LOOK']");
                 break;
             case "girls":
             case "boys":

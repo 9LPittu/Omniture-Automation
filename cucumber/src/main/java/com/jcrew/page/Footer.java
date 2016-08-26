@@ -445,7 +445,7 @@ public class Footer {
     }
     
     public boolean isLinkNotDisplayedInLegalLinksSection(String text){    	
-    	WebElement element = driver.findElement(By.xpath("//*[contains(text(),'" + text + "')]"));    	
+    	WebElement element = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'" + text + "')]")));
     	String tagName = element.getTagName();
     	
     	return !tagName.equalsIgnoreCase("a");

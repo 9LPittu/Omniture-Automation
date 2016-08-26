@@ -42,6 +42,7 @@ public class AccountDetailsPage {
         try {
             Util.waitForPageFullyLoaded(driver);
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
+            Util.waitWithStaleRetry(driver,myDetailForm);
             return myDetailForm.isDisplayed();
         } catch (Exception e) {
 
@@ -148,7 +149,8 @@ public class AccountDetailsPage {
 
     public void updateDetails(String fieldLabel, String updateType) {
         WebElement formElement;
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("/r/account/details"));
+        Util.waitWithStaleRetry(driver,myDetailForm);
         formElement = getformElement(fieldLabel);
         if ("invalid".equalsIgnoreCase(updateType)) {
             formElement.clear();

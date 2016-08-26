@@ -220,13 +220,6 @@ public class MultiplePdpPage {
         detail = divSizes.findElement(By.className("sizes-list"));
         detailsCheck &= detail.isDisplayed();
 
-        //contains SIZES & FIT DETAILS (available only when containing more than one size
-        List<WebElement> sizes = detail.findElements(By.tagName("li"));
-        if(sizes.size() > 1) {
-            detail = divSizes.findElement(By.className("js-link__size-fit"));
-            detailsCheck &= detail.isDisplayed();
-        }
-
         //contains price
         if(hasVariations()){
             //get variations number
@@ -236,7 +229,7 @@ public class MultiplePdpPage {
             for(int i = 1; i < variationsType.size(); i++) {
                 //get price of current variation
                 detail = wait.until(ExpectedConditions.presenceOfElementLocated(
-                        By.xpath(".//div[@class='product__variation--wrap is-mobile']/" +
+                        By.xpath(".//div[contains(@class,'product__variation--wrap')]/" +
                                 "span[contains(@class,'product__variation--price-list')]")));
 
                 detailsCheck &= detail.isDisplayed();
@@ -257,7 +250,7 @@ public class MultiplePdpPage {
     private void selectNextVariation(){
         By currentVariationXpath = By.xpath(".//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]");
         WebElement currentVariation =  wait.until(ExpectedConditions.presenceOfElementLocated(currentVariationXpath));
-        WebElement nextVariation = currentVariation.findElement(By.xpath("following-sibling::li"));
+        WebElement nextVariation = currentVariation.findElement(By.xpath("following-sibling::li/div[contains(@class,'radio__label')]"));
 
         String url = driver.getCurrentUrl();
         nextVariation.click();
@@ -283,7 +276,6 @@ public class MultiplePdpPage {
 
         for (int i = 0; i < numProducts && result; i++) {
             result = openDrawer(productDetailsDrawer);
-            result &= openDrawer(sizeAndFitDrawer);
             result &= openDrawer(productReviewRatingsSection);
             result &= isDrawerOpen(productDetailsDrawer);
             result &= isDrawerOpen(sizeAndFitDrawer);
