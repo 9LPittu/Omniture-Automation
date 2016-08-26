@@ -65,7 +65,12 @@ public class WishlistPageSteps extends DriverFactory {
     
     @And("^in wishlist page, user should see the color selected on the PDP page$")
     public void user_should_see_color_selected_on_pdp_in_wishlist_page(){
-    	assertTrue("In wishlist page, user should see the color selected on the PDP page", wishlistPage.isPDPPageColorDisplayedInWishlist());
+        List<Product> productList = (List<Product>) stateHolder.get("productList");
+        Product product = productList.get(0);
+        String productName = product.getProductName();
+        String expectedColorName = product.getSelectedColor().toLowerCase().trim();
+        String actualColorName = wishlistPage.getColorOnWishlist(productName).toLowerCase().trim();
+    	assertEquals("In wishlist page, user should see the color selected on the PDP page",expectedColorName,actualColorName);
     }
 
     @And("^in wishlist page, user should see the size selected on the PDP page$")
