@@ -189,6 +189,7 @@ public class DriverFactory {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
         if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
+        	deleteBrowserCookies();
             driver.quit();
             driverMap.remove(identifier);
         }
