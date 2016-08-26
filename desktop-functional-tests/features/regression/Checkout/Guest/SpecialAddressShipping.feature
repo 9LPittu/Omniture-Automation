@@ -29,4 +29,4 @@ Feature: Checkout - Expected Shipping Options for special addresses
     Then Verify Shipping And Gift Options page is displayed
     And Verify that this shipping methods are available including Thursday cut
       | method                      | price | text | thursday |
-      | Economy (6-8 business days) | $5.00 |      | false    |
+      | Economy (6-8 business days) | FREE  |      | false    |
