@@ -162,7 +162,7 @@ public class UsersHub {
 			}
 			
 			String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' "
-								+ "where brand='jcrew' and username='" + rs.getString(1) + 
+								+ "where brand='jcrew' and username='" + user.getEmail() + 
 								"' and Environment='"  + environment + "'" + getUserAddressWhereClause(userType, addressType);
 			
 			executeSQLQuery(updateAllocationFlagSQLQuery);
