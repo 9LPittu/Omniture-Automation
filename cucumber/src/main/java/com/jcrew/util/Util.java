@@ -145,7 +145,7 @@ public class Util {
         }
     }
 
-    public static void waitWithStaleRetry(WebDriver driver, WebElement element) throws StaleElementReferenceException {
+    public static boolean waitWithStaleRetry(WebDriver driver, WebElement element) throws StaleElementReferenceException {
         int attempts = 0;
         boolean success = false;
         WebDriverWait wait = createWebDriverWait(driver);
@@ -163,10 +163,14 @@ public class Util {
             attempts++;
         }
 
-        if (!success) {
+        if (success) {
+            return true;
+        } else {
             throw new StaleElementReferenceException("Failed to wait element");
         }
+
     }
+
 
     public static void scrollToElement(WebDriver driver, WebElement element) {
         Actions action = new Actions(driver);

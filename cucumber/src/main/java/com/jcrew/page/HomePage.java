@@ -76,9 +76,7 @@ public class HomePage {
 
     public boolean isHomePage() {
         Country country = (Country)stateHolder.get("context");
-        Util.waitWithStaleRetry(driver,pageHome);
-        boolean isDisplayed = pageHome.isDisplayed();
-
+        boolean isDisplayed = Util.waitWithStaleRetry(driver,pageHome);
         boolean isURL = Util.countryContextURLCompliance(driver,country);
 
         return isDisplayed & isURL;
