@@ -4,6 +4,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -75,9 +76,8 @@ public class AccountDetail extends PageObject {
         User loggedInUser = (User) stateHolder.get("signedUser");
 
         Map<String, String> userDetails = getUserDetails();
-
-        boolean equalsFirstName = userDetails.get(USER_DETAILS_FIRST_NAME).equalsIgnoreCase(loggedInUser.getFirstName());
-        boolean equalsLastName =  userDetails.get(USER_DETAILS_LAST_NAME).equalsIgnoreCase(loggedInUser.getLastName());
+        boolean equalsFirstName =  StringEscapeUtils.unescapeHtml(userDetails.get(USER_DETAILS_FIRST_NAME)).equalsIgnoreCase(loggedInUser.getFirstName());
+        boolean equalsLastName =  StringEscapeUtils.unescapeHtml(userDetails.get(USER_DETAILS_LAST_NAME)).equalsIgnoreCase(loggedInUser.getLastName());
         boolean equalsEmail =  userDetails.get(USER_DETAILS_EMAIL).equalsIgnoreCase(loggedInUser.getEmail());
         boolean equalsCountry = userDetails.get(USER_DETAILS_COUNTRY).equalsIgnoreCase(loggedInUser.getCountry());
         logger.debug("Compare account info in account detail page first {},lastname {},email {},country {}",equalsFirstName,
