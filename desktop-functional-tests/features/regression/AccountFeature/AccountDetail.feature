@@ -94,7 +94,7 @@ Feature: Account details Page validations
     And User clicks on Sign Out link in Account detail Page
 
 
-  Scenario Outline: Validate rewards link is visible only for loyalty user in my account pages
+  Scenario Outline: Validate rewards link is visible only for JCCC associated users in account detail page
 
     When User fills <userCategory> category data and signs in
     Then Verify user is in My Account main page
