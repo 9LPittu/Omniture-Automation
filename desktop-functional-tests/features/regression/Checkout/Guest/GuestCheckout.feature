@@ -50,8 +50,8 @@ Feature: Checkout - Guest user is able to checkout
       | Saturday		                             | $35.00 |                                                                   | true     |
     And Verify Shipping Options Page contains gift option section
     And Verify that this shipping method is selected by default
-      | method                                       | price  | text                                             |
-      | Economy (6-8 business days) | FREE   | Your order will be delivered by the United States Postal Service. |
+      | method                                       | price  | text                                                              |
+      | Economy (6-8 business days) 				 | FREE   | Your order will be delivered by the United States Postal Service. |
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
