@@ -101,7 +101,11 @@ Feature: Account details Page validations
 
     And Verify J.Crew Card Rewards Status reward link for <userCategory> user in account detail page
 
-    When User clicks on J.Crew Card Rewards Status reward link from My Account Page
+    When User clicks on My Details link in My Account Page
+    Then Verify user is in account details page
+    And User should be in r/account/details menu link page
+
+    When User clicks on J.Crew Card Rewards Status reward link from Account detail Page
     Then User should be in /r/account/jccc-rewards menu link page
 
     Examples:

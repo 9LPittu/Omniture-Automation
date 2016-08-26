@@ -66,6 +66,10 @@ public class AccountDetailSteps extends DriverFactory{
         accountDetail.clickLeftNavLinks(linkText);
 
     }
+    @Then("User clicks on ([^\"]*) reward link from Account detail Page")
+    public void user_clicks_on_reward_link_in_my_account_page(String link) throws Throwable {
+        accountDetail.click_reward_link(link);
+    }
     @And("verify confirmation message displayed")
     public void validate_confirmation_msg() {
         assertEquals("", "Your information has been updated.", accountDetail.getConfirmatonMsg());

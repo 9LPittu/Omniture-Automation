@@ -160,6 +160,15 @@ public class AccountDetail extends PageObject {
 
         return expected == isMenuLinkPresent(link);
     }
+    public void click_reward_link(String link){
+        User signedInUser = (User ) stateHolder.get("signedUser");
+        Country c = (Country) stateHolder.get("context");
+        boolean rewardLinkShouldExists = ((signedInUser.getUserCategory().equalsIgnoreCase(User.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()));
+        if (rewardLinkShouldExists){
+            clickLeftNavLinks(link);
+        }
+
+    }
 
     public boolean isMenuLinkPresent(String link) {
         Util.waitForPageFullyLoaded(driver);
