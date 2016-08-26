@@ -135,6 +135,7 @@ public class Util {
                 success = true;
             } catch (StaleElementReferenceException staleException) {
                 logger.debug("Stale Element Exception when retrying to click");
+                wait(5000);
             }
             attempts++;
         }
@@ -156,15 +157,7 @@ public class Util {
 
             } catch (StaleElementReferenceException staleException) {
                 logger.debug("Stale Element Exception when retrying to wait");
-                Boolean iterate = true;
-                Calendar calendar =Calendar.getInstance();
-                long startTime = calendar.getTimeInMillis();
-                do {
-                    Calendar calendar1 =Calendar.getInstance();
-                    long currentTime = calendar1.getTimeInMillis();
-                    long timeDifference = currentTime - startTime;
-                    iterate = timeDifference < 5000;
-                }while(iterate);
+                wait(5000);
 
             }
             attempts++;
@@ -230,5 +223,16 @@ public class Util {
             errorMessage = "Browser log: \n" + errorMessage;
 
         return errorMessage;
+    }
+    public static void wait(int waitTime) {
+        Boolean iterate = true;
+        Calendar calendar =Calendar.getInstance();
+        long startTime = calendar.getTimeInMillis();
+        do {
+            Calendar calendar1 =Calendar.getInstance();
+            long currentTime = calendar1.getTimeInMillis();
+            long timeDifference = currentTime - startTime;
+            iterate = timeDifference < waitTime;
+        }while(iterate);
     }
 }
