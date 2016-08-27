@@ -34,6 +34,7 @@ public class User {
         this.lastName = lastName;
         this.countryCode = countryCode;
         this.userCategory = userCategory;
+        setCountryFromCode(this.countryCode);
     }
 
     public static User getUser(){
@@ -117,5 +118,13 @@ public class User {
     public static String getSomePassword(int characters) {
         Faker faker = new Faker();
         return faker.lorem().fixedString(characters);
+    }
+    public void setCountryFromCode(String countryCode){
+        PropertyReader properties = PropertyReader.getPropertyReader();
+        try {
+            setCountry(properties.getProperty(countryCode.toLowerCase() + ".name"));
+        }catch(NullPointerException exception){
+            logger.error("User {}, country name not found in testdata for country code {}",email,countryCode);
+        }
     }
 }

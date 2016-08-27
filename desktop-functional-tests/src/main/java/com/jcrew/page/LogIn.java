@@ -69,6 +69,7 @@ public class LogIn extends DriverFactory {
 
     public LogIn(WebDriver driver) {
         this.driver = driver;
+        Util.waitForPageFullyLoaded(driver);
         header = new HeaderWrap(driver);
         wait = Util.createWebDriverWait(driver);
 

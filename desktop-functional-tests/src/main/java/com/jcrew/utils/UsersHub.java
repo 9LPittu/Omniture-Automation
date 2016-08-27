@@ -93,6 +93,7 @@ public class UsersHub {
 
         if (getAvailableUsersCount(userCategory) > 0) {
             ResultSet rs = executeSQLQuery(getQuery("extract",userCategory));
+
             if (rs != null) {
                 try {
                     rs.next();
