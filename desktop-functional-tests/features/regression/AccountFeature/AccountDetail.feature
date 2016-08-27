@@ -91,6 +91,8 @@ Feature: Account details Page validations
     When User clicks on My Wishlist link in Account detail Page
     Then User should be in /wishlist menu link page
     And User presses browser back button
+    And User presses browser back button
+
     And User clicks on Sign Out link in Account detail Page
 
 
@@ -99,11 +101,10 @@ Feature: Account details Page validations
     When User fills <userCategory> category data and signs in
     Then Verify user is in My Account main page
 
-    And Verify J.Crew Card Rewards Status reward link for <userCategory> user in account detail page
-
     When User clicks on My Details link in My Account Page
     Then Verify user is in account details page
     And User should be in r/account/details menu link page
+    And Verify J.Crew Card Rewards Status reward link for <userCategory> user in account detail page
 
     When User clicks on J.Crew Card Rewards Status reward link from Account detail Page
     Then User should be in /r/account/jccc-rewards menu link page
