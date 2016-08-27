@@ -72,12 +72,15 @@ public class AccountDetail extends PageObject {
 
     public boolean isAccountInfoMatched(){
         User loggedInUser = (User) stateHolder.get("signedUser");
+        Country country = (Country) stateHolder.get("context");
 
         Map<String, String> userDetails = getUserDetails();
+
         boolean equalsFirstName =  StringEscapeUtils.unescapeHtml(userDetails.get(USER_DETAILS_FIRST_NAME)).equalsIgnoreCase(loggedInUser.getFirstName());
         boolean equalsLastName =  StringEscapeUtils.unescapeHtml(userDetails.get(USER_DETAILS_LAST_NAME)).equalsIgnoreCase(loggedInUser.getLastName());
         boolean equalsEmail =  userDetails.get(USER_DETAILS_EMAIL).equalsIgnoreCase(loggedInUser.getEmail());
-        boolean equalsCountry = userDetails.get(USER_DETAILS_COUNTRY).equalsIgnoreCase(loggedInUser.getCountry());
+        boolean equalsCountry = userDetails.get(USER_DETAILS_COUNTRY).equalsIgnoreCase(country.getName());
+
         logger.debug("Compare account info in account detail page first {},lastname {},email {},country {}",equalsFirstName,
                 equalsLastName,equalsEmail,equalsCountry);
         return (equalsFirstName && equalsLastName && equalsEmail && equalsCountry);

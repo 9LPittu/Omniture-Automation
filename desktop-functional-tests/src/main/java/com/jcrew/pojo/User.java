@@ -27,12 +27,12 @@ public class User {
     public static final String CAT_LOYALTY = "loyalty";
     public static final String CAT_NO_LOYALTY = "noLoyalty";
 
-    public User(String userName, String password, String firstName, String lastName, String country,String userCategory) {
+    public User(String userName, String password, String firstName, String lastName, String countryCode,String userCategory) {
         this.email = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.country = country;
+        this.countryCode = countryCode;
         this.userCategory = userCategory;
     }
 
