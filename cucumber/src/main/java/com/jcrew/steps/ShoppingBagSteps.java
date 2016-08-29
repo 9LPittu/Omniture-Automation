@@ -26,6 +26,11 @@ public class ShoppingBagSteps extends DriverFactory {
 
     @When("^Clicks on checkout$")
     public void clicks_on_checkout() throws Throwable {
+        //add sub total value to stateHolder before starting checkout
+        String subTotal = shoppingBagPage.getSubtotalValue().trim();
+        subTotal=subTotal.replaceAll("[^0-9\\.]", "");
+        stateHolder.put("subtotal",subTotal);
+
         shoppingBagPage.click_checkout_button();
     }
 

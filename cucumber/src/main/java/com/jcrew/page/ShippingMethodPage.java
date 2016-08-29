@@ -43,6 +43,9 @@ public class ShippingMethodPage {
     @FindBy(className="footer__country-context__country")
     private WebElement countryName;
 
+    @FindBy(id = "frmSelectShippingMethod")
+    private WebElement shippingMethodForm;
+
     public ShippingMethodPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -127,5 +130,13 @@ public class ShippingMethodPage {
 
         logger.debug("expectedShippingMethods is null");
         return false;
+    }
+
+    public String getSelectedShippingMethod() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodForm));
+        WebElement selectedLabel = shippingMethodForm.findElement(By.xpath(".//label[@class='form-label radio-checked']"));
+        WebElement shipMethodName = selectedLabel.findElement(By.xpath(".//span[@class='method-group']/span[contains(@class,'label')]"));
+        String ShippingMethodText = shipMethodName.getText().trim();
+        return ShippingMethodText;
     }
 }

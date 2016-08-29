@@ -4,10 +4,12 @@ import com.jcrew.page.ShippingMethodPage;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ShippingMethodPageSteps extends DriverFactory {
@@ -23,10 +25,25 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
     @And("^Uses default value for shipping method$")
     public void uses_default_value_for_shipping_method() throws Throwable {
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+
         Country country = (Country) stateHolder.get("context");
         String countryName = country.getCountryName().toLowerCase().trim();
         String countryCode = country.getCountry();
-        if(!countryCode.equalsIgnoreCase("us")) {
+        if(countryCode.equalsIgnoreCase("us")) {
+            String actualShippingMethod = shippingMethodPage.getSelectedShippingMethod().toLowerCase();
+
+            // retrieve expected shipping method to be selected by default
+            double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
+            double  standardShippingThreshold = Double.parseDouble(testDataReader.getData(countryCode + ".standard.FreeShippingThreshold"));
+
+            String expectedShippingMethod = "economy";
+
+            if (subtotal >= standardShippingThreshold)
+                expectedShippingMethod = "standard";
+
+            assertEquals("Default shipping method selected should be ",expectedShippingMethod,actualShippingMethod);
+        } else {
             assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
         }
 
