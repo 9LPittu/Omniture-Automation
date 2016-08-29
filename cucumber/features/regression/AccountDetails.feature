@@ -20,6 +20,9 @@ Feature: Account details Page validations
     Then My Details form should display
     And User should be in /r/account/details menu link page
 
+    Then Verify Embedded header is displayed
+    And Verify embedded footer is visible and functional
+
     When User selects Home from my details dropdown
     Then User should be in /account/home.jsp menu link page
 
@@ -93,8 +96,7 @@ Feature: Account details Page validations
     When User scrolls up the page
     And click on MY ACCOUNT from header
     And user clicks on "My Details" from My Account dropdown
-    Then Verify Embedded header is displayed
-    And Verify embedded footer is visible and functional
+
 
     When Update first name with valid data
     And Update last name with valid data

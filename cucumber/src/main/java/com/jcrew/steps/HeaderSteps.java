@@ -4,10 +4,8 @@ package com.jcrew.steps;
 import com.jcrew.page.Header;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.SubcategoryPage;
-import com.jcrew.util.DatabaseReader;
-import com.jcrew.util.DriverFactory;
-import com.jcrew.util.PropertyReader;
-import com.jcrew.util.Util;
+import com.jcrew.pojo.Country;
+import com.jcrew.util.*;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -34,6 +32,7 @@ public class HeaderSteps extends DriverFactory {
     private final Header header = new Header(getDriver());
     private final HomePage homePage = new HomePage(getDriver());
     private final SubcategoryPage subcategory = new SubcategoryPage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
 
     @And("^Search Link is present$")
@@ -50,6 +49,16 @@ public class HeaderSteps extends DriverFactory {
         else {
             assertTrue(Util.getSelectedCountryName() + headerLink + " should have been present", header.isBagLinkDisplaying());
         }
+    }
+
+    @Then("^Verify ([^\"]*) header link points to the url ([^\"]*)$")
+    public void verify_header_link_is_displayed(String headerLink, String extensionURL) throws Throwable {
+        Country country = (Country)stateHolder.get("context");
+        String env = country.getHomeurl();
+        if (env.endsWith("/"))
+            env = env.substring(0,env.length()-1);
+        String expectedUrl = (env + extensionURL).toLowerCase();
+            assertEquals("Sign In header link url equals",expectedUrl,header.getHeaderLinkHref(headerLink) );
     }
 
     @Then("^Verify header bag icon is displayed$")

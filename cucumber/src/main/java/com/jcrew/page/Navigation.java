@@ -68,6 +68,8 @@ public class Navigation {
             case "youtube":
                 targetPage = "https://www.youtube.com/user/jcrewinsider";
                 break;
+            case "madewell":
+                targetPage="https://www.madewell.com/index.jsp";
             default:
                 targetPage = page;
             }
@@ -82,6 +84,8 @@ public class Navigation {
             case "youtube":
                 targetPage = "https://m.youtube.com/user/jcrewinsider";
                 break;
+            case "madewell":
+                targetPage = "https://www.madewell.com/?srcCode=JCFooter";
             default:
                 targetPage = page;
             }
