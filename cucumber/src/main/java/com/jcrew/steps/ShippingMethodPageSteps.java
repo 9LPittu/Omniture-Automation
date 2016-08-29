@@ -32,6 +32,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
         String countryCode = country.getCountry();
         if(countryCode.equalsIgnoreCase("us")) {
             String actualShippingMethod = shippingMethodPage.getSelectedShippingMethod().toLowerCase();
+            actualShippingMethod = actualShippingMethod.split("\\(")[0].trim();
 
             // retrieve expected shipping method to be selected by default
             double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
