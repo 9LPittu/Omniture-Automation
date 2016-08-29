@@ -1,7 +1,9 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.ShippingMethodPage;
+import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
@@ -11,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class ShippingMethodPageSteps extends DriverFactory {
 
     private final ShippingMethodPage shippingMethodPage = new ShippingMethodPage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @And("^Verifies is in shipping method page$")
     public void verifies_is_in_shipping_method_page() throws Throwable {
@@ -20,8 +23,12 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
     @And("^Uses default value for shipping method$")
     public void uses_default_value_for_shipping_method() throws Throwable {
-
-        assertTrue(Util.getSelectedCountryName() + "Economy UPS checkbox should be selected", shippingMethodPage.isEconomyUps());
+        Country country = (Country) stateHolder.get("context");
+        String countryName = country.getCountryName().toLowerCase().trim();
+        String countryCode = country.getCountry();
+        if(!countryCode.equalsIgnoreCase("us")) {
+            assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
+        }
 
     }
 
