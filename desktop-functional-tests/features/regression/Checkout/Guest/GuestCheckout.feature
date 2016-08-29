@@ -19,7 +19,7 @@ Feature: Checkout - Guest user is able to checkout
     And User adds product to bag
 
     When User clicks in bag
-
+	Then Verify shopping bag is displayed
     Then Verify products added matches with products in bag
     And Verify all products have edit and remove buttons
     And Verify bag has a promo code section
@@ -41,17 +41,16 @@ Feature: Checkout - Guest user is able to checkout
 
     When User selects a suggested address and continues
     Then Verify Shipping And Gift Options page is displayed
-    And Verify that this shipping methods are available including Thursday cut
-      | method                                       | price  | text                                                              | thursday |
-      | Economy (6-8 business days)                  | FREE   | Your order will be delivered by the United States Postal Service. | false    |
-      | Standard (3-6 business days)                 | $8.00  |                                                                   | false    |
-      | Expedited (2-3 business days)                | $20.00 |                                                                   | false    |
-      | Overnight (1-2 business days)                | $25.00 | 																  | false    |
-      | Saturday		                             | $35.00 |                                                                   | true     |
+    And Verify shipping methods are available
+     #|overnight|
+      |expedited|
+      |standard|
+      |economy|
+     #|saturday|
+      
     And Verify Shipping Options Page contains gift option section
-    And Verify that this shipping method is selected by default
-      | method                                       | price  | text                                                              |
-      | Economy (6-8 business days) 				 | FREE   | Your order will be delivered by the United States Postal Service. |
+    And Verify the below shipping method is selected by default    
+      | economy|
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
@@ -59,6 +58,7 @@ Feature: Checkout - Guest user is able to checkout
       | Credit/Debit Card |
       | PayPal            |      
       | MasterPass		  |
+      
     And Verify accepted cards from list
       | jccc |
       | visa |
