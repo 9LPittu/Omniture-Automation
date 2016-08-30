@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ShippingAddressPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
@@ -15,6 +16,7 @@ import static org.junit.Assert.*;
 public class ShippingAddressPageSteps extends DriverFactory {
 
     private final ShippingAddressPage shippingAddressPage = new ShippingAddressPage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @When("^Fills shipping address")
     public void fills_shipping_address() throws Throwable {
@@ -30,7 +32,7 @@ public class ShippingAddressPageSteps extends DriverFactory {
         }
 
         assertTrue("Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
-
+        stateHolder.put("addresstype","regular");
     }
 
     @And("^Presses continue button on shipping address$")

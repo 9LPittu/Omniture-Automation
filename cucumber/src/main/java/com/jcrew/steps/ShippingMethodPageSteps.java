@@ -7,6 +7,7 @@ import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
+import com.jcrew.util.shipping.ShippingMethodCalculator;
 import cucumber.api.java.en.And;
 
 import static org.junit.Assert.assertEquals;
@@ -30,20 +31,15 @@ public class ShippingMethodPageSteps extends DriverFactory {
         Country country = (Country) stateHolder.get("context");
         String countryName = country.getCountryName().toLowerCase().trim();
         String countryCode = country.getCountry();
+
         if(countryCode.equalsIgnoreCase("us")) {
-            String actualShippingMethod = shippingMethodPage.getSelectedShippingMethod().toLowerCase();
-            actualShippingMethod = actualShippingMethod.split("\\(")[0].trim();
+            String actualShippingMethodSelected = shippingMethodPage.getSelectedShippingMethod().toLowerCase();
+            actualShippingMethodSelected = actualShippingMethodSelected.split("\\(")[0].trim();
 
-            // retrieve expected shipping method to be selected by default
-            double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
-            double  standardShippingThreshold = Double.parseDouble(testDataReader.getData(countryCode + ".standard.FreeShippingThreshold"));
+            ShippingMethodCalculator shipCalculator = new ShippingMethodCalculator();
+            String expectedDefaultShippingMethod = shipCalculator.getExpectedDefaultShippingMethod().toLowerCase().trim();
 
-            String expectedShippingMethod = "economy";
-
-            if (subtotal >= standardShippingThreshold)
-                expectedShippingMethod = "standard";
-
-            assertEquals("Default shipping method selected should be ",expectedShippingMethod,actualShippingMethod);
+            assertEquals("Default shipping method selected should be ",expectedDefaultShippingMethod,actualShippingMethodSelected);
         } else {
             assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
         }

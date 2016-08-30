@@ -3,18 +3,13 @@ package com.jcrew.util;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import com.jcrew.util.DatabasePropertyReader;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -176,5 +171,38 @@ public class DatabaseReader {
 		}
 
 		return item;
+	}
+
+	public List<String> getConditionalShippingMethods(boolean overnightShipping, boolean saturdayShipping) throws IOException, ClassNotFoundException, SQLException{
+		List<String> shipMethods = new ArrayList<String>();
+		String dbquery = "";
+
+		if (overnightShipping && saturdayShipping)
+			dbquery	= dbReader.getProperty("conditionalShippingMethod.overnight") + "UNION ALL" + dbReader.getProperty("conditionalShippingMethod.saturday");
+		else if (overnightShipping)
+			dbquery	= dbReader.getProperty("conditionalShippingMethod.overnight");
+		else if (saturdayShipping)
+			dbquery	= dbReader.getProperty("conditionalShippingMethod.saturday");
+
+		dbquery = dbquery.replaceAll("schema",dbReader.getProperty("schema"));
+
+		//Establish DB connection and execute query
+		Connection conn = getConnectionToDatabase();
+		if(conn!=null){
+			logger.info("DB connection is successful...");
+		}
+		Statement stmt = createTheStatement(conn);
+		ResultSet rs = stmt.executeQuery(dbquery);
+
+		//Retrieve shipping methods
+		if(rs != null ) {
+			while (rs.next()) {
+				shipMethods.add(rs.getString(1));
+			}
+		}
+
+		closeConnection(conn);
+		return shipMethods;
+
 	}
 }
