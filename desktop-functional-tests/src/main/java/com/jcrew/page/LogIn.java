@@ -85,6 +85,7 @@ public class LogIn extends DriverFactory {
         sidecarPassword.sendKeys(knownUser.getPassword());
         signInHereButton.click();
         stateHolder.put("signedUser", knownUser);
+        stateHolder.put("userObject", knownUser);
     }
 
     public boolean hasExpectedPattern(String pattern) {
