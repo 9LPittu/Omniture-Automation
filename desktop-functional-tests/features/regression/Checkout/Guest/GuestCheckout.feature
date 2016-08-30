@@ -42,7 +42,7 @@ Feature: Checkout - Guest user is able to checkout
     When User selects a suggested address and continues
     Then Verify Shipping And Gift Options page is displayed
     And Verify shipping methods are available
-     #|overnight|
+      |overnight|
       |expedited|
       |standard|
       |economy|
