@@ -31,7 +31,7 @@ public class TestDataReader {
 		logger.debug("Test Data file to be used {}", testData);
 
 		String shipData = "shippingMethod.properties";
-		FileInputStream shippingInput = new FileInputStream(testData);
+		FileInputStream shippingInput = new FileInputStream(shipData);
 		testDataProperties.load(shippingInput);
 		logger.debug("Shipping data file to be used {}", shipData);
 

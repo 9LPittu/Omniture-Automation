@@ -31,9 +31,9 @@ public class DatabasePropertyReader {
         databaseInput = new FileInputStream("databasequeries.properties");
         databaseProperties.load(databaseInput);
 
-        String execEnvironment = System.getProperty("environment", "ci");
+        String execEnvironment = System.getProperty("environment", "production");
 
-        String dbSchemaName = System.getProperty(execEnvironment + ".schema");
+        String dbSchemaName = databaseProperties.getProperty(execEnvironment + ".schema");
         databaseProperties.setProperty("schema", dbSchemaName);
 
         if (execEnvironment.equalsIgnoreCase("steel") || execEnvironment.equalsIgnoreCase("titanium") || execEnvironment.equalsIgnoreCase("platimun"))

@@ -178,7 +178,7 @@ public class DatabaseReader {
 		String dbquery = "";
 
 		if (overnightShipping && saturdayShipping)
-			dbquery	= dbReader.getProperty("conditionalShippingMethod.overnight") + "UNION ALL" + dbReader.getProperty("conditionalShippingMethod.saturday");
+			dbquery	= dbReader.getProperty("conditionalShippingMethod.overnight") + " UNION ALL " + dbReader.getProperty("conditionalShippingMethod.saturday");
 		else if (overnightShipping)
 			dbquery	= dbReader.getProperty("conditionalShippingMethod.overnight");
 		else if (saturdayShipping)
