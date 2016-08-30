@@ -121,6 +121,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
             		if(calendar.get(Calendar.HOUR_OF_DAY)>11){
             			isShippingMethodSkipped = true;
             		}
+            		break;
             }
             
             if(isShippingMethodSkipped){
