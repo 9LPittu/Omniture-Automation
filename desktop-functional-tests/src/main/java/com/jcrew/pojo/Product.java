@@ -3,8 +3,6 @@ package com.jcrew.pojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
-
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
@@ -12,11 +10,6 @@ public class Product {
     private final Logger logger = LoggerFactory.getLogger(Product.class);
     private String productName;
     private String priceList;
-    private String variations;
-    private String colorsCount;
-    private String priceWas;
-    private String priceSale;
-    private String selectedVariation;
     private String selectedColor;
     private String selectedSize;
     private String color;
@@ -25,6 +18,7 @@ public class Product {
     private String quantity;
     private String price;
     private String currency;
+    private String itemNumber;
     private boolean isSoldOut = false;
 
     public Product() {
@@ -80,7 +74,9 @@ public class Product {
     }
 
     public void setSize(String size) {
-        size = size.toLowerCase().replace("size", "");
+    	if(!size.equalsIgnoreCase("one size")) {
+            size = size.toLowerCase().replace("size", "");
+        }
         this.size = size.trim();
     }
 
@@ -114,6 +110,14 @@ public class Product {
         price = price.replace("was", "");
         this.price = price.replaceAll("[^0-9.,]", "");
         this.currency = price.replace(this.price, "").trim();
+    }
+    
+    public String getItemNumber() {
+        return itemNumber.trim();
+    }
+
+    public void setItemNumber(String itemNumber) {
+        this.itemNumber = itemNumber.trim();
     }
 
     public String toString() {

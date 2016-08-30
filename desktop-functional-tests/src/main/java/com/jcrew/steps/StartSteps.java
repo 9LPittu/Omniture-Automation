@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.*;
+
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
@@ -14,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.*;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -31,7 +31,6 @@ public class StartSteps {
         stateHolder.put("deletecookies", false);
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
-
     }
 
     @Given("User goes to homepage")

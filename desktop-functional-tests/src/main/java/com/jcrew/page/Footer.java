@@ -1,7 +1,6 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
-import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
@@ -15,8 +14,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * Created by nadiapaolagarcia on 4/19/16.
@@ -117,5 +114,39 @@ public class Footer {
 
         return actualCountryName.equalsIgnoreCase(expectedCountryName);
     }
+    
+    public boolean isLinkDisplayedInAccordion(String linkText, String accordionName){
+    	WebElement footerLink = getAccordianLink(linkText, accordionName);
+        return footerLink.isDisplayed();
+    }
+    
+    private WebElement getAccordianLink(String link, String accordion) {
+        WebElement drawerElement = getAccordionElement(accordion);
+        String xpath;
 
+        if (link.contains("'")) {
+            xpath = ".//a[contains(@class,'accordian__menu__link ') and text()=\"" + link + "\"]";
+        } else {
+            xpath = ".//a[contains(@class,'accordian__menu__link ') and text()='" + link + "']";
+        }
+
+        return drawerElement.findElement(By.xpath(xpath));
+    }
+    
+    private WebElement getAccordionElement(String name) {
+    	waitForFooter();
+        WebElement header = footerWrapMain.findElement(
+                By.xpath(".//h6[contains(@class,'footer__header') and text()='" + name + "']"));
+        WebElement accordion = header.findElement(By.xpath(".//parent::div[contains(@class,'accordian__wrap--footer')]"));
+
+        return wait.until(ExpectedConditions.visibilityOf(accordion));
+    }
+    
+    public void clickFooterLinkFromDrawer(String linkText, String drawer) {
+        WebElement footerLink = getAccordianLink(linkText, drawer);
+        wait.until(ExpectedConditions.elementToBeClickable(footerLink));
+
+        footerLink.click();
+        Util.waitLoadingBar(driver);
+    }
 }

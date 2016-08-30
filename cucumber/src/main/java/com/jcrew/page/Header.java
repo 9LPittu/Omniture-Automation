@@ -102,7 +102,7 @@ public class Header {
 
     public List<String> getPromoListText() {
         List<String> promosText = new ArrayList<String>();
-        List<WebElement> promos = globalPromoPanel.findElements(By.xpath("//div[contains(@class, 'header__promo__align')]"));
+        List<WebElement> promos = globalPromoPanel.findElements(By.xpath(".//div[contains(@class, 'header__promo__align')]"));
 
         for (WebElement promo : promos) {
             Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(promo));

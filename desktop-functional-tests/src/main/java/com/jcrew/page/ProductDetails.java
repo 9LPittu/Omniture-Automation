@@ -2,26 +2,22 @@ package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
-import com.jcrew.utils.CurrencyChecker;
-import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -73,7 +69,12 @@ public class ProductDetails extends PageObject{
     @FindBy(xpath="//div[@class='product__details product__description']/div/div/span")
     private WebElement productDetailsDrawer;
     @FindBy(id = "c-product__details")
-    private WebElement product__details;
+    private WebElement product__details;    
+    @FindBy(className = "c-product__description")
+    private WebElement productDetailsSection;
+    
+    @FindBy(xpath = "//button[@id='btn__add-to-bag' and text()='Update Bag']")
+    private WebElement updateBagButton;
 
     public ProductDetails(WebDriver driver) {
         super(driver);
@@ -86,7 +87,8 @@ public class ProductDetails extends PageObject{
     public void selectRandomColor() {
         wait.until(ExpectedConditions.visibilityOf(price_colors));
         List<WebElement> availableColors =
-                price_colors.findElements(By.xpath(".//li[@class='js-product__color colors-list__item']"));
+                price_colors.findElements(By.xpath(".//li[@class='js-product__color colors-list__item'"
+                								 + " and not(contains(@class,'is-selected'))]"));
 
         if (availableColors.size() > 0) {
             WebElement selectedColor = Util.randomIndex(availableColors);
@@ -98,8 +100,9 @@ public class ProductDetails extends PageObject{
     public void selectRandomSize() {
         wait.until(ExpectedConditions.visibilityOf(sizes));
         String availableSizesSelector = ".//li[contains(@class,'js-product__size sizes-list__item') " +
-                "and not(contains(@class,'is-unavailable')) " +
-                "and not(contains(@class,'is-selected'))]";
+                						"and not(contains(@class,'is-unavailable')) " +
+                						"and not(contains(@class,'is-selected'))]";
+        
         List<WebElement> availableSizes = sizes.findElements(By.xpath(availableSizesSelector));
 
         if (availableSizes.size() > 0) {
@@ -115,18 +118,17 @@ public class ProductDetails extends PageObject{
 
         int availableQty = qty.getOptions().size();
         if (availableQty > 1) {
-            int randomQty = Util.randomIndex(availableQty - 1) + 1; //
-
+            int randomQty = Util.randomIndex(availableQty - 1) + 1;
             qty.selectByValue(Integer.toString(randomQty));
         }
     }
 
-    private String getSelectedColor() {
+    public String getSelectedColor() {
         WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
         return selectedColor.getAttribute("data-name");
     }
 
-    private String getSelectedSize() {
+    public String getSelectedSize() {
         WebElement selectedSize = sizes.findElement(
                 By.xpath(".//li[contains(@class,'js-product__size') and contains(@class,'is-selected')]"));
         return selectedSize.getAttribute("data-name");
@@ -173,8 +175,9 @@ public class ProductDetails extends PageObject{
                 }
             }
         }
-
-        return productPrice.getText();
+        
+        String price = productPrice.getText();
+        return price;
     }
 
     private boolean isSoldOut() {
@@ -188,10 +191,13 @@ public class ProductDetails extends PageObject{
         product.setName(getProductName());
 
         if (!isSoldOut()) {
+        	product.setName(getProductName());
             product.setColor(getSelectedColor());
             product.setSize(getSelectedSize());
             product.setQuantity(getQuantity());
-            product.setPrice(getPrice());
+            product.setPrice(getPrice());            
+            product.setItemNumber(getProductCodeFromPDP());
+            product.setQuantity(getQuantity());            
         } else {
             product.setSoldOut(true);
         }
@@ -209,6 +215,11 @@ public class ProductDetails extends PageObject{
         Product product = getProduct();
 
         productsInBag.add(product);
+        
+        stateHolder.addToList("toBag", product);
+
+        int itemsInBag = headerWrap.getItemsInBag();
+        stateHolder.put("itemsInBag", itemsInBag);
 
         logger.info("Adding to bag {}", product);
         stateHolder.put("bag_items", productsInBag);
@@ -263,6 +274,12 @@ public class ProductDetails extends PageObject{
         thisProduct.setSelectedSize(getSelectedSize());
 
         stateHolder.put("recentlyAdded", thisProduct);
+        
+        stateHolder.addToList("toBag", getProduct());
+        stateHolder.addToList("editedItem", getProduct());
+
+        int itemsInBag = headerWrap.getItemsInBag();
+        stateHolder.put("itemsInBag", itemsInBag);
 
         Util.clickWithStaleRetry(addToBag);
     }
@@ -504,5 +521,72 @@ public class ProductDetails extends PageObject{
     	String productDetailsDrawerText = productDetailsDrawer.getText();
     	return !StringUtils.isBlank(productDetailsDrawerText);
     }
+    
+    public String getProductCodeFromPDP(){
+    	
+    	WebElement productCodeElement = null;
+    	try{
+    		
+    		//Currently the accordion is displayed in expanded mode in desktop. So, commenting the below code
+    		//When PDP size and Fit is available, then the below code will be uncommented.
+    		//WebElement productDetailsAccordion = Util.createWebDriverWait(driver).until(
+    		//		ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details')]/div/div")));    		
+    		//productDetailsAccordion.click();
+    		
+    		productCodeElement = Util.createWebDriverWait(driver,30).until(
+                    ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
+    	}
+    	catch(TimeoutException toe){
+    		try{
+     			productCodeElement = Util.createWebDriverWait(driver,30).until(
+                        ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
+    		}
+    		catch(Exception e){
+    			throw new WebDriverException("Product/item code is not found on the PDP!");
+    		}
+    	}
+    	
+    	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
+    	productCodeText = productCodeText.replace(".", "").toUpperCase();
+    	return productCodeText;
+    }
+    
+    public boolean isUpdateBagButtonDisplayed() {
+        updateBagButton = wait.until(ExpectedConditions.visibilityOf(updateBagButton));
+        return updateBagButton.isDisplayed();
+    }
+    
+    public void selectColor(String colorName) {
+        wait.until(ExpectedConditions.visibilityOf(price_colors));
 
+        List<WebElement> colors = price_colors.findElements(
+                By.xpath(".//li[contains(@class, 'js-product__color') and @data-name='" + colorName.toUpperCase() + "']"));
+
+        if (colors.size() > 0) {
+            WebElement selectedColor = colors.get(0);
+            WebElement selectedColorImage = selectedColor.findElement(By.tagName("img"));
+
+            logger.info("Selecting specified color {}", colorName);
+
+            wait.until(ExpectedConditions.visibilityOf(selectedColorImage));
+            selectedColorImage.click();
+        } else {
+            logger.info("Color " + colorName + " not found");
+        }
+    }
+    
+    public void selectSize(String size) {
+        List<WebElement> productSizes = sizes.findElements(
+                By.xpath(".//li[contains(@class,'js-product__size') and @data-name='" + size.toUpperCase() + "']"));
+
+        if (productSizes.size() > 0) {
+            WebElement selectedSize = productSizes.get(0);
+            WebElement selectedSizeLabel = selectedSize.findElement(By.className("btn__label"));
+            selectedSizeLabel.click();
+
+            logger.info("Selecting specified size {}", size);
+        } else {
+            logger.info("Size " + size + " not found");
+        }
+    }
 }

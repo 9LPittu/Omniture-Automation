@@ -1,12 +1,13 @@
 package com.jcrew.pojo;
 
-import com.github.javafaker.Faker;
-import com.jcrew.utils.PropertyReader;
-import com.jcrew.utils.UsersHub;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+        import com.github.javafaker.Faker;
+        import com.jcrew.utils.PropertyReader;
+        import com.jcrew.utils.UserReader;
+        import com.jcrew.utils.UsersHub;
+        import org.slf4j.Logger;
+        import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
+        import java.sql.SQLException;
 
 /**
  * Created by nadiapaolagarcia on 3/29/16.
@@ -21,32 +22,85 @@ public class User {
     private String countryCode;
     private String userCategory;
 
+    private static UserReader reader = UserReader.getUserReader();
+    private static User user = null;
     private static User fakeUser = null;
+    private static User noDefaultUser = null;
+    private static User multipleUser = null;
+    private static User noDefaultMultipleUser = null;
+
+    public static final String DEFAULT = "user";
+    public static final String NO_DEFAULT = "noDefaultUser";
+    public static final String MULTIPLE = "multiple";
+    public static final String NO_DEFAULT_MULTIPLE = "noDefaultMultiple";
+
     private static final Logger logger = LoggerFactory.getLogger(User.class);
+
 
     public static final String CAT_LOYALTY = "loyalty";
     public static final String CAT_NO_LOYALTY = "noLoyalty";
 
     public User(String userName, String password, String firstName, String lastName, String countryCode,String userCategory) {
+
         this.email = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+
         this.countryCode = countryCode;
         this.userCategory = userCategory;
         setCountryFromCode(this.countryCode);
     }
 
-    public static User getUser(){
-        return getUser("");
+    public static User getExtractedUser(){
+        return getExtractedUser("");
     }
-    public static User getUser(String userCategory) {
+
+    public static User getExtractedUser(String userCategory) {
         try {
             return UsersHub.getInstance().getUser(userCategory);
         } catch (SQLException e) {
             logger.error("Failed to get user from DB. getting from properties file");
             return new User(true);
         }
+    }
+
+    public static User getUser(String userType) {
+        User theUser;
+
+        switch (userType) {
+            default:
+            case "default":
+                if (user == null) {
+                    String userId = reader.getProperty(DEFAULT);
+                    user = new User(userId);
+                }
+                theUser = user;
+                break;
+            case "noDefaultUser":
+                if (noDefaultUser == null) {
+                    String userId = reader.getProperty(NO_DEFAULT);
+                    noDefaultUser = new User(userId);
+                }
+                theUser = noDefaultUser;
+                break;
+            case "multiple":
+                if (multipleUser == null) {
+                    String userId = reader.getProperty(MULTIPLE);
+                    multipleUser = new User(userId);
+                }
+                theUser = multipleUser;
+                break;
+            case "noDefaultMultiple":
+                if (noDefaultMultipleUser == null) {
+                    String userId = reader.getProperty(NO_DEFAULT_MULTIPLE);
+                    noDefaultMultipleUser = new User(userId);
+                }
+                theUser = noDefaultMultipleUser;
+                break;
+        }
+
+        return theUser;
     }
 
     public static User getNewFakeUser() {
@@ -78,6 +132,16 @@ public class User {
             this.country = reader.getProperty(userId + ".country", "United States");
             this.countryCode = reader.getProperty(userId + ".countryCode", "US");
         }
+    }
+
+    private User(String userId) {
+        this.email = reader.getProperty(userId + ".email");
+        this.password = reader.getProperty(userId + ".password");
+        this.firstName = reader.getProperty(userId + ".firstName", "Automation");
+        this.lastName = reader.getProperty(userId + ".lastName", "User");
+        this.country = reader.getProperty(userId + ".country", "United States");
+        this.countryCode = reader.getProperty(userId + ".countryCode", "US");
+
     }
 
     public String getEmail() {

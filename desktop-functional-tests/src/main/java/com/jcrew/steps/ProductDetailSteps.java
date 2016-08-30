@@ -10,6 +10,7 @@ import cucumber.api.java.en.When;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -126,5 +127,20 @@ public class ProductDetailSteps extends DriverFactory {
     @Then("^Verify item details are displayed in the 'PRODUCT DETAILS' drawer$")
     public void verify_item_details_dsiplayed_in_product_details_drawer(){
     	assertTrue("Verify item details are displayed in the 'PRODUCT DETAILS' drawer",productDetails.isItemDetailsDisplayedInProductDetailsDrawer());
+    }
+    
+    @Then("^Verify UPDATE BAG button is displayed$")
+    public void verify_update_to_bag_button_displayed(){
+    	assertTrue("Update To Bag button is displayed", productDetails.isUpdateBagButtonDisplayed());
+    }
+    
+    @Then("Verify that page contains a selected color")
+    public void has_selected_color() {
+        assertFalse("Color field is not empty", productDetails.getSelectedColor().isEmpty());
+    }
+
+    @Then("Verify that page contains a selected size")
+    public void has_selected_size() {
+        assertFalse("Size field is not empty", productDetails.getSelectedSize().isEmpty());
     }
 }
