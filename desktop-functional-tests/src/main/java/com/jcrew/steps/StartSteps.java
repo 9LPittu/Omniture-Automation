@@ -41,7 +41,7 @@ public class StartSteps {
     	
     	if(scenarioName.contains("Checkout")){
     		stateHolder.put("scenarioName", scenarioName);        
-    		logger.debug("TRACKING - Started executing scenario '{}' @ {}", scenarioName, new Date().toString());
+    		logger.debug("Started executing scenario '{}' @ {}", scenarioName, new Date().toString());
     	}
     }
 

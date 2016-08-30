@@ -170,7 +170,7 @@ public class UsersHub {
 			
 			String scenarioName = stateHolder.get("scenarioName");
 			if(scenarioName != null && scenarioName.contains("Checkout")){
-			  logger.debug("TRACKING - Reserved user '{}' for scenario '{}' @ {}", user.getEmail(), scenarioName, new Date().toString());
+			  logger.debug("Reserved user '{}' for scenario '{}' @ {}", user.getEmail(), scenarioName, new Date().toString());
             }
 		}
 		else{
@@ -202,7 +202,7 @@ public class UsersHub {
 	            
 	            String scenarioName = stateHolder.get("scenarioName");
                 if(scenarioName != null && scenarioName.contains("Checkout")){
-                	logger.debug("TRACKING - Releasing user '{}' for scenario '{}' @ {}", currentUserName, scenarioName, new Date().toString());
+                	logger.debug("Releasing user '{}' for scenario '{}' @ {}", currentUserName, scenarioName, new Date().toString());
                 }
                 
 	            closeDBConnection();

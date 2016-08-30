@@ -109,6 +109,24 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
             	}
             }
             
+            boolean isShippingMethodSkipped = false;
+            switch(expectedShippingMethod.toLowerCase()){
+            	case "economy":
+            		if(subTotal>=threshold){
+                		expectedShippingMethodPrice = dataReader.getData(expectedShippingMethod + ".shipping.method.price2");
+                	}
+            		break;
+            	case "overnight":
+            		Calendar calendar = Calendar.getInstance();
+            		if(calendar.get(Calendar.HOUR_OF_DAY)>11){
+            			isShippingMethodSkipped = true;
+            		}
+            }
+            
+            if(isShippingMethodSkipped){
+            	continue;
+            }
+            
             String expectedShippingMethodText= dataReader.getData(expectedShippingMethod + ".shipping.method.text");
             boolean expectedShippingMethodThursdayCut = Boolean.getBoolean(dataReader.getData(expectedShippingMethod + ".shipping.method.thursday.cut"));
             

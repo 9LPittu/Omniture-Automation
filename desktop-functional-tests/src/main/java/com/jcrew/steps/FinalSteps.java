@@ -72,12 +72,9 @@ public class FinalSteps {
         
         if(scenario.getName().contains("Checkout")){
         	String scenarioName = holder.get("scenarioName");
-        	logger.debug("TRACKING - Ending execution of scenario '{}' @ {}", scenarioName, new Date().toString());
+        	logger.debug("Ending execution of scenario '{}' @ {}", scenarioName, new Date().toString());
         }
         
         holder.clear();
-
     }
-
 }
-
