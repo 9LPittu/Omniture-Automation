@@ -1,6 +1,8 @@
 package com.jcrew.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StateHolder {
@@ -20,6 +22,17 @@ public class StateHolder {
         Map<String, Object> threadMap = getMapForCurrentThread();
         threadMap.put(key, value);
     }
+    
+    public <T> void addToList(String key, T value) {
+        List<T> list = getList(key);
+
+        if(list == null) {
+            list = new ArrayList<>();
+        }
+
+        list.add(value);
+        put(key, list);
+    }
 
     private Map<String, Object> getMapForCurrentThread() {
         Map<String, Object> threadMap = stateHolderMap.get(Thread.currentThread().getName());
@@ -33,9 +46,14 @@ public class StateHolder {
         return threadMap;
     }
 
-    public Object get(String key) {
+    public <T> T get(String key) {
         Map<String, Object> threadMap = getMapForCurrentThread();
-        return threadMap.get(key);
+        return (T) threadMap.get(key);
+    }
+    
+    public void remove(String key) {
+        Map<String, Object> threadMap = getMapForCurrentThread();
+        threadMap.remove(key);
     }
 
     public void clear() {
@@ -43,5 +61,14 @@ public class StateHolder {
         if (threadMap != null) {
             threadMap.clear();
         }
+    }
+    
+    public <T> List<T> getList(String key) {
+        return (List<T>) get(key);
+    }
+    
+    public boolean hasKey(String keyName){
+        Map<String, Object> threadMap = stateHolderMap.get(Thread.currentThread().getName());
+        return threadMap.containsKey(keyName);
     }
 }

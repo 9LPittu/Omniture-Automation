@@ -1,6 +1,7 @@
 package com.jcrew.pojo;
 
 import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.TestDataReader;
 
 /**
  * Created by nadiapaolagarcia on 4/11/16.
@@ -13,7 +14,6 @@ public class Country {
     private String region;
     private boolean contexturl;
     
-    private String countryCode;
     private String countryName;
     private String companyName;
     private String address1;
@@ -21,16 +21,18 @@ public class Country {
     private String zipcode;
     private String city;
     private String state;
+    
+    private TestDataReader dataReader = TestDataReader.getTestDataReader();
 
     public Country(String environment, String country) {
         PropertyReader properties = PropertyReader.getPropertyReader();
         country = country.toLowerCase();
 
-        this.country = country;
-        this.currency = properties.getProperty(country + ".currency");
-        this.contexturl = Boolean.parseBoolean(properties.getProperty(country + ".contexturl"));
-        this.name = properties.getProperty(country + ".name");
-        this.region=properties.getProperty(country + ".region");
+        this.country = country;               
+        this.currency = dataReader.getData("currency");
+        this.contexturl = Boolean.parseBoolean(dataReader.getData("contexturl"));
+        this.name = dataReader.getData("name");        
+        this.region=dataReader.getData("region"); 
         this.homeurl = environment;
 
     }

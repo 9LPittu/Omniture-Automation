@@ -1,8 +1,5 @@
 package com.jcrew.page;
 
-import com.jcrew.pojo.Country;
-import com.jcrew.utils.CurrencyChecker;
-import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,12 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -63,6 +56,18 @@ public class ArrayCategory extends Array{
     }
     public void selectRandomProduct() {
         selectRandomProduct(productList);
+        
+        try{
+        	 WebElement errorMessageElement = Util.createWebDriverWait(driver, 2).until(ExpectedConditions.visibilityOfElementLocated(
+        								By.xpath("//div[@class='c-inline-error']")));
+        	 logger.info("Handling oops error message ...");
+        	 errorMessageElement.findElement(By.linkText("retry")).click();
+        	 Util.waitLoadingBar(driver);
+        	 
+        }
+        catch(Exception e){
+        	logger.info("Oops error message is not displayed");
+        }
     }
 
     public boolean isRefineDropdownDisplayed() {

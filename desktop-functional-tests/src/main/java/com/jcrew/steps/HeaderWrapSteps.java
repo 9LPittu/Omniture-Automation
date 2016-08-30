@@ -5,7 +5,6 @@ import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.Util;
 
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -103,6 +102,11 @@ public class HeaderWrapSteps extends DriverFactory {
     public void verify_top_nav_contains_less(int allowedOptions) {
         List<String> options = header.getTopNavOptions();
 
-        assertTrue("Page contains 8 or less Options in topnav", options.size() <= allowedOptions);
+        assertTrue("Page contains " + allowedOptions + " or less Options in topnav", options.size() <= allowedOptions);
+    }
+    
+    @Then("Verify jcrew logo is visible")
+    public void is_logo_visible() {
+        header.isLogoVisible();
     }
 }

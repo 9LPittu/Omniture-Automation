@@ -2,7 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ContextChooser;
 import com.jcrew.utils.DriverFactory;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 

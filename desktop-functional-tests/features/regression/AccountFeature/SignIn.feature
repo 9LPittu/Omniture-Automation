@@ -1,5 +1,4 @@
 @SignIn
-
 Feature: Sign In
 
   Scenario: User is able to sign in

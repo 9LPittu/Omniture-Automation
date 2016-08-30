@@ -3,14 +3,12 @@ package com.jcrew.steps;
 import com.jcrew.page.LogIn;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
-import cucumber.api.PendingException;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,6 +18,9 @@ import static org.junit.Assert.*;
  * Created by nadiapaolagarcia on 3/28/16.
  */
 public class LogInSteps extends DriverFactory {
+	
+	private String emailAddress;
+    private String password;    
     LogIn logIn = new LogIn(getDriver());
 
     @When("User fills user data and signs in")
@@ -115,4 +116,45 @@ public class LogInSteps extends DriverFactory {
     public void clicks_on_forgot_password_link() throws Throwable {
         logIn.click_forgot_password_link();
     }
+    
+    @When("^User fills form and signs in$")
+    public void sign_in(){    	
+		login("express", "single", logIn.DEFAULT);
+    }
+    
+    @When("^User fills form with no default user and signs in$")
+    public void sign_in_no_default(){  
+    	login("nonexpress", "single", logIn.NO_DEFAULT);
+    }
+
+    @When("^User fills form with multiple user and signs in$")
+    public void sign_in_multiple(){
+    	login("express", "multiple", logIn.MULTIPLE);
+    }
+
+    @When("^User fills form with no default multiple user and signs in$")
+    public void sign_in_no_default_multiple(){
+    	login("nonexpress", "multiple", logIn.NO_DEFAULT_MULTIPLE);
+    }
+    
+    public void login(String userType, String addressType, String userClassUserType){
+		UsersHub userHub = UsersHub.getInstance();
+		User user = null;
+		
+		try {
+			  user = userHub.getUser(userType, addressType);			  
+			  emailAddress = user.getEmail();
+		      password = user.getPassword();
+		      logIn.stateHolder.put("userObject", user);
+		} 
+		catch (SQLException e) {				
+			e.printStackTrace();
+		}
+    	
+		boolean result = logIn.submitUserCredentials(emailAddress, password);
+		if(!result){
+			logIn.signIn(userClassUserType);
+		}		
+    }
+
 }

@@ -25,17 +25,17 @@ Feature: International Country Context - Part 2
     And Verify that shopping bag has expected context
     And User clicks check out button
     And Verify selected country is in footer
-    And User selects guest check out
+    And User checks out as guest
     And Verify selected country is in footer
-    And Guest user fills shipping address and continue
+    And User fills shipping data and continues
     And Verify selected country is in footer
-    And User selects random shipping method and continue
+    And User selects a random shipping method and continues
     And Verify selected country is in footer
     And User fills payment method and continue
     And Verify selected country is in footer
-    And User reviews and places order
+    And User clicks on PLACE MY ORDER
     And Verify selected country is in footer
-    Then User gets an order confirmation number
+    Then Verify user gets a confirmation number
     And Verify selected country is in footer
 
     Examples:

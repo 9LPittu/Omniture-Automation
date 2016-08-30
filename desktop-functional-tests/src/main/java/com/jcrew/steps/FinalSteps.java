@@ -1,7 +1,7 @@
 package com.jcrew.steps;
 
+import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
-import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.UsersHub;
 import cucumber.api.Scenario;
@@ -51,6 +51,13 @@ public class FinalSteps {
             try {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
+                
+                if(holder.hasKey("userObject")){
+                	User user = holder.get("userObject");
+                	String userName = "Email address: " + user.getEmail();
+                	scenario.embed(userName.getBytes(), "text/plain");
+                }
+                
             } catch (WebDriverException e) {
                 logger.error("An exception happened when taking step screenshot after scenario", e);
                 driverFactory.resetDriver();
@@ -58,11 +65,10 @@ public class FinalSteps {
         }
 
         driverFactory.destroyDriver();
-        holder.clear();
+        
         UsersHub userHub = UsersHub.getInstance();
         userHub.releaseUserCredentials();
-
+        
+        holder.clear();
     }
-
 }
-
