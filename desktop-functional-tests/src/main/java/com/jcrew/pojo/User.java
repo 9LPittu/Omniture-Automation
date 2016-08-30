@@ -52,9 +52,9 @@ public class User {
         setCountryFromCode(this.countryCode);
     }
 
-    public static User getExtractedUser(){
+/*    public static User getExtractedUser(){
         return getExtractedUser("");
-    }
+    }*/
 
     public static User getExtractedUser(String userCategory) {
         try {

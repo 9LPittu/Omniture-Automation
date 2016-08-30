@@ -86,7 +86,7 @@ public class LogIn extends DriverFactory {
     }
 
     public void userSignIn() {
-        userSignIn("");
+        userSignIn("noUserCategory");
     }
 
 
@@ -242,7 +242,7 @@ public class LogIn extends DriverFactory {
             user = fakeUser;
         }
         else{
-        	knownUser = User.getExtractedUser();
+        	knownUser = User.getExtractedUser("noUserCategory");
             user = knownUser;
         }
         switch (field) {
