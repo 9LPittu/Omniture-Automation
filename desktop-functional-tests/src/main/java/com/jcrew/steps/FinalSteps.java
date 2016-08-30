@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -68,6 +69,11 @@ public class FinalSteps {
         
         UsersHub userHub = UsersHub.getInstance();
         userHub.releaseUserCredentials();
+        
+        if(scenario.getName().contains("Checkout")){
+        	String scenarioName = holder.get("scenarioName");
+        	logger.debug("TRACKING - Ending execution of scenario '{}' @ {}", scenarioName, new Date().toString());
+        }
         
         holder.clear();
 

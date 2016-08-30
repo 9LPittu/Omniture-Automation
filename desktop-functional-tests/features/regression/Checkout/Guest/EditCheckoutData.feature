@@ -1,7 +1,7 @@
 @GuestCheckout-Part1
 Feature: Checkout - Guest user is able to edit data in review page
 
-  Scenario: Guest user is able to edit data in review page
+  Scenario: Checkout - Guest user is able to edit data in review page
     Given User goes to homepage
     And User closes email capture
     When User opens menu

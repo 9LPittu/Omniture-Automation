@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.Date;
 import java.util.Properties;
 
 public class UsersHub {
@@ -166,6 +167,11 @@ public class UsersHub {
 								"' and Environment='"  + environment + "'" + getUserAddressWhereClause(userType, addressType);
 			
 			executeSQLQuery(updateAllocationFlagSQLQuery);
+			
+			String scenarioName = stateHolder.get("scenarioName");
+			if(scenarioName != null && scenarioName.contains("Checkout")){
+			  logger.debug("TRACKING - Reserved user '{}' for scenario '{}' @ {}", user.getEmail(), scenarioName, new Date().toString());
+            }
 		}
 		else{
 			logger.error("No username records are available in DB for '" + environment + "' environment");
@@ -195,6 +201,12 @@ public class UsersHub {
 	            executeSQLQuery(updateAllocationFlagSQLQuery);
 	
 	            logger.info("User '{}' is released in DB for '{}' environment", currentUserName, environment);
+	            
+	            String scenarioName = stateHolder.get("scenarioName");
+                if(scenarioName != null && scenarioName.contains("Checkout")){
+                	logger.debug("TRACKING - Releasing user '{}' for scenario '{}' @ {}", currentUserName, scenarioName, new Date().toString());
+                }
+                
 	            closeDBConnection();
 	            user = null;
 	        } catch (SQLException e) {

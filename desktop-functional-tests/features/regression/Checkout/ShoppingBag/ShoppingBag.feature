@@ -1,7 +1,7 @@
 @ShoppingBag
 Feature: Checkout - Editing items from shopping bag
 
-  Scenario: Multiple shopping bag functions
+  Scenario: Checkout - Multiple shopping bag functions
     Given User goes to homepage
     And User closes email capture
     When User opens menu

@@ -9,7 +9,7 @@ Feature: Checkout - Merge cart page validation for e-gift card, regular item, ba
     And This script cleans bag for current user
     And User goes to homepage
 
-  Scenario: Merge cart page validation for e-gift card, regular item, backorder item and few left item
+  Scenario: Checkout - Merge cart page validation for e-gift card, regular item, backorder item and few left item
 
 	#Add backordered item to bag
     When User navigates to backordered product    

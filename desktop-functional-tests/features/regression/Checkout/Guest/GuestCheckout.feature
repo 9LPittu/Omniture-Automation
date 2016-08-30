@@ -1,7 +1,7 @@
 @GuestCheckout-Part2
 Feature: Checkout - Guest user is able to checkout
 
-  Scenario: Guest user is able to checkout
+  Scenario: Checkout - Guest user is able to checkout
     Given User goes to homepage
     And User closes email capture
     When User opens menu

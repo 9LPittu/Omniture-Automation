@@ -1,7 +1,7 @@
 @GuestCheckout-Part2
 Feature: Checkout - User is able to remove item from shopping bag during Guest checkout
 
-  Scenario: Guest user is able to remove item from shopping bag
+  Scenario: Checkout - Guest user is able to remove item from shopping bag
     Given User goes to homepage
     And User closes email capture
     

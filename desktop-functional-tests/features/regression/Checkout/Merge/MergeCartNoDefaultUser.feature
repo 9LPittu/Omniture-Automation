@@ -26,7 +26,7 @@ Feature: Checkout - No Default user gets confirmation to merge cart
     
     And User signs out using header
     
-  Scenario: User checks out with a merged bag
+  Scenario: Checkout - User checks out with a merged bag
     Given User goes to homepage
     
     When User opens menu
@@ -76,7 +76,7 @@ Feature: Checkout - No Default user gets confirmation to merge cart
     And User clicks on PLACE MY ORDER
     Then Verify user gets a confirmation number
   
-  Scenario: User checks out by saving items to wishlist
+  Scenario: Checkout - User checks out by saving items to wishlist
     Given User goes to homepage
     When User opens menu
     And User selects random category from list

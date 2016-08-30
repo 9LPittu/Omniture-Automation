@@ -1,7 +1,7 @@
 @GuestCheckout-Part1
 Feature: Checkout - User is able to gift receipt to order during Guest checkout
 
-  Scenario: User is able to gift receipt to order during Guest checkout
+  Scenario: Checkout - User is able to gift receipt to order during Guest checkout
     Given User goes to homepage
     And User closes email capture
     When User opens menu

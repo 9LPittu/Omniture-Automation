@@ -1,7 +1,7 @@
 @GuestCheckout-Part3
 Feature: Checkout - User is able to edit quantity for item from shopping bag during Guest checkout
 
-  Scenario: User is able to edit quantity for item from shopping bag during Guest checkout
+  Scenario: Checkout - User is able to edit quantity for item from shopping bag during Guest checkout
     Given User goes to homepage
     And User closes email capture
     

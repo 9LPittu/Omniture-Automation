@@ -1,7 +1,7 @@
 @MergeCheckout
 Feature: Checkout - Users with clean bag do not get a Merge Cart page
 
-  Scenario: Registered user does not get to a merge cart page
+  Scenario: Checkout - Registered user does not get to a merge cart page
     Given User goes to homepage
     And User closes email capture
     When User clicks on sign in using header
@@ -36,7 +36,7 @@ Feature: Checkout - Users with clean bag do not get a Merge Cart page
     And Verify that Review title is Checkout
     And Verify products added matches with products in bag
 
-  Scenario: Guest user does not get to a merge cart page
+  Scenario: Checkout - Guest user does not get to a merge cart page
     Given User goes to homepage
     And User closes email capture
     When This script cleans bag for current user

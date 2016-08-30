@@ -25,7 +25,7 @@ Feature: Checkout - Default user gets confirmation to merge cart
     
     And User signs out using header
 
-  Scenario: User checks out only with recently added products
+  Scenario: Checkout - User checks out only with recently added products
     Given User goes to homepage
     When User opens menu
     And User selects random category from list
@@ -65,7 +65,7 @@ Feature: Checkout - Default user gets confirmation to merge cart
     And Verify that title is Order Complete
     And Verify that confirmation message is visible
 
-  Scenario: User checks out with a merged bag
+  Scenario: Checkout - User checks out with a merged bag
     Given User goes to homepage
     When User opens menu
     And User selects random category from list

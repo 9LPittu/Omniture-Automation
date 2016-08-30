@@ -10,7 +10,7 @@ Feature: Checkout - Registered user is able to add a gift message
     And User goes to homepage
 	And User signs out using header
 	
-  Scenario: Registered user is able to add a gift message
+  Scenario: Checkout - Registered user is able to add a gift message
     Given User goes to homepage
     When User opens menu
     And User selects random category from list

@@ -1,7 +1,7 @@
 @GuestCheckout-Part1
 Feature: Checkout - Guest user is able to add billing address
 
-  Scenario: Guest user is able to add billing address
+  Scenario: Checkout - Guest user is able to add billing address
     Given User goes to homepage
     And User closes email capture
     When User opens menu    

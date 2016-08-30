@@ -1,7 +1,7 @@
 @GuestCheckout-Part3
 Feature: Checkout - Guest user is able to checkout with promo code
 
-  Scenario: Guest user is able to checkout with promo code
+  Scenario: Checkout - Guest user is able to checkout with promo code
     Given User goes to homepage
     And User closes email capture
     When User opens menu
