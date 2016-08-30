@@ -18,10 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -32,10 +29,10 @@ public class LogIn extends DriverFactory {
     private final Logger logger = LoggerFactory.getLogger(LogIn.class);
     private final WebDriverWait wait;
     private final HeaderWrap header;
-    private final StateHolder stateHolder = StateHolder.getInstance();
+    public final StateHolder stateHolder = StateHolder.getInstance();
 
     private final User fakeUser = User.getNewFakeUser();
-    private final User knownUser = User.getUser();
+    private User knownUser=null;
     private final String signupForEmails_HK_Text = "J.Crew would like to use your contact details to send you " +
             "information about our fashion apparel, accessories, shoes, bags, jewelry, electronics, health and " +
             "beauty products and decoration and home goods, as well as upcoming collections, sales, promotions and " +
@@ -43,6 +40,11 @@ public class LogIn extends DriverFactory {
             "and affiliates. Your consent is required for us to do so.";
     private final String signupForEmails_ZZ_Text = "I want to receive marketing communications, including emails, " +
             "from J.Crew and its family of brands.";
+    
+    public final String DEFAULT = User.DEFAULT;
+    public final String NO_DEFAULT = User.NO_DEFAULT;
+    public final String MULTIPLE = User.MULTIPLE;
+    public final String NO_DEFAULT_MULTIPLE = User.NO_DEFAULT_MULTIPLE;
 
     @FindBy(id = "sidecarUser")
     private WebElement sidecarUser;
@@ -59,7 +61,7 @@ public class LogIn extends DriverFactory {
 
     @FindBy(className = "signin-form")
     private WebElement signInForm;
-
+    
     private final String firstNameId = "unregistered-firstName";
     private final String lastNameId = "unregistered-lastName";
     private final String emailId = "unregistered-email";
@@ -77,11 +79,13 @@ public class LogIn extends DriverFactory {
     }
 
     public void signIn() {
+    	knownUser = User.getUser();
         logger.info("User and password used {} / {}", knownUser.getEmail(), knownUser.getPassword());
         sidecarUser.sendKeys(knownUser.getEmail());
         sidecarPassword.sendKeys(knownUser.getPassword());
         signInHereButton.click();
         stateHolder.put("signedUser", knownUser);
+        stateHolder.put("userObject", knownUser);
     }
 
     public boolean hasExpectedPattern(String pattern) {
@@ -220,11 +224,14 @@ public class LogIn extends DriverFactory {
         String value = "";
         User user;
 
-        if (useFakeUser)
+        if (useFakeUser){
             user = fakeUser;
-        else
+        }
+        else{
+        	knownUser = User.getUser();
             user = knownUser;
-
+        }
+        
         switch (field) {
             case "first name":
                 value = user.getFirstName();
@@ -315,7 +322,34 @@ public class LogIn extends DriverFactory {
         wait.until(ExpectedConditions.elementToBeClickable(forgotPasswordLink));
 
         forgotPasswordLink.click();
-
     }
+    
+    public void signIn(String type) {        
+        User user = User.getUser(type);
+        submitUserCredentials(user.getEmail(),user.getPassword());
+    }
+    
+    public boolean submitUserCredentials(String emailAddress, String password){
+    	boolean isLoginSuccessful = false;
+    	WebElement emailElement = signInForm.findElement(By.id("sidecarUser"));
+        WebElement passwordElement = signInForm.findElement(By.id("sidecarPassword"));
+        
+        emailElement.clear();
+        emailElement.sendKeys(emailAddress);
+        
+        passwordElement.clear();
+        passwordElement.sendKeys(password);
 
+        String currentPage = driver.getCurrentUrl();
+        WebElement submit = signInForm.findElement(By.className("js-button-submit"));
+        wait.until(ExpectedConditions.elementToBeClickable(submit));
+        submit.click();
+
+        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPage)));
+        isLoginSuccessful = true;
+
+        stateHolder.put("isSignedIn", true);
+        
+        return isLoginSuccessful;
+    }
 }

@@ -41,4 +41,13 @@ public class UserNavigation {
         driver.switchTo().window(tabs.get(0));
         return currentUrl.contains(page);
     }
+    
+    public void clearBag() {
+        PropertyReader reader = PropertyReader.getPropertyReader();
+        String cleanBagURL = (reader.getProperty("url")) + "/CleanPersistentCart.jsp";
+        logger.info("Clearing bag with url: {}", cleanBagURL);
+        driver.navigate().to(cleanBagURL);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(cleanBagURL)));
+        logger.debug("After clearing bag, user is being redirected to: {}", driver.getCurrentUrl());
+    }
 }

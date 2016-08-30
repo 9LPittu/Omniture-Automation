@@ -19,7 +19,7 @@ Feature: Create New Account in US
 
     When User goes to My Details using header
     And User goes to Payment Methods using My Account menu
-    Then Verify user is in Payment Methods page
+    Then Verify Billing Payment page is displayed
     And User has 0 payment methods
 
     When User adds new payment method
@@ -31,7 +31,9 @@ Feature: Create New Account in US
     And User clicks in bag
     And User clicks check out button
     And In Shipping Address Page, user clicks continue
-    And User selects random shipping method and continue
+    And User selects a random shipping method and continues
     And In Payment page, user clicks continue
-    And In Review page, user fills cvv and places order
-    Then User gets an order confirmation number
+    
+    When User fills security code
+    And User clicks on PLACE MY ORDER
+    Then Verify user gets a confirmation number

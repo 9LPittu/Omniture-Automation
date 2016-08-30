@@ -38,6 +38,11 @@ public class Util {
     public static WebDriverWait createWebDriverWait(WebDriver driver, int timeInSeconds) {
         return new WebDriverWait(driver, timeInSeconds);
     }
+    
+    public static void scrollToElement(WebDriver driver, WebElement element) {
+        Actions action = new Actions(driver);
+        action.moveToElement(element);
+    }
 
     public static void waitForPageFullyLoaded(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {

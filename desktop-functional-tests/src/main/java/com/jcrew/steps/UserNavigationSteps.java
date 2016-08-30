@@ -20,8 +20,7 @@ public class UserNavigationSteps extends DriverFactory {
     TestDataReader testDataReader = TestDataReader.getTestDataReader();
     private final UserNavigation navigation = new UserNavigation(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
-    private DriverFactory driverFactory;
-    private WebDriver driver = getDriver();
+    private WebDriver driver = getDriver();    
 
     @When("User adds to bag a random product using a main category")
     public void users_add_random_product() {
@@ -171,6 +170,50 @@ public class UserNavigationSteps extends DriverFactory {
         }
     }
 
-
-
+    @When("^User navigates to product ([^\"]*) with multiple colors and multiple sizes$")
+    public void search_product_from_reading_testdata(String sequenceNum) {
+        HeaderWrap header = new HeaderWrap(getDriver());
+        header.searchFor(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
+    }
+    
+    @When("This script cleans bag for current user")
+    public void clean_bag_for_current_user() {
+    	navigation.clearBag();
+    }
+    
+    @When("^User navigates to backordered product$")
+    public void navigate_backordered() {
+        HeaderWrap header = new HeaderWrap(getDriver());
+        header.searchFor(testDataReader.getData("back.order.item"));
+        
+        ProductDetails pdp = new ProductDetails(getDriver());
+        pdp.selectColor(testDataReader.getData("back.order.color"));
+        pdp.selectSize(testDataReader.getData("back.order.size"));
+        
+        header.stateHolder.put("backorderedItem", testDataReader.getData("back.order.item"));
+    }
+    
+    @When("^User navigates to only few left product$")
+    public void navigate_only_few_left() {
+        HeaderWrap header = new HeaderWrap(getDriver());
+        header.searchFor(testDataReader.getData("few.left.item"));
+        
+        ProductDetails pdp = new ProductDetails(getDriver());
+        pdp.selectColor(testDataReader.getData("few.left.color"));
+        pdp.selectSize(testDataReader.getData("few.left.size"));
+        
+        header.stateHolder.put("fewLeftItem", testDataReader.getData("few.left.item"));
+    }
+    
+    @When("^User navigates to regular product$")
+    public void navigate_regular_item() {
+        HeaderWrap header = new HeaderWrap(getDriver());
+        header.searchFor(testDataReader.getData("regular.item"));
+        
+        ProductDetails pdp = new ProductDetails(getDriver());
+        pdp.selectColor(testDataReader.getData("regular.item.color"));
+        pdp.selectSize(testDataReader.getData("regular.item.size"));
+        
+        header.stateHolder.put("regularItem", testDataReader.getData("regular.item"));
+    }
 }

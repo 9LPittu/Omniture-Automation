@@ -3,47 +3,36 @@ package com.jcrew.page;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
-import com.jcrew.utils.StateHolder;
-import com.jcrew.utils.TestDataReader;
-import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Created by nadiapaolagarcia on 4/8/16.
+ * Created by nadiapaolagarcia on 5/3/16.
  */
-public class Shipping extends Checkout{
-    private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(Shipping.class);
-    private final WebDriverWait wait;
-    private final StateHolder stateHolder = StateHolder.getInstance();
+public class CheckoutShippingAdd extends Checkout {
 
     @FindBy(id = "shipping-address")
-    private WebElement shippingAddress;
+    private WebElement shippingForm;
+    @FindBy(id = "firstNameSA")
+    private WebElement firstName;
+    @FindBy(id = "lastNameSA")
+    private WebElement lastName;
+    @FindBy(id = "address1")
+    private WebElement address1;
+    @FindBy(id = "address2")
+    private WebElement address2;
+    @FindBy(id = "zipcode")
+    private WebElement zipcode;
+    @FindBy(id = "phoneNumSA")
+    private WebElement phoneNum; 
     @FindBy(id = "order-listing")
     private WebElement order_listing;
     @FindBy(id = "frmSelectShippingAddress")
     private WebElement frmSelectShippingAddress;
-    @FindBy(id = "firstNameSA")
-    private WebElement firstNameInput;
-    @FindBy(id = "lastNameSA")
-    private WebElement lastNameInput;
-    @FindBy(id = "address1")
-    private WebElement addressInput;
-    @FindBy(id = "address2")
-    private WebElement address2Input;
-    @FindBy(id = "zipcode")
-    private WebElement zipcodeInput;
-    @FindBy(id = "phoneNumSA")
-    private WebElement phoneInput;
     @FindBy(id = "dropdown-us-city-state")
     private WebElement us_city_state;
     @FindBy(id = "city")
@@ -54,42 +43,50 @@ public class Shipping extends Checkout{
     private WebElement state_province;
     @FindBy(id = "shoppingAddressValidate")
     private WebElement addresValidate;
-    @FindBy(id = "checkout")
-    private WebElement articleCheckout;
 
-    private HeaderWrap header;
 
-    public Shipping(WebDriver driver) {
+    public CheckoutShippingAdd(WebDriver driver) {
         super(driver);
-        this.driver = driver;
-        this.wait = Util.createWebDriverWait(driver);
-        this.header = new HeaderWrap(driver);
 
-        PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(order_listing));
-    }
-    public boolean isShippingAddressPage(){
-        logger.info("country context is  : {}", country.getName());
-        Util.waitForPageFullyLoaded(driver);
-        wait.until(ExpectedConditions.visibilityOf(articleCheckout));
-
-        return articleCheckout.isDisplayed();
+        wait.until(ExpectedConditions.visibilityOf(shippingForm));
     }
 
+    public boolean isDisplayed() {
+        String bodyId = getBodyAttribute("id");
+
+        return bodyId.equals("shipping");
+    }
+
+    private void fillFormData(Address address) {
+        User user = User.getFakeUser();
+
+        firstName.sendKeys(user.getFirstName());
+        lastName.sendKeys(user.getLastName());
+        address1.sendKeys(address.getLine1());
+        address2.sendKeys(address.getLine2());
+        phoneNum.sendKeys(address.getPhone());
+
+        zipcode.clear();
+        zipcode.sendKeys(address.getZipcode());
+
+        WebElement usState = shippingForm.findElement(By.id("dropdown-us-city-state"));
+        wait.until(ExpectedConditions.visibilityOf(usState));
+    }
+    
     public void fillGuestData() {
         Country country = (Country) stateHolder.get("context");
         Address address = new Address(country.getCountry());
         User user = User.getNewFakeUser();
 
-        firstNameInput.sendKeys(user.getFirstName());
-        lastNameInput.sendKeys(user.getLastName());
+        firstName.sendKeys(user.getFirstName());
+        lastName.sendKeys(user.getLastName());
 
-        addressInput.sendKeys(address.getLine1());
-        address2Input.sendKeys(address.getLine2());
-        phoneInput.sendKeys(address.getPhone());
+        address1.sendKeys(address.getLine1());
+        address2.sendKeys(address.getLine2());
+        phoneNum.sendKeys(address.getPhone());
 
         if (!"HK".equalsIgnoreCase(country.getCountry())) {
-            zipcodeInput.sendKeys(address.getZipcode());
+        	zipcode.sendKeys(address.getZipcode());
         }
 
         switch (country.getCountry()) {
@@ -119,9 +116,34 @@ public class Shipping extends Checkout{
 
     }
 
+
+    public void fillQASShippingData() {
+        Address address = new Address("QAS");
+        fillFormData(address);
+    }
+
+    public void fillShippingData() {
+        Address address = new Address();
+        fillFormData(address);
+    }
+
+    public void continueCheckout() {
+        nextStep(shippingForm);
+    }
+
+    public void fillAPOShippingData() {
+        Address address = new Address("apo");
+        fillFormData(address);
+    }
+
+    public void fillFPOShippingData() {
+        Address address = new Address("apo");
+        fillFormData(address);
+    }
+    
     public void saveShippingAddress() {
         String currentUrl = driver.getCurrentUrl();
-        WebElement saveShippingAddress = shippingAddress.findElement(By.className("button-submit-bg"));
+        WebElement saveShippingAddress = shippingForm.findElement(By.className("button-submit-bg"));
         saveShippingAddress.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
     }

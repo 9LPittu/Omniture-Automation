@@ -1,14 +1,20 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,10 +23,10 @@ import java.util.Set;
 public abstract class PageObject {
 
     protected final WebDriver driver;
-    protected final Logger logger = LoggerFactory.getLogger(PageObject.class);
+    public final Logger logger = LoggerFactory.getLogger(PageObject.class);
     protected final WebDriverWait wait;
 
-    protected final StateHolder stateHolder = StateHolder.getInstance();
+    public final StateHolder stateHolder = StateHolder.getInstance();
     public final Country country;
 
     public PageObject(WebDriver driver) {
@@ -31,6 +37,12 @@ public abstract class PageObject {
 
     public boolean verifyURL() {
         return Util.countryContextURLCompliance(driver, country);
+    }
+    
+    public boolean urlContains(String url) {
+        String driverCurrentUrl = driver.getCurrentUrl();
+        logger.debug("current url: {}, expecting to contain: {}", driverCurrentUrl, url);
+        return driverCurrentUrl.contains(url);
     }
 
     public String getCookiePath(String cookieName) {
@@ -46,5 +58,21 @@ public abstract class PageObject {
             cookiePath = cookie.getPath();
         }
         return cookiePath;
+    }
+    
+    public String getBodyAttribute(final String attribute) {
+        return wait.until(new Function<WebDriver, String>() {
+            @Override
+            public String apply(WebDriver driver) {
+                List<WebElement> body = null;
+                try {
+                    body = driver.findElements(By.tagName("body"));
+                    return body.get(0).getAttribute(attribute);
+                } catch (StaleElementReferenceException stale) {
+                    logger.error("Exception when trying to get body element.");
+                }
+                return null;
+            }
+        });
     }
 }
