@@ -167,11 +167,6 @@ public class UsersHub {
 								"' and Environment='"  + environment + "'" + getUserAddressWhereClause(userType, addressType);
 			
 			executeSQLQuery(updateAllocationFlagSQLQuery);
-			
-			String scenarioName = stateHolder.get("scenarioName");
-			if(scenarioName != null && scenarioName.contains("Checkout")){
-			  logger.debug("Reserved user '{}' for scenario '{}' @ {}", user.getEmail(), scenarioName, new Date().toString());
-            }
 		}
 		else{
 			logger.error("No username records are available in DB for '" + environment + "' environment");

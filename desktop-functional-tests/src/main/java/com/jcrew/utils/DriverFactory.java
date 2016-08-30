@@ -189,7 +189,6 @@ public class DriverFactory {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
         if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
-        	deleteBrowserCookies();
             driver.quit();
             driverMap.remove(identifier);
         }
@@ -226,17 +225,12 @@ public class DriverFactory {
                         }
                     }
 
-                } else if ("androidchrome".equals(browser) || "device".equals(browser) ) {
+                } else if ("androidchrome".equals(browser) || "desktop".equals(browser) || "device".equals(browser) ) {
                     for (Cookie cookie : cookies) {
                         if (!((cookie.getName()).equalsIgnoreCase("SESSIONID"))) {
                             driver.manage().deleteCookie(cookie);
                         }
                     }
-                }
-                else if("desktop".equals(browser)){
-                	for (Cookie cookie : cookies) {
-                		driver.manage().deleteCookie(cookie);
-                	}
                 }
             }
         } catch (Exception e){
@@ -244,5 +238,4 @@ public class DriverFactory {
         }
 
     }
-
 }

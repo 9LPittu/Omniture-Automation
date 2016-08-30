@@ -3,7 +3,6 @@ package com.jcrew.steps;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.*;
 
-import cucumber.api.Scenario;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
@@ -14,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 
@@ -33,16 +31,6 @@ public class StartSteps {
         stateHolder.put("deletecookies", false);
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
-    }
-    
-    @Before
-    public void scenarioDetails(Scenario scenario){
-    	String scenarioName = scenario.getName();
-    	
-    	if(scenarioName.contains("Checkout")){
-    		stateHolder.put("scenarioName", scenarioName);        
-    		logger.debug("Started executing scenario '{}' @ {}", scenarioName, new Date().toString());
-    	}
     }
 
     @Given("User goes to homepage")
