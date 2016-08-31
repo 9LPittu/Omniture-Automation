@@ -28,7 +28,8 @@ public class ShippingMethodCalculator {
     private boolean toggle;
 
     public ShippingMethodCalculator() {
-        restrictedAddress = (boolean) stateHolder.get("isRestrictedAddress");
+        String addressType = (String) (stateHolder.get("atpAddressType"));
+        restrictedAddress = !addressType.equalsIgnoreCase("regular");
 
         List<Product> productsInBag = (List<Product>) stateHolder.get("productList");
         mixedItems = false;
@@ -73,7 +74,7 @@ public class ShippingMethodCalculator {
         List<String> consolidatedShipMethods = new ArrayList<String>();
 
         DatabaseReader dbReader = new DatabaseReader();
-        String addressType = (String) stateHolder.get("addresstype");
+        String addressType = (String) stateHolder.get("atpAddressType");
 
         String basicShipMethods[] = dataReader.getDataArray(addressType + ".shipping.methods");
         List<String> basicShipMethodsList = Arrays.asList(basicShipMethods);
@@ -114,7 +115,7 @@ public class ShippingMethodCalculator {
         double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
         List<String> expectedShipMethods = getExpectedShipMethods();
 
-        String addressType = (String) stateHolder.get("addresstype");
+        String addressType = (String) stateHolder.get("atpAddressType");
         String defaultShipMethod = dataReader.getData(addressType + ".default.shipping.method");
 
         for (String shipMethod:expectedShipMethods) {
