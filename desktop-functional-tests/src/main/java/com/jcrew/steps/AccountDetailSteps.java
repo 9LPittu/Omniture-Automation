@@ -48,10 +48,10 @@ public class AccountDetailSteps extends DriverFactory{
         User loggedInUser = (User) stateHolder.get("signedUser");
         User usrFromActDetls  = accountDetail.getUserDetails();
 
-        assertEquals("First name matches", StringEscapeUtils.unescapeHtml(usrFromActDetls.getFirstName()).equalsIgnoreCase(loggedInUser.getFirstName()));
-        assertEquals("Last name matches", StringEscapeUtils.unescapeHtml(usrFromActDetls.getLastName()).equalsIgnoreCase(loggedInUser.getLastName()));
-        assertEquals("Email matches", usrFromActDetls.getEmail().equalsIgnoreCase(loggedInUser.getEmail()));
-        assertEquals("Country matches", usrFromActDetls.getCountry().equalsIgnoreCase(loggedInUser.getCountry()));
+        assertTrue("First name matches", StringEscapeUtils.unescapeHtml(usrFromActDetls.getFirstName()).equalsIgnoreCase(loggedInUser.getFirstName()));
+        assertTrue("Last name matches", StringEscapeUtils.unescapeHtml(usrFromActDetls.getLastName()).equalsIgnoreCase(loggedInUser.getLastName()));
+        assertTrue("Email matches", usrFromActDetls.getEmail().equalsIgnoreCase(loggedInUser.getEmail()));
+        assertTrue("Country matches", usrFromActDetls.getCountry().equalsIgnoreCase(loggedInUser.getCountry()));
 
     }
 
