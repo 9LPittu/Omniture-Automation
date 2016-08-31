@@ -14,9 +14,9 @@ import org.junit.runner.RunWith;
         tags = {"@Account"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-newaccountressionfeatures.json",
+                "json:target/cucumber-Account.json",
                 "pretty",
-                "html:target/cucumber/newaccountregressionfeatures"
+                "html:target/cucumber/Account"
         }
 )
 public class AccountRunnerTest {
