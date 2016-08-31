@@ -50,7 +50,7 @@ public class CheckoutBillingPayment extends Checkout {
     public CheckoutBillingPayment(WebDriver driver) {
         super(driver);
 
-        wait.until(ExpectedConditions.visibilityOf(cardForm));
+        wait.until(ExpectedConditions.visibilityOf(leftContainer));
         this.header = new HeaderWrap(driver);
     }
 
@@ -134,11 +134,16 @@ public class CheckoutBillingPayment extends Checkout {
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentURl)));
         Util.waitForPageFullyLoaded(driver);
     }
-    
+
     private void fillNewCardData() {
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
+
+        Util.waitForPageFullyLoaded(driver);
+
+        wait.until(ExpectedConditions.visibilityOf(leftContainer));
         WebElement newCardDiv = leftContainer.findElement(By.id("AddCreditCard"));
         wait.until(ExpectedConditions.visibilityOf(newCardDiv));
+
 
         WebElement cardNumber = newCardDiv.findElement(By.id("ccNumber"));
         cardNumber.sendKeys(testDataReader.getData("card.number"));
@@ -156,7 +161,7 @@ public class CheckoutBillingPayment extends Checkout {
         WebElement cardHolderName = newCardDiv.findElement(By.id("cardholderName"));
         cardHolderName.sendKeys(user.getFirstName() + " " + user.getLastName());
     }
-    
+
     public void addNewPaymentMethod() {
         WebElement addNewCardButton = leftContainer.findElement(
                 By.xpath(".//td[@class='paymentcopy']/input[@name='addANewCard']"));
@@ -172,6 +177,7 @@ public class CheckoutBillingPayment extends Checkout {
         WebElement submit = newCardDiv.findElement(By.name("addCreditCard"));
         submit.click();
 
+        Util.waitForPageFullyLoaded(driver);
         header.reload();
         Util.waitForPageFullyLoaded(driver);
     }

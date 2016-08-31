@@ -1,8 +1,10 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -17,22 +19,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by nadiapaolagarcia on 3/29/16.
  */
-public class MyAccount {
-    private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(MyAccount.class);
-    private final WebDriverWait wait;
-    private final HeaderWrap header;
-    private final StateHolder stateHolder = StateHolder.getInstance();
+public class MyAccount extends PageObject{
 
-    public final String USER_DETAILS_FIRST_NAME = "firstName";
-    public final String USER_DETAILS_LAST_NAME = "lastName";
-    public final String USER_DETAILS_EMAIL = "emailAdd";
-    public final String USER_DETAILS_COUNTRY = "country";
+    private final HeaderWrap header;
 
     @FindBy(id = "main_cont")
     private WebElement main_content;
@@ -44,10 +39,8 @@ public class MyAccount {
     private WebElement main_content_history;
 
     public MyAccount(WebDriver driver) {
-        this.driver = driver;
-        this.wait = Util.createWebDriverWait(driver);
+        super(driver);
         PageFactory.initElements(driver, this);
-
         wait.until(ExpectedConditions.visibilityOf(main_content));
         this.header = new HeaderWrap(driver);
     }

@@ -1,4 +1,4 @@
-
+@NewAccount
 
 Feature: Create New Account International
 
@@ -38,7 +38,7 @@ Feature: Create New Account International
     When User selects US country
     Then Verify form does not contain international email option message
 
-  @NewAccount
+
   Scenario Outline: Create account in international context
     When first name field is filled with new data
     And last name field is filled with new data

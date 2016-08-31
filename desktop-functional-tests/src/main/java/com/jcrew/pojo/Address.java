@@ -17,12 +17,7 @@ public class Address {
     TestDataReader dataReader = TestDataReader.getTestDataReader();
     
     public Address() {
-        this.line1 = dataReader.getData("address.line1");
-        this.line2 = dataReader.getData("address.line2");
-        this.city = dataReader.getData("address.city");
-        this.state = dataReader.getData("address.state");
-        this.zipcode = dataReader.getData("address.zipcode");
-        this.phone = dataReader.getData("address.phone");
+        load();
     }
 
 //    public Address(String country) {
@@ -39,7 +34,11 @@ public class Address {
     
     public Address(String prefix) {
     	prefix = prefix.toLowerCase();
-        load(prefix);
+        if(prefix.equals("us")) {
+            load();
+        }else {
+            load(prefix);
+        }
     }
     
     private void load(String prefix) {
@@ -50,7 +49,14 @@ public class Address {
         this.zipcode = dataReader.getData(prefix + ".address.zipcode");
         this.phone = dataReader.getData(prefix + ".address.phone");
      }
-
+    private void load() {
+        this.line1 = dataReader.getData("address.line1");
+        this.line2 = dataReader.getData("address.line2");
+        this.city = dataReader.getData("address.city");
+        this.state = dataReader.getData("address.state");
+        this.zipcode = dataReader.getData("address.zipcode");
+        this.phone = dataReader.getData("address.phone");
+    }
     public String getLine1() {
         return line1;
     }

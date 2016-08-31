@@ -174,17 +174,11 @@ public class AccountDetail extends PageObject {
     public User getUserDetails() {
 
         wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
-        WebElement countryList;
-
 
         String firstName = getformElement("first name").getAttribute("value");
         String lastName = getformElement("last name").getAttribute("value");
         String email = getformElement("email").getAttribute("value");
-
-        countryList=getformElement("country");
-        String country = countryList.findElement(By.xpath(".//span[@class='my-details-form__country-flag']")).getText();
-
-
+        String country = getformElement("country").findElement(By.xpath("//span[@class='my-details-form__selected-country']")).getText();
 
         return new User(email, "nullPassword", firstName, lastName, country);
     }

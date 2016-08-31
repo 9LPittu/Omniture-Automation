@@ -126,12 +126,15 @@ public class MenuDrawer {
     }
 
     public void goHome() {
+
         goBackToLevel1();
+
         WebElement homeLink = drawer.findElement(By.className("menu__btn--home__link"));
 
         wait.until(ExpectedConditions.visibilityOf(homeLink));
+        Util.waitForPageFullyLoaded(driver);
         homeLink.click();
-
+        Util.waitForPageFullyLoaded(driver);
         HeaderWrap header = new HeaderWrap(driver);
         header.reload();
     }

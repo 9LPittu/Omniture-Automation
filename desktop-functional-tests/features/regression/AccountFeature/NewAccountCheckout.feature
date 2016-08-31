@@ -21,7 +21,7 @@ Feature: Create New Account in US
     And User clicks on Home link in Account detail Page
 
     And User goes to Payment Methods using My Account menu
-    Then Verify Billing Payment page is displayed
+    Then Verify account Billing payment page is displayed
 
     And User has 0 payment methods
 
