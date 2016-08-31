@@ -252,6 +252,7 @@ public class ProductDetailPage {
         thisProduct.setProductCode(getProductCodeFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("recentlyAdded", thisProduct);
 
@@ -361,6 +362,7 @@ public class ProductDetailPage {
         thisProduct.setProductCode(getProductCodeFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("recentlyAdded", thisProduct);
 
@@ -392,6 +394,7 @@ public class ProductDetailPage {
         thisProduct.setProductName(getProductNameFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("wishlist", thisProduct);
         wishList.click();
@@ -557,13 +560,21 @@ public class ProductDetailPage {
             Product product = Util.getCurrentProduct();
             String sizeName = size.getAttribute("data-name");
             product.setSelectedSize(sizeName);
+            product.setIsBackOrder(getIsBackordered());
             size.click();
             logger.info("Selected size name: {}", sizeName);
         }
     }
 
     public String getButtonErrorMessage() {
-        return productActionsSection.findElement(By.className("product__message")).getText();
+        String message = "";
+        List<WebElement> messages = productActionsSection.findElements(By.className("product__message"));
+
+        if(messages.size() > 0) {
+            message = messages.get(0).getText();
+        }
+
+        return message;
     }
 
     public boolean isBagButtonText(String text) {
@@ -639,6 +650,7 @@ public class ProductDetailPage {
         List<Product> productList = (List<Product>) stateHolder.get("productList");
         Product product = productList.get(0);
         product.setSelectedColor(newSelectedColor);
+        product.setIsBackOrder(getIsBackordered());
 
         productList.add(product);
         stateHolder.put("productList", productList);
@@ -658,6 +670,7 @@ public class ProductDetailPage {
         List<Product> productList = (List<Product>) stateHolder.get("productList");
         Product product = productList.get(0);
         product.setSelectedSize(newSelectedSize);
+        product.setIsBackOrder(getIsBackordered());
 
         productList.add(product);
         stateHolder.put("productList", productList);
@@ -996,5 +1009,11 @@ public class ProductDetailPage {
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
     	String productDetailsDrawerText = productDetailsDrawer.getText();
     	return !StringUtils.isBlank(productDetailsDrawerText);
+    }
+
+    public boolean getIsBackordered() {
+        String message = getButtonErrorMessage().toLowerCase();
+
+        return message.contains("backordered");
     }
 }
