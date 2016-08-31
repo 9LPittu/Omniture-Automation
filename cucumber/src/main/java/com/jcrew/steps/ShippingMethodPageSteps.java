@@ -72,9 +72,11 @@ public class ShippingMethodPageSteps extends DriverFactory {
         List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
         List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
 
+        for (int i = 0; i < expectedMethods.size(); i++) {
+            ShippingMethod actual = pageMethods.get(i);
+            ShippingMethod expected = expectedMethods.get(i);
 
-
-
-
+            assertEquals("Expected shipping method", expected, actual);
+        }
     }
 }

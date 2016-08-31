@@ -21,6 +21,7 @@ public class ShippingMethodCalculator {
     StateHolder stateHolder = StateHolder.getInstance();
     TestDataReader dataReader = TestDataReader.getTestDataReader();
     private Logger logger = LoggerFactory.getLogger(ShippingMethodCalculator.class);
+    final PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
     private boolean restrictedAddress;
     private boolean restrictedItem;
@@ -41,7 +42,7 @@ public class ShippingMethodCalculator {
             mixedItems = mixedItems || (p.isBackorder() != restrictedItem);
             restrictedItem = p.isBackorder();
         }
-        String environment = (String) stateHolder.get("environment");
+        String environment = propertyReader.getProperty("environment");
         toggle = dataReader.getBoolean(environment + ".atp.toggle");
         logger.debug("This bag has backordered products: {} - This bag has mixed products: {}", restrictedItem, mixedItems);
     }
@@ -61,7 +62,7 @@ public class ShippingMethodCalculator {
             expectedMethods = getExpectedShipMethods(shipMethods,isATP);
 
         } else {
-            boolean isATP = false;
+            boolean isATP = true;
             expectedMethods = getExpectedShipMethods(shipMethods,isATP);
         }
 
