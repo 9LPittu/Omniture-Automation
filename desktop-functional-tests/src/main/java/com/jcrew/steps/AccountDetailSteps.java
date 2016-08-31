@@ -46,6 +46,10 @@ public class AccountDetailSteps extends DriverFactory{
     public void sign_in_user_information_should_match_my_details_page(String strIsNewUser) {
        assertTrue("Logged in user info should match with account detail",accountDetail.isAccountInfoMatched());
     }
+    @Then("User ([^\"]*) information should match in My Details page")
+    public void user_information_should_match_with_details_page(String fieldName) {
+        assertTrue("Logged in user info should match with account detail",accountDetail.isAccountInfoMatched());
+    }
 
     @And("Verify \'([^\"]*)\' error message displayed for ([^\"]*) field")
     public void verify_error_message(String errMsgExpected, String fieldLabel) {

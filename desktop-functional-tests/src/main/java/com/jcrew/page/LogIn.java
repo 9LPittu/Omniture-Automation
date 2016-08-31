@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 3/28/16.
  */
-public class LogIn extends DriverFactory {
+public class LogIn extends PageObject {
 
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(LogIn.class);
@@ -70,6 +70,7 @@ public class LogIn extends DriverFactory {
     private WebElement createAnAccount;
 
     public LogIn(WebDriver driver) {
+        super(driver);
         this.driver = driver;
         Util.waitForPageFullyLoaded(driver);
         header = new HeaderWrap(driver);
@@ -92,7 +93,7 @@ public class LogIn extends DriverFactory {
 
 
     public void userSignIn(String userCategory) {
-    	knownUser = User.getExtractedUser(userCategory);
+    	knownUser = User.getUserFromHub(userCategory);
         logger.info("User and password used {} / {}", knownUser.getEmail(), knownUser.getPassword());
         sidecarUser.sendKeys(knownUser.getEmail());
         sidecarPassword.sendKeys(knownUser.getPassword());
@@ -242,7 +243,7 @@ public class LogIn extends DriverFactory {
             user = fakeUser;
         }
         else{
-        	knownUser = User.getExtractedUser("noUserCategory");
+        	knownUser = User.getUserFromHub("noUserCategory");
             user = knownUser;
         }
         switch (field) {

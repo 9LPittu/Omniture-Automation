@@ -124,7 +124,7 @@ public class UsersHub {
             if (rs != null) {
                 try {
                     rs.next();
-                    user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),userCategory);
+                    user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
                     logger.info("Current available username for '{}' environment: {}", user.getEmail(), environment);
                     String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' where brand='jcrew' and username='" + user.getEmail() + "' and Environment='" + environment + "'";
                     executeSQLQuery(updateAllocationFlagSQLQuery);
@@ -139,6 +139,7 @@ public class UsersHub {
 
 
         closeDBConnection();
+        user.setUserCategory(userCategory);
         return user;
     }
     
@@ -152,7 +153,7 @@ public class UsersHub {
 			if(rs!=null){
 				try {
 					  rs.next();
-					  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),"");
+					  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 					  logger.info("userType - " + userType + ", addressType - " + addressType);
 					  logger.info("Current available username for '{}' environment: {}", environment, user.getEmail());
 				}

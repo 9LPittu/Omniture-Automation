@@ -40,17 +40,18 @@ public class AccountDetail extends PageObject {
     public final String USER_DETAILS_DOB_DAY = "my-details-form__birthday__day-list";
     public final String USER_DETAILS_DOB_MONTH = "my-details-form__birthday__month-list";
 
-    public AccountDetail(WebDriver driver){
+    public AccountDetail(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
     }
 
-    public boolean isAccountDetailPage(){
+    public boolean isAccountDetailPage() {
         Util.waitLoadingBar(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountDetailForm));
+        wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
         return accountDetailForm.isDisplayed();
     }
+
     public void updateDetails(String fieldLabel, String updateType) {
         WebElement formElement;
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountDetailForm));
@@ -70,32 +71,50 @@ public class AccountDetail extends PageObject {
         return getformElement(fieldLabel).findElement(By.xpath("following-sibling::span")).getText();
     }
 
-    public boolean isAccountInfoMatched(){
+    public boolean isAccountInfoMatched(String fieldName) {
         User loggedInUser = (User) stateHolder.get("signedUser");
 
-        Map<String, String> userDetails = getUserDetails();
+        User usrFromActDetls  = getUserDetails();
 
-        boolean equalsFirstName =  StringEscapeUtils.unescapeHtml(userDetails.get(USER_DETAILS_FIRST_NAME)).equalsIgnoreCase(loggedInUser.getFirstName());
-        boolean equalsLastName =  StringEscapeUtils.unescapeHtml(userDetails.get(USER_DETAILS_LAST_NAME)).equalsIgnoreCase(loggedInUser.getLastName());
-        boolean equalsEmail =  userDetails.get(USER_DETAILS_EMAIL).equalsIgnoreCase(loggedInUser.getEmail());
-        boolean equalsCountry = userDetails.get(USER_DETAILS_COUNTRY).equalsIgnoreCase(loggedInUser.getCountry());
+        boolean equalsFirstName = StringEscapeUtils.unescapeHtml(usrFromActDetls.getFirstName()).equalsIgnoreCase(loggedInUser.getFirstName());
 
-        logger.debug("Compare account info in account detail page first {},lastname {},email {},country {}",equalsFirstName,
-                equalsLastName,equalsEmail,equalsCountry);
+        boolean equalsLastName = StringEscapeUtils.unescapeHtml(usrFromActDetls.getLastName()).equalsIgnoreCase(loggedInUser.getLastName());
+        boolean equalsEmail = usrFromActDetls.getEmail().equalsIgnoreCase(loggedInUser.getEmail());
+        boolean equalsCountry =usrFromActDetls.getCountry().equalsIgnoreCase(loggedInUser.getCountry());
+
+        logger.debug("Compare account info in account detail page first {},lastname {},email {},country {}", equalsFirstName,
+                equalsLastName, equalsEmail, equalsCountry);
         return (equalsFirstName && equalsLastName && equalsEmail && equalsCountry);
     }
+    /*
+    public boolean isAccountInfoMatched() {
+        User loggedInUser = (User) stateHolder.get("signedUser");
+
+        User usrFromActDetls  = getUserDetails();
+
+        boolean equalsFirstName = StringEscapeUtils.unescapeHtml(usrFromActDetls.getFirstName()).equalsIgnoreCase(loggedInUser.getFirstName());
+        boolean equalsLastName = StringEscapeUtils.unescapeHtml(usrFromActDetls.getLastName()).equalsIgnoreCase(loggedInUser.getLastName());
+        boolean equalsEmail = usrFromActDetls.getEmail().equalsIgnoreCase(loggedInUser.getEmail());
+        boolean equalsCountry =usrFromActDetls.getCountry().equalsIgnoreCase(loggedInUser.getCountry());
+
+        logger.debug("Compare account info in account detail page first {},lastname {},email {},country {}", equalsFirstName,
+                equalsLastName, equalsEmail, equalsCountry);
+        return (equalsFirstName && equalsLastName && equalsEmail && equalsCountry);
+    }*/
+
     public void clickChangePassword() {
         getformElement("change password").click();
     }
 
     public void fillChangePasswordFileds() {
-        String newPassword = new Faker().lorem().fixedString(6).replaceAll(" ","_");
+        String newPassword = new Faker().lorem().fixedString(6).replaceAll(" ", "_");
         getformElement("Old password").sendKeys((String) stateHolder.get("fakenewuserPassword"));
         getformElement("New password").sendKeys(newPassword);
         getformElement("re-enter password").sendKeys(newPassword);
     }
+
     public boolean isBirthField(String btnStatus) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountDetailForm));
+        wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
         WebElement birthWrap = accountDetailForm.findElement(By.className("my-details-form__birthday-wrapper"));
         String monthClass = birthWrap.findElement(By.id(USER_DETAILS_DOB_MONTH)).getAttribute("class");
         String dateClass = birthWrap.findElement(By.id(USER_DETAILS_DOB_DAY)).getAttribute("class");
@@ -107,6 +126,7 @@ public class AccountDetail extends PageObject {
         }
 
     }
+
     public void selectDate(String dateType, String value) {
 
         WebElement birthWrap = getformElement("Birth");
@@ -117,20 +137,23 @@ public class AccountDetail extends PageObject {
             list = birthWrap.findElement(By.id(USER_DETAILS_DOB_DAY));
         }
         list.click();
-        WebElement item = list.findElement(By.xpath("//li[contains(text(), '" + value + "')]"));
+        WebElement item = list.findElement(By.xpath(".//li[contains(text(), '" + value + "')]"));
         item.click();
         Util.waitForPageFullyLoaded(driver);
     }
+
     public void saveUpdates() {
         Util.waitForPageFullyLoaded(driver);
         getformElement("save button").click();
         Util.waitForPageFullyLoaded(driver);
     }
+
     public String getConfirmatonMsg() {
         WebElement confimation = accountContentSection.findElement(By.className("my-details-form__confirm-message"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(confimation));
+        wait.until(ExpectedConditions.visibilityOf(confimation));
         return confimation.getText();
     }
+
     public String getBirthdayCopy() {
         WebElement birthCopy;
         WebElement birthCopyWrap = accountDetailForm.findElement(By.className("my-details-form__label"));
@@ -143,16 +166,18 @@ public class AccountDetail extends PageObject {
             return birthCopy.getText();
         }
     }
-    public void clickLeftNavLinks(String linkText){
+
+    public void clickLeftNavLinks(String linkText) {
         Util.waitForPageFullyLoaded(driver);
         Country country = (Country) stateHolder.get("context");
         logger.debug(country.getCountry());
         wait.until(ExpectedConditions.visibilityOf(accountNavigationSection));
         WebElement linksTray = accountNavigationSection.findElement(By.className("account__navigation__items"));
-        WebElement linkElement = linksTray.findElement(By.xpath("//li[text() ='"+linkText+"']"));
+        WebElement linkElement = linksTray.findElement(By.xpath(".//li[text() ='" + linkText + "']"));
         linkElement.click();
         Util.waitForPageFullyLoaded(driver);
     }
+
     public boolean verifyRewardLink(String link, String userCategory) {
         boolean expected = false;
         Country c = (Country) stateHolder.get("context");
@@ -162,11 +187,12 @@ public class AccountDetail extends PageObject {
 
         return expected == isMenuLinkPresent(link);
     }
-    public void click_reward_link(String link){
-        User signedInUser = (User ) stateHolder.get("signedUser");
+
+    public void click_reward_link(String link) {
+        User signedInUser = (User) stateHolder.get("signedUser");
         Country c = (Country) stateHolder.get("context");
         boolean rewardLinkShouldExists = ((signedInUser.getUserCategory().equalsIgnoreCase(User.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()));
-        if (rewardLinkShouldExists){
+        if (rewardLinkShouldExists) {
             clickLeftNavLinks(link);
         }
 
@@ -178,7 +204,7 @@ public class AccountDetail extends PageObject {
         try {
             wait.until(ExpectedConditions.visibilityOf(accountNavigationSection));
             WebElement linksTray = accountNavigationSection.findElement(By.className("account__navigation__items"));
-            WebElement linkElement = linksTray.findElement(By.xpath("//li[text() ='"+link+"']"));
+            WebElement linkElement = linksTray.findElement(By.xpath("//li[text() ='" + link + "']"));
             return (linkElement.isDisplayed());
         } catch (NoSuchElementException e) {
             return false;
@@ -186,32 +212,29 @@ public class AccountDetail extends PageObject {
     }
 
 
-
-    public Map<String, String> getUserDetails() {
-        HashMap<String, String> userDetails = new HashMap<>();
-
+    public User getUserDetails() {
 
         wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
 
         WebElement information = accountDetailForm.findElement(By.id(USER_DETAILS_FIRST_NAME));
-        userDetails.put(USER_DETAILS_FIRST_NAME, information.getAttribute("value"));
+        String firstName = information.getAttribute("value");
+
 
         information = accountDetailForm.findElement(By.id(USER_DETAILS_LAST_NAME));
-        userDetails.put(USER_DETAILS_LAST_NAME, information.getAttribute("value"));
+        String lastName = information.getAttribute("value");
 
         information = accountDetailForm.findElement(By.id(USER_DETAILS_EMAIL));
-        userDetails.put(USER_DETAILS_EMAIL, information.getAttribute("value"));
+        String email = information.getAttribute("value");
 
 
-        information = accountDetailForm.findElement(By.xpath("//span[@class='my-details-form__selected-country']"));
-        logger.debug("User details country: {}", information.getText());
-        userDetails.put(USER_DETAILS_COUNTRY, information.getText());
+        information = accountDetailForm.findElement(By.xpath(".//span[@class='my-details-form__selected-country']"));
+        String country = information.getAttribute("value");
 
-        return userDetails;
+        return new User(email, "nullPassword", firstName, lastName, country);
     }
 
     private WebElement getformElement(String fieldLabel) {
-        WebElement formElement;
+        WebElement formElement = null;
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountDetailForm));
         switch (fieldLabel) {
             case "first name":
@@ -245,7 +268,8 @@ public class AccountDetail extends PageObject {
                 formElement = accountDetailForm.findElement(By.className("my-details-form__birthday-wrapper"));
                 break;
             default:
-                return null;
+                logger.debug("Unable to find element {} in myDetail form ", fieldLabel);
+                new WebDriverException("Unable to find element in myDetail form " + fieldLabel);
         }
         return formElement;
     }

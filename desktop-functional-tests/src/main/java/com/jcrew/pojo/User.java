@@ -40,23 +40,16 @@ public class User {
     public static final String CAT_LOYALTY = "loyalty";
     public static final String CAT_NO_LOYALTY = "noLoyalty";
 
-    public User(String userName, String password, String firstName, String lastName, String countryCode,String userCategory) {
-
+    public User(String userName, String password, String firstName, String lastName, String country) {
         this.email = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.country = country;
 
-        this.countryCode = countryCode;
-        this.userCategory = userCategory;
-        setCountryFromCode(this.countryCode);
     }
 
-/*    public static User getExtractedUser(){
-        return getExtractedUser("");
-    }*/
-
-    public static User getExtractedUser(String userCategory) {
+    public static User getUserFromHub(String userCategory) {
         try {
             return UsersHub.getInstance().getUser(userCategory);
         } catch (SQLException e) {
@@ -176,19 +169,18 @@ public class User {
         this.countryCode = countryCode;
     }
 
+    public void setUserCategory(String userCategory){
+        this.userCategory=userCategory;
+    }
+
     public String getUserCategory(){
         return userCategory;
     }
+
+
     public static String getSomePassword(int characters) {
         Faker faker = new Faker();
         return faker.lorem().fixedString(characters);
     }
-    public void setCountryFromCode(String countryCode){
-        PropertyReader properties = PropertyReader.getPropertyReader();
-        try {
-            setCountry(properties.getProperty(countryCode.toLowerCase() + ".name"));
-        }catch(NullPointerException exception){
-            logger.error("User {}, country name not found in testdata for country code {}",email,countryCode);
-        }
-    }
+
 }
