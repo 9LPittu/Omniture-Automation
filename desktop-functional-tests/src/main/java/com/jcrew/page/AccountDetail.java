@@ -1,22 +1,12 @@
 package com.jcrew.page;
 
-
-import com.github.javafaker.Faker;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by msayed3 on 8/20/2016.
@@ -53,8 +43,8 @@ public class AccountDetail extends PageObject {
     }
 
     public void updateDetails(String fieldLabel, String updateType) {
+        wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
         WebElement formElement;
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountDetailForm));
         formElement = getformElement(fieldLabel);
         if ("invalid".equalsIgnoreCase(updateType)) {
             formElement.clear();
@@ -68,46 +58,16 @@ public class AccountDetail extends PageObject {
     }
 
     public String getErrorMessage(String fieldLabel) {
-        return getformElement(fieldLabel).findElement(By.xpath("following-sibling::span")).getText();
+        return getformElement(fieldLabel).findElement(By.xpath(".//following-sibling::span")).getText();
     }
 
-    public boolean isAccountInfoMatched(String fieldName) {
-        User loggedInUser = (User) stateHolder.get("signedUser");
-
-        User usrFromActDetls  = getUserDetails();
-
-        boolean equalsFirstName = StringEscapeUtils.unescapeHtml(usrFromActDetls.getFirstName()).equalsIgnoreCase(loggedInUser.getFirstName());
-
-        boolean equalsLastName = StringEscapeUtils.unescapeHtml(usrFromActDetls.getLastName()).equalsIgnoreCase(loggedInUser.getLastName());
-        boolean equalsEmail = usrFromActDetls.getEmail().equalsIgnoreCase(loggedInUser.getEmail());
-        boolean equalsCountry =usrFromActDetls.getCountry().equalsIgnoreCase(loggedInUser.getCountry());
-
-        logger.debug("Compare account info in account detail page first {},lastname {},email {},country {}", equalsFirstName,
-                equalsLastName, equalsEmail, equalsCountry);
-        return (equalsFirstName && equalsLastName && equalsEmail && equalsCountry);
-    }
-    /*
-    public boolean isAccountInfoMatched() {
-        User loggedInUser = (User) stateHolder.get("signedUser");
-
-        User usrFromActDetls  = getUserDetails();
-
-        boolean equalsFirstName = StringEscapeUtils.unescapeHtml(usrFromActDetls.getFirstName()).equalsIgnoreCase(loggedInUser.getFirstName());
-        boolean equalsLastName = StringEscapeUtils.unescapeHtml(usrFromActDetls.getLastName()).equalsIgnoreCase(loggedInUser.getLastName());
-        boolean equalsEmail = usrFromActDetls.getEmail().equalsIgnoreCase(loggedInUser.getEmail());
-        boolean equalsCountry =usrFromActDetls.getCountry().equalsIgnoreCase(loggedInUser.getCountry());
-
-        logger.debug("Compare account info in account detail page first {},lastname {},email {},country {}", equalsFirstName,
-                equalsLastName, equalsEmail, equalsCountry);
-        return (equalsFirstName && equalsLastName && equalsEmail && equalsCountry);
-    }*/
 
     public void clickChangePassword() {
         getformElement("change password").click();
     }
 
     public void fillChangePasswordFileds() {
-        String newPassword = new Faker().lorem().fixedString(6).replaceAll(" ", "_");
+        String newPassword = User.getSomePassword(6);
         getformElement("Old password").sendKeys((String) stateHolder.get("fakenewuserPassword"));
         getformElement("New password").sendKeys(newPassword);
         getformElement("re-enter password").sendKeys(newPassword);
@@ -200,7 +160,6 @@ public class AccountDetail extends PageObject {
 
     public boolean isMenuLinkPresent(String link) {
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountNavigationSection));
         try {
             wait.until(ExpectedConditions.visibilityOf(accountNavigationSection));
             WebElement linksTray = accountNavigationSection.findElement(By.className("account__navigation__items"));
@@ -235,7 +194,7 @@ public class AccountDetail extends PageObject {
 
     private WebElement getformElement(String fieldLabel) {
         WebElement formElement = null;
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(accountDetailForm));
+        wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
         switch (fieldLabel) {
             case "first name":
                 formElement = accountDetailForm.findElement(By.id("my-details-form__first-name"));

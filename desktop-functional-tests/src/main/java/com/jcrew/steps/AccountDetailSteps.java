@@ -6,6 +6,7 @@ import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.util.Map;
 
@@ -42,13 +43,16 @@ public class AccountDetailSteps extends DriverFactory{
 
     }
 
-    @Then("([^\"]*) user information should match My Details page")
-    public void sign_in_user_information_should_match_my_details_page(String strIsNewUser) {
-       assertTrue("Logged in user info should match with account detail",accountDetail.isAccountInfoMatched());
-    }
-    @Then("User ([^\"]*) information should match in My Details page")
-    public void user_information_should_match_with_details_page(String fieldName) {
-        assertTrue("Logged in user info should match with account detail",accountDetail.isAccountInfoMatched());
+    @Then("New user information should match My Details page")
+    public void sign_in_user_information_should_match_my_details_page() {
+        User loggedInUser = (User) stateHolder.get("signedUser");
+        User usrFromActDetls  = accountDetail.getUserDetails();
+
+        assertEquals("First name matches", StringEscapeUtils.unescapeHtml(usrFromActDetls.getFirstName()).equalsIgnoreCase(loggedInUser.getFirstName()));
+        assertEquals("Last name matches", StringEscapeUtils.unescapeHtml(usrFromActDetls.getLastName()).equalsIgnoreCase(loggedInUser.getLastName()));
+        assertEquals("Email matches", usrFromActDetls.getEmail().equalsIgnoreCase(loggedInUser.getEmail()));
+        assertEquals("Country matches", usrFromActDetls.getCountry().equalsIgnoreCase(loggedInUser.getCountry()));
+
     }
 
     @And("Verify \'([^\"]*)\' error message displayed for ([^\"]*) field")

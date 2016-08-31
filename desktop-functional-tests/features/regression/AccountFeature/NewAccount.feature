@@ -49,7 +49,7 @@ Feature: Create New Account International
     When User goes to My Details using header
     Then Verify user is in account details page
     Then New user information should match My Details page
-    Then User first name information should match in My Details page
+
     Examples:
       | country_group |
       | PRICEBOOK     |
