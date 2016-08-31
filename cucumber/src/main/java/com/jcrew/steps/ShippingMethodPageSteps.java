@@ -2,13 +2,16 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ShippingMethodPage;
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
+import com.jcrew.util.ShippingMethodCalculator;
 import com.jcrew.util.Util;
 
-import com.jcrew.util.shipping.ShippingMethodCalculator;
 import cucumber.api.java.en.And;
+
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +20,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
     private final ShippingMethodPage shippingMethodPage = new ShippingMethodPage(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
+    private ShippingMethodCalculator methodCalculator = new ShippingMethodCalculator();
 
     @And("^Verifies is in shipping method page$")
     public void verifies_is_in_shipping_method_page() throws Throwable {
@@ -62,8 +66,15 @@ public class ShippingMethodPageSteps extends DriverFactory {
     	shippingMethodPage.selectShippingMethod();
     }
     
-    @And("^validate shipping methods displayed on the page$")
+    @And("^validate correct shipping methods displayed on the page$")
     public void validate_shipping_methods(){
-    	assertTrue("Validate the shipping methods displayed", shippingMethodPage.isShippingMethodsDisplayedCorrectly());
+        //Retrieve shipping methods from application
+        List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
+        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+
+
+
+
+
     }
 }

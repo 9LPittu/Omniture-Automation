@@ -12,6 +12,7 @@ public class Product {
     private String selectedVariation;
     private String selectedColor;
     private String selectedSize;
+    private boolean isBackOrder = false;
 
     public void setProductName(String productName) {
         this.productName = productName;
@@ -91,6 +92,14 @@ public class Product {
 
     public String getSelectedSize() {
         return selectedSize;
+    }
+
+    public void setIsBackOrder(boolean isBackOrder) {
+        this.isBackOrder = isBackOrder;
+    }
+
+    public boolean isBackorder() {
+        return this.isBackOrder;
     }
 
     public boolean equals(Object o){

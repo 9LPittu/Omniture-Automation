@@ -173,36 +173,41 @@ public class DatabaseReader {
 		return item;
 	}
 
-	public List<String> getConditionalShippingMethods(boolean overnightShipping, boolean saturdayShipping) throws IOException, ClassNotFoundException, SQLException{
-		List<String> shipMethods = new ArrayList<String>();
-		String dbquery = "";
+	public List<String> getConditionalShippingMethods(boolean overnightShipping, boolean saturdayShipping) {
 
-		if (overnightShipping && saturdayShipping)
-			dbquery	= dbReader.getProperty("conditionalShippingMethod.overnight") + " UNION ALL " + dbReader.getProperty("conditionalShippingMethod.saturday");
-		else if (overnightShipping)
-			dbquery	= dbReader.getProperty("conditionalShippingMethod.overnight");
-		else if (saturdayShipping)
-			dbquery	= dbReader.getProperty("conditionalShippingMethod.saturday");
+		try {
+			List<String> shipMethods = new ArrayList<String>();
+			String dbquery = "";
 
-		dbquery = dbquery.replaceAll("schema",dbReader.getProperty("schema"));
+			if (overnightShipping && saturdayShipping)
+				dbquery = dbReader.getProperty("conditionalShippingMethod.overnight") + " UNION ALL " + dbReader.getProperty("conditionalShippingMethod.saturday");
+			else if (overnightShipping)
+				dbquery = dbReader.getProperty("conditionalShippingMethod.overnight");
+			else if (saturdayShipping)
+				dbquery = dbReader.getProperty("conditionalShippingMethod.saturday");
 
-		//Establish DB connection and execute query
-		Connection conn = getConnectionToDatabase();
-		if(conn!=null){
-			logger.info("DB connection is successful...");
-		}
-		Statement stmt = createTheStatement(conn);
-		ResultSet rs = stmt.executeQuery(dbquery);
+			dbquery = dbquery.replaceAll("schema", dbReader.getProperty("schema"));
 
-		//Retrieve shipping methods
-		if(rs != null ) {
-			while (rs.next()) {
-				shipMethods.add(rs.getString(1));
+			//Establish DB connection and execute query
+			Connection conn = getConnectionToDatabase();
+			if (conn != null) {
+				logger.info("DB connection is successful...");
 			}
+			Statement stmt = createTheStatement(conn);
+			ResultSet rs = stmt.executeQuery(dbquery);
+
+			//Retrieve shipping methods
+			if (rs != null) {
+				while (rs.next()) {
+					shipMethods.add(rs.getString(1));
+				}
+			}
+
+			closeConnection(conn);
+			return shipMethods;
+		} catch (Exception e) {
+			logger.error("Unable to run query for retrieving day and time specific shipping methods from database");
+			return null;
 		}
-
-		closeConnection(conn);
-		return shipMethods;
-
 	}
 }

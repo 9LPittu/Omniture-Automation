@@ -77,7 +77,7 @@ Feature: Registered User Checkout Process - merge cart and adding new shipping a
     And click on 'USE ADDRESS AS ENTERED' button in the shipping address page
     And page url should contain /checkout2/shippingmethod.jsp
     And Verifies is in shipping method page
-    And validate shipping methods displayed on the page    
+    And validate correct shipping methods displayed on the page
     And select shipping method on shipping & gift options page
     And Clicks continue button on shipping method page    
     And Submits payment data in billing page
