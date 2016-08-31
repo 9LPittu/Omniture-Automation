@@ -36,30 +36,15 @@ public class MyAccountSteps extends DriverFactory {
     public void user_is_in_order_history_page() {
         assertTrue("User is in order history page",myAccount.isOrderHistoryPage());
     }
-    /*
-    @Then("Verify user is in Payment method page")
-    public void user_is_in_payment_method_page() {
-        assertTrue("User is in Payment method page",myAccount.isPaymentMethodPage());
-    }
-*/
+
     @And("Verify ([^\"]*) reward link for ([^\"]*) user in My account page")
     public void reward_link_displayed_for_user(String link, String userCategory) {
         User signedInUser = (User ) stateHolder.get("signedUser");
-        assertTrue(link + " link displayed for "+signedInUser.getEmail()+" user and category " + userCategory,
-                myAccount.verifyRewardLink(link, userCategory));
+        assertEquals(link + " link displayed for "+signedInUser.getEmail()+" user and category " + userCategory,
+                myAccount.shouldRewardDisplayed(userCategory),myAccount.isMenuLinkPresent(link));
     }
 
-/*    @And("User has (\\d+) payment methods in my Account page")
-    public void userHasPaymentMethods(int methods) {
-        assertEquals("User has " + methods + " in My Payment Methods page",
-                myAccount.getPaymentMethodsNumber(), methods);
-    }
 
-    @When("User adds new payment method in my Account page")
-    public void user_adds_new_payment_method() {
-        myAccount.addNewPaymentMethod();
-    }
-*/
     @Then("User clicks on ([^\"]*) reward link from My Account Page")
     public void user_clicks_on_reward_link_in_my_account_page(String link) throws Throwable {
         myAccount.click_reward_link(link);

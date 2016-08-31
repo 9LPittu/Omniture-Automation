@@ -94,7 +94,7 @@ public class AccountDetailSteps extends DriverFactory{
     @And("Verify ([^\"]*) reward link for ([^\"]*) user in account detail page")
     public void reward_link_displayed_for_user(String link, String userCategory) {
         User signedInUser = (User ) stateHolder.get("signedUser");
-        assertTrue(link + " link displayed for "+signedInUser.getEmail()+" user and category " + userCategory,
-                accountDetail.verifyRewardLink(link, userCategory));
+        assertEquals(link + " link displayed for "+signedInUser.getEmail()+" user and category " + userCategory,
+                accountDetail.shouldRewardDisplayed(userCategory),accountDetail.isMenuLinkPresent(link));
     }
 }

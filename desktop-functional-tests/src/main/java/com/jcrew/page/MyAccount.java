@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Created by nadiapaolagarcia on 3/29/16.
  */
-public class MyAccount extends PageObject{
+public class MyAccount extends Account{
 
     private final HeaderWrap header;
 
@@ -142,17 +142,6 @@ public class MyAccount extends PageObject{
        return main_inside.findElement(By.linkText(link));
     }
 
-    public boolean verifyRewardLink(String link, String userCategory) {
-        boolean expected = false;
-        Country c = (Country) stateHolder.get("context");
-
-        if (userCategory.equalsIgnoreCase(User.CAT_LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())))
-            expected = true;
-
-        return expected == isMenuLinkPresent(link);
-
-    }
-
     public boolean isInMenuLinkPage(String page) {
         Country c = (Country) stateHolder.get("context");
         User signedInUser = (User ) stateHolder.get("signedUser");
@@ -179,7 +168,7 @@ public class MyAccount extends PageObject{
 
     public boolean isMenuLinkPresent(String link) {
         Util.waitForPageFullyLoaded(driver);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(main_inside));
+        wait.until(ExpectedConditions.visibilityOf(main_inside));
         try {
             WebElement menuLink = driver.findElement(By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]"));
             return (menuLink.isDisplayed());

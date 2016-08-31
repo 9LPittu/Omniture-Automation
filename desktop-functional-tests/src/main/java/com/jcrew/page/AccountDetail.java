@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by msayed3 on 8/20/2016.
  */
-public class AccountDetail extends PageObject {
+public class AccountDetail extends Account {
 
     @FindBy(className = "my-details-form")
     WebElement accountDetailForm;
@@ -138,15 +138,6 @@ public class AccountDetail extends PageObject {
         Util.waitForPageFullyLoaded(driver);
     }
 
-    public boolean verifyRewardLink(String link, String userCategory) {
-        boolean expected = false;
-        Country c = (Country) stateHolder.get("context");
-
-        if (userCategory.equalsIgnoreCase(User.CAT_LOYALTY) && ("us".equalsIgnoreCase(c.getCountry())))
-            expected = true;
-
-        return expected == isMenuLinkPresent(link);
-    }
 
     public void click_reward_link(String link) {
         User signedInUser = (User) stateHolder.get("signedUser");

@@ -50,7 +50,7 @@ public class CheckoutBillingPayment extends Checkout {
     public CheckoutBillingPayment(WebDriver driver) {
         super(driver);
 
-        wait.until(ExpectedConditions.visibilityOf(leftContainer));
+//        wait.until(ExpectedConditions.visibilityOf(leftContainer));
         this.header = new HeaderWrap(driver);
     }
 
