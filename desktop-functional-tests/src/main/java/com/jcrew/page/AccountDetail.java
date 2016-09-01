@@ -7,6 +7,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.WebDriverException;
 
 /**
  * Created by msayed3 on 8/20/2016.
@@ -50,7 +51,12 @@ public class AccountDetail extends Account {
     }
 
     public String getErrorMessage(String fieldLabel) {
-        return getformElement(fieldLabel).findElement(By.xpath("//following-sibling::span")).getText();
+        System.out.println(fieldLabel);
+        WebElement fieldElement = getformElement(fieldLabel);
+        WebElement errorMessage = wait.until(ExpectedConditions.visibilityOf(
+                fieldElement.findElement(By.xpath(".//following-sibling::span[contains(@class,'js-invalid-msg')]"))));
+        logger.info("{} - {}", fieldElement.getAttribute("class"), errorMessage.getAttribute("class"));
+        return errorMessage.getText();
     }
 
 
@@ -109,12 +115,12 @@ public class AccountDetail extends Account {
     public String getBirthdayCopy() {
         WebElement birthCopy;
         WebElement birthCopyWrap = accountDetailForm.findElement(By.className("my-details-form__label"));
-        birthCopy = birthCopyWrap.findElement(By.xpath("//span[contains(@class,'is-birth-date-empty')]"));
+        birthCopy = birthCopyWrap.findElement(By.xpath(".//span[contains(@class,'is-birth-date-empty')]"));
 
         if (!(birthCopy.getAttribute("class").contains("is-hidden"))) {
             return birthCopy.getText();
         } else {
-            birthCopy = birthCopyWrap.findElement(By.xpath("//span[contains(@class,'is-birth-date-populated')]"));
+            birthCopy = birthCopyWrap.findElement(By.xpath(".//span[contains(@class,'is-birth-date-populated')]"));
             return birthCopy.getText();
         }
     }
@@ -146,7 +152,7 @@ public class AccountDetail extends Account {
         try {
             wait.until(ExpectedConditions.visibilityOf(accountNavigationSection));
             WebElement linksTray = accountNavigationSection.findElement(By.className("account__navigation__items"));
-            WebElement linkElement = linksTray.findElement(By.xpath("//li[text() ='" + link + "']"));
+            WebElement linkElement = linksTray.findElement(By.xpath(".//li[text() ='" + link + "']"));
             return (linkElement.isDisplayed());
         } catch (NoSuchElementException e) {
             return false;
@@ -161,7 +167,7 @@ public class AccountDetail extends Account {
         String firstName = getformElement("first name").getAttribute("value");
         String lastName = getformElement("last name").getAttribute("value");
         String email = getformElement("email").getAttribute("value");
-        String country = getformElement("country").findElement(By.xpath("//span[@class='my-details-form__selected-country']")).getText();
+        String country = getformElement("country").findElement(By.xpath(".//span[@class='my-details-form__selected-country']")).getText();
 
         return new User(email, "nullPassword", firstName, lastName, country);
     }
@@ -202,7 +208,7 @@ public class AccountDetail extends Account {
                 break;
             default:
                 logger.debug("Unable to find element {} in myDetail form ", fieldLabel);
-                new WebDriverException("Unable to find element in myDetail form " + fieldLabel);
+                new WebDriverException("Unable to find element in myDetail form "+fieldLabel);
         }
         return formElement;
     }

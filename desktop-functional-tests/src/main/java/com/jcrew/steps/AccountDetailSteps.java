@@ -51,8 +51,7 @@ public class AccountDetailSteps extends DriverFactory{
         assertTrue("First name matches", StringEscapeUtils.unescapeHtml(usrFromActDetls.getFirstName()).equalsIgnoreCase(loggedInUser.getFirstName()));
         assertTrue("Last name matches", StringEscapeUtils.unescapeHtml(usrFromActDetls.getLastName()).equalsIgnoreCase(loggedInUser.getLastName()));
         assertTrue("Email matches", usrFromActDetls.getEmail().equalsIgnoreCase(loggedInUser.getEmail()));
-       // for known user need to find a way to get country info from DB without impacting mobile as current DB has only Country code
-      //  assertTrue("Country matches", usrFromActDetls.getCountry().equalsIgnoreCase(loggedInUser.getCountry()));
+        assertTrue("Country matches", usrFromActDetls.getCountry().equalsIgnoreCase(loggedInUser.getCountry()));
 
     }
 
