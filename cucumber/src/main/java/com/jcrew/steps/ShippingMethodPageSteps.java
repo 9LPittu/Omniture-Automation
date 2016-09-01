@@ -30,20 +30,28 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
     @And("^Uses default value for shipping method$")
     public void uses_default_value_for_shipping_method() throws Throwable {
-        TestDataReader testDataReader = TestDataReader.getTestDataReader();
-
         Country country = (Country) stateHolder.get("context");
         String countryName = country.getCountryName().toLowerCase().trim();
         String countryCode = country.getCountry();
 
         if(countryCode.equalsIgnoreCase("us")) {
+            TestDataReader testDataReader = TestDataReader.getTestDataReader();
+            String addressType = (String) stateHolder.get("atpAddressType");
+            String expectedDefaultShipMethod = testDataReader.getData(addressType + ".default.shipping.method");
+
             String actualShippingMethodSelected = shippingMethodPage.getSelectedShippingMethod().toLowerCase();
             actualShippingMethodSelected = actualShippingMethodSelected.split("\\(")[0].trim();
 
-            ShippingMethodCalculator shipCalculator = new ShippingMethodCalculator();
-            String expectedDefaultShippingMethod = shipCalculator.getExpectedDefaultShippingMethod().toLowerCase().trim();
 
-            assertEquals("Default shipping method selected should be ",expectedDefaultShippingMethod,actualShippingMethodSelected);
+            List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+            for (int i = 0; i < expectedMethods.size(); i++) {
+                ShippingMethod method = expectedMethods.get(i);
+                if (method.getPrice().equalsIgnoreCase("free")) {
+                    expectedDefaultShipMethod =  method.getMethod();
+                }
+            }
+
+            assertEquals("Default shipping method selected should be ",expectedDefaultShipMethod,actualShippingMethodSelected);
         } else {
             assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
         }
