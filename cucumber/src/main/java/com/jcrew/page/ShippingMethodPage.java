@@ -22,7 +22,7 @@ public class ShippingMethodPage {
 
     private final Logger logger = LoggerFactory.getLogger(ShippingMethodPage.class);
 
-    @FindBy(id = "method0")
+    @FindBy(id = "method3")
     private WebElement economyUps;
 
     @FindBy(id = "noGifts")
@@ -52,7 +52,7 @@ public class ShippingMethodPage {
         Util.clickWithStaleRetry(continueButton);
     }
 
-    public boolean isEconomyUps() {
+    public boolean isEconomyDefault() {
     	try{
     		return economyUps.isSelected();
     	}
