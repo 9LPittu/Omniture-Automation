@@ -43,8 +43,8 @@ public class AccountDetailSteps extends DriverFactory{
 
     }
 
-    @Then("New user information should match My Details page")
-    public void sign_in_user_information_should_match_my_details_page() {
+    @Then("([^\"]*) user information should match My Details page")
+    public void sign_in_user_information_should_match_my_details_page(String userTpe) {
         User loggedInUser = (User) stateHolder.get("signedUser");
         User usrFromActDetls  = accountDetail.getUserDetails();
 
