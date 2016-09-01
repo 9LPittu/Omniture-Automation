@@ -13,7 +13,7 @@ Feature: Sign In
 
     # JCSC-1367 for steel
     When User goes to My Details using My Account menu
-    Then User information should match My Details page
+    Then Verify user is in account details page
 
     When User goes to Wishlist using header
     Then Verify user is in wishlist page
