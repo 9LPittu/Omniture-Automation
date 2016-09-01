@@ -29,6 +29,7 @@ public class ShippingMethodCalculator {
     private boolean toggle;
     private boolean crewCut;
     private String addressType;
+    private String environment;
 
     public ShippingMethodCalculator() {
         addressType = (String) (stateHolder.get("atpAddressType"));
@@ -46,7 +47,7 @@ public class ShippingMethodCalculator {
             mixedItems = mixedItems || (p.isBackorder() != restrictedItem);
             restrictedItem = p.isBackorder();
         }
-        String environment = propertyReader.getProperty("environment");
+        environment = propertyReader.getProperty("environment");
         toggle = dataReader.getBoolean(environment + ".atp.toggle");
         logger.debug("This bag has backordered products: {} - This bag has mixed products: {}", restrictedItem, mixedItems);
     }
@@ -116,28 +117,6 @@ public class ShippingMethodCalculator {
         return expectedMethods;
     }
 
-    public String getExpectedDefaultShippingMethod() {
-        double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
-        List<String> expectedShipMethods = getExpectedShipMethods();
-
-        String addressType = (String) stateHolder.get("atpAddressType");
-        String defaultShipMethod = dataReader.getData(addressType + ".default.shipping.method");
-
-        for (String shipMethod:expectedShipMethods) {
-            String freeShippingThreshold = dataReader.getData(shipMethod + ".FreeShippingThreshold");
-            try {
-                Double dblShippingThreshold = Double.parseDouble(freeShippingThreshold);
-                if (subtotal >= dblShippingThreshold) {
-                    defaultShipMethod = shipMethod;
-                    break;
-                }
-
-            } catch (NumberFormatException numberException) {
-            }
-        }
-        return defaultShipMethod;
-    }
-
     public String getPrice(String method) {
         boolean implicitFreeShipping = false;
         String price = dataReader.getData(method + ".price");
@@ -146,7 +125,7 @@ public class ShippingMethodCalculator {
         List<String> listFreeCrewCuttMethods = Arrays.asList(freeCrewCutMethods);
 
         double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
-        String freeShippingThreshold = dataReader.getData(method + ".FreeShippingThreshold");
+        String freeShippingThreshold = dataReader.getData(environment + "." + method + ".FreeShippingThreshold");
 
         try {
             Double dblShippingThreshold = Double.parseDouble(freeShippingThreshold);
