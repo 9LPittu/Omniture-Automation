@@ -51,11 +51,9 @@ public class AccountDetail extends Account {
     }
 
     public String getErrorMessage(String fieldLabel) {
-        System.out.println(fieldLabel);
         WebElement fieldElement = getformElement(fieldLabel);
         WebElement errorMessage = wait.until(ExpectedConditions.visibilityOf(
                 fieldElement.findElement(By.xpath(".//following-sibling::span[contains(@class,'js-invalid-msg')]"))));
-        logger.info("{} - {}", fieldElement.getAttribute("class"), errorMessage.getAttribute("class"));
         return errorMessage.getText();
     }
 
