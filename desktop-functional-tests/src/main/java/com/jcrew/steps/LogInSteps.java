@@ -23,10 +23,20 @@ public class LogInSteps extends DriverFactory {
     private String password;    
     LogIn logIn = new LogIn(getDriver());
 
+    @Then("User goes to sign in page")
+    public void user_in_signin_page(){
+        assertTrue("User in sign in page",logIn.isSignPage());
+    }
+
     @When("User fills user data and signs in")
     public void fills_user_data() {
-        logIn.signIn();
+        logIn.userSignIn();
     }
+    @When("User fills ([^\"]*) category data and signs in")
+    public void fill_user_category_data(String userCategory){
+        logIn.userSignIn(userCategory);
+    }
+
 
     @Then("^User get create account form$")
     public void user_get_create_account_form() {
@@ -68,12 +78,12 @@ public class LogInSteps extends DriverFactory {
         assertFalse("Field " + field + " should not display error message", logIn.hasErrorMessage(field));
     }
 
-    @When("([^\"]*) field is filled with \"([^\"]*)\"")
+    @When("^([^\"]*) field is filled with invalid data \"([^\"]*)\"$")
     public void field_is_filled_with(String field, String value) {
         logIn.fillField(field, value);
     }
 
-    @When("([^\"]*) field is filled with ([^\"]*) data")
+    @When("^([^\"]*) field is filled with ([^\"]*) data$")
     public void field_is_filled_with_new_data(String field, String userType) {
         if("new".equalsIgnoreCase(userType))
             logIn.fillField(field, true);

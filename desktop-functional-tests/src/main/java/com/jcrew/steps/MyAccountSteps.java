@@ -1,11 +1,13 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.MyAccount;
+import com.jcrew.page.AccountDetail;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.api.java.en.And;
 
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import static org.junit.Assert.*;
  */
 public class MyAccountSteps extends DriverFactory {
     MyAccount myAccount = new MyAccount(getDriver());
+
     StateHolder stateHolder = StateHolder.getInstance();
 
     @When("User goes to ([^\"]*) using My Account menu")
@@ -28,25 +31,26 @@ public class MyAccountSteps extends DriverFactory {
         assertTrue("User is in My Account page", myAccount.isMyAccountMainPage());
     }
 
-    @Then("([^\"]*) user information should match My Details page")
-    public void sign_in_user_information_should_match_my_details_page(String userType) {
-        User user = (User) stateHolder.get("signedUser");
-
-        Map<String, String> userDetails = myAccount.getUserDetails();
-        String user_country = user.getCountry();
-
-        boolean equalsIgnoreCase = user_country.equalsIgnoreCase(userDetails.get(myAccount.USER_DETAILS_COUNTRY));
-
-        assertEquals("First name matches", userDetails.get(myAccount.USER_DETAILS_FIRST_NAME), user.getFirstName());
-        assertEquals("Last name matches", userDetails.get(myAccount.USER_DETAILS_LAST_NAME), user.getLastName());
-        assertEquals("Email matches", userDetails.get(myAccount.USER_DETAILS_EMAIL), user.getEmail());
-        assertTrue("Country matches", equalsIgnoreCase);
-    }
 
     @Then("Verify user is in Order History page")
     public void user_is_in_order_history_page() {
         assertTrue("User is in order history page",myAccount.isOrderHistoryPage());
     }
+
+    @And("Verify ([^\"]*) reward link for ([^\"]*) user in My account page")
+    public void reward_link_displayed_for_user(String link, String userCategory) {
+        User signedInUser = (User ) stateHolder.get("signedUser");
+        assertEquals(link + " link displayed for "+signedInUser.getEmail()+" user and category " + userCategory,
+                myAccount.shouldRewardDisplayed(userCategory),myAccount.isMenuLinkPresent(link));
+    }
+
+
+    @Then("User clicks on ([^\"]*) reward link from My Account Page")
+    public void user_clicks_on_reward_link_in_my_account_page(String link) throws Throwable {
+        myAccount.click_reward_link(link);
+    }
+
+
 
     @Then("^User clicks on ([^\"]*) link in My Account Page$")
     public void user_clicks_on_link_in_my_account_page(String link) throws Throwable {

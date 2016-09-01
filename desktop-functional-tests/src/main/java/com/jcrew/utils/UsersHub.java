@@ -71,12 +71,9 @@ public class UsersHub {
         return rs;
     }
 
-    private int getAvailableUsersCount() throws SQLException {
+    private int getAvailableUsersCount(String userCategory) throws SQLException {
 
-        String getUsersCountSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
-
-        ResultSet rs = null;
-        rs = executeSQLQuery(getUsersCountSQLQuery);
+        ResultSet rs = executeSQLQuery(getQuery("count",userCategory));
 
         int numOfRecords = 0;
         if (rs != null) {
@@ -117,11 +114,13 @@ public class UsersHub {
 		return numOfRecords;
 	}
 
-    public synchronized User getUser() throws SQLException {
 
-        if (getAvailableUsersCount() > 0) {
-            String getUserCredentialsSQLQuery = "select username, userpassword, firstname,lastname,DEFAULT_ADDRESS_COUNTRY from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
-            ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
+    public synchronized User getUser(String userCategory) throws SQLException {
+        if (!(user == null)) return user;
+
+        if (getAvailableUsersCount(userCategory) > 0) {
+            ResultSet rs = executeSQLQuery(getQuery("extract",userCategory));
+
             if (rs != null) {
                 try {
                     rs.next();
@@ -140,6 +139,7 @@ public class UsersHub {
 
 
         closeDBConnection();
+        user.setUserCategory(userCategory);
         return user;
     }
     
@@ -176,6 +176,29 @@ public class UsersHub {
 		
 		return user;
 	}
+
+
+    private String getQuery(String queryType,String userCategory) {
+        String getUserSQLQuery;
+        if (queryType.equalsIgnoreCase("count")) {
+            getUserSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
+        }
+        else {
+            getUserSQLQuery = "select username, userpassword,firstname,lastname,default_address_country from JCINT2_CUSTOM.SIDECARQAUSERS where brand='jcrew' and Environment='" + environment + "' and Allocation = 'N'";
+        }
+        switch (userCategory) {
+            case User.CAT_LOYALTY:
+                getUserSQLQuery = getUserSQLQuery + " and usercategory = '"+User.CAT_LOYALTY+"'";
+                break;
+            case User.CAT_NO_LOYALTY:
+                getUserSQLQuery = getUserSQLQuery + " and usercategory = '"+User.CAT_NO_LOYALTY+"'";
+                break;
+            default:
+                getUserSQLQuery = getUserSQLQuery + " and usercategory is null";
+                break;
+        }
+        return getUserSQLQuery;
+    }
 
 
     public void releaseUserCredentials() {

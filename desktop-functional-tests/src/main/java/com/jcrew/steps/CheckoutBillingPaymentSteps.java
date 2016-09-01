@@ -22,6 +22,11 @@ public class CheckoutBillingPaymentSteps extends DriverFactory {
         assertTrue("Is billing address page", billing.isDisplayed());
     }
 
+    @Then("^Verify account Billing payment page is displayed$")
+    public void is_account_payment_method() {
+        assertTrue("Is payment method page", billing.isPaymentMethodsPage());
+    }
+
     @When("User fills billing payment with ([^\"]*) and continues")
     public void save_billing_address(String cardType) {
         billing.fillPaymentMethod(cardType);
