@@ -23,13 +23,6 @@ public class AccountDetail extends Account {
     WebElement accountContentSection;
 
 
-    public final String USER_DETAILS_FIRST_NAME = "my-details-form__first-name";
-    public final String USER_DETAILS_LAST_NAME = "my-details-form__last-name";
-    public final String USER_DETAILS_EMAIL = "my-details-form__email";
-    public final String USER_DETAILS_COUNTRY = "my-details-form__country-list";
-    public final String USER_DETAILS_DOB_DAY = "my-details-form__birthday__day-list";
-    public final String USER_DETAILS_DOB_MONTH = "my-details-form__birthday__month-list";
-
     public AccountDetail(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
@@ -44,8 +37,7 @@ public class AccountDetail extends Account {
 
     public void updateDetails(String fieldLabel, String updateType) {
         wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
-        WebElement formElement;
-        formElement = getformElement(fieldLabel);
+        WebElement formElement = getformElement(fieldLabel);
         if ("invalid".equalsIgnoreCase(updateType)) {
             formElement.clear();
             formElement.sendKeys(Keys.TAB);
@@ -58,7 +50,7 @@ public class AccountDetail extends Account {
     }
 
     public String getErrorMessage(String fieldLabel) {
-        return getformElement(fieldLabel).findElement(By.xpath(".//following-sibling::span")).getText();
+        return getformElement(fieldLabel).findElement(By.xpath("//following-sibling::span")).getText();
     }
 
 
@@ -75,9 +67,9 @@ public class AccountDetail extends Account {
 
     public boolean isBirthField(String btnStatus) {
         wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
-        WebElement birthWrap = accountDetailForm.findElement(By.className("my-details-form__birthday-wrapper"));
-        String monthClass = birthWrap.findElement(By.id(USER_DETAILS_DOB_MONTH)).getAttribute("class");
-        String dateClass = birthWrap.findElement(By.id(USER_DETAILS_DOB_DAY)).getAttribute("class");
+        WebElement birthWrap = getformElement("Birth");
+        String monthClass = birthWrap.findElement(By.id("my-details-form__birthday__month-list")).getAttribute("class");
+        String dateClass = birthWrap.findElement(By.id("my-details-form__birthday__day-list")).getAttribute("class");
 
         if ("disabled".equalsIgnoreCase(btnStatus)) {
             return ((monthClass.contains("is-disabled")) & (dateClass.contains("is-disabled")));
@@ -92,9 +84,9 @@ public class AccountDetail extends Account {
         WebElement birthWrap = getformElement("Birth");
         WebElement list;
         if ("Month".equalsIgnoreCase(dateType)) {
-            list = birthWrap.findElement(By.id(USER_DETAILS_DOB_MONTH));
+            list = birthWrap.findElement(By.id("my-details-form__birthday__month-list"));
         } else {
-            list = birthWrap.findElement(By.id(USER_DETAILS_DOB_DAY));
+            list = birthWrap.findElement(By.id("my-details-form__birthday__day-list"));
         }
         list.click();
         WebElement item = list.findElement(By.xpath(".//li[contains(text(), '" + value + "')]"));
