@@ -46,9 +46,14 @@ public class StateHolder {
             threadMap.clear();
         }
     }
-    
+
     public boolean hasKey(String keyName){
     	Map<String, Object> threadMap = stateHolderMap.get(Thread.currentThread().getName());
     	return threadMap.containsKey(keyName);
+    }
+
+    public void remove(String key) {
+        Map<String, Object> threadMap = getMapForCurrentThread();
+        threadMap.remove(key);
     }
 }

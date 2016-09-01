@@ -27,15 +27,19 @@ public class ShippingMethodCalculator {
     private boolean restrictedItem;
     private boolean mixedItems;
     private boolean toggle;
+    private boolean crewCut;
+    private String addressType;
 
     public ShippingMethodCalculator() {
-        String addressType = (String) (stateHolder.get("atpAddressType"));
+        addressType = (String) (stateHolder.get("atpAddressType"));
         restrictedAddress = !addressType.equalsIgnoreCase("regular");
 
         List<Product> productsInBag = (List<Product>) stateHolder.get("productList");
+        crewCut=true;
         mixedItems = false;
         Product p = productsInBag.get(0);
         restrictedItem = p.isBackorder();
+        crewCut = crewCut && p.isCrewCut();
 
         for (int i = 1; i < productsInBag.size(); i++) {
             p = productsInBag.get(i);
@@ -105,7 +109,7 @@ public class ShippingMethodCalculator {
             } else {
                 name = dataReader.getData(method + ".nonatp.name");
             }
-            String price = dataReader.getData(method + ".price");
+            String price = getPrice("method");
             String text = dataReader.getData(method + ".text");
             expectedMethods.add(new ShippingMethod(name, price, text));
         }
@@ -134,5 +138,31 @@ public class ShippingMethodCalculator {
         return defaultShipMethod;
     }
 
+    public String getPrice(String method) {
+        boolean implicitFreeShipping = false;
+        String price = dataReader.getData(method + ".price");
+
+        String freeCrewCutMethods[] = dataReader.getDataArray(addressType + ".crewcut.freemethods");
+        List<String> listFreeCrewCuttMethods = Arrays.asList(freeCrewCutMethods);
+
+        double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
+        String freeShippingThreshold = dataReader.getData(method + ".FreeShippingThreshold");
+
+        try {
+            Double dblShippingThreshold = Double.parseDouble(freeShippingThreshold);
+            if (subtotal >= dblShippingThreshold)
+                implicitFreeShipping = true;
+
+        } catch (NumberFormatException numberException) {
+            implicitFreeShipping = false;
+        }
+
+        if((crewCut && listFreeCrewCuttMethods.contains(method)) || implicitFreeShipping ) {
+            return "free";
+        } else {
+            return price;
+        }
+
+    }
 
 }

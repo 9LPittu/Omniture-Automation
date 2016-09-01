@@ -422,6 +422,7 @@ public class SalePage {
                             By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']")));
         }
         saleDepElement.click();
+        stateHolder.put("sale category", saleDepElement);
         logger.info("{} sale department is clicked",  dept);
     }
 
