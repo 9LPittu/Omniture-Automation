@@ -109,7 +109,7 @@ public class ShippingMethodCalculator {
             } else {
                 name = dataReader.getData(method + ".nonatp.name");
             }
-            String price = getPrice("method");
+            String price = getPrice(method);
             String text = dataReader.getData(method + ".text");
             expectedMethods.add(new ShippingMethod(name, price, text));
         }
