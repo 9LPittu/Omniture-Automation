@@ -32,12 +32,13 @@ public class ShippingMethodCalculator {
     private String environment;
 
     public ShippingMethodCalculator() {
+
+        addressType = (String) (stateHolder.get("atpAddressType"));
         try {
-            addressType = (String) (stateHolder.get("atpAddressType"));
+            restrictedAddress = !addressType.equalsIgnoreCase("regular");
         } catch (NullPointerException nullException) {
-            addressType="regular";
+            restrictedAddress=false;
         }
-        restrictedAddress = !addressType.equalsIgnoreCase("regular");
 
         List<Product> productsInBag = (List<Product>) stateHolder.get("productList");
         crewCut=true;
