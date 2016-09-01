@@ -1057,7 +1057,7 @@ public class ProductDetailPage {
         String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
         List<String> crewCuts = Arrays.asList(crewCutCategories);
 
-        if(crewCuts.contains(category) || (category=="sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL)) {
+        if(crewCuts.contains(category) || (category=="sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category=="wedding" && subCategory=="flowergirl")) {
             return true;
         } else {
             return false;

@@ -11,6 +11,7 @@ import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -21,6 +22,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
     private final ShippingMethodPage shippingMethodPage = new ShippingMethodPage(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
     private ShippingMethodCalculator methodCalculator = new ShippingMethodCalculator();
+    private TestDataReader testDataReader = TestDataReader.getTestDataReader();
 
     @And("^Verifies is in shipping method page$")
     public void verifies_is_in_shipping_method_page() throws Throwable {
@@ -35,7 +37,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
         String countryCode = country.getCountry();
 
         if(countryCode.equalsIgnoreCase("us")) {
-            TestDataReader testDataReader = TestDataReader.getTestDataReader();
+
             String addressType = (String) stateHolder.get("atpAddressType");
             String expectedDefaultShipMethod = testDataReader.getData(addressType + ".default.shipping.method");
 
@@ -52,7 +54,9 @@ public class ShippingMethodPageSteps extends DriverFactory {
             }
 
             assertEquals("Default shipping method selected should be ",expectedDefaultShipMethod,actualShippingMethodSelected);
+
         } else {
+
             assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
         }
 
@@ -76,15 +80,31 @@ public class ShippingMethodPageSteps extends DriverFactory {
     
     @And("^validate correct shipping methods displayed on the page$")
     public void validate_shipping_methods(){
-        //Retrieve shipping methods from application
+        Country country = (Country) stateHolder.get("context");
+        String countryName = country.getCountryName().toLowerCase().trim();
+        String countryCode = country.getCountry();
+
         List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
-        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
 
-        for (int i = 0; i < expectedMethods.size(); i++) {
-            ShippingMethod actual = pageMethods.get(i);
-            ShippingMethod expected = expectedMethods.get(i);
+        if(countryCode.equalsIgnoreCase("us")) {
+            List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
 
-            assertEquals("Expected shipping method", expected, actual);
+            for (int i = 0; i < expectedMethods.size(); i++) {
+                ShippingMethod actual = pageMethods.get(i);
+                ShippingMethod expected = expectedMethods.get(i);
+
+                assertEquals("Expected shipping method", expected, actual);
+            }
+        } else {
+            String shipMethods[] = testDataReader.getDataArray(countryCode + ".shippingMethods");
+            List<String> expectedMethods = Arrays.asList(shipMethods);
+
+            for (int i = 0; i < expectedMethods.size(); i++) {
+                String actualShipMethod = pageMethods.get(i).getMethod().toLowerCase();
+                String expectedShipMethod = expectedMethods.get(i).toLowerCase();
+                assertEquals("Expected shipping method", expectedShipMethod, actualShipMethod);
+            }
+
         }
     }
 }
