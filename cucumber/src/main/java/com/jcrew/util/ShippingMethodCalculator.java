@@ -123,25 +123,29 @@ public class ShippingMethodCalculator {
     }
 
     public String getPrice(String method) {
-        boolean implicitFreeShipping = false;
         String price = dataReader.getData(method + ".price");
+
+        double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
+
+        String promotionalShippingDetails = dataReader.getData(environment + "." + method + ".promotional.shipping.charge");
+        if (promotionalShippingDetails.contains(";")) {
+            String promotionalShippingCharge = promotionalShippingDetails.split(";")[0];
+            String promotionalShippingThreshold = promotionalShippingDetails.split(";")[1];
+
+            try {
+                Double dblShippingThreshold = Double.parseDouble(promotionalShippingThreshold);
+                if (subtotal >= dblShippingThreshold)
+                    price = promotionalShippingCharge;
+            } catch (NumberFormatException numberException) {
+                logger.info("no promotional shipping charge for the shipping method {}",method);
+            }
+        }
+
 
         String freeCrewCutMethods[] = dataReader.getDataArray(addressType + ".crewcut.freemethods");
         List<String> listFreeCrewCuttMethods = Arrays.asList(freeCrewCutMethods);
 
-        double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
-        String freeShippingThreshold = dataReader.getData(environment + "." + method + ".FreeShippingThreshold");
-
-        try {
-            Double dblShippingThreshold = Double.parseDouble(freeShippingThreshold);
-            if (subtotal >= dblShippingThreshold)
-                implicitFreeShipping = true;
-
-        } catch (NumberFormatException numberException) {
-            implicitFreeShipping = false;
-        }
-
-        if((crewCut && listFreeCrewCuttMethods.contains(method)) || implicitFreeShipping ) {
+        if(crewCut && listFreeCrewCuttMethods.contains(method) ) {
             return "free";
         } else {
             return price;
