@@ -21,7 +21,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
     @And("^Uses default value for shipping method$")
     public void uses_default_value_for_shipping_method() throws Throwable {
 
-        assertTrue(Util.getSelectedCountryName() + "Economy UPS checkbox should be selected", shippingMethodPage.isEconomyUps());
+        assertTrue(Util.getSelectedCountryName() + "Economy UPS checkbox should be selected", shippingMethodPage.isEconomyDefault());
 
     }
 
