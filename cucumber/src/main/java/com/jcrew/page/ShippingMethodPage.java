@@ -56,6 +56,7 @@ public class ShippingMethodPage {
         Util.clickWithStaleRetry(continueButton);
     }
 
+
     public boolean isFirstShippingMethod() {
     	try{
     		return firstShipMethod.isSelected();

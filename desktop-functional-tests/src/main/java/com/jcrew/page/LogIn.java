@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 3/28/16.
  */
-public class LogIn extends DriverFactory {
+public class LogIn extends PageObject {
 
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(LogIn.class);
@@ -70,7 +70,9 @@ public class LogIn extends DriverFactory {
     private WebElement createAnAccount;
 
     public LogIn(WebDriver driver) {
+        super(driver);
         this.driver = driver;
+        Util.waitForPageFullyLoaded(driver);
         header = new HeaderWrap(driver);
         wait = Util.createWebDriverWait(driver);
 
@@ -78,8 +80,20 @@ public class LogIn extends DriverFactory {
         wait.until(ExpectedConditions.elementToBeClickable(signInHereButton));
     }
 
-    public void signIn() {
-    	knownUser = User.getUser();
+
+    public boolean isSignPage(){
+        wait.until(ExpectedConditions.visibilityOf(signInForm));
+        return signInForm.isDisplayed();
+    }
+
+    public void userSignIn() {
+        userSignIn("noUserCategory");
+    }
+
+
+
+    public void userSignIn(String userCategory) {
+    	knownUser = User.getUserFromHub(userCategory);
         logger.info("User and password used {} / {}", knownUser.getEmail(), knownUser.getPassword());
         sidecarUser.sendKeys(knownUser.getEmail());
         sidecarPassword.sendKeys(knownUser.getPassword());
@@ -87,6 +101,7 @@ public class LogIn extends DriverFactory {
         stateHolder.put("signedUser", knownUser);
         stateHolder.put("userObject", knownUser);
     }
+
 
     public boolean hasExpectedPattern(String pattern) {
         Country country = (Country) stateHolder.get("context");
@@ -228,10 +243,9 @@ public class LogIn extends DriverFactory {
             user = fakeUser;
         }
         else{
-        	knownUser = User.getUser();
+        	knownUser = User.getUserFromHub("noUserCategory");
             user = knownUser;
         }
-        
         switch (field) {
             case "first name":
                 value = user.getFirstName();
@@ -241,9 +255,11 @@ public class LogIn extends DriverFactory {
                 break;
             case "email":
                 value = user.getEmail();
+                stateHolder.put("fakenewuserID",value);
                 break;
             case "password":
                 value = user.getPassword();
+                stateHolder.put("fakenewuserPassword",value);
                 break;
             case "country":
                 value = user.getCountry();
@@ -323,7 +339,7 @@ public class LogIn extends DriverFactory {
 
         forgotPasswordLink.click();
     }
-    
+
     public void signIn(String type) {        
         User user = User.getUser(type);
         submitUserCredentials(user.getEmail(),user.getPassword());

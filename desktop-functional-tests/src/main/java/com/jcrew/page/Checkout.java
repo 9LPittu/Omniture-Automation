@@ -43,6 +43,7 @@ public abstract class Checkout extends PageObject{
 
     public Checkout(WebDriver driver) {
         super(driver);
+        Util.waitForPageFullyLoaded(driver);
         PageFactory.initElements(driver, this);
     }
 

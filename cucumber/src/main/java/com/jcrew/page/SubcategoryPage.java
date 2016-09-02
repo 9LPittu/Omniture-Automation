@@ -67,6 +67,8 @@ public class SubcategoryPage {
     private List<WebElement> accordionElements;
     @FindBy(id = "c-category__navigation")
     private WebElement endCapNavigationSection;
+    @FindBy(xpath = "//div[contains(@class,'accordian__wrap--category-filters')]")
+    private WebElement accordianWrap;
 
     @FindBy(className = "product__name")
     private WebElement productName;
@@ -302,8 +304,8 @@ public class SubcategoryPage {
         return accordionHeaderLabel.getText();
     }
 
-    public boolean isMoreIconDisplayed() {
-        final WebElement accordionHeaderIcon = getAccordionElement(By.className("icon-see-more"));
+    public boolean isViewFilterisplayed() {
+        final WebElement accordionHeaderIcon = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("c-category__filters")));
         return accordionHeaderIcon.isDisplayed();
     }
 
@@ -316,17 +318,23 @@ public class SubcategoryPage {
     }
 
     public void click_expand_accordion_icon() {
-        WebElement seeMoreIcon = getAccordionElement(By.className("icon-see-more"));
-        Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(seeMoreIcon));
-
-        seeMoreIcon.click();
+        String accordianWrapClass = accordianWrap.getAttribute("class").toLowerCase();
+        if (!accordianWrapClass.contains("is-expanded")) {
+            WebElement filterCaret = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("category__filters--caret")));
+            filterCaret.click();
+        }
     }
 
     public boolean isAccordionMenuVisible() {
         final WebElement accordionMenu = getAccordionElement(By.className("accordian__menu"));
 
         return accordionMenu.isDisplayed();
+    }
+
+
+    public boolean isAccordionMenuCollapsed() {
+        String accordianWrapClass = accordianWrap.getAttribute("class").toLowerCase();
+        return (!accordianWrapClass.contains("is-expanded"));
     }
 
     public boolean isLessIconDisplayed() {

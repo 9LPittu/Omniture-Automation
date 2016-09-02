@@ -47,8 +47,7 @@ public class CheckoutShippingAdd extends Checkout {
 
     public CheckoutShippingAdd(WebDriver driver) {
         super(driver);
-
-        wait.until(ExpectedConditions.visibilityOf(shippingForm));
+//        wait.until(ExpectedConditions.visibilityOf(shippingForm));
     }
 
     public boolean isDisplayed() {

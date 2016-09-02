@@ -61,7 +61,6 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
             assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
         }
-
     }
 
     @And("^Uses default value for gifts option$")

@@ -1,9 +1,13 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.User;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,22 +19,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by nadiapaolagarcia on 3/29/16.
  */
-public class MyAccount {
-    private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(MyAccount.class);
-    private final WebDriverWait wait;
-    private final HeaderWrap header;
-    private final StateHolder stateHolder = StateHolder.getInstance();
+public class MyAccount extends Account{
 
-    public final String USER_DETAILS_FIRST_NAME = "firstName";
-    public final String USER_DETAILS_LAST_NAME = "lastName";
-    public final String USER_DETAILS_EMAIL = "emailAdd";
-    public final String USER_DETAILS_COUNTRY = "country";
+    private final HeaderWrap header;
 
     @FindBy(id = "main_cont")
     private WebElement main_content;
@@ -42,10 +39,8 @@ public class MyAccount {
     private WebElement main_content_history;
 
     public MyAccount(WebDriver driver) {
-        this.driver = driver;
-        this.wait = Util.createWebDriverWait(driver);
+        super(driver);
         PageFactory.initElements(driver, this);
-
         wait.until(ExpectedConditions.visibilityOf(main_content));
         this.header = new HeaderWrap(driver);
     }
@@ -72,27 +67,6 @@ public class MyAccount {
         option.click();
     }
 
-    public Map<String, String> getUserDetails() {
-        HashMap<String, String> userDetails = new HashMap<>();
-
-        wait.until(ExpectedConditions.visibilityOf(leftContainer));
-
-        WebElement information = leftContainer.findElement(By.id(USER_DETAILS_FIRST_NAME));
-        userDetails.put(USER_DETAILS_FIRST_NAME, information.getAttribute("value"));
-
-        information = leftContainer.findElement(By.id(USER_DETAILS_LAST_NAME));
-        userDetails.put(USER_DETAILS_LAST_NAME, information.getAttribute("value"));
-
-        information = leftContainer.findElement(By.id(USER_DETAILS_EMAIL));
-        userDetails.put(USER_DETAILS_EMAIL, information.getAttribute("value"));
-
-        Select country = new Select(leftContainer.findElement(By.id(USER_DETAILS_COUNTRY)));
-        logger.debug("User details country: {}", country.getFirstSelectedOption().getText());
-        userDetails.put(USER_DETAILS_COUNTRY, country.getFirstSelectedOption().getText());
-
-        return userDetails;
-    }
-
     public boolean isOrderHistoryPage() {
         wait.until(ExpectedConditions.visibilityOf(main_content_history));
         WebElement myAccountBanner = main_content_history.findElement(By.tagName("h2"));
@@ -109,15 +83,31 @@ public class MyAccount {
         return expectedContent & expectedURL;
     }
 
+    public void click_reward_link(String link){
+        WebElement menu = null;
+        User signedInUser = (User ) stateHolder.get("signedUser");
+        Country c = (Country) stateHolder.get("context");
+        boolean rewardLinkShouldExists = ((signedInUser.getUserCategory().equalsIgnoreCase(User.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()));
+        if (rewardLinkShouldExists){
+            menu = getMenuLink(link);
+            wait.until(ExpectedConditions.elementToBeClickable(menu));
+            Util.clickWithStaleRetry(menu);
+        }
+
+    }
+
     public void click_menu_link(String link) {
         WebElement menu = null;
 
         Country c = (Country) stateHolder.get("context");
 
+
         // to validate the my account page left nav links
         //US: Gift card balance, Catalog Preferences,My Details, Email Preferences, Payment Methods, Address Book, Order History, Wish list & Sign Out
         //CANADA: All the above except Gift card balance will be there
         //All the other countries: Gift card Balance and Catalog Preferences will not be present
+
+
 
         switch (c.getCountry()) {
             case "us":
@@ -141,26 +131,33 @@ public class MyAccount {
         }
     }
 
+
+
+
     private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
+        Country c = (Country) stateHolder.get("context");
+        logger.debug(c.getCountry());
         wait.until(ExpectedConditions.visibilityOf(main_inside));
-        Country country = (Country) stateHolder.get("context");
-        logger.debug(country.getCountry());
-        return main_inside.findElement(By.linkText(link));
+       return main_inside.findElement(By.linkText(link));
     }
 
     public boolean isInMenuLinkPage(String page) {
         Country c = (Country) stateHolder.get("context");
-
+        User signedInUser = (User ) stateHolder.get("signedUser");
         // to validate the my account page left nav links
         //US: Gift card balance, Catalog Preferences,My Details, Email Preferences, Payment Methods, Address Book, Order History, Wish list & Sign Out
         //CANADA: All the above except Gift card balance will be present
         //All the other countries: Gift card Balance and Catalog Preferences will not be present. everything else will be there
-
+        boolean ifReward = page.contains("rewards");
+        boolean testRewardVisible = true;
+        if (ifReward) {
+            testRewardVisible = ((signedInUser.getUserCategory().equalsIgnoreCase(User.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()) && ifReward);
+        }
 
         boolean forOtherCountries = !(page.contains("giftcard") || page.contains("catalog_preferences"));
 
-        if (("ca".equals(c.getCountry()) && !(page.contains("giftcard"))) || "us".equals(c.getCountry()) || forOtherCountries)
+        if ((("ca".equals(c.getCountry()) && !(page.contains("giftcard"))) || "us".equals(c.getCountry()) || forOtherCountries) && testRewardVisible)
             return wait.until(ExpectedConditions.urlContains(page));
         else {
             logger.info("expected no " + page + " for " + c.getCountry());
@@ -168,4 +165,16 @@ public class MyAccount {
         }
 
     }
+
+    public boolean isMenuLinkPresent(String link) {
+        Util.waitForPageFullyLoaded(driver);
+        wait.until(ExpectedConditions.visibilityOf(main_inside));
+        try {
+            WebElement menuLink = driver.findElement(By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]"));
+            return (menuLink.isDisplayed());
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
 }

@@ -50,7 +50,7 @@ public class HeaderWrapSteps extends DriverFactory {
 
     @Then("Dropdown should welcome user by first name")
     public void dropdown_should_welcome_user_using_first_name() {
-        String expectedWelcomeMessage = "Welcome, " + User.getUser().getFirstName();
+        String expectedWelcomeMessage = "Welcome, " + User.getUserFromHub("").getFirstName();
         String actualWelcomeMessage = header.getWelcomeMessage();
 
         assertEquals("First name should match message", expectedWelcomeMessage, actualWelcomeMessage);

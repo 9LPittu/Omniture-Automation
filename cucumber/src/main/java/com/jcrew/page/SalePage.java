@@ -423,6 +423,7 @@ public class SalePage {
         }
         saleDepElement.click();
         stateHolder.put("sale category", saleDepElement);
+        Util.waitLoadingBar(driver);
         logger.info("{} sale department is clicked",  dept);
     }
 

@@ -13,16 +13,13 @@ Feature: Sign In
 
     # JCSC-1367 for steel
     When User goes to My Details using My Account menu
-    Then Known user information should match My Details page
+    Then Verify user is in account details page
 
     When User goes to Wishlist using header
     Then Verify user is in wishlist page
 
     When User goes to Order History using header
     Then Verify user is in Order History page
-
-    When User goes to My Details using header
-    Then Known user information should match My Details page
 
     When User clicks JCrew logo
     Then Verify user is in homepage
