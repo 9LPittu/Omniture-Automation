@@ -100,10 +100,10 @@ public class SubcategoryPageSteps extends DriverFactory {
                 subcategory, subcategoryPage.getCategoryTitleBelowGlobalPromo());
     }
 
-    @Then("^View All Section is present and collapsed$")
-    public void view_all_section_is_present_and_collapsed() {
+    @Then("^Viewing filter is present$")
+    public void view_filter_is_present() {
         //assertEquals("View All should be displayed", "VIEW ALL", subcategoryPage.getAccordianHeaderLabelText());
-        assertTrue("See more icon should be displayed", subcategoryPage.isMoreIconDisplayed());
+        assertTrue("Viewing filter should be displayed", subcategoryPage.isViewFilterisplayed());
     }
 
     @Given("^User clicks on expand icon$")
@@ -114,6 +114,11 @@ public class SubcategoryPageSteps extends DriverFactory {
     @Then("^Accordion should be expanded$")
     public void accordion_should_be_expanded() {
         assertTrue("Accordion menu should be expanded", subcategoryPage.isAccordionMenuVisible());
+    }
+
+    @Then("^Accordion should be collapsed$")
+    public void accordion_should_be_collapsed() {
+        assertTrue("Accordion menu should be collapsed", subcategoryPage.isAccordionMenuCollapsed());
     }
 
     @And("^Collapse icon is displayed$")
