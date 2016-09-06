@@ -12,6 +12,9 @@ public class Product {
     private String selectedVariation;
     private String selectedColor;
     private String selectedSize;
+    private boolean isBackOrder = false;
+    private boolean isCrewCut = false;
+
 
     public void setProductName(String productName) {
         this.productName = productName;
@@ -91,6 +94,22 @@ public class Product {
 
     public String getSelectedSize() {
         return selectedSize;
+    }
+
+    public void setIsBackOrder(boolean isBackOrder) {
+        this.isBackOrder = isBackOrder;
+    }
+
+    public boolean isBackorder() {
+        return this.isBackOrder;
+    }
+
+    public void setIsCrewCut(boolean isCrewCut) {
+        this.isCrewCut = isCrewCut;
+    }
+
+    public boolean isCrewCut() {
+        return this.isCrewCut;
     }
 
     public boolean equals(Object o){

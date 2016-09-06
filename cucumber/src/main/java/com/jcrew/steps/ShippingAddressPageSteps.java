@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ShippingAddressPage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
@@ -15,6 +16,7 @@ import static org.junit.Assert.*;
 public class ShippingAddressPageSteps extends DriverFactory {
 
     private final ShippingAddressPage shippingAddressPage = new ShippingAddressPage(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @When("^Fills shipping address")
     public void fills_shipping_address() throws Throwable {
@@ -30,7 +32,7 @@ public class ShippingAddressPageSteps extends DriverFactory {
         }
 
         assertTrue("Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
-
+        stateHolder.put("atpAddressType","regular");
     }
 
     @And("^Presses continue button on shipping address$")
@@ -41,6 +43,7 @@ public class ShippingAddressPageSteps extends DriverFactory {
     @And("^enter first name on shipping address page$")
     public void enter_first_name_on_shipping_address_page(){
     	shippingAddressPage.enterFirstNameOnShippingAddressPage();
+        stateHolder.put("atpAddressType","regular");
     }
     
     @And("^enter last name on shipping address page$")
@@ -86,6 +89,7 @@ public class ShippingAddressPageSteps extends DriverFactory {
     @And("^enter \"([^\"]*)\" as address line1 in the Add New Shipping Address form$")
     public void enter_address1_in_add_new_shipping_address_form(String addressLine1){
     	shippingAddressPage.enterAddressLine1OnAddNewShippingAddressForm(addressLine1);
+        stateHolder.put("atpAddressType","regular");
     }
     
     @And("^enter \"([^\"]*)\" as address line2 in the Add New Shipping Address form$")
@@ -126,7 +130,6 @@ public class ShippingAddressPageSteps extends DriverFactory {
         shippingAddressPage.selectCityAndState();
 
         assertTrue("Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
-
     }
     
     @When("^user fills selected country shipping address$")

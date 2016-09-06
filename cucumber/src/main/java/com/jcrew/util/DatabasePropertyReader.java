@@ -32,6 +32,12 @@ public class DatabasePropertyReader {
         databaseProperties.load(databaseInput);
 
         String execEnvironment = System.getProperty("environment", "ci");
+
+        String dbSchemaName = databaseProperties.getProperty(execEnvironment + ".schema");
+        databaseProperties.setProperty("schema", dbSchemaName);
+
+        if (execEnvironment.equalsIgnoreCase("steel") || execEnvironment.equalsIgnoreCase("titanium") || execEnvironment.equalsIgnoreCase("platimun"))
+            execEnvironment = "jcms";
         databaseProperties.setProperty("dbEnvironment", execEnvironment);
     }
 

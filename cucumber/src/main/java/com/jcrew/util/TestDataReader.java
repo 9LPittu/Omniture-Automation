@@ -26,12 +26,14 @@ public class TestDataReader {
 	private void loadProperties() throws IOException{
 		
 		String testData = "commonTestData.properties";
-
+		FileInputStream environmentInput = new FileInputStream(testData);
+		testDataProperties.load(environmentInput);
 		logger.debug("Test Data file to be used {}", testData);
 
-		FileInputStream environmentInput = new FileInputStream(testData);
-
-		testDataProperties.load(environmentInput);
+		String shipData = "shippingMethod.properties";
+		FileInputStream shippingInput = new FileInputStream(shipData);
+		testDataProperties.load(shippingInput);
+		logger.debug("Shipping data file to be used {}", shipData);
 
 	}
 
@@ -62,5 +64,13 @@ public class TestDataReader {
 		int countryindex = Util.randomIndex(pricebookCountriesArray.length);
 
 		return pricebookCountriesArray[countryindex].toLowerCase();
+	}
+
+	public String[] getDataArray(String key) {
+		return getData(key).split(";");
+	}
+
+	public boolean getBoolean(String key) {
+		return Boolean.parseBoolean(getData(key));
 	}
 }

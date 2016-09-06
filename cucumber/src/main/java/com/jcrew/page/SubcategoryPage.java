@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
+import com.jcrew.page.ProductDetailPage;
 import com.jcrew.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
@@ -685,6 +686,8 @@ public class SubcategoryPage {
                 logger.debug("Selected item size: {}", sizeName);
 
                 String itemFinalPrice = getItemPriceFromPDP();
+                ProductDetailPage pdp = new ProductDetailPage(driver);
+                boolean isBackOrdered = pdp.getIsBackordered();
 
                 //Save all item related details in stateholder
                 Product product = new Product();
@@ -695,6 +698,7 @@ public class SubcategoryPage {
                 product.setPriceList(itemFinalPrice);
                 product.setSelectedColor(colorName);
                 product.setSelectedSize(sizeName);
+                product.setIsBackOrder(isBackOrdered);
 
                 @SuppressWarnings("unchecked")
                 List<Product> productList = (List<Product>) stateHolder.get("productList");

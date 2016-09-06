@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
+import com.jcrew.pojo.ShippingMethod;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -22,8 +23,8 @@ public class ShippingMethodPage {
 
     private final Logger logger = LoggerFactory.getLogger(ShippingMethodPage.class);
 
-    @FindBy(id = "method3")
-    private WebElement economyUps;
+    @FindBy(id = "method0")
+    private WebElement firstShipMethod;
 
     @FindBy(id = "noGifts")
     private WebElement noGifts;
@@ -43,6 +44,9 @@ public class ShippingMethodPage {
     @FindBy(className="footer__country-context__country")
     private WebElement countryName;
 
+    @FindBy(id = "frmSelectShippingMethod")
+    private WebElement shippingMethodForm;
+
     public ShippingMethodPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -52,9 +56,10 @@ public class ShippingMethodPage {
         Util.clickWithStaleRetry(continueButton);
     }
 
-    public boolean isEconomyDefault() {
+
+    public boolean isFirstShippingMethod() {
     	try{
-    		return economyUps.isSelected();
+    		return firstShipMethod.isSelected();
     	}
     	catch(Exception e){
     		e.printStackTrace();
@@ -92,40 +97,48 @@ public class ShippingMethodPage {
     	shippingMethod.click();
     }
     
-    public boolean isShippingMethodsDisplayedCorrectly(){
-    	boolean expectedMethodCopy = true;
-    	String expectedShippingMethods = null;
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    public List<ShippingMethod> getShippingMethods(){
+        List<WebElement> methods = shippingMethodForm.findElements(By.className("form-shipmethod"));
+        List<ShippingMethod> shippingMethods = new ArrayList<>();
 
-    	//String country = countryName.getText().trim(); <--- commented until we have international enabled
-        String country = "united states";
-    	logger.debug("Country: {}", country);
-
-    	switch(country.toLowerCase()){
-    		case "united states":
-    			expectedShippingMethods = testDataReader.getData("USA_Shipping_Methods");
-    			break;
-            default:
-                expectedShippingMethods = testDataReader.getData("USA_Shipping_Methods");
-    	}
-
-        if(expectedShippingMethods != null) {
-            //Add all expected shipping methods to List
-            String[] arrShippingMethods = expectedShippingMethods.split(";");
-
-            //Add all actual shipping methods from application to List
-            for(String method:arrShippingMethods){
-                logger.debug("Shipping method: {}",method);
-                WebElement methodElement = shippingMethodContainer.findElement(By.id(method));
-                String methodText = methodElement.getText();
-                logger.debug("Copy: {} - Expected: {}", methodText, testDataReader.getData(method));
-                expectedMethodCopy = expectedMethodCopy & methodText.contains(testDataReader.getData(method));
+        for (WebElement method : methods) {
+            if(isShippingMethod(method)) {
+                shippingMethods.add(getShippingMethod(method));
             }
-
-            return expectedMethodCopy;
         }
 
-        logger.debug("expectedShippingMethods is null");
-        return false;
+        return shippingMethods;
+    }
+
+    public String getSelectedShippingMethod() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodForm));
+        WebElement selectedLabel = shippingMethodForm.findElement(By.xpath(".//label[@class='form-label radio-checked']"));
+        WebElement shipMethodName = selectedLabel.findElement(By.xpath(".//span[@class='method-group']/span[contains(@class,'label')]"));
+        String ShippingMethodText = shipMethodName.getText().trim();
+        return ShippingMethodText;
+    }
+
+    private boolean isShippingMethod(WebElement method) {
+        String id = method.getAttribute("id");
+        return !"delivery-message".equalsIgnoreCase(id);
+    }
+
+    private ShippingMethod getShippingMethod(WebElement method) {
+        WebElement methodElement = method.findElement(By.className("method-group"));
+        String methodText = methodElement.getText().trim();
+
+        WebElement priceElement = method.findElement(By.className("method-price"));
+        String priceText = priceElement.getText().trim();
+
+        List<WebElement> textElement = method.findElements(By.className("method-text"));
+        String text = "";
+
+        if (textElement.size() > 0) {
+            text = textElement.get(0).getText();
+        }
+
+        String methodType = methodText.replace(priceText, "").replace(text, "").trim();
+
+        return new ShippingMethod(methodType, priceText, text);
     }
 }

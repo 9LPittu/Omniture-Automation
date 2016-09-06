@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -247,13 +248,23 @@ public class ProductDetailPage {
     public void click_add_to_cart() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(addToBag));
 
+        //Retrieve product category from PDP URL
+        String url = driver.getCurrentUrl();
+        String categoryFromPDPURL = url.substring(url.indexOf("/p/")+3,url.indexOf("/",url.indexOf("/p/")+3));
+        categoryFromPDPURL = categoryFromPDPURL.replaceAll("_category","");
+        stateHolder.put("categoryFromPDPURL", categoryFromPDPURL);
+
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductNameFromPDP());
         thisProduct.setProductCode(getProductCodeFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setIsBackOrder(getIsBackordered());
+        thisProduct.setIsCrewCut(getIsCrewCut());
+
 
         stateHolder.put("recentlyAdded", thisProduct);
+
 
         addToBag.click();
     }
@@ -361,6 +372,7 @@ public class ProductDetailPage {
         thisProduct.setProductCode(getProductCodeFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("recentlyAdded", thisProduct);
 
@@ -392,6 +404,7 @@ public class ProductDetailPage {
         thisProduct.setProductName(getProductNameFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("wishlist", thisProduct);
         wishList.click();
@@ -557,13 +570,21 @@ public class ProductDetailPage {
             Product product = Util.getCurrentProduct();
             String sizeName = size.getAttribute("data-name");
             product.setSelectedSize(sizeName);
+            product.setIsBackOrder(getIsBackordered());
             size.click();
             logger.info("Selected size name: {}", sizeName);
         }
     }
 
     public String getButtonErrorMessage() {
-        return productActionsSection.findElement(By.className("product__message")).getText();
+        String message = "";
+        List<WebElement> messages = productActionsSection.findElements(By.className("product__message"));
+
+        if(messages.size() > 0) {
+            message = messages.get(0).getText();
+        }
+
+        return message;
     }
 
     public boolean isBagButtonText(String text) {
@@ -639,6 +660,7 @@ public class ProductDetailPage {
         List<Product> productList = (List<Product>) stateHolder.get("productList");
         Product product = productList.get(0);
         product.setSelectedColor(newSelectedColor);
+        product.setIsBackOrder(getIsBackordered());
 
         productList.add(product);
         stateHolder.put("productList", productList);
@@ -658,6 +680,7 @@ public class ProductDetailPage {
         List<Product> productList = (List<Product>) stateHolder.get("productList");
         Product product = productList.get(0);
         product.setSelectedSize(newSelectedSize);
+        product.setIsBackOrder(getIsBackordered());
 
         productList.add(product);
         stateHolder.put("productList", productList);
@@ -996,5 +1019,48 @@ public class ProductDetailPage {
     	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
     	String productDetailsDrawerText = productDetailsDrawer.getText();
     	return !StringUtils.isBlank(productDetailsDrawerText);
+    }
+
+    public boolean getIsBackordered() {
+        String message = getButtonErrorMessage().toLowerCase();
+
+        return message.contains("backordered");
+    }
+
+    public boolean getIsCrewCut() {
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String category="";
+        String subCategory="";
+        String saleCategory="";
+        String categoryFromPDPURL="";
+
+        if (stateHolder.hasKey("category")) {
+            category=((String) stateHolder.get("category")).toLowerCase();
+            stateHolder.remove("category");
+        }
+
+        if (stateHolder.hasKey("subcategory")) {
+            subCategory=((String) stateHolder.get("subcategory")).toLowerCase();
+            stateHolder.remove("subcategory");
+        }
+
+        if (stateHolder.hasKey("sale category")) {
+            saleCategory=((String) stateHolder.get("sale category")).toLowerCase();
+            stateHolder.remove("sale category");
+        }
+
+        if (stateHolder.hasKey("categoryFromPDPURL")) {
+            categoryFromPDPURL=((String) stateHolder.get("categoryFromPDPURL")).toLowerCase();
+            stateHolder.remove("categoryFromPDPURL");
+        }
+
+        String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
+        List<String> crewCuts = Arrays.asList(crewCutCategories);
+
+        if(crewCuts.contains(category) || (category=="sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category=="wedding" && subCategory=="flowergirl")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
