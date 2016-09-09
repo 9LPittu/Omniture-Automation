@@ -99,7 +99,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
                 ShippingMethod actual = pageMethods.get(i);
                 ShippingMethod expected = expectedMethods.get(i);
 
-                assertEquals("Expected shipping method", expected, actual);
+                assertEquals("Expected: " + expected.toString() + " actual: " + actual.toString() + " should be same", expected, actual);
                 verify_ATP_date(actual, expected);
             }
         } else {
