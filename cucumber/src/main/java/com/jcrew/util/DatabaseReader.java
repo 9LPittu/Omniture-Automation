@@ -213,13 +213,17 @@ public class DatabaseReader {
 	}
 
 
-	public List<Integer> getATPMinAndMaxDays(String carrierCode){
+	public List<Date> getATPStartAndEndDate(String carrier, String carrierCode){
 		try {
-			List<Integer> minAndMaxDays = new ArrayList<Integer>();
 			String schema = dbReader.getProperty("schema");
-			int minDays;
-			int maxDays;
-			String dbQueryMinAndMax = "select min, max from " + schema + "_custom.jc_processing_days where brand = 'JCREW' and ship_method='" + carrierCode + "'";
+			String dbQuery = dbReader.getProperty("atp.dates.query");
+			dbQuery = dbQuery.replaceAll("schema",schema);
+			dbQuery = dbQuery.replaceAll("carriercode",carrierCode);
+			dbQuery = dbQuery.replaceAll("carriername",carrier);
+
+			List<Date> dateRange = new ArrayList<Date>();
+			Date startDate;
+			Date endDate;
 
 			//Establish DB connection
 			Connection conn = getConnectionToDatabase();
@@ -229,50 +233,16 @@ public class DatabaseReader {
 			Statement stmt = createTheStatement(conn);
 
 			//Retrieve Min and Max Days
-			ResultSet rsMinAndMax = stmt.executeQuery(dbQueryMinAndMax);
-			if (rsMinAndMax != null) {
-				rsMinAndMax.next();
-				minDays = Integer.parseInt(rsMinAndMax.getString(1).trim());
-				maxDays = Integer.parseInt(rsMinAndMax.getString(2).trim());
-			}
-
-			closeConnection(conn);
-			return minAndMaxDays;
-		} catch (Exception e) {
-			logger.error("Unable to run query for retrieving Minimum and Maxium shipping days for the shipping method {}", carrierCode);
-			return null;
-		}
-
-	}
-
-	public List<Date> getHolidays(String carrier){
-		try {
-			List<Date> holidays = new ArrayList<Date>();
-			String schema = dbReader.getProperty("schema");
-
-			String dbQueryHolidays = "Select holiday_date from " + schema + "_custom.jc_carrier_holiday where carrier = '" + carrier + "' and zone = 'US'";
-
-			//Establish DB connection
-			Connection conn = getConnectionToDatabase();
-			if (conn != null) {
-				logger.info("DB connection is successful...");
-			}
-			Statement stmt = createTheStatement(conn);
-
-			//Retrieve Holidays
-			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-
-			ResultSet rsHolidays = stmt.executeQuery(dbQueryHolidays);
-			if (rsHolidays != null) {
-				while (rsHolidays.next()) {
-					holidays.add(dateFormat.parse(rsHolidays.getString(1).trim()));
+			ResultSet rsDateRange = stmt.executeQuery(dbQuery);
+			if (rsDateRange != null) {
+				while (rsDateRange.next()) {
+					dateRange.add(rsDateRange.getDate(1));
 				}
 			}
-
 			closeConnection(conn);
-			return holidays;
+			return dateRange;
 		} catch (Exception e) {
-			logger.error("Unable to run query for retrieving holidays for the carrier {}", carrier);
+			logger.error("Unable to run query for retrieving Start and End date the shipping method {}", carrierCode);
 			return null;
 		}
 

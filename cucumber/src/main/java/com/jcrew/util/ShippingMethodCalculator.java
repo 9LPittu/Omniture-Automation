@@ -113,7 +113,10 @@ public class ShippingMethodCalculator {
             String name;
             if (isATP) {
                 name = dataReader.getData(method + ".atp.name");
-                String expectedDate = getATPDateRange(method);
+                List<Date> expectedDate = getATPDateRange(method);
+                Date startDate = expectedDate.get(0);
+                Date endDate = expectedDate.get(0);
+                name = name + "|" + startDate + "|" + endDate;
             } else {
                 name = dataReader.getData(method + ".nonatp.name");
             }
@@ -155,44 +158,13 @@ public class ShippingMethodCalculator {
 
     }
 
-    public String getATPDateRange(String method) {
+    public List<Date> getATPDateRange(String method) {
         String carrier = dataReader.getData(method + ".carrier.name");
         String carrierCode = dataReader.getData(method + ".carrier.code");
 
         DatabaseReader dbReader = new DatabaseReader();
-        List <Integer> minAndMax = dbReader.getATPMinAndMaxDays(carrierCode);
-        int minDays = minAndMax.get(0);
-        int maxDays = minAndMax.get(1);
-
-        List <Date> holidays = dbReader.getHolidays(carrier);
-
-        Date startDate = getATPDate(minDays, holidays);
-
-        return "abcd";
-    }
-
-    public Date getATPDate(int days, List<Date> holidays){
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat=new SimpleDateFormat("MM/dd/yyyy");
-
-        Date date = calendar.getTime();
-        String formattedDate = dateFormat.format(date);
-
-
-        //Add one day to calendar if today is a holiday
-        if (holidays.contains(formattedDate))
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-
-        //add number of business days to calendar
-        for(int i=0;i<days;)
-        {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            int calendarDay = calendar.get(Calendar.DAY_OF_WEEK);
-            if(calendarDay > 1 && calendarDay <=6)
-                i++;
-        }
-
-        return calendar.getTime();
+        List <Date> startAndEndDates = dbReader.getATPStartAndEndDate(carrier,carrierCode);
+        return startAndEndDates;
     }
 
 }

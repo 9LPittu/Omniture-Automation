@@ -46,7 +46,7 @@ public class ShippingMethod {
 
         ShippingMethod compare = (ShippingMethod) obj;
 
-        boolean result = compare.method.contains(method);
+        boolean result = compare.method.contains(method.split("\\|")[0]);
         result &= compare.price.equalsIgnoreCase(price);
         result &= compare.text.equalsIgnoreCase(text);
 
