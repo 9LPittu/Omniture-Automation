@@ -115,7 +115,7 @@ public class ShippingMethodCalculator {
                 name = dataReader.getData(method + ".atp.name");
                 List<Date> expectedDate = getATPDateRange(method);
                 Date startDate = expectedDate.get(0);
-                Date endDate = expectedDate.get(0);
+                Date endDate = expectedDate.get(1);
                 name = name + "|" + startDate + "|" + endDate;
             } else {
                 name = dataReader.getData(method + ".nonatp.name");
