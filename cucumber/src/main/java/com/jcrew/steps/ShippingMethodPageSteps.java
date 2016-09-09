@@ -52,7 +52,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
             for (int i = 0; i < expectedMethods.size(); i++) {
                 ShippingMethod method = expectedMethods.get(i);
                 if (method.getPrice().equalsIgnoreCase("free")) {
-                    expectedDefaultShipMethod = method.getMethod();
+                    expectedDefaultShipMethod = method.getMethod().split("\\|")[0];
                     expectedDefaultShipMethod = expectedDefaultShipMethod.split("\\(")[0].trim();
                     break;
                 }
