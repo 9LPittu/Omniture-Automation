@@ -1,5 +1,6 @@
 package com.jcrew.util;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -110,14 +111,20 @@ public class ShippingMethodCalculator {
 
         for (String method : methods) {
             String name;
+            Date startDate=null;
+            Date endDate=null;
             if (isATP) {
                 name = dataReader.getData(method + ".atp.name");
+                List<Date> expectedDate = getATPDateRange(method);
+                startDate = expectedDate.get(0);
+                endDate = expectedDate.get(1);
             } else {
                 name = dataReader.getData(method + ".nonatp.name");
             }
             String price = getPrice(method);
             String text = dataReader.getData(method + ".text");
-            expectedMethods.add(new ShippingMethod(name, price, text));
+            expectedMethods.add(new ShippingMethod(name, price, text, startDate, endDate ));
+
         }
         return expectedMethods;
     }
@@ -151,6 +158,15 @@ public class ShippingMethodCalculator {
             return price;
         }
 
+    }
+
+    public List<Date> getATPDateRange(String method) {
+        String carrier = dataReader.getData(method + ".carrier.name");
+        String carrierCode = dataReader.getData(method + ".carrier.code");
+
+        DatabaseReader dbReader = new DatabaseReader();
+        List <Date> startAndEndDates = dbReader.getATPStartAndEndDate(carrier,carrierCode);
+        return startAndEndDates;
     }
 
 }

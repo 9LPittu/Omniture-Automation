@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -209,5 +210,41 @@ public class DatabaseReader {
 			logger.error("Unable to run query for retrieving day and time specific shipping methods from database");
 			return null;
 		}
+	}
+
+
+	public List<Date> getATPStartAndEndDate(String carrier, String carrierCode){
+		try {
+			String schema = dbReader.getProperty("schema");
+			String dbQuery = dbReader.getProperty("atp.dates.query");
+			dbQuery = dbQuery.replaceAll("schema",schema);
+			dbQuery = dbQuery.replaceAll("carriercode",carrierCode);
+			dbQuery = dbQuery.replaceAll("carriername",carrier);
+
+			List<Date> dateRange = new ArrayList<Date>();
+			Date startDate;
+			Date endDate;
+
+			//Establish DB connection
+			Connection conn = getConnectionToDatabase();
+			if (conn != null) {
+				logger.info("DB connection is successful...");
+			}
+			Statement stmt = createTheStatement(conn);
+
+			//Retrieve Min and Max Days
+			ResultSet rsDateRange = stmt.executeQuery(dbQuery);
+			if (rsDateRange != null) {
+				while (rsDateRange.next()) {
+					dateRange.add(rsDateRange.getDate(1));
+				}
+			}
+			closeConnection(conn);
+			return dateRange;
+		} catch (Exception e) {
+			logger.error("Unable to run query for retrieving Start and End date the shipping method {}", carrierCode);
+			return null;
+		}
+
 	}
 }
