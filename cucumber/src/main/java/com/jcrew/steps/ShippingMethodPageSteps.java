@@ -52,7 +52,6 @@ public class ShippingMethodPageSteps extends DriverFactory {
             for (int i = 0; i < expectedMethods.size(); i++) {
                 ShippingMethod method = expectedMethods.get(i);
                 if (method.getPrice().equalsIgnoreCase("free")) {
-                    expectedDefaultShipMethod = method.getMethod().split("\\|")[0];
                     expectedDefaultShipMethod = expectedDefaultShipMethod.split("\\(")[0].trim();
                     break;
                 }
@@ -120,7 +119,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
     public void verify_ATP_date(ShippingMethod actual, ShippingMethod expected) {
         //Verifies if ATP date is falling in between expected date range
         String actualName = actual.getMethod();
-        String expectedName = expected.getMethod().split("\\|")[0];
+        String expectedName = expected.getMethod();
 
         String actualDate = actualName.replaceFirst(expectedName, "").trim();
         actualDate = actualDate.replace("–", "").trim();
@@ -146,10 +145,10 @@ public class ShippingMethodPageSteps extends DriverFactory {
                 }
                 Date actualShipDate = actualShipDay.getTime();
 
-                Date startDate = dateFormat2.parse(expected.getMethod().split("\\|")[1]);
-                Date endDate = dateFormat2.parse(expected.getMethod().split("\\|")[2]);
+                Date startDate = expected.getStartDate();
+                Date endDate = expected.getEndDate();
 
-                assertTrue("ATP shipping date for the method " + expectedName + " should be between " + startDate.toString() + " and " + endDate.toString() + ". But, the actual ship date is " + actualShipDate.toString(),(!actualShipDate.before(startDate)) && (!actualShipDate.before(endDate)));
+                assertTrue("ATP shipping date for the method " + expectedName + " should be between " + startDate.toString() + " and " + endDate.toString() + ". But, the actual ship date is " + actualShipDate.toString(),(!actualShipDate.before(startDate)) && (!actualShipDate.after(endDate)));
 
 
             } catch (Exception e) {

@@ -111,18 +111,20 @@ public class ShippingMethodCalculator {
 
         for (String method : methods) {
             String name;
+            Date startDate=null;
+            Date endDate=null;
             if (isATP) {
                 name = dataReader.getData(method + ".atp.name");
                 List<Date> expectedDate = getATPDateRange(method);
-                Date startDate = expectedDate.get(0);
-                Date endDate = expectedDate.get(1);
-                name = name + "|" + startDate + "|" + endDate;
+                startDate = expectedDate.get(0);
+                endDate = expectedDate.get(1);
             } else {
                 name = dataReader.getData(method + ".nonatp.name");
             }
             String price = getPrice(method);
             String text = dataReader.getData(method + ".text");
-            expectedMethods.add(new ShippingMethod(name, price, text));
+            expectedMethods.add(new ShippingMethod(name, price, text, startDate, endDate ));
+
         }
         return expectedMethods;
     }
