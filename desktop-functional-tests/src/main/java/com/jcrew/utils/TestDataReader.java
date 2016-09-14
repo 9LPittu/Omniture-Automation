@@ -44,6 +44,11 @@ public class TestDataReader {
         logger.debug("country path: {}", countryPath);
         propertiesInput = new FileInputStream(countryPath);
         testDataProperties.load(propertiesInput);
+        
+        String shipData = "properties/shippingmethod.properties";
+		FileInputStream shippingInput = new FileInputStream(shipData);
+		testDataProperties.load(shippingInput);
+		logger.debug("Shipping data file to be used {}", shipData);
     }
 
     public String getData(String key) {
@@ -101,4 +106,12 @@ public class TestDataReader {
 
         return words[Util.randomIndex(words.length)];
     }
+    
+    public String[] getDataArray(String key) {
+		return getData(key).split(";");
+	}
+
+	public boolean getBoolean(String key) {
+		return Boolean.parseBoolean(getData(key));
+	}
 }

@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.CheckoutShippingAdd;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -15,6 +16,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class CheckoutShippingAddSteps extends DriverFactory {
     private CheckoutShippingAdd shipping = new CheckoutShippingAdd(getDriver());
+    private final StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("Verify Shipping Page is displayed")
     public void shipping_page_displayed() {
@@ -42,6 +44,7 @@ public class CheckoutShippingAddSteps extends DriverFactory {
     public void fill_data_and_continue() {
         shipping.fillShippingData();
         shipping.continueCheckout();
+        stateHolder.put("atpAddressType","regular");
     }
     
     @When("^User fills QAS shipping data and continues$")

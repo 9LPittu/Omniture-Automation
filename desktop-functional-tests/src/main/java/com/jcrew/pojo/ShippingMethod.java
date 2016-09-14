@@ -1,5 +1,7 @@
 package com.jcrew.pojo;
 
+import java.util.Date;
+
 /**
  * Created by nadiapaolagarcia on 5/6/16.
  */
@@ -8,6 +10,8 @@ public class ShippingMethod {
     private String price;
     private String text;
     private boolean thursday;
+    private Date startDate;
+    private Date endDate;
 
     public ShippingMethod(String method, String price, String text){
         this.method = method;
@@ -21,6 +25,14 @@ public class ShippingMethod {
         this.price = price;
         this.text = text;
         this.thursday = thursday;
+    }
+    
+    public ShippingMethod(String method, String price, String text, Date startDate, Date endDate){
+        this.method = method.toLowerCase();
+        this.price = price.toLowerCase();
+        this.text = text.toLowerCase();
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public String getMethod() {
