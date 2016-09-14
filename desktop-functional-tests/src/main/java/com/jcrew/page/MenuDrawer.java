@@ -92,7 +92,7 @@ public class MenuDrawer {
         wait.until(ExpectedConditions.visibilityOf(level2Menu));
         WebElement level2SubCategories = level2Menu.findElement(By.xpath(".//div[@class='menu__item']"));
         WebElement selectedSubCategory =
-                level2SubCategories.findElement(By.xpath(".//a[contains(@name,'" + subCategory + "')]"));
+                level2SubCategories.findElement(By.xpath(".//a[@name='" + subCategory + "')]"));
 
         logger.info("Selected subcategory: {}", selectedSubCategory.getText());
         selectedSubCategory.click();
