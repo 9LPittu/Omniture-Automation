@@ -37,7 +37,7 @@ public class ShippingMethodCalculator {
             restrictedAddress=false;
         }
 
-        List<Product> productsInBag = (List<Product>) stateHolder.get("productList");
+        List<Product> productsInBag = stateHolder.getList("toBag");
         crewCut=true;
         mixedItems = false;
         Product p = productsInBag.get(0);

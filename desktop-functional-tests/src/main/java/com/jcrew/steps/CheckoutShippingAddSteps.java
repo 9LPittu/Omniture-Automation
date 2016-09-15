@@ -51,18 +51,21 @@ public class CheckoutShippingAddSteps extends DriverFactory {
     public void fill_qas_data_and_continue() {
         shipping.fillQASShippingData();
         shipping.continueCheckout();
+        stateHolder.put("atpAddressType","regular");
     }
 
     @When("^User fills APO shipping data and continues$")
     public void fill_apo_data_and_continue() {
         shipping.fillAPOShippingData();
         shipping.continueCheckout();
+        stateHolder.put("atpAddressType","apo");
     }
 
     @When("^User fills FPO shipping data and continues$")
     public void fill_fpo_data_and_continue() {
         shipping.fillFPOShippingData();
         shipping.continueCheckout();
+        stateHolder.put("atpAddressType","fpo");
     }
     
     @When("In Shipping Address Page, user clicks continue")

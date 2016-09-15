@@ -33,7 +33,7 @@ public class HeaderWrap {
     private final WebDriverWait wait;
     private final Actions hoverAction;
 
-    @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
+    @FindBy(xpath = "//a[@class='js-primary-nav__link--menu']")
     private WebElement menu;
     @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/a")
     private WebElement search;
@@ -196,8 +196,14 @@ public class HeaderWrap {
 
             hoverAction.moveToElement(logo);
             hoverAction.perform();
-
-        }
+        } 
+        else if("gender landing".equalsIgnoreCase(icon)) {
+        	   WebElement logo = top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and "
+        			   									+ Util.xpathGetTextLower + " = 'men']"));
+        	   hoverAction.moveToElement(logo);
+        	   hoverAction.perform();
+         }
+        
     }
 
     public String getWelcomeMessage() {
