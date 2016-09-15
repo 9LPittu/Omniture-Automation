@@ -18,6 +18,9 @@ public class CheckoutShippingOptions extends Checkout {
 
     @FindBy(id = "frmSelectShippingMethod")
     private WebElement shippingMethodForm;
+    
+    @FindBy(id = "method0")
+    private WebElement firstShipMethod;
 
     public CheckoutShippingOptions(WebDriver driver) {
         super(driver);
@@ -48,6 +51,14 @@ public class CheckoutShippingOptions extends Checkout {
         WebElement selectedMethod = selectedLabel.findElement(By.xpath(".//ancestor::div[contains(@class,'form-shipmethod')]"));
 
         return getShippingMethod(selectedMethod);
+    }
+    
+    public String getSelectedShippingMethodName() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodForm));
+        WebElement selectedLabel = shippingMethodForm.findElement(By.xpath(".//label[@class='form-label radio-checked']"));
+        WebElement shipMethodName = selectedLabel.findElement(By.xpath(".//span[@class='method-group']/span[contains(@class,'label')]"));
+        String ShippingMethodText = shipMethodName.getText().trim();
+        return ShippingMethodText;
     }
 
     private ShippingMethod getShippingMethod(WebElement method) {
@@ -114,5 +125,15 @@ public class CheckoutShippingOptions extends Checkout {
     public String getGiftReceiptInfoMessage(){
     	WebElement giftReceiptInfoMessage = shippingMethodForm.findElement(By.className("gift-receipt-info"));
     	return giftReceiptInfoMessage.getText().trim();
+    }
+    
+    public boolean isFirstShippingMethod() {
+    	try{
+    		return firstShipMethod.isSelected();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 }

@@ -78,4 +78,20 @@ public class ShippingMethod {
     public void setThursday(boolean thursday) {
         this.thursday = thursday;
     }
+    
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+    
+    public Date getStartDate() {
+    	return startDate;
+    }
+    
+    public void setEndDate(Date endDate) {
+         this.endDate = endDate;
+    }
+    
+    public Date getEndDate() {
+    	return endDate;
+    }
 }
