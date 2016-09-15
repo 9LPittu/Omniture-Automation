@@ -114,6 +114,21 @@ public class MenuDrawer {
         Util.waitLoadingBar(driver);
     }
 
+    public void selectSubCategoryFromSection(String subCategotySection) {
+        WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
+        wait.until(ExpectedConditions.visibilityOf(level2Menu));
+
+        WebElement level2SubCategories = level2Menu.findElement(By.xpath(".//div[@class='menu__item']"));
+        WebElement selectedSubCategory =
+                level2SubCategories.findElement(By.xpath(".//a[contains(@name,'>" + subCategotySection + "')]"));
+
+        logger.info("Selected subcategory: {}", selectedSubCategory.getText());
+        selectedSubCategory.click();
+
+        Util.waitLoadingBar(driver);
+
+    }
+
     public void goBackToLevel1() {
         WebElement navWrap = drawer.findElement(By.className("nav__wrap"));
         String navWrapClass = navWrap.getAttribute("class");
