@@ -4,10 +4,10 @@ import java.util.List;
 
 
 import com.jcrew.pojo.ShippingMethod;
+import com.jcrew.steps.CheckoutShippingOptionsSteps;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
-import com.jcrew.utils.DatabaseReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +19,7 @@ public class ShippingMethodCalculator {
     TestDataReader dataReader = TestDataReader.getTestDataReader();
     private Logger logger = LoggerFactory.getLogger(ShippingMethodCalculator.class);
     final PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    CheckoutShippingOptionsSteps checkoutShippingOptionsSteps = new CheckoutShippingOptionsSteps();
 
     private boolean restrictedAddress;
     private boolean restrictedItem;
@@ -81,7 +82,6 @@ public class ShippingMethodCalculator {
         List<String> conditionalShipMethods = new ArrayList<String>();
         List<String> consolidatedShipMethods = new ArrayList<String>();
 
-        DatabaseReader dbReader = new DatabaseReader();
         String addressType = (String) stateHolder.get("atpAddressType");
 
         String basicShipMethods[] = dataReader.getDataArray(addressType + ".shipping.methods");
@@ -91,7 +91,7 @@ public class ShippingMethodCalculator {
         boolean saturdayShipping = dataReader.getBoolean(addressType + ".saturday");
 
         if (overnightShipping || saturdayShipping) {
-            conditionalShipMethods = dbReader.getConditionalShippingMethods(overnightShipping, saturdayShipping);
+            conditionalShipMethods = checkoutShippingOptionsSteps.getConditionalShippingMethods(overnightShipping, saturdayShipping);
             consolidatedShipMethods.addAll(basicShipMethodsList);
             consolidatedShipMethods.addAll(conditionalShipMethods);
             Collections.reverse(consolidatedShipMethods);
@@ -160,8 +160,7 @@ public class ShippingMethodCalculator {
         String carrier = dataReader.getData(method + ".carrier.name");
         String carrierCode = dataReader.getData(method + ".carrier.code");
 
-        DatabaseReader dbReader = new DatabaseReader();
-        List <Date> startAndEndDates = dbReader.getATPStartAndEndDate(carrier,carrierCode);
+        List <Date> startAndEndDates = checkoutShippingOptionsSteps.getATPStartAndEndDate(carrier,carrierCode);
         return startAndEndDates;
     }
 
