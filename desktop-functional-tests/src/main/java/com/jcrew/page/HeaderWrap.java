@@ -33,7 +33,7 @@ public class HeaderWrap {
     private final WebDriverWait wait;
     private final Actions hoverAction;
 
-    @FindBy(xpath = "//a[@class='js-primary-nav__link--menu']")
+    @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
     private WebElement menu;
     @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/a")
     private WebElement search;
