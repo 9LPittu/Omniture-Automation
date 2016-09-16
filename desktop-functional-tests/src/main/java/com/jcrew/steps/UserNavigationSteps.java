@@ -33,7 +33,7 @@ public class UserNavigationSteps extends DriverFactory {
     @When("User navigates to a subcategory from main category")
     public void user_navigates_to_subcategory_from_main_category() {
         String category = testDataReader.getCategory();
-        String subCategory = testDataReader.getSubCategory(category);
+        String subCategotySection =testDataReader.getSubCategorySection(category);
 
         HeaderWrap header = new HeaderWrap(driver);
         header.openMenu();
@@ -41,7 +41,7 @@ public class UserNavigationSteps extends DriverFactory {
         MenuDrawer menuDrawer = new MenuDrawer(driver);
         menuDrawer.selectCategory(category);
         Util.waitLoadingBar(driver);
-        menuDrawer.selectSubCategory(subCategory);
+        menuDrawer.selectSubCategoryFromSection(subCategotySection);
     }
 
 

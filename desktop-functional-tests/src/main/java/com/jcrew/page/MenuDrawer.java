@@ -92,7 +92,7 @@ public class MenuDrawer {
         wait.until(ExpectedConditions.visibilityOf(level2Menu));
         WebElement level2SubCategories = level2Menu.findElement(By.xpath(".//div[@class='menu__item']"));
         WebElement selectedSubCategory =
-                level2SubCategories.findElement(By.xpath(".//a[contains(@name,'" + subCategory + "')]"));
+                level2SubCategories.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + subCategory + "']"));
 
         logger.info("Selected subcategory: {}", selectedSubCategory.getText());
         selectedSubCategory.click();
@@ -112,6 +112,21 @@ public class MenuDrawer {
         selectedSubCategory.click();
 
         Util.waitLoadingBar(driver);
+    }
+
+    public void selectSubCategoryFromSection(String subCategotySection) {
+        WebElement level2Menu = drawer.findElement(By.className("js-menus--level2"));
+        wait.until(ExpectedConditions.visibilityOf(level2Menu));
+
+        WebElement level2SubCategories = level2Menu.findElement(By.xpath(".//div[@class='menu__item']"));
+        WebElement selectedSubCategory =
+                level2SubCategories.findElement(By.xpath(".//a[contains(@name,'>" + subCategotySection + "')]"));
+
+        logger.info("Selected subcategory: {}", selectedSubCategory.getText());
+        selectedSubCategory.click();
+
+        Util.waitLoadingBar(driver);
+
     }
 
     public void goBackToLevel1() {
