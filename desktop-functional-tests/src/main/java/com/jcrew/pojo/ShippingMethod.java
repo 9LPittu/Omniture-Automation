@@ -63,12 +63,18 @@ public class ShippingMethod {
         return method + " - " + price + " - " + text;
     }
 
-    public boolean equals(ShippingMethod compare) {
-        boolean result = compare.method.equals(method);
-        result &= compare.price.equals(price);
-        result &= compare.text.equals(text);
+    public boolean equals(Object obj) {
+    	if (!(obj instanceof ShippingMethod)){
+    		return false;
+    	}
 
-        return result;
+    	ShippingMethod compare = (ShippingMethod) obj;
+    	
+    	boolean result = compare.method.contains(method);
+    	result &= compare.price.equalsIgnoreCase(price);
+    	result &= compare.text.equalsIgnoreCase(text);
+    	
+    	return result;
     }
 
     public boolean isThursday() {

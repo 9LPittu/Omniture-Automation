@@ -75,7 +75,7 @@ public class CheckoutShippingOptions extends Checkout {
             text = textElement.get(0).getText();
         }
 
-        String methodType = methodText.replace(priceText, "").replace(text, "").trim();
+        String methodType = methodText.replace(priceText, "").replace(text, "").trim().toLowerCase();
 
         return new ShippingMethod(methodType, priceText, text);
     }

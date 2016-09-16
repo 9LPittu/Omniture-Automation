@@ -115,7 +115,7 @@ public class ShippingMethodCalculator {
                 startDate = expectedDate.get(0);
                 endDate = expectedDate.get(1);
             } else {
-                name = dataReader.getData(method + ".nonatp.name");
+                name = dataReader.getData(method + ".nonatp.name").toLowerCase();
             }
             String price = getPrice(method);
             String text = dataReader.getData(method + ".text");

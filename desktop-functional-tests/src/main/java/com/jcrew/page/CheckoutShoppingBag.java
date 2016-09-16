@@ -27,6 +27,10 @@ public class CheckoutShoppingBag extends Checkout {
     @FindBy(className="checkout-container")
     private WebElement checkoutContainer;
     
+    @FindBy(css = ".summary-item > .summary-value")
+    private WebElement subtotalValue;
+
+    
     private final Footer footer;
 
     public CheckoutShoppingBag(WebDriver driver) {
@@ -103,6 +107,10 @@ public class CheckoutShoppingBag extends Checkout {
 
     public String getEstimatedTotal() {
         return getSummaryText("estimated total");
+    }
+    
+    public String getSubtotalValue() {
+        return subtotalValue.getText();
     }
 
     public String getQuestionsPhone() {
