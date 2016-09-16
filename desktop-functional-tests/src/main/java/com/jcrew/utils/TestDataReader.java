@@ -72,11 +72,10 @@ public class TestDataReader {
         return categories[Util.randomIndex(categories.length)];
     }
 
-    public String getSubCategory(String category) {
-        String subCategories = getData("sub."+category.toLowerCase());
-        String subCategoriesName[] = subCategories.split(";");
-
-        return subCategoriesName[Util.randomIndex(subCategoriesName.length)];
+    public String getSubCategorySection(String category) {
+        String subCategorySections = getData("sub."+category.toLowerCase());
+        String subCategorySectionNames[] = subCategorySections.split(";");
+        return subCategorySectionNames[Util.randomIndex(subCategorySectionNames.length)];
     }
 
     public String getRandomCountry(String group) {

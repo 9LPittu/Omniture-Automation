@@ -198,12 +198,11 @@ public class HeaderWrap {
             hoverAction.perform();
         } 
         else if("gender landing".equalsIgnoreCase(icon)) {
-        	   WebElement logo = top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and "
-        			   									+ Util.xpathGetTextLower + " = 'men']"));
-        	   hoverAction.moveToElement(logo);
-        	   hoverAction.perform();
-         }
-        
+            WebElement logo = top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and "
+                    + Util.xpathGetTextLower + " = 'men']"));
+            hoverAction.moveToElement(logo);
+            hoverAction.perform();
+        }
     }
 
     public String getWelcomeMessage() {
