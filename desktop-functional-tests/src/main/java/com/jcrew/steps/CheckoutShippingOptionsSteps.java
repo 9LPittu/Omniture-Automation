@@ -4,7 +4,6 @@ import com.jcrew.page.CheckoutShippingOptions;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.utils.DatabasePropertyReader;
-import com.jcrew.utils.DatabaseReader;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.ShippingMethodCalculator;
 import com.jcrew.utils.StateHolder;
@@ -14,9 +13,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,12 +32,9 @@ import static org.junit.Assert.assertTrue;
 public class CheckoutShippingOptionsSteps extends DriverFactory {
 
     private CheckoutShippingOptions shippingOptions = new CheckoutShippingOptions(getDriver());
-    private final CheckoutShippingOptions shippingMethodPage = new CheckoutShippingOptions(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
     private TestDataReader testDataReader = TestDataReader.getTestDataReader();
     private ShippingMethodCalculator methodCalculator = new ShippingMethodCalculator();
-    private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();
-    private Logger logger = LoggerFactory.getLogger(CheckoutShippingOptionsSteps.class);
 
     @Then("Verify Shipping And Gift Options page is displayed")
     public void is_shipping_options() {
@@ -239,7 +232,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
             String addressType = (String) stateHolder.get("atpAddressType");
             String expectedDefaultShipMethod = testDataReader.getData(addressType + ".default.shipping.method");
 
-            String actualShippingMethodSelected = shippingMethodPage.getSelectedShippingMethodName().toLowerCase();
+            String actualShippingMethodSelected = shippingOptions.getSelectedShippingMethodName().toLowerCase();
             actualShippingMethodSelected = actualShippingMethodSelected.split("\\(")[0].trim();
 
 
@@ -256,7 +249,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
 
         } else {
 
-            assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
+            assertTrue("First shipping method should be selected by default for the country " + countryName, shippingOptions.isFirstShippingMethod());
         }
     }
     
@@ -265,7 +258,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
         Country country = (Country) stateHolder.get("context");
         String countryCode = country.getCountry();
 
-        List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
+        List<ShippingMethod> pageMethods = shippingOptions.getShippingMethods();
         stateHolder.put("actualShippingMethods", pageMethods);
 
         if (countryCode.equalsIgnoreCase("us")) {
@@ -331,77 +324,4 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
             }
         }
     }
-
-    public List<String> getConditionalShippingMethods(boolean overnightShipping, boolean saturdayShipping) {
-
-		try {
-			List<String> shipMethods = new ArrayList<String>();
-			String dbquery = "";
-
-			if (overnightShipping && saturdayShipping)
-				dbquery = dbReader.getProperty("conditionalShippingMethod.overnight") + " UNION ALL " + dbReader.getProperty("conditionalShippingMethod.saturday");
-			else if (overnightShipping)
-				dbquery = dbReader.getProperty("conditionalShippingMethod.overnight");
-			else if (saturdayShipping)
-				dbquery = dbReader.getProperty("conditionalShippingMethod.saturday");
-
-			dbquery = dbquery.replaceAll("schema", dbReader.getProperty("schema"));
-
-			//Establish DB connection and execute query
-			DatabaseReader databaseReader = DatabaseReader.getDatabaseReader(); 
-			Connection conn = databaseReader.getConnectionToDatabase();
-			if (conn != null) {
-				logger.info("DB connection is successful...");
-			}
-			Statement stmt = databaseReader.createTheStatement(conn);
-			ResultSet rs = stmt.executeQuery(dbquery);
-
-			//Retrieve shipping methods
-			if (rs != null) {
-				while (rs.next()) {
-					shipMethods.add(rs.getString(1));
-				}
-			}
-
-			databaseReader.closeConnection(conn);
-			return shipMethods;
-		} catch (Exception e) {
-			logger.error("Unable to run query for retrieving day and time specific shipping methods from database");
-			return null;
-		}
-	}
-
-
-	public List<Date> getATPStartAndEndDate(String carrier, String carrierCode){
-		try {
-			String schema = dbReader.getProperty("schema");
-			String dbQuery = dbReader.getProperty("atp.dates.query");
-			dbQuery = dbQuery.replaceAll("schema",schema);
-			dbQuery = dbQuery.replaceAll("carriercode",carrierCode);
-			dbQuery = dbQuery.replaceAll("carriername",carrier);
-
-			List<Date> dateRange = new ArrayList<Date>();
-
-			//Establish DB connection
-			DatabaseReader databaseReader = DatabaseReader.getDatabaseReader();
-			Connection conn = databaseReader.getConnectionToDatabase();
-			if (conn != null) {
-				logger.info("DB connection is successful...");
-			}
-			Statement stmt = databaseReader.createTheStatement(conn);
-
-			//Retrieve Min and Max Days
-			ResultSet rsDateRange = stmt.executeQuery(dbQuery);
-			if (rsDateRange != null) {
-				while (rsDateRange.next()) {
-					dateRange.add(rsDateRange.getDate(1));
-				}
-			}
-			databaseReader.closeConnection(conn);
-			return dateRange;
-		} catch (Exception e) {
-			logger.error("Unable to run query for retrieving Start and End date the shipping method {}", carrierCode);
-			return null;
-		}
-	}
 }

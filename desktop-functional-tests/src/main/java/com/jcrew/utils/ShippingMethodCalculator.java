@@ -1,16 +1,15 @@
 package com.jcrew.utils;
 
-import java.util.List;
-
-
 import com.jcrew.pojo.ShippingMethod;
-import com.jcrew.steps.CheckoutShippingOptionsSteps;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.*;
 
 public class ShippingMethodCalculator {
@@ -19,7 +18,7 @@ public class ShippingMethodCalculator {
     TestDataReader dataReader = TestDataReader.getTestDataReader();
     private Logger logger = LoggerFactory.getLogger(ShippingMethodCalculator.class);
     final PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    CheckoutShippingOptionsSteps checkoutShippingOptionsSteps = new CheckoutShippingOptionsSteps();
+    private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();
 
     private boolean restrictedAddress;
     private boolean restrictedItem;
@@ -91,7 +90,7 @@ public class ShippingMethodCalculator {
         boolean saturdayShipping = dataReader.getBoolean(addressType + ".saturday");
 
         if (overnightShipping || saturdayShipping) {
-            conditionalShipMethods = checkoutShippingOptionsSteps.getConditionalShippingMethods(overnightShipping, saturdayShipping);
+            conditionalShipMethods = getConditionalShippingMethods(overnightShipping, saturdayShipping);
             consolidatedShipMethods.addAll(basicShipMethodsList);
             consolidatedShipMethods.addAll(conditionalShipMethods);
             Collections.reverse(consolidatedShipMethods);
@@ -160,8 +159,80 @@ public class ShippingMethodCalculator {
         String carrier = dataReader.getData(method + ".carrier.name");
         String carrierCode = dataReader.getData(method + ".carrier.code");
 
-        List <Date> startAndEndDates = checkoutShippingOptionsSteps.getATPStartAndEndDate(carrier,carrierCode);
+        List <Date> startAndEndDates = getATPStartAndEndDate(carrier,carrierCode);
         return startAndEndDates;
     }
+    
+    public List<String> getConditionalShippingMethods(boolean overnightShipping, boolean saturdayShipping) {
 
+		try {
+			List<String> shipMethods = new ArrayList<String>();
+			String dbquery = "";
+
+			if (overnightShipping && saturdayShipping)
+				dbquery = dbReader.getProperty("conditionalShippingMethod.overnight") + " UNION ALL " + dbReader.getProperty("conditionalShippingMethod.saturday");
+			else if (overnightShipping)
+				dbquery = dbReader.getProperty("conditionalShippingMethod.overnight");
+			else if (saturdayShipping)
+				dbquery = dbReader.getProperty("conditionalShippingMethod.saturday");
+
+			dbquery = dbquery.replaceAll("schema", dbReader.getProperty("schema"));
+
+			//Establish DB connection and execute query
+			DatabaseReader databaseReader = DatabaseReader.getDatabaseReader(); 
+			Connection conn = databaseReader.getConnectionToDatabase();
+			if (conn != null) {
+				logger.info("DB connection is successful...");
+			}
+			Statement stmt = databaseReader.createTheStatement(conn);
+			ResultSet rs = stmt.executeQuery(dbquery);
+
+			//Retrieve shipping methods
+			if (rs != null) {
+				while (rs.next()) {
+					shipMethods.add(rs.getString(1));
+				}
+			}
+
+			databaseReader.closeConnection(conn);
+			return shipMethods;
+		} catch (Exception e) {
+			logger.error("Unable to run query for retrieving day and time specific shipping methods from database");
+			return null;
+		}
+	}
+
+
+	public List<Date> getATPStartAndEndDate(String carrier, String carrierCode){
+		try {
+			String schema = dbReader.getProperty("schema");
+			String dbQuery = dbReader.getProperty("atp.dates.query");
+			dbQuery = dbQuery.replaceAll("schema",schema);
+			dbQuery = dbQuery.replaceAll("carriercode",carrierCode);
+			dbQuery = dbQuery.replaceAll("carriername",carrier);
+
+			List<Date> dateRange = new ArrayList<Date>();
+
+			//Establish DB connection
+			DatabaseReader databaseReader = DatabaseReader.getDatabaseReader();
+			Connection conn = databaseReader.getConnectionToDatabase();
+			if (conn != null) {
+				logger.info("DB connection is successful...");
+			}
+			Statement stmt = databaseReader.createTheStatement(conn);
+
+			//Retrieve Min and Max Days
+			ResultSet rsDateRange = stmt.executeQuery(dbQuery);
+			if (rsDateRange != null) {
+				while (rsDateRange.next()) {
+					dateRange.add(rsDateRange.getDate(1));
+				}
+			}
+			databaseReader.closeConnection(conn);
+			return dateRange;
+		} catch (Exception e) {
+			logger.error("Unable to run query for retrieving Start and End date the shipping method {}", carrierCode);
+			return null;
+		}
+	}
 }
