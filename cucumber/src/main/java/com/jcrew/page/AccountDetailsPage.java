@@ -113,7 +113,7 @@ public class AccountDetailsPage {
         }
 
         boolean ifOtherCountries = !(link.equalsIgnoreCase("GIFT CARD BALANCE") || link.equalsIgnoreCase("CATALOG PREFERENCES"));
-        if ((("ca".equals(c.getCountry()) && !(link.equals("GIFT CARD BALANCE"))) || "us".equals(c.getCountry()) || ifOtherCountries) && testRewardVisible) {
+        if ((("ca".equals(c.getCountry()) && !(link.equalsIgnoreCase("GIFT CARD BALANCE"))) || "us".equals(c.getCountry()) || ifOtherCountries) && testRewardVisible) {
             WebElement navList = accountNavSection.findElement(By.className("account__selected-nav-item"));
             WebElement item = navList.findElement(By.xpath("//li[contains(text(), '" + link + "')]"));
 
