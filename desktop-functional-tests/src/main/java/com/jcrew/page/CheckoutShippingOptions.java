@@ -62,6 +62,7 @@ public class CheckoutShippingOptions extends Checkout {
     }
 
     private ShippingMethod getShippingMethod(WebElement method) {
+        wait.until(ExpectedConditions.visibilityOf(method));
         WebElement methodElement = method.findElement(By.className("method-group"));
         String methodText = methodElement.getText().trim();
 
