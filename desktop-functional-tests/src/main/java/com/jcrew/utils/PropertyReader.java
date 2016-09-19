@@ -27,7 +27,7 @@ public class PropertyReader {
 
     private void loadProperties() throws IOException {
         String execEnvironment = System.getProperty("environment", "ci");
-        String execViewport = System.getProperty("viewport", "phantomjs");
+        String execViewport = System.getProperty("viewport", "desktop");
         String execUser = System.getProperty("user", "user.1");
         String country = System.getProperty("country", "us");
 
@@ -36,8 +36,6 @@ public class PropertyReader {
         inputFile = new FileInputStream("properties/viewport.properties");
         properties.load(inputFile);
         inputFile = new FileInputStream("properties/users.properties");
-        properties.load(inputFile);
-        inputFile = new FileInputStream("properties/countries/countries.properties");
         properties.load(inputFile);
 
         properties.setProperty("environment", execEnvironment);
