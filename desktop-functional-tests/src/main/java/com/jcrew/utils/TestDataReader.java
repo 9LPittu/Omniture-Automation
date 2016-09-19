@@ -7,6 +7,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.jcrew.pojo.Country;
+import com.jcrew.utils.StateHolder;
+
 /**
  * Created by nadiapaolagarcia on 4/8/16.
  */
@@ -14,6 +17,7 @@ public class TestDataReader {
     private static final TestDataReader dataReader = new TestDataReader();
     private Properties testDataProperties = new Properties();
     private final Logger logger = LoggerFactory.getLogger(TestDataReader.class);
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     private TestDataReader() {
         try {
@@ -40,7 +44,14 @@ public class TestDataReader {
         testDataProperties.load(propertiesInput);
 
         String country = System.getProperty("country", "us");
-        String countryPath = "properties/countries/" + country +".properties";
+        
+        if (stateHolder.hasKey("context")) {
+            Country c = stateHolder.get("context");
+            country = c.getCountry();
+            logger.info("Found country in context {}", country);
+        }
+
+        String countryPath = "properties/countries/" + country + ".properties";
         logger.debug("country path: {}", countryPath);
         propertiesInput = new FileInputStream(countryPath);
         testDataProperties.load(propertiesInput);
