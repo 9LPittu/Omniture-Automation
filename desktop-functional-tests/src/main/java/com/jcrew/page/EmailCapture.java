@@ -55,10 +55,15 @@ public class EmailCapture extends PageObject {
         } catch (TimeoutException timeout) {
             //for some reason, in zanker, the email capture is not displayed with PhantomJS, but the overlay is.
             //catching this timeout and ignoring.
-            WebElement overlay = driver.findElement(By.className("js-global__overlay--emailcapture"));
-            if(overlay.isDisplayed()) {
-                logger.error("No email caputre, but we have the email capture overlay");
-            }
+        	try{
+        		WebElement overlay = driver.findElement(By.className("js-global__overlay--emailcapture"));
+	            if(overlay.isDisplayed()) {
+	                logger.error("No email capture, but we have the email capture overlay");
+	            }
+        	}
+        	catch(Exception e){
+        		logger.error("No email capture overlay!!");
+        	}
         }
     }
 }
