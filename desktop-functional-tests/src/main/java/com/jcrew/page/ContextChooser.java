@@ -157,5 +157,12 @@ public class ContextChooser {
 		countryElement.click();
 
 		stateHolder.put("context", country);
+
+		//Update Reader
+		TestDataReader reader = TestDataReader.getTestDataReader();
+		reader.updateReader();
+		Country context = new Country(url, selectedCountry);
+		stateHolder.put("context", context);
+
 	}
 }
