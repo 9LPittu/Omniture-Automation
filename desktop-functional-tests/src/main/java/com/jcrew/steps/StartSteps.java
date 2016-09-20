@@ -118,6 +118,12 @@ public class StartSteps {
         Country countrySettings = new Country(envUrl, country);
         stateHolder.put("context", countrySettings);
 
+        //Update Reader and re-create country object to
+        TestDataReader reader = TestDataReader.getTestDataReader();
+        reader.updateReader();
+        Country context = new Country(envUrl, country);
+        stateHolder.put("context", context);
+
         String homeURL = countrySettings.getHomeurl();
         String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
         logger.debug("getting url: " + intlPageURL);
@@ -143,8 +149,15 @@ public class StartSteps {
     private void getIntlHomePage(String country) {
         String envUrl = reader.getProperty("url");
 
+        Country dummy = new Country(envUrl, country);
+        stateHolder.put("context", dummy);
+
+        //Update Reader
+        TestDataReader reader = TestDataReader.getTestDataReader();
+        reader.updateReader();
         Country context = new Country(envUrl, country);
         stateHolder.put("context", context);
+
         envUrl = context.getHomeurl();
         String intlHomeURL = envUrl +"/"+ context + "/" ;
         logger.debug("getting url: " + intlHomeURL);
