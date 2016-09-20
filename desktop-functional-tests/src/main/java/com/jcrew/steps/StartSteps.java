@@ -7,6 +7,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -143,6 +144,11 @@ public class StartSteps {
         envUrl = context.getHomeurl();
 
         logger.debug("getting url: " + envUrl);
+        if(envUrl.contains("or.jcrew.com")) {
+            Cookie ck = new Cookie("x-origine", "sidecar_render");
+            driver.manage().addCookie(ck);
+
+        }
         driver.get(envUrl);
     }
 
