@@ -145,6 +145,7 @@ public class StartSteps {
 
         logger.debug("getting url: " + envUrl);
         if(envUrl.contains("or.jcrew.com")) {
+            driver.get("https://or.jcrew.com/404");
             Cookie ck = new Cookie("x-origine", "sidecar_render");
             driver.manage().addCookie(ck);
 
