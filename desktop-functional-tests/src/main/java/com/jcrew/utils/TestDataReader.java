@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
+import java.util.*;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.StateHolder;
@@ -15,60 +15,72 @@ import com.jcrew.utils.StateHolder;
  */
 public class TestDataReader {
     private static final TestDataReader dataReader = new TestDataReader();
-    private Properties testDataProperties = new Properties();
+    private static final Map<String, Properties> testDataPropertiesMap = new HashMap<>();
     private final Logger logger = LoggerFactory.getLogger(TestDataReader.class);
     private StateHolder stateHolder = StateHolder.getInstance();
 
     private TestDataReader() {
-        try {
-            loadProperties();
-        } catch (IOException e) {
-            logger.debug("Unable to load test data file.", e);
-        }
     }
 
     public static TestDataReader getTestDataReader() {
         return dataReader;
     }
 
-    private void loadProperties() throws IOException {
-    	String testData = "properties/TestData.properties";
+    private Properties loadProperties()  {
+        Properties testDataProperties = new Properties();
 
-        FileInputStream propertiesInput = new FileInputStream(testData);
-        testDataProperties.load(propertiesInput);
+        try {
+            String testData = "properties/TestData.properties";
 
-        String env = System.getProperty("environment", "ci");
-        String environmentData = "properties/environment/" + env+ ".properties";
+            FileInputStream propertiesInput = new FileInputStream(testData);
+            testDataProperties.load(propertiesInput);
 
-        propertiesInput = new FileInputStream(environmentData);
-        testDataProperties.load(propertiesInput);
+            String env = System.getProperty("environment", "ci");
+            String environmentData = "properties/environment/" + env+ ".properties";
 
-        String country = System.getProperty("country", "us");
-        
-        if (stateHolder.hasKey("context")) {
-            Country c = stateHolder.get("context");
-            country = c.getCountry();
-            logger.info("Found country in context {}", country);
+            propertiesInput = new FileInputStream(environmentData);
+            testDataProperties.load(propertiesInput);
+
+            String country = System.getProperty("country", "us");
+
+            if (stateHolder.hasKey("context")) {
+                Country c = stateHolder.get("context");
+                country = c.getCountry();
+                logger.info("Found country in context {}", country);
+            }
+
+            String countryPath = "properties/countries/" + country + ".properties";
+            logger.debug("country path: {}", countryPath);
+            propertiesInput = new FileInputStream(countryPath);
+            testDataProperties.load(propertiesInput);
+        }  catch (IOException e) {
+            logger.debug("Unable to load test data file.", e);
         }
 
-        String countryPath = "properties/countries/" + country + ".properties";
-        logger.debug("country path: {}", countryPath);
-        propertiesInput = new FileInputStream(countryPath);
-        testDataProperties.load(propertiesInput);
+        return testDataProperties;
     }
 
-    public String getData(String key) {
-        String value = testDataProperties.getProperty(key);
 
+    public String getData(String key) {
         if (!hasProperty(key)) {
             throw new RuntimeException("Property '" + key + "' is not defined in TestData file");
         }
 
-        return value;
+        Properties testDataProperties = getPropertiesForCurrentThread();
+        return testDataProperties.getProperty(key);
+    }
+
+    public int getInt(String key) {
+        return Integer.parseInt(getData(key));
+    }
+
+    public String[] getDataArray(String key) {
+        return getData(key).split(";");
     }
 
     public boolean hasProperty(String key) {
-        return testDataProperties.containsKey(key);
+        Properties p = getPropertiesForCurrentThread();
+        return p.containsKey(key);
     }
 
     public String getCategory() {
@@ -99,7 +111,7 @@ public class TestDataReader {
             String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
             index = Util.randomIndex(nonPricebookCountriesArray.length);
 
-           country = nonPricebookCountriesArray[index];
+            country = nonPricebookCountriesArray[index];
         }
 
         return country;
@@ -110,5 +122,24 @@ public class TestDataReader {
         String words[] = searchWords.split(";");
 
         return words[Util.randomIndex(words.length)];
+    }
+
+    public void updateReader() {
+        Properties testDataProperties = getPropertiesForCurrentThread();
+        testDataProperties.clear();
+        testDataProperties = loadProperties();
+        testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
+    }
+
+    private Properties getPropertiesForCurrentThread() {
+        Properties properties = testDataPropertiesMap.get(Thread.currentThread().getName());
+
+        if (properties == null) {
+            synchronized (testDataPropertiesMap) {
+                properties = loadProperties();
+                testDataPropertiesMap.put(Thread.currentThread().getName(), properties);
+            }
+        }
+        return properties;
     }
 }
