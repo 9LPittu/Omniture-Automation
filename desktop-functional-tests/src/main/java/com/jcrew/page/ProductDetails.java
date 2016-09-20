@@ -533,24 +533,11 @@ public class ProductDetails extends PageObject{
     	
     	WebElement productCodeElement = null;
     	try{
-    		
-    		//Currently the accordion is displayed in expanded mode in desktop. So, commenting the below code
-    		//When PDP size and Fit is available, then the below code will be uncommented.
-    		//WebElement productDetailsAccordion = Util.createWebDriverWait(driver).until(
-    		//		ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details')]/div/div")));    		
-    		//productDetailsAccordion.click();
-    		
-    		productCodeElement = Util.createWebDriverWait(driver,30).until(
-                    ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
+    		productCodeElement = Util.createWebDriverWait(driver).until(
+                    ExpectedConditions.visibilityOf(productOverview.findElement(By.className("c-product__code"))));
     	}
-    	catch(TimeoutException toe){
-    		try{
-     			productCodeElement = Util.createWebDriverWait(driver,30).until(
-                        ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
-    		}
-    		catch(Exception e){
-    			throw new WebDriverException("Product/item code is not found on the PDP!");
-    		}
+    	catch(TimeoutException toe){    		
+   			throw new WebDriverException("Product/item code is not found on the PDP!");
     	}
     	
     	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
