@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+
 
 
 /**
@@ -145,8 +148,13 @@ public class StartSteps {
 
         logger.debug("getting url: " + envUrl);
         if(envUrl.contains("or.jcrew.com")) {
+            Date date = new Date();
+            Calendar calendar=Calendar.getInstance();
+            calendar.add(Calendar.DATE, 1);
+            date=calendar.getTime();
+
             driver.get("https://or.jcrew.com/404");
-            Cookie ck = new Cookie("x-origine", "sidecar_render");
+            Cookie ck = new Cookie("x-origin", "sidecar_render","or.jcrew.com","/",date);
             driver.manage().addCookie(ck);
 
         }
