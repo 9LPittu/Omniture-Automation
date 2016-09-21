@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -75,6 +76,9 @@ public class ProductDetails extends PageObject{
     
     @FindBy(xpath = "//button[@id='btn__add-to-bag' and text()='Update Bag']")
     private WebElement updateBagButton;
+    
+    @FindBy(id = "c-product__actions")
+    private WebElement productActionsSection;
 
     public ProductDetails(WebDriver driver) {
         super(driver);
@@ -253,6 +257,8 @@ public class ProductDetails extends PageObject{
         thisProduct.setProductName(getProductNameFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setIsBackOrder(getIsBackordered());
+        thisProduct.setIsCrewCut(getIsCrewCut());
 
         stateHolder.put("recentlyAdded", thisProduct);
 
@@ -272,6 +278,7 @@ public class ProductDetails extends PageObject{
         thisProduct.setProductName(getProductNameFromPDP());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("recentlyAdded", thisProduct);
         
@@ -526,24 +533,11 @@ public class ProductDetails extends PageObject{
     	
     	WebElement productCodeElement = null;
     	try{
-    		
-    		//Currently the accordion is displayed in expanded mode in desktop. So, commenting the below code
-    		//When PDP size and Fit is available, then the below code will be uncommented.
-    		//WebElement productDetailsAccordion = Util.createWebDriverWait(driver).until(
-    		//		ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details')]/div/div")));    		
-    		//productDetailsAccordion.click();
-    		
-    		productCodeElement = Util.createWebDriverWait(driver,30).until(
-                    ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
+    		productCodeElement = Util.createWebDriverWait(driver).until(
+                    ExpectedConditions.visibilityOf(productOverview.findElement(By.className("c-product__code"))));
     	}
-    	catch(TimeoutException toe){
-    		try{
-     			productCodeElement = Util.createWebDriverWait(driver,30).until(
-                        ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));
-    		}
-    		catch(Exception e){
-    			throw new WebDriverException("Product/item code is not found on the PDP!");
-    		}
+    	catch(TimeoutException toe){    		
+   			throw new WebDriverException("Product/item code is not found on the PDP!");
     	}
     	
     	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
@@ -587,6 +581,60 @@ public class ProductDetails extends PageObject{
             logger.info("Selecting specified size {}", size);
         } else {
             logger.info("Size " + size + " not found");
+        }
+    }
+    
+    public boolean getIsBackordered() {
+        String message = getButtonErrorMessage().toLowerCase();
+
+        return message.contains("backordered");
+    }
+    
+    public String getButtonErrorMessage() {
+        String message = "";
+        List<WebElement> messages = productActionsSection.findElements(By.className("product__message"));
+
+        if(messages.size() > 0) {
+            message = messages.get(0).getText();
+        }
+
+        return message;
+    }
+
+    public boolean getIsCrewCut() {
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String category="";
+        String subCategory="";
+        String saleCategory="";
+        String categoryFromPDPURL="";
+
+        if (stateHolder.hasKey("category")) {
+            category=((String) stateHolder.get("category")).toLowerCase();
+            stateHolder.remove("category");
+        }
+
+        if (stateHolder.hasKey("subcategory")) {
+            subCategory=((String) stateHolder.get("subcategory")).toLowerCase();
+            stateHolder.remove("subcategory");
+        }
+
+        if (stateHolder.hasKey("sale category")) {
+            saleCategory=((String) stateHolder.get("sale category")).toLowerCase();
+            stateHolder.remove("sale category");
+        }
+
+        if (stateHolder.hasKey("categoryFromPDPURL")) {
+            categoryFromPDPURL=((String) stateHolder.get("categoryFromPDPURL")).toLowerCase();
+            stateHolder.remove("categoryFromPDPURL");
+        }
+
+        String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
+        List<String> crewCuts = Arrays.asList(crewCutCategories);
+
+        if(crewCuts.contains(category) || (category=="sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category=="wedding" && subCategory=="flowergirl")) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

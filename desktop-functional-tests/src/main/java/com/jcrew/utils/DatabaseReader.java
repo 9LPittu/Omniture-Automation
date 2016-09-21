@@ -1,8 +1,5 @@
 package com.jcrew.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,12 +10,21 @@ import java.util.Properties;
  */
 public class DatabaseReader {
 
-    private final StateHolder stateHolder = StateHolder.getInstance();
     public static Map<String, String> dbResultsMap = new HashMap<>();
     public static Map<String, Boolean> dbFeedResultsMap = new HashMap<>();
-    private final Logger logger = LoggerFactory.getLogger(DatabaseReader.class);
     private final DatabasePropertyReader dbReader = DatabasePropertyReader.getPropertyReader();
+    private static DatabaseReader databaseReader;
     private final String dbEnvironment = dbReader.getProperty("dbEnvironment");
+    
+    public DatabaseReader(){    	
+    }
+    
+    public static DatabaseReader getDatabaseReader(){
+    	if(databaseReader==null){
+    		databaseReader = new DatabaseReader();
+    	}
+    	return databaseReader;
+    }
 
     public Connection getConnectionToDatabase() {
         try {
@@ -76,5 +82,4 @@ public class DatabaseReader {
             e.printStackTrace();
         }
     }
-
 }

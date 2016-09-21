@@ -1,5 +1,7 @@
 package com.jcrew.pojo;
 
+import java.util.Date;
+
 /**
  * Created by nadiapaolagarcia on 5/6/16.
  */
@@ -8,6 +10,8 @@ public class ShippingMethod {
     private String price;
     private String text;
     private boolean thursday;
+    private Date startDate;
+    private Date endDate;
 
     public ShippingMethod(String method, String price, String text){
         this.method = method;
@@ -21,6 +25,14 @@ public class ShippingMethod {
         this.price = price;
         this.text = text;
         this.thursday = thursday;
+    }
+    
+    public ShippingMethod(String method, String price, String text, Date startDate, Date endDate){
+        this.method = method.toLowerCase();
+        this.price = price.toLowerCase();
+        this.text = text.toLowerCase();
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public String getMethod() {
@@ -51,12 +63,18 @@ public class ShippingMethod {
         return method + " - " + price + " - " + text;
     }
 
-    public boolean equals(ShippingMethod compare) {
-        boolean result = compare.method.equals(method);
-        result &= compare.price.equals(price);
-        result &= compare.text.equals(text);
+    public boolean equals(Object obj) {
+    	if (!(obj instanceof ShippingMethod)){
+    		return false;
+    	}
 
-        return result;
+    	ShippingMethod compare = (ShippingMethod) obj;
+    	
+    	boolean result = compare.method.contains(method);
+    	result &= compare.price.equalsIgnoreCase(price);
+    	result &= compare.text.equalsIgnoreCase(text);
+    	
+    	return result;
     }
 
     public boolean isThursday() {
@@ -65,5 +83,21 @@ public class ShippingMethod {
 
     public void setThursday(boolean thursday) {
         this.thursday = thursday;
+    }
+    
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+    
+    public Date getStartDate() {
+    	return startDate;
+    }
+    
+    public void setEndDate(Date endDate) {
+         this.endDate = endDate;
+    }
+    
+    public Date getEndDate() {
+    	return endDate;
     }
 }

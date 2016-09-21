@@ -319,7 +319,7 @@ public abstract class Checkout extends PageObject{
         
     	WebElement span = orderSummary.findElement(xpath);
     	String text = span.getText();
-        logger.debug("Returning sumary text {}", text);
+        logger.debug("Returning summary text {}", text);
 
         return text;
     }

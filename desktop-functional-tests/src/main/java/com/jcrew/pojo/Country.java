@@ -32,6 +32,7 @@ public class Country {
         this.currency = dataReader.getData("currency");
         this.contexturl = Boolean.parseBoolean(dataReader.getData("contexturl"));
         this.name = dataReader.getData("name");        
+        this.countryName = dataReader.getData("name");
         this.region=dataReader.getData("region"); 
         this.homeurl = environment;
 

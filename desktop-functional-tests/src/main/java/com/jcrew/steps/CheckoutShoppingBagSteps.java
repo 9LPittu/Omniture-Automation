@@ -107,6 +107,11 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
 
     @When("User clicks in CHECK OUT NOW button")
     public void check_out_now() {
+    	
+    	String subTotal = bag.getSubtotalValue().trim();
+        subTotal=subTotal.replaceAll("[^0-9\\.]", "");
+        bag.stateHolder.put("subtotal",subTotal);
+        
         bag.checkOutNow();
     }
 
