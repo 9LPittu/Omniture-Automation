@@ -28,8 +28,17 @@ public class DatabasePropertyReader {
     private void loadProperties() throws IOException {
         FileInputStream databaseInput = new FileInputStream("properties/databaseconnection.properties");
         databaseProperties.load(databaseInput);
+        databaseInput = new FileInputStream("properties/databasequeries.properties");
+        databaseProperties.load(databaseInput);
 
-        String execEnvironment = System.getProperty("environment", "ci");
+        String execEnvironment = System.getProperty("environment", "ci");        
+        String dbSchemaName = databaseProperties.getProperty(execEnvironment + ".schema");
+        databaseProperties.setProperty("schema", dbSchemaName);
+        
+        if (execEnvironment.equalsIgnoreCase("steel") || execEnvironment.equalsIgnoreCase("titanium") || execEnvironment.equalsIgnoreCase("platinum")){
+              execEnvironment = "jcms";
+        }
+        
         databaseProperties.setProperty("dbEnvironment", execEnvironment);
     }
 

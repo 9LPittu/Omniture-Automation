@@ -20,6 +20,8 @@ public class Product {
     private String currency;
     private String itemNumber;
     private boolean isSoldOut = false;
+    private boolean isBackOrder = false;
+    private boolean isCrewCut = false;
 
     public Product() {
     }
@@ -59,6 +61,22 @@ public class Product {
 
     public void setSoldOut(boolean soldOut) {
         isSoldOut = soldOut;
+    }
+    
+    public void setIsBackOrder(boolean isBackOrder) {
+        this.isBackOrder = isBackOrder;
+    }
+
+    public boolean isBackorder() {
+        return this.isBackOrder;
+    }
+
+    public void setIsCrewCut(boolean isCrewCut) {
+        this.isCrewCut = isCrewCut;
+    }
+
+    public boolean isCrewCut() {
+        return this.isCrewCut;
     }
 
     public String getColor() {

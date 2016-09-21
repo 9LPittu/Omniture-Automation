@@ -41,6 +41,11 @@ public class TestDataReader {
             propertiesInput = new FileInputStream(environmentData);
             testDataProperties.load(propertiesInput);
 
+            String shipData = "properties/shippingmethod.properties";
+            FileInputStream shippingInput = new FileInputStream(shipData);
+            testDataProperties.load(shippingInput);
+            logger.debug("Shipping data file to be used {}", shipData);
+
             String country = System.getProperty("country", "us");
 
             if (stateHolder.hasKey("context")) {
@@ -142,4 +147,9 @@ public class TestDataReader {
         }
         return properties;
     }
+
+    public boolean getBoolean(String key) {
+        return Boolean.parseBoolean(getData(key));
+    }
 }
+

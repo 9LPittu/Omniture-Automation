@@ -2,7 +2,7 @@
 Feature: Embedded Header and Footer Validations with header changes
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
 
   Scenario: Login Page Header Links
@@ -44,7 +44,7 @@ Feature: Embedded Header and Footer Validations with header changes
     And Add to cart button is pressed
     And User clicks on item bag
     Then User should be in shopping bag page
-    Then Verify embedded headers links is visible    
+    Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And Clicks on checkout
     Then Verify embedded headers links is visible

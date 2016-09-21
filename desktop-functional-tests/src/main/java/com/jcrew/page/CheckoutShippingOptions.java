@@ -18,6 +18,9 @@ public class CheckoutShippingOptions extends Checkout {
 
     @FindBy(id = "frmSelectShippingMethod")
     private WebElement shippingMethodForm;
+    
+    @FindBy(id = "method0")
+    private WebElement firstShipMethod;
 
     public CheckoutShippingOptions(WebDriver driver) {
         super(driver);
@@ -49,8 +52,17 @@ public class CheckoutShippingOptions extends Checkout {
 
         return getShippingMethod(selectedMethod);
     }
+    
+    public String getSelectedShippingMethodName() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodForm));
+        WebElement selectedLabel = shippingMethodForm.findElement(By.xpath(".//label[@class='form-label radio-checked']"));
+        WebElement shipMethodName = selectedLabel.findElement(By.xpath(".//span[@class='method-group']/span[contains(@class,'label')]"));
+        String ShippingMethodText = shipMethodName.getText().trim();
+        return ShippingMethodText;
+    }
 
     private ShippingMethod getShippingMethod(WebElement method) {
+        wait.until(ExpectedConditions.visibilityOf(method));
         WebElement methodElement = method.findElement(By.className("method-group"));
         String methodText = methodElement.getText().trim();
 
@@ -64,7 +76,7 @@ public class CheckoutShippingOptions extends Checkout {
             text = textElement.get(0).getText();
         }
 
-        String methodType = methodText.replace(priceText, "").replace(text, "").trim();
+        String methodType = methodText.replace(priceText, "").replace(text, "").trim().toLowerCase();
 
         return new ShippingMethod(methodType, priceText, text);
     }
@@ -80,7 +92,7 @@ public class CheckoutShippingOptions extends Checkout {
         logger.debug("Selected shipping method: {}", label.getText());
 
         if (!labelClass.contains("radio-checked")) {
-            WebElement radio = method.findElement(By.className("input-radio"));
+            WebElement radio = wait.until(ExpectedConditions.visibilityOf(method.findElement(By.className("input-radio"))));
             radio.click();
         } else {
             logger.debug("Selected method is already selected");
@@ -114,5 +126,15 @@ public class CheckoutShippingOptions extends Checkout {
     public String getGiftReceiptInfoMessage(){
     	WebElement giftReceiptInfoMessage = shippingMethodForm.findElement(By.className("gift-receipt-info"));
     	return giftReceiptInfoMessage.getText().trim();
+    }
+    
+    public boolean isFirstShippingMethod() {
+    	try{
+    		return firstShipMethod.isSelected();
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    		return false;
+    	}
     }
 }

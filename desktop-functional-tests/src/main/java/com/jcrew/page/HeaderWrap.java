@@ -93,7 +93,12 @@ public class HeaderWrap {
     public void openMenu() {
         PageFactory.initElements(driver, this);
         if(!global_nav.isDisplayed()) {
-            menu.click();
+        	try{
+        		menu.click();
+        	}
+        	catch(Exception e){
+        		global_header.findElement(By.xpath("//a[@class='js-primary-nav__link--menu']")).click();
+        	}
             wait.until(ExpectedConditions.visibilityOf(global_nav));
         }
     }
@@ -196,8 +201,8 @@ public class HeaderWrap {
 
             hoverAction.moveToElement(logo);
             hoverAction.perform();
-
-        } else if("gender landing".equalsIgnoreCase(icon)) {
+        } 
+        else if("gender landing".equalsIgnoreCase(icon)) {
             WebElement logo = top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and "
                     + Util.xpathGetTextLower + " = 'men']"));
             hoverAction.moveToElement(logo);
