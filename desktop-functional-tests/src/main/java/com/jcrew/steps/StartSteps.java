@@ -123,14 +123,13 @@ public class StartSteps {
 
     private void getInternationalPage(String pageURL, String country) {
         String envUrl = reader.getProperty("url");
+
+        //Update Reader and create context
+        TestDataReader reader = TestDataReader.getTestDataReader();
+        reader.updateReader(country);
+
         Country countrySettings = new Country(envUrl, country);
         stateHolder.put("context", countrySettings);
-
-        //Update Reader and re-create country object to
-        TestDataReader reader = TestDataReader.getTestDataReader();
-        reader.updateReader();
-        Country context = new Country(envUrl, country);
-        stateHolder.put("context", context);
 
         String homeURL = countrySettings.getHomeurl();
         String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
@@ -165,12 +164,9 @@ public class StartSteps {
     private void getIntlHomePage(String country) {
         String envUrl = reader.getProperty("url");
 
-        Country dummy = new Country(envUrl, country);
-        stateHolder.put("context", dummy);
-
-        //Update Reader
+        //Update Reader and create context
         TestDataReader reader = TestDataReader.getTestDataReader();
-        reader.updateReader();
+        reader.updateReader(country);
         Country context = new Country(envUrl, country);
         stateHolder.put("context", context);
 
