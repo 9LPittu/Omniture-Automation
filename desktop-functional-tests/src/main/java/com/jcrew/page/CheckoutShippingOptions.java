@@ -92,7 +92,7 @@ public class CheckoutShippingOptions extends Checkout {
         logger.debug("Selected shipping method: {}", label.getText());
 
         if (!labelClass.contains("radio-checked")) {
-            WebElement radio = method.findElement(By.className("input-radio"));
+            WebElement radio = wait.until(ExpectedConditions.visibilityOf(method.findElement(By.className("input-radio"))));
             radio.click();
         } else {
             logger.debug("Selected method is already selected");
