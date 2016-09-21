@@ -134,6 +134,13 @@ public class StartSteps {
         String homeURL = countrySettings.getHomeurl();
         String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
         logger.debug("getting url: " + intlPageURL);
+
+        if(envUrl.contains("or.jcrew.com")) {
+            driver.get("https://or.jcrew.com/404");
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
+        }
+
         driver.get(intlPageURL);
     }
 
@@ -171,6 +178,13 @@ public class StartSteps {
         stateHolder.put("context", context);
 
         envUrl = context.getHomeurl();
+
+        if(envUrl.contains("or.jcrew.com")) {
+            driver.get("https://or.jcrew.com/404");
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
+        }
+
         String intlHomeURL = envUrl +"/"+ context + "/" ;
         logger.debug("getting url: " + intlHomeURL);
         driver.get(intlHomeURL);
