@@ -47,17 +47,44 @@ public class TestDataReader {
             logger.debug("Shipping data file to be used {}", shipData);
 
             String country = System.getProperty("country", "us");
-
-            if (stateHolder.hasKey("context")) {
-                Country c = stateHolder.get("context");
-                country = c.getCountry();
-                logger.info("Found country in context {}", country);
-            }
-
             String countryPath = "properties/countries/" + country + ".properties";
-            logger.debug("country path: {}", countryPath);
             propertiesInput = new FileInputStream(countryPath);
             testDataProperties.load(propertiesInput);
+            logger.debug("country path: {}", countryPath);
+
+        }  catch (IOException e) {
+            logger.debug("Unable to load test data file.", e);
+        }
+
+        return testDataProperties;
+    }
+
+
+    private Properties loadProperties(String country)  {
+        Properties testDataProperties = new Properties();
+
+        try {
+            String testData = "properties/TestData.properties";
+
+            FileInputStream propertiesInput = new FileInputStream(testData);
+            testDataProperties.load(propertiesInput);
+
+            String env = System.getProperty("environment", "ci");
+            String environmentData = "properties/environment/" + env+ ".properties";
+
+            propertiesInput = new FileInputStream(environmentData);
+            testDataProperties.load(propertiesInput);
+
+            String shipData = "properties/shippingmethod.properties";
+            FileInputStream shippingInput = new FileInputStream(shipData);
+            testDataProperties.load(shippingInput);
+            logger.debug("Shipping data file to be used {}", shipData);
+
+            String countryPath = "properties/countries/" + country + ".properties";
+            propertiesInput = new FileInputStream(countryPath);
+            testDataProperties.load(propertiesInput);
+            logger.debug("country path: {}", countryPath);
+
         }  catch (IOException e) {
             logger.debug("Unable to load test data file.", e);
         }
@@ -133,6 +160,13 @@ public class TestDataReader {
         Properties testDataProperties = getPropertiesForCurrentThread();
         testDataProperties.clear();
         testDataProperties = loadProperties();
+        testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
+    }
+
+    public void updateReader(String country) {
+        Properties testDataProperties = getPropertiesForCurrentThread();
+        testDataProperties.clear();
+        testDataProperties = loadProperties(country);
         testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
     }
 
