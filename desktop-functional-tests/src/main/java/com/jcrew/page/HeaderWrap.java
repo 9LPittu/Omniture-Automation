@@ -93,7 +93,12 @@ public class HeaderWrap {
     public void openMenu() {
         PageFactory.initElements(driver, this);
         if(!global_nav.isDisplayed()) {
-            menu.click();
+        	try{
+        		menu.click();
+        	}
+        	catch(Exception e){
+        		global_header.findElement(By.xpath("//a[@class='js-primary-nav__link--menu']")).click();
+        	}
             wait.until(ExpectedConditions.visibilityOf(global_nav));
         }
     }

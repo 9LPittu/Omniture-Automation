@@ -6,6 +6,8 @@ import com.jcrew.utils.*;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -137,6 +141,14 @@ public class StartSteps {
         envUrl = context.getHomeurl();
 
         logger.debug("getting url: " + envUrl);
+        
+        if(envUrl.contains("or.jcrew.com")) {
+            driver.get("https://or.jcrew.com/404");            
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
+        }
+
+        
         driver.get(envUrl);
     }
 
