@@ -147,8 +147,7 @@ public class ContextChooser {
 		String url = propertyReader.getProperty("url");
 
 		String selectedCountry = testData.getRandomCountry(country_group);
-		Country country = new Country(url, selectedCountry);
-        logger.info("Selected country: {}", selectedCountry);
+		logger.info("Selected country: {}", selectedCountry);
 
 		//Click on country
 		WebElement countryElement = internationalContextChooserPage.findElement(
@@ -156,13 +155,12 @@ public class ContextChooser {
         wait.until(ExpectedConditions.visibilityOf(countryElement));
 		countryElement.click();
 
-		stateHolder.put("context", country);
-
-		//Update Reader
+		//Update Reader and create context
 		TestDataReader reader = TestDataReader.getTestDataReader();
-		reader.updateReader();
-		Country context = new Country(url, selectedCountry);
-		stateHolder.put("context", context);
+		reader.updateReader(selectedCountry);
+		Country country = new Country(url, selectedCountry);
 
+
+		stateHolder.put("context", country);
 	}
 }

@@ -27,6 +27,4 @@ Feature: Checkout - Expected Shipping Options for special addresses
 
     When User fills APO shipping data and continues
     Then Verify Shipping And Gift Options page is displayed
-    And Verify that this shipping methods are available including Thursday cut
-      | method                      | price | text | thursday |
-      | Economy (6-8 business days) | FREE  |      | false    |
+    And Verify default value for shipping method

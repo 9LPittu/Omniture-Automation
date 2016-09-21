@@ -41,16 +41,10 @@ Feature: Checkout - Guest user is able to checkout
 
     When User selects a suggested address and continues
     Then Verify Shipping And Gift Options page is displayed
-    And Verify shipping methods are available
-     #|overnight|
-      |expedited|
-      |standard|
-      |economy|
-     #|saturday|
+    And validate correct shipping methods displayed on the page     
       
     And Verify Shipping Options Page contains gift option section
-    And Verify the below shipping method is selected by default    
-      | economy|
+    And Verify default value for shipping method
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
