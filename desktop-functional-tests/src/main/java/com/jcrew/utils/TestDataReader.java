@@ -47,7 +47,7 @@ public class TestDataReader {
             logger.debug("Shipping data file to be used {}", shipData);
 
             String country = System.getProperty("country", "us");
-            String countryPath = "properties/countries/" + country + ".properties";
+            String countryPath = "properties/countries/" + country.toLowerCase() + ".properties";
             propertiesInput = new FileInputStream(countryPath);
             testDataProperties.load(propertiesInput);
             logger.debug("country path: {}", countryPath);
@@ -80,7 +80,7 @@ public class TestDataReader {
             testDataProperties.load(shippingInput);
             logger.debug("Shipping data file to be used {}", shipData);
 
-            String countryPath = "properties/countries/" + country + ".properties";
+            String countryPath = "properties/countries/" + country.toLowerCase() + ".properties";
             propertiesInput = new FileInputStream(countryPath);
             testDataProperties.load(propertiesInput);
             logger.debug("country path: {}", countryPath);
