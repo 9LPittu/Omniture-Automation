@@ -108,16 +108,11 @@ public class GiftCards  extends PageObject {
     	stateHolder.put("giftCardDateSent", tomorrowDate);    	
     	
     	//enter gift message
-    	giftMessage.sendKeys("This is automation gift message");
+    	giftMessage.sendKeys("This is automation gift message");    	
     	
-    	try{
-    		Util.scrollToElement(driver, addToBag);
-    		addToBag.click();
-    	}
-    	catch(WebDriverException e){
-    		JavascriptExecutor jse = (JavascriptExecutor)driver;
-    		jse.executeScript("arguments[0].click();", addToBag);
-    	}
+		Util.scrollToElement(driver, addToBag);	
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		jse.executeScript("arguments[0].click();", addToBag);
     	
     	wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(senderName)));
     }
