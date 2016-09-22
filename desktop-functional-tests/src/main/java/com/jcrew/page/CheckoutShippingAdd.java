@@ -77,6 +77,8 @@ public class CheckoutShippingAdd extends Checkout {
                 break;
 
             case "australia":
+                city.sendKeys(address.getCity());
+
                 Select select = new Select(state_province);
                 select.selectByVisibleText(address.getState());
 
@@ -86,6 +88,8 @@ public class CheckoutShippingAdd extends Checkout {
 
             case "japan":
             case "united kingdom":
+                city.sendKeys(address.getCity());
+
                 state.sendKeys(address.getState());
 
                 zipcode.clear();
@@ -93,10 +97,14 @@ public class CheckoutShippingAdd extends Checkout {
                 break;
 
             case "hong kong":
+                city.sendKeys(address.getCity());
+
                 state.sendKeys(address.getState());
                 break;
 
             default:
+                city.sendKeys(address.getCity());
+
                 zipcode.clear();
                 zipcode.sendKeys(address.getZipcode());
                 break;
