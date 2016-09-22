@@ -115,7 +115,7 @@ public class GiftCards  extends PageObject {
     		Util.scrollToElement(driver, addToBag);
     		addToBag.click();
     	}
-    	catch(Exception e){
+    	catch(WebDriverException e){
     		JavascriptExecutor jse = (JavascriptExecutor)driver;
     		jse.executeScript("arguments[0].click();", addToBag);
     	}
