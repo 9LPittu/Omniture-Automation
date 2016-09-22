@@ -6,6 +6,10 @@ import com.google.common.base.Predicate;
 import com.jcrew.pojo.Country;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -148,5 +152,21 @@ public class Util {
         } else {
             checkoutButton.click();
         }
+    }
+    
+    public static String logBrowserErrors(WebDriver driver) {
+        Logs errorlog = driver.manage().logs();
+        LogEntries errors = errorlog.get(LogType.BROWSER);
+        String errorMessage = "";
+
+        for (LogEntry error : errors) {
+            logger.error("Browser logs {}", error.getMessage());
+            errorMessage += error.getMessage() + "\n";
+        }
+
+        if(!errorMessage.isEmpty())
+            errorMessage = "Browser log: \n" + errorMessage;
+
+        return errorMessage;
     }
 }
