@@ -76,7 +76,7 @@ public class CheckoutMergeCartSteps extends DriverFactory {
     @Then("^Verify the message for the backordered item in Merge Cart page$")
     public void verify_backordered_item_message(){
     	String itemStatus = mergeCart.getItemStatusFromMergeCart("BACKORDERED").toLowerCase();    	
-   		boolean result = itemStatus.matches("backordered - expected to ship on [A-Za-z]{3} \\d{2}, \\d{4}");
+   		boolean result = itemStatus.matches("backordered - expected to ship on [A-Za-z]{3} \\d{1,2}, \\d{4}");
     	assertTrue("Status for the backordered item in Merge Cart page is displayed as " + itemStatus, result);
     }
     

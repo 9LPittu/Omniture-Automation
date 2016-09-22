@@ -4,6 +4,8 @@ import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.UsersHub;
+import com.jcrew.utils.Util;
+
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.AfterStep;
@@ -51,6 +53,9 @@ public class FinalSteps {
             try {
                 final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
                 scenario.embed(screenshot, "image/png");
+                
+                String log = Util.logBrowserErrors(driver);
+                scenario.embed(log.getBytes(), "text/plain");
                 
                 if(holder.hasKey("userObject")){
                 	User user = holder.get("userObject");
