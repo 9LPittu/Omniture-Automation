@@ -1,4 +1,4 @@
-@GuestCheckout-Part2
+@GuestCheckout-Part21
 Feature: Checkout - Guest user is able to checkout
 
   Scenario: Checkout - Guest user is able to checkout
