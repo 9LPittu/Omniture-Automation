@@ -20,6 +20,7 @@ import com.jcrew.utils.Util;
 
 public class GiftCards  extends PageObject {
 	
+	
 	@FindBy(xpath="//a[@id='eGiftCard']/img")
 	private WebElement eGiftCardImage;
 	
@@ -108,7 +109,7 @@ public class GiftCards  extends PageObject {
     	stateHolder.put("giftCardDateSent", tomorrowDate);    	
     	
     	//enter gift message
-    	giftMessage.sendKeys("This is automation gift message");
+    	giftMessage.sendKeys("This is automation gift message");    	
     	
     	try{
     		Util.scrollToElement(driver, addToBag);
@@ -119,6 +120,6 @@ public class GiftCards  extends PageObject {
     		jse.executeScript("arguments[0].click();", addToBag);
     	}
     	
-    	wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(senderName)));
+		Util.waitLoadingBar(driver);
     }
 }

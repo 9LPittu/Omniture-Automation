@@ -290,8 +290,7 @@ public abstract class Checkout extends PageObject{
     }
 
     public String getPromoDetails() {
-        WebElement message = promoCode.findElement(By.className("module-details-last"));
-
+        WebElement message = wait.until(ExpectedConditions.visibilityOf(promoCode.findElement(By.className("module-details-last"))));
         return message.getText();
     }
 
