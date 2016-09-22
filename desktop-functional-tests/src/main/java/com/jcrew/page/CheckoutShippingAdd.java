@@ -65,56 +65,43 @@ public class CheckoutShippingAdd extends Checkout {
         address2.sendKeys(address.getLine2());
         phoneNum.sendKeys(address.getPhone());
 
-        zipcode.clear();
-        zipcode.sendKeys(address.getZipcode());
+        String countryName = address.getName().toLowerCase().trim();
 
-        WebElement usState = shippingForm.findElement(By.id("dropdown-us-city-state"));
-        wait.until(ExpectedConditions.visibilityOf(usState));
-    }
-    
-    public void fillGuestData() {
-        Country country = (Country) stateHolder.get("context");
-        Address address = new Address(country.getCountry());
-        User user = User.getNewFakeUser();
+        switch (countryName) {
+            case "united states":
+            case "canada":
+                zipcode.clear();
+                zipcode.sendKeys(address.getZipcode());
 
-        firstName.sendKeys(user.getFirstName());
-        lastName.sendKeys(user.getLastName());
-
-        address1.sendKeys(address.getLine1());
-        address2.sendKeys(address.getLine2());
-        phoneNum.sendKeys(address.getPhone());
-
-        if (!"HK".equalsIgnoreCase(country.getCountry())) {
-        	zipcode.sendKeys(address.getZipcode());
-        }
-
-        switch (country.getCountry()) {
-            case "uk":
-            case "de":
-            case "sg":
-            case "ch":
-                city.sendKeys(address.getCity());
+                wait.until(ExpectedConditions.visibilityOf(us_city_state));
                 break;
-            case "jp":
-            case "hk":
-                city.sendKeys(address.getCity());
+
+            case "australia":
+                Select select = new Select(state_province);
+                select.selectByVisibleText(address.getState());
+
+                zipcode.clear();
+                zipcode.sendKeys(address.getZipcode());
+                break;
+
+            case "japan":
+            case "united kingdom":
+                state.sendKeys(address.getState());
+
+                zipcode.clear();
+                zipcode.sendKeys(address.getZipcode());
+                break;
+
+            case "hong kong":
                 state.sendKeys(address.getState());
                 break;
-            case "ca":
-                wait.until(ExpectedConditions.visibilityOf(us_city_state));
-                break;
-            case "au":
-                city.sendKeys(address.getCity());
-                Select state_dropdown = new Select(state_province);
-                state_dropdown.selectByVisibleText(address.getState());
-                break;
-            case "us":
-                wait.until(ExpectedConditions.visibilityOf(us_city_state));
+
+            default:
+                zipcode.clear();
+                zipcode.sendKeys(address.getZipcode());
                 break;
         }
-
     }
-
 
     public void fillQASShippingData() {
         Address address = new Address("QAS");
