@@ -65,18 +65,19 @@ public class CheckoutShippingAdd extends Checkout {
         address2.sendKeys(address.getLine2());
         phoneNum.sendKeys(address.getPhone());
 
-        String countryName = address.getName().toLowerCase().trim();
+        Country country = (Country) stateHolder.get("context");
+        String countryCode = country.getCountry().toLowerCase();
 
-        switch (countryName) {
-            case "united states":
-            case "canada":
+        switch (countryCode) {
+            case "us":
+            case "ca":
                 zipcode.clear();
                 zipcode.sendKeys(address.getZipcode());
 
                 wait.until(ExpectedConditions.visibilityOf(us_city_state));
                 break;
 
-            case "australia":
+            case "au":
                 city.sendKeys(address.getCity());
 
                 Select select = new Select(state_province);
@@ -86,8 +87,8 @@ public class CheckoutShippingAdd extends Checkout {
                 zipcode.sendKeys(address.getZipcode());
                 break;
 
-            case "japan":
-            case "united kingdom":
+            case "jp":
+            case "uk":
                 city.sendKeys(address.getCity());
 
                 state.sendKeys(address.getState());
@@ -96,7 +97,7 @@ public class CheckoutShippingAdd extends Checkout {
                 zipcode.sendKeys(address.getZipcode());
                 break;
 
-            case "hong kong":
+            case "hk":
                 city.sendKeys(address.getCity());
 
                 state.sendKeys(address.getState());
