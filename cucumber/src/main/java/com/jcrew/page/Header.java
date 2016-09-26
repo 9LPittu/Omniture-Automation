@@ -280,7 +280,7 @@ public class Header {
     public void click_breadcrumb(String breadcrumb) {
         Util.waitWithStaleRetry(driver, breadcrumbSection);
         WebElement breadcrumbElement = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='" + breadcrumb + "' and @class='breadcrumb__link']")));
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[text()='" + breadcrumb + "' and contains(@class,'breadcrumb__link')]")));
         breadcrumbElement.click();
     }
 
