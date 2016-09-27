@@ -75,7 +75,6 @@ public class ShoppingBagPage {
 
 
     public void click_checkout_button() {
-        String url = driver.getCurrentUrl();
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutLink));
 
@@ -421,11 +420,11 @@ public class ShoppingBagPage {
 
         for (int i = 0; i < products.size() && result; i++) {
             Product fromPDP = (Product) products.get(i);
-            String productName = fromPDP.getName();
+            String productName = fromPDP.getProductName();
             productName.replaceAll("PRE-ORDER ", "");
 
             logger.debug("Looking for product {}, item number {}, in size {} in color {} with price {}",
-                    productName, fromPDP.getItemNumber(), fromPDP.getSize(), fromPDP.getColor(), fromPDP.getPrice());
+                    productName, fromPDP.getProductCode(), fromPDP.getSelectedSize(), fromPDP.getSelectedColor(), fromPDP.getPriceList());
 
             boolean found = false;
 
@@ -459,10 +458,10 @@ public class ShoppingBagPage {
                         quantity, name, itemNumber, size, color, price);
 
                 found = name.equalsIgnoreCase(productName)
-                        && price.equalsIgnoreCase(fromPDP.getPrice())
-                        && size.equalsIgnoreCase(fromPDP.getSize())
-                        && color.equalsIgnoreCase(fromPDP.getColor())
-                        && itemNumber.equalsIgnoreCase(fromPDP.getItemNumber())
+                        && price.equalsIgnoreCase(fromPDP.getPriceList())
+                        && size.equalsIgnoreCase(fromPDP.getSelectedSize())
+                        && color.equalsIgnoreCase(fromPDP.getSelectedColor())
+                        && itemNumber.equalsIgnoreCase(fromPDP.getProductCode())
                         && quantity.equalsIgnoreCase(fromPDP.getQuantity());
             }
 
@@ -473,6 +472,25 @@ public class ShoppingBagPage {
 
         return result;
     }
+    
+    protected String getQuantity(WebElement productElement) {
+        WebElement quantityParentElement = productElement.findElement(By.className("item-quantity"));
+        WebElement formAncestor = quantityParentElement.findElement(
+                By.xpath(".//ancestor::section[contains(@class,'checkout-container')]//parent::form"));
 
+        String ancestorId = formAncestor.getAttribute("id");
+        String quantity = "";
 
+        if ("frm_shopping_cart_continue".equals(ancestorId)) {
+            WebElement quantityElement = productElement.findElement(By.className("item-qty"));
+            Select quantitySelect = new Select(quantityElement);
+            quantity = quantitySelect.getFirstSelectedOption().getText();
+        } else if ("frmOrderReview".equals(ancestorId)
+                || "userMergeCart".equals(ancestorId)) {
+            WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));
+            quantity = quantityElement.getText().trim();
+        }
+
+        return quantity;
+    }
 }

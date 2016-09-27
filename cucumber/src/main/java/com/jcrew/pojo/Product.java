@@ -1,5 +1,6 @@
 package com.jcrew.pojo;
 
+import java.awt.geom.QuadCurve2D;
 
 public class Product {
     private String productName;
@@ -12,6 +13,7 @@ public class Product {
     private String selectedVariation;
     private String selectedColor;
     private String selectedSize;
+    private String quantity;
     private boolean isBackOrder = false;
     private boolean isCrewCut = false;
 
@@ -110,6 +112,14 @@ public class Product {
 
     public boolean isCrewCut() {
         return this.isCrewCut;
+    }
+    
+    public void setQuantity(String quantity){
+    	this.quantity = quantity;
+    }
+    
+    public String getQuantity(){
+    	return quantity;
     }
 
     public boolean equals(Object o){
