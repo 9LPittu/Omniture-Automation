@@ -1,6 +1,7 @@
 package com.jcrew.util;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StateHolder {
@@ -55,5 +56,10 @@ public class StateHolder {
     public void remove(String key) {
         Map<String, Object> threadMap = getMapForCurrentThread();
         threadMap.remove(key);
+    }
+    
+    @SuppressWarnings("unchecked")
+	public <T> List<T> getList(String key) {
+        return (List<T>) get(key);
     }
 }

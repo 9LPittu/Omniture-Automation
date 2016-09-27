@@ -192,5 +192,10 @@ public class ShoppingBagSteps extends DriverFactory {
         public void make_sure_that_subtotal_is_less_than_creditcard_threshold() {
         shoppingBagPage.applyCreditCardThreshold();
     }
+    
+    @Then("Verify products added matches with products in bag")
+    public void product_matches_in_bag(){
+        assertTrue("Products in the bag don't match with the ones which are added", shoppingBagPage.itemsInBag());
+    }
 
 }

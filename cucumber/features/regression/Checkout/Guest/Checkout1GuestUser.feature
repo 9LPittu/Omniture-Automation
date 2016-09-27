@@ -97,7 +97,7 @@ Feature: Guest User Checkout Process
     And Verifies is in shipping method page
     And select shipping method on shipping & gift options page
     And Clicks continue button on shipping method page
-    And Verify user is in billing page
+    Then Verify user is in billing page
     And enter "Visa_Card" details on billing page  
     And enter email address as "jcrewcolab@gmail.com"
     And click on 'ADD NEW BILLING ADDRESS' on Billing page
