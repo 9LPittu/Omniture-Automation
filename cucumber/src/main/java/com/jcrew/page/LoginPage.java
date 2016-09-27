@@ -140,7 +140,7 @@ public class LoginPage {
         enter_valid_username_and_password("");
     }
     public void enter_valid_username_and_password(String userCategory) {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(signInButton)));
         PropertyReader reader = PropertyReader.getPropertyReader();
         
         String username = null;
@@ -230,7 +230,7 @@ public class LoginPage {
         Util.waitWithStaleRetry(driver,signInForm);
         WebElement forgotPasswordLink = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.linkText("I forgot my password!")));
         Util.createWebDriverWait(driver).until(
-                ExpectedConditions.elementToBeClickable(forgotPasswordLink));
+                ExpectedConditions.not(ExpectedConditions.stalenessOf(forgotPasswordLink)));
         String url = driver.getCurrentUrl();
         forgotPasswordLink.click();
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
