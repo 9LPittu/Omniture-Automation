@@ -17,7 +17,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ShippingAddressPage {
+public class ShippingAddressPage extends Checkout {
 
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(ShippingAddressPage.class);
@@ -97,9 +97,15 @@ public class ShippingAddressPage {
     private WebElement provinceStateCounty;
     
     public ShippingAddressPage(WebDriver driver) {
+    	super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
+    
+    @Override
+	public boolean isDisplayed() {
+		return false;
+	}
 
     public void fills_shipping_address() {
 
@@ -273,7 +279,7 @@ public class ShippingAddressPage {
     }
     
     
- public void selectIntlCityAndState(String cityname,String statename) {
+    public void selectIntlCityAndState(String cityname,String statename) {
 	 
 	 	Country c = (Country)stateHolder.get("context");
          String currentCountry = c.getCountryName();

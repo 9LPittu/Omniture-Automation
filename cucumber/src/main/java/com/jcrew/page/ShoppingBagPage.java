@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
-public class ShoppingBagPage {
+public class ShoppingBagPage extends Checkout {
 
     private final Logger logger = LoggerFactory.getLogger(ShoppingBagPage.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
@@ -68,11 +68,12 @@ public class ShoppingBagPage {
     @FindBy(className = "c-header__breadcrumb")
     private WebElement breadcrumbSection;
 
-    public ShoppingBagPage(WebDriver driver) {
+    public ShoppingBagPage(WebDriver driver) {    	
+    	super(driver);
+    	
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
     }
-
 
     public void click_checkout_button() {
         Util.waitForPageFullyLoaded(driver);
@@ -402,95 +403,11 @@ public class ShoppingBagPage {
         } while (addQuantity = true && counter <= remainingProducts);
 
     }
-    
-    public boolean itemsInBag() {
-		List<Product> products = stateHolder.getList("toBag");
-        logger.debug("Got {} items in bag", products.size());
 
-        return matchList(products);
-    }
 
-    public boolean matchList(List<Product> products) {
-        List<WebElement> productsInBag = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(
-        								 orderListing.findElements(By.className("item-row"))));
-        
-        logger.debug("Got {} items in checkout page", productsInBag.size());
-
-        boolean result = products.size() == productsInBag.size();
-
-        for (int i = 0; i < products.size() && result; i++) {
-            Product fromPDP = (Product) products.get(i);
-            String productName = fromPDP.getProductName();
-            productName.replaceAll("PRE-ORDER ", "");
-
-            logger.debug("Looking for product {}, item number {}, in size {} in color {} with price {}",
-                    productName, fromPDP.getProductCode(), fromPDP.getSelectedSize(), fromPDP.getSelectedColor(), fromPDP.getPriceList());
-
-            boolean found = false;
-
-            for (int j = 0; j < productsInBag.size() && !found; j++) {
-                WebElement productElement = productsInBag.get(j);
-                WebElement nameElement = productElement.findElement(By.className("item-name"));
-                String name = nameElement.getText().trim();
-                name.replaceAll("PRE-ORDER ", "");
-
-                String quantity = getQuantity(productElement);
-
-                WebElement priceElement = productElement.findElement(By.className("item-price"));
-                String price = priceElement.getText().trim();
-                price = price.replaceAll("[^0-9.,]", "");
-
-                List<WebElement> descriptionElements = productElement.findElements(By.className("item-label"));
-
-                WebElement numberElement = descriptionElements.get(0).findElement(By.tagName("span"));
-                String itemNumber = numberElement.getText().trim();
-
-                WebElement sizeElement = descriptionElements.get(1).findElement(By.tagName("span"));
-                String size = sizeElement.getText();                
-                if(!size.toUpperCase().contains("ONE SIZE")){
-                	size = sizeElement.getText().replace("SIZE", "").trim();
-                }
-
-                WebElement colorElement = descriptionElements.get(2).findElement(By.tagName("span"));
-                String color = colorElement.getText().trim();
-
-                logger.debug("Found {} product {}, item number {}, in size {} in color {} with price {} in bag",
-                        quantity, name, itemNumber, size, color, price);
-
-                found = name.equalsIgnoreCase(productName)
-                        && price.equalsIgnoreCase(fromPDP.getPriceList())
-                        && size.equalsIgnoreCase(fromPDP.getSelectedSize())
-                        && color.equalsIgnoreCase(fromPDP.getSelectedColor())
-                        && itemNumber.equalsIgnoreCase(fromPDP.getProductCode())
-                        && quantity.equalsIgnoreCase(fromPDP.getQuantity());
-            }
-
-            result = found;
-        }
-
-        logger.debug("Products found in bag: {}", result);
-
-        return result;
-    }
-    
-    protected String getQuantity(WebElement productElement) {
-        WebElement quantityParentElement = productElement.findElement(By.className("item-quantity"));
-        WebElement formAncestor = quantityParentElement.findElement(
-                By.xpath(".//ancestor::section[contains(@class,'checkout-container')]//parent::form"));
-
-        String ancestorId = formAncestor.getAttribute("id");
-        String quantity = "";
-
-        if ("frm_shopping_cart_continue".equals(ancestorId)) {
-            WebElement quantityElement = productElement.findElement(By.className("item-qty"));
-            Select quantitySelect = new Select(quantityElement);
-            quantity = quantitySelect.getFirstSelectedOption().getText();
-        } else if ("frmOrderReview".equals(ancestorId)
-                || "userMergeCart".equals(ancestorId)) {
-            WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));
-            quantity = quantityElement.getText().trim();
-        }
-
-        return quantity;
-    }
+	@Override
+	public boolean isDisplayed() {		
+		String bodyId = getBodyAttribute("id");
+        return bodyId.equals("shoppingBag");
+	}
 }
