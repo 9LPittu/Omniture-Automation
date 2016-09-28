@@ -72,6 +72,7 @@ public class MyAccountPage {
 
     private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(myAccountContainer)));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//a[@class='my_account_lefnav']")));
         WebElement menuLink = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(
