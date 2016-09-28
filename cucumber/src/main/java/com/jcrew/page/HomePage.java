@@ -42,7 +42,7 @@ public class HomePage {
     @FindBy(className = "c-email-capture")
     private WebElement emailCaptureSection;
     
-    @FindBys({@FindBy(xpath="//div[@id='global__email-capture']/section/div[contains(@class,'email-capture--close')]")})
+    @FindBys({@FindBy(xpath="//div[@id='global__email-capture']/section/div/div[contains(@class,'email-capture--close')]")})
     private List<WebElement> emailCaptureClose;
 
 
