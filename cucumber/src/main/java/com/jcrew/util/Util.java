@@ -176,8 +176,15 @@ public class Util {
         Actions action = new Actions(driver);
         createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
         action.moveToElement(element);
+        action.build().perform();
     }
-
+    
+    public static void clickOnElement(WebDriver driver, WebElement element) {
+        Actions action = new Actions(driver);
+        createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+        action.click(element).build().perform();
+    }
+   
     public static boolean countryContextURLCompliance(WebDriver driver, Country country) {
         String url = driver.getCurrentUrl();
         String countryURL = country.getHomeurl();

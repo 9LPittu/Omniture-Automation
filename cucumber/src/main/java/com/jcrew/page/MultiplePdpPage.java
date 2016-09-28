@@ -40,7 +40,10 @@ public class MultiplePdpPage {
     private WebElement addToWishlistButton;
     @FindBy (id = "c-product__sizes")
     private WebElement divSizes;
-
+    
+    @FindBy(xpath="//section[@id='c-product__details--link']/div/a")
+    private WebElement fullProductDetailsLink;
+    
     private WebElement header;
     private List<WebElement> products = null;
     private List<WebElement> productsImages = null;
@@ -157,7 +160,12 @@ public class MultiplePdpPage {
         stateHolder.put("shoppableTrayProduct", article);
         WebElement nextLink = next.findElement(By.tagName("a"));
         String currUrl = driver.getCurrentUrl();
-        nextLink.click();
+        Util.waitLoadingBar(driver);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated((By.xpath("//div[@class='header__cart--image']/img"))));
+        Util.scrollToElement(driver, fullProductDetailsLink);
+        wait.until(ExpectedConditions.elementToBeClickable(nextLink));
+        Util.clickOnElement(driver, nextLink);
+        Util.waitLoadingBar(driver);
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currUrl)));
         loadNavigation();
     }
@@ -369,11 +377,11 @@ public class MultiplePdpPage {
 
     }
 
-    private void waitForBag(String items) {
+    private void waitForBag(String items) {    	
+    	wait.until(ExpectedConditions.invisibilityOfElementLocated((By.xpath("//div[@class='header__cart--image']/img"))));
         WebElement bagText = driver.findElement(By.className("js-cart-size"));
-        wait.until(ExpectedConditions.textToBePresentInElement(bagText,items));
-
-        logger.debug("added: {}", bagText.getText());
+        wait.until(ExpectedConditions.textToBePresentInElement(bagText,items));        
+        logger.debug("added: {}", bagText.getText());        
     }
 
     private Product getProduct(){
@@ -434,9 +442,10 @@ public class MultiplePdpPage {
     private void navigateToNextProduct(int currentIndex){
         if(currentIndex < numProducts - 1) {
             WebElement nextProduct = products.get(currentIndex + 1);
-            String productCode = nextProduct.getAttribute("data-code");
+            String productCode = nextProduct.getAttribute("data-code");            
             clickNext();
             Util.waitForPageFullyLoaded(driver);
+            Util.waitLoadingBar(driver);            
             wait.until(ExpectedConditions.urlContains("itemCode=" + productCode));
         }
     }
