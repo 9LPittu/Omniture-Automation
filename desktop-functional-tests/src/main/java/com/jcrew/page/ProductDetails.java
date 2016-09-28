@@ -532,17 +532,16 @@ public class ProductDetails extends PageObject{
     public String getProductCodeFromPDP(){
     	
     	WebElement productCodeElement = null;
-    	try{
-    		productCodeElement = Util.createWebDriverWait(driver).until(
+    	try {
+            productCodeElement = Util.createWebDriverWait(driver).until(
                     ExpectedConditions.visibilityOf(productOverview.findElement(By.className("c-product__code"))));
+        } catch(TimeoutException toe){
+                throw new WebDriverException("Product/item code is not found on the PDP!");
     	}
-    	catch(TimeoutException toe){    		
-   			throw new WebDriverException("Product/item code is not found on the PDP!");
-    	}
-    	
-    	String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
-    	productCodeText = productCodeText.replace(".", "").toUpperCase();
-    	return productCodeText;
+
+            String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
+            productCodeText = productCodeText.replace(".", "").toUpperCase();
+            return productCodeText;
     }
     
     public boolean isUpdateBagButtonDisplayed() {
