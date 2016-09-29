@@ -147,14 +147,19 @@ public class ContextChooser {
 		String url = propertyReader.getProperty("url");
 
 		String selectedCountry = testData.getRandomCountry(country_group);
-		Country country = new Country(url, selectedCountry);
-        logger.info("Selected country: {}", selectedCountry);
+		logger.info("Selected country: {}", selectedCountry);
 
 		//Click on country
 		WebElement countryElement = internationalContextChooserPage.findElement(
                 By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a[@data-country='" + selectedCountry + "']"));
         wait.until(ExpectedConditions.visibilityOf(countryElement));
 		countryElement.click();
+
+		//Update Reader and create context
+		TestDataReader reader = TestDataReader.getTestDataReader();
+		reader.updateReader(selectedCountry);
+		Country country = new Country(url, selectedCountry);
+
 
 		stateHolder.put("context", country);
 	}

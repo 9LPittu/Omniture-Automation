@@ -20,18 +20,6 @@ public class Address {
         load();
     }
 
-//    public Address(String country) {
-//        PropertyReader properties = PropertyReader.getPropertyReader();
-//        country = country.toLowerCase();
-//
-//        this.line1 = properties.getProperty(country + ".address.line1");
-//        this.line2 = properties.getProperty(country + ".address.line2");
-//        this.city = properties.getProperty(country + ".address.city");
-//        this.state = properties.getProperty(country + ".address.state");
-//        this.zipcode = properties.getProperty(country + ".address.zipcode");
-//        this.phone = properties.getProperty(country + ".address.phone");
-//    }
-    
     public Address(String prefix) {
     	prefix = prefix.toLowerCase();
         if(prefix.equals("us")) {
@@ -77,7 +65,6 @@ public class Address {
         return zipcode;
     }
 
-    public String getPhone() {
-        return phone;
-    }
+    public String getPhone() {return phone;}
+
 }
