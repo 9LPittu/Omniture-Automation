@@ -150,7 +150,7 @@ public class AccountDetailsPage {
     public void updateDetails(String fieldLabel, String updateType) {
         WebElement formElement;
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("/r/account/details"));
-        Util.waitWithStaleRetry(driver,myDetailForm);
+        Util.waitWithStaleRetry(driver,myDetailForm);        
         formElement = getformElement(fieldLabel);
         if ("invalid".equalsIgnoreCase(updateType)) {
             formElement.clear();
@@ -228,6 +228,8 @@ public class AccountDetailsPage {
             default:
                 return null;
         }
+        
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(formElement)));
         return formElement;
     }
 
