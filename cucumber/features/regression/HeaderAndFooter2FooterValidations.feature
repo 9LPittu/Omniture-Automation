@@ -192,9 +192,6 @@ Feature: Footer Verification In Home Page
     And page url should contain srcCode=JCFooter
     And external madewell page is opened in a different tab
 
-
-
-
   #US13389_TC14
   Scenario: Verify social sharing icons functionality
     And click on facebook icon in social sharing section

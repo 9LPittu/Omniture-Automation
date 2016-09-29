@@ -183,6 +183,7 @@ public class Footer {
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublink));
         logger.info("sub link being clicked {}", footerSubLink.toString());
         footerSublink.click();
+        Util.waitLoadingBar(driver);
     }
 
     public boolean isSubLinkDisplayed(String sublink) {
