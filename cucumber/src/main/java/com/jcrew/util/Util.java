@@ -171,7 +171,6 @@ public class Util {
 
     }
 
-
     public static void scrollToElement(WebDriver driver, WebElement element) {
         Actions action = new Actions(driver);
         createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));

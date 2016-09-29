@@ -14,6 +14,4 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber/shoppabletrayfeatures"}
 )
 public class ShoppableTrayRunnerTest {
-
-
 }

@@ -6,6 +6,7 @@ import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -256,12 +257,18 @@ public class MultiplePdpPage {
     }
 
     private void selectNextVariation(){
+    	
+    	WebElement productVariations = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='product__variations']")));
+    	Util.scrollToElement(driver, productVariations);
+    	
         By currentVariationXpath = By.xpath(".//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]");
         WebElement currentVariation =  wait.until(ExpectedConditions.presenceOfElementLocated(currentVariationXpath));
         WebElement nextVariation = currentVariation.findElement(By.xpath("following-sibling::li/div[contains(@class,'radio__label')]"));
 
         String url = driver.getCurrentUrl();
         nextVariation.click();
+        Util.waitForPageFullyLoaded(driver);
+        Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
         loadNavigation();
 
@@ -295,6 +302,7 @@ public class MultiplePdpPage {
     }
 
     private boolean isDrawerOpen(WebElement parentDrawer){
+        wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(parentDrawer.findElement(By.className("accordian__wrap")))));
         WebElement drawer = parentDrawer.findElement(By.className("accordian__wrap"));
 
         //drawer is closed
@@ -308,11 +316,23 @@ public class MultiplePdpPage {
         //drawer is closed
         result &= !drawer.getAttribute("class").contains("is-expanded");
 
-        WebElement drawerHeader =   drawer.findElement(By.className("accordian__header"));
-        drawerHeader.click();
+        int cntr = 0;
+        do{
+        	drawer = parentDrawer.findElement(By.className("accordian__wrap"));
+        	Util.scrollToElement(driver, drawer);
+        	WebElement drawerHeader = drawer.findElement(By.className("accordian__header"));
+            wait.until(ExpectedConditions.elementToBeClickable(drawerHeader));
+            Util.clickOnElement(driver, drawerHeader);
+            cntr++;
 
-        //drawer is open
-        result &= drawer.getAttribute("class").contains("is-expanded");
+            //drawer is open
+            result = drawer.getAttribute("class").contains("is-expanded");         
+            if(!result){
+            	logger.error("Drawer is not in open state!!!");
+            	JavascriptExecutor jse = (JavascriptExecutor) driver;
+                jse.executeScript("window.scrollBy(0,-100)", "");
+            }
+        }while(!result && cntr<3);
 
         return result;
     }
