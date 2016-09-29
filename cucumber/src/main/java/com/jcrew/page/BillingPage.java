@@ -191,11 +191,14 @@ public class BillingPage {
     }
     
     public void clickSaveAndContinueButton(){
+    	Util.scrollToElement(driver, addNewBillingAddress);
     	saveContinueButtonOnBillingPage.click();
+    	Util.waitLoadingBar(driver);
     }
     
     public void clickAddNewBillingAddress(){
     	addNewBillingAddress.click();
+    	Util.waitLoadingBar(driver);
     }
     
     public void selectCountryOnNewBillingAddressForm(String country){
