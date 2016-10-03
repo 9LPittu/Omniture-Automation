@@ -104,14 +104,7 @@ Feature: Footer Verification In Home Page
     When Click on footer link Let Us Help You to open
     And Click on sublink International Orders from Let Us Help You footer link
     And User is on internal /help/international_orders.jsp?sidecar=true page
-    And User presses back button
-    When Click on footer link Let Us Help You to open
-    And Click on sublink Size Charts from Let Us Help You footer link
-    And User is on internal /r/size-charts page
-    Then Breadcrumb should display J.Crew
-    And Clicks on J.Crew Breadcrumb
-    And Verify user is in homepage
-    And User presses back button
+    And User presses back button    
     When Click on footer link Let Us Help You to open
     And Click on sublink Need Some Help? from Let Us Help You footer link
     And User is on internal /footie/contactus.jsp?sidecar=true page
@@ -124,6 +117,12 @@ Feature: Footer Verification In Home Page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
+    When Click on footer link Let Us Help You to open
+    And Click on sublink Size Charts from Let Us Help You footer link
+    And User is on internal /r/size-charts page
+    Then Breadcrumb should display J.Crew
+    And Clicks on J.Crew Breadcrumb
+    And Verify user is in homepage
 
   #tc-05
   #Merge
