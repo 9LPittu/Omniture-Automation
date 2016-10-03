@@ -73,7 +73,6 @@ Feature: Footer Verification In Home Page
     Then user should see message as "THANK YOU...Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
 
    #tc-04 starts below
-
   Scenario: Verification of Let Us Help You links display
     When Click on footer link Let Us Help You to open
     And Accordion should be expanded

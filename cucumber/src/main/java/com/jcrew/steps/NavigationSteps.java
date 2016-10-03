@@ -67,7 +67,7 @@ public class NavigationSteps extends DriverFactory {
                 getDriver().switchTo().window(tab);
                 logger.debug("Title in handle: {}", getDriver().getTitle());
                 
-                Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
+                Util.waitLoadingBar(getDriver());
                 String currentUrl = getDriver().getCurrentUrl();
                 if(currentUrl.contains(page)){
                 	result = true;
