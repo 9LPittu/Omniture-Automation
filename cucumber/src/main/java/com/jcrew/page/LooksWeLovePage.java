@@ -66,7 +66,7 @@ public class LooksWeLovePage {
         Util.scrollToElement(driver,randomShopTheLook);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomShopTheLook));
         String url = driver.getCurrentUrl();
-        randomShopTheLook.click();
+        Util.clickOnElement(driver, randomShopTheLook);
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
 
         //Verify that you have more than one product in tray. If you only have one, then select other tray

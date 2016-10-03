@@ -775,9 +775,20 @@ public class ProductDetailPage {
 	            expectedSizeMessage = testDataReader.getData("pdp.size.message");
 	            logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 	            
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeMessage));
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sizeMessage)));
-	            actualSizeMessage = sizeMessage.getText().trim();
+	            int cntr = 0;
+	            do{	            	
+	            	try{
+	            		sizeMessage = Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOf(sizeMessage));
+	    	            Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sizeMessage)));
+	    	            actualSizeMessage = sizeMessage.getText().trim();
+	    	            break;
+	            	}
+	            	catch(Exception e){
+	            		cntr++;
+	            	}
+	            }while(cntr<3);
+	            
+	            
 	            logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
 	        } else {
 	            logger.info("Size message on PDP will not be displayed for '" + countryCode + "' country");
