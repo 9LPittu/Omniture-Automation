@@ -140,6 +140,7 @@ public class ProductDetailPage {
 	
 	        boolean isURL = Util.countryContextURLCompliance(driver, country);
 	        logger.debug("is url?  {}", isURL);
+	        pdpProductName = driver.findElement(By.xpath("//h1[@class='product__name']"));
 	        return pdpProductName.isDisplayed() && StringUtils.isNotBlank(pdpProductName.getText()) && isURL;
     	}
     	catch(Exception e){
