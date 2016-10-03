@@ -775,8 +775,8 @@ public class ProductDetailPage {
 	            expectedSizeMessage = testDataReader.getData("pdp.size.message");
 	            logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 	            
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sizeMessage)));
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeMessage));
+	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sizeMessage)));
 	            actualSizeMessage = sizeMessage.getText().trim();
 	            logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
 	        } else {
@@ -807,6 +807,7 @@ public class ProductDetailPage {
 	            logger.info("Expected PDP Message: {}", expectedPDPMessage);
 	
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
+	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpMessage)));
 	            actualPDPMessage = pdpMessage.getText().trim();
 	            logger.info("Actual PDP Message: {}", expectedPDPMessage);
 	        } else {

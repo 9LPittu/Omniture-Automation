@@ -193,7 +193,9 @@ public class AccountDetailsPage {
 
     private WebElement getformElement(String fieldLabel) {
         WebElement formElement;
+        Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myDetailForm));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(myDetailForm)));
         switch (fieldLabel) {
             case "first name":
                 formElement = myDetailForm.findElement(By.id("my-details-form__first-name"));
