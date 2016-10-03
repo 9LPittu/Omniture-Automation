@@ -119,13 +119,14 @@ public class ProductDetailPage {
     	try{
 	        Country country = (Country) stateHolder.get("context");
 	        logger.info("country context is  : {}", country.getCountryName());
-	        Util.waitForPageFullyLoaded(driver);
-	        Util.waitLoadingBar(driver);
 	        
 	        WebElement pdpProductName = null;
 	        int cntr = 0;
 	        do{
 	        	try{
+	        		Util.waitForPageFullyLoaded(driver);
+	    	        Util.waitLoadingBar(driver);
+	    	        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productDetailsDrawer));
 	        		pdpProductName = Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='product__name']")));
 	    	        Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOf(pdpProductName));
 	    	        Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpProductName)));
