@@ -51,13 +51,7 @@ public class NavigationSteps extends DriverFactory {
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String browser = propertyReader.getProperty("browser");
     	
-        if(browser.equalsIgnoreCase("phantomjs")){
-        	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
-        	assertTrue("Browser was expected to be at " + page + " and current page is "+getDriver().getCurrentUrl(),
-                getDriver().getCurrentUrl().endsWith(page));
-        	logger.info("Browser url ends with '{}'", page);
-        }
-        else{
+        if(page.equalsIgnoreCase("/r/size-charts") && !browser.equalsIgnoreCase("phantomjs")){
         	ArrayList<String> tabs = new ArrayList<String> (getDriver().getWindowHandles());
             logger.info("no.of windowhandles; {}", tabs.size());
             
@@ -75,6 +69,12 @@ public class NavigationSteps extends DriverFactory {
                 }
             }            
             assertTrue("Browser was expected to be at " + page + " and current page is " + getDriver().getCurrentUrl(), result);
+        }
+        else{
+        	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
+        	assertTrue("Browser was expected to be at " + page + " and current page is "+getDriver().getCurrentUrl(),
+                getDriver().getCurrentUrl().endsWith(page));
+        	logger.info("Browser url ends with '{}'", page);
         }
     }
 
