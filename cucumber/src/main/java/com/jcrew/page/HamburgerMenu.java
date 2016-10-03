@@ -306,9 +306,12 @@ public class HamburgerMenu {
     }
     
     public boolean isUserPanelLinkPresent(String linkName){
-    	Util.waitForPageFullyLoaded(driver);    	
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
 		WebElement userPanelElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='menu__item--userpanel']")));
-		return userPanelElement.findElement(By.xpath(
-		    	"//a[contains(@class,'menu__link--userpanel') and text()='" + linkName.toUpperCase() + "']")).isDisplayed();
+		WebElement linkElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+								 userPanelElement.findElement(By.xpath(
+										 	".//a[contains(@class,'menu__link--userpanel') and text()='" + linkName.toUpperCase() + "']"))));
+		return linkElement.isDisplayed();
     }
 }
