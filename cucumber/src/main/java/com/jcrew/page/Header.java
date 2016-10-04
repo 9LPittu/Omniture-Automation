@@ -75,6 +75,9 @@ public class Header {
 
     @FindBy(xpath = "//div[@id=\"global__promo\"]/section")
     private WebElement globalPromoPanel;
+    
+    @FindBy(xpath="//input[contains(@class,'js-header__search__input')]")
+    private WebElement headerSearchInput;
 
     public Header(WebDriver driver) {
         this.driver = driver;
@@ -226,10 +229,22 @@ public class Header {
     }
 
     public void click_on_search_button() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(searchButton));
-        searchButton.click();
+    	int cntr=0;
+    	do{
+    		try{
+    			Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+    	        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+    	        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(searchButton));
+    	        searchButton.click();
+    	        
+    	        if(headerSearchInput.isDisplayed()){
+    	        	break;
+    	        }
+    		}
+    		catch(Exception e){
+    			cntr++;
+    		}
+    	}while(cntr<3);        
     }
 
     public boolean isSearchLinkDisplayed() {
