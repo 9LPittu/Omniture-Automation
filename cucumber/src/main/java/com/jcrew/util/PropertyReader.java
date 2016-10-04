@@ -65,6 +65,13 @@ public class PropertyReader {
     public String getProperty(String property) {
         return readProperty(property);
     }
+    
+    public String getProperty(String property, String defaultValue) {
+        if(!hasProperty(property))
+            return defaultValue;
+
+        return readProperty(property);
+    }
 
     public boolean hasProperty(String key) {
         return properties.containsKey(key);

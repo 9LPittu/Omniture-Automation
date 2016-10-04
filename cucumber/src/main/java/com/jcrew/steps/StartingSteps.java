@@ -300,7 +300,7 @@ public class StartingSteps {
         PropertyReader reader = PropertyReader.getPropertyReader();
         if (!reader.getProperty("environment").equalsIgnoreCase("ci") && stateHolder.hasKey("sidecarusername")) {
             try {
-                UsersHub userHub = UsersHub.getUsersHubInstance();
+                UsersHub userHub = UsersHub.getInstance();
                 userHub.releaseUserCredentials();
             } catch (Exception e) {
                 logger.error("Failed to release user '{}' in DB!!!", (String) stateHolder.get("sidecarusername"));

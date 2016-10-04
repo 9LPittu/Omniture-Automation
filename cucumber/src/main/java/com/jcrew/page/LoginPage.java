@@ -152,7 +152,7 @@ public class LoginPage {
         else{
         	try{
         		if(!stateHolder.hasKey("sidecarusername")){
-            		UsersHub userHub = UsersHub.getUsersHubInstance();
+            		UsersHub userHub = UsersHub.getInstance();
             		userHub.retrieveUserCredentialsFromDBAndStoreInMap(userCategory);
             		
             		username = (String) stateHolder.get("sidecarusername");

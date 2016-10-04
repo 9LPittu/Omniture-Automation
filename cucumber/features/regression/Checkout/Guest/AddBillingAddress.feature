@@ -28,7 +28,7 @@ Feature: Checkout - Guest user is able to add billing address
     And click on CHECK OUT AS A GUEST button
     Then Verify Shipping Page is displayed
 
-    When User fills shipping data and continues
+    When User fills shipping data and continues    
     Then Verifies is in shipping method page
 
     And select shipping method on shipping & gift options page

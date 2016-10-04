@@ -10,9 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
-/**
- * Created by nadiapaolagarcia on 5/3/16.
- */
+
 public class CheckoutShippingAdd extends Checkout {
 
     @FindBy(id = "shipping-address")

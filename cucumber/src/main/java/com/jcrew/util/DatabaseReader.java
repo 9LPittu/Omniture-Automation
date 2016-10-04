@@ -40,7 +40,15 @@ public class DatabaseReader {
 	}
 
 	Connection createConnection(String url, Properties props) throws SQLException {
-		return DriverManager.getConnection(url, props);
+	    Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url, props);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return conn;
 	}
 
 	public Statement createTheStatement(Connection conn) {
