@@ -133,8 +133,18 @@ public class SalePage {
     }
 
     public boolean isSaleTitleDisplayed() {
-        WebElement saleTitle = driver.findElement(By.xpath("//div[@class='c-sale__title' and text() = 'SALE']"));
-        return saleTitle.isDisplayed();
+    	boolean result = false;
+    	try{
+    		WebElement saleTitle = driver.findElement(By.xpath("//div[@class='c-sale__title' and text() = 'SALE']"));        
+    		result =  saleTitle.isDisplayed();
+    	}
+    	catch(NoSuchElementException nsee){
+    		//As per dev team, sale title will be hidden when monetate is displayed
+    		WebElement monetateImg = driver.findElement(By.xpath("//section[@id='c-promo-frame']/img"));
+    		result = monetateImg.isDisplayed();
+    	}
+    	
+    	return result;
     }
     public boolean  isFirstPromoDisplayed() {
         try{
