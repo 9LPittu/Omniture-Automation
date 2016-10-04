@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -18,6 +19,9 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+
 
 
 /**
@@ -119,12 +123,24 @@ public class StartSteps {
 
     private void getInternationalPage(String pageURL, String country) {
         String envUrl = reader.getProperty("url");
+
+        //Update Reader and create context
+        TestDataReader reader = TestDataReader.getTestDataReader();
+        reader.updateReader(country);
+
         Country countrySettings = new Country(envUrl, country);
         stateHolder.put("context", countrySettings);
 
         String homeURL = countrySettings.getHomeurl();
         String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
         logger.debug("getting url: " + intlPageURL);
+
+        if(envUrl.contains("or.jcrew.com")) {
+            driver.get("https://or.jcrew.com/404");
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
+        }
+
         driver.get(intlPageURL);
     }
 
@@ -141,23 +157,34 @@ public class StartSteps {
         envUrl = context.getHomeurl();
 
         logger.debug("getting url: " + envUrl);
-        
+
         if(envUrl.contains("or.jcrew.com")) {
-            driver.get("https://or.jcrew.com/404");            
+            driver.get("https://or.jcrew.com/404");
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
         }
 
-        
+
         driver.get(envUrl);
     }
 
     private void getIntlHomePage(String country) {
         String envUrl = reader.getProperty("url");
 
+        //Update Reader and create context
+        TestDataReader reader = TestDataReader.getTestDataReader();
+        reader.updateReader(country);
         Country context = new Country(envUrl, country);
         stateHolder.put("context", context);
+
         envUrl = context.getHomeurl();
+
+        if(envUrl.contains("or.jcrew.com")) {
+            driver.get("https://or.jcrew.com/404");
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
+        }
+
         String intlHomeURL = envUrl +"/"+ context + "/" ;
         logger.debug("getting url: " + intlHomeURL);
         driver.get(intlHomeURL);
