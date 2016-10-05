@@ -2,9 +2,7 @@ package com.jcrew.page;
 
 import com.github.javafaker.Faker;
 import com.jcrew.pojo.Country;
-import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
-import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -121,14 +119,11 @@ public class ShippingAddressPage extends Checkout {
     
     public void fills_shipping_address_testdata() {
     	
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("url");
-    	
     	Country country = (Country)stateHolder.get("context");
     	String countryName = country.getCountryName();
+    	
         firstNameSA.sendKeys(faker.name().firstName());
-        lastNameSA.sendKeys(faker.name().lastName());
-        
+        lastNameSA.sendKeys(faker.name().lastName());        
         address3.sendKeys(country.getCompanyName());
         address1.sendKeys(country.getAddress1());
         address2.sendKeys(country.getAddress2());
@@ -276,8 +271,7 @@ public class ShippingAddressPage extends Checkout {
     			logger.info("Province/State/County is not displayed!!!");
     		}
     	}
-    }
-    
+    }    
     
     public void selectIntlCityAndState(String cityname,String statename) {
 	 

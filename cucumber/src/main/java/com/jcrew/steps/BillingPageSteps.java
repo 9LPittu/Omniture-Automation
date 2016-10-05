@@ -108,4 +108,31 @@ public class BillingPageSteps extends DriverFactory {
     public void presses_continue_button_on_shipping_address() throws Throwable {
     	billingPage.presses_continue_button_on_Billingpage();
     }
+    
+    @When("^User adds new billing address$")
+    public void add_billing_address() {
+    	billingPage.addNewBillingAddress();
+    }
+    
+    @Then("Verify Billing Address page is displayed")
+    public void is_billing_address_page_displayed() {
+        assertTrue("Is billing address page", billingPage.isDisplayed());
+    }
+    
+    @Then("Verify Billing page is displayed")
+    public void is_billing_page_displayed() {
+        assertTrue("Is billing page", billingPage.isBillingPageDisplayed());
+    }
+    
+    @When("User fills billing address and continues")
+    public void save_billing_address() {
+    	billingPage.fillFormData();
+    	billingPage.continueCheckout();
+    }
+    
+    @When("User fills payment method as guest and continues")
+    public void fill_payment_method() {
+    	billingPage.fillPaymentMethod(true);
+    	billingPage.continueCheckout();
+    }
 }

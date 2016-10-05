@@ -26,24 +26,24 @@ Feature: Checkout - Guest user is able to add billing address
 
     And Clicks on checkout
     And click on CHECK OUT AS A GUEST button
-    Then Verify Shipping Page is displayed
+    Then Verify Shipping Page is displayed    
 
-    When User fills shipping data and continues    
+    When User fills shipping data and continues
     Then Verifies is in shipping method page
 
     And select shipping method on shipping & gift options page
     And Clicks continue button on shipping method page
     Then Verify user is in billing page
 
-    When User adds new billing address
-    Then Verify Billing Address page is displayed
+    When User adds new billing address    
+    Then Verify Billing Address page is displayed    
 
-    When User fills billing address and continues
-    Then Verify Billing page is displayed
+    When User fills billing address and continues    
+    Then Verify Billing page is displayed   
 
-    When User fills payment method as guest and continues
-    Then Verify user is in review page
-    And Verify added billing address matches review page
+    When User fills payment method as guest and continues    
+    Then Verify user is in review page    
+    And Verify added billing address matches review page    
 
     And Clicks on place your order
     Then User should be in order confirmation page

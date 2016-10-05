@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.ReviewPage;
+import com.jcrew.pojo.Address;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -54,5 +55,28 @@ public class ReviewPageSteps extends DriverFactory {
     @And("^product name and price on review page should be displayed correctly$")
     public void product_name_price_on_review_page_should_be_displayed_correctly(){
     	assertTrue("Product name and price on review page should be displayed correctly",reviewPage.isProductNamePriceMatchesOnReviewPage());
+    }
+    
+    @Then("Verify user is in review page")
+    public void is_review_page() {
+        assertTrue("User is in review page", reviewPage.isDisplayed());
+    }
+    
+    @Then("Verify added billing address matches review page")
+    public void verify_added_billing_address() {
+        Address address = new Address("billing");
+        verify_address(address);
+    }
+    
+    private void verify_address(Address address) {
+
+        String billingAddress = reviewPage.getBillingAddress();
+
+        assertTrue("Review billing address contains " + address.getLine1(), billingAddress.contains(address.getLine1()));
+        assertTrue("Review billing address contains " + address.getLine2(), billingAddress.contains(address.getLine2()));
+        assertTrue("Review billing address contains " + address.getZipcode(), billingAddress.contains(address.getZipcode()));
+        assertTrue("Review billing address contains " + address.getCity(), billingAddress.contains(address.getCity()));
+        assertTrue("Review billing address contains " + address.getState(), billingAddress.contains(address.getState()));
+        assertTrue("Review billing address contains " + address.getPhone(), billingAddress.contains(address.getPhone()));
     }
 }

@@ -1,6 +1,8 @@
 package com.jcrew.page;
 
 import com.github.javafaker.Faker;
+import com.jcrew.pojo.Address;
+import com.jcrew.pojo.User;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
@@ -13,7 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 
-public class BillingPage {
+public class BillingPage extends Checkout {
 
     private static final String NAME_ON_CARD = "John Doe";
     private final WebDriver driver;
@@ -102,11 +104,35 @@ public class BillingPage {
     private WebElement checkYourAddress_UseAddressAsEntered;
     
     @FindBy(className = "button-submit")
-    private WebElement continueCheckout;	
+    private WebElement continueCheckout;
+    
+    @FindBy(id = "address-entry-new")
+    private WebElement newAddressEntry;
+    
+    @FindBy(id = "shipping-address")
+    private WebElement shippingForm;
+    
+    @FindBy(id = "payment_page")
+    private WebElement payment_page;
     
     public BillingPage(WebDriver driver) {
+    	super(driver);
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
+    }
+    
+    public boolean isDisplayed() {
+        String bodyId = getBodyAttribute("id");
+        logger.debug("Billing address id: {}", bodyId);
+
+        return bodyId.equals("billing");
+    }
+    
+    public boolean isBillingPageDisplayed() {
+        wait.until(ExpectedConditions.visibilityOf(payment_page));
+        String bodyId = getBodyAttribute("id");
+
+        return bodyId.equals("billing");
     }
 
     public void fill_required_payment_data() {
@@ -250,5 +276,53 @@ public class BillingPage {
     public void presses_continue_button_on_Billingpage() {
         continueCheckout.click();
         Util.waitForPageFullyLoaded(driver);
+    }
+    
+    public void addNewBillingAddress() {
+        WebElement label = newAddressEntry.findElement(By.tagName("label"));
+        Util.scrollToElement(driver, label);
+        label.click();
+    }
+    
+    public void fillFormData() {
+        Address address = new Address("billing");
+        User user = User.getFakeUser();
+
+        addNewBillingAddress_FirstName.sendKeys(user.getFirstName());
+        addNewBillingAddress_LastName.sendKeys(user.getLastName());
+        addNewBillingAddress_address1.sendKeys(address.getLine1());
+        addNewBillingAddress_address2.sendKeys(address.getLine2());
+        addNewBillingAddress_zipcode.sendKeys(address.getZipcode());
+        addNewBillingAddress_PhoneNumber.sendKeys(address.getPhone());
+
+        WebElement usState = shippingForm.findElement(By.id("dropdown-us-city-state"));
+        wait.until(ExpectedConditions.visibilityOf(usState));
+    }
+    
+    public void fillPaymentMethod(boolean isGuest) {
+        TestDataReader testData = TestDataReader.getTestDataReader();
+        User checkoutUSer;
+
+        creditCardNumber.sendKeys(testData.getData("card.number"));
+        securityCode.sendKeys(testData.getData("card.cvv"));
+
+        Select month = new Select(expirationMonth);
+        month.selectByVisibleText(testData.getData("card.month"));
+
+        Select year = new Select(expirationYear);
+        year.selectByVisibleText(testData.getData("card.year"));
+
+        if (isGuest) {
+            checkoutUSer = User.getFakeUser();
+        } else {
+            checkoutUSer = User.getUser(User.NO_DEFAULT);
+        }
+
+        nameOnCard.sendKeys(checkoutUSer.getFirstName() + " " + checkoutUSer.getLastName());
+        emailReceipt.sendKeys(checkoutUSer.getEmail());
+    }
+
+    public void continueCheckout() {
+        nextStep(shippingForm);
     }
 }

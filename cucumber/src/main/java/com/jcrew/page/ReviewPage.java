@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class ReviewPage {
+public class ReviewPage extends Checkout{
 
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(ReviewPage.class);
@@ -55,12 +55,20 @@ public class ReviewPage {
     private WebElement reviewPage_ShippingDetailsSection_ChangeButton;
 
     public ReviewPage(WebDriver driver) {
+    	super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         if(propertyReader.getProperty("url").contains("www.jcrew.com")){
             isProduction = true;
         }
+    }
+    
+    public boolean isDisplayed() {
+        String bodyId = getBodyAttribute("id");
+        logger.debug("Review id: {}", getBodyAttribute("id"));
+
+        return bodyId.equals("review");
     }
 
     public void user_places_its_order() {
@@ -188,5 +196,10 @@ public class ReviewPage {
         }
 
         return productName;
+    }
+    
+    public String getBillingAddress() {
+        WebElement billingAddress = billingSection.findElement(By.className("billing-address"));
+        return billingAddress.getText().trim();
     }
 }
