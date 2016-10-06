@@ -141,4 +141,19 @@ public class ShippingMethodPage {
 
         return new ShippingMethod(methodType, priceText, text);
     }
+    
+    public void addGiftOption() {
+        WebElement add = shippingMethodForm.findElement(By.id("includesGifts"));
+        add.click();
+    }
+
+    public void addGiftMessage(String message) {
+        WebElement textArea = shippingMethodForm.findElement(By.id("gift-receipt-msg0"));
+        textArea.sendKeys(message);
+    }
+    
+    public String getGiftReceiptInfoMessage(){
+    	WebElement giftReceiptInfoMessage = shippingMethodForm.findElement(By.className("gift-receipt-info"));
+    	return giftReceiptInfoMessage.getText().trim();
+    }
 }

@@ -11,6 +11,8 @@ import com.jcrew.util.Util;
 import java.text.SimpleDateFormat;
 
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -84,7 +86,6 @@ public class ShippingMethodPageSteps extends DriverFactory {
     @And("^validate correct shipping methods displayed on the page$")
     public void validate_shipping_methods() {
         Country country = (Country) stateHolder.get("context");
-        String countryName = country.getCountryName().toLowerCase().trim();
         String countryCode = country.getCountry();
 
         List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
@@ -155,5 +156,17 @@ public class ShippingMethodPageSteps extends DriverFactory {
                 e.printStackTrace();
             }
         }
+    }
+    
+    @When("User selects gift option and adds message: ([^\"]*)")
+    public void add_gift_option(String message) {
+    	shippingMethodPage.addGiftOption();
+    	shippingMethodPage.addGiftMessage(message);
+    }
+    
+    @Then("^Verify gift receipt info message is '([^\"]*)'$")
+    public void verify_gift_receipt_info_message(String expectedMessage){
+    	String actualMessage = shippingMethodPage.getGiftReceiptInfoMessage().toLowerCase();
+    	assertEquals("Gift receipt info message should be displayed as " + expectedMessage, expectedMessage.toLowerCase(), actualMessage);    	
     }
 }

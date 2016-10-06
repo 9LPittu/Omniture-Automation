@@ -8,6 +8,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class BillingPageSteps extends DriverFactory {
 
@@ -134,5 +135,14 @@ public class BillingPageSteps extends DriverFactory {
     public void fill_payment_method() {
     	billingPage.fillPaymentMethod(true);
     	billingPage.continueCheckout();
+    }
+    
+    @Then("^Verify no additional charges are applied for gift receipt$")
+    public void verify_no_additional_charges_applied_for_gift_receipt(){
+    	String orderSubtotalBeforeGiftReceipt = (String) billingPage.stateHolder.get("ordersubtotal");
+    	
+    	String orderSubtotalOnBilling = billingPage.getSubTotal();
+    	
+    	assertEquals("No additional charges should be applied for gift receipt on billing page", orderSubtotalBeforeGiftReceipt, orderSubtotalOnBilling);
     }
 }
