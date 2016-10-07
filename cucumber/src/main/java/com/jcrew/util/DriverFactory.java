@@ -162,7 +162,7 @@ public class DriverFactory {
 
         } else if ("firefox".equals(browser)) {
             DesiredCapabilities firefox = DesiredCapabilities.firefox();
-            firefox.setPlatform(Platform.WINDOWS);
+            //firefox.setPlatform(Platform.WINDOWS);
             firefox.setCapability(FirefoxDriver.PROFILE, getFirefoxProfile());
             firefox.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
             driver = getDesktopWebDriver(propertyReader, firefox);
