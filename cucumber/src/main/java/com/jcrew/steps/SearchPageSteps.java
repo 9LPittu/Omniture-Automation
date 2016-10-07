@@ -86,7 +86,7 @@ public class SearchPageSteps extends DriverFactory {
         String[] filterRefinementsAsArray = filterRefinements.split(",");
         for (String filterRefinement : filterRefinementsAsArray) {
             String trimmedRefinement = filterRefinement.trim();
-            if (!filterRefinement.equalsIgnoreCase("brand"))
+            if (!trimmedRefinement.equalsIgnoreCase("brand"))
                 assertTrue("Refinement " + trimmedRefinement + " is not present ", searchPage.isRefinementDisplayed(trimmedRefinement));
         }
     }
