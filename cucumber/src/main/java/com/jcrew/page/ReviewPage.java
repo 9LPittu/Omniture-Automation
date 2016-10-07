@@ -53,6 +53,9 @@ public class ReviewPage extends Checkout{
     
     @FindBy(xpath=".//*[@id='shipping-details']/h2/a")
     private WebElement reviewPage_ShippingDetailsSection_ChangeButton;
+    
+    @FindBy(id = "gifting-details")
+    private WebElement gifting_details;
 
     public ReviewPage(WebDriver driver) {
     	super(driver);
@@ -201,5 +204,39 @@ public class ReviewPage extends Checkout{
     public String getBillingAddress() {
         WebElement billingAddress = billingSection.findElement(By.className("billing-address"));
         return billingAddress.getText().trim();
+    }
+    
+    public void editDetails(String group) {
+        logger.debug("Editing {}", group);
+
+        WebElement changeButton;
+
+        wait.until(ExpectedConditions.visibilityOf(billingSection));
+        wait.until(ExpectedConditions.visibilityOf(shippingSection));
+        wait.until(ExpectedConditions.visibilityOf(gifting_details));
+        wait.until(ExpectedConditions.visibilityOf(order__listing));
+
+        switch (group) {
+            case "billing":
+                changeButton = billingSection.findElement(By.className("item-button"));
+                break;
+            case "shipping":
+                changeButton = shippingSection.findElement(By.className("item-button"));
+                break;
+            case "gifting":
+                changeButton = gifting_details.findElement(By.className("item-button"));
+                break;
+            case "order":
+                changeButton = order__listing.findElement(By.className("item-button"));
+                break;
+            default:
+                logger.error("Not recognized change button!");
+                changeButton = null;
+        }
+
+        if(changeButton != null) {
+            changeButton.click();
+            Util.waitLoadingBar(driver);
+        }
     }
 }

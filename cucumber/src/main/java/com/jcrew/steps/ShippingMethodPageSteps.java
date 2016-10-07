@@ -169,4 +169,41 @@ public class ShippingMethodPageSteps extends DriverFactory {
     	String actualMessage = shippingMethodPage.getGiftReceiptInfoMessage().toLowerCase();
     	assertEquals("Gift receipt info message should be displayed as " + expectedMessage, expectedMessage.toLowerCase(), actualMessage);    	
     }
+    
+    @Then("^Verify Shipping Options Page contains gift option section$")
+    public void gift_options_section() {
+        assertTrue("Gift options section is displayed", shippingMethodPage.hasGiftOption());
+    }
+    
+    @And("^Verify default value for shipping method$")
+    public void verify_default_value_for_shipping_method() throws Throwable {
+        Country country = (Country) stateHolder.get("context");
+        String countryName = country.getCountryName().toLowerCase().trim();
+        String countryCode = country.getCountry();
+
+        if (countryCode.equalsIgnoreCase("us")) {
+
+            String addressType = (String) stateHolder.get("atpAddressType");
+            String expectedDefaultShipMethod = testDataReader.getData(addressType + ".default.shipping.method");
+
+            String actualShippingMethodSelected = shippingMethodPage.getSelectedShippingMethodName().toLowerCase();
+            actualShippingMethodSelected = actualShippingMethodSelected.split("\\(")[0].trim();
+
+
+            List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+            for (int i = 0; i < expectedMethods.size(); i++) {
+                ShippingMethod method = expectedMethods.get(i);
+                if (method.getPrice().equalsIgnoreCase("free")) {
+                    expectedDefaultShipMethod = expectedDefaultShipMethod.split("\\(")[0].trim();
+                    break;
+                }
+            }
+
+            assertEquals("Default shipping method selected should be ", expectedDefaultShipMethod, actualShippingMethodSelected);
+
+        } else {
+
+            assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
+        }
+    }
 }

@@ -37,32 +37,32 @@ Feature: Checkout - Guest user is able to edit data in review page
     When User fills payment method as guest and continues
     Then Verify user is in review page
 
-    And click on 'CHANGE' button of 'BILLING DETAILS' section on 'Review' page
+    When User edits details for billing
     Then Verify Billing page is displayed
 
-    When User continues to review page
+    And Submits payment data in billing page
     Then Verify user is in review page
 
     When User edits details for shipping
     Then Verify Shipping Page is displayed
 
-    When User continues to Shipping and Gift Options page
-    Then Verify Shipping And Gift Options page is displayed
+    When Presses continue button on shipping address
+    And Verifies is in shipping method page
 
-    When User continues to Payment Method page
+    And Clicks continue button on shipping method page
     Then Verify Billing page is displayed
 
-    When User continues to review page
+    When Submits payment data in billing page
     Then Verify user is in review page
 
     When User edits details for gifting
-    Then Verify Shipping And Gift Options page is displayed
+    And Verifies is in shipping method page
 
-    When User continues to Payment Method page
+    And Clicks continue button on shipping method page
     Then Verify Billing page is displayed
 
-    When User continues to review page
+    When Submits payment data in billing page
     Then Verify user is in review page
 
     When User edits details for order
-    Then Verify shopping bag is displayed
+    Then User should be in shopping bag page

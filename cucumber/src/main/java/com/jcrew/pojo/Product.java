@@ -1,7 +1,5 @@
 package com.jcrew.pojo;
 
-import java.awt.geom.QuadCurve2D;
-
 public class Product {
     private String productName;
     private String productCode;
@@ -138,5 +136,4 @@ public class Product {
 
         return false;
     }
-
 }

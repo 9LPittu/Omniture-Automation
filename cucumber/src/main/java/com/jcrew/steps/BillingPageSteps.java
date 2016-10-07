@@ -8,6 +8,9 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class BillingPageSteps extends DriverFactory {
@@ -145,4 +148,94 @@ public class BillingPageSteps extends DriverFactory {
     	
     	assertEquals("No additional charges should be applied for gift receipt on billing page", orderSubtotalBeforeGiftReceipt, orderSubtotalOnBilling);
     }
+    
+    @Then("Verify accepted cards from list")
+    public void accepted_cards(List<String> expectedCards) {
+        List<String> actualCards = billingPage.getAcceptedCards();
+
+        for(String card : actualCards)
+            billingPage.logger.debug("accepted card: " + card);
+
+        assertEquals("Same number of accepted cards", expectedCards.size(), actualCards.size());
+
+        for (int i = 0; i < expectedCards.size(); i++) {
+            String expected = expectedCards.get(i);
+            String actual = actualCards.get(i);
+
+            assertEquals("Expected accepted card", expected, actual);
+        }
+    }
+    
+    @Then("Verify available payment methods from list")
+    public void available_payment_methods(List<String> expectedMethods) {
+        List<String> actualMethods = billingPage.getPaymentMethods();
+
+        assertEquals("Same number of payment methods", expectedMethods.size(), actualMethods.size());
+
+        for (int i = 0; i < expectedMethods.size(); i++) {
+            String expected = expectedMethods.get(i);
+            String actual = actualMethods.get(i);
+
+            assertEquals("Expected payment method", expected, actual);
+
+        }
+    }
+    
+    @When("User adds a promo code ([^\"]*) in Payment Method page")
+    public void add_payment_method(String code) {
+    	billingPage.addPromoCode(code);
+    }
+
+    @Then("Verify promo message says: ([^\"]*)")
+    public void promo_message(String message) {
+        String actual = billingPage.getPromoCodeMessage();
+
+        assertEquals("Expected promo message", message, actual);
+    }
+
+    @Then("Verify promo name contains: ([^\"]*)")
+    public void promo_name(String message) {
+        message = message.toLowerCase();
+        String actual = billingPage.getPromoName().toLowerCase();
+
+        assertTrue("Expected promo name contains " +  message, actual.contains(message));
+    }
+
+    @Then("Verify promo details contains: ([^\"]*)")
+    public void promo_details(String message) {
+        message = message.toLowerCase();
+        String actual = billingPage.getPromoDetails().toLowerCase();
+
+        assertTrue("Expected promo name contains " +  message, actual.contains(message));
+        billingPage.stateHolder.put("promoMessage", message);
+    }
+
+    @Then("Verify promo code applied 10 percent from subtotal")
+    public void applied_promo() {
+        String subtotal = billingPage.getSubTotal();
+        subtotal = subtotal.replaceAll("[^0-9]", "");
+        String promo = billingPage.getPromoDiscount();
+        promo = promo.replaceAll("[^0-9]", "");
+
+        int subtotalInt = Integer.parseInt(subtotal);
+        int promoInt = Integer.parseInt(promo) * 10;
+        
+        boolean result = false;
+        if(subtotalInt==promoInt || (subtotalInt + 1)==promoInt){
+        	result = true;
+        }
+
+        assertTrue("Promo was applied correctly", result);
+    }
+    
+    @And("^Verify remove button is displayed in promo section$")
+    public void remove_button_displayed_in_promo_section(){
+    	assertTrue("remove button is displayed in promo section after promo code is applied", billingPage.getPromoRemoveElement().isDisplayed()); 
+    }
+    
+    @And("^Verify promo message is updated in the summary section$")
+    public void promo_message_updated_in_summary_section(){
+    	assertTrue("Promo message is updated in the order summary section after promo code is applied", billingPage.getPromoMessageElementFromOrderSummary().isDisplayed());
+    }
+
 }

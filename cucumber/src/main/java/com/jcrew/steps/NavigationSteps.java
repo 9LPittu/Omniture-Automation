@@ -1,15 +1,19 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.Header;
+import com.jcrew.page.HomePage;
 import com.jcrew.page.Navigation;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -23,7 +27,10 @@ public class NavigationSteps extends DriverFactory {
 
 	private final Logger logger = LoggerFactory.getLogger(NavigationSteps.class);
     private final Navigation navigation = new Navigation(getDriver());
+    private final Header header = new Header(getDriver());
+    private final HomePage homePage = new HomePage(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
+    TestDataReader testDataReader = TestDataReader.getTestDataReader();
     
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable { 
@@ -113,5 +120,22 @@ public class NavigationSteps extends DriverFactory {
     	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(url));
         assertTrue("Page URL should contain " + url,
                 getDriver().getCurrentUrl().contains(url));
+    }
+    
+    @When("^User navigates to product ([^\"]*) with multiple colors and multiple sizes$")
+    public void search_product_from_reading_testdata(String sequenceNum) {
+        search(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
+    }
+    
+    @When("User searches for a random search term")
+    public void user_searches_for_a_random_search_term() {
+        String term = testDataReader.getSearchWord();
+        search(term);
+    }
+    
+    private void search(String searchTerm){
+    	header.click_on_search_button();
+        homePage.input_search_term(searchTerm);
+        homePage.click_on_search_button_for_input_field(); 
     }
 }

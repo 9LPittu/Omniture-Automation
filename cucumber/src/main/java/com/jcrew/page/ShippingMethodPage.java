@@ -2,7 +2,6 @@ package com.jcrew.page;
 
 import java.util.*;
 
-import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 import com.jcrew.pojo.ShippingMethod;
 
@@ -155,5 +154,18 @@ public class ShippingMethodPage {
     public String getGiftReceiptInfoMessage(){
     	WebElement giftReceiptInfoMessage = shippingMethodForm.findElement(By.className("gift-receipt-info"));
     	return giftReceiptInfoMessage.getText().trim();
+    }
+    
+    public boolean hasGiftOption() {
+        WebElement giftOption = shippingMethodForm.findElement(By.className("form-section-gift-options"));
+        return giftOption.isDisplayed();
+    }
+    
+    public String getSelectedShippingMethodName() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shippingMethodForm));
+        WebElement selectedLabel = shippingMethodForm.findElement(By.xpath(".//label[@class='form-label radio-checked']"));
+        WebElement shipMethodName = selectedLabel.findElement(By.xpath(".//span[@class='method-group']/span[contains(@class,'label')]"));
+        String ShippingMethodText = shipMethodName.getText().trim();
+        return ShippingMethodText;
     }
 }

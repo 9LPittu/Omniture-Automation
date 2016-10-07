@@ -353,6 +353,5 @@ public abstract class Checkout extends PageObject{
     public WebElement getPromoMessageElementFromOrderSummary(){
     	WebElement promoMessageElement = orderSummary.findElement(By.xpath("//span[@class='summary-label' and text()='" + stateHolder.get("promoMessage") + "']"));
     	return promoMessageElement;
-    }
-
+    }   
 }

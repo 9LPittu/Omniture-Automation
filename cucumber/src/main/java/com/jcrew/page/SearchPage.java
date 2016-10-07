@@ -1,6 +1,5 @@
 package com.jcrew.page;
 
-import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
@@ -9,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -427,5 +425,32 @@ public class SearchPage {
     	}
 
         return isBreadcrumbItemDisplayed;
-    }    
+    }
+    
+    public void selectRandomProduct()
+    {
+        selectRandomProduct(searchResult);
+    }
+    
+    public void selectRandomProduct(WebElement productList) {
+        List<WebElement> productTiles = getProductTiles(productList);
+        logger.info("This array page has {} products", productTiles.size());
+
+        WebElement random_product_tile = Util.randomIndex(productTiles);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(random_product_tile));
+        WebElement random_product_name = random_product_tile.findElement(By.className("tile__detail--name"));
+
+        logger.info("Selected product: {}", random_product_name.getText());
+
+        WebElement random_product_image = random_product_tile.findElement(By.tagName("img"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(random_product_image));
+        random_product_image.click();
+
+        Util.waitLoadingBar(driver);
+        new ProductDetailPage(driver);
+    }
+    
+    private List<WebElement> getProductTiles(WebElement productList) {
+        return productList.findElements(By.className("c-product-tile"));
+    }
 }

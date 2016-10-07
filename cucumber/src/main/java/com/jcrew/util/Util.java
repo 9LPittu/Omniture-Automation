@@ -30,6 +30,11 @@ public class Util {
     public static int randomIndex(int size) {
         return (int) (Math.random() * (size));
     }
+    
+    public static WebElement randomIndex(List<WebElement> list){
+        int random = randomIndex(list.size());
+        return list.get(random);
+    }
 
     public static Product getCurrentProduct() {
         @SuppressWarnings("unchecked")

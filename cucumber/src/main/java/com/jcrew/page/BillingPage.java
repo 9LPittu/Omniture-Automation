@@ -6,6 +6,9 @@ import com.jcrew.pojo.User;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -114,6 +117,9 @@ public class BillingPage extends Checkout {
     
     @FindBy(id = "payment_page")
     private WebElement payment_page;
+    
+    @FindBy(id = "method-container")
+    private WebElement method_container;
     
     public BillingPage(WebDriver driver) {
     	super(driver);
@@ -324,5 +330,37 @@ public class BillingPage extends Checkout {
 
     public void continueCheckout() {
         nextStep(shippingForm);
+    }
+    
+    public List<String> getAcceptedCards() {
+        WebElement cardsContainer = creditCardBilling.findElement(By.className("credit-card-icons-id"));
+        List<WebElement> methods = cardsContainer.findElements(By.className("credit-card-icon"));
+        List<String> methodsString = new ArrayList<>(methods.size());
+
+        for (WebElement method : methods) {
+            String methodString = method.getAttribute("class");
+            methodString = methodString.replace("credit-card-icon cc-", "");
+            methodString = methodString.replace("-id", "");
+
+            methodsString.add(methodString);
+        }
+
+        return methodsString;
+    }
+    
+    public List<String> getPaymentMethods() {
+        List<WebElement> methods = method_container.findElements(By.className("form-radio-set"));
+        List<String> methodsString = new ArrayList<>(methods.size());
+
+        for (WebElement method : methods) {
+            String methodString = method.getText().trim();
+            methodsString.add(methodString);
+        }
+
+        return methodsString;
+    }
+    
+    public String getPromoDiscount() {
+        return getSummaryText("promo");
     }
 }

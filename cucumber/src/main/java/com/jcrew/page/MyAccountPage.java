@@ -3,7 +3,6 @@ package com.jcrew.page;
 import java.util.List;
 
 import com.jcrew.pojo.Country;
-import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.UsersHub;
 import com.jcrew.util.Util;

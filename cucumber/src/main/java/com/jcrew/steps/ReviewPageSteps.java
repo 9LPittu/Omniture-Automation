@@ -5,6 +5,7 @@ import com.jcrew.pojo.Address;
 import com.jcrew.util.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertTrue;
 
@@ -78,5 +79,10 @@ public class ReviewPageSteps extends DriverFactory {
         assertTrue("Review billing address contains " + address.getCity(), billingAddress.contains(address.getCity()));
         assertTrue("Review billing address contains " + address.getState(), billingAddress.contains(address.getState()));
         assertTrue("Review billing address contains " + address.getPhone(), billingAddress.contains(address.getPhone()));
+    }
+    
+    @When("User edits details for ([^\"]*)")
+    public void edit_details(String details) {
+    	reviewPage.editDetails(details);
     }
 }

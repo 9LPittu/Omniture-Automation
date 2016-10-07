@@ -73,4 +73,11 @@ public class TestDataReader {
 	public boolean getBoolean(String key) {
 		return Boolean.parseBoolean(getData(key));
 	}
+	
+	 public String getSearchWord() {
+        String searchWords = getData("search.words");
+        String words[] = searchWords.split(";");
+
+        return words[Util.randomIndex(words.length)];
+	 }
 }

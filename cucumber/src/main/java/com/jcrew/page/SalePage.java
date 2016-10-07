@@ -17,7 +17,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
@@ -29,7 +28,6 @@ public class SalePage {
 
     private final Logger logger = LoggerFactory.getLogger(SalePage.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
-    private final PropertyReader reader = PropertyReader.getPropertyReader();
 
     private final WebDriver driver;
 
