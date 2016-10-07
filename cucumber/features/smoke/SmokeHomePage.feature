@@ -2,7 +2,7 @@
 Feature: Home Page
 
   Background:
-    Given User is on homepage
+    Given User is on homepage with clean session
 
   Scenario: Verification of Header and Footer section in the Home page
     Then JCrew Logo is present
