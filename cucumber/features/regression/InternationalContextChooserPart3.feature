@@ -1,5 +1,5 @@
 @Context_Part3 @HighLevel
-Feature: International Country Context - Part 2
+Feature: International Country Context - Part 3
 
   Background:
     Given User is on homepage with clean session
