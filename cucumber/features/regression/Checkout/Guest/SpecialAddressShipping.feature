@@ -10,20 +10,20 @@ Feature: Checkout - Expected Shipping Options for special addresses
 	And user selects any subcategory
     
     And user selects any item from array page, select any color and size
-    And User is in product detail page
+    Then User is in product detail page
     
-    And Add to cart button is pressed
-    And A minicart modal should appear with message '1 item has been added to your cart.'
+    When Add to cart button is pressed
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added   
 
     When User clicks on item bag
 	Then User should be in shopping bag page
-    Then Verify products added matches with products in bag
+    And Verify products added matches with products in bag
 
     And Clicks on checkout
     And click on CHECK OUT AS A GUEST button
-    Then Verify Shipping Page is displayed
+    Then Verify Shipping Address page is displayed
 
     When User fills APO shipping data and continues
-    Then Verifies is in shipping method page
+    Then Verifies user is in shipping method page
     And Verify default value for shipping method

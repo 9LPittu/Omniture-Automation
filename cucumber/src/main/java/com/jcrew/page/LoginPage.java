@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.github.javafaker.Faker;
+import com.jcrew.pojo.User;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
@@ -21,9 +22,14 @@ import org.slf4j.LoggerFactory;
 
 public class LoginPage {
 	
-	private final StateHolder stateHolder = StateHolder.getInstance();
+	public final StateHolder stateHolder = StateHolder.getInstance();
     private final Logger logger = LoggerFactory.getLogger(LoginPage.class);
     private final WebDriver driver;
+    
+    public final String DEFAULT = User.DEFAULT;
+    public final String NO_DEFAULT = User.NO_DEFAULT;
+    public final String MULTIPLE = User.MULTIPLE;
+    public final String NO_DEFAULT_MULTIPLE = User.NO_DEFAULT_MULTIPLE;
 
     @FindBy(id = "loginUser")
     private WebElement emailInputCheckout;
@@ -495,5 +501,34 @@ public class LoginPage {
     	else{
     		enter_valid_username_and_password();
     	}
+    }
+    
+    public void signIn(String type) {        
+        User user = User.getUser(type);
+        submitUserCredentials(user.getEmail(),user.getPassword());
+    }
+    
+    public boolean submitUserCredentials(String emailAddress, String password){
+    	boolean isLoginSuccessful = false;
+    	WebElement emailElement = signInForm.findElement(By.id("sidecarUser"));
+        WebElement passwordElement = signInForm.findElement(By.id("sidecarPassword"));
+        
+        emailElement.clear();
+        emailElement.sendKeys(emailAddress);
+        
+        passwordElement.clear();
+        passwordElement.sendKeys(password);
+
+        String currentPage = driver.getCurrentUrl();
+        WebElement submit = signInForm.findElement(By.className("js-button-submit"));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(submit));
+        submit.click();
+
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPage)));
+        isLoginSuccessful = true;
+
+        stateHolder.put("isSignedIn", true);
+        
+        return isLoginSuccessful;
     }
 }

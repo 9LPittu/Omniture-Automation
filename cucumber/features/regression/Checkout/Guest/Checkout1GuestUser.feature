@@ -14,11 +14,11 @@ Feature: Guest User Checkout Process
 	And user selects any subcategory
 	
 	And user selects any item from array page, select any color and size
-    And User is in product detail page    
+    Then User is in product detail page    
     And product name and price should match with array page    
     
     And Add to cart button is pressed
-    And A minicart modal should appear with message '1 item has been added to your cart.'
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
     
     And User is on homepage
@@ -28,20 +28,21 @@ Feature: Guest User Checkout Process
 	And user selects any subcategory
 	
 	And user selects any item from array page, select any color and size
-    And User is in product detail page
+    Then User is in product detail page
     And product name and price should match with array page        
     
-    And Add to cart button is pressed
-    And A minicart modal should appear with message '1 item has been added to your cart.'
+    When Add to cart button is pressed
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
+    
     And Move to mobile site
     
     Then make sure that subtotal is less than creditcard threshold
     
     And Clicks on checkout
-    And page url should contain /checkout2/shoppingbag.jsp
+    Then page url should contain /checkout2/shoppingbag.jsp
     And click on CHECK OUT AS A GUEST button
     
     And enter first name on shipping address page    
@@ -54,23 +55,23 @@ Feature: Guest User Checkout Process
     And Presses continue button on shipping address
     
     And User is on internal /checkout2/shipping.jsp page
-    Then Verifies is in shipping method page
+    Then Verifies user is in shipping method page
     
-    And select shipping method on shipping & gift options page
+    When user select random shipping method on shipping & gift options page
     And Clicks continue button on shipping method page
     Then Verify user is in billing page
     
     When enter "Visa_Card" details on billing page
     And enter email address as "jcrewcolab@gmail.com"
     And Submits payment data in billing page
-    And User is on internal /checkout2/billing.jsp page
-    Then items count should be displayed as 2 in the bag
+    Then User is on internal /checkout2/billing.jsp page
+    And items count should be displayed as 2 in the bag
     
-    And product name and price on review page should be displayed correctly    
+    Then product name and price on review page should be displayed correctly    
     
-    When Clicks on place your order
+    When User clicks on place your order button
     Then User should be in order confirmation page
-    Then verify order number is generated
+    And verify order number is generated
     Examples:
     |shipping_address1|shipping_address2|shipping_zipcode|
     |904 Oak Gln||92168|
@@ -82,9 +83,9 @@ Feature: Guest User Checkout Process
 	And user selects any subcategory
 	
 	And user selects any item from array page, select any color and size    
-    And User is in product detail page    
+    Then User is in product detail page    
     
-    And Add to cart button is pressed
+    When Add to cart button is pressed
     Then A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
     
@@ -97,17 +98,18 @@ Feature: Guest User Checkout Process
     Then User is in product detail page
     And product name and price should match with array page        
     
-    And Add to cart button is pressed
-    And A minicart modal should appear with message '1 item has been added to your cart.'
+    When Add to cart button is pressed
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
     And click on checkout from minicart modal
     Then page title should contain "Shopping Bag"
     And items count should be displayed as 2 in the bag
     
     And Move to mobile site
+    
     Then make sure that subtotal is less than creditcard threshold
     
     And Clicks on checkout
-    And page url should contain /checkout2/shoppingbag.jsp    
+    Then page url should contain /checkout2/shoppingbag.jsp    
     And click on CHECK OUT AS A GUEST button
     
     And enter first name on shipping address page    
@@ -121,8 +123,8 @@ Feature: Guest User Checkout Process
     Then user should see QAS verification in the shipping address page    
     And click on 'USE ADDRESS AS ENTERED' button in the shipping address page    
     
-    And Verifies is in shipping method page
-    And select shipping method on shipping & gift options page
+    And Verifies user is in shipping method page
+    And user select random shipping method on shipping & gift options page
     And Clicks continue button on shipping method page
     
     Then Verify user is in billing page
@@ -143,11 +145,11 @@ Feature: Guest User Checkout Process
     And click on 'USE ADDRESS AS ENTERED' button in the Billing page 
     
     And Submits payment data in billing page
-    And User is on internal /checkout2/billing.jsp page
-    Then items count should be displayed as 2 in the bag
-    
+    Then User is on internal /checkout2/billing.jsp page
+    And items count should be displayed as 2 in the bag    
     And product name and price on review page should be displayed correctly
-    When Clicks on place your order
+    
+    When User clicks on place your order button
     Then User should be in order confirmation page
     And verify order number is generated  
     Examples:

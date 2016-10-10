@@ -9,9 +9,11 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class BillingPageSteps extends DriverFactory {
 
@@ -237,5 +239,69 @@ public class BillingPageSteps extends DriverFactory {
     public void promo_message_updated_in_summary_section(){
     	assertTrue("Promo message is updated in the order summary section after promo code is applied", billingPage.getPromoMessageElementFromOrderSummary().isDisplayed());
     }
+    
+    @Then("^Select different card from the card list$")
+    public void select_card_nodefault(){    	
+    	billingPage.SelectPaymentMethodNoDefault();
+    }
+    
+    @Then("Verify Billing Payment page is displayed")
+    public void is_shipping_options() {
+        assertTrue("Is billing address page", billingPage.isDisplayed());
+    }
+    
+    @When("User fills billing payment with ([^\"]*) and continues")
+    public void save_billing_address(String cardType) {
+    	billingPage.fillPaymentMethod(cardType);
+    	billingPage.continueCheckout();
+    }
+    
+    @Then("^Verify card has been added$")
+    public void card_has_been_added() {
+        String addedCard = (String) billingPage.stateHolder.get("addedCard");
+        List<String> cards = billingPage.getCards();
+        Iterator<String> cardsI = cards.iterator();
 
+        boolean found = false;
+
+        while(!found & cardsI.hasNext()) {
+            String info = cardsI.next();
+            if(info.contains(addedCard))
+                found = true;
+        }
+
+        assertFalse("Removed card is not part of user cards", found);
+    }
+    
+    @When("^User edits recently added card$")
+    public void edit_card() {
+    	billingPage.editCard();
+    }
+    
+    @When("User edits billing payment information and continues")
+    public void edit_billing_payment() {
+    	billingPage.editPayment();
+    	billingPage.continueCheckout();
+    }
+    
+    @Then("^Verify card has been edited")
+    public void card_has_been_edited() {
+        List<String> cards = billingPage.getCards();
+        String card = cards.get(cards.size() - 1);
+
+        assertTrue("Edited card has new info", card.contains("Edited Card Name"));
+    }
+    
+    @When("^User removes ([^\"]*) card$")
+    public void remove_card(String type) {
+    	billingPage.removeCard(type);
+    }
+    
+    @Then("^Verify card has been removed$")
+    public void card_has_been_removed() {
+        String removedCard = (String) billingPage.stateHolder.get("removedCard");
+        List<String> cards = billingPage.getCards();
+
+        assertFalse("Removed card is not part of user cards", cards.contains(removedCard));
+    }
 }

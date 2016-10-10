@@ -29,7 +29,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
     private ShippingMethodCalculator methodCalculator = new ShippingMethodCalculator();
     private TestDataReader testDataReader = TestDataReader.getTestDataReader();
 
-    @And("^Verifies is in shipping method page$")
+    @And("^Verifies user is in shipping method page$")
     public void verifies_is_in_shipping_method_page() throws Throwable {
 
         assertTrue(Util.getSelectedCountryName() + "User should be in shipping method page", shippingMethodPage.isShippingMethodPage());
@@ -78,7 +78,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
         shippingMethodPage.click_continue_button();
     }
 
-    @And("^select shipping method on shipping & gift options page$")
+    @And("^user select random shipping method on shipping & gift options page$")
     public void select_shipping_method_at_random() {
         shippingMethodPage.selectShippingMethod();
     }

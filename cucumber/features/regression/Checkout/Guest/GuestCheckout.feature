@@ -10,15 +10,15 @@ Feature: Checkout - Guest user is able to checkout
 	And user selects any subcategory
     
     And user selects any item from array page, select any color and size
-    And User is in product detail page
+    Then User is in product detail page
     
-    And Add to cart button is pressed
-    And A minicart modal should appear with message '1 item has been added to your cart.'
+    When Add to cart button is pressed
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added   
 
     When User clicks on item bag
 	Then User should be in shopping bag page
-    Then Verify products added matches with products in bag
+    And Verify products added matches with products in bag
     And Verify all products have edit and remove buttons
     And Verify bag has a promo code section
     And Verify bag has a gift card section
@@ -32,19 +32,18 @@ Feature: Checkout - Guest user is able to checkout
 
     And Clicks on checkout
     And click on CHECK OUT AS A GUEST button
-    Then Verify Shipping Page is displayed
+    Then Verify Shipping Address page is displayed
 
     When User fills QAS shipping data and continues
     Then Verify QAS page is displayed
 
     When User selects a suggested address and continues
-    Then Verifies is in shipping method page
-    And validate correct shipping methods displayed on the page     
-      
+    Then Verifies user is in shipping method page
+    And validate correct shipping methods displayed on the page 
     And Verify Shipping Options Page contains gift option section    
     And Verify default value for shipping method        
 
-    When select shipping method on shipping & gift options page
+    When user select random shipping method on shipping & gift options page
     And Clicks continue button on shipping method page
     Then Verify Billing page is displayed
     And Verify available payment methods from list    
@@ -52,7 +51,7 @@ Feature: Checkout - Guest user is able to checkout
       | PayPal            |      
       | MasterPass		  |
       
-    And Verify accepted cards from list    
+    Then Verify accepted cards from list    
       | jccc |
       | visa |
       | mc   |
@@ -63,5 +62,6 @@ Feature: Checkout - Guest user is able to checkout
     When User fills payment method as guest and continues
     Then Verify user is in review page
 
-    When Clicks on place your order
+    When User clicks on place your order button
     Then User should be in order confirmation page
+    And verify order number is generated 

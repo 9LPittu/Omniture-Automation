@@ -10,7 +10,7 @@ Feature: Checkout - Editing items from shopping bag
 	And user selects any subcategory
     
     And user selects any item from array page, select any color and size
-    And User is in product detail page
+    Then User is in product detail page
     
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
@@ -55,15 +55,15 @@ Feature: Checkout - Editing items from shopping bag
     #User is able to edit item from shopping bag
     When User edits last item from bag    
     Then user should see that previously selected color is retained    
-    Then user should see that previously selected size is retained
-    
-    Then Verify update bag button is present    
+    And user should see that previously selected size is retained    
+    And Verify update bag button is present    
     
     When user selects a new color
     And user selects a new size
-    When Update Bag button is pressed
     
-    When User clicks on item bag
+    When Update Bag button is pressed   
+    And User clicks on item bag
+
     Then User should be in shopping bag page
     And Verify products added matches with products in bag
-    Then Verify edited item is displayed first in shopping bag
+    And Verify edited item is displayed first in shopping bag

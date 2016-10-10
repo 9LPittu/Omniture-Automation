@@ -10,11 +10,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -153,6 +148,11 @@ public class HeaderSteps extends DriverFactory {
     @Then("^User clicks on stores link$")
     public void user_clicks_on_stores_link() throws Throwable {
         header.click_on_stores_link();
+    }
+    
+    @Then("Verify jcrew logo is visible")
+    public void is_logo_visible() {
+        header.isLogoVisible();
     }
 
     @Then("^Clicks on JCrew Logo$")

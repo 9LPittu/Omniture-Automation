@@ -8,12 +8,13 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class ReviewPageSteps extends DriverFactory {
 
     private final ReviewPage reviewPage = new ReviewPage(getDriver());
 
-    @Then("^Clicks on place your order$")
+    @Then("^User clicks on place your order button$")
     public void user_places_its_order() throws Throwable {
         reviewPage.user_places_its_order();
     }
@@ -84,5 +85,51 @@ public class ReviewPageSteps extends DriverFactory {
     @When("User edits details for ([^\"]*)")
     public void edit_details(String details) {
     	reviewPage.editDetails(details);
+    }
+    
+    @Then("Verify checkout breadcrumb is REVIEW")
+    public void verify_progress() {
+        assertEquals("Breadcrumb is REVEW", "REVIEW", reviewPage.getBreadCrumb());
+    }
+    
+    @Then("Verify that Review title is Checkout")
+    public void verify_title() {
+        String title = reviewPage.getTitle();
+
+        assertTrue("Title is Checkout", "Checkout".equalsIgnoreCase(title));
+    }
+    
+    @When("^User adds a promo code ([^\"]*) in review page$")
+    public void add_promo_in_review_page(String promoCode) {
+    	reviewPage.addPromoCode(promoCode);
+    }
+    
+    @Then("Verify selected shipping address matches review page")
+    public void verify_shipping_adress() {
+        String selectedAddress = (String) reviewPage.stateHolder.get("selectedshippingAddress");
+        String reviewAddress = reviewPage.getShippingAddress();
+
+        assertTrue("Review shipping address contains " + reviewAddress, selectedAddress.contains(reviewAddress));
+    }
+    
+    @Then("Verify selected shipping method matches review page")
+    public void verify_shipping_method() {
+        String selectedMethod = (String) reviewPage.stateHolder.get("selectedShippingMethod");
+        String reviewMethod = reviewPage.getShippingMethod();
+
+        assertTrue("Review shipping method contains " + selectedMethod, reviewMethod.contains(selectedMethod));
+    }
+    
+    @Then("Verify selected billing address matches review page")
+    public void verify_selected_billing_address() {
+    	 String selectedPayment = (String) reviewPage.stateHolder.get("selectedPaymentMethod");
+    	 String payMentMethod = reviewPage.getPaymentMethod();
+    	 assertTrue("Review payment method contains " + selectedPayment, payMentMethod.contains(selectedPayment));
+       
+    }
+    
+    @Then("Select different shipping method on review page")
+    public void select_shipping_method() {
+    	reviewPage.selectRandomShippingMethodOnReviewPage();       
     }
 }

@@ -77,6 +77,9 @@ public class Header {
     
     @FindBy(xpath="//input[contains(@class,'js-header__search__input')]")
     private WebElement headerSearchInput;
+    
+    @FindBy(id = "global__header")
+    private WebElement global_header;
 
     public Header(WebDriver driver) {
         this.driver = driver;
@@ -225,6 +228,11 @@ public class Header {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.clickWithStaleRetry(headerLogo);
+    }
+    
+    public boolean isLogoVisible() {
+        WebElement logo = global_header.findElement(By.className("c-header__logo"));
+        return logo.isDisplayed();
     }
 
     public void click_on_search_button() {

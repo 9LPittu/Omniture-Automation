@@ -94,6 +94,9 @@ public class ShippingAddressPage extends Checkout {
     @FindBy(id="state")
     private WebElement provinceStateCounty;
     
+    @FindBy(id = "frmSelectShippingAddress")
+    private WebElement shippingForm;
+    
     public ShippingAddressPage(WebDriver driver) {
     	super(driver);
         this.driver = driver;
@@ -297,5 +300,17 @@ public class ShippingAddressPage extends Checkout {
     		}
     		logger.info("There is no city & state dropdown displayed!!!");
     	}
+    }
+    
+    public void selectAddressFromList() {
+        selectAddressFromList(shippingForm);
+    }
+    
+    public void selectAddressFromListNoDefault(){
+    	selectAddressFromListNoDefault(shippingForm);
+    }
+    
+    public void continueCheckout() {
+        nextStep(shippingForm);
     }
 }

@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.Header;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.Navigation;
+import com.jcrew.page.ProductDetailPage;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
@@ -34,8 +35,6 @@ public class NavigationSteps extends DriverFactory {
     
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable { 
-    	PropertyReader reader = PropertyReader.getPropertyReader();
-        
     	Country c = (Country)stateHolder.get("context");
         String homeurl = c.getHomeurl();
         getDriver().navigate().to( homeurl+ uri);
@@ -137,5 +136,38 @@ public class NavigationSteps extends DriverFactory {
     	header.click_on_search_button();
         homePage.input_search_term(searchTerm);
         homePage.click_on_search_button_for_input_field(); 
+    }
+    
+    @When("^User navigates to backordered product$")
+    public void navigate_backordered() {
+        search(testDataReader.getData("back.order.item"));
+        
+        ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("back.order.color"));
+        pdp.select_size(testDataReader.getData("back.order.size"));
+        
+        stateHolder.put("backorderedItem", testDataReader.getData("back.order.item"));
+    }
+    
+    @When("^User navigates to only few left product$")
+    public void navigate_only_few_left() {
+    	search(testDataReader.getData("few.left.item"));
+        
+    	ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("few.left.color"));
+        pdp.select_size(testDataReader.getData("few.left.size"));
+        
+        stateHolder.put("fewLeftItem", testDataReader.getData("few.left.item"));
+    }
+    
+    @When("^User navigates to regular product$")
+    public void navigate_regular_item() {
+        search(testDataReader.getData("regular.item"));
+        
+        ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("regular.item.color"));
+        pdp.select_size(testDataReader.getData("regular.item.size"));
+        
+        stateHolder.put("regularItem", testDataReader.getData("regular.item"));
     }
 }

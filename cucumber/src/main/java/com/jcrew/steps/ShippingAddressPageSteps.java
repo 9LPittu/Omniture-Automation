@@ -142,4 +142,18 @@ public class ShippingAddressPageSteps extends DriverFactory {
         assertTrue(Util.getSelectedCountryName() + "Billing checkbox should be selected", shippingAddressPage.isBillingAndShippingSameAddress());
 
     }
+    
+    @When("User selects a shipping address and continues")
+    public void select_shipping_address() {
+    	shippingAddressPage.selectAddressFromList();
+    	shippingAddressPage.continueCheckout();
+    }
+    
+    @When("User selects a different shipping address and continues")
+    public void select_shipping_addressNoDefault() {
+    	shippingAddressPage.selectAddressFromListNoDefault();
+    	shippingAddressPage.continueCheckout();
+    }
+    
+    
 }

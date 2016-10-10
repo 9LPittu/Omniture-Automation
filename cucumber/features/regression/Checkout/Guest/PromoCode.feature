@@ -10,10 +10,10 @@ Feature: Checkout - Guest user is able to checkout with promo code
 	And user selects any subcategory
     
     And user selects any item from array page, select any color and size
-    And User is in product detail page
+    Then User is in product detail page
     
-    And Add to cart button is pressed
-    And Bag should have 1 item(s) added
+    When Add to cart button is pressed
+    Then Bag should have 1 item(s) added
     
     When User clicks on item bag
     Then User should be in shopping bag page
@@ -22,15 +22,15 @@ Feature: Checkout - Guest user is able to checkout with promo code
 
     And Clicks on checkout
     And click on CHECK OUT AS A GUEST button
-    Then Verify Shipping Page is displayed
+    Then Verify Shipping Address page is displayed
 
     When User fills QAS shipping data and continues
     Then Verify QAS page is displayed
 
     When User selects a suggested address and continues
-    Then Verifies is in shipping method page
+    Then Verifies user is in shipping method page
 
-    And select shipping method on shipping & gift options page
+    And user select random shipping method on shipping & gift options page
     And Clicks continue button on shipping method page
     Then Verify Billing page is displayed
 
@@ -47,6 +47,6 @@ Feature: Checkout - Guest user is able to checkout with promo code
     When User fills payment method as guest and continues
     Then Verify user is in review page
 
-    When Clicks on place your order
+    When User clicks on place your order button
     Then User should be in order confirmation page
     And verify order number is generated

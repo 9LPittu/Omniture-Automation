@@ -19,21 +19,21 @@ Feature: Checkout - User is able to edit item from shopping bag during Guest che
 
     When User clicks on item bag
     Then User should be in shopping bag page
+    
     And Move to mobile site
     
     And Verify products added matches with products in bag
     
     When User edits last item from bag    
     Then user should see that previously selected color is retained    
-    And user should see that previously selected size is retained
-    
+    And user should see that previously selected size is retained    
     And Verify update bag button is present
     
     When user selects a new color
     And user selects a new size
-    When Update Bag button is pressed
-    
+    And Update Bag button is pressed
+        
     When User clicks on item bag
     Then User should be in shopping bag page
     And Verify products added matches with products in bag
-    Then Verify edited item is displayed first in shopping bag    
+    And Verify edited item is displayed first in shopping bag    

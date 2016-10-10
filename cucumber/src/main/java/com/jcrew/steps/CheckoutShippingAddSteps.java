@@ -16,7 +16,7 @@ public class CheckoutShippingAddSteps extends DriverFactory {
     private CheckoutShippingAdd shipping = new CheckoutShippingAdd(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
 
-    @Then("Verify Shipping Page is displayed")
+    @Then("Verify Shipping Address page is displayed")
     public void shipping_page_displayed() {
         assertTrue("Is shipping address", shipping.isDisplayed());
     }

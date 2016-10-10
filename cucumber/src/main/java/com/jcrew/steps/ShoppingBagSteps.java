@@ -377,4 +377,16 @@ public class ShoppingBagSteps extends DriverFactory {
     	
     	return bagProducts;
     }
+    
+    @Then("Verify previously added item is not shown in bag page")
+    public void previously_added_items_not_shown() {
+    	
+    	@SuppressWarnings("unchecked")
+    	List<Product> previousProducts = (List<Product>) shoppingBagPage.stateHolder.get("userBag");
+    	Product previousProduct = previousProducts.get(0);
+    	String previousItemCode = previousProduct.getProductCode();    	
+    	List<Product> bagProducts = deleteProductFromStateHolder(previousItemCode);
+    	   	
+        assertTrue("Previously added items should not be shown", shoppingBagPage.matchList(bagProducts));
+    }
 }

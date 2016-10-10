@@ -1,8 +1,9 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.HamburgerMenu;
 import com.jcrew.page.LoginPage;
+import com.jcrew.pojo.User;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.UsersHub;
 import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
@@ -10,10 +11,14 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
+
 public class LoginPageSteps extends DriverFactory {
 
     private final LoginPage loginPage = new LoginPage(getDriver());
-    private final HamburgerMenu hamburgerMenu = new HamburgerMenu(getDriver());
+    
+    private String emailAddress;
+    private String password;
 
     @When("User enters ([^\"]*) as email")
     public void user_enters_input_as_email(String email) {
@@ -220,5 +225,45 @@ public class LoginPageSteps extends DriverFactory {
     @And("^login with rewards user credentials$")
     public void login_with_reward_user_credentials(){
     	loginPage.enterRewardUserCredentials();
+    }
+    
+    @When("^User fills form and signs in$")
+    public void sign_in(){    	
+		login("express", "single", loginPage.DEFAULT);
+    }
+    
+    @When("^User fills form with no default user and signs in$")
+    public void sign_in_no_default(){  
+    	login("nonexpress", "single", loginPage.NO_DEFAULT);
+    }
+
+    @When("^User fills form with multiple user and signs in$")
+    public void sign_in_multiple(){
+    	login("express", "multiple", loginPage.MULTIPLE);
+    }
+
+    @When("^User fills form with no default multiple user and signs in$")
+    public void sign_in_no_default_multiple(){
+    	login("nonexpress", "multiple", loginPage.NO_DEFAULT_MULTIPLE);
+    }
+    
+    public void login(String userType, String addressType, String userClassUserType){
+		UsersHub userHub = UsersHub.getInstance();
+		User user = null;
+		
+		try {
+			  user = userHub.getUser(userType, addressType);			  
+			  emailAddress = user.getEmail();
+		      password = user.getPassword();
+		      loginPage.stateHolder.put("userObject", user);
+		} 
+		catch (SQLException e) {				
+			e.printStackTrace();
+		}
+    	
+		boolean result = loginPage.submitUserCredentials(emailAddress, password);
+		if(!result){
+			loginPage.signIn(userClassUserType);
+		}		
     }
 }

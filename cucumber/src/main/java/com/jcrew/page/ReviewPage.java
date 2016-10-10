@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 public class ReviewPage extends Checkout{
 
-	private final StateHolder stateHolder = StateHolder.getInstance();
+	public final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(ReviewPage.class);
     private boolean isProduction = false;
 	
@@ -201,11 +201,6 @@ public class ReviewPage extends Checkout{
         return productName;
     }
     
-    public String getBillingAddress() {
-        WebElement billingAddress = billingSection.findElement(By.className("billing-address"));
-        return billingAddress.getText().trim();
-    }
-    
     public void editDetails(String group) {
         logger.debug("Editing {}", group);
 
@@ -238,5 +233,38 @@ public class ReviewPage extends Checkout{
             changeButton.click();
             Util.waitLoadingBar(driver);
         }
+    }
+    
+    public String getShippingAddress() {
+        WebElement shippingAddress = shippingSection.findElement(By.className("shipping-address"));
+        return shippingAddress.getText().trim();
+    }
+    
+    public String getShippingMethod() {
+        WebElement shippingMethod = shippingSection.findElement(By.className("shipping-method"));
+        return shippingMethod.getText();
+    }
+    
+    public String getBillingAddress() {
+        WebElement billingAddress = billingSection.findElement(By.className("billing-address"));
+        return billingAddress.getText().trim();
+    }
+    
+    public String getPaymentMethod(){
+    	WebElement paymentMethod = billingSection.findElement(By.className("wallet-cards"));
+    	return paymentMethod.getText().trim();    	
+    }
+    
+    public void selectRandomShippingMethodOnReviewPage() {
+    	WebElement shippingMethodSection =  shippingSection.findElement(By.className("shipping-method"));
+    	
+    	List<WebElement> shippingMethodRadioButtons = shippingMethodSection.findElements(By.xpath(".//input[@class='input-radio' and not(@checked='')]"));
+    	int randomIndex = Util.randomIndex(shippingMethodRadioButtons.size());
+    	
+    	shippingMethodRadioButtons.get(randomIndex).click();
+    	Util.waitLoadingBar(driver);
+    	
+    	String selectedShippingMethod = getShippingMethod();
+        stateHolder.put("selectedShippingMethod", selectedShippingMethod);
     }
 }
