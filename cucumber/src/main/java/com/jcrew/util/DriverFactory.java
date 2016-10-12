@@ -157,6 +157,7 @@ public class DriverFactory {
             chrome.setPlatform(Platform.WINDOWS);
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
+            options.addArguments("--disable-extensions");
             chrome.setCapability(ChromeOptions.CAPABILITY, options);
             driver = getDesktopWebDriver(propertyReader, chrome);
 
