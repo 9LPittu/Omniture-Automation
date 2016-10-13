@@ -152,47 +152,7 @@ public class ProductDetailSteps extends DriverFactory {
     public void verify_pdp_has(String element){
         assertEquals("Verify "+element+" is displayed in PDP",true,productDetails.isDisplayedInPDP(element));
     }
-    /*
-        @Then("^Verify 'SIZE & FIT' section is displayed below the 'Add to Bag' button$")
-        public void verify_size_and_fit_drawer_displayed_below_add_to_bag_button(){
-            int sizeAndDetailsDrawer_Y_Value = productDetails.getYCoordinate("SIZE & FIT");
-            int addToBag_Y_Value = productDetails.getYCoordinate("Add to Bag");
-            assertTrue("Verify 'SIZE & FIT' section is displayed below the 'Add to Bag' button", sizeAndDetailsDrawer_Y_Value > addToBag_Y_Value);
-        }
 
-        @Then("^Verify 'PRODUCT DETAILS' section is displayed below the 'SIZE & FIT' drawer$")
-        public void verify_product_details_drawer_displayed_below_size_and_fit_drawer(){
-            int sizeAndDetailsDrawer_Y_Value = productDetails.getYCoordinate("SIZE & FIT");
-            int productDetailsDrawer_Y_Value = productDetails.getYCoordinate("PRODUCT DETAILS");
-            assertTrue("Verify 'PRODUCT DETAILS' section is displayed below the 'SIZE & FIT' drawer",sizeAndDetailsDrawer_Y_Value < productDetailsDrawer_Y_Value);
-        }
-      */
-    /* @Then("^Verify 'size & fit details' link is displayed above the 'Add to Bag' button$")
-       public void verify_size_and_fit_details_link_displayed_above_add_to_bag_button(){
-           assertTrue("Verify 'size & fit details' link is displayed above the 'Add to Bag' button",productDetails.isSizeAndFitDetailsLinkDisplayedAboveAddToBag());
-       }
-       */
-/*
-    @Then("Verify reviews section is displayed")
-    public void reviews_in_pdp(){
-        assertTrue("Verify reviews section displayed in PDP",productDetails.isReviewSectionDisplayed());
-    }
-
-    @Then("Verify baynote section is displayed")
-    public void baynotes_section_pdp(){
-        assertTrue("Verify baynotes section displayed in PDP",productDetails.isBayNoteSectionDisplayed());
-    }
-
-    @Then("Verify endcap navigation displayed")
-    public void endcap_nav_pdp(){
-        assertTrue("Verify endCap nav section displayed in PDP",productDetails.isEndCapNavDisplayed());
-    }
-
-    @Then("^Verify UPDATE BAG button is displayed$")
-    public void verify_update_to_bag_button_displayed(){
-    	assertTrue("Update To Bag button is displayed", productDetails.isUpdateBagButtonDisplayed());
-    }
-     */
     @Then("Verify that page contains a selected color")
     public void has_selected_color() {
         assertFalse("Color field is not empty", productDetails.getSelectedColor().isEmpty());

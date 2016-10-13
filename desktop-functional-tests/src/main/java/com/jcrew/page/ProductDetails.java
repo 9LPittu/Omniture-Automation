@@ -619,40 +619,6 @@ public class ProductDetails extends PageObject {
 
 
 
-   /* public boolean isBayNoteSectionDisplayed(){
-        wait.until(ExpectedConditions.visibilityOf(bayNoteSection));
-        return bayNoteSection.isDisplayed();
-    }
-    public boolean isEndCapNavDisplayed(){
-        wait.until(ExpectedConditions.visibilityOf(endCapNav));
-        return endCapNav.isDisplayed();
-    }
-
-    public boolean isSocialIconsDisplayed() {
-        wait.until(ExpectedConditions.visibilityOf(product__details));
-        WebElement product_social =
-        return product_social.isDisplayed();
-    }
-      public boolean isUpdateBagButtonDisplayed() {
-        updateBagButton = wait.until(ExpectedConditions.visibilityOf(updateBagButton));
-        return updateBagButton.isDisplayed();
-    }
-    */
-   /*
-    public boolean isSizeAndFitDetailsLinkDisplayedAboveAddToBag() {
-
-        List<WebElement> sizeElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//li[contains(@class,'js-product__size sizes-list__item')]")));
-        if (sizeElements.size() == 1) {
-            return true;
-        }
-
-        int sizeAndDetailsLink_Y_Value = getYCoordinate("size & fit details");
-        int addToBag_Y_Value = getYCoordinate("add to bag");
-
-        return sizeAndDetailsLink_Y_Value < addToBag_Y_Value;
-    }
-  */
-
     public String getProductCode() {
 
         WebElement productCodeElement = null;
