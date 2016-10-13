@@ -198,6 +198,13 @@ public class StartSteps {
         envUrl = context.getHomeurl();
         envUrl=envUrl + "?siteId=asdfsadf&srcCode=asdfsadf";
         logger.debug("getting url: " + envUrl);
+
+        if(envUrl.contains("or.jcrew.com")) {
+            driver.get("https://or.jcrew.com/404");
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
+        }
+
         driver.get(envUrl);
     }
 }

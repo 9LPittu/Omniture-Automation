@@ -157,12 +157,13 @@ public class DriverFactory {
             chrome.setPlatform(Platform.WINDOWS);
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
+            options.addArguments("--disable-extensions");
             chrome.setCapability(ChromeOptions.CAPABILITY, options);
             driver = getDesktopWebDriver(propertyReader, chrome);
 
         } else if ("firefox".equals(browser)) {
             DesiredCapabilities firefox = DesiredCapabilities.firefox();
-            firefox.setPlatform(Platform.WINDOWS);
+            //firefox.setPlatform(Platform.WINDOWS);
             firefox.setCapability(FirefoxDriver.PROFILE, getFirefoxProfile());
             firefox.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
             driver = getDesktopWebDriver(propertyReader, firefox);

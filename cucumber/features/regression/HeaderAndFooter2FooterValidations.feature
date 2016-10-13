@@ -73,7 +73,6 @@ Feature: Footer Verification In Home Page
     Then user should see message as "THANK YOU...Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
 
    #tc-04 starts below
-
   Scenario: Verification of Let Us Help You links display
     When Click on footer link Let Us Help You to open
     And Accordion should be expanded
@@ -104,14 +103,7 @@ Feature: Footer Verification In Home Page
     When Click on footer link Let Us Help You to open
     And Click on sublink International Orders from Let Us Help You footer link
     And User is on internal /help/international_orders.jsp?sidecar=true page
-    And User presses back button
-    When Click on footer link Let Us Help You to open
-    And Click on sublink Size Charts from Let Us Help You footer link
-    And User is on internal /r/size-charts page
-    Then Breadcrumb should display J.Crew
-    And Clicks on J.Crew Breadcrumb
-    And Verify user is in homepage
-    And User presses back button
+    And User presses back button    
     When Click on footer link Let Us Help You to open
     And Click on sublink Need Some Help? from Let Us Help You footer link
     And User is on internal /footie/contactus.jsp?sidecar=true page
@@ -124,6 +116,12 @@ Feature: Footer Verification In Home Page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
+    When Click on footer link Let Us Help You to open
+    And Click on sublink Size Charts from Let Us Help You footer link
+    And User is on internal /r/size-charts page
+    Then Breadcrumb should display J.Crew
+    And Clicks on J.Crew Breadcrumb
+    And Verify user is in homepage
 
   #tc-05
   #Merge
@@ -191,9 +189,6 @@ Feature: Footer Verification In Home Page
     And Verify user is on the madewell page
     And page url should contain srcCode=JCFooter
     And external madewell page is opened in a different tab
-
-
-
 
   #US13389_TC14
   Scenario: Verify social sharing icons functionality

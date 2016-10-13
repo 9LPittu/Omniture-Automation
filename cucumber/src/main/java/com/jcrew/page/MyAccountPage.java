@@ -72,10 +72,24 @@ public class MyAccountPage {
 
     private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(myAccountContainer)));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//a[@class='my_account_lefnav']")));
-        WebElement menuLink = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]")));
+       
+        WebElement menuLink = null;
+        int cntr = 0;
+        do{
+        	try{
+        		menuLink = Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(
+        				   By.xpath("//a[@class='my_account_lefnav' and contains(" + Util.xpathGetTextLower + ",'" + link.toLowerCase() + "')]")));
+        		Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(menuLink)));
+        		break;
+        	}
+        	catch(Exception e){
+        		cntr++;
+        	}
+        }while(cntr<3);
+        
         return menuLink;
     }
 

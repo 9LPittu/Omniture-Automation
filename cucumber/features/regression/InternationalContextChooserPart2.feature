@@ -5,71 +5,138 @@ Feature: International Country Context - Part 2
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
 
-  Scenario Outline: context validation on sale landing page from Hamburger menu
+  Scenario Outline: Multiple Pages During Checkout Context validations
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
-    And User clicks on hamburger menu
-    And Selects sale Category from hamburger menu
+    When User clicks on hamburger menu
+    And user selects any category from hamburger menu
+	And user selects any subcategory
     And user should see selected country in the footer
-    And user should see country code in the url for international countries
-    And User clicks on <sale_category> subcategory from Sales
-    And user should see selected country in the footer
-    And Selects any product from product grid list
+	And user should see country code in the url for international countries
+	And user selects any item from array page, select any color and size
     And User is in product detail page
-    Then Verify embedded footer is visible and functional
+    And user should see selected country in the footer
     And user should see country code in the url for international countries
-
-    Examples:
-      |country_group|sale_category|
-      |PRICEBOOK    |Women        |
-      |NONPRICEBOOK |Women        |
-      |PRICEBOOK    |Men          |
-      |NONPRICEBOOK |Men          |
-      |PRICEBOOK    |Girls        |
-      |NONPRICEBOOK |Girls        |
-      |PRICEBOOK    |Boys         |
-      |NONPRICEBOOK |Boys         |
-
-  Scenario Outline: Context is displayed on search page
-    Then click on change link from footer
-    And User is on context chooser page
-    And User is on internal /r/context-chooser page
-    Given user selects <country_group> at random from context chooser page
-    Then user should land on country specific home page
+    And Add to cart button is pressed
+    And User clicks on item bag
+    Then User should be in shopping bag page
+    Then Verify embedded headers links is visible
+    Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    And User presses search button
-    When Enters dresses to the search field
-    And Clicks on search button for input field
-    Then User is in search results page
+    And Clicks edit button on item bag page
+	And User is in product detail page
+    Then Update Bag button is pressed
+	Then User should be in shopping bag page
+    And Clicks on checkout
+    Then Verify embedded headers links is visible
+    Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    When Selects the first product from product grid list
-    Then User is in product detail page
+    And Selects to checkout as guest
+    Then Verify embedded headers links is visible
+    Then Verify embedded footer is visible and functional
+    And user should see selected country in the footer
+    When user fills selected country shipping address
+    And Presses continue button on shipping address
+    And Verifies is in shipping method page
+    Then Verify embedded headers links is visible
+    Then Verify embedded footer is visible and functional
+    And user should see selected country in the footer
+    And Uses default value for shipping method
+    #And Uses default value for gifts option
+    And Clicks continue button on shipping method page
+    And Verify user is in billing page
+    Then Verify embedded headers links is visible
+    Then Verify embedded footer is visible and functional
+    And user should see selected country in the footer
+    And Fills required payment data in billing page
+    And Submits payment data in billing page
+    Then Verify embedded headers links is visible
+    Then Verify embedded footer is visible and functional
+    And user should see selected country in the footer
+    And Clicks on place your order
+    And User should be in order confirmation page
+    Then Verify embedded headers links is visible
+    Then Verify embedded footer is visible and functional
+    And user should see selected country in the footer
 
     Examples:
       |country_group|
       |PRICEBOOK|
       |NONPRICEBOOK|
 
+  Scenario Outline: Validate drop down in My details form is functional for international users
 
-  #multipdp, shoppable tray
-  #Commenting it out as there is a jira JCSC-1131 for context not showing in th url
-#  Scenario Outline: international context validation for shoppable tray page
-#    Then click on change link from footer
-#    And User is on context chooser page
-#    And User is on internal /r/context-chooser page
-#    Given user selects <country_group> at random from context chooser page
-#    Then user should land on country specific home page
-#    And user should see selected country in the footer
-#    And User clicks on hamburger menu
-#    And User selects random tray from available categories
-#      | Men   | THIS MONTH'S FEATURES | 1 Suit, 5 Ways |
-#    And user should see country code in the url for international countries
-#
-#    Examples:
-#    |country_group|
-#    |PRICEBOOK|
-#    |NONPRICEBOOK|
+    Then click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given user selects <country_group> at random from context chooser page
+    Then user should land on country specific home page
+    And Goes to sign in page
+    And User provides login information
+    And Check box is enabled
+    And Hits sign in button
+
+    When User is in My Account home page
+    And User should be in /account/home.jsp menu link page
+
+    When User clicks on MY DETAILS link in My Account Page
+    Then My Details form should display
+    And User should be in /r/account/details menu link page
+
+    When User selects Home from my details dropdown
+    Then User should be in /account/home.jsp menu link page
+
+    And User presses back button
+
+    When User selects Email Preferences from my details dropdown
+    Then User should be in email_preferences.jsp menu link page
+
+    And User presses back button
+
+    When User selects Catalog Preferences from my details dropdown
+    Then User should be in catalog_preferences.jsp menu link page
+
+    And User navigates to my detail form
+
+    When User selects Payment Methods from my details dropdown
+    Then User should be in payment_info.jsp menu link page
+
+    And User presses back button
+
+    When User selects Gift Card Balance from my details dropdown
+    Then User should be in checkout/giftcard_balance1.jsp menu link page
+
+    And User navigates to my detail form
+
+
+    When User selects Address Book from my details dropdown
+    Then User should be in address_book.jsp menu link page
+
+    And User presses back button
+
+    When User selects Order History from my details dropdown
+    Then User should be in reg_user_order_history.jsp menu link page
+
+    And User presses back button
+
+    When User selects My Wishlist from my details dropdown
+    Then User should be in /wishlist menu link page
+    And User presses back button
+
+    And User presses back button
+    And User navigates to my detail form
+
+
+    And Verify J.Crew Card Rewards Status reward link for International user in My details dropdown
+
+    When User selects Sign Out from my details dropdown
+    Then Verify user is in homepage
+
+    Examples:
+      |country_group |
+      |PRICEBOOK     |
+      |NONPRICEBOOK  |

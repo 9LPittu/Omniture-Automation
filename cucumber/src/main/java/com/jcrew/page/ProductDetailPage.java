@@ -119,14 +119,28 @@ public class ProductDetailPage {
     	try{
 	        Country country = (Country) stateHolder.get("context");
 	        logger.info("country context is  : {}", country.getCountryName());
-	        Util.waitForPageFullyLoaded(driver);
-	        Util.waitLoadingBar(driver);
 	        
-	        WebElement pdpProductName = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='product__name']")));
-	        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpProductName));
+	        WebElement pdpProductName = null;
+	        int cntr = 0;
+	        do{
+	        	try{
+	        		Util.waitForPageFullyLoaded(driver);
+	    	        Util.waitLoadingBar(driver);
+	    	        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productDetailsDrawer));
+	        		pdpProductName = Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='product__name']")));
+	    	        Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOf(pdpProductName));
+	    	        Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpProductName)));
+	    	        break;
+	        	}
+	        	catch(Exception e){
+	        		cntr++;
+	        	}
+	        }while(cntr<3);
+	        
 	
 	        boolean isURL = Util.countryContextURLCompliance(driver, country);
 	        logger.debug("is url?  {}", isURL);
+	        pdpProductName = driver.findElement(By.xpath("//h1[@class='product__name']"));
 	        return pdpProductName.isDisplayed() && StringUtils.isNotBlank(pdpProductName.getText()) && isURL;
     	}
     	catch(Exception e){
@@ -762,9 +776,21 @@ public class ProductDetailPage {
 	            TestDataReader testDataReader = TestDataReader.getTestDataReader();
 	            expectedSizeMessage = testDataReader.getData("pdp.size.message");
 	            logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
-	
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeMessage));
-	            actualSizeMessage = sizeMessage.getText().trim();
+	            
+	            int cntr = 0;
+	            do{	            	
+	            	try{
+	            		sizeMessage = Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOf(sizeMessage));
+	    	            Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sizeMessage)));
+	    	            actualSizeMessage = sizeMessage.getText().trim();
+	    	            break;
+	            	}
+	            	catch(Exception e){
+	            		cntr++;
+	            	}
+	            }while(cntr<3);
+	            
+	            
 	            logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
 	        } else {
 	            logger.info("Size message on PDP will not be displayed for '" + countryCode + "' country");
@@ -794,6 +820,7 @@ public class ProductDetailPage {
 	            logger.info("Expected PDP Message: {}", expectedPDPMessage);
 	
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
+	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpMessage)));
 	            actualPDPMessage = pdpMessage.getText().trim();
 	            logger.info("Actual PDP Message: {}", expectedPDPMessage);
 	        } else {

@@ -1,6 +1,5 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.Header;
 import com.jcrew.page.Navigation;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
@@ -17,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 public class NavigationSteps extends DriverFactory {
 
@@ -47,10 +48,34 @@ public class NavigationSteps extends DriverFactory {
 
     @Then("^User is on internal ([^\"]*) page$")
     public void user_is_on_page(String page) {
-    	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
-        assertTrue("Browser was expected to be at " + page + " and current page is "+getDriver().getCurrentUrl(),
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        String browser = propertyReader.getProperty("browser");
+    	
+        if(page.equalsIgnoreCase("/r/size-charts") && !browser.equalsIgnoreCase("phantomjs")){
+        	ArrayList<String> tabs = new ArrayList<String> (getDriver().getWindowHandles());
+            logger.info("no.of windowhandles; {}", tabs.size());
+            
+            boolean result = false;
+            for (String tab : tabs) {
+                logger.info("window handle {}", tab);
+                getDriver().switchTo().window(tab);
+                logger.debug("Title in handle: {}", getDriver().getTitle());
+                
+                Util.waitLoadingBar(getDriver());
+                String currentUrl = getDriver().getCurrentUrl();
+                if(currentUrl.contains(page)){
+                	result = true;
+                	break;
+                }
+            }            
+            assertTrue("Browser was expected to be at " + page + " and current page is " + getDriver().getCurrentUrl(), result);
+        }
+        else{
+        	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(page));
+        	assertTrue("Browser was expected to be at " + page + " and current page is "+getDriver().getCurrentUrl(),
                 getDriver().getCurrentUrl().endsWith(page));
-        logger.info("Browser url ends with '{}'", page);
+        	logger.info("Browser url ends with '{}'", page);
+        }
     }
 
     @Then("^external ([^\"]*) page is opened in a different tab$")
