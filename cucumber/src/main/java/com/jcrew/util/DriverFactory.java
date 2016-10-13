@@ -161,7 +161,7 @@ public class DriverFactory {
 
         if ("chrome".equals(browser)) {
             DesiredCapabilities chrome = DesiredCapabilities.chrome();
-            chrome.setPlatform(Platform.WINDOWS);
+            //chrome.setPlatform(Platform.WINDOWS);
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
             options.addArguments("--disable-extensions");
