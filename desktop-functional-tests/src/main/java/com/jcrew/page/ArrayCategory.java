@@ -54,6 +54,22 @@ public class ArrayCategory extends Array{
     public List<String> getSalePrices() {
         return getProductPrices(productList,PRICE_SALE_CLASS);
     }
+
+    public void selectRandomVariationProduct(){
+        selectRandomVariationProduct(productList);
+        try{
+            WebElement errorMessageElement = Util.createWebDriverWait(driver, 2).until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//div[@class='c-inline-error']")));
+            logger.info("Handling oops error message ...");
+            errorMessageElement.findElement(By.linkText("retry")).click();
+            Util.waitLoadingBar(driver);
+
+        }
+        catch(Exception e){
+            logger.info("Oops error message is not displayed");
+        }
+    }
+
     public void selectRandomProduct() {
         selectRandomProduct(productList);
         
@@ -156,6 +172,7 @@ public class ArrayCategory extends Array{
         selectedOption.click();
     }
     public boolean isCategoryArray(){
+        wait.until(ExpectedConditions.visibilityOf(productList));
         return productList.isDisplayed();
     }
 
