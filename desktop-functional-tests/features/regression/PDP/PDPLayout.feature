@@ -98,7 +98,7 @@ Feature: PDP Layout
     And Verify color swatchs displayed in PDP
     And Verify size chips displayed in PDP
     And Verify quantity displayed in PDP
-    And Verify UPDATE BAG displayed in PDP
+    And Verify Add to Bag displayed in PDP
     And Verify Wishlist displayed in PDP
     And Verify social icons displayed in PDP
 
@@ -125,7 +125,7 @@ Feature: PDP Layout
     And Verify color swatchs displayed in PDP
     And Verify size chips displayed in PDP
     And Verify quantity displayed in PDP
-    And Verify UPDATE BAG displayed in PDP
+    And Verify Add to Bag displayed in PDP
     And Verify Wishlist displayed in PDP
     And Verify social icons displayed in PDP
 
