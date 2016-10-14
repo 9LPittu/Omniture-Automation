@@ -62,7 +62,7 @@ Feature: PDP Layout
     And Verify that page contains a selected size
     And Verify product name on PDP matches with category array
     And Verify Item code displayed in PDP
-#   And Verify price matches with category array
+    And Verify price matches with category array
     And Verify color swatchs displayed in PDP
     And Verify size chips displayed in PDP
     And Verify quantity displayed in PDP
@@ -94,7 +94,7 @@ Feature: PDP Layout
     Then Verify product detail page is displayed
     And Verify product name on PDP matches with category array
     And Verify Item code displayed in PDP
-    #   And Verify price matches with category array
+    And Verify price matches with category array
     And Verify color swatchs displayed in PDP
     And Verify size chips displayed in PDP
     And Verify quantity displayed in PDP
@@ -121,7 +121,7 @@ Feature: PDP Layout
     Then Verify product detail page is displayed
     And Verify product name on PDP matches with category array
     And Verify Item code displayed in PDP
-#    And Verify price matches with category array
+    And Verify price matches with category array
     And Verify color swatchs displayed in PDP
     And Verify size chips displayed in PDP
     And Verify quantity displayed in PDP
@@ -157,7 +157,7 @@ Feature: PDP Layout
     And Verify product name on PDP matches with category array
     And Verify Item code displayed in PDP
     And Verify Variations displayed in PDP
-#   And Verify price matches with category array
+    And Verify price matches with category array
     And Verify color swatchs displayed in PDP
     And Verify size chips displayed in PDP
     And Verify quantity displayed in PDP
