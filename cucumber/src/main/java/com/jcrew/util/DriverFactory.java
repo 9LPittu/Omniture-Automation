@@ -72,7 +72,14 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-            driver = new ChromeDriver();
+        	DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
+            options.addArguments("--disable-extensions");
+            desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+            driver = new ChromeDriver(desiredCapabilities);
+        	
             if (!isDesktop)
             	driver.manage().window().setSize(new Dimension(width, height));
 
@@ -154,7 +161,7 @@ public class DriverFactory {
 
         if ("chrome".equals(browser)) {
             DesiredCapabilities chrome = DesiredCapabilities.chrome();
-            chrome.setPlatform(Platform.WINDOWS);
+            //chrome.setPlatform(Platform.WINDOWS);
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
             options.addArguments("--disable-extensions");
