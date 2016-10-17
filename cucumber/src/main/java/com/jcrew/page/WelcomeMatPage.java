@@ -114,7 +114,8 @@ public class WelcomeMatPage {
     }
 
     public void click_on_start_shopping(String link)  {
-        driver.findElement(By.linkText(link)).click();
+    	WebElement welcomeMatFooter = driver.findElement(By.className("c-header__welcomemat--footer"));
+    	welcomeMatFooter.findElement(By.xpath(".//a[text()='" + link + "']")).click();
         Util.waitLoadingBar(driver);
     }
 
