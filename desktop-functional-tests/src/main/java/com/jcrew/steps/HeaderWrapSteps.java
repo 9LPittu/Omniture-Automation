@@ -26,9 +26,6 @@ public class HeaderWrapSteps extends DriverFactory {
     @When("User opens menu")
     public void user_opens_menu() {
 
-    	//this is a temparory step - hover on any Gender landing link from top navigation
-    	header.hoverOverIcon("gender landing");
-    	
         header.openMenu();
     }
 
