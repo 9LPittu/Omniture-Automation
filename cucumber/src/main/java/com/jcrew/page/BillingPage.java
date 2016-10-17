@@ -238,6 +238,7 @@ public class BillingPage {
     
     public boolean isQASVerificationDisplayed(){
     	Util.waitWithStaleRetry(driver,qasVerification);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(qasVerification)));
     	return qasVerification.isDisplayed();
     }
     
