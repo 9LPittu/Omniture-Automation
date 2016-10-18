@@ -61,6 +61,8 @@ public class HeaderWrap {
     private WebElement top_nav;
     @FindBy(xpath = ".//div[@id='c-header__factory-link']/a")
     private WebElement lookingForFactoryLinkInHeader;
+    @FindBy(xpath = "//span[@class='btn__label' and text()='BACK']")
+    private WebElement hamburger_back;
 
     private WebElement dropdown;
 
@@ -92,6 +94,10 @@ public class HeaderWrap {
 
     public void openMenu() {
         PageFactory.initElements(driver, this);
+        
+    	//this is a temparory step - hover on any Gender landing link from top navigation
+    	hoverOverIcon("gender landing");
+    	
         if(!global_nav.isDisplayed()) {
         	try{
         		menu.click();
@@ -317,5 +323,15 @@ public class HeaderWrap {
     public boolean isLogoVisible() {
         WebElement logo = global_header.findElement(By.className("c-header__logo"));
         return logo.isDisplayed();
+    }
+    
+    public void clickBack() {
+       if (hamburger_back.isDisplayed()) {
+    	   hamburger_back.click();
+       } else {
+       
+	       clickLogo();
+	       openMenu();
+       }
     }
 }
