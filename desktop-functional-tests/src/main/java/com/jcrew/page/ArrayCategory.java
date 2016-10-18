@@ -55,23 +55,13 @@ public class ArrayCategory extends Array{
         return getProductPrices(productList,PRICE_SALE_CLASS);
     }
 
-    public void selectRandomVariationProduct(){
-        selectRandomVariationProduct(productList);
-        try{
-            WebElement errorMessageElement = Util.createWebDriverWait(driver, 2).until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//div[@class='c-inline-error']")));
-            logger.info("Handling oops error message ...");
-            errorMessageElement.findElement(By.linkText("retry")).click();
-            Util.waitLoadingBar(driver);
 
+    public void selectRandomProduct(String type) {
+        if("variation".equalsIgnoreCase(type)) {
+            selectRandomVariationProduct(productList);
+        }else{
+            selectRandomProduct(productList);
         }
-        catch(Exception e){
-            logger.info("Oops error message is not displayed");
-        }
-    }
-
-    public void selectRandomProduct() {
-        selectRandomProduct(productList);
         
         try{
         	 WebElement errorMessageElement = Util.createWebDriverWait(driver, 2).until(ExpectedConditions.visibilityOfElementLocated(

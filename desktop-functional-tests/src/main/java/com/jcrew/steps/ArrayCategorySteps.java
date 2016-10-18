@@ -23,11 +23,11 @@ public class ArrayCategorySteps extends DriverFactory {
 
     @When("User selects random product from product array")
     public void user_selects_random_product(){
-        productsArray.selectRandomProduct();
+        productsArray.selectRandomProduct("any");
     }
     @When("User selects random variation product from product array")
     public void user_selects_random_variation_product(){
-        productsArray.selectRandomVariationProduct();
+        productsArray.selectRandomProduct("variation");
     }
 
     @Then("Verify ([^\"]*) cookie path value is ([^\"]*)")
