@@ -86,7 +86,13 @@ public class MultiplePdpPage {
 
         Util.waitWithStaleRetry(driver, productInformationSection);
         productDetailsDrawer = productInformationSection.findElement(By.id("c-product__description"));
-        sizeAndFitDrawer = productInformationSection.findElement(By.id("c-product__size-fit"));
+        
+        try{
+        	sizeAndFitDrawer = productInformationSection.findElement(By.id("c-product__size-fit"));
+        }
+        catch(NoSuchElementException nsee){
+        	logger.debug("Size and Fit drawer is not displayed!!!");
+        }
 
         Util.waitWithStaleRetry(driver, productReviewRatingsSection);
         Util.waitWithStaleRetry(driver, addToBagButton);
@@ -152,6 +158,7 @@ public class MultiplePdpPage {
 
         Util.waitForPageFullyLoaded(driver);
         stateHolder.put("shoppableTrayProduct", article);
+        Util.scrollToElement(driver, selected);
         selected.click();
         wait.until(ExpectedConditions.urlContains("itemCode="+productCode));
         loadNavigation();
@@ -302,6 +309,7 @@ public class MultiplePdpPage {
     }
 
     private boolean isDrawerOpen(WebElement parentDrawer){
+    	wait.until(ExpectedConditions.visibilityOf(parentDrawer));
         wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(parentDrawer.findElement(By.className("accordian__wrap")))));
         WebElement drawer = parentDrawer.findElement(By.className("accordian__wrap"));
 
