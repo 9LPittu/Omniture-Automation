@@ -94,10 +94,10 @@ public class HeaderWrap {
 
     public void openMenu() {
         PageFactory.initElements(driver, this);
-        
-    	//this is a temparory step - hover on any Gender landing link from top navigation
-    	hoverOverIcon("gender landing");
-    	
+
+        //this is a temparory step - hover on any Gender landing link from top navigation
+        hoverOverIcon("gender landing");
+
         if(!global_nav.isDisplayed()) {
         	try{
         		menu.click();

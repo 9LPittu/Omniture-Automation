@@ -25,8 +25,8 @@ public class HeaderWrapSteps extends DriverFactory {
 
     @When("User opens menu")
     public void user_opens_menu() {
-   	
-        header.openMenu();
+
+    	header.openMenu();
     }
 
     @When("User hovers over ([^\"]*)")
