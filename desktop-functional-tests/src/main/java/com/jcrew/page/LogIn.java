@@ -98,6 +98,7 @@ public class LogIn extends PageObject {
         sidecarUser.sendKeys(knownUser.getEmail());
         sidecarPassword.sendKeys(knownUser.getPassword());
         signInHereButton.click();
+        Util.waitLoadingBar(driver);
         stateHolder.put("signedUser", knownUser);
         stateHolder.put("userObject", knownUser);
     }

@@ -54,8 +54,14 @@ public class ArrayCategory extends Array{
     public List<String> getSalePrices() {
         return getProductPrices(productList,PRICE_SALE_CLASS);
     }
-    public void selectRandomProduct() {
-        selectRandomProduct(productList);
+
+
+    public void selectRandomProduct(String type) {
+        if("variation".equalsIgnoreCase(type)) {
+            selectRandomVariationProduct(productList);
+        }else{
+            selectRandomProduct(productList);
+        }
         
         try{
         	 WebElement errorMessageElement = Util.createWebDriverWait(driver, 2).until(ExpectedConditions.visibilityOfElementLocated(
@@ -156,6 +162,7 @@ public class ArrayCategory extends Array{
         selectedOption.click();
     }
     public boolean isCategoryArray(){
+        wait.until(ExpectedConditions.visibilityOf(productList));
         return productList.isDisplayed();
     }
 
