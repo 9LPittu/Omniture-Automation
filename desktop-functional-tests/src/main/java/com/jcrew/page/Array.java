@@ -39,7 +39,7 @@ public abstract class Array extends PageObject{
     }
 
     protected List<WebElement> getVariationProductsList(WebElement productList){
-        return productList.findElements(By.xpath("//div[@class='"+PRODUCT_TITLE_CLASS+"' and contains(.,'also in')]"));
+        return productList.findElements(By.xpath(".//div[@class='"+PRODUCT_TITLE_CLASS+"' and contains(.,'also in')]"));
 
     }
 
