@@ -58,7 +58,7 @@ public class DriverFactory {
             width = Integer.parseInt(propertyReader.getProperty("desktop.window.width"));
             height = Integer.parseInt(propertyReader.getProperty("desktop.window.height"));
         }
-
+       
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
         } else {
@@ -73,6 +73,7 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
+        	System.setProperty("webdriver.chrome.driver", "C:" + "\\" + "git" + "\\" + "chromedriver.exe");
             driver = new ChromeDriver();
             driver.manage().window().setSize(new Dimension(width, height));
 
