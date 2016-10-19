@@ -57,6 +57,8 @@ public class MultiplePdpPage {
     private WebElement sizeAndFitDrawer;
 
     private WebDriverWait wait;
+    
+    boolean isSizeAndFitDrawerDisplayed = false;
 
     public MultiplePdpPage(WebDriver driver){
         PageFactory.initElements(driver, this);
@@ -89,6 +91,7 @@ public class MultiplePdpPage {
         
         try{
         	sizeAndFitDrawer = productInformationSection.findElement(By.id("c-product__size-fit"));
+        	isSizeAndFitDrawerDisplayed = true;
         }
         catch(NoSuchElementException nsee){
         	logger.debug("Size and Fit drawer is not displayed!!!");
@@ -300,7 +303,11 @@ public class MultiplePdpPage {
             result = openDrawer(productDetailsDrawer);
             result &= openDrawer(productReviewRatingsSection);
             result &= isDrawerOpen(productDetailsDrawer);
-            result &= isDrawerOpen(sizeAndFitDrawer);
+            
+            if(isSizeAndFitDrawerDisplayed){
+            	result &= isDrawerOpen(sizeAndFitDrawer);
+            }
+            
             result &= isDrawerOpen(productReviewRatingsSection);
             navigateToNextProduct(i);
         }
