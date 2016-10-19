@@ -125,4 +125,9 @@ public class HeaderWrapSteps extends DriverFactory {
     		header.selectSubCategory(subcategory);
     	}
     }
+    
+    @When("User hovers on ([^\"]*) category from header")
+    public void user_hovers_category_from_header(String category) {
+        header.hoverCategory(category);
+    }
 }
