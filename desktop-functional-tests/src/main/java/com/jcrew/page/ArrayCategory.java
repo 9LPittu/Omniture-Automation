@@ -22,12 +22,18 @@ public class ArrayCategory extends Array{
     private WebElement categoryFilters;
     @FindBy(id = "c-category__item-count")
     private WebElement itemCount;
+    @FindBy(id = "plusArrayContainer")
+    private WebElement arrayContainer;
 
     public ArrayCategory(WebDriver driver) {
         super(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(productList));
+        try {
+        	wait.until(ExpectedConditions.visibilityOf(productList));
+        } catch (Exception e) {
+        	wait.until(ExpectedConditions.visibilityOf(arrayContainer));
+        }
         footer = new Footer(driver);
         header = new HeaderWrap(driver);
     }
