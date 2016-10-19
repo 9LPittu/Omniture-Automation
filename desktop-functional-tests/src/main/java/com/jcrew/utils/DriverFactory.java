@@ -73,7 +73,6 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-        	System.setProperty("webdriver.chrome.driver", "C:" + "\\" + "git" + "\\" + "chromedriver.exe");
             driver = new ChromeDriver();
             driver.manage().window().setSize(new Dimension(width, height));
 
