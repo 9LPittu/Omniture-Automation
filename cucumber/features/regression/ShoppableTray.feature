@@ -7,7 +7,7 @@ Feature: Shoppable Tray
     And User clicks on hamburger menu
     And User selects random tray from available categories
       | Women | THIS MONTH'S FEATURES | Looks We Love  |
-      | Men   | THIS MONTH'S FEATURES | The Outerwear Guide|
+#      | Men   | THIS MONTH'S FEATURES | The Outerwear Guide|
       | Girls | THIS MONTH'S FEATURES | Looks We Love  |
       | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
 
