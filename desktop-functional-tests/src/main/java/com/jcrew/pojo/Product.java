@@ -25,7 +25,7 @@ public class Product {
 
     public Product() {
     }
-    
+
     public void setProductName(String productName) {
         this.productName = productName;
     }
@@ -82,6 +82,9 @@ public class Product {
     public String getColor() {
         return color;
     }
+    public String getCurrency() {
+        return currency;
+    }
 
     public void setColor(String color) {
         this.color = color.trim();
@@ -126,10 +129,12 @@ public class Product {
         price = price.trim().toLowerCase();
         price = price.replace("now", "");
         price = price.replace("was", "");
-        this.price = price.replaceAll("[^0-9.,]", "");
-        this.currency = price.replace(this.price, "").trim();
+        price = price.replace(" ", "");
+        //this.price = price.replaceAll("[^0-9.,]", "");
+        this.price = price;
+
     }
-    
+
     public String getItemNumber() {
         return itemNumber.trim();
     }

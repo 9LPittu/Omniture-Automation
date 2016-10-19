@@ -11,13 +11,13 @@ Feature: PDP Size and Fit functionality
     When User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
-    Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
+    And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     Then Verify 'SIZE & FIT' drawer is expanded state
-    When user clicks on 'SIZE & FIT' drawer    
+    When user clicks on 'SIZE & FIT' drawer
     Then Verify 'SIZE & FIT' drawer is collapsed state
-    
-    Then Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer    
-    Then Verify 'PRODUCT DETAILS' drawer is collapsed state   
+
+    And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state
     When user clicks on 'PRODUCT DETAILS' drawer
     Then Verify 'PRODUCT DETAILS' drawer is expanded state
     Then Verify item details are displayed in the 'PRODUCT DETAILS' drawer    
@@ -31,12 +31,12 @@ Feature: PDP Size and Fit functionality
     And User selects random product from product array
     And Verify product detail page is displayed
 
-    Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
+    And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     Then Verify 'SIZE & FIT' drawer is expanded state
     When user clicks on 'SIZE & FIT' drawer    
     Then Verify 'SIZE & FIT' drawer is collapsed state
-    
-    Then Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer    
+
+    And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     Then Verify 'PRODUCT DETAILS' drawer is collapsed state   
     When user clicks on 'PRODUCT DETAILS' drawer
     Then Verify 'PRODUCT DETAILS' drawer is expanded state
@@ -50,14 +50,14 @@ Feature: PDP Size and Fit functionality
     When User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
-    
-    Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
+
+    And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     Then Verify 'SIZE & FIT' drawer is expanded state
     When user clicks on 'SIZE & FIT' drawer    
     Then Verify 'SIZE & FIT' drawer is collapsed state
-    
-    Then Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer    
-    Then Verify 'PRODUCT DETAILS' drawer is collapsed state   
+
+    And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
+    Then Verify 'PRODUCT DETAILS' drawer is collapsed state
     When user clicks on 'PRODUCT DETAILS' drawer
     Then Verify 'PRODUCT DETAILS' drawer is expanded state
     Then Verify item details are displayed in the 'PRODUCT DETAILS' drawer    
@@ -70,13 +70,13 @@ Feature: PDP Size and Fit functionality
     When User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
-    
-    Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button   
+
+   And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     Then Verify 'SIZE & FIT' drawer is expanded state
     When user clicks on 'SIZE & FIT' drawer    
     Then Verify 'SIZE & FIT' drawer is collapsed state
-    
-    Then Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer    
+
+   And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     Then Verify 'PRODUCT DETAILS' drawer is collapsed state   
     When user clicks on 'PRODUCT DETAILS' drawer
     Then Verify 'PRODUCT DETAILS' drawer is expanded state

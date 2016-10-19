@@ -25,7 +25,7 @@ import java.util.Stack;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
-public class ProductDetails extends PageObject{
+public class ProductDetails extends PageObject {
     private final HeaderWrap headerWrap;
 
     private final String PRICE_SALE_CLASS = "product__price--sale";
@@ -45,12 +45,24 @@ public class ProductDetails extends PageObject{
     private WebElement vpsMessage;
     @FindBy(id = "c-product__quantity")
     private WebElement product_quantity;
+
     @FindBy(id = "btn__add-to-bag")
     private WebElement addToBagButton;
+    @FindBy(id = "btn__wishlist")
+    private WebElement wishListButton;
     @FindBy(id = "c-product__overview")
     private WebElement productOverview;
     @FindBy(id = "c-product__reviews--ratings-summary")
     private WebElement reviewSummary;
+
+    @FindBy(id = "c-product__reviews--ratings")
+    private WebElement reviewSection;
+
+    @FindBy(id = "c-product__recommendations")
+    private WebElement bayNoteSection;
+    @FindBy(id="c-page__navigation")
+    private WebElement endCapNav;
+
     @FindBy(id = "c-product__sold-out")
     private WebElement soldoutMessage;
     @FindBy(xpath = "//div[@class='product__us-sizes']")
@@ -63,20 +75,20 @@ public class ProductDetails extends PageObject{
     private WebElement productName;
     @FindBy(id = "btn__add-to-bag")
     private WebElement addToBag;
-    @FindBy(xpath="//a[contains(@class,'js-link__size-fit') and text()='Size & Fit Details']")
+    @FindBy(xpath = "//a[contains(@class,'js-link__size-fit') and text()='Size & Fit Details']")
     private WebElement sizeAndFitDetailsLink;
-    @FindBy(xpath="//div[@class='product__size-fit product__description']/div/div/span")
+    @FindBy(xpath = "//div[@class='product__size-fit product__description']/div/div/span")
     private WebElement sizeAndFitDrawer;
-    @FindBy(xpath="//div[@class='product__details product__description']/div/div/span")
+    @FindBy(xpath = "//div[@class='product__details product__description']/div/div/span")
     private WebElement productDetailsDrawer;
     @FindBy(id = "c-product__details")
-    private WebElement product__details;    
+    private WebElement product__details;
     @FindBy(className = "c-product__description")
     private WebElement productDetailsSection;
-    
+
     @FindBy(xpath = "//button[@id='btn__add-to-bag' and text()='Update Bag']")
     private WebElement updateBagButton;
-    
+
     @FindBy(id = "c-product__actions")
     private WebElement productActionsSection;
 
@@ -92,7 +104,7 @@ public class ProductDetails extends PageObject{
         wait.until(ExpectedConditions.visibilityOf(price_colors));
         List<WebElement> availableColors =
                 price_colors.findElements(By.xpath(".//li[@class='js-product__color colors-list__item'"
-                								 + " and not(contains(@class,'is-selected'))]"));
+                        + " and not(contains(@class,'is-selected'))]"));
 
         if (availableColors.size() > 0) {
             WebElement selectedColor = Util.randomIndex(availableColors);
@@ -101,12 +113,15 @@ public class ProductDetails extends PageObject{
         }
     }
 
+
+
+
     public void selectRandomSize() {
         wait.until(ExpectedConditions.visibilityOf(sizes));
         String availableSizesSelector = ".//li[contains(@class,'js-product__size sizes-list__item') " +
-                						"and not(contains(@class,'is-unavailable')) " +
-                						"and not(contains(@class,'is-selected'))]";
-        
+                "and not(contains(@class,'is-unavailable')) " +
+                "and not(contains(@class,'is-selected'))]";
+
         List<WebElement> availableSizes = sizes.findElements(By.xpath(availableSizesSelector));
 
         if (availableSizes.size() > 0) {
@@ -139,22 +154,56 @@ public class ProductDetails extends PageObject{
     }
 
     private String getProductName() {
+        wait.until(ExpectedConditions.visibilityOf(productOverview));
         WebElement name = productOverview.findElement(By.tagName("h1"));
         return name.getText();
     }
+
 
     private String getQuantity() {
         Select qty = new Select(product_quantity.findElement(By.tagName("select")));
         return qty.getFirstSelectedOption().getText();
     }
 
+    public  String getProductPrice(){
+        WebElement productPrice;
+        List<WebElement> variationsPrice = variations.findElements(By.tagName("li"));
+        if (variationsPrice.size() > 0) {
+            WebElement selectedVariation = variations.findElement(By.className("is-selected"));
+
+            //check if variation has sale price
+            productPrice = selectedVariation.findElement(
+                    By.xpath(".//span[contains(@class,'" + PRICE_SALE_CLASS + "')]"));
+            if (!productPrice.isDisplayed()) {
+                //if no sale price get regular price from varations
+                productPrice = selectedVariation.findElement(
+                        By.xpath(".//span[contains(@class,'" + PRICE_LIST_CLASS + "')]"));
+            }
+
+        } else { //if no variations, get sale price
+            wait.until(ExpectedConditions.visibilityOf(price));
+            productPrice = price.findElement(By.className(PRICE_SALE_CLASS));
+            if (!productPrice.isDisplayed()) {
+                //if no sale price get regular price
+                productPrice = price.findElement(By.className(PRICE_LIST_CLASS));
+            }
+        }
+        String price = productPrice.getText();
+        price = price.trim().toLowerCase();
+        price = price.replace("select colors", "").replace("now", "");
+        price = price.replace("was", "");
+        price = price.replace(" ", "");
+        return price;
+    }
     private String getPrice() {
         List<WebElement> priceGroups = price_colors.findElements(By.xpath(".//div[@class='product__group']"));
         WebElement productPrice;
-
+//        c-product__price-colors
         if (priceGroups.size() > 1) {
+
             WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
             productPrice = selectedColor.findElement(By.xpath(".//ancestor::div[@class='product__group']/span"));
+
         } else {
             //if has variations, get price from variations
             List<WebElement> variationsPrice = variations.findElements(By.tagName("li"));
@@ -179,7 +228,7 @@ public class ProductDetails extends PageObject{
                 }
             }
         }
-        
+
         String price = productPrice.getText();
         return price;
     }
@@ -195,13 +244,12 @@ public class ProductDetails extends PageObject{
         product.setName(getProductName());
 
         if (!isSoldOut()) {
-        	product.setName(getProductName());
             product.setColor(getSelectedColor());
             product.setSize(getSelectedSize());
             product.setQuantity(getQuantity());
-            product.setPrice(getPrice());            
-            product.setItemNumber(getProductCodeFromPDP());
-            product.setQuantity(getQuantity());            
+            product.setPrice(getPrice());
+            product.setItemNumber(getProductCode());
+            product.setQuantity(getQuantity());
         } else {
             product.setSoldOut(true);
         }
@@ -219,7 +267,7 @@ public class ProductDetails extends PageObject{
         Product product = getProduct();
 
         productsInBag.add(product);
-        
+
         stateHolder.addToList("toBag", product);
 
         int itemsInBag = headerWrap.getItemsInBag();
@@ -235,11 +283,10 @@ public class ProductDetails extends PageObject{
     public boolean verifyContext() {
         Country country = (Country) stateHolder.get("context");
 
-        boolean result= Util.countryContextURLCompliance(driver, country);
+        boolean result = Util.countryContextURLCompliance(driver, country);
 
         return result;
     }
-
     public boolean isProductDetailPage() {
         Country country = (Country) stateHolder.get("context");
         logger.info("country context is  : {}", country.getName());
@@ -250,11 +297,12 @@ public class ProductDetails extends PageObject{
         return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
     }
 
+
     public void click_add_to_cart() {
         wait.until(ExpectedConditions.visibilityOf(addToBag));
 
         Product thisProduct = new Product();
-        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setProductName(getProductName());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
         thisProduct.setIsBackOrder(getIsBackordered());
@@ -265,23 +313,36 @@ public class ProductDetails extends PageObject{
         addToBag.click();
     }
 
-    public String getProductNameFromPDP() {
-        wait.until(ExpectedConditions.visibilityOf(productOverview));
 
-        return productOverview.findElement(By.tagName("h1")).getText();
+    public void click_write_review(){
+        WebElement writeReviewButton;
+        List<WebElement> noReviews = reviewSection.findElements(By.id("BVRRDisplayContentNoReviewsID"));
+
+        if(noReviews.size() > 0) {
+            logger.debug("Product has no reviews, this is the first review");
+            writeReviewButton = noReviews.get(0).findElement(By.tagName("a"));
+        } else {
+            WebElement reviewContainer = reviewSection.findElement(By.id("BVRRContainer"));
+            WebElement reviewId = reviewContainer.findElement(By.id("BVRRRatingSummaryLinkWriteID"));
+            writeReviewButton = reviewId.findElement(By.tagName("a"));
+        }
+
+        wait.until(ExpectedConditions.visibilityOf(writeReviewButton));
+        writeReviewButton.click();
+
+
     }
-
     public void click_update_cart() {
         wait.until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
 
         Product thisProduct = new Product();
-        thisProduct.setProductName(getProductNameFromPDP());
+        thisProduct.setProductName(getProductName());
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
         thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("recentlyAdded", thisProduct);
-        
+
         stateHolder.addToList("toBag", getProduct());
         stateHolder.addToList("editedItem", getProduct());
 
@@ -433,122 +494,150 @@ public class ProductDetails extends PageObject{
         List<WebElement> productpricess = product__details.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
         List<String> prices = new ArrayList<>(productpricess.size());
 
-        for(WebElement price : productpricess) {
+        for (WebElement price : productpricess) {
             prices.add(price.getText());
         }
 
         return prices;
 
     }
-    
-    public boolean isSizeAndFitDetailsLinkDisplayedAboveAddToBag(){
-    	
-    	List<WebElement> sizeElements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//li[contains(@class,'js-product__size sizes-list__item')]")));
-    	if(sizeElements.size()==1){
-    		return true;
-    	}   	
-    	
-    	int sizeAndDetailsLink_Y_Value = getYCoordinate("size & fit details");    	
-    	int addToBag_Y_Value = getYCoordinate("add to bag");
-    	
-    	return sizeAndDetailsLink_Y_Value < addToBag_Y_Value;
-    }
-    
+
     public int getYCoordinate(String elementName){
-    	WebElement element = null;
-    	
-    	switch(elementName.toLowerCase()){
-    		case "size & fit details":
-    			element = sizeAndFitDetailsLink;
-    			break;    		
-    		case "add to bag":
-    			element = addToBag;
-    			break;
-    		case "size & fit":
-    			element = sizeAndFitDrawer;
-    			break;
-    		case "product details":
-    			element = productDetailsDrawer;
-    			break;
-    	}
-    	
+        WebElement element = getPDPElement(elementName);
     	element = wait.until(ExpectedConditions.visibilityOf(element));
     	Point point = element.getLocation();
     	int yCoordinate = point.getY();
     	return yCoordinate;
     }
-    
-    public void clickPdpDrawer(String drawerName){
-    	WebElement drawerElement = null;
-    	
-    	switch(drawerName.toUpperCase()){
-    		case "SIZE & FIT":
-    			drawerElement = sizeAndFitDrawer;
-    			break;
-    		case "PRODUCT DETAILS":
-    			drawerElement = productDetailsDrawer;
-    			break;
-    	}
-    	
-    	wait.until(ExpectedConditions.elementToBeClickable(drawerElement));
-    	drawerElement.click();
-    	Util.waitLoadingBar(driver);
+
+    public void clickPdpDrawer(String drawerName) {
+        WebElement drawerElement = getPDPElement(drawerName);
+
+        wait.until(ExpectedConditions.elementToBeClickable(drawerElement));
+        drawerElement.click();
+        Util.waitLoadingBar(driver);
+}
+
+    public boolean isItemDetailsDisplayedInProductDetailsDrawer() {
+        wait.until(ExpectedConditions.visibilityOf(productDetailsDrawer));
+        String productDetailsDrawerText = productDetailsDrawer.getText();
+        return !StringUtils.isBlank(productDetailsDrawerText);
     }
-    
-    public boolean isPdpDrawerInExpectedState(String drawerName, String expectedState){
-    	WebElement drawerElement = null;
-    	
-    	switch(drawerName.toUpperCase()){
-    		case "SIZE & FIT":
-    			drawerElement = sizeAndFitDrawer;
-    			break;
-    		case "PRODUCT DETAILS":
-    			drawerElement = productDetailsDrawer;
-    			break;
-    	}
-    	
-    	wait.until(ExpectedConditions.elementToBeClickable(drawerElement));
-    	
-    	WebElement drawerStateElement = null;
-    	switch(expectedState.toLowerCase()){
-    		case "expanded":
-    			drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-less']"));
-    			break;
-    		case "collapsed":
-    			drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-more']"));
-    			break;
-    	}
-    	
-    	return drawerStateElement.isDisplayed();
-    			
+    public boolean isPdpDrawerInExpectedState(String drawerName, String expectedState) {
+        boolean result = false;
+        WebElement drawerElement = getPDPElement(drawerName);
+        wait.until(ExpectedConditions.elementToBeClickable(drawerElement));
+
+        WebElement drawerStateElement = null;
+        switch (expectedState.toLowerCase()) {
+            case "expanded":
+                drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-less']"));
+                result=drawerStateElement.isDisplayed();
+                break;
+            case "collapsed":
+                drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-more']"));
+                result=drawerStateElement.isDisplayed();
+                break;
+            case "disabled":
+                drawerElement = drawerElement.findElement(By.xpath(".."));
+                result = drawerElement.getAttribute("class").contains("is-disabled");
+
+        }
+
+        return result;
+
     }
-    
-    public boolean isItemDetailsDisplayedInProductDetailsDrawer(){
-    	wait.until(ExpectedConditions.visibilityOf(productDetailsDrawer));
-    	String productDetailsDrawerText = productDetailsDrawer.getText();
-    	return !StringUtils.isBlank(productDetailsDrawerText);
+    private WebElement getPDPElement(String element){
+        boolean result = false;
+        WebElement pdpElement = null;
+
+        switch (element.toLowerCase()) {
+            case "item code":
+                pdpElement=  productOverview.findElement(By.className("c-product__code"));
+                break;
+            case "variations":
+                pdpElement = variations;
+                break;
+            case "color swatchs":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(price_colors));
+                break;
+            case "size chips":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(sizes));
+                break;
+            case "size chart":
+                pdpElement = sizes.findElement(By.linkText("size charts"));
+                break;
+            case "quantity":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(product_quantity));
+                break;
+            case "add to bag":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(addToBagButton));
+                break;
+            case "wishlist":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(wishListButton));
+                break;
+            case "social icons":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(product__details.findElement(By.className("product__social"))));
+                break;
+            case "reviews":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(reviewSection));
+                break;
+            case "baynotes":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(bayNoteSection));
+                break;
+            case "endcaps":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(endCapNav));
+                break;
+            case "update bag":
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(updateBagButton));
+                break;
+            case "size & fit":
+                pdpElement = sizeAndFitDrawer;
+                break;
+            case "size & fit details":
+                pdpElement = sizeAndFitDetailsLink;
+                break;
+            case "product details":
+                pdpElement = productDetailsDrawer;
+                break;
+            case "name":
+                pdpElement = productName;
+                break;
+            case "price":
+                pdpElement = price;
+                break;
+        }
+        return pdpElement;
     }
-    
-    public String getProductCodeFromPDP(){
-    	
-    	WebElement productCodeElement = null;
-    	try {
+
+
+
+    public boolean isDisplayedInPDP(String element){
+        WebElement pdpElement = getPDPElement(element);
+        return pdpElement.isDisplayed();
+    }
+
+
+
+    public String getProductCode() {
+
+        WebElement productCodeElement = null;
+        try {
             productCodeElement = Util.createWebDriverWait(driver).until(
                     ExpectedConditions.visibilityOf(productOverview.findElement(By.className("c-product__code"))));
-        } catch(TimeoutException toe){
-                throw new WebDriverException("Product/item code is not found on the PDP!");
-    	}
+        } catch (TimeoutException toe) {
+            throw new WebDriverException("Product/item code is not found on the PDP!");
+        }
 
-            String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
-            productCodeText = productCodeText.replace(".", "").toUpperCase();
-            return productCodeText;
+        String productCodeText = (productCodeElement.getText().replace("Item ", "")).replace("item ", "");
+        productCodeText = productCodeText.replace(".", "").toUpperCase();
+        return productCodeText;
     }
-    
-    public boolean isUpdateBagButtonDisplayed() {
-        updateBagButton = wait.until(ExpectedConditions.visibilityOf(updateBagButton));
-        return updateBagButton.isDisplayed();
-    }
-    
+
+
+
+
+
     public void selectColor(String colorName) {
         wait.until(ExpectedConditions.visibilityOf(price_colors));
 
@@ -567,7 +656,7 @@ public class ProductDetails extends PageObject{
             logger.info("Color " + colorName + " not found");
         }
     }
-    
+
     public void selectSize(String size) {
         List<WebElement> productSizes = sizes.findElements(
                 By.xpath(".//li[contains(@class,'js-product__size') and @data-name='" + size.toUpperCase() + "']"));
@@ -582,55 +671,67 @@ public class ProductDetails extends PageObject{
             logger.info("Size " + size + " not found");
         }
     }
-    
+
+    public boolean compare_PDP_price(Product product) {
+        String arrayPrice = product.getPrice();
+        String pdpPrice = getProductPrice().replace("select colors", "").replace("now", "");
+        logger.info("array product price: '{}' - pdp price: '{}'", arrayPrice, pdpPrice);
+        return arrayPrice.equals(pdpPrice);
+    }
+
+    public boolean compare_PDP_name(Product product) {
+        String arrayName = product.getName();
+        String pdpName = getProductName();
+        logger.info("array product name: '{}' - pdp name: '{}'", arrayName, pdpName);
+        return arrayName.equalsIgnoreCase(pdpName);
+    }
+
+
     public boolean getIsBackordered() {
         String message = getButtonErrorMessage().toLowerCase();
-
         return message.contains("backordered");
     }
-    
+
     public String getButtonErrorMessage() {
         String message = "";
         List<WebElement> messages = productActionsSection.findElements(By.className("product__message"));
-
-        if(messages.size() > 0) {
+        if (messages.size() > 0) {
             message = messages.get(0).getText();
         }
-
         return message;
     }
 
     public boolean getIsCrewCut() {
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String category="";
-        String subCategory="";
-        String saleCategory="";
-        String categoryFromPDPURL="";
+        String category = "";
+        String subCategory = "";
+        String saleCategory = "";
+        String categoryFromPDPURL = "";
 
         if (stateHolder.hasKey("category")) {
-            category=((String) stateHolder.get("category")).toLowerCase();
+            category = ((String) stateHolder.get("category")).toLowerCase();
             stateHolder.remove("category");
         }
 
         if (stateHolder.hasKey("subcategory")) {
-            subCategory=((String) stateHolder.get("subcategory")).toLowerCase();
+            subCategory = ((String) stateHolder.get("subcategory")).toLowerCase();
             stateHolder.remove("subcategory");
         }
 
         if (stateHolder.hasKey("sale category")) {
-            saleCategory=((String) stateHolder.get("sale category")).toLowerCase();
+            saleCategory = ((String) stateHolder.get("sale category")).toLowerCase();
             stateHolder.remove("sale category");
         }
 
         if (stateHolder.hasKey("categoryFromPDPURL")) {
-            categoryFromPDPURL=((String) stateHolder.get("categoryFromPDPURL")).toLowerCase();
+            categoryFromPDPURL = ((String) stateHolder.get("categoryFromPDPURL")).toLowerCase();
             stateHolder.remove("categoryFromPDPURL");
         }
 
         String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
         List<String> crewCuts = Arrays.asList(crewCutCategories);
 
-        if(crewCuts.contains(category) || (category=="sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category=="wedding" && subCategory=="flowergirl")) {
+        if (crewCuts.contains(category) || (category == "sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category == "wedding" && subCategory == "flowergirl")) {
             return true;
         } else {
             return false;

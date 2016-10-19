@@ -2,9 +2,11 @@ package com.jcrew.steps;
 
 import com.jcrew.page.MenuDrawer;
 import com.jcrew.utils.DriverFactory;
+import cucumber.api.DataTable;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
+import gherkin.formatter.model.DataTableRow;
+import com.jcrew.utils.Util;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -19,6 +21,17 @@ public class MenuDrawerSteps extends DriverFactory {
     @When("User selects random category from list")
     public void user_selects_a_random_category_from_list(List<String> categories) {
         menuDrawer.selectCategory(categories);
+    }
+
+    @When("User selects random category and subcategory from list")
+    public void user_selects_a_random_lists(DataTable categories) {
+        List<DataTableRow> row = categories.getGherkinRows();
+        DataTableRow selectedRow = row.get(Util.randomIndex(row.size()));
+        String gender = selectedRow.getCells().get(0);
+        String subcategory = selectedRow.getCells().get(1);
+        menuDrawer.selectCategory(gender);
+        menuDrawer.selectSubCategory(subcategory);
+
     }
 
     @When("User selects ([^\"]*) subcategory array")

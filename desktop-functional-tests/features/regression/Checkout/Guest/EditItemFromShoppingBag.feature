@@ -25,7 +25,8 @@ Feature: Checkout - User is able to edit item from shopping bag during Guest che
     Then Verify that page contains a selected color    
     Then Verify that page contains a selected size
     
-    Then Verify UPDATE BAG button is displayed     
+    Then Verify UPDATE BAG displayed in PDP
+
     
     When User selects random color
     And User selects random size
