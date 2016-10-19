@@ -3,9 +3,8 @@ Feature: Checkout - Guest user is able to add billing address
 
   Scenario: Checkout - Guest user is able to add billing address
     Given User goes to homepage
-    And User closes email capture
-    When User opens menu    
-    And User selects random category from list
+    And User closes email capture 
+	And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|
