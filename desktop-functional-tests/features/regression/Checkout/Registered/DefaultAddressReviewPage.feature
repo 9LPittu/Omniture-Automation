@@ -12,8 +12,7 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     And User signs out using header
     
     And User goes to homepage
-    When User opens menu
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|
@@ -50,9 +49,7 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     And User fills form and signs in
     And This script cleans bag for current user
     And User goes to homepage
-    When User opens menu
-    
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|

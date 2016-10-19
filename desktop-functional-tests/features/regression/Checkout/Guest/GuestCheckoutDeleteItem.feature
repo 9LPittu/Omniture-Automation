@@ -6,8 +6,7 @@ Feature: Checkout - User is able to remove item from shopping bag during Guest c
     And User closes email capture
     
     #Add Item 1 to bag
-    When User opens menu
-    And User selects random category from list
+   And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|

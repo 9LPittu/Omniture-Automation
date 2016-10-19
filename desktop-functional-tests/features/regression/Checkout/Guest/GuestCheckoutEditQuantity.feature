@@ -6,8 +6,7 @@ Feature: Checkout - User is able to edit quantity for item from shopping bag dur
     And User closes email capture
     
 	#Add Item 1 to bag
-    When User opens menu
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|
