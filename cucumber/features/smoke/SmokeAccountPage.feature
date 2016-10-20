@@ -18,7 +18,8 @@ Feature: Account Page
     And Hamburger Menu Men Link is present
     And Hamburger Menu Boys Link is present
     And Hamburger Menu Girls Link is present
-    And Hamburger Menu Wedding Link is present
+    #Temparorily commenting Wedding Link verification in Hamburger menu as Wedding is intentionally removed from Hamburger
+    #And Hamburger Menu Wedding Link is present
     And Hamburger Menu sale Link is present
     And Hamburger Menu Blog Link is present
     And Closes hamburger menu
