@@ -25,12 +25,12 @@ public class TestDataReader {
 
 	private void loadProperties() throws IOException{
 		
-		String testData = "commonTestData.properties";
+		String testData = "properties/commonTestData.properties";
 		FileInputStream environmentInput = new FileInputStream(testData);
 		testDataProperties.load(environmentInput);
 		logger.debug("Test Data file to be used {}", testData);
 
-		String shipData = "shippingMethod.properties";
+		String shipData = "properties/shippingMethod.properties";
 		FileInputStream shippingInput = new FileInputStream(shipData);
 		testDataProperties.load(shippingInput);
 		logger.debug("Shipping data file to be used {}", shipData);
