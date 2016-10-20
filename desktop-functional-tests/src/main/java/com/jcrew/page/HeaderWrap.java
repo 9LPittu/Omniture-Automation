@@ -33,6 +33,7 @@ public class HeaderWrap {
 	private final WebDriverWait wait;
 	private final Actions hoverAction;
 	TestDataReader testdataReader = TestDataReader.getTestDataReader();
+	PropertyReader propertyReader  = PropertyReader.getPropertyReader(); 
 
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
 	private WebElement menu;
@@ -352,8 +353,8 @@ public class HeaderWrap {
 	}
 
 	public void selectSubCategory() {
-		String clothClassName = testdataReader.getData("clothing.className");
-		String shoesClassName = testdataReader.getData("shoes.className");
+		String clothClassName = propertyReader.getProperty("clothing.className");
+		String shoesClassName = propertyReader.getProperty("shoes.className");
 	
     	WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
         		+ "js-department-subcat-nav__wrap js-expand-subcat-nav is-visible')]")));
