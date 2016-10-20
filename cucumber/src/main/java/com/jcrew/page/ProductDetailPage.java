@@ -352,7 +352,22 @@ public class ProductDetailPage {
     		
     		WebElement productDetailsAccordion = Util.createWebDriverWait(driver).until(
     				ExpectedConditions.elementToBeClickable(By.xpath("//div[contains(@class,'product__details product__description')]/div/div")));    		
-    		productDetailsAccordion.click();
+    		
+    		Util.scrollToElement(driver, productDetailsAccordion);
+    		
+    		int cntr = 0;
+    		do{
+    			try{
+        			productDetailsAccordion.click();
+        			break;
+        		}
+        		catch(Exception e){
+        			logger.error("Product Details Accordion is not in open state!!!");
+                	JavascriptExecutor jse = (JavascriptExecutor) driver;
+                    jse.executeScript("window.scrollBy(0,50)", "");
+        		}
+    		}while(cntr<3);
+    		
     		
     		productCodeElement = Util.createWebDriverWait(driver,30).until(
                     ExpectedConditions.visibilityOf(productDetailsSection.findElement(By.xpath("//li[contains(text(),'Item')]"))));

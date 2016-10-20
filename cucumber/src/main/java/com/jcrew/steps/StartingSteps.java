@@ -62,7 +62,6 @@ public class StartingSteps {
         env = context.getHomeurl();
 
         driverFactory.deleteBrowserCookies();
-        String url = reader.getProperty("url");
         driver.get(env + extensionUrl);
         Util.waitLoadingBar(driver);
     }
@@ -280,7 +279,7 @@ public class StartingSteps {
         if (driver != null && (scenario.isFailed() || scenario.getName().contains(TAKE_SCREENSHOT))) {
             logger.debug("Taking screenshot of scenario {}", scenario.getName());
             try {
-                final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                final byte[] screenshot = ScreenshotGenerator.getScreenshot(driver);
                 scenario.embed(screenshot, "image/png");
 
                 String log = Util.logBrowserErrors(driver);
@@ -320,7 +319,7 @@ public class StartingSteps {
             try {
 
                 if (driver != null && "true".equalsIgnoreCase(System.getProperty("take.step.screenshot"))) {
-                    byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                    byte[] screenshot = ScreenshotGenerator.getScreenshot(driver);
                     scenario.embed(screenshot, "image/png");
                 }
 

@@ -413,7 +413,7 @@ public class SalePage {
         String url = driver.getCurrentUrl();
         
         WebElement deptElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
-        		By.xpath("//span[contains(@class, 'department-nav__text') and text() = '" + dept + "']")));
+        		By.xpath("//div[@class='c-header__department-nav js-header__department-nav']/descendant::span[contains(@class, 'department-nav__text') and text() = '" + dept + "']")));
         deptElement.click();
         
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));

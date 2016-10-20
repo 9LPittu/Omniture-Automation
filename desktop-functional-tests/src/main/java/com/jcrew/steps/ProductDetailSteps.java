@@ -1,21 +1,25 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.ProductDetails;
+import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 
+import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
+
 public class ProductDetailSteps extends DriverFactory {
+
+    private StateHolder stateHolder = StateHolder.getInstance();
     ProductDetails productDetails = new ProductDetails(getDriver());
 
     @When("User selects random color")
@@ -42,18 +46,40 @@ public class ProductDetailSteps extends DriverFactory {
     public void verify_context_in_the_product_detail_page() {
         assertTrue("Currency and URL are expected for country", productDetails.verifyContext());
     }
-    
+
     @Then("Verify product detail page is displayed")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
         assertTrue("User should be in detail page",
         		productDetails.isProductDetailPage());
     }
-    
+
+
+
+    @Then("Verify price matches with category array")
+    public void price_matches_category_array() {
+        Product product = (Product) stateHolder.get("fromArray");
+        assertEquals("Product price matches category array", product.getPrice(), productDetails.getProductPrice());
+    }
+
+
+    @Then("Verify product name on PDP matches with category array")
+    public void product_name_matches_category_array() {
+        Product product = (Product) stateHolder.get("fromArray");
+
+        assertTrue("Product name matches category array", productDetails.compare_PDP_name(product));
+    }
+
+    @When("User clicks on write a review button")
+    public void write_review_button_pressed(){
+        productDetails.click_write_review();
+    }
+
     @When("^Add to cart button is pressed$")
     public void add_to_cart_button_is_pressed() throws Throwable {
     	productDetails.click_add_to_cart();
     }
-    
+
+
     @When("^Update Bag button is pressed$")
     public void Update_Bag_button_is_pressed() throws Throwable {
     	productDetails.click_update_cart();
@@ -95,31 +121,24 @@ public class ProductDetailSteps extends DriverFactory {
         }
     }
     
-    @Then("^Verify 'size & fit details' link is displayed above the 'Add to Bag' button$")
-    public void verify_size_and_fit_details_link_displayed_above_add_to_bag_button(){
-    	assertTrue("Verify 'size & fit details' link is displayed above the 'Add to Bag' button",productDetails.isSizeAndFitDetailsLinkDisplayedAboveAddToBag());
+
+
+    @Then("^Verify ([^\"]*) is displayed between ([^\"]*) and ([^\"]*)$")
+    public void verify_elements_layout_PDP(String elementtoFind,String elementAbove,String elementBelow){
+        int Find_Y = productDetails.getYCoordinate(elementtoFind);
+        int below_Y = productDetails.getYCoordinate(elementBelow);
+        int Above_Y = productDetails.getYCoordinate(elementAbove);
+        assertTrue("Verify '"+elementtoFind+"' is displayed below the '"+elementAbove+"'",((below_Y > Find_Y) &&(Above_Y < Find_Y)));
     }
-    
-    @Then("^Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button$")
-    public void verify_size_and_fit_drawer_displayed_below_add_to_bag_button(){    	
-    	int sizeAndDetailsDrawer_Y_Value = productDetails.getYCoordinate("SIZE & FIT");    	
-    	int addToBag_Y_Value = productDetails.getYCoordinate("Add to Bag");
-    	assertTrue("Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button", sizeAndDetailsDrawer_Y_Value > addToBag_Y_Value);
-    }
-    
-    @Then("^Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer$")
-    public void verify_product_details_drawer_displayed_below_size_and_fit_drawer(){
-    	int sizeAndDetailsDrawer_Y_Value = productDetails.getYCoordinate("SIZE & FIT");    	
-    	int productDetailsDrawer_Y_Value = productDetails.getYCoordinate("PRODUCT DETAILS");  	
-    	assertTrue("Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer",sizeAndDetailsDrawer_Y_Value < productDetailsDrawer_Y_Value);
-    }
-    
+
+
+
     @When("^user clicks on '([^\"]*)' drawer$")
     public void user_clicks_pdp_drawer(String drawerName){
     	productDetails.clickPdpDrawer(drawerName);
     }
     
-    @Then("^Verify '([^\"]*)' drawer is ([^\"]*) state$")
+    @Then("^Verify ([^\"]*) drawer is ([^\"]*) state$")
     public void verify_pdp_drawer_state(String drawerName, String expectedState){
     	assertTrue("Verify " + drawerName + " drawer is " + expectedState,productDetails.isPdpDrawerInExpectedState(drawerName, expectedState));
     }
@@ -128,12 +147,12 @@ public class ProductDetailSteps extends DriverFactory {
     public void verify_item_details_dsiplayed_in_product_details_drawer(){
     	assertTrue("Verify item details are displayed in the 'PRODUCT DETAILS' drawer",productDetails.isItemDetailsDisplayedInProductDetailsDrawer());
     }
-    
-    @Then("^Verify UPDATE BAG button is displayed$")
-    public void verify_update_to_bag_button_displayed(){
-    	assertTrue("Update To Bag button is displayed", productDetails.isUpdateBagButtonDisplayed());
+
+    @Then("Verify ([^\"]*) displayed in PDP")
+    public void verify_pdp_has(String element){
+        assertEquals("Verify "+element+" is displayed in PDP",true,productDetails.isDisplayedInPDP(element));
     }
-    
+
     @Then("Verify that page contains a selected color")
     public void has_selected_color() {
         assertFalse("Color field is not empty", productDetails.getSelectedColor().isEmpty());

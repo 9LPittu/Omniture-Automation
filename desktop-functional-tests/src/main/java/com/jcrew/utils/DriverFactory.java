@@ -5,6 +5,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -57,7 +58,7 @@ public class DriverFactory {
             width = Integer.parseInt(propertyReader.getProperty("desktop.window.width"));
             height = Integer.parseInt(propertyReader.getProperty("desktop.window.height"));
         }
-
+       
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
         } else {
@@ -102,8 +103,11 @@ public class DriverFactory {
 
 
         if ("chrome".equals(browser)) {
-            desiredCapabilities = DesiredCapabilities.chrome();
-            driver = new RemoteWebDriver(new URL(gridURL), desiredCapabilities);
+            DesiredCapabilities chrome = DesiredCapabilities.chrome();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--disable-extensions");
+            chrome.setCapability(ChromeOptions.CAPABILITY, options);
+            driver = new RemoteWebDriver(new URL(gridURL), chrome);
             driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {

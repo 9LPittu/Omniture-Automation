@@ -130,13 +130,13 @@ public class MenuDrawer {
     }
 
     public void goBackToLevel1() {
-        WebElement navWrap = drawer.findElement(By.className("nav__wrap"));
+        WebElement navWrap = drawer.findElement(By.xpath("//nav[@id='global__nav']/div[contains(@class,'nav__wrap')]"));
         String navWrapClass = navWrap.getAttribute("class");
 
         if (!"nav__wrap".equals(navWrapClass)) {
             HeaderWrap headerWrap = new HeaderWrap(driver);
-            headerWrap.clickLogo();
-            headerWrap.openMenu();
+            
+            headerWrap.clickBack();
         }
     }
 

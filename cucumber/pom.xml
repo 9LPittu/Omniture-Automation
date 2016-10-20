@@ -162,6 +162,11 @@
             <version>1.4.9</version>
         </dependency>
 
+        <dependency>
+        	<groupId>ru.yandex.qatools.ashot</groupId>
+        	<artifactId>ashot</artifactId>
+        	<version>1.5.2</version>
+        </dependency>
     </dependencies>
 
     <build>

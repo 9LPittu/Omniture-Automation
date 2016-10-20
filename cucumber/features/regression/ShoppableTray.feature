@@ -7,7 +7,7 @@ Feature: Shoppable Tray
     And User clicks on hamburger menu
     And User selects random tray from available categories
       | Women | THIS MONTH'S FEATURES | looks we love  |
-      | Men   | THIS MONTH'S FEATURES | 9 Things to Wear Right|
+      | Men   | THIS MONTH'S FEATURES | Wallace & Barnes|
       | Girls | THIS MONTH'S FEATURES | Looks We Love  |
       | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
 
