@@ -14,8 +14,6 @@ import org.junit.runner.RunWith;
                 "pretty",
                 "html:target/cucumber/regression-merge"
         })
-/**
- * Created by nadiapaolagarcia on 5/16/16.
- */
+
 public class CheckoutMergeRunnerTest {
 }

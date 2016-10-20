@@ -14,8 +14,6 @@ import org.junit.runner.RunWith;
                 "pretty",
                 "html:target/cucumber/regression-guest-part2"
         })
-/**
- * Created by nadiapaolagarcia on 5/16/16.
- */
+
 public class CheckoutGuestPart2RunnerTest {
 }
