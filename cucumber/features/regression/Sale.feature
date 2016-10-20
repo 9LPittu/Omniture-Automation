@@ -103,7 +103,7 @@ Feature: Sale Regression Suite
     And Hamburger Menu Girls Link is present
     And Hamburger Menu Boys Link is present
     And Hamburger Menu sale Link is present
-    And Hamburger Menu Wedding Link is present
+    #And Hamburger Menu Wedding Link is present
     And Hamburger Menu Blog Link is present
 
     #US15452_TC003 Moved to BreadCrumbs.feature
