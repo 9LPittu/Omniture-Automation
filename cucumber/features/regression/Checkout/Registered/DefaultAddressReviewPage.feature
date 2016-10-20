@@ -2,7 +2,7 @@
 Feature: Checkout - Default shipping, Billing and Shipping Method on Review page for registered user
 
   Scenario: Checkout - Verify default shipping, billing and shipping method on Review page for registered user
-  	Given User goes to homepage
+  	Given User is on homepage with clean session
   	And Handle the Email Capture pop up
   	
     When click on SIGN IN from header
@@ -44,7 +44,7 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     And verify order number is generated  
     
   Scenario: Checkout - Verify default shipping, billing and shipping method on Review page  for registered user from My Account login
-  	Given User goes to homepage
+  	Given User is on homepage with clean session
   	And Handle the Email Capture pop up
   	
     When click on SIGN IN from header

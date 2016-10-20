@@ -3,7 +3,6 @@ package com.jcrew.steps;
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
-import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -20,10 +19,9 @@ import static org.junit.Assert.*;
 public class ProductDetailPageSteps extends DriverFactory {
 
     private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
-    private final StateHolder stateHolder = StateHolder.getInstance();
     private final Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
 
-    @Given("User is in product detail page")
+    @Given("^User is in product detail page$")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
         assertTrue(Util.getSelectedCountryName() + "User should be in product detail page",
                 productDetailPage.isProductDetailPage());

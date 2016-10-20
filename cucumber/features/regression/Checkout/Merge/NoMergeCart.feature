@@ -2,7 +2,7 @@
 Feature: Checkout - Users with clean bag do not get a Merge Cart page
 
   Scenario: Checkout - Registered user does not get to a merge cart page
-    Given User goes to homepage    
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     
     When click on SIGN IN from header

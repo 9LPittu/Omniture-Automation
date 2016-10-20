@@ -2,7 +2,7 @@
 Feature: Checkout - User is able to remove item from shopping bag during Guest checkout
 
   Scenario: Checkout - Guest user is able to remove item from shopping bag
-    Given User goes to homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     
     #Add Item 1 to bag

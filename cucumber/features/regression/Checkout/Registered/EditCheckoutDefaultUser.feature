@@ -2,7 +2,7 @@
 Feature: Checkout - Express user is able to edit data in review page
 
   Scenario: Checkout - Express user is able to edit shipping address, shipping method and billing data in review page
-  	Given User goes to homepage
+  	Given User is on homepage with clean session
   	And Handle the Email Capture pop up
   	
   	When click on SIGN IN from header

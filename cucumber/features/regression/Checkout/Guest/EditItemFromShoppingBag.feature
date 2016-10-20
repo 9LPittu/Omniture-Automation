@@ -2,7 +2,7 @@
 Feature: Checkout - User is able to edit item from shopping bag during Guest checkout
 
   Scenario: Checkout - User is able to edit item from shopping bag during Guest checkout
-    Given User goes to homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     
     #Add item 1 to bag

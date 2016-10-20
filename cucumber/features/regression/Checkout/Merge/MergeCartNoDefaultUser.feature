@@ -2,7 +2,7 @@
 Feature: Checkout - No Default user gets confirmation to merge cart
 
   Background: Clean bag for user
-    Given User goes to homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     
     When click on SIGN IN from header

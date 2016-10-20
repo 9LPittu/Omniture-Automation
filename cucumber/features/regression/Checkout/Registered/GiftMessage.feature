@@ -2,7 +2,7 @@
 Feature: Checkout - Registered user is able to add a gift message
 
   Background: Clean bag for user
-    Given User goes to homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     
     When click on SIGN IN from header

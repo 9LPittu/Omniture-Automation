@@ -2,7 +2,7 @@
 Feature: Checkout - Editing items from shopping bag
 
   Scenario: Checkout - Multiple shopping bag functions
-    Given User goes to homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     
     And User clicks on hamburger menu    
