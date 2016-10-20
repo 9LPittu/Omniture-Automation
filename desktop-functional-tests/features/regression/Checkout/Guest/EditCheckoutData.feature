@@ -4,8 +4,7 @@ Feature: Checkout - Guest user is able to edit data in review page
   Scenario: Checkout - Guest user is able to edit data in review page
     Given User goes to homepage
     And User closes email capture
-    When User opens menu
-	And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|

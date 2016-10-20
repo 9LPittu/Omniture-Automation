@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.HeaderWrap;
 import com.jcrew.page.MenuDrawer;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.DataTable;
@@ -17,11 +18,23 @@ import static org.junit.Assert.assertEquals;
  */
 public class MenuDrawerSteps extends DriverFactory {
     MenuDrawer menuDrawer = new MenuDrawer(getDriver());
+    HeaderWrap headerWrap = new HeaderWrap(getDriver());
 
     @When("User selects random category from list")
     public void user_selects_a_random_category_from_list(List<String> categories) {
         menuDrawer.selectCategory(categories);
     }
+
+
+//    @When("User selects ([^\"]*) subcategory array")
+//    public void user_selects_specific_subcategory_array(String subcategory) {
+//        if("random".equalsIgnoreCase(subcategory)) {
+//            menuDrawer.selectSubCategory();
+//        } else {
+//            menuDrawer.selectSubCategory(subcategory);
+//        }
+//    }
+
 
     @When("User selects random category and subcategory from list")
     public void user_selects_a_random_lists(DataTable categories) {
@@ -29,19 +42,14 @@ public class MenuDrawerSteps extends DriverFactory {
         DataTableRow selectedRow = row.get(Util.randomIndex(row.size()));
         String gender = selectedRow.getCells().get(0);
         String subcategory = selectedRow.getCells().get(1);
-        menuDrawer.selectCategory(gender);
-        menuDrawer.selectSubCategory(subcategory);
+
+        //menuDrawer.selectCategory(gender);
+        //menuDrawer.selectSubCategory(subcategory);        
+        headerWrap.hoverCategory(gender);
+        headerWrap.selectSubCategory(subcategory);
 
     }
 
-    @When("User selects ([^\"]*) subcategory array")
-    public void user_selects_specific_subcategory_array(String subcategory) {
-        if("random".equalsIgnoreCase(subcategory)) {
-            menuDrawer.selectSubCategory();
-        } else {
-            menuDrawer.selectSubCategory(subcategory);
-        }
-    }
 
     @When("User goes back to categories menu")
     public void user_goes_back_to_categories_menu() {

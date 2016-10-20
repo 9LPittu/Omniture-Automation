@@ -9,8 +9,7 @@ Feature: Checkout - Express user is able to edit data in review page
     And This script cleans bag for current user
     And User goes to homepage
     
-    When User opens menu
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|

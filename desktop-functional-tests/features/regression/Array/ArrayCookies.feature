@@ -6,8 +6,7 @@ Feature: Cookie validation in array pages
     Given User is on homepage with siteid
     And User closes email capture
 
-    When User opens menu
-    And User selects <gender> category from menu
+	When User hovers on <gender> category from header
     And User selects <category> subcategory array
 
     Then Verify user is in <category> category array page

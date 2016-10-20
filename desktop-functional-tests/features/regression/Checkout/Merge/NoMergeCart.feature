@@ -12,8 +12,7 @@ Feature: Checkout - Users with clean bag do not get a Merge Cart page
     And User signs out using header
 
     Given User goes to homepage
-    When User opens menu
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|
@@ -42,8 +41,7 @@ Feature: Checkout - Users with clean bag do not get a Merge Cart page
     When This script cleans bag for current user
 
     Given User goes to homepage
-    When User opens menu
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|

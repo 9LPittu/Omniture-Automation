@@ -36,12 +36,9 @@ public class UserNavigationSteps extends DriverFactory {
         String subCategotySection =testDataReader.getSubCategorySection(category);
 
         HeaderWrap header = new HeaderWrap(driver);
-        header.openMenu();
-
-        MenuDrawer menuDrawer = new MenuDrawer(driver);
-        menuDrawer.selectCategory(category);
+        header.hoverCategory(category);
+        header.selectSubCategory();
         Util.waitLoadingBar(driver);
-        menuDrawer.selectSubCategoryFromSection(subCategotySection);
     }
 
 

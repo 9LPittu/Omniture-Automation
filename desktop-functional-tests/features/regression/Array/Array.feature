@@ -6,8 +6,7 @@ Feature: Array page functionality
     And User closes email capture
 
   Scenario: Category Array  - Display and Refinement
-    When User opens menu
-    And User selects women category from menu
+    When User hovers on women category from header
     And User selects sweaters subcategory array
     Then Verify user is in sweaters category array page
     And Verify category contains items count
