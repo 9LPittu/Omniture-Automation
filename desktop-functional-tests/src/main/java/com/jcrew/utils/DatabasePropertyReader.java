@@ -31,7 +31,7 @@ public class DatabasePropertyReader {
         databaseInput = new FileInputStream("properties/databasequeries.properties");
         databaseProperties.load(databaseInput);
 
-        String execEnvironment = System.getProperty("environment", "gold");
+        String execEnvironment = System.getProperty("environment", "ci");
         String dbSchemaName = databaseProperties.getProperty(execEnvironment + ".schema");
         databaseProperties.setProperty("schema", dbSchemaName);
         
