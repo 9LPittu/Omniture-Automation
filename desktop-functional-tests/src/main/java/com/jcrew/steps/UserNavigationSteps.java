@@ -48,7 +48,7 @@ public class UserNavigationSteps extends DriverFactory {
         user_navigates_to_subcategory_from_main_category();
 
         ArrayCategory productsArray = new ArrayCategory(driver);
-        productsArray.selectRandomProduct();
+        productsArray.selectRandomProduct("any");
 
     }
 
