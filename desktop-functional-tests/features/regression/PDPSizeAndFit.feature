@@ -6,9 +6,8 @@ Feature: PDP Size and Fit functionality
     And User closes email capture
 
   Scenario: Validate PDP Size & Fit for Women
-    When User opens menu
-    And User selects women category from menu
-    When User selects random subcategory array
+    When User hovers on women category from header
+    And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
@@ -25,8 +24,7 @@ Feature: PDP Size and Fit functionality
     Then Verify 'PRODUCT DETAILS' drawer is collapsed state
   
   Scenario: Validate PDP Size & Fit for Men
-    When User opens menu
-    And User selects men category from menu
+    When User hovers on men category from header
     When User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
@@ -45,9 +43,8 @@ Feature: PDP Size and Fit functionality
     Then Verify 'PRODUCT DETAILS' drawer is collapsed state
     
   Scenario: Validate PDP Size & Fit for Boys
-    When User opens menu
-    And User selects boys category from menu
-    When User selects random subcategory array
+    When User hovers on boys category from header
+    And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
 
@@ -65,8 +62,7 @@ Feature: PDP Size and Fit functionality
     Then Verify 'PRODUCT DETAILS' drawer is collapsed state
     
  Scenario: Validate PDP Size & Fit for Girls
-    When User opens menu
-    And User selects girls category from menu
+    When User hovers on girls category from header
     When User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed

@@ -1,33 +1,60 @@
-@International-Part2
+@International-Part2B
 Feature: International Country Context - Part 2B
 
-  Scenario Outline: PDP message validation for sold out item, item with variations, vps item and shipping restriction item
-    Given User goes to international homepage for <country_group>
-    Then Verify welcome mat is displayed
-    And Verify country context matches selected country
-
-    When User clicks on Start Shopping
+  Background:
+    Given User goes to homepage
     And User closes email capture
-    And User searches for the item soldout.item
-    Then Verify product detail page is displayed
-    And Verify sold out message is displayed on PDP
 
-    When User searches for the item shipping.restriction.item
-    Then Verify product detail page is displayed
-    And Verify shipping restriction message is displayed on PDP
+  Scenario Outline: Multiple Pages During Checkout Context validations
+    Then Click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given User selects <country_group> at random from context chooser page
+    Then User should land on country specific home page
+    And Verify selected country is in footer
+    And User navigates to a subcategory from main category
+    And Verify context in the array page
+    And Verify selected country is in footer
+    And User selects random product from product array
+    And Verify product detail page is displayed
+    And Verify selected country is in footer
+    And Verify context in the product detail page
+    And User adds selected product to bag
+    And User clicks in bag
+    And Verify user is in shopping bag page
+    And Verify that shopping bag has expected context
+    And User clicks check out button
+    And Verify selected country is in footer
+    And User checks out as guest
+    And Verify selected country is in footer
+    And User fills shipping data and continues
+    And Verify selected country is in footer
+    And User selects a random shipping method and continues
+    And Verify selected country is in footer
+    And User fills payment method and continue
+    And Verify selected country is in footer
+    And User clicks on PLACE MY ORDER
+    And Verify selected country is in footer
+    Then Verify user gets a confirmation number
+    And Verify selected country is in footer
 
-    When User searches for the item variations.item
-    And User selects first product from search results
-    Then Verify product detail page is displayed
-    And Verify PDP message is displayed for the selected country
+    Examples:
+      | country_group |
+      | PRICEBOOK     |
+      | NON-PRICEBOOK |
 
-    When User selects random variant on the PDP page
-    Then Verify product detail page is displayed
-    And Verify PDP message is displayed for the selected country
-  #    currently vps is set up only in bronze in canada context. Will run the below when data is available
-  #    And User searches for the vps.item
-  #    Then Verify product detail page is displayed
-  #   Then Verify VPS item message is displayed on PDP
+  Scenario Outline: context validation on sale landing page from Hamburger menu
+    Then Click on change link from footer
+    And User is on context chooser page
+    And User is on internal /r/context-chooser page
+    Given User selects <country_group> at random from context chooser page
+    Then User should land on country specific home page
+    And Verify selected country is in footer
+    And User opens menu
+    And User selects sale category from menu
+    And Verify selected country is in footer
+    And Verify country code in the url for international countries
+
     Examples:
       | country_group |
       | PRICEBOOK     |

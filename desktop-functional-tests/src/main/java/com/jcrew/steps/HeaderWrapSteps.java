@@ -110,4 +110,24 @@ public class HeaderWrapSteps extends DriverFactory {
     public void is_logo_visible() {
         header.isLogoVisible();
     }
+    
+    
+    @When("User hovers on a random category from list")
+    public void user_hovers_on_random_category_from_list(List<String> categories) {
+    	header.hoverCategory(categories);
+    }
+    
+    @When("User selects ([^\"]*) subcategory array")
+    public void user_selects_specific_subcategory_array(String subcategory) {
+    	if("random".equalsIgnoreCase(subcategory)) {
+    		header.selectSubCategory();
+    	} else {
+    		header.selectSubCategory(subcategory);
+    	}
+    }
+    
+    @When("User hovers on ([^\"]*) category from header")
+    public void user_hovers_category_from_header(String category) {
+        header.hoverCategory(category);
+    }
 }

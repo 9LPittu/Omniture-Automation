@@ -10,8 +10,7 @@ Feature: Checkout - No Default user gets confirmation to merge cart
     And This script cleans bag for current user
     And User goes to homepage
     
-    When User opens menu
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|
@@ -29,8 +28,7 @@ Feature: Checkout - No Default user gets confirmation to merge cart
   Scenario: Checkout - User checks out with a merged bag
     Given User goes to homepage
     
-    When User opens menu
-    And User selects random category from list
+   And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|
@@ -78,8 +76,7 @@ Feature: Checkout - No Default user gets confirmation to merge cart
   
   Scenario: Checkout - User checks out by saving items to wishlist
     Given User goes to homepage
-    When User opens menu
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|

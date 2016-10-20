@@ -28,8 +28,9 @@ Feature: Create New Account in US
     When User adds new payment method
     Then User has 1 payment methods
 
-    When User opens menu
-    And User goes to home using menu drawer
+    When User clicks JCrew logo
+    Then Verify user is in homepage
+    
     And User adds to bag a random product using a main category
     And User clicks in bag
     And User clicks check out button

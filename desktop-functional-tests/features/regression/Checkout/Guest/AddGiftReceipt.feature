@@ -4,8 +4,7 @@ Feature: Checkout - User is able to gift receipt to order during Guest checkout
   Scenario: Checkout - User is able to gift receipt to order during Guest checkout
     Given User goes to homepage
     And User closes email capture
-    When User opens menu
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|

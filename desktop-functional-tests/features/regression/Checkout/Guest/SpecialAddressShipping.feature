@@ -4,8 +4,7 @@ Feature: Checkout - Expected Shipping Options for special addresses
   Scenario: Checkout - Expected Shipping Options for APO
     Given User goes to homepage
     And User closes email capture
-    When User opens menu
-    And User selects random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|
