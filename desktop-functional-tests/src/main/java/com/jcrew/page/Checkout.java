@@ -222,7 +222,7 @@ public abstract class Checkout extends PageObject{
                         quantity, name, itemNumber, size, color, price);
 
                 found = name.equalsIgnoreCase(productName)
-                        && price.equalsIgnoreCase(fromPDP.getPrice())
+                        && price.equalsIgnoreCase(fromPDP.getPrice().replaceAll("[^0-9.,]", ""))
                         && size.equalsIgnoreCase(fromPDP.getSize())
                         && color.equalsIgnoreCase(fromPDP.getColor())
                         && itemNumber.equalsIgnoreCase(fromPDP.getItemNumber())
