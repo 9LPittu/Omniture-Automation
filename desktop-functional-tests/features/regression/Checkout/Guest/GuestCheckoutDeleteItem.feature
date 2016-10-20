@@ -20,7 +20,7 @@ Feature: Checkout - User is able to remove item from shopping bag during Guest c
     And User adds product to bag
     
     #Add Item 2 to bag
-    When And User hovers on a random category from list
+    When User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|
