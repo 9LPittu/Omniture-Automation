@@ -366,6 +366,8 @@ public class HeaderWrap {
         selectedSubCategory.click();
 
         Util.waitLoadingBar(driver);
+        hoverOverIcon("logo");
+        
     }
 
 	public void selectSubCategory(String subCategory) {
@@ -378,5 +380,6 @@ public class HeaderWrap {
         subCategoryElement.click();
 
         Util.waitLoadingBar(driver);
+        hoverOverIcon("logo");
 	}
 }
