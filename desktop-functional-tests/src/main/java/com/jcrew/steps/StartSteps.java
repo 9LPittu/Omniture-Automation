@@ -135,11 +135,7 @@ public class StartSteps {
         String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
         logger.debug("getting url: " + intlPageURL);
 
-        if(envUrl.contains("or.jcrew.com")) {
-            driver.get("https://or.jcrew.com/404");
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
-        }
+        setSidecarCookie();
 
         driver.get(intlPageURL);
     }
@@ -158,12 +154,7 @@ public class StartSteps {
 
         logger.debug("getting url: " + envUrl);
 
-        if(envUrl.contains("or.jcrew.com")) {
-            driver.get("https://or.jcrew.com/404");
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
-        }
-
+        setSidecarCookie();
 
         driver.get(envUrl);
     }
@@ -179,11 +170,7 @@ public class StartSteps {
 
         envUrl = context.getHomeurl();
 
-        if(envUrl.contains("or.jcrew.com")) {
-            driver.get("https://or.jcrew.com/404");
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
-        }
+        setSidecarCookie();
 
         String intlHomeURL = envUrl +"/"+ context + "/" ;
         logger.debug("getting url: " + intlHomeURL);
@@ -199,12 +186,20 @@ public class StartSteps {
         envUrl=envUrl + "?siteId=asdfsadf&srcCode=asdfsadf";
         logger.debug("getting url: " + envUrl);
 
-        if(envUrl.contains("or.jcrew.com")) {
-            driver.get("https://or.jcrew.com/404");
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=or.jcrew.com;expires=new Date().setDate(new Date().getDate() + 1) \"");
-        }
+        setSidecarCookie();
 
         driver.get(envUrl);
+    }
+    
+    private void setSidecarCookie() {
+    	String setCookie = reader.getProperty("cookie.required");
+    	if(setCookie.equalsIgnoreCase("true")) {
+    		String url = reader.getProperty("execEnvironment");
+    		String domain = url.replace("https://", "");
+            driver.get(url + "/404");
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+        }
+    	
     }
 }
