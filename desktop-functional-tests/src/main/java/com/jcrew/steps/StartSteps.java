@@ -192,9 +192,10 @@ public class StartSteps {
     }
     
     private void setSidecarCookie() {
-    	String setCookie = reader.getProperty("cookie.required");
+    	TestDataReader testdataReader = TestDataReader.getTestDataReader();
+    	String setCookie = testdataReader.getData("setSicedarCookie");
     	if(setCookie.equalsIgnoreCase("true")) {
-    		String url = reader.getProperty("execEnvironment");
+    		String url = reader.getProperty("url");
     		String domain = url.replace("https://", "");
             driver.get(url + "/404");
             JavascriptExecutor jse = (JavascriptExecutor) driver;
