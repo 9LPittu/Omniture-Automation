@@ -11,7 +11,7 @@ Feature: Array page functionality
     Then Verify user is in sweaters category array page
     And Verify category contains items count
     And Verify refine dropdown displayed in array page
-    And Verify refine dropdown text is VIEW ALL
+    And Verify refine dropdown text is All sweaters
 
     When User expands refine dropdown
     And Verify refine dropdown is open
