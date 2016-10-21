@@ -4,6 +4,7 @@ import com.jcrew.page.Header;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.Navigation;
 import com.jcrew.page.ProductDetailPage;
+import com.jcrew.page.SearchPage;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
@@ -130,6 +131,11 @@ public class NavigationSteps extends DriverFactory {
     public void user_searches_for_a_random_search_term() {
         String term = testDataReader.getSearchWord();
         search(term);
+        
+        if(getDriver().getCurrentUrl().contains("r/search")){
+        	SearchPage searchPage = new SearchPage(getDriver());
+        	searchPage.selectRandomProduct();
+        }
     }
     
     private void search(String searchTerm){

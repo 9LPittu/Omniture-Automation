@@ -117,6 +117,7 @@ public class SalePage {
     public boolean isSalePageDisplayed(){
         Country country = (Country) stateHolder.get("context");
         Util.waitForPageFullyLoaded(driver);
+        Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleHeader));
 
@@ -429,8 +430,9 @@ public class SalePage {
                     .until(ExpectedConditions.visibilityOfElementLocated(
                             By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']")));
         }
+        
+        stateHolder.put("sale category", saleDepElement.getText());
         saleDepElement.click();
-        stateHolder.put("sale category", saleDepElement);
         Util.waitLoadingBar(driver);
         logger.info("{} sale department is clicked",  dept);
     }

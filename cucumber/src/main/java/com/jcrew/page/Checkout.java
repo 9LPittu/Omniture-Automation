@@ -217,13 +217,15 @@ public abstract class Checkout extends PageObject{
 
                 logger.debug("Found {} product {}, item number {}, in size {} in color {} with price {} in bag",
                         quantity, name, itemNumber, size, color, price);
+                
+                String pdpPrice = fromPDP.getPriceList();
+                pdpPrice = pdpPrice.replaceAll("[^0-9.,]", "");
 
                 found = name.equalsIgnoreCase(productName)
-                        && price.equalsIgnoreCase(fromPDP.getPriceList())
+                        && price.equalsIgnoreCase(pdpPrice)
                         && size.equalsIgnoreCase(fromPDP.getSelectedSize())
                         && color.equalsIgnoreCase(fromPDP.getSelectedColor())
-                        && itemNumber.equalsIgnoreCase(fromPDP.getProductCode())
-                        && quantity.equalsIgnoreCase(fromPDP.getQuantity());
+                        && itemNumber.equalsIgnoreCase(fromPDP.getProductCode());
             }
 
             result = found;

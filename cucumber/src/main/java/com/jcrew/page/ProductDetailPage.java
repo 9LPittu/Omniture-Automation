@@ -265,20 +265,33 @@ public class ProductDetailPage {
         String categoryFromPDPURL = url.substring(url.indexOf("/p/")+3,url.indexOf("/",url.indexOf("/p/")+3));
         categoryFromPDPURL = categoryFromPDPURL.replaceAll("_category","");
         stateHolder.put("categoryFromPDPURL", categoryFromPDPURL);
-
+               
+        //capture the price
+        SubcategoryPage subcategoryPage = new SubcategoryPage(driver);
+        String itemFinalPrice = subcategoryPage.getItemPriceFromPDP();
+        
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductNameFromPDP());
         thisProduct.setProductCode(getProductCodeFromPDP());
+        thisProduct.setPriceList(itemFinalPrice);
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setQuantity("1");
         thisProduct.setIsBackOrder(getIsBackordered());
         thisProduct.setIsCrewCut(getIsCrewCut());
-
-
+        
         stateHolder.put("recentlyAdded", thisProduct);
+        
+        List<Product> productList = stateHolder.getList("toBag");
+        if (productList == null) {
+            productList = new ArrayList<>();
+        }
 
-
+        productList.add(thisProduct);
+        stateHolder.put("toBag", productList);
+        
         addToBag.click();
+        Util.waitLoadingBar(driver);
     }
 
     public int getNumberOfItemsInBag() {

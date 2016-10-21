@@ -689,6 +689,8 @@ public class SubcategoryPage {
                 String quantity = quantitySelect.getFirstSelectedOption().getText();
 
                 String itemFinalPrice = getItemPriceFromPDP();
+                stateHolder.put("itemFinalPrice", itemFinalPrice);
+                
                 ProductDetailPage pdp = new ProductDetailPage(driver);
                 boolean isBackOrdered = pdp.getIsBackordered();
 
