@@ -24,7 +24,7 @@ Feature: Home Page
     And Contact Us section phone icon is displayed
     And Contact Us section vps icon is displayed
     Then Verify Let Us Help You footer link is displayed
-    And Verify Our Cards footer link is displayed
+    #And Verify Our Cards footer link is displayed
     And Verify Our Stores footer link is displayed
     And Verify Our Brands footer link is displayed
     And Verify About J.Crew footer link is displayed
