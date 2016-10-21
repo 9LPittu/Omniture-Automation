@@ -199,6 +199,7 @@ public class StartSteps {
             driver.get(url + "/404");
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+            logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
         }
     	
     }
