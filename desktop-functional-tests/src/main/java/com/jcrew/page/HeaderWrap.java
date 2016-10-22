@@ -340,6 +340,7 @@ public class HeaderWrap {
 		String randomCategory = categories.get(index);
 
 		hoverCategory(randomCategory);
+		logger.info("Selected Category is {} ", randomCategory);
 	}
 
 	public void hoverCategory(String selectedCategory) {
@@ -349,6 +350,7 @@ public class HeaderWrap {
 				".//a[@class='department-nav__link' and contains(@name,'>>" + selectedCategory.toLowerCase() + "')]"));
 		hoverAction.moveToElement(categoryLink);
 		hoverAction.perform();
+		logger.info("Selected Category is {} ", selectedCategory);
 	}
 
 	public void selectSubCategory() {

@@ -6,8 +6,7 @@ Feature: Product Review page from PDP
     And User closes email capture
 
   Scenario: Guest user gets product review after signing in
-    When User opens menu
-    And User selects women category from menu
+    When User hovers on women category from header
     And User selects sweaters subcategory array
     Then Verify user is in category array page
     When User selects random product from product array
@@ -25,8 +24,7 @@ Feature: Product Review page from PDP
     Then User goes to sign in page
     And User fills user data and signs in
     Then Verify user is in My Account main page
-    When User opens menu
-    And User selects women category from menu
+    When User hovers on women category from header
     And User selects sweaters subcategory array
     Then Verify user is in category array page
     When User selects random product from product array
