@@ -291,10 +291,17 @@ public class ProductDetails extends PageObject {
         Country country = (Country) stateHolder.get("context");
         logger.info("country context is  : {}", country.getName());
         Util.waitForPageFullyLoaded(driver);
+        
         wait.until(ExpectedConditions.visibilityOf(productName));
+        logger.debug("waited till product name gets visible on PDP");
+        
+        boolean isNameBlank = StringUtils.isNotBlank(productName.getText());
+        logger.debug("is blank product name on PDP?  {}", isNameBlank);
+        
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
-        return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
+        
+        return  isURL && isURL;
     }
 
 
