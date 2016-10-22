@@ -50,8 +50,7 @@ Feature: International Country Context - Part 2B
     Given User selects <country_group> at random from context chooser page
     Then User should land on country specific home page
     And Verify selected country is in footer
-    And User hovers on any random category
-    And User selects sale category from menu
+	And User clicks on sale link from top nav
     And Verify selected country is in footer
     And Verify country code in the url for international countries
 
