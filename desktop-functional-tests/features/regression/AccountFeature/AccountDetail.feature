@@ -93,7 +93,7 @@ Feature: Account details Page validations
     And User presses browser back button
     And User presses browser back button
 
-    And User clicks on Sign Out link in My Account Page
+    And User clicks on Sign Out link in Account detail Page
 
 
   Scenario Outline: Validate rewards link is visible only for JCCC associated users in account detail page

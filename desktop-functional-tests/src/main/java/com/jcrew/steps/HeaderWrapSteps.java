@@ -119,7 +119,7 @@ public class HeaderWrapSteps extends DriverFactory {
     	header.hoverCategory(categories);
     }
     
-    @When("User hovers on a random category")
+    @When("User hovers on any random category")
     public void user_hovers_on_any_random_category() {
     	String Category = reader.getCategory().toLowerCase().trim();
     	header.hoverCategory(Category);
