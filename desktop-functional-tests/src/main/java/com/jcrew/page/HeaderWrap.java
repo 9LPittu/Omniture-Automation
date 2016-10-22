@@ -389,7 +389,7 @@ public class HeaderWrap {
 	    		hoverCategory();
 	    		counter ++;
 	    	}
-    	} while (retry && counter < 4);
+    	} while (retry && (counter < 4));
     }
 
 	public void selectSubCategory(String subCategory) {
