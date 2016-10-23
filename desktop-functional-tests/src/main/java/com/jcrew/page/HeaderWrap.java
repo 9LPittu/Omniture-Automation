@@ -408,4 +408,18 @@ public class HeaderWrap {
         Util.waitLoadingBar(driver);
         hoverOverIcon("logo");
 	}
+	
+	public void selectASaleSubCategory(){
+		WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
+        		+ "js-department-subcat-nav__wrap js-expand-subcat-nav is-visible')]")));
+		 List<WebElement> saleCategories = holder.findElements(By.xpath(".//ul/li/a[contains(@class,'nav-page__link')]"));
+	        
+	        WebElement selectedSaleCategory = Util.randomIndex(saleCategories);
+	
+	        logger.info("Selected sale category: {}", selectedSaleCategory.getText());
+	        selectedSaleCategory.click();
+	
+	        Util.waitLoadingBar(driver);
+	        hoverOverIcon("logo");
+	}
 }
