@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
+import gherkin.formatter.model.Scenario;
 
 
 
@@ -35,8 +36,12 @@ public class StartSteps {
     private WebDriver driver;
 
     @Before
-    public void setupDriver() throws IOException {
+    public void setupDriver(Scenario scenario) throws IOException {
+        String scenarioName = scenario.getName();
+        stateHolder.put("scenarioName", scenarioName);
+        
         stateHolder.put("deletecookies", false);
+        
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
     }
@@ -193,8 +198,8 @@ public class StartSteps {
     
     private void setSidecarCookie() {
     	TestDataReader testdataReader = TestDataReader.getTestDataReader();
-    	String setCookie = testdataReader.getData("setSicedarCookie");
-    	if(setCookie.equalsIgnoreCase("true")) {
+    	boolean setCookie = testdataReader.getBoolean("setSicedarCookie");
+    	if(setCookie) {
     		String url = reader.getProperty("url");
     		String domain = url.replace("https://", "");
             driver.get(url + "/404");
