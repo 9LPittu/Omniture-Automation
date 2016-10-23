@@ -21,7 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
-import gherkin.formatter.model.Scenario;
+//import gherkin.formatter.model.Scenario;
+import cucumber.api.Scenario;
 
 
 
