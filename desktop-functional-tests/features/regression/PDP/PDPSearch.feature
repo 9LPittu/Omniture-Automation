@@ -19,8 +19,7 @@ Feature: Search is functional from PDP
     Then User goes to sign in page
     And User fills user data and signs in
     When User hovers on women category from header
-    And User selects women category from menu
-    And User selects sweaters subcategory array
+	And User selects sweaters subcategory array
     Then Verify user is in category array page
     When User selects random product from product array
     Then Verify product detail page is displayed
