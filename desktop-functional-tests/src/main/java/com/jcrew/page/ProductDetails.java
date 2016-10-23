@@ -534,22 +534,15 @@ public class ProductDetails extends PageObject {
     public boolean isPdpDrawerInExpectedState(String drawerName, String expectedState) {
         boolean result = false;
         WebElement drawerElement = getPDPElement(drawerName);
-        wait.until(ExpectedConditions.elementToBeClickable(drawerElement));
 
-        WebElement drawerStateElement = null;
         switch (expectedState.toLowerCase()) {
             case "expanded":
-                drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-less']"));
-                result=drawerStateElement.isDisplayed();
+                result = drawerElement.getAttribute("class").contains("is-emphasized");
                 break;
             case "collapsed":
-                drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-more']"));
-                result=drawerStateElement.isDisplayed();
-                break;
+            	result = drawerElement.getAttribute("class").contains("is-collapsed");
             case "disabled":
-                drawerElement = drawerElement.findElement(By.xpath(".."));
                 result = drawerElement.getAttribute("class").contains("is-disabled");
-
         }
 
         return result;

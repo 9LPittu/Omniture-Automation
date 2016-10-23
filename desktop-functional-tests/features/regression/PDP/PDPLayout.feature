@@ -28,9 +28,6 @@ Feature: PDP Layout
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
 
-    And Verify SIZE & FIT drawer is disabled state
-    And Verify PRODUCT DETAILS drawer is disabled state
-
     And Verify reviews displayed in PDP
     And Verify baynotes displayed in PDP
     And Verify endcaps displayed in PDP
@@ -66,8 +63,6 @@ Feature: PDP Layout
 
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-    And Verify 'SIZE & FIT' drawer is disabled state
-    And Verify 'PRODUCT DETAILS' drawer is disabled state
 
     And Verify reviews displayed in PDP
     And Verify baynotes displayed in PDP
@@ -98,8 +93,6 @@ Feature: PDP Layout
 
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-    And Verify 'SIZE & FIT' drawer is disabled state
-    And Verify 'PRODUCT DETAILS' drawer is disabled state
 
     And Verify reviews displayed in PDP
     And Verify baynotes displayed in PDP
@@ -125,8 +118,6 @@ Feature: PDP Layout
 
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-    And Verify 'SIZE & FIT' drawer is disabled state
-    And Verify 'PRODUCT DETAILS' drawer is disabled state
 
     And Verify reviews displayed in PDP
     And Verify baynotes displayed in PDP
@@ -156,8 +147,6 @@ Feature: PDP Layout
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
 
-    And Verify 'SIZE & FIT' drawer is disabled state
-    And Verify 'PRODUCT DETAILS' drawer is disabled state
     And Verify reviews displayed in PDP
     And Verify baynotes displayed in PDP
     And Verify endcaps displayed in PDP
