@@ -4,6 +4,7 @@ import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -89,7 +90,10 @@ public class CheckoutShippingOptions extends Checkout {
 		        
 		        retry = false;
 		        
-        	} catch (NoSuchElementException e)  {
+        	} catch (NoSuchElementException noSuchElementException)  {
+        		attempts ++;
+        		Util.wait(1000);
+        	} catch (StaleElementReferenceException estaleElementException) {
         		attempts ++;
         		Util.wait(1000);
         	}
