@@ -367,7 +367,7 @@ public class HeaderWrap {
 		String shoesClassName = testdataReader.getData("shoes.className");
 	
     	int counter = 0;
-    	boolean retry = false;
+    	boolean retry = true;
 		do {		
 			try {
 				WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
@@ -389,10 +389,11 @@ public class HeaderWrap {
 		        retry = false;
 		        
 	    	} catch (Exception e) {
+	    		logger.info("Selected subcategory: {} is an akamai page. So, trying with a different sub category");
 	    		hoverCategory();
 	    		counter ++;
 	    	}
-    	} while (retry && (counter < 4));
+    	} while (retry && (counter < 3));
     }
 
 	public void selectSubCategory(String subCategory) {
