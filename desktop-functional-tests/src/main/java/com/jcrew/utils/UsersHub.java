@@ -116,11 +116,6 @@ public class UsersHub {
 
 
     public synchronized User getUser(String userCategory) throws SQLException {
-//        if (!(user == null)) {
-//        	logger.info("Using existing user in the hub for the user category: {},  Environment: {}, username: {} ", userCategory, environment, user.getEmail() );
-//        	return user;
-//        }
-
         if (getAvailableUsersCount(userCategory) > 0) {
             ResultSet rs = executeSQLQuery(getQuery("extract",userCategory));
 
