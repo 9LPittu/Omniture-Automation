@@ -585,7 +585,7 @@ public class ProductDetails extends PageObject {
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(wishListButton));
                 break;
             case "social icons":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(product__details.findElement(By.className("c-footer__social"))));
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(product__details.findElement(By.className("footer__social__menu"))));
                 break;
             case "reviews":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(reviewSection));
