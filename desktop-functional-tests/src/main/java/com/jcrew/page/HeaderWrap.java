@@ -384,8 +384,7 @@ public class HeaderWrap {
 		        hoverOverIcon("logo");
 		        
 		        //verify if if the category array page is non-akamai
-		        ArrayCategory array = new ArrayCategory(driver);
-		        driver.findElement(By.id("c-product__list"));
+		        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("c-product__list")));
 		        
 		        retry = false;
 		        
