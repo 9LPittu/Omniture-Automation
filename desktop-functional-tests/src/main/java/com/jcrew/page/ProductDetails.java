@@ -277,6 +277,7 @@ public class ProductDetails extends PageObject {
         stateHolder.put("bag_items", productsInBag);
 
         addToBagButton.click();
+        handleShipRestrictionMessage();
         headerWrap.waitUntilCheckOutDropdown();
     }
 
@@ -743,5 +744,14 @@ public class ProductDetails extends PageObject {
         } else {
             return false;
         }
+    }
+    
+    public void handleShipRestrictionMessage(){
+    	try {
+	    	WebElement yesButton = driver.findElement(By.id("btn__yes"));
+	    	yesButton.click();
+    	} catch (Exception e) {
+    		logger.info("Ship restionction message not displayed");
+    	}
     }
 }
