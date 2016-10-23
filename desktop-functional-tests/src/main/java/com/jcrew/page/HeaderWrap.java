@@ -382,7 +382,11 @@ public class HeaderWrap {
 		
 		        Util.waitLoadingBar(driver);
 		        hoverOverIcon("logo");
+		        
+		        //verify if if the category array page is non-akamai
 		        ArrayCategory array = new ArrayCategory(driver);
+		        driver.findElement(By.id("c-product__list"));
+		        
 		        retry = false;
 		        
 	    	} catch (Exception e) {
