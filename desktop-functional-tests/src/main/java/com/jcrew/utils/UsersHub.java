@@ -116,14 +116,15 @@ public class UsersHub {
 
 
     public synchronized User getUser(String userCategory) throws SQLException {
-        if (getAvailableUsersCount(userCategory) > 0) {
+    	String scenarioName = stateHolder.get("scenarioName");
+    	if (getAvailableUsersCount(userCategory) > 0) {
             ResultSet rs = executeSQLQuery(getQuery("extract",userCategory));
 
             if (rs != null) {
                 try {
                     rs.next();
                     user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
-                    logger.info("Current available username for '{}' environment: {}", user.getEmail(), environment);
+                    logger.info("Current available username for scenario: {} is '{}' in the environment: {}", scenarioName, user.getEmail(), environment);
                     String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'Y' where brand='jcrew' and username='" + user.getEmail() + "' and Environment='" + environment + "'";
                     executeSQLQuery(updateAllocationFlagSQLQuery);
                 }catch (SQLException e){
@@ -131,8 +132,8 @@ public class UsersHub {
                 }
             }
         } else {
-            logger.error("No username records are available in DB for '" + environment + "' environment");
-            throw new SQLException("No username records are available in DB for '" + environment + "' environment");
+            logger.error("No username records are available in DB for the scenario '{}' ",scenarioName);
+            throw new SQLException("No username records are available in DB for the scenario '" + scenarioName + "'");
         }
 
 
@@ -142,7 +143,8 @@ public class UsersHub {
     }
     
     public synchronized User getUser(String userType, String addressType) throws SQLException{
-		if(getAvailableUsersCount(userType, addressType) > 0){
+    	String scenarioName = stateHolder.get("scenarioName");
+    	if(getAvailableUsersCount(userType, addressType) > 0){
 			String getUserCredentialsSQLQuery = "select username, userpassword, firstname, lastname, DEFAULT_ADDRESS_COUNTRY from JCINT2_CUSTOM.SIDECARQAUSERS "
 										+ "where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'"
 										+ getUserAddressWhereClause(userType, addressType);
@@ -153,7 +155,7 @@ public class UsersHub {
 					  rs.next();
 					  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 					  logger.info("userType - " + userType + ", addressType - " + addressType);
-					  logger.info("Current available username for '{}' environment: {}", environment, user.getEmail());
+					  logger.info("Current available username for scenario: {} is '{}' in the environment: {}", scenarioName, user.getEmail(), environment);
 				}
 				catch (SQLException e) {
 					throw new SQLException("Exception occurred when retrieving user credentials from DB..." + e.getMessage());					
@@ -167,8 +169,8 @@ public class UsersHub {
 			executeSQLQuery(updateAllocationFlagSQLQuery);
 		}
 		else{
-			logger.error("No username records are available in DB for '" + environment + "' environment");
-			throw new SQLException("No username records are available in DB for '" + environment + "' environment");
+			logger.error("No username records are available in DB for the scenario '{}' ",scenarioName);
+			throw new SQLException("No username records are available in DB for the scenario '" + scenarioName + "'");
 		}
 		closeDBConnection();
 		
