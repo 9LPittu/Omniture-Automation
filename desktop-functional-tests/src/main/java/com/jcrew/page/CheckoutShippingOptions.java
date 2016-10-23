@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -63,21 +64,38 @@ public class CheckoutShippingOptions extends Checkout {
 
     private ShippingMethod getShippingMethod(WebElement method) {
         wait.until(ExpectedConditions.visibilityOf(method));
-        WebElement methodElement = method.findElement(By.className("method-group"));
-        String methodText = methodElement.getText().trim();
-
-        WebElement priceElement = method.findElement(By.className("method-price"));
-        String priceText = priceElement.getText().trim();
-
-        List<WebElement> textElement = method.findElements(By.className("method-text"));
-        String text = "";
-
-        if (textElement.size() > 0) {
-            text = textElement.get(0).getText();
-        }
-
-        String methodType = methodText.replace(priceText, "").replace(text, "").trim().toLowerCase();
-
+        String priceText = null;
+        String text=null;
+        String methodType=null;
+        
+        boolean retry = true;
+        int attempts = 0;
+        do {
+        	try {
+		        WebElement methodElement = method.findElement(By.className("method-group"));
+		        String methodText = methodElement.getText().trim();
+		
+		        WebElement priceElement = method.findElement(By.className("method-price"));
+		        priceText = priceElement.getText().trim();
+		
+		        List<WebElement> textElement = method.findElements(By.className("method-text"));
+		        text = "";
+		
+		        if (textElement.size() > 0) {
+		            text = textElement.get(0).getText();
+		        }
+		
+		        methodType = methodText.replace(priceText, "").replace(text, "").trim().toLowerCase();
+		        
+		        retry = false;
+		        
+        	} catch (NoSuchElementException e)  {
+        		attempts ++;
+        		Util.wait(1000);
+        	}
+        
+        } while (retry & attempts < 5);
+        
         return new ShippingMethod(methodType, priceText, text);
     }
 
