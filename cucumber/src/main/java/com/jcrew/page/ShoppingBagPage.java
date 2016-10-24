@@ -443,7 +443,10 @@ public class ShoppingBagPage extends Checkout {
         List<Object> products = stateHolder.getList("editedItem");
         Product product = (Product) products.get(0);
         String expectedProductName = product.getProductName();
+        
         String expectedProductPrice = product.getPriceList();
+        expectedProductPrice = expectedProductPrice.replaceAll("[^0-9.,]", "");
+        
         String expectedProductNumber = product.getProductCode();
         String expectedQuantity = product.getQuantity();
         

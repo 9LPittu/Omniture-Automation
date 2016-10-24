@@ -133,20 +133,21 @@ public class BillingPageSteps extends DriverFactory {
     @When("User fills billing address and continues")
     public void save_billing_address() {
     	billingPage.fillFormData();
-    	billingPage.continueCheckout();
+    	billingPage.saveBillingAddress();
     }
     
     @When("User fills payment method as guest and continues")
     public void fill_payment_method() {
     	billingPage.fillPaymentMethod(true);
-    	billingPage.continueCheckout();
+    	billingPage.continueByFillingPaymentMethod();    	
     }
     
     @Then("^Verify no additional charges are applied for gift receipt$")
     public void verify_no_additional_charges_applied_for_gift_receipt(){
-    	String orderSubtotalBeforeGiftReceipt = (String) billingPage.stateHolder.get("ordersubtotal");
+    	String orderSubtotalBeforeGiftReceipt = (String) billingPage.stateHolder.get("subtotal");
     	
     	String orderSubtotalOnBilling = billingPage.getSubTotal();
+    	orderSubtotalOnBilling = orderSubtotalOnBilling.replaceAll("[^0-9\\.]", "");
     	
     	assertEquals("No additional charges should be applied for gift receipt on billing page", orderSubtotalBeforeGiftReceipt, orderSubtotalOnBilling);
     }

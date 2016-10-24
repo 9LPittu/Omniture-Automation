@@ -476,4 +476,12 @@ public class BillingPage extends Checkout {
         	logger.debug("Remove button is no longer displayed for '{}' card", type);
         }
     }
+    
+    public void saveBillingAddress(){
+    	nextStep(shippingForm);
+    }
+    
+    public void continueByFillingPaymentMethod(){
+    	nextStep(payment_page);
+    }
 }

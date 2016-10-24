@@ -23,10 +23,17 @@ import java.util.List;
 public class ProductDetailPage {
 
     private final WebDriver driver;
-    private final StateHolder stateHolder = StateHolder.getInstance();
-
+    private final StateHolder stateHolder = StateHolder.getInstance();  
     private final Logger logger = LoggerFactory.getLogger(ProductDetailPage.class);
+    
+    private Header header;
 
+    private final String PRICE_SALE_CLASS = "product__price--sale";
+    private final String PRICE_LIST_CLASS = "product__price--list";
+
+    @FindBy(id = "c-product__price-colors")
+    private WebElement price_colors;
+    
     @FindBy(id = "btn__add-to-bag")
     private WebElement addToBag;
 
@@ -107,10 +114,15 @@ public class ProductDetailPage {
     
     @FindBy(xpath="//div[@class='product__details product__description']/div/div/span")
     private WebElement productDetailsDrawer;
+    
+    @FindBy(id = "c-product__price")
+    private WebElement price;
 
     public ProductDetailPage(WebDriver driver) {
-        this.driver = driver;
+        this.driver = driver;        
         PageFactory.initElements(driver, this);
+        
+        header = new Header(driver);
     }
 
     public boolean isProductDetailPage() {
@@ -371,8 +383,13 @@ public class ProductDetailPage {
     		int cntr = 0;
     		do{
     			try{
-        			productDetailsAccordion.click();
-        			break;
+    				if(productDetailsAccordion.findElement(By.tagName("i")).getAttribute("class").contains("more")){
+    					productDetailsAccordion.click();
+    					break;
+    				}
+    				else{
+    					break;
+    				}
         		}
         		catch(Exception e){
         			logger.error("Product Details Accordion is not in open state!!!");
@@ -415,8 +432,37 @@ public class ProductDetailPage {
         thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("recentlyAdded", thisProduct);
+        
+        stateHolder.addToList("toBag", getProduct());
+        stateHolder.addToList("editedItem", getProduct());
+
+        int itemsInBag = header.getItemsInBag();
+        stateHolder.put("itemsInBag", itemsInBag);
 
         Util.clickWithStaleRetry(addToBag);
+    }
+    
+    public Product getProduct() {
+        Product product = new Product();
+        product.setProductName(getProductNameFromPDP());
+
+        if (!isSoldOut()) {
+            product.setSelectedColor(getSelectedColor());
+            product.setSelectedSize(getSelectedSize());
+            product.setPriceList(getPrice());
+            product.setProductCode(getProductCodeFromPDP());
+            product.setQuantity("1");
+        } else {
+            product.setSoldOut(true);
+        }
+
+        return product;
+    }
+    
+    private boolean isSoldOut() {
+        List<WebElement> message = soldOutMessage.findElements(By.className("product__sold-out"));
+
+        return message.size() > 0;
     }
 
     public String getSelectedVariationName() {
@@ -1115,5 +1161,43 @@ public class ProductDetailPage {
         } else {
             return false;
         }
+    }
+    
+    private String getPrice() {
+        List<WebElement> priceGroups = price_colors.findElements(By.xpath(".//div[@class='product__group']"));
+        WebElement productPrice;
+//        c-product__price-colors
+        if (priceGroups.size() > 1) {
+
+            WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
+            productPrice = selectedColor.findElement(By.xpath(".//ancestor::div[@class='product__group']/span"));
+
+        } else {
+            //if has variations, get price from variations
+            List<WebElement> variationsPrice = productVariationSection.findElements(By.tagName("li"));
+            if (variationsPrice.size() > 0) {
+                WebElement selectedVariation = productVariationSection.findElement(By.className("is-selected"));
+
+                //check if variation has sale price
+                productPrice = selectedVariation.findElement(
+                        By.xpath(".//span[contains(@class,'" + PRICE_SALE_CLASS + "')]"));
+                if (!productPrice.isDisplayed()) {
+                    //if no sale price get regular price
+                    productPrice = selectedVariation.findElement(
+                            By.xpath(".//span[contains(@class,'" + PRICE_LIST_CLASS + "')]"));
+                }
+
+            } else { //if no variations, get sale price
+            	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(price));
+                productPrice = price.findElement(By.className(PRICE_SALE_CLASS));
+                if (!productPrice.isDisplayed()) {
+                    //if no sale price get regular price
+                    productPrice = price.findElement(By.className(PRICE_LIST_CLASS));
+                }
+            }
+        }
+
+        String price = productPrice.getText();
+        return price;
     }
 }

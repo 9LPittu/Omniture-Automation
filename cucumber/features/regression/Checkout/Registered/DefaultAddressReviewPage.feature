@@ -43,6 +43,10 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     Then User should be in order confirmation page
     And verify order number is generated  
     
+    And User goes to homepage
+    And click on MY ACCOUNT from header
+    When user clicks on "Sign Out" from My Account dropdown 
+    
   Scenario: Checkout - Verify default shipping, billing and shipping method on Review page  for registered user from My Account login
   	Given User is on homepage with clean session
   	And Handle the Email Capture pop up
@@ -66,7 +70,6 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     
     When User clicks on item bag
     And Clicks on checkout    
-    And User signs in and checks out    
     
     Then Verify user is in review page
     And Verify checkout breadcrumb is REVIEW    

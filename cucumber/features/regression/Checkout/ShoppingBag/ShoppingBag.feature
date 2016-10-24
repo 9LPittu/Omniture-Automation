@@ -14,7 +14,14 @@ Feature: Checkout - Editing items from shopping bag
     
     And Add to cart button is pressed
     And A minicart modal should appear with message '1 item has been added to your cart.'
-    And Bag should have 1 item(s) added 
+    And Bag should have 1 item(s) added
+    
+    When User searches for a random search term    
+    Then User is in product detail page
+    
+    When A color is selected
+    And A size is selected        
+    And Add to cart button is pressed 
 
     When User goes to homepage
     And User clicks on sale link from top nav
@@ -26,13 +33,6 @@ Feature: Checkout - Editing items from shopping bag
        |girls|
     Then User is in Sale results page
     When User selects random product from array    
-    Then User is in product detail page
-    
-    When A color is selected
-    And A size is selected        
-    And Add to cart button is pressed
-
-    When User searches for a random search term    
     Then User is in product detail page
     
     When A color is selected

@@ -95,7 +95,7 @@ public class UsersHub {
         return numOfRecords;
     }
     
-private int getAvailableUsersCount(String userType, String addressType) throws SQLException{
+    private int getAvailableUsersCount(String userType, String addressType) throws SQLException{
 		
 		String getUsersCountSQLQuery = "select count(*) from JCINT2_CUSTOM.SIDECARQAUSERS "
 										+ "where brand='jcrew' and Environment='"  + environment 
@@ -205,6 +205,8 @@ private int getAvailableUsersCount(String userType, String addressType) throws S
 					  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 					  logger.info("userType - " + userType + ", addressType - " + addressType);
 					  logger.info("Current available username for '{}' environment: {}", environment, user.getEmail());
+					  stateHolder.put("sidecarusername", user.getEmail());
+					  stateHolder.put("sidecaruserpassword", user.getPassword());
 				}
 				catch (SQLException e) {
 					throw new SQLException("Exception occurred when retrieving user credentials from DB..." + e.getMessage());					

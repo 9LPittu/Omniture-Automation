@@ -54,10 +54,11 @@ Feature: Checkout - Express user is able to edit data in review page
 	Then Verify selected shipping address matches review page	
     When User edits details for gifting
     Then Verifies user is in shipping method page
+    
+    And Clicks continue button on shipping method page
+    Then Verify Billing page is displayed
 	
 	#Billing Method change
-    And Submits payment data in billing page
-    Then Verify Billing page is displayed
 	Then Select different card from the card list	
     
     And Submits payment data in billing page

@@ -1,6 +1,7 @@
 package com.jcrew.pojo;
 
 import com.jcrew.util.PropertyReader;
+import com.jcrew.util.TestDataReader;
 
 /**
  * Created by nadiapaolagarcia on 4/6/16.
@@ -23,20 +24,19 @@ public class Country {
     private String state;
 
     public Country(String environment, String country) {
-        PropertyReader properties = PropertyReader.getPropertyReader();
+    	TestDataReader dataReader = TestDataReader.getTestDataReader();
 
         this.country = country;
-        this.currency = properties.getProperty(country + ".currency");
-        this.contexturl = Boolean.parseBoolean(properties.getProperty(country + ".contexturl"));
+        this.currency = dataReader.getData("currency");
+        this.contexturl = Boolean.parseBoolean(dataReader.getData("contexturl"));
 
-        this.countryName = properties.getProperty(country + ".fullname");
-        this.region = properties.getProperty(country + ".region");
-        this.companyName = properties.getProperty(country + ".companyname");
-        this.address1 = properties.getProperty(country + ".address1");
-        this.address2 = properties.getProperty(country + ".address2");
-        this.zipcode = properties.getProperty(country + ".zipcode");
-        this.city = properties.getProperty(country + ".city");
-        this.state = properties.getProperty(country + ".state");
+        this.countryName = dataReader.getData("name");
+        this.region = dataReader.getData("region");
+        this.address1 = dataReader.getData("address.line1");
+        this.address2 = dataReader.getData("address.line2");
+        this.zipcode = dataReader.getData("address.zipcode");
+        this.city = dataReader.getData("address.city");
+        this.state = dataReader.getData("address.state");
 
         if("us".equalsIgnoreCase(country)){
             this.homeurl = environment;

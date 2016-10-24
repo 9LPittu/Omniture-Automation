@@ -435,7 +435,8 @@ public class SearchPage {
     public void selectRandomProduct(WebElement productList) {
         List<WebElement> productTiles = getProductTiles(productList);
         logger.info("This array page has {} products", productTiles.size());
-
+        
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElements(productTiles));
         WebElement random_product_tile = Util.randomIndex(productTiles);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(random_product_tile));
         WebElement random_product_name = random_product_tile.findElement(By.className("tile__detail--name"));

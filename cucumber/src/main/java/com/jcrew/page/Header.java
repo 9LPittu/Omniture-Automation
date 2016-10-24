@@ -44,7 +44,7 @@ public class Header {
     private WebElement bagIcon;
     @FindBy(id = "section1")
     private WebElement genderLandingSection;
-
+    
     @FindBy(xpath = "//li[@id='c-header__userpanel']/a/span[contains(text(),'sign in')]")
     private WebElement signInFromHeader;
 
@@ -80,6 +80,9 @@ public class Header {
     
     @FindBy(id = "global__header")
     private WebElement global_header;
+    
+    @FindBy(id = "global__promo")
+	private WebElement global_promo;
 
     public Header(WebDriver driver) {
         this.driver = driver;
@@ -487,4 +490,18 @@ public class Header {
         logger.info("'{}' link is clicked from My Account dropdown...", myAccountDropdownElementName.toUpperCase());
         Util.waitLoadingBar(driver);
     }
+    
+    public int getItemsInBag() {
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(global_promo));
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shoppingBagLink));
+		WebElement cart_size = shoppingBagLink.findElement(By.className("js-cart-size"));
+		String cartSizeText = cart_size.getText().trim();
+
+		if (cartSizeText.isEmpty())
+			cartSizeText = "0";
+
+		cartSizeText = cartSizeText.replaceAll("[^0-9]", "");
+
+		return Integer.parseInt(cartSizeText);
+	}
 }

@@ -1,5 +1,8 @@
 package com.jcrew.pojo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Product {
     private String productName;
     private String productCode;
@@ -12,8 +15,12 @@ public class Product {
     private String selectedColor;
     private String selectedSize;
     private String quantity;
+    private String currency;
     private boolean isBackOrder = false;
     private boolean isCrewCut = false;
+    private boolean isSoldOut = false;
+    
+    private final Logger logger = LoggerFactory.getLogger(Product.class);
 
 
     public void setProductName(String productName) {
@@ -119,21 +126,78 @@ public class Product {
     public String getQuantity(){
     	return quantity;
     }
+    
+    public void setSoldOut(boolean soldOut) {
+        isSoldOut = soldOut;
+    }
+    
+    public String getCurrency() {
+        return currency;
+    }
 
-    public boolean equals(Object o){
-        if(o instanceof Product){
-            Product object = (Product) o;
-            String name = object.getProductName();
-            String color = object.getSelectedColor();
-            String size = object.getSelectedSize();
+    public String toString() {
+        String product = "Product details: \n" +
+                "Name : " + productName + "\n" +
+                "Color : " + selectedColor + "\n" +
+                "Size : " + selectedSize + "\n" +
+                "Price : " + currency + priceList + "\n" +
+                "Quantity : " + quantity + "\n";
 
-            boolean equalName = name.equals(this.productName);
-            boolean equalColor = color.equals(this.selectedColor);
-            boolean equalSize = size.equals(this.selectedSize);
+        return product;
+    }
 
-            return equalName & equalColor & equalSize;
+    public boolean equals(Product product) {
+        boolean result;
+
+        String debug = "\nProduct A\t| Product B\t| Result\n";
+
+        result = (this.productName.equalsIgnoreCase(product.productName));
+        debug += this.productName + "\t| " + product.productName + "\t| " + result + "\n";
+
+        if (!(this.isSoldOut || product.isSoldOut)) {
+            result &= (this.selectedColor.equalsIgnoreCase(product.selectedColor));
+            debug += this.selectedColor + "\t| " + product.selectedColor + "\t| " + result + "\n";
+            result &= (this.selectedSize.equalsIgnoreCase(product.selectedSize));
+            debug += this.selectedSize + "\t| " + product.selectedSize + "\t| " + result + "\n";
+            result &= (this.priceList.equalsIgnoreCase(product.priceList));
+            debug += this.priceList + "\t| " + product.priceList + "\t| " + result + "\n";
+            result &= (this.currency.equalsIgnoreCase(product.currency));
+            debug += this.currency + "\t| " + product.currency + "\t| " + result + "\n";
+            result &= (this.quantity.equalsIgnoreCase(product.quantity));
+            debug += this.quantity + "\t| " + product.quantity + "\t| " + result + "\n";
         }
 
-        return false;
+        logger.debug(debug);
+
+        return result;
+    }
+
+    public boolean equals(Product product, boolean ignoreQuantity) {
+        boolean result;
+
+        if (ignoreQuantity) {
+            String debug = "\nProduct A\t| Product B\t| Result\n";
+
+            result = (this.productName.equalsIgnoreCase(product.productName));
+            debug += this.productName + "\t| " + product.productName + "\t| " + result + "\n";
+
+            if (!(this.isSoldOut || product.isSoldOut)) {
+                result &= (this.selectedColor.equalsIgnoreCase(product.selectedColor));
+                debug += this.selectedColor + "\t| " + product.selectedColor + "\t| " + result + "\n";
+                result &= (this.selectedSize.equalsIgnoreCase(product.selectedSize));
+                debug += this.selectedSize + "\t| " + product.selectedSize + "\t| " + result + "\n";
+                result &= (this.priceList.equalsIgnoreCase(product.priceList));
+                debug += this.priceList + "\t| " + product.priceList + "\t| " + result + "\n";
+                result &= (this.currency.equalsIgnoreCase(product.currency));
+                debug += this.currency + "\t| " + product.currency + "\t| " + result + "\n";
+            }
+
+            logger.debug(debug);
+
+        } else {
+            result = equals(product);
+        }
+
+        return result;
     }
 }

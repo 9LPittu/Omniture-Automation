@@ -1,4 +1,4 @@
-@GuestCheckout-Part1 @RegressionCheckout @HighLevel
+@RegressionCheckout @HighLevel
 Feature: Guest User Checkout Process
 
   Background:
