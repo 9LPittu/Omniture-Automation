@@ -213,7 +213,7 @@ public class CheckoutShoppingBag extends Checkout {
         List<Object> products = stateHolder.getList("editedItem");
         Product product = (Product) products.get(0);
         String expectedProductName = product.getName();
-        String expectedProductPrice = product.getPrice();
+        String expectedProductPrice = product.getPrice().replaceAll("[^0-9.,]", "");
         String expectedProductNumber = product.getItemNumber();
         String expectedQuantity = product.getQuantity();
         

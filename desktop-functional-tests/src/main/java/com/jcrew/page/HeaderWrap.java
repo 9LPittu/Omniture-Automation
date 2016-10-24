@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.jcrew.page.ArrayCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,12 +137,6 @@ public class HeaderWrap {
 		}
 
 		searchForSpecificTerm(searchItem);
-
-		String currentUrl = driver.getCurrentUrl();
-		if (currentUrl.contains("/r/search")) {
-			ArraySearch searchArray = new ArraySearch(driver);
-			searchArray.selectRandomProduct();
-		}
 	}
 
 	public void searchForSpecificTerm(String searchTerm) {
@@ -340,34 +335,65 @@ public class HeaderWrap {
 		String randomCategory = categories.get(index);
 
 		hoverCategory(randomCategory);
+		logger.info("Selected Category is {} ", randomCategory);
 	}
 
-	public void hoverCategory(String selectedCategory) {
+	public void hoverCategory(String Category) {
 		wait.until(ExpectedConditions.visibilityOf(top_nav));
 
 		WebElement categoryLink = top_nav.findElement(By.xpath(
-				".//a[@class='department-nav__link' and contains(@name,'>>" + selectedCategory.toLowerCase() + "')]"));
+				".//a[@class='department-nav__link' and contains(@name,'>>" + Category.toLowerCase() + "')]"));
 		hoverAction.moveToElement(categoryLink);
 		hoverAction.perform();
+		logger.info("Selected Category is {} ", Category);
 	}
+	
+	public void hoverCategory() {
+		wait.until(ExpectedConditions.visibilityOf(top_nav));
+		
+		String Category = testdataReader.getCategory().toLowerCase().trim();
+		
+		WebElement categoryLink = top_nav.findElement(By.xpath(
+				".//a[@class='department-nav__link' and contains(@name,'>>" + Category + "')]"));
+		hoverAction.moveToElement(categoryLink);
+		hoverAction.perform();
+		logger.info("Selected Category is {} ", Category);
+	}
+	
+	
 
 	public void selectSubCategory() {
 		String clothClassName = testdataReader.getData("clothing.className");
 		String shoesClassName = testdataReader.getData("shoes.className");
 	
-    	WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
-        		+ "js-department-subcat-nav__wrap js-expand-subcat-nav is-visible')]")));
-    
-        List<WebElement> subCategories = holder.findElements(By.xpath(".//div[contains(@class,'" + clothClassName + "') or contains(@class,'" + shoesClassName + "')]/div/ul/li/a"));
-        
-        WebElement selectedSubCategory = Util.randomIndex(subCategories);
-
-        logger.info("Selected subcategory: {}", selectedSubCategory.getText());
-        selectedSubCategory.click();
-
-        Util.waitLoadingBar(driver);
-        hoverOverIcon("logo");
-        
+    	int counter = 0;
+    	boolean retry = true;
+		do {		
+			try {
+				WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
+		        		+ "js-department-subcat-nav__wrap js-expand-subcat-nav is-visible')]")));
+		    
+		        List<WebElement> subCategories = holder.findElements(By.xpath(".//div[contains(@class,'" + clothClassName + "') or contains(@class,'" + shoesClassName + "')]/div/ul/li/a"));
+		        
+		        WebElement selectedSubCategory = Util.randomIndex(subCategories);
+		
+		        logger.info("Selected subcategory: {}", selectedSubCategory.getText());
+		        selectedSubCategory.click();
+		
+		        Util.waitLoadingBar(driver);
+		        hoverOverIcon("logo");
+		        
+		        //verify if if the category array page is non-akamai
+		        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("c-product__list")));
+		        
+		        retry = false;
+		        
+	    	} catch (Exception e) {
+	    		logger.info("Selected subcategory: {} is an akamai page. So, trying with a different sub category");
+	    		hoverCategory();
+	    		counter ++;
+	    	}
+    	} while (retry && (counter < 3));
     }
 
 	public void selectSubCategory(String subCategory) {
@@ -381,5 +407,19 @@ public class HeaderWrap {
 
         Util.waitLoadingBar(driver);
         hoverOverIcon("logo");
+	}
+	
+	public void selectASaleSubCategory(){
+		WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
+        		+ "js-department-subcat-nav__wrap js-expand-subcat-nav is-visible')]")));
+		 List<WebElement> saleCategories = holder.findElements(By.xpath(".//ul/li/a[contains(@class,'nav-page__link')]"));
+	        
+	        WebElement selectedSaleCategory = Util.randomIndex(saleCategories);
+	
+	        logger.info("Selected sale category: {}", selectedSaleCategory.getText());
+	        selectedSaleCategory.click();
+	
+	        Util.waitLoadingBar(driver);
+	        hoverOverIcon("logo");
 	}
 }

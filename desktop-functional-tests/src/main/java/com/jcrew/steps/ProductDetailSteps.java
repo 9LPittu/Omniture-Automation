@@ -4,6 +4,7 @@ import com.jcrew.page.ProductDetails;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.TestDataReader;
 
 import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
@@ -150,7 +151,14 @@ public class ProductDetailSteps extends DriverFactory {
 
     @Then("Verify ([^\"]*) displayed in PDP")
     public void verify_pdp_has(String element){
-        assertEquals("Verify "+element+" is displayed in PDP",true,productDetails.isDisplayedInPDP(element));
+    	if (!element.equalsIgnoreCase("endcaps")) {
+    		assertEquals("Verify "+element+" is displayed in PDP",true,productDetails.isDisplayedInPDP(element));
+    	} else {
+    		TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    		boolean isEndNavDiaplay = testDataReader.getBoolean("pdp.endnav.toggle");
+    		if (isEndNavDiaplay)
+    			assertEquals("Verify "+element+" is displayed in PDP",true,productDetails.isDisplayedInPDP(element));
+    	}
     }
 
     @Then("Verify that page contains a selected color")

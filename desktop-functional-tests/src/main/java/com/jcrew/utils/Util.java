@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Calendar;
 import java.util.List;
 
 public class Util {
@@ -168,5 +169,17 @@ public class Util {
             errorMessage = "Browser log: \n" + errorMessage;
 
         return errorMessage;
+    }
+    
+    public static void wait(int waitTime) {
+        Boolean iterate = true;
+        Calendar calendar =Calendar.getInstance();
+        long startTime = calendar.getTimeInMillis();
+        do {
+            Calendar calendar1 =Calendar.getInstance();
+            long currentTime = calendar1.getTimeInMillis();
+            long timeDifference = currentTime - startTime;
+            iterate = timeDifference < waitTime;
+        }while(iterate);
     }
 }
