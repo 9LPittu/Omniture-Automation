@@ -222,7 +222,7 @@ public abstract class Checkout extends PageObject{
                         quantity, name, itemNumber, size, color, price);
 
                 found = name.equalsIgnoreCase(productName)
-                        && price.equalsIgnoreCase(fromPDP.getPrice())
+                        && price.equalsIgnoreCase(fromPDP.getPrice().replaceAll("[^0-9.,]", ""))
                         && size.equalsIgnoreCase(fromPDP.getSize())
                         && color.equalsIgnoreCase(fromPDP.getColor())
                         && itemNumber.equalsIgnoreCase(fromPDP.getItemNumber())
@@ -241,7 +241,7 @@ public abstract class Checkout extends PageObject{
         WebElement progress = breadCrumbs.findElement(By.className("crumbs-progress"));
         String progressText = progress.getText().trim();
 
-        WebElement breadCrumb = progress.findElement(By.xpath(".//parent::li[@class='crumbs-item']"));
+        WebElement breadCrumb = progress.findElement(By.xpath(".//parent::li[@class='crumbs-item' or @class='crumbs-item ']"));
         String breadCrumbText = breadCrumb.getText().trim();
 
         return breadCrumbText.replace(progressText, "").trim();

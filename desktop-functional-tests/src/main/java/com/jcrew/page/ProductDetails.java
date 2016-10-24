@@ -277,6 +277,7 @@ public class ProductDetails extends PageObject {
         stateHolder.put("bag_items", productsInBag);
 
         addToBagButton.click();
+        handleShipRestrictionMessage();
         headerWrap.waitUntilCheckOutDropdown();
     }
 
@@ -291,10 +292,17 @@ public class ProductDetails extends PageObject {
         Country country = (Country) stateHolder.get("context");
         logger.info("country context is  : {}", country.getName());
         Util.waitForPageFullyLoaded(driver);
+        
         wait.until(ExpectedConditions.visibilityOf(productName));
+        logger.debug("waited till product name gets visible on PDP");
+        
+        boolean isNameBlank = StringUtils.isNotBlank(productName.getText());
+        logger.debug("is blank product name on PDP?  {}", isNameBlank);
+        
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
-        return productName.isDisplayed() && StringUtils.isNotBlank(productName.getText()) && isURL;
+        
+        return  isURL && isURL;
     }
 
 
@@ -393,7 +401,7 @@ public class ProductDetails extends PageObject {
             expectedSizeMessage = testDataReader.getData("pdp.size.message");
             logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 
-            wait.until(ExpectedConditions.visibilityOf(reviewSummary));
+            //wait.until(ExpectedConditions.visibilityOf(reviewSummary));
             wait.until(ExpectedConditions.visibilityOf(sizeMessage));
             actualSizeMessage = sizeMessage.getText().trim();
             logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
@@ -526,22 +534,15 @@ public class ProductDetails extends PageObject {
     public boolean isPdpDrawerInExpectedState(String drawerName, String expectedState) {
         boolean result = false;
         WebElement drawerElement = getPDPElement(drawerName);
-        wait.until(ExpectedConditions.elementToBeClickable(drawerElement));
 
-        WebElement drawerStateElement = null;
         switch (expectedState.toLowerCase()) {
             case "expanded":
-                drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-less']"));
-                result=drawerStateElement.isDisplayed();
+                result = drawerElement.getAttribute("class").contains("is-emphasized");
                 break;
             case "collapsed":
-                drawerStateElement = drawerElement.findElement(By.xpath(".//following-sibling::i[@class='js-icon icon-see-more']"));
-                result=drawerStateElement.isDisplayed();
-                break;
+            	result = drawerElement.getAttribute("class").contains("is-collapsed");
             case "disabled":
-                drawerElement = drawerElement.findElement(By.xpath(".."));
                 result = drawerElement.getAttribute("class").contains("is-disabled");
-
         }
 
         return result;
@@ -577,7 +578,7 @@ public class ProductDetails extends PageObject {
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(wishListButton));
                 break;
             case "social icons":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(product__details.findElement(By.className("product__social"))));
+                pdpElement = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(".//ul[@class='footer__social__menu']"))));
                 break;
             case "reviews":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(reviewSection));
@@ -736,5 +737,14 @@ public class ProductDetails extends PageObject {
         } else {
             return false;
         }
+    }
+    
+    public void handleShipRestrictionMessage(){
+    	try {
+	    	WebElement yesButton = driver.findElement(By.id("btn__yes"));
+	    	yesButton.click();
+    	} catch (Exception e) {
+    		logger.info("Ship restriction message not displayed");
+    	}
     }
 }

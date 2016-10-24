@@ -35,6 +35,7 @@ public abstract class Array extends PageObject{
     }
 
     protected List<WebElement> getProductTiles(WebElement productList) {
+    	Util.waitWithStaleRetry(driver, productList);
         return productList.findElements(By.className(PRODUCT_TITLE_CLASS));
     }
 
