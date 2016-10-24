@@ -744,7 +744,7 @@ public class ProductDetails extends PageObject {
 	    	WebElement yesButton = driver.findElement(By.id("btn__yes"));
 	    	yesButton.click();
     	} catch (Exception e) {
-    		logger.info("Ship restionction message not displayed");
+    		logger.info("Ship restriction message not displayed");
     	}
     }
 }

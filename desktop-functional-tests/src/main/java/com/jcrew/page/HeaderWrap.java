@@ -354,7 +354,7 @@ public class HeaderWrap {
 		String Category = testdataReader.getCategory().toLowerCase().trim();
 		
 		WebElement categoryLink = top_nav.findElement(By.xpath(
-				".//a[@class='department-nav__link' and contains(@name,'>>" + Category.toLowerCase() + "')]"));
+				".//a[@class='department-nav__link' and contains(@name,'>>" + Category + "')]"));
 		hoverAction.moveToElement(categoryLink);
 		hoverAction.perform();
 		logger.info("Selected Category is {} ", Category);

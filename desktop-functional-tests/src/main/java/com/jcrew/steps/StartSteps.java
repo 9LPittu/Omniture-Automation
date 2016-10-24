@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
-//import gherkin.formatter.model.Scenario;
 import cucumber.api.Scenario;
 
 
@@ -199,7 +198,7 @@ public class StartSteps {
     
     private void setSidecarCookie() {
     	TestDataReader testdataReader = TestDataReader.getTestDataReader();
-    	boolean setCookie = testdataReader.getBoolean("setSicedarCookie");
+    	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
     	if(setCookie) {
     		String url = reader.getProperty("url");
     		String domain = url.replace("https://", "");
