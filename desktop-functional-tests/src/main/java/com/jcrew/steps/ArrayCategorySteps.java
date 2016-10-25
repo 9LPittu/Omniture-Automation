@@ -30,6 +30,11 @@ public class ArrayCategorySteps extends DriverFactory {
         productsArray.selectRandomProduct("variation");
     }
 
+    @When("User selects random quick shop from product array")
+    public void user_selects_random_qs_product(){
+        productsArray.selectRandomQS("any");
+    }
+
     @Then("Verify ([^\"]*) cookie path value is ([^\"]*)")
     public void verify_cookie_path_value(String cookieName,String expectedCookiePath){
         String cookiePath=productsArray.getCookiePath(cookieName);

@@ -3,9 +3,8 @@ package com.jcrew.page;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
 import org.apache.commons.exec.util.StringUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
@@ -29,9 +28,11 @@ public abstract class Array extends PageObject{
 
     protected Footer footer;
     protected HeaderWrap header;
+    private final Actions hoverAction;
 
     public Array(WebDriver driver) {
         super(driver);
+        this.hoverAction = new Actions(driver);
     }
 
     protected List<WebElement> getProductTiles(WebElement productList) {
@@ -54,17 +55,27 @@ public abstract class Array extends PageObject{
         return productPrices;
     }
 
-    protected void selectRandomVariationProduct(WebElement productList){
-        List<WebElement> productTiles = getVariationProductsList(productList);
-
+    protected void selectRandomQS(WebElement productList,boolean isVariationProducts) {
+        List<WebElement> productTiles;
+        if(isVariationProducts){
+            productTiles = getVariationProductsList(productList);
+        }else{
+            productTiles = getProductTiles(productList);
+        }
         logger.info("This array page has {} products", productTiles.size());
+        // WebElement random_product_tile = productTiles.get(5);
         WebElement random_product_tile = Util.randomIndex(productTiles);
-
-        clickProduct(random_product_tile);
-        new ProductDetails(driver);
+        clickQuickShop(random_product_tile);
+        new QuickShop(driver);
     }
-    protected void selectRandomProduct(WebElement productList) {
-        List<WebElement> productTiles = getProductTiles(productList);
+
+    protected void selectRandomProduct(WebElement productList,boolean isVariationProducts) {
+        List<WebElement> productTiles;
+        if(isVariationProducts){
+            productTiles = getVariationProductsList(productList);
+        }else{
+            productTiles = getProductTiles(productList);
+        }
         logger.info("This array page has {} products", productTiles.size());
         // WebElement random_product_tile = productTiles.get(5);
         WebElement random_product_tile = Util.randomIndex(productTiles);
@@ -92,7 +103,26 @@ public abstract class Array extends PageObject{
         Util.waitLoadingBar(driver);
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
+    private void clickQuickShop(WebElement product) {
 
+        wait.until(ExpectedConditions.visibilityOf(product));
+        WebElement product_name = product.findElement(By.className(NAME_CLASS));
+        logger.info("Click on quick shop of product : {}", product_name.getText());
+        hoverAction.moveToElement(product);
+        hoverAction.perform();
+        stateHolder.put("fromArray", getProduct(product));
+        WebElement qs = product.findElement(By.xpath(".//div[contains(@class,'c-product-tile__quickshop js-product-tile-quickshop')]"));
+        hoverAction.moveToElement(qs);
+        hoverAction.perform();
+        try{
+            qs.click();
+        }catch (WebDriverException e){
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();",qs);
+        }
+
+        Util.waitLoadingBar(driver);
+    }
     public Product getProduct(WebElement tile) {
 
         Product product = new Product();
