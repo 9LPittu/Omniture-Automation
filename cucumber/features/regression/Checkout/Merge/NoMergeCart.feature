@@ -38,7 +38,7 @@ Feature: Checkout - Users with clean bag do not get a Merge Cart page
     And Verify products added matches with products in bag
 
   Scenario: Checkout - Guest user does not get to a merge cart page
-    Given User goes to homepage
+    Given User is on homepage with clean session
     And Handle the Email Capture pop up
     And User bag is cleared
 

@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.Product;
 import com.jcrew.util.*;
 
 import com.jcrew.util.DriverFactory;
@@ -275,6 +276,7 @@ public class StartingSteps {
 
     @After
     public void quitDriver(Scenario scenario) {
+    	 String data;
 
         if (driver != null && (scenario.isFailed() || scenario.getName().contains(TAKE_SCREENSHOT))) {
             logger.debug("Taking screenshot of scenario {}", scenario.getName());
@@ -285,6 +287,11 @@ public class StartingSteps {
                 String log = Util.logBrowserErrors(driver);
                 scenario.embed(log.getBytes(), "text/plain");
 
+                data = getProducts();
+                if (!data.isEmpty()) {
+                    scenario.embed(data.getBytes(), "text/plain");
+                }
+                
                 deletes_browser_cookies();
             } catch (RuntimeException e) {
                 logger.error("An exception happened when taking step screenshot after scenario", e);
@@ -349,5 +356,26 @@ public class StartingSteps {
 
         driver.get(env + pageURL);
         Util.waitLoadingBar(driver);
+    }
+    
+    private String getProducts() {
+        String products = "";
+
+        if (stateHolder.hasKey("toBag")) {
+            List<Product> inBag = stateHolder.getList("toBag");
+            for (Product c : inBag) {
+                products += c.getProductName() + "\t" +
+                        c.getProductCode() + "\t" +
+                        c.getSelectedColor() + "\t" +
+                        c.getSelectedSize() + "\t" +
+                        c.getPriceList() + "\n";
+            }
+
+            if (!products.isEmpty()) {
+                products = "PRODUCT NAME\tITEM NUMBER\tCOLOR\tSIZE\tPRICE\n" + products;
+            }
+        }
+
+        return products;
     }
 }

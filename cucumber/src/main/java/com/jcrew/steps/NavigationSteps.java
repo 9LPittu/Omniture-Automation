@@ -124,18 +124,13 @@ public class NavigationSteps extends DriverFactory {
     
     @When("^User navigates to product ([^\"]*) with multiple colors and multiple sizes$")
     public void search_product_from_reading_testdata(String sequenceNum) {
-        search(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
+    	searchAndNavigateToPdp(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
     }
     
     @When("User searches for a random search term")
     public void user_searches_for_a_random_search_term() {
         String term = testDataReader.getSearchWord();
-        search(term);
-        
-        if(getDriver().getCurrentUrl().contains("r/search")){
-        	SearchPage searchPage = new SearchPage(getDriver());
-        	searchPage.selectRandomProduct();
-        }
+        searchAndNavigateToPdp(term);
     }
     
     private void search(String searchTerm){
@@ -146,7 +141,7 @@ public class NavigationSteps extends DriverFactory {
     
     @When("^User navigates to backordered product$")
     public void navigate_backordered() {
-        search(testDataReader.getData("back.order.item"));
+    	searchAndNavigateToPdp(testDataReader.getData("back.order.item"));
         
         ProductDetailPage pdp = new ProductDetailPage(getDriver());
         pdp.select_color(testDataReader.getData("back.order.color"));
@@ -157,7 +152,7 @@ public class NavigationSteps extends DriverFactory {
     
     @When("^User navigates to only few left product$")
     public void navigate_only_few_left() {
-    	search(testDataReader.getData("few.left.item"));
+    	searchAndNavigateToPdp(testDataReader.getData("few.left.item"));
         
     	ProductDetailPage pdp = new ProductDetailPage(getDriver());
         pdp.select_color(testDataReader.getData("few.left.color"));
@@ -168,12 +163,21 @@ public class NavigationSteps extends DriverFactory {
     
     @When("^User navigates to regular product$")
     public void navigate_regular_item() {
-        search(testDataReader.getData("regular.item"));
+    	searchAndNavigateToPdp(testDataReader.getData("regular.item"));
         
         ProductDetailPage pdp = new ProductDetailPage(getDriver());
         pdp.select_color(testDataReader.getData("regular.item.color"));
         pdp.select_size(testDataReader.getData("regular.item.size"));
         
         stateHolder.put("regularItem", testDataReader.getData("regular.item"));
+    }
+    
+    public void searchAndNavigateToPdp(String searchItem){
+    	search(searchItem);
+    	
+    	if(getDriver().getCurrentUrl().contains("r/search")){
+         	SearchPage searchPage = new SearchPage(getDriver());
+         	searchPage.selectRandomProduct();
+        }
     }
 }

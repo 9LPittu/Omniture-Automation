@@ -17,7 +17,8 @@ Feature: Checkout - User is able to remove item from shopping bag during Guest c
     And Bag should have 1 item(s) added
     
     #Add Item 2 to bag
-    And User clicks on hamburger menu    
+    And User clicks on hamburger menu
+    And User clicks on back link
     And user selects any category from hamburger menu
 	And user selects any subcategory
     

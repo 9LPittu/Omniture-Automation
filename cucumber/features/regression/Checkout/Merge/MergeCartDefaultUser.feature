@@ -36,7 +36,7 @@ Feature: Checkout - Default user gets confirmation to merge cart
     Then User is in product detail page
     
     And Add to cart button is pressed
-    And Bag should have 2 item(s) added 
+    And Bag should have 1 item(s) added 
     
     When User clicks on item bag
     And Clicks on checkout
@@ -71,7 +71,7 @@ Feature: Checkout - Default user gets confirmation to merge cart
     Then User is in product detail page
     
     And Add to cart button is pressed
-    Then Bag should have 2 item(s) added 
+    Then Bag should have 1 item(s) added 
     
     When User clicks on item bag
     And Clicks on checkout

@@ -42,6 +42,10 @@ public class ShoppingBagSteps extends DriverFactory {
     public void user_should_be_in_shopping_bag_page() throws Throwable {
         assertTrue(Util.getSelectedCountryName() + "Article checkout should have been present",
                 shoppingBagPage.isArticleCheckoutPresent());
+        
+        String subTotal = shoppingBagPage.getSubtotalValue().trim();
+        subTotal=subTotal.replaceAll("[^0-9\\.]", "");
+        stateHolder.put("subtotal",subTotal);
     }
 
     @And("^Verifies edit button is present$")
@@ -219,7 +223,7 @@ public class ShoppingBagSteps extends DriverFactory {
     
     @Then("^Verify Order Subtotal is updated when item is removed$")
     public void verify_order_subtotal_when_item_removed(){
-    	String orderSubTotalBeforeDeletion = (String) shoppingBagPage.stateHolder.get("ordersubtotal");
+    	String orderSubTotalBeforeDeletion = (String) shoppingBagPage.stateHolder.get("subtotal");
     	orderSubTotalBeforeDeletion = orderSubTotalBeforeDeletion.replaceAll("[^0-9]", "");
     	int subTotalBeforeDeletion = Integer.parseInt(orderSubTotalBeforeDeletion);
     	

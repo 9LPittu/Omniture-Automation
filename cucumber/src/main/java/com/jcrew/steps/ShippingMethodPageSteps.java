@@ -119,8 +119,8 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
     public void verify_ATP_date(ShippingMethod actual, ShippingMethod expected) {
         //Verifies if ATP date is falling in between expected date range
-        String actualName = actual.getMethod();
-        String expectedName = expected.getMethod();
+        String actualName = actual.getMethod().replaceAll("[^a-zA-Z0-9]", "");
+        String expectedName = expected.getMethod().replaceAll("[^a-zA-Z0-9]", "");
 
         String actualDate = actualName.replaceFirst(expectedName, "").trim();
         actualDate = actualDate.replace("–", "").trim();

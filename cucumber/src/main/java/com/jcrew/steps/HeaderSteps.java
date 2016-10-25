@@ -5,6 +5,7 @@ import com.jcrew.page.Header;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.Product;
 import com.jcrew.util.*;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -242,6 +243,12 @@ public class HeaderSteps extends DriverFactory {
         if (reader.getProperty("environment").equalsIgnoreCase("production") && elementName.equalsIgnoreCase("Manage your account")) {
             isElementClickRequired = false;
         }
+        
+        if ("sign out".equalsIgnoreCase(elementName)) {
+			List<Product> bag = stateHolder.getList("toBag");
+			stateHolder.put("userBag", bag);
+			stateHolder.remove("toBag");
+		}
 
         if (isElementClickRequired) {
             header.clickElementFromMyAccountDropdown(elementName);

@@ -68,6 +68,7 @@ public class ReviewPage extends Checkout{
     }
     
     public boolean isDisplayed() {
+    	Util.wait(1000);;
         String bodyId = getBodyAttribute("id");
         logger.debug("Review id: {}", getBodyAttribute("id"));
 

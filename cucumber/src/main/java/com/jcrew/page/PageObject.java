@@ -64,6 +64,7 @@ public abstract class PageObject {
                 List<WebElement> body = null;
                 try {
                     body = driver.findElements(By.tagName("body"));
+                    logger.info("Body Attribute: {}", body.get(0).getAttribute(attribute));
                     return body.get(0).getAttribute(attribute);
                 } catch (StaleElementReferenceException stale) {
                     logger.error("Exception when trying to get body element.");

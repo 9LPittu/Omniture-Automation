@@ -1,6 +1,10 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Product;
 import com.jcrew.util.Util;
+
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -70,6 +74,13 @@ public class MergeBagPage extends Checkout {
     
     public void clickAddItemsToBagAndReviewOrder(){
     	addItemsToBagAndReviewOrder.click();
+    	
+    	List<Product> recentlyAdded =stateHolder.getList("toBag");
+		List<Product> previouslyAdded = stateHolder.getList("userBag");
+        recentlyAdded.addAll(previouslyAdded);
+
+        stateHolder.remove("userBag");
+        stateHolder.put("toBag", recentlyAdded);
     }
     
     public String getUserName() {

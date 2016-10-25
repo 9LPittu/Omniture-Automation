@@ -336,7 +336,7 @@ public class ProductDetailPage {
 
         return Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(productSizesSection.findElement(
-                        By.xpath(".//li[@data-name='" + productSize + "']"))));
+                        By.xpath(".//li[@data-name='" + productSize.toUpperCase() + "']"))));
     }
 
     public void select_color(String productColor) {
@@ -349,7 +349,7 @@ public class ProductDetailPage {
                 ExpectedConditions.visibilityOfElementLocated(By.id("c-product__price-colors")
                 )
         );
-        WebElement productColorElement = productColors.findElement(By.xpath(".//li[@data-name='" + productColor + "']"));
+        WebElement productColorElement = productColors.findElement(By.xpath(".//li[@data-name='" + productColor.toUpperCase() + "']"));
 
         return productColorElement;
     }
@@ -363,11 +363,20 @@ public class ProductDetailPage {
 
     public String getSelectedSize() {
     	
-        WebElement productSizeElement = Util.createWebDriverWait(driver).until(
-        		ExpectedConditions.visibilityOf(productSizesSection.findElement(
-        				By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"))));
+    	String selectedSize = "";
+    	
+    	try{
+    		WebElement productSizeElement = Util.createWebDriverWait(driver).until(
+    					ExpectedConditions.visibilityOf(productSizesSection.findElement(
+    								By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"))));
+    		
+    		selectedSize = productSizeElement.getAttribute("data-name"); 
+    	}
+    	catch(Exception e){
+    		logger.info("No size is selected!!!");
+    	}    	
         
-        return productSizeElement.getAttribute("data-name");
+        return selectedSize;
     }
     
     public String getProductCodeFromPDP(){
@@ -615,7 +624,16 @@ public class ProductDetailPage {
             if (!colorsList.isEmpty()) {
                 int index = Util.randomIndex(colorsList.size());
                 WebElement color = colorsList.get(index);
-                Product product = Util.getCurrentProduct();
+                
+                Product product;
+                try{
+                	product = Util.getCurrentProduct();
+                }
+                catch(NullPointerException npe){
+                	product = getProduct();
+                	stateHolder.addToList("productList", product);
+                }
+                
                 String colorName = color.getAttribute("data-name");
                 product.setSelectedColor(colorName);
                 color.click();
