@@ -22,8 +22,8 @@ public class FinalSteps {
     private static final String TAKE_SCREENSHOT = "Screenshot";
     private final Logger logger = LoggerFactory.getLogger(FinalSteps.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
-    private DriverFactory driverFactory;
-    private WebDriver driver;
+    private DriverFactory driverFactory = new DriverFactory();
+    private WebDriver driver = driverFactory.getDriver();
 
     @After
     public void quitDriver(Scenario scenario) {
