@@ -143,6 +143,7 @@ public class ProductDetails extends PageObject {
     }
 
     public String getSelectedColor() {
+    	wait.until(ExpectedConditions.visibilityOf(price_colors));
         WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
         return selectedColor.getAttribute("data-name");
     }
