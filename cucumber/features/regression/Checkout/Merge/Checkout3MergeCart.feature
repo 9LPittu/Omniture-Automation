@@ -1,5 +1,5 @@
 @RegressionCheckout @HighLevel
-Feature: Registered User Checkout Process - merge cart and adding new shipping address
+Feature: Checkout - Registered User Checkout Process - merge cart and adding new shipping address
 
   Background:    
     Given User is on homepage with clean session

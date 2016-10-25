@@ -1,5 +1,5 @@
 @RegressionCheckout @HighLevel
-Feature: Guest User Checkout Process
+Feature: Checkout - Guest User Checkout Process
 
   Background:
     Given User is on homepage with clean session
