@@ -510,6 +510,10 @@ public class LoginPage {
     
     public boolean submitUserCredentials(String emailAddress, String password){
     	boolean isLoginSuccessful = false;
+    	Util.waitLoadingBar(driver);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(
+    			                                            signInForm.findElement(By.id("sidecarUser")))));
+    	
     	WebElement emailElement = signInForm.findElement(By.id("sidecarUser"));
         WebElement passwordElement = signInForm.findElement(By.id("sidecarPassword"));
         
