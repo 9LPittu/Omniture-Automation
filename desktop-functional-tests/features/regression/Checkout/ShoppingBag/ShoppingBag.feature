@@ -28,7 +28,7 @@ Feature: Checkout - Editing items from shopping bag
     And User adds product to bag
 
     When User searches for a random search term
-    And User selects random product from product array
+    And User selects random product from array
     Then Verify product detail page is displayed
     
     When User selects random color
