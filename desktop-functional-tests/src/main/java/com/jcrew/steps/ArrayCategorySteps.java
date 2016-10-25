@@ -5,6 +5,7 @@ import com.jcrew.page.ArrayCategory;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -83,8 +84,14 @@ public class ArrayCategorySteps extends DriverFactory {
     @Then("Verify refine dropdown text is ([^\"]*)")
     public void verify_dropdown_text(String text) {
         text = text.toLowerCase();
+        
+        //Replace text by 'view all' if actual refinement filter is toggled off
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        boolean toggle = testDataReader.getBoolean("refinement.filter.text.toggle");
+        if (!toggle)
+        	text = "view all";
+        
         String labelText = productsArray.getRefineText();
-
         assertEquals("Dropdown text", text, labelText);
     }
 

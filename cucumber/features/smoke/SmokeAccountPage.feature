@@ -18,7 +18,8 @@ Feature: Account Page
     And Hamburger Menu Men Link is present
     And Hamburger Menu Boys Link is present
     And Hamburger Menu Girls Link is present
-    And Hamburger Menu Wedding Link is present
+    #Temparorily commenting Wedding Link verification in Hamburger menu as Wedding is intentionally removed from Hamburger
+    #And Hamburger Menu Wedding Link is present
     And Hamburger Menu sale Link is present
     And Hamburger Menu Blog Link is present
     And Closes hamburger menu
@@ -27,7 +28,7 @@ Feature: Account Page
     And Contact Us section phone icon is displayed
     And Contact Us section vps icon is displayed
     Then Verify Let Us Help You footer link is displayed
-    And Verify Our Cards footer link is displayed
+    #And Verify Our Cards footer link is displayed
     And Verify Our Stores footer link is displayed
     And Verify Our Brands footer link is displayed
     And Verify About J.Crew footer link is displayed

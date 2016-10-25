@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.HeaderWrap;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.Then;
@@ -17,6 +18,7 @@ import static org.junit.Assert.*;
  */
 public class HeaderWrapSteps extends DriverFactory {
     HeaderWrap header = new HeaderWrap(getDriver());
+    TestDataReader reader = TestDataReader.getTestDataReader();
 
     @When("User clicks on sign in using header")
     public void click_sign_in() {
@@ -115,6 +117,12 @@ public class HeaderWrapSteps extends DriverFactory {
     @When("User hovers on a random category from list")
     public void user_hovers_on_random_category_from_list(List<String> categories) {
     	header.hoverCategory(categories);
+    }
+    
+    @When("User hovers on any random category")
+    public void user_hovers_on_any_random_category() {
+    	String Category = reader.getCategory().toLowerCase().trim();
+    	header.hoverCategory(Category);
     }
     
     @When("User selects ([^\"]*) subcategory array")

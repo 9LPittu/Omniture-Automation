@@ -20,7 +20,7 @@ Feature: Checkout - User is able to edit quantity for item from shopping bag dur
     And User adds product to bag
     
     #Add Item 2 to bag
-    When User opens menu
+    When User hovers on any random category
     And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed

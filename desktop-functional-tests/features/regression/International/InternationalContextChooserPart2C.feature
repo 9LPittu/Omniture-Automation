@@ -34,6 +34,8 @@ Feature: International Country Context - Part 2C
       | NON-PRICEBOOK |
       
 Scenario Outline: Context is displayed on search page
+	Given User goes to homepage
+	And User closes email capture
     Then Click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
