@@ -180,7 +180,8 @@ public class BillingPage extends Checkout {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(billingOptionsSubmit));
         billingOptionsSubmit.click();
         Util.waitForPageFullyLoaded(driver);
-        Util.waitLoadingBar(driver);
+        Util.waitLoadingBar(driver);        
+        Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains("Review"));
     }
 
     public boolean isBillingPage() {

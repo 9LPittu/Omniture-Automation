@@ -104,7 +104,7 @@ public class FinalSteps {
             }
 
             if (!products.isEmpty()) {
-                products = "PRODUCT NAME\t\t\t\t\t\tITEM NUMBER\tCOLOR\tSIZE\tPRICE\n" + products;
+                products = "PRODUCT NAME\t\t\t\tITEM NUMBER\tCOLOR\tSIZE\tPRICE\n" + products;
             }
         }
 
