@@ -11,6 +11,7 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.AfterStep;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.*;
@@ -49,6 +50,11 @@ public class FinalSteps {
                 }
                 
                 StartingSteps startSteps = new StartingSteps();
+                try {
+					startSteps.setupDriver();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
                 startSteps.deletes_browser_cookies();
                 
             } catch (RuntimeException e) {

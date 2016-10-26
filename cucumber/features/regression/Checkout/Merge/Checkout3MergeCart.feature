@@ -36,11 +36,9 @@ Feature: Checkout - Registered User Checkout Process - merge cart and adding new
     Then Bag should have 1 item(s) added
         
     And User is on homepage
-    When User clicks on hamburger menu
-    And User clicks on My Account link
-    And click on "SIGN OUT" link in My Account page
-    And Verify user is in homepage
-    Then User is signed out
+    And click on MY ACCOUNT from header
+    When user clicks on "Sign Out" from My Account dropdown 
+    Then Verify user is in homepage
 
   Scenario Outline: Registered user checkout with no items in the bag
     When User is on homepage
