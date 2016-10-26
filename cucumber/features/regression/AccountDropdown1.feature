@@ -219,7 +219,8 @@ Feature: Account Dropdown functionality_1
     And Submits payment data in billing page
     And User is on internal /checkout2/billing.jsp page
     And Inputs credit card security code
-    And CUser clicks on place your order button    Then User should be in order confirmation page
+    And User clicks on place your order button
+    Then User should be in order confirmation page
     And verify order number is generated
     
     Then Verify embedded headers links is visible
