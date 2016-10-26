@@ -157,8 +157,8 @@ public class MyAccountPage {
     public void deleteNonDefaultAddresses() {
 
         List<WebElement> tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
-        while (tables.size() > 2) {
-            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+        while (tables.size() > 3) {
+            WebElement deleteButton = tables.get(2).findElement(By.linkText("DELETE"));
             //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
             String url = deleteButton.getAttribute("href");
             driver.get(url);
@@ -170,8 +170,8 @@ public class MyAccountPage {
     public void deleteNonDefaultCreditCards() {
 
         List<WebElement> tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
-        while (tables.size() > 2) {
-            WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
+        while (tables.size() > 3) {
+            WebElement deleteButton = tables.get(2).findElement(By.linkText("DELETE"));
             //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
             String url = deleteButton.getAttribute("href");
             driver.get(url);
