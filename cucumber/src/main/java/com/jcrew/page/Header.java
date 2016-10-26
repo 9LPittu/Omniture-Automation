@@ -254,7 +254,11 @@ public class Header {
     		catch(Exception e){
     			cntr++;
     		}
-    	}while(cntr<3);        
+    	}while(cntr<3);
+    	
+    	if(!headerSearchInput.isDisplayed()){
+        	throw new WebDriverException("Search Input field is not displayed!!!");
+        }
     }
 
     public boolean isSearchLinkDisplayed() {

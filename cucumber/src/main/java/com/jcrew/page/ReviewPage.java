@@ -68,6 +68,7 @@ public class ReviewPage extends Checkout{
     }
     
     public boolean isDisplayed() {
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains("Review"));    	
     	String bodyId = getBodyAttribute("id");
         logger.debug("Review id: {}", bodyId);
 
