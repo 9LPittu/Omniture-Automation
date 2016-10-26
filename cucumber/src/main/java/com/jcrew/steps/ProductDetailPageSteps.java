@@ -384,7 +384,9 @@ public class ProductDetailPageSteps extends DriverFactory {
     
     @Then("^Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button$")
     public void verify_size_and_fit_drawer_displayed_below_add_to_bag_button(){
-    	assertTrue("Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button",productDetailPage.isSizeAndFitDrawerDisplayedBelowAddToBag());
+        boolean isSizeAndFit = productDetailPage.isSizeAndFitDrawerDisplayed();
+        if (isSizeAndFit)
+    	    assertTrue("Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button",productDetailPage.isSizeAndFitDrawerDisplayedBelowAddToBag());
     }
     
     @Then("^Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer$")
@@ -394,12 +396,16 @@ public class ProductDetailPageSteps extends DriverFactory {
     
     @When("^user clicks on '([^\"]*)' drawer$")
     public void user_clicks_pdp_drawer(String drawerName){
-    	productDetailPage.clickPdpDrawer(drawerName);
+        boolean isSizeAndFit = productDetailPage.isSizeAndFitDrawerDisplayed();
+        if (isSizeAndFit)
+            productDetailPage.clickPdpDrawer(drawerName);
     }
     
     @Then("^Verify '([^\"]*)' drawer is ([^\"]*) state$")
     public void verify_pdp_drawer_state(String drawerName, String expectedState){
-    	assertTrue("Verify " + drawerName + " drawer is " + expectedState,productDetailPage.isPdpDrawerInExpectedState(drawerName, expectedState));
+        boolean isSizeAndFit = productDetailPage.isSizeAndFitDrawerDisplayed();
+        if (isSizeAndFit)
+    	    assertTrue("Verify " + drawerName + " drawer is " + expectedState,productDetailPage.isPdpDrawerInExpectedState(drawerName, expectedState));
     }
     
     @Then("^Verify item details are displayed in the 'PRODUCT DETAILS' drawer$")

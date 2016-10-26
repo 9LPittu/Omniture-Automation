@@ -302,7 +302,7 @@ public class Header {
     public boolean isGenderLandingPage(String gender) {
         Country country = (Country) stateHolder.get("context");
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(genderLandingSection));
-        WebElement genderPageElement = genderLandingSection.findElement(By.xpath("//h2[contains(text(),'NEW FOR " + gender.toUpperCase() + "')]"));
+        WebElement genderPageElement = genderLandingSection.findElement(By.xpath(".//h2[contains(text(),'NEW FOR " + gender.toUpperCase() + "')]"));
 
         boolean isDisplayed = genderPageElement.isDisplayed();
         boolean isURL = Util.countryContextURLCompliance(driver, country);
