@@ -279,15 +279,13 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     }
 
-    @Then("^Verifies accordion menu contains same items as in sign post items, first item should not be present in post sign$")
+    @Then("^Verifies accordion menu contains same items as in sign post items$")
     public void verifies_accordion_menu_contains_same_items_as_in_sign_post_items() {
         subcategoryPage.click_expand_accordion_icon();
         final List<String> postSignItems = subcategoryPage.getPostSignItems();
         final List<String> accordianItems = subcategoryPage.getAccordionItems();
 
         // first item from accordion menu is view all and is not present as post sign by design
-        accordianItems.remove(0);
-        // second item from accordion menu is not present as a post sign by design
         accordianItems.remove(0);
 
         assertEquals("Elements list should be the same", postSignItems, accordianItems);
