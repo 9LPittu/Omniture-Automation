@@ -35,7 +35,7 @@ Feature: Regression Tests Category Feature
   Scenario: Check sign posts on category pages
     When User clicks on J.CREW IN GOOD COMPANY subcategory from Women Category
     Then User should be in ingoodcompany page for women
-    And Verifies accordion menu contains same items as in sign post items, first item should not be present in post sign
+    And Verifies accordion menu contains same items as in sign post items
     And Chooses a random filter
     When filter becomes selected
     Then Refine modal autocloses

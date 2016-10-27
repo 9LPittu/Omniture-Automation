@@ -1071,20 +1071,24 @@ public class ProductDetailPage {
     	return sizeAndDetailsDrawer_Y_Value;
     }
     
-    public boolean isSizeAndFitDrawerDisplayedBelowAddToBag(){    	
-    	int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();    	
-    	int addToBag_Y_Value = getAddToBag_Y_Coordinate();    	
-    	return sizeAndDetailsDrawer_Y_Value > addToBag_Y_Value;
+    public boolean isSizeAndFitDrawerDisplayedBelowAddToBag(){
+            int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();
+            int addToBag_Y_Value = getAddToBag_Y_Coordinate();
+            return sizeAndDetailsDrawer_Y_Value > addToBag_Y_Value;
     }
     
     public boolean isProductDetailsDrawerDisplayedBelowSizeAndFitDrawer(){
-    	int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();
-    	
-    	productDetailsDrawer = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
-    	Point productDetailsDrawerPoint = productDetailsDrawer.getLocation();
-    	int productDetailsDrawer_Y_Value = productDetailsDrawerPoint.getY();
-    	
-    	return sizeAndDetailsDrawer_Y_Value < productDetailsDrawer_Y_Value;
+        productDetailsDrawer = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
+        Point productDetailsDrawerPoint = productDetailsDrawer.getLocation();
+        int productDetailsDrawer_Y_Value = productDetailsDrawerPoint.getY();
+
+        boolean isSizeAndFit = isSizeAndFitDrawerDisplayed();
+        if (isSizeAndFit) {
+            int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();
+            return sizeAndDetailsDrawer_Y_Value < productDetailsDrawer_Y_Value;
+        } else {
+            return true;
+        }
     }
     
     public void clickPdpDrawer(String drawerName){
@@ -1100,6 +1104,7 @@ public class ProductDetailPage {
     	}
     	
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(drawerElement));
+        Util.scrollToElement(driver, drawerElement);
     	drawerElement.click();
     	Util.waitLoadingBar(driver);
     }
@@ -1217,5 +1222,14 @@ public class ProductDetailPage {
 
         String price = productPrice.getText();
         return price;
+    }
+
+    public boolean isSizeAndFitDrawerDisplayed() {
+        try {
+            driver.findElement(By.xpath("//div[@class='product__size-fit product__description']/div/div/span"));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
