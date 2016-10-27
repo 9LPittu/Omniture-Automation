@@ -274,11 +274,8 @@ public class ProductDetailPage {
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
         thisProduct.setIsBackOrder(getIsBackordered());
-        thisProduct.setIsCrewCut(getIsCrewCut());
-
 
         stateHolder.put("recentlyAdded", thisProduct);
-
 
         addToBag.click();
     }
@@ -1072,43 +1069,6 @@ public class ProductDetailPage {
         String message = getButtonErrorMessage().toLowerCase();
 
         return message.contains("backordered");
-    }
-
-    public boolean getIsCrewCut() {
-        TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String category="";
-        String subCategory="";
-        String saleCategory="";
-        String categoryFromPDPURL="";
-
-        if (stateHolder.hasKey("category")) {
-            category=((String) stateHolder.get("category")).toLowerCase();
-            stateHolder.remove("category");
-        }
-
-        if (stateHolder.hasKey("subcategory")) {
-            subCategory=((String) stateHolder.get("subcategory")).toLowerCase();
-            stateHolder.remove("subcategory");
-        }
-
-        if (stateHolder.hasKey("sale category")) {
-            saleCategory=((String) stateHolder.get("sale category")).toLowerCase();
-            stateHolder.remove("sale category");
-        }
-
-        if (stateHolder.hasKey("categoryFromPDPURL")) {
-            categoryFromPDPURL=((String) stateHolder.get("categoryFromPDPURL")).toLowerCase();
-            stateHolder.remove("categoryFromPDPURL");
-        }
-
-        String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
-        List<String> crewCuts = Arrays.asList(crewCutCategories);
-
-        if(crewCuts.contains(category) || (category=="sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category=="wedding" && subCategory=="flowergirl")) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public boolean isSizeAndFitDrawerDisplayed() {
