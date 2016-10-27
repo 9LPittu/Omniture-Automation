@@ -5,6 +5,7 @@ import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
+import com.jcrew.utils.ScreenshotGenerator;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -34,7 +35,7 @@ public class FinalSteps {
             try {
 
                 if (driver != null && "true".equalsIgnoreCase(System.getProperty("take.step.screenshot"))) {
-                    byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                	byte[] screenshot = ScreenshotGenerator.getScreenshot(driver);
                     scenario.embed(screenshot, "image/png");
                 }
 
@@ -51,7 +52,7 @@ public class FinalSteps {
         if (scenario.isFailed()) {
             logger.debug("Taking screenshot of scenario {}", scenario.getName());
             try {
-                final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            	final byte[] screenshot = ScreenshotGenerator.getScreenshot(driver);
                 scenario.embed(screenshot, "image/png");
                 
                 String log = Util.logBrowserErrors(driver);
