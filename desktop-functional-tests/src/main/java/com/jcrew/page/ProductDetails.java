@@ -750,4 +750,13 @@ public class ProductDetails extends PageObject {
     		logger.info("Ship restriction message not displayed");
     	}
     }
+    
+    public boolean isSizeAndFitDrawerDisplayed() {
+        try {
+            driver.findElement(By.id("c-product__size-fit"));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
