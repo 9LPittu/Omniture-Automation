@@ -251,6 +251,8 @@ public class ProductDetails extends PageObject {
             product.setPrice(getPrice());
             product.setItemNumber(getProductCode());
             product.setQuantity(getQuantity());
+            product.setIsBackOrder(getIsBackordered());
+            product.setIsCrewCut(getIsCrewCut());
         } else {
             product.setSoldOut(true);
         }
@@ -733,7 +735,7 @@ public class ProductDetails extends PageObject {
         String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
         List<String> crewCuts = Arrays.asList(crewCutCategories);
 
-        if (crewCuts.contains(category) || (category == "sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category == "wedding" && subCategory == "flowergirl")) {
+        if (crewCuts.contains(category) || (category.equalsIgnoreCase("sale") && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category.equalsIgnoreCase("wedding") && subCategory.equalsIgnoreCase("flowergirl"))) {
             return true;
         } else {
             return false;
