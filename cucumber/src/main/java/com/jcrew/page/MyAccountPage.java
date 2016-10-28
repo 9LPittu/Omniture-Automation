@@ -3,7 +3,6 @@ package com.jcrew.page;
 import java.util.List;
 
 import com.jcrew.pojo.Country;
-import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.UsersHub;
 import com.jcrew.util.Util;
@@ -157,37 +156,27 @@ public class MyAccountPage {
 
     public void deleteNonDefaultAddresses() {
 
-        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        List<WebElement> tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+        while (tables.size() > 3) {
+            WebElement deleteButton = tables.get(2).findElement(By.linkText("DELETE"));
+            //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
+            String url = deleteButton.getAttribute("href");
+            driver.get(url);
 
-        if (!propertyReader.getProperty("browser").equalsIgnoreCase("phantomjs")) {
-            List<WebElement> tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
-
-            while (tables.size() > 2) {
-                WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
-                //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
-                String url = deleteButton.getAttribute("href");
-                driver.get(url);
-
-                tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
-            }
+            tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
         }
     }
 
     public void deleteNonDefaultCreditCards() {
 
-        PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        List<WebElement> tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
+        while (tables.size() > 3) {
+            WebElement deleteButton = tables.get(2).findElement(By.linkText("DELETE"));
+            //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
+            String url = deleteButton.getAttribute("href");
+            driver.get(url);
 
-        if (!propertyReader.getProperty("browser").equalsIgnoreCase("phantomjs")) {
-            List<WebElement> tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
-
-            while (tables.size() > 2) {
-                WebElement deleteButton = tables.get(1).findElement(By.linkText("DELETE"));
-                //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
-                String url = deleteButton.getAttribute("href");
-                driver.get(url);
-
-                tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
-            }
+            tables = driver.findElements(By.xpath("//div[@id='creditCardList']/table"));
         }
     }
 }

@@ -10,6 +10,7 @@ import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import org.openqa.selenium.TimeoutException;
 
@@ -233,5 +234,10 @@ public class SearchPageSteps extends DriverFactory {
     @And("^user should see the selected options in the breadcrumb$")
     public void user_should_see_selected_options_in_breadcrumb(){
     	assertTrue("user should see the selected options in the breadcrumb",searchPage.isSelectedOptionsDisplayedInBreadcrumb());
+    }
+    
+    @When("User selects random product from array")
+    public void user_selects_random_product() {
+    	searchPage.selectRandomProduct();
     }
 }

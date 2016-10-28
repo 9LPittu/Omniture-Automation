@@ -1,15 +1,21 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.Header;
+import com.jcrew.page.HomePage;
 import com.jcrew.page.Navigation;
+import com.jcrew.page.ProductDetailPage;
+import com.jcrew.page.SearchPage;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -23,12 +29,13 @@ public class NavigationSteps extends DriverFactory {
 
 	private final Logger logger = LoggerFactory.getLogger(NavigationSteps.class);
     private final Navigation navigation = new Navigation(getDriver());
+    private final Header header = new Header(getDriver());
+    private final HomePage homePage = new HomePage(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
+    TestDataReader testDataReader = TestDataReader.getTestDataReader();
     
     @Given("^User goes to ([^\"]*) page$")
     public void User_goes_to_page(String uri) throws Throwable { 
-    	PropertyReader reader = PropertyReader.getPropertyReader();
-        
     	Country c = (Country)stateHolder.get("context");
         String homeurl = c.getHomeurl();
         getDriver().navigate().to( homeurl+ uri);
@@ -113,5 +120,64 @@ public class NavigationSteps extends DriverFactory {
     	Util.createWebDriverWait(getDriver()).until(ExpectedConditions.urlContains(url));
         assertTrue("Page URL should contain " + url,
                 getDriver().getCurrentUrl().contains(url));
+    }
+    
+    @When("^User navigates to product ([^\"]*) with multiple colors and multiple sizes$")
+    public void search_product_from_reading_testdata(String sequenceNum) {
+    	searchAndNavigateToPdp(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
+    }
+    
+    @When("User searches for a random search term")
+    public void user_searches_for_a_random_search_term() {
+        String term = testDataReader.getSearchWord();
+        searchAndNavigateToPdp(term);
+    }
+    
+    private void search(String searchTerm){
+    	header.click_on_search_button();
+        homePage.input_search_term(searchTerm);
+        homePage.click_on_search_button_for_input_field(); 
+    }
+    
+    @When("^User navigates to backordered product$")
+    public void navigate_backordered() {
+    	searchAndNavigateToPdp(testDataReader.getData("back.order.item"));
+        
+        ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("back.order.color"));
+        pdp.select_size(testDataReader.getData("back.order.size"));
+        
+        stateHolder.put("backorderedItem", testDataReader.getData("back.order.item"));
+    }
+    
+    @When("^User navigates to only few left product$")
+    public void navigate_only_few_left() {
+    	searchAndNavigateToPdp(testDataReader.getData("few.left.item"));
+        
+    	ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("few.left.color"));
+        pdp.select_size(testDataReader.getData("few.left.size"));
+        
+        stateHolder.put("fewLeftItem", testDataReader.getData("few.left.item"));
+    }
+    
+    @When("^User navigates to regular product$")
+    public void navigate_regular_item() {
+    	searchAndNavigateToPdp(testDataReader.getData("regular.item"));
+        
+        ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("regular.item.color"));
+        pdp.select_size(testDataReader.getData("regular.item.size"));
+        
+        stateHolder.put("regularItem", testDataReader.getData("regular.item"));
+    }
+    
+    public void searchAndNavigateToPdp(String searchItem){
+    	search(searchItem);
+    	
+    	if(getDriver().getCurrentUrl().contains("r/search")){
+         	SearchPage searchPage = new SearchPage(getDriver());
+         	searchPage.selectRandomProduct();
+        }
     }
 }

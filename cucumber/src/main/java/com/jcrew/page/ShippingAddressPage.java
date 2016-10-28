@@ -2,9 +2,7 @@ package com.jcrew.page;
 
 import com.github.javafaker.Faker;
 import com.jcrew.pojo.Country;
-import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
-import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import org.openqa.selenium.By;
@@ -17,7 +15,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ShippingAddressPage {
+public class ShippingAddressPage extends Checkout {
 
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(ShippingAddressPage.class);
@@ -96,10 +94,19 @@ public class ShippingAddressPage {
     @FindBy(id="state")
     private WebElement provinceStateCounty;
     
+    @FindBy(id = "frmSelectShippingAddress")
+    private WebElement shippingForm;
+    
     public ShippingAddressPage(WebDriver driver) {
+    	super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
+    
+    @Override
+	public boolean isDisplayed() {
+		return false;
+	}
 
     public void fills_shipping_address() {
 
@@ -115,14 +122,11 @@ public class ShippingAddressPage {
     
     public void fills_shipping_address_testdata() {
     	
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String url = propertyReader.getProperty("url");
-    	
     	Country country = (Country)stateHolder.get("context");
     	String countryName = country.getCountryName();
+    	
         firstNameSA.sendKeys(faker.name().firstName());
-        lastNameSA.sendKeys(faker.name().lastName());
-        
+        lastNameSA.sendKeys(faker.name().lastName());        
         address3.sendKeys(country.getCompanyName());
         address1.sendKeys(country.getAddress1());
         address2.sendKeys(country.getAddress2());
@@ -239,6 +243,7 @@ public class ShippingAddressPage {
     
     public boolean isQASVerificationDisplayed(){
         Util.waitWithStaleRetry(driver,qasVerification);
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(qasVerification)));
     	return qasVerification.isDisplayed();
     }
     
@@ -270,10 +275,9 @@ public class ShippingAddressPage {
     			logger.info("Province/State/County is not displayed!!!");
     		}
     	}
-    }
+    }    
     
-    
- public void selectIntlCityAndState(String cityname,String statename) {
+    public void selectIntlCityAndState(String cityname,String statename) {
 	 
 	 	Country c = (Country)stateHolder.get("context");
          String currentCountry = c.getCountryName();
@@ -297,5 +301,17 @@ public class ShippingAddressPage {
     		}
     		logger.info("There is no city & state dropdown displayed!!!");
     	}
+    }
+    
+    public void selectAddressFromList() {
+        selectAddressFromList(shippingForm);
+    }
+    
+    public void selectAddressFromListNoDefault(){
+    	selectAddressFromListNoDefault(shippingForm);
+    }
+    
+    public void continueCheckout() {
+        nextStep(shippingForm);
     }
 }

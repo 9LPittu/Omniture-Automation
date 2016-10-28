@@ -174,15 +174,13 @@ public class WishlistPage {
     }
     
     public String getColorOnWishlist(String productName){
-    	@SuppressWarnings("unchecked")
-		WebElement productData = getProductData(productName);
+    	WebElement productData = getProductData(productName);
     	String colorNameInWishlist = productData.getAttribute("data-color");
 
     	return colorNameInWishlist;
     }
 
     public String getSizeOnWishlist(String productName){
-    	@SuppressWarnings("unchecked")
     	WebElement productData = getProductData(productName);
     	String sizeNameInWishlist = productData.getAttribute("data-size");
         sizeNameInWishlist = sizeNameInWishlist.replace("SIZE","");
