@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -40,7 +39,15 @@ public class DatabaseReader {
 	}
 
 	Connection createConnection(String url, Properties props) throws SQLException {
-		return DriverManager.getConnection(url, props);
+	    Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url, props);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return conn;
 	}
 
 	public Statement createTheStatement(Connection conn) {
@@ -222,8 +229,6 @@ public class DatabaseReader {
 			dbQuery = dbQuery.replaceAll("carriername",carrier);
 
 			List<Date> dateRange = new ArrayList<Date>();
-			Date startDate;
-			Date endDate;
 
 			//Establish DB connection
 			Connection conn = getConnectionToDatabase();

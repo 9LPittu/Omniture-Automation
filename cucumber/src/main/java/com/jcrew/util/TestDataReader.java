@@ -25,16 +25,26 @@ public class TestDataReader {
 
 	private void loadProperties() throws IOException{
 		
-		String testData = "commonTestData.properties";
-		FileInputStream environmentInput = new FileInputStream(testData);
-		testDataProperties.load(environmentInput);
+		String testData = "properties/commonTestData.properties";
+		FileInputStream propertiesInput = new FileInputStream(testData);
+		testDataProperties.load(propertiesInput);
 		logger.debug("Test Data file to be used {}", testData);
+		
+		String env = System.getProperty("environment", "ci");
+        String environmentData = "properties/environment/" + env + ".properties";
+        propertiesInput = new FileInputStream(environmentData);
+        testDataProperties.load(propertiesInput);
 
-		String shipData = "shippingMethod.properties";
+		String shipData = "properties/shippingMethod.properties";
 		FileInputStream shippingInput = new FileInputStream(shipData);
 		testDataProperties.load(shippingInput);
 		logger.debug("Shipping data file to be used {}", shipData);
-
+		
+		String country = System.getProperty("country", "us");
+        String countryPath = "properties/countries/" + country.toLowerCase() + ".properties";
+        propertiesInput = new FileInputStream(countryPath);
+        testDataProperties.load(propertiesInput);
+        logger.debug("country path: {}", countryPath);
 	}
 
 	public String getData(String key){
@@ -73,4 +83,11 @@ public class TestDataReader {
 	public boolean getBoolean(String key) {
 		return Boolean.parseBoolean(getData(key));
 	}
+	
+	 public String getSearchWord() {
+        String searchWords = getData("search.words");
+        String words[] = searchWords.split(";");
+
+        return words[Util.randomIndex(words.length)];
+	 }
 }

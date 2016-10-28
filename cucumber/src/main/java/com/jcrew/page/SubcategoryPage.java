@@ -10,7 +10,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +18,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.jcrew.pojo.Country;
 
 public class SubcategoryPage {
 
@@ -685,8 +683,15 @@ public class SubcategoryPage {
                 String sizeName = itemSizes.get(itemSizeIndex).getText();
                 itemSizes.get(itemSizeIndex).click();
                 logger.debug("Selected item size: {}", sizeName);
+                
+                //retrieve quantity
+                WebElement quantityElement = driver.findElement(By.xpath("//select[contains(@class,'js-product__quantity')]"));
+                Select quantitySelect = new Select(quantityElement);
+                String quantity = quantitySelect.getFirstSelectedOption().getText();
 
                 String itemFinalPrice = getItemPriceFromPDP();
+                stateHolder.put("itemFinalPrice", itemFinalPrice);
+                
                 ProductDetailPage pdp = new ProductDetailPage(driver);
                 boolean isBackOrdered = pdp.getIsBackordered();
 
@@ -698,6 +703,7 @@ public class SubcategoryPage {
                 product.setPriceSale((String) stateHolder.get("salePrice"));
                 product.setPriceList(itemFinalPrice);
                 product.setSelectedColor(colorName);
+                product.setQuantity(quantity);
                 product.setSelectedSize(sizeName);
                 product.setIsBackOrder(isBackOrdered);
                 product.setIsCrewCut(getIsCrewCut());

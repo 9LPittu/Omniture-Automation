@@ -53,7 +53,7 @@ Feature: Embedded Header and Footer Validations
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And Presses continue button on shipping address
-    And Verifies is in shipping method page
+    And Verifies user is in shipping method page
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And Uses default value for shipping method
@@ -64,7 +64,7 @@ Feature: Embedded Header and Footer Validations
     Then Verify embedded footer is visible and functional
     And Fills required payment data in billing page
     And Submits payment data in billing page
-    And Clicks on place your order
+    And User clicks on place your order button
     And User should be in order confirmation page
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
