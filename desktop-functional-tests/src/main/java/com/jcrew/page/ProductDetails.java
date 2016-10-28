@@ -429,7 +429,7 @@ public class ProductDetails extends PageObject {
             expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
             logger.info("Expected PDP Message: {}", expectedPDPMessage);
 
-            wait.until(ExpectedConditions.visibilityOf(pdpMessage));
+            Util.waitWithStaleRetry(driver, pdpMessage);
             actualPDPMessage = pdpMessage.getText().trim();
             logger.info("Actual PDP Message: {}", expectedPDPMessage);
         } else {
