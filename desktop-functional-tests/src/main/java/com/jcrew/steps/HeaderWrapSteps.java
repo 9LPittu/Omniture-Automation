@@ -5,6 +5,7 @@ import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
+import com.jcrew.utils.StateHolder;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -53,7 +54,10 @@ public class HeaderWrapSteps extends DriverFactory {
 
     @Then("Dropdown should welcome user by first name")
     public void dropdown_should_welcome_user_using_first_name() {
-        String expectedWelcomeMessage = "Welcome, " + User.getUserFromHub("").getFirstName();
+    	StateHolder stateHolder = StateHolder.getInstance();
+    	User user = stateHolder.get("userObject");
+    	String firstName = user.getFirstName();
+        String expectedWelcomeMessage = "Welcome, " + firstName;
         String actualWelcomeMessage = header.getWelcomeMessage();
 
         assertEquals("First name should match message", expectedWelcomeMessage, actualWelcomeMessage);
