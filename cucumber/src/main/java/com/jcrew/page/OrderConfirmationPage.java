@@ -33,6 +33,9 @@ public class OrderConfirmationPage {
 
     @FindBy(className = "bizrateBanner")
     private WebElement bizrateBanner;
+    
+    @FindBy(id = "gifting-details")
+    private WebElement giftDetails;
 
     public OrderConfirmationPage(WebDriver driver) {
     	this.driver=driver;
@@ -93,4 +96,11 @@ public class OrderConfirmationPage {
         	return false;
         }
    }
+    
+    public String getGitfMessage() {
+        WebElement options = giftDetails.findElement(By.className("options-receiptmsg"));
+        WebElement message = options.findElement(By.tagName("pre"));
+
+        return message.getText();
+    }
 }

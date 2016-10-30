@@ -17,7 +17,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
@@ -29,7 +28,6 @@ public class SalePage {
 
     private final Logger logger = LoggerFactory.getLogger(SalePage.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
-    private final PropertyReader reader = PropertyReader.getPropertyReader();
 
     private final WebDriver driver;
 
@@ -119,6 +117,7 @@ public class SalePage {
     public boolean isSalePageDisplayed(){
         Country country = (Country) stateHolder.get("context");
         Util.waitForPageFullyLoaded(driver);
+        Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(saleHeader));
 
@@ -431,8 +430,9 @@ public class SalePage {
                     .until(ExpectedConditions.visibilityOfElementLocated(
                             By.xpath("//a[@class='js-sale__link' and @data-label='"+dept+"']")));
         }
+        
+        stateHolder.put("sale category", saleDepElement.getText());
         saleDepElement.click();
-        stateHolder.put("sale category", saleDepElement);
         Util.waitLoadingBar(driver);
         logger.info("{} sale department is clicked",  dept);
     }

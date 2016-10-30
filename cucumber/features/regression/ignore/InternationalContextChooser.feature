@@ -171,7 +171,7 @@ Feature: International Country Context
     And user should see selected country in the footer
     When user fills selected country shipping address
     And Presses continue button on shipping address
-    And Verifies is in shipping method page
+    And Verifies user is in shipping method page
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
@@ -187,7 +187,7 @@ Feature: International Country Context
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional
     And user should see selected country in the footer
-    And Clicks on place your order
+    And User clicks on place your order button
     And User should be in order confirmation page
     And Verify embedded headers links
     Then Verify embedded footer is visible and functional

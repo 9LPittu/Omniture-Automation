@@ -17,9 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class ReviewPage {
+public class ReviewPage extends Checkout{
 
-	private final StateHolder stateHolder = StateHolder.getInstance();
+	public final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(ReviewPage.class);
     private boolean isProduction = false;
 	
@@ -53,14 +53,26 @@ public class ReviewPage {
     
     @FindBy(xpath=".//*[@id='shipping-details']/h2/a")
     private WebElement reviewPage_ShippingDetailsSection_ChangeButton;
+    
+    @FindBy(id = "gifting-details")
+    private WebElement gifting_details;
 
     public ReviewPage(WebDriver driver) {
+    	super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         if(propertyReader.getProperty("url").contains("www.jcrew.com")){
             isProduction = true;
         }
+    }
+    
+    public boolean isDisplayed() {
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains("Review"));    	
+    	String bodyId = getBodyAttribute("id");
+        logger.debug("Review id: {}", bodyId);
+
+        return bodyId.equals("review");
     }
 
     public void user_places_its_order() {
@@ -188,5 +200,72 @@ public class ReviewPage {
         }
 
         return productName;
+    }
+    
+    public void editDetails(String group) {
+        logger.debug("Editing {}", group);
+
+        WebElement changeButton;
+
+        wait.until(ExpectedConditions.visibilityOf(billingSection));
+        wait.until(ExpectedConditions.visibilityOf(shippingSection));
+        wait.until(ExpectedConditions.visibilityOf(gifting_details));
+        wait.until(ExpectedConditions.visibilityOf(order__listing));
+
+        switch (group) {
+            case "billing":
+                changeButton = billingSection.findElement(By.className("item-button"));
+                break;
+            case "shipping":
+                changeButton = shippingSection.findElement(By.className("item-button"));
+                break;
+            case "gifting":
+                changeButton = gifting_details.findElement(By.className("item-button"));
+                break;
+            case "order":
+                changeButton = order__listing.findElement(By.className("item-button"));
+                break;
+            default:
+                logger.error("Not recognized change button!");
+                changeButton = null;
+        }
+
+        if(changeButton != null) {
+            changeButton.click();
+            Util.waitLoadingBar(driver);
+        }
+    }
+    
+    public String getShippingAddress() {
+        WebElement shippingAddress = shippingSection.findElement(By.className("shipping-address"));
+        return shippingAddress.getText().trim();
+    }
+    
+    public String getShippingMethod() {
+        WebElement shippingMethod = shippingSection.findElement(By.className("shipping-method"));
+        return shippingMethod.getText();
+    }
+    
+    public String getBillingAddress() {
+        WebElement billingAddress = billingSection.findElement(By.className("billing-address"));
+        return billingAddress.getText().trim();
+    }
+    
+    public String getPaymentMethod(){
+    	WebElement paymentMethod = billingSection.findElement(By.className("wallet-cards"));
+    	return paymentMethod.getText().trim();    	
+    }
+    
+    public void selectRandomShippingMethodOnReviewPage() {
+    	WebElement shippingMethodSection =  shippingSection.findElement(By.className("shipping-method"));
+    	
+    	List<WebElement> shippingMethodRadioButtons = shippingMethodSection.findElements(By.xpath(".//input[@class='input-radio' and not(@checked='')]"));
+    	int randomIndex = Util.randomIndex(shippingMethodRadioButtons.size());
+    	
+    	shippingMethodRadioButtons.get(randomIndex).click();
+    	Util.waitLoadingBar(driver);
+    	
+    	String selectedShippingMethod = getShippingMethod();
+        stateHolder.put("selectedShippingMethod", selectedShippingMethod);
     }
 }

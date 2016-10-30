@@ -1,7 +1,6 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.Country;
-import com.jcrew.steps.StartingSteps;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
@@ -10,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.jcrew.util.PropertyReader;

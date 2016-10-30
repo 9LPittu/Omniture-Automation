@@ -27,7 +27,7 @@ public class SAccountReader {
     }
 
     private void loadProperties() throws IOException {
-        FileInputStream inputFile = new FileInputStream("saccount.properties");
+        FileInputStream inputFile = new FileInputStream("properties/saccount.properties");
         saccountproperties.load(inputFile);
     }
 

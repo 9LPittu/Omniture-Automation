@@ -79,7 +79,7 @@ Feature: Welcome Mat for ROW with checkout
     When user fills selected country shipping address
     And user should see selected country in the footer
     And Presses continue button on shipping address
-    And Verifies is in shipping method page
+    And Verifies user is in shipping method page
     And Verify proper currency symbol is displayed on shipping method section on Checkout page
     And user should see selected country in the footer
     And Uses default value for shipping method
@@ -92,7 +92,7 @@ Feature: Welcome Mat for ROW with checkout
     And Verify proper currency symbol is displayed on item section on Checkout page
     And Verify proper currency symbol is displayed on summary section on Checkout page
     And user should see selected country in the footer
-    And Clicks on place your order
+    And User clicks on place your order button
     And User should be in order confirmation page
     And Verify proper currency symbol is displayed on item section on Checkout page
     And Verify proper currency symbol is displayed on summary section on Checkout page

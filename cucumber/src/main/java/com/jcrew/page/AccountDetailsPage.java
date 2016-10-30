@@ -10,15 +10,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Created by 9msyed on 8/8/2016.
  */
 public class AccountDetailsPage {
     private final WebDriver driver;
-    private final Logger logger = LoggerFactory.getLogger(AccountDetailsPage.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
 
     @FindBy(id = "account_navigation")

@@ -52,7 +52,7 @@ Feature: Account Dropdown functionality_1
     
     And Fills shipping address    
     And Presses continue button on shipping address    
-    And Verifies is in shipping method page
+    And Verifies user is in shipping method page
     
     And Verify SIGN IN header link is displayed
   	And click on SIGN IN from header
@@ -67,7 +67,7 @@ Feature: Account Dropdown functionality_1
     And Verify SIGN IN header link points to the url /r/login
     And Fills required payment data in billing page
     And Submits payment data in billing page
-    And Clicks on place your order
+    And User clicks on place your order button
     And User should be in order confirmation page
     
     And Verify SIGN IN header link is displayed
@@ -197,7 +197,7 @@ Feature: Account Dropdown functionality_1
     Then user should see My Account dropdown is closed
     
     And Presses continue button on shipping address
-    And Verifies is in shipping method page
+    And Verifies user is in shipping method page
     
     Then Verify embedded headers links is visible
     And click on MY ACCOUNT from header
@@ -219,7 +219,7 @@ Feature: Account Dropdown functionality_1
     And Submits payment data in billing page
     And User is on internal /checkout2/billing.jsp page
     And Inputs credit card security code
-    Then Clicks on place your order
+    And User clicks on place your order button
     Then User should be in order confirmation page
     And verify order number is generated
     
