@@ -20,10 +20,31 @@ public class QuickShop extends PageObject {
     @FindBy(id = "c-product__overview")
     WebElement prodOverview;
 
-    @FindBy(className = "c-product__colors")
-    private WebElement c_product_colors;
+/*    @FindBy(id = "c-product__message")
+    WebElement prodMessageSection;
+
+    @FindBy(id = "c-product__actions")
+    WebElement prodMessageAction;
+*/
+    @FindBy(id =  "btn__add-to-bag")
+    private WebElement addToBagButton;
+
+    @FindBy(id =  "btn__wishlist")
+    private WebElement wishListButton;
+
+
+    @FindBy(className = "c-product__price-colors")
+    private WebElement colors;
+
     @FindBy(id = "c-product__sizes")
     private WebElement sizes;
+
+    @FindBy(id = "c-product__quantity")
+    private  WebElement quantity;
+
+    @FindBy(className = "c-quickshop__product-details")
+    private WebElement prod_detials;
+
 
 
     public QuickShop(WebDriver driver){
@@ -52,16 +73,20 @@ public class QuickShop extends PageObject {
             case "name":
                 WebElement productOverview = prodOverview.findElement(By.className("product__overview"));
                 qsElement = productOverview.findElement(By.className("product__name"));
-
                 break;
             case "color swatchs":
-              //  qsElement = wait.until(ExpectedConditions.visibilityOf(price_colors));
+                qsElement = wait.until(ExpectedConditions.visibilityOf(colors));
                 break;
             case "size chips":
                 qsElement = wait.until(ExpectedConditions.visibilityOf(sizes));
                 break;
+            case "view full details link":
+                qsElement = prod_detials.findElement(By.linkText("View full details"));
+                break;
+            case "close":
+
             case "item code":
-               // qsElement=  productOverview.findElement(By.className("c-product__code"));
+
                 break;
             case "variations":
                // pdpElement = variations;
@@ -69,16 +94,16 @@ public class QuickShop extends PageObject {
 
 
             case "size chart":
-             //   pdpElement = sizes.findElement(By.linkText("size charts"));
+                qsElement = sizes.findElement(By.linkText("size charts"));
                 break;
             case "quantity":
-             //   pdpElement = wait.until(ExpectedConditions.visibilityOf(product_quantity));
+                qsElement = wait.until(ExpectedConditions.visibilityOf(quantity));
                 break;
             case "add to bag":
-               // pdpElement = wait.until(ExpectedConditions.visibilityOf(addToBagButton));
+                qsElement = wait.until(ExpectedConditions.visibilityOf(addToBagButton));
                 break;
             case "wishlist":
-              //  pdpElement = wait.until(ExpectedConditions.visibilityOf(wishListButton));
+                qsElement = wait.until(ExpectedConditions.visibilityOf(wishListButton));
                 break;
             case "social icons":
                // pdpElement = wait.until(ExpectedConditions.visibilityOf(product__details.findElement(By.className("product__social"))));

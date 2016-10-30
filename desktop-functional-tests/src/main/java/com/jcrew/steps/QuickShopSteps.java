@@ -25,11 +25,11 @@ public class QuickShopSteps extends DriverFactory{
     @And("Verify product name on QS matches with category array")
     public void verify_product_name_in_quickshop(){
         Product product = (Product) stateHolder.get("fromArray");
-       assertEquals("Verify product name in quickshop matches with quickshop",product.getProductName(),
+       assertEquals("Verify product name in quickshop matches with quickshop",product.getName(),
                quickShop.getProductName());
     }
 
-    @And("Verify ([^\"]*) displayed in QS")
+    @And("Verify ([^\"]*) is displayed")
     public void verify_element_is_displayed(String element){
        assertTrue("Verify "+element+" is displayed in quick shop",quickShop.isElementDisplayed(element));
     }
