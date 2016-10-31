@@ -7,4 +7,4 @@ Feature: Sale Landing functionality
 
   Scenario: Verify Sale Landing Page
     Then Verify sale landing page is displayed
-    And And Verify sale landing url is /r/sale
+    And Verify url is /r/login
