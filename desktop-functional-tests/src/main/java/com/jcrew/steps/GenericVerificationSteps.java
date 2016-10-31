@@ -10,9 +10,9 @@ public class GenericVerificationSteps extends DriverFactory{
     
 	@And("Verify url is ([^\"]*)$")
     public void verify_sale_landing_url(String url) {
-	WebDriver driver = 	getDriver();
-	String currentURL = driver.getCurrentUrl();
-	assertTrue("URL should contain " + url, currentURL.contains(url));
+		WebDriver driver = 	getDriver();
+		String currentURL = driver.getCurrentUrl();
+		assertTrue("URL should contain " + url, currentURL.contains(url));
 	
 	}
 

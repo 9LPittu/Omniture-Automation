@@ -1,4 +1,4 @@
-@PDPSizeAndFit
+@sale
 Feature: Sale Landing functionality
 
   Background:
