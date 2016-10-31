@@ -12,7 +12,7 @@ public class GenericVerificationSteps extends DriverFactory{
     public void verify_sale_landing_url(String url) {
 		WebDriver driver = 	getDriver();
 		String currentURL = driver.getCurrentUrl();
-		assertTrue("URL should contain " + url, currentURL.contains(url));
+		assertTrue("URL should contain " + url + " . Current URL is " + currentURL , currentURL.contains(url));
 	
 	}
 
