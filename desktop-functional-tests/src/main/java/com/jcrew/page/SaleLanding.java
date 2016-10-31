@@ -67,5 +67,9 @@ public class SaleLanding {
 
         return sale;
     }
+    
+    public boolean isSalelanding() {
+    	return page__sale.isDisplayed();
+    }
 
 }
