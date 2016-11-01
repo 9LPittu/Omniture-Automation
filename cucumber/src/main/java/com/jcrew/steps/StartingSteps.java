@@ -124,7 +124,7 @@ public class StartingSteps {
         
 		//Update Reader and create context
         TestDataReader testData = TestDataReader.getTestDataReader();
-		testData.updateReader(selectedCountry);
+        testData.updateReader(selectedCountry);
         Country countrydetails = new Country(env, selectedCountry);
 
         stateHolder.put("context", countrydetails);
