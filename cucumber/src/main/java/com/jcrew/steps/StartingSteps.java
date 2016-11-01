@@ -3,11 +3,6 @@ package com.jcrew.steps;
 import com.jcrew.pojo.Country;
 import com.jcrew.util.*;
 
-import com.jcrew.util.DriverFactory;
-import com.jcrew.util.PropertyReader;
-import com.jcrew.util.SAccountReader;
-import com.jcrew.util.StateHolder;
-import com.jcrew.util.Util;
 import cucumber.api.Scenario;
 import cucumber.api.java.Before;
 import cucumber.api.java.BeforeStep;
@@ -52,6 +47,10 @@ public class StartingSteps {
     @Given("User navigates to ([^\"]*) with clean session")
     public void user_navigates_with_clean_session(String extensionUrl) {
         String country = reader.getProperty("country");
+        
+        TestDataReader testData = TestDataReader.getTestDataReader();
+        testData.updateReader(country);
+        
         String env = reader.getProperty("url");
 
         Country context = new Country(env, country);
@@ -122,6 +121,10 @@ public class StartingSteps {
 
     public void getInternationalUrl(String selectedCountry, String pageURL) {
         String env = reader.getProperty("url");
+        
+		//Update Reader and create context
+        TestDataReader testData = TestDataReader.getTestDataReader();
+		testData.updateReader(selectedCountry);
         Country countrydetails = new Country(env, selectedCountry);
 
         stateHolder.put("context", countrydetails);
@@ -212,7 +215,9 @@ public class StartingSteps {
         String country = reader.getProperty("country");
         String env = reader.getProperty("url");
         String browser = reader.getProperty("browser");
-
+        
+        TestDataReader testData = TestDataReader.getTestDataReader();
+        testData.updateReader(country);
         Country context = new Country(env, country);
         stateHolder.put("context", context);
         env = context.getHomeurl();

@@ -12,7 +12,7 @@ import cucumber.api.java.en.Then;
 
 public class OrderConfirmationPageSteps extends DriverFactory {
 
-    private OrderConfirmationPage orderConfirmation;
+    private OrderConfirmationPage orderConfirmation = new OrderConfirmationPage(getDriver());;
     
     private boolean isProduction = false;
     
@@ -22,8 +22,6 @@ public class OrderConfirmationPageSteps extends DriverFactory {
 
         if("production".equalsIgnoreCase(environment)) {
             isProduction = true;
-        } else {
-        	orderConfirmation = new OrderConfirmationPage(getDriver());
         }
     }
 

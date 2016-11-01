@@ -108,12 +108,12 @@ public class TestDataReader {
 			countryGroup = "nonPricebookCountries";
 		}
 
-		String pricebookCountries = getData(countryGroup);
-		String pricebookCountriesArray[] = pricebookCountries.split(";");
+		String countries = getData(countryGroup);
+		String countriesArray[] = countries.split(";");
 
-		int countryindex = Util.randomIndex(pricebookCountriesArray.length);
+		int countryindex = Util.randomIndex(countriesArray.length);
 
-		return pricebookCountriesArray[countryindex].toLowerCase();
+		return countriesArray[countryindex].toLowerCase();
 	}
 
 	public int getInt(String key) {
@@ -128,7 +128,7 @@ public class TestDataReader {
 		return Boolean.parseBoolean(getData(key));
 	}
 	
-	 public String getSearchWord() {
+	public String getSearchWord() {
         String searchWords = getData("search.words");
         String words[] = searchWords.split(";");
 
@@ -136,51 +136,51 @@ public class TestDataReader {
 	 }
 	 
 	 public void updateReader() {
-	        Properties testDataProperties = getPropertiesForCurrentThread();
-	        testDataProperties.clear();
-	        testDataProperties = loadProperties();
-	        testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
-	    }
+        Properties testDataProperties = getPropertiesForCurrentThread();
+        testDataProperties.clear();
+        testDataProperties = loadProperties();
+        testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
+	 }
 
-	    public void updateReader(String country) {
-	        Properties testDataProperties = getPropertiesForCurrentThread();
-	        testDataProperties.clear();
-	        testDataProperties = loadProperties(country);
-	        testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
-	    }
+	 public void updateReader(String country) {
+	     Properties testDataProperties = getPropertiesForCurrentThread();
+	     testDataProperties.clear();
+	     testDataProperties = loadProperties(country);
+	     testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
+	 }
 
-	    private Properties getPropertiesForCurrentThread() {
-	        Properties properties = testDataPropertiesMap.get(Thread.currentThread().getName());
+	 private Properties getPropertiesForCurrentThread() {
+        Properties properties = testDataPropertiesMap.get(Thread.currentThread().getName());
 
-	        if (properties == null) {
-	            synchronized (testDataPropertiesMap) {
-	                properties = loadProperties();
-	                testDataPropertiesMap.put(Thread.currentThread().getName(), properties);
-	            }
-	        }
-	        return properties;
-	    }
+        if (properties == null) {
+            synchronized (testDataPropertiesMap) {
+                properties = loadProperties();
+                testDataPropertiesMap.put(Thread.currentThread().getName(), properties);
+            }
+        }
+        return properties;
+	 }
 	    
-	    public String getRandomCountry(String group) {
-	        String country = null;
-	        int index;
+	 public String getRandomCountry(String group) {
+        String country = null;
+        int index;
 
-	        if ("PRICEBOOK".equals(group)) {
-	            String pricebookCountries = getData("pricebookCountries");
-	            String pricebookCountriesArray[] = pricebookCountries.split(";");
-	            index = Util.randomIndex(pricebookCountriesArray.length);
-	            country = pricebookCountriesArray[index];	            
-	        } else if ("NONPRICEBOOK".equals(group)) {
-	            String nonPricebookCountries = getData("nonPricebookCountries");
-	            String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
-	            index = Util.randomIndex(nonPricebookCountriesArray.length);
-	            country = nonPricebookCountriesArray[index];
-	        }
-	        
-	        if(country==null){
-	        	throw new NullPointerException("Failed to select random country for country group '" + group + "' from testdata!!!");
-	        }
+        if ("PRICEBOOK".equals(group)) {
+            String pricebookCountries = getData("pricebookCountries");
+            String pricebookCountriesArray[] = pricebookCountries.split(";");
+            index = Util.randomIndex(pricebookCountriesArray.length);
+            country = pricebookCountriesArray[index];	            
+        } else if ("NONPRICEBOOK".equals(group)) {
+            String nonPricebookCountries = getData("nonPricebookCountries");
+            String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
+            index = Util.randomIndex(nonPricebookCountriesArray.length);
+            country = nonPricebookCountriesArray[index];
+        }
+        
+        if(country==null){
+        	throw new NullPointerException("Failed to select random country for country group '" + group + "' from testdata!!!");
+        }
 
-	        return country;
-	    }
+        return country;
+	 }
 }

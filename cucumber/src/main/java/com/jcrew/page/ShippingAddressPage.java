@@ -126,8 +126,12 @@ public class ShippingAddressPage extends Checkout {
     	String countryName = country.getCountryName();
     	
         firstNameSA.sendKeys(faker.name().firstName());
-        lastNameSA.sendKeys(faker.name().lastName());        
-        address3.sendKeys(country.getCompanyName());
+        lastNameSA.sendKeys(faker.name().lastName());
+        
+        if(country.getCompanyName()!=null){
+           address3.sendKeys(country.getCompanyName());
+        }
+        
         address1.sendKeys(country.getAddress1());
         address2.sendKeys(country.getAddress2());
         
