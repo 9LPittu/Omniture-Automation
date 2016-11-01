@@ -58,8 +58,6 @@ public class MultiplePdpPage {
 
     private WebDriverWait wait;
     
-    boolean isSizeAndFitDrawerDisplayed = false;
-
     public MultiplePdpPage(WebDriver driver){
         PageFactory.initElements(driver, this);
         this.driver = driver;
@@ -89,14 +87,6 @@ public class MultiplePdpPage {
         Util.waitWithStaleRetry(driver, productInformationSection);
         productDetailsDrawer = productInformationSection.findElement(By.id("c-product__description"));
         
-        try{
-        	sizeAndFitDrawer = productInformationSection.findElement(By.id("c-product__size-fit"));
-        	isSizeAndFitDrawerDisplayed = true;
-        }
-        catch(NoSuchElementException nsee){
-        	logger.debug("Size and Fit drawer is not displayed!!!");
-        }
-
         Util.waitWithStaleRetry(driver, productReviewRatingsSection);
         Util.waitWithStaleRetry(driver, addToBagButton);
         Util.waitWithStaleRetry(driver, addToWishlistButton);
@@ -304,9 +294,13 @@ public class MultiplePdpPage {
             result &= openDrawer(productReviewRatingsSection);
             result &= isDrawerOpen(productDetailsDrawer);
             
-            if(isSizeAndFitDrawerDisplayed){
+            try{
+            	sizeAndFitDrawer = productInformationSection.findElement(By.id("c-product__size-fit"));
             	result &= isDrawerOpen(sizeAndFitDrawer);
             }
+            catch(NoSuchElementException nsee){
+            	logger.debug("Size and Fit drawer is not displayed!!!");
+            }            
             
             result &= isDrawerOpen(productReviewRatingsSection);
             navigateToNextProduct(i);
