@@ -49,13 +49,7 @@ public class FinalSteps {
                 	scenario.embed(userName.getBytes(), "text/plain");
                 }
                 
-                StartingSteps startSteps = new StartingSteps();
-                try {
-					startSteps.setupDriver();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-                startSteps.deletes_browser_cookies();
+                driverFactory.deleteBrowserCookies();
                 
             } catch (RuntimeException e) {
                 logger.error("An exception happened when taking step screenshot after scenario", e);

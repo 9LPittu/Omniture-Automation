@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -705,6 +706,7 @@ public class SubcategoryPage {
                 product.setQuantity(quantity);
                 product.setSelectedSize(sizeName);
                 product.setIsBackOrder(isBackOrdered);
+                product.setIsCrewCut(getIsCrewCut());
 
                 @SuppressWarnings("unchecked")
                 List<Product> productList = (List<Product>) stateHolder.get("productList");
@@ -988,5 +990,42 @@ public class SubcategoryPage {
         List<WebElement> variedPriceForColorsElement = getElementsGroupWithVariedPriceForColors(productDetailsSection);
         String itemPriceForSelectedColor = getItemColorBasedPriceFromPDP(variedPriceForColorsElement);
         return itemPriceForSelectedColor;
+    }
+
+    public boolean getIsCrewCut() {
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String category="";
+        String subCategory="";
+        String saleCategory="";
+        String categoryFromPDPURL="";
+
+        if (stateHolder.hasKey("category")) {
+            category=((String) stateHolder.get("category")).toLowerCase();
+            stateHolder.remove("category");
+        }
+
+        if (stateHolder.hasKey("subcategory")) {
+            subCategory=((String) stateHolder.get("subcategory")).toLowerCase();
+            stateHolder.remove("subcategory");
+        }
+
+        if (stateHolder.hasKey("sale category")) {
+            saleCategory=((String) stateHolder.get("sale category")).toLowerCase();
+            stateHolder.remove("sale category");
+        }
+
+        if (stateHolder.hasKey("categoryFromPDPURL")) {
+            categoryFromPDPURL=((String) stateHolder.get("categoryFromPDPURL")).toLowerCase();
+            stateHolder.remove("categoryFromPDPURL");
+        }
+
+        String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
+        List<String> crewCuts = Arrays.asList(crewCutCategories);
+
+        if(crewCuts.contains(category) || (category.equalsIgnoreCase("sale") && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || subCategory.equalsIgnoreCase("flowergirl")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

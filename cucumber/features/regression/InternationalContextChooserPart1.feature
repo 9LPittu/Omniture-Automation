@@ -95,4 +95,3 @@ Feature: International Country Context - Part 1
       |country_group |
       |PRICEBOOK     |
       |NONPRICEBOOK  |
-

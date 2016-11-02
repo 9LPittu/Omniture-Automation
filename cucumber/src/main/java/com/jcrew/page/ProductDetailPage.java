@@ -1185,7 +1185,7 @@ public class ProductDetailPage {
             return false;
         }
     }
-    
+
     private String getPrice() {
         List<WebElement> priceGroups = price_colors.findElements(By.xpath(".//div[@class='product__group']"));
         WebElement productPrice;

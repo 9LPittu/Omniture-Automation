@@ -213,36 +213,26 @@ public class ContextChooserPage {
     }
     
     public void selectGroupRandomCountry(String country_group) {
-	
-		TestDataReader testData = TestDataReader.getTestDataReader();		
-		String selectedCountry= "";
-		country_group = country_group.trim();
-
-		if ("PRICEBOOK".equals(country_group)) {
-
-			String pricebookCountries = testData.getData("pricebookCountries");
-			String pricebookCountriesArray[] = pricebookCountries.split(";");
-
-			int countryindex = Util.randomIndex(pricebookCountriesArray.length);
-			selectedCountry = pricebookCountriesArray[countryindex].toLowerCase();
-
-		}  else if ("NONPRICEBOOK".equals(country_group)) {
-
-			String nonPricebookCountries = testData.getData("nonPricebookCountries");
-			String nonPricebookCountriesArray[] = nonPricebookCountries.split(";");
-
-			int countryindex = Util.randomIndex(nonPricebookCountriesArray.length);
-			selectedCountry = nonPricebookCountriesArray[countryindex].toLowerCase();
-		}
 		
-		selectCountryOnContextChooserPage(selectedCountry);
-    }
-    
-    public void selectCountryOnContextChooserPage(String countryCode){    	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
     	String url = propertyReader.getProperty("url");
     	
-    	Country country = new Country(url, countryCode);
+		TestDataReader testData = TestDataReader.getTestDataReader();
+		String selectedCountry = testData.getRandomCountry(country_group.trim());
+		
+		//Update Reader and create context
+		testData.updateReader(selectedCountry);
+		Country country = new Country(url, selectedCountry);
+		stateHolder.put("context", country);
+		
+		selectCountryOnContextChooserPage(selectedCountry);		
+		
+		logger.info("Selected country: {}", country.getCountryName());
+    }
+    
+    public void selectCountryOnContextChooserPage(String countryCode){    	
+    	
+    	Country country = (Country) stateHolder.get("context");
 		String countryName = country.getCountryName();
 		String regionName = country.getRegion();
 		
@@ -253,10 +243,10 @@ public class ContextChooserPage {
 		int i = 0;
 		while(i<=2){
 			try{
-				WebElement regionHeader = Util.createWebDriverWait(driver,15).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
-				regionHeader.click();
-				Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(
-						By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]")));
+	             WebElement regionHeader = Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + regionName + "']")));
+				 regionHeader.click();
+				 Util.createWebDriverWait(driver,5).until(ExpectedConditions.visibilityOfElementLocated(
+						  By.xpath("//div[contains(@class,'accordian__wrap--context-chooser') and contains(@class,'is-expanded')]")));
 				break;
 			}
 			catch(Exception e){
@@ -289,10 +279,6 @@ public class ContextChooserPage {
 				}
 			}
 		}
-		
-
-        stateHolder.put("context", country);		
-		logger.info("Selected country: {}", countryName);
     }
     
     public String[] getInternationalCountriesArray(){
