@@ -13,3 +13,8 @@ Feature: Quick Shop Basic
     When User selects random quick shop from product array
     Then Verify quick shop modal is displayed
     And Verify view full details link is displayed
+
+    When user clicks on view full details link
+    Then Verify product detail page is displayed
+    And Verify product name on PDP matches with QS
+
