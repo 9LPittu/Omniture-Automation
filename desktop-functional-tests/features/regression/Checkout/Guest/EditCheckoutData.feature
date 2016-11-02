@@ -1,4 +1,4 @@
-@GuestCheckout-Part1
+@GuestCheckout-Part1 @HighLevel
 Feature: Checkout - Guest user is able to edit data in review page
 
   Scenario: Checkout - Guest user is able to edit data in review page

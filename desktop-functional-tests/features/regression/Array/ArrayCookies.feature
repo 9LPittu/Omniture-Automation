@@ -1,4 +1,4 @@
-@Array
+@Array @HighLevel
 
 Feature: Cookie validation in array pages
 

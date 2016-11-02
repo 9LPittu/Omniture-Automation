@@ -1,4 +1,4 @@
-@GuestCheckout-Part1
+@GuestCheckout-Part1 @HighLevel
 Feature: Checkout - User is able to gift receipt to order during Guest checkout
 
   Scenario: Checkout - User is able to gift receipt to order during Guest checkout

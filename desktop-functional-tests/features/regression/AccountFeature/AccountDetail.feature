@@ -1,4 +1,4 @@
-@Account
+@Account @HighLevel
 Feature: Account details Page validations
 
   Background:

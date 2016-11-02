@@ -1,4 +1,4 @@
-@International-Part2C
+@International-Part2C @HighLevel
 Feature: International Country Context - Part 2C
 
   Scenario Outline: PDP message validation for sold out item, item with variations, vps item and shipping restriction item
