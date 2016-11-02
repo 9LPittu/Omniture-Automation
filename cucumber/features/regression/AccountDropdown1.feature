@@ -1,5 +1,5 @@
 @AccountDropdown1 @HighLevel
-Feature: Account Dropdown functionality_1
+Feature: Account Dropdown functionality - Part 1
 
   Background:
     Given User is on homepage with clean session
