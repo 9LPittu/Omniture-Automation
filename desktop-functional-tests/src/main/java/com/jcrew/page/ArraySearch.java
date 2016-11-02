@@ -80,4 +80,9 @@ public class ArraySearch extends Array{
 
         return getProductPrices(searchResults,PRICE_SALE_CLASS);
     }
+    
+    public String getHeaderTitle() {
+    	WebElement headerTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
+    	return headerTitle.getText();
+    }
 }

@@ -50,5 +50,17 @@ public class ArraySearchSteps extends DriverFactory {
                     CurrencyChecker.isValid(price, searchArray.country));
         }
     }
+    
+    @Then("Verify Sale array page is displayed$")
+    public void verify_sale_array() {
+    	
+    	boolean isSearchArray = searchArray.isSearchPage();
+    	
+    	String saleTitle = searchArray.getHeaderTitle();
+    	boolean isSaleTitle = saleTitle.equalsIgnoreCase("sale");
+    	
+    	assertTrue("Sale array should be displayed",isSearchArray && isSaleTitle);
+    	
+    }
 
 }

@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,7 +62,7 @@ public class SaleLanding {
     private WebElement getSubcategoryFromSale(String subcategory) {
         wait.until(ExpectedConditions.visibilityOf(saleCategory));
         WebElement sale = saleCategory.findElement(
-                By.xpath(".//a[@class='js-sale__link' and @data-label='" + subcategory.toLowerCase() + "']"));
+                By.xpath(".//a[@class='js-sale__link' and translate(@data-label, 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')='" + subcategory.toLowerCase() + "']"));
 
         logger.debug("Opening sale link {}", sale.getAttribute("href"));
 
@@ -70,6 +71,19 @@ public class SaleLanding {
     
     public boolean isSalelanding() {
     	return page__sale.isDisplayed();
+    }
+    
+    public List<String> getSaleCategory() {
+    	List <String> categoryName = new ArrayList<String>();
+    	WebElement saleCategories = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("c-promo-categories")));
+    	List<WebElement> saleCategoryList = saleCategories.findElements(By.xpath(".//div[contains(@class,'c-category__list-item')]/a"));
+    	for (WebElement saleCategory:saleCategoryList) {
+    		String categoryText = saleCategory.getAttribute("data-label").toLowerCase();
+    		categoryName.add(categoryText);	
+    	}
+    	
+    	return categoryName;
+    	
     }
 
 }
