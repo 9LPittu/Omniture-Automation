@@ -1,23 +1,23 @@
-package com.jcrew.runner.regression;
+package com.jcrew.runner.regression.full;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 /**
- * Created by nadiapaolagarcia on 3/30/16.
+ * Created by nadiapaolagarcia on 3/28/16.
  */
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/AccountFeature"},
-        tags = {"@NewAccount"},
+        tags = {"@SignIn"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-newaccountressionfeatures.json",
+                "json:target/cucumber-signingressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/newaccountregressionfeatures"
+                "html:target/cucumber/signinregressionfeatures"
         }
 )
-public class NewAccountRunnerTest {
+public class SignInRunnerTest {
 }

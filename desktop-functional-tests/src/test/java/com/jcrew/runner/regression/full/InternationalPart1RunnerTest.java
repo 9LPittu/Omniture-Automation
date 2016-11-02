@@ -1,4 +1,4 @@
-package com.jcrew.runner.regression;
+package com.jcrew.runner.regression.full;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -10,14 +10,14 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/International"},
-        tags = {"@International-Part2B"},
+        tags = {"@International-Part1"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-international2B.json",
+                "json:target/cucumber-international1.json",
                 "pretty",
-                "html:target/cucumber/international2B"
+                "html:target/cucumber/international1"
         }
 )
-public class InternationalPart2BRunnerTest {
+public class InternationalPart1RunnerTest {
 
 }
