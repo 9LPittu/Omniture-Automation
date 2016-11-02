@@ -151,8 +151,7 @@ public class MultiplePdpPage {
 
         Util.waitForPageFullyLoaded(driver);
         stateHolder.put("shoppableTrayProduct", article);
-        Util.scrollToElement(driver, selected);
-        selected.click();
+        Util.scrollAndClick(driver, selected);
         wait.until(ExpectedConditions.urlContains("itemCode="+productCode));
         loadNavigation();
     }
