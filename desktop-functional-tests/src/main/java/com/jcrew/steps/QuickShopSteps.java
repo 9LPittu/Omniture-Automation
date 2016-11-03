@@ -6,6 +6,7 @@ import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -28,8 +29,30 @@ public class QuickShopSteps extends DriverFactory{
        assertEquals("Verify product name in quickshop matches with quickshop",product.getName(),
                quickShop.getProductName());
     }
+    @And("User clicks on view full details link")
+    public void click_full_detail_on_qs(){
+        quickShop.clickFullOnDetails();
+    }
+    @And("User clicks on Wishlist button")
+    public void click_wishlist(){
+        quickShop.clickWishlist();
+    }
+    @And("User clicks on Bag button")
+    public void click_bag(){
+        quickShop.clickBag();
+    }
+    @And("^Selects random color$")
+    public void user_selects_random_color() {
+        quickShop.selectRandomColor();
+    }
 
-    @And("Verify ([^\"]*) is displayed")
+    @When("^Selects random size$")
+    public void user_selects_random_size() {
+        quickShop.selectRandomSize();
+    }
+
+
+    @And("^Verify ([^\"]*) is displayed in QS modal$")
     public void verify_element_is_displayed(String element){
        assertTrue("Verify "+element+" is displayed in quick shop",quickShop.isElementDisplayed(element));
     }

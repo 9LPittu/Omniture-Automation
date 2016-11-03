@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Product;
+import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,21 +24,20 @@ public class QuickShop extends PageObject {
     @FindBy(id = "c-quickshop__body")
     WebElement qsBody;
     @FindBy(id = "c-product__overview")
-    WebElement prodOverview;
+    WebElement prodOverviewSection;
     @FindBy(id =  "btn__add-to-bag")
     private WebElement addToBagButton;
     @FindBy(id =  "btn__wishlist")
     private WebElement wishListButton;
 
-    @FindBy(id =  "c-product__variations")
-    private WebElement variation;
+  @FindBy(id =  "c-product__variations")
+  private WebElement variation;
 
 
     @FindBy(className = "c-product__price-colors")
     private WebElement colors;
 
-    @FindBy(id = "c-product__price")
-    private WebElement price;
+
 
     @FindBy(id = "c-product__sizes")
     private WebElement sizes;
@@ -68,12 +69,70 @@ public class QuickShop extends PageObject {
 
 
 
+    private Product getProduct() {
+        Product product = new Product();
+        product.setName(getProductName());
+        //product.setPrice(getProductPrice(tile));
+        //logger.info("Price: {}", product.getPrice());
+        logger.info("Picked product: {}", product.getName());
+        return product;
+    }
+
+    public void selectRandomColor() {
+        wait.until(ExpectedConditions.visibilityOf(colors));
+        List<WebElement> availableColors =
+                colors.findElements(By.xpath(".//li[@class='js-product__color colors-list__item'"
+                        + " and not(contains(@class,'is-selected'))]"));
+
+        if (availableColors.size() > 0) {
+            WebElement selectedColor = Util.randomIndex(availableColors);
+
+            selectedColor.click();
+        }
+    }
+
+
+
+
+    public void selectRandomSize() {
+        wait.until(ExpectedConditions.visibilityOf(sizes));
+        String availableSizesSelector = ".//li[contains(@class,'js-product__size sizes-list__item') " +
+                "and not(contains(@class,'is-unavailable')) " +
+                "and not(contains(@class,'is-selected'))]";
+
+        List<WebElement> availableSizes = sizes.findElements(By.xpath(availableSizesSelector));
+
+        if (availableSizes.size() > 0) {
+            final WebElement selectedSize = Util.randomIndex(availableSizes);
+
+            selectedSize.click();
+        }
+    }
+
+
+    public void clickFullOnDetails(){
+        stateHolder.put("fromQuickShop", getProduct());
+        wait.until(ExpectedConditions.visibilityOf(getQSElement("view full details link"))).click();
+        Util.waitForPageFullyLoaded(driver);
+        new ProductDetails(driver);
+    }
+    public void clickBag(){
+        wait.until(ExpectedConditions.visibilityOf(getQSElement("add to bag"))).click();
+        Util.createWebDriverWait(driver);
+    }
+    public void clickWishlist(){
+        wait.until(ExpectedConditions.visibilityOf(getQSElement("wishlist"))).click();
+        Util.waitForPageFullyLoaded(driver);
+
+        new LogIn(driver);
+
+    }
     private WebElement getQSElement(String element){
         WebElement qsElement = null;
 
         switch (element.toLowerCase()) {
             case "name":
-                WebElement productOverview = prodOverview.findElement(By.className("product__overview"));
+                WebElement productOverview = prodOverviewSection.findElement(By.className("product__overview"));
                 qsElement = productOverview.findElement(By.className("product__name"));
                 break;
             case "color swatchs":

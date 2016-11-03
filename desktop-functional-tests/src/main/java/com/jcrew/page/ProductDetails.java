@@ -153,7 +153,7 @@ public class ProductDetails extends PageObject {
         return selectedSize.getAttribute("data-name");
     }
 
-    private String getProductName() {
+    public String getProductName() {
         wait.until(ExpectedConditions.visibilityOf(productOverview));
         WebElement name = productOverview.findElement(By.tagName("h1"));
         return name.getText();
@@ -673,7 +673,7 @@ public class ProductDetails extends PageObject {
         }
     }
 
-    public boolean compare_PDP_price(Product product) {
+/*    public boolean compare_PDP_price(Product product) {
         String arrayPrice = product.getPrice();
         String pdpPrice = getProductPrice().replace("select colors", "").replace("now", "");
         logger.info("array product price: '{}' - pdp price: '{}'", arrayPrice, pdpPrice);
@@ -687,7 +687,7 @@ public class ProductDetails extends PageObject {
         return arrayName.equalsIgnoreCase(pdpName);
     }
 
-
+*/
     public boolean getIsBackordered() {
         String message = getButtonErrorMessage().toLowerCase();
         return message.contains("backordered");
