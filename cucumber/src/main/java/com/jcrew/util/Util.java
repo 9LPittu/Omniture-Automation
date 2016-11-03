@@ -29,6 +29,11 @@ public class Util {
     
     public static final String UP = "up";
     public static final String DOWN = "down";
+    
+    public static String getEnvironment(){
+    	String environment = System.getProperty("environment", "ci");
+    	return environment;
+    }
 
     public static int randomIndex(int size) {
         return (int) (Math.random() * (size));
@@ -38,7 +43,7 @@ public class Util {
         int random = randomIndex(list.size());
         return list.get(random);
     }
-
+    
     public static Product getCurrentProduct() {
         @SuppressWarnings("unchecked")
 		final List<Product> productList = (List<Product>) stateHolder.get("productList");        

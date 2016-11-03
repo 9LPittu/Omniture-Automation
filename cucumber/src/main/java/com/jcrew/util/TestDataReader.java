@@ -14,7 +14,6 @@ public class TestDataReader {
 	private static final TestDataReader dataReader = new TestDataReader();
 	private final Logger logger = LoggerFactory.getLogger(TestDataReader.class);
 	private static final Map<String, Properties> testDataPropertiesMap = new HashMap<>();
-	private String environment = System.getProperty("environment", "ci");
 	
 	private TestDataReader(){
 	}
@@ -30,7 +29,7 @@ public class TestDataReader {
 
             FileInputStream propertiesInput = new FileInputStream(testData);
             testDataProperties.load(propertiesInput);
-            String environmentData = "properties/environment/" + environment + ".properties";
+            String environmentData = "properties/environment/" + Util.getEnvironment() + ".properties";
             propertiesInput = new FileInputStream(environmentData);
             testDataProperties.load(propertiesInput);
 
@@ -60,7 +59,7 @@ public class TestDataReader {
 
             FileInputStream propertiesInput = new FileInputStream(testData);
             testDataProperties.load(propertiesInput);
-            String environmentData = "properties/environment/" + environment + ".properties";
+            String environmentData = "properties/environment/" + Util.getEnvironment() + ".properties";
             propertiesInput = new FileInputStream(environmentData);
             testDataProperties.load(propertiesInput);
 
