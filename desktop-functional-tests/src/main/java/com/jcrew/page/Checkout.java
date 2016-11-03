@@ -313,6 +313,12 @@ public abstract class Checkout extends PageObject{
             case "promo":
                 xpath = By.xpath(".//li[contains(@class,'summary-promo')]/span[contains(@class,'summary-value')]");
                 break;
+            case "shipping":
+            	xpath = By.xpath(".//span[@class='summary-label' and contains(text(), 'Shipping')]/following-sibling::*");
+                break;
+            case "total":
+            	xpath = By.xpath(".//span[@class='summary-label' and contains(text(), 'Total')]/following-sibling::*");
+                break;    
             default:
                 throw new WebDriverException(field + " field on the checkout page is not recognized!!!");
         }
