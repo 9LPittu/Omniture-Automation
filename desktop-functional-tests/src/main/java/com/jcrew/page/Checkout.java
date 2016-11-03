@@ -249,6 +249,7 @@ public abstract class Checkout extends PageObject{
 
     public void nextStep(WebElement form) {
         WebElement continueButton = form.findElement(By.className("button-submit"));
+        wait.until(ExpectedConditions.elementToBeClickable(continueButton));
         continueButton.click();
 
         wait.until(ExpectedConditions.stalenessOf(continueButton));
