@@ -126,7 +126,7 @@ public class ProductDetails extends PageObject {
 
         if (availableSizes.size() > 0) {
             final WebElement selectedSize = Util.randomIndex(availableSizes);
-
+            Util.scrollToElement(driver, selectedSize);
             selectedSize.click();
         }
     }
@@ -722,9 +722,9 @@ public class ProductDetails extends PageObject {
             stateHolder.remove("subcategory");
         }
 
-        if (stateHolder.hasKey("sale category")) {
-            saleCategory = ((String) stateHolder.get("sale category")).toLowerCase();
-            stateHolder.remove("sale category");
+        if (stateHolder.hasKey("saleCategory")) {
+            saleCategory = ((String) stateHolder.get("saleCategory")).toLowerCase();
+            stateHolder.remove("saleCategory");
         }
 
         if (stateHolder.hasKey("categoryFromPDPURL")) {
@@ -735,7 +735,7 @@ public class ProductDetails extends PageObject {
         String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
         List<String> crewCuts = Arrays.asList(crewCutCategories);
 
-        if (crewCuts.contains(category) || (category.equalsIgnoreCase("sale") && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category.equalsIgnoreCase("wedding") && subCategory.equalsIgnoreCase("flowergirl"))) {
+        if (crewCuts.contains(category) ||  crewCuts.contains(saleCategory) || crewCuts.contains(categoryFromPDPURL) || subCategory.equalsIgnoreCase("flowergirl")) {
             return true;
         } else {
             return false;
