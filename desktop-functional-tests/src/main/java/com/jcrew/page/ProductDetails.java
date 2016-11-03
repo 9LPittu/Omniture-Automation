@@ -281,7 +281,15 @@ public class ProductDetails extends PageObject {
 
         addToBagButton.click();
         handleShipRestrictionMessage();
-        headerWrap.waitUntilCheckOutDropdown();
+        
+        try {
+        	headerWrap.waitUntilCheckOutDropdown();
+        } catch (Exception e) {
+        	logger.info("Mini cart is not displayed. Hence, checking item count in bag has increased");
+        	int itemCount = headerWrap.getItemsInBag();
+        	if (itemCount <= itemsInBag)
+        		new WebDriverException("product not added to bag");
+        }
     }
 
     public boolean verifyContext() {
