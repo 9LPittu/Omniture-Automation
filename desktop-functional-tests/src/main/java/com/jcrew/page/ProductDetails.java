@@ -456,7 +456,7 @@ public class ProductDetails extends PageObject {
         logger.debug("Selected variation {}", selectedVariationName.getText());
         selectedVariation.click();
 
-        wait.until(ExpectedConditions.visibilityOf(price_colors));
+        Util.waitWithStaleRetry(driver, price_colors);
     }
 
     public boolean isVPSMessageDisplayed() {
