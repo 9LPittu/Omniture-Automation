@@ -138,7 +138,8 @@ public class CheckoutShoppingBag extends Checkout {
 
         products.remove(index);
         stateHolder.put("toBag", products);
-
+        
+        Util.scrollToElement(driver, productActionButton);
         productActionButton.click();
         Util.waitLoadingBar(driver);
     }
