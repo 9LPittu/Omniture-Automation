@@ -37,6 +37,10 @@ public class QuickShopSteps extends DriverFactory{
     public void click_wishlist(){
         quickShop.clickWishlist();
     }
+    @And("User clicks on X icon")
+    public void click_on_X_icon(){
+        quickShop.clickClose();
+    }
     @And("User clicks on Bag button")
     public void click_bag(){
         quickShop.clickBag();

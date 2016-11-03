@@ -123,9 +123,11 @@ public class QuickShop extends PageObject {
     public void clickWishlist(){
         wait.until(ExpectedConditions.visibilityOf(getQSElement("wishlist"))).click();
         Util.waitForPageFullyLoaded(driver);
-
         new LogIn(driver);
-
+    }
+    public void clickClose(){
+        wait.until(ExpectedConditions.visibilityOf(getQSElement("close"))).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("c-quickshop")));
     }
     private WebElement getQSElement(String element){
         WebElement qsElement = null;
@@ -145,6 +147,7 @@ public class QuickShop extends PageObject {
                 qsElement = prod_detials.findElement(By.linkText("View full details"));
                 break;
             case "close":
+                qsElement = wait.until(ExpectedConditions.visibilityOf(qsModal.findElement(By.className("icon-close"))));
                 break;
             case "item code":
                 break;
