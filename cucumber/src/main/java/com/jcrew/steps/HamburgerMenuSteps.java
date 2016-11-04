@@ -127,9 +127,6 @@ public class HamburgerMenuSteps extends DriverFactory {
     @And("^user selects ([^\"]*) subcategory$")
     public void select_subcategory(String subcategory){
 
-    	HomePage homePage = new HomePage(getDriver());
-    	homePage.handle_email_pop_up();
-    	
     	if(!subcategory.equalsIgnoreCase("any")){
     		hamburgerMenu.clickSpecificSubcategory(subcategory);
     	}
