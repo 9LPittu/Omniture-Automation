@@ -54,7 +54,7 @@ public class ArraySearchSteps extends DriverFactory {
     @Then("Verify Sale array page is displayed$")
     public void verify_sale_array() {
     	
-    	boolean isSearchArray = searchArray.isSearchPage();
+    	boolean isSearchArray = searchArray.isSalePage();
     	
     	String saleTitle = searchArray.getHeaderTitle();
     	boolean isSaleTitle = saleTitle.equalsIgnoreCase("sale");

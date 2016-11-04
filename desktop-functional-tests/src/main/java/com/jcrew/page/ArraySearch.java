@@ -46,6 +46,12 @@ public class ArraySearch extends Array{
 
         return headerSearch.isDisplayed() && searchResults.isDisplayed() && Util.countryContextURLCompliance(driver, country);
     }
+    
+    public boolean isSalePage() {
+        Util.waitWithStaleRetry(driver, searchResults);
+
+        return searchResults.isDisplayed() && Util.countryContextURLCompliance(driver, country);
+    }
 
 
     public void click_first_product_in_grid() {
@@ -82,7 +88,7 @@ public class ArraySearch extends Array{
     }
     
     public String getHeaderTitle() {
-    	WebElement headerTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("h1")));
+    	WebElement headerTitle = pageSearch.findElement(By.tagName("h1"));
     	return headerTitle.getText();
     }
 }
