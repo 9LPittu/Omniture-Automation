@@ -1,4 +1,4 @@
-@RegisteredCheckout
+@RegisteredCheckout @HighLevel
 Feature: Checkout - Express user is able to edit data in review page
 
   Scenario: Checkout - Express user is able to edit shipping address, shipping method and billing data in review page

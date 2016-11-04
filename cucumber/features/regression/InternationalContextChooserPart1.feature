@@ -8,7 +8,6 @@ Feature: International Country Context - Part 1
     #US9479_TC01, US9479_TC02, US9479_TC04
   #US9479_TC03 -  not automating because the test case is about validating context chooser page with mockup
   #Validate context chooser flag is displayed on all the sidecar pages in the footer
-
   Scenario: Context chooser flag should be displayed and functional in the footer section.
     Then user should see Ship To section in footer
     And verify country name is displayed in the ship to section of footer

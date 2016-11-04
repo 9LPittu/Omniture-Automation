@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.Assert.assertEquals;
@@ -43,9 +44,15 @@ public class ShoppingBagSteps extends DriverFactory {
         assertTrue(Util.getSelectedCountryName() + "Article checkout should have been present",
                 shoppingBagPage.isArticleCheckoutPresent());
         
-        String subTotal = shoppingBagPage.getSubtotalValue().trim();
-        subTotal=subTotal.replaceAll("[^0-9\\.]", "");
-        stateHolder.put("subtotal",subTotal);
+        try{
+        	String subTotal = shoppingBagPage.getSubtotalValue().trim();
+        	subTotal=subTotal.replaceAll("[^0-9\\.]", "");
+        	stateHolder.put("subtotal",subTotal);
+        }
+        catch(NoSuchElementException nsee){
+        	shoppingBagPage.logger.error("Exception is thrown in capturing subtotal value");
+        }
+
     }
 
     @And("^Verifies edit button is present$")

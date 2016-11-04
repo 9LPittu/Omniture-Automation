@@ -26,6 +26,14 @@ public class Util {
     public static final int DEFAULT_TIMEOUT_STEEL = 120;
     private static final StateHolder stateHolder = StateHolder.getInstance();
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
+    
+    public static final String UP = "up";
+    public static final String DOWN = "down";
+    
+    public static String getEnvironment(){
+    	String environment = System.getProperty("environment", "ci");
+    	return environment;
+    }
 
     public static int randomIndex(int size) {
         return (int) (Math.random() * (size));
@@ -35,7 +43,7 @@ public class Util {
         int random = randomIndex(list.size());
         return list.get(random);
     }
-
+    
     public static Product getCurrentProduct() {
         @SuppressWarnings("unchecked")
 		final List<Product> productList = (List<Product>) stateHolder.get("productList");        
@@ -188,6 +196,31 @@ public class Util {
         createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
         action.click(element).build().perform();
     }
+    
+    public static void scrollAndClick(WebDriver driver, WebElement element){
+    	int cntr = 0;
+        do{
+        	try{
+        		scrollToElement(driver, element);
+        		element.click();
+        		break;
+        	}
+        	catch(WebDriverException e){
+        		scrollPage(driver, Util.DOWN);
+        		cntr++;
+        	}
+        }while(cntr<=2);
+    }
+    
+    public static void scrollPage(WebDriver driver, String pagePosition) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+        if (pagePosition.equalsIgnoreCase(UP)) {
+            jse.executeScript("scrollBy(0, -400)", "");
+        } else if (pagePosition.equalsIgnoreCase(DOWN)) {
+            jse.executeScript("scrollBy(0, 400)", "");
+        }
+    }
    
     public static boolean countryContextURLCompliance(WebDriver driver, Country country) {
         String url = driver.getCurrentUrl();
@@ -216,14 +249,6 @@ public class Util {
         }
     }
     
-    public static int getDefaultTimeOutValue(){
-    	PropertyReader reader = PropertyReader.getPropertyReader();
-        if (reader.getProperty("environment").equalsIgnoreCase("steel"))
-            return DEFAULT_TIMEOUT_STEEL;
-        else
-            return DEFAULT_TIMEOUT;
-    }
-
     public static String logBrowserErrors(WebDriver driver) {
         Logs errorlog = driver.manage().logs();
         LogEntries errors = errorlog.get(LogType.BROWSER);
@@ -240,6 +265,14 @@ public class Util {
         return errorMessage;
     }
     
+    public static int getDefaultTimeOutValue(){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (reader.getProperty("environment").equalsIgnoreCase("steel"))
+            return DEFAULT_TIMEOUT_STEEL;
+        else
+            return DEFAULT_TIMEOUT;
+    }
+
     public static void wait(int waitTime) {
         Boolean iterate = true;
         Calendar calendar =Calendar.getInstance();

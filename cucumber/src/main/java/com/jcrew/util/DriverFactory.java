@@ -73,9 +73,9 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-            DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
+        	DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
 
-            ChromeOptions options = new ChromeOptions();
+        	ChromeOptions options = new ChromeOptions();
             options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
 
             if (akamaiEnv) {
@@ -313,8 +313,8 @@ public class DriverFactory {
             } catch (IOException e) {
                 logger.error("unable to create driver");
             }
-
         }
+        
         return driver;
     }
 
