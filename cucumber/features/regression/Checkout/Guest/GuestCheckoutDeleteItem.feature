@@ -1,4 +1,4 @@
-@GuestCheckout-Part2
+@GuestCheckout-Part2 @HighLevel
 Feature: Checkout - User is able to remove item from shopping bag during Guest checkout
 
   Scenario: Checkout - Guest user is able to remove item from shopping bag
