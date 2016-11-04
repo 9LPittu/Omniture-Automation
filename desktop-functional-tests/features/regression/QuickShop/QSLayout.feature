@@ -1,4 +1,4 @@
-@QS
+@Quickshop
 Feature: Quick Shop Layout
 
   Background:
