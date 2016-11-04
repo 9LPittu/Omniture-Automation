@@ -107,10 +107,10 @@ public class ArrayCategorySteps extends DriverFactory {
         List<String> list = productsArray.getAvailableLists();
 
         //view all and first item in dropdown are not part of the list
-        assertEquals("Same number of options", dropdown.size(), list.size() + 2);
+        assertEquals("Same number of options", dropdown.size(), list.size() + 1);
 
-        for (int i = 0, j = 2; i < list.size(); i++, j++) {
-            String dropdownItem = dropdown.get(j);
+        for (int i = 0; i < list.size(); i++) {
+            String dropdownItem = dropdown.get(i+1);
             String listItem = list.get(i);
 
             assertEquals("Dropdown text", dropdownItem, listItem);

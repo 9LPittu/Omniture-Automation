@@ -4,6 +4,7 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -58,7 +59,7 @@ public class DriverFactory {
             width = Integer.parseInt(propertyReader.getProperty("desktop.window.width"));
             height = Integer.parseInt(propertyReader.getProperty("desktop.window.height"));
         }
-       
+           
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
         } else {
@@ -73,7 +74,11 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-            driver = new ChromeDriver();
+        	DesiredCapabilities chrome = DesiredCapabilities.chrome();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--disable-extensions");
+            chrome.setCapability(ChromeOptions.CAPABILITY, options);
+            driver = new ChromeDriver(chrome);
             driver.manage().window().setSize(new Dimension(width, height));
 
         } else if ("firefox".equals(browser)) {
@@ -193,7 +198,12 @@ public class DriverFactory {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
         if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
-            driver.quit();
+            try {
+        	 driver.quit();
+            } catch (WebDriverException webdriverException) {
+            	Util.wait(5000);
+            	logger.error("unable to quit driver: {}", webdriverException);
+            }
             driverMap.remove(identifier);
         }
     }

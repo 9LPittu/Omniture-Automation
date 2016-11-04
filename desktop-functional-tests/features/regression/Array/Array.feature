@@ -1,4 +1,4 @@
-@Array
+@Array @HighLevel
 Feature: Array page functionality
 
   Background:

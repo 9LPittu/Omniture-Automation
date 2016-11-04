@@ -1,4 +1,4 @@
-@NewAccount
+@NewAccount @HighLevel
 
 Feature: Create New Account International
 

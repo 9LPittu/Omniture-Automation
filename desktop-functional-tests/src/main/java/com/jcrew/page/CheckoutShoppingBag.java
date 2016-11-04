@@ -98,7 +98,12 @@ public class CheckoutShoppingBag extends Checkout {
     }
     
     public String getEstimatedShipping() {
-        return getSummaryText("estimated shipping");
+        String countryCode = country.getCountry();
+        if (countryCode.equalsIgnoreCase("us")) {
+        	return getSummaryText("estimated shipping");
+        } else {
+        	return getSummaryText("shipping");
+        }
     }
 
     public String getEstimatedTax() {
@@ -106,7 +111,12 @@ public class CheckoutShoppingBag extends Checkout {
     }
 
     public String getEstimatedTotal() {
-        return getSummaryText("estimated total");
+    	String countryCode = country.getCountry();
+        if (countryCode.equalsIgnoreCase("us")) {
+        	return getSummaryText("estimated total");
+        } else {
+        	return getSummaryText("total");
+        }	
     }
     
     public String getSubtotalValue() {
@@ -138,7 +148,8 @@ public class CheckoutShoppingBag extends Checkout {
 
         products.remove(index);
         stateHolder.put("toBag", products);
-
+        
+        Util.scrollToElement(driver, productActionButton);
         productActionButton.click();
         Util.waitLoadingBar(driver);
     }
