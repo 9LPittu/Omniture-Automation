@@ -1,7 +1,6 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.HamburgerMenu;
-import com.jcrew.page.HomePage;
 import com.jcrew.util.DriverFactory;
 
 import com.jcrew.util.Util;
