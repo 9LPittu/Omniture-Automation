@@ -909,8 +909,8 @@ public class ProductDetailPage {
 	            expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
 	            logger.info("Expected PDP Message: {}", expectedPDPMessage);
 	
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpMessage)));
+	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
 	            actualPDPMessage = pdpMessage.getText().trim();
 	            logger.info("Actual PDP Message: {}", expectedPDPMessage);
 	        } else {

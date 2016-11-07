@@ -242,7 +242,7 @@ public class Header {
     	int cntr=0;
     	do{
     		try{
-    			Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+                Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     	        Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
     	        Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.elementToBeClickable(searchButton));
     	        searchButton.click();
