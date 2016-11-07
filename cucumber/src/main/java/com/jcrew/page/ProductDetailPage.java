@@ -136,7 +136,7 @@ public class ProductDetailPage {
 	        	try{
 	        		Util.waitForPageFullyLoaded(driver);
 	    	        Util.waitLoadingBar(driver);
-	    	        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(productDetailsDrawer));
+	    	        Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.elementToBeClickable(productDetailsDrawer));
 	        		pdpProductName = Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='product__name']")));
 	    	        Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOf(pdpProductName));
 	    	        Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpProductName)));
