@@ -19,16 +19,21 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 
 public class ProductDetailPage {
 
     private final WebDriver driver;
-    private final StateHolder stateHolder = StateHolder.getInstance();
-
+    private final StateHolder stateHolder = StateHolder.getInstance();  
     private final Logger logger = LoggerFactory.getLogger(ProductDetailPage.class);
+    
+    private Header header;
 
+    private final String PRICE_SALE_CLASS = "product__price--sale";
+    private final String PRICE_LIST_CLASS = "product__price--list";
+
+    @FindBy(id = "c-product__price-colors")
+    private WebElement price_colors;
+    
     @FindBy(id = "btn__add-to-bag")
     private WebElement addToBag;
 
@@ -109,10 +114,15 @@ public class ProductDetailPage {
     
     @FindBy(xpath="//div[@class='product__details product__description']/div/div/span")
     private WebElement productDetailsDrawer;
+    
+    @FindBy(id = "c-product__price")
+    private WebElement price;
 
     public ProductDetailPage(WebDriver driver) {
-        this.driver = driver;
+        this.driver = driver;        
         PageFactory.initElements(driver, this);
+        
+        header = new Header(driver);
     }
 
     public boolean isProductDetailPage() {
@@ -267,20 +277,33 @@ public class ProductDetailPage {
         String categoryFromPDPURL = url.substring(url.indexOf("/p/")+3,url.indexOf("/",url.indexOf("/p/")+3));
         categoryFromPDPURL = categoryFromPDPURL.replaceAll("_category","");
         stateHolder.put("categoryFromPDPURL", categoryFromPDPURL);
-
+               
+        //capture the price
+        SubcategoryPage subcategoryPage = new SubcategoryPage(driver);
+        String itemFinalPrice = subcategoryPage.getItemPriceFromPDP();
+        
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductNameFromPDP());
         thisProduct.setProductCode(getProductCodeFromPDP());
+        thisProduct.setPriceList(itemFinalPrice);
         thisProduct.setSelectedColor(getSelectedColor());
         thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setQuantity("1");
         thisProduct.setIsBackOrder(getIsBackordered());
         thisProduct.setIsCrewCut(getIsCrewCut());
-
-
+        
         stateHolder.put("recentlyAdded", thisProduct);
+        
+        List<Product> productList = stateHolder.getList("toBag");
+        if (productList == null) {
+            productList = new ArrayList<>();
+        }
 
-
+        productList.add(thisProduct);
+        stateHolder.put("toBag", productList);
+        
         addToBag.click();
+        Util.waitLoadingBar(driver);
     }
 
     public int getNumberOfItemsInBag() {
@@ -313,7 +336,7 @@ public class ProductDetailPage {
 
         return Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOf(productSizesSection.findElement(
-                        By.xpath(".//li[@data-name='" + productSize + "']"))));
+                        By.xpath(".//li[@data-name='" + productSize.toUpperCase() + "']"))));
     }
 
     public void select_color(String productColor) {
@@ -326,7 +349,7 @@ public class ProductDetailPage {
                 ExpectedConditions.visibilityOfElementLocated(By.id("c-product__price-colors")
                 )
         );
-        WebElement productColorElement = productColors.findElement(By.xpath(".//li[@data-name='" + productColor + "']"));
+        WebElement productColorElement = productColors.findElement(By.xpath(".//li[@data-name='" + productColor.toUpperCase() + "']"));
 
         return productColorElement;
     }
@@ -340,11 +363,20 @@ public class ProductDetailPage {
 
     public String getSelectedSize() {
     	
-        WebElement productSizeElement = Util.createWebDriverWait(driver).until(
-        		ExpectedConditions.visibilityOf(productSizesSection.findElement(
-        				By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"))));
+    	String selectedSize = "";
+    	
+    	try{
+    		WebElement productSizeElement = Util.createWebDriverWait(driver).until(
+    					ExpectedConditions.visibilityOf(productSizesSection.findElement(
+    								By.xpath("//li[contains(@class,'js-product__size sizes-list__item') and contains(@class,'is-selected')]"))));
+    		
+    		selectedSize = productSizeElement.getAttribute("data-name"); 
+    	}
+    	catch(Exception e){
+    		logger.info("No size is selected!!!");
+    	}    	
         
-        return productSizeElement.getAttribute("data-name");
+        return selectedSize;
     }
     
     public String getProductCodeFromPDP(){
@@ -360,8 +392,13 @@ public class ProductDetailPage {
     		int cntr = 0;
     		do{
     			try{
-        			productDetailsAccordion.click();
-        			break;
+    				if(productDetailsAccordion.findElement(By.tagName("i")).getAttribute("class").contains("more")){
+    					productDetailsAccordion.click();
+    					break;
+    				}
+    				else{
+    					break;
+    				}
         		}
         		catch(Exception e){
         			logger.error("Product Details Accordion is not in open state!!!");
@@ -404,8 +441,37 @@ public class ProductDetailPage {
         thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("recentlyAdded", thisProduct);
+        
+        stateHolder.addToList("toBag", getProduct());
+        stateHolder.addToList("editedItem", getProduct());
+
+        int itemsInBag = header.getItemsInBag();
+        stateHolder.put("itemsInBag", itemsInBag);
 
         Util.clickWithStaleRetry(addToBag);
+    }
+    
+    public Product getProduct() {
+        Product product = new Product();
+        product.setProductName(getProductNameFromPDP());
+
+        if (!isSoldOut()) {
+            product.setSelectedColor(getSelectedColor());
+            product.setSelectedSize(getSelectedSize());
+            product.setPriceList(getPrice());
+            product.setProductCode(getProductCodeFromPDP());
+            product.setQuantity("1");
+        } else {
+            product.setSoldOut(true);
+        }
+
+        return product;
+    }
+    
+    private boolean isSoldOut() {
+        List<WebElement> message = soldOutMessage.findElements(By.className("product__sold-out"));
+
+        return message.size() > 0;
     }
 
     public String getSelectedVariationName() {
@@ -558,7 +624,16 @@ public class ProductDetailPage {
             if (!colorsList.isEmpty()) {
                 int index = Util.randomIndex(colorsList.size());
                 WebElement color = colorsList.get(index);
-                Product product = Util.getCurrentProduct();
+                
+                Product product;
+                try{
+                	product = Util.getCurrentProduct();
+                }
+                catch(NullPointerException npe){
+                	product = getProduct();
+                	stateHolder.addToList("productList", product);
+                }
+                
                 String colorName = color.getAttribute("data-name");
                 product.setSelectedColor(colorName);
                 color.click();
@@ -996,20 +1071,24 @@ public class ProductDetailPage {
     	return sizeAndDetailsDrawer_Y_Value;
     }
     
-    public boolean isSizeAndFitDrawerDisplayedBelowAddToBag(){    	
-    	int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();    	
-    	int addToBag_Y_Value = getAddToBag_Y_Coordinate();    	
-    	return sizeAndDetailsDrawer_Y_Value > addToBag_Y_Value;
+    public boolean isSizeAndFitDrawerDisplayedBelowAddToBag(){
+            int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();
+            int addToBag_Y_Value = getAddToBag_Y_Coordinate();
+            return sizeAndDetailsDrawer_Y_Value > addToBag_Y_Value;
     }
     
     public boolean isProductDetailsDrawerDisplayedBelowSizeAndFitDrawer(){
-    	int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();
-    	
-    	productDetailsDrawer = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
-    	Point productDetailsDrawerPoint = productDetailsDrawer.getLocation();
-    	int productDetailsDrawer_Y_Value = productDetailsDrawerPoint.getY();
-    	
-    	return sizeAndDetailsDrawer_Y_Value < productDetailsDrawer_Y_Value;
+        productDetailsDrawer = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productDetailsDrawer));
+        Point productDetailsDrawerPoint = productDetailsDrawer.getLocation();
+        int productDetailsDrawer_Y_Value = productDetailsDrawerPoint.getY();
+
+        boolean isSizeAndFit = isSizeAndFitDrawerDisplayed();
+        if (isSizeAndFit) {
+            int sizeAndDetailsDrawer_Y_Value = getSizeAndFitDrawer_Y_Coordinate();
+            return sizeAndDetailsDrawer_Y_Value < productDetailsDrawer_Y_Value;
+        } else {
+            return true;
+        }
     }
     
     public void clickPdpDrawer(String drawerName){
@@ -1025,6 +1104,7 @@ public class ProductDetailPage {
     	}
     	
     	Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(drawerElement));
+        Util.scrollToElement(driver, drawerElement);
     	drawerElement.click();
     	Util.waitLoadingBar(driver);
     }
@@ -1102,6 +1182,53 @@ public class ProductDetailPage {
         if(crewCuts.contains(category) || (category=="sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category=="wedding" && subCategory=="flowergirl")) {
             return true;
         } else {
+            return false;
+        }
+    }
+
+    private String getPrice() {
+        List<WebElement> priceGroups = price_colors.findElements(By.xpath(".//div[@class='product__group']"));
+        WebElement productPrice;
+//        c-product__price-colors
+        if (priceGroups.size() > 1) {
+
+            WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
+            productPrice = selectedColor.findElement(By.xpath(".//ancestor::div[@class='product__group']/span"));
+
+        } else {
+            //if has variations, get price from variations
+            List<WebElement> variationsPrice = productVariationSection.findElements(By.tagName("li"));
+            if (variationsPrice.size() > 0) {
+                WebElement selectedVariation = productVariationSection.findElement(By.className("is-selected"));
+
+                //check if variation has sale price
+                productPrice = selectedVariation.findElement(
+                        By.xpath(".//span[contains(@class,'" + PRICE_SALE_CLASS + "')]"));
+                if (!productPrice.isDisplayed()) {
+                    //if no sale price get regular price
+                    productPrice = selectedVariation.findElement(
+                            By.xpath(".//span[contains(@class,'" + PRICE_LIST_CLASS + "')]"));
+                }
+
+            } else { //if no variations, get sale price
+            	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(price));
+                productPrice = price.findElement(By.className(PRICE_SALE_CLASS));
+                if (!productPrice.isDisplayed()) {
+                    //if no sale price get regular price
+                    productPrice = price.findElement(By.className(PRICE_LIST_CLASS));
+                }
+            }
+        }
+
+        String price = productPrice.getText();
+        return price;
+    }
+
+    public boolean isSizeAndFitDrawerDisplayed() {
+        try {
+            driver.findElement(By.xpath("//div[@class='product__size-fit product__description']/div/div/span"));
+            return true;
+        } catch (Exception e) {
             return false;
         }
     }

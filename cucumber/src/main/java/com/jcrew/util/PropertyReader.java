@@ -27,15 +27,16 @@ public class PropertyReader {
     }
 
     private void loadProperties() throws IOException {
-        String execEnvironment = System.getProperty("environment", "ci");
+        String execEnvironment = Util.getEnvironment();
         String execViewport = System.getProperty("viewport", "phantomjs");
+        String execUser = System.getProperty("user", "user.1");
         String country = System.getProperty("country", "us");
 
-        FileInputStream inputFile = new FileInputStream("environment.properties");
+        FileInputStream inputFile = new FileInputStream("properties/environment.properties");
         properties.load(inputFile);
-        inputFile = new FileInputStream("viewport.properties");
+        inputFile = new FileInputStream("properties/viewport.properties");
         properties.load(inputFile);
-        inputFile = new FileInputStream("countries.properties");
+        inputFile = new FileInputStream("properties/users.properties");
         properties.load(inputFile);
 
         properties.setProperty("environment",execEnvironment);
@@ -55,7 +56,12 @@ public class PropertyReader {
         	String strBrowser = properties.getProperty(execViewport + ".browser");
         	properties.setProperty("browser", strBrowser);  
         }
-             
+         
+        logger.info("UserID to be used {}", execUser);
+        properties.setProperty("user", execUser);
+
+        logger.info("Country to be used {}", country);
+        properties.setProperty("country", country);
     }
 
     public boolean isSystemPropertyTrue(String key) {
@@ -63,6 +69,13 @@ public class PropertyReader {
     }
 
     public String getProperty(String property) {
+        return readProperty(property);
+    }
+    
+    public String getProperty(String property, String defaultValue) {
+        if(!hasProperty(property))
+            return defaultValue;
+
         return readProperty(property);
     }
 

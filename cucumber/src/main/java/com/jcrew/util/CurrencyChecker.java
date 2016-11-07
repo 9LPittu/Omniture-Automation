@@ -155,5 +155,33 @@ public class CurrencyChecker {
                 return price;
         }
     }
+    
+    public static float getPrice(String sPrice, Country country) {
+        int iTotal;
+        float fTotal;
+        
+        switch (country.getCountry().toLowerCase()) {
+            case "de":
+            case "au":
+            case "sg":
+            case "ch":
+            case "uk":
+            case "ca":
+            case "us":
+                sPrice = sPrice.replaceAll("[^0-9]", "");
+                iTotal = Integer.parseInt(sPrice);
+                fTotal = (float) iTotal /100;
+                break;
+            case "hk":
+            case "jp":
+                sPrice = sPrice.replaceAll("[^0-9]", "");
+                fTotal = Float.parseFloat(sPrice);
+                break;
+            default:
+                logger.debug("Country {} not recognized", country.getCountry());
+                fTotal = 0;
+        }
 
+        return fTotal;
+    }
 }

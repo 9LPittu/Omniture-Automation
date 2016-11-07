@@ -34,6 +34,7 @@ Feature: Shoppable Tray
 
 #US9697_TC01, US9697_TC02, US9697_TC04, US9697_TC05
 #Currently failing because SC-788
+
   Scenario: Verify every product contains details
     Then Verify every product contains name, image, price, color and size
     Then Verify every product contains product, size and fit and review drawers

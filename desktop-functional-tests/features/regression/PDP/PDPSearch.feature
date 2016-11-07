@@ -1,4 +1,4 @@
-@PDP @Search
+@PDP @Search @HighLevel
 Feature: Search is functional from PDP
 
   Background:
@@ -18,6 +18,7 @@ Feature: Search is functional from PDP
     When User clicks on sign in using header
     Then User goes to sign in page
     And User fills user data and signs in
+    Then Verify user is in My Account main page
     When User hovers on women category from header
 	And User selects sweaters subcategory array
     Then Verify user is in category array page

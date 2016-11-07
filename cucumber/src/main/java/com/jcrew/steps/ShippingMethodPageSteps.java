@@ -11,6 +11,8 @@ import com.jcrew.util.Util;
 import java.text.SimpleDateFormat;
 
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -27,7 +29,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
     private ShippingMethodCalculator methodCalculator = new ShippingMethodCalculator();
     private TestDataReader testDataReader = TestDataReader.getTestDataReader();
 
-    @And("^Verifies is in shipping method page$")
+    @And("^Verifies user is in shipping method page$")
     public void verifies_is_in_shipping_method_page() throws Throwable {
 
         assertTrue(Util.getSelectedCountryName() + "User should be in shipping method page", shippingMethodPage.isShippingMethodPage());
@@ -76,7 +78,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
         shippingMethodPage.click_continue_button();
     }
 
-    @And("^select shipping method on shipping & gift options page$")
+    @And("^user select random shipping method on shipping & gift options page$")
     public void select_shipping_method_at_random() {
         shippingMethodPage.selectShippingMethod();
     }
@@ -84,7 +86,6 @@ public class ShippingMethodPageSteps extends DriverFactory {
     @And("^validate correct shipping methods displayed on the page$")
     public void validate_shipping_methods() {
         Country country = (Country) stateHolder.get("context");
-        String countryName = country.getCountryName().toLowerCase().trim();
         String countryCode = country.getCountry();
 
         List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
@@ -118,8 +119,8 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
     public void verify_ATP_date(ShippingMethod actual, ShippingMethod expected) {
         //Verifies if ATP date is falling in between expected date range
-        String actualName = actual.getMethod();
-        String expectedName = expected.getMethod();
+        String actualName = actual.getMethod().replaceAll("[^a-zA-Z0-9]", "");
+        String expectedName = expected.getMethod().replaceAll("[^a-zA-Z0-9]", "");
 
         String actualDate = actualName.replaceFirst(expectedName, "").trim();
         actualDate = actualDate.replace("–", "").trim();
@@ -154,6 +155,55 @@ public class ShippingMethodPageSteps extends DriverFactory {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+    
+    @When("User selects gift option and adds message: ([^\"]*)")
+    public void add_gift_option(String message) {
+    	shippingMethodPage.addGiftOption();
+    	shippingMethodPage.addGiftMessage(message);
+    }
+    
+    @Then("^Verify gift receipt info message is '([^\"]*)'$")
+    public void verify_gift_receipt_info_message(String expectedMessage){
+    	String actualMessage = shippingMethodPage.getGiftReceiptInfoMessage().toLowerCase();
+    	assertEquals("Gift receipt info message should be displayed as " + expectedMessage, expectedMessage.toLowerCase(), actualMessage);    	
+    }
+    
+    @Then("^Verify Shipping Options Page contains gift option section$")
+    public void gift_options_section() {
+        assertTrue("Gift options section is displayed", shippingMethodPage.hasGiftOption());
+    }
+    
+    @And("^Verify default value for shipping method$")
+    public void verify_default_value_for_shipping_method() throws Throwable {
+        Country country = (Country) stateHolder.get("context");
+        String countryName = country.getCountryName().toLowerCase().trim();
+        String countryCode = country.getCountry();
+
+        if (countryCode.equalsIgnoreCase("us")) {
+
+            String addressType = (String) stateHolder.get("atpAddressType");
+            String expectedDefaultShipMethod = testDataReader.getData(addressType + ".default.shipping.method");
+
+            String actualShippingMethodSelected = shippingMethodPage.getSelectedShippingMethodName().toLowerCase();
+            actualShippingMethodSelected = actualShippingMethodSelected.split("\\(")[0].trim();
+
+
+            List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+            for (int i = 0; i < expectedMethods.size(); i++) {
+                ShippingMethod method = expectedMethods.get(i);
+                if (method.getPrice().equalsIgnoreCase("free")) {
+                    expectedDefaultShipMethod = expectedDefaultShipMethod.split("\\(")[0].trim();
+                    break;
+                }
+            }
+
+            assertEquals("Default shipping method selected should be ", expectedDefaultShipMethod, actualShippingMethodSelected);
+
+        } else {
+
+            assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
         }
     }
 }

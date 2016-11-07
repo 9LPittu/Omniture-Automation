@@ -114,6 +114,7 @@ public class ContextChooser {
 
 	public void clickLinkFromTermsSectionOnContextChooserPage(String linkName) {
 		WebElement link = internationalContextChooserPage.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));
+		wait.until(ExpectedConditions.elementToBeClickable(link));
 		Util.scrollToElement(driver, link);
 		link.click();
 	}

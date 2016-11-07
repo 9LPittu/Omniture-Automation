@@ -1,4 +1,4 @@
-@PDPSizeAndFit
+@PDPSizeAndFit @HighLevel
 Feature: PDP Size and Fit functionality
 
   Background:

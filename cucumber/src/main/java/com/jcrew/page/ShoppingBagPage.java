@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.CurrencyChecker;
@@ -26,10 +27,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
-public class ShoppingBagPage {
+public class ShoppingBagPage extends Checkout {
 
-    private final Logger logger = LoggerFactory.getLogger(ShoppingBagPage.class);
-    private final StateHolder stateHolder = StateHolder.getInstance();
+    public final Logger logger = LoggerFactory.getLogger(ShoppingBagPage.class);
+    public final StateHolder stateHolder = StateHolder.getInstance();
 
     private final WebDriver driver;
     @FindBy(id = "button-checkout")
@@ -67,15 +68,24 @@ public class ShoppingBagPage {
 
     @FindBy(className = "c-header__breadcrumb")
     private WebElement breadcrumbSection;
+    
+    @FindBy(id = "giftCardContainer")
+    private WebElement giftCard;
+    
+    @FindBy(id = "help-header")
+    private WebElement help; 
+    
+    @FindBy(className="checkout-container")
+    private WebElement checkoutContainer;
 
-    public ShoppingBagPage(WebDriver driver) {
+    public ShoppingBagPage(WebDriver driver) {    	
+    	super(driver);
+    	
         this.driver = driver;
         PageFactory.initElements(this.driver, this);
     }
 
-
     public void click_checkout_button() {
-        String url = driver.getCurrentUrl();
         Util.waitForPageFullyLoaded(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(checkoutLink));
 
@@ -94,10 +104,6 @@ public class ShoppingBagPage {
 
     public String getTotalAmountPage() {
         return itemTotal.getText();
-    }
-
-    public String getSubtotalValue() {
-        return subtotalValue.getText();
     }
 
     public boolean isArticleCheckoutPresent() {
@@ -404,4 +410,193 @@ public class ShoppingBagPage {
 
     }
 
+
+	@Override
+	public boolean isDisplayed() {		
+		String bodyId = getBodyAttribute("id");
+        return bodyId.equals("shoppingBag");
+	}
+	
+	public boolean isEditedItemDisplayedFirst(){
+    	List<WebElement> productsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
+				 order__listing.findElements(By.className("item-row"))));
+    	
+    	WebElement firstItemInBag = productsInBag.get(0);
+    	
+    	WebElement nameElement = firstItemInBag.findElement(By.className("item-name"));
+        String actualProductName = nameElement.getText().trim();
+
+        String actualQuantity = getQuantity(firstItemInBag);
+
+        WebElement priceElement = firstItemInBag.findElement(By.className("item-price"));
+        String actualPrice = priceElement.getText().trim();
+        actualPrice = actualPrice.replaceAll("[^0-9.,]", "");
+
+        List<WebElement> descriptionElements = firstItemInBag.findElements(By.className("item-label"));
+
+        WebElement numberElement = descriptionElements.get(0).findElement(By.tagName("span"));
+        String actualItemNumber = numberElement.getText().trim();
+
+        logger.debug("First product {}, item number {} with price {} in bag",
+        		actualProductName, actualItemNumber, actualPrice);        
+        
+        List<Object> products = stateHolder.getList("editedItem");
+        Product product = (Product) products.get(0);
+        String expectedProductName = product.getProductName();
+        
+        String expectedProductPrice = product.getPriceList();
+        expectedProductPrice = expectedProductPrice.replaceAll("[^0-9.,]", "");
+        
+        String expectedProductNumber = product.getProductCode();
+        String expectedQuantity = product.getQuantity();
+        
+        boolean result = expectedProductName.equalsIgnoreCase(actualProductName) &&
+        				 expectedProductPrice.equalsIgnoreCase(actualPrice) &&
+        				 expectedProductNumber.equalsIgnoreCase(actualItemNumber) &&
+        				 expectedQuantity.equalsIgnoreCase(actualQuantity);
+        
+        return result;
+    }
+	
+	public boolean itemsButtons() {
+        boolean result = true;
+        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+
+        for (WebElement product : productsInBag) {
+            List<WebElement> buttons = product.findElements(By.xpath(".//li[@class='item-actions']/a"));
+
+            result &= buttons.size() == 2;
+            result &= buttons.get(0).getText().equals("EDIT");
+            result &= buttons.get(1).getText().equals("REMOVE");
+        }
+
+        return result;
+    }
+	
+	public boolean giftCard() {
+        return giftCard.isDisplayed();
+    }
+
+    public boolean summary() {
+        return orderSummary.isDisplayed();
+    }
+
+    public boolean payPalButton() {
+        WebElement payPal = orderSummary.findElement(By.className("button-paypal"));
+
+        return payPal.isDisplayed();
+    }
+
+    public boolean help() {
+        return help.isDisplayed();
+    }
+
+    public void estimateTax(String zipcode) {
+        WebElement zipcodeField = orderSummary.findElement(By.id("zipcode"));
+        zipcodeField.sendKeys(zipcode);
+
+        WebElement zipcodeIndicator = wait.until(ExpectedConditions.visibilityOf(orderSummary.findElement(By.id("zipcode-transition-indicator"))));;
+        wait.until(ExpectedConditions.stalenessOf(zipcodeIndicator));
+        wait.until(ExpectedConditions.visibilityOf(checkoutLink));
+    }
+    
+    public String getEstimatedShipping() {
+        return getSummaryText("estimated shipping");
+    }
+
+    public String getEstimatedTax() {
+        return getSummaryText("estimated tax");
+    }
+
+    public String getEstimatedTotal() {
+        return getSummaryText("estimated total");
+    }
+    
+    public String getSubtotalValue() {
+        return subtotalValue.getText();
+    }
+
+    public String getQuestionsPhone() {
+        WebElement phone = help.findElement(By.className("help-phone"));
+        return phone.getText();
+    }
+    
+    public void editItem(int index) {
+        actionItem(index, "Edit");
+
+    }
+    
+    public void removeItem(int index) {
+        actionItem(index, "Remove");
+    }
+    
+    private void actionItem(int index, String action) {
+		List<Product> products = stateHolder.getList("toBag");
+        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        productsInBag = Lists.reverse(productsInBag);
+
+        if (index < 0) {
+            index = products.size() - 1;
+        }
+
+        WebElement product = productsInBag.get(index);
+        WebElement productActionButton = product.findElement(By.xpath(".//li[@class='item-actions']/a[text()='" + action + "']"));
+        
+        if(action.equalsIgnoreCase("Remove")){
+        	Product deletedProduct = products.get(index);
+        	stateHolder.put("deleteditemprice", deletedProduct.getPriceList());
+        	stateHolder.put("deleteditemqty", deletedProduct.getQuantity());
+        }
+
+        products.remove(index);
+        stateHolder.put("toBag", products);
+
+        productActionButton.click();
+        Util.waitLoadingBar(driver);
+    }
+    
+    public void editQuantity(int index) {	
+        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        productsInBag = Lists.reverse(productsInBag);
+
+        if (index < 0) {
+            index = productsInBag.size() - 1;
+        }
+
+        WebElement product = productsInBag.get(index);
+        WebElement select = product.findElement(By.className("item-qty"));
+
+        Select selectQty = new Select(select);        
+        List<WebElement> options = selectQty.getOptions();
+        String optionValue = options.get(Util.randomIndex(options.size())).getText();
+        selectQty.selectByVisibleText(optionValue);
+
+		List<Product> products = stateHolder.getList("toBag");
+        Product editedProduct = products.get(index);
+
+        editedProduct.setQuantity(optionValue);
+        products.set(index, editedProduct);
+        stateHolder.put("toBag", products);
+    }
+    
+    public String getItemTotal(int index) {
+        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        WebElement product = productsInBag.get(index);
+
+        WebElement productTotal = product.findElement(By.className("item-total"));
+        String total = productTotal.getText();
+        total = total.replaceAll("[^0-9]", "");
+
+        return total;
+    }
+    
+    public List<WebElement> getItemEditElements(){
+    	List<WebElement> editButtons = checkoutContainer.findElements(By.className("item-edit"));
+    	return editButtons;
+    }
+    
+    public String getItemCode(WebElement editButton){    	    	
+    	String itemCode = editButton.findElement(By.xpath("../../li[1]")).getText().replace("Item ", "");
+    	return itemCode;
+    }
 }

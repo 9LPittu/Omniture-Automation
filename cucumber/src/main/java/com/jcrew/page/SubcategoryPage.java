@@ -10,18 +10,17 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.jcrew.pojo.Country;
 
 public class SubcategoryPage {
 
@@ -684,8 +683,15 @@ public class SubcategoryPage {
                 String sizeName = itemSizes.get(itemSizeIndex).getText();
                 itemSizes.get(itemSizeIndex).click();
                 logger.debug("Selected item size: {}", sizeName);
+                
+                //retrieve quantity
+                WebElement quantityElement = driver.findElement(By.xpath("//select[contains(@class,'js-product__quantity')]"));
+                Select quantitySelect = new Select(quantityElement);
+                String quantity = quantitySelect.getFirstSelectedOption().getText();
 
                 String itemFinalPrice = getItemPriceFromPDP();
+                stateHolder.put("itemFinalPrice", itemFinalPrice);
+                
                 ProductDetailPage pdp = new ProductDetailPage(driver);
                 boolean isBackOrdered = pdp.getIsBackordered();
 
@@ -697,8 +703,10 @@ public class SubcategoryPage {
                 product.setPriceSale((String) stateHolder.get("salePrice"));
                 product.setPriceList(itemFinalPrice);
                 product.setSelectedColor(colorName);
+                product.setQuantity(quantity);
                 product.setSelectedSize(sizeName);
                 product.setIsBackOrder(isBackOrdered);
+                product.setIsCrewCut(getIsCrewCut());
 
                 @SuppressWarnings("unchecked")
                 List<Product> productList = (List<Product>) stateHolder.get("productList");
@@ -982,5 +990,42 @@ public class SubcategoryPage {
         List<WebElement> variedPriceForColorsElement = getElementsGroupWithVariedPriceForColors(productDetailsSection);
         String itemPriceForSelectedColor = getItemColorBasedPriceFromPDP(variedPriceForColorsElement);
         return itemPriceForSelectedColor;
+    }
+
+    public boolean getIsCrewCut() {
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String category="";
+        String subCategory="";
+        String saleCategory="";
+        String categoryFromPDPURL="";
+
+        if (stateHolder.hasKey("category")) {
+            category=((String) stateHolder.get("category")).toLowerCase();
+            stateHolder.remove("category");
+        }
+
+        if (stateHolder.hasKey("subcategory")) {
+            subCategory=((String) stateHolder.get("subcategory")).toLowerCase();
+            stateHolder.remove("subcategory");
+        }
+
+        if (stateHolder.hasKey("sale category")) {
+            saleCategory=((String) stateHolder.get("sale category")).toLowerCase();
+            stateHolder.remove("sale category");
+        }
+
+        if (stateHolder.hasKey("categoryFromPDPURL")) {
+            categoryFromPDPURL=((String) stateHolder.get("categoryFromPDPURL")).toLowerCase();
+            stateHolder.remove("categoryFromPDPURL");
+        }
+
+        String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
+        List<String> crewCuts = Arrays.asList(crewCutCategories);
+
+        if(crewCuts.contains(category) || (category.equalsIgnoreCase("sale") && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || subCategory.equalsIgnoreCase("flowergirl")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

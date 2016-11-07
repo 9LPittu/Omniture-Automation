@@ -52,6 +52,7 @@ public class ShippingMethodCalculator {
             p = productsInBag.get(i);
             mixedItems = mixedItems || (p.isBackorder() != restrictedItem);
             restrictedItem = p.isBackorder();
+            crewCut = crewCut && p.isCrewCut();
         }
         environment = propertyReader.getProperty("environment");
         toggle = dataReader.getBoolean(environment + ".atp.toggle");

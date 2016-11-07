@@ -3,7 +3,6 @@ package com.jcrew.steps;
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
-import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -20,10 +19,9 @@ import static org.junit.Assert.*;
 public class ProductDetailPageSteps extends DriverFactory {
 
     private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
-    private final StateHolder stateHolder = StateHolder.getInstance();
     private final Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
 
-    @Given("User is in product detail page")
+    @Given("^User is in product detail page$")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
         assertTrue(Util.getSelectedCountryName() + "User should be in product detail page",
                 productDetailPage.isProductDetailPage());
@@ -384,7 +382,9 @@ public class ProductDetailPageSteps extends DriverFactory {
     
     @Then("^Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button$")
     public void verify_size_and_fit_drawer_displayed_below_add_to_bag_button(){
-    	assertTrue("Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button",productDetailPage.isSizeAndFitDrawerDisplayedBelowAddToBag());
+        boolean isSizeAndFit = productDetailPage.isSizeAndFitDrawerDisplayed();
+        if (isSizeAndFit)
+    	    assertTrue("Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button",productDetailPage.isSizeAndFitDrawerDisplayedBelowAddToBag());
     }
     
     @Then("^Verify 'PRODUCT DETAILS' drawer is displayed below the 'SIZE & FIT' drawer$")
@@ -394,12 +394,16 @@ public class ProductDetailPageSteps extends DriverFactory {
     
     @When("^user clicks on '([^\"]*)' drawer$")
     public void user_clicks_pdp_drawer(String drawerName){
-    	productDetailPage.clickPdpDrawer(drawerName);
+        boolean isSizeAndFit = productDetailPage.isSizeAndFitDrawerDisplayed();
+        if (isSizeAndFit)
+            productDetailPage.clickPdpDrawer(drawerName);
     }
     
     @Then("^Verify '([^\"]*)' drawer is ([^\"]*) state$")
     public void verify_pdp_drawer_state(String drawerName, String expectedState){
-    	assertTrue("Verify " + drawerName + " drawer is " + expectedState,productDetailPage.isPdpDrawerInExpectedState(drawerName, expectedState));
+        boolean isSizeAndFit = productDetailPage.isSizeAndFitDrawerDisplayed();
+        if (isSizeAndFit)
+    	    assertTrue("Verify " + drawerName + " drawer is " + expectedState,productDetailPage.isPdpDrawerInExpectedState(drawerName, expectedState));
     }
     
     @Then("^Verify item details are displayed in the 'PRODUCT DETAILS' drawer$")

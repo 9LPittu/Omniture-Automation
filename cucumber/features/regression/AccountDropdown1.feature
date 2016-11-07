@@ -1,5 +1,5 @@
 @AccountDropdown1 @HighLevel
-Feature: Account Dropdown functionality_1
+Feature: Account Dropdown functionality - Part 1
 
   Background:
     Given User is on homepage with clean session
@@ -41,23 +41,22 @@ Feature: Account Dropdown functionality_1
     And Verify SIGN IN header link is displayed
   	And click on SIGN IN from header
   	And User is on internal /r/login page
-  	And User presses back button
+  	
+  	And User clicks on item bag
+    Then User should be in shopping bag page
     
+    And Clicks on checkout    
     And Selects to checkout as guest
     
-    And Verify SIGN IN header link is displayed
-  	And click on SIGN IN from header
-  	And User is on internal /r/login page
-  	And User presses back button
+    Then Verify SIGN IN header link is displayed
+  	And Verify SIGN IN header link points to the url /r/login
     
     And Fills shipping address    
     And Presses continue button on shipping address    
-    And Verifies is in shipping method page
+    And Verifies user is in shipping method page
     
-    And Verify SIGN IN header link is displayed
-  	And click on SIGN IN from header
-  	And User is on internal /r/login page
-  	And User presses back button
+  	Then Verify SIGN IN header link is displayed
+  	And Verify SIGN IN header link points to the url /r/login
     
     And Uses default value for shipping method
     And Uses default value for gifts option
@@ -67,12 +66,11 @@ Feature: Account Dropdown functionality_1
     And Verify SIGN IN header link points to the url /r/login
     And Fills required payment data in billing page
     And Submits payment data in billing page
-    And Clicks on place your order
+    And User clicks on place your order button
     And User should be in order confirmation page
     
-    And Verify SIGN IN header link is displayed
-  	And click on SIGN IN from header
-  	And User is on internal /r/login page
+  	Then Verify SIGN IN header link is displayed
+  	And Verify SIGN IN header link points to the url /r/login
   
   Scenario: Sign In link displayed in header and functional for search page
     And User presses search button
@@ -197,7 +195,7 @@ Feature: Account Dropdown functionality_1
     Then user should see My Account dropdown is closed
     
     And Presses continue button on shipping address
-    And Verifies is in shipping method page
+    And Verifies user is in shipping method page
     
     Then Verify embedded headers links is visible
     And click on MY ACCOUNT from header
@@ -219,7 +217,7 @@ Feature: Account Dropdown functionality_1
     And Submits payment data in billing page
     And User is on internal /checkout2/billing.jsp page
     And Inputs credit card security code
-    Then Clicks on place your order
+    And User clicks on place your order button
     Then User should be in order confirmation page
     And verify order number is generated
     

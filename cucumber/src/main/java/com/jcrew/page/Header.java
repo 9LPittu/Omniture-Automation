@@ -15,7 +15,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class Header {
 
@@ -45,7 +44,7 @@ public class Header {
     private WebElement bagIcon;
     @FindBy(id = "section1")
     private WebElement genderLandingSection;
-
+    
     @FindBy(xpath = "//li[@id='c-header__userpanel']/a/span[contains(text(),'sign in')]")
     private WebElement signInFromHeader;
 
@@ -78,6 +77,12 @@ public class Header {
     
     @FindBy(xpath="//input[contains(@class,'js-header__search__input')]")
     private WebElement headerSearchInput;
+    
+    @FindBy(id = "global__header")
+    private WebElement global_header;
+    
+    @FindBy(id = "global__promo")
+	private WebElement global_promo;
 
     public Header(WebDriver driver) {
         this.driver = driver;
@@ -227,6 +232,11 @@ public class Header {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
         Util.clickWithStaleRetry(headerLogo);
     }
+    
+    public boolean isLogoVisible() {
+        WebElement logo = global_header.findElement(By.className("c-header__logo"));
+        return logo.isDisplayed();
+    }
 
     public void click_on_search_button() {
     	int cntr=0;
@@ -244,7 +254,11 @@ public class Header {
     		catch(Exception e){
     			cntr++;
     		}
-    	}while(cntr<3);        
+    	}while(cntr<3);
+    	
+    	if(!headerSearchInput.isDisplayed()){
+        	throw new WebDriverException("Search Input field is not displayed!!!");
+        }
     }
 
     public boolean isSearchLinkDisplayed() {
@@ -302,7 +316,7 @@ public class Header {
     public boolean isGenderLandingPage(String gender) {
         Country country = (Country) stateHolder.get("context");
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(genderLandingSection));
-        WebElement genderPageElement = genderLandingSection.findElement(By.xpath("//h2[contains(text(),'NEW FOR " + gender.toUpperCase() + "')]"));
+        WebElement genderPageElement = genderLandingSection.findElement(By.xpath(".//h2[contains(text(),'NEW FOR " + gender.toUpperCase() + "')]"));
 
         boolean isDisplayed = genderPageElement.isDisplayed();
         boolean isURL = Util.countryContextURLCompliance(driver, country);
@@ -480,4 +494,18 @@ public class Header {
         logger.info("'{}' link is clicked from My Account dropdown...", myAccountDropdownElementName.toUpperCase());
         Util.waitLoadingBar(driver);
     }
+    
+    public int getItemsInBag() {
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(global_promo));
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(shoppingBagLink));
+		WebElement cart_size = shoppingBagLink.findElement(By.className("js-cart-size"));
+		String cartSizeText = cart_size.getText().trim();
+
+		if (cartSizeText.isEmpty())
+			cartSizeText = "0";
+
+		cartSizeText = cartSizeText.replaceAll("[^0-9]", "");
+
+		return Integer.parseInt(cartSizeText);
+	}
 }

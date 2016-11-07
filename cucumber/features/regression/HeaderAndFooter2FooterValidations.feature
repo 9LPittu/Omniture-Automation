@@ -18,7 +18,6 @@ Feature: Footer Verification In Home Page
     And Verify BAG header link is displayed
     And Verify MENU, SEARCH header links including bag order is valid, ignore SIGN IN, MY ACCOUNT
 
-
    #tc-01 and tc-02
    #US13389_TC14
    #US13389_TC03

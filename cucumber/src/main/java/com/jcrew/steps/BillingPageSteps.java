@@ -9,6 +9,12 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 public class BillingPageSteps extends DriverFactory {
 
     private final BillingPage billingPage = new BillingPage(getDriver());
@@ -107,5 +113,196 @@ public class BillingPageSteps extends DriverFactory {
     @And("^Presses continue button on Billing page$")
     public void presses_continue_button_on_shipping_address() throws Throwable {
     	billingPage.presses_continue_button_on_Billingpage();
+    }
+    
+    @When("^User adds new billing address$")
+    public void add_billing_address() {
+    	billingPage.addNewBillingAddress();
+    }
+    
+    @Then("Verify Billing Address page is displayed")
+    public void is_billing_address_page_displayed() {
+        assertTrue("Is billing address page", billingPage.isDisplayed());
+    }
+    
+    @Then("Verify Billing page is displayed")
+    public void is_billing_page_displayed() {
+        assertTrue("Is billing page", billingPage.isBillingPageDisplayed());
+    }
+    
+    @When("User fills billing address and continues")
+    public void save_billing_address() {
+    	billingPage.fillFormData();
+    	billingPage.saveBillingAddress();
+    }
+    
+    @When("User fills payment method as guest and continues")
+    public void fill_payment_method() {
+    	billingPage.fillPaymentMethod(true);
+    	billingPage.continueByFillingPaymentMethod();    	
+    }
+    
+    @Then("^Verify no additional charges are applied for gift receipt$")
+    public void verify_no_additional_charges_applied_for_gift_receipt(){
+    	String orderSubtotalBeforeGiftReceipt = (String) billingPage.stateHolder.get("subtotal");
+    	
+    	String orderSubtotalOnBilling = billingPage.getSubTotal();
+    	orderSubtotalOnBilling = orderSubtotalOnBilling.replaceAll("[^0-9\\.]", "");
+    	
+    	assertEquals("No additional charges should be applied for gift receipt on billing page", orderSubtotalBeforeGiftReceipt, orderSubtotalOnBilling);
+    }
+    
+    @Then("Verify accepted cards from list")
+    public void accepted_cards(List<String> expectedCards) {
+        List<String> actualCards = billingPage.getAcceptedCards();
+
+        for(String card : actualCards)
+            billingPage.logger.debug("accepted card: " + card);
+
+        assertEquals("Same number of accepted cards", expectedCards.size(), actualCards.size());
+
+        for (int i = 0; i < expectedCards.size(); i++) {
+            String expected = expectedCards.get(i);
+            String actual = actualCards.get(i);
+
+            assertEquals("Expected accepted card", expected, actual);
+        }
+    }
+    
+    @Then("Verify available payment methods from list")
+    public void available_payment_methods(List<String> expectedMethods) {
+        List<String> actualMethods = billingPage.getPaymentMethods();
+
+        assertEquals("Same number of payment methods", expectedMethods.size(), actualMethods.size());
+
+        for (int i = 0; i < expectedMethods.size(); i++) {
+            String expected = expectedMethods.get(i);
+            String actual = actualMethods.get(i);
+
+            assertEquals("Expected payment method", expected, actual);
+
+        }
+    }
+    
+    @When("User adds a promo code ([^\"]*) in Payment Method page")
+    public void add_payment_method(String code) {
+    	billingPage.addPromoCode(code);
+    }
+
+    @Then("Verify promo message says: ([^\"]*)")
+    public void promo_message(String message) {
+        String actual = billingPage.getPromoCodeMessage();
+
+        assertEquals("Expected promo message", message, actual);
+    }
+
+    @Then("Verify promo name contains: ([^\"]*)")
+    public void promo_name(String message) {
+        message = message.toLowerCase();
+        String actual = billingPage.getPromoName().toLowerCase();
+
+        assertTrue("Expected promo name contains " +  message, actual.contains(message));
+    }
+
+    @Then("Verify promo details contains: ([^\"]*)")
+    public void promo_details(String message) {
+        message = message.toLowerCase();
+        String actual = billingPage.getPromoDetails().toLowerCase();
+
+        assertTrue("Expected promo name contains " +  message, actual.contains(message));
+        billingPage.stateHolder.put("promoMessage", message);
+    }
+
+    @Then("Verify promo code applied 10 percent from subtotal")
+    public void applied_promo() {
+        String subtotal = billingPage.getSubTotal();
+        subtotal = subtotal.replaceAll("[^0-9]", "");
+        String promo = billingPage.getPromoDiscount();
+        promo = promo.replaceAll("[^0-9]", "");
+
+        int subtotalInt = Integer.parseInt(subtotal);
+        int promoInt = Integer.parseInt(promo) * 10;
+        
+        boolean result = false;
+        if(subtotalInt==promoInt || (subtotalInt + 1)==promoInt){
+        	result = true;
+        }
+
+        assertTrue("Promo was applied correctly", result);
+    }
+    
+    @And("^Verify remove button is displayed in promo section$")
+    public void remove_button_displayed_in_promo_section(){
+    	assertTrue("remove button is displayed in promo section after promo code is applied", billingPage.getPromoRemoveElement().isDisplayed()); 
+    }
+    
+    @And("^Verify promo message is updated in the summary section$")
+    public void promo_message_updated_in_summary_section(){
+    	assertTrue("Promo message is updated in the order summary section after promo code is applied", billingPage.getPromoMessageElementFromOrderSummary().isDisplayed());
+    }
+    
+    @Then("^Select different card from the card list$")
+    public void select_card_nodefault(){    	
+    	billingPage.SelectPaymentMethodNoDefault();
+    }
+    
+    @Then("Verify Billing Payment page is displayed")
+    public void is_shipping_options() {
+        assertTrue("Is billing address page", billingPage.isDisplayed());
+    }
+    
+    @When("User fills billing payment with ([^\"]*) and continues")
+    public void save_billing_address(String cardType) {
+    	billingPage.fillPaymentMethod(cardType);
+    	billingPage.continueCheckout();
+    }
+    
+    @Then("^Verify card has been added$")
+    public void card_has_been_added() {
+        String addedCard = (String) billingPage.stateHolder.get("addedCard");
+        List<String> cards = billingPage.getCards();
+        Iterator<String> cardsI = cards.iterator();
+
+        boolean found = false;
+
+        while(!found & cardsI.hasNext()) {
+            String info = cardsI.next();
+            if(info.contains(addedCard))
+                found = true;
+        }
+
+        assertFalse("Removed card is not part of user cards", found);
+    }
+    
+    @When("^User edits recently added card$")
+    public void edit_card() {
+    	billingPage.editCard();
+    }
+    
+    @When("User edits billing payment information and continues")
+    public void edit_billing_payment() {
+    	billingPage.editPayment();
+    	billingPage.continueCheckout();
+    }
+    
+    @Then("^Verify card has been edited")
+    public void card_has_been_edited() {
+        List<String> cards = billingPage.getCards();
+        String card = cards.get(cards.size() - 1);
+
+        assertTrue("Edited card has new info", card.contains("Edited Card Name"));
+    }
+    
+    @When("^User removes ([^\"]*) card$")
+    public void remove_card(String type) {
+    	billingPage.removeCard(type);
+    }
+    
+    @Then("^Verify card has been removed$")
+    public void card_has_been_removed() {
+        String removedCard = (String) billingPage.stateHolder.get("removedCard");
+        List<String> cards = billingPage.getCards();
+
+        assertFalse("Removed card is not part of user cards", cards.contains(removedCard));
     }
 }

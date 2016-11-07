@@ -5,16 +5,12 @@ import com.jcrew.page.Header;
 import com.jcrew.page.HomePage;
 import com.jcrew.page.SubcategoryPage;
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.Product;
 import com.jcrew.util.*;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,6 +150,11 @@ public class HeaderSteps extends DriverFactory {
     public void user_clicks_on_stores_link() throws Throwable {
         header.click_on_stores_link();
     }
+    
+    @Then("Verify jcrew logo is visible")
+    public void is_logo_visible() {
+        header.isLogoVisible();
+    }
 
     @Then("^Clicks on JCrew Logo$")
     public void clicks_on_JCrew_Logo() throws Throwable {
@@ -242,6 +243,12 @@ public class HeaderSteps extends DriverFactory {
         if (reader.getProperty("environment").equalsIgnoreCase("production") && elementName.equalsIgnoreCase("Manage your account")) {
             isElementClickRequired = false;
         }
+        
+        if ("sign out".equalsIgnoreCase(elementName)) {
+			List<Product> bag = stateHolder.getList("toBag");
+			stateHolder.put("userBag", bag);
+			stateHolder.remove("toBag");
+		}
 
         if (isElementClickRequired) {
             header.clickElementFromMyAccountDropdown(elementName);

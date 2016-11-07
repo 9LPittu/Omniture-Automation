@@ -126,7 +126,7 @@ public class ProductDetails extends PageObject {
 
         if (availableSizes.size() > 0) {
             final WebElement selectedSize = Util.randomIndex(availableSizes);
-
+            Util.scrollToElement(driver, selectedSize);
             selectedSize.click();
         }
     }
@@ -281,7 +281,15 @@ public class ProductDetails extends PageObject {
 
         addToBagButton.click();
         handleShipRestrictionMessage();
-        headerWrap.waitUntilCheckOutDropdown();
+        
+        try {
+        	headerWrap.waitUntilCheckOutDropdown();
+        } catch (Exception e) {
+        	logger.info("Mini cart is not displayed. Hence, checking item count in bag has increased");
+        	int itemCount = headerWrap.getItemsInBag();
+        	if (itemCount <= itemsInBag)
+        		new WebDriverException("product not added to bag");
+        }
     }
 
     public boolean verifyContext() {
@@ -448,7 +456,7 @@ public class ProductDetails extends PageObject {
         logger.debug("Selected variation {}", selectedVariationName.getText());
         selectedVariation.click();
 
-        wait.until(ExpectedConditions.visibilityOf(price_colors));
+        Util.waitWithStaleRetry(driver, price_colors);
     }
 
     public boolean isVPSMessageDisplayed() {
@@ -722,9 +730,9 @@ public class ProductDetails extends PageObject {
             stateHolder.remove("subcategory");
         }
 
-        if (stateHolder.hasKey("sale category")) {
-            saleCategory = ((String) stateHolder.get("sale category")).toLowerCase();
-            stateHolder.remove("sale category");
+        if (stateHolder.hasKey("saleCategory")) {
+            saleCategory = ((String) stateHolder.get("saleCategory")).toLowerCase();
+            stateHolder.remove("saleCategory");
         }
 
         if (stateHolder.hasKey("categoryFromPDPURL")) {
@@ -735,7 +743,7 @@ public class ProductDetails extends PageObject {
         String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
         List<String> crewCuts = Arrays.asList(crewCutCategories);
 
-        if (crewCuts.contains(category) || (category.equalsIgnoreCase("sale") && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category.equalsIgnoreCase("wedding") && subCategory.equalsIgnoreCase("flowergirl"))) {
+        if (crewCuts.contains(category) ||  crewCuts.contains(saleCategory) || crewCuts.contains(categoryFromPDPURL) || subCategory.equalsIgnoreCase("flowergirl")) {
             return true;
         } else {
             return false;

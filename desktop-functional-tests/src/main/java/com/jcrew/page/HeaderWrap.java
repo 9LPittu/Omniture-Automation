@@ -281,8 +281,10 @@ public class HeaderWrap {
 
 	public void clickDeptLinkFromTopNav(String dept) {
 		String url = driver.getCurrentUrl();
-		top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and " + Util.xpathGetTextLower
-				+ " = '" + dept.toLowerCase() + "']")).click();
+		WebElement topnavlink = top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and " + Util.xpathGetTextLower
+				+ " = '" + dept.toLowerCase() + "']"));
+		wait.until(ExpectedConditions.elementToBeClickable(topnavlink));
+		topnavlink.click();
 
 		if (!"view all".equals(dept))
 			wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
@@ -336,6 +338,7 @@ public class HeaderWrap {
 
 		hoverCategory(randomCategory);
 		logger.info("Selected Category is {} ", randomCategory);
+		stateHolder.put("category", randomCategory);
 	}
 
 	public void hoverCategory(String Category) {
@@ -346,6 +349,7 @@ public class HeaderWrap {
 		hoverAction.moveToElement(categoryLink);
 		hoverAction.perform();
 		logger.info("Selected Category is {} ", Category);
+		stateHolder.put("category", Category);
 	}
 	
 	public void hoverCategory() {
@@ -358,6 +362,7 @@ public class HeaderWrap {
 		hoverAction.moveToElement(categoryLink);
 		hoverAction.perform();
 		logger.info("Selected Category is {} ", Category);
+		stateHolder.put("category", Category);
 	}
 	
 	
@@ -378,6 +383,7 @@ public class HeaderWrap {
 		        WebElement selectedSubCategory = Util.randomIndex(subCategories);
 		
 		        logger.info("Selected subcategory: {}", selectedSubCategory.getText());
+		        stateHolder.put("subcategory", selectedSubCategory.getText());
 		        selectedSubCategory.click();
 		
 		        Util.waitLoadingBar(driver);
@@ -403,6 +409,7 @@ public class HeaderWrap {
         WebElement subCategoryElement = holder.findElement(By.xpath(".//ul/li/a[" + Util.xpathGetTextLower + "='" + subCategory.toLowerCase() + "']"));
 
         logger.info("Selected subcategory: {}", subCategoryElement.getText());
+        stateHolder.put("subcategory", subCategoryElement.getText());
         subCategoryElement.click();
 
         Util.waitLoadingBar(driver);
@@ -417,6 +424,7 @@ public class HeaderWrap {
 	        WebElement selectedSaleCategory = Util.randomIndex(saleCategories);
 	
 	        logger.info("Selected sale category: {}", selectedSaleCategory.getText());
+	        stateHolder.put("saleCategory", selectedSaleCategory.getText());
 	        selectedSaleCategory.click();
 	
 	        Util.waitLoadingBar(driver);

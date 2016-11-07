@@ -185,7 +185,7 @@ public abstract class Checkout extends PageObject{
         for (int i = 0; i < products.size() && result; i++) {
             Product fromPDP = (Product) products.get(i);
             String productName = fromPDP.getName();
-            productName.replaceAll("PRE-ORDER ", "");
+            productName = productName.replaceAll("PRE-ORDER ", "");
 
             logger.debug("Looking for product {}, item number {}, in size {} in color {} with price {}",
                     productName, fromPDP.getItemNumber(), fromPDP.getSize(), fromPDP.getColor(), fromPDP.getPrice());
@@ -196,7 +196,7 @@ public abstract class Checkout extends PageObject{
                 WebElement productElement = productsInBag.get(j);
                 WebElement nameElement = productElement.findElement(By.className("item-name"));
                 String name = nameElement.getText().trim();
-                name.replaceAll("PRE-ORDER ", "");
+                name = name.replaceAll("PRE-ORDER ", "");
 
                 String quantity = getQuantity(productElement);
 
@@ -249,6 +249,7 @@ public abstract class Checkout extends PageObject{
 
     public void nextStep(WebElement form) {
         WebElement continueButton = form.findElement(By.className("button-submit"));
+        wait.until(ExpectedConditions.elementToBeClickable(continueButton));
         continueButton.click();
 
         wait.until(ExpectedConditions.stalenessOf(continueButton));
@@ -312,6 +313,12 @@ public abstract class Checkout extends PageObject{
             case "promo":
                 xpath = By.xpath(".//li[contains(@class,'summary-promo')]/span[contains(@class,'summary-value')]");
                 break;
+            case "shipping":
+            	xpath = By.xpath(".//span[@class='summary-label' and contains(text(), 'Shipping')]/following-sibling::*");
+                break;
+            case "total":
+            	xpath = By.xpath(".//span[@class='summary-label' and contains(text(), 'Total')]/following-sibling::*");
+                break;    
             default:
                 throw new WebDriverException(field + " field on the checkout page is not recognized!!!");
         }

@@ -7,6 +7,7 @@ Feature: My Account page validations
     When User clicks on sign in using header
     Then User goes to sign in page
 
+  @HighLevel
   Scenario: verify left nav links in my account pages are functional for domestic user
     And User fills user data and signs in
     Then Verify user is in My Account main page

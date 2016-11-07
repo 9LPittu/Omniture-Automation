@@ -201,7 +201,7 @@ public class CheckoutBillingSteps extends DriverFactory {
     
     @Then("^Verify no additional charges are applied for gift receipt$")
     public void verify_no_additional_charges_applied_for_gift_receipt(){
-    	String orderSubtotalBeforeGiftReceipt = (String) billing.stateHolder.get("ordersubtotal");
+    	String orderSubtotalBeforeGiftReceipt = (String) billing.stateHolder.get("subtotal");
     	
     	String orderSubtotalOnBilling = billing.getSubTotal();
     	
