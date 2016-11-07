@@ -29,6 +29,10 @@ public class SaleLanding {
 
     @FindBy(id = "c-promo-categories")
     private WebElement saleCategory;
+    
+    @FindBy(className = "c-sale__promo-frame")
+    private WebElement promoFrame;
+    
 
     public SaleLanding(WebDriver driver) {
         this.driver = driver;
@@ -84,6 +88,42 @@ public class SaleLanding {
     	
     	return categoryName;
     	
+    }
+    
+    public boolean isSaleTitle() {
+    	return page__sale.findElement(By.xpath("//div[@class='c-sale__title' and "+ Util.xpathGetTextLower +"='sale']")).isDisplayed();
+    }
+    
+    public boolean isFirstPromo() {
+    	wait.until(ExpectedConditions.visibilityOf(promoFrame));
+    	WebElement Details = promoFrame.findElement(By.xpath(".//div/a[@class='js-sale-promo-link' and " + Util.xpathGetTextLower + "='details']"));
+    	
+    	return promoFrame.isDisplayed() && Details.isDisplayed();
+    }
+    
+    public void clickDetailsLink() {
+    	wait.until(ExpectedConditions.visibilityOf(promoFrame));
+    	WebElement Details = promoFrame.findElement(By.xpath(".//div/a[@class='js-sale-promo-link' and " + Util.xpathGetTextLower + "='details']"));
+    	wait.until(ExpectedConditions.visibilityOf(Details));
+    	Details.click();
+    	
+    }
+    
+    public String getPromoPopUpState() {
+    	WebElement promoPopOver = promoFrame.findElement(By.xpath(".//div[contains(@class,'js-sale-promo-popover')]"));
+    	String style = promoPopOver.getAttribute("style").toLowerCase();
+    	if (style.contains("block")) {
+    		return "open";
+    	} else {
+    		return "closed";
+    	}
+    }
+    
+    public void closePromoDetails() {
+    	WebElement closeIcon = promoFrame.findElement(By.xpath(".//span[contains(@class,'js-sale-promo-close')]"));
+    	wait.until(ExpectedConditions.visibilityOf(closeIcon));
+    	
+    	closeIcon.click();
     }
 
 }

@@ -40,5 +40,33 @@ public class SaleLandingPageSteps extends DriverFactory{
     	assertTrue("Sale Category " + category + " is available in sale landing page ",categoryNames.contains(category.toLowerCase()));
     	
     }
+    
+    @Then("Verify Sale title is displayed on sale landing page$") 
+    public void verify_sale_title(){
+    	assertTrue("Sale title should be displayed on sale landing page",sale.isSaleTitle());
+    }
+    
+    @Then("Verify first promo is displayed$")
+    public void verify_first_promo() {
+    	assertTrue("First promo should be displayed on sale landing page",sale.isFirstPromo());
+    }
+    
+    @Then("User clicks on details link on first promo$") 
+    public void click_details_link() {
+    	sale.clickDetailsLink();
+    }
+    
+    @Then("Verify promo details pop up is ([^\"]*)$")
+    public void verify_promo_details_popup(String expectedState) {
+    	expectedState = expectedState.toLowerCase().trim();
+    	String actualState = sale.getPromoPopUpState();
+
+    	assertEquals("Promo details pop up should be ",expectedState,actualState);
+    }
+    
+    @Then("User clicks on close icon on promo detail pop up$")
+    public void close_promo_detail() {
+    	sale.closePromoDetails();
+    }
 
 }

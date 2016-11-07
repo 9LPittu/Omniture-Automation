@@ -62,5 +62,32 @@ public class ArraySearchSteps extends DriverFactory {
     	assertTrue("Sale array should be displayed",isSearchArray && isSaleTitle);
     	
     }
+    
+    @Then("Verify filters are displayed on array page$")
+    public void filters_display_on_array_page() {
+    	assertTrue("Filters should be displayed on array page ",searchArray.isFiltersDisplayed());	
+    }
+    
+    @Then("Verify ([^\"]*) filter displays ([^\"]*)$")
+    public void verify_gender_filter_value(String filterName, String expectedValue) {
+    	filterName = filterName.toLowerCase().trim();
+    	expectedValue = expectedValue.toLowerCase().trim();
+    	
+    	if (filterName.equalsIgnoreCase("gender"))
+    		filterName="shop for";
+    	
+    	String actualValue = searchArray.getFilterValue(filterName).toLowerCase().trim();
+    	assertEquals(filterName + " filter should match ", expectedValue , actualValue);	
+    }
+    
+    @Then("Verify following gender selectors are displayed$")
+    public void verify_gender_selectors(List<String> expectedGenderSelectors){
+    	List<String> actualGenderSelectors = searchArray.getGenderSelectors();
+    	
+    	for (String gender:expectedGenderSelectors) {
+    		gender = gender.toLowerCase().trim();
+    		assertTrue("Gender Selector " + gender + " should be displayed", actualGenderSelectors.contains(gender) );	
+    	}
+    }
 
 }
