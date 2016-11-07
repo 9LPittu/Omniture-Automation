@@ -89,5 +89,10 @@ public class ArraySearchSteps extends DriverFactory {
     		assertTrue("Gender Selector " + gender + " should be displayed", actualGenderSelectors.contains(gender) );	
     	}
     }
+    
+    @Then("User clicks on ([^\"]*) gender selector$")
+    public void select_gender_selector(String gender) {
+    	searchArray.clickGenderSelector(gender);
+    }
 
 }

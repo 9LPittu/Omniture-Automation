@@ -54,6 +54,21 @@ Feature: Sale Landing functionality
 	|boys|
 	And Verify Sort By filter displays New in Sale
 	
+	
+	Scenario Outline: Verify Gender Selectors are functional on New In Sale page
+	When User selects new in sale dept from sales
+	Then Verify Sale array page is displayed
+	When User clicks on <gender> gender selector
+	Then Verify Sale array page is displayed
+	And Verify gender filter displays <gender>
+
+	Examples:
+	|gender|
+	|women|
+	|men|
+	|girls|
+	|boys|
+	
 
       
 	

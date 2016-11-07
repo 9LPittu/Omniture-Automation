@@ -2,8 +2,6 @@ package com.jcrew.page;
 
 import com.jcrew.utils.Util;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -111,8 +109,8 @@ public class ArraySearch extends Array{
     	wait.until(ExpectedConditions.visibilityOf(searchFilter));
 
     	
-    	WebElement filterElement = searchFilter.findElement(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + filterName 
-    					+ "']/following-sibling::h6"));
+    	WebElement filterElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + filterName 
+    					+ "']/following-sibling::h6")));
 
     	String filterValue = filterElement.getText();
     	
@@ -131,5 +129,15 @@ public class ArraySearch extends Array{
     	}
     	
     	return genderList;
+    }
+    
+    public void clickGenderSelector(String gender) {
+    	gender = gender.toLowerCase().trim();
+    	WebElement genderMenu = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//menu[@class='menu__search menu__filters--gender']")));
+    	WebElement genderSelector = genderMenu.findElement(By.xpath(".//div[contains(@class,'js-search__filter') and " 
+    								+ Util.xpathGetTextLower + "='" + gender +"']"));
+    	wait.until(ExpectedConditions.elementToBeClickable(genderSelector));
+    	genderSelector.click();
+    	wait.until(ExpectedConditions.urlContains("/r/search"));
     }
 }
