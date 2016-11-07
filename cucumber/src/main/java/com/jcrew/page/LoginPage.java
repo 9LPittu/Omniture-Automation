@@ -151,7 +151,7 @@ public class LoginPage {
         
         String username = null;
         String password = null;
-        if(reader.getProperty("environment").equalsIgnoreCase("ci")){
+        if(reader.getProperty("environment").contains("ci")){
         	username = reader.getProperty("checkout.signed.in.username");
         	password = reader.getProperty("checkout.signed.in.password");
         }
