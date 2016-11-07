@@ -29,10 +29,7 @@ public class TestDataReader {
 
             FileInputStream propertiesInput = new FileInputStream(testData);
             testDataProperties.load(propertiesInput);
-
-            String env = System.getProperty("environment", "ci");
-            String environmentData = "properties/environment/" + env + ".properties";
-
+            String environmentData = "properties/environment/" + Util.getEnvironment() + ".properties";
             propertiesInput = new FileInputStream(environmentData);
             testDataProperties.load(propertiesInput);
 
@@ -62,10 +59,7 @@ public class TestDataReader {
 
             FileInputStream propertiesInput = new FileInputStream(testData);
             testDataProperties.load(propertiesInput);
-
-            String env = System.getProperty("environment", "ci");
-            String environmentData = "properties/environment/" + env + ".properties";
-
+            String environmentData = "properties/environment/" + Util.getEnvironment() + ".properties";
             propertiesInput = new FileInputStream(environmentData);
             testDataProperties.load(propertiesInput);
 

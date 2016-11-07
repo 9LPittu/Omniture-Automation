@@ -1,4 +1,4 @@
-@GuestCheckout-Part1
+@GuestCheckout-Part1 @HighLevel
 Feature: Checkout - Guest user is able to add billing address
 
   Scenario: Checkout - Guest user is able to add billing address

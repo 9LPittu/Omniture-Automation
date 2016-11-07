@@ -126,7 +126,7 @@ public class ProductDetails extends PageObject {
 
         if (availableSizes.size() > 0) {
             final WebElement selectedSize = Util.randomIndex(availableSizes);
-
+            Util.scrollToElement(driver, selectedSize);
             selectedSize.click();
         }
     }
@@ -143,6 +143,7 @@ public class ProductDetails extends PageObject {
     }
 
     public String getSelectedColor() {
+    	wait.until(ExpectedConditions.visibilityOf(price_colors));
         WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
         return selectedColor.getAttribute("data-name");
     }
@@ -250,6 +251,8 @@ public class ProductDetails extends PageObject {
             product.setPrice(getPrice());
             product.setItemNumber(getProductCode());
             product.setQuantity(getQuantity());
+            product.setIsBackOrder(getIsBackordered());
+            product.setIsCrewCut(getIsCrewCut());
         } else {
             product.setSoldOut(true);
         }
@@ -278,7 +281,15 @@ public class ProductDetails extends PageObject {
 
         addToBagButton.click();
         handleShipRestrictionMessage();
-        headerWrap.waitUntilCheckOutDropdown();
+        
+        try {
+        	headerWrap.waitUntilCheckOutDropdown();
+        } catch (Exception e) {
+        	logger.info("Mini cart is not displayed. Hence, checking item count in bag has increased");
+        	int itemCount = headerWrap.getItemsInBag();
+        	if (itemCount <= itemsInBag)
+        		new WebDriverException("product not added to bag");
+        }
     }
 
     public boolean verifyContext() {
@@ -426,7 +437,7 @@ public class ProductDetails extends PageObject {
             expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
             logger.info("Expected PDP Message: {}", expectedPDPMessage);
 
-            wait.until(ExpectedConditions.visibilityOf(pdpMessage));
+            Util.waitWithStaleRetry(driver, pdpMessage);
             actualPDPMessage = pdpMessage.getText().trim();
             logger.info("Actual PDP Message: {}", expectedPDPMessage);
         } else {
@@ -445,7 +456,7 @@ public class ProductDetails extends PageObject {
         logger.debug("Selected variation {}", selectedVariationName.getText());
         selectedVariation.click();
 
-        wait.until(ExpectedConditions.visibilityOf(price_colors));
+        Util.waitWithStaleRetry(driver, price_colors);
     }
 
     public boolean isVPSMessageDisplayed() {
@@ -719,9 +730,9 @@ public class ProductDetails extends PageObject {
             stateHolder.remove("subcategory");
         }
 
-        if (stateHolder.hasKey("sale category")) {
-            saleCategory = ((String) stateHolder.get("sale category")).toLowerCase();
-            stateHolder.remove("sale category");
+        if (stateHolder.hasKey("saleCategory")) {
+            saleCategory = ((String) stateHolder.get("saleCategory")).toLowerCase();
+            stateHolder.remove("saleCategory");
         }
 
         if (stateHolder.hasKey("categoryFromPDPURL")) {
@@ -732,7 +743,7 @@ public class ProductDetails extends PageObject {
         String crewCutCategories[] = testDataReader.getDataArray("crewCutCategories");
         List<String> crewCuts = Arrays.asList(crewCutCategories);
 
-        if (crewCuts.contains(category) || (category == "sale" && crewCuts.contains(saleCategory)) || crewCuts.contains(categoryFromPDPURL) || (category == "wedding" && subCategory == "flowergirl")) {
+        if (crewCuts.contains(category) ||  crewCuts.contains(saleCategory) || crewCuts.contains(categoryFromPDPURL) || subCategory.equalsIgnoreCase("flowergirl")) {
             return true;
         } else {
             return false;
@@ -746,5 +757,14 @@ public class ProductDetails extends PageObject {
     	} catch (Exception e) {
     		logger.info("Ship restriction message not displayed");
     	}
+    }
+    
+    public boolean isSizeAndFitDrawerDisplayed() {
+        try {
+            driver.findElement(By.id("c-product__size-fit"));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -1,4 +1,4 @@
-@MiniCart
+@MiniCart @HighLevel
 Feature: Check mini bag when adding products from category, search and sale
 
   Background:

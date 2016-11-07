@@ -1,4 +1,4 @@
-package com.jcrew.runner.regression;
+package com.jcrew.runner.regression.highlevel;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = {"features/regression/Checkout/Merge"},
         tags = {"@MergeCheckout"},
-        glue = {"com.jcrew.steps"},
+        glue = {"com.jcrew.steps","@HighLevel"},
         format = {
                 "json:target/cucumber-regression-merge.json",
                 "pretty",

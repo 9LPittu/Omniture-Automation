@@ -1,4 +1,4 @@
-@PDP @Reviews
+@PDP @Reviews @HighLevel
 Feature: Product Review page from PDP
 
   Background:

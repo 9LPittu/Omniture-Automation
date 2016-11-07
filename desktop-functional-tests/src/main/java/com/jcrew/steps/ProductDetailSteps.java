@@ -130,10 +130,24 @@ public class ProductDetailSteps extends DriverFactory {
 
     @Then("^Verify ([^\"]*) is displayed between ([^\"]*) and ([^\"]*)$")
     public void verify_elements_layout_PDP(String elementtoFind,String elementAbove,String elementBelow){
-        int Find_Y = productDetails.getYCoordinate(elementtoFind);
-        int below_Y = productDetails.getYCoordinate(elementBelow);
-        int Above_Y = productDetails.getYCoordinate(elementAbove);
-        assertTrue("Verify '"+elementtoFind+"' is displayed below the '"+elementAbove+"'",((below_Y > Find_Y) &&(Above_Y < Find_Y)));
+    		boolean isSizeAndFit  = productDetails.isSizeAndFitDrawerDisplayed();
+    		boolean result=true;
+    		
+    		if ((!elementtoFind.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
+		        int Find_Y = productDetails.getYCoordinate(elementtoFind);
+		        
+		        if ((!elementBelow.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
+			        int below_Y = productDetails.getYCoordinate(elementBelow);
+			        result = result && (below_Y > Find_Y);
+		        }
+		        
+		        if ((!elementAbove.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
+		        	int Above_Y = productDetails.getYCoordinate(elementAbove);
+		        	result = result && (Above_Y < Find_Y);
+		        }
+		        
+		        assertTrue("Verify '"+elementtoFind+"' is displayed below the '"+elementAbove+"'",result);
+    		}
     }
 
 

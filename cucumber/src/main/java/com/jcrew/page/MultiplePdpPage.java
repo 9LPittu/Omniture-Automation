@@ -8,6 +8,7 @@ import com.jcrew.util.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -151,8 +152,7 @@ public class MultiplePdpPage {
 
         Util.waitForPageFullyLoaded(driver);
         stateHolder.put("shoppableTrayProduct", article);
-        Util.scrollToElement(driver, selected);
-        selected.click();
+        Util.scrollAndClick(driver, selected);
         wait.until(ExpectedConditions.urlContains("itemCode="+productCode));
         loadNavigation();
     }
@@ -165,7 +165,7 @@ public class MultiplePdpPage {
         wait.until(ExpectedConditions.invisibilityOfElementLocated((By.xpath("//div[@class='header__cart--image']/img"))));
         Util.scrollToElement(driver, fullProductDetailsLink);
         wait.until(ExpectedConditions.elementToBeClickable(nextLink));
-        Util.clickOnElement(driver, nextLink);
+        Util.scrollAndClick(driver, nextLink);
         Util.waitLoadingBar(driver);
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currUrl)));
         loadNavigation();
@@ -471,11 +471,24 @@ public class MultiplePdpPage {
     private void navigateToNextProduct(int currentIndex){
         if(currentIndex < numProducts - 1) {
             WebElement nextProduct = products.get(currentIndex + 1);
-            String productCode = nextProduct.getAttribute("data-code");            
+            String productCode = nextProduct.getAttribute("data-code");
             clickNext();
-            Util.waitForPageFullyLoaded(driver);
-            Util.waitLoadingBar(driver);            
-            wait.until(ExpectedConditions.urlContains("itemCode=" + productCode));
+            
+            int cntr = 0;
+            do{
+            	try{
+                    Util.waitForPageFullyLoaded(driver);
+                    Util.waitLoadingBar(driver);            
+                    Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.urlContains("itemCode=" + productCode));
+                    logger.debug("Item {} is displayed...", productCode);
+                    break;
+            	}
+            	catch(TimeoutException toe){            		
+            		cntr++;
+            		logger.error("Item {} is not displayed. Clicking on next button one more time ...", productCode);
+                    clickNext();
+            	}
+            }while(cntr<3);
         }
     }
 
