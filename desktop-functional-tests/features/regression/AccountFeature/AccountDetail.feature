@@ -7,6 +7,7 @@ Feature: Account details Page validations
     When User clicks on sign in using header
     Then User goes to sign in page
 
+  @HighLevel
   Scenario: Validate error messages and update details in my details form
     When User get create account form
     And first name field is filled with new data
@@ -56,6 +57,7 @@ Feature: Account details Page validations
 #    And Verify 'Better than cake: make sure you are signed up for emails to get a special gift on your big day!' copy displayed
 
 
+  @HighLevel
   Scenario: verify account left nav links from details page for domestic user
     And User fills user data and signs in
     Then Verify user is in My Account main page

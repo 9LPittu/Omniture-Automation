@@ -47,8 +47,15 @@ public class HomePage {
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        
+        if(!driver.getTitle().contains("Factory")){
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        }
+        else{
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("headerPanel")));
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("un_footer")));
+        }
     }
 
     public void hit_enter_in_search_field() {

@@ -152,6 +152,7 @@ public class ContextChooserPage {
     			          driver.findElement(By.xpath(
     			          "//section[@class='r-international__faq']/article/section/p/a[text()='" + linkName + "']"))));
     	link.click();
+    	Util.waitLoadingBar(driver);
     }
     
     public void selectRandomCountry()  {

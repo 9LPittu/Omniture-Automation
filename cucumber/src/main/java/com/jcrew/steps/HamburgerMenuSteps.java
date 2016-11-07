@@ -125,6 +125,7 @@ public class HamburgerMenuSteps extends DriverFactory {
     
     @And("^user selects ([^\"]*) subcategory$")
     public void select_subcategory(String subcategory){
+
     	if(!subcategory.equalsIgnoreCase("any")){
     		hamburgerMenu.clickSpecificSubcategory(subcategory);
     	}

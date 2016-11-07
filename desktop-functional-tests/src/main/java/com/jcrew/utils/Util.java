@@ -104,6 +104,7 @@ public class Util {
                 wait.until(ExpectedConditions.visibilityOf(element));
                 success = true;
             } catch (StaleElementReferenceException staleException){
+            	wait(3000);
                 logger.debug("Stale Element Exception when retrying to wait");
             }
             attempts++;

@@ -1,4 +1,4 @@
-@MergeCheckout
+@MergeCheckout @HighLevel
 Feature: Checkout - Users with clean bag do not get a Merge Cart page
 
   Scenario: Checkout - Registered user does not get to a merge cart page

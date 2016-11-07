@@ -6,6 +6,7 @@ import org.apache.commons.exec.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public abstract class Array extends PageObject{
 
     protected Footer footer;
     protected HeaderWrap header;
+    
+    @FindBy(xpath = "//div[@class='product__grid']")
+    private WebElement productGrid;
 
     public Array(WebDriver driver) {
         super(driver);

@@ -1,4 +1,4 @@
-@GuestCheckout-Part3
+@GuestCheckout-Part3 @HighLevel
 Feature: Checkout - Guest user is able to checkout with promo code
 
   Scenario: Checkout - Guest user is able to checkout with promo code

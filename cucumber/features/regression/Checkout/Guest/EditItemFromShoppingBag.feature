@@ -1,4 +1,4 @@
-@GuestCheckout-Part2
+@GuestCheckout-Part2 @HighLevel
 Feature: Checkout - User is able to edit item from shopping bag during Guest checkout
 
   Scenario: Checkout - User is able to edit item from shopping bag during Guest checkout

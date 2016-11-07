@@ -1,4 +1,4 @@
-@International
+@International @HighLevel
 
 Feature: Welcome mat takes you to the international page or US site
 

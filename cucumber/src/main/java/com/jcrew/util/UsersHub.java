@@ -84,7 +84,7 @@ public class UsersHub {
         if (rs != null) {
             try {
                 rs.next();
-                    numOfRecords = Integer.parseInt(rs.getString(1));
+                numOfRecords = Integer.parseInt(rs.getString(1));
             } catch (Exception e) {
                 throw new SQLException("Exception occurred when retrieving records count from DB..." + e.getMessage());
             }

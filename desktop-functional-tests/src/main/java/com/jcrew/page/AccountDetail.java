@@ -67,6 +67,13 @@ public class AccountDetail extends Account {
         getformElement("Old password").sendKeys((String) stateHolder.get("fakenewuserPassword"));
         getformElement("New password").sendKeys(newPassword);
         getformElement("re-enter password").sendKeys(newPassword);
+        
+        try {
+        	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//input[@id='my-details-form__new-password']/following-sibling::span[contains(@class,'js-invalid-msg')]")));
+        	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//input[@id='my-details-form__confirm-password']/following-sibling::span[contains(@class,'js-invalid-msg')]")));
+        } catch (Exception e) {
+        	logger.info("New Password and Confirm Password error messages are disappeared. User can click on Save now.");
+        }
     }
 
     public boolean isBirthField(String btnStatus) {

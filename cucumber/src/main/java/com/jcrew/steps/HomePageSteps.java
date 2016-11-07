@@ -14,8 +14,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
 public class HomePageSteps extends DriverFactory {
 
     private final HomePage homePage = new HomePage(getDriver());

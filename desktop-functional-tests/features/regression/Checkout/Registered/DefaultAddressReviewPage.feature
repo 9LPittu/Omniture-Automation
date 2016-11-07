@@ -1,4 +1,4 @@
-@RegisteredCheckout
+@RegisteredCheckout @HighLevel
 Feature: Checkout - Default shipping, Billing and Shipping Method on Review page for registered user
 
   Scenario: Checkout - Verify default shipping, billing and shipping method on Review page  for registered user
