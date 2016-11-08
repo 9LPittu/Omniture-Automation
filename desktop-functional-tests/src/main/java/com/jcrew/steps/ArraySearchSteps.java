@@ -94,5 +94,12 @@ public class ArraySearchSteps extends DriverFactory {
     public void select_gender_selector(String gender) {
     	searchArray.clickGenderSelector(gender);
     }
+    
+    @Then("Verify that search result number is greater than (\\d+)")
+    public void search_results_number_greater_than(int greaterThan) {
+        int searchResults = searchArray.getSearchResultsNumber();
+
+        assertTrue("Results number is greater than " + greaterThan, searchResults > greaterThan);
+    }
 
 }

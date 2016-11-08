@@ -144,4 +144,15 @@ public class ArraySearch extends Array{
     	genderSelector.click();
     	wait.until(ExpectedConditions.urlContains("/r/search"));
     }
+    
+    public int getSearchResultsNumber() {
+    	wait.until(ExpectedConditions.visibilityOf(searchResults));
+        WebElement searchResultsNumber = searchResults.findElement(By.className("search__results--count"));
+        String resultsText = searchResultsNumber.getText();
+        resultsText = resultsText.replaceAll("[^0-9]*", "");
+
+        return Integer.parseInt(resultsText);
+    }
 }
+
+
