@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -49,9 +50,17 @@ public class ArraySearch extends Array{
     }
     
     public boolean isSalePage() {
-        Util.waitWithStaleRetry(driver, searchResults);
-
-        return searchResults.isDisplayed() && Util.countryContextURLCompliance(driver, country);
+    	boolean result;
+    	try {
+    		result = searchResults.isDisplayed();
+    	} catch (StaleElementReferenceException staleException)	{
+    		Util.waitWithStaleRetry(driver, searchResults);
+    		result = searchResults.isDisplayed();
+    	}
+    	
+    	result = result && Util.countryContextURLCompliance(driver, country);
+        
+    	return result;
     }
 
 
