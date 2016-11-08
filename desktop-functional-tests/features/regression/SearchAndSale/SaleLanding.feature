@@ -1,4 +1,4 @@
-@sale
+@sale @HighLevel
 Feature: Sale Landing functionality
 
   Background:
