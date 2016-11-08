@@ -452,6 +452,7 @@ public class SearchPage {
     }
     
     private List<WebElement> getProductTiles(WebElement productList) {
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productList));
         return productList.findElements(By.className("c-product-tile"));
     }
 }
