@@ -867,6 +867,8 @@ public class ProductDetailPage {
 	            expectedSizeMessage = testDataReader.getData("pdp.size.message");
 	            logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 	            
+	            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
+
 	            int cntr = 0;
 	            do{	            	
 	            	try{
@@ -908,7 +910,7 @@ public class ProductDetailPage {
 	        if (!countryCode.equalsIgnoreCase("us")) {
 	            expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
 	            logger.info("Expected PDP Message: {}", expectedPDPMessage);
-	
+	            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpMessage)));
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
 	            actualPDPMessage = pdpMessage.getText().trim();
