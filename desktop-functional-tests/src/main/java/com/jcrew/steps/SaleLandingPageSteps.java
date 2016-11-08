@@ -68,5 +68,16 @@ public class SaleLandingPageSteps extends DriverFactory{
     public void close_promo_detail() {
     	sale.closePromoDetails();
     }
+    
+    @Then("Verify Second promo is displayed on sale landing page$")
+    public void verify_second_promo() {
+    	assertTrue("Second promo should be displayed on sale landing page",sale.isSecondPromo());
+    }
+    
+    @When("User clicks on ([^\"]*) link from second promo$")
+    public void click_second_promo_link(String gender) {
+    	sale.clickSecondPromoLink(gender);
+    }
+
 
 }

@@ -33,6 +33,9 @@ public class SaleLanding {
     @FindBy(className = "c-sale__promo-frame")
     private WebElement promoFrame;
     
+    @FindBy(id = "c-promo-alert")
+    private WebElement secondPromoBox;
+    
 
     public SaleLanding(WebDriver driver) {
         this.driver = driver;
@@ -124,6 +127,24 @@ public class SaleLanding {
     	wait.until(ExpectedConditions.visibilityOf(closeIcon));
     	
     	closeIcon.click();
+    }
+    
+    public boolean isSecondPromo() {
+    	wait.until(ExpectedConditions.visibilityOf(secondPromoBox));
+    	WebElement secondPromo = secondPromoBox.findElement(By.xpath(".//div[@class='c-sale__promo-alert']"));
+    	
+    	return secondPromo.isDisplayed();
+    }
+    
+    public void clickSecondPromoLink(String name) {
+    	name = name.toLowerCase().trim();
+    	
+    	wait.until(ExpectedConditions.visibilityOf(secondPromoBox));
+    	
+    	WebElement promoLink = secondPromoBox.findElement(By.xpath(".//div/a[" + Util.xpathGetTextLower + "='" + name + "']"));
+    	wait.until(ExpectedConditions.elementToBeClickable(promoLink));
+    	
+    	promoLink.click();
     }
 
 }
