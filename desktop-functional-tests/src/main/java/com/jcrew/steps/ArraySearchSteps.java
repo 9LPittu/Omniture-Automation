@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.ArraySearch;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 
 import cucumber.api.java.en.Then;
         import cucumber.api.java.en.When;
@@ -17,6 +18,7 @@ import static org.junit.Assert.*;
 public class ArraySearchSteps extends DriverFactory {
 
     ArraySearch searchArray = new ArraySearch(getDriver());
+    StateHolder stateHolder = StateHolder.getInstance();
 
 
     @When("User selects random product from array")
@@ -100,6 +102,20 @@ public class ArraySearchSteps extends DriverFactory {
         int searchResults = searchArray.getSearchResultsNumber();
 
         assertTrue("Results number is greater than " + greaterThan, searchResults > greaterThan);
+    }
+    
+    @Then("Verify pagination is displayed on array page$")
+    public void pagination_displayed_array_page(){  	
+    	assertTrue("Pagination should be displayed when items on the page are more than 60", searchArray.isPaginationDisplayed());
+    }
+    
+    @Then("Verify page (\\d+) is selected")
+    public void verify_page_number(int expectedPageNumber) {
+    	boolean isPagination = stateHolder.get("pagination");
+    	if (isPagination) {
+	    	int selectedPageNumber = searchArray.getPageNumber();
+	    	assertEquals("Page numbers should match ", expectedPageNumber , selectedPageNumber);
+    	} 
     }
 
 }

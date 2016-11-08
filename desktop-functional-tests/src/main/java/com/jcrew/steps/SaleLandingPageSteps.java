@@ -2,6 +2,8 @@ package com.jcrew.steps;
 
 import com.jcrew.page.SaleLanding;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.Util;
+
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import static org.junit.Assert.assertTrue;
@@ -79,5 +81,13 @@ public class SaleLandingPageSteps extends DriverFactory{
     	sale.clickSecondPromoLink(gender);
     }
 
+    @When("User Selects random sale category from the list$")
+    public void select_random_sale_category_from_list(List<String> saleCategories) {
+    	int index = Util.randomIndex(saleCategories.size());
+		String randomCategory = saleCategories.get(index).toLowerCase().trim();
+		
+		sale.click_on_sale_subcategory(randomCategory);
+    	
+    }
 
 }

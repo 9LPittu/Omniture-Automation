@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,6 +30,9 @@ public class ArraySearch extends Array{
     private WebElement productGrid;
     @FindBy(id = "c-search__filter")
     private WebElement searchFilter;
+    @FindBy(id = "c-search__header-pagination")
+    private WebElement pagination;
+    
 
     public ArraySearch(WebDriver driver) {
         super(driver);
@@ -152,6 +156,33 @@ public class ArraySearch extends Array{
         resultsText = resultsText.replaceAll("[^0-9]*", "");
 
         return Integer.parseInt(resultsText);
+    }
+    
+    public boolean isPaginationDisplayed(){
+        boolean result=false;
+        int resultsNumber = getSearchResultsNumber();
+        stateHolder.put("pagination", true);
+
+        if(resultsNumber > 60){
+        	Util.waitWithStaleRetry(driver, pagination);
+        	result = pagination.isDisplayed();
+        } else{
+        	try {
+        		result = !pagination.isDisplayed();
+        	} catch (NoSuchElementException noElement) {
+        		result = true;	
+        	}
+        }
+        return result;
+    }
+    
+    public int getPageNumber() {
+    	wait.until(ExpectedConditions.visibilityOf(pagination));
+    	
+    	WebElement pageNumber = pagination.findElement(By.xpath(".//select[contains(@class,'dropdown--quantity')]/option[@selected='selected']"));
+    	String selectedPageNumber = pageNumber.getAttribute("value").trim();
+    	
+    	return Integer.parseInt(selectedPageNumber);
     }
 }
 
