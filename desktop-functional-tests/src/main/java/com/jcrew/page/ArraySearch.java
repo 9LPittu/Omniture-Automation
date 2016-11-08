@@ -106,12 +106,7 @@ public class ArraySearch extends Array{
     public boolean isFiltersDisplayed() {
     	wait.until(ExpectedConditions.visibilityOf(searchFilter));
     	List<WebElement> searchFilters = searchFilter.findElements(By.xpath(".//div[contains(@class,'js-search__filter') or contains(@class,'js-filters__dropdown')]"));
-    	int filterCount = searchFilters.size();
-    	if (filterCount > 1) {
-    		return true;
-    	} else {
-    		return false;
-    	}  	
+    	return searchFilters.size() > 1;  	
     } 
     
     public String getFilterValue(String filterName) {
