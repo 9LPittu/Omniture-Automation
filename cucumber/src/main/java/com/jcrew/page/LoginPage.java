@@ -93,6 +93,7 @@ public class LoginPage {
 
     public void input_as_email(String email) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
         emailInput.sendKeys(email);
     }
 

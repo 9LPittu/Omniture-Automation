@@ -168,8 +168,8 @@ public class HamburgerMenu {
     }
 
     public void click_on_subcategory(String subcategory, String category) {
-
-        getSubcategoryFromMenu(subcategory, category).click();
+        WebElement subCategoryElement = getSubcategoryFromMenu(subcategory, category);
+        Util.scrollAndClick(driver, subCategoryElement);
         logger.info("Actual subcategory clicked: {}", subcategory);
         stateHolder.put("subcategory", subcategory);
         Util.waitLoadingBar(driver);
@@ -289,7 +289,7 @@ public class HamburgerMenu {
         logger.debug("Selected subcategory is {} from {} category", subCategoryText, categorySelected);
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(subcategory));
-        subcategory.click();
+        Util.scrollAndClick(driver, subcategory);        
         Util.waitLoadingBar(driver);
     }
 
