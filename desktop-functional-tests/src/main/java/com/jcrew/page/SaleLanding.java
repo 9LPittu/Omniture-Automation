@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +29,10 @@ public class SaleLanding {
 
     @FindBy(id = "c-promo-categories")
     private WebElement saleCategory;
+    
+    @FindBy(className = "c-sale__promo-frame")
+    private WebElement promoFrame;
+    
 
     public SaleLanding(WebDriver driver) {
         this.driver = driver;
@@ -61,11 +66,64 @@ public class SaleLanding {
     private WebElement getSubcategoryFromSale(String subcategory) {
         wait.until(ExpectedConditions.visibilityOf(saleCategory));
         WebElement sale = saleCategory.findElement(
-                By.xpath(".//a[@class='js-sale__link' and @data-label='" + subcategory.toLowerCase() + "']"));
+                By.xpath(".//a[@class='js-sale__link' and translate(@data-label, 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')='" + subcategory.toLowerCase() + "']"));
 
         logger.debug("Opening sale link {}", sale.getAttribute("href"));
 
         return sale;
+    }
+    
+    public boolean isSalelanding() {
+    	return page__sale.isDisplayed();
+    }
+    
+    public List<String> getSaleCategory() {
+    	List <String> categoryName = new ArrayList<String>();
+    	WebElement saleCategories = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("c-promo-categories")));
+    	List<WebElement> saleCategoryList = saleCategories.findElements(By.xpath(".//div[contains(@class,'c-category__list-item')]/a"));
+    	for (WebElement saleCategory:saleCategoryList) {
+    		String categoryText = saleCategory.getAttribute("data-label").toLowerCase();
+    		categoryName.add(categoryText);	
+    	}
+    	
+    	return categoryName;
+    	
+    }
+    
+    public boolean isSaleTitle() {
+    	return page__sale.findElement(By.xpath("//div[@class='c-sale__title' and "+ Util.xpathGetTextLower +"='sale']")).isDisplayed();
+    }
+    
+    public boolean isFirstPromo() {
+    	wait.until(ExpectedConditions.visibilityOf(promoFrame));
+    	WebElement Details = promoFrame.findElement(By.xpath(".//div/a[@class='js-sale-promo-link' and " + Util.xpathGetTextLower + "='details']"));
+    	
+    	return promoFrame.isDisplayed() && Details.isDisplayed();
+    }
+    
+    public void clickDetailsLink() {
+    	wait.until(ExpectedConditions.visibilityOf(promoFrame));
+    	WebElement Details = promoFrame.findElement(By.xpath(".//div/a[@class='js-sale-promo-link' and " + Util.xpathGetTextLower + "='details']"));
+    	wait.until(ExpectedConditions.visibilityOf(Details));
+    	Details.click();
+    	
+    }
+    
+    public String getPromoPopUpState() {
+    	WebElement promoPopOver = promoFrame.findElement(By.xpath(".//div[contains(@class,'js-sale-promo-popover')]"));
+    	String style = promoPopOver.getAttribute("style").toLowerCase();
+    	if (style.contains("block")) {
+    		return "open";
+    	} else {
+    		return "closed";
+    	}
+    }
+    
+    public void closePromoDetails() {
+    	WebElement closeIcon = promoFrame.findElement(By.xpath(".//span[contains(@class,'js-sale-promo-close')]"));
+    	wait.until(ExpectedConditions.visibilityOf(closeIcon));
+    	
+    	closeIcon.click();
     }
 
 }
