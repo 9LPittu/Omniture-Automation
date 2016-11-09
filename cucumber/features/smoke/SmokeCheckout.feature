@@ -22,7 +22,7 @@ Feature: Checkout Process
     And Clicks on J.Crew Breadcrumb
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
-    And User clicks on BLAZERS subcategory from Women Category
+    And User clicks on SWEATERS subcategory from Women Category
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
