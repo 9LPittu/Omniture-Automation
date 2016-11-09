@@ -75,8 +75,18 @@ public class DriverFactory {
         if ("chrome".equals(browser)) {
         	DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
 
-        	ChromeOptions options = new ChromeOptions();
-            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
+        	
+            Map<String, Object> deviceMetrics = new HashMap<>();
+            deviceMetrics.put("width", Integer.parseInt(propertyReader.getProperty("mobile.width")));
+            deviceMetrics.put("height", Integer.parseInt(propertyReader.getProperty("mobile.height")));
+            deviceMetrics.put("pixelRatio", 3.0);
+
+            Map<String, Object> mobileEmulation = new HashMap<>();
+            mobileEmulation.put("deviceMetrics", deviceMetrics);
+            mobileEmulation.put("userAgent", propertyReader.getProperty("user.agent"));
+
+            ChromeOptions options = new ChromeOptions();
+            options.setExperimentalOption("mobileEmulation", mobileEmulation);
 
             if (akamaiEnv) {
                 options.addArguments("--disable-extensions");
@@ -84,7 +94,7 @@ public class DriverFactory {
                 options.addExtensions(new File("ModHeader.crx"));
 
             }
-
+            System.setProperty("webdriver.chrome.driver", "c:\\git\\chromedriver.exe");
             desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
             driver = new ChromeDriver(desiredCapabilities);
 
@@ -190,9 +200,20 @@ public class DriverFactory {
                 propertyReader.getProperty(propertyReader.getProperty("environment") + ".akamai"));
 
         if ("chrome".equals(browser)) {
-            DesiredCapabilities chrome = DesiredCapabilities.chrome();
+        	DesiredCapabilities chrome = DesiredCapabilities.chrome();
+            Map<String, Object> deviceMetrics = new HashMap<>();
+            deviceMetrics.put("width", Integer.parseInt(propertyReader.getProperty("mobile.width")));
+            deviceMetrics.put("height", Integer.parseInt(propertyReader.getProperty("mobile.height")));
+            deviceMetrics.put("pixelRatio", 3.0);
+
+            Map<String, Object> mobileEmulation = new HashMap<>();
+            mobileEmulation.put("deviceMetrics", deviceMetrics);
+            mobileEmulation.put("userAgent", propertyReader.getProperty("user.agent"));
+
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
+            options.setExperimentalOption("mobileEmulation", mobileEmulation);
+            
+            
             if (akamaiEnv) {
                 options.addArguments("--disable-extensions");
             } else {
@@ -200,6 +221,7 @@ public class DriverFactory {
 
             }
             chrome.setCapability(ChromeOptions.CAPABILITY, options);
+            
             driver = getDesktopWebDriver(propertyReader, chrome);
 
             if (!akamaiEnv && !isDesktop) {
