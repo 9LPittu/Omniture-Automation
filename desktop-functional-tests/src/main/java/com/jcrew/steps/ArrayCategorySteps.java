@@ -149,7 +149,10 @@ public class ArrayCategorySteps extends DriverFactory {
     }
 
     @Then("Verify user is in ([^\"]*) category array page")
-        public void is_category_array_page(String subCategoryName) {
+     public void is_category_array_page(String subCategoryName) {
+        if("selected".equalsIgnoreCase(subCategoryName)){
+            subCategoryName = (String) holder.get("subcategory");
+        }
         assertTrue("Category array page for " + subCategoryName + " should be displayed", productsArray.isCategoryArrayPage(subCategoryName));
     }
     @Then("Verify user is in category array page")
