@@ -19,6 +19,8 @@ Feature: Sale Landing functionality
   Scenario: Verify pagination at top on Sale Array page
   	And Verify pagination is displayed on array page
   	And Verify page 1 is selected
+  	And Verify Previous pagination arrow is displayed on array page
+  	And Verify Next pagination arrow is displayed on array page
 #  	And left pagination text Previous is displayed above footer
 #    And left pagination text Previous is in disabled state
 #    And right pagination text Next is displayed above footer

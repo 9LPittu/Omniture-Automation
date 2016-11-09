@@ -117,5 +117,14 @@ public class ArraySearchSteps extends DriverFactory {
 	    	assertEquals("Page numbers should match ", expectedPageNumber , selectedPageNumber);
     	} 
     }
+    
+    @Then("Verify ([^\"]*) pagination arrow is displayed on array page") 
+    public void verify_pagination_arrow_on_array(String name) {
+    	boolean isPagination = stateHolder.get("pagination");
+    	if (isPagination) {
+	    	name = name.toLowerCase().trim();
+	    	searchArray.isPaginationArrowDisplayed(name);
+    	}
+    }
 
 }

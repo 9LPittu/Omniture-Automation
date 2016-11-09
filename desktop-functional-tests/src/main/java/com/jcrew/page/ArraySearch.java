@@ -31,7 +31,7 @@ public class ArraySearch extends Array{
     @FindBy(id = "c-search__filter")
     private WebElement searchFilter;
     @FindBy(id = "c-search__header-pagination")
-    private WebElement pagination;
+    private WebElement headerPagination;
     
 
     public ArraySearch(WebDriver driver) {
@@ -164,11 +164,11 @@ public class ArraySearch extends Array{
         stateHolder.put("pagination", true);
 
         if(resultsNumber > 60){
-        	Util.waitWithStaleRetry(driver, pagination);
-        	result = pagination.isDisplayed();
+        	Util.waitWithStaleRetry(driver, headerPagination);
+        	result = headerPagination.isDisplayed();
         } else{
         	try {
-        		result = !pagination.isDisplayed();
+        		result = !headerPagination.isDisplayed();
         	} catch (NoSuchElementException noElement) {
         		result = true;	
         	}
@@ -177,12 +177,18 @@ public class ArraySearch extends Array{
     }
     
     public int getPageNumber() {
-    	wait.until(ExpectedConditions.visibilityOf(pagination));
+    	wait.until(ExpectedConditions.visibilityOf(headerPagination));
     	
-    	WebElement pageNumber = pagination.findElement(By.xpath(".//select[contains(@class,'dropdown--quantity')]/option[@selected='selected']"));
+    	WebElement pageNumber = headerPagination.findElement(By.xpath(".//select[contains(@class,'dropdown--quantity')]/option[@selected='selected']"));
     	String selectedPageNumber = pageNumber.getAttribute("value").trim();
     	
     	return Integer.parseInt(selectedPageNumber);
+    }
+    
+    public boolean isPaginationArrowDisplayed(String name) {
+    	wait.until(ExpectedConditions.visibilityOf(headerPagination));
+    	WebElement paginationArrow = headerPagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[@class='pagination__arrow']"));
+    	return paginationArrow.isDisplayed();
     }
 }
 
