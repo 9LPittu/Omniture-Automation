@@ -1,13 +1,16 @@
 package com.jcrew.page;
 
 import com.jcrew.utils.Util;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,13 +23,12 @@ public class ArraySearch extends Array{
     private WebElement pageSearch;
     @FindBy(id = "c-search__results")
     private WebElement searchResults;
-
     @FindBy(className = "header__search")
     private WebElement headerSearch;
-
     @FindBy(xpath = "//div[@class='product__grid']")
     private WebElement productGrid;
-
+    @FindBy(id = "c-search__filter")
+    private WebElement searchFilter;
 
     public ArraySearch(WebDriver driver) {
         super(driver);
@@ -45,6 +47,20 @@ public class ArraySearch extends Array{
         wait.until(ExpectedConditions.visibilityOf(searchResults));
 
         return headerSearch.isDisplayed() && searchResults.isDisplayed() && Util.countryContextURLCompliance(driver, country);
+    }
+    
+    public boolean isSalePage() {
+    	boolean result;
+    	try {
+    		result = searchResults.isDisplayed();
+    	} catch (StaleElementReferenceException staleException)	{
+    		Util.waitWithStaleRetry(driver, searchResults);
+    		result = searchResults.isDisplayed();
+    	}
+    	
+    	result = result && Util.countryContextURLCompliance(driver, country);
+        
+    	return result;
     }
 
 
@@ -79,5 +95,53 @@ public class ArraySearch extends Array{
     public List<String> getSalePrices() {
 
         return getProductPrices(searchResults,PRICE_SALE_CLASS);
+    }
+    
+    public String getHeaderTitle() {
+    	WebElement headerTitle = pageSearch.findElement(By.tagName("h1"));
+   
+    	return headerTitle.getText();
+    }
+    
+    public boolean isFiltersDisplayed() {
+    	wait.until(ExpectedConditions.visibilityOf(searchFilter));
+    	List<WebElement> searchFilters = searchFilter.findElements(By.xpath(".//div[contains(@class,'js-search__filter') or contains(@class,'js-filters__dropdown')]"));
+    	return searchFilters.size() > 1;  	
+    } 
+    
+    public String getFilterValue(String filterName) {
+    	wait.until(ExpectedConditions.visibilityOf(searchFilter));
+
+    	
+    	WebElement filterElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + filterName 
+    					+ "']/following-sibling::h6")));
+
+    	String filterValue = filterElement.getText();
+    	
+    	return filterValue;
+    }
+    
+    
+    public List<String> getGenderSelectors() {
+    	List<String> genderList = new ArrayList<String>();
+    	WebElement genderMenu = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//menu[@class='menu__search menu__filters--gender']")));
+    	List<WebElement> genderSelectors = genderMenu.findElements(By.xpath(".//div[contains(@class,'js-search__filter')]"));
+    	
+    	for (WebElement genderSelector:genderSelectors) {
+    		String gender = genderSelector.getText().toLowerCase().trim();
+    		genderList.add(gender);
+    	}
+    	
+    	return genderList;
+    }
+    
+    public void clickGenderSelector(String gender) {
+    	gender = gender.toLowerCase().trim();
+    	WebElement genderMenu = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//menu[@class='menu__search menu__filters--gender']")));
+    	WebElement genderSelector = genderMenu.findElement(By.xpath(".//div[contains(@class,'js-search__filter') and " 
+    								+ Util.xpathGetTextLower + "='" + gender +"']"));
+    	wait.until(ExpectedConditions.elementToBeClickable(genderSelector));
+    	genderSelector.click();
+    	wait.until(ExpectedConditions.urlContains("/r/search"));
     }
 }

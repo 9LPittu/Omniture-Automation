@@ -93,6 +93,7 @@ public class LoginPage {
 
     public void input_as_email(String email) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
         emailInput.sendKeys(email);
     }
 
@@ -151,7 +152,7 @@ public class LoginPage {
         
         String username = null;
         String password = null;
-        if(reader.getProperty("environment").equalsIgnoreCase("ci")){
+        if(reader.getProperty("environment").contains("ci")){
         	username = reader.getProperty("checkout.signed.in.username");
         	password = reader.getProperty("checkout.signed.in.password");
         }

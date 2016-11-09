@@ -432,7 +432,7 @@ public class SalePage {
         }
         
         stateHolder.put("sale category", saleDepElement.getText());
-        saleDepElement.click();
+        Util.scrollAndClick(driver, saleDepElement);
         Util.waitLoadingBar(driver);
         logger.info("{} sale department is clicked",  dept);
     }
