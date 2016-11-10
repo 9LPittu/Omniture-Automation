@@ -94,11 +94,36 @@ public class LoginPage {
     public void input_as_email(String email) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
-        emailInput.sendKeys(email);
+        
+        int cntr = 0;
+        do{
+        	emailInput.clear();
+        	emailInput.sendKeys(email);
+        	
+        	if(emailInput.getText().equalsIgnoreCase(email)){
+        		break;
+        	}
+        	else{
+        		cntr++;
+        	}
+        }while(cntr<=2);        
     }
 
     public void input_as_password(String password) {
         passwordInput.sendKeys(password);
+        
+        int cntr = 0;
+        do{
+        	passwordInput.clear();
+        	passwordInput.sendKeys(password);
+        	
+        	if(passwordInput.getText().equalsIgnoreCase(password)){
+        		break;
+        	}
+        	else{
+        		cntr++;
+        	}
+        }while(cntr<=2); 
     }
 
     public void click_sign_in_button() {
@@ -154,14 +179,10 @@ public class LoginPage {
         
         String username = null;
         String password = null;
-        logger.debug("Environment: {}", reader.getProperty("environment"));
-        
+
         if(reader.getProperty("environment").contains("ci")){
         	username = reader.getProperty("checkout.signed.in.username");
         	password = reader.getProperty("checkout.signed.in.password");
-        	
-        	logger.debug("Username: {}", username);
-        	logger.debug("Password: {}", password);
         }
         else{
         	try{
