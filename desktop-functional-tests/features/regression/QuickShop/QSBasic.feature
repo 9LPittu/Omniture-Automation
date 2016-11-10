@@ -126,36 +126,3 @@ Feature: Quick Shop Basic
 
     Then Verify shopping bag is displayed
     And Verify products added matches with products in bag
-    # Registered user able to add item to wishlist from quick shop
-  Scenario: Development in progress scenario
-
-    When User clicks on sign in using header
-    Then User goes to sign in page
-    And User fills user data and signs in
-    Then Verify user is in My Account main page
-    When User clicks on My Wishlist link in My Account Page
-    Then User should be in /wishlist menu link page
-    And Deletes all previous wishlist items from the list
-    And User goes to homepage
-
-    When User hovers on women category from header
-    And User selects sweaters subcategory array
-    Then Verify user is in sweaters category array page
-
-    When User selects random quick shop from product array
-    Then Verify quick shop modal is displayed
-
-    When Selects random color
-    And Selects random size
-
-    When User clicks on Wishlist button
-
-    When User clicks on X icon
-    When User goes to homepage
-
-    When User goes to Wishlist using header
-    Then Verify user is in wishlist page
-    And Verify product name on wishlist matches with QS
-
-
-
