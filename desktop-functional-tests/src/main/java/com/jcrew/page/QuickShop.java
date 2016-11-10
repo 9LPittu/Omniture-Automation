@@ -226,9 +226,18 @@ public class QuickShop extends PageObject {
         }
     }
     public boolean canChangeVariation(){
+        String itemCode;
+        itemCode = getSelectedVariationItemCode();
+        Util.createWebDriverWait(driver);
+        return !(itemCode.equalsIgnoreCase(getSelectedVariationItemCode()));
+    }
+    public boolean canChangeVariation_deleteme(){
+        WebElement variationList=getQSElement("variations");
+        WebElement selectedVariations=variationList.findElement(By.xpath(".//li[(contains(@class,'is-selected'))]"));
+       // itemCode = selectedVariations.getAttribute("data-code");
         String prodName = getProductName();
         selectRandomVarition();
-
+        Util.createWebDriverWait(driver);
         String newProdName = getProductName();
         return !(prodName.equalsIgnoreCase(newProdName));
     }
@@ -238,6 +247,11 @@ public class QuickShop extends PageObject {
         if(variations.size() > 0 ){
             variations.get(0).click();
         }
+    }
+    private String getSelectedVariationItemCode(){
+        WebElement variationList=getQSElement("variations");
+        WebElement selectedVariations=variationList.findElement(By.xpath(".//li[(contains(@class,'is-selected'))]"));
+        return selectedVariations.getAttribute("data-code");
     }
     public String getMessage(){
         wait.until(ExpectedConditions.visibilityOf(messageSection));
