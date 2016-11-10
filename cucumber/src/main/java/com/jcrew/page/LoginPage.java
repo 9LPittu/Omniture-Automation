@@ -92,8 +92,8 @@ public class LoginPage {
     }
 
     public void input_as_email(String email) {
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
         
         int cntr = 0;
         do{
@@ -106,12 +106,10 @@ public class LoginPage {
         	else{
         		cntr++;
         	}
-        }while(cntr<=2);        
+        }while(cntr<=2);
     }
 
     public void input_as_password(String password) {
-        passwordInput.sendKeys(password);
-        
         int cntr = 0;
         do{
         	passwordInput.clear();
