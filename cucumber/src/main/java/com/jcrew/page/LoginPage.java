@@ -155,6 +155,9 @@ public class LoginPage {
         if(reader.getProperty("environment").contains("ci")){
         	username = reader.getProperty("checkout.signed.in.username");
         	password = reader.getProperty("checkout.signed.in.password");
+        	
+        	logger.error("Username: {}", username);
+        	logger.error("Password: {}", password);
         }
         else{
         	try{
