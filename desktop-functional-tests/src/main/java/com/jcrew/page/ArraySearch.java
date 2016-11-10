@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,6 +190,51 @@ public class ArraySearch extends Array{
     	wait.until(ExpectedConditions.visibilityOf(headerPagination));
     	WebElement paginationArrow = headerPagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[@class='pagination__arrow']"));
     	return paginationArrow.isDisplayed();
+    }
+    
+    public String getPaginationArrowState(String name, String state) {
+    	wait.until(ExpectedConditions.visibilityOf(headerPagination));
+    	WebElement paginationArrow = headerPagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[contains(@class,'pagination__link')]"));
+    	
+    	boolean isDisabled = paginationArrow.getAttribute("class").contains("is-disabled");
+    	
+    	if (isDisabled) {
+    		return "disabled";
+    	} else {
+    		return "active";
+    	}
+    }
+    
+    public void selectPaginationArrow(String name) {
+    	//Save the name of first item in current page
+    	String firstItemName = getFirstItemName();
+        stateHolder.put("firstItemNameInArray", firstItemName);
+    	
+    	wait.until(ExpectedConditions.visibilityOf(headerPagination));
+    	WebElement paginationArrow = headerPagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[@class='pagination__arrow']"));
+    	wait.until(ExpectedConditions.elementToBeClickable(paginationArrow));
+    	paginationArrow.click();
+    	Util.waitSpinningImage(driver);
+    }
+    
+    public void selectRandomPageNumberFromPaginationDropdown(){
+    	
+    	//Save the name of first item in current page
+    	String firstItemName = getFirstItemName();
+        stateHolder.put("firstItemNameInArray", firstItemName);
+    	
+    	wait.until(ExpectedConditions.visibilityOf(headerPagination));
+
+        Select list = new Select(headerPagination.findElement(By.xpath(".//select[contains(@class,'dropdown--quantity')]")));
+        int randomNumber = Util.randomIndex(list.getOptions().size()-1);
+        list.selectByIndex(randomNumber + 1);
+
+        Util.waitSpinningImage(driver);
+    }
+    
+    public String getFirstItemName() {
+    	List<WebElement> items = driver.findElements(By.className("tile__detail--name"));
+        return items.get(0).getText();
     }
 }
 

@@ -123,8 +123,65 @@ public class ArraySearchSteps extends DriverFactory {
     	boolean isPagination = stateHolder.get("pagination");
     	if (isPagination) {
 	    	name = name.toLowerCase().trim();
-	    	searchArray.isPaginationArrowDisplayed(name);
+	    	assertTrue(name + "pagination arrow should be displayed", searchArray.isPaginationArrowDisplayed(name));
     	}
     }
+    
+    @Then("Verify ([^\"]*) pagination arrow is in ([^\"]*) state") 
+    public void verify_pagination_arrow_on_array(String name, String state) {
+    	boolean isPagination = stateHolder.get("pagination");
+    	if (isPagination) {
+	    	name = name.toLowerCase().trim();
+	    	state = state.toLowerCase().trim();
+	    	String actualState = searchArray.getPaginationArrowState(name,state);
+	    	assertEquals(name + "pagination arrow state should match", state , actualState);
+    	}
+    } 
+    
+    
+    @When("User clicks on ([^\"]*) pagination arrow") 
+    public void click_on_pagination_arrow(String name) {
+    	boolean isPagination = stateHolder.get("pagination");
+    	if (isPagination) {
+	    	name = name.toLowerCase().trim();
+	    	int currentPageNumber = searchArray.getPageNumber();
+	    	stateHolder.put("currentPageNumber", currentPageNumber);
+	    	
+	    	searchArray.selectPaginationArrow(name);
+    	}
+    } 
+    
+    @Then("Verify selected page number ([^\"]*) by (\\d+)") 
+    public void verify_pagination_arrow_on_array(String action, int count) {
+    	boolean isPagination = stateHolder.get("pagination");
+    	if (isPagination) {	
+    		int expectedPage;
+	    	int previousPage = stateHolder.get("currentPageNumber");
+	    	
+    		action = action.toLowerCase().trim();
+	    	if (action.equalsIgnoreCase("increases")) {
+	    		expectedPage = previousPage + count;
+	    	} else {
+	    		expectedPage = previousPage - count;
+	    	}
+	    	
+	    	int actualPage = searchArray.getPageNumber();
+	    	assertEquals("Page numbers should match", expectedPage , actualPage);
+	    	
+	    	verify_page_content();
+    	}
+    } 
 
+    @When("^User selects random page number from pagination dropdown$")
+    public void select_page_number_from_pagaination_dropdown(){
+    	searchArray.selectRandomPageNumberFromPaginationDropdown();
+    }
+    
+    @Then("Verify content changes when page number is changed$")
+    public void verify_page_content() {
+    	String firstIteminPreviousPage = (String) stateHolder.get("firstItemNameInArray");
+    	String firstIteminCurrentPage = searchArray.getFirstItemName();
+    	assertTrue("First item in Previous page: " + firstIteminPreviousPage + " and first item in current page: " 
+    			+ firstIteminCurrentPage + " should not be same ", !firstIteminPreviousPage.equalsIgnoreCase(firstIteminCurrentPage));
+    }
 }

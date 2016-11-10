@@ -16,11 +16,26 @@ Feature: Sale Landing functionality
 	Then Verify Sale array page is displayed
 	And Verify that search result number is greater than 0
 	
-  Scenario: Verify pagination at top on Sale Array page
+  Scenario: Verify header paginationon on Array page
   	And Verify pagination is displayed on array page
   	And Verify page 1 is selected
   	And Verify Previous pagination arrow is displayed on array page
   	And Verify Next pagination arrow is displayed on array page
+  	And Verify Previous pagination arrow is in disabled state
+  	And Verify Next pagination arrow is in active state
+  	
+  	When User clicks on Next pagination arrow
+  	Then Verify selected page number increases by 1
+  	
+  	When User clicks on Previous pagination arrow
+  	Then Verify selected page number decreases by 1
+  	
+  	When User selects random page number from pagination dropdown
+  	And Verify content changes when page number is changed
+  	
+  	
+  	
+  	When User selects random page 
 #  	And left pagination text Previous is displayed above footer
 #    And left pagination text Previous is in disabled state
 #    And right pagination text Next is displayed above footer
