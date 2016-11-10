@@ -104,52 +104,64 @@ public class ArraySearchSteps extends DriverFactory {
         assertTrue("Results number is greater than " + greaterThan, searchResults > greaterThan);
     }
     
-    @Then("Verify pagination is displayed on array page$")
-    public void pagination_displayed_array_page(){  	
-    	assertTrue("Pagination should be displayed when items on the page are more than 60", searchArray.isPaginationDisplayed());
+    @Then("Verify ([^\"]*) pagination is displayed on array page")
+    public void pagination_displayed_array_page(String position){  	
+    	assertTrue(position + " pagination should be displayed when items on the page are more than 60", searchArray.isPaginationDisplayed(position));
     }
     
-    @Then("Verify page (\\d+) is selected")
-    public void verify_page_number(int expectedPageNumber) {
+    @Then("Verify page (\\d+) is selected in ([^\"]*) pagination")
+    public void verify_page_number(int expectedPageNumber, String position) {
     	boolean isPagination = stateHolder.get("pagination");
     	if (isPagination) {
-	    	int selectedPageNumber = searchArray.getPageNumber();
+	    	int selectedPageNumber = searchArray.getPageNumber(position);
 	    	assertEquals("Page numbers should match ", expectedPageNumber , selectedPageNumber);
     	} 
     }
     
-    @Then("Verify ([^\"]*) pagination arrow is displayed on array page") 
-    public void verify_pagination_arrow_on_array(String name) {
+    @Then("Verify ([^\"]*) pagination arrow is displayed on ([^\"]*) pagination$") 
+    public void verify_pagination_arrow_display(String name,String position) {
     	boolean isPagination = stateHolder.get("pagination");
     	if (isPagination) {
 	    	name = name.toLowerCase().trim();
-	    	assertTrue(name + "pagination arrow should be displayed", searchArray.isPaginationArrowDisplayed(name));
+	    	assertTrue(name + "pagination arrow should be displayed in the " + position + " pagination", searchArray.isPaginationArrowDisplayed(name,position));
     	}
     }
     
-    @Then("Verify ([^\"]*) pagination arrow is in ([^\"]*) state") 
-    public void verify_pagination_arrow_on_array(String name, String state) {
+    @Then("Verify ([^\"]*) pagination arrow in ([^\"]*) is in ([^\"]*) state") 
+    public void verify_pagination_arrow_on_array(String name, String position, String state) {
     	boolean isPagination = stateHolder.get("pagination");
     	if (isPagination) {
 	    	name = name.toLowerCase().trim();
 	    	state = state.toLowerCase().trim();
-	    	String actualState = searchArray.getPaginationArrowState(name,state);
+	    	String actualState = searchArray.getPaginationArrowState(name,state,position);
 	    	assertEquals(name + "pagination arrow state should match", state , actualState);
     	}
     } 
     
     
-    @When("User clicks on ([^\"]*) pagination arrow") 
-    public void click_on_pagination_arrow(String name) {
+    @When("User clicks on ([^\"]*) pagination arrow from ([^\"]*)") 
+    public void click_on_pagination_arrow(String name, String position) {
     	boolean isPagination = stateHolder.get("pagination");
     	if (isPagination) {
 	    	name = name.toLowerCase().trim();
-	    	int currentPageNumber = searchArray.getPageNumber();
+	    	int currentPageNumber = searchArray.getPageNumber(position);
 	    	stateHolder.put("currentPageNumber", currentPageNumber);
 	    	
-	    	searchArray.selectPaginationArrow(name);
+	    	searchArray.selectPaginationArrow(name,position);
     	}
     } 
+    
+    @When("User clicks on ([^\"]*) pagination link from ([^\"]*)") 
+    public void click_on_pagination_link(String name, String position) {
+    	boolean isPagination = stateHolder.get("pagination");
+    	if (isPagination) {
+	    	name = name.toLowerCase().trim();
+	    	int currentPageNumber = searchArray.getPageNumber(position);
+	    	stateHolder.put("currentPageNumber", currentPageNumber);
+	    	
+	    	searchArray.selectPaginationLink(name,position);
+    	}
+    }
     
     @Then("Verify selected page number ([^\"]*) by (\\d+)") 
     public void verify_pagination_arrow_on_array(String action, int count) {
@@ -165,16 +177,16 @@ public class ArraySearchSteps extends DriverFactory {
 	    		expectedPage = previousPage - count;
 	    	}
 	    	
-	    	int actualPage = searchArray.getPageNumber();
+	    	int actualPage = searchArray.getPageNumber("header");
 	    	assertEquals("Page numbers should match", expectedPage , actualPage);
 	    	
 	    	verify_page_content();
     	}
     } 
 
-    @When("^User selects random page number from pagination dropdown$")
-    public void select_page_number_from_pagaination_dropdown(){
-    	searchArray.selectRandomPageNumberFromPaginationDropdown();
+    @When("^User selects random page number from ([^\"]*) pagination dropdown$")
+    public void select_page_number_from_pagaination_dropdown(String pagination){
+    	searchArray.selectRandomPageNumberFromPaginationDropdown(pagination);
     }
     
     @Then("Verify content changes when page number is changed$")

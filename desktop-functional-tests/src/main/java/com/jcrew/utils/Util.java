@@ -183,4 +183,21 @@ public class Util {
             iterate = timeDifference < waitTime;
         }while(iterate);
     }
+    
+    
+    public static void waitSpinningImage(WebDriver driver){
+        try {
+            createWebDriverWait(driver).until(new Function<WebDriver, Boolean>() {
+                @Override
+                public Boolean apply(WebDriver webDriver) {
+                    WebElement spinningImage = webDriver.findElement(By.xpath("//div[contains(@class,'global__spinner-img')]"));
+                    String spinningImageClass = spinningImage.getAttribute("class");
+                    return spinningImageClass.contains("is-hidden");
+                }
+            });
+        } catch (StaleElementReferenceException stale) {
+            logger.error("StaleElementReferenceException when waiting for spinning image. " +
+                    "Assuming it is gone and ignoring this exception");
+        }
+    }
 }
