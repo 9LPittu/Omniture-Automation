@@ -3,10 +3,7 @@ package com.jcrew.page;
 import ch.qos.logback.classic.Logger;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -49,8 +46,8 @@ public class QuickShop extends PageObject {
     @FindBy(className = "c-product__description")
     private WebElement productDetails;
 
-    @FindBy(id = "c-product__sizes")
-    private WebElement sizes;
+//    @FindBy(id = "c-product__sizes")
+ //   private WebElement sizes;
 
     @FindBy(id = "c-product__quantity")
     private  WebElement quantity;
@@ -58,8 +55,7 @@ public class QuickShop extends PageObject {
     @FindBy(className = "c-quickshop__product-details")
     private WebElement prod_full_detials;
 
-    @FindBy(className = "c-product__message")
-    private WebElement messageSection;
+
 
 
     public QuickShop(WebDriver driver){
@@ -143,11 +139,14 @@ public class QuickShop extends PageObject {
 
     }
     private String getSelectedSize(){
-        wait.until(ExpectedConditions.visibilityOf(sizes));
-        WebElement selectedSize =
-                sizes.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
-        return selectedSize.getAttribute("data-name");
-
+        WebElement size =  getQSElement("size chips");
+        try{
+            WebElement selectedSize =
+                    size.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
+            return selectedSize.getAttribute("data-name");
+        }catch (NoSuchElementException e){
+            return "";
+        }
     }
 
     private String getQuantity() {
@@ -180,12 +179,12 @@ public class QuickShop extends PageObject {
     }
 
     public void selectRandomSize() {
-        wait.until(ExpectedConditions.visibilityOf(sizes));
+        WebElement size =  getQSElement("size chips");
         String availableSizesSelector = ".//li[contains(@class,'js-product__size sizes-list__item') " +
                 "and not(contains(@class,'is-unavailable')) " +
                 "and not(contains(@class,'is-selected'))]";
 
-        List<WebElement> availableSizes = sizes.findElements(By.xpath(availableSizesSelector));
+        List<WebElement> availableSizes = size.findElements(By.xpath(availableSizesSelector));
 
         if (availableSizes.size() > 0) {
             final WebElement selectedSize = Util.randomIndex(availableSizes);
@@ -211,7 +210,6 @@ public class QuickShop extends PageObject {
         wait.until(ExpectedConditions.visibilityOf(getQSElement("wishlist"))).click();
         Util.createWebDriverWait(driver);
         Util.scrollToElement(driver,bag);
-       // new LogIn(driver);
     }
     public void clickClose(){
         wait.until(ExpectedConditions.visibilityOf(getQSElement("close"))).click();
@@ -231,16 +229,7 @@ public class QuickShop extends PageObject {
         Util.createWebDriverWait(driver);
         return !(itemCode.equalsIgnoreCase(getSelectedVariationItemCode()));
     }
-    public boolean canChangeVariation_deleteme(){
-        WebElement variationList=getQSElement("variations");
-        WebElement selectedVariations=variationList.findElement(By.xpath(".//li[(contains(@class,'is-selected'))]"));
-       // itemCode = selectedVariations.getAttribute("data-code");
-        String prodName = getProductName();
-        selectRandomVarition();
-        Util.createWebDriverWait(driver);
-        String newProdName = getProductName();
-        return !(prodName.equalsIgnoreCase(newProdName));
-    }
+
     private void selectRandomVarition(){
         WebElement variationList=getQSElement("variations");
         List <WebElement> variations=variationList.findElements(By.xpath(".//li[not(contains(@class,'is-selected'))]"));
@@ -252,8 +241,12 @@ public class QuickShop extends PageObject {
         WebElement variationList=getQSElement("variations");
         WebElement selectedVariations=variationList.findElement(By.xpath(".//li[(contains(@class,'is-selected'))]"));
         return selectedVariations.getAttribute("data-code");
+
     }
+
+
     public String getMessage(){
+        WebElement messageSection = qsModal.findElement(By.className("c-product__message"));
         wait.until(ExpectedConditions.visibilityOf(messageSection));
         WebElement message = messageSection.findElement(By.xpath(".//div[@class='message__other']/div"));
         return message.getText();
@@ -272,6 +265,7 @@ public class QuickShop extends PageObject {
                 .findElement(By.xpath(".//div[contains(@class,'accordian__wrap')]"));
         return !(prodDetailsDrawer.getAttribute("class").contains("is-expanded"));
     }
+
     private WebElement getQSElement(String element){
         WebElement qsElement = null;
 
@@ -284,7 +278,7 @@ public class QuickShop extends PageObject {
                 qsElement = wait.until(ExpectedConditions.visibilityOf(price_colors));
                 break;
             case "size chips":
-                qsElement = wait.until(ExpectedConditions.visibilityOf(sizes));
+                qsElement = wait.until(ExpectedConditions.visibilityOf(qsModal.findElement(By.id("c-product__sizes"))));
                 break;
             case "view full details link":
                 qsElement = prod_full_detials.findElement(By.linkText("View full details"));
@@ -292,13 +286,11 @@ public class QuickShop extends PageObject {
             case "close":
                 qsElement = wait.until(ExpectedConditions.visibilityOf(qsModal.findElement(By.className("icon-close"))));
                 break;
-            case "item code":
-                break;
             case "variations":
                 qsElement = wait.until(ExpectedConditions.visibilityOf(variations.findElement(By.className("variations-list-wrap"))));
                 break;
             case "size chart":
-                qsElement = sizes.findElement(By.linkText("size charts"));
+                qsElement = getQSElement("size chips").findElement(By.linkText("size charts"));
                 break;
             case "quantity":
                 qsElement = wait.until(ExpectedConditions.visibilityOf(quantity));

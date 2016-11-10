@@ -31,7 +31,6 @@ Feature: Quick Shop Layout
     When User hovers on a random category and subcategory from list
       |women|sweaters|
       |men|casual shirts|
-      |girls|dresses|
     Then Verify user is in category array page
 
     When User selects random quick shop with variation product from product array
