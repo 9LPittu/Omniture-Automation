@@ -1,4 +1,4 @@
-@SaleArray @HighLevel
+@SaleArray1 @HighLevel
 Feature: Sale Array - Pagination
 
   Background:

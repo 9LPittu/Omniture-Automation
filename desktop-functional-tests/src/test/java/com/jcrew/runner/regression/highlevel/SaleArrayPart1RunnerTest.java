@@ -1,8 +1,9 @@
-package com.jcrew.runner.regression.full;
+package com.jcrew.runner.regression.highlevel;
+
+import org.junit.runner.RunWith;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
-import org.junit.runner.RunWith;
 
 /**
  * Created by 9msyed on 8/22/2016.
@@ -11,13 +12,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/SearchAndSale"},
-        tags = {"@SaleArray"},
+        tags = {"@SaleArray1","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-SaleArray.json",
+                "json:target/cucumber-SaleArray1.json",
                 "pretty",
-                "html:target/cucumber/SaleArray"
+                "html:target/cucumber/SaleArray1"
         }
 )
-public class SaleArrayRunnerTest {
+public class SaleArrayPart1RunnerTest {
 }
