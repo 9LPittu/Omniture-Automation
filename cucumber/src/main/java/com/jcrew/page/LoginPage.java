@@ -154,14 +154,14 @@ public class LoginPage {
         
         String username = null;
         String password = null;
-        logger.error("Environment: {}", reader.getProperty("environment"));
+        logger.debug("Environment: {}", reader.getProperty("environment"));
         
         if(reader.getProperty("environment").contains("ci")){
         	username = reader.getProperty("checkout.signed.in.username");
         	password = reader.getProperty("checkout.signed.in.password");
         	
-        	logger.error("Username: {}", username);
-        	logger.error("Password: {}", password);
+        	logger.debug("Username: {}", username);
+        	logger.debug("Password: {}", password);
         }
         else{
         	try{
