@@ -143,15 +143,19 @@ public class LoginPage {
         WebElement emailInvalidMsg = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-invalid-msg")));
         return emailInvalidMsg.getText();
     }
+    
     public void enter_valid_username_and_password(){
         enter_valid_username_and_password("");
     }
+    
     public void enter_valid_username_and_password(String userCategory) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(signInButton)));
         PropertyReader reader = PropertyReader.getPropertyReader();
         
         String username = null;
         String password = null;
+        logger.error("Environment: {}", reader.getProperty("environment"));
+        
         if(reader.getProperty("environment").contains("ci")){
         	username = reader.getProperty("checkout.signed.in.username");
         	password = reader.getProperty("checkout.signed.in.password");
