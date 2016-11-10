@@ -193,13 +193,7 @@ public class QuickShop extends PageObject {
             selectedSize.click();
         }
     }
-    private void selectRandomVarition(){
-        WebElement variationList=getQSElement("variations");
-        List <WebElement> variations=variationList.findElements(By.xpath(".//li[not(contains(@class,'is-selected'))]"));
-        if(variations.size() > 0 ){
-            variations.get(0).click();
-        }
-    }
+
 
     public void clickFullOnDetails(){
         stateHolder.put("fromQuickShop", getProduct());
@@ -234,8 +228,16 @@ public class QuickShop extends PageObject {
     public boolean canChangeVariation(){
         String prodName = getProductName();
         selectRandomVarition();
+
         String newProdName = getProductName();
         return !(prodName.equalsIgnoreCase(newProdName));
+    }
+    private void selectRandomVarition(){
+        WebElement variationList=getQSElement("variations");
+        List <WebElement> variations=variationList.findElements(By.xpath(".//li[not(contains(@class,'is-selected'))]"));
+        if(variations.size() > 0 ){
+            variations.get(0).click();
+        }
     }
     public String getMessage(){
         wait.until(ExpectedConditions.visibilityOf(messageSection));
