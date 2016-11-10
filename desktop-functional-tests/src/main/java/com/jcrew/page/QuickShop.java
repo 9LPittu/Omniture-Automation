@@ -288,10 +288,12 @@ public class QuickShop extends PageObject {
                 qsElement = wait.until(ExpectedConditions.visibilityOf(qsModal.findElement(By.className("icon-close"))));
                 break;
             case "variations":
-                qsElement = wait.until(ExpectedConditions.visibilityOf(variations.findElement(By.className("variations-list-wrap"))));
+                qsElement = variations.findElement(By.className("variations-list-wrap"));
+                wait.until(ExpectedConditions.visibilityOf(qsElement));
                 break;
             case "size chart":
                 qsElement = getQSElement("size chips").findElement(By.linkText("size charts"));
+                wait.until(ExpectedConditions.visibilityOf(qsElement));
                 break;
             case "quantity":
                 qsElement = wait.until(ExpectedConditions.visibilityOf(quantity));
