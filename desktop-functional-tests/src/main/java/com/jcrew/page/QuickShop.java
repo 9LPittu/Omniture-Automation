@@ -226,6 +226,7 @@ public class QuickShop extends PageObject {
     public boolean canChangeVariation(){
         String itemCode;
         itemCode = getSelectedVariationItemCode();
+        selectRandomVarition();
         Util.createWebDriverWait(driver);
         return !(itemCode.equalsIgnoreCase(getSelectedVariationItemCode()));
     }
