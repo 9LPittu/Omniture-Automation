@@ -11,7 +11,7 @@ Feature: Quick Shop Basic
       |women|sweaters|
       |men|sweaters|
       |girls|dresses|
-    Then Verify user is in selected category array page
+    Then Verify user is in category array page
 
     When User selects random quick shop from product array
     Then Verify quick shop modal is displayed
@@ -27,7 +27,7 @@ Feature: Quick Shop Basic
       |women|sweaters|
       |men|casual shirts|
       |girls|dresses|
-    Then Verify user is in selected category array page
+    Then Verify user is in category array page
 
     When User selects random quick shop from product array
     Then Verify quick shop modal is displayed
@@ -41,7 +41,7 @@ Feature: Quick Shop Basic
       |women|sweaters|
       |men|casual shirts|
       |girls|dresses|
-    Then Verify user is in selected category array page
+    Then Verify user is in category array page
 
     When User selects random quick shop with variation product from product array
     Then Verify quick shop modal is displayed
@@ -53,7 +53,7 @@ Feature: Quick Shop Basic
       |women|sweaters|
       |men|casual shirts|
       |girls|dresses|
-    Then Verify user is in selected category array page
+    Then Verify user is in category array page
 
     When User selects random quick shop from product array
     Then Verify quick shop modal is displayed
@@ -68,7 +68,7 @@ Feature: Quick Shop Basic
       |women|sweaters|
       |men|casual shirts|
       |girls|dresses|
-    Then Verify user is in selected category array page
+    Then Verify user is in category array page
 
     When User selects random quick shop from product array
     Then Verify quick shop modal is displayed
@@ -83,7 +83,7 @@ Feature: Quick Shop Basic
       |women|sweaters|
       |men|dress shirts|
       |girls|dresses|
-    Then Verify user is in selected category array page
+    Then Verify user is in category array page
 
     When User selects random quick shop from product array
     Then Verify quick shop modal is displayed
@@ -111,7 +111,7 @@ Feature: Quick Shop Basic
       |women|sweaters|
       |men|dress shirts|
       |girls|dresses|
-    Then Verify user is in selected category array page
+    Then Verify user is in category array page
 
     When User selects random quick shop from product array
     Then Verify quick shop modal is displayed

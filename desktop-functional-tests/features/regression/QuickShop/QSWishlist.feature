@@ -8,7 +8,7 @@ Feature: Wishlist from Quickshop
   Scenario: Add to Wishlist from QS is functional for guest user
     When User hovers on women category from header
     And User selects sweaters subcategory array
-    Then Verify user is in sweaters category array page
+    Then Verify user is in category array page
 
     When User selects random quick shop from product array
     Then Verify quick shop modal is displayed
@@ -33,7 +33,7 @@ Scenario: Add to Wishlist from QS is functional for registered user
 
   When User hovers on women category from header
   And User selects sweaters subcategory array
-  Then Verify user is in sweaters category array page
+  Then Verify user is in category array page
 
   When User selects random quick shop from product array
   Then Verify quick shop modal is displayed
