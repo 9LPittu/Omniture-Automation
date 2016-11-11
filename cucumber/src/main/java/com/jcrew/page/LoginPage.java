@@ -104,6 +104,7 @@ public class LoginPage {
         		break;
         	}
         	else{
+                Util.wait(2000);
         		cntr++;
         	}
         }while(cntr<=2);
@@ -119,6 +120,7 @@ public class LoginPage {
         		break;
         	}
         	else{
+                Util.wait(2000);
         		cntr++;
         	}
         }while(cntr<=2); 
