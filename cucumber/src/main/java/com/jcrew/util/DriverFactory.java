@@ -73,23 +73,8 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-        	DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
-
-        	ChromeOptions options = new ChromeOptions();
-            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
-
-            if (akamaiEnv) {
-                options.addArguments("--disable-extensions");
-            } else {
-                options.addExtensions(new File("ModHeader.crx"));
-
-            }
-
-            desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
-            driver = new ChromeDriver(desiredCapabilities);
-
-            if (!isDesktop)
-                driver.manage().window().setSize(new Dimension(width, height));
+            DesiredCapabilities capabilities = getChromeCapabilities(akamaiEnv);
+            driver = new ChromeDriver(capabilities);
 
             if (!akamaiEnv && !isDesktop) {
                 driver.get("chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png");
@@ -190,17 +175,9 @@ public class DriverFactory {
                 propertyReader.getProperty(propertyReader.getProperty("environment") + ".akamai"));
 
         if ("chrome".equals(browser)) {
-            DesiredCapabilities chrome = DesiredCapabilities.chrome();
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
-            if (akamaiEnv) {
-                options.addArguments("--disable-extensions");
-            } else {
-                options.addExtensions(new File("ModHeader.crx"));
+            DesiredCapabilities capabilities = getChromeCapabilities(akamaiEnv);
 
-            }
-            chrome.setCapability(ChromeOptions.CAPABILITY, options);
-            driver = getDesktopWebDriver(propertyReader, chrome);
+            driver = getDesktopWebDriver(propertyReader, capabilities);
 
             if (!akamaiEnv && !isDesktop) {
                 driver.get("chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png");
@@ -378,5 +355,35 @@ public class DriverFactory {
         } catch (IOException e) {
             logger.error("unable to create driver in a reset");
         }
+    }
+
+
+    private DesiredCapabilities getChromeCapabilities(boolean isAkamai) {
+        final PropertyReader propertyReader = PropertyReader.getPropertyReader();
+        DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
+
+        Map<String, Object> deviceMetrics = new HashMap<>();
+        deviceMetrics.put("width", width);
+        deviceMetrics.put("height", height);
+        deviceMetrics.put("pixelRatio", 3.0);
+
+        Map<String, Object> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceMetrics", deviceMetrics);
+        mobileEmulation.put("userAgent", propertyReader.getProperty("user.agent"));
+
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("mobileEmulation", mobileEmulation);
+
+        if(isAkamai) {
+            options.addArguments("--disable-extensions");
+
+        } else {
+            options.addExtensions(new File("ModHeader.crx"));
+
+        }
+
+        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+        return desiredCapabilities;
     }
 }
