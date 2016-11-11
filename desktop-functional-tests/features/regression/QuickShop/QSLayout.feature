@@ -17,7 +17,7 @@ Feature: Quick Shop Layout
 
     And Verify product name on QS matches with category array
     And Verify view full details link is displayed in QS modal
-    And Verify color swatchs is displayed in QS modal
+    And Verify color swatches is displayed in QS modal
     And Verify size chart is displayed in QS modal
     And Verify size chips is displayed in QS modal
     And Verify quantity is displayed in QS modal
@@ -39,7 +39,7 @@ Feature: Quick Shop Layout
     And Verify product name on QS matches with category array
     And Verify view full details link is displayed in QS modal
     And Verify variations is displayed in QS modal
-    And Verify color swatchs is displayed in QS modal
+    And Verify color swatches is displayed in QS modal
     And Verify size chart is displayed in QS modal
     And Verify size chips is displayed in QS modal
     And Verify quantity is displayed in QS modal

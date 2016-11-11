@@ -276,7 +276,7 @@ public class QuickShop extends PageObject {
                 WebElement productOverview = prodOverviewSection.findElement(By.className("product__overview"));
                 qsElement = productOverview.findElement(By.className("product__name"));
                 break;
-            case "color swatchs":
+            case "color swatches":
                 qsElement = wait.until(ExpectedConditions.visibilityOf(price_colors));
                 break;
             case "size chips":
