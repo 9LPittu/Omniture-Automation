@@ -119,7 +119,7 @@ public class Footer {
         Country c = (Country) stateHolder.get("context");
         String countryCode = c.getCountry();
 
-        if (!(footerLink.equalsIgnoreCase("Our Cards") && !countryCode.equalsIgnoreCase("us"))) {
+        if (!(footerLink.equalsIgnoreCase("The J.Crew Credit Card") && !countryCode.equalsIgnoreCase("us"))) {
             WebElement fLink = getFooterLinkElement(footerLink);
             WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
             String parentClass = fLinkParent.getAttribute("class");
@@ -456,7 +456,7 @@ public class Footer {
     	Country c = (Country) stateHolder.get("context");
         String countryCode = c.getCountry();
     	
-    	if(contentGroupingName.equalsIgnoreCase("Our cards") && !countryCode.equalsIgnoreCase("us")){
+    	if(contentGroupingName.equalsIgnoreCase("The J.Crew Credit Card") && !countryCode.equalsIgnoreCase("us")){
     		isContentGroupingValidationRequired = false;
     	}
     	
@@ -487,7 +487,7 @@ public class Footer {
     	boolean isDrawerOpenedValidationRequired = true;
     	boolean isDrawerOpened = true;
     	
-    	if(!countryCode.equalsIgnoreCase("us") && contentGroupingName.equalsIgnoreCase("Our cards")){
+    	if(!countryCode.equalsIgnoreCase("us") && contentGroupingName.equalsIgnoreCase("The J.Crew Credit Card")){
     		isDrawerOpenedValidationRequired = false;
     	}
     	

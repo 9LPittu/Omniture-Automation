@@ -25,8 +25,8 @@ Feature: Checkout - Merge cart page validation for e-gift card, regular item, ba
     And Add to cart button is pressed    
     
 	#Add e-gift card to bag
-	And Click on footer link Our Cards to open
-    And Click on sublink The J.Crew Gift Card from Our Cards footer link
+	And Click on footer link The J.Crew Credit Card to open
+    And Click on sublink The J.Crew Gift Card from Let Us Help You footer link
     Then Verify user is on the j.crew gift card page
     And User is on internal /help/gift_card.jsp?sidecar=true page
     	

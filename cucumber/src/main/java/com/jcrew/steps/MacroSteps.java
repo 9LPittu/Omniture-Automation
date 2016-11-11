@@ -71,7 +71,7 @@ public class MacroSteps {
     	footerSteps.verify_footer_link_is_displayed("Let Us Help You");
     	//Our Cards is available only in US context
     	if(countryCode.equalsIgnoreCase("us")) {
-    		footerSteps.verify_footer_link_is_displayed("Our Cards");
+    		footerSteps.verify_footer_link_is_displayed("The J.Crew Credit Card");
     	}
     	
     	footerSteps.verify_footer_link_is_displayed("Our Stores");    	
