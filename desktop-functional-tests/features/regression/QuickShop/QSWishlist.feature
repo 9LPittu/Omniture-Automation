@@ -1,5 +1,5 @@
 @Quickshop @HighLevel
-Feature: Wishlist from Quickshop
+Feature: Quickshop wishlist is functional
 
   Background:
     Given User goes to homepage
