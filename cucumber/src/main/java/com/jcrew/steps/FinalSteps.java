@@ -61,7 +61,7 @@ public class FinalSteps {
         }
 
         PropertyReader reader = PropertyReader.getPropertyReader();
-        if ((!reader.getProperty("environment").equalsIgnoreCase("ci") || !reader.getProperty("environment").equalsIgnoreCase("ci.master")) && stateHolder.hasKey("sidecarusername")) {
+        if (!reader.getProperty("environment").startsWith("ci") && stateHolder.hasKey("sidecarusername")) {
             try {
                 UsersHub userHub = UsersHub.getInstance();
                 userHub.releaseUserCredentials();
