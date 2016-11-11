@@ -1,4 +1,4 @@
-@Quickshop
+@Quickshop @HighLevel
 Feature: Quick Shop full details,close links and bag are functional
 
   Background:

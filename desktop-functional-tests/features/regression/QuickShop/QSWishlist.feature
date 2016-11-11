@@ -1,4 +1,4 @@
-@Quickshop
+@Quickshop @HighLevel
 Feature: Wishlist from Quickshop
 
   Background:

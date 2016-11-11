@@ -1,4 +1,4 @@
-@Quickshop
+@Quickshop @HighLevel
 Feature: Quick Shop Layout
 
   Background:
