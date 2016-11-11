@@ -73,22 +73,30 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-            DesiredCapabilities capabilities = getChromeCapabilities(akamaiEnv);
-            driver = new ChromeDriver(capabilities);
+            if (!isDesktop) {
+                DesiredCapabilities capabilities = getChromeCapabilities(akamaiEnv);
+                driver = new ChromeDriver(capabilities);
 
-            if (!akamaiEnv && !isDesktop) {
-                driver.get("chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png");
-                ((JavascriptExecutor) driver).executeScript("localStorage.setItem('profiles', JSON.stringify([{" +
-                        "'title':'Profile 1'," +
-                        "'hideComment':true," +
-                        "'headers':[{'enabled':true," +
-                        "'name':'X-Akamai-Mobile'," +
-                        "'value':'true'," +
-                        "'comment':''}]," +
-                        "'respHeaders':[]," +
-                        "'filters':[]," +
-                        "'appendMode':''}]));");
+                if (!akamaiEnv) {
+                    driver.get("chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png");
+                    ((JavascriptExecutor) driver).executeScript("localStorage.setItem('profiles', JSON.stringify([{" +
+                            "'title':'Profile 1'," +
+                            "'hideComment':true," +
+                            "'headers':[{'enabled':true," +
+                            "'name':'X-Akamai-Mobile'," +
+                            "'value':'true'," +
+                            "'comment':''}]," +
+                            "'respHeaders':[]," +
+                            "'filters':[]," +
+                            "'appendMode':''}]));");
 
+                }
+            }   else {
+                    DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+                    ChromeOptions options = new ChromeOptions();
+                    options.addArguments("--disable-extensions");
+                    capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+                    driver = new ChromeDriver(capabilities);
             }
 
         } else if ("firefox".equals(browser)) {
@@ -175,23 +183,31 @@ public class DriverFactory {
                 propertyReader.getProperty(propertyReader.getProperty("environment") + ".akamai"));
 
         if ("chrome".equals(browser)) {
-            DesiredCapabilities capabilities = getChromeCapabilities(akamaiEnv);
+            if (!isDesktop) {
+                DesiredCapabilities capabilities = getChromeCapabilities(akamaiEnv);
 
-            driver = getDesktopWebDriver(propertyReader, capabilities);
+                driver = getDesktopWebDriver(propertyReader, capabilities);
 
-            if (!akamaiEnv && !isDesktop) {
-                driver.get("chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png");
-                ((JavascriptExecutor) driver).executeScript("localStorage.setItem('profiles', JSON.stringify([{" +
-                        "'title':'Profile 1'," +
-                        "'hideComment':true," +
-                        "'headers':[{'enabled':true," +
-                        "'name':'X-Akamai-Mobile'," +
-                        "'value':'true'," +
-                        "'comment':''}]," +
-                        "'respHeaders':[]," +
-                        "'filters':[]," +
-                        "'appendMode':''}]));");
+                if (!akamaiEnv) {
+                    driver.get("chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png");
+                    ((JavascriptExecutor) driver).executeScript("localStorage.setItem('profiles', JSON.stringify([{" +
+                            "'title':'Profile 1'," +
+                            "'hideComment':true," +
+                            "'headers':[{'enabled':true," +
+                            "'name':'X-Akamai-Mobile'," +
+                            "'value':'true'," +
+                            "'comment':''}]," +
+                            "'respHeaders':[]," +
+                            "'filters':[]," +
+                            "'appendMode':''}]));");
 
+                }
+            }   else {
+                DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--disable-extensions");
+                capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+                driver = getDesktopWebDriver(propertyReader, capabilities);
             }
 
         } else if ("firefox".equals(browser)) {
