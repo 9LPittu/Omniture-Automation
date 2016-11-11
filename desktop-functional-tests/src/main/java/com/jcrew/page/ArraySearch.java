@@ -229,20 +229,22 @@ public class ArraySearch extends Array{
         WebElement pagination = getPaginationElement(position);
     	WebElement paginationLink = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::a"));
     	wait.until(ExpectedConditions.elementToBeClickable(paginationLink));
-    	Util.scrollToElement(driver, paginationLink);
     	
-    	boolean retry = true;
-    	int counter = 1;
-    	
-    	while (retry && counter<5) {
-    	try {
-    	paginationLink.click();
-    	retry = false;
-    	} catch (Exception e) {
-    		Util.wait(2000);
-    		counter =  + 1;
-    	}
-    	} 
+    	Util.scrollAndClick(driver, paginationLink);
+//    	Util.scrollToElement(driver, paginationLink);
+//    	
+//    	boolean retry = true;
+//    	int counter = 1;
+//    	
+//    	while (retry && counter<5) {
+//    	try {
+//    	paginationLink.click();
+//    	retry = false;
+//    	} catch (Exception e) {
+//    		Util.wait(2000);
+//    		counter =  + 1;
+//    	}
+//    	} 
     	Util.waitSpinningImage(driver);
     }
     
