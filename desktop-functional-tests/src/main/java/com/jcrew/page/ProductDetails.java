@@ -684,21 +684,7 @@ public class ProductDetails extends PageObject {
         }
     }
 
-/*    public boolean compare_PDP_price(Product product) {
-        String arrayPrice = product.getPrice();
-        String pdpPrice = getProductPrice().replace("select colors", "").replace("now", "");
-        logger.info("array product price: '{}' - pdp price: '{}'", arrayPrice, pdpPrice);
-        return arrayPrice.equals(pdpPrice);
-    }
 
-    public boolean compare_PDP_name(Product product) {
-        String arrayName = product.getName();
-        String pdpName = getProductName();
-        logger.info("array product name: '{}' - pdp name: '{}'", arrayName, pdpName);
-        return arrayName.equalsIgnoreCase(pdpName);
-    }
-
-*/
     public boolean getIsBackordered() {
         String message = getButtonErrorMessage().toLowerCase();
         return message.contains("backordered");

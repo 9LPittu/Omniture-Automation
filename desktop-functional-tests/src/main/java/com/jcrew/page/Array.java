@@ -73,7 +73,6 @@ public abstract class Array extends PageObject{
             productTiles = getProductTiles(productList);
         }
         logger.info("This array page has {} products", productTiles.size());
-        // WebElement random_product_tile = productTiles.get(5);
         WebElement random_product_tile = Util.randomIndex(productTiles);
         clickQuickShop(random_product_tile);
         new QuickShop(driver);
@@ -87,7 +86,6 @@ public abstract class Array extends PageObject{
             productTiles = getProductTiles(productList);
         }
         logger.info("This array page has {} products", productTiles.size());
-        // WebElement random_product_tile = productTiles.get(5);
         WebElement random_product_tile = Util.randomIndex(productTiles);
         clickProduct(random_product_tile);
         new ProductDetails(driver);

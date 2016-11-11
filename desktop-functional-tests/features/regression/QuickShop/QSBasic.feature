@@ -1,5 +1,5 @@
 @Quickshop
-Feature: Quick Shop Basic
+Feature: Quick Shop full details,close links and bag are functional
 
   Background:
     Given User goes to homepage
@@ -35,7 +35,7 @@ Feature: Quick Shop Basic
     When User clicks on X icon
     Then Verify quick shop modal is not displayed
 
-   Scenario: Verify guest user able to add item to bag from quick shop
+  Scenario: Verify guest user able to add item to bag from quick shop
     When User hovers on a random category and subcategory from list
       |women|sweaters|
       |men|dress shirts|
