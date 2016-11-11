@@ -134,8 +134,13 @@ public class LoginPage {
     	String emailAddress = (String) stateHolder.get("sidecarusername");
     	String password = (String) stateHolder.get("sidecaruserpassword");
     	
-    	input_as_email(emailAddress);
-    	input_as_password(password);
+    	if(!emailInput.getText().equalsIgnoreCase(emailAddress)){
+    		input_as_email(emailAddress);
+    	}
+    	
+    	if(passwordInput.getText().equalsIgnoreCase(password)){
+    		input_as_password(password);
+    	}
     	
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         signInButton.click();
