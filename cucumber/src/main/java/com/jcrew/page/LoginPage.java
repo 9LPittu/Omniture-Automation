@@ -138,7 +138,7 @@ public class LoginPage {
     		input_as_email(emailAddress);
     	}
     	
-    	if(passwordInput.getText().equalsIgnoreCase(password)){
+    	if(!passwordInput.getText().equalsIgnoreCase(password)){
     		input_as_password(password);
     	}
     	
