@@ -35,13 +35,3 @@ Feature: Quick Shop Basic
     And Verify Add to Bag button is in disabled state
     And Verify Wishlist button is in disabled state
 
-  Scenario: Verify user able to change variations in quickshop
-    When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|casual shirts|
-    Then Verify user is in category array page
-
-    When User selects random quick shop with variation product from product array
-    Then Verify quick shop modal is displayed
-    And Verify variations is displayed in QS modal
-    And Verify user able to change variations

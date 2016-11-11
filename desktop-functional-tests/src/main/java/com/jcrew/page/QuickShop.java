@@ -40,14 +40,8 @@ public class QuickShop extends PageObject {
     @FindBy(id = "c-product__price")
     private WebElement price;
 
-
-
-
     @FindBy(className = "c-product__description")
     private WebElement productDetails;
-
-//    @FindBy(id = "c-product__sizes")
- //   private WebElement sizes;
 
     @FindBy(id = "c-product__quantity")
     private  WebElement quantity;
@@ -61,6 +55,7 @@ public class QuickShop extends PageObject {
     public QuickShop(WebDriver driver){
         super(driver);
         PageFactory.initElements(driver,this);
+        wait.until(ExpectedConditions.visibilityOf(qsModal));
     }
 
     public boolean isQuickShop(){
@@ -223,13 +218,13 @@ public class QuickShop extends PageObject {
             return false;
         }
     }
-    public boolean canChangeVariation(){
-        String itemCode;
+    public boolean isVariationChanged(){
+        String itemCode,newItemCode;
         itemCode = getSelectedVariationItemCode();
         selectRandomVarition();
-        Util.createWebDriverWait(driver);
-
-        return !(itemCode.equalsIgnoreCase(getSelectedVariationItemCode()));
+        newItemCode = getSelectedVariationItemCode();
+        logger.info("this is new item code "+newItemCode);
+        return !(itemCode.equalsIgnoreCase(newItemCode));
     }
 
     private void selectRandomVarition(){
@@ -238,6 +233,8 @@ public class QuickShop extends PageObject {
         if(variations.size() > 0 ){
             variations.get(0).click();
         }
+        Util.waitForPageReady(driver);
+
     }
     private String getSelectedVariationItemCode(){
         WebElement variationList=getQSElement("variations");
