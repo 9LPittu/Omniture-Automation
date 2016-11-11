@@ -131,19 +131,11 @@ public class LoginPage {
     	
     	Util.waitLoadingBar(driver);
     	
-    	JavascriptExecutor jse = (JavascriptExecutor)driver;    	
     	String emailAddress = (String) stateHolder.get("sidecarusername");
     	String password = (String) stateHolder.get("sidecaruserpassword");
     	
-    	if(!emailInput.getText().equalsIgnoreCase(emailAddress)){
-    		emailInput.clear();
-    		jse.executeScript("arguments[0].value = arguments[1];", emailInput, emailAddress);
-    	}
-    	
-    	if(!passwordInput.getText().equalsIgnoreCase(password)){
-    		passwordInput.clear();
-    		jse.executeScript("arguments[0].value = arguments[1];", passwordInput, password);
-    	}
+    	input_as_email(emailAddress);
+    	input_as_password(password);
     	
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         signInButton.click();
