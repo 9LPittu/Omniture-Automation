@@ -62,8 +62,8 @@ public class Footer {
     public Footer(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(viewFullSiteInFooter));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(viewFullSiteInFooter));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
     }
 
     public boolean isFooterLinkPresent(String footerLink) {
