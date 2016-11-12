@@ -395,9 +395,15 @@ public class Footer {
     }
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){
-    	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/" +
-                "following-sibling::div[contains(@class,'c-footer__fullsite')]"));
-    	return viewFullSite.isDisplayed();
+    	String currentURL = driver.getCurrentUrl();
+    	if (!currentURL.contains(".jsp?sidecar=true")) {
+	    	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/" +
+	                "following-sibling::div[contains(@class,'c-footer__fullsite')]"));
+	    	return viewFullSite.isDisplayed();
+    	} else {
+    		logger.info("Ignoting full site verification as this is a jsp page");
+    		return true;
+    	}
     }
     
     public void clickViewFullSite(){
