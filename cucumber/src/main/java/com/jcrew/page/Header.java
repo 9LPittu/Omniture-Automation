@@ -229,7 +229,7 @@ public class Header {
     public void click_jcrew_logo() {
         Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("jfooter__country-context")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
         Util.clickWithStaleRetry(headerLogo);
     }
     
