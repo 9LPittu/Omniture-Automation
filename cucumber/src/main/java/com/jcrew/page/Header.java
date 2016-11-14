@@ -229,7 +229,7 @@ public class Header {
     public void click_jcrew_logo() {
         Util.waitLoadingBar(driver);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
         Util.clickWithStaleRetry(headerLogo);
     }
     
@@ -243,7 +243,7 @@ public class Header {
     	do{
     		try{
                 Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-    	        Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+    	        Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
     	        Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.elementToBeClickable(searchButton));
     	        searchButton.click();
     	        

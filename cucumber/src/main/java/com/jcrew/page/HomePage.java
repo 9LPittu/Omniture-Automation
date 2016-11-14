@@ -50,7 +50,7 @@ public class HomePage {
         
         if(!driver.getTitle().contains("Factory")){
         	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
         }
         else{
         	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("headerPanel")));
