@@ -107,6 +107,7 @@ public class ArraySearch extends Array{
     
     public String getHeaderTitle() {
     	WebElement headerTitle = pageSearch.findElement(By.tagName("h1"));
+    	Util.waitWithStaleRetry(driver, headerTitle);
    
     	return headerTitle.getText();
     }
@@ -118,9 +119,8 @@ public class ArraySearch extends Array{
     } 
     
     public String getFilterValue(String filterName) {
-    	wait.until(ExpectedConditions.visibilityOf(searchFilter));
+    	Util.waitWithStaleRetry(driver, searchFilter);
 
-    	
     	WebElement filterElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + filterName 
     					+ "']/following-sibling::h6")));
 
