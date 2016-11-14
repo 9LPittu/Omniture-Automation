@@ -101,7 +101,7 @@ public class LoginPage {
         	emailInput.clear();
         	emailInput.sendKeys(email);
         	
-        	if(emailInput.getText().equalsIgnoreCase(email)){
+        	if(emailInput.getAttribute("value").equalsIgnoreCase(email)){
         		break;
         	}
         	else{
@@ -117,7 +117,7 @@ public class LoginPage {
         	passwordInput.clear();
         	passwordInput.sendKeys(password);
         	
-        	if(passwordInput.getText().equalsIgnoreCase(password)){
+        	if(passwordInput.getAttribute("value").equalsIgnoreCase(password)){
         		break;
         	}
         	else{
@@ -134,11 +134,11 @@ public class LoginPage {
     	String emailAddress = (String) stateHolder.get("sidecarusername");
     	String password = (String) stateHolder.get("sidecaruserpassword");
     	
-    	if(!emailInput.getText().equalsIgnoreCase(emailAddress)){
+    	if(!emailInput.getAttribute("value").equalsIgnoreCase(emailAddress)){
     		input_as_email(emailAddress);
     	}
     	
-    	if(!passwordInput.getText().equalsIgnoreCase(password)){
+    	if(!passwordInput.getAttribute("value").equalsIgnoreCase(password)){
     		input_as_password(password);
     	}
     	
