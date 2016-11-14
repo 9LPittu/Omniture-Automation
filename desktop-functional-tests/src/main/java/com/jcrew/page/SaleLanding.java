@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -130,10 +131,18 @@ public class SaleLanding {
     }
     
     public boolean isSecondPromo() {
-    	wait.until(ExpectedConditions.visibilityOf(secondPromoBox));
-    	WebElement secondPromo = secondPromoBox.findElement(By.xpath(".//div[@class='c-sale__promo-alert']"));
+    	try {
+	    	wait.until(ExpectedConditions.visibilityOf(secondPromoBox));
+	    	
+	    	WebElement secondPromo = secondPromoBox.findElement(By.xpath(".//div[@class='c-sale__promo-alert']"));
+	    	
+	    	stateHolder.put("isSecondPromo",true);
+	    	return secondPromo.isDisplayed();
     	
-    	return secondPromo.isDisplayed();
+    	} catch (TimeoutException te)	{
+    		logger.info("second promo box is not displayed. Ignoring this as second promo is optional");
+    		return true;
+    	}
     }
     
     public void clickSecondPromoLink(String name) {

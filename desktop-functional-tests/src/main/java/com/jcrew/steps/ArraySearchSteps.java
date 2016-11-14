@@ -56,13 +56,14 @@ public class ArraySearchSteps extends DriverFactory {
     @Then("Verify Sale array page is displayed$")
     public void verify_sale_array() {
     	
-    	boolean isSearchArray = searchArray.isSalePage();
-    	
-    	String saleTitle = searchArray.getHeaderTitle();
-    	boolean isSaleTitle = saleTitle.equalsIgnoreCase("sale");
-    	
-    	assertTrue("Sale array should be displayed",isSearchArray && isSaleTitle);
-    	
+    	if (!stateHolder.hasKey("isSecondPromo")) {
+	    	boolean isSearchArray = searchArray.isSalePage();
+	    	
+	    	String saleTitle = searchArray.getHeaderTitle();
+	    	boolean isSaleTitle = saleTitle.equalsIgnoreCase("sale");
+	    	
+	    	assertTrue("Sale array should be displayed",isSearchArray && isSaleTitle);
+    	}
     }
     
     @Then("Verify filters are displayed on array page$")
@@ -72,14 +73,16 @@ public class ArraySearchSteps extends DriverFactory {
     
     @Then("Verify ([^\"]*) filter displays ([^\"]*)$")
     public void verify_gender_filter_value(String filterName, String expectedValue) {
-    	filterName = filterName.toLowerCase().trim();
-    	expectedValue = expectedValue.toLowerCase().trim();
-    	
-    	if (filterName.equalsIgnoreCase("gender"))
-    		filterName="shop for";
-    	
-    	String actualValue = searchArray.getFilterValue(filterName).toLowerCase().trim();
-    	assertEquals(filterName + " filter should match ", expectedValue , actualValue);	
+    	if (!stateHolder.hasKey("isSecondPromo")) {
+	    	filterName = filterName.toLowerCase().trim();
+	    	expectedValue = expectedValue.toLowerCase().trim();
+	    	
+	    	if (filterName.equalsIgnoreCase("gender"))
+	    		filterName="shop for";
+	    	
+	    	String actualValue = searchArray.getFilterValue(filterName).toLowerCase().trim();
+	    	assertEquals(filterName + " filter should match ", expectedValue , actualValue);	
+    	}	
     }
     
     @Then("Verify following gender selectors are displayed$")
@@ -99,9 +102,11 @@ public class ArraySearchSteps extends DriverFactory {
     
     @Then("Verify that search result number is greater than (\\d+)")
     public void search_results_number_greater_than(int greaterThan) {
-        int searchResults = searchArray.getSearchResultsNumber();
-
-        assertTrue("Results number is greater than " + greaterThan, searchResults > greaterThan);
+    	if (!stateHolder.hasKey("isSecondPromo")) {
+	    	int searchResults = searchArray.getSearchResultsNumber();
+	
+	        assertTrue("Results number is greater than " + greaterThan, searchResults > greaterThan);
+    	}    
     }
     
     @Then("Verify ([^\"]*) pagination is displayed on array page")

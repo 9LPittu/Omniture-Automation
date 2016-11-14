@@ -231,20 +231,7 @@ public class ArraySearch extends Array{
     	wait.until(ExpectedConditions.elementToBeClickable(paginationLink));
     	
     	Util.scrollAndClick(driver, paginationLink);
-//    	Util.scrollToElement(driver, paginationLink);
-//    	
-//    	boolean retry = true;
-//    	int counter = 1;
-//    	
-//    	while (retry && counter<5) {
-//    	try {
-//    	paginationLink.click();
-//    	retry = false;
-//    	} catch (Exception e) {
-//    		Util.wait(2000);
-//    		counter =  + 1;
-//    	}
-//    	} 
+
     	Util.waitSpinningImage(driver);
     }
     

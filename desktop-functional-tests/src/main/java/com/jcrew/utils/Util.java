@@ -210,6 +210,7 @@ public class Util {
         do{
         	try{
         		scrollToElement(driver, element);
+        		wait(1000);
         		element.click();
         		break;
         	}

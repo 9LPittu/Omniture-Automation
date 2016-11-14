@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.SaleLanding;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.Util;
+import com.jcrew.utils.StateHolder;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -17,6 +18,7 @@ import java.util.Collections;
  */
 public class SaleLandingPageSteps extends DriverFactory{
     SaleLanding sale = new SaleLanding(getDriver());
+    StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("User selects random sale category")
     public void user_selects_random_sale_category() {
@@ -78,7 +80,8 @@ public class SaleLandingPageSteps extends DriverFactory{
     
     @When("User clicks on ([^\"]*) link from second promo$")
     public void click_second_promo_link(String gender) {
-    	sale.clickSecondPromoLink(gender);
+    	if (!stateHolder.hasKey("isSecondPromo"))
+    		sale.clickSecondPromoLink(gender);
     }
 
     @When("User Selects random sale category from the list$")
