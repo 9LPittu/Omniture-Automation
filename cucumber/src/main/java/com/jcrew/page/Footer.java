@@ -21,7 +21,7 @@ public class Footer {
     private final Logger logger = LoggerFactory.getLogger(Footer.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
 
-    private final String footerItems[] = {"Let Us Help You", "Our Cards", "Our Stores","About J.Crew", "Get To Know Us"};
+    private final String footerItems[] = {"Let Us Help You", "Our Stores", "The J.Crew Credit Card", "Our Brands", "About J.Crew", "Popular Searches", "Get To Know Us"};
     
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
@@ -67,6 +67,8 @@ public class Footer {
     }
 
     public boolean isFooterLinkPresent(String footerLink) {
+    	
+    	logger.debug("Checking for footer link: {}", footerLink);
     	
     	Country c = (Country) stateHolder.get("context");
         String countryCode = c.getCountry();

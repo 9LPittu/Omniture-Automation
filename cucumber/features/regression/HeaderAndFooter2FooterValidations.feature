@@ -126,9 +126,8 @@ Feature: Footer Verification In Home Page
   #Merge
   Scenario: Verification of The J.Crew Credit Card links functionality
     When Click on footer link The J.Crew Credit Card to open
-    And The J.Crew Credit Card sublink is displayed
-    And The J.Crew Gift Card sublink is displayed
-    Then Click on footer link The J.Crew Credit Card to open
+    And Apply Today & Get 15% Off* sublink is displayed
+    And Manage Your Card sublink is displayed
     And Click on sublink Apply Today & Get 15% Off* from The J.Crew Credit Card footer link
     And Verify user is on the j.crew credit card page
     And User is on internal /help/credit_card.jsp?sidecar=true page
