@@ -62,12 +62,16 @@ public class ProductDetailSteps extends DriverFactory {
         assertEquals("Product price matches category array", product.getPrice(), productDetails.getProductPrice());
     }
 
+    @Then("Verify product name on PDP matches with QS")
+    public void product_name_matches_quick_shop() {
+        Product product = (Product) stateHolder.get("fromQuickShop");
+        assertEquals("Product name matches on QS matches with PDP", product.getName(), productDetails.getProductName());
 
+    }
     @Then("Verify product name on PDP matches with category array")
     public void product_name_matches_category_array() {
         Product product = (Product) stateHolder.get("fromArray");
-
-        assertTrue("Product name matches category array", productDetails.compare_PDP_name(product));
+        assertEquals("Product name matches category array", product.getName(), productDetails.getProductName());
     }
 
     @When("User clicks on write a review button")
