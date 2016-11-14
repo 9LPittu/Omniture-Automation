@@ -80,7 +80,7 @@ public class SaleLandingPageSteps extends DriverFactory{
     
     @When("User clicks on ([^\"]*) link from second promo$")
     public void click_second_promo_link(String gender) {
-    	if (!stateHolder.hasKey("isSecondPromo"))
+    	if (!stateHolder.hasKey("secondPromoVerification"))
     		sale.clickSecondPromoLink(gender);
     }
 

@@ -136,11 +136,12 @@ public class SaleLanding {
 	    	
 	    	WebElement secondPromo = secondPromoBox.findElement(By.xpath(".//div[@class='c-sale__promo-alert']"));
 	    	
-	    	stateHolder.put("isSecondPromo",true);
 	    	return secondPromo.isDisplayed();
     	
     	} catch (TimeoutException te)	{
     		logger.info("second promo box is not displayed. Ignoring this as second promo is optional");
+    		stateHolder.put("secondPromoVerification",true);
+    		
     		return true;
     	}
     }

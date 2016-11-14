@@ -56,7 +56,7 @@ public class ArraySearchSteps extends DriverFactory {
     @Then("Verify Sale array page is displayed$")
     public void verify_sale_array() {
     	
-    	if (!stateHolder.hasKey("isSecondPromo")) {
+    	if (!stateHolder.hasKey("secondPromoVerification")) {
 	    	boolean isSearchArray = searchArray.isSalePage();
 	    	
 	    	String saleTitle = searchArray.getHeaderTitle();
@@ -73,7 +73,7 @@ public class ArraySearchSteps extends DriverFactory {
     
     @Then("Verify ([^\"]*) filter displays ([^\"]*)$")
     public void verify_gender_filter_value(String filterName, String expectedValue) {
-    	if (!stateHolder.hasKey("isSecondPromo")) {
+    	if (!stateHolder.hasKey("secondPromoVerification")) {
 	    	filterName = filterName.toLowerCase().trim();
 	    	expectedValue = expectedValue.toLowerCase().trim();
 	    	
@@ -102,7 +102,7 @@ public class ArraySearchSteps extends DriverFactory {
     
     @Then("Verify that search result number is greater than (\\d+)")
     public void search_results_number_greater_than(int greaterThan) {
-    	if (!stateHolder.hasKey("isSecondPromo")) {
+    	if (!stateHolder.hasKey("secondPromoVerification")) {
 	    	int searchResults = searchArray.getSearchResultsNumber();
 	
 	        assertTrue("Results number is greater than " + greaterThan, searchResults > greaterThan);
