@@ -130,8 +130,7 @@ Feature: Account Dropdown functionality - Part 1
   Scenario: My Account dropdown open and close is functional on multiple pages
   	And click on SIGN IN from header
   	And User is on internal /r/login page
-  	And User provides login information
-    And Hits sign in button
+  	And User fills form and signs in
     
     Then User is in My Account home page
     And Verify MY ACCOUNT header link is displayed

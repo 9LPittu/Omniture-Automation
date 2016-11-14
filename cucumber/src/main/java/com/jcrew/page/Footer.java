@@ -21,7 +21,7 @@ public class Footer {
     private final Logger logger = LoggerFactory.getLogger(Footer.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
 
-    private final String footerItems[] = {"Let Us Help You", "Our Cards", "Our Stores","About J.Crew", "Get To Know Us"};
+    private final String footerItems[] = {"Let Us Help You", "Our Stores", "The J.Crew Credit Card", "Our Brands", "About J.Crew", "Popular Searches", "Get To Know Us"};
     
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
@@ -62,11 +62,13 @@ public class Footer {
     public Footer(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(viewFullSiteInFooter));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(viewFullSiteInFooter));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(changeLinkInFooter));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(changeLinkInFooter));
     }
 
     public boolean isFooterLinkPresent(String footerLink) {
+    	
+    	logger.debug("Checking for footer link: {}", footerLink);
     	
     	Country c = (Country) stateHolder.get("context");
         String countryCode = c.getCountry();
@@ -119,7 +121,7 @@ public class Footer {
         Country c = (Country) stateHolder.get("context");
         String countryCode = c.getCountry();
 
-        if (!(footerLink.equalsIgnoreCase("Our Cards") && !countryCode.equalsIgnoreCase("us"))) {
+        if (!(footerLink.equalsIgnoreCase("The J.Crew Credit Card") && !countryCode.equalsIgnoreCase("us"))) {
             WebElement fLink = getFooterLinkElement(footerLink);
             WebElement fLinkParent = fLink.findElement(By.xpath(".//parent::div"));
             String parentClass = fLinkParent.getAttribute("class");
@@ -395,9 +397,15 @@ public class Footer {
     }
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){
-    	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/" +
-                "following-sibling::div[contains(@class,'c-footer__fullsite')]"));
-    	return viewFullSite.isDisplayed();
+    	String currentURL = driver.getCurrentUrl();
+    	if (!currentURL.contains(".jsp?sidecar=true")) {
+	    	WebElement viewFullSite  = driver.findElement(By.xpath("//nav[@class='c-footer__copyright']/" +
+	                "following-sibling::div[contains(@class,'c-footer__fullsite')]"));
+	    	return viewFullSite.isDisplayed();
+    	} else {
+    		logger.info("Ignoting full site verification as this is a jsp page");
+    		return true;
+    	}
     }
     
     public void clickViewFullSite(){
@@ -456,7 +464,7 @@ public class Footer {
     	Country c = (Country) stateHolder.get("context");
         String countryCode = c.getCountry();
     	
-    	if(contentGroupingName.equalsIgnoreCase("Our cards") && !countryCode.equalsIgnoreCase("us")){
+    	if(contentGroupingName.equalsIgnoreCase("The J.Crew Credit Card") && !countryCode.equalsIgnoreCase("us")){
     		isContentGroupingValidationRequired = false;
     	}
     	
@@ -487,7 +495,7 @@ public class Footer {
     	boolean isDrawerOpenedValidationRequired = true;
     	boolean isDrawerOpened = true;
     	
-    	if(!countryCode.equalsIgnoreCase("us") && contentGroupingName.equalsIgnoreCase("Our cards")){
+    	if(!countryCode.equalsIgnoreCase("us") && contentGroupingName.equalsIgnoreCase("The J.Crew Credit Card")){
     		isDrawerOpenedValidationRequired = false;
     	}
     	

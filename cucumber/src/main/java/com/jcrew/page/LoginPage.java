@@ -101,7 +101,7 @@ public class LoginPage {
         	emailInput.clear();
         	emailInput.sendKeys(email);
         	
-        	if(emailInput.getText().equalsIgnoreCase(email)){
+        	if(emailInput.getAttribute("value").equalsIgnoreCase(email)){
         		break;
         	}
         	else{
@@ -117,7 +117,7 @@ public class LoginPage {
         	passwordInput.clear();
         	passwordInput.sendKeys(password);
         	
-        	if(passwordInput.getText().equalsIgnoreCase(password)){
+        	if(passwordInput.getAttribute("value").equalsIgnoreCase(password)){
         		break;
         	}
         	else{
@@ -134,16 +134,17 @@ public class LoginPage {
     	String emailAddress = (String) stateHolder.get("sidecarusername");
     	String password = (String) stateHolder.get("sidecaruserpassword");
     	
-    	if(!emailInput.getText().equalsIgnoreCase(emailAddress)){
+    	if(!emailInput.getAttribute("value").equalsIgnoreCase(emailAddress)){
     		input_as_email(emailAddress);
     	}
     	
-    	if(!passwordInput.getText().equalsIgnoreCase(password)){
+    	if(!passwordInput.getAttribute("value").equalsIgnoreCase(password)){
     		input_as_password(password);
     	}
     	
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
-        signInButton.click();
+    	WebElement signInElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+    														By.xpath("//button[text()='Sign In Here']")));
+    	signInElement.click();
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
     }
 
@@ -554,25 +555,15 @@ public class LoginPage {
     
     public boolean submitUserCredentials(String emailAddress, String password){
     	boolean isLoginSuccessful = false;
-    	Util.waitLoadingBar(driver);
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(
-    			                                            signInForm.findElement(By.id("sidecarUser")))));
     	
-    	WebElement emailElement = signInForm.findElement(By.id("sidecarUser"));
-        WebElement passwordElement = signInForm.findElement(By.id("sidecarPassword"));
-        
-        emailElement.clear();
-        emailElement.sendKeys(emailAddress);
-        
-        passwordElement.clear();
-        passwordElement.sendKeys(password);
+    	Util.waitLoadingBar(driver);    	
+    	String currentPageUrl = driver.getCurrentUrl();
+    	
+    	input_as_email(emailAddress);        
+    	input_as_password(password);        
+        click_sign_in_button();
 
-        String currentPage = driver.getCurrentUrl();
-        WebElement submit = signInForm.findElement(By.className("js-button-submit"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(submit));
-        submit.click();
-
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPage)));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPageUrl)));
         isLoginSuccessful = true;
 
         stateHolder.put("isSignedIn", true);
