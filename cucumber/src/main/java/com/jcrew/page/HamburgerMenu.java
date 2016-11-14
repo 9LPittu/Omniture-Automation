@@ -183,6 +183,7 @@ public class HamburgerMenu {
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(looksWeLove));
         looksWeLove.click();
+        Util.waitLoadingBar(driver);
     }
 
     public void click_on_sale_subcategory(String subcategory) {
