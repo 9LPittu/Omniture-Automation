@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/QuickShop"},
-        tags = {"@Quickshop"},
+        tags = {"@Quickshop","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-quickshop.json",
