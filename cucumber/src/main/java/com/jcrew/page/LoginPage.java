@@ -92,6 +92,7 @@ public class LoginPage {
     }
 
     public void input_as_email(String email) {
+    	Util.waitLoadingBar(driver);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
         
@@ -127,6 +128,20 @@ public class LoginPage {
     }
 
     public void click_sign_in_button() {
+    	
+    	Util.waitLoadingBar(driver);
+    	
+    	String emailAddress = (String) stateHolder.get("sidecarusername");
+    	String password = (String) stateHolder.get("sidecaruserpassword");
+    	
+    	if(!emailInput.getText().equalsIgnoreCase(emailAddress)){
+    		input_as_email(emailAddress);
+    	}
+    	
+    	if(!passwordInput.getText().equalsIgnoreCase(password)){
+    		input_as_password(password);
+    	}
+    	
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
         signInButton.click();
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
@@ -181,8 +196,8 @@ public class LoginPage {
         String password = null;
 
         if(reader.getProperty("environment").contains("ci")){
-        	username = reader.getProperty("checkout.signed.in.username");
-        	password = reader.getProperty("checkout.signed.in.password");
+        	stateHolder.put("sidecarusername", reader.getProperty("checkout.signed.in.username"));
+        	stateHolder.put("sidecaruserpassword", reader.getProperty("checkout.signed.in.password"));
         }
         else{
         	try{

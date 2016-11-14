@@ -11,7 +11,6 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.AfterStep;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.*;
@@ -62,7 +61,7 @@ public class FinalSteps {
         }
 
         PropertyReader reader = PropertyReader.getPropertyReader();
-        if (!reader.getProperty("environment").equalsIgnoreCase("ci") && stateHolder.hasKey("sidecarusername")) {
+        if (!reader.getProperty("environment").startsWith("ci") && stateHolder.hasKey("sidecarusername")) {
             try {
                 UsersHub userHub = UsersHub.getInstance();
                 userHub.releaseUserCredentials();
