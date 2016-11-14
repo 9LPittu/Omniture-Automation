@@ -142,8 +142,9 @@ public class LoginPage {
     		input_as_password(password);
     	}
     	
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
-        signInButton.click();
+    	WebElement signInElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+    														By.xpath("//button[text()='Sign In Here']")));
+    	signInElement.click();
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
     }
 
