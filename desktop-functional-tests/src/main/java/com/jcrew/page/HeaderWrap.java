@@ -6,6 +6,7 @@ import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
+import gherkin.formatter.model.DataTableRow;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.logging.LogEntries;
@@ -22,6 +23,7 @@ import com.jcrew.page.ArrayCategory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -332,13 +334,21 @@ public class HeaderWrap {
 		}
 	}
 
-	public void hoverCategory(List<String> categories) {
-		int index = Util.randomIndex(categories.size());
-		String randomCategory = categories.get(index);
+    public void hoverCategory(List<String> categories) {
+        int index = Util.randomIndex(categories.size());
+        String randomCategory = categories.get(index);
 
-		hoverCategory(randomCategory);
-		logger.info("Selected Category is {} ", randomCategory);
-		stateHolder.put("category", randomCategory);
+        hoverCategory(randomCategory);
+        logger.info("Selected Category is {} ", randomCategory);
+        stateHolder.put("category", randomCategory);
+    }
+
+	public void hoverCategory(DataTableRow categories) {
+        String category = categories.getCells().get(0);
+        String subcategory = categories.getCells().get(1);
+
+		hoverCategory(category);
+        selectSubCategory(subcategory);
 	}
 
 	public void hoverCategory(String Category) {

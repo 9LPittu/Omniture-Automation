@@ -31,6 +31,15 @@ public class ArrayCategorySteps extends DriverFactory {
         productsArray.selectRandomProduct("variation");
     }
 
+    @When("User selects random quick shop from product array")
+    public void user_selects_random_qs_product(){
+        productsArray.selectRandomQS("any");
+    }
+    @When("User selects random quick shop with variation product from product array")
+    public void user_selects_random_variation_qs_product(){
+        productsArray.selectRandomQS("variation");
+    }
+
     @Then("Verify ([^\"]*) cookie path value is ([^\"]*)")
     public void verify_cookie_path_value(String cookieName,String expectedCookiePath){
         String cookiePath=productsArray.getCookiePath(cookieName);
@@ -140,7 +149,10 @@ public class ArrayCategorySteps extends DriverFactory {
     }
 
     @Then("Verify user is in ([^\"]*) category array page")
-        public void is_category_array_page(String subCategoryName) {
+     public void is_category_array_page(String subCategoryName) {
+        if("selected".equalsIgnoreCase(subCategoryName)){
+            subCategoryName = (String) holder.get("subcategory");
+        }
         assertTrue("Category array page for " + subCategoryName + " should be displayed", productsArray.isCategoryArrayPage(subCategoryName));
     }
     @Then("Verify user is in category array page")

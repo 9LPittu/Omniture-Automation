@@ -39,7 +39,7 @@ public class ArraySearch extends Array{
     }
     public void selectRandomProduct()
     {
-        selectRandomProduct(searchResults);
+        selectRandomProduct(searchResults,false);
     }
 
     public boolean isSearchPage() {

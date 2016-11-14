@@ -35,11 +35,6 @@ public class CheckoutShoppingBag extends Checkout {
 
     public CheckoutShoppingBag(WebDriver driver) {
         super(driver);
-
-        String url = driver.getCurrentUrl();
-        url = url + "&isMobile=true";
-
-        driver.get(url);
         wait.until(ExpectedConditions.visibilityOf(checkoutNow));
         this.footer = new Footer(driver);
     }

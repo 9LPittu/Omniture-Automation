@@ -61,12 +61,19 @@ public class ArrayCategory extends Array{
         return getProductPrices(productList,PRICE_SALE_CLASS);
     }
 
+    public void selectRandomQS(String type) {
+        if ("variation".equalsIgnoreCase(type)) {
+            selectRandomQS(productList,true);
+        } else {
+            selectRandomQS(productList,false);
+        }
+    }
 
     public void selectRandomProduct(String type) {
         if("variation".equalsIgnoreCase(type)) {
-            selectRandomVariationProduct(productList);
+            selectRandomProduct(productList,true);
         }else{
-            selectRandomProduct(productList);
+            selectRandomProduct(productList,false);
         }
         
         try{
