@@ -55,7 +55,6 @@ public class ArraySearchSteps extends DriverFactory {
     
     @Then("Verify Sale array page is displayed$")
     public void verify_sale_array() {
-    	
     	if (!stateHolder.hasKey("secondPromoVerification")) {
 	    	boolean isSearchArray = searchArray.isSalePage();
 	    	

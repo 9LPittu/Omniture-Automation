@@ -41,7 +41,8 @@ public class ArraySearch extends Array{
         super(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(pageSearch));
+        if (!stateHolder.hasKey("secondPromoVerification"))
+        	wait.until(ExpectedConditions.visibilityOf(pageSearch));
 
     }
     public void selectRandomProduct()
