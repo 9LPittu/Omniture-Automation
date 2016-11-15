@@ -197,7 +197,7 @@ public class ArraySearch extends Array{
     	return paginationArrow.isDisplayed();
     }
     
-    public String getPaginationArrowState(String name, String state, String position) {
+    public String getPaginationArrowState(String name, String position) {
     	WebElement pagination = getPaginationElement(position);
     	WebElement paginationArrow = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[contains(@class,'pagination__link')]"));
     	

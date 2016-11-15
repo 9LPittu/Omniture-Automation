@@ -137,7 +137,7 @@ public class ArraySearchSteps extends DriverFactory {
     	if (isPagination) {
 	    	name = name.toLowerCase().trim();
 	    	state = state.toLowerCase().trim();
-	    	String actualState = searchArray.getPaginationArrowState(name,state,position);
+	    	String actualState = searchArray.getPaginationArrowState(name,position);
 	    	assertEquals(name + "pagination arrow state should match", state , actualState);
     	}
     } 
