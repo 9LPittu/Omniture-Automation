@@ -125,14 +125,14 @@ public abstract class Array extends PageObject{
         try{
             qs.click();
         }catch (WebDriverException e){
+            logger.error("webdriver exception while trying to bring up quickshop retrying with javascriptExecutor: {}", e.toString());
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("arguments[0].click();",qs);
         }
-
-        Util.waitLoadingBar(driver);
+        Util.waitForPageReady(driver);
+        Util.waitForPageFullyLoaded(driver);
     }
     public Product getProduct(WebElement tile) {
-
         Product product = new Product();
         product.setName(getProductName(tile));
         product.setPrice(getProductPrice(tile));
