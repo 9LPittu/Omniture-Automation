@@ -98,7 +98,11 @@ public class LogIn extends PageObject {
         logger.info("User and password used {} / {}", knownUser.getEmail(), knownUser.getPassword());
         sidecarUser.sendKeys(knownUser.getEmail());
         sidecarPassword.sendKeys(knownUser.getPassword());
-        signInHereButton.click();
+        
+        Util.waitWithStaleRetry(driver, signInHereButton);
+        wait.until(ExpectedConditions.elementToBeClickable(signInHereButton));
+        Util.scrollAndClick(driver, signInHereButton);
+        
         Util.waitLoadingBar(driver);
         stateHolder.put("signedUser", knownUser);
         stateHolder.put("userObject", knownUser);
@@ -359,9 +363,10 @@ public class LogIn extends PageObject {
         passwordElement.sendKeys(password);
 
         String currentPage = driver.getCurrentUrl();
+        
         WebElement submit = signInForm.findElement(By.className("js-button-submit"));
         wait.until(ExpectedConditions.elementToBeClickable(submit));
-        submit.click();
+        Util.scrollAndClick(driver, submit);
 
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPage)));
         isLoginSuccessful = true;

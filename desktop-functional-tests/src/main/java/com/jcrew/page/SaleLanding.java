@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +33,9 @@ public class SaleLanding {
     
     @FindBy(className = "c-sale__promo-frame")
     private WebElement promoFrame;
+    
+    @FindBy(id = "c-promo-alert")
+    private WebElement secondPromoBox;
     
 
     public SaleLanding(WebDriver driver) {
@@ -124,6 +128,33 @@ public class SaleLanding {
     	wait.until(ExpectedConditions.visibilityOf(closeIcon));
     	
     	closeIcon.click();
+    }
+    
+    public boolean isSecondPromo() {
+    	try {
+	    	wait.until(ExpectedConditions.visibilityOf(secondPromoBox));
+	    	
+	    	WebElement secondPromo = secondPromoBox.findElement(By.xpath(".//div[@class='c-sale__promo-alert']"));
+	    	
+	    	return secondPromo.isDisplayed();
+    	
+    	} catch (TimeoutException te)	{
+    		logger.info("second promo box is not displayed. Ignoring this as second promo is optional");
+    		stateHolder.put("secondPromoVerification",true);
+    		
+    		return true;
+    	}
+    }
+    
+    public void clickSecondPromoLink(String name) {
+    	name = name.toLowerCase().trim();
+    	
+    	wait.until(ExpectedConditions.visibilityOf(secondPromoBox));
+    	
+    	WebElement promoLink = secondPromoBox.findElement(By.xpath(".//div/a[" + Util.xpathGetTextLower + "='" + name + "']"));
+    	wait.until(ExpectedConditions.elementToBeClickable(promoLink));
+    	
+    	promoLink.click();
     }
 
 }
