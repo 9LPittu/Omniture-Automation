@@ -203,7 +203,7 @@ public class CheckoutBillingSteps extends DriverFactory {
     public void verify_no_additional_charges_applied_for_gift_receipt(){
     	String orderSubtotalBeforeGiftReceipt = (String) billing.stateHolder.get("subtotal");
     	
-    	String orderSubtotalOnBilling = billing.getSubTotal();
+    	String orderSubtotalOnBilling = billing.getSubTotal().replaceAll("[^0-9\\.]", "");
     	
     	assertEquals("No additional charges should be applied for gift receipt on billing page", orderSubtotalBeforeGiftReceipt, orderSubtotalOnBilling);
     }

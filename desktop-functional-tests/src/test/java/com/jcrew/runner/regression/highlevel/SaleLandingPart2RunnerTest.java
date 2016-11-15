@@ -11,13 +11,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/SearchAndSale"},
-        tags = {"@sale","@HighLevel"},
+        tags = {"@SaleLanding2","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-Sale.json",
+                "json:target/cucumber-SaleLanding2.json",
                 "pretty",
-                "html:target/cucumber/Sale"
+                "html:target/cucumber/SaleLanding2"
         }
 )
-public class SaleRunnerTest {
+public class SaleLandingPart2RunnerTest {
 }

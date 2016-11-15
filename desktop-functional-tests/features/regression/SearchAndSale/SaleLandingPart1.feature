@@ -1,5 +1,5 @@
-@sale @HighLevel
-Feature: Sale Landing functionality
+@SaleLanding1 @HighLevel
+Feature: Sale Landing functionality-Part1
 
   Background:
     Given User goes to homepage
@@ -8,7 +8,7 @@ Feature: Sale Landing functionality
     Then Verify sale landing page is displayed
 
    
-   Scenario: Verify url, title and category links on Sale landing page
+  Scenario: Verify url, title and category links on Sale landing page
    	And Verify url is /r/sale
     And Verify following links are displayed on sale landing page
     |women|
@@ -18,7 +18,7 @@ Feature: Sale Landing functionality
 	|new in sale|
 	And Verify Sale title is displayed on sale landing page
 	
-	Scenario: Verify first promo on Sale landing page
+  Scenario: Verify first promo on Sale landing page
 	And Verify first promo is displayed
 	When User clicks on details link on first promo
 	Then Verify promo details pop up is open
@@ -26,13 +26,13 @@ Feature: Sale Landing functionality
 	Then Verify promo details pop up is closed
 
 
-	Scenario Outline: Verify category links are functional on Sale Landing page
+  Scenario Outline: Verify category links are functional on Sale Landing page
     When User selects <saleCategory> dept from sales
 	Then Verify Sale array page is displayed
 	And Verify url is <url>
 	And Verify filters are displayed on array page
 	And Verify gender filter displays <saleCategory>
-	
+	And Verify that search result number is greater than 0
   
   	Examples:
   	|saleCategory|url|
@@ -42,7 +42,7 @@ Feature: Sale Landing functionality
 	|boys|/r/search/?N=21+18&Ntrm=&Nsrt=3&Npge=1&Nrpp=60|
 	
 	
-	Scenario: Verify New In sale link is fuctional on sale landing page
+  Scenario: Verify New In sale link is fuctional on sale landing page
 	When User selects new in sale dept from sales
 	Then Verify Sale array page is displayed
 	And Verify url is /r/search/?N=21+227&Ntrm=&Nsrt=3&Npge=1&Nrpp=60
@@ -53,25 +53,5 @@ Feature: Sale Landing functionality
 	|girls|
 	|boys|
 	And Verify Sort By filter displays New in Sale
-	
-	
-	Scenario Outline: Verify Gender Selectors are functional on New In Sale page
-	When User selects new in sale dept from sales
-	Then Verify Sale array page is displayed
-	When User clicks on <gender> gender selector
-	Then Verify Sale array page is displayed
-	And Verify gender filter displays <gender>
-
-	Examples:
-	|gender|
-	|women|
-	|men|
-	|girls|
-	|boys|
-	
-
-      
-	
-
-	
+	And Verify that search result number is greater than 0
 	

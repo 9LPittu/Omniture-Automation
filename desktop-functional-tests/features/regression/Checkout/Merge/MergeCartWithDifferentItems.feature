@@ -24,8 +24,8 @@ Feature: Checkout - Merge cart page validation for e-gift card, regular item, ba
     And User adds product to bag
     
 	#Add e-gift card to bag
-	Then Verify The J.Crew Gift Card link is displayed under Our Cards accordion in footer
-	When User clicks on The J.Crew Gift Card link under Our Cards accordion in footer	
+	Then Verify The J.Crew Gift Card link is displayed under The J.Crew Credit Card accordion in footer
+	When User clicks on The J.Crew Gift Card link under The J.Crew Credit Card accordion in footer	
 	When User adds e-gift card worth any value to bag
 	 	
 	#sign out 
