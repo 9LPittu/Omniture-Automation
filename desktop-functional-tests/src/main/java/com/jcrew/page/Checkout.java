@@ -128,6 +128,7 @@ public abstract class Checkout extends PageObject{
     }
     
     public String getTitle() {
+        Util.waitForPageFullyLoaded(driver);
         WebElement title = checkout.findElement(By.className("page-title"));
 
         return title.getText().trim();
