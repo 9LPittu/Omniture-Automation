@@ -210,31 +210,30 @@ public class ArraySearch extends Array{
     	}
     }
     
-    public void selectPaginationArrow(String name, String position) {
+    public void selectPaginationArrowOrLink(String name, String position, String elementType) {
     	//Save the name of first item in current page
     	String firstItemName = getFirstItemName();
         stateHolder.put("firstItemNameInArray", firstItemName);
     	
         WebElement pagination = getPaginationElement(position);
-    	WebElement paginationArrow = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[@class='pagination__arrow']"));
-    	wait.until(ExpectedConditions.elementToBeClickable(paginationArrow));
-    	paginationArrow.click();
+        WebElement paginationElement;
+        
+        switch (elementType) {
+        case "link":
+        	paginationElement = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::a"));
+        	break;
+        
+        case "arrow":
+        default:
+        	paginationElement = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[@class='pagination__arrow']"));
+        	break;
+        }
+    	
+    	wait.until(ExpectedConditions.elementToBeClickable(paginationElement));
+    	paginationElement.click();
     	Util.waitSpinningImage(driver);
     }
     
-    public void selectPaginationLink(String name,String position) {
-    	//Save the name of first item in current page
-    	String firstItemName = getFirstItemName();
-        stateHolder.put("firstItemNameInArray", firstItemName);
-    	
-        WebElement pagination = getPaginationElement(position);
-    	WebElement paginationLink = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::a"));
-    	wait.until(ExpectedConditions.elementToBeClickable(paginationLink));
-    	
-    	Util.scrollAndClick(driver, paginationLink);
-
-    	Util.waitSpinningImage(driver);
-    }
     
     public void selectRandomPageNumberFromPaginationDropdown(String position){
     	

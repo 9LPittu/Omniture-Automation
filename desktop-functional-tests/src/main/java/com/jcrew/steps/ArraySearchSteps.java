@@ -151,7 +151,7 @@ public class ArraySearchSteps extends DriverFactory {
 	    	int currentPageNumber = searchArray.getPageNumber(position);
 	    	stateHolder.put("currentPageNumber", currentPageNumber);
 	    	
-	    	searchArray.selectPaginationArrow(name,position);
+	    	searchArray.selectPaginationArrowOrLink(name,position,"arrow");
     	}
     } 
     
@@ -163,7 +163,7 @@ public class ArraySearchSteps extends DriverFactory {
 	    	int currentPageNumber = searchArray.getPageNumber(position);
 	    	stateHolder.put("currentPageNumber", currentPageNumber);
 	    	
-	    	searchArray.selectPaginationLink(name,position);
+	    	searchArray.selectPaginationArrowOrLink(name,position,"link");
     	}
     }
     
