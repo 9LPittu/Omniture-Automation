@@ -55,7 +55,7 @@ public class AccountDetailSteps extends DriverFactory{
 
     }
 
-    @And("Verify \'([^\"]*)\' error message displayed for ([^\"]*) field")
+    @And("^Verify \'([^\"]*)\' error message displayed for ([^\"]*) field$")
     public void verify_error_message(String errMsgExpected, String fieldLabel) {
         assertEquals(fieldLabel + " error message should match", errMsgExpected, accountDetail.getErrorMessage(fieldLabel));
 
