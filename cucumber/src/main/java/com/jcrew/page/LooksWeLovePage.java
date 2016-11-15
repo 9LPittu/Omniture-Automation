@@ -53,7 +53,7 @@ public class LooksWeLovePage {
         List<WebElement> buttons = driver.findElements(locator);
         if(!clickRandomShopThisLook(buttons)){
             logger.debug("Selected tray only contained one product, selecting look #0");
-            buttons = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+            buttons = driver.findElements(locator);
             clickShopThisLook(buttons.get(0));
         }
     }
