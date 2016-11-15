@@ -135,6 +135,7 @@ public class LoginPage {
     	String password = (String) stateHolder.get("sidecaruserpassword");
     	
     	if(!emailInput.getAttribute("value").equalsIgnoreCase(emailAddress)){
+    		driver.navigate().refresh();
     		input_as_email(emailAddress);
     	}
     	

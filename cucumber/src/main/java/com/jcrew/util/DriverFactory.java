@@ -73,7 +73,7 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-        	DesiredCapabilities desiredCapabilities = getChromeCapabilities(akamaiEnv);        	
+        	DesiredCapabilities desiredCapabilities = getChromeCapabilities(akamaiEnv);
             driver = new ChromeDriver(desiredCapabilities);
         	
         	if (!isDesktop)
