@@ -34,4 +34,3 @@ Feature: Quick Shop Messaging
     Then Verify PLEASE SELECT A SIZE message displayed
     And Verify Add to Bag button is in disabled state
     And Verify Wishlist button is in disabled state
-
