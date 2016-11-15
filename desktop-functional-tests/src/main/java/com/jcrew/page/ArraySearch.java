@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -224,9 +225,11 @@ public class ArraySearch extends Array{
         	break;
         
         case "arrow":
-        default:
         	paginationElement = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[@class='pagination__arrow']"));
         	break;
+        
+        default:
+        	throw new WebDriverException("Element type should be arrow or link. But, element type provided is " + elementType);
         }
     	
     	wait.until(ExpectedConditions.elementToBeClickable(paginationElement));
