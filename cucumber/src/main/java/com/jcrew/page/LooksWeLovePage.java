@@ -47,13 +47,12 @@ public class LooksWeLovePage {
                 break;
             default:
                 logger.debug("Not a valid type to select shop the look buttons...");
-
         }
-
-        List<WebElement> buttons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+        
+        List<WebElement> buttons = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));        
         if(!clickRandomShopThisLook(buttons)){
             logger.debug("Selected tray only contained one product, selecting look #0");
-            buttons = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+            buttons = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
             clickShopThisLook(buttons.get(0));
         }
     }
