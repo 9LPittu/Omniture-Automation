@@ -116,16 +116,13 @@ public abstract class Array extends PageObject{
         wait.until(ExpectedConditions.visibilityOf(product));
         WebElement product_name = product.findElement(By.className(NAME_CLASS));
         logger.info("Click on quick shop of product : {}", product_name.getText());
-        hoverAction.moveToElement(product);
-        hoverAction.perform();
-        stateHolder.put("fromArray", getProduct(product));
-        WebElement qs = product.findElement(By.xpath(".//div[contains(@class,'c-product-tile__quickshop js-product-tile-quickshop')]"));
+        hoverAction.moveToElement(product).perform();
+        WebElement qs = product.findElement(By.xpath(".//div[contains(@class,'c-product-tile__quickshop')]/a"));
         hoverAction.moveToElement(qs);
         hoverAction.perform();
+        stateHolder.put("fromArray", getProduct(product));
         try{
-           // qs.click();
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            js.executeScript("arguments[0].click();",qs);
+            qs.click();
         }catch (WebDriverException e){
             logger.error("webdriver exception while trying to bring up quickshop retrying with javascriptExecutor: {}", e.toString());
             JavascriptExecutor js = (JavascriptExecutor) driver;
