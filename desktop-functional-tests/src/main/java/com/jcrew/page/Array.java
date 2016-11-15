@@ -123,7 +123,9 @@ public abstract class Array extends PageObject{
         hoverAction.moveToElement(qs);
         hoverAction.perform();
         try{
-            qs.click();
+           // qs.click();
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].click();",qs);
         }catch (WebDriverException e){
             logger.error("webdriver exception while trying to bring up quickshop retrying with javascriptExecutor: {}", e.toString());
             JavascriptExecutor js = (JavascriptExecutor) driver;
