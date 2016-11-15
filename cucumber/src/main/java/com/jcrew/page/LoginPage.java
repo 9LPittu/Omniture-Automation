@@ -99,7 +99,7 @@ public class LoginPage {
         int cntr = 0;
         do{
         	emailInput.clear();
-        	emailInput.sendKeys(email);
+        	emailInput.sendKeys(email.toString());
         	
         	if(emailInput.getAttribute("value").equalsIgnoreCase(email)){
         		break;
@@ -115,7 +115,7 @@ public class LoginPage {
         int cntr = 0;
         do{
         	passwordInput.clear();
-        	passwordInput.sendKeys(password);
+        	passwordInput.sendKeys(password.toString());
         	
         	if(passwordInput.getAttribute("value").equalsIgnoreCase(password)){
         		break;
@@ -135,6 +135,7 @@ public class LoginPage {
     	String password = (String) stateHolder.get("sidecaruserpassword");
     	
     	if(!emailInput.getAttribute("value").equalsIgnoreCase(emailAddress)){
+    		driver.navigate().refresh();
     		input_as_email(emailAddress);
     	}
     	
