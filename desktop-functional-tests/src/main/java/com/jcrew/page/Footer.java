@@ -119,7 +119,9 @@ public class Footer {
     	WebElement footerLink = getAccordianLink(linkText, accordionName);
         return footerLink.isDisplayed();
     }
-    
+
+
+
     private WebElement getAccordianLink(String link, String accordion) {
         WebElement drawerElement = getAccordionElement(accordion);
         String xpath;
@@ -141,7 +143,7 @@ public class Footer {
 
         return wait.until(ExpectedConditions.visibilityOf(accordion));
     }
-    
+
     public void clickFooterLinkFromDrawer(String linkText, String drawer) {
         WebElement footerLink = getAccordianLink(linkText, drawer);
         wait.until(ExpectedConditions.elementToBeClickable(footerLink));
@@ -149,4 +151,5 @@ public class Footer {
         footerLink.click();
         Util.waitLoadingBar(driver);
     }
+
 }
