@@ -177,10 +177,13 @@ public class Footer {
     	}
     	
         WebElement listOfSubElements = getListOfSubElementsForFooterLink(footerLink);
-        WebElement footerSublink = listOfSubElements.findElement(By.linkText(footerSubLink));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublink));
+        WebElement footerSublinkElement = listOfSubElements.findElement(By.linkText(footerSubLink));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(footerSublinkElement));
         logger.info("sub link being clicked {}", footerSubLink.toString());
-        footerSublink.click();
+        Util.scrollToElement(driver, footerSublinkElement);        
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("arguments[0].scrollIntoView();", footerSublinkElement);
+        footerSublinkElement.click();
         Util.waitLoadingBar(driver);
     }
 
@@ -443,6 +446,9 @@ public class Footer {
     	for(WebElement legalSectionLink:legalSectionLinks){
     		String legalSectionLinkName = legalSectionLink.getText().trim();
     		if(legalSectionLinkName.equalsIgnoreCase(linkName)){
+    			Util.scrollToElement(driver, legalSectionLink);        
+    	        JavascriptExecutor jse = (JavascriptExecutor)driver;
+    	        jse.executeScript("arguments[0].scrollIntoView();", legalSectionLink);
     			legalSectionLink.click();
     			break;
     		}
