@@ -84,7 +84,7 @@ public class QuickShopSteps extends DriverFactory{
     public void verify_user_can_change_variations(){
         assertTrue("Verify user able to change variations in quick shop",quickShop.isVariationChanged());
     }
-    @And("Verify ([^\"]*) message displayed")
+    @And("^Verify ([^\"]*) message displayed$")
     public void verify_error_message(String errorMessage){
         assertEquals("Verify error message on Quick shop",errorMessage,quickShop.getMessage());
     }
