@@ -30,6 +30,7 @@ public class LooksWeLovePage {
     public void selectRandomShopThisLook(String type){
         logger.debug("Selecting a random shop the look for {}", type);
         WebDriverWait wait = Util.createWebDriverWait(driver);
+        Util.waitLoadingBar(driver);
         type = type.toLowerCase();
         By locator = By.xpath(".");
 
@@ -49,7 +50,7 @@ public class LooksWeLovePage {
                 logger.debug("Not a valid type to select shop the look buttons...");
         }
         
-        List<WebElement> buttons = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));        
+        List<WebElement> buttons = driver.findElements(locator);
         if(!clickRandomShopThisLook(buttons)){
             logger.debug("Selected tray only contained one product, selecting look #0");
             buttons = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));

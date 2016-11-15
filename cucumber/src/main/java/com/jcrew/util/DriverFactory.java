@@ -40,6 +40,7 @@ public class DriverFactory {
     private final int DEFAULT_WINDOW_HEIGHT = 667;
     private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
+    private final PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
     private int width = DEFAULT_WINDOW_WIDTH;
     private int height = DEFAULT_WINDOW_HEIGHT;
@@ -47,7 +48,6 @@ public class DriverFactory {
     private WebDriver createNewDriverInstance() throws IOException {
 
         final WebDriver driver;
-        final PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
         if (propertyReader.hasProperty("window.width") && propertyReader.hasProperty("window.height")) {
             width = Integer.parseInt(propertyReader.getProperty("window.width"));
@@ -73,19 +73,7 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-        	DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
-
-        	ChromeOptions options = new ChromeOptions();
-            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
-
-            if (akamaiEnv) {
-                options.addArguments("--disable-extensions");
-            } else {
-                options.addExtensions(new File("ModHeader.crx"));
-
-            }
-
-            desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        	DesiredCapabilities desiredCapabilities = getChromeCapabilities(akamaiEnv);        	
             driver = new ChromeDriver(desiredCapabilities);
         	
         	if (!isDesktop)
@@ -188,17 +176,8 @@ public class DriverFactory {
                 propertyReader.getProperty(propertyReader.getProperty("environment") + ".akamai"));
 
         if ("chrome".equals(browser)) {
-        	DesiredCapabilities chrome = DesiredCapabilities.chrome();
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
-            if (akamaiEnv) {
-                options.addArguments("--disable-extensions");
-            } else {
-                options.addExtensions(new File("ModHeader.crx"));
-
-            }
-            chrome.setCapability(ChromeOptions.CAPABILITY, options);
-            driver = getDesktopWebDriver(propertyReader, chrome);
+        	DesiredCapabilities capabilities = getChromeCapabilities(akamaiEnv);
+            driver = getDesktopWebDriver(propertyReader, capabilities);
 
             if (!akamaiEnv && !isDesktop) {
                 driver.get("chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png");
@@ -316,7 +295,6 @@ public class DriverFactory {
     }
 
     public FirefoxProfile getFirefoxProfile() {
-        final PropertyReader propertyReader = PropertyReader.getPropertyReader();
         FirefoxProfile firefoxProfile = new FirefoxProfile();
         firefoxProfile.setPreference("general.useragent.override", propertyReader.getProperty("user.agent"));
         return firefoxProfile;
@@ -325,7 +303,6 @@ public class DriverFactory {
     public void destroyDriver() {
         String identifier = Thread.currentThread().getName();
         WebDriver driver = driverMap.get(identifier);
-        PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
         if (driver != null && !"iossafari".equals(propertyReader.getProperty("browser"))) {
             driver.quit();
@@ -337,7 +314,6 @@ public class DriverFactory {
         stateHolder.put("deletecookies", true);
         String identifier = Thread.currentThread().getName();
         WebDriver driver = driverMap.get(identifier);
-        PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
         Set<Cookie> cookies = null;
         try {
@@ -375,5 +351,33 @@ public class DriverFactory {
         } catch (IOException e) {
             logger.error("unable to create driver in a reset");
         }
+    }
+    
+    private DesiredCapabilities getChromeCapabilities(boolean isAkamai) {
+        DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
+
+        Map<String, Object> deviceMetrics = new HashMap<>();
+        deviceMetrics.put("width", width);
+        deviceMetrics.put("height", height);
+        deviceMetrics.put("pixelRatio", 3.0);
+
+        Map<String, Object> mobileEmulation = new HashMap<>();
+        mobileEmulation.put("deviceMetrics", deviceMetrics);
+        mobileEmulation.put("userAgent", propertyReader.getProperty("user.agent"));
+
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("mobileEmulation", mobileEmulation);
+
+        if(isAkamai) {
+            options.addArguments("--disable-extensions");
+
+        } else {
+            options.addExtensions(new File("ModHeader.crx"));
+
+        }
+
+        desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
+        return desiredCapabilities;
     }
 }
