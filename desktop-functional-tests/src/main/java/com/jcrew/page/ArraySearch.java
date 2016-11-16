@@ -3,12 +3,15 @@ package com.jcrew.page;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,17 +32,23 @@ public class ArraySearch extends Array{
     private WebElement productGrid;
     @FindBy(id = "c-search__filter")
     private WebElement searchFilter;
+    @FindBy(id = "c-search__header-pagination")
+    private WebElement headerPagination;
+    @FindBy(id = "c-search__pagination")
+    private WebElement footerPagination;
+
 
     public ArraySearch(WebDriver driver) {
         super(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(pageSearch));
+        if (!stateHolder.hasKey("secondPromoVerification"))
+        	wait.until(ExpectedConditions.visibilityOf(pageSearch));
 
     }
     public void selectRandomProduct()
     {
-        selectRandomProduct(searchResults);
+        selectRandomProduct(searchResults,false);
     }
 
     public boolean isSearchPage() {
@@ -99,6 +108,7 @@ public class ArraySearch extends Array{
     
     public String getHeaderTitle() {
     	WebElement headerTitle = pageSearch.findElement(By.tagName("h1"));
+    	Util.waitWithStaleRetry(driver, headerTitle);
    
     	return headerTitle.getText();
     }
@@ -110,9 +120,8 @@ public class ArraySearch extends Array{
     } 
     
     public String getFilterValue(String filterName) {
-    	wait.until(ExpectedConditions.visibilityOf(searchFilter));
+    	Util.waitWithStaleRetry(driver, searchFilter);
 
-    	
     	WebElement filterElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + filterName 
     					+ "']/following-sibling::h6")));
 
@@ -144,4 +153,121 @@ public class ArraySearch extends Array{
     	genderSelector.click();
     	wait.until(ExpectedConditions.urlContains("/r/search"));
     }
+    
+    public int getSearchResultsNumber() {
+    	wait.until(ExpectedConditions.visibilityOf(searchResults));
+        WebElement searchResultsNumber = searchResults.findElement(By.className("search__results--count"));
+        String resultsText = searchResultsNumber.getText();
+        resultsText = resultsText.replaceAll("[^0-9]*", "");
+
+        return Integer.parseInt(resultsText);
+    }
+    
+    public boolean isPaginationDisplayed(String position){
+        boolean result=false;
+        int resultsNumber = getSearchResultsNumber();
+        stateHolder.put("pagination", true);
+
+        
+        if(resultsNumber > 60){
+        	WebElement pagination = getPaginationElement(position);
+        	result = headerPagination.isDisplayed();
+        } else{
+        	try {
+        		result = !headerPagination.isDisplayed();
+        	} catch (NoSuchElementException noElement) {
+        		result = true;	
+        	}
+        }
+        return result;
+    }
+    
+    public int getPageNumber(String position) {
+    	WebElement pagination = getPaginationElement(position);
+    	wait.until(ExpectedConditions.visibilityOf(pagination));
+    	
+    	WebElement pageNumber = pagination.findElement(By.xpath(".//select[contains(@class,'dropdown--quantity')]/option[@selected='selected']"));
+    	String selectedPageNumber = pageNumber.getAttribute("value").trim();
+    	
+    	return Integer.parseInt(selectedPageNumber);
+    }
+    
+    public boolean isPaginationArrowDisplayed(String name, String position) {
+    	WebElement pagination = getPaginationElement(position);
+    	WebElement paginationArrow = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[@class='pagination__arrow']"));
+    	return paginationArrow.isDisplayed();
+    }
+    
+    public String getPaginationArrowState(String name, String position) {
+    	WebElement pagination = getPaginationElement(position);
+    	WebElement paginationArrow = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[contains(@class,'pagination__link')]"));
+    	
+    	boolean isDisabled = paginationArrow.getAttribute("class").contains("is-disabled");
+    	
+    	if (isDisabled) {
+    		return "disabled";
+    	} else {
+    		return "active";
+    	}
+    }
+    
+    public void selectPaginationArrowOrLink(String name, String position, String elementType) {
+    	//Save the name of first item in current page
+    	String firstItemName = getFirstItemName();
+        stateHolder.put("firstItemNameInArray", firstItemName);
+    	
+        WebElement pagination = getPaginationElement(position);
+        WebElement paginationElement;
+        
+        switch (elementType) {
+        case "link":
+        	paginationElement = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::a"));
+        	break;
+        
+        case "arrow":
+        	paginationElement = pagination.findElement(By.xpath(".//li[contains(@class,'pagination__item') and contains(@class,'" + name + "')]/descendant::span[@class='pagination__arrow']"));
+        	break;
+        
+        default:
+        	throw new WebDriverException("Element type should be arrow or link. But, element type provided is " + elementType);
+        }
+    	
+    	wait.until(ExpectedConditions.elementToBeClickable(paginationElement));
+    	paginationElement.click();
+    	Util.waitSpinningImage(driver);
+    }
+    
+    
+    public void selectRandomPageNumberFromPaginationDropdown(String position){
+    	
+    	//Save the name of first item in current page
+    	String firstItemName = getFirstItemName();
+        stateHolder.put("firstItemNameInArray", firstItemName);
+    	
+        WebElement pagination = getPaginationElement(position);
+
+        Select list = new Select(pagination.findElement(By.xpath(".//select[contains(@class,'dropdown--quantity')]")));
+        int randomNumber = Util.randomIndex(list.getOptions().size()-1);
+        list.selectByIndex(randomNumber + 1);
+
+        Util.waitSpinningImage(driver);
+    }
+    
+    public String getFirstItemName() {
+    	List<WebElement> items = driver.findElements(By.className("tile__detail--name"));
+        return items.get(0).getText();
+    }
+    
+    public WebElement getPaginationElement(String position) {
+    	position = position.trim();
+    	if (position.equalsIgnoreCase("header")) {
+    		Util.waitWithStaleRetry(driver, headerPagination);
+    		return headerPagination;
+    	} else {
+    		Util.waitWithStaleRetry(driver, footerPagination);
+    		return footerPagination;
+    	}
+    }
 }
+
+

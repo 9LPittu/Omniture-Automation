@@ -28,7 +28,7 @@ Feature: Footer Verification In Home Page
     And Contact Us section phone icon is displayed
     And Contact Us section vps icon is displayed
     Then Verify Let Us Help You footer link is displayed
-    And Verify Our Cards footer link is displayed
+    And Verify The J.Crew Credit Card footer link is displayed
     And Verify Our Stores footer link is displayed
     And Verify Our Brands footer link is displayed
     And Verify About J.Crew footer link is displayed
@@ -44,8 +44,8 @@ Feature: Footer Verification In Home Page
     And Verify youtube icon is displayed under Get To Know Us section
   	Then Verify Let Us Help You footer link is displayed
   	And user should see "Let Us Help You" content grouping in collapsed mode
-    And Verify Our Cards footer link is displayed
-    And user should see "Our Cards" content grouping in collapsed mode
+    And Verify The J.Crew Credit Card footer link is displayed
+    And user should see "The J.Crew Credit Card" content grouping in collapsed mode
     And Verify Our Stores footer link is displayed
     And user should see "Our Stores" content grouping in collapsed mode
     And Verify Our Brands footer link is displayed
@@ -57,9 +57,9 @@ Feature: Footer Verification In Home Page
     And Click on footer link Our Brands to close
     Then user should see "Our Brands" content grouping drawer should be closed
     And Click on footer link Our Brands to open
-    And Click on footer link Our Cards to open
+    And Click on footer link The J.Crew Credit Card to open
     Then user should see "Our Brands" content grouping drawer should be closed
-    Then user should see "Our Cards" content grouping drawer should be opened
+    Then user should see "The J.Crew Credit Card" content grouping drawer should be opened
     Then user should see email subscription field under LIKE BEING FIRST section
     And user should see default text in email field as 'Enter your email.'
     Then enter email address as "invalidemail" in email field
@@ -124,24 +124,20 @@ Feature: Footer Verification In Home Page
 
   #tc-05
   #Merge
-  Scenario: Verification of Our Cards links functionality
-    When Click on footer link Our Cards to open
+  Scenario: Verification of The J.Crew Credit Card links functionality
+    When Click on footer link The J.Crew Credit Card to open
     And The J.Crew Credit Card sublink is displayed
     And The J.Crew Gift Card sublink is displayed
-    Then Click on footer link Our Cards to open
-    And Click on sublink The J.Crew Credit Card from Our Cards footer link
+    Then Click on footer link The J.Crew Credit Card to open
+    And Click on sublink Apply Today & Get 15% Off* from The J.Crew Credit Card footer link
     And Verify user is on the j.crew credit card page
     And User is on internal /help/credit_card.jsp?sidecar=true page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
-    Then Click on footer link Our Cards to open
-    And Click on sublink The J.Crew Gift Card from Our Cards footer link
-    And Verify user is on the j.crew gift card page
-    And User is on internal /help/gift_card.jsp?sidecar=true page
-    And Verify J crew breadcrumb is not displayed
-    And Verify Embedded header is displayed
-    And User presses back button
+    Then Click on footer link The J.Crew Credit Card to open
+    And Click on sublink Manage Your Card from The J.Crew Credit Card footer link
+    And User is on internal https://d.comenity.net/jcrew/ page
 
   #tc-06
     #tc-07

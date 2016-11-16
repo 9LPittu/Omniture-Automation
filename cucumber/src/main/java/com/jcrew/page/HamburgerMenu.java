@@ -70,7 +70,7 @@ public class HamburgerMenu {
 
     public void click_on_hamburger_menu() {
         WebDriverWait wait = Util.createWebDriverWait(driver);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("js-footer__fullsite__link")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
         Util.waitWithStaleRetry(driver, hamburgerMenu);
 
         int attempts = 0;
@@ -183,6 +183,7 @@ public class HamburgerMenu {
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(looksWeLove));
         looksWeLove.click();
+        Util.waitLoadingBar(driver);
     }
 
     public void click_on_sale_subcategory(String subcategory) {

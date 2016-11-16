@@ -154,7 +154,7 @@ public class ProductDetails extends PageObject {
         return selectedSize.getAttribute("data-name");
     }
 
-    private String getProductName() {
+    public String getProductName() {
         wait.until(ExpectedConditions.visibilityOf(productOverview));
         WebElement name = productOverview.findElement(By.tagName("h1"));
         return name.getText();
@@ -682,20 +682,6 @@ public class ProductDetails extends PageObject {
         } else {
             logger.info("Size " + size + " not found");
         }
-    }
-
-    public boolean compare_PDP_price(Product product) {
-        String arrayPrice = product.getPrice();
-        String pdpPrice = getProductPrice().replace("select colors", "").replace("now", "");
-        logger.info("array product price: '{}' - pdp price: '{}'", arrayPrice, pdpPrice);
-        return arrayPrice.equals(pdpPrice);
-    }
-
-    public boolean compare_PDP_name(Product product) {
-        String arrayName = product.getName();
-        String pdpName = getProductName();
-        logger.info("array product name: '{}' - pdp name: '{}'", arrayName, pdpName);
-        return arrayName.equalsIgnoreCase(pdpName);
     }
 
 

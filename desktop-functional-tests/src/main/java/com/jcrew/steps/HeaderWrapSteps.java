@@ -7,10 +7,13 @@ import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import com.jcrew.utils.StateHolder;
 
+import cucumber.api.DataTable;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import gherkin.formatter.model.DataTableRow;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -121,6 +124,13 @@ public class HeaderWrapSteps extends DriverFactory {
     @When("User hovers on a random category from list")
     public void user_hovers_on_random_category_from_list(List<String> categories) {
     	header.hoverCategory(categories);
+    }
+
+    @When("User hovers on a random category and subcategory from list")
+    public void user_hovers_on_random_category_from_list(DataTable categories) {
+        List<DataTableRow> row = categories.getGherkinRows();
+        DataTableRow selectedRow = row.get(Util.randomIndex(row.size()));
+        header.hoverCategory(selectedRow);
     }
     
     @When("User hovers on any random category")

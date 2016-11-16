@@ -92,8 +92,15 @@ public class LoginPage {
     }
 
     public void input_as_email(String email) {
+<<<<<<< HEAD
     	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
+||||||| merged common ancestors
+=======
+    	Util.waitLoadingBar(driver);
+    	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
+>>>>>>> master
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
+<<<<<<< HEAD
         
         int cntr = 0;
         do{
@@ -108,9 +115,29 @@ public class LoginPage {
         		cntr++;
         	}
         }while(cntr<=2);
+||||||| merged common ancestors
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
+        emailInput.sendKeys(email);
+=======
+        
+        int cntr = 0;
+        do{
+        	emailInput.clear();
+        	emailInput.sendKeys(email.toString());
+        	
+        	if(emailInput.getAttribute("value").equalsIgnoreCase(email)){
+        		break;
+        	}
+        	else{
+                Util.wait(2000);
+        		cntr++;
+        	}
+        }while(cntr<=2);
+>>>>>>> master
     }
 
     public void input_as_password(String password) {
+<<<<<<< HEAD
         int cntr = 0;
         do{
         	passwordInput.clear();
@@ -124,11 +151,44 @@ public class LoginPage {
         		cntr++;
         	}
         }while(cntr<=2); 
+||||||| merged common ancestors
+        passwordInput.sendKeys(password);
+=======
+        int cntr = 0;
+        do{
+        	passwordInput.clear();
+        	passwordInput.sendKeys(password.toString());
+        	
+        	if(passwordInput.getAttribute("value").equalsIgnoreCase(password)){
+        		break;
+        	}
+        	else{
+                Util.wait(2000);
+        		cntr++;
+        	}
+        }while(cntr<=2); 
+>>>>>>> master
     }
 
     public void click_sign_in_button() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(signInButton));
-        signInButton.click();
+    	
+    	Util.waitLoadingBar(driver);
+    	
+    	String emailAddress = (String) stateHolder.get("sidecarusername");
+    	String password = (String) stateHolder.get("sidecaruserpassword");
+    	
+    	if(!emailInput.getAttribute("value").equalsIgnoreCase(emailAddress)){
+    		driver.navigate().refresh();
+    		input_as_email(emailAddress);
+    	}
+    	
+    	if(!passwordInput.getAttribute("value").equalsIgnoreCase(password)){
+    		input_as_password(password);
+    	}
+    	
+    	WebElement signInElement = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
+    														By.xpath("//button[text()='Sign In Here']")));
+    	signInElement.click();
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(myAccountContainer));
     }
 
@@ -181,8 +241,8 @@ public class LoginPage {
         String password = null;
 
         if(reader.getProperty("environment").contains("ci")){
-        	username = reader.getProperty("checkout.signed.in.username");
-        	password = reader.getProperty("checkout.signed.in.password");
+        	stateHolder.put("sidecarusername", reader.getProperty("checkout.signed.in.username"));
+        	stateHolder.put("sidecaruserpassword", reader.getProperty("checkout.signed.in.password"));
         }
         else{
         	try{
@@ -539,25 +599,15 @@ public class LoginPage {
     
     public boolean submitUserCredentials(String emailAddress, String password){
     	boolean isLoginSuccessful = false;
-    	Util.waitLoadingBar(driver);
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(
-    			                                            signInForm.findElement(By.id("sidecarUser")))));
     	
-    	WebElement emailElement = signInForm.findElement(By.id("sidecarUser"));
-        WebElement passwordElement = signInForm.findElement(By.id("sidecarPassword"));
-        
-        emailElement.clear();
-        emailElement.sendKeys(emailAddress);
-        
-        passwordElement.clear();
-        passwordElement.sendKeys(password);
+    	Util.waitLoadingBar(driver);    	
+    	String currentPageUrl = driver.getCurrentUrl();
+    	
+    	input_as_email(emailAddress);        
+    	input_as_password(password);        
+        click_sign_in_button();
 
-        String currentPage = driver.getCurrentUrl();
-        WebElement submit = signInForm.findElement(By.className("js-button-submit"));
-        Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(submit));
-        submit.click();
-
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPage)));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPageUrl)));
         isLoginSuccessful = true;
 
         stateHolder.put("isSignedIn", true);

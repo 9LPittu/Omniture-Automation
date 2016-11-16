@@ -26,6 +26,9 @@ public class Util {
     public static final int DEFAULT_TIMEOUT = 60;
     private static final StateHolder stateHolder = StateHolder.getInstance();
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
+    
+    public static final String UP = "up";
+    public static final String DOWN = "down";
 
     public static int randomIndex(int size) {
         return (int) Math.floor(Math.random() * size);
@@ -48,7 +51,15 @@ public class Util {
         Actions action = new Actions(driver);
         action.moveToElement(element);
     }
-
+    public static void waitForPageReady(WebDriver driver) {
+        createWebDriverWait(driver).until(new Predicate<WebDriver>() {
+            public boolean apply(WebDriver driver) {
+                boolean result = ((long) ((JavascriptExecutor) driver).executeScript("return jQuery.active") == 0);
+                logger.info("document.readyState returned {}", result);
+                return result;
+            }
+        });
+    }
     public static void waitForPageFullyLoaded(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
@@ -182,5 +193,50 @@ public class Util {
             long timeDifference = currentTime - startTime;
             iterate = timeDifference < waitTime;
         }while(iterate);
+    }
+    
+    
+    public static void waitSpinningImage(WebDriver driver){
+        try {
+            createWebDriverWait(driver).until(new Function<WebDriver, Boolean>() {
+                @Override
+                public Boolean apply(WebDriver webDriver) {
+                    WebElement spinningImage = webDriver.findElement(By.xpath("//div[contains(@class,'global__spinner-img')]"));
+                    String spinningImageClass = spinningImage.getAttribute("class");
+                    return spinningImageClass.contains("is-hidden");
+                }
+            });
+        } catch (StaleElementReferenceException stale) {
+            logger.error("StaleElementReferenceException when waiting for spinning image. " +
+                    "Assuming it is gone and ignoring this exception");
+        }
+    }
+    
+    
+    public static void scrollAndClick(WebDriver driver, WebElement element){
+    	int cntr = 0;
+        do{
+        	try{
+        		scrollToElement(driver, element);
+        		wait(1000);
+        		element.click();
+        		break;
+        	}
+        	catch(WebDriverException e){
+        		scrollPage(driver, Util.DOWN);
+        		wait(1000);
+        		cntr++;
+        	}
+        }while(cntr<=2);
+    }
+    
+    public static void scrollPage(WebDriver driver, String pagePosition) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+        if (pagePosition.equalsIgnoreCase(UP)) {
+            jse.executeScript("scrollBy(0, -400)", "");
+        } else if (pagePosition.equalsIgnoreCase(DOWN)) {
+            jse.executeScript("scrollBy(0, 400)", "");
+        }
     }
 }

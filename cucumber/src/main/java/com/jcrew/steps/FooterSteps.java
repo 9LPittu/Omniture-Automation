@@ -7,13 +7,10 @@ import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 
-import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.util.List;
 
 public class FooterSteps extends DriverFactory {
     private final Footer footer = new Footer(getDriver());
