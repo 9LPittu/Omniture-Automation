@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/omniture"},
+        features = {"features/regression"},
         tags = {"@Omniture1","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
