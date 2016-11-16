@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class ShippingMethodPageSteps extends DriverFactory {
 
@@ -204,6 +206,73 @@ public class ShippingMethodPageSteps extends DriverFactory {
         } else {
 
             assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
+        }
+    }
+    
+    @Then("^Verify that all shipping methods are available including Thursday cut$")
+    public void shipping_methods_include_thursday_cut() {
+        List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
+        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+
+        for (int i = 0; i < pageMethods.size(); i++) {
+            ShippingMethod actual = pageMethods.get(i);
+            ShippingMethod expected = expectedMethods.get(i);
+
+            assertEquals("Expected shipping method", expected, actual);
+        }
+    }
+    
+    @Then("^Verify all shipping methods show estimated shipping date$")
+    public void shipping_method_with_estimated_shipping_date() {
+        List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
+        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+
+        for (int i = 0; i < pageMethods.size(); i++) {
+            ShippingMethod actual = pageMethods.get(i);
+            ShippingMethod expected = expectedMethods.get(i);
+
+            String actualName = actual.getMethod();
+            String expectedName = expected.getMethod();
+
+            String date = actualName.replace(expectedName + " – ", "");
+       //     shippingMethodPage.logger.debug("expected {} actual {} dat {}", expectedName, actualName, date);
+
+            assertFalse("Shipping method " + actualName + "contains a date", date.isEmpty());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd");
+
+            try {
+
+                Date actualDate = dateFormat.parse(date);
+                Calendar actualShipDay = Calendar.getInstance();
+                actualShipDay.setTime(actualDate);
+
+                Calendar today = Calendar.getInstance();
+
+                int actualMonth = actualShipDay.get(Calendar.MONTH);
+                int currentMonth = today.get(Calendar.MONTH);
+                int currentYear = today.get(Calendar.YEAR);
+
+                if (actualMonth < currentMonth) {
+                    actualShipDay.set(Calendar.YEAR, currentYear + 1);
+                } else {
+                    actualShipDay.set(Calendar.YEAR, currentYear);
+                }
+
+                Date actualShipDate = actualShipDay.getTime();
+
+                Date startDate = expected.getStartDate();
+                Date endDate = expected.getEndDate();
+
+                assertTrue("ATP shipping date for the method " + expectedName +
+                        " should be after " + startDate.toString(), actualShipDate.compareTo(startDate) >= 0);
+                assertTrue("ATP shipping date for the method " + expectedName +
+                        " should be before " + endDate.toString(), actualShipDate.compareTo(endDate) <= 0);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                fail("Failed to parse date " + date);
+            }
         }
     }
 }

@@ -168,4 +168,6 @@ public class ShippingMethodPage {
         String ShippingMethodText = shipMethodName.getText().trim();
         return ShippingMethodText;
     }
+    
+   
 }
