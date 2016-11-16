@@ -217,6 +217,8 @@ public class LoginPage {
         	}
         }
         stateHolder.put("sidecaruserCategory", userCategory);
+        username = (String) stateHolder.get("sidecarusername");
+        password = (String) stateHolder.get("sidecaruserpassword");
         input_as_email(username);
         input_as_password(password);
     }
