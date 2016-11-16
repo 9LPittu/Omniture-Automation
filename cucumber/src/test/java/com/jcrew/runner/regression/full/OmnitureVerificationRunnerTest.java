@@ -1,4 +1,4 @@
-package com.jcrew.runner.omniture;
+package com.jcrew.runner.regression.full;
 
 /**
  * Created by nadiapaolagarcia on 3/22/16.

@@ -1,4 +1,4 @@
-@Omniture1
+@Omniture1 @HighLevel
 
 Feature: Verify Omniture variables
 
