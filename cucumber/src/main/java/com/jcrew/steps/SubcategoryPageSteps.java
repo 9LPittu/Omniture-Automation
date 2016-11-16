@@ -83,14 +83,15 @@ public class SubcategoryPageSteps extends DriverFactory {
 
     @Then("^User should be in subcategory page$")
     public void user_should_be_in_subcategory_page() {
-        String subcategory = stateHolder.get("subcategory").toString();
-        String expectedSubcategory = subcategoryPage.getCategoryTitleBelowGlobalPromo();
-
         assertTrue("A Subcategory page should have a product grid",
                 subcategoryPage.isProductGridPresent());
+        if (stateHolder.hasKey("subcategory")) {
+            String subcategory = stateHolder.get("subcategory").toString();
+            String expectedSubcategory = subcategoryPage.getCategoryTitleBelowGlobalPromo();
+            assertTrue("Page title should be: " + subcategory + " and was: " + expectedSubcategory,
+                    subcategory.equalsIgnoreCase(expectedSubcategory));
+        }
 
-        assertTrue("Page title should be: " + subcategory + " and was: " + expectedSubcategory,
-                subcategory.equalsIgnoreCase(expectedSubcategory));
     }
 
 
