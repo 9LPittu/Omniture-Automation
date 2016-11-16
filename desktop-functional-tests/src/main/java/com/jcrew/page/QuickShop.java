@@ -6,6 +6,7 @@ import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
@@ -243,12 +244,23 @@ public class QuickShop extends PageObject {
 
     }
 
-
     public String getMessage(){
-        WebElement messageSection = qsModal.findElement(By.className("c-product__message"));
-        wait.until(ExpectedConditions.visibilityOf(messageSection));
-        WebElement message = messageSection.findElement(By.xpath(".//div[@class='message__other']/div"));
-        return message.getText();
+       int attempts = 0;
+       boolean retry = true;
+       String errorMessage="";
+       do{
+            try{
+                WebElement messageSection = wait.until(ExpectedConditions.visibilityOf(qsModal.findElement(By.className("c-product__message"))));
+                WebElement errorMessageElement = messageSection.findElement(By.xpath(".//div[contains(@class,'message__other')]/div"));
+                errorMessage = errorMessageElement.getText();
+                retry=false;
+            }catch (NoSuchElementException exception){
+                Util.wait(2000);
+                logger.error("Error message element on quick shop not found retried {} ",retry);
+                attempts++;
+            }
+       }while (attempts < 5 & retry);
+       return errorMessage;
     }
     private String getItemNumber(){
         WebElement prodDetailsDrawer = wait.until(ExpectedConditions.visibilityOf(getQSElement("product details")))
