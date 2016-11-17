@@ -233,8 +233,13 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
             String actualName = actual.getMethod();
             String expectedName = expected.getMethod();
-
-            String date = actualName.replace(expectedName + " – ", "");
+            
+            //String date = actualName.replace(expectedName + " – ", "");
+            String date = actualName.replace(expectedName , "");
+            date=date.replace(" – ","");
+            date=date.replace("� ","").trim();
+            
+            
        //     shippingMethodPage.logger.debug("expected {} actual {} dat {}", expectedName, actualName, date);
 
             assertFalse("Shipping method " + actualName + "contains a date", date.isEmpty());

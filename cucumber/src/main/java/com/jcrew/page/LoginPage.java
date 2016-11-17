@@ -92,33 +92,9 @@ public class LoginPage {
     }
 
     public void input_as_email(String email) {
-<<<<<<< HEAD
-    	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
-||||||| merged common ancestors
-=======
     	Util.waitLoadingBar(driver);
     	Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
->>>>>>> master
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(emailInput));
-<<<<<<< HEAD
-        
-        int cntr = 0;
-        do{
-        	emailInput.clear();
-        	emailInput.sendKeys(email);
-        	
-        	if(emailInput.getText().equalsIgnoreCase(email)){
-        		break;
-        	}
-        	else{
-                Util.wait(2000);
-        		cntr++;
-        	}
-        }while(cntr<=2);
-||||||| merged common ancestors
-        Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(emailInput)));
-        emailInput.sendKeys(email);
-=======
         
         int cntr = 0;
         do{
@@ -133,27 +109,9 @@ public class LoginPage {
         		cntr++;
         	}
         }while(cntr<=2);
->>>>>>> master
     }
 
     public void input_as_password(String password) {
-<<<<<<< HEAD
-        int cntr = 0;
-        do{
-        	passwordInput.clear();
-        	passwordInput.sendKeys(password);
-        	
-        	if(passwordInput.getText().equalsIgnoreCase(password)){
-        		break;
-        	}
-        	else{
-                Util.wait(2000);
-        		cntr++;
-        	}
-        }while(cntr<=2); 
-||||||| merged common ancestors
-        passwordInput.sendKeys(password);
-=======
         int cntr = 0;
         do{
         	passwordInput.clear();
@@ -167,7 +125,6 @@ public class LoginPage {
         		cntr++;
         	}
         }while(cntr<=2); 
->>>>>>> master
     }
 
     public void click_sign_in_button() {

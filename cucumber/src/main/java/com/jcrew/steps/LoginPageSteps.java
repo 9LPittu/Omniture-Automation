@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.LoginPage;
 import com.jcrew.pojo.User;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.UsersHub;
 import com.jcrew.util.Util;
 
@@ -16,7 +17,7 @@ import java.sql.SQLException;
 public class LoginPageSteps extends DriverFactory {
 
     private final LoginPage loginPage = new LoginPage(getDriver());
-    
+    private final StateHolder stateHolder = StateHolder.getInstance();
     private String emailAddress;
     private String password;
 
@@ -228,12 +229,14 @@ public class LoginPageSteps extends DriverFactory {
     }
     
     @When("^User fills form and signs in$")
-    public void sign_in(){    	
+    public void sign_in(){
 		login("express", "single", loginPage.DEFAULT);
     }
     
     @When("^User fills form with no default user and signs in$")
-    public void sign_in_no_default(){  
+    public void sign_in_no_default(){
+    	
+    	stateHolder.put("atpAddressType","regular");
     	login("nonexpress", "single", loginPage.NO_DEFAULT);
     }
 

@@ -73,47 +73,8 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-<<<<<<< HEAD
-        	DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
-
-        	
-            Map<String, Object> deviceMetrics = new HashMap<>();
-            deviceMetrics.put("width", Integer.parseInt(propertyReader.getProperty("mobile.width")));
-            deviceMetrics.put("height", Integer.parseInt(propertyReader.getProperty("mobile.height")));
-            deviceMetrics.put("pixelRatio", 3.0);
-
-            Map<String, Object> mobileEmulation = new HashMap<>();
-            mobileEmulation.put("deviceMetrics", deviceMetrics);
-            mobileEmulation.put("userAgent", propertyReader.getProperty("user.agent"));
-
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("mobileEmulation", mobileEmulation);
-
-            if (akamaiEnv) {
-                options.addArguments("--disable-extensions");
-            } else {
-                options.addExtensions(new File("ModHeader.crx"));
-
-            }
-            System.setProperty("webdriver.chrome.driver", "c:\\git\\chromedriver.exe");
-            desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
-||||||| merged common ancestors
-        	DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
-
-        	ChromeOptions options = new ChromeOptions();
-            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
-
-            if (akamaiEnv) {
-                options.addArguments("--disable-extensions");
-            } else {
-                options.addExtensions(new File("ModHeader.crx"));
-
-            }
-
-            desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
-=======
+        	System.setProperty("webdriver.chrome.driver", "c:\\git\\chromedriver.exe");
         	DesiredCapabilities desiredCapabilities = getChromeCapabilities(akamaiEnv);
->>>>>>> master
             driver = new ChromeDriver(desiredCapabilities);
         	
         	if (!isDesktop)
@@ -216,46 +177,8 @@ public class DriverFactory {
                 propertyReader.getProperty(propertyReader.getProperty("environment") + ".akamai"));
 
         if ("chrome".equals(browser)) {
-<<<<<<< HEAD
-        	DesiredCapabilities chrome = DesiredCapabilities.chrome();
-            Map<String, Object> deviceMetrics = new HashMap<>();
-            deviceMetrics.put("width", Integer.parseInt(propertyReader.getProperty("mobile.width")));
-            deviceMetrics.put("height", Integer.parseInt(propertyReader.getProperty("mobile.height")));
-            deviceMetrics.put("pixelRatio", 3.0);
-
-            Map<String, Object> mobileEmulation = new HashMap<>();
-            mobileEmulation.put("deviceMetrics", deviceMetrics);
-            mobileEmulation.put("userAgent", propertyReader.getProperty("user.agent"));
-
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("mobileEmulation", mobileEmulation);
-            
-            
-            if (akamaiEnv) {
-                options.addArguments("--disable-extensions");
-            } else {
-                options.addExtensions(new File("ModHeader.crx"));
-
-            }
-            chrome.setCapability(ChromeOptions.CAPABILITY, options);
-            
-            driver = getDesktopWebDriver(propertyReader, chrome);
-||||||| merged common ancestors
-            DesiredCapabilities chrome = DesiredCapabilities.chrome();
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--user-agent=" + propertyReader.getProperty("user.agent"));
-            if (akamaiEnv) {
-                options.addArguments("--disable-extensions");
-            } else {
-                options.addExtensions(new File("ModHeader.crx"));
-
-            }
-            chrome.setCapability(ChromeOptions.CAPABILITY, options);
-            driver = getDesktopWebDriver(propertyReader, chrome);
-=======
         	DesiredCapabilities capabilities = getChromeCapabilities(akamaiEnv);
             driver = getDesktopWebDriver(propertyReader, capabilities);
->>>>>>> master
 
             if (!akamaiEnv && !isDesktop) {
                 driver.get("chrome-extension://idgpnmonknjnojddfkpgkljpfnnfcklj/icon.png");
