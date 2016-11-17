@@ -2,6 +2,8 @@ package com.jcrew.steps;
 
 import com.jcrew.page.SalePage;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
+import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
 
 import cucumber.api.java.en.And;
@@ -159,6 +161,18 @@ public class SalePageSteps extends DriverFactory {
 
     @And("^User clicks on ([^\"]*) link from top nav$")
     public void click_on_sale_link_from_top_nav(String Dept) {
+
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        StateHolder stateHolder = StateHolder.getInstance();
+
+        if (Dept.equalsIgnoreCase("random") || Dept.equalsIgnoreCase("any")) {
+            String categoriesArray[] = testDataReader.getDataArray("categories");
+            int index = Util.randomIndex(categoriesArray.length);
+            Dept = categoriesArray[index];
+
+            stateHolder.put("genderLanding",Dept);
+        }
+
         salePage.clickSaleLinkFromTopNav(Dept);
     }
 
