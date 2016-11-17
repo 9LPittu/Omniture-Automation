@@ -93,7 +93,6 @@ Feature: Account details Page validations
     When User clicks on My Wishlist link in Account detail Page
     Then User should be in /wishlist menu link page
     And User presses browser back button
-    And User presses browser back button
 
     And User clicks on Sign Out link in Account detail Page
 

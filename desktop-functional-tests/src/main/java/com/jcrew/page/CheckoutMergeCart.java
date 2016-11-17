@@ -45,13 +45,13 @@ public class CheckoutMergeCart extends Checkout {
 
     public void saveWishlist() {
         wait.until(ExpectedConditions.visibilityOf(actionsTop));
-        WebElement wishList = actionsTop.findElement(By.xpath(".//a[1]"));
+        WebElement wishList = actionsTop.findElement(By.xpath(".//a[2]"));
         wishList.click();
     }
 
     public void addItems() {
         wait.until(ExpectedConditions.visibilityOf(actionsTop));
-        WebElement addItemsToBag = actionsTop.findElement(By.xpath(".//a[2]"));
+        WebElement addItemsToBag = actionsTop.findElement(By.xpath(".//a[1]"));
         addItemsToBag.click();
 
 		List<Product> recentlyAdded =stateHolder.getList("toBag");
@@ -68,10 +68,10 @@ public class CheckoutMergeCart extends Checkout {
     	
     	switch(mergeCartElementName.toUpperCase()){
     		case "SAVE TO WISHLIST & CONTINUE":
-    			element = actionsTop.findElement(By.xpath(".//a[1]"));
+    			element = actionsTop.findElement(By.xpath(".//a[2]"));
     			break;
     		case "ADD ITEMS TO BAG & REVIEW ORDER":
-    			element = actionsTop.findElement(By.xpath(".//a[2]"));
+    			element = actionsTop.findElement(By.xpath(".//a[1]"));
     			break;
     	}
     	
