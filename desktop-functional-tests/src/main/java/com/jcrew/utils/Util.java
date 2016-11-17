@@ -182,7 +182,31 @@ public class Util {
 
         return errorMessage;
     }
-    
+
+    public static String getStringConsoleVariable(WebDriver driver, String variable) {
+        JavascriptExecutor je = (JavascriptExecutor) driver;
+        String value = (String) je.executeScript("return " + variable);
+
+        logger.info("{}: {}", variable, value);
+
+        return value;
+    }
+
+    public static boolean getBooleanConsoleVariable(WebDriver driver, String variable) {
+        JavascriptExecutor je = (JavascriptExecutor) driver;
+        boolean value = false;
+        try {
+            value = (boolean) je.executeScript("return " + variable);
+
+            logger.info("{}: {}", variable, value);
+
+        } catch (WebDriverException wde) {
+            logger.info("Unable to get boolean variable {}; assuming false", variable);
+        }
+
+        return value;
+    }
+
     public static void wait(int waitTime) {
         Boolean iterate = true;
         Calendar calendar =Calendar.getInstance();
