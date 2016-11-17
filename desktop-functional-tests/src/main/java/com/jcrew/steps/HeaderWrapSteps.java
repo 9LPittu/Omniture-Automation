@@ -97,6 +97,8 @@ public class HeaderWrapSteps extends DriverFactory {
 
     @When("^User clicks on ([^\"]*) link from top nav$")
     public void click_on_given_link_from_top_nav(String Dept) {
+    	if (Dept.equalsIgnoreCase("random") || Dept.equalsIgnoreCase("any"))
+    		Dept = reader.getCategory().toLowerCase().trim();
         header.clickDeptLinkFromTopNav(Dept);
     }
 
