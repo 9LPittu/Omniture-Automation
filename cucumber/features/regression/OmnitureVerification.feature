@@ -64,7 +64,7 @@ Feature: Verify Omniture variables
       | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
     Then Verify omniture variables have values
 
-  Scenario Outline: Verify Omniture variable values on Category, PDP and Sale pages with direct navigation
+  Scenario Outline: Verify Omniture variable values on Category page and PDP with direct navigation
     Given User navigates to <page name> with clean session
     And Handle the Email Capture pop up
     And Verify omniture variables have values
