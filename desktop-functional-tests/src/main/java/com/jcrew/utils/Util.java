@@ -239,4 +239,31 @@ public class Util {
             jse.executeScript("scrollBy(0, 400)", "");
         }
     }
+    
+    public static String getPageVariableValue(WebDriver driver, final String variable) throws InterruptedException {
+        WebDriverWait waitForVariable = new WebDriverWait(driver, 10);
+        String value = "";
+
+        try {
+            value = waitForVariable.until(new Function<WebDriver, String>() {
+                @Override
+                public String apply(WebDriver webDriver) {
+                    String value;
+                    try {
+                        value = (String) ((JavascriptExecutor) webDriver).executeScript("return " + variable);
+                        if (value != null && value.isEmpty())
+                            value = null;
+                    } catch (WebDriverException wde) {
+                        value = null;
+                    }
+                    return value;
+                }
+            });
+        } catch (TimeoutException timeout) {
+            logger.error("Variable {} not found in URL {} after waiting", variable, driver.getCurrentUrl(), timeout);
+        }
+
+        return value;
+    }
+
 }
