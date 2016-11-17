@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 import com.jcrew.page.Footer;
 import com.jcrew.utils.DriverFactory;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -39,13 +40,17 @@ public class FooterSteps extends DriverFactory {
         assertTrue("User should see selected country name in the footer",footer.isCorrectCountryNameDisplayedInFooter());
     }
     
-    @Then("^Verify ([^\"]*) link is displayed under ([^\"]*) accordion in footer$")
-    public void verify_link_in_footer(String linkText, String accordionName) {
-        assertTrue(linkText + " link is displayed in the accordion in footer", footer.isLinkDisplayedInAccordion(linkText, accordionName));
+    @Then("^Verify ([^\"]*) link is displayed under ([^\"]*) in footer$")
+    public void verify_link_in_footer(String footerLink, String footerHeaderName) {
+        assertTrue(footerLink + " link is displayed under "+footerHeaderName+"section in footer", footer.isLinkDisplayedInAccordion(footerLink, footerHeaderName));
     }
     
-    @When("^User clicks on ([^\"]*) link under ([^\"]*) accordion in footer$")
+    @When("^User clicks on ([^\"]*) link under ([^\"]*) in footer$")
     public void click_link_in_footer(String footerLink, String accordionName){
     	footer.clickFooterLinkFromDrawer(footerLink, accordionName);
+    }
+    @And("Verify user is navigated to ([^\"]*) page")
+    public void verify_page_url_displayed(String page){
+        assertEquals("User should be navigated to  "+page+" page",page,footer.getPageHeader(page));
     }
 }

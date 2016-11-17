@@ -15,6 +15,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by nadiapaolagarcia on 4/19/16.
  */
@@ -114,6 +116,7 @@ public class Footer {
 
         return actualCountryName.equalsIgnoreCase(expectedCountryName);
     }
+
     
     public boolean isLinkDisplayedInAccordion(String linkText, String accordionName){
     	WebElement footerLink = getAccordianLink(linkText, accordionName);
@@ -151,5 +154,54 @@ public class Footer {
         footerLink.click();
         Util.waitLoadingBar(driver);
     }
+    public String getPageHeader(String page){
+        String header2;
+        switch (page.toLowerCase()){
+            case "order status":
+                header2 = "u.s. order tracking";
+                break;
+            case "shipping":
+                header2 = "SHIPPING & HANDLING (THE FINE PRINT)";
+                break;
+            case "size charts":
+                header2 = "SIZE CHARTS";
+                break;
+            case "returns & exchanges":
+                header2 = "RETURNS & EXCHANGES";
+                break;
+            case "international orders":
+                header2 = "INTERNATIONAL ORDERS";
+                break;
+            case "our catalog":
+                header2 = "WANT TO GET OUR CATALOG?";
+                break;
+            case "careers":
+                header2 = "SEARCH OUR JOBS";
+                break;
+            case "gift cards":
+                header2 ="Go ahead-make someone’s day, in one of two ways.";
+                break;
+            case "mail preferences":
+                header2 ="WANT FUN STUFF IN THE MAIL?";
+                break;
+            default:
+                header2 = page;
+                break;
+        }
+        return getHeader2Text(header2);
+    }
 
+
+    public String getHeader2Text(String headerText) {
+        WebElement headerElement;
+        String text;
+        if (headerText.equalsIgnoreCase("size charts")) {
+            headerElement = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h3"))));
+            text = headerElement.getText().trim();
+        } else {
+            headerElement = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2"))));
+            text = headerElement.getText().trim();
+        }
+        return text;
+    }
 }
