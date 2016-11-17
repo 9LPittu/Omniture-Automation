@@ -53,7 +53,7 @@ public class CheckoutConfirmationSteps extends DriverFactory {
         if(!isProduction) {
             String title = confirmation.getTitle().toLowerCase().trim();
 
-            assertEquals("Title of order confirmation page is ", "order complete",title);
+            assertEquals("Title of order confirmation page is ", "order complete",title.replaceAll("print", ""));
         }
     }
 
