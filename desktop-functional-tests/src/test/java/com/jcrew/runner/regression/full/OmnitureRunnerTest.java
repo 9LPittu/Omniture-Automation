@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/Omniture"},
-        tags = {"@omniture"},
+        tags = {"@Omniture"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-omniture.json",
