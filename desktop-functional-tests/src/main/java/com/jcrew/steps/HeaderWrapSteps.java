@@ -154,4 +154,16 @@ public class HeaderWrapSteps extends DriverFactory {
     public void user_hovers_category_from_header(String category) {
         header.hoverCategory(category);
     }
+    
+    @When("User selects a random feature page from list")
+    public void select_feature_page(DataTable features) {
+    	List<DataTableRow> row = features.getGherkinRows();
+        DataTableRow selectedRow = row.get(Util.randomIndex(row.size()));
+
+        String category = selectedRow.getCells().get(0);
+        String featureName = selectedRow.getCells().get(1);
+
+        header.hoverCategory(category);
+        header.selectSubCategory(featureName);
+    }
 }
