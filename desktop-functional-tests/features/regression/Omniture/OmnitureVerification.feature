@@ -41,28 +41,19 @@ Feature: Verify Omniture variables
     When User clicks on random link from top nav
     And Verify omniture variables have values
 
-  Scenario: Verify Omniture variable values on Feature pages
+  Scenario: Verify Omniture variable values on Feature pages and shpppable tray
     Given User is on homepage with clean session
     And User closes email capture
+	
+	When User selects a random feature page from list
+	|Women|Looks We Love| 
+	|Girls|Looks We Love| 
+	|Boys|Looks We Love|	
+	Then Verify omniture variables have values
+    
+    When User selects a random shop this look
+    Then Verify omniture variables have values	
 
-    When User hovers on a random category from list
-    	|Women|
-    	|Girls|
-    	|Boys|
-    And User selects lookswelove subcategory array
-    Then Verify omniture variables have values
-#
-#  Scenario: Verify Omniture variable values on Shoppable Tray
-#    Given User is on homepage with clean session
-#    And Handle the Email Capture pop up
-#
-#    When User clicks on hamburger menu
-#    And User selects random tray from available categories
-#      | Women | THIS MONTH'S FEATURES | Looks We Love  |
-#      | Girls | THIS MONTH'S FEATURES | Looks We Love  |
-#      | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
-#    Then Verify omniture variables have values
-#
   Scenario Outline: Verify Omniture variable values on Category page and PDP with direct navigation
     Given User navigates to <page name> with clean session
     And User closes email capture

@@ -417,8 +417,8 @@ public class HeaderWrap {
 		WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
         		+ "js-department-subcat-nav__wrap js-expand-subcat-nav is-visible')]")));
     
-        if (subCategory.equalsIgnoreCase("lookswelove")) {
-        	subCategoryElement = holder.findElement(By.xpath(".//ul/li/a[contains(@name,'" + subCategory + "')]"));
+        if (subCategory.equalsIgnoreCase("looks we love")) {
+        	subCategoryElement = holder.findElement(By.xpath(".//ul/li/a[contains(@name,'lookswelove')]"));
         } else {
         	subCategoryElement = holder.findElement(By.xpath(".//ul/li/a[" + Util.xpathGetTextLower + "='" + subCategory.toLowerCase() + "']"));
         }
