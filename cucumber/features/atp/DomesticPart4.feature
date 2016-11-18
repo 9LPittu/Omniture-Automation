@@ -1,22 +1,9 @@
-@ATPDomestic1
-Feature: View should be displayed for Regular Item but not for Backordered in Domestic Context
+@ATPDomestic4
 
-  Background: Clean bag for user
-    Given User is on homepage with clean session
-    And Handle the Email Capture pop up
-    
-    When click on SIGN IN from header
-    And User fills form with no default user and signs in
-    And User bag is cleared
-    And User goes to homepage
-	
-	And User goes to homepage
-    And click on MY ACCOUNT from header
-    When user clicks on "Sign Out" from My Account dropdown 
-    Then Verify user is in homepage
-   
-   Scenario: ATP view should be displayed for regular item 
-    #Add item to the bag
+Feature:  View should be displayed for guest user in Domestic Context
+  
+  Scenario Outline: ATP view should be displayed for guest checkout
+    #ATP_11
     When User is on homepage
     And User clicks on hamburger menu
     And user selects any category from hamburger menu
@@ -32,29 +19,31 @@ Feature: View should be displayed for Regular Item but not for Backordered in Do
     
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
+    And click on CHECK OUT AS A GUEST button
+    And enter first name on shipping address page    
+    And enter last name on shipping address page
+    And enter address line1 as "<shipping_address1>" on shipping address page
+    And enter address line2 as "<shipping_address2>" on shipping address page
+    And enter zip code as "<shipping_zipcode>" on shipping address page
+    And enter phone number on shipping address page
     
-     And User signs in with no default user and checks out
-    Then Verify Shipping Address page is displayed
-
     And Presses continue button on shipping address
-    And Verifies user is in shipping method page
-
     
+    And User is on internal /checkout2/shipping.jsp page
+    Then Verifies user is in shipping method page
     And Verify that all shipping methods are available including Thursday cut
     Then Verify all shipping methods show estimated shipping date
     And Clicks continue button on shipping method page
     Then Verify Billing page is displayed
-	
-	#Billing Method change
-	
-    And Submits payment data in billing page
-    Then Verify user is in review page
     
-    Then Verify user is in review page
-
-    And Inputs credit card security code
-    And User clicks on place your order button
+    When enter "Visa_Card" details on billing page
+    And enter email address as "jcrewcolab@gmail.com"
+    And Submits payment data in billing page
+    Then User is on internal /checkout2/billing.jsp page
+    
+    When User clicks on place your order button
     Then User should be in order confirmation page
     And verify order number is generated
-    
-    
+    Examples:
+    |shipping_address1|shipping_address2|shipping_zipcode|
+    |904 Oak Gln||92168|

@@ -7,7 +7,7 @@ Feature: View should be displayed for Express users in Domestic Context
     And Handle the Email Capture pop up
     
     When click on SIGN IN from header
-    And User fills form with no default user and signs in
+    When User fills form and signs in
     And User bag is cleared
     And User goes to homepage
 	
@@ -42,9 +42,7 @@ Feature: View should be displayed for Express users in Domestic Context
     #ATP_25
     And Verify all shipping methods are available in review page
     And Verify all shipping methods show estimated shipping date in review page
-
-    When User fills security code
-    And User clicks on PLACE MY ORDER
-    Then Verify user gets a confirmation number
-    And Verify that title is Order Complete
-    And Verify that confirmation message is visible
+    And Inputs credit card security code
+    And User clicks on place your order button
+    Then User should be in order confirmation page
+    And verify order number is generated

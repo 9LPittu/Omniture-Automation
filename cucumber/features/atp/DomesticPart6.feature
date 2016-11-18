@@ -1,5 +1,5 @@
-@ATPDomestic1
-Feature: View should be displayed for Regular Item but not for Backordered in Domestic Context
+@ATPDomestic6
+Feature: View should be displayed for Regular Item and Backordered in Domestic Context -
 
   Background: Clean bag for user
     Given User is on homepage with clean session
@@ -15,7 +15,7 @@ Feature: View should be displayed for Regular Item but not for Backordered in Do
     When user clicks on "Sign Out" from My Account dropdown 
     Then Verify user is in homepage
    
-   Scenario: ATP view should be displayed for regular item 
+   Scenario: ATP view should be displayed for regular item and backorder item
     #Add item to the bag
     When User is on homepage
     And User clicks on hamburger menu
@@ -27,8 +27,12 @@ Feature: View should be displayed for Regular Item but not for Backordered in Do
     And product name and price should match with array page
          
     When Add to cart button is pressed
+    And items count should be displayed as 1 in the bag
+    When User navigates to backordered product
+    When Add to cart button is pressed
+    
     When User clicks on item bag
-    Then Verify products added matches with products in bag
+    And items count should be displayed as 2 in the bag
     
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp

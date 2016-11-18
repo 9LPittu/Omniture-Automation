@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.ReviewPage;
+
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.util.DriverFactory;
@@ -10,13 +11,16 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class ReviewPageSteps extends DriverFactory {
 
@@ -166,23 +170,60 @@ public class ReviewPageSteps extends DriverFactory {
 
             String actualName = actual.getMethod();
             String expectedName = expected.getMethod();
+            
+            //String date = actualName.replace(expectedName + " – ", "");
+            String date = actualName.replaceFirst(expectedName , "");
+            date=date.replace(" – ","");
+            date=date.replace("� ","").trim();
+            
+            
+       //     shippingMethodPage.logger.debug("expected {} actual {} dat {}", expectedName, actualName, date);
 
-            String date = actualName.replace(expectedName + " – ", "");
-            reviewPage.logger.debug("expected {} actual {} dat {}", expectedName, actualName, date);
-            assertFalse("Shipping method " + actualName + " contains a date", date.isEmpty());
+            assertFalse("Shipping method " + actualName + "contains a date", date.isEmpty());
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd");
 
             try {
 
-                dateFormat.parse(date);
-                review.logger.info("Successfully parsed " + date);
+                Date actualDate = dateFormat.parse(date);
+                Date startDate;
+                Date endDate;
+                Calendar actualShipDay = Calendar.getInstance();
+                actualShipDay.setTime(actualDate);
 
-            } catch (ParseException e) {
+                Calendar today = Calendar.getInstance();
+
+                int actualMonth = actualShipDay.get(Calendar.MONTH);
+                int currentMonth = today.get(Calendar.MONTH);
+                int currentYear = today.get(Calendar.YEAR);
+
+                if (actualMonth < currentMonth) {
+                    actualShipDay.set(Calendar.YEAR, currentYear + 1);
+                } else {
+                    actualShipDay.set(Calendar.YEAR, currentYear);
+                }
+
+                Date actualShipDate = actualShipDay.getTime();
+
+                if(expectedName.equalsIgnoreCase("saturday")){
+                	LocalDate inputDate = LocalDate.now();
+                    LocalDate nextSat = inputDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+                    startDate = java.sql.Date.valueOf(nextSat);
+                	endDate = java.sql.Date.valueOf(nextSat);
+                }else{
+                	startDate = expected.getStartDate();
+                	endDate = expected.getEndDate();
+                }
+
+                assertTrue("ATP shipping date for the method " + expectedName +
+                        " should be after " + startDate.toString(), actualShipDate.compareTo(startDate) >= 0);
+                assertTrue("ATP shipping date for the method " + expectedName +
+                        " should be before " + endDate.toString(), actualShipDate.compareTo(endDate) <= 0);
+
+            } catch (Exception e) {
                 e.printStackTrace();
                 fail("Failed to parse date " + date);
             }
-
         }
     }
 }

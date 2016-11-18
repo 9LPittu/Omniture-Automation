@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class ReviewPage extends Checkout{
 
 	public final StateHolder stateHolder = StateHolder.getInstance();
-	private final Logger logger = LoggerFactory.getLogger(ReviewPage.class);
+	public final Logger logger = LoggerFactory.getLogger(ReviewPage.class);
     private boolean isProduction = false;
 	
     private final WebDriver driver;
@@ -270,32 +270,38 @@ public class ReviewPage extends Checkout{
     	String selectedShippingMethod = getShippingMethod();
         stateHolder.put("selectedShippingMethod", selectedShippingMethod);
     }
-    
-    public List<ShippingMethod> getShippingMethods() {
-        List<WebElement> methods = shippingSection.findElements(By.className("form-shipmethod"));
-        List<ShippingMethod> shippingMethods = new ArrayList<>();
+    public ShippingMethod getShippingMethod(WebElement method) {
+        WebElement methodElement = method.findElement(By.className("method-group"));
+        String methodText = methodElement.getText().trim();
 
-        for (WebElement method : methods) {
-            String id = method.getAttribute("id");
+        WebElement priceElement = method.findElement(By.className("method-price"));
+        String priceText = priceElement.getText().trim();
 
-            if(!id.equals("delivery-message")) {
-                WebElement methodElement = method.findElement(By.className("atp-label"));
-                WebElement dateElement = method.findElement(By.className("atp-date"));
-                String methodText = methodElement.getText() + " – " +dateElement.getText();
+        List<WebElement> textElement = method.findElements(By.className("method-text"));
+        String text = "";
 
-                List<WebElement> textElement = method.findElements(By.className("method-text"));
-                String text = "";
-
-                if (textElement.size() > 0) {
-                    text = textElement.get(0).getText();
-                }
-
-                String methodType = methodText.replace(text, "").trim();
-
-                shippingMethods.add(new ShippingMethod(methodType, text));
-            }
+        if (textElement.size() > 0) {
+            text = textElement.get(0).getText();
         }
 
-        return shippingMethods;
+        String methodType = methodText.replace(priceText, "").replace(text, "").trim();
+
+        return new ShippingMethod(methodType, priceText, text);
+    }
+    private boolean isShippingMethod(WebElement method) {
+        String id = method.getAttribute("id");
+        return !"delivery-message".equalsIgnoreCase(id);
+    }
+    public List<ShippingMethod> getShippingMethods() {
+    	 List<WebElement> methods = shippingSection.findElements(By.className("form-shipmethod"));
+         List<ShippingMethod> shippingMethods = new ArrayList<>();
+
+         for (WebElement method : methods) {
+             if(isShippingMethod(method)) {
+                 shippingMethods.add(getShippingMethod(method));
+             }
+         }
+
+         return shippingMethods;
     }
 }

@@ -230,6 +230,7 @@ public class LoginPageSteps extends DriverFactory {
     
     @When("^User fills form and signs in$")
     public void sign_in(){
+    	stateHolder.put("atpAddressType","regular");
 		login("express", "single", loginPage.DEFAULT);
     }
     
