@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
         tags = {"@ATPDomestic1"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-accountcifeatures.json",
+                "json:target/cucumber-atp.json",
                 "pretty",
-                "html:target/cucumber/accountcifeatures"
+                "html:target/cucumber/atp"
         }
 )
 public class AtpDomestic1RunnerTest {
