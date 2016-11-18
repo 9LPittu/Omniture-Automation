@@ -156,6 +156,8 @@ public abstract class Checkout extends PageObject{
             WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));
             quantity = quantityElement.getText().trim();
         }
+        
+        logger.info("Selected quantity is {} ",quantity);
 
         return quantity;
     }

@@ -133,8 +133,15 @@ public class UserNavigationSteps extends DriverFactory {
     @When("^User presses browser back button$")
     public void user_presses_back_button() throws Throwable {
         String url = driver.getCurrentUrl();
+        String title = driver.getTitle();
         driver.navigate().back();
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        
+        if (title.toLowerCase().contains("wishlist") && driver.getTitle().toLowerCase().contains("wishlist")) {
+        	String newUrl = driver.getCurrentUrl();
+            driver.navigate().back();
+            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(newUrl)));
+        }
     }
 
     @Then("Verify country code in the url for international countries")

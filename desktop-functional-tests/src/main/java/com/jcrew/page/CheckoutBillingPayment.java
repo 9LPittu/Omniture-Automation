@@ -90,7 +90,7 @@ public class CheckoutBillingPayment extends Checkout {
         Select year = new Select(expirationYear);
         year.selectByVisibleText(testData.getData(type + ".card.year"));
 
-        nameOnCard.sendKeys(checkoutUSer.getFirstName() + " " + checkoutUSer.getLastName());
+        nameOnCard.sendKeys(checkoutUSer.getFirstName().replaceAll("'", "") + " " + checkoutUSer.getLastName().replaceAll("'", ""));
 
         selectAddressFromList(cardForm);
 

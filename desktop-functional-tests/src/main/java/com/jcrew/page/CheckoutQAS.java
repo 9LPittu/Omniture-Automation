@@ -13,7 +13,7 @@ import java.util.List;
  * Created by nadiapaolagarcia on 6/2/16.
  */
 public class CheckoutQAS extends Checkout {
-    @FindBy(id = "modalContainer")
+    @FindBy(id = "simplemodal-container")
     private WebElement modal;
     @FindBy(id = "qas-interaction")
     private WebElement interaction;
