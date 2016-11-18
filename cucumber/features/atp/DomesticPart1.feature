@@ -1,5 +1,4 @@
 @ATPDomestic1
-
 Feature: View should be displayed for Regular Item but not for Backordered in Domestic Context
 
   Background: Clean bag for user
@@ -15,7 +14,7 @@ Feature: View should be displayed for Regular Item but not for Backordered in Do
     And click on MY ACCOUNT from header
     When user clicks on "Sign Out" from My Account dropdown 
     Then Verify user is in homepage
-    
+   
    Scenario: ATP view should be displayed for regular item 
     #Add item to the bag
     When User is on homepage
@@ -47,8 +46,7 @@ Feature: View should be displayed for Regular Item but not for Backordered in Do
     Then Verify Billing page is displayed
 	
 	#Billing Method change
-	Then Select different card from the card list	
-    
+	
     And Submits payment data in billing page
     Then Verify user is in review page
     
@@ -58,3 +56,24 @@ Feature: View should be displayed for Regular Item but not for Backordered in Do
     And User clicks on place your order button
     Then User should be in order confirmation page
     And verify order number is generated
+    
+    
+    Scenario: No ATP view for BACKORDER item
+    #ATP_02
+    Given User goes to homepage
+    
+    When User navigates to backordered product
+    When Add to cart button is pressed
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
+    And Bag should have 1 item(s) added
+    When User clicks on item bag
+    And Clicks on checkout    
+    And page url should contain /checkout2/shoppingbag.jsp
+    And User signs in with no default user and checks out
+    Then Verify Shipping Address page is displayed
+    And Presses continue button on shipping address
+   
+    And Verify that all shipping methods are available including Thursday cut
+    And Verify all shipping methods show estimated shipping time range
+    And Verify that economy shipping method is selected by default
+    

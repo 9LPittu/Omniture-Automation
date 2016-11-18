@@ -2,18 +2,27 @@ package com.jcrew.steps;
 
 import com.jcrew.page.ReviewPage;
 import com.jcrew.pojo.Address;
+import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.ShippingMethodCalculator;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertTrue;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class ReviewPageSteps extends DriverFactory {
 
     private final ReviewPage reviewPage = new ReviewPage(getDriver());
-
+    private ShippingMethodCalculator methodCalculator = new ShippingMethodCalculator();
+    
     @Then("^User clicks on place your order button$")
     public void user_places_its_order() throws Throwable {
         reviewPage.user_places_its_order();
@@ -131,5 +140,49 @@ public class ReviewPageSteps extends DriverFactory {
     @Then("Select different shipping method on review page")
     public void select_shipping_method() {
     	reviewPage.selectRandomShippingMethodOnReviewPage();       
+    }
+    
+    @Then("^Verify all shipping methods are available in review page$")
+    public void shipping_methods() {
+        List<ShippingMethod> pageMethods = reviewPage.getShippingMethods();
+        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+
+        for (int i = 0; i < pageMethods.size(); i++) {
+            ShippingMethod actual = pageMethods.get(i);
+            ShippingMethod expected = expectedMethods.get(i);
+
+            assertEquals("Expected shipping method", expected, actual);
+        }
+    }
+    
+    @Then("^Verify all shipping methods show estimated shipping date in review page$")
+    public void shipping_method_with_estimated_shipping_date() {
+        List<ShippingMethod> pageMethods = reviewPage.getShippingMethods();
+        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+
+        for (int i = 0; i < pageMethods.size(); i++) {
+            ShippingMethod actual = pageMethods.get(i);
+            ShippingMethod expected = expectedMethods.get(i);
+
+            String actualName = actual.getMethod();
+            String expectedName = expected.getMethod();
+
+            String date = actualName.replace(expectedName + " – ", "");
+            reviewPage.logger.debug("expected {} actual {} dat {}", expectedName, actualName, date);
+            assertFalse("Shipping method " + actualName + " contains a date", date.isEmpty());
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd");
+
+            try {
+
+                dateFormat.parse(date);
+                review.logger.info("Successfully parsed " + date);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                fail("Failed to parse date " + date);
+            }
+
+        }
     }
 }

@@ -1,8 +1,10 @@
 package com.jcrew.page;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jcrew.pojo.Product;
+import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
@@ -267,5 +269,33 @@ public class ReviewPage extends Checkout{
     	
     	String selectedShippingMethod = getShippingMethod();
         stateHolder.put("selectedShippingMethod", selectedShippingMethod);
+    }
+    
+    public List<ShippingMethod> getShippingMethods() {
+        List<WebElement> methods = shippingSection.findElements(By.className("form-shipmethod"));
+        List<ShippingMethod> shippingMethods = new ArrayList<>();
+
+        for (WebElement method : methods) {
+            String id = method.getAttribute("id");
+
+            if(!id.equals("delivery-message")) {
+                WebElement methodElement = method.findElement(By.className("atp-label"));
+                WebElement dateElement = method.findElement(By.className("atp-date"));
+                String methodText = methodElement.getText() + " – " +dateElement.getText();
+
+                List<WebElement> textElement = method.findElements(By.className("method-text"));
+                String text = "";
+
+                if (textElement.size() > 0) {
+                    text = textElement.get(0).getText();
+                }
+
+                String methodType = methodText.replace(text, "").trim();
+
+                shippingMethods.add(new ShippingMethod(methodType, text));
+            }
+        }
+
+        return shippingMethods;
     }
 }

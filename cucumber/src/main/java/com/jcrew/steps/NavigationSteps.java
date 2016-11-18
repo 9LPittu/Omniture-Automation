@@ -161,6 +161,16 @@ public class NavigationSteps extends DriverFactory {
         stateHolder.put("fewLeftItem", testDataReader.getData("few.left.item"));
     }
     
+    @When("^User navigates to monogram product$")
+    public void navigate_monogram() {
+    	searchAndNavigateToPdp(testDataReader.getData("monogram.item"));
+        
+    	ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("monogram.color"));
+        pdp.select_size(testDataReader.getData("monogram.size"));
+        
+        stateHolder.put("monogramItem", testDataReader.getData("monogram.item"));
+    }
     @When("^User navigates to regular product$")
     public void navigate_regular_item() {
     	searchAndNavigateToPdp(testDataReader.getData("regular.item"));

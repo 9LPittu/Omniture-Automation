@@ -17,6 +17,7 @@ import cucumber.api.java.en.When;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -279,5 +280,24 @@ public class ShippingMethodPageSteps extends DriverFactory {
                 fail("Failed to parse date " + date);
             }
         }
+    }
+    @Then("Verify all shipping methods show estimated shipping time range")
+    public void shipping_method_with_estimated_shipping_time_range() {
+        List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
+        String regex = "([a-zA-Z]*\\s*)*\\(\\d*-\\d* business days\\)";
+
+        for (ShippingMethod actual : pageMethods) {
+            String actualName = actual.getMethod();
+
+            assertTrue("Shipping method " + actualName + " matches expected pattern", Pattern.matches(regex, actualName));
+        }
+    }
+    
+    @Then("^Verify that ([^\"]*) shipping method is selected by default$")
+    public void default_method(String method) {
+    	
+        String expected = shippingMethodPage.getSelectedShippingMethod();
+        assertEquals("Expected standard shipping method", expected, method);
+
     }
 }

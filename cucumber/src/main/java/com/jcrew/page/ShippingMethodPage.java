@@ -122,7 +122,7 @@ public class ShippingMethodPage {
         return !"delivery-message".equalsIgnoreCase(id);
     }
 
-    private ShippingMethod getShippingMethod(WebElement method) {
+    public ShippingMethod getShippingMethod(WebElement method) {
         WebElement methodElement = method.findElement(By.className("method-group"));
         String methodText = methodElement.getText().trim();
 
