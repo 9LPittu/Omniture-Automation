@@ -1,5 +1,4 @@
 @ATPDomestic3
-
 Feature: View should be displayed for Express users in Domestic Context
 
   Background: Clean bag for user

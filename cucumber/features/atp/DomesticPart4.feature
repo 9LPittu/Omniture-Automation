@@ -1,5 +1,4 @@
 @ATPDomestic4
-
 Feature:  View should be displayed for guest user in Domestic Context
   
   Scenario Outline: ATP view should be displayed for guest checkout
