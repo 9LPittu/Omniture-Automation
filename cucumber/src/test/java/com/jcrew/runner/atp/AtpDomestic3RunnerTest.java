@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "features/atp",
-        tags = {"@ATPDomestic6"},
+        tags = {"@ATPDomestic3"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-accountcifeatures.json",
@@ -15,5 +15,5 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber/accountcifeatures"
         }
 )
-public class AtpDomestic6RunnerTest6 {
+public class AtpDomestic3RunnerTest {
 }

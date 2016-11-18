@@ -15,5 +15,5 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber/accountcifeatures"
         }
 )
-public class AtpDomestic4RunnerTest4 {
+public class AtpDomestic4RunnerTest {
 }
