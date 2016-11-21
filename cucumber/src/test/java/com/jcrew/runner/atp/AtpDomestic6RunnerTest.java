@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         tags = {"@ATPDomestic6"},
         glue = {"com.jcrew.steps"},
         format = {
-        		"json:target/cucumber-atp.json",
+        		"json:target/cucumber-atp6.json",
                 "pretty",
                 "html:target/cucumber/atp6"
         }
