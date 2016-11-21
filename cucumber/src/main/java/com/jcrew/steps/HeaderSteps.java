@@ -184,6 +184,9 @@ public class HeaderSteps extends DriverFactory {
 
     @And("User is in ([^\"]*) gender landing page$")
     public void verify_user_is_in_gender_landing_page(String gender) {
+        if (gender.equalsIgnoreCase("corresponding"))
+            gender = (String) stateHolder.get("genderLanding");
+
         assertTrue("User should be in gender landing page", header.isGenderLandingPage(gender));
     }
 

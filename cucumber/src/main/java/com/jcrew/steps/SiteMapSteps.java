@@ -1,19 +1,20 @@
 package com.jcrew.steps;
 
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.Util;
+import com.jcrew.util.TestDataReader;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.openqa.selenium.WebDriverException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -103,5 +104,27 @@ public class SiteMapSteps extends DriverFactory {
     @And("^Include url ([^\"]*) to list$")
     public void includeUrlHttpsWwwJcrewComPToList(String url) {
         urlsList.add(url);
+    }
+
+
+    @Given("^Verify omniture variables have values$")
+    public void verify_omniture_variables() throws InterruptedException {
+        TestDataReader testDataReader =  TestDataReader.getTestDataReader();
+
+        String arrOmnitureVariables[] = testDataReader.getDataArray("omniture.variables");
+        List<String> omnitureVariables = Arrays.asList(arrOmnitureVariables);
+
+        String emptyVariables = "";
+        boolean isblank=false;
+        for (String omnitureVariable:omnitureVariables) {
+            String omnitureValue = Util.getPageVariableValue(getDriver(), omnitureVariable);
+            if (omnitureValue.isEmpty()) {
+                emptyVariables = emptyVariables + omnitureVariable + ";";
+                isblank = true;
+            }
+        }
+
+        if (isblank)
+            throw new WebDriverException("Omniture variables " + emptyVariables + " does not have a value");
     }
 }
