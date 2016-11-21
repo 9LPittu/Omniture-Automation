@@ -279,7 +279,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
                 Date actualShipDate = actualShipDay.getTime();
                 Date startDate;
                 Date endDate;
-                if(expectedName.equalsIgnoreCase("saturday")){
+               /* if(expectedName.equalsIgnoreCase("saturday")){
                 	LocalDate inputDate = LocalDate.now();
                     LocalDate nextSat = inputDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
                     startDate = java.sql.Date.valueOf(nextSat);
@@ -287,7 +287,9 @@ public class ShippingMethodPageSteps extends DriverFactory {
                 }else{
                 	startDate = expected.getStartDate();
                 	endDate = expected.getEndDate();
-                }
+                }*/
+                startDate = expected.getStartDate();
+            	endDate = expected.getEndDate();
                 assertTrue("ATP shipping date for the method " + expectedName +
                         " should be after " + startDate.toString(), actualShipDate.compareTo(startDate) >= 0);
                 assertTrue("ATP shipping date for the method " + expectedName +
