@@ -210,4 +210,34 @@ public class StartSteps {
         }
     	
     }
+    
+    @Given("User navigates to ([^\"]*) with clean session")
+    public void user_navigates_with_clean_session(String extensionUrl) {
+
+        String country = reader.getProperty("country");
+
+        TestDataReader testData = TestDataReader.getTestDataReader();
+        testData.updateReader(country);
+
+        switch (extensionUrl.toLowerCase().trim()) {
+            case "category page":
+                extensionUrl =  testData.getData("url.category");
+                break;
+            case "pdp":
+                extensionUrl =  testData.getData("url.pdp");
+                break;
+            default:
+                break;
+        }
+
+        String env = reader.getProperty("url");
+
+        Country context = new Country(env, country);
+        stateHolder.put("context", context);
+        env = context.getHomeurl();
+
+        driverFactory.deleteBrowserCookies();
+        driver.get(env + extensionUrl);
+        Util.waitLoadingBar(driver);
+    }
 }

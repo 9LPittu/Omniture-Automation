@@ -51,9 +51,9 @@ public class CheckoutConfirmationSteps extends DriverFactory {
     @Then("Verify that title is Order Complete")
     public void verify_title() {
         if(!isProduction) {
-            String title = confirmation.getTitle().toLowerCase().trim();
+            String title = confirmation.getTitle().toLowerCase().replaceAll("print", "").trim();
 
-            assertEquals("Title of order confirmation page is ", "order complete",title.replaceAll("print", ""));
+            assertEquals("Title of order confirmation page is ", "order complete",title);
         }
     }
 
