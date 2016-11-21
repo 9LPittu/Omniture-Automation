@@ -27,6 +27,7 @@ public class Feature extends PageObject{
     }
     
     public void selectRandomShopThisLook() {
+    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("plusMidWrapper")));
     	List<WebElement> shopThisLook = driver.findElements(By.xpath("//a[text()='SHOP THIS LOOK']"));
     	int randomIndex = Util.randomIndex(shopThisLook.size());
     	
