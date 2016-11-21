@@ -49,8 +49,9 @@ public class FooterSteps extends DriverFactory {
     public void click_link_in_footer(String footerLink, String accordionName){
     	footer.clickFooterLinkFromDrawer(footerLink, accordionName);
     }
-    @And("Verify user is navigated to ([^\"]*) page")
-    public void verify_page_url_displayed(String page){
-        assertEquals("User should be navigated to  "+page+" page",page,footer.getPageHeader(page));
+    @And("^Verify user is navigated to url ([^\"]*) on same page$")
+    public void user_navigated_to(String pageURL){
+        String current_url = getDriver().getCurrentUrl();
+       assertTrue("Current page url contains" + pageURL+" and current url is "+current_url, current_url.contains(pageURL));
     }
 }

@@ -154,7 +154,7 @@ public class Footer {
         footerLink.click();
         Util.waitLoadingBar(driver);
     }
-    public String getPageHeader(String page){
+  /*  public String getPageHeader(String page){
         String header2;
         switch (page.toLowerCase()){
             case "order status":
@@ -204,4 +204,5 @@ public class Footer {
         }
         return text;
     }
+    */
 }
