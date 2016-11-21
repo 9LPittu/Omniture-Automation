@@ -129,7 +129,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
         String expectedName = expected.getMethod().replaceAll("[^a-zA-Z0-9]", "");
         String actualDate = actualName.replaceFirst(expectedName , "");
         actualDate=actualDate.replace(" â€“ ","");
-        actualDate=actualDate.replace("– ","").trim();
+        //actualDate=actualDate.replace("– ","").trim();
         
         if (!actualDate.isEmpty()) {
             SimpleDateFormat dateFormat1 = new SimpleDateFormat("EEEE, MMMM dd");
