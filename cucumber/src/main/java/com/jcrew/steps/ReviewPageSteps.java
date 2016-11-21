@@ -174,11 +174,6 @@ public class ReviewPageSteps extends DriverFactory {
             //String date = actualName.replace(expectedName + " – ", "");
             String date = actualName.replaceFirst(expectedName , "");
             date=date.replace(" – ","");
-            //date=date.replace("� ","").trim();
-            
-            
-       //     shippingMethodPage.logger.debug("expected {} actual {} dat {}", expectedName, actualName, date);
-
             assertFalse("Shipping method " + actualName + "contains a date", date.isEmpty());
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd");
@@ -205,7 +200,7 @@ public class ReviewPageSteps extends DriverFactory {
 
                 Date actualShipDate = actualShipDay.getTime();
 
-                /*if(expectedName.equalsIgnoreCase("saturday")){
+               if(expectedName.equalsIgnoreCase("saturday")){
                 	LocalDate inputDate = LocalDate.now();
                     LocalDate nextSat = inputDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
                     startDate = java.sql.Date.valueOf(nextSat);
@@ -213,7 +208,7 @@ public class ReviewPageSteps extends DriverFactory {
                 }else{
                 	startDate = expected.getStartDate();
                 	endDate = expected.getEndDate();
-                }*/
+                }
                 startDate = expected.getStartDate();
             	endDate = expected.getEndDate();
                 assertTrue("ATP shipping date for the method " + expectedName +
