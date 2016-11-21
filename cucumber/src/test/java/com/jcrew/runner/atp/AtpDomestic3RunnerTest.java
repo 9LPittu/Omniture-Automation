@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
         format = {
         		"json:target/cucumber-atp.json",
                 "pretty",
-                "html:target/cucumber/atp"
+                "html:target/cucumber/atp3"
         }
 )
 public class AtpDomestic3RunnerTest {
