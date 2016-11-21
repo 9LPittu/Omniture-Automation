@@ -174,7 +174,7 @@ public class ReviewPageSteps extends DriverFactory {
             //String date = actualName.replace(expectedName + " â€“ ", "");
             String date = actualName.replaceFirst(expectedName , "");
             date=date.replace(" â€“ ","");
-            date=date.replace("– ","").trim();
+            //date=date.replace("– ","").trim();
             
             
        //     shippingMethodPage.logger.debug("expected {} actual {} dat {}", expectedName, actualName, date);
