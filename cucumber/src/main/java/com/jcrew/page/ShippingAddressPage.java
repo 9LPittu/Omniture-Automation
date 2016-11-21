@@ -114,7 +114,7 @@ public class ShippingAddressPage extends Checkout {
         lastNameSA.sendKeys(faker.name().lastName());
         address3.sendKeys("JCrew");
         address1.sendKeys("770 Broadway");
-        address2.sendKeys("14th Floor");
+        address2.sendKeys("FL 14");
         zipcode.sendKeys("10003");
         phoneNumSA.sendKeys(faker.phoneNumber().phoneNumber());
 
