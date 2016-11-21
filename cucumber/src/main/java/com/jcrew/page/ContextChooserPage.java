@@ -301,4 +301,17 @@ public class ContextChooserPage {
 		
 		selectCountryOnContextChooserPage(selectedCountry);
     }
+    
+public void selectPassedInternationalCountry(String selectedCountry){
+	TestDataReader testData = TestDataReader.getTestDataReader();
+	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+	String url = propertyReader.getProperty("url");
+	//Update Reader and create context
+			testData.updateReader(selectedCountry);
+			Country country = new Country(url, selectedCountry);
+			stateHolder.put("context", country);
+			selectCountryOnContextChooserPage(selectedCountry);		
+			logger.info("Selected country: {}", country.getCountryName());
+		
+    }
 }

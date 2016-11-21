@@ -400,4 +400,15 @@ public class ShoppingBagSteps extends DriverFactory {
     	   	
         assertTrue("Previously added items should not be shown", shoppingBagPage.matchList(bagProducts));
     }
+    
+    @And("^Verify subtotal is greater than (\\d+) USD$")
+    public void verifySubtotalIsGreaterThan(int expected) {
+        String subTotal = shoppingBagPage.getSubTotal();
+        subTotal = subTotal.replaceAll("[^0-9]", "");
+
+        int actual = Integer.parseInt(subTotal);
+        expected *= 100;
+
+        assertTrue("Expected threshold is has not been reached", expected < actual);
+    }
 }
