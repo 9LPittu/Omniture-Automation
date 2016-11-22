@@ -52,7 +52,8 @@ Feature: Account Dropdown functionality - Part 1
   	And Verify SIGN IN header link points to the url /r/login
     
     And Fills shipping address    
-    And Presses continue button on shipping address    
+    And Presses continue button on shipping address
+    And User selects a suggested address and continues
     And Verifies user is in shipping method page
     
   	Then Verify SIGN IN header link is displayed
