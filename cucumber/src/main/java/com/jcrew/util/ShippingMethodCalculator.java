@@ -179,7 +179,7 @@ public class ShippingMethodCalculator {
         String expectedName = expected.getMethod().replaceAll("[^a-zA-Z0-9]", "");
         String actualDate = actualName.replaceFirst(expectedName , "");
         actualDate=actualDate.replace(" â€“ ","");
-        actualDate=actualDate.replaceAll("\\p{Pd}“ ","").trim();
+        actualDate=actualDate.replaceAll("\\p{Pd}","").trim();
         if (!actualDate.isEmpty()) {
             SimpleDateFormat dateFormat1 = new SimpleDateFormat("EEEE, MMMM dd");
             SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
