@@ -1,4 +1,4 @@
-@AccountDropdown2 @HighLevel
+@AccountDropdown2
 Feature: Account Dropdown functionality - Part 2
 
   Background:
@@ -111,6 +111,7 @@ Feature: Account Dropdown functionality - Part 2
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
 
+  @HighLevel
   Scenario: Rewards visibility in Account dropdown
   	And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -204,7 +205,7 @@ Feature: Account Dropdown functionality - Part 2
     When user clicks on "Sign Out" from My Account dropdown  
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
-  
+  @HighLevel
   Scenario: Rewards should not be shown in Account dropdown for international country
   	Then click on change link from footer
     And User is on context chooser page
