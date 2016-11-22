@@ -83,7 +83,6 @@ public class ContextChooserPageSteps extends DriverFactory {
     
     @When("^User selects ([^\"]*) country code$")
     public void  select_given_country(String countryCode) {
-    	
-            contextChooser.selectPassedInternationalCountry(countryCode);
+    	contextChooser.selectPassedInternationalCountry(countryCode);
     }
 }

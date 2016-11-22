@@ -33,6 +33,7 @@ Feature: View should be displayed for Regular Item and Backordered in Domestic C
     
     When User clicks on item bag
     And items count should be displayed as 2 in the bag
+    When User edits 3 quantity of first item from bag
     And Verify subtotal is greater than 150 USD
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp

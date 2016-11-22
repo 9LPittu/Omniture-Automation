@@ -223,6 +223,11 @@ public class ShoppingBagSteps extends DriverFactory {
     	shoppingBagPage.editQuantity(0);
     }
     
+    @When("User edits (\\d+) quantity of first item from bag")
+    public void edit_item_quantity_first_item(int quantity) {
+    	shoppingBagPage.editQuantitybyNumber(quantity);
+    }
+    
     @Then("^Verify edited item is displayed first in shopping bag$")
     public void verify_edited_item_displayed_first_in_shopping_bag(){
     	assertTrue("Edited item should be displayed first in the shopping bag", shoppingBagPage.isEditedItemDisplayedFirst());

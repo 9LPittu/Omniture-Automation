@@ -49,7 +49,6 @@ Feature: View should be displayed for Regular Item and Backordered in Domestic C
     And Clicks continue button on shipping method page
     Then Verify Billing page is displayed
 	
-	#Billing Method change
 	
     And Submits payment data in billing page
     Then Verify user is in review page

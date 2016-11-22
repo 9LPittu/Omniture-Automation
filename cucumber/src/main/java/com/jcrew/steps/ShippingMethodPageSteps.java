@@ -106,7 +106,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
                 ShippingMethod expected = expectedMethods.get(i);
 
                 assertEquals("Expected: " + expected.toString() + " actual: " + actual.toString() + " should be same", expected, actual);
-                verify_ATP_date(actual, expected);
+                methodCalculator.verify_ATP_date(actual, expected);
             }
         } else {
             String shipMethods[] = testDataReader.getDataArray(countryCode + ".shippingMethods");
@@ -123,53 +123,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
     }
 
 
-    public void verify_ATP_date(ShippingMethod actual, ShippingMethod expected) {
-        //Verifies if ATP date is falling in between expected date range
-        String actualName = actual.getMethod().replaceAll("[^a-zA-Z0-9]", "");
-        String expectedName = expected.getMethod().replaceAll("[^a-zA-Z0-9]", "");
-        String actualDate = actualName.replaceFirst(expectedName , "");
-        actualDate=actualDate.replace(" – ","");
-        
-        if (!actualDate.isEmpty()) {
-            SimpleDateFormat dateFormat1 = new SimpleDateFormat("EEEE, MMMM dd");
-            SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                Date date = dateFormat1.parse(actualDate);
-                Calendar actualShipDay = Calendar.getInstance();
-                actualShipDay.setTime(date);
-
-                Calendar today = Calendar.getInstance();
-
-                int actualMonth = actualShipDay.get(Calendar.MONTH);
-                int currentMonth = today.get(Calendar.MONTH);
-                int currentYear = today.get(Calendar.YEAR);
-
-                if (actualMonth < currentMonth) {
-                    actualShipDay.set(Calendar.YEAR, currentYear + 1);
-                } else {
-                    actualShipDay.set(Calendar.YEAR, currentYear);
-                }
-                Date actualShipDate = actualShipDay.getTime();
-                Date startDate;
-                Date endDate;
-                if(expectedName.equalsIgnoreCase("saturday")){
-                	LocalDate inputDate = LocalDate.now();
-                    LocalDate nextSat = inputDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
-                    startDate = java.sql.Date.valueOf(nextSat);
-                	endDate = java.sql.Date.valueOf(nextSat);
-                }else{
-                	startDate = expected.getStartDate();
-                	endDate = expected.getEndDate();
-                }
-                
-                assertTrue("ATP shipping date for the method " + expectedName + " should be between " + startDate.toString() + " and " + endDate.toString() + ". But, the actual ship date is " + actualShipDate.toString(),(!actualShipDate.before(startDate)) && (!actualShipDate.after(endDate)));
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+   
     
     @When("User selects gift option and adds message: ([^\"]*)")
     public void add_gift_option(String message) {
@@ -241,59 +195,8 @@ public class ShippingMethodPageSteps extends DriverFactory {
         for (int i = 0; i < pageMethods.size(); i++) {
             ShippingMethod actual = pageMethods.get(i);
             ShippingMethod expected = expectedMethods.get(i);
-
-            String actualName = actual.getMethod();
-            String expectedName = expected.getMethod();
+            methodCalculator.verify_ATP_date(actual, expected);
             
-            //String date = actualName.replace(expectedName + " – ", "");
-            String date = actualName.replaceFirst(expectedName , "");
-            date=date.replace(" – ","");
-          
-            assertFalse("Shipping method " + actualName + "contains a date", date.isEmpty());
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd");
-
-            try {
-
-                Date actualDate = dateFormat.parse(date);
-                Calendar actualShipDay = Calendar.getInstance();
-                actualShipDay.setTime(actualDate);
-
-                Calendar today = Calendar.getInstance();
-
-                int actualMonth = actualShipDay.get(Calendar.MONTH);
-                int currentMonth = today.get(Calendar.MONTH);
-                int currentYear = today.get(Calendar.YEAR);
-
-                if (actualMonth < currentMonth) {
-                    actualShipDay.set(Calendar.YEAR, currentYear + 1);
-                } else {
-                    actualShipDay.set(Calendar.YEAR, currentYear);
-                }
-
-                Date actualShipDate = actualShipDay.getTime();
-                Date startDate;
-                Date endDate;
-                if(expectedName.equalsIgnoreCase("saturday")){
-                	LocalDate inputDate = LocalDate.now();
-                    LocalDate nextSat = inputDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
-                    startDate = java.sql.Date.valueOf(nextSat);
-                	endDate = java.sql.Date.valueOf(nextSat);
-                }else{
-                	startDate = expected.getStartDate();
-                	endDate = expected.getEndDate();
-                }
-                startDate = expected.getStartDate();
-            	endDate = expected.getEndDate();
-                assertTrue("ATP shipping date for the method " + expectedName +
-                        " should be after " + startDate.toString(), actualShipDate.compareTo(startDate) >= 0);
-                assertTrue("ATP shipping date for the method " + expectedName +
-                        " should be before " + endDate.toString(), actualShipDate.compareTo(endDate) <= 0);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                fail("Failed to parse date " + date);
-            }
         }
     }
     @Then("Verify all shipping methods show estimated shipping time range")

@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.CheckoutShippingAdd;
+import com.jcrew.pojo.Country;
 import com.jcrew.util.DriverFactory;
 import com.jcrew.util.StateHolder;
 
@@ -52,6 +53,15 @@ public class CheckoutShippingAddSteps extends DriverFactory {
         stateHolder.put("atpAddressType","regular");
     }
 
+    @When("^User fills International shipping data and continues$")
+    public void fill_int_data_and_continue() {
+        shipping.fillShippingData();
+        shipping.continueCheckout();
+        Country country = (Country) stateHolder.get("context");
+        stateHolder.put("atpAddressType",country.getCountry());
+        
+    }
+    
     @When("^User fills APO shipping data and continues$")
     public void fill_apo_data_and_continue() {
         shipping.fillAPOShippingData();

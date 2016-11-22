@@ -1,8 +1,8 @@
 @ATPDomestic4
 Feature:  View should be displayed for guest user in Domestic Context
   
-  Scenario Outline: ATP view should be displayed for guest checkout
-    #ATP_11
+  Scenario: ATP view should be displayed for guest checkout
+    #ATP_12
     When User is on homepage
     And User clicks on hamburger menu
     And user selects any category from hamburger menu
@@ -18,15 +18,9 @@ Feature:  View should be displayed for guest user in Domestic Context
     
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
+    #ATP_13
     And click on CHECK OUT AS A GUEST button
-    And enter first name on shipping address page    
-    And enter last name on shipping address page
-    And enter address line1 as "<shipping_address1>" on shipping address page
-    And enter address line2 as "<shipping_address2>" on shipping address page
-    And enter zip code as "<shipping_zipcode>" on shipping address page
-    And enter phone number on shipping address page
-    
-    And Presses continue button on shipping address
+    When User fills shipping data and continues
     
     And User is on internal /checkout2/shipping.jsp page
     Then Verifies user is in shipping method page
@@ -43,6 +37,4 @@ Feature:  View should be displayed for guest user in Domestic Context
     When User clicks on place your order button
     Then User should be in order confirmation page
     And verify order number is generated
-    Examples:
-    |shipping_address1|shipping_address2|shipping_zipcode|
-    |904 Oak Gln||92168|
+    

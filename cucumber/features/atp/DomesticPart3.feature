@@ -33,14 +33,18 @@ Feature: View should be displayed for Express users in Domestic Context
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
     And User signs in and checks out
+    
     Then Verify user is in review page
     And Verify checkout breadcrumb is REVIEW
     And Verify that Review title is Checkout
+    
     And Validates billing section is present in review page
     And Validates shipping section is present in review page
+    
     #ATP_25
     And Verify all shipping methods are available in review page
     And Verify all shipping methods show estimated shipping date in review page
+    
     And Inputs credit card security code
     And User clicks on place your order button
     Then User should be in order confirmation page
