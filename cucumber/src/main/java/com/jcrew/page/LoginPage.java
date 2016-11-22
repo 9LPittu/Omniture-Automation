@@ -542,7 +542,8 @@ public class LoginPage {
     	if(!propertyReader.getProperty("environment").equalsIgnoreCase("production")){
     		String username = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.username");
     		String password = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.password");
-    	
+            stateHolder.put("sidecarusername", username);
+            stateHolder.put("sidecaruserpassword", password);
     		input_as_email(username);
     		input_as_password(password);
     	}
