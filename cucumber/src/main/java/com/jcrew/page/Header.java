@@ -66,6 +66,13 @@ public class Header {
     @FindBy(xpath = ".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='My Details']")
     private WebElement myDetailsInMyAccountDropdown;
 
+    @FindBy(xpath = ".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='Wishlist']")
+    private WebElement wishlistInMyAccountDropdown;
+
+    @FindBy(xpath = ".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='Order History']")
+    private WebElement orderHistoryInMyAccountDropdown;
+
+
     @FindBy(xpath = ".//dd[contains(@class,'c-nav__userpanel-item')]/a[text()='Sign Out']")
     private WebElement signOutInMyAccountDropdown;
 
@@ -391,6 +398,22 @@ public class Header {
         }
 
         return result;
+    }
+    //JCSC-1715 fix
+    public boolean isAccountDropdownOptionsDisplayedOnJSP() {
+        boolean result;
+        boolean isWelcomeMessagePatternMatches = welcomeMessageInMyAccountDropdown.getText().matches("^Welcome, [A-Za-z]+(\\d+)?");
+
+        welcomeMessageInMyAccountDropdown.isDisplayed();
+        myDetailsInMyAccountDropdown.isDisplayed();
+        signOutInMyAccountDropdown.isDisplayed();
+
+        return  welcomeMessageInMyAccountDropdown.isDisplayed() &&
+                isWelcomeMessagePatternMatches &&
+                myDetailsInMyAccountDropdown.isDisplayed() &&
+                wishlistInMyAccountDropdown.isDisplayed() &&
+                orderHistoryInMyAccountDropdown.isDisplayed() &&
+                signOutInMyAccountDropdown.isDisplayed();
     }
 
     public boolean isAccountDropdownOptionsDisplayed() {

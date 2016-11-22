@@ -138,10 +138,9 @@ Feature: Account Dropdown functionality - Part 1
     Then Verify embedded headers links is visible
     And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
-    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    When user clicks on "close" from My Account dropdown
-    Then user should see My Account dropdown is closed
-    
+#     JCSC-1715 fix
+    Then user should see welcome message and desktop options in My Account dropdown on jsp pages
+
     When User clicks on hamburger menu
     And user selects any category from hamburger menu
     And user selects any subcategory

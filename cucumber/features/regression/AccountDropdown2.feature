@@ -190,9 +190,9 @@ Feature: Account Dropdown functionality - Part 2
     And Verify MY ACCOUNT header link is displayed
     And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
-    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    When user clicks on "close" from My Account dropdown
-    Then user should see My Account dropdown is closed
+
+#     JCSC-1715 fix
+    Then user should see welcome message and desktop options in My Account dropdown on jsp pages
     
     Given User is on international homepage    
     And click on MY ACCOUNT from header

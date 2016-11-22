@@ -239,6 +239,12 @@ public class HeaderSteps extends DriverFactory {
         assertTrue("user should see welcome message, My Details, Sign Out and close button in My Account dropdown", header.isAccountDropdownOptionsDisplayed());
     }
 
+    //JCSC-1715 fix
+    @Then("^user should see welcome message and desktop options in My Account dropdown on jsp pages$")
+    public void validate_my_account_dropdown_options_on_jsp() {
+        assertTrue("user should see dektop options in My Account dropdown", header.isAccountDropdownOptionsDisplayedOnJSP());
+    }
+
     @When("^user clicks on \"([^\"]*)\" from My Account dropdown$")
     public void user_click_element_from_my_account_dropdown(String elementName) {
         boolean isElementClickRequired = true;
