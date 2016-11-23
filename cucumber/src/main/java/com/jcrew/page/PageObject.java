@@ -32,7 +32,6 @@ public abstract class PageObject {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
         this.country = (Country) stateHolder.get("context");
-        PageFactory.initElements(driver, this);
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 100), this);
     }
 
