@@ -605,11 +605,7 @@ public class ShoppingBagPage extends Checkout {
         products.set(itemIndex, editedProduct);
         stateHolder.put("toBag", products);
     }
-    private String toString(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+   
 	public String getItemTotal(int index) {
         List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
         WebElement product = productsInBag.get(index);
