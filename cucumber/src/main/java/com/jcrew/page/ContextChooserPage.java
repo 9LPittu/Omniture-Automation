@@ -293,14 +293,22 @@ public class ContextChooserPage {
     }
     
     public void selectRandomInternationalCountry(){
-		PropertyReader propertyReader = PropertyReader.getPropertyReader();
-		String url = propertyReader.getProperty("url");
+		
     	String internationalCountriesArray[] = getInternationalCountriesArray();
     		
 		int countryIndex = Util.randomIndex(internationalCountriesArray.length);
 		String selectedCountry = internationalCountriesArray[countryIndex].toLowerCase();
+		
+		//Update Reader and create context
+		TestDataReader testData = TestDataReader.getTestDataReader();
+		testData.updateReader(selectedCountry);
+		
+		PropertyReader propertyReader = PropertyReader.getPropertyReader();
+		String url = propertyReader.getProperty("url");
 		Country country = new Country(url, selectedCountry);
+		
 		stateHolder.put("context", country);
+		
 		selectCountryOnContextChooserPage(selectedCountry);
     }
 }

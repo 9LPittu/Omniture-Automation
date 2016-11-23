@@ -401,12 +401,7 @@ public class Header {
     }
     //JCSC-1715 fix
     public boolean isAccountDropdownOptionsDisplayedOnJSP() {
-        boolean result;
         boolean isWelcomeMessagePatternMatches = welcomeMessageInMyAccountDropdown.getText().matches("^Welcome, [A-Za-z]+(\\d+)?");
-
-        welcomeMessageInMyAccountDropdown.isDisplayed();
-        myDetailsInMyAccountDropdown.isDisplayed();
-        signOutInMyAccountDropdown.isDisplayed();
 
         return  welcomeMessageInMyAccountDropdown.isDisplayed() &&
                 isWelcomeMessagePatternMatches &&
