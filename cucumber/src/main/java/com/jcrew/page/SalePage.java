@@ -133,6 +133,7 @@ public class SalePage {
 
     public boolean isSaleTitleDisplayed() {
     	boolean result = false;
+    	Util.waitLoadingBar(driver);
     	try{
     		WebElement saleTitle = driver.findElement(By.xpath("//div[@class='c-sale__title' and text() = 'SALE']"));        
     		result =  saleTitle.isDisplayed();
@@ -505,7 +506,7 @@ public class SalePage {
             WebElement secondPromoLink = secondPromo.findElement(
                     By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
                             saleCategory + "']"));
-            secondPromoLink.click();
+            Util.scrollAndClick(driver, secondPromoLink);
             Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("/r/search"));
         }catch (NoSuchElementException e) {
             logger.debug("the link {} cannot be clicked as it is not found", link);
