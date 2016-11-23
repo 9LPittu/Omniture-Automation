@@ -137,6 +137,15 @@ public class Footer {
 
         return drawerElement.findElement(By.xpath(xpath));
     }
+
+    private WebElement getFooter_social(String name) {
+        waitForFooter();
+        WebElement header = footerWrapMain.findElement(
+                By.xpath(".//h6[contains(@class,'footer__header') and text()='" + name + "']"));
+        WebElement accordion = header.findElement(By.xpath(".//parent::div[contains(@class,'accordian__wrap--footer')]"));
+
+        return wait.until(ExpectedConditions.visibilityOf(accordion));
+    }
     
     private WebElement getAccordionElement(String name) {
     	waitForFooter();
@@ -154,55 +163,5 @@ public class Footer {
         footerLink.click();
         Util.waitLoadingBar(driver);
     }
-  /*  public String getPageHeader(String page){
-        String header2;
-        switch (page.toLowerCase()){
-            case "order status":
-                header2 = "u.s. order tracking";
-                break;
-            case "shipping":
-                header2 = "SHIPPING & HANDLING (THE FINE PRINT)";
-                break;
-            case "size charts":
-                header2 = "SIZE CHARTS";
-                break;
-            case "returns & exchanges":
-                header2 = "RETURNS & EXCHANGES";
-                break;
-            case "international orders":
-                header2 = "INTERNATIONAL ORDERS";
-                break;
-            case "our catalog":
-                header2 = "WANT TO GET OUR CATALOG?";
-                break;
-            case "careers":
-                header2 = "SEARCH OUR JOBS";
-                break;
-            case "gift cards":
-                header2 ="Go ahead-make someone’s day, in one of two ways.";
-                break;
-            case "mail preferences":
-                header2 ="WANT FUN STUFF IN THE MAIL?";
-                break;
-            default:
-                header2 = page;
-                break;
-        }
-        return getHeader2Text(header2);
-    }
 
-
-    public String getHeader2Text(String headerText) {
-        WebElement headerElement;
-        String text;
-        if (headerText.equalsIgnoreCase("size charts")) {
-            headerElement = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h3"))));
-            text = headerElement.getText().trim();
-        } else {
-            headerElement = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2"))));
-            text = headerElement.getText().trim();
-        }
-        return text;
-    }
-    */
 }

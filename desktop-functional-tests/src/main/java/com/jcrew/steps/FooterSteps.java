@@ -45,7 +45,7 @@ public class FooterSteps extends DriverFactory {
         assertTrue(footerLink + " link is displayed under "+footerHeaderName+"section in footer", footer.isLinkDisplayedInAccordion(footerLink, footerHeaderName));
     }
     
-    @When("^User clicks on ([^\"]*) link under ([^\"]*) in footer$")
+    @When("^User clicks on ([^\"]*) footer link under ([^\"]*)$")
     public void click_link_in_footer(String footerLink, String accordionName){
     	footer.clickFooterLinkFromDrawer(footerLink, accordionName);
     }
