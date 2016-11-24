@@ -17,15 +17,8 @@ Feature: View should be displayed for Regular Item but not for Backordered in Do
    Scenario: ATP view should be displayed for regular item 
     #ATP_01
     When User is on homepage
-    And User clicks on hamburger menu
-    And user selects any category from hamburger menu
-	And user selects any subcategory
-	
-	And user selects any item from array page, select any color and size
-    Then User is in product detail page    
-    And product name and price should match with array page
+    When User navigates to regular product
     When Add to cart button is pressed
-    
     When User clicks on item bag
     Then Verify products added matches with products in bag
     And Clicks on checkout    
@@ -70,6 +63,7 @@ Feature: View should be displayed for Regular Item but not for Backordered in Do
     And Verifies user is in shipping method page
 
     #ATP_14, ATP_23
+    
     And Verify that all shipping methods are available including Thursday cut
     Then Verify all shipping methods show estimated shipping date
     And Clicks continue button on shipping method page

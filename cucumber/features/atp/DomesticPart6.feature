@@ -18,15 +18,9 @@ Feature: View should be displayed for Regular Item and Backordered in Domestic C
    Scenario: ATP view should be displayed for regular item and backorder item
     #Add item to the bag
     When User is on homepage
-    And User clicks on hamburger menu
-    And user selects any category from hamburger menu
-	And user selects any subcategory
-	
-	And user selects any item from array page, select any color and size
-    Then User is in product detail page    
-    And product name and price should match with array page
-         
+    When User navigates to regular product
     When Add to cart button is pressed
+    
     And items count should be displayed as 1 in the bag
     When User navigates to backordered product
     When Add to cart button is pressed

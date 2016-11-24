@@ -18,15 +18,9 @@ Feature: View should be displayed for Express users in Domestic Context
   Scenario: ATP view should be displayed for express checkout if the user login
     #ATP_11
     When User is on homepage
-    And User clicks on hamburger menu
-    And user selects any category from hamburger menu
-	And user selects any subcategory
-	
-	And user selects any item from array page, select any color and size
-    Then User is in product detail page    
-    And product name and price should match with array page
-         
+    When User navigates to regular product
     When Add to cart button is pressed
+    
     When User clicks on item bag
     Then Verify products added matches with products in bag
     

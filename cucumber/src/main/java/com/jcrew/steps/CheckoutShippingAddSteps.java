@@ -55,7 +55,7 @@ public class CheckoutShippingAddSteps extends DriverFactory {
 
     @When("^User fills International shipping data and continues$")
     public void fill_int_data_and_continue() {
-        shipping.fillShippingData();
+        shipping.fillGuestData();
         shipping.continueCheckout();
         Country country = (Country) stateHolder.get("context");
         stateHolder.put("atpAddressType",country.getCountry());
