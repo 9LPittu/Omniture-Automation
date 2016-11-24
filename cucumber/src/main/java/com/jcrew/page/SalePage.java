@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.jcrew.pojo.Country;
-import org.openqa.selenium.NoSuchElementException;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.*;
@@ -94,8 +94,6 @@ public class SalePage {
     @FindBy(className="js-product__quantity")
     private WebElement paginationDropdown;
 
-
-
     @FindBy(xpath = "//span[@class='c-label__details' and text()='DETAILS']")
     private WebElement saleDetailsLink;
 
@@ -127,7 +125,7 @@ public class SalePage {
     public boolean isSaleLandingPage() {
         Country country = (Country) stateHolder.get("context");
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("r/sale"));
-
+        Util.waitLoadingBar(driver);
         return Util.countryContextURLCompliance(driver,country);
     }
 
@@ -140,7 +138,7 @@ public class SalePage {
     	}
     	catch(NoSuchElementException nsee){
     		//As per dev team, sale title will be hidden when monetate is displayed
-    		WebElement monetateImg = driver.findElement(By.xpath("//section[@id='c-promo-frame']/img"));
+    		WebElement monetateImg = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//section[@id='c-promo-frame']/img")));
     		result = monetateImg.isDisplayed();
     	}
     	
@@ -478,20 +476,16 @@ public class SalePage {
     }
 
     public boolean isSecondPromoSaleCategoryLinkDisplayed(String link, String url) {
-        try {
-            String saleCategory = link.trim().toLowerCase();
-            WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
-            WebElement secondPromoLink = secondPromo.findElement(
-                    By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
-                            saleCategory + "']"));
-
+        try {        	
+        	String promoLink = link.trim().toLowerCase();
             link = link.replace("s","");
             logger.debug("promo link after taking out s is {}", link);
-
             String expectedPromoLinkUrl = link.trim() + "s_sale_events/" + (String) stateHolder.get("salePercentage") + "OffSelectStyles_sm.jsp";
-            logger.debug("expected url calculation according to the promotion sale {}", expectedPromoLinkUrl);
-            logger.info("href value{} ", secondPromoLink.getAttribute("href"));
+            logger.debug("expected url calculation according to the promotion sale {}", expectedPromoLinkUrl);            
             stateHolder.put("promoLinkUrl", expectedPromoLinkUrl);
+            
+            WebElement secondPromoLink = getSecondPromoLinkElement(promoLink); 
+            
             return secondPromoLink.isDisplayed() && (secondPromoLink.getAttribute("href").contains(expectedPromoLinkUrl) || secondPromoLink.getAttribute("href").contains(url));
         } catch (NoSuchElementException e) {
             logger.debug("the second promo {} link is not found", link);
@@ -500,19 +494,48 @@ public class SalePage {
     }
 
     public void clickOnSecondPromoSaleCategoryLink(String link)  {
-            try {
-            String saleCategory = link.trim().toLowerCase();
-            WebElement secondPromo = driver.findElement(By.className("c-sale__promo-alert"));
-            WebElement secondPromoLink = secondPromo.findElement(
-                    By.xpath("./a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
-                            saleCategory + "']"));
-            Util.scrollAndClick(driver, secondPromoLink);
-            Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("/r/search"));
-        }catch (NoSuchElementException e) {
+        try { 
+        	  Util.waitForPageFullyLoaded(driver);
+        	  Util.waitLoadingBar(driver);
+        	  WebElement secondPromoLink = getSecondPromoLinkElement(link.trim().toLowerCase());
+        	  Util.scrollAndClick(driver, secondPromoLink);
+        	  Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains("/r/search"));       		 
+        }
+        catch (NoSuchElementException e) {
             logger.debug("the link {} cannot be clicked as it is not found", link);
             clickOnSaleDept(link);
-
         }
+    }
+    
+    public WebElement getSecondPromoLinkElement(String linkName){
+    	
+    	 Util.waitForPageFullyLoaded(driver);
+  	     Util.waitLoadingBar(driver);
+    	 WebElement secondPromo = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='c-sale__promo-alert']")));
+         
+         WebElement secondPromoLink = null;
+         int cntr = 0;
+         do{
+         	try{
+         		 secondPromoLink = secondPromo.findElement(By.xpath(".//a[translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '" +
+         				 											linkName + "']"));
+         		 Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.elementToBeClickable(secondPromoLink));
+         		 Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(secondPromoLink)));
+         		 if(secondPromoLink.isDisplayed() && !secondPromoLink.getAttribute("href").isEmpty()){
+         			 break;
+         		 }
+         	}
+         	catch(StaleElementReferenceException sere){
+         		logger.debug("StaleElementReferenceException is thrown...");         		
+         		cntr++;
+         	}
+         	catch(TimeoutException toe){
+         		logger.debug("TimeoutException is thrown...");
+         		cntr++;
+         	}
+         }while(cntr<3);
+         
+         return secondPromoLink;
     }
 
     public boolean  isDetailsLinkDisplayed() {
