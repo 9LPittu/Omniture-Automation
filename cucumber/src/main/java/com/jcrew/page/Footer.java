@@ -406,6 +406,10 @@ public class Footer {
     	WebElement socialSharingIcon = Util.createWebDriverWait(driver).until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@class='footer__social__menu']/" +
                 "descendant::li/a/i[contains(@class,'icon-social-" + socialSharingIconName.toLowerCase() + "')]")));
+    	
+    	JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("arguments[0].scrollIntoView();", socialSharingIcon);
+    	
     	socialSharingIcon.click();
     }
     

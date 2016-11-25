@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -136,8 +137,13 @@ public class ContextChooserPage {
     	
     	WebElement link = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
     					  driver.findElement(By.xpath(
-    				      "//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"))));    	
+    				      "//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"))));
+    	
+    	JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("arguments[0].scrollIntoView();", link);
     	link.click();
+    	
+    	Util.waitLoadingBar(driver);
     }
     
     public void clickButtonFromFAQSectionOnContextChooserPage(String buttonName){
