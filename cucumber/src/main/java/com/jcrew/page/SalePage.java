@@ -526,7 +526,8 @@ public class SalePage {
          		 }
          	}
          	catch(StaleElementReferenceException sere){
-         		logger.debug("StaleElementReferenceException is thrown...");         		
+         		logger.debug("StaleElementReferenceException is thrown...");
+         		Util.wait(2000);
          		cntr++;
          	}
          	catch(TimeoutException toe){

@@ -411,6 +411,7 @@ public class Footer {
         jse.executeScript("arguments[0].scrollIntoView();", socialSharingIcon);
     	
     	socialSharingIcon.click();
+    	Util.waitLoadingBar(driver);
     }
     
     public boolean isViewFullSiteDisplayedAfterLegalLinks(){

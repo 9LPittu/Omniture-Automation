@@ -129,8 +129,8 @@ public class ContextChooserPage {
     	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String browser = propertyReader.getProperty("browser");
-        if(browser.equalsIgnoreCase("firefox")){
-        	//Adding this piece of code as terms of use link click is not working in firefox
+        if(browser.equalsIgnoreCase("firefox")||browser.equalsIgnoreCase("chrome")){
+        	//Adding this piece of code as terms of use link click is not working in firefox & chrome
         	driver.navigate().refresh();
         	Util.waitLoadingBar(driver);
         }
@@ -139,10 +139,7 @@ public class ContextChooserPage {
     					  driver.findElement(By.xpath(
     				      "//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"))));
     	
-    	JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("arguments[0].scrollIntoView();", link);
     	link.click();
-    	
     	Util.waitLoadingBar(driver);
     }
     
