@@ -49,6 +49,15 @@ public class FooterSteps extends DriverFactory {
     public void click_link_in_footer(String footerLink, String accordionName){
     	footer.clickFooterLinkFromDrawer(footerLink, accordionName);
     }
+    @When("^User clicks on ([^\"]*) social link$")
+    public void user_clicks_on_social(String linkText){
+        footer.clickFooterSocialLinks(linkText);
+    }
+    @When("^User click on ([^\"]*) link from footer copyright section$")
+    public void user_clicks_on_links_from_copyright_section(String linkText){
+        footer.clickFooterBottomLinks(linkText);
+    }
+
     @And("^Verify user is navigated to url ([^\"]*) on same page$")
     public void user_navigated_to(String pageURL){
         String current_url = getDriver().getCurrentUrl();

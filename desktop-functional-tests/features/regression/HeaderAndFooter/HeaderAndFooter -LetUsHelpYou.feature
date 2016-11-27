@@ -90,10 +90,32 @@ Feature: Header and Footer - Let us help you section
 #    Then Verify user is navigated to url /help/credit_card.jsp?sidecar=true on same page
 
 
+  Scenario: Verify social links in footer are functional from home page
+    When User clicks on facebook social link
+    Then Verify user is navigated to url https://www.facebook.com/jcrew on external page
+
+    When User clicks on twitter social link
+    Then Verify user is navigated to url https://twitter.com/jcrew on external page
+
+    When User clicks on tumblr social link
+    Then Verify user is navigated to url http://jcrew.tumblr.com/ on external page
+
+    When User clicks on pinterest social link
+    Then Verify user is navigated to url https://www.pinterest.com/jcrew/ on external page
+
+    When User clicks on instagram social link
+    Then Verify user is navigated to url https://www.instagram.com/jcrew/ on external page
+
+    When User clicks on plus.google social link
+    Then Verify user is navigated to url https://plus.google.com/+JCrew on external page
+
+    When User clicks on youtube social link
+    Then Verify user is navigated to url https://www.youtube.com/user/jcrewinsider on external page
+
+    When User clicks on spotify social link
+    Then Verify user is navigated to url https://play.spotify.com/user/jcrew on external page
+
 #social icons
   Scenario: developmentInprogress
-     When User clicks on Manage Your Card footer link under The J.Crew Credit Card
-     Then Verify user is navigated to url https://d.comenity.net/jcrew/ on external page
-
-
-
+    When User click on READ MORE link from footer copyright section
+    #Then Verify user is navigated to url https://www.facebook.com/jcrew on external page

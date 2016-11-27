@@ -44,6 +44,9 @@ public class Footer {
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
 
+    @FindBy(className = "js-footer__row__wrap--bottom")
+    private WebElement footerBottom;
+
     @FindBy(className = "c-footer__social")
     private WebElement footer_social;
 
@@ -124,7 +127,6 @@ public class Footer {
     }
 
 
-
     private WebElement getAccordianLink(String link, String accordion) {
         WebElement drawerElement = getAccordionElement(accordion);
         String xpath;
@@ -138,21 +140,25 @@ public class Footer {
         return drawerElement.findElement(By.xpath(xpath));
     }
 
-    private WebElement getFooter_social(String name) {
-        waitForFooter();
-        WebElement header = footerWrapMain.findElement(
-                By.xpath(".//h6[contains(@class,'footer__header') and text()='" + name + "']"));
-        WebElement accordion = header.findElement(By.xpath(".//parent::div[contains(@class,'accordian__wrap--footer')]"));
-
-        return wait.until(ExpectedConditions.visibilityOf(accordion));
+    public void clickFooterSocialLinks(String socialLink) {
+        String xpath = ".//a[@class='footer__social__link' and contains(@href,'" + socialLink + "')]";
+        WebElement sLink =  footer_social.findElement(By.xpath(xpath));
+        sLink.click();
+        Util.waitLoadingBar(driver);
     }
-    
+
+    public void clickFooterBottomLinks(String linkText){
+        String xpath = ".//a[@class='footer__copyright__link' and text()='" + linkText + "']";
+        logger.info(xpath);
+        WebElement link = footerBottom.findElement(By.xpath(xpath));
+        link.click();
+        Util.waitLoadingBar(driver);
+    }
     private WebElement getAccordionElement(String name) {
     	waitForFooter();
         WebElement header = footerWrapMain.findElement(
                 By.xpath(".//h6[contains(@class,'footer__header') and text()='" + name + "']"));
         WebElement accordion = header.findElement(By.xpath(".//parent::div[contains(@class,'accordian__wrap--footer')]"));
-
         return wait.until(ExpectedConditions.visibilityOf(accordion));
     }
 

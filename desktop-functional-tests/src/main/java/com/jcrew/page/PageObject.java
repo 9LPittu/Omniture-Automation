@@ -93,6 +93,7 @@ public abstract class PageObject {
         Object handlesArray[] = handles.toArray();
         String newTab = (String) handlesArray[tabNumber];
         driver.switchTo().window(newTab);
+        Util.waitLoadingBar(driver);
     }
 
     public void closeTab(int tabNumber) {
