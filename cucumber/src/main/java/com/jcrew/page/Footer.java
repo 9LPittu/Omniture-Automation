@@ -219,9 +219,19 @@ public class Footer {
     }
 
     public boolean isTopHeaderVisible(String text) {
-        Util.waitWithStaleRetry(driver,footerRowTop);
+		String xpath;
+
+		Util.waitWithStaleRetry(driver,footerRowTop);
         Util.waitForPageFullyLoaded(driver);
-        WebElement footer = footerRowTop.findElement(By.xpath("//h6[text()='" + text + "']"));
+
+		String currentUrl = driver.getCurrentUrl();
+		if(currentUrl.contains("jsp?sidecar=true")) {
+			xpath = "//div[contains(@class,'c-footer__help')]";
+		} else {
+			xpath = "//h6[text()='" + text + "']";
+		}
+
+		WebElement footer = footerRowTop.findElement(By.xpath(xpath));
         Util.waitWithStaleRetry(driver,footer);
         return footer.isDisplayed();
     }

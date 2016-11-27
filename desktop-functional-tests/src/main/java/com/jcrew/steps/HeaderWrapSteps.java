@@ -97,6 +97,8 @@ public class HeaderWrapSteps extends DriverFactory {
 
     @When("^User clicks on ([^\"]*) link from top nav$")
     public void click_on_given_link_from_top_nav(String Dept) {
+    	if (Dept.equalsIgnoreCase("random") || Dept.equalsIgnoreCase("any"))
+    		Dept = reader.getCategory().toLowerCase().trim();
         header.clickDeptLinkFromTopNav(Dept);
     }
 
@@ -151,5 +153,17 @@ public class HeaderWrapSteps extends DriverFactory {
     @When("User hovers on ([^\"]*) category from header")
     public void user_hovers_category_from_header(String category) {
         header.hoverCategory(category);
+    }
+    
+    @When("User selects a random feature page from list")
+    public void select_feature_page(DataTable features) {
+    	List<DataTableRow> row = features.getGherkinRows();
+        DataTableRow selectedRow = row.get(Util.randomIndex(row.size()));
+
+        String category = selectedRow.getCells().get(0);
+        String featureName = selectedRow.getCells().get(1);
+
+        header.hoverCategory(category);
+        header.selectSubCategory(featureName);
     }
 }

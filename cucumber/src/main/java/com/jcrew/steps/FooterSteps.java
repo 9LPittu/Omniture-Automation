@@ -210,7 +210,7 @@ public class FooterSteps extends DriverFactory {
     public void user_should_see_selected_country_in_footer(){
         StateHolder stateHolder = StateHolder.getInstance();
         Country c = (Country) stateHolder.get("context");
-        String expectedCountryName = c.getCountryName();
-    	assertEquals(Util.getSelectedCountryName() + "User should see selected country name in the footer",expectedCountryName,footer.isCorrectCountryNameDisplayedInFooter());
+        String expectedCountryName = c.getCountryName().toLowerCase().trim();
+    	assertEquals(Util.getSelectedCountryName() + "User should see selected country name in the footer",expectedCountryName,footer.isCorrectCountryNameDisplayedInFooter().toLowerCase());
     }  
 }
