@@ -268,6 +268,13 @@ public class ArraySearch extends Array{
     		return footerPagination;
     	}
     }
+    
+    public List<String> getFilterOptions() {
+    	Util.waitWithStaleRetry(driver, searchFilter);
+
+    	List<WebElement> filterOptions = driver.findElements(By.xpath(".//h5[contains(@class,'search__refinement--name')]"));
+    	return Util.getText(filterOptions);
+    }
 }
 
 

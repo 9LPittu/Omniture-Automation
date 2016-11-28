@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -264,6 +265,16 @@ public class Util {
         }
 
         return value;
+    }
+    
+    public static List<String> getText(List<WebElement> list) {
+        List<String> text = new ArrayList<>(list.size());
+
+        for(WebElement element : list) {
+            text.add(element.getText().trim().toLowerCase());
+        }
+
+        return text;
     }
 
 }

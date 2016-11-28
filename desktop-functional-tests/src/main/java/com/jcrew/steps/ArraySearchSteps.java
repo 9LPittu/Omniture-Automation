@@ -200,4 +200,15 @@ public class ArraySearchSteps extends DriverFactory {
     	assertTrue("First item in Previous page: " + firstIteminPreviousPage + " and first item in current page: " 
     			+ firstIteminCurrentPage + " should not be same ", !firstIteminPreviousPage.equalsIgnoreCase(firstIteminCurrentPage));
     }
+    
+    
+    @Then("Verify that filter options contains this list")
+    public void filter_options_contains_list(List<String> expectedOptions) {
+        List<String> filterOptions = searchArray.getFilterOptions();
+
+        for (String expectedOption:expectedOptions ) {
+        	expectedOption = expectedOption.toLowerCase().trim();
+            assertTrue("Filter options should contain '" + expectedOption + "'", filterOptions.contains(expectedOption));
+        }
+    }
 }
