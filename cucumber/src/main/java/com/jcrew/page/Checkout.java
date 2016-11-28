@@ -42,7 +42,7 @@ public abstract class Checkout extends PageObject{
     public Checkout(WebDriver driver) {
         super(driver);
         Util.waitForPageFullyLoaded(driver);
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, 100), this);
+        PageFactory.initElements(driver, this);
     }
 
     public float getOrderTotal() {
