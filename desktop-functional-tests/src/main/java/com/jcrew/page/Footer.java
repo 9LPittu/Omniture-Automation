@@ -45,11 +45,13 @@ public class Footer {
     private WebElement footerWrapMain;
 
     @FindBy(xpath =".//div[contains(@class,'js-footer__row__wrap--bottom')]")
-//    @FindBy(className = "js-footer__row__wrap--bottom")
     private WebElement footerBottom;
 
     @FindBy(className = "c-footer__social")
     private WebElement footer_social;
+
+    @FindBy(className = "footer__signup__form email__form")
+    private WebElement signUp_from_footerSection;
 
     public Footer(WebDriver driver) {
         this.driver = driver;
@@ -163,7 +165,20 @@ public class Footer {
         WebElement accordion = header.findElement(By.xpath(".//parent::div[contains(@class,'accordian__wrap--footer')]"));
         return wait.until(ExpectedConditions.visibilityOf(accordion));
     }
+    public void enterEmailInSignUp(String testEmailID){
+        wait.until(ExpectedConditions.visibilityOf(signUp_from_footerSection));
+        WebElement email_input = signUp_from_footerSection.findElement(By.name("subscribeEmail"));
+        email_input.sendKeys(testEmailID);
+    }
+    public void clickSignUp(){
+        wait.until(ExpectedConditions.visibilityOf(signUp_from_footerSection));
+        WebElement email_signUp = signUp_from_footerSection.findElement(By.xpath(".//button[contains(@class,'js-footer__submit-button')]"));
+        email_signUp.click();
 
+    }
+    public void verifySignUpCopy(){
+      String   "Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
+    }
     public void clickFooterLinkFromDrawer(String linkText, String drawer) {
         WebElement footerLink = getAccordianLink(linkText, drawer);
         wait.until(ExpectedConditions.elementToBeClickable(footerLink));

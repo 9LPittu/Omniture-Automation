@@ -78,6 +78,7 @@ public class SaleLanding {
     }
     
     public boolean isSalelanding() {
+        wait.until(ExpectedConditions.visibilityOf(page__sale));
     	return page__sale.isDisplayed();
     }
     

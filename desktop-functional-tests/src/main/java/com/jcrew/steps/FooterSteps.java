@@ -49,6 +49,15 @@ public class FooterSteps extends DriverFactory {
     public void click_link_in_footer(String footerLink, String accordionName){
     	footer.clickFooterLinkFromDrawer(footerLink, accordionName);
     }
+    @When("^User enters ([^\"]*) email id in SignUp email form$")
+    public void enter_emailID(String email){
+        footer.enterEmailInSignUp(email);
+    }
+    @And("^Click on SignUp$")
+    public void click_SignUp(){
+        footer.clickSignUp();
+    }
+
     @When("^User clicks on ([^\"]*) social link$")
     public void user_clicks_on_social(String linkText){
         footer.clickFooterSocialLinks(linkText);
