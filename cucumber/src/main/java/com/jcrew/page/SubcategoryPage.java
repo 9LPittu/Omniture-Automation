@@ -271,7 +271,7 @@ public class SubcategoryPage {
 
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomProductSelected));
         WebElement productLink = randomProductSelected.findElement(By.className("product-tile__link"));
-        productLink.click();
+        Util.scrollAndClick(driver, productLink);
         Util.waitLoadingBar(driver);
     }
 
