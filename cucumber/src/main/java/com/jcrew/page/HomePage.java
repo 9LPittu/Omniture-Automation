@@ -49,8 +49,14 @@ public class HomePage {
         PageFactory.initElements(driver, this);
         
         if(!driver.getTitle().contains("Factory")){
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
+        	if(!driver.getCurrentUrl().contains("sidecar=false")){
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
+        	}
+        	else{
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("globalHeader")));
+        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("ftr")));
+        	}
         }
         else{
         	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("headerPanel")));
