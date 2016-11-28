@@ -55,7 +55,7 @@ public class FooterSteps extends DriverFactory {
     }
     @When("^User click on ([^\"]*) link from footer copyright section$")
     public void user_clicks_on_links_from_copyright_section(String linkText){
-        footer.clickFooterBottomLinks(linkText);
+        footer.clickFooterCopyRightLinks(linkText);
     }
 
     @And("^Verify user is navigated to url ([^\"]*) on same page$")

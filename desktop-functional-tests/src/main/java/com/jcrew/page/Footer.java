@@ -44,7 +44,8 @@ public class Footer {
     @FindBy(className = "js-footer__row__wrap--main")
     private WebElement footerWrapMain;
 
-    @FindBy(className = "js-footer__row__wrap--bottom")
+    @FindBy(xpath =".//div[contains(@class,'js-footer__row__wrap--bottom')]")
+//    @FindBy(className = "js-footer__row__wrap--bottom")
     private WebElement footerBottom;
 
     @FindBy(className = "c-footer__social")
@@ -147,9 +148,10 @@ public class Footer {
         Util.waitLoadingBar(driver);
     }
 
-    public void clickFooterBottomLinks(String linkText){
-        String xpath = ".//a[@class='footer__copyright__link' and text()='" + linkText + "']";
+    public void clickFooterCopyRightLinks(String linkText){
+        String xpath = ".//a[contains(@class,'footer__copyright__link') and text()='" + linkText + "']";
         logger.info(xpath);
+        wait.until(ExpectedConditions.visibilityOf(footerBottom));
         WebElement link = footerBottom.findElement(By.xpath(xpath));
         link.click();
         Util.waitLoadingBar(driver);
