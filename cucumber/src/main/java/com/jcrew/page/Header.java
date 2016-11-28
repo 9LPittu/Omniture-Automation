@@ -79,7 +79,7 @@ public class Header {
     @FindBy(xpath = ".//dd[@class='c-nav__userpanel-item--rewards']")
     private WebElement rewardsSectionInMyAccountDropdown;
 
-    @FindBy(xpath = "//div[@id=\"global__promo\"]/section")
+    @FindBy(xpath = "//div[@id='global__promo']/section")
     private WebElement globalPromoPanel;
     
     @FindBy(xpath="//input[contains(@class,'js-header__search__input')]")
@@ -106,10 +106,17 @@ public class Header {
 
         WebElement detailLink = promo.findElement(By.xpath(".//a[contains(@class,'js-header__promo__btn--details')]")); //expand disclaimer
         detailLink.click();
-        String disclaimer = globalPromoPanel.findElement(By.xpath(".//div[@class='js-header__promo__details-pushdown header__promo__details-pushdown']"))
-                .getText();
-        logger.debug("Promo disclaimer {}",
-                disclaimer);
+        
+        String disclaimer = "";
+        List<WebElement> disclaimerElements = globalPromoPanel.findElements(By.xpath(".//div[@class='js-header__promo__details-pushdown header__promo__details-pushdown']"));
+        for(int i=0;i<disclaimerElements.size();i++){
+        	disclaimer = disclaimerElements.get(i).getText();
+        	if(!disclaimer.isEmpty()){
+        		break;
+        	}
+        }
+        
+        logger.debug("Promo disclaimer {}", disclaimer);
         detailLink.click();
 
         return disclaimer;
