@@ -9,7 +9,7 @@ Feature: Header and Footer - From my Account page
     And User fills user data and signs in
     Then Verify user is in My Account main page
 
-  Scenario: Verify Let Us Help You links in footer are functional from home page
+  Scenario: Verify Let Us Help You links in footer are functional from my Account page
     When User clicks on Order Status footer link under Let Us Help You
     Then Verify user is navigated to url help/order_status.jsp?sidecar=true on same page
     When User presses browser back button
@@ -49,7 +49,7 @@ Feature: Header and Footer - From my Account page
     Then Verify user is navigated to url /r/size-charts-module on external page
 
 
-  Scenario: Verify About J.Crew links in footer are functional from home page
+  Scenario: Verify About J.Crew links in footer are functional from my Account page
     When User clicks on Our Story footer link under About J.Crew
     Then Verify user is navigated to url aboutus/jcrew.jsp?sidecar=true on same page
     When User presses browser back button
@@ -69,7 +69,7 @@ Feature: Header and Footer - From my Account page
     Then Verify user is navigated to url investors.jcrew.com/phoenix.zhtml?c=135311&p=irol-irhome&ver=jc on external page
 
 
-  Scenario: Verify our stores and our brands links in footer are functional from home page
+  Scenario: Verify our stores and our brands links in footer are functional from my Account page
     When User clicks on J.Crew Factory footer link under Our Brands
     Then Verify user is navigated to url https://factory.jcrew.com/?srcCode=JCFooter on external page
 
@@ -81,7 +81,7 @@ Feature: Header and Footer - From my Account page
     Then Verify user is navigated to url https://stores.jcrew.com/ on same page
 
 
-  Scenario: Verify jcrew credit card links in footer are functional from home page
+  Scenario: Verify jcrew credit card links in footer are functional from my Account page
     When User clicks on Manage Your Card footer link under The J.Crew Credit Card
     Then Verify user is navigated to url https://d.comenity.net/jcrew/ on external page
 
@@ -93,7 +93,7 @@ Feature: Header and Footer - From my Account page
 #    When User clicks on Get $25 For Every $500 You Spend** footer link under The J.Crew Credit Card
 #    Then Verify user is navigated to url /help/credit_card.jsp?sidecar=true on same page
 
-  Scenario: Verify social links in footer are functional from home page
+  Scenario: Verify social links in footer are functional from my Account page
     When User clicks on facebook social link
     Then Verify user is navigated to url https://www.facebook.com/jcrew on external page
 
@@ -118,7 +118,7 @@ Feature: Header and Footer - From my Account page
     When User clicks on spotify social link
     Then Verify user is navigated to url https://play.spotify.com/user/jcrew on external page
 
-  Scenario: Verify copyright links in footer are functional from home page
+  Scenario: Verify copyright links in footer are functional from my Account page
     When User click on READ MORE link from footer copyright section
     Then Verify user is navigated to url https://www.cpsc.gov/recalls/recall-alerts/ on external page
 
@@ -130,7 +130,7 @@ Feature: Header and Footer - From my Account page
     When User click on Privacy Policy link from footer copyright section
     Then Verify user is navigated to url /help/privacy_policy.jsp?sidecar=true on same page
 
-  Scenario: Verify popular search links in footer are functional from home page
+  Scenario: Verify popular search links in footer are functional from my Account page
     When User clicks on Cardigans footer link under Popular Searches
     Then Verify user is in category array page
     When User presses browser back button
