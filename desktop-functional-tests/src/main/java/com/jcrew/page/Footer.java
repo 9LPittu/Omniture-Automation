@@ -176,9 +176,7 @@ public class Footer {
         email_signUp.click();
 
     }
-    public void verifySignUpCopy(){
-      String   "Your email has been added to the jcrew.com email list. Stay tuned for news about special offers and more."
-    }
+
     public void clickFooterLinkFromDrawer(String linkText, String drawer) {
         WebElement footerLink = getAccordianLink(linkText, drawer);
         wait.until(ExpectedConditions.elementToBeClickable(footerLink));

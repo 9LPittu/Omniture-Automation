@@ -1,4 +1,4 @@
-@Footer
+@Footer @HighLevel
 Feature: Header and Footer - Let us help you section
 
   Background:
