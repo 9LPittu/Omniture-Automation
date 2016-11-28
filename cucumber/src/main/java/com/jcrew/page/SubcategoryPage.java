@@ -636,7 +636,7 @@ public class SubcategoryPage {
                 Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(productName));
                 logger.debug("PDP page is displayed!!!");
 
-                List<WebElement> itemColors = Util.createWebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath(".//img[@class='colors-list__image']"))));
+                List<WebElement> itemColors = Util.createWebDriverWait(driver, 20).until(ExpectedConditions.visibilityOfAllElements(driver.findElements(By.xpath(".//img[contains(@class, 'colors-list__image')]"))));
 
                 //If colors are not available then navigate back to array page
                 if (itemColors.size() == 0) {
