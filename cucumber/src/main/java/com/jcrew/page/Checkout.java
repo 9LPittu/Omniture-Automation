@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
@@ -41,7 +42,7 @@ public abstract class Checkout extends PageObject{
     public Checkout(WebDriver driver) {
         super(driver);
         Util.waitForPageFullyLoaded(driver);
-        PageFactory.initElements(driver, this);
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, 100), this);
     }
 
     public float getOrderTotal() {
