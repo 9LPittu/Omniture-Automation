@@ -154,9 +154,3 @@ Feature: Header and Footer - From home page
 
     When User clicks on Men's Suits footer link under Popular Searches
     Then Verify user is in category array page
-
-#social icons
-  Scenario: developmentInprogress
-    When User enters test@test.com email id in SignUp email form
-    And Click on SignUp
-    Then Verify user is in homepage
