@@ -371,6 +371,8 @@ public class ArraySearch extends Array{
 
         WebElement refinementDropdown = filterElement.findElement(By.xpath(".//parent::div/following-sibling::div[@class='menu__search--refinement dropdown__content']"));
         
+		if (option.equalsIgnoreCase("new in sale"))
+			option = "newtosale";
         WebElement clearFilter = refinementDropdown.findElement(By.xpath(".//div[@class='search__clear--wrapper js-search__filter--clear-selections' "
         																	+ "and @data-group='" +  option + "']"));
         wait.until(ExpectedConditions.elementToBeClickable(clearFilter));

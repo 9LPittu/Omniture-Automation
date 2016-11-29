@@ -297,8 +297,6 @@ public class ArraySearchSteps extends DriverFactory {
     @When("User clears ([^\"]*) refinements")
     public void clear_refinements(String option) {
     	option = option.toLowerCase().trim();
-		if (option.equalsIgnoreCase("new in sale"))
-			option = "newtosale";
     	
 		List <String> options = stateHolder.getList("filter");
     	
