@@ -70,6 +70,7 @@ public class CheckoutConfirmationSteps extends DriverFactory {
     public void verify_subtitle() {
         if(!isProduction) {
             String title = confirmation.getSubtitle();
+            title = title.replaceAll("\n", " ");
 
             assertTrue("Confirmation message is dsiplayed",
                     title.equalsIgnoreCase("THANK YOU FOR SHOPPING AT JCREW.COM"));

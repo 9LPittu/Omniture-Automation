@@ -4,11 +4,17 @@ import com.jcrew.page.ArraySearch;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.Then;
         import cucumber.api.java.en.When;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.WebDriverException;
 
 import static org.junit.Assert.*;
 
@@ -200,4 +206,113 @@ public class ArraySearchSteps extends DriverFactory {
     	assertTrue("First item in Previous page: " + firstIteminPreviousPage + " and first item in current page: " 
     			+ firstIteminCurrentPage + " should not be same ", !firstIteminPreviousPage.equalsIgnoreCase(firstIteminCurrentPage));
     }
+    
+    
+    @Then("Verify that filter options contains this list")
+    public void filter_options_contains_list(List<String> expectedOptions) {
+        List<String> filterOptions = searchArray.getFilterOptions();
+
+        for (String expectedOption:expectedOptions ) {
+        	expectedOption = expectedOption.toLowerCase().trim();
+            assertTrue("Filter options should contain '" + expectedOption + "'", filterOptions.contains(expectedOption));
+        }
+    }
+    
+    
+    @When("User refines using any of this options")
+    public void refine_option(List<String> options) {
+        int index = Util.randomIndex(options.size());
+        String option = options.get(index);
+
+        searchArray.filterBy(option.toLowerCase());
+    }
+    
+    @Then("^Verify selected refinement is displayed in header$")
+    public void selected_refinement_matches_header() {
+        List <String> options = stateHolder.getList("filter");
+        
+        for (String option:options) {
+	        String category = searchArray.getFilterValue(option);
+	        List<String> expectedValues = stateHolder.getList("filterValue" + option);
+	        String expected;
+	
+	        if (expectedValues.size() == 1) {
+	            expected = expectedValues.get(0);
+	        } else {
+	            expected = expectedValues.size() + " selected";
+	        }
+	
+	        assertEquals("Search filter: " + option + " should display correct filter value", expected.toLowerCase(), category.toLowerCase());
+        }
+    }
+    
+    @Then("^Verify item count matches selected refinement$")
+    public void verify_refinement_item_count() {
+    	 List <String> options = stateHolder.getList("filter");
+    	 
+    	//Eliminate Duplicates
+     	Set<String> uniqueOptions = new HashSet<>();
+     	uniqueOptions.addAll(options);
+     	options.clear();
+     	options.addAll(uniqueOptions);
+    	 
+    	 if (options.size() == 1) {
+    		 String option = options.get(0);
+    		 int actualProductCount = searchArray.getSearchResultsNumber();
+    		 	 
+	 	       List<Integer> filterCounts = stateHolder.getList("filterCount" + option);
+
+	 	       if (filterCounts.size() == 1) {
+	 	    	  int expectedProductCount = filterCounts.get(0);
+	 	    	  assertEquals("Number of items on array should be ",expectedProductCount, actualProductCount);
+	 	       } else {
+	 	    	   Collections.sort(filterCounts);
+	 	    	   int minExpectedCount = filterCounts.get(filterCounts.size()-1);
+	 	    	   int maxExpectedCount = 0;
+	 	    	   for (int filterCount:filterCounts) {
+	 	    		  maxExpectedCount = maxExpectedCount + filterCount;
+	 	    	   }
+	 	    	   
+	 	    	  assertTrue("Number of items on array should be >= " + minExpectedCount + " and <=" + maxExpectedCount, actualProductCount >= minExpectedCount && actualProductCount <= maxExpectedCount); 
+	 	    			   
+	 	       }
+    	 } else if (options.size() > 1) {
+    		 throw new WebDriverException("This step can not be used when multiple refinements are selected");
+    	 } else {
+    		 throw new WebDriverException("No Refinement is applied. So, refinement count cannot be verified");    		 
+    	 }
+    }
+
+    @When("^User selects a second option from previously selected filter$")
+    public void select_second_option_from_filter() {
+    	List <String> options = stateHolder.getList("filter");
+    	
+    	int index = Util.randomIndex(options.size());
+        String option = options.get(index);
+
+        searchArray.filterBy(option.toLowerCase());
+    }
+    
+    
+    @When("User clears ([^\"]*) refinements")
+    public void clear_refinements(String option) {
+    	option = option.toLowerCase().trim();
+    	
+		List <String> options = stateHolder.getList("filter");
+    	
+    	if (options.contains(option))
+    		searchArray.clearFilters(option.toLowerCase());
+    }
+    
+    @Then("Verify ([^\"]*) filter is cleared$")
+    public void verify_clear_filter(String option) {
+    	option = option.toLowerCase().trim();
+    	List <String> options = stateHolder.getList("filter");
+    	
+    	if (options.contains(option)) {
+    		String filterValue = searchArray.getFilterValue(option).toLowerCase().trim();
+    		assertTrue(option + " filter shoud be cleared" + filterValue, filterValue.isEmpty());
+    	}
+    }
+
 }
