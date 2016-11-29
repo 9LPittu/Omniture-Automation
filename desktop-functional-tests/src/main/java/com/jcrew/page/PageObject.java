@@ -75,4 +75,36 @@ public abstract class PageObject {
             }
         });
     }
+
+    public void changeToNewTab(final int tabNumber) {
+        final WebDriver driver = this.driver;
+
+        Set<String> handles = wait.until(new Function<WebDriver, Set<String>>() {
+            @Override
+            public Set<String> apply(WebDriver webDriver) {
+                Set<String> handles = driver.getWindowHandles();
+                if(handles.size() > tabNumber)
+                    return handles;
+                else
+                    return null;
+            }
+        });
+
+        Object handlesArray[] = handles.toArray();
+        String newTab = (String) handlesArray[tabNumber];
+        driver.switchTo().window(newTab);
+        Util.waitLoadingBar(driver);
+    }
+
+    public void closeTab(int tabNumber) {
+        String handles[] = new String[2];
+        driver.getWindowHandles().toArray(handles);
+
+        String tabToClose = handles[tabNumber];
+        String tabToActivate = handles[tabNumber-1];
+
+        driver.switchTo().window(tabToClose);
+        driver.close();
+        driver.switchTo().window(tabToActivate);
+    }
 }
