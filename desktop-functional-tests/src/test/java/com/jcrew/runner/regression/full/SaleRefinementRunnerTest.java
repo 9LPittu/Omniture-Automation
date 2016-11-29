@@ -7,8 +7,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression"},
-        tags = {"@SaleRefinement1"},
+        features = {"features/regression/SearchAndSale"},
+        tags = {"@SaleRefinement"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-SaleRefinement.json",
