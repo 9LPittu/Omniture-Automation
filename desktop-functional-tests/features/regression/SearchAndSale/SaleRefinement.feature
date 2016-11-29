@@ -62,6 +62,9 @@ Feature: Sale Array - Refinement
 	Then Verify selected refinement is displayed in header
 	And Verify that search result number is greater than 0
 	
+	When User clears Category refinements
+	Then Verify Category filter is cleared
+	
 	When User clears Size refinements
 	Then Verify Size filter is cleared
 	
