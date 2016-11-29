@@ -52,7 +52,9 @@ public class Navigation {
             driver.switchTo().window(tab);
             logger.debug("Title in handle: {}", driver.getTitle());
         }
-
+        
+        Util.waitLoadingBar(driver);
+        
         String browser = reader.getProperty("browser");
         String targetPage;
 
