@@ -1,4 +1,4 @@
-@AccountDropdown2 @HighLevel
+@AccountDropdown2
 Feature: Account Dropdown functionality - Part 2
 
   Background:
@@ -111,6 +111,7 @@ Feature: Account Dropdown functionality - Part 2
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
 
+  @HighLevel
   Scenario: Rewards visibility in Account dropdown
   	And click on SIGN IN from header
   	And User is on internal /r/login page
@@ -121,14 +122,14 @@ Feature: Account Dropdown functionality - Part 2
     Then User is in My Account home page
     
     And click on MY ACCOUNT from header
-    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    #JCSC-11715 fix
+    And user should see welcome message and desktop options in My Account dropdown on jsp pages
     Then user should see rewards info in the My Account dropdown
     And user should see date, rewards balance, total points, points to next reward and Manage your account link in rewards section    
     When user clicks on "Manage your account" from My Account dropdown
     And J.crew credit card https://d.comenity.net/jcrew/ page is opened in a different tab    
     
-    And click on MY ACCOUNT from header
-    When user clicks on "Sign Out" from My Account dropdown
+    And User clicks on SIGN OUT link in My Account Page
     And Verify user is in homepage
   
   Scenario: Sign out link from My Account dropdown is functional
@@ -190,9 +191,9 @@ Feature: Account Dropdown functionality - Part 2
     And Verify MY ACCOUNT header link is displayed
     And click on MY ACCOUNT from header
     Then user should see My Account dropdown is opened
-    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    When user clicks on "close" from My Account dropdown
-    Then user should see My Account dropdown is closed
+
+    #JCSC-11715 fix
+    Then user should see welcome message and desktop options in My Account dropdown on jsp pages
     
     Given User is on international homepage    
     And click on MY ACCOUNT from header
@@ -204,7 +205,8 @@ Feature: Account Dropdown functionality - Part 2
     When user clicks on "Sign Out" from My Account dropdown  
     And Verify user is in homepage
     And Verify SIGN IN header link is displayed
-  
+    
+  @HighLevel  
   Scenario: Rewards should not be shown in Account dropdown for international country
   	Then click on change link from footer
     And User is on context chooser page
@@ -223,5 +225,6 @@ Feature: Account Dropdown functionality - Part 2
     Then User is in My Account home page
     
     And click on MY ACCOUNT from header
-    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
+    #JCSC-11715 fix
+    And user should see welcome message and desktop options in My Account dropdown on jsp pages
     Then user should NOT see rewards info in the My Account dropdown

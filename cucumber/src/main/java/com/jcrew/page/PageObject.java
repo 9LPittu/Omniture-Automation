@@ -10,6 +10,8 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,7 @@ public abstract class PageObject {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
         this.country = (Country) stateHolder.get("context");
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, 100), this);
     }
 
     public boolean verifyURL() {

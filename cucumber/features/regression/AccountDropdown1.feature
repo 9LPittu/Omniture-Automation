@@ -52,7 +52,7 @@ Feature: Account Dropdown functionality - Part 1
   	And Verify SIGN IN header link points to the url /r/login
     
     And Fills shipping address    
-    And Presses continue button on shipping address    
+    And Presses continue button on shipping address
     And Verifies user is in shipping method page
     
   	Then Verify SIGN IN header link is displayed
@@ -137,11 +137,10 @@ Feature: Account Dropdown functionality - Part 1
 
     Then Verify embedded headers links is visible
     And click on MY ACCOUNT from header
-    Then user should see My Account dropdown is opened
-    Then user should see welcome message, My Details, Sign Out and close button in My Account dropdown
-    When user clicks on "close" from My Account dropdown
-    Then user should see My Account dropdown is closed
-    
+    Then user should see My Account dropdown is opened    
+    #JCSC-11715 fix
+    And user should see welcome message and desktop options in My Account dropdown on jsp pages
+
     When User clicks on hamburger menu
     And user selects any category from hamburger menu
     And user selects any subcategory

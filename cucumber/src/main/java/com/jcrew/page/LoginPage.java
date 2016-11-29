@@ -99,7 +99,7 @@ public class LoginPage {
         int cntr = 0;
         do{
         	emailInput.clear();
-        	emailInput.sendKeys(email.toString());
+        	emailInput.sendKeys(email);
         	
         	if(emailInput.getAttribute("value").equalsIgnoreCase(email)){
         		break;
@@ -115,7 +115,7 @@ public class LoginPage {
         int cntr = 0;
         do{
         	passwordInput.clear();
-        	passwordInput.sendKeys(password.toString());
+        	passwordInput.sendKeys(password);
         	
         	if(passwordInput.getAttribute("value").equalsIgnoreCase(password)){
         		break;
@@ -542,7 +542,8 @@ public class LoginPage {
     	if(!propertyReader.getProperty("environment").equalsIgnoreCase("production")){
     		String username = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.username");
     		String password = testDataReader.getData(propertyReader.getProperty("environment") + ".rewards.password");
-    	
+            stateHolder.put("sidecarusername", username);
+            stateHolder.put("sidecaruserpassword", password);
     		input_as_email(username);
     		input_as_password(password);
     	}
