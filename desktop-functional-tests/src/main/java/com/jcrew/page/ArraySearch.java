@@ -122,8 +122,8 @@ public class ArraySearch extends Array{
     public String getFilterValue(String filterName) {
     	Util.waitWithStaleRetry(driver, searchFilter);
 
-    	WebElement filterElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + filterName 
-    					+ "']/following-sibling::h6")));
+    	WebElement filterElement = searchFilter.findElement((By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" 
+    			+ filterName + "']/following-sibling::h6")));
 
     	String filterValue = filterElement.getText();
     	
@@ -358,6 +358,26 @@ public class ArraySearch extends Array{
         	wait.until(ExpectedConditions.elementToBeClickable(filterElement));
         	filterElement.click();
         }	
+    }
+    
+    
+    public void clearFilters(String option) {
+    	option = option.toLowerCase();
+        WebElement filterElement;
+
+        filterElement = driver.findElement(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + option + "']"));
+        wait.until(ExpectedConditions.elementToBeClickable(filterElement));
+        filterElement.click();
+
+        WebElement refinementDropdown = filterElement.findElement(By.xpath(".//parent::div/following-sibling::div[@class='menu__search--refinement dropdown__content']"));
+        
+        WebElement clearFilter = refinementDropdown.findElement(By.xpath(".//div[@class='search__clear--wrapper js-search__filter--clear-selections' "
+        																	+ "and @data-group='" +  option + "']"));
+        wait.until(ExpectedConditions.elementToBeClickable(clearFilter));
+        clearFilter.click();
+        
+        Util.waitSpinningImage(driver);
+
     }
 }
 

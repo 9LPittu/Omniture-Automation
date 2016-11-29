@@ -292,5 +292,26 @@ public class ArraySearchSteps extends DriverFactory {
 
         searchArray.filterBy(option.toLowerCase());
     }
+    
+    
+    @When("User clears ([^\"]*) refinements")
+    public void clear_refinements(String option) {
+    	option = option.toLowerCase().trim();
+    	List <String> options = stateHolder.getList("filter");
     	
+    	if (options.contains(option)) 
+    		searchArray.clearFilters(option.toLowerCase());
+    }
+    
+    @Then("Verify ([^\"]*) filter is cleared$")
+    public void verify_clear_filter(String option) {
+    	option = option.toLowerCase().trim();
+    	List <String> options = stateHolder.getList("filter");
+    	
+    	if (options.contains(option)) {
+    		String filterValue = searchArray.getFilterValue(option).toLowerCase().trim();
+    		assertTrue(option + " filter shoud be cleared" + filterValue, filterValue.isEmpty());
+    	}
+    }
+
 }
