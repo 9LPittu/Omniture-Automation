@@ -579,7 +579,34 @@ public class ShoppingBagPage extends Checkout {
         stateHolder.put("toBag", products);
     }
     
-    public String getItemTotal(int index) {
+    public void editQuantitybyNumber(int index) {	
+        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        productsInBag = Lists.reverse(productsInBag);
+        int itemIndex;
+        
+        itemIndex = productsInBag.size() - 1;
+        
+        WebElement product = productsInBag.get(itemIndex);
+        WebElement select = product.findElement(By.className("item-qty"));
+
+        Select selectQty = new Select(select);        
+        List<WebElement> options = selectQty.getOptions();
+        selectQty.selectByIndex(index-1);
+        
+        Util.waitLoadingBar(driver);
+       //String optionValue = options.get(index).getText();
+        String optionValue = Integer.toString(index);
+       
+		List<Product> products = stateHolder.getList("toBag");
+		
+        Product editedProduct = products.get(itemIndex);
+
+        editedProduct.setQuantity(optionValue);
+        products.set(itemIndex, editedProduct);
+        stateHolder.put("toBag", products);
+    }
+   
+	public String getItemTotal(int index) {
         List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
         WebElement product = productsInBag.get(index);
 
