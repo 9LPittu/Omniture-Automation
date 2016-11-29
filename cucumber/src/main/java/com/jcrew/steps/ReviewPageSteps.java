@@ -168,9 +168,7 @@ public class ReviewPageSteps extends DriverFactory {
         for (int i = 0; i < pageMethods.size(); i++) {
             ShippingMethod actual = pageMethods.get(i);
             ShippingMethod expected = expectedMethods.get(i);
-            //verify_ATP_date(actual, expected);
-            
-                methodCalculator.verify_ATP_date(actual, expected);
+            reviewPage.verify_ATP_date(actual, expected);
                 
             }
             

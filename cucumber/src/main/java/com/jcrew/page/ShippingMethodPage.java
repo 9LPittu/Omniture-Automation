@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class ShippingMethodPage  {
+public class ShippingMethodPage extends Checkout {
 
     private final WebDriver driver;
 
@@ -47,6 +47,7 @@ public class ShippingMethodPage  {
     private WebElement shippingMethodForm;
 
     public ShippingMethodPage(WebDriver driver) {
+    	super(driver);
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -168,6 +169,11 @@ public class ShippingMethodPage  {
         String ShippingMethodText = shipMethodName.getText().trim();
         return ShippingMethodText;
     }
+
+	@Override
+	public boolean isDisplayed() {
+		return isShippingMethodPage();
+	}
     
    
 }

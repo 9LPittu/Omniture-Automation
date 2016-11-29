@@ -51,7 +51,26 @@ public class CheckoutSignInSteps extends DriverFactory {
     		signIn.signInAndCheckout(signIn.NO_DEFAULT_MULTIPLE);
     	}
     }
+    
+    @When("User signs in with fpo user and checks out")
+    public void sign_in_fpo_and_check_out() {
+    	User user = (User) signIn.stateHolder.get("userObject");
 
+    	boolean result = signIn.enterLoginCredentials(user.getEmail(), user.getPassword());
+    	if(!result){
+    		signIn.signInAndCheckout(signIn.FPO);
+    	}
+    }
+    
+    @When("User signs in with Apo user and checks out")
+    public void sign_in_Apo_and_check_out() {
+    	User user = (User) signIn.stateHolder.get("userObject");
+
+    	boolean result = signIn.enterLoginCredentials(user.getEmail(), user.getPassword());
+    	if(!result){
+    		signIn.signInAndCheckout(signIn.APO);
+    	}
+    }
     @Then("Verify that title is Sign In")
     public void verify_title() {
         String title = signIn.getTitle();

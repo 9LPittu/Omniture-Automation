@@ -251,6 +251,20 @@ public class LoginPageSteps extends DriverFactory {
     	login("nonexpress", "multiple", loginPage.NO_DEFAULT_MULTIPLE);
     }
     
+    @And("^User fills form with fpo user and signs in$")
+    public void sign_in_fpo_user(){
+    	stateHolder.put("atpAddressType",loginPage.FPO);
+    	stateHolder.put("isRestrictedAddress", true);
+    	login("nonexpress", loginPage.FPO, loginPage.FPO);
+    }
+    
+    @And("^User fills form with apo user and signs in$")
+    public void sign_in_apo_user(){
+    	stateHolder.put("atpAddressType",loginPage.APO);
+    	stateHolder.put("isRestrictedAddress", true);
+    	login("nonexpress", loginPage.APO, loginPage.APO);
+    }
+    
     public void login(String userType, String addressType, String userClassUserType){
 		UsersHub userHub = UsersHub.getInstance();
 		User user = null;

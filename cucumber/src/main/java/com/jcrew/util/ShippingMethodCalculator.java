@@ -173,51 +173,5 @@ public class ShippingMethodCalculator {
         return startAndEndDates;
     }
 
-    public void verify_ATP_date(ShippingMethod actual, ShippingMethod expected) {
-        //Verifies if ATP date is falling in between expected date range
-        String actualName = actual.getMethod().replaceAll("[^a-zA-Z0-9]", "");
-        String expectedName = expected.getMethod().replaceAll("[^a-zA-Z0-9]", "");
-        String actualDate = actualName.replaceFirst(expectedName , "");
-        actualDate=actualDate.replace(" – ","");
-        actualDate=actualDate.replaceAll("\\p{Pd}","").trim();
-        if (!actualDate.isEmpty()) {
-            SimpleDateFormat dateFormat1 = new SimpleDateFormat("EEEE, MMMM dd");
-            SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                Date date = dateFormat1.parse(actualDate);
-                Calendar actualShipDay = Calendar.getInstance();
-                actualShipDay.setTime(date);
-
-                Calendar today = Calendar.getInstance();
-
-                int actualMonth = actualShipDay.get(Calendar.MONTH);
-                int currentMonth = today.get(Calendar.MONTH);
-                int currentYear = today.get(Calendar.YEAR);
-
-                if (actualMonth < currentMonth) {
-                    actualShipDay.set(Calendar.YEAR, currentYear + 1);
-                } else {
-                    actualShipDay.set(Calendar.YEAR, currentYear);
-                }
-                Date actualShipDate = actualShipDay.getTime();
-                Date startDate;
-                Date endDate;
-                if(expectedName.equalsIgnoreCase("saturday")){
-                	LocalDate inputDate = LocalDate.now();
-                    LocalDate nextSat = inputDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
-                    startDate = java.sql.Date.valueOf(nextSat);
-                	endDate = java.sql.Date.valueOf(nextSat);
-                }else{
-                	startDate = expected.getStartDate();
-                	endDate = expected.getEndDate();
-                }
-                
-                assertTrue("ATP shipping date for the method " + expectedName + " should be between " + startDate.toString() + " and " + endDate.toString() + ". But, the actual ship date is " + actualShipDate.toString(),(!actualShipDate.before(startDate)) && (!actualShipDate.after(endDate)));
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    
 }

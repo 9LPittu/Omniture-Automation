@@ -8,25 +8,17 @@ import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.ShippingMethodCalculator;
 import com.jcrew.util.Util;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class ShippingMethodPageSteps extends DriverFactory {
 
@@ -106,7 +98,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
                 ShippingMethod expected = expectedMethods.get(i);
 
                 assertEquals("Expected: " + expected.toString() + " actual: " + actual.toString() + " should be same", expected, actual);
-                methodCalculator.verify_ATP_date(actual, expected);
+                shippingMethodPage.verify_ATP_date(actual, expected);
             }
         } else {
             String shipMethods[] = testDataReader.getDataArray(countryCode + ".shippingMethods");
@@ -195,7 +187,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
         for (int i = 0; i < pageMethods.size(); i++) {
             ShippingMethod actual = pageMethods.get(i);
             ShippingMethod expected = expectedMethods.get(i);
-            methodCalculator.verify_ATP_date(actual, expected);
+            shippingMethodPage.verify_ATP_date(actual, expected);
             
         }
     }

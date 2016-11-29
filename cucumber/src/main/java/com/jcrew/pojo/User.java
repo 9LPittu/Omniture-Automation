@@ -25,12 +25,14 @@ public class User {
     private static User noDefaultUser = null;
     private static User multipleUser = null;
     private static User noDefaultMultipleUser = null;
-
+    private static User fpo = null;
+    private static User apo = null;
     public static final String DEFAULT = "user";
     public static final String NO_DEFAULT = "noDefaultUser";
     public static final String MULTIPLE = "multiple";
     public static final String NO_DEFAULT_MULTIPLE = "noDefaultMultiple";
-
+    public static final String FPO = "fpo";
+    public static final String APO = "apo";
     private static final Logger logger = LoggerFactory.getLogger(User.class);
 
 
