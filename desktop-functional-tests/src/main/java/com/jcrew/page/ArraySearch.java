@@ -286,7 +286,7 @@ public class ArraySearch extends Array{
 	        wait.until(ExpectedConditions.elementToBeClickable(filterElement));
 	        filterElement.click();
         } catch (NoSuchElementException noElement) {
-        	if (!(option.equalsIgnoreCase("new in sale") || option.equalsIgnoreCase("brand")))
+        	if (!(option.equalsIgnoreCase("new in sale") || option.equalsIgnoreCase("brand") || option.equalsIgnoreCase("color")))
         		throw new WebDriverException("refinement type " + option + "is not available");
         	return;
         }
