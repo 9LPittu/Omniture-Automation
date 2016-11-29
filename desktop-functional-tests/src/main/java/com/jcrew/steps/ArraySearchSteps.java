@@ -309,6 +309,8 @@ public class ArraySearchSteps extends DriverFactory {
     	List <String> options = stateHolder.getList("filter");
     	
     	if (options.contains(option)) {
+    		if (option.equalsIgnoreCase("new in sale"))
+    			option = "newtosale";
     		String filterValue = searchArray.getFilterValue(option).toLowerCase().trim();
     		assertTrue(option + " filter shoud be cleared" + filterValue, filterValue.isEmpty());
     	}
