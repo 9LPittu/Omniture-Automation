@@ -1,19 +1,33 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.ReviewPage;
+
 import com.jcrew.pojo.Address;
+import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.ShippingMethodCalculator;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class ReviewPageSteps extends DriverFactory {
 
     private final ReviewPage reviewPage = new ReviewPage(getDriver());
-
+    
+    private ShippingMethodCalculator methodCalculator = new ShippingMethodCalculator();
+    
     @Then("^User clicks on place your order button$")
     public void user_places_its_order() throws Throwable {
         reviewPage.user_places_its_order();
@@ -132,4 +146,31 @@ public class ReviewPageSteps extends DriverFactory {
     public void select_shipping_method() {
     	reviewPage.selectRandomShippingMethodOnReviewPage();       
     }
+    
+    @Then("^Verify all shipping methods are available in review page$")
+    public void shipping_methods() {
+        List<ShippingMethod> pageMethods = reviewPage.getShippingMethods();
+        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+
+        for (int i = 0; i < pageMethods.size(); i++) {
+            ShippingMethod actual = pageMethods.get(i);
+            ShippingMethod expected = expectedMethods.get(i);
+
+            assertEquals("Expected shipping method", expected, actual);
+        }
+    }
+    
+    @Then("^Verify all shipping methods show estimated shipping date in review page$")
+    public void shipping_method_with_estimated_shipping_date() {
+        List<ShippingMethod> pageMethods = reviewPage.getShippingMethods();
+        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+
+        for (int i = 0; i < pageMethods.size(); i++) {
+            ShippingMethod actual = pageMethods.get(i);
+            ShippingMethod expected = expectedMethods.get(i);
+            reviewPage.verify_ATP_date(actual, expected);
+                
+            }
+            
+     }
 }

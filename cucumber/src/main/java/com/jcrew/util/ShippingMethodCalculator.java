@@ -1,8 +1,11 @@
 package com.jcrew.util;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
+import static org.junit.Assert.assertTrue;
 
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 
 import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.pojo.Product;
@@ -41,7 +44,7 @@ public class ShippingMethodCalculator {
             restrictedAddress=false;
         }
 
-        List<Product> productsInBag = (List<Product>) stateHolder.get("productList");
+        List<Product> productsInBag = (List<Product>) stateHolder.get("toBag");
         crewCut=true;
         mixedItems = false;
         Product p = productsInBag.get(0);
@@ -170,4 +173,5 @@ public class ShippingMethodCalculator {
         return startAndEndDates;
     }
 
+    
 }

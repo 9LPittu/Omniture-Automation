@@ -149,7 +149,16 @@ public class NavigationSteps extends DriverFactory {
         
         stateHolder.put("backorderedItem", testDataReader.getData("back.order.item"));
     }
-    
+    @When("^User navigates to expensive backordered product$")
+    public void navigate_expensive_backordered() {
+    	searchAndNavigateToPdp(testDataReader.getData("expensive.back.order.item"));
+        
+        ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("expensive.back.order.color"));
+        pdp.select_size(testDataReader.getData("expensive.back.order.size"));
+        
+        stateHolder.put("backorderedItem", testDataReader.getData("expensive.back.order.item"));
+    }
     @When("^User navigates to only few left product$")
     public void navigate_only_few_left() {
     	searchAndNavigateToPdp(testDataReader.getData("few.left.item"));
@@ -161,6 +170,16 @@ public class NavigationSteps extends DriverFactory {
         stateHolder.put("fewLeftItem", testDataReader.getData("few.left.item"));
     }
     
+    @When("^User navigates to monogram product$")
+    public void navigate_monogram() {
+    	searchAndNavigateToPdp(testDataReader.getData("monogram.item"));
+        
+    	ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("monogram.color"));
+        pdp.select_size(testDataReader.getData("monogram.size"));
+        
+        stateHolder.put("monogramItem", testDataReader.getData("monogram.item"));
+    }
     @When("^User navigates to regular product$")
     public void navigate_regular_item() {
     	searchAndNavigateToPdp(testDataReader.getData("regular.item"));

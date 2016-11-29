@@ -223,6 +223,11 @@ public class ShoppingBagSteps extends DriverFactory {
     	shoppingBagPage.editQuantity(0);
     }
     
+    @When("User edits (\\d+) quantity of first item from bag")
+    public void edit_item_quantity_first_item(int quantity) {
+    	shoppingBagPage.editQuantitybyNumber(quantity);
+    }
+    
     @Then("^Verify edited item is displayed first in shopping bag$")
     public void verify_edited_item_displayed_first_in_shopping_bag(){
     	assertTrue("Edited item should be displayed first in the shopping bag", shoppingBagPage.isEditedItemDisplayedFirst());
@@ -399,5 +404,16 @@ public class ShoppingBagSteps extends DriverFactory {
     	List<Product> bagProducts = deleteProductFromStateHolder(previousItemCode);
     	   	
         assertTrue("Previously added items should not be shown", shoppingBagPage.matchList(bagProducts));
+    }
+    
+    @And("^Verify subtotal is greater than (\\d+) USD$")
+    public void verifySubtotalIsGreaterThan(int expected) {
+        String subTotal = shoppingBagPage.getSubTotal();
+        subTotal = subTotal.replaceAll("[^0-9]", "");
+
+        int actual = Integer.parseInt(subTotal);
+        expected *= 100;
+
+        assertTrue("Expected threshold is has not been reached", expected < actual);
     }
 }

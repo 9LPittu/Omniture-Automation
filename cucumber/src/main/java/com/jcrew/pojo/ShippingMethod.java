@@ -8,7 +8,11 @@ public class ShippingMethod {
     private String text;
     private Date startDate;
     private Date endDate;
-
+   
+    public ShippingMethod(String method, String text){
+        this.method = method.toLowerCase();
+        this.text = text.toLowerCase();
+    }
     public ShippingMethod(String method, String price, String text){
         this.method = method.toLowerCase();
         this.price = price.toLowerCase();

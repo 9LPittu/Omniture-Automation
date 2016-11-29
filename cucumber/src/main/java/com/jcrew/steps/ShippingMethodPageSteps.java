@@ -8,16 +8,14 @@ import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.ShippingMethodCalculator;
 import com.jcrew.util.Util;
-import java.text.SimpleDateFormat;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Date;
+import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -100,7 +98,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
                 ShippingMethod expected = expectedMethods.get(i);
 
                 assertEquals("Expected: " + expected.toString() + " actual: " + actual.toString() + " should be same", expected, actual);
-                verify_ATP_date(actual, expected);
+                shippingMethodPage.verify_ATP_date(actual, expected);
             }
         } else {
             String shipMethods[] = testDataReader.getDataArray(countryCode + ".shippingMethods");
@@ -117,46 +115,7 @@ public class ShippingMethodPageSteps extends DriverFactory {
     }
 
 
-    public void verify_ATP_date(ShippingMethod actual, ShippingMethod expected) {
-        //Verifies if ATP date is falling in between expected date range
-        String actualName = actual.getMethod().replaceAll("[^a-zA-Z0-9]", "");
-        String expectedName = expected.getMethod().replaceAll("[^a-zA-Z0-9]", "");
-
-        String actualDate = actualName.replaceFirst(expectedName, "").trim();
-        actualDate = actualDate.replace("–", "").trim();
-
-        if (!actualDate.isEmpty()) {
-            SimpleDateFormat dateFormat1 = new SimpleDateFormat("EEEE, MMMM dd");
-            SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                Date date = dateFormat1.parse(actualDate);
-                Calendar actualShipDay = Calendar.getInstance();
-                actualShipDay.setTime(date);
-
-                Calendar today = Calendar.getInstance();
-
-                int actualMonth = actualShipDay.get(Calendar.MONTH);
-                int currentMonth = today.get(Calendar.MONTH);
-                int currentYear = today.get(Calendar.YEAR);
-
-                if (actualMonth < currentMonth) {
-                    actualShipDay.set(Calendar.YEAR, currentYear + 1);
-                } else {
-                    actualShipDay.set(Calendar.YEAR, currentYear);
-                }
-                Date actualShipDate = actualShipDay.getTime();
-
-                Date startDate = expected.getStartDate();
-                Date endDate = expected.getEndDate();
-
-                assertTrue("ATP shipping date for the method " + expectedName + " should be between " + startDate.toString() + " and " + endDate.toString() + ". But, the actual ship date is " + actualShipDate.toString(),(!actualShipDate.before(startDate)) && (!actualShipDate.after(endDate)));
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+   
     
     @When("User selects gift option and adds message: ([^\"]*)")
     public void add_gift_option(String message) {
@@ -205,5 +164,50 @@ public class ShippingMethodPageSteps extends DriverFactory {
 
             assertTrue("First shipping method should be selected by default for the country " + countryName, shippingMethodPage.isFirstShippingMethod());
         }
+    }
+    
+    @Then("^Verify that all shipping methods are available including Thursday cut$")
+    public void shipping_methods_include_thursday_cut() {
+        List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
+        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+
+        for (int i = 0; i < pageMethods.size(); i++) {
+            ShippingMethod actual = pageMethods.get(i);
+            ShippingMethod expected = expectedMethods.get(i);
+
+            assertEquals("Expected shipping method", expected, actual);
+        }
+    }
+    
+    @Then("^Verify all shipping methods show estimated shipping date$")
+    public void shipping_method_with_estimated_shipping_date() {
+        List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
+        List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+      
+        for (int i = 0; i < pageMethods.size(); i++) {
+            ShippingMethod actual = pageMethods.get(i);
+            ShippingMethod expected = expectedMethods.get(i);
+            shippingMethodPage.verify_ATP_date(actual, expected);
+            
+        }
+    }
+    @Then("Verify all shipping methods show estimated shipping time range")
+    public void shipping_method_with_estimated_shipping_time_range() {
+        List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
+        String regex = "([a-zA-Z]*\\s*)*\\(\\d*-\\d* business days\\)";
+
+        for (ShippingMethod actual : pageMethods) {
+            String actualName = actual.getMethod();
+
+            assertTrue("Shipping method " + actualName + " matches expected pattern", Pattern.matches(regex, actualName));
+        }
+    }
+    
+    @Then("^Verify that ([^\"]*) shipping method is selected by default$")
+    public void default_method(String method) {
+    	
+        String expected = shippingMethodPage.getSelectedShippingMethod();
+        assertEquals("Expected standard shipping method", expected, method);
+
     }
 }

@@ -29,7 +29,8 @@ public class CheckoutSignIn extends Checkout {
     public final String NO_DEFAULT = User.NO_DEFAULT;
     public final String MULTIPLE = User.MULTIPLE;
     public final String NO_DEFAULT_MULTIPLE = User.NO_DEFAULT_MULTIPLE;
-
+    public final String FPO = User.FPO;
+    public final String APO = User.APO;
     public CheckoutSignIn(WebDriver driver) {
         super(driver);
         wait.until(ExpectedConditions.visibilityOf(signInForm));

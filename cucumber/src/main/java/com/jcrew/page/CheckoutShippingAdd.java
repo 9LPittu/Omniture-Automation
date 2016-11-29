@@ -127,14 +127,15 @@ public class CheckoutShippingAdd extends Checkout {
     public void continueCheckout() {
         nextStep(shippingForm);
     }
-
+    
+    
     public void fillAPOShippingData() {
         Address address = new Address("apo");
         fillFormData(address);
     }
 
     public void fillFPOShippingData() {
-        Address address = new Address("apo");
+        Address address = new Address("fpo");
         fillFormData(address);
     }
     
