@@ -58,6 +58,7 @@ public class UserNavigationSteps extends DriverFactory {
 
         HeaderWrap header = new HeaderWrap(driver);
         header.searchFor(term);
+        stateHolder.put("randomSearchTerm", term);
 
     }
 
