@@ -213,24 +213,7 @@ public class Util {
         }
     }
     
-    
-//    public static void scrollAndClick(WebDriver driver, WebElement element){
-//    	int cntr = 0;
-//        do{
-//        	try{
-//        		scrollToElement(driver, element);
-//        		wait(1000);
-//        		element.click();
-//        		break;
-//        	}
-//        	catch(WebDriverException e){
-//        		scrollPage(driver, Util.DOWN);
-//        		wait(1000);
-//        		cntr++;
-//        	}
-//        }while(cntr<=2);
-//    }
-    
+      
     public static void scrollAndClick(WebDriver driver, WebElement element){
     	int cntr = 0;
         do{
