@@ -99,6 +99,7 @@ public class LoginPage {
         int cntr = 0;
         do{
         	emailInput.clear();
+        	emailInput.click();
         	emailInput.sendKeys(email);
         	
         	if(emailInput.getAttribute("value").equalsIgnoreCase(email)){
@@ -115,6 +116,7 @@ public class LoginPage {
         int cntr = 0;
         do{
         	passwordInput.clear();
+        	passwordInput.click();
         	passwordInput.sendKeys(password);
         	
         	if(passwordInput.getAttribute("value").equalsIgnoreCase(password)){

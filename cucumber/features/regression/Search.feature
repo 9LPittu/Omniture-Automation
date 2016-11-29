@@ -14,7 +14,7 @@ Feature: Search Regression Suite
     Then User is in product detail page
 
   Scenario: multiple products with sale price should display two items
-    When Enters F8808 to the search field
+    When Enters F5503 to the search field
     And Clicks on search button for input field
     And User is in search results page
     Then Verify amount of items displayed is 3

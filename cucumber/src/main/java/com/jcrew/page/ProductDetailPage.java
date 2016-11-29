@@ -878,6 +878,7 @@ public class ProductDetailPage {
 	    	            break;
 	            	}
 	            	catch(Exception e){
+	            		Util.wait(3000);
 	            		cntr++;
 	            	}
 	            }while(cntr<3);

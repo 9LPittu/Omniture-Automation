@@ -42,7 +42,7 @@ public abstract class Checkout extends PageObject{
     public Checkout(WebDriver driver) {
         super(driver);
         Util.waitForPageFullyLoaded(driver);
-        PageFactory.initElements(driver, this);
+        PageFactory.initElements(new AjaxElementLocatorFactory(driver, 100), this);
     }
 
     public float getOrderTotal() {
@@ -291,6 +291,7 @@ public abstract class Checkout extends PageObject{
     }
 
     public String getPromoDetails() {
+    	wait.until(ExpectedConditions.visibilityOf(promoCode));
         WebElement message = wait.until(ExpectedConditions.visibilityOf(promoCode.findElement(By.className("module-details-last"))));
         return message.getText();
     }
