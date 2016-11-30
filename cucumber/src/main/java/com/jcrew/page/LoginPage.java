@@ -97,15 +97,17 @@ public class LoginPage {
         
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("registered-email")));
         
-        Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
-            @Override
-            public boolean apply(WebDriver driver) {
-                WebElement signinbutton = signInForm.findElement(By.className("js-button-submit"));
-                String enabled = signinbutton.getAttribute("disabled");
-
-                return enabled == null;
-            }
-        });
+        if(driver.getCurrentUrl().contains("/r/login")){
+	        Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
+	            @Override
+	            public boolean apply(WebDriver driver) {
+	                WebElement signinbutton = signInForm.findElement(By.className("js-button-submit"));
+	                String enabled = signinbutton.getAttribute("disabled");
+	
+	                return enabled == null;
+	            }
+	        });
+        }
     }
 
     public void input_as_email(String email) {
