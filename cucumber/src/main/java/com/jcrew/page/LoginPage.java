@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.github.javafaker.Faker;
+import com.google.common.base.Predicate;
 import com.jcrew.pojo.User;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
@@ -53,8 +54,10 @@ public class LoginPage {
     private WebElement myaccountRef;
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement myAccountLink;
+    
     @FindBy(className = "signin-form")
     private WebElement signInForm;
+    
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
 
@@ -91,6 +94,16 @@ public class LoginPage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("registered-email")));
+        
+        Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
+            @Override
+            public boolean apply(WebDriver driver) {
+                WebElement signinbutton = signInForm.findElement(By.className("js-button-submit"));
+                String enabled = signinbutton.getAttribute("disabled");
+
+                return enabled == null;
+            }
+        });
     }
 
     public void input_as_email(String email) {
