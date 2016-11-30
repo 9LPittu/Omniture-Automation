@@ -116,18 +116,6 @@ Feature: Header and Footer - From Sale landing page
     When User clicks on spotify social link
     Then Verify user is navigated to url https://play.spotify.com/user/jcrew on external page
 
-  Scenario: Verify copyright links in footer are functional from sale landing page
-    When User click on READ MORE link from footer copyright section
-    Then Verify user is navigated to url https://www.cpsc.gov/recalls/recall-alerts/ on external page
-
-    When User click on Terms Of Use link from footer copyright section
-    Then Verify user is navigated to url /footer/termsofuse.jsp?sidecar=true on same page
-    When User presses browser back button
-    Then Verify sale landing page is displayed
-
-    When User click on Privacy Policy link from footer copyright section
-    Then Verify user is navigated to url /help/privacy_policy.jsp?sidecar=true on same page
-
   Scenario: Verify popular search links in footer are functional from sale landing page
     When User clicks on Cardigans footer link under Popular Searches
     Then Verify user is in category array page
