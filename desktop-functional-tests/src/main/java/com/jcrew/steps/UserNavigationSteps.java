@@ -142,6 +142,7 @@ public class UserNavigationSteps extends DriverFactory {
             driver.navigate().back();
             Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(newUrl)));
         }
+        Util.waitForPageFullyLoaded(driver);
     }
 
     @Then("Verify country code in the url for international countries")

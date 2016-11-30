@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -182,7 +183,31 @@ public class Util {
 
         return errorMessage;
     }
-    
+
+    public static String getStringConsoleVariable(WebDriver driver, String variable) {
+        JavascriptExecutor je = (JavascriptExecutor) driver;
+        String value = (String) je.executeScript("return " + variable);
+
+        logger.info("{}: {}", variable, value);
+
+        return value;
+    }
+
+    public static boolean getBooleanConsoleVariable(WebDriver driver, String variable) {
+        JavascriptExecutor je = (JavascriptExecutor) driver;
+        boolean value = false;
+        try {
+            value = (boolean) je.executeScript("return " + variable);
+
+            logger.info("{}: {}", variable, value);
+
+        } catch (WebDriverException wde) {
+            logger.info("Unable to get boolean variable {}; assuming false", variable);
+        }
+
+        return value;
+    }
+
     public static void wait(int waitTime) {
         Boolean iterate = true;
         Calendar calendar =Calendar.getInstance();
@@ -212,22 +237,23 @@ public class Util {
         }
     }
     
-    
+      
     public static void scrollAndClick(WebDriver driver, WebElement element){
     	int cntr = 0;
         do{
         	try{
         		scrollToElement(driver, element);
-        		wait(1000);
         		element.click();
         		break;
         	}
         	catch(WebDriverException e){
-        		scrollPage(driver, Util.DOWN);
-        		wait(1000);
-        		cntr++;
+                JavascriptExecutor jse = (JavascriptExecutor)driver;
+                jse.executeScript("arguments[0].scrollIntoView();", element);
+
+                cntr++;
         	}
-        }while(cntr<=2);
+
+        }while(cntr <= 4);
     }
     
     public static void scrollPage(WebDriver driver, String pagePosition) {
@@ -264,6 +290,16 @@ public class Util {
         }
 
         return value;
+    }
+    
+    public static List<String> getText(List<WebElement> list) {
+        List<String> text = new ArrayList<>(list.size());
+
+        for(WebElement element : list) {
+            text.add(element.getText().trim().toLowerCase());
+        }
+
+        return text;
     }
 
 }

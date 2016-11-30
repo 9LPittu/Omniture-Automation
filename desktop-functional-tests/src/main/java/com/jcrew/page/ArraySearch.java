@@ -122,8 +122,8 @@ public class ArraySearch extends Array{
     public String getFilterValue(String filterName) {
     	Util.waitWithStaleRetry(driver, searchFilter);
 
-    	WebElement filterElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + filterName 
-    					+ "']/following-sibling::h6")));
+    	WebElement filterElement = searchFilter.findElement((By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" 
+    			+ filterName + "']/following-sibling::h6")));
 
     	String filterValue = filterElement.getText();
     	
@@ -267,6 +267,119 @@ public class ArraySearch extends Array{
     		Util.waitWithStaleRetry(driver, footerPagination);
     		return footerPagination;
     	}
+    }
+    
+    public List<String> getFilterOptions() {
+    	Util.waitWithStaleRetry(driver, searchFilter);
+
+    	List<WebElement> filterOptions = driver.findElements(By.xpath(".//h5[contains(@class,'search__refinement--name')]"));
+    	return Util.getText(filterOptions);
+    }
+    
+    
+    public void filterBy(String option) {
+        option = option.toLowerCase();
+        WebElement filterElement;
+        
+        try {
+	        filterElement = driver.findElement(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + option + "']"));
+	        wait.until(ExpectedConditions.elementToBeClickable(filterElement));
+	        filterElement.click();
+        } catch (NoSuchElementException noElement) {
+        	if (!(option.equalsIgnoreCase("new in sale") || option.equalsIgnoreCase("brand") || option.equalsIgnoreCase("color")))
+        		throw new WebDriverException("refinement type " + option + "is not available");
+        	return;
+        }
+        WebElement refinementDropdown = filterElement.findElement(By.xpath(".//parent::div/following-sibling::div[@class='menu__search--refinement dropdown__content']"));
+
+        List<WebElement> options;
+
+        switch (option) {
+            case "size":
+                options = refinementDropdown.findElements(By.xpath(".//a[contains(@class,'js-search__filter sizes-list__item') " +
+                        "and not(contains(@class,'is-disabled')) and not(contains(@class,'is-selected'))]"));
+                break;
+            case "category":
+                options = refinementDropdown.findElements(By.xpath(".//a[not(contains(@class,'is-disabled'))]"));
+                break;
+            case "brand":
+            case "color":
+            case "price":
+            case "new in sale":
+                options = refinementDropdown.findElements(By.xpath(".//div[@class='search__refinement--group']/" +
+                        "input[not(contains(@class,'is-selected')) and not(contains(@class,'is-disabled'))]/" +
+                        "following-sibling::a"));
+                break;
+            default:
+                logger.error("refinement type not recognized");
+                throw new WebDriverException("refinement type " + option + "not recognized");
+        }
+
+        String count = "-1", value = "";
+
+        if(options.size() > 0) {
+            int index = Util.randomIndex(options.size());
+
+            WebElement selectedOption = options.get(index);
+            wait.until(ExpectedConditions.visibilityOf(selectedOption));
+
+            if ("size".equals(option)) {
+                value = selectedOption.getText();
+
+            } else {
+                WebElement selectedOptionCount = selectedOption.findElement(By.className("search__refinement--count"));
+
+                count = selectedOptionCount.getText().replaceAll("[^0-9]*", "");
+                value = selectedOption.getText().replace(" (" + count + ")", "");
+            }
+
+            wait.until(ExpectedConditions.visibilityOf(selectedOption));
+            Util.scrollAndClick(driver, selectedOption);
+
+            Util.waitSpinningImage(driver);
+
+        } else {
+            logger.error("No more filter options available for {} filter. Skipping step", option);
+        }
+
+        logger.info("Filtered by {}: {} with {} items", option, value, count);
+        stateHolder.addToList("filter", option);
+
+        if (option.equalsIgnoreCase("category") || option.equalsIgnoreCase("new in sale")) {
+        	stateHolder.remove("filterValue" + option);
+            stateHolder.remove("filterCount" + option);
+        }
+
+        stateHolder.addToList("filterValue" + option, value);
+        stateHolder.addToList("filterCount" + option, Integer.parseInt(count));
+        
+        if ("size,color,price".contains(option)) {
+        	filterElement = driver.findElement(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + option + "']"));
+        	wait.until(ExpectedConditions.elementToBeClickable(filterElement));
+        	filterElement.click();
+        }	
+    }
+    
+    
+    public void clearFilters(String option) {
+    	option = option.toLowerCase();
+        WebElement filterElement;
+
+        filterElement = driver.findElement(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + option + "']"));
+        wait.until(ExpectedConditions.elementToBeClickable(filterElement));
+        filterElement.click();
+
+        WebElement refinementDropdown = filterElement.findElement(By.xpath(".//parent::div/following-sibling::div[@class='menu__search--refinement dropdown__content']"));
+        
+		if (option.equalsIgnoreCase("new in sale"))
+			option = "newtosale";
+        WebElement clearFilter = refinementDropdown.findElement(By.xpath(".//div[@class='search__clear--wrapper js-search__filter--clear-selections' "
+        																	+ "and @data-group='" +  option + "']"));
+        wait.until(ExpectedConditions.elementToBeClickable(clearFilter));
+        clearFilter.click();
+        
+        Util.waitSpinningImage(driver);
+
     }
 }
 

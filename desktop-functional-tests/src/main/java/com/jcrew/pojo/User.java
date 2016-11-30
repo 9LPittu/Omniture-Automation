@@ -101,8 +101,8 @@ public class User {
         fakeUser = new User(false);
         fakeUser.email = faker.internet().emailAddress().replace("@", "@test.").replace("'", "");
         fakeUser.password = faker.lorem().fixedString(6).replace(" ", "?");
-        fakeUser.firstName = faker.name().firstName();
-        fakeUser.lastName = faker.name().lastName();
+        fakeUser.firstName = faker.name().firstName().replaceAll("'", "");
+        fakeUser.lastName = faker.name().lastName().replaceAll("'", "");
 
         return fakeUser;
     }
