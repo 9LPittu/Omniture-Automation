@@ -21,7 +21,11 @@ public class HomePageAllBrandSteps extends DriverFactory {
     @And("^Verify correct s_account value is displayed")
     public void validate_s_account_value() {
         String expectedSAccountValue= testDataReader.getData("s_account.value");
-        assertEquals("s_account value should match", expectedSAccountValue, homePageAllBrands.getSAccountValue());
+        if (expectedSAccountValue.equalsIgnoreCase("any")) {
+            assertTrue("s_account value should not be blank", !expectedSAccountValue.isEmpty());
+        } else {
+            assertEquals("s_account value should match", expectedSAccountValue, homePageAllBrands.getSAccountValue());
+        }
     }
 
 }
