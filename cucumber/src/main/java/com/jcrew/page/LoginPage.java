@@ -93,6 +93,8 @@ public class LoginPage {
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        Footer footer = new Footer(driver);
+        
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("registered-email")));
         
         Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
