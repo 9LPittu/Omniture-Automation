@@ -31,7 +31,7 @@ public class Util {
     public static final String DOWN = "down";
     
     public static String getEnvironment(){
-    	String environment = System.getProperty("environment", "ci");
+    	String environment = System.getProperty("environment", "gold");
     	return environment;
     }
 
@@ -283,5 +283,15 @@ public class Util {
             long timeDifference = currentTime - startTime;
             iterate = timeDifference < waitTime;
         }while(iterate);
+    }
+    
+    public static List<String> getText(List<WebElement> list) {
+        List<String> text = new ArrayList<>(list.size());
+
+        for(WebElement element : list) {
+            text.add(element.getText().trim());
+        }
+
+        return text;
     }
 }
