@@ -233,8 +233,9 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Then("^Verify product name is the one it was selected$")
     public void verify_product_name_is_the_one_it_was_selected() throws Throwable {
-        String productName = Util.getCurrentProduct().getProductName();
-        String currentName = productDetailPage.getProductNameFromPDP();
+        String productName = Util.getCurrentProduct().getProductName().toLowerCase().trim();
+        productName = productName.replaceAll("pre-order ", "");
+        String currentName = productDetailPage.getProductNameFromPDP().toLowerCase().trim();
 
         assertTrue("Product should be the selected one. Expected: " + productName + ", got: " + currentName,
                 currentName.contains(productName));

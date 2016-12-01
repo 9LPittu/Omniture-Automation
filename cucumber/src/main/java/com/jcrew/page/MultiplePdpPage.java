@@ -91,7 +91,8 @@ public class MultiplePdpPage {
         Util.waitWithStaleRetry(driver, productReviewRatingsSection);
         Util.waitWithStaleRetry(driver, addToBagButton);
         Util.waitWithStaleRetry(driver, addToWishlistButton);
-
+        
+        logger.debug("Navigation is loaded...");
     }
 
     public boolean headerText(String title){
@@ -153,7 +154,9 @@ public class MultiplePdpPage {
         Util.waitForPageFullyLoaded(driver);
         stateHolder.put("shoppableTrayProduct", article);
         Util.scrollAndClick(driver, selected);
+        Util.waitLoadingBar(driver);
         wait.until(ExpectedConditions.urlContains("itemCode="+productCode));
+        logger.debug("Page with url itemCode={} is displayed", productCode);
         loadNavigation();
     }
 
@@ -201,8 +204,14 @@ public class MultiplePdpPage {
         boolean result = true;
 
         for (int i = 0; i < numProducts && result; i++) {
-            result = checkDetails();
+        	int cntr = 0;
+        	do{
+        	  result = checkDetails();
+        	  cntr++;
+        	}while(!result && cntr<=2);
+            
             navigateToNextProduct(i);
+            Util.waitLoadingBar(driver);
         }
 
         return result;
@@ -263,6 +272,7 @@ public class MultiplePdpPage {
     	
         By currentVariationXpath = By.xpath(".//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]");
         WebElement currentVariation =  wait.until(ExpectedConditions.presenceOfElementLocated(currentVariationXpath));
+        wait.until(ExpectedConditions.visibilityOf(currentVariation));
         WebElement nextVariation = currentVariation.findElement(By.xpath("following-sibling::li/div[contains(@class,'radio__label')]"));
 
         String url = driver.getCurrentUrl();
