@@ -40,11 +40,11 @@ public class SiteMapsPage {
 
     public List<String> getSiteMapsToCheck(InputStream stream) {
         xstream.processAnnotations(SitemapIndex.class);
-        Pattern countryContextPattern = Pattern.compile("https://www.jcrew.com/" +
+        Pattern countryContextPattern = Pattern.compile("https://www.jcrew.com/sidecar/" +
                 "\\p{javaLowerCase}{2}/[\\p{javaLowerCase}{2}\\p{Punct}]*\\p{javaLowerCase}{2}-sitemap.xml");
-        Pattern categoryPattern = Pattern.compile("https://www.jcrew.com/[\\p{javaLowerCase}/]+\\p{javaLowerCase}+_category/" +
+        Pattern categoryPattern = Pattern.compile("https://www.jcrew.com/sidecar/[\\p{javaLowerCase}/]+\\p{javaLowerCase}+_category/" +
                 "\\p{javaLowerCase}+_category_sitemap.xml");
-        Pattern specialPattern = Pattern.compile("https://www.jcrew.com/[\\p{javaLowerCase}/]+" +
+        Pattern specialPattern = Pattern.compile("https://www.jcrew.com/sidecar/[\\p{javaLowerCase}/]+" +
                 "\\p{javaLowerCase}+_special_\\p{javaLowerCase}+/\\p{javaLowerCase}+_special_\\p{javaLowerCase}+_sitemap.xml");
 
         List<String> siteMapsUrls = new ArrayList<>();
