@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.TestDataReader;
@@ -8,6 +9,7 @@ import com.jcrew.utils.Util;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -15,12 +17,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -438,7 +442,22 @@ public class ProductDetails extends PageObject {
             logger.info("Expected PDP Message: {}", expectedPDPMessage);
 
             Util.waitWithStaleRetry(driver, pdpMessage);
-            actualPDPMessage = pdpMessage.getText().trim();
+            
+            actualPDPMessage = wait.until(new Function<WebDriver, String>(){
+				@Override
+				public String apply(WebDriver driver) {
+					String pdpMessageText = null;					
+					try{
+						pdpMessageText = pdpMessage.getText().trim();
+						return pdpMessageText;
+					}
+					catch(StaleElementReferenceException sere){
+						logger.debug("StaleElementReferenceException is thrown...");
+						return null;
+					}					
+				}            	
+            });
+            
             logger.info("Actual PDP Message: {}", expectedPDPMessage);
         } else {
             logger.info("PDP message will not be displayed for '" + countryCode + "' country");
@@ -676,7 +695,7 @@ public class ProductDetails extends PageObject {
         if (productSizes.size() > 0) {
             WebElement selectedSize = productSizes.get(0);
             WebElement selectedSizeLabel = selectedSize.findElement(By.className("btn__label"));
-            Util.scrollAndClick(driver, selectedSizeLabel);
+            selectedSizeLabel.click();
 
             logger.info("Selecting specified size {}", size);
         } else {

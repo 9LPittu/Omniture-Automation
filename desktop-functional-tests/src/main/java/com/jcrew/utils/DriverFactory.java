@@ -59,7 +59,7 @@ public class DriverFactory {
             width = Integer.parseInt(propertyReader.getProperty("desktop.window.width"));
             height = Integer.parseInt(propertyReader.getProperty("desktop.window.height"));
         }
-           
+
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
             driver = createRemoteDriver(propertyReader);
         } else {
