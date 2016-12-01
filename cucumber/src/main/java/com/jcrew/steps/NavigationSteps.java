@@ -188,7 +188,7 @@ public class NavigationSteps extends DriverFactory {
         pdp.select_color(testDataReader.getData("regular.item.color"));
         pdp.select_size(testDataReader.getData("regular.item.size"));
         
-        stateHolder.put("regularItem", testDataReader.getData("regular.item"));
+       stateHolder.put("regularItem", testDataReader.getData("regular.item"));
     }
     
     public void searchAndNavigateToPdp(String searchItem){

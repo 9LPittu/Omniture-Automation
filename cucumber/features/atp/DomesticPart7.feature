@@ -43,9 +43,7 @@ Feature: View should be displayed for Regular Item and Backordered in Domestic C
     And Clicks continue button on shipping method page
     Then Verify Billing page is displayed
 	
-	#Billing Method change
-	
-    And Submits payment data in billing page
+	And Submits payment data in billing page
     Then Verify user is in review page
     
     Then Verify user is in review page
@@ -55,4 +53,36 @@ Feature: View should be displayed for Regular Item and Backordered in Domestic C
     Then User should be in order confirmation page
     And verify order number is generated
     
+    Scenario: No ATP view for BACKORDER item and monogram item
+    #ATP_02
+    When User navigates to backordered product
+    When Add to cart button is pressed
+   	And items count should be displayed as 1 in the bag
+	When User navigates to monogram product
+    And User adds monogram to product
+    And User fills monogram options
+    When Add to cart button is pressed
+    And items count should be displayed as 2 in the bag
+    When User clicks on item bag
+    And Verify subtotal is greater than 150 USD
     
+    And Clicks on checkout    
+    And page url should contain /checkout2/shoppingbag.jsp
+    
+    And User signs in with no default user and checks out
+    Then Verify Shipping Address page is displayed
+
+    And Presses continue button on shipping address
+    And Verifies user is in shipping method page
+	And validate correct shipping methods displayed on the page
+    
+    And Clicks continue button on shipping method page
+    Then Verify Billing page is displayed
+	
+    And Submits payment data in billing page
+    Then Verify user is in review page
+   
+    And Inputs credit card security code
+    And User clicks on place your order button
+    Then User should be in order confirmation page
+    And verify order number is generated

@@ -284,4 +284,14 @@ public class Util {
             iterate = timeDifference < waitTime;
         }while(iterate);
     }
+    
+    public static List<String> getText(List<WebElement> list) {
+        List<String> text = new ArrayList<>(list.size());
+
+        for(WebElement element : list) {
+            text.add(element.getText().trim());
+        }
+
+        return text;
+    }
 }
