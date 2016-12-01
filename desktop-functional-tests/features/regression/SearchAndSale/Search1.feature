@@ -16,5 +16,6 @@ Feature: Search Functionality - Part 1
     Then Verify product detail page is displayed
     
     
+   Scenario: Gender Selectors on Search Array
     
     
