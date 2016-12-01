@@ -14,15 +14,15 @@ Feature: Verify view for Monogram Items in Domestic Context
     When user clicks on "Sign Out" from My Account dropdown 
     Then Verify user is in homepage
    
-   Scenario: ATP view should be displayed for regular item 
-    #ATP_01
+   Scenario: No ATP view should be displayed for monogram item
+    #ATP_03
     When User is on homepage
     When User navigates to monogram product
     And User adds monogram to product
     And User fills monogram options
     When Add to cart button is pressed
+    And items count should be displayed as 1 in the bag
     When User clicks on item bag
-    Then Verify products added matches with products in bag
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
     
@@ -32,9 +32,7 @@ Feature: Verify view for Monogram Items in Domestic Context
     And Presses continue button on shipping address
     And Verifies user is in shipping method page
 	
-	#ATP_14, ATP_23,ATP_25
-    And Verify that all shipping methods are available including Thursday cut
-    Then Verify all shipping methods show estimated shipping date
+    And validate correct shipping methods displayed on the page
     
     And Clicks continue button on shipping method page
     Then Verify Billing page is displayed
@@ -47,13 +45,19 @@ Feature: Verify view for Monogram Items in Domestic Context
     Then User should be in order confirmation page
     And verify order number is generated
     
-    Scenario: No ATP view for BACKORDER item
-    #ATP_02
-    When User navigates to backordered product
+    Scenario: ATP view should be displayed for regular and monogram item
+    #ATP_05
+    When User navigates to regular product
     When Add to cart button is pressed
-    
-    When User clicks on item bag
     And items count should be displayed as 1 in the bag
+   
+	When User navigates to monogram product
+    And User adds monogram to product
+    And User fills monogram options
+    When Add to cart button is pressed
+    And items count should be displayed as 2 in the bag
+    When User clicks on item bag
+    
     
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
@@ -64,7 +68,6 @@ Feature: Verify view for Monogram Items in Domestic Context
     And Presses continue button on shipping address
     And Verifies user is in shipping method page
 
-    #ATP_14, ATP_23
     
     And Verify that all shipping methods are available including Thursday cut
     Then Verify all shipping methods show estimated shipping date

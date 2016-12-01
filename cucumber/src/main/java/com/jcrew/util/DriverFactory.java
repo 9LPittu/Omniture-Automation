@@ -73,7 +73,6 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
-        	System.setProperty("webdriver.chrome.driver", "c:\\git\\chromedriver.exe");
         	DesiredCapabilities desiredCapabilities = getChromeCapabilities(akamaiEnv);
             driver = new ChromeDriver(desiredCapabilities);
         	
