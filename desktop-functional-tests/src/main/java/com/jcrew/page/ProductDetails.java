@@ -676,7 +676,7 @@ public class ProductDetails extends PageObject {
         if (productSizes.size() > 0) {
             WebElement selectedSize = productSizes.get(0);
             WebElement selectedSizeLabel = selectedSize.findElement(By.className("btn__label"));
-            selectedSizeLabel.click();
+            Util.scrollAndClick(driver, selectedSizeLabel);
 
             logger.info("Selecting specified size {}", size);
         } else {
