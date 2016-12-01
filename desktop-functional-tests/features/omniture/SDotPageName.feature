@@ -1,7 +1,7 @@
-@Omniture @HighLevel
+@s.pageName
 Feature: Verify Omniture variables
 
-  Scenario: Verify Omniture variable values on Home, Category pages and PDP
+  Scenario: Verify s.pageName value on Home, Category pages and PDP
     Given User is on homepage with clean session
     And User closes email capture
     Then Verify omniture variables have values
@@ -18,7 +18,7 @@ Feature: Verify Omniture variables
     Then Verify product detail page is displayed
     And Verify omniture variables have values
 
-  Scenario: Verify Omniture variable values on Sale and Search pages
+  Scenario: Verify s.pageName value on Sale and Search pages
 	Given User is on homepage with clean session
     And User closes email capture
     
@@ -34,14 +34,14 @@ Feature: Verify Omniture variables
 	Then Verify Sale array page is displayed
 	And Verify omniture variables have values
 
-  Scenario: Verify Omniture variable values on Landing pages
+  Scenario: Verify s.pageName value on Landing pages
     Given User is on homepage with clean session
     And User closes email capture
     
     When User clicks on random link from top nav
     And Verify omniture variables have values
 
-  Scenario: Verify Omniture variable values on Feature pages and shpppable tray
+  Scenario: Verify s.pageName value on Feature pages and shpppable tray
     Given User is on homepage with clean session
     And User closes email capture
 	
@@ -54,7 +54,7 @@ Feature: Verify Omniture variables
     When User selects a random shop this look
     Then Verify omniture variables have values	
 
-  Scenario Outline: Verify Omniture variable values on Category page and PDP with direct navigation
+  Scenario Outline: Verify s.pageName value on Category page and PDP with direct navigation
     Given User navigates to <page name> with clean session
     And User closes email capture
     And Verify omniture variables have values
