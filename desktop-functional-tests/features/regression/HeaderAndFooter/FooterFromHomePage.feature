@@ -145,7 +145,8 @@ Feature: Header and Footer - From home page
     Then Verify user is in category array page
 
 
-  Scenario: Verify header links are functional from home page
+  #Scenario: Verify header links are functional from home page
+  Scenario: developmentInprogress
 
     When User clicks on sign in using header
     Then Verify user is navigated to url /r/login on same page
