@@ -26,4 +26,9 @@ public class ExternalPageSteps extends DriverFactory {
         external_page(page_url);
         page.closeTab(1);
     }
+    
+    @Then("^Verify page source contains ([^\"]*)$")
+    public void validate_page_source_contains_given_var(String var) {
+        assertTrue("page source should contain "+var+"", page.isVariablePresentInSourceCode(var));
+    }
 }
