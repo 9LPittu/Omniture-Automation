@@ -120,6 +120,7 @@ public class ArraySearch extends Array{
     } 
     
     public String getFilterValue(String filterName) {
+    	Util.waitSpinningImage(driver);
     	Util.waitWithStaleRetry(driver, searchFilter);
 
     	WebElement filterElement = searchFilter.findElement((By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" 
@@ -233,7 +234,7 @@ public class ArraySearch extends Array{
         }
     	
     	wait.until(ExpectedConditions.elementToBeClickable(paginationElement));
-    	paginationElement.click();
+    	Util.scrollAndClick(driver, paginationElement);
     	Util.waitSpinningImage(driver);
     }
     

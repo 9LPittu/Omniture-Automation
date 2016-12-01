@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
@@ -31,19 +32,25 @@ public class SaleLanding {
     @FindBy(id = "c-promo-categories")
     private WebElement saleCategory;
     
-    @FindBy(className = "c-sale__promo-frame")
+    @FindBy(id="c-promo-frame")
     private WebElement promoFrame;
+    
+    @FindBy(className = "c-sale__promo-frame")
+    private WebElement salePromoFrame;
     
     @FindBy(id = "c-promo-alert")
     private WebElement secondPromoBox;
     
+    private boolean isFirstPromoDisplayed = true;
 
     public SaleLanding(WebDriver driver) {
         this.driver = driver;
         wait = Util.createWebDriverWait(driver);
 
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(page__sale));
+        
+        Footer footer = new Footer(driver);
+        wait.until(ExpectedConditions.visibilityOf(page__sale));        
     }
 
     public void selectRandomSaleCategory() {
@@ -61,7 +68,7 @@ public class SaleLanding {
 
     public void click_on_sale_subcategory(String subcategory) {
         Util.waitLoadingBar(driver);
-        getSubcategoryFromSale(subcategory).click();
+        Util.scrollAndClick(driver, getSubcategoryFromSale(subcategory));
         stateHolder.put("sale category", subcategory);
         wait.until(ExpectedConditions.urlContains("search"));
         Util.waitLoadingBar(driver);
@@ -95,27 +102,71 @@ public class SaleLanding {
     	
     }
     
-    public boolean isSaleTitle() {
-    	return page__sale.findElement(By.xpath("//div[@class='c-sale__title' and "+ Util.xpathGetTextLower +"='sale']")).isDisplayed();
+    public boolean isSaleTitle() {    	
+    	if(isMonetateImageDisplayed()){    		
+    		return true;
+    	}else{
+    		return page__sale.findElement(By.xpath("//div[@class='c-sale__title' and "+ Util.xpathGetTextLower +"='sale']")).isDisplayed();
+    	}    	
+    }
+    
+    public boolean isMonetateImageDisplayed(){
+    	
+    	List<WebElement> monetateImage = Util.createWebDriverWait(driver, 5).until(new Function<WebDriver, List<WebElement>>(){
+    		@Override
+    		public List<WebElement> apply(WebDriver driver){
+    			List<WebElement> images = promoFrame.findElements(By.xpath("descendant::img"));
+    			if(images.size()==0){
+    				logger.debug("Monetate image is not displayed...");
+    				return null;
+    			}
+				return images;
+    		}		
+    	});
+    			
+    	if(monetateImage.size()==1){
+    		isFirstPromoDisplayed = false;
+    		return true;
+    	}else{
+    		return false;
+    	}
     }
     
     public boolean isFirstPromo() {
-    	wait.until(ExpectedConditions.visibilityOf(promoFrame));
-    	WebElement Details = promoFrame.findElement(By.xpath(".//div/a[@class='js-sale-promo-link' and " + Util.xpathGetTextLower + "='details']"));
+    	if(isMonetateImageDisplayed()){    		
+    		return true;
+    	}
+    	else{
+    		wait.until(ExpectedConditions.visibilityOf(salePromoFrame));
+        	WebElement Details = salePromoFrame.findElement(By.xpath(".//div/a[@class='js-sale-promo-link' and " + Util.xpathGetTextLower + "='details']"));
+        	
+        	return salePromoFrame.isDisplayed() && Details.isDisplayed();
+    	}
     	
-    	return promoFrame.isDisplayed() && Details.isDisplayed();
     }
     
     public void clickDetailsLink() {
-    	wait.until(ExpectedConditions.visibilityOf(promoFrame));
-    	WebElement Details = promoFrame.findElement(By.xpath(".//div/a[@class='js-sale-promo-link' and " + Util.xpathGetTextLower + "='details']"));
-    	wait.until(ExpectedConditions.visibilityOf(Details));
-    	Details.click();
-    	
+    	if(isFirstPromoDisplayed){
+	    	wait.until(ExpectedConditions.visibilityOf(salePromoFrame));
+	    	WebElement details = salePromoFrame.findElement(By.xpath(".//div/a[@class='js-sale-promo-link' and " + Util.xpathGetTextLower + "='details']"));
+	    	wait.until(ExpectedConditions.visibilityOf(details));
+	    	details.click();
+    	}    	
+    }
+    
+    public boolean verifyPromoPopUpStatus(String expectedState){
+    	if(isFirstPromoDisplayed){
+    		expectedState = expectedState.toLowerCase().trim();
+        	String actualState = getPromoPopUpState();        	
+        	return expectedState.equals(actualState);
+    	}
+    	else{
+    		return true;
+    	}
     }
     
     public String getPromoPopUpState() {
-    	WebElement promoPopOver = promoFrame.findElement(By.xpath(".//div[contains(@class,'js-sale-promo-popover')]"));
+    	WebElement promoPopOver = salePromoFrame.findElement(By.xpath(".//div[contains(@class,'js-sale-promo-popover')]"));
     	String style = promoPopOver.getAttribute("style").toLowerCase();
     	if (style.contains("block")) {
     		return "open";
@@ -125,10 +176,14 @@ public class SaleLanding {
     }
     
     public void closePromoDetails() {
-    	WebElement closeIcon = promoFrame.findElement(By.xpath(".//span[contains(@class,'js-sale-promo-close')]"));
-    	wait.until(ExpectedConditions.visibilityOf(closeIcon));
+    	if(isFirstPromoDisplayed){
+    		logger.debug("Is first promo displayed: {}", isFirstPromoDisplayed);
+    		
+    		WebElement closeIcon = salePromoFrame.findElement(By.xpath(".//span[contains(@class,'js-sale-promo-close')]"));
+    		wait.until(ExpectedConditions.visibilityOf(closeIcon));
     	
-    	closeIcon.click();
+    		closeIcon.click();
+    	}
     }
     
     public boolean isSecondPromo() {
@@ -155,6 +210,7 @@ public class SaleLanding {
     	WebElement promoLink = secondPromoBox.findElement(By.xpath(".//div/a[" + Util.xpathGetTextLower + "='" + name + "']"));
     	wait.until(ExpectedConditions.elementToBeClickable(promoLink));
     	
+    	Util.waitWithStaleRetry(driver, promoLink);
     	promoLink.click();
     }
 

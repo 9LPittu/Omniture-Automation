@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.TestDataReader;
@@ -8,6 +9,7 @@ import com.jcrew.utils.Util;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -438,7 +440,22 @@ public class ProductDetails extends PageObject {
             logger.info("Expected PDP Message: {}", expectedPDPMessage);
 
             Util.waitWithStaleRetry(driver, pdpMessage);
-            actualPDPMessage = pdpMessage.getText().trim();
+            
+            actualPDPMessage = wait.until(new Function<WebDriver, String>(){
+				@Override
+				public String apply(WebDriver driver) {
+					String pdpMessageText = null;					
+					try{
+						pdpMessageText = pdpMessage.getText().trim();
+						return pdpMessageText;
+					}
+					catch(StaleElementReferenceException sere){
+						logger.debug("StaleElementReferenceException is thrown...");
+						return null;
+					}					
+				}            	
+            });
+            
             logger.info("Actual PDP Message: {}", expectedPDPMessage);
         } else {
             logger.info("PDP message will not be displayed for '" + countryCode + "' country");
