@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
@@ -110,7 +111,19 @@ public class SaleLanding {
     }
     
     public boolean isMonetateImageDisplayed(){
-    	List<WebElement> monetateImage = promoFrame.findElements(By.xpath("descendant::img"));
+    	
+    	List<WebElement> monetateImage = Util.createWebDriverWait(driver, 5).until(new Function<WebDriver, List<WebElement>>(){
+    		@Override
+    		public List<WebElement> apply(WebDriver driver){
+    			List<WebElement> images = promoFrame.findElements(By.xpath("descendant::img"));
+    			if(images.size()==0){
+    				logger.debug("Monetate image is not displayed...");
+    				return null;
+    			}
+				return images;
+    		}		
+    	});
+    			
     	if(monetateImage.size()==1){
     		isFirstPromoDisplayed = false;
     		return true;
