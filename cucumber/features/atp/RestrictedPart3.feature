@@ -1,12 +1,12 @@
-@ATPRestricted2
-Feature:  View should be displayed for Regular Item and Backordered in PO BOX Address
+@ATPRestricted3
+Feature:  View should be displayed for Regular Item and Backordered in APO Address
 
   Background: Clean bag for user
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
     
     When click on SIGN IN from header
-    And User fills form with apo user and signs in
+    And User fills form with po box user and signs in
     And User bag is cleared
     And User goes to homepage
 	
