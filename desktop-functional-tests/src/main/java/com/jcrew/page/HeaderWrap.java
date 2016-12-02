@@ -139,6 +139,12 @@ public class HeaderWrap {
 		}
 
 		searchForSpecificTerm(searchItem);
+		
+		String currentUrl = driver.getCurrentUrl();
+		if(currentUrl.contains("/r/search")){
+			ArraySearch arraySearch = new ArraySearch(driver);
+			arraySearch.click_first_product_in_grid();
+		}
 	}
 
 	public void searchForSpecificTerm(String searchTerm) {
