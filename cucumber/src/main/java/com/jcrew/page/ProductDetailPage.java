@@ -317,9 +317,14 @@ public class ProductDetailPage {
     }
 
     public boolean showsMinicartMessage(String message) {
-        Util.createWebDriverWait(driver).until(
-                ExpectedConditions.textToBePresentInElementLocated(By.className("header__cart--details"), message));
-        return true;
+        try {
+            Util.createWebDriverWait(driver).until(
+                    ExpectedConditions.textToBePresentInElementLocated(By.className("header__cart--details"), message));
+            return true;
+        }  catch (TimeoutException timeout) {
+            return false;
+        }
+
     }
 
     public String getSalePrice() {
