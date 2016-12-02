@@ -9,7 +9,10 @@ Feature: Array page functionality
     When User hovers on women category from header
     And User selects sweaters subcategory array
     Then Verify user is in sweaters category array page
-    And Verify category contains items count
+    
+    #Commenting the below step as items count is currently not displayed incategory array page  
+    #And Verify category contains items count
+    
     And Verify refine dropdown displayed in array page
     And Verify refine dropdown text is All sweaters
 
@@ -20,7 +23,9 @@ Feature: Array page functionality
     When User selects a random refinement option
     Then Verify refine dropdown is closed
     And Verify refinement option was selected
-    And Verify category contains items count
+    
+    #Commenting the below step as items count is currently not displayed incategory array page
+    #And Verify category contains items count
 
 
   #Business is yet to take ca call on View All link in Top nav. Till then, this scenario will be commented

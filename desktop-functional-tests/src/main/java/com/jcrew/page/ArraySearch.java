@@ -383,5 +383,3 @@ public class ArraySearch extends Array{
 
     }
 }
-
-

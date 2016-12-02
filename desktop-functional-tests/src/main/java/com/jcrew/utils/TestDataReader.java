@@ -7,9 +7,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
-import com.jcrew.pojo.Country;
-import com.jcrew.utils.StateHolder;
-
 /**
  * Created by nadiapaolagarcia on 4/8/16.
  */
@@ -17,7 +14,6 @@ public class TestDataReader {
     private static final TestDataReader dataReader = new TestDataReader();
     private static final Map<String, Properties> testDataPropertiesMap = new HashMap<>();
     private final Logger logger = LoggerFactory.getLogger(TestDataReader.class);
-    private StateHolder stateHolder = StateHolder.getInstance();
 
     private TestDataReader() {
     }
@@ -35,8 +31,8 @@ public class TestDataReader {
             FileInputStream propertiesInput = new FileInputStream(testData);
             testDataProperties.load(propertiesInput);
 
-            String env = System.getProperty("environment", "ci");
-            String environmentData = "properties/environment/" + env+ ".properties";
+            String env = Util.getEnvironment();
+            String environmentData = "properties/environment/" + env + ".properties";
 
             propertiesInput = new FileInputStream(environmentData);
             testDataProperties.load(propertiesInput);
@@ -69,7 +65,7 @@ public class TestDataReader {
             FileInputStream propertiesInput = new FileInputStream(testData);
             testDataProperties.load(propertiesInput);
 
-            String env = System.getProperty("environment", "ci");
+            String env = Util.getEnvironment();
             String environmentData = "properties/environment/" + env+ ".properties";
 
             propertiesInput = new FileInputStream(environmentData);
@@ -186,4 +182,3 @@ public class TestDataReader {
         return Boolean.parseBoolean(getData(key));
     }
 }
-

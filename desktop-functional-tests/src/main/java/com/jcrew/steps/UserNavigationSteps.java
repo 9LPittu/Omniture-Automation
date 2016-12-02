@@ -103,7 +103,10 @@ public class UserNavigationSteps extends DriverFactory {
         ProductDetails productDetails = new ProductDetails(driver);
         productDetails.selectRandomColor();
         productDetails.selectRandomSize();
-        productDetails.selectRandomQty();
+        
+        //Commenting the below step as higher quantities are getting selected and causing problem during checkout 
+        //productDetails.selectRandomQty();
+        
         productDetails.addToBag();
 
         HeaderWrap header = new HeaderWrap(driver);
@@ -185,6 +188,8 @@ public class UserNavigationSteps extends DriverFactory {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("back.order.item"));
         
+        select_item_from_search_results();
+        
         ProductDetails pdp = new ProductDetails(getDriver());
         pdp.selectColor(testDataReader.getData("back.order.color"));
         pdp.selectSize(testDataReader.getData("back.order.size"));
@@ -196,6 +201,8 @@ public class UserNavigationSteps extends DriverFactory {
     public void navigate_only_few_left() {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("few.left.item"));
+        
+        select_item_from_search_results();
         
         ProductDetails pdp = new ProductDetails(getDriver());
         pdp.selectColor(testDataReader.getData("few.left.color"));
@@ -209,10 +216,20 @@ public class UserNavigationSteps extends DriverFactory {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("regular.item"));
         
+        select_item_from_search_results();
+        
         ProductDetails pdp = new ProductDetails(getDriver());
         pdp.selectColor(testDataReader.getData("regular.item.color"));
         pdp.selectSize(testDataReader.getData("regular.item.size"));
         
         header.stateHolder.put("regularItem", testDataReader.getData("regular.item"));
+    }
+    
+    public void select_item_from_search_results(){
+    	String currentUrl = driver.getCurrentUrl();
+		if(currentUrl.contains("/r/search")){
+			ArraySearch arraySearch = new ArraySearch(driver);
+			arraySearch.click_first_product_in_grid();
+		}
     }
 }

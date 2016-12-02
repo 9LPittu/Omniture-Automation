@@ -414,9 +414,23 @@ public class ProductDetails extends PageObject {
             expectedSizeMessage = testDataReader.getData("pdp.size.message");
             logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 
-            //wait.until(ExpectedConditions.visibilityOf(reviewSummary));
             wait.until(ExpectedConditions.visibilityOf(sizeMessage));
-            actualSizeMessage = sizeMessage.getText().trim();
+            
+            actualSizeMessage = wait.until(new Function<WebDriver, String>(){
+				@Override
+				public String apply(WebDriver driver) {
+					String sizeMessageText = null;					
+					try{
+						sizeMessageText = sizeMessage.getText().trim();
+						return sizeMessageText;
+					}
+					catch(StaleElementReferenceException sere){
+						logger.debug("StaleElementReferenceException is thrown...");
+						return null;
+					}					
+				}            	
+            });
+            
             logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
         } else {
             logger.info("Size message on PDP will not be displayed for '" + countryCode + "' country");

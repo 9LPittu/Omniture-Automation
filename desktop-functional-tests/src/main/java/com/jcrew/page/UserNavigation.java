@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Predicate;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.WebDriver;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
  */
 public class UserNavigation {
     private final WebDriver driver;
-    private final PropertyReader reader = PropertyReader.getPropertyReader();
     private final Logger logger = LoggerFactory.getLogger(UserNavigation.class);
 
     public UserNavigation(WebDriver driver) {
@@ -24,7 +24,20 @@ public class UserNavigation {
     }
 
     public boolean isCurrentUrl(String page) {
-
+    	
+    	Util.createWebDriverWait(driver).until(new Predicate<WebDriver>(){
+			@Override
+			public boolean apply(WebDriver driver) {
+				ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+				if(tabs.size()>=2){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}    		
+    	});
+    	
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         logger.info("no.of windowhandles; {}", tabs.size());
 
