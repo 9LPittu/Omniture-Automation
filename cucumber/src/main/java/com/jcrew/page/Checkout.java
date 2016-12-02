@@ -147,25 +147,30 @@ public abstract class Checkout extends PageObject{
     }
 
     protected String getQuantity(WebElement productElement) {
-        WebElement quantityParentElement = productElement.findElement(By.className("item-quantity"));
-        WebElement formAncestor = quantityParentElement.findElement(
-                By.xpath(".//ancestor::section[contains(@class,'checkout-container')]//parent::form"));
-
-        String ancestorId = formAncestor.getAttribute("id");
+        int cntr = 0;
         String quantity = "";
+        do {
+            WebElement quantityParentElement = productElement.findElement(By.className("item-quantity"));
+            WebElement formAncestor = quantityParentElement.findElement(
+                    By.xpath(".//ancestor::section[contains(@class,'checkout-container')]//parent::form"));
+            String ancestorId = formAncestor.getAttribute("id");
 
-        if ("frm_shopping_cart_continue".equals(ancestorId)) {
-            WebElement quantityElement = productElement.findElement(By.className("item-qty"));
-            wait.until(ExpectedConditions.visibilityOf(quantityElement));
-            Select quantitySelect = new Select(quantityElement);
-            quantity = quantitySelect.getFirstSelectedOption().getText();
-        } else if ("frmOrderReview".equals(ancestorId)
-                || "userMergeCart".equals(ancestorId)) {
-            WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));
-            wait.until(ExpectedConditions.visibilityOf(quantityElement));
-            quantity = quantityElement.getText().trim();
-        }
+            if ("frm_shopping_cart_continue".equals(ancestorId)) {
+                WebElement quantityElement = productElement.findElement(By.className("item-qty"));
+                wait.until(ExpectedConditions.visibilityOf(quantityElement));
+                Select quantitySelect = new Select(quantityElement);
+                quantity = quantitySelect.getFirstSelectedOption().getText();
+            } else if ("frmOrderReview".equals(ancestorId)
+                    || "userMergeCart".equals(ancestorId)) {
+                WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));
+                wait.until(ExpectedConditions.visibilityOf(quantityElement));
+                quantity = quantityElement.getText().trim();
+            }
+            cntr ++;
+            if (quantity.isEmpty())
+                Util.wait(5000);
 
+        } while (cntr <=5 && quantity.isEmpty() );
         return quantity;
     }
 
