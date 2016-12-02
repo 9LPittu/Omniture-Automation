@@ -55,7 +55,7 @@ public class ProductDetailPage {
     @FindBy(id = "c-product__quantity")
     private WebElement productQuantitySection;
 
-    @FindBy(className = "primary-nav__item--bag")
+    @FindBy(xpath = ".//li[contains(@class,'primary-nav__item--bag')]")
     private WebElement bagContainer;
 
     @FindBy(id = "global__footer")
@@ -307,13 +307,16 @@ public class ProductDetailPage {
     }
 
     public int getNumberOfItemsInBag() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(bagContainer));
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
-
-        Util.waitWithStaleRetry(driver, bagSize);
-
         String bagSizeStr = bagSize.getAttribute("innerHTML");
         String stringSize = bagSizeStr.replace("(", "").replace(")", "").trim();
-        return Integer.parseInt(stringSize);
+
+        if (stringSize.isEmpty()) {
+            return 0;
+        } else {
+            return Integer.parseInt(stringSize);
+        }
     }
 
     public boolean showsMinicartMessage(String message) {
