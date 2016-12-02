@@ -185,7 +185,7 @@ public class UserNavigationSteps extends DriverFactory {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("back.order.item"));
         
-        selectItemFromSearchResults();
+        select_item_from_search_results();
         
         ProductDetails pdp = new ProductDetails(getDriver());
         pdp.selectColor(testDataReader.getData("back.order.color"));
@@ -199,7 +199,7 @@ public class UserNavigationSteps extends DriverFactory {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("few.left.item"));
         
-        selectItemFromSearchResults();
+        select_item_from_search_results();
         
         ProductDetails pdp = new ProductDetails(getDriver());
         pdp.selectColor(testDataReader.getData("few.left.color"));
@@ -213,7 +213,7 @@ public class UserNavigationSteps extends DriverFactory {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("regular.item"));
         
-        selectItemFromSearchResults();
+        select_item_from_search_results();
         
         ProductDetails pdp = new ProductDetails(getDriver());
         pdp.selectColor(testDataReader.getData("regular.item.color"));
@@ -222,7 +222,7 @@ public class UserNavigationSteps extends DriverFactory {
         header.stateHolder.put("regularItem", testDataReader.getData("regular.item"));
     }
     
-    public void selectItemFromSearchResults(){
+    public void select_item_from_search_results(){
     	String currentUrl = driver.getCurrentUrl();
 		if(currentUrl.contains("/r/search")){
 			ArraySearch arraySearch = new ArraySearch(driver);
