@@ -8,11 +8,8 @@ Feature: Array page functionality
   Scenario: Category Array  - Display and Refinement
     When User hovers on women category from header
     And User selects sweaters subcategory array
-    Then Verify user is in sweaters category array page
-    
-    #commenting the below step as items count is currently not displayed in category array page
-    #And Verify category contains items count
-    
+    Then Verify user is in sweaters category array page  
+    And Verify category contains items count
     And Verify refine dropdown displayed in array page
     And Verify refine dropdown text is All sweaters
 
