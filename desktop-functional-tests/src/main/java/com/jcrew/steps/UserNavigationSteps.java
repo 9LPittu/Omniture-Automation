@@ -103,7 +103,10 @@ public class UserNavigationSteps extends DriverFactory {
         ProductDetails productDetails = new ProductDetails(driver);
         productDetails.selectRandomColor();
         productDetails.selectRandomSize();
-        productDetails.selectRandomQty();
+        
+        //Commenting the below step as higher quantities are getting selected and causing problem during checkout 
+        //productDetails.selectRandomQty();
+        
         productDetails.addToBag();
 
         HeaderWrap header = new HeaderWrap(driver);
