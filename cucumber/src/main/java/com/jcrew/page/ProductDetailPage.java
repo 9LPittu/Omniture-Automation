@@ -911,6 +911,7 @@ public class ProductDetailPage {
 	        if (!countryCode.equalsIgnoreCase("us")) {
 	            expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
 	            logger.info("Expected PDP Message: {}", expectedPDPMessage);
+                Util.waitWithStaleRetry(driver,addToBag);
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpMessage)));
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
