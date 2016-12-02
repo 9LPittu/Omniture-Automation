@@ -185,6 +185,8 @@ public class UserNavigationSteps extends DriverFactory {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("back.order.item"));
         
+        selectItemFromSearchResults();
+        
         ProductDetails pdp = new ProductDetails(getDriver());
         pdp.selectColor(testDataReader.getData("back.order.color"));
         pdp.selectSize(testDataReader.getData("back.order.size"));
@@ -196,6 +198,8 @@ public class UserNavigationSteps extends DriverFactory {
     public void navigate_only_few_left() {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("few.left.item"));
+        
+        selectItemFromSearchResults();
         
         ProductDetails pdp = new ProductDetails(getDriver());
         pdp.selectColor(testDataReader.getData("few.left.color"));
@@ -209,10 +213,20 @@ public class UserNavigationSteps extends DriverFactory {
         HeaderWrap header = new HeaderWrap(getDriver());
         header.searchFor(testDataReader.getData("regular.item"));
         
+        selectItemFromSearchResults();
+        
         ProductDetails pdp = new ProductDetails(getDriver());
         pdp.selectColor(testDataReader.getData("regular.item.color"));
         pdp.selectSize(testDataReader.getData("regular.item.size"));
         
         header.stateHolder.put("regularItem", testDataReader.getData("regular.item"));
+    }
+    
+    public void selectItemFromSearchResults(){
+    	String currentUrl = driver.getCurrentUrl();
+		if(currentUrl.contains("/r/search")){
+			ArraySearch arraySearch = new ArraySearch(driver);
+			arraySearch.click_first_product_in_grid();
+		}
     }
 }

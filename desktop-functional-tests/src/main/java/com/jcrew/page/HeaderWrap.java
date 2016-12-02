@@ -19,11 +19,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.jcrew.page.ArrayCategory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -139,12 +137,6 @@ public class HeaderWrap {
 		}
 
 		searchForSpecificTerm(searchItem);
-		
-		String currentUrl = driver.getCurrentUrl();
-		if(currentUrl.contains("/r/search")){
-			ArraySearch arraySearch = new ArraySearch(driver);
-			arraySearch.click_first_product_in_grid();
-		}
 	}
 
 	public void searchForSpecificTerm(String searchTerm) {
