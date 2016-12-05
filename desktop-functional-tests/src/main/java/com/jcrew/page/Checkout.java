@@ -148,9 +148,23 @@ public abstract class Checkout extends PageObject{
         String quantity = "";
 
         if ("frm_shopping_cart_continue".equals(ancestorId)) {
-            WebElement quantityElement = productElement.findElement(By.className("item-qty"));
-            Select quantitySelect = new Select(quantityElement);
-            quantity = quantitySelect.getFirstSelectedOption().getText();
+        	
+        	int cntr = 0;
+        	do{
+        		try{
+        			WebElement quantityElement = productElement.findElement(By.className("item-qty"));
+                    Select quantitySelect = new Select(quantityElement);
+                    quantity = quantitySelect.getFirstSelectedOption().getText();
+        		}
+        		catch(NoSuchElementException nsee){
+        			cntr++;
+        			driver.navigate().refresh();
+        		}
+        		
+        		if(!quantity.isEmpty()){
+        			break;
+        		}
+        	}while(cntr<=2);            
         } else if ("frmOrderReview".equals(ancestorId)
                 || "userMergeCart".equals(ancestorId)) {
             WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));
