@@ -112,22 +112,28 @@ public class SaleLanding {
     
     public boolean isMonetateImageDisplayed(){
     	
-    	List<WebElement> monetateImage = Util.createWebDriverWait(driver, 5).until(new Function<WebDriver, List<WebElement>>(){
-    		@Override
-    		public List<WebElement> apply(WebDriver driver){
-    			List<WebElement> images = promoFrame.findElements(By.xpath("descendant::img"));
-    			if(images.size()==0){
-    				logger.debug("Monetate image is not displayed...");
-    				return null;
-    			}
-				return images;
-    		}		
-    	});
-    			
-    	if(monetateImage.size()==1){
-    		isFirstPromoDisplayed = false;
-    		return true;
-    	}else{
+    	List<WebElement> monetateImage = null;
+    	try{
+	    	monetateImage = Util.createWebDriverWait(driver, 5).until(new Function<WebDriver, List<WebElement>>(){
+	    		@Override
+	    		public List<WebElement> apply(WebDriver driver){
+	    			List<WebElement> images = promoFrame.findElements(By.xpath("descendant::img"));
+	    			if(images.size()==0){
+	    				logger.debug("Monetate image is not displayed...");
+	    				return null;
+	    			}
+					return images;
+	    		}	
+	    	});
+	    	
+	    	if(monetateImage.size()==1){
+	    		isFirstPromoDisplayed = false;
+	    		return true;
+	    	}else{
+	    		return false;
+	    	}
+    	}
+    	catch(TimeoutException toe){
     		return false;
     	}
     }

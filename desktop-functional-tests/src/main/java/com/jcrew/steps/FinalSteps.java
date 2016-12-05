@@ -2,7 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.pojo.User;
 import com.jcrew.pojo.Product;
-import com.jcrew.pojo.User;
 
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
@@ -13,8 +12,6 @@ import com.jcrew.utils.ScreenshotGenerator;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.AfterStep;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
@@ -96,11 +93,11 @@ public class FinalSteps {
         if (stateHolder.hasKey("toBag")) {
             List<Product> inBag = stateHolder.getList("toBag");
             for (Product c : inBag) {
-                products += c.getProductName() + "\t" +
-                        c.getItemNumber() + "\t" +
-                        c.getSelectedColor() + "\t" +
-                        c.getSelectedSize() + "\t" +
-                        c.getPriceList() + "\n";
+                products += c.getName() + "\t" +
+                        	c.getItemNumber() + "\t" +
+                            c.getColor() + "\t" +
+                            c.getSize() + "\t" +
+                            c.getPrice() + "\n";
             }
 
             if (!products.isEmpty()) {

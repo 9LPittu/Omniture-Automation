@@ -90,7 +90,7 @@ public class MergeBagPageSteps extends DriverFactory {
     	String expectedDate = (String) mergeBagPage.stateHolder.get("giftCardDateSent");
     			
     	SimpleDateFormat dateFormat1 = new SimpleDateFormat("MM/dd/yyyy");		
-    	SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMM dd, yyyy");
+    	SimpleDateFormat dateFormat2 = new SimpleDateFormat("MMM d, yyyy");
 
     	Date date = null;
     	try {
