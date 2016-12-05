@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.TestDataReader;
@@ -8,6 +9,7 @@ import com.jcrew.utils.Util;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -412,9 +414,23 @@ public class ProductDetails extends PageObject {
             expectedSizeMessage = testDataReader.getData("pdp.size.message");
             logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 
-            //wait.until(ExpectedConditions.visibilityOf(reviewSummary));
             wait.until(ExpectedConditions.visibilityOf(sizeMessage));
-            actualSizeMessage = sizeMessage.getText().trim();
+            
+            actualSizeMessage = wait.until(new Function<WebDriver, String>(){
+				@Override
+				public String apply(WebDriver driver) {
+					String sizeMessageText = null;					
+					try{
+						sizeMessageText = sizeMessage.getText().trim();
+						return sizeMessageText;
+					}
+					catch(StaleElementReferenceException sere){
+						logger.debug("StaleElementReferenceException is thrown...");
+						return null;
+					}					
+				}            	
+            });
+            
             logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
         } else {
             logger.info("Size message on PDP will not be displayed for '" + countryCode + "' country");
@@ -438,7 +454,22 @@ public class ProductDetails extends PageObject {
             logger.info("Expected PDP Message: {}", expectedPDPMessage);
 
             Util.waitWithStaleRetry(driver, pdpMessage);
-            actualPDPMessage = pdpMessage.getText().trim();
+            
+            actualPDPMessage = wait.until(new Function<WebDriver, String>(){
+				@Override
+				public String apply(WebDriver driver) {
+					String pdpMessageText = null;					
+					try{
+						pdpMessageText = pdpMessage.getText().trim();
+						return pdpMessageText;
+					}
+					catch(StaleElementReferenceException sere){
+						logger.debug("StaleElementReferenceException is thrown...");
+						return null;
+					}					
+				}            	
+            });
+            
             logger.info("Actual PDP Message: {}", expectedPDPMessage);
         } else {
             logger.info("PDP message will not be displayed for '" + countryCode + "' country");

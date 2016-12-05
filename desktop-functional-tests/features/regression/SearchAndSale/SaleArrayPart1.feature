@@ -33,7 +33,7 @@ Feature: Sale Array - Pagination
   	When User selects random page number from header pagination dropdown
   	And Verify content changes when page number is changed
   	
-  Scenario: Verify footer paginationon on Array page
+  Scenario: Verify footer pagination on Array page
   	And Verify footer pagination is displayed on array page
   	And Verify page 1 is selected in footer pagination
   	And Verify Previous pagination arrow is displayed on footer pagination
@@ -49,8 +49,3 @@ Feature: Sale Array - Pagination
   	
   	When User selects random page number from footer pagination dropdown
   	And Verify content changes when page number is changed
-  	
-
-
-	
-	

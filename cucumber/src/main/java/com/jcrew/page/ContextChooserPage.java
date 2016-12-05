@@ -12,6 +12,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
@@ -128,16 +129,24 @@ public class ContextChooserPage {
     	
     	PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String browser = propertyReader.getProperty("browser");
-        if(browser.equalsIgnoreCase("firefox")){
-        	//Adding this piece of code as terms of use link click is not working in firefox
+        if(browser.equalsIgnoreCase("firefox")||browser.equalsIgnoreCase("chrome")){
+        	//Adding this piece of code as terms of use link click is not working in firefox & chrome
         	driver.navigate().refresh();
         	Util.waitLoadingBar(driver);
         }
     	
     	WebElement link = Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(
     					  driver.findElement(By.xpath(
-    				      "//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"))));    	
-    	link.click();
+    				      "//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"))));
+    	
+    	try{
+    		link.click();
+    	}
+    	catch(WebDriverException wde){
+    		Util.scrollAndClick(driver, link);
+    	}
+    	
+    	Util.waitLoadingBar(driver);
     }
     
     public void clickButtonFromFAQSectionOnContextChooserPage(String buttonName){
@@ -310,5 +319,18 @@ public class ContextChooserPage {
 		stateHolder.put("context", country);
 		
 		selectCountryOnContextChooserPage(selectedCountry);
+    }
+    
+public void selectPassedInternationalCountry(String selectedCountry){
+	TestDataReader testData = TestDataReader.getTestDataReader();
+	PropertyReader propertyReader = PropertyReader.getPropertyReader();
+	String url = propertyReader.getProperty("url");
+	//Update Reader and create context
+			testData.updateReader(selectedCountry);
+			Country country = new Country(url, selectedCountry);
+			stateHolder.put("context", country);
+			selectCountryOnContextChooserPage(selectedCountry);		
+			logger.info("Selected country: {}", country.getCountryName());
+		
     }
 }

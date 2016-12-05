@@ -32,7 +32,7 @@ Feature: International Country Context - Part 2C
       | country_group |
       | PRICEBOOK     |
       | NON-PRICEBOOK |
-      
+
 Scenario Outline: Context is displayed on search page
 	Given User goes to homepage
 	And User closes email capture

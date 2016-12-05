@@ -11,7 +11,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
-import java.util.Collections;
 
 /**
  * Created by nadiapaolagarcia on 4/7/16.
@@ -62,10 +61,7 @@ public class SaleLandingPageSteps extends DriverFactory{
     
     @Then("Verify promo details pop up is ([^\"]*)$")
     public void verify_promo_details_popup(String expectedState) {
-    	expectedState = expectedState.toLowerCase().trim();
-    	String actualState = sale.getPromoPopUpState();
-
-    	assertEquals("Promo details pop up should be ",expectedState,actualState);
+    	assertTrue("Promo details pop up should be " + expectedState, sale.verifyPromoPopUpStatus(expectedState));
     }
     
     @Then("User clicks on close icon on promo detail pop up$")

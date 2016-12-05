@@ -25,11 +25,14 @@ public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
     public static final int DEFAULT_TIMEOUT = 60;
-    private static final StateHolder stateHolder = StateHolder.getInstance();
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
     
     public static final String UP = "up";
     public static final String DOWN = "down";
+    
+    public static String getEnvironment(){
+    	return System.getProperty("environment", "ci");
+    }
 
     public static int randomIndex(int size) {
         return (int) Math.floor(Math.random() * size);
@@ -183,7 +186,31 @@ public class Util {
 
         return errorMessage;
     }
-    
+
+    public static String getStringConsoleVariable(WebDriver driver, String variable) {
+        JavascriptExecutor je = (JavascriptExecutor) driver;
+        String value = (String) je.executeScript("return " + variable);
+
+        logger.info("{}: {}", variable, value);
+
+        return value;
+    }
+
+    public static boolean getBooleanConsoleVariable(WebDriver driver, String variable) {
+        JavascriptExecutor je = (JavascriptExecutor) driver;
+        boolean value = false;
+        try {
+            value = (boolean) je.executeScript("return " + variable);
+
+            logger.info("{}: {}", variable, value);
+
+        } catch (WebDriverException wde) {
+            logger.info("Unable to get boolean variable {}; assuming false", variable);
+        }
+
+        return value;
+    }
+
     public static void wait(int waitTime) {
         Boolean iterate = true;
         Calendar calendar =Calendar.getInstance();

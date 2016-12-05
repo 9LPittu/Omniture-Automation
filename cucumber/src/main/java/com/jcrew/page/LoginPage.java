@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.github.javafaker.Faker;
+import com.google.common.base.Predicate;
 import com.jcrew.pojo.User;
 import com.jcrew.util.PropertyReader;
 import com.jcrew.util.StateHolder;
@@ -30,6 +31,8 @@ public class LoginPage {
     public final String NO_DEFAULT = User.NO_DEFAULT;
     public final String MULTIPLE = User.MULTIPLE;
     public final String NO_DEFAULT_MULTIPLE = User.NO_DEFAULT_MULTIPLE;
+    public final String FPO = User.FPO;
+    public final String APO = User.APO;
 
     @FindBy(id = "loginUser")
     private WebElement emailInputCheckout;
@@ -51,8 +54,10 @@ public class LoginPage {
     private WebElement myaccountRef;
     @FindBy(css = "#c-nav__userpanel > a")
     private WebElement myAccountLink;
+    
     @FindBy(className = "signin-form")
     private WebElement signInForm;
+    
     @FindBy(className = "c-signin-unregistered")
     private WebElement registerSection;
 
@@ -88,7 +93,21 @@ public class LoginPage {
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+        Footer footer = new Footer(driver);
+        
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("registered-email")));
+        
+        if(driver.getCurrentUrl().contains("/r/login")){
+	        Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
+	            @Override
+	            public boolean apply(WebDriver driver) {
+	                WebElement signinbutton = signInForm.findElement(By.className("js-button-submit"));
+	                String enabled = signinbutton.getAttribute("disabled");
+	
+	                return enabled == null;
+	            }
+	        });
+        }
     }
 
     public void input_as_email(String email) {
@@ -99,6 +118,7 @@ public class LoginPage {
         int cntr = 0;
         do{
         	emailInput.clear();
+        	emailInput.click();
         	emailInput.sendKeys(email);
         	
         	if(emailInput.getAttribute("value").equalsIgnoreCase(email)){
@@ -115,6 +135,7 @@ public class LoginPage {
         int cntr = 0;
         do{
         	passwordInput.clear();
+        	passwordInput.click();
         	passwordInput.sendKeys(password);
         	
         	if(passwordInput.getAttribute("value").equalsIgnoreCase(password)){

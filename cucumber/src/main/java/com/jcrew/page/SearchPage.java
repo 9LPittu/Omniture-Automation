@@ -220,7 +220,7 @@ public class SearchPage {
     public void click_refinement(String refinement) {
         final WebElement filterRefinementElement = getRefinementElement(refinement);
         Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(filterRefinementElement));
-        filterRefinementElement.click();
+        Util.scrollAndClick(driver, filterRefinementElement);
 
         WebElement lessIcon = filterRefinementElement.findElement(By.xpath("..//i[@class='js-icon icon-see-less']"));
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(lessIcon));

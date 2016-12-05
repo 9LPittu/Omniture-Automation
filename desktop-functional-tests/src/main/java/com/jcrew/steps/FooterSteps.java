@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 import com.jcrew.page.Footer;
 import com.jcrew.utils.DriverFactory;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -39,13 +40,36 @@ public class FooterSteps extends DriverFactory {
         assertTrue("User should see selected country name in the footer",footer.isCorrectCountryNameDisplayedInFooter());
     }
     
-    @Then("^Verify ([^\"]*) link is displayed under ([^\"]*) accordion in footer$")
-    public void verify_link_in_footer(String linkText, String accordionName) {
-        assertTrue(linkText + " link is displayed in the accordion in footer", footer.isLinkDisplayedInAccordion(linkText, accordionName));
+    @Then("^Verify ([^\"]*) link is displayed under ([^\"]*) in footer$")
+    public void verify_link_in_footer(String footerLink, String footerHeaderName) {
+        assertTrue(footerLink + " link is displayed under "+footerHeaderName+"section in footer", footer.isLinkDisplayedInAccordion(footerLink, footerHeaderName));
     }
     
-    @When("^User clicks on ([^\"]*) link under ([^\"]*) accordion in footer$")
+    @When("^User clicks on ([^\"]*) footer link under ([^\"]*)$")
     public void click_link_in_footer(String footerLink, String accordionName){
     	footer.clickFooterLinkFromDrawer(footerLink, accordionName);
+    }
+    @When("^User enters ([^\"]*) email id in SignUp email form$")
+    public void enter_emailID(String email){
+        footer.enterEmailInSignUp(email);
+    }
+    @And("^Click on SignUp$")
+    public void click_SignUp(){
+        footer.clickSignUp();
+    }
+
+    @When("^User clicks on ([^\"]*) social link$")
+    public void user_clicks_on_social(String linkText){
+        footer.clickFooterSocialLinks(linkText);
+    }
+    @When("^User click on ([^\"]*) link from footer copyright section$")
+    public void user_clicks_on_links_from_copyright_section(String linkText){
+        footer.clickFooterCopyRightLinks(linkText);
+    }
+
+    @And("^Verify user is navigated to url ([^\"]*) on same page$")
+    public void user_navigated_to(String pageURL){
+        String current_url = getDriver().getCurrentUrl();
+       assertTrue("Current page url contains" + pageURL+" and current url is "+current_url, current_url.contains(pageURL));
     }
 }
