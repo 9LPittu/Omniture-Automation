@@ -9,6 +9,7 @@ import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -179,11 +180,15 @@ public abstract class Checkout extends PageObject{
         			cntr++;
         			driver.navigate().refresh();
         		}
+        		catch(TimeoutException toe){
+        			cntr++;
+        			driver.navigate().refresh();
+        		}
         		
         		if(!quantity.isEmpty()){
         			break;
         		}
-        	}while(cntr<=2);
+        	}while (cntr<=5);
         } else if ("frmOrderReview".equals(ancestorId)
                 || "userMergeCart".equals(ancestorId)) {
             WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));
