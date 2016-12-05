@@ -25,8 +25,7 @@ Feature:  View should be displayed for Regular Item and Backordered in APO Addre
     
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
-    
-    When User signs in with Apo user and checks out
+    And User signs in with po box user and checks out
     Then Verify Shipping Address page is displayed
 
     And Presses continue button on shipping address
