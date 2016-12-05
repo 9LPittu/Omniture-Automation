@@ -164,7 +164,7 @@ public abstract class Checkout extends PageObject{
         		if(!quantity.isEmpty()){
         			break;
         		}
-        	}while(cntr<=2);            
+        	}while(cntr<=2);
         } else if ("frmOrderReview".equals(ancestorId)
                 || "userMergeCart".equals(ancestorId)) {
             WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));

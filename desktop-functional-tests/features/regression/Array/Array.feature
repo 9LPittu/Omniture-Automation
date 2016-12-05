@@ -10,7 +10,7 @@ Feature: Array page functionality
     And User selects sweaters subcategory array
     Then Verify user is in sweaters category array page
     
-    #Commenting the below step as items count is currently not displayed incategory array page  
+    #Commenting the below step as items count is currently not displayed in category array page  
     #And Verify category contains items count
     
     And Verify refine dropdown displayed in array page
@@ -19,12 +19,11 @@ Feature: Array page functionality
     When User expands refine dropdown
     And Verify refine dropdown is open
     And Verify refine options matches available lists
-
-    When User selects a random refinement option
-    Then Verify refine dropdown is closed
-    And Verify refinement option was selected
-    
-    #Commenting the below step as items count is currently not displayed incategory array page
+	
+	#Commenting the below steps as items count is currently not displayed in category array page
+    #When User selects a random refinement option    
+    #Then Verify refine dropdown is closed
+    #And Verify refinement option was selected   
     #And Verify category contains items count
 
 
