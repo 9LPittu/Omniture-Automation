@@ -302,7 +302,7 @@ public class ProductDetailPage {
         productList.add(thisProduct);
         stateHolder.put("toBag", productList);
         
-        addToBag.click();
+        Util.scrollAndClick(driver,addToBag);
         Util.waitLoadingBar(driver);
     }
 
