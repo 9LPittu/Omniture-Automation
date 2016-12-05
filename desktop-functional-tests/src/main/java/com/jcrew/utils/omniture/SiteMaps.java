@@ -150,12 +150,11 @@ public class SiteMaps {
 
                     if (actualValue == null || actualValue.isEmpty()) {
                         logger.error("{} contains an empty {}", url, variable);
-                        resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a> " +
-                                "has an empty " + variable);
+                        resultMessages.add(url + "has an empty " + variable);
                     } else if (!"any".equals(expectedValue) && !actualValue.contains(expectedValue)) {
                         logger.error("{} contains an unexpected value in {} its values is {}", url, variable, actualValue);
-                        resultMessages.add("<a href=\"" + url + "\" target=\"_blank\">" + url + "</a> reported value "
-                                + actualValue + " and does not contain " + expectedValue);
+                        resultMessages.add(url + " reported value <" + actualValue +
+                                "> and does not contain <" + expectedValue + ">");
                     }
                 }
             }
