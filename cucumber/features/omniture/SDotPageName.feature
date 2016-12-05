@@ -1,8 +1,8 @@
-@Omniture1 @HighLevel
+@s.pageName
 
-Feature: Verify Omniture variables
+Feature: Verify s.PageName
 
-  Scenario: Verify Omniture variable values on Home, Category pages and PDP
+  Scenario: Verify s.PageName value on Home, Category pages and PDP
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
     Then Verify omniture variables have values
@@ -17,7 +17,7 @@ Feature: Verify Omniture variables
     Then User is in product detail page
     And Verify omniture variables have values
 
-  Scenario: Verify Omniture variable values on Sale and Search pages
+  Scenario: Verify s.PageName value on Sale and Search pages
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
 
@@ -36,7 +36,7 @@ Feature: Verify Omniture variables
     Then User is in search results page
     And Verify omniture variables have values
 
-  Scenario: Verify Omniture variable values on Landing pages
+  Scenario: Verify s.PageName value on Landing pages
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
 
@@ -53,7 +53,7 @@ Feature: Verify Omniture variables
     And user selects This Month's Features subcategory
     Then Verify omniture variables have values
 
-  Scenario: Verify Omniture variable values on Shoppable Tray
+  Scenario: Verify s.PageName value on Shoppable Tray
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
 
@@ -64,7 +64,7 @@ Feature: Verify Omniture variables
       | Boys  | THIS MONTH'S FEATURES | Looks We Love  |
     Then Verify omniture variables have values
 
-  Scenario Outline: Verify Omniture variable values on Category page and PDP with direct navigation
+  Scenario Outline: Verify s.PageName value on Category page and PDP with direct navigation
     Given User navigates to <page name> with clean session
     And Handle the Email Capture pop up
     And Verify omniture variables have values
