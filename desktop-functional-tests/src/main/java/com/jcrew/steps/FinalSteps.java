@@ -4,6 +4,7 @@ import com.jcrew.pojo.User;
 import com.jcrew.pojo.Product;
 
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.ExcelUtils;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
@@ -18,7 +19,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -83,6 +87,13 @@ public class FinalSteps {
         UsersHub userHub = UsersHub.getInstance();
         userHub.releaseUserCredentials();
         
+        //capture E2E order details
+        String orderTestData = "";
+        orderTestData = captureE2EDetails();        
+        if(!orderTestData.isEmpty()){
+        	scenario.embed(orderTestData.getBytes(), "text/plain");
+        }
+        
         holder.clear();
     }
     
@@ -111,5 +122,54 @@ public class FinalSteps {
             userDetails = "User Name\t\t\tFirst Name\tLast Name\n" + userDetails + "\n";
         }
         return products + userDetails;
+    }
+    
+    private String captureE2EDetails(){
+    	
+    	String orderTestData = "";
+    	
+    	if(holder.hasKey("testdataRowMap")){
+        	ExcelUtils testdataReader = holder.get("excelObject");
+        	int rowNumber = holder.get("excelrowno");
+        	try {
+				testdataReader.setCellValueInExcel(rowNumber, "Execution Completed", "Yes");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        	
+        	String orderNumber = "";        	
+        	if(holder.hasKey("orderNumber")){
+        		orderNumber = holder.get("orderNumber");
+        	}
+        	
+        	try {
+				testdataReader.setCellValueInExcel(rowNumber, "Order Number", orderNumber);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        	
+        	try {
+				testdataReader.writeAndSaveExcel();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        	
+        	orderTestData +=  "Order Number = " + orderNumber + "\n";
+        	
+        	Map<String, Object> testdataRowMap = holder.get("testdataRowMap");
+        	testdataRowMap.remove("Order Number");
+        	testdataRowMap.remove("Execute");
+        	testdataRowMap.remove("Execution Completed");
+        	
+        	Iterator<Map.Entry<String, Object>> entries = testdataRowMap.entrySet().iterator();
+        	while (entries.hasNext()) {
+        	    Map.Entry<String, Object> entry = (Entry<String, Object>) entries.next();
+        	    String key = (String) entry.getKey();
+        	    String value = (String) entry.getValue();
+        	    orderTestData += key + " = " + value + "\n";
+        	}       	
+        }
+    	
+    	return orderTestData;
     }
 }
