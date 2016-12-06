@@ -17,9 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
@@ -303,6 +301,30 @@ public class Util {
         }
 
         return text;
+    }
+
+    public static Map<String, String> getPageVariablesValue(WebDriver driver, Set<String> variables) throws InterruptedException {
+        Map<String, String> variable_value = new HashMap<>();
+
+        Iterator<String> variablesIterator = variables.iterator();
+        String firstVariable = variablesIterator.next();
+
+        variable_value.put(firstVariable, getPageVariableValue(driver, firstVariable));
+
+        while (variablesIterator.hasNext()) {
+            String variable = variablesIterator.next();
+            String value;
+            try {
+                value = (String) ((JavascriptExecutor) driver).executeScript("return " + variable);
+            } catch (WebDriverException wde) {
+                value = "";
+                logger.error("Not able to get variable {}", variable, wde);
+            }
+            variable_value.put(variable, value);
+        }
+
+        return variable_value;
+
     }
 
 }

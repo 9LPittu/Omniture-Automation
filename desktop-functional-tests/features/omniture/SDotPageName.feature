@@ -41,7 +41,7 @@ Feature: Verify Omniture variables
     When User clicks on random link from top nav
     And Verify omniture variables have values
 
-  Scenario: Verify s.pageName value on Feature pages and shpppable tray
+  Scenario: Verify s.pageName value on Feature pages and shoppable tray
     Given User is on homepage with clean session
     And User closes email capture
 	
