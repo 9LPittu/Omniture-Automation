@@ -315,6 +315,7 @@ public class ProductDetailPage {
                 if (itemCount > itemsInBag) {
                     retry = false;
                 } else {
+                    attempts ++;
                     Util.wait(5000);
                 }
             }
