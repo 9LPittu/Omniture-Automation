@@ -301,9 +301,26 @@ public class ProductDetailPage {
 
         productList.add(thisProduct);
         stateHolder.put("toBag", productList);
-        
-        Util.scrollAndClick(driver,addToBag);
-        Util.waitLoadingBar(driver);
+
+        int itemsInBag = (int)stateHolder.get("itemsInCart_BeforeAddToBag");
+        boolean retry = true;
+        int attempts = 0;
+        do {
+            int itemCount = getNumberOfItemsInBag();
+            if (itemCount <= itemsInBag) {
+                Util.scrollAndClick(driver,addToBag);
+
+                itemCount = getNumberOfItemsInBag();
+                if (itemCount > itemsInBag) {
+                    retry = false;
+                } else {
+                    Util.wait(5000);
+                }
+            }
+        } while (retry && attempts <=3);
+
+        if (retry)
+            throw new WebDriverException("Unable to add itenm to cart") ;
     }
 
     public int getNumberOfItemsInBag() {
