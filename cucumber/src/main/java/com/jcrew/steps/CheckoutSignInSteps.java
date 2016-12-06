@@ -71,6 +71,25 @@ public class CheckoutSignInSteps extends DriverFactory {
     		signIn.signInAndCheckout(signIn.APO);
     	}
     }
+    
+    @When("User signs in with po box user and checks out")
+    public void sign_in_po_box_and_check_out() {
+    	User user = (User) signIn.stateHolder.get("userObject");
+
+    	boolean result = signIn.enterLoginCredentials(user.getEmail(), user.getPassword());
+    	if(!result){
+    		signIn.signInAndCheckout(signIn.POBOX);
+    	}
+    }
+    @When("User signs in with hawaii user and checks out")
+    public void sign_in_hawaii_and_check_out() {
+    	User user = (User) signIn.stateHolder.get("userObject");
+
+    	boolean result = signIn.enterLoginCredentials(user.getEmail(), user.getPassword());
+    	if(!result){
+    		signIn.signInAndCheckout(signIn.HAWAII);
+    	}
+    }
     @Then("Verify that title is Sign In")
     public void verify_title() {
         String title = signIn.getTitle();

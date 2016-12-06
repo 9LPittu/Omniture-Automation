@@ -1,12 +1,12 @@
-@ATPRestricted2
-Feature:  View should be displayed for Regular Item and Backordered in PO BOX Address
+@ATPRestricted3
+Feature:  View should be displayed for Regular Item and Backordered in APO Address
 
   Background: Clean bag for user
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
     
     When click on SIGN IN from header
-    And User fills form with apo user and signs in
+    And User fills form with po box user and signs in
     And User bag is cleared
     And User goes to homepage
 	
@@ -25,8 +25,7 @@ Feature:  View should be displayed for Regular Item and Backordered in PO BOX Ad
     
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
-    
-    When User signs in with Apo user and checks out
+    And User signs in with po box user and checks out
     Then Verify Shipping Address page is displayed
 
     And Presses continue button on shipping address
