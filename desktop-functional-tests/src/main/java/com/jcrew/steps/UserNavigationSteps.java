@@ -52,9 +52,21 @@ public class UserNavigationSteps extends DriverFactory {
 
     }
 
-    @When("User searches for a random search term")
-    public void user_searches_for_a_random_search_term() {
-        String term = testDataReader.getSearchWord();
+    @When("User searches for a (random|single result|multi result) search term")
+    public void user_searches_for_a_search_term(String searchType) {
+    	String term="";
+    	switch (searchType) {
+        	case "single result":
+        		term = testDataReader.getData("single.result.search.term");
+        		break;
+        	case "multi result":
+        		term = testDataReader.getData("multi.result.search.term");
+        		break;
+        	case "random":
+        	default:
+        		term = testDataReader.getSearchWord();
+        		break;	
+        }
 
         HeaderWrap header = new HeaderWrap(driver);
         header.searchFor(term);
@@ -64,7 +76,7 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User adds to bag a random product from a search")
     public void users_add_random_product_from_search() {
-        user_searches_for_a_random_search_term();
+        user_searches_for_a_search_term("random");
 
         ArraySearch searchArray = new ArraySearch(driver);
         searchArray.selectRandomProduct();
@@ -233,4 +245,6 @@ public class UserNavigationSteps extends DriverFactory {
 			arraySearch.click_first_product_in_grid();
 		}
     }
+    
+
 }

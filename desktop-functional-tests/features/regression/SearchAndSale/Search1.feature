@@ -1,4 +1,4 @@
-@Search1 @HighLevel
+@Search @HighLevel
 Feature: Search Functionality - Part 1
 
   Background:
@@ -6,16 +6,33 @@ Feature: Search Functionality - Part 1
     And User closes email capture
 
   Scenario: Verify Search Functionality
+  	Then Search drawer is closed
+    
     When User searches for a random search term
     Then User is in search results page
     And Verify that search result number is greater than 0
    	And Search drawer is open
-   	And Search drawer displays search term
+	
+	When User closes search drawer
+	Then Search drawer is closed
+    
+    When User selects random product from array
+    Then Verify product detail page is displayed
+
+  Scenario: Single result search term displays PDP
+    When User searches for a single result search term
+    Then Verify product detail page is displayed
+    
+  Scenario: Multiple result Search term displays array page 
+    When User searches for a multi result search term
+    Then User is in search results page
+    And Verify that search result number is greater than 1
     
     When User selects random product from array
     Then Verify product detail page is displayed
     
-    
-   Scenario: Gender Selectors on Search Array
-    
-    
+  Scenario: Gender Selectors on Search Array
+    When User searches specific term dresses
+    Then Verify product detail page is displayed
+
+    	

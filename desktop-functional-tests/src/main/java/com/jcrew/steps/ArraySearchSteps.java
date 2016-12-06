@@ -314,5 +314,5 @@ public class ArraySearchSteps extends DriverFactory {
     		assertTrue(option + " filter shoud be cleared" + filterValue, filterValue.isEmpty());
     	}
     }
-
+    
 }

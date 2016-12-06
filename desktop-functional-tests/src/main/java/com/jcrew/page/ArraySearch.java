@@ -382,4 +382,5 @@ public class ArraySearch extends Array{
         Util.waitSpinningImage(driver);
 
     }
+    
 }
