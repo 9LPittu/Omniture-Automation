@@ -663,7 +663,7 @@ public class ProductDetailPage {
                 
                 String colorName = color.getAttribute("data-name");
                 product.setSelectedColor(colorName);
-                color.click();
+                Util.scrollAndClick(driver,color);
                 logger.info("Selected color name: {}", colorName);
                 setSalePriceIfPresent(color, product);
             }

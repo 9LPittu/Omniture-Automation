@@ -11,9 +11,11 @@ Feature: Checkout - Editing items from shopping bag
 
     And Selects the first product with available colors from product grid list
     Then User is in product detail page
-    
-    And Add to cart button is pressed
-    And A minicart modal should appear with message '1 item has been added to your cart.'
+    And A color is selected
+    And A size is selected
+
+    When Add to cart button is pressed
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
     
     When User searches for a random search term    
