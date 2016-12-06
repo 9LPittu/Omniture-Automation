@@ -4,6 +4,7 @@ import com.jcrew.page.ArraySearch;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.Then;
@@ -25,7 +26,7 @@ public class ArraySearchSteps extends DriverFactory {
 
     ArraySearch searchArray = new ArraySearch(getDriver());
     StateHolder stateHolder = StateHolder.getInstance();
-
+    TestDataReader testDataReader = TestDataReader.getTestDataReader();
 
     @When("User selects random product from array")
     public void user_selects_random_product() {
@@ -79,8 +80,11 @@ public class ArraySearchSteps extends DriverFactory {
     @Then("Verify ([^\"]*) filter displays ([^\"]*)$")
     public void verify_gender_filter_value(String filterName, String expectedValue) {
     	if (!stateHolder.hasKey("secondPromoVerification")) {
-	    	filterName = filterName.toLowerCase().trim();
+	    	if (expectedValue.equalsIgnoreCase("selected gender"))
+	    		expectedValue = stateHolder.get("genderselector");
+	    	
 	    	expectedValue = expectedValue.toLowerCase().trim();
+	    	filterName = filterName.toLowerCase().trim();
 	    	
 	    	if (filterName.equalsIgnoreCase("gender"))
 	    		filterName="shop for";
@@ -102,7 +106,11 @@ public class ArraySearchSteps extends DriverFactory {
     
     @Then("User clicks on ([^\"]*) gender selector$")
     public void select_gender_selector(String gender) {
+    	if (gender.equalsIgnoreCase("random"))
+    		gender=testDataReader.getCategory().toLowerCase().trim();
+    		
     	searchArray.clickGenderSelector(gender);
+    	stateHolder.put("genderselector", gender);
     }
     
     @Then("Verify that search result number is greater than (\\d+)")

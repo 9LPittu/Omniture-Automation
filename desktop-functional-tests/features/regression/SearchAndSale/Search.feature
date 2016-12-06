@@ -33,6 +33,13 @@ Feature: Search Functionality - Part 1
     
   Scenario: Gender Selectors on Search Array
     When User searches specific term dresses
-    Then Verify product detail page is displayed
+    Then User is in search results page
+   	And Verify following gender selectors are displayed
+	|women|
+	|men|
+	|girls|
+	|boys|
+	When User clicks on random gender selector
+	And Verify gender filter displays selected gender
 
     	
