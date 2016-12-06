@@ -309,6 +309,7 @@ public class ProductDetailPage {
             int itemCount = getNumberOfItemsInBag();
             if (itemCount <= itemsInBag) {
                 Util.scrollAndClick(driver,addToBag);
+                Util.waitLoadingBar(driver);
 
                 itemCount = getNumberOfItemsInBag();
                 if (itemCount > itemsInBag) {
