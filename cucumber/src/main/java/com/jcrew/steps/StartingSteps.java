@@ -25,7 +25,6 @@ public class StartingSteps {
 
     private final Logger logger = LoggerFactory.getLogger(StartingSteps.class);
     private final PropertyReader reader = PropertyReader.getPropertyReader();
-    private final SAccountReader saccountreader = SAccountReader.getPropertyReader();
     private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
     private WebDriver driver;
@@ -199,21 +198,6 @@ public class StartingSteps {
         }
     }
 
-    @Given("^User is on ([^\"]*) home page$")
-    public void user_is_on_jcrew_gold_home_page(String pageUrl) {
-        int retry = 0;
-        boolean successfulLoad = false;
-        while (retry < 2 && !successfulLoad) {
-            try {
-                getTheInitialPage(pageUrl);
-                successfulLoad = true;
-            } catch (TimeoutException te) {
-                logger.debug("Page did not load retry: {}", retry + 1);
-                retry++;
-            }
-        }
-    }
-
     private void waitForHeaderPromo() {
         Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
     }
@@ -252,14 +236,6 @@ public class StartingSteps {
 
             driver.get(env);
         }
-    }
-
-    public void getTheInitialPage(String pageUrl) {
-        String env = saccountreader.getProperty(pageUrl);
-        logger.debug("current url is: " + env);
-        driver.get(env);
-        String strTitle = saccountreader.getProperty("title." + pageUrl);
-        Util.createWebDriverWait(driver).until(ExpectedConditions.titleContains(strTitle));
     }
 
     @And("user should see country code in the url for international countries")
