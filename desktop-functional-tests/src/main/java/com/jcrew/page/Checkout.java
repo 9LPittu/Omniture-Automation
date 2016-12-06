@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.PropertyReader;
@@ -7,6 +8,8 @@ import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -139,7 +142,7 @@ public abstract class Checkout extends PageObject{
         return title.getText().trim();
     }
 
-    protected String getQuantity(WebElement productElement) {
+    protected String getQuantity(final WebElement productElement) {
         WebElement quantityParentElement = productElement.findElement(By.className("item-quantity"));
         WebElement formAncestor = quantityParentElement.findElement(
                 By.xpath(".//ancestor::section[contains(@class,'checkout-container')]//parent::form"));
@@ -148,9 +151,44 @@ public abstract class Checkout extends PageObject{
         String quantity = "";
 
         if ("frm_shopping_cart_continue".equals(ancestorId)) {
-            WebElement quantityElement = productElement.findElement(By.className("item-qty"));
-            Select quantitySelect = new Select(quantityElement);
-            quantity = quantitySelect.getFirstSelectedOption().getText();
+        	
+        	int cntr = 0;
+        	do{
+        		try{
+        			quantity = Util.createWebDriverWait(driver, 20).until(new Function<WebDriver, String>(){
+						@Override
+						public String apply(WebDriver driver) {
+							String qty=null;
+							WebElement quantityElement = productElement.findElement(By.className("item-qty"));
+		                    Select quantitySelect = new Select(quantityElement);
+		                    qty =  quantitySelect.getFirstSelectedOption().getText();
+		                    if(qty!=null){
+		                    	return qty;
+		                    }
+		                    else{
+		                    	return null;
+		                    }
+						}
+        			});
+        			
+        		}
+        		catch(NoSuchElementException nsee){
+        			cntr++;
+        			driver.navigate().refresh();
+        		}
+        		catch(StaleElementReferenceException sere){
+        			cntr++;
+        			driver.navigate().refresh();
+        		}
+        		catch(TimeoutException toe){
+        			cntr++;
+        			driver.navigate().refresh();
+        		}
+        		
+        		if(!quantity.isEmpty()){
+        			break;
+        		}
+        	}while (cntr<=5);
         } else if ("frmOrderReview".equals(ancestorId)
                 || "userMergeCart".equals(ancestorId)) {
             WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));

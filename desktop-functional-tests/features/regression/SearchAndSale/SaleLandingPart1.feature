@@ -42,7 +42,7 @@ Feature: Sale Landing functionality-Part1
 	|boys|/r/search/?N=21+18&Ntrm=&Nsrt=3&Npge=1&Nrpp=60|
 	
 	
-  Scenario: Verify New In sale link is fuctional on sale landing page
+  Scenario: Verify New In sale link is functional on sale landing page
 	When User selects new in sale dept from sales
 	Then Verify Sale array page is displayed
 	And Verify url is /r/search/?N=21+227&Ntrm=&Nsrt=3&Npge=1&Nrpp=60

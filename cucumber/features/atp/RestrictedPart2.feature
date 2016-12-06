@@ -1,5 +1,5 @@
 @ATPRestricted2
-Feature:  View should be displayed for Regular Item and Backordered in APO Address
+Feature:  View should be displayed for Regular Item and Backordered in PO BOX Address
 
   Background: Clean bag for user
     Given User is on homepage with clean session

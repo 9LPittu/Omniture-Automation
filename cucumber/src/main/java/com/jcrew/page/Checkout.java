@@ -156,11 +156,13 @@ public abstract class Checkout extends PageObject{
 
         if ("frm_shopping_cart_continue".equals(ancestorId)) {
             WebElement quantityElement = productElement.findElement(By.className("item-qty"));
+            wait.until(ExpectedConditions.visibilityOf(quantityElement));
             Select quantitySelect = new Select(quantityElement);
             quantity = quantitySelect.getFirstSelectedOption().getText();
         } else if ("frmOrderReview".equals(ancestorId)
                 || "userMergeCart".equals(ancestorId)) {
             WebElement quantityElement = productElement.findElement(By.className("item-quantity-amount"));
+            wait.until(ExpectedConditions.visibilityOf(quantityElement));
             quantity = quantityElement.getText().trim();
         }
 

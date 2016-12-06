@@ -22,4 +22,9 @@ public class ExternalPage extends PageObject {
         wait.until(ExpectedConditions.not(ExpectedConditions.urlContains(url)));
         return driver.getCurrentUrl();
     }
+    
+    public boolean isVariablePresentInSourceCode(String var) {
+        return driver.getPageSource().contains(var);
+    }
+
 }

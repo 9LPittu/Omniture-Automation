@@ -79,6 +79,18 @@ public class LogIn extends PageObject {
         PageFactory.initElements(driver, this);
         Util.waitWithStaleRetry(driver, signInHereButton);
         wait.until(ExpectedConditions.elementToBeClickable(signInHereButton));
+        
+        if(driver.getCurrentUrl().contains("/r/login")){
+	        Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
+	            @Override
+	            public boolean apply(WebDriver driver) {
+	                WebElement signinbutton = signInForm.findElement(By.className("js-button-submit"));
+	                String enabled = signinbutton.getAttribute("disabled");
+	
+	                return enabled == null;
+	            }
+	        });
+        }
     }
 
 

@@ -6,6 +6,7 @@ import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -116,16 +117,28 @@ public class ContextChooser {
 		WebElement link = internationalContextChooserPage.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));
 		wait.until(ExpectedConditions.elementToBeClickable(link));
 		Util.scrollToElement(driver, link);
+		
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("arguments[0].scrollIntoView();", link);
+		
 		link.click();
 	}
 
 	public void clickButtonFromFAQSectionOnContextChooserPage(String buttonName) {
 		WebElement button = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/a[" + Util.xpathGetTextLower + "='" + buttonName.toLowerCase() + "']"));
-		button.click();
+		
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("arguments[0].scrollIntoView();", button);
+		
+        button.click();
 	}
 
 	public void clickLinkFromFAQSectionOnContextChooserPage(String linkName) {
 		WebElement link = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/article/section/p/a[text()='borderfree.com']"));
+		
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("arguments[0].scrollIntoView();", link);
+		
 		link.click();
 	}
 

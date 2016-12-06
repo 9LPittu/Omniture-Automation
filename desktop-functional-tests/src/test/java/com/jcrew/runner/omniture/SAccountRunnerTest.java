@@ -1,24 +1,21 @@
 package com.jcrew.runner.omniture;
 
-/**
- * Created by nadiapaolagarcia on 3/22/16.
- */
-
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
+
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/omniture"},
-        tags = {"@Omniture"},
+        tags = {"@s_account"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-omniturefeatures.json",
+                "json:target/cucumber-SAccount.json",
                 "pretty",
-                "html:target/cucumber/omniturefeatures"
+                "html:target/cucumber/SAccount"
         }
 )
+public class SAccountRunnerTest {
 
-public class OmnitureVariablesRunnerTest {
 }

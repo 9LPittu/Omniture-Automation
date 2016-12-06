@@ -32,8 +32,10 @@ public class LoginPage {
     public final String MULTIPLE = User.MULTIPLE;
     public final String NO_DEFAULT_MULTIPLE = User.NO_DEFAULT_MULTIPLE;
     public final String FPO = User.FPO;
-    public final String APO = User.APO;
-
+    public final String APO = User.APO; 
+    public final String POBOX = User.POBOX;
+    public final String HAWAII = User.HAWAII;
+    
     @FindBy(id = "loginUser")
     private WebElement emailInputCheckout;
 
