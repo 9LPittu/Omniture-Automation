@@ -46,7 +46,10 @@ public abstract class Array extends PageObject{
 
     protected List<WebElement> getProductTiles(WebElement productList) {
     	Util.waitWithStaleRetry(driver, productList);
-        return productList.findElements(By.className(PRODUCT_TITLE_CLASS));
+        List<WebElement> products= productList.findElements(By.className(PRODUCT_TITLE_CLASS));
+        
+        logger.debug("This array has {} products",  products.size());
+        return products;
     }
 
     protected List<WebElement> getVariationProductsList(WebElement productList){
@@ -176,12 +179,6 @@ public abstract class Array extends PageObject{
         return price;
     }
     
-    protected List<WebElement> getProducts(WebElement list) {
-        List<WebElement> products = list.findElements(By.className(PRODUCT_TITLE_CLASS));
-
-        logger.debug("This array has {} products", products.size());
-        return products;
-    }
     
     public String getProductPriceForSort(WebElement tile) {
         String price;

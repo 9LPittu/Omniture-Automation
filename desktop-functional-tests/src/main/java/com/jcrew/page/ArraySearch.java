@@ -435,7 +435,7 @@ public class ArraySearch extends Array{
     
     public List<Float> getSortableItemPrices() {
         List<Float> prices = new ArrayList<>();
-        List<WebElement> tiles = getProducts(searchResults);
+        List<WebElement> tiles = getProductTiles(searchResults);
 
         for(WebElement tile : tiles) {
             String price = getProductPriceForSort(tile).trim();
