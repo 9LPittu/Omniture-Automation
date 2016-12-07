@@ -1,5 +1,5 @@
 @SearchRefinement @HighLevel
-Feature: Search Functionality - Part 1
+Feature: Search Refinement and Sort
 
   Background:
     Given User goes to homepage
