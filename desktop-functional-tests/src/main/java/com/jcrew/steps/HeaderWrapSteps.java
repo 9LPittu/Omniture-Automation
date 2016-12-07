@@ -167,7 +167,7 @@ public class HeaderWrapSteps extends DriverFactory {
         header.selectSubCategory(featureName);
     }
     
-    @Then("Search drawer is (open|closed)")
+    @Then("Verify search drawer is (open|closed)")
     public void verify_search_drawer_state(String expectedState) {
     	expectedState = expectedState.toLowerCase().trim();
     	String actualState = header.getSearchDrawerState().toLowerCase().trim();

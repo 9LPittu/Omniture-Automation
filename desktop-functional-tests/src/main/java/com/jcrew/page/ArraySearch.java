@@ -426,7 +426,7 @@ public class ArraySearch extends Array{
     	filterElement.click();
     	
     	WebElement filterOption = filterElement.findElement(By.xpath(".//parent::div/following-sibling::div[@class='menu__search--refinement dropdown__content']/div/div[@class='search__refinement--group']"
-    			+ "							/a[" + Util.xpathGetTextLower + "='" + optionName + "']"));
+    			+ "/a[" + Util.xpathGetTextLower + "='" + optionName + "']"));
 
     	filterOption.click();
     	Util.waitSpinningImage(driver);

@@ -6,15 +6,15 @@ Feature: Search Functionality
     And User closes email capture
 
   Scenario: Verify Search Functionality
-  	Then Search drawer is closed
+  	Then Verify search drawer is closed
     
     When User searches for a random search term
     Then User is in search results page
     And Verify that search result number is greater than 0
-   	And Search drawer is open
+   	And Verify search drawer is open
 	
 	When User closes search drawer
-	Then Search drawer is closed
+	Then Verify search drawer is closed
     
     When User selects random product from array
     Then Verify product detail page is displayed
