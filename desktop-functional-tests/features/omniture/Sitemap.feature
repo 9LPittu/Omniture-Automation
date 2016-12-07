@@ -1,0 +1,17 @@
+@Sitemap
+
+Feature: Sitemap Omniture variables check
+
+  Scenario: Development
+  #Visit sites from secondary map from /sitemap-index.xml
+    Given User opens stream to https://www.jcrew.com/sidecar/sitemap-index.xml page
+    When Select sitemaps to check
+    And Select urls to check
+    And Exclude url https://jobs.jcrew.com/ from list
+    And Exclude url https://jobs.jcrew.com/?sidecar=true from list
+    And Exclude url https://stores.jcrew.com/? from list
+    And Include url https://www.jcrew.com/p/03226 to list
+    Then All pages should contain the following variables
+     #|variable name|value to contain|
+      | s.pageName | :       |
+      | s.prop69   | sidecar |
