@@ -39,7 +39,19 @@ Feature: Search Functionality - Part 1
 	|men|
 	|girls|
 	|boys|
+	
 	When User clicks on random gender selector
-	And Verify gender filter displays selected gender
+	Then Verify gender filter displays selected gender
+	
+	When User removes gender selector
+	Then User is in search results page
+   	And Verify following gender selectors are displayed
+	|women|
+	|men|
+	|girls|
+	|boys|
+	
+	When User clicks on random gender selector
+	Then Verify gender filter displays selected gender
 
     	

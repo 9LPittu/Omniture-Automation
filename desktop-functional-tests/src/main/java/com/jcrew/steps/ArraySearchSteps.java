@@ -323,4 +323,51 @@ public class ArraySearchSteps extends DriverFactory {
     	}
     }
     
+    @When("User removes gender selector$")
+    public void remove_gender_selector() {
+    	searchArray.removeGenderSelector();
+    }
+    
+    
+    @Then("Verify ([^\"]*) filter contains following options$")
+    public void verify_filter_content(String filterName, List<String> expectedOptions) {
+    	List<String> filterOptions = searchArray.getOptionsFromFilter(filterName);
+
+        for (String expectedOption:expectedOptions ) {
+        	expectedOption = expectedOption.toLowerCase().trim();
+            assertTrue("Filter options should contain '" + expectedOption + "'", filterOptions.contains(expectedOption));
+        }
+    	
+    }
+    
+    @Then("Verify selected option on ([^\"]*) filter is ([^\"]*)$") 
+    public void verify_filter_value(String filterName, String expectedOption)	{
+    	filterName = filterName.toLowerCase().trim();
+    	expectedOption = expectedOption.toLowerCase().trim();
+    	
+    	String actualOption = searchArray.getFilterValue(filterName).toLowerCase().trim();
+    	assertEquals("Selected option on the filter: " + filterName + " should match", expectedOption, actualOption);
+    }
+    
+    @When("User clicks on ([^\"]*) option from ([^\"]*) filter$")
+    public void select_option_from_filter(String optionName, String filterName) {
+    	optionName = optionName.toLowerCase().trim();
+    	filterName = filterName.toLowerCase().trim();
+    	
+    	searchArray.selectFilterOption(filterName,optionName);
+    }
+    
+    
+    @When("Verify items in Search array are sorted by Price: (Low to High|High to Low)$")
+    public void verify_sort_on_search_array(String sortType) {
+    	List<Float> expected = searchArray.getSortableItemPrices();
+        Collections.sort(expected);
+        if (sortType.equalsIgnoreCase("High to Low"))
+        	Collections.reverse(expected);
+
+        List<Float> actual = searchArray.getSortableItemPrices();
+
+        assertEquals("Prices are sorted high to low", expected, actual);
+    }
+    
 }

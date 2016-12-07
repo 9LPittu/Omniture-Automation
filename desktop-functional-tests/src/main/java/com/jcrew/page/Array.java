@@ -175,5 +175,32 @@ public abstract class Array extends PageObject{
         }
         return price;
     }
+    
+    protected List<WebElement> getProducts(WebElement list) {
+        List<WebElement> products = list.findElements(By.className(PRODUCT_TITLE_CLASS));
+
+        logger.debug("This array has {} products", products.size());
+        return products;
+    }
+    
+    public String getProductPriceForSort(WebElement tile) {
+        String price;
+
+        List<WebElement> salePrice = tile.findElements(By.className(PRICE_SALE_CLASS));
+        if (salePrice.size() == 1) {
+            price = salePrice.get(0).getText();
+            price = price.replace("now", "");
+            if (price.contains("select colors")) {
+                price = "";
+            }
+
+        } else {
+            WebElement listPrice = tile.findElement(By.className("tile__detail--price--list"));
+
+            price = listPrice.getText();
+        }
+
+        return price;
+    }
 
 }
