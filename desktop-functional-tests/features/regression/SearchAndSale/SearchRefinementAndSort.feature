@@ -23,7 +23,6 @@ Feature: Search Functionality - Part 1
 	| Category 		|
 	| Color    		|
 	| Price    		|
-	| New in Sale	|
 	Then Verify selected refinement is displayed in header
 	And Verify item count matches selected refinement
 		  
