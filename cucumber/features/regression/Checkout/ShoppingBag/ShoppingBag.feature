@@ -5,15 +5,17 @@ Feature: Checkout - Editing items from shopping bag
     Given User is on homepage with clean session
     And Handle the Email Capture pop up
     
-    And User clicks on hamburger menu    
-    And user selects any category from hamburger menu
-	And user selects any subcategory
-    
-    And user selects any item from array page, select any color and size
+    And User clicks on hamburger menu
+    And user selects WOMEN category from hamburger menu
+    And user selects NEW ARRIVALS subcategory
+
+    And Selects the first product with available colors from product grid list
     Then User is in product detail page
-    
-    And Add to cart button is pressed
-    And A minicart modal should appear with message '1 item has been added to your cart.'
+    And A color is selected
+    And A size is selected
+
+    When Add to cart button is pressed
+    Then A minicart modal should appear with message '1 item has been added to your cart.'
     And Bag should have 1 item(s) added
     
     When User searches for a random search term    
