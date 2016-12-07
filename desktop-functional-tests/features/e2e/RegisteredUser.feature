@@ -22,7 +22,7 @@ Feature: Registered User E2E scenario
   	And apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User clicks in CHECK OUT NOW button
-  	And Navigate to Shipping Address page, if required
+  	And Navigate to Shipping Address page, if user is on Review page
   	Then Verify select shipping address page is displayed
   	
   	When User selects Shipping Address as per testdata  	
