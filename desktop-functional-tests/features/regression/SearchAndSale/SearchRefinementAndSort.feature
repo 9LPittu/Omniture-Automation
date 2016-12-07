@@ -30,7 +30,7 @@ Feature: Search Functionality - Part 1
 	When User selects a second option from previously selected filter
 	And Verify item count matches selected refinement
 	
-  Scenario: Verify Sort Functionality on Search Array
+  Scenario: Verify High to Low Sort Functionality
   	And Verify that filter options contains this list
 	| Sort by 		|
 
@@ -41,12 +41,13 @@ Feature: Search Functionality - Part 1
 	And Verify selected option on Sort by filter is Relevance
 	
 	When User clicks on Price: Low to High option from Sort by filter
-	And Verify selected option on Sort by filter is Price: Low to High
+	Then Verify selected option on Sort by filter is Price: Low to High
 	And Verify items in Search array are sorted by Price: Low to High
 	
+  Scenario: Verify Low to High Sort Functionality	
 	When User clicks on Price: High to Low option from Sort by filter
-	And Verify selected option on Sort by filter is Price: High to Low
-	And Verify items in Search array are sorted by Price: High to Low
+	Then Verify selected option on Sort by filter is Price: High to Low
+	And Verify items in Search array are sorted by Price: High to Low	
 	
 	
 	
