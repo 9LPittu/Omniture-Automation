@@ -55,7 +55,7 @@ public class ProductDetailPage {
     @FindBy(id = "c-product__quantity")
     private WebElement productQuantitySection;
 
-    @FindBy(className = "primary-nav__item--bag")
+    @FindBy(xpath = ".//li[contains(@class,'primary-nav__item--bag')]")
     private WebElement bagContainer;
 
     @FindBy(id = "global__footer")
@@ -301,25 +301,52 @@ public class ProductDetailPage {
 
         productList.add(thisProduct);
         stateHolder.put("toBag", productList);
-        
-        addToBag.click();
-        Util.waitLoadingBar(driver);
+
+        int itemsInBag = (int)stateHolder.get("itemsInCart_BeforeAddToBag");
+        boolean retry = true;
+        int attempts = 0;
+        do {
+            int itemCount = getNumberOfItemsInBag();
+            if (itemCount <= itemsInBag) {
+                Util.scrollAndClick(driver,addToBag);
+                Util.waitLoadingBar(driver);
+
+                itemCount = getNumberOfItemsInBag();
+                if (itemCount > itemsInBag) {
+                    retry = false;
+                } else {
+                    attempts ++;
+                    Util.wait(5000);
+                }
+            }
+        } while (retry && attempts <=3);
+
+        if (retry)
+            throw new WebDriverException("Unable to add itenm to cart") ;
     }
 
     public int getNumberOfItemsInBag() {
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(bagContainer));
         WebElement bagSize = bagContainer.findElement(By.className("js-cart-size"));
-
-        Util.waitWithStaleRetry(driver, bagSize);
-
         String bagSizeStr = bagSize.getAttribute("innerHTML");
         String stringSize = bagSizeStr.replace("(", "").replace(")", "").trim();
-        return Integer.parseInt(stringSize);
+
+        if (stringSize.isEmpty()) {
+            return 0;
+        } else {
+            return Integer.parseInt(stringSize);
+        }
     }
 
     public boolean showsMinicartMessage(String message) {
-        Util.createWebDriverWait(driver).until(
-                ExpectedConditions.textToBePresentInElementLocated(By.className("header__cart--details"), message));
-        return true;
+        try {
+            Util.createWebDriverWait(driver).until(
+                    ExpectedConditions.textToBePresentInElementLocated(By.className("header__cart--details"), message));
+            return true;
+        }  catch (TimeoutException timeout) {
+            return false;
+        }
+
     }
 
     public String getSalePrice() {
@@ -636,7 +663,7 @@ public class ProductDetailPage {
                 
                 String colorName = color.getAttribute("data-name");
                 product.setSelectedColor(colorName);
-                color.click();
+                Util.scrollAndClick(driver,color);
                 logger.info("Selected color name: {}", colorName);
                 setSalePriceIfPresent(color, product);
             }
@@ -911,6 +938,7 @@ public class ProductDetailPage {
 	        if (!countryCode.equalsIgnoreCase("us")) {
 	            expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
 	            logger.info("Expected PDP Message: {}", expectedPDPMessage);
+                Util.waitWithStaleRetry(driver,addToBag);
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpMessage)));
 	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
