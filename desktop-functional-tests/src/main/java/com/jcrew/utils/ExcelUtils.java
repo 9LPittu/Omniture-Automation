@@ -29,7 +29,7 @@ public class ExcelUtils {
 	
 	private HSSFWorkbook workbook;
 	private HSSFSheet sheet;
-	File file;
+	private File file;
 	private FileInputStream fis;
 	private FileOutputStream fos;
 	
@@ -42,7 +42,7 @@ public class ExcelUtils {
 		
 		getExcelWorkbook();
 		getExcelSheet();
-		getRowNumbersOfSearchText();
+		setRowNumbersOfSearchText();
 	}
 	
 	private File getFile(){		
@@ -71,7 +71,7 @@ public class ExcelUtils {
 		return sheet;
 	}
 	
-	private void getRowNumbersOfSearchText(){
+	private void setRowNumbersOfSearchText(){
 		
 		Cell cell;
 		sheetFirstRowNum = sheet.getFirstRowNum();
@@ -160,7 +160,6 @@ public class ExcelUtils {
 	}
 	
 	public void closeExcel() throws IOException{
-		//workbook.close();
 		fis.close();
 	}
 	
