@@ -115,6 +115,7 @@ public class ShippingMethodCalculator {
 
         for (String method : methods) {
             String name;
+            String text = "";
             Date startDate=null;
             Date endDate=null;
             if (isATP) {
@@ -126,7 +127,10 @@ public class ShippingMethodCalculator {
                 name = dataReader.getData(method + ".nonatp.name");
             }
             String price = getPrice(method);
-            String text = dataReader.getData(method + ".text");
+            if (!addressType.equalsIgnoreCase("pobox") && !addressType.equalsIgnoreCase("hawaii")){
+            	 text = dataReader.getData(method + ".text");
+            }
+            
             expectedMethods.add(new ShippingMethod(name, price, text, startDate, endDate ));
 
         }

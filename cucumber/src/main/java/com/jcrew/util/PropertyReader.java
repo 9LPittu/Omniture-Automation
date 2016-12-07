@@ -28,7 +28,7 @@ public class PropertyReader {
 
     private void loadProperties() throws IOException {
         String execEnvironment = Util.getEnvironment();
-        String execViewport = System.getProperty("viewport", "phantomjs");
+        String execViewport = System.getProperty("viewport", "phantojs");
         String execUser = System.getProperty("user", "user.1");
         String country = System.getProperty("country", "us");
 

@@ -85,18 +85,18 @@ public class ShippingMethodPageSteps extends DriverFactory {
     public void validate_shipping_methods() {
         Country country = (Country) stateHolder.get("context");
         String countryCode = country.getCountry();
-
         List<ShippingMethod> pageMethods = shippingMethodPage.getShippingMethods();
         stateHolder.put("actualShippingMethods", pageMethods);
 
         if (countryCode.equalsIgnoreCase("us")) {
             List<ShippingMethod> expectedMethods = methodCalculator.getExpectedList();
+            
             stateHolder.put("expectedShippingMethods", expectedMethods);
-
+            
             for (int i = 0; i < expectedMethods.size(); i++) {
                 ShippingMethod actual = pageMethods.get(i);
                 ShippingMethod expected = expectedMethods.get(i);
-
+                
                 assertEquals("Expected: " + expected.toString() + " actual: " + actual.toString() + " should be same", expected, actual);
                 shippingMethodPage.verify_ATP_date(actual, expected);
             }
