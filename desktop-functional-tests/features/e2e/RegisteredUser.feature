@@ -1,7 +1,7 @@
 @E2E-RegisteredUser
-Feature: Registered User E2E scenario
+Feature: Registered User E2E order placing
 
- Scenario: Registered User E2E scenario
+ Scenario: Registered User order placing E2E scenario
 	Given test data is read from excel file "E2E_RegisteredUser_Testdata_Sheet.xls"
  	
  	And User goes to homepage
