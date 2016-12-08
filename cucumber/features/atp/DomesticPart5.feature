@@ -17,7 +17,7 @@ Feature: Verify view for Monogram Items in Domestic Context - 150 Threshold
    Scenario: No ATP view should be displayed for monogram item
     #ATP_03
     When User is on homepage
-    When User navigates to monogram product
+    When User navigates to expensive monogram product
     And User adds monogram to product
     And User fills monogram options
     When Add to cart button is pressed
@@ -52,7 +52,7 @@ Feature: Verify view for Monogram Items in Domestic Context - 150 Threshold
     When Add to cart button is pressed
     And items count should be displayed as 1 in the bag
    
-	When User navigates to monogram product
+	When User navigates to expensive monogram product
     And User adds monogram to product
     And User fills monogram options
     When Add to cart button is pressed
