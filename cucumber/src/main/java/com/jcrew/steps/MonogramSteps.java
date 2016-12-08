@@ -22,6 +22,7 @@ public class MonogramSteps extends DriverFactory {
     public void fill_options() {
         monogram.selectStampStyle();
         monogram.selectLetters();
+        monogram.selectRandomThreadColor();
         monogram.save();
     }
 
