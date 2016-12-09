@@ -31,7 +31,7 @@ public class Util {
     public static final String DOWN = "down";
     
     public static String getEnvironment(){
-    	String environment = System.getProperty("environment", "steel");
+    	String environment = System.getProperty("environment", "ci");
     	return environment;
     }
 
