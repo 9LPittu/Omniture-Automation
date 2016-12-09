@@ -34,6 +34,7 @@ public class ShippingMethodCalculator {
     private boolean crewCut;
     private String addressType;
     private String environment;
+    private boolean monogram;
 
     public ShippingMethodCalculator() {
 
@@ -50,12 +51,14 @@ public class ShippingMethodCalculator {
         Product p = productsInBag.get(0);
         restrictedItem = p.isBackorder();
         crewCut = crewCut && p.isCrewCut();
+        monogram = p.hasMonogram();
 
         for (int i = 1; i < productsInBag.size(); i++) {
             p = productsInBag.get(i);
             mixedItems = mixedItems || (p.isBackorder() != restrictedItem);
             restrictedItem = p.isBackorder();
             crewCut = crewCut && p.isCrewCut();
+            monogram |= p.hasMonogram();
         }
         environment = propertyReader.getProperty("environment");
         toggle = dataReader.getBoolean(environment + ".atp.toggle");
@@ -68,7 +71,7 @@ public class ShippingMethodCalculator {
         List<ShippingMethod> expectedMethods = new ArrayList<>();
         List<String> shipMethods = getExpectedShipMethods();
 
-        if ((restrictedItem || mixedItems) && shipMethods.contains("saturday"))
+        if ((restrictedItem || mixedItems || monogram) && shipMethods.contains("saturday"))
             shipMethods.remove("saturday");
 
 
