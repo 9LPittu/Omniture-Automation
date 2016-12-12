@@ -38,6 +38,7 @@ public class ArraySearch extends Array{
     private WebElement footerPagination;
 
 
+
     public ArraySearch(WebDriver driver) {
         super(driver);
 
@@ -153,6 +154,7 @@ public class ArraySearch extends Array{
     	wait.until(ExpectedConditions.elementToBeClickable(genderSelector));
     	genderSelector.click();
     	wait.until(ExpectedConditions.urlContains("/r/search"));
+    	Util.waitSpinningImage(driver);
     }
     
     public int getSearchResultsNumber() {
@@ -382,4 +384,77 @@ public class ArraySearch extends Array{
         Util.waitSpinningImage(driver);
 
     }
+    
+    public void removeGenderSelector() {
+    	Util.waitSpinningImage(driver);
+    	Util.waitWithStaleRetry(driver, searchFilter);
+
+    	WebElement filterElement = searchFilter.findElement((By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='shop for']/following-sibling::span[contains(@class,'icon-close search__filter-clear')]")));
+    	wait.until(ExpectedConditions.elementToBeClickable(filterElement));
+    	
+    	Util.scrollAndClick(driver, filterElement);
+    	Util.waitSpinningImage(driver);
+    }
+    
+    public List<String> getOptionsFromFilter(String filterName) {
+    	Util.waitWithStaleRetry(driver, searchFilter);
+    	filterName = filterName.toLowerCase().trim();
+    	
+    	//open filter 
+    	WebElement filterElement = driver.findElement(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + filterName + "']"));
+    	wait.until(ExpectedConditions.elementToBeClickable(filterElement));
+    	filterElement.click();
+    	
+    	List<WebElement> filterOptions = filterElement.findElements(By.xpath(".//parent::div/following-sibling::div[@class='menu__search--refinement dropdown__content']/div/div[@class='search__refinement--group']/a"));
+    	List<String> filterOptionText = Util.getText(filterOptions);
+    	
+    	//close filter
+    	filterElement.click();
+    	
+    	return filterOptionText;
+
+    }
+    
+    
+    public void selectFilterOption(String filterName, String optionName) {
+    	Util.waitWithStaleRetry(driver, searchFilter);
+    	filterName = filterName.toLowerCase().trim();
+    	
+    	//open filter 
+    	WebElement filterElement = driver.findElement(By.xpath(".//h5[contains(@class,'search__refinement--name') and " + Util.xpathGetTextLower + "='" + filterName + "']"));
+    	wait.until(ExpectedConditions.elementToBeClickable(filterElement));
+    	filterElement.click();
+    	
+    	WebElement filterOption = filterElement.findElement(By.xpath(".//parent::div/following-sibling::div[@class='menu__search--refinement dropdown__content']/div/div[@class='search__refinement--group']"
+    			+ "/a[" + Util.xpathGetTextLower + "='" + optionName + "']"));
+
+    	filterOption.click();
+    	Util.waitSpinningImage(driver);
+    	
+    }
+    
+    public List<Float> getSortableItemPrices() {
+        List<Float> prices = new ArrayList<>();
+        List<WebElement> tiles = getProductTiles(searchResults);
+
+        for(WebElement tile : tiles) {
+            String price = getProductPriceForSort(tile).trim();
+            if(!price.isEmpty()) {
+                price = price.replace(".", "");
+                price = price.replace("$", "");
+                price = price.replace("your price ", "");
+
+                int iPrice = Integer.parseInt(price);
+                float fPrice = (float) iPrice / 100;
+
+                prices.add(fPrice);
+            }
+        }
+
+        return prices;
+    }
+    
+    
+
+    
 }

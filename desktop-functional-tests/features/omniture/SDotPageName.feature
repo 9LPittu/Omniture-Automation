@@ -1,5 +1,5 @@
 @s.pageName
-Feature: Verify Omniture variables
+Feature: Verify s.pageName
 
   Scenario: Verify s.pageName value on Home, Category pages and PDP
     Given User is on homepage with clean session
