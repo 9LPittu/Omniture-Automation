@@ -460,4 +460,28 @@ public class HeaderWrap {
 	        Util.waitLoadingBar(driver);
 	        hoverOverIcon("logo");
 	}
+	
+	public void openSearchDrawer() {
+		wait.until(ExpectedConditions.elementToBeClickable(search));
+		search.click();	
+	}
+	
+	public void closeSearchDrawer() {
+		WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
+		WebElement closeSearch = searchHeader.findElement(By.xpath(".//span[@class='icon-searchtray icon-close']"));
+		wait.until(ExpectedConditions.elementToBeClickable(closeSearch));
+		closeSearch.click();
+				
+	}
+	
+	public String getSearchDrawerState() {
+	    WebElement 	searchDrawer = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'js-header__primary-nav c-header__primary-nav')]")));
+	    String className = searchDrawer.getAttribute("class").toLowerCase().trim();
+	    
+	    if(className.contains("is-collapsed")) {
+	    	return "closed";			
+	    } else {
+	    	return "open";
+	    }
+    }
 }

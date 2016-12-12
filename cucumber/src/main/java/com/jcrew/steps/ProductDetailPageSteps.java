@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.ProductDetailPage;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.DriverFactory;
+import com.jcrew.util.StateHolder;
 import com.jcrew.util.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -15,11 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ProductDetailPageSteps extends DriverFactory {
 
     private final ProductDetailPage productDetailPage = new ProductDetailPage(getDriver());
     private final Logger logger = LoggerFactory.getLogger(ProductDetailPageSteps.class);
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     @Given("^User is in product detail page$")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
@@ -60,6 +63,9 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @When("^Add to cart button is pressed$")
     public void add_to_cart_button_is_pressed() throws Throwable {
+        //Retrieve number of items present in Cart and add it to stateholder
+        int cartItemNumber = productDetailPage.getNumberOfItemsInBag();
+        stateHolder.put("itemsInCart_BeforeAddToBag",cartItemNumber);
         productDetailPage.click_add_to_cart();
     }
 
@@ -72,7 +78,12 @@ public class ProductDetailPageSteps extends DriverFactory {
 
     @Then("^A minicart modal should appear with message '([^\"]*)'$")
     public void a_minicart_modal_should_appear_with_message(String message) throws Throwable {
-        assertTrue("Modal with message should appear", productDetailPage.showsMinicartMessage(message));
+        boolean isMiniCartMessage = productDetailPage.showsMinicartMessage(message);
+        if (!isMiniCartMessage) {
+            int previousItemCountInBag = (int) stateHolder.get("itemsInCart_BeforeAddToBag");
+            int currentItemsInBag = productDetailPage.getNumberOfItemsInBag();
+            assertEquals("Item count in Bag should match", previousItemCountInBag + 1, currentItemsInBag);
+        }
     }
 
     @Given("^Bag should have item\\(s\\) added$")

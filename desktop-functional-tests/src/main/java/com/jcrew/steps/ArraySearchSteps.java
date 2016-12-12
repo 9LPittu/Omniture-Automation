@@ -4,6 +4,7 @@ import com.jcrew.page.ArraySearch;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.Then;
@@ -25,7 +26,7 @@ public class ArraySearchSteps extends DriverFactory {
 
     ArraySearch searchArray = new ArraySearch(getDriver());
     StateHolder stateHolder = StateHolder.getInstance();
-
+    TestDataReader testDataReader = TestDataReader.getTestDataReader();
 
     @When("User selects random product from array")
     public void user_selects_random_product() {
@@ -79,8 +80,11 @@ public class ArraySearchSteps extends DriverFactory {
     @Then("Verify ([^\"]*) filter displays ([^\"]*)$")
     public void verify_gender_filter_value(String filterName, String expectedValue) {
     	if (!stateHolder.hasKey("secondPromoVerification")) {
-	    	filterName = filterName.toLowerCase().trim();
+	    	if (expectedValue.equalsIgnoreCase("selected gender"))
+	    		expectedValue = stateHolder.get("genderselector");
+	    	
 	    	expectedValue = expectedValue.toLowerCase().trim();
+	    	filterName = filterName.toLowerCase().trim();
 	    	
 	    	if (filterName.equalsIgnoreCase("gender"))
 	    		filterName="shop for";
@@ -102,7 +106,11 @@ public class ArraySearchSteps extends DriverFactory {
     
     @Then("User clicks on ([^\"]*) gender selector$")
     public void select_gender_selector(String gender) {
+    	if (gender.equalsIgnoreCase("random"))
+    		gender=testDataReader.getCategory().toLowerCase().trim();
+    		
     	searchArray.clickGenderSelector(gender);
+    	stateHolder.put("genderselector", gender);
     }
     
     @Then("Verify that search result number is greater than (\\d+)")
@@ -314,5 +322,52 @@ public class ArraySearchSteps extends DriverFactory {
     		assertTrue(option + " filter shoud be cleared" + filterValue, filterValue.isEmpty());
     	}
     }
+    
+    @When("User removes gender selector$")
+    public void remove_gender_selector() {
+    	searchArray.removeGenderSelector();
+    }
+    
+    
+    @Then("Verify ([^\"]*) filter contains following options$")
+    public void verify_filter_content(String filterName, List<String> expectedOptions) {
+    	List<String> filterOptions = searchArray.getOptionsFromFilter(filterName);
 
+        for (String expectedOption:expectedOptions ) {
+        	expectedOption = expectedOption.toLowerCase().trim();
+            assertTrue("Filter options should contain '" + expectedOption + "'", filterOptions.contains(expectedOption));
+        }
+    	
+    }
+    
+    @Then("Verify selected option on ([^\"]*) filter is ([^\"]*)$") 
+    public void verify_filter_value(String filterName, String expectedOption)	{
+    	filterName = filterName.toLowerCase().trim();
+    	expectedOption = expectedOption.toLowerCase().trim();
+    	
+    	String actualOption = searchArray.getFilterValue(filterName).toLowerCase().trim();
+    	assertEquals("Selected option on the filter: " + filterName + " should match", expectedOption, actualOption);
+    }
+    
+    @When("User clicks on ([^\"]*) option from ([^\"]*) filter$")
+    public void select_option_from_filter(String optionName, String filterName) {
+    	optionName = optionName.toLowerCase().trim();
+    	filterName = filterName.toLowerCase().trim();
+    	
+    	searchArray.selectFilterOption(filterName,optionName);
+    }
+    
+    
+    @When("Verify items in Search array are sorted by Price: (Low to High|High to Low)$")
+    public void verify_sort_on_search_array(String sortType) {
+    	List<Float> expected = searchArray.getSortableItemPrices();
+        Collections.sort(expected);
+        if (sortType.equalsIgnoreCase("High to Low"))
+        	Collections.reverse(expected);
+
+        List<Float> actual = searchArray.getSortableItemPrices();
+
+        assertEquals("Prices are sorted high to low", expected, actual);
+    }
+    
 }

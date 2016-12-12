@@ -178,4 +178,25 @@ public class HeaderWrapSteps extends DriverFactory {
         header.hoverCategory(category);
         header.selectSubCategory(featureName);
     }
+    
+    @Then("Verify search drawer is (open|closed)")
+    public void verify_search_drawer_state(String expectedState) {
+    	expectedState = expectedState.toLowerCase().trim();
+    	String actualState = header.getSearchDrawerState().toLowerCase().trim();
+    	assertEquals("State of search drawer should match",expectedState, actualState );
+    	
+    }
+    
+    @When("User (opens|closes) search drawer$")
+    public void users_open_or_close_search_drawer(String action) {
+    	String drawerState = header.getSearchDrawerState().toLowerCase().trim();
+    	if (action.equalsIgnoreCase("opens")) {
+    		if (drawerState.equalsIgnoreCase("closed"))
+    			header.openSearchDrawer();
+    	} else if (action.equalsIgnoreCase("closes")) {
+    		if (drawerState.equalsIgnoreCase("open"))
+    			header.closeSearchDrawer();
+    	}
+    }
+
 }
