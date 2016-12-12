@@ -1,5 +1,5 @@
 @Footer @HighLevel
-Feature: Header and Footer - From home page
+Feature: Footer - From home page
 
   Background:
     Given User is on homepage with clean session
@@ -144,16 +144,3 @@ Feature: Header and Footer - From home page
     When User clicks on Men's Suits footer link under Popular Searches
     Then Verify user is in category array page
 
-
-  #Scenario: Verify header links are functional from home page
-  Scenario: developmentInprogress
-
-    When User clicks on sign in using header
-    Then Verify user is navigated to url /r/login on same page
-    When User presses browser back button
-    Then Verify user is in homepage
-
-    When User clicks in bag
-    Then Verify user is in shopping bag page
-    When User presses browser back button
-    Then Verify user is in homepage

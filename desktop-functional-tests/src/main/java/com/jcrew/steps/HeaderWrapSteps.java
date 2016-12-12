@@ -8,6 +8,7 @@ import com.jcrew.utils.Util;
 import com.jcrew.utils.StateHolder;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gherkin.formatter.model.DataTableRow;
@@ -71,7 +72,18 @@ public class HeaderWrapSteps extends DriverFactory {
         assertTrue("Header contains a visible sign in", header.isSignInVisible());
     }
 
-
+    @And("User clicks on search using header")
+    public void user_clicks_search_from_header(){
+        header.clickSearch();
+    }
+    @And("User clicks on stores using header")
+    public void user_clicks_stores_from_header(){
+        header.clickStores();
+    }
+    @And("Verify search edit box is ([^\"]*)")
+    public void verify_search_edit_box(String strDisplay){
+        assertTrue("Search edit window is "+strDisplay, header.isSearchEditBoxDisplayed(strDisplay));
+    }
     @Then("User searches for a random term from list")
     public void user_searches_for_random_term(List<String> terms) {
         int index = Util.randomIndex(terms.size());
