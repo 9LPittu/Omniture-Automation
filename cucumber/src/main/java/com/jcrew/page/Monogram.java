@@ -93,6 +93,7 @@ public class Monogram extends PageObject {
         wait.until(ExpectedConditions.visibilityOf(style));
         wait.until(ExpectedConditions.elementToBeClickable(style));
         style.click();
+        Util.scrollAndClick(driver, style);
     }
 
     public List<String> getStampStyles() {

@@ -19,6 +19,9 @@ public class Product {
     private boolean isBackOrder = false;
     private boolean isCrewCut = false;
     private boolean isSoldOut = false;
+    private boolean hasMonogram = false;
+    private String monogramLetters;
+    private String monogramStyle;    
     
     private final Logger logger = LoggerFactory.getLogger(Product.class);
 
@@ -129,10 +132,34 @@ public class Product {
     
     public void setSoldOut(boolean soldOut) {
         isSoldOut = soldOut;
-    }
+    }  
     
     public String getCurrency() {
         return currency;
+    }
+    
+    public boolean hasMonogram() {
+        return hasMonogram;
+    }
+
+    public void setMonogram(boolean hasMonogram) {
+        this.hasMonogram = hasMonogram;
+    }
+
+    public String getMonogramLetters() {
+        return monogramLetters;
+    }
+
+    public void setMonogramLetters(String monogramLetters) {
+        this.monogramLetters = monogramLetters;
+    }
+
+    public String getMonogramStyle() {
+        return monogramStyle;
+    }
+
+    public void setMonogramStyle(String monogramStyle) {
+        this.monogramStyle = monogramStyle;
     }
 
     public String toString() {
