@@ -8,6 +8,7 @@ Feature: Registered User E2E order placing
   	And User closes email capture
   	
   	When User selects country as per testdata
+  	Then User should land on country specific home page
   	
   	When User clicks on sign in using header
   	And User enters login credentials
@@ -25,13 +26,13 @@ Feature: Registered User E2E order placing
   	And Navigate to Shipping Address page, if user is on Review page
   	Then Verify select shipping address page is displayed
   	
-  	When User selects Shipping Address as per testdata  	
+  	When User selects Shipping Addresses as per testdata  	
   	And apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to Shipping and Gift Options page
   	Then Verify Shipping And Gift Options page is displayed
   	
-  	When User selects Shipping Method as per testdata
+  	When User selects Shipping Methods as per testdata
   	And Select Gift Receipt as per testdata, if required
   	And Select Gift Wrapping as per testdata, if required
   	And apply promos, if required. If applied, verify promos are applied successfully
@@ -39,7 +40,7 @@ Feature: Registered User E2E order placing
   	When User continues to Payment Method page
   	Then Verify Billing page is displayed
   	
-  	When User selects Payment Method as per testdata
+  	When User selects Payment Methods as per testdata
   	And apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to review page

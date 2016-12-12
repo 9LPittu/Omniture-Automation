@@ -87,11 +87,9 @@ public class E2EMasterRunnerTest {
 	
 	public static void deleteDirectory(File directory){
 
-		  if(directory.isDirectory())
-		  {
+		  if(directory.isDirectory()) {
 			  File[] files=directory.listFiles();	
-	          for(int i=0;i<files.length;i++)
-			  {	
+	          for(int i=0;i<files.length;i++){	
 				deleteDirectory(files[i]);	
 			  }	
 			  
@@ -99,8 +97,7 @@ public class E2EMasterRunnerTest {
 					directory.delete();
 			  }
 		  }
-		  else
-		  {
+		  else{
 			if(directory.exists()){
 				directory.delete();
 			}
