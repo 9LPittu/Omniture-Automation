@@ -146,11 +146,13 @@ public class HeaderWrap {
 	public void clickSearch() {
         wait.until(ExpectedConditions.visibilityOf(search));
 		search.click();
+        Util.waitForPageReady(driver);
 	}
 
     public boolean isSearchEditBoxDisplayed(String strDisplay){
         boolean expected =false;
         if(strDisplay.equalsIgnoreCase("exposed"))expected = true;
+        Util.waitForPageReady(driver);
         WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
         WebElement searchInput = searchHeader
                 .findElement(By.xpath(".//input[contains(@class,'js-header__search__input')]"));
