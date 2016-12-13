@@ -67,7 +67,6 @@ Feature: View should be displayed for Regular Item and Backordered in Domestic C
     And items count should be displayed as 2 in the bag
     When User clicks on item bag
     
-    
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
     

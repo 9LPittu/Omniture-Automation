@@ -93,6 +93,7 @@ public class Monogram extends PageObject {
         wait.until(ExpectedConditions.visibilityOf(style));
         wait.until(ExpectedConditions.elementToBeClickable(style));
         style.click();
+        Util.scrollAndClick(driver, style);
     }
 
     public List<String> getStampStyles() {
@@ -139,7 +140,23 @@ public class Monogram extends PageObject {
 
         stateHolder.put("monogramLetters", letters.replace("-", ""));
     }
-
+    
+    public void selectRandomThreadColor(){
+    	List<WebElement> thread_colours = monogram_modal_window.findElements(By.className("js-monogram__thread"));
+        String color = "";
+        int index=0;
+        
+        if(!thread_colours.isEmpty()){
+        	index=Util.randomIndex(thread_colours.size());
+        	WebElement threadcolor = thread_colours.get(index);
+        	WebElement colorText = threadcolor.findElement(By.className("p-monogram__colors-name"));
+        	color=colorText.getText();
+        	threadcolor.click();
+        }
+        
+        stateHolder.put("monogramcolor", color);
+        
+    }
     public void save() {
         WebElement saveButton = monogram_modal_window.findElement(By.className("js-p-monogram--save"));
         saveButton.click();

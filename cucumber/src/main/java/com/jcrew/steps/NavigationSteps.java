@@ -180,6 +180,18 @@ public class NavigationSteps extends DriverFactory {
         
         stateHolder.put("monogramItem", testDataReader.getData("monogram.item"));
     }
+    
+    @When("^User navigates to expensive monogram product$")
+    public void navigate_expensive_monogram() {
+    	searchAndNavigateToPdp(testDataReader.getData("expensive.monogram.item"));
+        
+    	ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("expensive.monogram.color"));
+        pdp.select_size(testDataReader.getData("expensive.monogram.size"));
+        
+        stateHolder.put("expensivemonogramItem", testDataReader.getData("expensive.monogram.item"));
+    }
+    
     @When("^User navigates to regular product$")
     public void navigate_regular_item() {
     	searchAndNavigateToPdp(testDataReader.getData("regular.item"));
@@ -190,7 +202,16 @@ public class NavigationSteps extends DriverFactory {
         
        stateHolder.put("regularItem", testDataReader.getData("regular.item"));
     }
-    
+    @When("^User navigates to expensive regular product$")
+    public void navigate_expensive_regular_item() {
+    	searchAndNavigateToPdp(testDataReader.getData("expensive.regular.item"));
+        
+        ProductDetailPage pdp = new ProductDetailPage(getDriver());
+        pdp.select_color(testDataReader.getData("expensive.regular.item.color"));
+        pdp.select_size(testDataReader.getData("expensive.regular.item.size"));
+        
+       stateHolder.put("expensiveregularItem", testDataReader.getData("expensive.regular.item"));
+    }
     public void searchAndNavigateToPdp(String searchItem){
     	search(searchItem);
     	

@@ -17,7 +17,7 @@ Feature: View should be displayed for Regular Item and Backordered in Domestic C
    
    Scenario: ATP view should be displayed for regular item and backorder item
     #Add item to the bag
-    When User navigates to regular product
+    When User navigates to expensive regular product
     When Add to cart button is pressed
     When User clicks on item bag
     
@@ -26,7 +26,6 @@ Feature: View should be displayed for Regular Item and Backordered in Domestic C
     When Add to cart button is pressed
     
     When User clicks on item bag
-    When User edits 3 quantity of first item from bag
     And Verify subtotal is greater than 150 USD
     And Clicks on checkout    
     And page url should contain /checkout2/shoppingbag.jsp
@@ -55,7 +54,7 @@ Feature: View should be displayed for Regular Item and Backordered in Domestic C
     
     Scenario: No ATP view for BACKORDER item and monogram item
     #ATP_02
-    When User navigates to backordered product
+    When User navigates to expensive backordered product
     When Add to cart button is pressed
    	And items count should be displayed as 1 in the bag
 	When User navigates to monogram product

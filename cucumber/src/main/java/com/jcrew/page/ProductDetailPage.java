@@ -292,6 +292,14 @@ public class ProductDetailPage {
         thisProduct.setIsBackOrder(getIsBackordered());
         thisProduct.setIsCrewCut(getIsCrewCut());
         
+        ProductDetailAddMonogram monogram = new ProductDetailAddMonogram(driver);
+        
+        if(monogram.hasMonogram()) {
+        	thisProduct.setMonogram(true);
+        	thisProduct.setMonogramLetters((String) stateHolder.get("monogramLetters"));
+        	thisProduct.setMonogramStyle((String) stateHolder.get("monogramStyle"));
+        }
+        
         stateHolder.put("recentlyAdded", thisProduct);
         
         List<Product> productList = stateHolder.getList("toBag");
