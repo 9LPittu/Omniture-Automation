@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/HeaderAndFooter"},
-        tags = {"@Footer"},
+        tags = {"@Footer","@Header"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-HeaderFooter.json",

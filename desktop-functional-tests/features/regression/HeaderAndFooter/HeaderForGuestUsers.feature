@@ -15,11 +15,10 @@
       Then Verify user is in shopping bag page
       When User presses browser back button
       Then Verify user is in homepage
+      And Verify search drawer is closed
 
       When User clicks on search using header
-      And Verify search edit box is exposed
-      When User clicks on search using header
-      And Verify search edit box is hidden
+      And Verify search drawer is open
 
       When User clicks on stores using header
       Then Verify user is navigated to url https://stores.jcrew.com/ on same page
@@ -37,11 +36,10 @@
       Then Verify user is in shopping bag page
       When User presses browser back button
       Then Verify sale landing page is displayed
+      And Verify search drawer is closed
 
       When User clicks on search using header
-      And Verify search edit box is exposed
-      When User clicks on search using header
-      And Verify search edit box is hidden
+      And Verify search drawer is open
 
       When User clicks on stores using header
       Then Verify user is navigated to url https://stores.jcrew.com/ on same page
@@ -59,10 +57,10 @@
       Then Verify user is in shopping bag page
       When User presses browser back button
       Then Verify gender landing page is displayed
+      And Verify search drawer is closed
 
       When User clicks on search using header
-      And Verify search edit box is exposed
-      When User clicks on search using header
+      And Verify search drawer is open
 
       When User clicks on stores using header
       Then Verify user is navigated to url https://stores.jcrew.com/ on same page
@@ -83,10 +81,10 @@
       Then Verify user is in shopping bag page
       When User presses browser back button
       Then Verify user is in category array page
+      And Verify search drawer is closed
 
       When User clicks on search using header
-      And Verify search edit box is exposed
-      When User clicks on search using header
+      And Verify search drawer is open
 
       When User clicks on stores using header
       Then Verify user is navigated to url https://stores.jcrew.com/ on same page

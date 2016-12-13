@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -32,7 +33,7 @@ public class HomePage extends PageObject{
         wait.until(ExpectedConditions.visibilityOf(pageContent));
         WebElement body = driver.findElement(By.tagName("body"));
         String bodyClass = body.getAttribute("class");
-
+        Util.waitForPageFullyLoaded(driver);
         return "jcrew home".equals(bodyClass);
     }
 
