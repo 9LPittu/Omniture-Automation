@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.CurrencyChecker;
@@ -902,22 +903,22 @@ public class ProductDetailPage {
 	            expectedSizeMessage = testDataReader.getData("pdp.size.message");
 	            logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 	            
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
-
-	            int cntr = 0;
-	            do{	            	
-	            	try{
-	            		sizeMessage = Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOf(sizeMessage));
-	    	            Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sizeMessage)));
-	    	            actualSizeMessage = sizeMessage.getText().trim();
-	    	            break;
-	            	}
-	            	catch(Exception e){
-	            		Util.wait(3000);
-	            		cntr++;
-	            	}
-	            }while(cntr<3);
+	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeMessage));
 	            
+	            actualSizeMessage = Util.createWebDriverWait(driver).until(new Function<WebDriver, String>(){
+					@Override
+					public String apply(WebDriver driver) {
+						String sizeMessageText = null;					
+						try{
+							sizeMessageText = sizeMessage.getText().trim();
+							return sizeMessageText;
+						}
+						catch(StaleElementReferenceException sere){
+							logger.debug("StaleElementReferenceException is thrown...");
+							return null;
+						}					
+					}            	
+	            });
 	            
 	            logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
 	        } else {
@@ -946,11 +947,22 @@ public class ProductDetailPage {
 	        if (!countryCode.equalsIgnoreCase("us")) {
 	            expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
 	            logger.info("Expected PDP Message: {}", expectedPDPMessage);
-                Util.waitWithStaleRetry(driver,addToBag);
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpMessage)));
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
-	            actualPDPMessage = pdpMessage.getText().trim();
+	            Util.waitWithStaleRetry(driver, pdpMessage);
+	            
+	            actualPDPMessage = Util.createWebDriverWait(driver).until(new Function<WebDriver, String>(){
+					@Override
+					public String apply(WebDriver driver) {
+						String pdpMessageText = null;					
+						try{
+							pdpMessageText = pdpMessage.getText().trim();
+							return pdpMessageText;
+						}
+						catch(StaleElementReferenceException sere){
+							logger.debug("StaleElementReferenceException is thrown...");
+							return null;
+						}					
+					}            	
+	            });
 	            logger.info("Actual PDP Message: {}", expectedPDPMessage);
 	        } else {
 	            logger.info("PDP message will not be displayed for '" + countryCode + "' country");
