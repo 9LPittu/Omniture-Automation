@@ -8,6 +8,8 @@ Feature: Header verification on all pages for registered user
     Then User goes to sign in page
     And User fills user data and signs in
     Then Verify user is in My Account main page
+    When User clicks JCrew logo
+    Then Verify user is in homepage
 
   Scenario: Verify Header links are functional from home page
     When User clicks on sign in using header
