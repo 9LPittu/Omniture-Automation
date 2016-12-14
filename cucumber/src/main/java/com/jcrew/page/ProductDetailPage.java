@@ -542,8 +542,26 @@ public class ProductDetailPage {
     }
 
     public void go_to_wishlist() {
-        WebElement wishlistConfirmation = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.presenceOfElementLocated(By.className("wishlist-confirmation-text")));
+    	
+    	WebElement wishlistConfirmation = null;
+    	int cntr = 0;
+    	do{
+    		try{
+    			wishlistConfirmation = Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/10).until(
+    	                ExpectedConditions.presenceOfElementLocated(By.className("wishlist-confirmation-text")));
+    			break;
+    		}
+    		catch(StaleElementReferenceException sere){
+    			logger.debug("StaleElementReferenceException is thrown...");
+    			cntr++;
+    		}
+    		catch(NoSuchElementException nsee){
+    			logger.debug("NoSuchElementException is thrown...");
+    			cntr++;
+    		}
+    	}while(cntr<=Util.getDefaultTimeOutValue()/10);
+    	
+
         wishlistConfirmation.findElement(By.tagName("a")).click();
         Util.waitLoadingBar(driver);
     }
