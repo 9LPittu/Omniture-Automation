@@ -11,8 +11,7 @@ Feature: Header verification on all pages for registered user
     When User clicks JCrew logo
     Then Verify user is in homepage
 
-  #Scenario: Verify Header links are functional from home page
-  Scenario: development
+  Scenario: Verify Header links are functional from home page
     When User hovers over My Account
     Then Dropdown should welcome user by first name
 
@@ -34,10 +33,8 @@ Feature: Header verification on all pages for registered user
     When User clicks on sale link from top nav
     Then Verify sale landing page is displayed
 
-    When User clicks on sign in using header
-    Then Verify user is navigated to url /r/login on same page
-    When User presses browser back button
-    Then Verify sale landing page is displayed
+    When User hovers over My Account
+    Then Dropdown should welcome user by first name
 
     When User clicks in bag
     Then Verify user is in shopping bag page
@@ -56,10 +53,8 @@ Feature: Header verification on all pages for registered user
     When User clicks on random link from top nav
     Then Verify gender landing page is displayed
 
-    When User clicks on sign in using header
-    Then Verify user is navigated to url /r/login on same page
-    When User presses browser back button
-    Then Verify gender landing page is displayed
+    When User hovers over My Account
+    Then Dropdown should welcome user by first name
 
     When User clicks in bag
     Then Verify user is in shopping bag page
@@ -80,43 +75,13 @@ Feature: Header verification on all pages for registered user
       |girls|dresses|
     Then Verify user is in category array page
 
-    When User clicks on sign in using header
-    Then Verify user is navigated to url /r/login on same page
-    When User presses browser back button
-    Then Verify user is in category array page
+    When User hovers over My Account
+    Then Dropdown should welcome user by first name
 
     When User clicks in bag
     Then Verify user is in shopping bag page
     When User presses browser back button
     Then Verify user is in category array page
-    And Verify search drawer is closed
-
-    When User clicks on search using header
-    And Verify search drawer is open
-
-    When User clicks on stores using header
-    Then Verify user is navigated to url https://stores.jcrew.com/ on same page
-
-
-
-  Scenario: development2
-
-    Given User is on homepage with clean session
-    And User closes email capture
-    When User clicks on sign in using header
-    Then User goes to sign in page
-    And User fills user data and signs in
-    Then Verify user is in My Account main page
-
-    When User clicks on sign in using header
-    Then Verify user is navigated to url /r/login on same page
-    When User presses browser back button
-    Then Verify user is in My Account main page
-
-    When User clicks in bag
-    Then Verify user is in shopping bag page
-    When User presses browser back button
-    Then Verify user is in My Account main page
     And Verify search drawer is closed
 
     When User clicks on search using header
