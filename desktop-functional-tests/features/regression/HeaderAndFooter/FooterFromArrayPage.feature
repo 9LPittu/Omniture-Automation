@@ -118,27 +118,17 @@ Feature: Footer - From Category Array page
   Scenario: Verify popular search links in footer are functional from sale landing page
     When User clicks on Cardigans footer link under Popular Searches
     Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify sale landing page is displayed
 
     When User clicks on Blazers footer link under Popular Searches
     Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify user is in category array page
-
+    
     When User clicks on Men's Sweaters footer link under Popular Searches
-    Then Verify user is in category array page
-    When User presses browser back button
     Then Verify user is in category array page
 
     When User clicks on Business Casual For Women footer link under Popular Searches
     Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify user is in category array page
 
     When User clicks on Men's Chinos footer link under Popular Searches
-    Then Verify user is in category array page
-    When User presses browser back button
     Then Verify user is in category array page
 
     When User clicks on Men's Suits footer link under Popular Searches
