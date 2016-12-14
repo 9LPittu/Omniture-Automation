@@ -13,9 +13,9 @@ import org.junit.runner.RunWith;
         tags = {"@Footer","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-HeaderFooter.json",
+                "json:target/cucumber-Footer.json",
                 "pretty",
-                "html:target/cucumber/HeaderFooter"
+                "html:target/cucumber/Footer"
         }
 )
 public class FooterRunnerTest {
