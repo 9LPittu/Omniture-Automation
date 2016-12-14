@@ -48,20 +48,31 @@ public class HomePage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
         
-        if(!driver.getTitle().contains("Factory")){
-        	if(!driver.getCurrentUrl().contains("sidecar=false")){
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
-        	}
-        	else{
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("globalHeader")));
-        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("ftr")));
-        	}
-        }
-        else{
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("headerPanel")));
-        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("un_footer")));
-        }
+//        Commenting the below code as it may be required in future
+        
+//        if(!driver.getTitle().contains("Factory")){
+//        	if(!driver.getCurrentUrl().contains("sidecar=false")){
+//        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+//        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
+//        	}
+//        	else{
+//        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("globalHeader")));
+//        		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("ftr")));
+//        	}
+//        }
+//        else{
+//        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("headerPanel")));
+//        	Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("un_footer")));
+//        }
+        
+        if(!driver.getCurrentUrl().contains("sidecar=false")){
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("header__promo__wrap")));
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("footer__country-context")));
+    	}
+    	else{
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("globalHeader")));
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("ftr")));
+    	}
     }
 
     public void hit_enter_in_search_field() {
