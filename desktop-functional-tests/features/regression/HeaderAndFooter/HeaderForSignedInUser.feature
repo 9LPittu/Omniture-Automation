@@ -24,9 +24,9 @@ Feature: Header verification on all pages for registered user
     When User clicks on search using header
     And Verify search drawer is open
 
-
-    When User clicks on stores using header
-    Then Verify user is navigated to url https://stores.jcrew.com/ on same page
+ #JCSC-1554
+#    When User clicks on stores using header
+#    Then Verify user is navigated to url https://stores.jcrew.com/ on same page
 
 
   Scenario: Verify Header links are functional from Sale landing page
@@ -46,8 +46,9 @@ Feature: Header verification on all pages for registered user
     When User clicks on search using header
     And Verify search drawer is open
 
-    When User clicks on stores using header
-    Then Verify user is navigated to url https://stores.jcrew.com/ on same page
+ #JCSC-1554
+#    When User clicks on stores using header
+#    Then Verify user is navigated to url https://stores.jcrew.com/ on same page
 
   Scenario: Verify Header links are functional from Gender landing pages
     When User clicks on random link from top nav
@@ -65,8 +66,9 @@ Feature: Header verification on all pages for registered user
     When User clicks on search using header
     And Verify search drawer is open
 
-    When User clicks on stores using header
-    Then Verify user is navigated to url https://stores.jcrew.com/ on same page
+ #JCSC-1554
+#    When User clicks on stores using header
+#    Then Verify user is navigated to url https://stores.jcrew.com/ on same page
 
   Scenario: Verify Header links are functional from Array page
     When User hovers on a random category and subcategory from list
@@ -87,5 +89,6 @@ Feature: Header verification on all pages for registered user
     When User clicks on search using header
     And Verify search drawer is open
 
-    When User clicks on stores using header
-    Then Verify user is navigated to url https://stores.jcrew.com/ on same page
+ #JCSC-1554
+#    When User clicks on stores using header
+#    Then Verify user is navigated to url https://stores.jcrew.com/ on same page
