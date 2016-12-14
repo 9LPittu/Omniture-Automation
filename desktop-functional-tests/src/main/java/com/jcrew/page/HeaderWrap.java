@@ -172,7 +172,14 @@ public class HeaderWrap {
 	public void clickBag() {
 		bag.click();
 	}
-
+    public void myAccount(){
+        wait.until(ExpectedConditions.visibilityOf(myAccount));
+        myAccount.click();
+    }
+    public boolean isMyAccountDropdownDisplayed(){
+        dropdown = userPanel.findElement(By.tagName("dl"));
+        return dropdown.isDisplayed();
+    }
 	public boolean bagHasProducts() {
 		WebElement bagContainer = bag.findElement(By.xpath(".//parent::li"));
 		String classString = bagContainer.getAttribute("class");

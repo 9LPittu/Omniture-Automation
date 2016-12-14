@@ -103,6 +103,14 @@ public class HeaderWrapSteps extends DriverFactory {
     public void user_clicks_in_bag() {
         header.clickBag();
     }
+    @When("User clicks in My Account")
+    public void user_clicks_in_myAccount() {
+        header.myAccount();
+    }
+    @And("Verify My Account drop down is displayed")
+    public void my_account_drop_down_displayed(){
+        assertTrue("My Account drop down should display",header.isMyAccountDropdownDisplayed());
+    }
 
     @When("^User clicks on ([^\"]*) link from top nav$")
     public void click_on_given_link_from_top_nav(String Dept) {
