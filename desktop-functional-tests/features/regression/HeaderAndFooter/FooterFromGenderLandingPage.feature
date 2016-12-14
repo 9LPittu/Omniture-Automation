@@ -144,5 +144,5 @@ Feature: Footer - From Gender landing page
     Then Verify gender landing page is displayed
 
     When User clicks on Men's Suits footer link under Popular Searches
-    Then Verify gender landing page is displayed
+    Then Verify user is in category array page
 
