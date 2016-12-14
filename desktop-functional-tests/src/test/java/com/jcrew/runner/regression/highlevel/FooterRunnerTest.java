@@ -1,4 +1,4 @@
-package com.jcrew.runner.regression.full;
+package com.jcrew.runner.regression.highlevel;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/HeaderAndFooter"},
-        tags = {"@Footer","@Header"},
+        tags = {"@Footer","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-HeaderFooter.json",
@@ -18,5 +18,5 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber/HeaderFooter"
         }
 )
-public class HeaderFooterRunnerTest {
+public class FooterRunnerTest {
 }

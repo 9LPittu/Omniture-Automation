@@ -5,12 +5,12 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 /**
- * Created by msayed3 on 11/27/2016.
+ * Created by 9msyed on 12/14/2016.
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/HeaderAndFooter"},
-        tags = {"@Footer","@Header","@HighLevel"},
+        tags = {"@Header","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-HeaderFooter.json",
@@ -18,5 +18,5 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber/HeaderFooter"
         }
 )
-public class HeaderFooterRunnerTest {
+public class HeaderRunnerTest {
 }
