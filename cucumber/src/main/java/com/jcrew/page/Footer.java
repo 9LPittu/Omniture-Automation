@@ -456,17 +456,16 @@ public class Footer {
     
     public void clickLinkInLegalLinksSection(String linkName){
         Util.waitLoadingBar(driver);
-    	List<WebElement> legalSectionLinks = driver.findElements(By.className("footer__copyright__link"));
+    	List<WebElement> legalSectionLinks = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("footer__copyright__link")));
     	
     	for(WebElement legalSectionLink:legalSectionLinks){
     		String legalSectionLinkName = legalSectionLink.getText().trim();
     		if(legalSectionLinkName.equalsIgnoreCase(linkName)){
-    			Util.scrollToElement(driver, legalSectionLink);        
-    	        JavascriptExecutor jse = (JavascriptExecutor)driver;
+    			JavascriptExecutor jse = (JavascriptExecutor)driver;
     	        jse.executeScript("arguments[0].scrollIntoView();", legalSectionLink);
     			legalSectionLink.click();
     			break;
-    		}
+    		}    		
     	}
     }
     

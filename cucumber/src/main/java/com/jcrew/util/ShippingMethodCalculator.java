@@ -1,12 +1,5 @@
 package com.jcrew.util;
 
-import static org.junit.Assert.assertTrue;
-
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-
 import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
