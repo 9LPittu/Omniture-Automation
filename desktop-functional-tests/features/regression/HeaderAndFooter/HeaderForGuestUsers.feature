@@ -1,5 +1,5 @@
 @Header @HighLevel
-  Feature: Header verification on all pages for guest user
+  Feature: Header verification for guest user
 
     Background:
       Given User is on homepage with clean session

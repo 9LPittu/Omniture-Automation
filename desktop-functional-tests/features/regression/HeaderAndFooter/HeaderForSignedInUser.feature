@@ -1,5 +1,5 @@
 @Header @HighLevel
-Feature: Header verification on all pages for registered user
+Feature: Header verification for registered user
 
   Background:
     Given User is on homepage with clean session
@@ -24,7 +24,6 @@ Feature: Header verification on all pages for registered user
     When User clicks on search using header
     And Verify search drawer is open
 
-
     When User clicks on stores using header
     Then Verify user is navigated to url https://stores.jcrew.com/ on same page
 
@@ -45,7 +44,6 @@ Feature: Header verification on all pages for registered user
 
     When User clicks on search using header
     And Verify search drawer is open
-
 
     When User clicks on stores using header
     Then Verify user is navigated to url https://stores.jcrew.com/ on same page
@@ -87,7 +85,6 @@ Feature: Header verification on all pages for registered user
 
     When User clicks on search using header
     And Verify search drawer is open
-
 
     When User clicks on stores using header
     Then Verify user is navigated to url https://stores.jcrew.com/ on same page
