@@ -86,10 +86,7 @@ Feature: Footer - From Gender landing page
     When User clicks on Apply Today & Get 15% Off* footer link under The J.Crew Credit Card
     Then Verify user is navigated to url /help/credit_card.jsp?sidecar=true on same page
 
-#    When User presses browser back button
-#    Then Verify user is in homepage
-#    When User clicks on Get $25 For Every $500 You Spend** footer link under The J.Crew Credit Card
-#    Then Verify user is navigated to url /help/credit_card.jsp?sidecar=true on same page
+
 
   Scenario: Verify social links in footer are functional from home page
     When User clicks on facebook social link
