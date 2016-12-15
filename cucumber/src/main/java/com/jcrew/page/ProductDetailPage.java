@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.CurrencyChecker;
@@ -313,24 +314,25 @@ public class ProductDetailPage {
         int itemsInBag = (int)stateHolder.get("itemsInCart_BeforeAddToBag");
         boolean retry = true;
         int attempts = 0;
-        do {
-            int itemCount = getNumberOfItemsInBag();
-            if (itemCount <= itemsInBag) {
-                Util.scrollAndClick(driver,addToBag);
-                Util.waitLoadingBar(driver);
-
-                itemCount = getNumberOfItemsInBag();
-                if (itemCount > itemsInBag) {
-                    retry = false;
-                } else {
-                    attempts ++;
-                    Util.wait(5000);
-                }
-            }
-        } while (retry && attempts <=3);
-
+        
+        Util.scrollAndClick(driver,addToBag);
+        Util.waitLoadingBar(driver);
+                
+        do{
+        	int itemCount = getNumberOfItemsInBag();
+        	if (itemCount <= itemsInBag) {
+        		Util.wait(3000);
+                ((JavascriptExecutor)driver).executeScript("arguments[0].click();", addToBag);
+                attempts ++;
+        	}
+        	else{
+        		retry=false;        		
+        		break;
+        	}
+        }while(retry && attempts <=3);
+        
         if (retry)
-            throw new WebDriverException("Unable to add itenm to cart") ;
+            throw new WebDriverException("Unable to add item to cart") ;
     }
 
     public int getNumberOfItemsInBag() {
@@ -541,8 +543,26 @@ public class ProductDetailPage {
     }
 
     public void go_to_wishlist() {
-        WebElement wishlistConfirmation = Util.createWebDriverWait(driver).until(
-                ExpectedConditions.presenceOfElementLocated(By.className("wishlist-confirmation-text")));
+    	
+    	WebElement wishlistConfirmation = null;
+    	int cntr = 0;
+    	do{
+    		try{
+    			wishlistConfirmation = Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/10).until(
+    	                ExpectedConditions.presenceOfElementLocated(By.className("wishlist-confirmation-text")));
+    			break;
+    		}
+    		catch(StaleElementReferenceException sere){
+    			logger.debug("StaleElementReferenceException is thrown...");
+    			cntr++;
+    		}
+    		catch(NoSuchElementException nsee){
+    			logger.debug("NoSuchElementException is thrown...");
+    			cntr++;
+    		}
+    	}while(cntr<=Util.getDefaultTimeOutValue()/10);
+    	
+
         wishlistConfirmation.findElement(By.tagName("a")).click();
         Util.waitLoadingBar(driver);
     }
@@ -902,22 +922,22 @@ public class ProductDetailPage {
 	            expectedSizeMessage = testDataReader.getData("pdp.size.message");
 	            logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
 	            
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
-
-	            int cntr = 0;
-	            do{	            	
-	            	try{
-	            		sizeMessage = Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.visibilityOf(sizeMessage));
-	    	            Util.createWebDriverWait(driver,Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sizeMessage)));
-	    	            actualSizeMessage = sizeMessage.getText().trim();
-	    	            break;
-	            	}
-	            	catch(Exception e){
-	            		Util.wait(3000);
-	            		cntr++;
-	            	}
-	            }while(cntr<3);
+	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(sizeMessage));
 	            
+	            actualSizeMessage = Util.createWebDriverWait(driver).until(new Function<WebDriver, String>(){
+					@Override
+					public String apply(WebDriver driver) {
+						String sizeMessageText = null;					
+						try{
+							sizeMessageText = sizeMessage.getText().trim();
+							return sizeMessageText;
+						}
+						catch(StaleElementReferenceException sere){
+							logger.debug("StaleElementReferenceException is thrown...");
+							return null;
+						}					
+					}            	
+	            });
 	            
 	            logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
 	        } else {
@@ -946,11 +966,22 @@ public class ProductDetailPage {
 	        if (!countryCode.equalsIgnoreCase("us")) {
 	            expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
 	            logger.info("Expected PDP Message: {}", expectedPDPMessage);
-                Util.waitWithStaleRetry(driver,addToBag);
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(addToBag));
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(pdpMessage)));
-	            Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(pdpMessage));
-	            actualPDPMessage = pdpMessage.getText().trim();
+	            Util.waitWithStaleRetry(driver, pdpMessage);
+	            
+	            actualPDPMessage = Util.createWebDriverWait(driver).until(new Function<WebDriver, String>(){
+					@Override
+					public String apply(WebDriver driver) {
+						String pdpMessageText = null;					
+						try{
+							pdpMessageText = pdpMessage.getText().trim();
+							return pdpMessageText;
+						}
+						catch(StaleElementReferenceException sere){
+							logger.debug("StaleElementReferenceException is thrown...");
+							return null;
+						}					
+					}            	
+	            });
 	            logger.info("Actual PDP Message: {}", expectedPDPMessage);
 	        } else {
 	            logger.info("PDP message will not be displayed for '" + countryCode + "' country");
