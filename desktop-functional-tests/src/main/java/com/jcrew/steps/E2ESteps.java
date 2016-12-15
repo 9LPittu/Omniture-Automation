@@ -8,8 +8,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jcrew.page.ArraySearch;
 import com.jcrew.page.ContextChooser;
 import com.jcrew.page.Footer;
+import com.jcrew.page.HeaderWrap;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.ExcelUtils;
 import com.jcrew.utils.PropertyReader;
@@ -122,6 +124,19 @@ public class E2ESteps extends DriverFactory {
 				String color = getColumnValueFromItemMaster(rowNumber, "Color");
 				String size = getColumnValueFromItemMaster(rowNumber, "Size");
 				String quantity = arrQuantities[i];
+				
+				//Adding monogram item is pending. Will be added later
+				
+				//search for item
+				HeaderWrap headerWrap = new HeaderWrap(getDriver());
+				headerWrap.searchForSpecificTerm(productCode);
+				
+				String currentURL = getDriver().getCurrentUrl();
+				if(currentURL.contains("/r/search")){
+					//select random item from search results				
+					ArraySearch searchArray = new ArraySearch(getDriver());
+					searchArray.selectRandomProduct();
+				}			
 			}else{				
 				  throw new Exception("Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet!!!");				
 			}
