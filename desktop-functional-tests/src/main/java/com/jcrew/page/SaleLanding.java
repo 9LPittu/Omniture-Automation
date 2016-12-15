@@ -93,7 +93,7 @@ public class SaleLanding {
     public List<String> getSaleCategory() {
     	List <String> categoryName = new ArrayList<String>();
     	WebElement saleCategories = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("c-promo-categories")));
-    	List<WebElement> saleCategoryList = saleCategories.findElements(By.xpath(".//div[contains(@class,'c-category__list-item')]/a"));
+    	List<WebElement> saleCategoryList = saleCategories.findElements(By.xpath(".//div[contains(@class,'c-category__list-item')]/b/a"));
     	for (WebElement saleCategory:saleCategoryList) {
     		String categoryText = saleCategory.getAttribute("data-label").toLowerCase();
     		categoryName.add(categoryText);	
