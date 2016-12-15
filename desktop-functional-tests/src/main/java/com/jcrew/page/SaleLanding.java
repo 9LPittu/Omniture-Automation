@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -209,11 +210,23 @@ public class SaleLanding {
     }
     
     public void clickSecondPromoLink(String name) {
-    	name = name.toLowerCase().trim();
+    	final String secondPromoLinkName = name.toLowerCase().trim();
     	
     	wait.until(ExpectedConditions.visibilityOf(secondPromoBox));
     	
-    	WebElement promoLink = secondPromoBox.findElement(By.xpath(".//div/a[" + Util.xpathGetTextLower + "='" + name + "']"));
+    	WebElement promoLink = wait.until(new Function<WebDriver, WebElement>(){
+			@Override
+			public WebElement apply(WebDriver driver) {
+				try{
+					WebElement promoLinkElement = secondPromoBox.findElement(By.xpath(".//div/a[" + Util.xpathGetTextLower + "='" + secondPromoLinkName + "']"));
+					return promoLinkElement;
+				}
+				catch(NoSuchElementException nsee){
+					return null;
+				}
+			}    		
+    	});
+    	
     	wait.until(ExpectedConditions.elementToBeClickable(promoLink));
     	
     	Util.waitWithStaleRetry(driver, promoLink);
