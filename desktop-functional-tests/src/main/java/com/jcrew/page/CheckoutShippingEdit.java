@@ -38,4 +38,8 @@ public class CheckoutShippingEdit extends Checkout {
     public void selectAddressFromListNoDefault(){
     	selectAddressFromListNoDefault(shippingForm);
     }
+    
+    public void selectSpecificShippingAddress(String shippingAddress){
+    	
+    }
 }

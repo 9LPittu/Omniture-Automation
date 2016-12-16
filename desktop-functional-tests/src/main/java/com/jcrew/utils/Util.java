@@ -21,12 +21,14 @@ import java.util.*;
 
 public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
+    public final static StateHolder stateHolder = StateHolder.getInstance();
 
     public static final int DEFAULT_TIMEOUT = 60;
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
     
     public static final String UP = "up";
     public static final String DOWN = "down";
+    public static String e2eErrorMessages= "";
     
     public static String getEnvironment(){
     	return System.getProperty("environment", "ci");
@@ -326,5 +328,13 @@ public class Util {
         return variable_value;
 
     }
-
+    
+    public static void e2eErrorMessagesBuilder(String errorMessageText){
+		if(stateHolder.hasKey("e2e_error_messages")){
+			e2eErrorMessages = stateHolder.get("e2e_error_messages");
+		}
+		
+		e2eErrorMessages += errorMessageText + "\n";
+		stateHolder.put("e2e_error_messages", e2eErrorMessages);
+	}
 }

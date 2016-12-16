@@ -9,14 +9,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jcrew.page.ArraySearch;
+import com.jcrew.page.Checkout;
+import com.jcrew.page.CheckoutBilling;
+import com.jcrew.page.CheckoutReview;
+import com.jcrew.page.CheckoutShippingEdit;
+import com.jcrew.page.CheckoutShippingOptions;
+import com.jcrew.page.CheckoutShoppingBag;
 import com.jcrew.page.ContextChooser;
 import com.jcrew.page.Footer;
 import com.jcrew.page.HeaderWrap;
+import com.jcrew.page.ProductDetails;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.ExcelUtils;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
+import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -79,7 +87,7 @@ public class E2ESteps extends DriverFactory {
 		Map<String, Object> testdataMap = stateHolder.get("testdataRowMap");
 		logger.debug("Test data column name: {}", columnName);
 		String columnValue = (String) testdataMap.get(columnName);
-		return columnValue;
+		return columnValue.trim();
 	}
 	
 	public String getE2ETestdataDelimiter(){
@@ -87,7 +95,7 @@ public class E2ESteps extends DriverFactory {
 		String e2eDelimiter = testData.getData("e2e.testdata.delimiter");
 		return e2eDelimiter;
 	}
-	
+		
 	@When("^User selects country as per testdata$")
 	public void user_selects_country_as_per_testdata(){
 		String countryName = getDataFromTestDataRowMap("Ship To Country");
@@ -131,13 +139,27 @@ public class E2ESteps extends DriverFactory {
 				HeaderWrap headerWrap = new HeaderWrap(getDriver());
 				headerWrap.searchForSpecificTerm(productCode);
 				
+				//select random item from search results
 				String currentURL = getDriver().getCurrentUrl();
-				if(currentURL.contains("/r/search")){
-					//select random item from search results				
+				if(currentURL.contains("/r/search")){					
 					ArraySearch searchArray = new ArraySearch(getDriver());
 					searchArray.selectRandomProduct();
-				}			
-			}else{				
+				}
+				
+				//Select color
+				ProductDetails pdp = new ProductDetails(getDriver());
+				pdp.selectSpecifiedColor(color);
+				
+				//Select size
+				pdp.selectSpecifiedSize(size);
+				
+				//Select quantity
+				pdp.selectSpecifiedQuantity(quantity);
+				
+				//Add item to bag
+				pdp.addToBag();
+			}else{
+				  Util.e2eErrorMessagesBuilder("Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet");
 				  throw new Exception("Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet!!!");				
 			}
 		}
@@ -180,37 +202,86 @@ public class E2ESteps extends DriverFactory {
 		return (String) itemMasterTestdataMap.get(columnName);
 	}
 	
-	@When("^User searches items and add to bag$")
-	public void e2e_item_search(){
-		String itemCodes = getDataFromTestDataRowMap("Item Codes");
-		System.out.println(itemCodes);
-	}
-	
-	@And("^User select shipping address$")
-	public void e2e_select_shipping_address(){
-		String shippingAddress = getDataFromTestDataRowMap("Shipping Address");
-		System.out.println(shippingAddress);
-	}
-	
-	@And("^User select shipping method$")
-	public void e2e_select_shipping_method(){
-		String shippingMethod = getDataFromTestDataRowMap("Shipping Method");
-		System.out.println(shippingMethod);
+	@And("^Apply promos, if required. If applied, verify promos are applied successfully$")
+	public void apply_and_verify_promo(){
+		String promoCodes = getDataFromTestDataRowMap("Promo Codes");
+		if(promoCodes.isEmpty()){
+			return;
+		}
 		
-		if(shippingMethod.equalsIgnoreCase("Invalid")){
-			stateHolder.put("orderNumber", "Order number is not generated");
-			try {
-				org.junit.Assert.fail("Invalid shipping method");
-				throw new Exception("Invalid shipping method");
-			} catch (Exception e) {
-				e.printStackTrace();
+		String promoApplyPage = getDataFromTestDataRowMap("Promo Apply Page").toLowerCase();		
+		String currentPageTitle = getDriver().getTitle().toLowerCase();
+		
+		if(currentPageTitle.contains(promoApplyPage)){			
+			
+			String[] arrPromoCodes = promoCodes.split(getE2ETestdataDelimiter());
+			int maxPromoCodesCount = 0;
+			if(arrPromoCodes.length > 2){
+				maxPromoCodesCount = 2;
+				Util.e2eErrorMessagesBuilder("More than 2 promos cannot be applied on checkout pages. Only first 2 promos from test data will be applied!!");
 			}
+			else{
+				maxPromoCodesCount = arrPromoCodes.length;
+			}
+			
+			Checkout checkout = null;			
+			switch(promoApplyPage.toLowerCase()){
+				case "shopping bag":
+					checkout = new CheckoutShoppingBag(getDriver());
+					break;
+				case "shipping address":
+					checkout = new CheckoutShippingEdit(getDriver());
+					break;
+				case "shipping & gift options":
+					checkout = new CheckoutShippingOptions(getDriver());
+					break;
+				case "billing":
+					checkout = new CheckoutBilling(getDriver());
+					break;
+				case "review":
+					checkout = new CheckoutReview(getDriver());
+					break;
+			}
+			
+			for(int i=0;i<=maxPromoCodesCount - 1;i++){
+				String promoCode = arrPromoCodes[i];
+				checkout.addPromoCode(promoCode);
+				
+				if(!checkout.isPromoCodeApplied(promoCode)){
+					Util.e2eErrorMessagesBuilder("Failed to apply promo code: " + promoCode  + " in the order!!");
+				}
+				else{
+					logger.debug("Successfully applied promo code: {}", promoCode);
+				}
+			}	
 		}
+	}
+	
+	@And("^Navigate to Shipping Address page, if user is on Review page$")
+	public void navigate_to_shipping_address_page_is_user_on_review_page(){
+		String currentPageTitle = getDriver().getTitle().toLowerCase();
+		if(currentPageTitle.contains("review")){
+			CheckoutReview review = new CheckoutReview(getDriver());
+			 review.editDetails("shipping");
+			 new CheckoutShippingEdit(getDriver());
+		}
+	}
+	
+	@When("^User selects Shipping Addresses as per$")
+	public void user_selects_shipping_addessses(){
+		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
+		String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
 		
-		try {
-			Thread.sleep(5 * 1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if(!multipleShippingAddressRequired.equalsIgnoreCase("yes")){
+			//single address selection
+			if(shippingAddresses.isEmpty())
+				return;
+			
+			CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
 		}
-	}	
+		else{
+			 //multiple addresses selection
+			
+		}
+	}
 }

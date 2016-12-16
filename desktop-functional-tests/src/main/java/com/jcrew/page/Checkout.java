@@ -404,5 +404,15 @@ public abstract class Checkout extends PageObject{
     	WebElement promoMessageElement = orderSummary.findElement(By.xpath("//span[@class='summary-label' and text()='" + stateHolder.get("promoMessage") + "']"));
     	return promoMessageElement;
     }
+    
+    public boolean isPromoCodeApplied(String promoCodeText){
+    	try{
+    		 WebElement appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[@class='module-name' and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
+    		 return appliedPromoCodeElement.isDisplayed();
+    	}
+    	catch(NoSuchElementException nsee){
+    		return false;
+    	}
+    }
 
 }

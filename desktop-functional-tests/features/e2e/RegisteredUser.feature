@@ -20,14 +20,14 @@ Feature: Registered User E2E order placing
   	When User clicks in bag
   	Then Verify products added matches with products in bag
   	
-  	And apply promos, if required. If applied, verify promos are applied successfully
+  	And Apply promos, if required. If applied, verify promos are applied successfully  	
   	
   	When User clicks in CHECK OUT NOW button
-  	And Navigate to Shipping Address page, if user is on Review page
+  	And Navigate to Shipping Address page, if user is on Review page  	
   	Then Verify select shipping address page is displayed
   	
-  	When User selects Shipping Addresses as per testdata  	
-  	And apply promos, if required. If applied, verify promos are applied successfully
+  	When User selects Shipping Addresses as per testdata	  	
+  	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to Shipping and Gift Options page
   	Then Verify Shipping And Gift Options page is displayed
@@ -35,17 +35,17 @@ Feature: Registered User E2E order placing
   	When User selects Shipping Methods as per testdata
   	And Select Gift Receipt as per testdata, if required
   	And Select Gift Wrapping as per testdata, if required
-  	And apply promos, if required. If applied, verify promos are applied successfully
+  	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to Payment Method page
   	Then Verify Billing page is displayed
   	
   	When User selects Payment Methods as per testdata
-  	And apply promos, if required. If applied, verify promos are applied successfully
+  	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to review page
   	Then Verify user is in review page
-  	And apply promos, if required. If applied, verify promos are applied successfully
+  	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	And User enters security code as per payment method, if required
   	
