@@ -4,7 +4,7 @@ Feature: Checkout - Guest user is able to checkout
   Scenario: Checkout - Guest user is able to checkout
     Given User goes to homepage
     And User closes email capture
-    And User hovers on a random category from list
+    And User hovers on a random category from listtt
     	|Women|
     	|Men|
     	|Girls|
@@ -31,6 +31,7 @@ Feature: Checkout - Guest user is able to checkout
 
     When User selects a suggested address and continues
     Then Verify Shipping And Gift Options page is displayed    
+
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
