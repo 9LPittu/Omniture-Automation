@@ -200,4 +200,26 @@ public class CheckoutBilling extends Checkout {
 
         stateHolder.put("selectedPaymentMethod", paymentMethod) ;
     }
+    
+    public void selectSpecificPaymentMethod(String paymentMethodName){
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	String cardNumber = testDataReader.getData(paymentMethodName.toLowerCase() + ".card.number");
+    	String lastFourDigitsOfCardNum = cardNumber.substring(cardNumber.length() - 4);
+    	
+    	List<WebElement> paymentMethodElements = wallet_container.findElements(By.xpath("//span[contains(@class,'wallet-brand') and " + Util.xpathGetTextLower + "='" + 
+    											 paymentMethodName + "']/following-sibling::span[contains(@class,'wallet-line')"
+    											 + " and contains(normalize-space(.),'" + lastFourDigitsOfCardNum + "')"));
+    	
+    	if(paymentMethodElements.size()>0){
+    		WebElement paymentRadioButton = paymentMethodElements.get(0).findElement(By.xpath("preceding-sibling::input[@class='address-radio']"));
+    		paymentRadioButton.click();
+    	}else if(paymentMethodElements.size()==0){
+    		addPaymentMethod(paymentMethodName);
+    	}
+    }
+    
+    public void addPaymentMethod(String paymentMethodName){
+    	throw new UnsupportedOperationException("Adding payment method implementation is not yet added");
+    }
 }

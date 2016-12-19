@@ -40,7 +40,7 @@ Feature: Registered User E2E order placing
   	When User continues to Payment Method page
   	Then Verify Billing page is displayed
   	
-  	When User selects Payment Methods as per testdata
+  	When User selects Payment Methods as per testdata  	
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to review page

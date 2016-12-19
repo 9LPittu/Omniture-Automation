@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -18,12 +19,15 @@ import com.jcrew.page.CheckoutShoppingBag;
 import com.jcrew.page.ContextChooser;
 import com.jcrew.page.Footer;
 import com.jcrew.page.HeaderWrap;
+import com.jcrew.page.LogIn;
 import com.jcrew.page.ProductDetails;
+import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.ExcelUtils;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
+import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.And;
@@ -115,6 +119,32 @@ public class E2ESteps extends DriverFactory {
 	@And("^User enters login credentials$")
 	public void user_enter_login_credentials(){
 		String userType = getDataFromTestDataRowMap("User Type");
+		
+		String emailAddress = "";
+		String password = "";
+		
+		LogIn logIn = new LogIn(getDriver());
+		
+		switch(userType.toUpperCase()){
+			case "REGULAR":
+				UsersHub userHub = UsersHub.getInstance();
+				User user = null;
+				
+				try {
+					  user = userHub.getUser("express", "single");			  
+					  emailAddress = user.getEmail();
+				      password = user.getPassword();
+				      stateHolder.put("userObject", user);
+				}
+				catch (SQLException e) {			
+					e.printStackTrace();
+				}
+		    	
+				logIn.submitUserCredentials(emailAddress, password);
+				break;
+			case "VIP":
+				break;
+		}
 	}
 	
 	@When("^User adds the products to bag as per testdata$")
@@ -281,7 +311,8 @@ public class E2ESteps extends DriverFactory {
 			checkoutShipping.selectSpecificShippingAddress(shippingAddresses);
 		}
 		else{
-			 //multiple shipping addresses selection			
+			 //multiple shipping addresses selection
+			throw new UnsupportedOperationException("Multiple shipping addresses selection implementation is pending");
 		}
 	}
 	
@@ -299,7 +330,67 @@ public class E2ESteps extends DriverFactory {
 			shippingOptions.selectSpecificShippingMethod(shippingMethods);
 		}
 		else{
-			 //multiple shipping methods selection			
+			 //multiple shipping methods selection
+			throw new UnsupportedOperationException("Multiple shipping methods selection implementation is pending");
+		}
+	}
+	
+	@And("^Select Gift Receipt as per testdata, if required$")
+	public void select_gift_receipt(){
+		throw new UnsupportedOperationException("Gift receipt implementation is pending");
+	}
+	
+	@And("^Select Gift Wrapping as per testdata, if required$")
+	public void select_gift_wrapping(){
+		throw new UnsupportedOperationException("Gift wrapping implementation is pending");
+	}
+	
+	@When("^User selects Payment Methods as per testdata$")
+	public void user_selects_payment_methods(){
+		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
+		String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
+		String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
+		
+		if(!splitPaymentsRequired.equalsIgnoreCase("YES")){
+			//single payment method selection
+			if(paymentMethod1.isEmpty())
+				return;
+			
+			switch(paymentMethod1.toUpperCase()){
+				case "PAYPAL":
+					throw new UnsupportedOperationException("Selecting Paypal payment method is pending");
+				default:
+					CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
+					checkoutBilling.selectSpecificPaymentMethod(paymentMethod1);
+			}
+		}
+		else{
+			//split payment methods selection
+			throw new UnsupportedOperationException("Split payment methods implementation is pending");
+		}
+	}
+	
+	@And("^User enters security code as per payment method, if required$")
+	public void user_enters_security_code(){
+		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
+		String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
+		String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
+		
+		CheckoutReview checkoutReview = new CheckoutReview(getDriver());
+		
+		if(!splitPaymentsRequired.equalsIgnoreCase("YES")){
+			switch(paymentMethod1.toUpperCase()){
+				case "PAYPAL":
+					return;
+				default:
+					//entering security code when single payment method is used
+					checkoutReview.enterSecurityCode(paymentMethod1);
+			}
+		}
+		else{
+			//entering security code when split payment is done
+			checkoutReview.enterSecurityCode(paymentMethod1);
+			checkoutReview.enterSecurityCode(paymentMethod2);
 		}
 	}
 }

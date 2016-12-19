@@ -148,4 +148,13 @@ public class CheckoutReview extends Checkout{
     	String selectedShippingMethod = getShippingMethod();
         stateHolder.put("selectedShippingMethod", selectedShippingMethod);
     }
+    
+    public void enterSecurityCode(String paymentMethodName){
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	String paymentMethodShortName = testDataReader.getData(paymentMethodName.toLowerCase() + ".short.name");
+    	String securityCodeText = testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code");
+    	
+    	WebElement securityCode = billing_details.findElement(By.className("textbox-manager security-code-id form-textbox" +  paymentMethodShortName.toUpperCase()));
+        securityCode.sendKeys(securityCodeText);
+    }
 }

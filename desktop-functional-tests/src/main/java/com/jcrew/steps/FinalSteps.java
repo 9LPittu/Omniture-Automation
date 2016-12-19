@@ -19,6 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +35,6 @@ public class FinalSteps {
     private final Logger logger = LoggerFactory.getLogger(StartSteps.class);
     private DriverFactory driverFactory = new DriverFactory();
     private WebDriver driver = driverFactory.getDriver();
-    private StateHolder holder = StateHolder.getInstance();
     private final StateHolder stateHolder = StateHolder.getInstance();
 
     @AfterStep
@@ -70,8 +72,8 @@ public class FinalSteps {
                     scenario.embed(data.getBytes(), "text/plain");
                 }
                 
-                if(holder.hasKey("userObject")){
-                	User user = holder.get("userObject");
+                if(stateHolder.hasKey("userObject")){
+                	User user = stateHolder.get("userObject");
                 	String userName = "Email address: " + user.getEmail();
                 	scenario.embed(userName.getBytes(), "text/plain");
                 }
@@ -94,7 +96,7 @@ public class FinalSteps {
         	scenario.embed(orderTestData.getBytes(), "text/plain");
         }
         
-        holder.clear();
+        stateHolder.clear();
     }
     
     private String getExecutionDetails() {
@@ -128,9 +130,9 @@ public class FinalSteps {
     	
     	String orderTestData = "";
     	
-    	if(holder.hasKey("testdataRowMap")){
-        	ExcelUtils testdataReader = holder.get("excelObject");
-        	int rowNumber = holder.get("excelrowno");
+    	if(stateHolder.hasKey("testdataRowMap")){
+        	ExcelUtils testdataReader = stateHolder.get("excelObject");
+        	int rowNumber = stateHolder.get("excelrowno");
         	try {
 				testdataReader.setCellValueInExcel(rowNumber, "Execution Completed", "Yes");
 			} catch (Exception e) {
@@ -138,12 +140,27 @@ public class FinalSteps {
 			}
         	
         	String orderNumber = "";        	
-        	if(holder.hasKey("orderNumber")){
-        		orderNumber = holder.get("orderNumber");
+        	if(stateHolder.hasKey("orderNumber")){
+        		orderNumber = stateHolder.get("orderNumber");
         	}
         	
         	try {
-				testdataReader.setCellValueInExcel(rowNumber, "Order Number", orderNumber);
+				testdataReader.setCellValueInExcel(rowNumber, "Order Number", orderNumber);				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        	
+    		try {
+    			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
+        		String currentDateTime = dateFormat.format(new Date());
+				testdataReader.setCellValueInExcel(rowNumber, "LastUpdated_DateTime", currentDateTime);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        	
+        	try {
+        		String e2eErrorMessages = stateHolder.get("e2e_error_messages");
+				testdataReader.setCellValueInExcel(rowNumber, "Additional Error Details", e2eErrorMessages);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -156,7 +173,7 @@ public class FinalSteps {
         	
         	orderTestData +=  "Order Number = " + orderNumber + "\n";
         	
-        	Map<String, Object> testdataRowMap = holder.get("testdataRowMap");
+        	Map<String, Object> testdataRowMap = stateHolder.get("testdataRowMap");
         	testdataRowMap.remove("Order Number");
         	testdataRowMap.remove("Execute");
         	testdataRowMap.remove("Execution Completed");
