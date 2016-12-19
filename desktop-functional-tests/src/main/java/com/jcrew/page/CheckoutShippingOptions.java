@@ -21,6 +21,9 @@ public class CheckoutShippingOptions extends Checkout {
     @FindBy(id = "frmSelectShippingMethod")
     private WebElement shippingMethodForm;
     
+    @FindBy(className="shippingmethod-container")
+    private WebElement shippingMethodContainer;
+    
     @FindBy(id = "method0")
     private WebElement firstShipMethod;
 
@@ -158,5 +161,12 @@ public class CheckoutShippingOptions extends Checkout {
     		e.printStackTrace();
     		return false;
     	}
+    }
+    
+    public void selectSpecificShippingMethod(String shippingMethodName){
+    	WebElement shippingMethodRadioBtn = shippingMethodContainer.findElement(By.xpath(".//span[@class='method-group' and contains(normalize-space(.),'" + shippingMethodName
+    			                                                                         + "')]/preceding-sibling::input[@name='shippingMethod']"));
+    	shippingMethodRadioBtn.click();
+    	logger.debug("Selected Shipping Method: {}", shippingMethodName);    	
     }
 }

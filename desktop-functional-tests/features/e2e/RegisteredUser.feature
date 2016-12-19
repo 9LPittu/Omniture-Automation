@@ -2,7 +2,7 @@
 Feature: Registered User E2E order placing
 
  Scenario: Registered User order placing E2E scenario
-	Given test data is read from excel file "E2E_RegisteredUser_Testdata_Sheet.xls"
+	Given Test data is read from excel file "E2E_RegisteredUser_Testdata_Sheet.xls"	
  	
  	And User goes to homepage
   	And User closes email capture
@@ -26,15 +26,15 @@ Feature: Registered User E2E order placing
   	And Navigate to Shipping Address page, if user is on Review page  	
   	Then Verify select shipping address page is displayed
   	
-  	When User selects Shipping Addresses as per testdata	  	
+  	When User selects Shipping Addresses as per testdata  		  	
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to Shipping and Gift Options page
   	Then Verify Shipping And Gift Options page is displayed
   	
-  	When User selects Shipping Methods as per testdata
-  	And Select Gift Receipt as per testdata, if required
-  	And Select Gift Wrapping as per testdata, if required
+  	When User selects Shipping Methods as per testdata  	
+  	#And Select Gift Receipt as per testdata, if required
+  	#And Select Gift Wrapping as per testdata, if required
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to Payment Method page

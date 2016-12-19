@@ -59,7 +59,7 @@ public class E2ESteps extends DriverFactory {
 		}
 	}
 	
-	@Given("^test data is read from excel file \"([^\"]*)\"$")
+	@Given("^Test data is read from excel file \"([^\"]*)\"$")
 	public void read_test_data_from_excel(String excelFileName) throws FileNotFoundException, IOException{
 		
 		ExcelUtils testDataReader;
@@ -267,21 +267,39 @@ public class E2ESteps extends DriverFactory {
 		}
 	}
 	
-	@When("^User selects Shipping Addresses as per$")
+	@When("^User selects Shipping Addresses as per testdata$")
 	public void user_selects_shipping_addessses(){
 		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
 		String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
 		
-		if(!multipleShippingAddressRequired.equalsIgnoreCase("yes")){
-			//single address selection
+		if(!multipleShippingAddressRequired.equalsIgnoreCase("YES")){
+			//single shipping address selection
 			if(shippingAddresses.isEmpty())
 				return;
 			
 			CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
+			checkoutShipping.selectSpecificShippingAddress(shippingAddresses);
 		}
 		else{
-			 //multiple addresses selection
+			 //multiple shipping addresses selection			
+		}
+	}
+	
+	@When("^User selects Shipping Methods as per testdata$")
+	public void user_selects_shipping_methods(){
+		String multipleShippingMethodsRequired = getDataFromTestDataRowMap("Multiple Shipping Methods Required?");
+		String shippingMethods = getDataFromTestDataRowMap("Shipping Methods");
+		
+		if(!multipleShippingMethodsRequired.equalsIgnoreCase("YES")){
+			//single shipping method selection
+			if(shippingMethods.isEmpty())
+				return;
 			
+			CheckoutShippingOptions shippingOptions = new CheckoutShippingOptions(getDriver());
+			shippingOptions.selectSpecificShippingMethod(shippingMethods);
+		}
+		else{
+			 //multiple shipping methods selection			
 		}
 	}
 }

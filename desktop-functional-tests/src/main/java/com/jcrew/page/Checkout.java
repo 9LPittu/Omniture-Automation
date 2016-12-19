@@ -414,5 +414,4 @@ public abstract class Checkout extends PageObject{
     		return false;
     	}
     }
-
 }
