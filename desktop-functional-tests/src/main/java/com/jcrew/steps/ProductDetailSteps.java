@@ -51,7 +51,7 @@ public class ProductDetailSteps extends DriverFactory {
     @Then("Verify product detail page is displayed")
     public void user_is_on_a_product_detail_page() throws InterruptedException {
         assertTrue("User should be in detail page",
-        		productDetails.isProductDetailPage());
+        		!productDetails.isProductDetailPage());
     }
 
 
