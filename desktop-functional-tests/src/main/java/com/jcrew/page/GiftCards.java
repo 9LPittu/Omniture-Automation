@@ -122,8 +122,4 @@ public class GiftCards  extends PageObject {
     	
 		Util.waitLoadingBar(driver);
     }
-    
-    public boolean isDisplayed() {
-    	return true;
-    }
 }
