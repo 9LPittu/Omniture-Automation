@@ -21,15 +21,6 @@ Feature: Checkout - Guest user is able to checkout
 	Then Verify shopping bag is displayed
     Then Verify products added matches with products in bag
     And Verify all products have edit and remove buttons
-    And Verify bag has a promo code section
-    And Verify bag has a gift card section
-    And Verify bag has a order summary section
-    And Verify bag has a paypal button
-    And Verify bag has a help section with phone 800 562 0258 for questions
-
-    When User fills zip code field with 10003
-    Then Verify estimated tax is populated
-    And Verify estimated total sum
 
     When User clicks in CHECK OUT NOW button
     And User checks out as guest
@@ -39,11 +30,7 @@ Feature: Checkout - Guest user is able to checkout
     Then Verify QAS page is displayed
 
     When User selects a suggested address and continues
-    Then Verify Shipping And Gift Options page is displayed
-    And validate correct shipping methods displayed on the page     
-      
-    And Verify Shipping Options Page contains gift option section
-    And Verify default value for shipping method
+    Then Verify Shipping And Gift Options page is displayed    
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
