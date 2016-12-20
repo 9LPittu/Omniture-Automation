@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.PropertyReader;
@@ -271,9 +272,25 @@ public class MultiplePdpPage {
     	Util.scrollToElement(driver, productVariations);
     	
         By currentVariationXpath = By.xpath(".//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]");
-        WebElement currentVariation =  wait.until(ExpectedConditions.presenceOfElementLocated(currentVariationXpath));
+        final WebElement currentVariation =  wait.until(ExpectedConditions.presenceOfElementLocated(currentVariationXpath));
         wait.until(ExpectedConditions.visibilityOf(currentVariation));
-        WebElement nextVariation = currentVariation.findElement(By.xpath("following-sibling::li/div[contains(@class,'radio__label')]"));
+        
+        WebElement nextVariation = wait.until(new Function<WebDriver, WebElement>(){
+			@Override
+			public WebElement apply(WebDriver driver) {
+				WebElement variation = currentVariation.findElement(By.xpath("following-sibling::li/div[contains(@class,'radio__label')]"));
+				try{
+					if(variation.isDisplayed()){
+						return variation;
+					}
+					return null;
+				}
+				catch(NoSuchElementException nsee){
+					return null;
+				}
+				
+			}        	
+        });
 
         String url = driver.getCurrentUrl();
         nextVariation.click();

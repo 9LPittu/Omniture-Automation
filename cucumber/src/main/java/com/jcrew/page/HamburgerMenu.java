@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.TestDataReader;
 import com.jcrew.util.Util;
@@ -176,8 +177,23 @@ public class HamburgerMenu {
     }
 
     public void click_on_selected_featured_this_month(String choice) {
-        WebElement level3Menus = driver.findElement(
-                By.xpath("//div[@class='c-menus menus--level3 js-menus--level3']/div[@class='menu__item is-lazy-loaded']"));
+    	WebElement level3Menus = Util.createWebDriverWait(driver).until(new Function<WebDriver, WebElement>(){
+			@Override
+			public WebElement apply(WebDriver driver) {
+				WebElement level3Menus = driver.findElement(
+		                By.xpath("//div[@class='c-menus menus--level3 js-menus--level3']/div[@class='menu__item is-lazy-loaded']"));
+				try{
+					if(level3Menus.isDisplayed()){
+						return level3Menus;
+					}
+					return null;
+				}
+				catch(NoSuchElementException nsee){
+					return null;
+				}
+			}
+        });
+        
         WebElement looksWeLove = level3Menus.findElement(
                 By.xpath(".//span[@class='menu__link__label' and contains(" + Util.xpathGetTextLower + ",'" + choice.toLowerCase() + "')]"));
 
