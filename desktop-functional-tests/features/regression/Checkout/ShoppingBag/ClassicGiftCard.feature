@@ -15,8 +15,8 @@ Feature: Checkout - Add Classic Gift Card to Bag
     And User enters Dad & Mom as Sender Name    
     And User enters any name as Recipient Name    
     And User enters any email as Recipient Email Address    
-    And User enters Automated Gift Message for Line 1 as gift message in Line 1
-    And User enters Automated Gift Message for Line 2 as gift message in Line 2
+    And User enters Auto Gift Message for Line 1 as gift message in Line 1
+    And User enters Auto Gift Message for Line 2 as gift message in Line 2
     And User clicks Add to Bag on gift cards page        
     
     When User clicks in bag
