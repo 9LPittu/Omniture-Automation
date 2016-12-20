@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -92,7 +93,7 @@ public class SaleLanding {
     public List<String> getSaleCategory() {
     	List <String> categoryName = new ArrayList<String>();
     	WebElement saleCategories = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("c-promo-categories")));
-    	List<WebElement> saleCategoryList = saleCategories.findElements(By.xpath(".//div[contains(@class,'c-category__list-item')]/a"));
+    	List<WebElement> saleCategoryList = saleCategories.findElements(By.xpath(".//div[contains(@class,'c-category__list-item')]/b/a"));
     	for (WebElement saleCategory:saleCategoryList) {
     		String categoryText = saleCategory.getAttribute("data-label").toLowerCase();
     		categoryName.add(categoryText);	
@@ -209,11 +210,23 @@ public class SaleLanding {
     }
     
     public void clickSecondPromoLink(String name) {
-    	name = name.toLowerCase().trim();
+    	final String secondPromoLinkName = name.toLowerCase().trim();
     	
     	wait.until(ExpectedConditions.visibilityOf(secondPromoBox));
     	
-    	WebElement promoLink = secondPromoBox.findElement(By.xpath(".//div/a[" + Util.xpathGetTextLower + "='" + name + "']"));
+    	WebElement promoLink = wait.until(new Function<WebDriver, WebElement>(){
+			@Override
+			public WebElement apply(WebDriver driver) {
+				try{
+					WebElement promoLinkElement = secondPromoBox.findElement(By.xpath(".//div/b/a[" + Util.xpathGetTextLower + "='" + secondPromoLinkName + "']"));
+					return promoLinkElement;
+				}
+				catch(NoSuchElementException nsee){
+					return null;
+				}
+			}    		
+    	});
+    	
     	wait.until(ExpectedConditions.elementToBeClickable(promoLink));
     	
     	Util.waitWithStaleRetry(driver, promoLink);
