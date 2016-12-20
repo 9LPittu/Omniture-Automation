@@ -21,6 +21,21 @@ import com.jcrew.utils.Util;
 public class GiftCards  extends PageObject {
 	
 	
+	@FindBy(id="cardTypePanel")
+	private WebElement cardPanel;
+	
+	@FindBy(id="senderInfoPanel")
+	private WebElement senderInfoPanel;
+	
+	@FindBy(id="recipientInfoPanel")
+	private WebElement recipientInfoPanel;
+	
+	@FindBy(id="giftMessagePanel")
+	private WebElement giftMessagePanel;
+	
+	@FindBy(id="amountList")
+	private WebElement amountList;
+	
 	@FindBy(xpath="//a[@id='eGiftCard']/img")
 	private WebElement eGiftCardImage;
 	
@@ -28,7 +43,7 @@ public class GiftCards  extends PageObject {
 	private WebElement eGiftPanel;
 	
 	@FindBy(id="senderNameEgc")
-	private WebElement senderName;
+	private WebElement eGiftSenderName;
 	
 	@FindBy(id="RecipientNameEgc")
 	private WebElement recipientName;
@@ -43,7 +58,9 @@ public class GiftCards  extends PageObject {
 	private WebElement giftMessage;
 	
 	@FindBy(id="submitEgift")
-	private WebElement addToBag; 
+	private WebElement addToBag;
+	
+	private String cardType;
 	
 	
     public GiftCards(WebDriver driver) {
@@ -82,7 +99,7 @@ public class GiftCards  extends PageObject {
     	//Enter sender name
     	User sender = User.getNewFakeUser();
     	String senderNameValue = sender.getFirstName();
-    	senderName.sendKeys(senderNameValue);
+    	eGiftSenderName.sendKeys(senderNameValue);
     	logger.info("Sender name entered: {}", senderNameValue);
     	stateHolder.put("giftCardSenderName", senderNameValue);
     	
@@ -118,6 +135,142 @@ public class GiftCards  extends PageObject {
     	catch(WebDriverException e){
     		JavascriptExecutor jse = (JavascriptExecutor)driver;
     		jse.executeScript("arguments[0].click();", addToBag);
+    	}
+    	
+		Util.waitLoadingBar(driver);
+    }
+    
+    public boolean isDisplayed() {
+    	return true;
+    }
+    
+    public void selectCardType(String cardTypeName){
+    	WebElement cardImage = cardPanel.findElement(By.xpath(".//h4[text()='" + cardTypeName + "']/preceding-sibling::a/img"));
+    	cardImage.click();
+    	cardType = cardTypeName;
+    	stateHolder.put("giftCardType", cardTypeName);
+    }
+    
+    public void selectGiftAmount(String giftAmount){
+    	//choose amount
+    	wait.until(ExpectedConditions.visibilityOf(amountList));
+    	
+    	WebElement giftCardAmount = null;
+    	if(giftAmount.equalsIgnoreCase("any")){
+    		List<WebElement> giftCardAmounts = amountList.findElements(By.xpath(".//a[contains(@id,'amount')]"));
+    		int randomIndex = Util.randomIndex(giftCardAmounts.size());
+    		giftCardAmount = giftCardAmounts.get(randomIndex);    		
+    	}
+    	else{
+    		try{
+    			giftCardAmount = amountList.findElement(By.xpath(".//a[@id='amount'" + giftAmount +"]"));
+    		}
+    		catch(NoSuchElementException e){
+    			logger.error("Invalid e-gift card amount - {}", giftAmount);    			
+    			throw new WebDriverException("Invalid e-gift card amount - " + giftAmount);
+    		}
+    	}
+    	
+    	logger.info("Gift amount selected: {}", giftCardAmount.getText().trim());
+    	giftCardAmount.click();    	
+    }
+    
+    public void enterSenderName(String senderNameText){
+
+    	WebElement senderNameElement = null;
+    	if(cardType.contains("classic")){
+    		senderNameElement = senderInfoPanel.findElement(By.id("senderName"));
+    	}
+    	else{
+    		senderNameElement = senderInfoPanel.findElement(By.id("senderNameEgc"));
+    	}
+    	
+    	if(senderNameText.contains("any ")){
+        	User sender = User.getNewFakeUser();
+        	senderNameText = sender.getFirstName();        	
+    	}
+    	
+    	senderNameElement.sendKeys(senderNameText);
+    	logger.info("Sender name entered: {}", senderNameText);
+    	stateHolder.put("giftCardSenderName", senderNameText);
+    }
+    
+    public void enterRecipientName(String recipientNameText){
+
+    	WebElement recipientNameElement = null;
+    	if(cardType.contains("classic")){
+    		recipientNameElement = recipientInfoPanel.findElement(By.id("RecipientName"));
+    	}
+    	else{
+    		recipientNameElement = recipientInfoPanel.findElement(By.id("RecipientNameEgc"));
+    	}
+    	
+    	if(recipientNameText.contains("any ")){
+        	User user = User.getNewFakeUser();
+        	recipientNameText = user.getFirstName();
+    	}
+    	
+    	recipientNameElement.sendKeys(recipientNameText);
+    	logger.info("Recipient name entered: {}", recipientNameText);
+    	stateHolder.put("giftCardRecipientName", recipientNameText);
+    }
+    
+    public void enterRecipientEmailAddress(String recipientEmailAddressText){
+    	WebElement recipientEmailAddressElement = null;
+    	if(cardType.contains("classic")){
+    		recipientEmailAddressElement = recipientInfoPanel.findElement(By.id("emailAddress"));
+    	}
+    	else{
+    		recipientEmailAddressElement = recipientInfoPanel.findElement(By.id("emailAddressEgc"));
+    	}
+    	
+    	if(recipientEmailAddressText.contains("any ")){
+        	User user = User.getNewFakeUser();
+        	recipientEmailAddressText = user.getEmail();
+    	}
+    	
+    	recipientEmailAddressElement.sendKeys(recipientEmailAddressText);
+    	logger.info("Recipient Email Address entered: {}", recipientEmailAddressText);
+    	stateHolder.put("giftCardRecipientEmailAddress", recipientEmailAddressText);
+    }
+    
+    public void enterGiftMessage(String message, String fieldName){
+    	WebElement giftMessageElement=null;
+    	switch(fieldName.toLowerCase()){
+    		case "line 1":
+    			giftMessageElement = giftMessagePanel.findElement(By.id("text1Message"));
+    			break;
+    		case "line 2":
+    			giftMessageElement = giftMessagePanel.findElement(By.id("text2Message"));
+    			break;
+    		case "gift message":
+    			giftMessageElement = giftMessagePanel.findElement(By.id("textAreaMessage"));
+    			break;
+    		default:
+    			throw new WebDriverException(fieldName + " is not recognized on the gift cards page");
+    	}
+    	
+    	//enter gift message
+    	giftMessageElement.sendKeys(message);
+    	logger.info("Message for {} field is entered as: {}", fieldName, message);
+    }
+    
+    public void clickAddtoBag(){
+    	WebElement addToBagButton = null;
+    	if(cardType.contains("classic")){
+    		addToBagButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submitClassic")));
+    	}
+    	else{
+    		addToBagButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("submitEgift")));
+    	}
+    	
+    	try{
+    		Util.scrollToElement(driver, addToBagButton);
+    		addToBag.click();
+    	}
+    	catch(WebDriverException e){
+    		JavascriptExecutor jse = (JavascriptExecutor)driver;
+    		jse.executeScript("arguments[0].click();", addToBagButton);
     	}
     	
 		Util.waitLoadingBar(driver);
