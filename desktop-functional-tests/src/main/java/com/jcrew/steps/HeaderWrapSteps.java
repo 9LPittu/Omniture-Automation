@@ -8,6 +8,7 @@ import com.jcrew.utils.Util;
 import com.jcrew.utils.StateHolder;
 
 import cucumber.api.DataTable;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gherkin.formatter.model.DataTableRow;
@@ -71,6 +72,14 @@ public class HeaderWrapSteps extends DriverFactory {
         assertTrue("Header contains a visible sign in", header.isSignInVisible());
     }
 
+    @And("User clicks on search using header")
+    public void user_clicks_search_from_header(){
+        header.clickSearch();
+    }
+    @And("User clicks on stores using header")
+    public void user_clicks_stores_from_header(){
+        header.clickStores();
+    }
 
     @Then("User searches for a random term from list")
     public void user_searches_for_random_term(List<String> terms) {
@@ -93,6 +102,14 @@ public class HeaderWrapSteps extends DriverFactory {
     @When("User clicks in bag")
     public void user_clicks_in_bag() {
         header.clickBag();
+    }
+    @When("User clicks in My Account")
+    public void user_clicks_in_myAccount() {
+        header.myAccount();
+    }
+    @And("Verify My Account drop down is displayed")
+    public void my_account_drop_down_displayed(){
+        assertTrue("My Account drop down should display",header.isMyAccountDropdownDisplayed());
     }
 
     @When("^User clicks on ([^\"]*) link from top nav$")

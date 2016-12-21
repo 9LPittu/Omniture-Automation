@@ -37,11 +37,13 @@ public class CheckoutShoppingBag extends Checkout {
 
     public CheckoutShoppingBag(WebDriver driver) {
         super(driver);
-        wait.until(ExpectedConditions.visibilityOf(checkoutNow));
+ //       wait.until(ExpectedConditions.visibilityOf(checkoutNow));
+        Util.waitForPageFullyLoaded(driver);
         this.footer = new Footer(driver);
     }
 
     public boolean isDisplayed() {
+        Util.waitForPageFullyLoaded(driver);
         String bodyId = getBodyAttribute("id");
 
         return bodyId.equals("shoppingBag");
