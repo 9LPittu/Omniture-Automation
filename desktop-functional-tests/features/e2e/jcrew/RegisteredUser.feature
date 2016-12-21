@@ -1,4 +1,4 @@
-@E2E-RegisteredUser
+@e2e-registereduser
 Feature: Registered User E2E order placing
 
  Scenario: Registered User order placing E2E scenario
@@ -8,7 +8,6 @@ Feature: Registered User E2E order placing
   	And User closes email capture
   	
   	When User selects country as per testdata
-  	Then User should land on country specific home page
   	
   	When User clicks on sign in using header
   	And User enters login credentials

@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +35,7 @@ public class StartSteps {
     private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
     private WebDriver driver;
+    private String ftpPath = reader.getProperty("jenkins.ftp.path");
 
     @Before
     public void setupDriver(Scenario scenario) throws IOException {
@@ -42,8 +44,30 @@ public class StartSteps {
         
         stateHolder.put("deletecookies", false);
         
+        getItemsMasterTestdata();
+        
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
+    }
+    
+    public void getItemsMasterTestdata(){
+    	String itemsMasterExcelFileName = "E2E_ITEMS_MASTER_TESTDATA.xls"; 
+		ExcelUtils itemMasterReader = null;
+		
+		if(!stateHolder.hasKey("itemMasterTestdata")){
+			try {
+				if(System.getProperty("os.name").toLowerCase().contains("windows")){			
+					itemMasterReader = new ExcelUtils(File.listRoots()[0].getAbsolutePath() + File.separator + "E2E_Testdata" + File.separator + itemsMasterExcelFileName , "E2E_ITEMS", "");			
+				}
+				else{
+					itemMasterReader = new ExcelUtils(ftpPath + itemsMasterExcelFileName , "E2E_ITEMS", "");
+				}
+			}catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			stateHolder.put("itemMasterTestdata", itemMasterReader);
+		}
     }
 
     @Given("User goes to homepage")

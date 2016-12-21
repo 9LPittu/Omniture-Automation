@@ -80,6 +80,7 @@ public class HeaderWrap {
 
 	public void reload() {
 		try {
+			wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(global_promo)));
 			wait.until(ExpectedConditions.visibilityOf(global_promo));
 			wait.until(ExpectedConditions.visibilityOf(global_header));
 			wait.until(ExpectedConditions.visibilityOf(bag));

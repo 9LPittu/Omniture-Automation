@@ -119,29 +119,32 @@ public class ExcelUtils {
 		Row headerRow = sheet.getRow(headerRowNum);	
 		Row dataRow = sheet.getRow(dataRowNum);
 		
-		Iterator<Cell> headerCellIterator = headerRow.cellIterator();
-		Iterator<Cell> dataCellIterator = dataRow.cellIterator();
+		int cellsCount = headerRow.getLastCellNum();
+		int cntr=0;
 		
-		while(headerCellIterator.hasNext() && dataCellIterator.hasNext()){
-			Cell headerCell = headerCellIterator.next();
-			Cell dataCell = dataCellIterator.next();
+		while(cntr<cellsCount){
+			Cell headerCell = headerRow.getCell(cntr);
+			Cell dataCell = dataRow.getCell(cntr);
 			
 			String headerValue = headerCell.getStringCellValue();
 			Object dataValue = "";
 			
-			switch(dataCell.getCellType()){
-				case 1:
-					dataValue = dataCell.getStringCellValue();
-					break;
-				case 0:
-					dataValue = dataCell.getNumericCellValue();
-					break;
-				case 4:
-					dataValue = dataCell.getBooleanCellValue();
-					break;
-			}		
+			if(dataCell!=null){
+				switch(dataCell.getCellType()){
+					case 1:
+						dataValue = dataCell.getStringCellValue();
+						break;
+					case 0:
+						dataValue = dataCell.getNumericCellValue();
+						break;
+					case 4:
+						dataValue = dataCell.getBooleanCellValue();
+						break;
+				}
+			}
 			
 			dataMap.put(headerValue, dataValue);
+			cntr++;
 		}
 	}
 	

@@ -5,6 +5,7 @@ import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -207,9 +208,9 @@ public class CheckoutBilling extends Checkout {
     	String cardNumber = testDataReader.getData(paymentMethodName.toLowerCase() + ".card.number");
     	String lastFourDigitsOfCardNum = cardNumber.substring(cardNumber.length() - 4);
     	
-    	List<WebElement> paymentMethodElements = wallet_container.findElements(By.xpath("//span[contains(@class,'wallet-brand') and " + Util.xpathGetTextLower + "='" + 
+    	List<WebElement> paymentMethodElements = wallet_container.findElements(By.xpath(".//span[contains(@class,'wallet-brand') and " + Util.xpathGetTextLower + "='" + 
     											 paymentMethodName + "']/following-sibling::span[contains(@class,'wallet-line')"
-    											 + " and contains(normalize-space(.),'" + lastFourDigitsOfCardNum + "')"));
+    											 + " and contains(normalize-space(.),'" + lastFourDigitsOfCardNum + "')]"));
     	
     	if(paymentMethodElements.size()>0){
     		WebElement paymentRadioButton = paymentMethodElements.get(0).findElement(By.xpath("preceding-sibling::input[@class='address-radio']"));
@@ -220,6 +221,6 @@ public class CheckoutBilling extends Checkout {
     }
     
     public void addPaymentMethod(String paymentMethodName){
-    	throw new UnsupportedOperationException("Adding payment method implementation is not yet added");
+    	throw new WebDriverException("Adding payment method implementation is not yet added");
     }
 }

@@ -3,9 +3,9 @@ package com.jcrew.steps;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Map;
 
+import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,26 +42,6 @@ public class E2ESteps extends DriverFactory {
 	private final Logger logger = LoggerFactory.getLogger(E2ESteps.class);
 	private PropertyReader propertyReader = PropertyReader.getPropertyReader();
 	private String ftpPath = propertyReader.getProperty("jenkins.ftp.path");
-	
-	E2ESteps(){		
-		String itemsMasterExcelFileName = "E2E_ITEMS_MASTER_TESTDATA.xls"; 
-		ExcelUtils itemMasterReader = null;
-		
-		if(!stateHolder.hasKey("itemMasterTestdata")){
-			try {
-				if(System.getProperty("os.name").toLowerCase().contains("windows")){			
-					itemMasterReader = new ExcelUtils(File.listRoots()[0].getAbsolutePath() + File.separator + "E2E_Testdata" + File.separator + itemsMasterExcelFileName , "E2E_ITEMS", "");			
-				}
-				else{
-					itemMasterReader = new ExcelUtils(ftpPath + itemsMasterExcelFileName , "E2E_ITEMS", "");
-				}
-			}catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			stateHolder.put("itemMasterTestdata", itemMasterReader);
-		}
-	}
 	
 	@Given("^Test data is read from excel file \"([^\"]*)\"$")
 	public void read_test_data_from_excel(String excelFileName) throws FileNotFoundException, IOException{
@@ -126,21 +106,26 @@ public class E2ESteps extends DriverFactory {
 		LogIn logIn = new LogIn(getDriver());
 		
 		switch(userType.toUpperCase()){
-			case "REGULAR":
+			case "EXPRESS":
 				UsersHub userHub = UsersHub.getInstance();
 				User user = null;
 				
-				try {
-					  user = userHub.getUser("express", "single");			  
-					  emailAddress = user.getEmail();
-				      password = user.getPassword();
-				      stateHolder.put("userObject", user);
-				}
-				catch (SQLException e) {			
-					e.printStackTrace();
-				}
+//				try {
+//					  user = userHub.getUser("express", "single");			  
+//					  emailAddress = user.getEmail();
+//				      password = user.getPassword();
+//				      stateHolder.put("userObject", user);
+//				}
+//				catch (SQLException e) {			
+//					e.printStackTrace();
+//				}
+				
+				emailAddress = "vr@example.com";
+			    password = "test1234";
 		    	
 				logIn.submitUserCredentials(emailAddress, password);
+				break;
+			case "NONEXPRESS":
 				break;
 			case "VIP":
 				break;
@@ -312,7 +297,7 @@ public class E2ESteps extends DriverFactory {
 		}
 		else{
 			 //multiple shipping addresses selection
-			throw new UnsupportedOperationException("Multiple shipping addresses selection implementation is pending");
+			throw new WebDriverException("Multiple shipping addresses selection implementation is pending");
 		}
 	}
 	
@@ -331,18 +316,18 @@ public class E2ESteps extends DriverFactory {
 		}
 		else{
 			 //multiple shipping methods selection
-			throw new UnsupportedOperationException("Multiple shipping methods selection implementation is pending");
+			throw new WebDriverException("Multiple shipping methods selection implementation is pending");
 		}
 	}
 	
 	@And("^Select Gift Receipt as per testdata, if required$")
 	public void select_gift_receipt(){
-		throw new UnsupportedOperationException("Gift receipt implementation is pending");
+		throw new WebDriverException("Gift receipt implementation is pending");
 	}
 	
 	@And("^Select Gift Wrapping as per testdata, if required$")
 	public void select_gift_wrapping(){
-		throw new UnsupportedOperationException("Gift wrapping implementation is pending");
+		throw new WebDriverException("Gift wrapping implementation is pending");
 	}
 	
 	@When("^User selects Payment Methods as per testdata$")
@@ -358,7 +343,7 @@ public class E2ESteps extends DriverFactory {
 			
 			switch(paymentMethod1.toUpperCase()){
 				case "PAYPAL":
-					throw new UnsupportedOperationException("Selecting Paypal payment method is pending");
+					throw new WebDriverException("Selecting Paypal payment method is pending");
 				default:
 					CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
 					checkoutBilling.selectSpecificPaymentMethod(paymentMethod1);
@@ -366,7 +351,7 @@ public class E2ESteps extends DriverFactory {
 		}
 		else{
 			//split payment methods selection
-			throw new UnsupportedOperationException("Split payment methods implementation is pending");
+			throw new WebDriverException("Split payment methods implementation is pending");
 		}
 	}
 	
