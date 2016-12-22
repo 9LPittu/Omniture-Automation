@@ -1,5 +1,5 @@
 @Footer @HighLevel
-Feature: Header and Footer - From my Account page
+Feature: Footer - From my Account page
 
   Background:
     Given User is on homepage with clean session

@@ -175,6 +175,7 @@ public class ArrayCategory extends Array{
         selectedOption.click();
     }
     public boolean isCategoryArray(){
+        Util.waitForPageFullyLoaded(driver);
         wait.until(ExpectedConditions.visibilityOf(productList));
         return productList.isDisplayed();
     }
