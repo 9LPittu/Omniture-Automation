@@ -21,7 +21,7 @@ public class E2EMasterRunnerTest {
 		
 		File reportsDirectory = null;
 		if(System.getProperty("os.name").toLowerCase().contains("windows")){
-			reportsDirectory = new File(File.listRoots()[0].getAbsolutePath() + File.separator + "e2e_reports");
+			reportsDirectory = new File("C:\\e2e_reports");
 		}
 		else{			
 			reportsDirectory = new File(ftpPath + "e2e_reports");
@@ -34,7 +34,7 @@ public class E2EMasterRunnerTest {
 		ExcelUtils masterReader = null;
 		try {
 			if(System.getProperty("os.name").toLowerCase().contains("windows")){
-				masterReader = new ExcelUtils(File.listRoots()[0].getAbsolutePath() + File.separator + "E2E_Testdata" + File.separator + "E2E_Master.xls", "Master", "");
+				masterReader = new ExcelUtils("C:\\E2E_Testdata" + File.separator + "E2E_Master.xls", "Master", "");
 			}
 			else{
 				masterReader = new ExcelUtils(ftpPath + "E2E_Master.xls", "Master", "");

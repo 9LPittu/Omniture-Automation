@@ -2,7 +2,7 @@
 Feature: Registered User E2E order placing
 
  Scenario: Registered User order placing E2E scenario
-	Given Test data is read from excel file "E2E_RegisteredUser_Testdata_Sheet.xls"	
+	Given Test data is read from excel file "JC_E2E_RegisteredUser_Testdata_Sheet.xls"	
  	
  	And User goes to homepage
   	And User closes email capture
@@ -16,7 +16,7 @@ Feature: Registered User E2E order placing
   	
   	When User adds the products to bag as per testdata
   	
-  	When User clicks in bag
+  	And User clicks in bag
   	Then Verify products added matches with products in bag
   	
   	And Apply promos, if required. If applied, verify promos are applied successfully  	
@@ -50,4 +50,4 @@ Feature: Registered User E2E order placing
   	
   	When User clicks on PLACE MY ORDER
   	Then Verify user is in order confirmation page
-  	And Verify that title is Order Complete
+  	Then Verify user gets a confirmation number

@@ -33,6 +33,7 @@ public class CheckoutConfirmationSteps extends DriverFactory {
             if (confirmation.isOrderConfirmationPage()) {
             	assertTrue("User is in confirmation page", confirmation.isDisplayed());
                 assertFalse("Get confirmation number", confirmation.getConfirmationCode().isEmpty());
+                confirmation.stateHolder.put("orderNumber", confirmation.getConfirmationCode());
             } else {
                 float total = confirmation.getOrderTotal();
                 assertTrue("Order total is " + total + " than threshold and there is no error", confirmation.hasErrors());

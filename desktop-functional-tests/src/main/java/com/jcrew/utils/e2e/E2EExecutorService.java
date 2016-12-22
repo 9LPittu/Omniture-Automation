@@ -38,7 +38,7 @@ public class E2EExecutorService implements Runnable {
 		//Read the test data sheet for the E2E scenario
 		ExcelUtils testDataReader = null;
 		try {
-			testDataReader = new ExcelUtils(System.getProperty("user.dir") + File.separator + "E2E_Testdata" + File.separator + testdataFile, "Testdata", "");
+			testDataReader = new ExcelUtils("C:\\E2E_Testdata" + File.separator + testdataFile, "Testdata", "");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}				
@@ -46,7 +46,7 @@ public class E2EExecutorService implements Runnable {
 		
 		Map<String, Object> testdataRowMap = null;
 		try {
-			testDataReader = new ExcelUtils(System.getProperty("user.dir") + File.separator + "E2E_Testdata" + File.separator + testdataFile, "Testdata", "");
+			testDataReader = new ExcelUtils("C:\\E2E_Testdata" + File.separator + testdataFile, "Testdata", "");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

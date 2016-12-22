@@ -165,6 +165,7 @@ public class HeaderWrap {
 	}
 
 	public void clickSignIn() {
+		wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sign_in)));
 		wait.until(ExpectedConditions.visibilityOf(sign_in));
 		WebElement signInLink = sign_in.findElement(By.tagName("a"));
 		signInLink.click();

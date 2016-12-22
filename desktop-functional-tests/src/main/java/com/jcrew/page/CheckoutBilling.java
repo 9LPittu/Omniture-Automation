@@ -209,7 +209,7 @@ public class CheckoutBilling extends Checkout {
     	String lastFourDigitsOfCardNum = cardNumber.substring(cardNumber.length() - 4);
     	
     	List<WebElement> paymentMethodElements = wallet_container.findElements(By.xpath(".//span[contains(@class,'wallet-brand') and " + Util.xpathGetTextLower + "='" + 
-    											 paymentMethodName + "']/following-sibling::span[contains(@class,'wallet-line')"
+    											 paymentMethodName.toLowerCase() + "']/following-sibling::span[contains(@class,'wallet-line')"
     											 + " and contains(normalize-space(.),'" + lastFourDigitsOfCardNum + "')]"));
     	
     	if(paymentMethodElements.size()>0){

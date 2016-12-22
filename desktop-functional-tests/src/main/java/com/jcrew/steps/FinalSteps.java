@@ -142,6 +142,9 @@ public class FinalSteps {
         	String orderNumber = "";        	
         	if(stateHolder.hasKey("orderNumber")){
         		orderNumber = stateHolder.get("orderNumber");
+        		if(orderNumber.isEmpty()){
+        			orderNumber = "Order number is not generated!";
+        		}
         	}
         	
         	try {

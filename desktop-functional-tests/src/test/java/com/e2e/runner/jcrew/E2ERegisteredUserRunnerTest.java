@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
         tags = {"@e2e-registereduser"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/e2e-jcrew-registereduser.json",
+                "json:target/JC_E2E_RegisteredUser_Testdata_Sheet.json",
                 "pretty",
-                "html:target/cucumber/e2e-jcrew-registereduser"
+                "html:target/cucumber/JC_E2E_RegisteredUser_Testdata_Sheet"
         }
 )
 public class E2ERegisteredUserRunnerTest {

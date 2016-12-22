@@ -49,7 +49,7 @@ public class E2ESteps extends DriverFactory {
 		ExcelUtils testDataReader;
 		
 		if(System.getProperty("os.name").toLowerCase().contains("windows")){
-			testDataReader = new ExcelUtils(File.listRoots()[0].getAbsolutePath() + File.separator + "E2E_Testdata" + File.separator + excelFileName, "Testdata", "");
+			testDataReader = new ExcelUtils("C:\\E2E_Testdata" + File.separator + excelFileName, "Testdata", "");
 		}
 		else{
 			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");
