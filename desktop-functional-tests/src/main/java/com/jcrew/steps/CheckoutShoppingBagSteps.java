@@ -255,4 +255,15 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     public void verify_that_shopping_bag_has_expected_context() {
         assertTrue("Shopping bag has the expected context", bag.verifyContext());
     }
+    
+    @Then("^Verify gift card details in shopping bag page$")
+    public void verify_gift_card_details(){
+    	String expectedSenderName = bag.stateHolder.get("giftCardSenderName");
+    	String expectedRecipientName = bag.stateHolder.get("giftCardRecipientName");
+    	String expectedRecipientEmail = bag.stateHolder.get("giftCardRecipientEmailAddress");
+    	   	
+    	assertEquals("Same gift card sender name", expectedSenderName.toLowerCase(), bag.getEgiftCardSenderName().toLowerCase());
+    	assertEquals("Same gift card recipient name", expectedRecipientName.toLowerCase(), bag.getEgiftCardRecipientName().toLowerCase());
+    	assertEquals("Same gift card recipient email", expectedRecipientEmail.toLowerCase(), bag.getEgiftCardRecipientEmailAddress().toLowerCase());
+    }
 }

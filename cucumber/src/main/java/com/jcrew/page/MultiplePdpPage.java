@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.util.PropertyReader;
@@ -139,7 +140,7 @@ public class MultiplePdpPage {
         //I am not sure if this will work in case the multiple pdp page
         // has more products that are not visible in the screen
         WebElement selected;
-        String productCode;
+        String productCode = null;
 
         if(number < 0){
             number = numProducts - 1;
@@ -147,15 +148,26 @@ public class MultiplePdpPage {
             logger.debug("Bad use of setSelectProductIndex");
             return;
         }
+        
+        int cntr = 0;
+        do{
+        	try{
+        		selected = productsImages.get(number);
+                productCode = products.get(number).getAttribute("data-code");
 
-        selected = productsImages.get(number);
-        productCode = products.get(number).getAttribute("data-code");
-
-        Util.waitForPageFullyLoaded(driver);
-        stateHolder.put("shoppableTrayProduct", article);
-        Util.scrollAndClick(driver, selected);
-        Util.waitLoadingBar(driver);
-        wait.until(ExpectedConditions.urlContains("itemCode="+productCode));
+                Util.waitForPageFullyLoaded(driver);
+                stateHolder.put("shoppableTrayProduct", article);
+                Util.scrollAndClick(driver, selected);
+                Util.waitLoadingBar(driver);
+                Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.urlContains("itemCode="+productCode));
+                break;
+        	}
+        	catch(TimeoutException toe){
+        		cntr++;
+        	}
+        }while(cntr<=2);
+        
+        
         logger.debug("Page with url itemCode={} is displayed", productCode);
         loadNavigation();
     }
@@ -271,9 +283,25 @@ public class MultiplePdpPage {
     	Util.scrollToElement(driver, productVariations);
     	
         By currentVariationXpath = By.xpath(".//li[contains(@class,'js-product__variation') and contains(@class,'is-selected')]");
-        WebElement currentVariation =  wait.until(ExpectedConditions.presenceOfElementLocated(currentVariationXpath));
+        final WebElement currentVariation =  wait.until(ExpectedConditions.presenceOfElementLocated(currentVariationXpath));
         wait.until(ExpectedConditions.visibilityOf(currentVariation));
-        WebElement nextVariation = currentVariation.findElement(By.xpath("following-sibling::li/div[contains(@class,'radio__label')]"));
+        
+        WebElement nextVariation = wait.until(new Function<WebDriver, WebElement>(){
+			@Override
+			public WebElement apply(WebDriver driver) {
+				WebElement variation = currentVariation.findElement(By.xpath("following-sibling::li/div[contains(@class,'radio__label')]"));
+				try{
+					if(variation.isDisplayed()){
+						return variation;
+					}
+					return null;
+				}
+				catch(NoSuchElementException nsee){
+					return null;
+				}
+				
+			}        	
+        });
 
         String url = driver.getCurrentUrl();
         nextVariation.click();

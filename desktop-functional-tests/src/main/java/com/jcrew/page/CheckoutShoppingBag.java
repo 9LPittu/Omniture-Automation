@@ -29,17 +29,21 @@ public class CheckoutShoppingBag extends Checkout {
     
     @FindBy(css = ".summary-item > .summary-value")
     private WebElement subtotalValue;
-
+    
+    @FindBy(className="item-gc")
+    private WebElement giftCardElement;
     
     private final Footer footer;
 
     public CheckoutShoppingBag(WebDriver driver) {
         super(driver);
-        wait.until(ExpectedConditions.visibilityOf(checkoutNow));
+ //       wait.until(ExpectedConditions.visibilityOf(checkoutNow));
+        Util.waitForPageFullyLoaded(driver);
         this.footer = new Footer(driver);
     }
 
     public boolean isDisplayed() {
+        Util.waitForPageFullyLoaded(driver);
         String bodyId = getBodyAttribute("id");
 
         return bodyId.equals("shoppingBag");
@@ -245,6 +249,24 @@ public class CheckoutShoppingBag extends Checkout {
         String countryFooter = footer.getCountry();
         boolean result = countryFooter.equalsIgnoreCase(country.getName());
         return result;
+    }
+    
+    public String getEgiftCardSenderName(){
+    	WebElement senderNameElement = giftCardElement.findElement(By.xpath(".//ul[@class='item-description']/li[1]/span"));
+    	String senderName = senderNameElement.getText().trim();
+    	return senderName;
+    }
+    
+    public String getEgiftCardRecipientName(){
+    	WebElement recipientNameElement = giftCardElement.findElement(By.xpath(".//ul[@class='item-description']/li[2]/span"));
+    	String recipientName = recipientNameElement.getText().trim();
+    	return recipientName;
+    }
+    
+    public String getEgiftCardRecipientEmailAddress(){
+    	WebElement recipientEmailElement = giftCardElement.findElement(By.xpath(".//ul[@class='item-description']/li[3]/span"));
+    	String recipientEmail = recipientEmailElement.getText().trim();
+    	return recipientEmail;
     }
 
 }

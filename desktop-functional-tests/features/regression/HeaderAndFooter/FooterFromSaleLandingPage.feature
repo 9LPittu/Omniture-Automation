@@ -1,5 +1,5 @@
 @Footer @HighLevel
-Feature: Header and Footer - From Sale landing page
+Feature: Footer - From Sale landing page
 
   Background:
     Given User goes to homepage
