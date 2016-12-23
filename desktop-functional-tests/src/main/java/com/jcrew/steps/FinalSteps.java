@@ -140,12 +140,15 @@ public class FinalSteps {
 				e.printStackTrace();
 			}
         	
-        	String orderNumber = "";        	
+        	String orderNumber = "";
         	if(stateHolder.hasKey("orderNumber")){
         		orderNumber = stateHolder.get("orderNumber");
         		if(orderNumber.isEmpty()){
-        			orderNumber = "Order number is not generated!";
+        			orderNumber = "Order is not placed!";
         		}
+        	}
+        	else{
+        		orderNumber = "Order is not placed!";
         	}
         	
         	try {
