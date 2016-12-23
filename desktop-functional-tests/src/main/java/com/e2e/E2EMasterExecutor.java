@@ -11,7 +11,7 @@ import com.jcrew.utils.ExcelUtils;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.e2e.E2EExecutorService;
 
-public class E2EMasterRunnerTest {
+public class E2EMasterExecutor {
 	
 	public static void main(String[] args) {
 		
