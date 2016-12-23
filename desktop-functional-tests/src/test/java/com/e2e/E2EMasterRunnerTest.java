@@ -1,4 +1,4 @@
-package com.jcrew.e2e;
+package com.e2e;
 
 import java.io.File;
 import java.io.FileNotFoundException;
