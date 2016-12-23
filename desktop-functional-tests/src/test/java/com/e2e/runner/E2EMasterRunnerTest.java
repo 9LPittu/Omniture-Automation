@@ -19,7 +19,7 @@ public class E2EMasterRunnerTest {
 		
 		//delete the existing reports directory and create a new directory
 		File targetDirectory = new File(System.getProperty("user.dir") + File.separator + "target");
-		String ftpPath = getFtpPath();
+		String ftpPath = propertyReader.getProperty("jenkins.ftp.path");
 		
 		File reportsDirectory = null;
 		if(System.getProperty("os.name").toLowerCase().contains("windows")){
@@ -134,11 +134,5 @@ public class E2EMasterRunnerTest {
 		}
 		
 		return threadCount;
-	}
-	
-	public static String getFtpPath(){
-		PropertyReader propertyReader = PropertyReader.getPropertyReader();
-		String ftpPath = propertyReader.getProperty("jenkins.ftp.path");
-		return ftpPath;
-	}
+	}	
 }
