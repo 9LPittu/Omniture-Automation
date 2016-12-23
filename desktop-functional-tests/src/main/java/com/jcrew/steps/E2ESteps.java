@@ -50,7 +50,7 @@ public class E2ESteps extends DriverFactory {
 		ExcelUtils testDataReader;
 		
 		if(System.getProperty("os.name").toLowerCase().contains("windows")){
-			testDataReader = new ExcelUtils("C:\\E2E_Testdata" + File.separator + excelFileName, "Testdata", "");
+			testDataReader = new ExcelUtils(propertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
 		}
 		else{
 			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");
@@ -72,6 +72,7 @@ public class E2ESteps extends DriverFactory {
 		Map<String, Object> testdataMap = stateHolder.get("testdataRowMap");
 		logger.debug("Test data column name: {}", columnName);
 		String columnValue = (String) testdataMap.get(columnName);
+		logger.debug("Data for {} = {}", columnName, columnValue);
 		return columnValue.trim();
 	}
 	

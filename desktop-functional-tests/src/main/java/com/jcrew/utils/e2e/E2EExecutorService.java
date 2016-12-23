@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 
 import com.jcrew.utils.ExcelUtils;
+import com.jcrew.utils.PropertyReader;
 
 public class E2EExecutorService implements Runnable {
 	
@@ -19,6 +20,8 @@ public class E2EExecutorService implements Runnable {
 	boolean remoteExecution;
 	boolean stepScreenshotRequired;
 	boolean isDesktop;
+	
+	private PropertyReader propertyReader = PropertyReader.getPropertyReader();
 	
 	public E2EExecutorService(File targetDirectory, File reportsDirectory, String testdataFile, String runner, String environment, String viewport, boolean remoteExecution, boolean stepScreenshotRequired, boolean isDesktop){
 		this.targetDirectory = targetDirectory;
@@ -38,7 +41,7 @@ public class E2EExecutorService implements Runnable {
 		//Read the test data sheet for the E2E scenario
 		ExcelUtils testDataReader = null;
 		try {
-			testDataReader = new ExcelUtils("C:\\E2E_Testdata" + File.separator + testdataFile, "Testdata", "");
+			testDataReader = new ExcelUtils(propertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}				
@@ -46,7 +49,7 @@ public class E2EExecutorService implements Runnable {
 		
 		Map<String, Object> testdataRowMap = null;
 		try {
-			testDataReader = new ExcelUtils("C:\\E2E_Testdata" + File.separator + testdataFile, "Testdata", "");
+			testDataReader = new ExcelUtils(propertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,15 +69,16 @@ public class E2EExecutorService implements Runnable {
 				if(System.getProperty("os.name").toLowerCase().contains("windows")){
 					command[0] = "cmd";
 					command[1] = "/c";						
-					command[2] = "C://apachemaven//bin//mvn test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
-							     " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
+					command[2] = propertyReader.getProperty("windows.box.maven.path");
 				}
 				else{
 					command[0] = "sh";
 					command[1] = "-c";
-					command[2] = "/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/mvn3.2.1/bin/mvn test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
-							 	 " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
-				}			
+					command[2] = propertyReader.getProperty("jenkins.box.maven.path");
+				}
+				
+				command[2] += " test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
+					 	      " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
 				
 				ProcessExecutor processExecutor = new ProcessExecutor();
 				Process p = processExecutor.executeCommand(command);

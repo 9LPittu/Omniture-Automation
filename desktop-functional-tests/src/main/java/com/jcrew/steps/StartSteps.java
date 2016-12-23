@@ -57,7 +57,7 @@ public class StartSteps {
 		if(!stateHolder.hasKey("itemMasterTestdata")){
 			try {
 				if(System.getProperty("os.name").toLowerCase().contains("windows")){			
-					itemMasterReader = new ExcelUtils("C:\\E2E_Testdata" + File.separator + itemsMasterExcelFileName , "E2E_ITEMS", "");			
+					itemMasterReader = new ExcelUtils(reader.getProperty("windows.e2e.testdata.dir") + File.separator + itemsMasterExcelFileName , "E2E_ITEMS", "");			
 				}
 				else{
 					itemMasterReader = new ExcelUtils(ftpPath + itemsMasterExcelFileName , "E2E_ITEMS", "");

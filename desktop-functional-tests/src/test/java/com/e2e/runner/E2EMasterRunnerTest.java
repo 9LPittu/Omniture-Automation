@@ -15,13 +15,15 @@ public class E2EMasterRunnerTest {
 	
 	public static void main(String[] args) {
 		
+		PropertyReader propertyReader = PropertyReader.getPropertyReader();
+		
 		//delete the existing reports directory and create a new directory
 		File targetDirectory = new File(System.getProperty("user.dir") + File.separator + "target");
 		String ftpPath = getFtpPath();
 		
 		File reportsDirectory = null;
 		if(System.getProperty("os.name").toLowerCase().contains("windows")){
-			reportsDirectory = new File("C:\\e2e_reports");
+			reportsDirectory = new File(propertyReader.getProperty("windows.e2e.reports.dir"));
 		}
 		else{			
 			reportsDirectory = new File(ftpPath + "e2e_reports");
@@ -34,7 +36,7 @@ public class E2EMasterRunnerTest {
 		ExcelUtils masterReader = null;
 		try {
 			if(System.getProperty("os.name").toLowerCase().contains("windows")){
-				masterReader = new ExcelUtils("C:\\E2E_Testdata" + File.separator + "E2E_Master.xls", "Master", "");
+				masterReader = new ExcelUtils(propertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + "E2E_Master.xls", "Master", "");
 			}
 			else{
 				masterReader = new ExcelUtils(ftpPath + "E2E_Master.xls", "Master", "");
