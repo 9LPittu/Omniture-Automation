@@ -87,7 +87,8 @@ public class FinalSteps {
         driverFactory.destroyDriver();
         
         UsersHub userHub = UsersHub.getInstance();
-        userHub.releaseUserCredentials();
+        userHub.releaseUserCredentials();        
+        userHub.releaseE2EUserCredentials();
         
         //capture E2E order details
         String orderTestData = "";

@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriverException;
@@ -103,33 +104,21 @@ public class E2ESteps extends DriverFactory {
 		String emailAddress = "";
 		String password = "";
 		
-		LogIn logIn = new LogIn(getDriver());
+		UsersHub userHub = UsersHub.getInstance();
+		User user = null;
 		
-		switch(userType.toUpperCase()){
-			case "EXPRESS":
-				UsersHub userHub = UsersHub.getInstance();
-				User user = null;
-				
-//				try {
-//					  user = userHub.getUser("express", "single");			  
-//					  emailAddress = user.getEmail();
-//				      password = user.getPassword();
-//				      stateHolder.put("userObject", user);
-//				}
-//				catch (SQLException e) {			
-//					e.printStackTrace();
-//				}
-				
-				emailAddress = "vr@example.com";
-			    password = "test1234";
-		    	
-				logIn.submitUserCredentials(emailAddress, password);
-				break;
-			case "NONEXPRESS":
-				break;
-			case "VIP":
-				break;
+		try {
+			  user = userHub.getE2EUser(userType.toLowerCase());			  
+			  emailAddress = user.getEmail();
+		      password = user.getPassword();
+		      stateHolder.put("e2eUserObject", user);
 		}
+		catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		
+		LogIn logIn = new LogIn(getDriver());
+		logIn.submitUserCredentials(emailAddress, password);
 	}
 	
 	@When("^User adds the products to bag as per testdata$")
