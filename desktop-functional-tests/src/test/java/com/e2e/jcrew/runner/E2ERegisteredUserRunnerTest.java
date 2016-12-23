@@ -1,4 +1,4 @@
-package com.e2e.runner.jcrew;
+package com.e2e.jcrew.runner;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
