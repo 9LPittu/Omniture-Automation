@@ -165,10 +165,23 @@ public class HeaderWrap {
 	}
 
 	public void clickSignIn() {
-		wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sign_in)));
-		wait.until(ExpectedConditions.visibilityOf(sign_in));
-		WebElement signInLink = sign_in.findElement(By.tagName("a"));
-		signInLink.click();
+		int cntr = 0;
+		do{
+			try{
+				wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sign_in)));
+				wait.until(ExpectedConditions.visibilityOf(sign_in));
+				WebElement signInLink = sign_in.findElement(By.tagName("a"));
+				signInLink.click();
+				wait.until(ExpectedConditions.urlContains("/r/login"));
+				break;
+			}
+			catch(StaleElementReferenceException sere){
+				cntr++;
+			}
+			catch(TimeoutException toe){
+				cntr++;
+			}			
+		}while(cntr<=2);		
 	}
 
 	public void clickBag() {
