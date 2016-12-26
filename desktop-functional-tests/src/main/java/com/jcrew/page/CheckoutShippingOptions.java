@@ -169,4 +169,18 @@ public class CheckoutShippingOptions extends Checkout {
     	shippingMethodRadioBtn.click();
     	logger.debug("Selected Shipping Method: {}", shippingMethodName);    	
     }
+    
+    public void selectSpecificShippingMethod(WebElement shippingMethodSection, String shippingMethodName){
+    	WebElement shippingMethodRadioBtn = shippingMethodSection.findElement(By.xpath(".//span[@class='method-group' and contains(normalize-space(.),'" + shippingMethodName
+    			                                                                         + "')]/preceding-sibling::input[@name='shippingMethod']"));
+    	shippingMethodRadioBtn.click();
+    	logger.debug("Selected Shipping Method: {}", shippingMethodName);    	
+    }
+    
+    public void selectMultipleShippingMethods(String[] arrShippingMethods){
+    	List<WebElement> shippingMethodSections = shippingMethodForm.findElements(By.className("form-section-address"));    	
+    	for(int i=0;i<arrShippingMethods.length;i++){
+    		selectSpecificShippingMethod(shippingMethodSections.get(i), arrShippingMethods[i]);
+    	}
+    }
 }

@@ -323,17 +323,27 @@ public class E2ESteps extends DriverFactory {
 		String multipleShippingMethodsRequired = getDataFromTestDataRowMap("Multiple Shipping Methods Required?");
 		String shippingMethods = getDataFromTestDataRowMap("Shipping Methods");
 		
+		/*
+		 	1. If scenario specifies single shipping address, then multiple shipping methods are not possible
+		 	2. If scenario specifies multiple shipping addresses and no data is provided for shipping methods, then default selections
+		 	   will be used
+		 	3. If scenario specifies multiple shipping addresses and shipping methods are provided in test data, then shipping methods
+		 	   will be selected as per test data
+		*/
+		
+		CheckoutShippingOptions shippingOptions = new CheckoutShippingOptions(getDriver());
+		
 		if(multipleShippingAddressRequired.equalsIgnoreCase("NO")){
 			//single shipping method selection
 			if(shippingMethods.isEmpty())
-				return;
+				return;			
 			
-			CheckoutShippingOptions shippingOptions = new CheckoutShippingOptions(getDriver());
 			shippingOptions.selectSpecificShippingMethod(shippingMethods);
 		}
 		else{
 			if(multipleShippingMethodsRequired.equalsIgnoreCase("YES")){
 				String[] arrShippingMethods = shippingMethods.split(getE2ETestdataDelimiter());
+				shippingOptions.selectMultipleShippingMethods(arrShippingMethods);
 			}
 		}
 	}
