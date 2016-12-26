@@ -150,8 +150,7 @@ public abstract class Checkout extends PageObject{
         String ancestorId = formAncestor.getAttribute("id");
         String quantity = "";
 
-        if ("frm_shopping_cart_continue".equals(ancestorId)) {
-        	
+        if ("frm_shopping_cart_continue".equals(ancestorId)) {        	
         	int cntr = 0;
         	do{
         		try{
@@ -159,13 +158,18 @@ public abstract class Checkout extends PageObject{
 						@Override
 						public String apply(WebDriver driver) {
 							String qty=null;
-							WebElement quantityElement = productElement.findElement(By.className("item-qty"));
-		                    Select quantitySelect = new Select(quantityElement);
-		                    qty =  quantitySelect.getFirstSelectedOption().getText();
+							WebElement quantityElement = productElement.findElement(By.xpath(".//*[@class='item-qty' or @class='item-quantity-amount']"));
+							
+							if(quantityElement.getTagName().equalsIgnoreCase("select")){
+								Select quantitySelect = new Select(quantityElement);
+								qty =  quantitySelect.getFirstSelectedOption().getText();
+							}else{
+								qty = quantityElement.getText();
+							}
+							
 		                    if(qty!=null){
 		                    	return qty;
-		                    }
-		                    else{
+		                    }else{
 		                    	return null;
 		                    }
 						}

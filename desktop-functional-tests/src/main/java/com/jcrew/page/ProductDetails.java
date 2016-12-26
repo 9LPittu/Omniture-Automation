@@ -313,6 +313,7 @@ public class ProductDetails extends PageObject {
         	logger.info("Mini cart is not displayed. Hence, checking item count in bag has increased");
         	int itemCount = headerWrap.getItemsInBag();
         	if (itemCount <= itemsInBag)
+        		Util.e2eErrorMessagesBuilder("Item " + product.getItemNumber() + " is not added to bag");
         		new WebDriverException("product not added to bag");
         }
     }
@@ -806,5 +807,10 @@ public class ProductDetails extends PageObject {
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    public void addMonogram(){
+    	WebElement addMonogramElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='p-monogram--add']/span[1]")));
+    	addMonogramElement.click();
     }
 }

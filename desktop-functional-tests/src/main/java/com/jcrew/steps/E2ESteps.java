@@ -21,6 +21,7 @@ import com.jcrew.page.ContextChooser;
 import com.jcrew.page.Footer;
 import com.jcrew.page.HeaderWrap;
 import com.jcrew.page.LogIn;
+import com.jcrew.page.Monogram;
 import com.jcrew.page.ProductDetails;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
@@ -133,16 +134,15 @@ public class E2ESteps extends DriverFactory {
 		for(int i=0;i<arrItemIdentifiers.length;i++){
 			int rowNumber = getRowNumberFromItemMaster(arrItemIdentifiers[i]);
 			if(rowNumber>0){
-				String productCode = getColumnValueFromItemMaster(rowNumber, "Product Code");
+				String itemCode = getColumnValueFromItemMaster(rowNumber, "Item Code");
 				String color = getColumnValueFromItemMaster(rowNumber, "Color");
 				String size = getColumnValueFromItemMaster(rowNumber, "Size");
-				String quantity = arrQuantities[i];
-				
-				//Adding monogram item is pending. Will be added later
+				String quantity = arrQuantities[i];				
+				String isMonogramRequired = getColumnValueFromItemMaster(rowNumber, "isMonogramRequired?");
 				
 				//search for item
 				HeaderWrap headerWrap = new HeaderWrap(getDriver());
-				headerWrap.searchForSpecificTerm(productCode);
+				headerWrap.searchForSpecificTerm(itemCode);
 				
 				//select random item from search results
 				String currentURL = getDriver().getCurrentUrl();
@@ -160,6 +160,28 @@ public class E2ESteps extends DriverFactory {
 				
 				//Select quantity
 				pdp.selectSpecifiedQuantity(quantity);
+				
+				//Add monogramming
+				if(isMonogramRequired.equalsIgnoreCase("YES")){
+					String placement = getColumnValueFromItemMaster(rowNumber, "Placement");
+					String style = getColumnValueFromItemMaster(rowNumber, "Style");
+					String firstInitial = getColumnValueFromItemMaster(rowNumber, "First Initial");
+					String middleInitial = getColumnValueFromItemMaster(rowNumber, "Middle Initial");
+					String lastInitial = getColumnValueFromItemMaster(rowNumber, "Last Initial");
+					String threadColor = getColumnValueFromItemMaster(rowNumber, "Thread Color");
+					
+					pdp.addMonogram();
+					
+					Monogram monogram = new Monogram(getDriver());
+					
+					monogram.selectPlacement(placement);
+					monogram.selectStyle(style);
+					monogram.selectInitial("First", firstInitial);
+					monogram.selectInitial("Middle", middleInitial);
+					monogram.selectInitial("Last", lastInitial);
+					monogram.selectThreadColor(threadColor);
+					monogram.saveMonogram();
+				}
 				
 				//Add item to bag
 				pdp.addToBag();
@@ -277,26 +299,31 @@ public class E2ESteps extends DriverFactory {
 		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
 		String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
 		
+		CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
+		
 		if(!multipleShippingAddressRequired.equalsIgnoreCase("YES")){
 			//single shipping address selection
 			if(shippingAddresses.isEmpty())
-				return;
+				return;			
 			
-			CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
 			checkoutShipping.selectSpecificShippingAddress(shippingAddresses);
 		}
 		else{
-			 //multiple shipping addresses selection
-			throw new WebDriverException("Multiple shipping addresses selection implementation is pending");
+			//multiple shipping addresses selection
+			String[] arrShippingAddresses = shippingAddresses.split(getE2ETestdataDelimiter());
+			checkoutShipping.selectMultipleShippingAddresses(arrShippingAddresses);
+			checkoutShipping.continueCheckout();
+			stateHolder.put("isContinueClicked", true);
 		}
 	}
 	
 	@When("^User selects Shipping Methods as per testdata$")
 	public void user_selects_shipping_methods(){
+		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
 		String multipleShippingMethodsRequired = getDataFromTestDataRowMap("Multiple Shipping Methods Required?");
 		String shippingMethods = getDataFromTestDataRowMap("Shipping Methods");
 		
-		if(!multipleShippingMethodsRequired.equalsIgnoreCase("YES")){
+		if(multipleShippingAddressRequired.equalsIgnoreCase("NO")){
 			//single shipping method selection
 			if(shippingMethods.isEmpty())
 				return;
@@ -305,8 +332,9 @@ public class E2ESteps extends DriverFactory {
 			shippingOptions.selectSpecificShippingMethod(shippingMethods);
 		}
 		else{
-			 //multiple shipping methods selection
-			throw new WebDriverException("Multiple shipping methods selection implementation is pending");
+			if(multipleShippingMethodsRequired.equalsIgnoreCase("YES")){
+				String[] arrShippingMethods = shippingMethods.split(getE2ETestdataDelimiter());
+			}
 		}
 	}
 	

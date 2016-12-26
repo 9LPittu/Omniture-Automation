@@ -102,9 +102,7 @@ public class LogIn extends PageObject {
     public void userSignIn() {
         userSignIn("noUserCategory");
     }
-
-
-
+    
     public void userSignIn(String userCategory) {
     	knownUser = User.getUserFromHub(userCategory);
         logger.info("User and password used {} / {}", knownUser.getEmail(), knownUser.getPassword());

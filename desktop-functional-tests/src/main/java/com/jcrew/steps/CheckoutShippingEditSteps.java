@@ -15,6 +15,9 @@ public class CheckoutShippingEditSteps extends DriverFactory {
 
     @When("^User continues to Shipping and Gift Options page$")
     public void continue_to_shipping_option() {
+    	if(shipping.stateHolder.get("isContinueClicked"))
+    		return;
+    	
         shipping.continueCheckout();
     }
 

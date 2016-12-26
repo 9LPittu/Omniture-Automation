@@ -105,9 +105,6 @@ public class E2EExecutorService implements Runnable {
 		for(int j=testDataReader.getSearchTextFirstRowNum();j<=testDataReader.getSearchTextLastRowNum();j++){
 			try {
 				testDataReader.setCellValueInExcel(j, "Execution Completed", "");
-				testDataReader.setCellValueInExcel(j, "Order Number", "");
-				testDataReader.setCellValueInExcel(j, "LastUpdated_DateTime", "");
-				testDataReader.setCellValueInExcel(j, "Additional Error Details", "");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}			

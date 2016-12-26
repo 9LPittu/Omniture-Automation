@@ -334,7 +334,7 @@ public class Util {
 			e2eErrorMessages = stateHolder.get("e2e_error_messages");
 		}
 		
-		e2eErrorMessages += errorMessageText + "\n";
+		e2eErrorMessages += errorMessageText + "\n\n";
 		stateHolder.put("e2e_error_messages", e2eErrorMessages);
 	}
 }
