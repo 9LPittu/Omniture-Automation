@@ -121,6 +121,10 @@ public class CheckoutShoppingBag extends Checkout {
     public String getSubtotalValue() {
         return subtotalValue.getText();
     }
+    
+    public String getTotalValue(){
+    	return getSummaryText("total");
+    }
 
     public String getQuestionsPhone() {
         WebElement phone = help.findElement(By.className("help-phone"));

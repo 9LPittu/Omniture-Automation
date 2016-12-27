@@ -24,8 +24,7 @@ public class CheckoutBillingPayment extends Checkout {
     private WebElement cardForm;
     @FindBy(id = "creditCardNumber")
     private WebElement creditCardNumber;
-    @FindBy(id = "securityCode")
-    private WebElement secuirtyCode;
+    
     @FindBy(id = "nameOnCard")
     private WebElement nameOnCard;
     @FindBy(id = "emailReceipt")
@@ -44,6 +43,9 @@ public class CheckoutBillingPayment extends Checkout {
     private WebElement leftContainer;
     @FindBy(id = "creditCardList")
     private WebElement creditCardList;
+    
+    @FindBy(id="submit-new-shipping-address")
+    private WebElement saveChangesButton;
     
     private final HeaderWrap header;
 
@@ -82,7 +84,7 @@ public class CheckoutBillingPayment extends Checkout {
         User checkoutUSer = User.getFakeUser();
 
         creditCardNumber.sendKeys(testData.getData(type + ".card.number"));
-        secuirtyCode.sendKeys(testData.getData(type + ".card.cvv"));
+        securityCode.sendKeys(testData.getData(type + ".card.cvv"));
 
         Select month = new Select(expirationMonth);
         month.selectByVisibleText(testData.getData(type + ".card.month"));
@@ -105,7 +107,7 @@ public class CheckoutBillingPayment extends Checkout {
     }
 
     public void editPayment() {
-        secuirtyCode.sendKeys("156");
+    	securityCode.sendKeys("156");
         nameOnCard.clear();
         nameOnCard.sendKeys("Edited Card Name");
     }
@@ -232,5 +234,27 @@ public class CheckoutBillingPayment extends Checkout {
 
         WebElement phone = newCardDiv.findElement(By.name("ADDRESS<>phone"));
         phone.sendKeys(address.getPhone());
+    }
+    
+    public void addNewCreditDebitCard(String paymentMethodName) {
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        User checkoutUser = User.getFakeUser();
+
+        creditCardNumber.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".card.number"));
+        securityCode.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code"));
+
+        Select month = new Select(expirationMonth);
+        month.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.month"));
+
+        Select year = new Select(expirationYear);
+        year.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.year"));
+
+        nameOnCard.sendKeys(checkoutUser.getFirstName().replaceAll("'", "") + " " + checkoutUser.getLastName().replaceAll("'", ""));
+
+        selectAddressFromList(cardForm);
+        
+        saveChangesButton.click();
+        
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("modal-payment")));
     }
 }

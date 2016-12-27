@@ -112,6 +112,8 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
         subTotal=subTotal.replaceAll("[^0-9\\.]", "");
         bag.stateHolder.put("subtotal",subTotal);
         
+        bag.stateHolder.put("total", bag.getTotalValue());
+        
         bag.checkOutNow();
     }
 

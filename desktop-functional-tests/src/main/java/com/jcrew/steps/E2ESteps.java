@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.jcrew.page.ArraySearch;
 import com.jcrew.page.Checkout;
 import com.jcrew.page.CheckoutBilling;
+import com.jcrew.page.CheckoutBillingPayment;
 import com.jcrew.page.CheckoutReview;
 import com.jcrew.page.CheckoutShippingEdit;
 import com.jcrew.page.CheckoutShippingOptions;
@@ -313,7 +314,7 @@ public class E2ESteps extends DriverFactory {
 			String[] arrShippingAddresses = shippingAddresses.split(getE2ETestdataDelimiter());
 			checkoutShipping.selectMultipleShippingAddresses(arrShippingAddresses);
 			checkoutShipping.continueCheckout();
-			stateHolder.put("isContinueClicked", true);
+			stateHolder.put("isShippingAddressContinueClicked", true);
 		}
 	}
 	
@@ -360,26 +361,55 @@ public class E2ESteps extends DriverFactory {
 	
 	@When("^User selects Payment Methods as per testdata$")
 	public void user_selects_payment_methods(){
+		String userType = getDataFromTestDataRowMap("User Type");
 		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
 		String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
 		String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
 		
 		if(!splitPaymentsRequired.equalsIgnoreCase("YES")){
-			//single payment method selection
+
+			//single payment method selection			
 			if(paymentMethod1.isEmpty())
-				return;
+				return;	
 			
-			switch(paymentMethod1.toUpperCase()){
-				case "PAYPAL":
-					throw new WebDriverException("Selecting Paypal payment method is pending");
-				default:
-					CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
-					checkoutBilling.selectSpecificPaymentMethod(paymentMethod1);
-			}
+			singlePaymentMethod(userType, paymentMethod1);
 		}
 		else{
 			//split payment methods selection
-			throw new WebDriverException("Split payment methods implementation is pending");
+			
+			//first payment method selection
+			singlePaymentMethod(userType, paymentMethod1);
+			
+			CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
+			CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
+			
+			//second payment selection
+			if(userType.equalsIgnoreCase("GUEST")){
+				checkoutBilling.addNewCard();
+				checkoutBillingPayment.addNewCreditDebitCard(paymentMethod2);
+			}				
+		    
+			checkoutBilling.clickTwoCardsPayment();
+			
+			checkoutBilling.continueCheckout();
+			
+			checkoutBilling.splitPayment(paymentMethod1, paymentMethod2);
+			
+			stateHolder.put("isBillingContinueClicked", true);
+		}
+	}
+	
+	public void singlePaymentMethod(String userType, String paymentMethodName){
+		CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
+		if(userType.equalsIgnoreCase("REGISTERED") && !userType.equalsIgnoreCase("EXPRESS")){				
+			switch(paymentMethodName.toUpperCase()){
+				case "PAYPAL":
+					throw new WebDriverException("Selecting Paypal payment method is pending");
+				default:						
+					checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
+			}
+		}else if(userType.equalsIgnoreCase("GUEST")){
+			checkoutBilling.fillPaymentCardDetails(paymentMethodName);
 		}
 	}
 	

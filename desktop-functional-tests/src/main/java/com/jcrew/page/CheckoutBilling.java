@@ -4,6 +4,7 @@ import com.jcrew.pojo.User;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -77,8 +78,11 @@ public class CheckoutBilling extends Checkout {
         nameOnCard.sendKeys(checkoutUSer.getFirstName() + " " + checkoutUSer.getLastName());
         emailReceipt.sendKeys(checkoutUSer.getEmail());
     }
-
-    public void continueCheckout() {
+    
+    public void continueCheckout() {    	
+    	if(stateHolder.get("isBillingContinueClicked"))
+    		return;
+    	
         nextStep(payment_page);
     }
 
@@ -222,5 +226,70 @@ public class CheckoutBilling extends Checkout {
     
     public void addPaymentMethod(String paymentMethodName){
     	throw new WebDriverException("Adding payment method implementation is not yet added");
+    }
+    
+    public void fillPaymentCardDetails(String paymentMethodName){
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	
+    	creditCardNumber.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".card.number"));
+        secuirtyCode.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code"));
+
+        Select month = new Select(expirationMonth);
+        month.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.month"));
+
+        Select year = new Select(expirationYear);
+        year.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.year"));
+
+        User checkoutUser = User.getFakeUser();
+
+        nameOnCard.sendKeys(checkoutUser.getFirstName().replaceAll("'", "") + " " + checkoutUser.getLastName().replaceAll("'", ""));
+        emailReceipt.sendKeys(checkoutUser.getEmail());
+    }
+    
+    public void clickTwoCardsPayment(){
+    	WebElement payWithTwoCardsElement = payment_page.findElement(By.xpath(".//a[contains(@class,'item-link-submit') and contains(text(),'pay with two cards')]"));
+    	payWithTwoCardsElement.click();
+    	wait.until(ExpectedConditions.visibilityOf(payment_page.findElement(By.xpath(".//a[contains(@class,'item-link-submit') and contains(text(),'pay with one card')]"))));
+    	
+    	List<WebElement> numberofCardsAvailable = payment_page.findElements(By.xpath(".//li[contains(@id, 'cardId')]"));
+    	stateHolder.put("numberofCardsAvailable", numberofCardsAvailable.size());
+    }
+    
+    public void splitPayment(String paymentMethod1 , String paymentMethod2){
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	String cardShortName1 = testDataReader.getData(paymentMethod1.toLowerCase() + ".short.name"); 
+    	String cardShortName2 = testDataReader.getData(paymentMethod2.toLowerCase() + ".short.name");
+    	
+    	String cardNumber1 = testDataReader.getData(paymentMethod1.toLowerCase() + ".card.number");
+    	String cardNumber2 = testDataReader.getData(paymentMethod2.toLowerCase() + ".card.number");
+    	
+    	String lastFourDigitsOfCardNum1 = cardNumber1.substring(cardNumber1.length() - 4);
+    	String lastFourDigitsOfCardNum2 = cardNumber2.substring(cardNumber2.length() - 4);
+    	
+    	WebElement splitPaymentForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("modal-multitender")));
+    	
+    	int numberofCardsAvailable = stateHolder.get("numberofCardsAvailable");
+    	
+    	if(numberofCardsAvailable > 2){
+    		List<WebElement> paymentDropdowns = splitPaymentForm.findElements(By.xpath(".//select[contains(@id, 'distributionCard')]"));
+    		
+    		String valueToBeSelected = cardShortName1.toUpperCase() + " ending in " + lastFourDigitsOfCardNum1;
+    		Select select = new Select(paymentDropdowns.get(0));
+    		select.selectByVisibleText(valueToBeSelected);
+    		
+    		valueToBeSelected = cardShortName2.toUpperCase() + " ending in " + lastFourDigitsOfCardNum2;
+    		select = new Select(paymentDropdowns.get(1));
+    		select.selectByVisibleText(valueToBeSelected);    		
+    	}
+    	
+    	String orderTotal = stateHolder.get("total");
+    	Double dblOrderTotal = Double.parseDouble(orderTotal.replaceAll("[^0-9]*", ""));
+    	dblOrderTotal = dblOrderTotal/2;
+    	
+    	splitPaymentForm.findElement(By.id("secondAmount")).sendKeys(dblOrderTotal.toString());
+    	splitPaymentForm.findElement(By.id("secondAmount")).sendKeys(Keys.TAB);
+    	
+    	splitPaymentForm.findElement(By.id("multiTenderDistributionSubmit")).click();    	
+    	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("multiTenderDistributionSubmit")));
     }
 }
