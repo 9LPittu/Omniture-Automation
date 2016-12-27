@@ -164,21 +164,36 @@ public class CheckoutShippingOptions extends Checkout {
     }
     
     public void selectSpecificShippingMethod(String shippingMethodName){
-    	WebElement shippingMethodRadioBtn = shippingMethodContainer.findElement(By.xpath(".//span[@class='method-group' and contains(normalize-space(.),'" + shippingMethodName
-    			                                                                         + "')]/preceding-sibling::input[@name='shippingMethod']"));
-    	shippingMethodRadioBtn.click();
-    	logger.debug("Selected Shipping Method: {}", shippingMethodName);    	
+    	try{
+    		WebElement shippingMethodRadioBtn = shippingMethodContainer.findElement(By.xpath(".//span[@class='method-group' and contains(normalize-space(.),'" + shippingMethodName
+    			                                                                              + "')]/preceding-sibling::input[@name='shippingMethod']"));
+    	    shippingMethodRadioBtn.click();
+    	    logger.debug("Selected Shipping Method: {}", shippingMethodName);
+    	}
+    	catch(NoSuchElementException nsee){
+    		String errorMsg = "Failed to identify/select the shipping method " + shippingMethodName;
+    		Util.e2eErrorMessagesBuilder(errorMsg);
+    		throw new NoSuchElementException(errorMsg);
+    	}
     }
     
     public void selectSpecificShippingMethod(WebElement shippingMethodSection, String shippingMethodName){
-    	WebElement shippingMethodRadioBtn = shippingMethodSection.findElement(By.xpath(".//span[@class='method-group' and contains(normalize-space(.),'" + shippingMethodName
-    			                                                                         + "')]/preceding-sibling::input[@name='shippingMethod']"));
-    	shippingMethodRadioBtn.click();
-    	logger.debug("Selected Shipping Method: {}", shippingMethodName);    	
+    	
+    	try{
+    		WebElement shippingMethodRadioBtn = shippingMethodSection.findElement(By.xpath(".//span[@class='method-group' and contains(normalize-space(.),'" + shippingMethodName
+    			                                                                         + "')]/preceding-sibling::input[contains(@name, 'shippingMethod')]"));
+    		shippingMethodRadioBtn.click();
+    		logger.debug("Selected Shipping Method: {}", shippingMethodName);
+    	}
+    	catch(NoSuchElementException nsee){
+    		String errorMsg = "Failed to identify/select the shipping method '" + shippingMethodName + "'";
+    		Util.e2eErrorMessagesBuilder(errorMsg);
+    		throw new NoSuchElementException(errorMsg);
+    	}
     }
     
     public void selectMultipleShippingMethods(String[] arrShippingMethods){
-    	List<WebElement> shippingMethodSections = shippingMethodForm.findElements(By.className("form-section-address"));    	
+    	List<WebElement> shippingMethodSections = shippingMethodForm.findElements(By.className("form-section-address"));
     	for(int i=0;i<arrShippingMethods.length;i++){
     		selectSpecificShippingMethod(shippingMethodSections.get(i), arrShippingMethods[i]);
     	}

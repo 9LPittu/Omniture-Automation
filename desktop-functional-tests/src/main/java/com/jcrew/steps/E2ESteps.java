@@ -324,7 +324,7 @@ public class E2ESteps extends DriverFactory {
 		String shippingMethods = getDataFromTestDataRowMap("Shipping Methods");
 		
 		/*
-		 	1. If scenario specifies single shipping address, then multiple shipping methods are not possible
+		 	1. If scenario specifies single shipping address, then obviously multiple shipping methods are not possible
 		 	2. If scenario specifies multiple shipping addresses and no data is provided for shipping methods, then default selections
 		 	   will be used
 		 	3. If scenario specifies multiple shipping addresses and shipping methods are provided in test data, then shipping methods
@@ -336,7 +336,7 @@ public class E2ESteps extends DriverFactory {
 		if(multipleShippingAddressRequired.equalsIgnoreCase("NO")){
 			//single shipping method selection
 			if(shippingMethods.isEmpty())
-				return;			
+				return;
 			
 			shippingOptions.selectSpecificShippingMethod(shippingMethods);
 		}

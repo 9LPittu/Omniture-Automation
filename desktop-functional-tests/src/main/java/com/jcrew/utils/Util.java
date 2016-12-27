@@ -55,6 +55,7 @@ public class Util {
         Actions action = new Actions(driver);
         action.moveToElement(element);
     }
+    
     public static void waitForPageReady(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
@@ -64,6 +65,7 @@ public class Util {
             }
         });
     }
+    
     public static void waitForPageFullyLoaded(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
@@ -221,8 +223,7 @@ public class Util {
             long timeDifference = currentTime - startTime;
             iterate = timeDifference < waitTime;
         }while(iterate);
-    }
-    
+    }    
     
     public static void waitSpinningImage(WebDriver driver){
         try {
@@ -238,8 +239,7 @@ public class Util {
             logger.error("StaleElementReferenceException when waiting for spinning image. " +
                     "Assuming it is gone and ignoring this exception");
         }
-    }
-    
+    }    
       
     public static void scrollAndClick(WebDriver driver, WebElement element){
     	int cntr = 0;
