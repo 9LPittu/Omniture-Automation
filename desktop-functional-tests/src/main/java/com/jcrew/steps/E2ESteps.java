@@ -23,6 +23,8 @@ import com.jcrew.page.Footer;
 import com.jcrew.page.HeaderWrap;
 import com.jcrew.page.LogIn;
 import com.jcrew.page.Monogram;
+import com.jcrew.page.PaypalLogin;
+import com.jcrew.page.PaypalReview;
 import com.jcrew.page.ProductDetails;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
@@ -44,6 +46,7 @@ public class E2ESteps extends DriverFactory {
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(E2ESteps.class);
 	private PropertyReader propertyReader = PropertyReader.getPropertyReader();
+	private TestDataReader testdataReader = TestDataReader.getTestDataReader();
 	private String ftpPath = propertyReader.getProperty("jenkins.ftp.path");
 	
 	@Given("^Test data is read from excel file \"([^\"]*)\"$")
@@ -401,7 +404,19 @@ public class E2ESteps extends DriverFactory {
 		if(userType.equalsIgnoreCase("REGISTERED") && !userType.equalsIgnoreCase("EXPRESS")){				
 			switch(paymentMethodName.toUpperCase()){
 				case "PAYPAL":
-					throw new WebDriverException("Selecting Paypal payment method is pending");
+					checkoutBilling.selectPaypalRadioButton();
+					checkoutBilling.continueCheckout();
+					
+					PaypalLogin paypalLogin = new PaypalLogin(getDriver());
+					String paypalEmail = testdataReader.getData("paypal.email");
+					String paypalPassword = testdataReader.getData("paypal.password");
+					paypalLogin.submitPaypalCredentials(paypalEmail, paypalPassword);
+					
+					PaypalReview paypalReview = new PaypalReview(getDriver());
+					paypalReview.clickContinue();
+					
+					stateHolder.put("isBillingContinueClicked", true);
+					
 				default:						
 					checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
 			}
@@ -421,6 +436,7 @@ public class E2ESteps extends DriverFactory {
 		if(!splitPaymentsRequired.equalsIgnoreCase("YES")){
 			switch(paymentMethod1.toUpperCase()){
 				case "PAYPAL":
+				case "JCC":
 					return;
 				default:
 					//entering security code when single payment method is used

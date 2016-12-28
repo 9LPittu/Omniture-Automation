@@ -42,6 +42,9 @@ public class CheckoutBilling extends Checkout {
     private WebElement expirationYear;
     @FindBy(id = "address-entry-new")
     private WebElement newAddressEntry;
+    
+    @FindBy(id="paypalPayment")
+    private WebElement paypalRadioButton;
 
     public CheckoutBilling(WebDriver driver) {
         super(driver);
@@ -289,5 +292,10 @@ public class CheckoutBilling extends Checkout {
     	
     	splitPaymentForm.findElement(By.id("multiTenderDistributionSubmit")).click();    	
     	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("multiTenderDistributionSubmit")));
+    }
+    
+    public void selectPaypalRadioButton(){
+    	paypalRadioButton.click();
+    	wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//p[@class='page-msg']")));
     }
 }
