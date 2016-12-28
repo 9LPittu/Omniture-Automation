@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class PaypalReview extends PageObject{
 	
-	@FindBy(xpath = "//input[contains(@id, 'Login') or @id = 'confirmButtonTop')]")
+	@FindBy(xpath = "//input[contains(@id, 'Continue') or @id = 'confirmButtonTop')]")
 	private WebElement continueButton;
 	
     public PaypalReview(WebDriver driver){
