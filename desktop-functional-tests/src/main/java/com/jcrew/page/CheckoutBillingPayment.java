@@ -241,15 +241,18 @@ public class CheckoutBillingPayment extends Checkout {
         User checkoutUser = User.getFakeUser();
 
         creditCardNumber.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".card.number"));
-        securityCode.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code"));
-
-        Select month = new Select(expirationMonth);
-        month.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.month"));
-
-        Select year = new Select(expirationYear);
-        year.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.year"));
-
-        nameOnCard.sendKeys(checkoutUser.getFirstName().replaceAll("'", "") + " " + checkoutUser.getLastName().replaceAll("'", ""));
+        
+        if(!paymentMethodName.equalsIgnoreCase("JCC")){
+	        securityCode.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code"));
+	
+	        Select month = new Select(expirationMonth);
+	        month.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.month"));
+	
+	        Select year = new Select(expirationYear);
+	        year.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.year"));
+	
+	        nameOnCard.sendKeys(checkoutUser.getFirstName().replaceAll("'", "") + " " + checkoutUser.getLastName().replaceAll("'", ""));
+        }
 
         selectAddressFromList(cardForm);
         

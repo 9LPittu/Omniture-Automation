@@ -150,6 +150,9 @@ public class CheckoutReview extends Checkout{
     }
     
     public void enterSecurityCode(String paymentMethodName){
+    	if(paymentMethodName.equalsIgnoreCase("JCC"))
+    		return;
+    	
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();
     	String paymentMethodShortName = testDataReader.getData(paymentMethodName.toLowerCase() + ".short.name");
     	String securityCodeText = testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code");

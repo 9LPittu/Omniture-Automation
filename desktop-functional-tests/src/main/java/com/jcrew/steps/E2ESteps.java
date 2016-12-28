@@ -72,7 +72,6 @@ public class E2ESteps extends DriverFactory {
 	
 	public String getDataFromTestDataRowMap(String columnName){
 		Map<String, Object> testdataMap = stateHolder.get("testdataRowMap");
-		logger.debug("Test data column name: {}", columnName);
 		String columnValue = (String) testdataMap.get(columnName);
 		logger.debug("Data for {} = {}", columnName, columnValue);
 		return columnValue.trim();
@@ -389,10 +388,8 @@ public class E2ESteps extends DriverFactory {
 				checkoutBillingPayment.addNewCreditDebitCard(paymentMethod2);
 			}				
 		    
-			checkoutBilling.clickTwoCardsPayment();
-			
-			checkoutBilling.continueCheckout();
-			
+			checkoutBilling.clickTwoCardsPayment();			
+			checkoutBilling.continueCheckout();			
 			checkoutBilling.splitPayment(paymentMethod1, paymentMethod2);
 			
 			stateHolder.put("isBillingContinueClicked", true);

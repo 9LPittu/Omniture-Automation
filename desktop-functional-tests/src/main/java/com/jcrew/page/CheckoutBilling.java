@@ -80,7 +80,7 @@ public class CheckoutBilling extends Checkout {
     }
     
     public void continueCheckout() {    	
-    	if(stateHolder.get("isBillingContinueClicked"))
+    	if(stateHolder.hasKey("isBillingContinueClicked"))
     		return;
     	
         nextStep(payment_page);
@@ -212,20 +212,14 @@ public class CheckoutBilling extends Checkout {
     	String cardNumber = testDataReader.getData(paymentMethodName.toLowerCase() + ".card.number");
     	String lastFourDigitsOfCardNum = cardNumber.substring(cardNumber.length() - 4);
     	
-    	List<WebElement> paymentMethodElements = wallet_container.findElements(By.xpath(".//span[contains(@class,'wallet-brand') and " + Util.xpathGetTextLower + "='" + 
-    											 paymentMethodName.toLowerCase() + "']/following-sibling::span[contains(@class,'wallet-line')"
+    	String cardDisplayName = testDataReader.getData(paymentMethodName.toLowerCase() + ".display.name");
+    	
+    	List<WebElement> paymentMethodElements = wallet_container.findElements(By.xpath(".//span[contains(@class,'wallet-brand') and " + Util.xpathGetTextLower + "='" 
+    											 + cardDisplayName.toLowerCase() + "']/following-sibling::span[contains(@class,'wallet-line')"
     											 + " and contains(normalize-space(.),'" + lastFourDigitsOfCardNum + "')]"));
     	
-    	if(paymentMethodElements.size()>0){
-    		WebElement paymentRadioButton = paymentMethodElements.get(0).findElement(By.xpath("preceding-sibling::input[@class='address-radio']"));
-    		paymentRadioButton.click();
-    	}else if(paymentMethodElements.size()==0){
-    		addPaymentMethod(paymentMethodName);
-    	}
-    }
-    
-    public void addPaymentMethod(String paymentMethodName){
-    	throw new WebDriverException("Adding payment method implementation is not yet added");
+   		WebElement paymentRadioButton = paymentMethodElements.get(0).findElement(By.xpath("preceding-sibling::input[@class='address-radio']"));
+   		paymentRadioButton.click();
     }
     
     public void fillPaymentCardDetails(String paymentMethodName){
@@ -270,24 +264,28 @@ public class CheckoutBilling extends Checkout {
     	
     	int numberofCardsAvailable = stateHolder.get("numberofCardsAvailable");
     	
-    	if(numberofCardsAvailable > 2){
-    		List<WebElement> paymentDropdowns = splitPaymentForm.findElements(By.xpath(".//select[contains(@id, 'distributionCard')]"));
-    		
-    		String valueToBeSelected = cardShortName1.toUpperCase() + " ending in " + lastFourDigitsOfCardNum1;
-    		Select select = new Select(paymentDropdowns.get(0));
+    	String valueToBeSelected;
+    	Select select;
+    	List<WebElement> paymentDropdowns = splitPaymentForm.findElements(By.xpath(".//select[contains(@id, 'distributionCard')]"));
+    	
+    	if(numberofCardsAvailable > 2){    		
+    		valueToBeSelected = cardShortName1.toUpperCase() + " ending in " + lastFourDigitsOfCardNum1;
+    		select = new Select(paymentDropdowns.get(0));
     		select.selectByVisibleText(valueToBeSelected);
-    		
-    		valueToBeSelected = cardShortName2.toUpperCase() + " ending in " + lastFourDigitsOfCardNum2;
-    		select = new Select(paymentDropdowns.get(1));
-    		select.selectByVisibleText(valueToBeSelected);    		
     	}
     	
+    	valueToBeSelected = cardShortName2.toUpperCase() + " ending in " + lastFourDigitsOfCardNum2;
+		select = new Select(paymentDropdowns.get(1));
+		select.selectByVisibleText(valueToBeSelected);
+    	
     	String orderTotal = stateHolder.get("total");
-    	Double dblOrderTotal = Double.parseDouble(orderTotal.replaceAll("[^0-9]*", ""));
+    	Double dblOrderTotal = Double.parseDouble(orderTotal.replaceAll("[^\\d.]*", ""));
     	dblOrderTotal = dblOrderTotal/2;
     	
-    	splitPaymentForm.findElement(By.id("secondAmount")).sendKeys(dblOrderTotal.toString());
-    	splitPaymentForm.findElement(By.id("secondAmount")).sendKeys(Keys.TAB);
+    	WebElement secondAmountElement = splitPaymentForm.findElement(By.id("secondAmount"));
+    	secondAmountElement.clear();
+    	secondAmountElement.sendKeys(dblOrderTotal.toString());
+    	secondAmountElement.sendKeys(Keys.TAB);
     	
     	splitPaymentForm.findElement(By.id("multiTenderDistributionSubmit")).click();    	
     	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("multiTenderDistributionSubmit")));
