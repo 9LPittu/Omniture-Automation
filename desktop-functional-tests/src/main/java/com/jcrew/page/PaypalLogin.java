@@ -5,22 +5,10 @@ import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class PaypalLogin extends PageObject{
-	
-	@FindBy(xpath="//section[@id='loginSection']")
-	private WebElement loginSection;
-	
-	@FindBy(xpath="//div[@id='login_emaildiv']/descendant::input[@id='email1']")
-	private WebElement paypalEmail;
-	
-	@FindBy(xpath="//div[@id='login_passworddiv']/descendant::input[@id='password']")
-	private WebElement paypalPassword;
-	
-	@FindBy(xpath = "//*[contains(@id, 'Login')]")
-	private WebElement paypalLogin;
 	
     public PaypalLogin(WebDriver driver){
         super(driver);
@@ -30,19 +18,23 @@ public class PaypalLogin extends PageObject{
     
     public void submitPaypalCredentials(String email, String password){
     	
-    	driver.get(driver.getCurrentUrl());
+    	driver.switchTo().frame("injectedUl");
     	
-    	//wait.until(ExpectedConditions.visibilityOf(paypalEmail));
-    	//paypalEmail.clear();
-    	paypalEmail = loginSection.findElement(By.xpath("//div[@id='login_emaildiv']/descendant::input[@id='email']"));
-    	paypalEmail.sendKeys(email);
+    	WebElement passwordSection = driver.findElement(By.id("passwordSection"));
+    	
+    	WebElement emailElement = passwordSection.findElement(By.id("email"));
+    	emailElement.sendKeys(email);
     	logger.info("Entered paypal email address: {}", email);
     	
-    	//paypalPassword.clear();
-    	paypalPassword = driver.findElement(By.xpath("//div[@id='login_passworddiv']/descendant::input[@id='password']"));
-    	paypalPassword.sendKeys(password);
+    	WebElement passwordElement = passwordSection.findElement(By.id("password"));
+    	passwordElement.sendKeys(password);
     	logger.info("Entered paypal password: {}", password);
     	
-    	paypalLogin.click();
+    	WebElement loginButton = passwordSection.findElement(By.xpath("following-sibling::div[2]/button"));
+    	loginButton.click();
+    	
+    	driver.switchTo().defaultContent();
+    	
+    	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
     }    
 }

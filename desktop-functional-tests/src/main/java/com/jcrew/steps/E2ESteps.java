@@ -416,7 +416,7 @@ public class E2ESteps extends DriverFactory {
 					paypalReview.clickContinue();
 					
 					stateHolder.put("isBillingContinueClicked", true);
-					
+					break;
 				default:						
 					checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
 			}
