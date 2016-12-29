@@ -13,7 +13,7 @@ public class PaypalLogin extends PageObject{
 	@FindBy(xpath="//section[@id='loginSection']")
 	private WebElement loginSection;
 	
-	@FindBy(xpath="//div[@id='login_emaildiv']/descendant::input[@id='email']")
+	@FindBy(xpath="//div[@id='login_emaildiv']/descendant::input[@id='email1']")
 	private WebElement paypalEmail;
 	
 	@FindBy(xpath="//div[@id='login_passworddiv']/descendant::input[@id='password']")
