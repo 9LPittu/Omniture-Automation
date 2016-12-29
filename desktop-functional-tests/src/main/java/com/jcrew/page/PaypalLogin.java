@@ -1,18 +1,22 @@
 package com.jcrew.page;
 
 import com.jcrew.utils.Util;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class PaypalLogin extends PageObject{
 	
-	@FindBy(name="login_email")
+	@FindBy(xpath="//section[@id='loginSection']")
+	private WebElement loginSection;
+	
+	@FindBy(xpath="//div[@id='login_emaildiv']/descendant::input[@id='email']")
 	private WebElement paypalEmail;
 	
-	@FindBy(name="login_password")
+	@FindBy(xpath="//div[@id='login_passworddiv']/descendant::input[@id='password']")
 	private WebElement paypalPassword;
 	
 	@FindBy(xpath = "//*[contains(@id, 'Login')]")
@@ -22,17 +26,20 @@ public class PaypalLogin extends PageObject{
         super(driver);
         Util.waitForPageFullyLoaded(driver);
         PageFactory.initElements(driver, this);
-        
     }
     
     public void submitPaypalCredentials(String email, String password){
     	
-    	wait.until(ExpectedConditions.visibilityOf(paypalEmail));
-    	paypalEmail.clear();
+    	driver.get(driver.getCurrentUrl());
+    	
+    	//wait.until(ExpectedConditions.visibilityOf(paypalEmail));
+    	//paypalEmail.clear();
+    	paypalEmail = loginSection.findElement(By.xpath("//div[@id='login_emaildiv']/descendant::input[@id='email']"));
     	paypalEmail.sendKeys(email);
     	logger.info("Entered paypal email address: {}", email);
     	
-    	paypalPassword.clear();
+    	//paypalPassword.clear();
+    	paypalPassword = driver.findElement(By.xpath("//div[@id='login_passworddiv']/descendant::input[@id='password']"));
     	paypalPassword.sendKeys(password);
     	logger.info("Entered paypal password: {}", password);
     	

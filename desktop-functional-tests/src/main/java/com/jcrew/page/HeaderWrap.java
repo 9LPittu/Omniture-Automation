@@ -80,6 +80,7 @@ public class HeaderWrap {
 
 	public void reload() {
 		try {
+			Util.waitForPageFullyLoaded(driver);
 			wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(global_promo)));
 			wait.until(ExpectedConditions.visibilityOf(global_promo));
 			wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(global_header)));
