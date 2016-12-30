@@ -1,0 +1,32 @@
+@e2e-expressuser
+Feature: Express User E2E order placing
+
+ Scenario: Express User order placing E2E scenario
+	Given Test data is read from excel file "JC_E2E_RegisteredUser_Testdata_Sheet.xls"	
+ 	
+ 	And User goes to homepage
+  	And User closes email capture
+  	
+  	When User selects country as per testdata
+  	
+  	When User clicks on sign in using header
+  	And User enters login credentials
+  	
+  	And This script cleans bag for current user
+  	
+  	When User adds the products to bag as per testdata
+  	
+  	And User clicks in bag
+  	Then Verify products added matches with products in bag
+  	
+  	And Apply promos, if required. If applied, verify promos are applied successfully  	
+  	
+  	When User clicks in CHECK OUT NOW button
+  	Then Verify user is in review page
+  	And Apply promos, if required. If applied, verify promos are applied successfully
+  	
+  	And User enters security code as per payment method, if required
+  	
+  	#When User clicks on PLACE MY ORDER
+  	#Then Verify user is in order confirmation page
+  	#Then Verify user gets a confirmation number
