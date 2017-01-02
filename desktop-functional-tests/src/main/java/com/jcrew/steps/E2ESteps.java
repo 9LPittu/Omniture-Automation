@@ -20,6 +20,7 @@ import com.jcrew.page.CheckoutShippingOptions;
 import com.jcrew.page.CheckoutShoppingBag;
 import com.jcrew.page.ContextChooser;
 import com.jcrew.page.Footer;
+import com.jcrew.page.GiftCards;
 import com.jcrew.page.HeaderWrap;
 import com.jcrew.page.LogIn;
 import com.jcrew.page.Monogram;
@@ -48,6 +49,7 @@ public class E2ESteps extends DriverFactory {
 	private PropertyReader propertyReader = PropertyReader.getPropertyReader();
 	private TestDataReader testdataReader = TestDataReader.getTestDataReader();
 	private String ftpPath = propertyReader.getProperty("jenkins.ftp.path");
+	private boolean isItemDataExist = true;
 	
 	@Given("^Test data is read from excel file \"([^\"]*)\"$")
 	public void read_test_data_from_excel(String excelFileName) throws FileNotFoundException, IOException{
@@ -131,6 +133,11 @@ public class E2ESteps extends DriverFactory {
 		String itemIdentifiers = getDataFromTestDataRowMap("Item Identifiers");
 		String quantities = getDataFromTestDataRowMap("Quantities");
 		
+		if(itemIdentifiers.isEmpty()){
+			isItemDataExist=false;
+			return;
+		}
+		
 		String[] arrItemIdentifiers = itemIdentifiers.split(getE2ETestdataDelimiter());
 		String[] arrQuantities = quantities.split(getE2ETestdataDelimiter());
 		
@@ -195,8 +202,58 @@ public class E2ESteps extends DriverFactory {
 		}
 	}
 	
+	@And("^User adds gift cards to bag as per testdata$")
+	public void user_adds_gift_card_to_bag() throws Exception{
+		String giftCardTypes = getDataFromTestDataRowMap("Gift Card Type");
+		String giftCardAmounts = getDataFromTestDataRowMap("Gift Card Amount");
+		
+		if(!isItemDataExist && giftCardTypes.isEmpty()){
+			String message = "No test data is provided for items/gift cards!!!";
+			Util.e2eErrorMessagesBuilder(message);
+			throw new Exception(message);
+		}
+		
+		String[] arrGiftCardTypes = giftCardTypes.split(getE2ETestdataDelimiter());
+		String[] arrGiftCardAmounts = giftCardAmounts.split(getE2ETestdataDelimiter());
+		
+		for(int i =0;i<arrGiftCardTypes.length;i++){
+			Footer footer = new Footer(getDriver());
+		    footer.clickFooterLinkFromDrawer("The J.Crew Gift Card", "Let Us Help You");
+		    
+		    GiftCards giftCards = new GiftCards(getDriver());
+		    
+		    arrGiftCardTypes[i] = arrGiftCardTypes[i].toLowerCase();
+		    if(arrGiftCardTypes[i].contains("classic")){
+		    	giftCards.selectCardType("classic card");
+		    	giftCards.selectGiftAmount(arrGiftCardAmounts[i]);
+		    	giftCards.enterSenderName("any ");
+		    	giftCards.enterRecipientName("any ");
+		    	giftCards.enterRecipientEmailAddress("any ");
+		    	giftCards.enterGiftMessage("Automated message for line 1", "Line 1");
+		    	giftCards.enterGiftMessage("Automated message for line 2", "Line 2");
+		    	giftCards.clickAddtoBag();
+		    }else if(arrGiftCardTypes[i].contains("e-gift")){
+		    	giftCards.selectCardType("e-gift card");
+		    	giftCards.selectGiftAmount(arrGiftCardAmounts[i]);
+		    	giftCards.enterSenderName("any ");
+		    	giftCards.enterRecipientName("any ");
+		    	giftCards.enterRecipientEmailAddress("any ");
+		    	giftCards.enterDateToBeSent();
+		    	giftCards.enterGiftMessage("This is the automated Gift Message", "Gift Message");
+		    	giftCards.clickAddtoBag();
+		    }else{
+		    	String message = arrGiftCardTypes[i] + " is not recognized gift card!!!";
+				Util.e2eErrorMessagesBuilder(message);
+		    }
+		}
+	}
+	
 	private int getRowNumberFromItemMaster(String itemIdentifier){		
 		int rowNumber = -1;
+		
+		if(itemIdentifier.isEmpty())
+			return rowNumber;
+		
 		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
 		
 		for(int i = itemMasterTestdata.getSearchTextFirstRowNum();i<=itemMasterTestdata.getSearchTextLastRowNum();i++){

@@ -44,6 +44,7 @@ public class StartSteps {
         
         stateHolder.put("deletecookies", false);
         
+        stateHolder.put("e2e_error_messages", "");
         getItemsMasterTestdata();
         
         driverFactory = new DriverFactory();

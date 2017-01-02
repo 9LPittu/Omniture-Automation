@@ -171,7 +171,7 @@ public class CheckoutShippingOptions extends Checkout {
     	    logger.debug("Selected Shipping Method: {}", shippingMethodName);
     	}
     	catch(NoSuchElementException nsee){
-    		String errorMsg = "Failed to identify/select the shipping method " + shippingMethodName;
+    		String errorMsg = "Failed to identify/select the shipping method '" + shippingMethodName + "'";
     		Util.e2eErrorMessagesBuilder(errorMsg);
     		throw new NoSuchElementException(errorMsg);
     	}

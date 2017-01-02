@@ -220,9 +220,9 @@ public abstract class Checkout extends PageObject{
 
     public boolean matchList(List<Product> products) {
         List<WebElement> productsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
-        								 order__listing.findElements(By.className("item-row"))));
+        								 order__listing.findElements(By.xpath(".//div[@class='item-row clearfix']"))));
         
-        logger.debug("Got {} items in checkout page", productsInBag.size());
+        logger.debug("Got {} items in checkout page excluding gift cards", productsInBag.size());
 
         boolean result = products.size() == productsInBag.size();
 

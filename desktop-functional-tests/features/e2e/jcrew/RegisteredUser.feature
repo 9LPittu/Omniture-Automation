@@ -15,6 +15,7 @@ Feature: Registered User E2E order placing
   	And This script cleans bag for current user
   	
   	When User adds the products to bag as per testdata
+  	And User adds gift cards to bag as per testdata  	
   	
   	And User clicks in bag
   	Then Verify products added matches with products in bag
