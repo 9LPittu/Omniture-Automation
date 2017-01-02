@@ -149,6 +149,40 @@ public class CheckoutReview extends Checkout{
         stateHolder.put("selectedShippingMethod", selectedShippingMethod);
     }
     
+    public void enterSecurityCode(){
+    	List<WebElement> securityCode = billing_details.findElements(By.id("securityCode"));
+    	
+    	if(securityCode.size()==0)
+    		return;
+    	
+    	String className = securityCode.get(0).getAttribute("class");
+    	String[] arrClassName = className.split(" "); 
+    	String cardType = arrClassName[arrClassName.length - 1];
+    	
+    	String paymentMethodName = "";
+    	switch(cardType.toUpperCase()){
+    		case "VISA":
+    			paymentMethodName = "visa";
+    			break;
+    		case "MC":
+    			paymentMethodName = "master";
+    			break;
+    		case "AMEX":
+    			paymentMethodName = "amex";
+    			break;
+    		case "DISC":
+    			paymentMethodName = "discover";
+    			break;
+    		case "JCB":
+    			paymentMethodName = "jcb";
+    			break;
+    	}
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	String securityCodeText = testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code");
+    	securityCode.get(0).sendKeys(securityCodeText);    	
+    }
+    
     public void enterSecurityCode(String paymentMethodName){
     	if(paymentMethodName.equalsIgnoreCase("JCC"))
     		return;

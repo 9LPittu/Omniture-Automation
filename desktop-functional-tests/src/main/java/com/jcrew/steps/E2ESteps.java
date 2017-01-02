@@ -77,9 +77,12 @@ public class E2ESteps extends DriverFactory {
 	
 	public String getDataFromTestDataRowMap(String columnName){
 		Map<String, Object> testdataMap = stateHolder.get("testdataRowMap");
-		String columnValue = (String) testdataMap.get(columnName);
+		String columnValue = null;
+		if(testdataMap.containsKey(columnName)){
+			columnValue = ((String) testdataMap.get(columnName)).trim();
+		}
 		logger.debug("Data for {} = {}", columnName, columnValue);
-		return columnValue.trim();
+		return columnValue;
 	}
 	
 	public String getE2ETestdataDelimiter(){
@@ -286,7 +289,26 @@ public class E2ESteps extends DriverFactory {
 			e.printStackTrace();
 		}
 		
-		return (String) itemMasterTestdataMap.get(columnName);
+		if(itemMasterTestdataMap.containsKey(columnName)){
+			return (String) itemMasterTestdataMap.get(columnName);
+		}else{
+			return null;
+		}
+	}
+	
+	@When("^User clicks on CHECK OUT NOW button or Express Paypal button$")
+	public void user_clicks_checkout_express_paypal(){
+		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
+		
+		switch(paymentMethod.toUpperCase()){
+			case "EXPRESS PAYPAL":
+				CheckoutShoppingBag checkoutShoppingBag = new CheckoutShoppingBag(getDriver());
+				checkoutShoppingBag.clickPaypalElement();
+				break;
+			default:
+				CheckoutShoppingBagSteps checkoutShoppingBagSteps = new CheckoutShoppingBagSteps();
+				checkoutShoppingBagSteps.check_out_now();
+		}
 	}
 	
 	@And("^Apply promos, if required. If applied, verify promos are applied successfully$")
@@ -464,15 +486,7 @@ public class E2ESteps extends DriverFactory {
 					checkoutBilling.selectPaypalRadioButton();
 					checkoutBilling.continueCheckout();
 					
-					PaypalLogin paypalLogin = new PaypalLogin(getDriver());
-					String paypalEmail = testdataReader.getData("paypal.email");
-					String paypalPassword = testdataReader.getData("paypal.password");
-					paypalLogin.submitPaypalCredentials(paypalEmail, paypalPassword);
-					
-					PaypalReview paypalReview = new PaypalReview(getDriver());
-					paypalReview.clickContinue();
-					
-					stateHolder.put("isBillingContinueClicked", true);
+					enterPaypalDetails();
 					break;
 				default:						
 					checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
@@ -482,8 +496,44 @@ public class E2ESteps extends DriverFactory {
 		}
 	}
 	
+	@And("^User completes Paypal transaction, if required$")
+	public void user_completes_paypal_transaction(){
+		
+		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
+		if(!paymentMethod.equalsIgnoreCase("EXPRESS PAYPAL"))
+			return;
+		
+		enterPaypalDetails();
+	}
+	
+	public void enterPaypalDetails(){
+		PaypalLogin paypalLogin = new PaypalLogin(getDriver());
+		String paypalEmail = testdataReader.getData("paypal.email");
+		String paypalPassword = testdataReader.getData("paypal.password");
+		paypalLogin.submitPaypalCredentials(paypalEmail, paypalPassword);
+		
+		PaypalReview paypalReview = new PaypalReview(getDriver());
+		paypalReview.clickContinue();
+		
+		stateHolder.put("isBillingContinueClicked", true);
+	}
+	
 	@And("^User enters security code as per payment method, if required$")
 	public void user_enters_security_code(){
+		
+		String userType = getDataFromTestDataRowMap("User Type");
+		
+		switch(userType.toUpperCase()){
+			case "REGISTERED":
+				enterSecurityCodeForRegisteredUser();
+				break;
+			case "EXPRESS":
+				enterSecurityCodeForExpressUser();
+				break;
+		}
+	}
+	
+	public void enterSecurityCodeForRegisteredUser(){
 		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
 		String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
 		String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
@@ -505,5 +555,15 @@ public class E2ESteps extends DriverFactory {
 			checkoutReview.enterSecurityCode(paymentMethod1);
 			checkoutReview.enterSecurityCode(paymentMethod2);
 		}
+	}
+	
+	public void enterSecurityCodeForExpressUser(){
+		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
+		
+		if(paymentMethod.equalsIgnoreCase("EXPRESS PAYPAL"))
+			return;
+		
+		CheckoutReview checkoutReview = new CheckoutReview(getDriver());
+		checkoutReview.enterSecurityCode();
 	}
 }
