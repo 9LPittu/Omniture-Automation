@@ -177,12 +177,13 @@ public class UsersHub {
 		return user;
 	}
     
-    public synchronized User getE2EUser(String userType) throws SQLException{
+    public synchronized User getE2EUser(String userType, String countryCode) throws SQLException{
     	String scenarioName = stateHolder.get("scenarioName");
     	
 		String getUserCredentialsSQLQuery = "select username, password, first_name, last_name, DEFAULT_ADDRESS_COUNTRY from JCINT2_CUSTOM.E2EQAUSERS "
-										    + "where brand='jcrew' and Environment='"  + environment + "' and Allocation = 'N'"
-										    + getE2EUserWhereClause(userType);
+										    + "where brand='jcrew' and Environment='"  + environment + "'"
+										    + " and default_address_country='" + countryCode + "'"										    
+										    + " and Allocation = 'N'" + getE2EUserWhereClause(userType);
 			
 		ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
 		if(rs!=null){
@@ -197,8 +198,9 @@ public class UsersHub {
 			}
 		
 			String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.E2EQAUSERS set allocation = 'Y'"
-								                  + " where brand='jcrew' and username='" + user.getEmail() 
-								                  + "' and Environment='"  + environment + "'" + getE2EUserWhereClause(userType);
+								                  + " where brand='jcrew' and username='" + user.getEmail() + "'"
+								                  + " and default_address_country='" + countryCode + "'"
+								                  + " and Environment='"  + environment + "'" + getE2EUserWhereClause(userType);
 			
 			executeSQLQuery(updateAllocationFlagSQLQuery);
 		    closeDBConnection();

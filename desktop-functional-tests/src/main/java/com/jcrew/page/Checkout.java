@@ -211,7 +211,10 @@ public abstract class Checkout extends PageObject{
         return matchList(products);
     }
 
-    public boolean itemsInBag() {
+    public boolean itemsInBag() {    	
+    	if(!stateHolder.hasKey("toBag"))
+    		return true;
+    	
 		List<Product> products = stateHolder.getList("toBag");
         logger.debug("Got {} items in bag", products.size());
 

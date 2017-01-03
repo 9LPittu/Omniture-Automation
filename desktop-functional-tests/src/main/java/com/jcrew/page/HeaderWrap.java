@@ -81,6 +81,18 @@ public class HeaderWrap {
 	public void reload() {
 		try {
 			Util.waitForPageFullyLoaded(driver);
+			
+			wait.until(new Predicate<WebDriver>(){
+				@Override
+				public boolean apply(WebDriver driver) {
+					boolean result = false;
+					if(global_promo.isDisplayed() && global_header.isDisplayed() && bag.isDisplayed()){
+						result = true;
+					}
+					return result;
+				}				
+			});
+			
 			wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(global_promo)));
 			wait.until(ExpectedConditions.visibilityOf(global_promo));
 			wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(global_header)));

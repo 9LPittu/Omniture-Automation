@@ -108,8 +108,9 @@ public class E2ESteps extends DriverFactory {
 	}
 	
 	@And("^User enters login credentials$")
-	public void user_enter_login_credentials(){
+	public void user_enter_login_credentials() throws Exception{
 		String userType = getDataFromTestDataRowMap("User Type");
+		String countryName = getDataFromTestDataRowMap("Ship To Country");
 		
 		String emailAddress = "";
 		String password = "";
@@ -118,13 +119,15 @@ public class E2ESteps extends DriverFactory {
 		User user = null;
 		
 		try {
-			  user = userHub.getE2EUser(userType.toLowerCase());			  
+			  user = userHub.getE2EUser(userType.toLowerCase(), countryName.toLowerCase());
 			  emailAddress = user.getEmail();
 		      password = user.getPassword();
 		      stateHolder.put("e2eUserObject", user);
 		}
-		catch (SQLException e) {			
-			e.printStackTrace();
+		catch (SQLException e) {
+			String errorMsg = "Failed to retrieve '" +  userType + "' type username and password from DB!!!";
+			Util.e2eErrorMessagesBuilder(errorMsg);
+			throw new Exception(errorMsg);
 		}
 		
 		LogIn logIn = new LogIn(getDriver());
