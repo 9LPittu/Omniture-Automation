@@ -7,12 +7,14 @@ Feature: Express User E2E order placing
  	And User goes to homepage
   	And User closes email capture
   	
-  	When User selects country as per testdata
+  	When User clicks on sign in using header
+  	And User enters login credentials  	
+  	And This script cleans bag for current user
+  	And User signs out using header
   	
+  	When User selects country as per testdata
   	When User clicks on sign in using header
   	And User enters login credentials
-  	
-  	And This script cleans bag for current user
   	
   	When User adds the products to bag as per testdata
   	
@@ -21,7 +23,7 @@ Feature: Express User E2E order placing
   	
   	And Apply promos, if required. If applied, verify promos are applied successfully  	
   	
-  	When User clicks on CHECK OUT NOW button or Express Paypal button  	
+  	When User clicks on CHECK OUT NOW button or Express Paypal button
   	And User completes Paypal transaction, if required  	
   	Then Verify user is in review page
   	And Apply promos, if required. If applied, verify promos are applied successfully

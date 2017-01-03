@@ -59,6 +59,13 @@ public class CheckoutShippingEdit extends Checkout {
     public void selectSpecificShippingAddress(String addressLine1){
     	List<WebElement> radioButtons = address_book.findElements(By.xpath(".//span[contains(@class,'address-line') and contains(normalize-space(.),'" + addressLine1 + 
     												"')]/preceding-sibling::input[@class='address-radio']"));
+    	
+    	if(radioButtons.size()==0){
+    		String errorMessage = "'" + addressLine1 + "' address is not found on the Shipping Address page";
+    		Util.e2eErrorMessagesBuilder(errorMessage);
+    		throw new WebDriverException(errorMessage);
+    	}
+    	
     	radioButtons.get(0).click();
     	logger.debug("Selected address: {}", addressLine1);
     }

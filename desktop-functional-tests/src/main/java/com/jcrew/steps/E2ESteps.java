@@ -113,16 +113,20 @@ public class E2ESteps extends DriverFactory {
 		String countryName = getDataFromTestDataRowMap("Ship To Country");
 		
 		String emailAddress = "";
-		String password = "";
-		
-		UsersHub userHub = UsersHub.getInstance();
+		String password = "";		
 		User user = null;
 		
 		try {
-			  user = userHub.getE2EUser(userType.toLowerCase(), countryName.toLowerCase());
+			  if(!stateHolder.hasKey("e2eUserObject")){
+				  UsersHub userHub = UsersHub.getInstance();
+				  user = userHub.getE2EUser(userType.toLowerCase(), countryName.toLowerCase());
+				  stateHolder.put("e2eUserObject", user);
+			  }else{
+				  user = stateHolder.get("e2eUserObject");
+			  }
+			  
 			  emailAddress = user.getEmail();
-		      password = user.getPassword();
-		      stateHolder.put("e2eUserObject", user);
+		      password = user.getPassword();		      
 		}
 		catch (SQLException e) {
 			String errorMsg = "Failed to retrieve '" +  userType + "' type username and password from DB!!!";
@@ -218,6 +222,9 @@ public class E2ESteps extends DriverFactory {
 			Util.e2eErrorMessagesBuilder(message);
 			throw new Exception(message);
 		}
+		
+		if(giftCardTypes.isEmpty())
+			return;
 		
 		String[] arrGiftCardTypes = giftCardTypes.split(getE2ETestdataDelimiter());
 		String[] arrGiftCardAmounts = giftCardAmounts.split(getE2ETestdataDelimiter());

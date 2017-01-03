@@ -108,7 +108,6 @@ public class CheckoutReview extends Checkout{
 
         wait.until(ExpectedConditions.visibilityOf(billing_details));
         wait.until(ExpectedConditions.visibilityOf(shipping_details));
-        wait.until(ExpectedConditions.visibilityOf(gifting_details));
         wait.until(ExpectedConditions.visibilityOf(order__listing));
 
         switch (group) {

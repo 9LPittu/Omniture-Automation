@@ -164,11 +164,37 @@ public class HeaderWrap {
 	}
 
 	public void searchForSpecificTerm(String searchTerm) {
+		Util.waitLoadingBar(driver);
+		Util.waitForPageFullyLoaded(driver);
 		wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
+		
+		wait.until(new Predicate<WebDriver>(){
+			@Override
+			public boolean apply(WebDriver driver) {
+				boolean result = false;
+				if(search.isDisplayed())
+					result = true;
+				return result;
+			}
+		});
+		
 		search.click();
-		WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
-		WebElement searchInput = searchHeader
-				.findElement(By.xpath(".//input[contains(@class,'js-header__search__input')]"));
+		
+		int cntr = 0;
+		WebElement searchHeader = null;
+		WebElement searchInput = null;
+		do{
+			try{
+				searchHeader = global_header.findElement(By.className("header__search__wrap"));
+				searchInput = searchHeader.findElement(By.xpath(".//input[contains(@class,'js-header__search__input')]"));
+				if(searchInput.isDisplayed())
+					break;
+			}
+			catch(StaleElementReferenceException sere){
+				cntr++;
+			}
+		}while(cntr<=2);
+		
 		searchInput.clear();
 		searchInput.sendKeys(searchTerm);
 		WebElement searchButton = searchHeader
@@ -182,11 +208,13 @@ public class HeaderWrap {
 		int cntr = 0;
 		do{
 			try{
-				wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sign_in)));
-				wait.until(ExpectedConditions.visibilityOf(sign_in));
+				Util.waitLoadingBar(driver);
+				Util.waitForPageFullyLoaded(driver);
+				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sign_in)));
+				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.visibilityOf(sign_in));
 				WebElement signInLink = sign_in.findElement(By.tagName("a"));
 				signInLink.click();
-				wait.until(ExpectedConditions.urlContains("/r/login"));
+				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.urlContains("/r/login"));
 				break;
 			}
 			catch(StaleElementReferenceException sere){
@@ -272,12 +300,27 @@ public class HeaderWrap {
 	}
 
 	public void goToMyDetailsDropDownMenu(String option) {
-		hoverOverIcon("my account");
-		dropdown = userPanel.findElement(By.tagName("dl"));
-		WebElement optionElement = dropdown.findElement(By.linkText(option));
-
+		
 		String url = driver.getCurrentUrl();
-		optionElement.click();
+		
+		int cntr = 0;
+		WebElement optionElement = null;
+		do{
+			try{
+				hoverOverIcon("my account");
+				dropdown = userPanel.findElement(By.tagName("dl"));
+				WebElement ddElement = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel-item--signout']"));
+				optionElement = ddElement.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + option.toLowerCase() + "']"));
+				optionElement.click();
+				break;
+			}catch(NoSuchElementException nsee){
+				cntr++;
+			}
+			catch(ElementNotVisibleException enve){
+				cntr++;
+			}
+		}while(cntr<=5);
+		
 		Util.waitLoadingBar(driver);
 
 		if ("sign out".equalsIgnoreCase(option)) {

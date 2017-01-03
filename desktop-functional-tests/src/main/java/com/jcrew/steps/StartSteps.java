@@ -6,10 +6,8 @@ import com.jcrew.utils.*;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
@@ -17,14 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Calendar;
-import java.util.Date;
 import cucumber.api.Scenario;
-
-
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -92,6 +84,7 @@ public class StartSteps {
         driverFactory.deleteBrowserCookies();
         user_is_on_home_page();
     }
+    
     @Given("^User is on homepage with siteid$")
     public void user_is_on_home_page_with_siteid(){
         driverFactory.deleteBrowserCookies();
@@ -190,6 +183,7 @@ public class StartSteps {
     }
 
     private void getIntlHomePage(String country) {
+    	
         String envUrl = reader.getProperty("url");
 
         //Update Reader and create context
@@ -206,6 +200,7 @@ public class StartSteps {
         logger.debug("getting url: " + intlHomeURL);
         driver.get(intlHomeURL);
     }
+    
     private void getHomePageWithSideID(){
         String country = reader.getProperty("country");
         String envUrl = reader.getProperty("url");

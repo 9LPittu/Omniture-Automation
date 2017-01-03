@@ -14,7 +14,6 @@ import cucumber.api.java.en.When;
 import gherkin.formatter.model.DataTableRow;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 

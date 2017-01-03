@@ -167,6 +167,8 @@ public class ContextChooser {
 		PropertyReader propertyReader = PropertyReader.getPropertyReader();
 		String url = propertyReader.getProperty("url");
 		
+		String currentUrl = driver.getCurrentUrl();
+		
 		//Click on country
 		WebElement countryElement = internationalContextChooserPage.findElement(
                 By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a[@data-country='" + countryName + "']"));
@@ -182,5 +184,8 @@ public class ContextChooser {
 		stateHolder.put("context", country);
 		
 		logger.info("Selected country: {}", countryName);
+		
+		wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+		Util.waitForPageFullyLoaded(driver);
 	}
 }

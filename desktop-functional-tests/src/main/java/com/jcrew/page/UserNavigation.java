@@ -62,5 +62,6 @@ public class UserNavigation {
         driver.navigate().to(cleanBagURL);
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(cleanBagURL)));
         logger.debug("After clearing bag, user is being redirected to: {}", driver.getCurrentUrl());
+        Util.createWebDriverWait(driver).until(ExpectedConditions.urlToBe(reader.getProperty("url") + "/"));
     }
 }
