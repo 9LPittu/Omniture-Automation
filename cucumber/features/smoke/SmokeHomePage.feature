@@ -41,5 +41,5 @@ Feature: Home Page
     And user should see legal links section in the footer
     And user should see "TERMS OF USE" in the legal links section of footer
     And user should see "PRIVACY POLICY" in the legal links section of footer
-    And user should see "2016 J.Crew" in the legal links section of footer
-    And "2016 J.Crew" should not be displayed as a link
+    And user should see "2017 J.Crew" in the legal links section of footer
+    And "2017 J.Crew" should not be displayed as a link
