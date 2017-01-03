@@ -26,7 +26,6 @@ Feature: Checkout - Register during checkout process
     
     When User clicks on sign in using header
     Then User goes to sign in page
-    Then User get create account form
     And Selected country matches the current country context
 
     When first name field is filled with new data
@@ -39,7 +38,6 @@ Feature: Checkout - Register during checkout process
 	
 	When User clicks in bag
     Then Verify products added matches with products in bag
-    
     
     When User clicks in CHECK OUT NOW button
     Then Verify Shipping Page is displayed
@@ -70,6 +68,3 @@ Feature: Checkout - Register during checkout process
 
     When User clicks on PLACE MY ORDER
     Then Verify user gets a confirmation number
-    
-    
-
