@@ -26,6 +26,12 @@ public class CheckoutBillingSteps extends DriverFactory {
         billing.fillPaymentMethod(true);
         billing.continueCheckout();
     }
+    
+    @When("User fills payment method as registered user and continues")
+    public void fill_payment_method_registered() {
+        billing.fillPaymentMethod(false);
+        billing.continueCheckout();
+    }
 
     @When("User continues to review page")
     public void continue_to_review() {
