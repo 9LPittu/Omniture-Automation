@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriverException;
@@ -27,6 +30,7 @@ import com.jcrew.page.Monogram;
 import com.jcrew.page.PaypalLogin;
 import com.jcrew.page.PaypalReview;
 import com.jcrew.page.ProductDetails;
+import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.ExcelUtils;
@@ -216,6 +220,7 @@ public class E2ESteps extends DriverFactory {
 	public void user_adds_gift_card_to_bag() throws Exception{
 		String giftCardTypes = getDataFromTestDataRowMap("Gift Card Type");
 		String giftCardAmounts = getDataFromTestDataRowMap("Gift Card Amount");
+		List<GiftCard> giftCardsList;
 		
 		if(!isItemDataExist && giftCardTypes.isEmpty()){
 			String message = "No test data is provided for items/gift cards!!!";
@@ -223,8 +228,14 @@ public class E2ESteps extends DriverFactory {
 			throw new Exception(message);
 		}
 		
-		if(giftCardTypes.isEmpty())
+		if(giftCardTypes.isEmpty()){
 			return;
+		}else{
+			giftCardsList = (List<GiftCard>) stateHolder.get("giftCardsToBag");
+			if (giftCardsList == null) {
+				giftCardsList = new ArrayList<>();
+            }			
+		}
 		
 		String[] arrGiftCardTypes = giftCardTypes.split(getE2ETestdataDelimiter());
 		String[] arrGiftCardAmounts = giftCardAmounts.split(getE2ETestdataDelimiter());
@@ -242,9 +253,22 @@ public class E2ESteps extends DriverFactory {
 		    	giftCards.enterSenderName("any ");
 		    	giftCards.enterRecipientName("any ");
 		    	giftCards.enterRecipientEmailAddress("any ");
-		    	giftCards.enterGiftMessage("Automated message for line 1", "Line 1");
-		    	giftCards.enterGiftMessage("Automated message for line 2", "Line 2");
+		    	
+		    	String lineMessage1 = "Automated message for line 1";
+		    	giftCards.enterGiftMessage(lineMessage1, "Line 1");
+		    	
+		    	
+		    	String lineMessage2 = "Automated message for line 2";
+		    	giftCards.enterGiftMessage(lineMessage2, "Line 2");
+		    	
 		    	giftCards.clickAddtoBag();
+		    	
+		    	GiftCard classicGiftCard = new GiftCard(arrGiftCardTypes[i], arrGiftCardAmounts[i],
+		    			                                (String)stateHolder.get("giftCardSenderName"), (String)stateHolder.get("giftCardRecipientName"),
+		    			                                (String)stateHolder.get("giftCardRecipientEmail"), lineMessage1, lineMessage2);
+		    	
+		    	giftCardsList.add(classicGiftCard);		    	
+		    	
 		    }else if(arrGiftCardTypes[i].contains("e-gift")){
 		    	giftCards.selectCardType("e-gift card");
 		    	giftCards.selectGiftAmount(arrGiftCardAmounts[i]);
@@ -252,12 +276,25 @@ public class E2ESteps extends DriverFactory {
 		    	giftCards.enterRecipientName("any ");
 		    	giftCards.enterRecipientEmailAddress("any ");
 		    	giftCards.enterDateToBeSent();
-		    	giftCards.enterGiftMessage("This is the automated Gift Message", "Gift Message");
-		    	giftCards.clickAddtoBag();
+		    	Date date = (Date)stateHolder.get("giftCardDateSent");
+		    	
+		    	String giftMessage = "This is the automated Gift Message";
+		    	giftCards.enterGiftMessage(giftMessage, "Gift Message");
+		    	
+		    	giftCards.clickAddtoBag();		    	
+		    	
+		    	
+		    	GiftCard eGiftCard = new GiftCard(arrGiftCardTypes[i], arrGiftCardAmounts[i],
+                                                  (String)stateHolder.get("giftCardSenderName"), (String)stateHolder.get("giftCardRecipientName"),
+                                                  (String)stateHolder.get("giftCardRecipientEmail"), date, giftMessage);
+		    	
+		    	giftCardsList.add(eGiftCard);
 		    }else{
 		    	String message = arrGiftCardTypes[i] + " is not recognized gift card!!!";
 				Util.e2eErrorMessagesBuilder(message);
 		    }
+		    
+		    stateHolder.put("giftCardsToBag", giftCardsList);
 		}
 	}
 	
