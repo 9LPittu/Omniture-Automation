@@ -3,11 +3,11 @@ Feature: Checkout - Editing items from shopping bag
 
   Scenario: Checkout - Multiple shopping bag functions
     Given User is on homepage with clean session
-    And Handle the Email Capture pop up
     
-    And User clicks on hamburger menu
+    When User clicks on hamburger menu
     And user selects WOMEN category from hamburger menu
     And user selects NEW ARRIVALS subcategory
+    And Handle the Email Capture pop up
 
     And Selects the first product with available colors from product grid list
     Then User is in product detail page

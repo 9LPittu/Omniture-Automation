@@ -208,8 +208,9 @@ Feature: Account Dropdown functionality - Part 2
     
   @HighLevel  
   Scenario: Rewards should not be shown in Account dropdown for international country
-  	Then click on change link from footer
-    And User is on context chooser page
+  	When click on change link from footer
+    And Handle the Email Capture pop up
+    Then User is on context chooser page
     And User is on internal /r/context-chooser page
     
   	When user selects randomly an international country

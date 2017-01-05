@@ -207,7 +207,7 @@ Feature: Footer Verification In Home Page
   	And user should see legal links section in the footer
   	And user should see "TERMS OF USE" in the legal links section of footer
   	And user should see "PRIVACY POLICY" in the legal links section of footer
-  	And user should see "2016 J.Crew" in the legal links section of footer
+  	And user should see "2017 J.Crew" in the legal links section of footer
     And click on "TERMS OF USE" in the legal links section of footer    
     And User is on internal /footer/termsofuse.jsp?sidecar=true page
     And Verify J crew breadcrumb is not displayed
@@ -218,7 +218,7 @@ Feature: Footer Verification In Home Page
     And Verify J crew breadcrumb is not displayed
     And Verify Embedded header is displayed
     And User presses back button
-  	And "2016 J.Crew" should not be displayed as a link
+  	And "2017 J.Crew" should not be displayed as a link
     
   #US13389_TC16
   Scenario: Verify visit full site is displayed and functional in footer section of all sidecar  pages

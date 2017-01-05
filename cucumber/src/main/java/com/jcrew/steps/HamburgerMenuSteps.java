@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.HamburgerMenu;
+import com.jcrew.page.HomePage;
 import com.jcrew.util.DriverFactory;
 
 import com.jcrew.util.Util;
@@ -118,6 +119,9 @@ public class HamburgerMenuSteps extends DriverFactory {
         selects_category_from_hamburger_menu(category);
         user_clicks_on_subcategory_from_category(subcategory,category);
         user_clicks_selection_from_featured_this_month(option);
+
+        HomePage homePage = new HomePage(getDriver());
+        homePage.handle_email_pop_up();
 
         new LooksWeLoveSteps().user_Selects_Random_Shop_The_Look_Page(category);
 

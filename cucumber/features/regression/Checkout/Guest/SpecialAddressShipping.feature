@@ -3,11 +3,10 @@ Feature: Checkout - Expected Shipping Options for special addresses
 
   Scenario: Checkout - Expected Shipping Options for APO
     Given User is on homepage with clean session
-    And Handle the Email Capture pop up
-    
-    And User clicks on hamburger menu    
+    When User clicks on hamburger menu
     And user selects any category from hamburger menu
 	And user selects any subcategory
+    And Handle the Email Capture pop up
     
     And user selects any item from array page, select any color and size
     Then User is in product detail page
