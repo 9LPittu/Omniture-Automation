@@ -10,6 +10,7 @@ Feature: Product Detail Page
 
   Scenario: Product Detail Page Validation
     When User clicks on SWEATERS subcategory from Men Category
+    And Handle the Email Capture pop up
     And Selects the first product from product grid list
     Then User is in product detail page
     And A color is selected
