@@ -13,9 +13,11 @@ Feature: Embedded Header and Footer Validations with header changes
   Scenario: Forgot Password Page Header Links
     When Goes to sign in page
     And Clicks on forgot password link
-    And Verify user is in forgot password page
+    Then Verify user is in forgot password page
+
+    When Handle the Email Capture pop up
     Then Verify embedded headers links is visible
-    Then Verify embedded footer is visible and functional
+    And Verify embedded footer is visible and functional
 
     #Merged with Category and PDP Page header links
     #Scenario: PDP Page header links
@@ -39,6 +41,7 @@ Feature: Embedded Header and Footer Validations with header changes
     When User clicks on hamburger menu
     And user selects any category from hamburger menu
     And user selects any subcategory
+    And Handle the Email Capture pop up
     And user selects any item from array page, select any color and size
     And User is in product detail page
     And Add to cart button is pressed

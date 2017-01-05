@@ -3,12 +3,12 @@ Feature: International Country Context - Part 2
 
   Background:
     Given User is on homepage with clean session
-    And Handle the Email Capture pop up
 
   Scenario Outline: Multiple Pages During Checkout Context validations
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
+    And Handle the Email Capture pop up
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer
@@ -73,6 +73,7 @@ Feature: International Country Context - Part 2
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
+    And Handle the Email Capture pop up
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And Goes to sign in page

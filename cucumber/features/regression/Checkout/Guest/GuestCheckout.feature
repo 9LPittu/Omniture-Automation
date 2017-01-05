@@ -2,12 +2,11 @@
 Feature: Checkout - Guest user is able to checkout
 
   Scenario: Checkout - Guest user is able to checkout
-     Given User is on homepage with clean session
-     And Handle the Email Capture pop up
-    
-    And User clicks on hamburger menu    
+    Given User is on homepage with clean session
+    When User clicks on hamburger menu
     And user selects any category from hamburger menu
 	And user selects any subcategory
+    And Handle the Email Capture pop up
     
     And user selects any item from array page, select any color and size
     Then User is in product detail page

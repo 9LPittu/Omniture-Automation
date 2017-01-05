@@ -211,7 +211,7 @@ Feature: Footer Verification In Home Page
   	And user should see legal links section in the footer
   	And user should see "TERMS OF USE" in the legal links section of footer
   	And user should see "PRIVACY POLICY" in the legal links section of footer
-  	And user should see "2016 J.Crew" in the legal links section of footer
+  	And user should see "2017 J.Crew" in the legal links section of footer
     And click on "TERMS OF USE" in the legal links section of footer    
     And User is on internal /footer/termsofuse.jsp?sidecar=true page
     And Verify J crew breadcrumb is not displayed
