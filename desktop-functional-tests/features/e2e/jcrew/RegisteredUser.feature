@@ -52,6 +52,6 @@ Feature: Registered User E2E order placing
   	
   	And User enters security code as per payment method, if required
   	
-  	#When User clicks on PLACE MY ORDER
-  	#Then Verify user is in order confirmation page
-  	#Then Verify user gets a confirmation number
+  	When User clicks on PLACE MY ORDER
+  	Then Verify user is in order confirmation page
+  	Then Verify user gets a confirmation number
