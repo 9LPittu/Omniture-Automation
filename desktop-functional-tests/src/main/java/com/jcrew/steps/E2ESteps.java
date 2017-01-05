@@ -281,8 +281,7 @@ public class E2ESteps extends DriverFactory {
 		    	String giftMessage = "This is the automated Gift Message";
 		    	giftCards.enterGiftMessage(giftMessage, "Gift Message");
 		    	
-		    	giftCards.clickAddtoBag();		    	
-		    	
+		    	giftCards.clickAddtoBag();    	
 		    	
 		    	GiftCard eGiftCard = new GiftCard(arrGiftCardTypes[i], arrGiftCardAmounts[i],
                                                   (String)stateHolder.get("giftCardSenderName"), (String)stateHolder.get("giftCardRecipientName"),
@@ -292,6 +291,7 @@ public class E2ESteps extends DriverFactory {
 		    }else{
 		    	String message = arrGiftCardTypes[i] + " is not recognized gift card!!!";
 				Util.e2eErrorMessagesBuilder(message);
+				throw new WebDriverException(message);
 		    }
 		    
 		    stateHolder.put("giftCardsToBag", giftCardsList);
