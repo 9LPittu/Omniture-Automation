@@ -24,6 +24,7 @@ Feature: Embedded Header and Footer Validations with header changes
     #Scenario: Category Page header links
   Scenario: Category and PDP Page header links
     When User goes to /c/womens_category/sweaters page
+    And Handle the Email Capture pop up
     Then Verify embedded headers links is visible
     And Selects the first product from product grid list
     And User is in product detail page
