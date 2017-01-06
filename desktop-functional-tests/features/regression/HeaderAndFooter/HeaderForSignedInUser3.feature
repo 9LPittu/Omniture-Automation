@@ -1,4 +1,4 @@
-@Header3 @HighLevel
+@Header4 @HighLevel
 Feature: Header verification for registered user
 
   Background:
@@ -11,9 +11,9 @@ Feature: Header verification for registered user
     When User clicks JCrew logo
     Then Verify user is in homepage
 
-  Scenario: Verify Header links are functional from Gender landing pages
-    When User clicks on random link from top nav
-    Then Verify gender landing page is displayed
+  Scenario: Verify Header links are functional from Sale landing page
+    When User clicks on sale link from top nav
+    Then Verify sale landing page is displayed
 
     When User clicks in My Account
     Then Verify My Account drop down is displayed
@@ -21,7 +21,8 @@ Feature: Header verification for registered user
     When User clicks in bag
     Then Verify user is in shopping bag page
     When User presses browser back button
-    Then Verify gender landing page is displayed
+    Then Verify sale landing page is displayed
+
     And Verify search drawer is closed
 
     When User clicks on search using header

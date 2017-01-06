@@ -1,5 +1,5 @@
 @MergeCheckout2 @HighLevel
-Feature: Checkout - Default user gets confirmation to merge cart
+Feature: Checkout - Default user gets confirmation to merge cart2
 
   Background: Clean bag for user
     Given User goes to homepage

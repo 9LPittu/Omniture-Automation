@@ -1,5 +1,5 @@
-@MergeCheckout3 @HighLevel
-Feature: Checkout - No Default user gets confirmation to merge cart
+@MergeCheckout4 @HighLevel
+Feature: Checkout - No Default user gets confirmation to merge cart2
 
   Background: Clean bag for user
     Given User goes to homepage
@@ -25,10 +25,9 @@ Feature: Checkout - No Default user gets confirmation to merge cart
     
     And User signs out using header
     
-  Scenario: Checkout - User checks out with a merged bag
+  Scenario: Checkout - User checks out by saving items to wishlist
     Given User goes to homepage
-    
-   And User hovers on a random category from list
+    And User hovers on a random category from list
     	|Women|
     	|Men|
     	|Girls|
@@ -41,8 +40,9 @@ Feature: Checkout - No Default user gets confirmation to merge cart
     And User selects random size
     And User adds product to bag
     
-    When User clicks in bag    
+    When User clicks in bag
     And User clicks in CHECK OUT NOW button
+    
     And User signs in with no default user and checks out
     Then Verify user is in Merge Cart page
     And Verify user is welcome to Merge Cart page
@@ -50,28 +50,9 @@ Feature: Checkout - No Default user gets confirmation to merge cart
     And Verify 'Add items to bag & Review Order' button is available in Merge Cart Page
     And Verify previously added items are in Merge Cart page
 
-    When User clicks Add items to bag & Review Order
-    Then Verify shopping bag is displayed
-    And Verify jcrew logo is visible
-    And Verify that title is Shopping Bag
-    And Verify products added matches with products in bag
-
-    When User clicks in CHECK OUT NOW button
-    Then Verify jcrew logo is visible
+    When User clicks Save to Wishlist & Continue
+    
     Then Verify select shipping address page is displayed
-
-    When User selects a shipping address and continues
-    Then Verify Shipping And Gift Options page is displayed
-
-    When User selects a random shipping method
-    And User continues to Payment Method page
-    Then Verify Billing page is displayed
-
-    When User continues to review page
-    Then Verify user is in review page
-
-    When User fills security code
-    And User clicks on PLACE MY ORDER
-    Then Verify user gets a confirmation number
-  
-  
+    
+    When User clicks in bag
+    Then Verify previously added item is not shown in bag page

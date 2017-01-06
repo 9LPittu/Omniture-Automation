@@ -1,5 +1,5 @@
-@PDP2 @HighLevel
-Feature: PDP Layout2
+@PDP4 @HighLevel
+Feature: PDP Layout3
 
   Background:
     Given User goes to homepage
@@ -11,19 +11,27 @@ Feature: PDP Layout2
 	And User selects sweaters subcategory array
     Then Verify user is in category array page
 
-    Scenario: PDP layout from search array page
-    When User searches specific term dresses
-    And User is in search results page
-
-    When User selects random product from array
+ 
+  Scenario: PDP layout from bag page
+    When User selects random product from product array
     Then Verify product detail page is displayed
+    And User selects random color
+    And User selects random size
+    And User adds product to bag
+    And User clicks in bag
+    Then Verify shopping bag is displayed
+
+    When User edits last item from bag
+    Then Verify product detail page is displayed
+    And Verify that page contains a selected color
+    And Verify that page contains a selected size
     And Verify product name on PDP matches with category array
     And Verify Item code displayed in PDP
     And Verify price matches with category array
     And Verify color swatchs displayed in PDP
     And Verify size chips displayed in PDP
     And Verify quantity displayed in PDP
-    And Verify Add to Bag displayed in PDP
+    And Verify UPDATE BAG displayed in PDP
     And Verify Wishlist displayed in PDP
     And Verify social icons displayed in PDP
 
@@ -33,4 +41,9 @@ Feature: PDP Layout2
     And Verify reviews displayed in PDP
     And Verify baynotes displayed in PDP
     And Verify endcaps displayed in PDP
+    When User selects random color
+    And User selects random size
+    And User adds product to bag
 
+    When User clicks in bag
+    Then Verify products added matches with products in bag

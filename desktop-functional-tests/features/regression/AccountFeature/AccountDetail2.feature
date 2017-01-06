@@ -1,5 +1,5 @@
 @Account
-Feature: Account details Page validations
+Feature: Account details Page validations2
 
   Background:
     Given User is on homepage with clean session
