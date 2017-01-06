@@ -1,4 +1,4 @@
-@Footer @HighLevel
+@Footer6 @HighLevel
 Feature: Footer - From Sale landing page
 
   Background:

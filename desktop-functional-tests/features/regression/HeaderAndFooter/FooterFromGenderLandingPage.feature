@@ -1,4 +1,4 @@
-@Footer @HighLevel
+@Footer4 @HighLevel
 Feature: Footer - From Gender landing page
 
   Background:

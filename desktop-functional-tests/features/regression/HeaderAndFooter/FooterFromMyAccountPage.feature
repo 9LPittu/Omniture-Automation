@@ -1,4 +1,4 @@
-@Footer @HighLevel
+@Footer7 @HighLevel
 Feature: Footer - From my Account page
 
   Background:

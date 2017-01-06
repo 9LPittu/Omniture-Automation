@@ -1,4 +1,4 @@
-@Footer @HighLevel
+@Footer5 @HighLevel
 Feature: Footer - From home page
 
   Background:
