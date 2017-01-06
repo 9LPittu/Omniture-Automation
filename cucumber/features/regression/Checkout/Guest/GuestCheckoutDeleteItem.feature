@@ -3,13 +3,12 @@ Feature: Checkout - User is able to remove item from shopping bag during Guest c
 
   Scenario: Checkout - Guest user is able to remove item from shopping bag
     Given User is on homepage with clean session
-    And Handle the Email Capture pop up
     
     #Add Item 1 to bag
-    And User clicks on hamburger menu    
+    When User clicks on hamburger menu
     And user selects any category from hamburger menu
 	And user selects any subcategory
-    
+    And Handle the Email Capture pop up
     And user selects any item from array page, select any color and size
     Then User is in product detail page
     

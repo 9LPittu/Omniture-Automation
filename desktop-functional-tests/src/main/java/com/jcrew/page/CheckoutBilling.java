@@ -79,7 +79,9 @@ public class CheckoutBilling extends Checkout {
         }
 
         nameOnCard.sendKeys(checkoutUSer.getFirstName() + " " + checkoutUSer.getLastName());
-        emailReceipt.sendKeys(checkoutUSer.getEmail());
+        
+        if (isGuest)
+        	emailReceipt.sendKeys(checkoutUSer.getEmail());
     }
     
     public void continueCheckout() {    	

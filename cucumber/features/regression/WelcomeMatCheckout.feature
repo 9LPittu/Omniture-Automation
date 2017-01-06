@@ -19,6 +19,7 @@ Feature: Welcome Mat for ROW with checkout
     When User clicks on hamburger menu
     And user selects any category from hamburger menu
     And user selects any subcategory
+    And Handle the Email Capture pop up
     Then Verify proper currency symbol is displayed on product grid list
     And user should see selected country in the footer
     And user should see country code in the url for international countries

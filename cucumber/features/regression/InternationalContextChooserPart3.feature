@@ -9,6 +9,7 @@ Feature: International Country Context - Part 3
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
+    And Handle the Email Capture pop up
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer

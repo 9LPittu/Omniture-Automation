@@ -3,12 +3,12 @@ Feature: Handling email capture pop up
 
   Scenario: Email capture option should be displayed on fresh session.
     Given User is on homepage with clean session
-    And Close the email pop up
+    And Email pop up is not displayed
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     When User clicks on SWEATERS subcategory from Women Category
     Then User should be in subcategory page
-    And Email pop up is not displayed
+    And Close the email pop up
     And User is on homepage
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
@@ -27,7 +27,7 @@ Feature: Handling email capture pop up
     And Selects Women Category from hamburger menu
     When User clicks on SWEATERS subcategory from Women Category
     Then User should be in subcategory page
-    And Email pop up is not displayed
+    And Close the email pop up
     And User is on homepage
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
@@ -40,13 +40,12 @@ Feature: Handling email capture pop up
 
   Scenario:  Email capture option should be displayed on fresh session on landing pages (jsp pages)
     And User navigates to /womens-clothing.jsp?sidecar=true with clean session
-    And Close the email pop up
     And Verify footer section in the page is displayed
     And User clicks on hamburger menu
     And Selects Women Category from hamburger menu
     When User clicks on SWEATERS subcategory from Women Category
     Then User should be in subcategory page
-    And Email pop up is not displayed
+    And Close the email pop up
     And User clicks on hamburger menu
     And Selects sale Category from hamburger menu
     And Email pop up is not displayed
