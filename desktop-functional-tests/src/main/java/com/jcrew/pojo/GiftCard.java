@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class GiftCard {
 	
-	private String giftCardType;
+	private String giftCardName;
 	private String giftCardAmount;
 	private String senderName;
 	private String recipientName;
@@ -14,8 +14,8 @@ public class GiftCard {
 	private String line2;
 	private String giftMessage;
 	
-	public GiftCard(String giftCardType, String giftCardAmount, String senderName, String recipientName, String recipientEmailAddress, String line1, String line2){
-		this.giftCardType = giftCardType;
+	public GiftCard(String giftCardName, String giftCardAmount, String senderName, String recipientName, String recipientEmailAddress, String line1, String line2){
+		this.giftCardName = giftCardName;
 		this.giftCardAmount = giftCardAmount;
 		this.senderName = senderName;
 		this.recipientName = recipientName;
@@ -24,8 +24,8 @@ public class GiftCard {
 		this.line2 = line2;
 	}
 	
-	public GiftCard(String giftCardType, String giftCardAmount, String senderName, String recipientName, String recipientEmailAddress, Date dateToBeSent, String giftMessage){
-		this.giftCardType = giftCardType;
+	public GiftCard(String giftCardName, String giftCardAmount, String senderName, String recipientName, String recipientEmailAddress, Date dateToBeSent, String giftMessage){
+		this.giftCardName = giftCardName;
 		this.giftCardAmount = giftCardAmount;
 		this.senderName = senderName;
 		this.recipientName = recipientName;
@@ -34,8 +34,8 @@ public class GiftCard {
 		this.giftMessage = giftMessage;
 	}
 	
-	public String getGiftCardType(){
-		return giftCardType;
+	public String getGiftCardName(){
+		return giftCardName;
 	}
 	
 	public String getGiftCardAmount(){

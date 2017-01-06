@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.base.Function;
+import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.PropertyReader;
@@ -18,7 +19,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import static org.junit.Assert.fail;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -420,5 +426,105 @@ public abstract class Checkout extends PageObject{
     	catch(NoSuchElementException nsee){
     		return false;
     	}
+    }
+    
+    public boolean giftCardsInBag(){
+    	if(!stateHolder.hasKey("giftCardsToBag"))
+    		return true;
+    	
+		List<GiftCard> giftCards = stateHolder.getList("giftCardsToBag");
+        logger.debug("{} gift cards added to bag", giftCards.size());
+
+        return matchGiftCardList(giftCards);
+    }
+    
+    public boolean matchGiftCardList(List<GiftCard> expectedGiftCards) {
+        List<WebElement> giftCardsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
+        								 order__listing.findElements(By.xpath(".//div[contains(@class,'item-gc') or contains(@class,'item-egc')]"))));
+        
+        logger.debug("Got {} gift cards in checkout page", giftCardsInBag.size());
+
+        boolean result = expectedGiftCards.size() == giftCardsInBag.size();
+
+        for (int i = 0; i < expectedGiftCards.size() && result; i++) {
+        	GiftCard fromGCPage = (GiftCard) expectedGiftCards.get(i);
+            String giftCardName = fromGCPage.getGiftCardName();
+
+            logger.debug("Looking for gift card {}, amount {}, sender {}, recipient as {}, recipient email address {}",
+               		      giftCardName, fromGCPage.getGiftCardAmount(), fromGCPage.getSenderName(), fromGCPage.getRecipientName(), fromGCPage.getRecipientEmailAddress());
+
+            boolean found = false;
+
+            for (int j = 0; j < giftCardsInBag.size() && !found; j++) {
+                WebElement giftCardElement = giftCardsInBag.get(j);
+                WebElement nameElement = giftCardElement.findElement(By.className("item-name"));
+                String name = nameElement.getText().trim();
+
+                WebElement priceElement = giftCardElement.findElement(By.className("item-price"));
+                String price = priceElement.getText().trim();
+                price = price.replaceAll("[^0-9.,]", "");
+
+                List<WebElement> descriptionElements = giftCardElement.findElements(By.className("item-label"));
+
+                WebElement fromElement = descriptionElements.get(0).findElement(By.tagName("span"));
+                String fromText = fromElement.getText().trim();
+
+                WebElement toElement = descriptionElements.get(1).findElement(By.tagName("span"));
+                String toText = toElement.getText().trim();
+                
+                WebElement recipientEmailElement = descriptionElements.get(2).findElement(By.tagName("span"));
+                String recipientEmailText = recipientEmailElement.getText().trim();
+                
+                WebElement dateElement = null;
+                WebElement giftMessageElement = null;                
+                String expectedgiftMessage = null;
+                
+                switch(giftCardName.toUpperCase()){
+                	case "J.CREW GIFT CARD":
+                		giftMessageElement = descriptionElements.get(3).findElement(By.tagName("span"));
+                		expectedgiftMessage = fromGCPage.getLine1() + fromGCPage.getLine2(); 
+                		break;
+                	case "J.CREW E-GIFT CARD":
+                		dateElement = descriptionElements.get(3).findElement(By.tagName("span"));
+                		giftMessageElement = descriptionElements.get(4).findElement(By.tagName("span"));
+                		expectedgiftMessage = fromGCPage.getGiftMessage();
+                		break;
+                }
+                
+                String giftMessage = giftMessageElement.getText().trim();
+                found = expectedgiftMessage.equalsIgnoreCase(giftMessage);
+                
+                String dateToBeSent;
+                if(dateElement!=null){
+                	dateToBeSent = dateElement.getText().trim();
+                	SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+                	Date date = null;
+                	try {
+                		  date = dateFormat.parse(dateToBeSent);
+                	} catch (ParseException e) {
+                		e.printStackTrace();
+                		fail("Failed to parse date " + dateToBeSent);
+                	}	
+                	
+                	found &= date.compareTo(fromGCPage.getDateToBeSent())==0;
+                }
+
+                logger.debug("Found gift card {}, amount {}, sender {}, recipient {}, recipient email address {} in bag",
+                              name, price, fromText, toText, recipientEmailText);
+
+                found &= name.equalsIgnoreCase(giftCardName)
+                         && price.equalsIgnoreCase(fromGCPage.getGiftCardAmount().replaceAll("[^0-9.,]", ""))
+                         && fromText.equalsIgnoreCase(fromGCPage.getSenderName())
+                         && toText.equalsIgnoreCase(fromGCPage.getRecipientName())
+                         && recipientEmailText.equalsIgnoreCase(fromGCPage.getRecipientEmailAddress());
+            }
+
+            result = found;
+        }
+
+        logger.debug("Gift card found in bag: {}", result);
+
+        return result;
     }
 }

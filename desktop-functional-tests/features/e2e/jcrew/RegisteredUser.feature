@@ -21,6 +21,7 @@ Feature: Registered User E2E order placing
   	
   	And User clicks in bag
   	Then Verify products added matches with products in bag
+  	And Verify gift cards added matches with gift cards in bag
   	
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	

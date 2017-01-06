@@ -231,10 +231,7 @@ public class E2ESteps extends DriverFactory {
 		if(giftCardTypes.isEmpty()){
 			return;
 		}else{
-			giftCardsList = (List<GiftCard>) stateHolder.get("giftCardsToBag");
-			if (giftCardsList == null) {
-				giftCardsList = new ArrayList<>();
-            }			
+			giftCardsList = stateHolder.getList("giftCardsToBag");					
 		}
 		
 		String[] arrGiftCardTypes = giftCardTypes.split(getE2ETestdataDelimiter());
@@ -263,11 +260,11 @@ public class E2ESteps extends DriverFactory {
 		    	
 		    	giftCards.clickAddtoBag();
 		    	
-		    	GiftCard classicGiftCard = new GiftCard(arrGiftCardTypes[i], arrGiftCardAmounts[i],
+		    	GiftCard classicGiftCard = new GiftCard("J.CREW GIFT CARD", arrGiftCardAmounts[i],
 		    			                                (String)stateHolder.get("giftCardSenderName"), (String)stateHolder.get("giftCardRecipientName"),
 		    			                                (String)stateHolder.get("giftCardRecipientEmail"), lineMessage1, lineMessage2);
 		    	
-		    	giftCardsList.add(classicGiftCard);		    	
+		    	stateHolder.addToList("giftCardsToBag", classicGiftCard);
 		    	
 		    }else if(arrGiftCardTypes[i].contains("e-gift")){
 		    	giftCards.selectCardType("e-gift card");
@@ -283,18 +280,16 @@ public class E2ESteps extends DriverFactory {
 		    	
 		    	giftCards.clickAddtoBag();    	
 		    	
-		    	GiftCard eGiftCard = new GiftCard(arrGiftCardTypes[i], arrGiftCardAmounts[i],
+		    	GiftCard eGiftCard = new GiftCard("J.CREW E-GIFT CARD", arrGiftCardAmounts[i],
                                                   (String)stateHolder.get("giftCardSenderName"), (String)stateHolder.get("giftCardRecipientName"),
                                                   (String)stateHolder.get("giftCardRecipientEmail"), date, giftMessage);
 		    	
-		    	giftCardsList.add(eGiftCard);
+		    	stateHolder.addToList("giftCardsToBag", eGiftCard);
 		    }else{
 		    	String message = arrGiftCardTypes[i] + " is not recognized gift card!!!";
 				Util.e2eErrorMessagesBuilder(message);
 				throw new WebDriverException(message);
 		    }
-		    
-		    stateHolder.put("giftCardsToBag", giftCardsList);
 		}
 	}
 	

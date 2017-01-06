@@ -35,6 +35,11 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     public void products_matches() {
         assertTrue("Same products are in bag", bag.itemsInBag());
     }
+    
+    @Then("^Verify gift cards added matches with gift cards in bag$")
+    public void gift_cards_matches() {
+        assertTrue("Same gift cards are in bag", bag.giftCardsInBag());
+    }
 
     @Then("Verify all products have edit and remove buttons")
     public void edit_and_remove_buttons() {
