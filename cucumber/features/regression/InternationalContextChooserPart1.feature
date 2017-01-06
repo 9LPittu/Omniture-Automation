@@ -3,7 +3,6 @@ Feature: International Country Context - Part 1
 
   Background:
     Given User is on homepage with clean session
-    And Handle the Email Capture pop up
 
     #US9479_TC01, US9479_TC02, US9479_TC04
   #US9479_TC03 -  not automating because the test case is about validating context chooser page with mockup
@@ -15,6 +14,7 @@ Feature: International Country Context - Part 1
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
+    And Handle the Email Capture pop up
     Then Verify embedded headers links is visible
     Then Verify embedded footer is visible and functional
     And UNITED STATES & CANADA region drawer is displayed
@@ -52,6 +52,7 @@ Feature: International Country Context - Part 1
     Then click on change link from footer
     And User is on context chooser page
     And User is on internal /r/context-chooser page
+    And Handle the Email Capture pop up
     Given user selects <country_group> at random from context chooser page
     Then user should land on country specific home page
     And user should see selected country in the footer

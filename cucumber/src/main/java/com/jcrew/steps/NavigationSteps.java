@@ -216,6 +216,9 @@ public class NavigationSteps extends DriverFactory {
     	search(searchItem);
     	
     	if(getDriver().getCurrentUrl().contains("r/search")){
+    	    HomePage homePage = new HomePage(getDriver());
+    	    homePage.handle_email_pop_up();
+
          	SearchPage searchPage = new SearchPage(getDriver());
          	searchPage.selectRandomProduct();
         }
