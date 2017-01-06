@@ -433,7 +433,7 @@ public abstract class Checkout extends PageObject{
     		return true;
     	
 		List<GiftCard> giftCards = stateHolder.getList("giftCardsToBag");
-        logger.debug("{} gift cards added to bag", giftCards.size());
+        logger.debug("{} gift card(s) added to bag", giftCards.size());
 
         return matchGiftCardList(giftCards);
     }
@@ -442,7 +442,7 @@ public abstract class Checkout extends PageObject{
         List<WebElement> giftCardsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
         								 order__listing.findElements(By.xpath(".//div[contains(@class,'item-gc') or contains(@class,'item-egc')]"))));
         
-        logger.debug("Got {} gift cards in checkout page", giftCardsInBag.size());
+        logger.debug("Got {} gift card(s) in checkout page", giftCardsInBag.size());
 
         boolean result = expectedGiftCards.size() == giftCardsInBag.size();
 
@@ -450,7 +450,7 @@ public abstract class Checkout extends PageObject{
         	GiftCard fromGCPage = (GiftCard) expectedGiftCards.get(i);
             String giftCardName = fromGCPage.getGiftCardName();
 
-            logger.debug("Looking for gift card {}, amount {}, sender {}, recipient as {}, recipient email address {}",
+            logger.debug("Looking for gift card '{}', amount '{}', sender '{}', recipient '{}', recipient email address '{}'",
                		      giftCardName, fromGCPage.getGiftCardAmount(), fromGCPage.getSenderName(), fromGCPage.getRecipientName(), fromGCPage.getRecipientEmailAddress());
 
             boolean found = false;
@@ -463,6 +463,7 @@ public abstract class Checkout extends PageObject{
                 WebElement priceElement = giftCardElement.findElement(By.className("item-price"));
                 String price = priceElement.getText().trim();
                 price = price.replaceAll("[^0-9.,]", "");
+                price = price.replace(".00", "");
 
                 List<WebElement> descriptionElements = giftCardElement.findElements(By.className("item-label"));
 
@@ -482,7 +483,7 @@ public abstract class Checkout extends PageObject{
                 switch(giftCardName.toUpperCase()){
                 	case "J.CREW GIFT CARD":
                 		giftMessageElement = descriptionElements.get(3).findElement(By.tagName("span"));
-                		expectedgiftMessage = fromGCPage.getLine1() + fromGCPage.getLine2(); 
+                		expectedgiftMessage = fromGCPage.getLine1() + "\n" +fromGCPage.getLine2(); 
                 		break;
                 	case "J.CREW E-GIFT CARD":
                 		dateElement = descriptionElements.get(3).findElement(By.tagName("span"));
@@ -497,7 +498,7 @@ public abstract class Checkout extends PageObject{
                 String dateToBeSent;
                 if(dateElement!=null){
                 	dateToBeSent = dateElement.getText().trim();
-                	SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+                	SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
 
                 	Date date = null;
                 	try {
@@ -510,7 +511,7 @@ public abstract class Checkout extends PageObject{
                 	found &= date.compareTo(fromGCPage.getDateToBeSent())==0;
                 }
 
-                logger.debug("Found gift card {}, amount {}, sender {}, recipient {}, recipient email address {} in bag",
+                logger.debug("Found gift card '{}', amount '{}', sender '{}', recipient '{}', recipient email address '{}' in bag",
                               name, price, fromText, toText, recipientEmailText);
 
                 found &= name.equalsIgnoreCase(giftCardName)

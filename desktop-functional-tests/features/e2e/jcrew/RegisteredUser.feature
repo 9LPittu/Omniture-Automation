@@ -27,7 +27,7 @@ Feature: Registered User E2E order placing
   	
   	When User clicks in CHECK OUT NOW button
   	
-  	And Navigate to Shipping Address page, if user is on Review page  	
+  	And Navigate to Shipping Address page, if user is on Review page
   	Then Verify select shipping address page is displayed
   	
   	When User selects Shipping Addresses as per testdata  		  	
@@ -42,6 +42,7 @@ Feature: Registered User E2E order placing
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to Payment Method page
+  	And Navigate to Billing page, if user is on review page and only e-gift card is added to bag  	
   	Then Verify Billing page is displayed
   	
   	When User selects Payment Methods as per testdata  	

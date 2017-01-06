@@ -3,7 +3,6 @@ package com.jcrew.steps;
 import com.jcrew.page.CheckoutShippingOptions;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.ShippingMethod;
-import com.jcrew.utils.DatabasePropertyReader;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.ShippingMethodCalculator;
 import com.jcrew.utils.StateHolder;
@@ -20,9 +19,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -38,6 +34,10 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
 
     @Then("Verify Shipping And Gift Options page is displayed")
     public void is_shipping_options() {
+    	
+    	if(stateHolder.hasKey("isShippingDisabled"))
+    		return;
+    	
         assertTrue("Is shipping and gift options page", shippingOptions.isDisplayed());
     }
 
@@ -104,7 +104,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
     	orderSubtotalThreshold = orderSubtotalThreshold.replaceAll("[^0-9]", "");
     	int threshold = Integer.parseInt(orderSubtotalThreshold);
     	
-    	String orderSubTotal = shippingOptions.stateHolder.get("ordersubtotal");
+    	String orderSubTotal = stateHolder.get("ordersubtotal");
     	orderSubTotal = orderSubTotal.replaceAll("[^0-9]", "");
     	int subTotal = Integer.parseInt(orderSubTotal);
     	
@@ -165,7 +165,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
     	orderSubtotalThreshold = orderSubtotalThreshold.replaceAll("[^0-9]", "");
     	int threshold = Integer.parseInt(orderSubtotalThreshold);
     	
-    	String orderSubTotal = shippingOptions.stateHolder.get("ordersubtotal");
+    	String orderSubTotal = stateHolder.get("ordersubtotal");
     	orderSubTotal = orderSubTotal.replaceAll("[^0-9]", "");
     	int subTotal = Integer.parseInt(orderSubTotal);
     	
@@ -201,6 +201,9 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
 
     @When("User continues to Payment Method page")
     public void continue_to_payment_method() {
+    	if(stateHolder.hasKey("isShippingDisabled"))
+			return;
+    	
         shippingOptions.continueCheckout();
     }
 

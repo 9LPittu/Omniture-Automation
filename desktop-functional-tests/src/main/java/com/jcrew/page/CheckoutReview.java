@@ -107,7 +107,11 @@ public class CheckoutReview extends Checkout{
         WebElement changeButton;
 
         wait.until(ExpectedConditions.visibilityOf(billing_details));
-        wait.until(ExpectedConditions.visibilityOf(shipping_details));
+        
+        if(!stateHolder.hasKey("isShippingDisabled")){
+        	wait.until(ExpectedConditions.visibilityOf(shipping_details));
+        }
+        
         wait.until(ExpectedConditions.visibilityOf(order__listing));
 
         switch (group) {

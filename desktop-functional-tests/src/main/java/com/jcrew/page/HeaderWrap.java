@@ -314,9 +314,11 @@ public class HeaderWrap {
 				optionElement.click();
 				break;
 			}catch(NoSuchElementException nsee){
+				logger.info("NoSuchElementException is thrown when tried to click on {} option", option);
 				cntr++;
 			}
 			catch(ElementNotVisibleException enve){
+				logger.info("ElementNotVisibleException is thrown when tried to click on {} option", option);
 				cntr++;
 			}
 		}while(cntr<=5);

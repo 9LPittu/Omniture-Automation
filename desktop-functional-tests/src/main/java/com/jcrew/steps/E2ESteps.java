@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriverException;
@@ -220,7 +220,6 @@ public class E2ESteps extends DriverFactory {
 	public void user_adds_gift_card_to_bag() throws Exception{
 		String giftCardTypes = getDataFromTestDataRowMap("Gift Card Type");
 		String giftCardAmounts = getDataFromTestDataRowMap("Gift Card Amount");
-		List<GiftCard> giftCardsList;
 		
 		if(!isItemDataExist && giftCardTypes.isEmpty()){
 			String message = "No test data is provided for items/gift cards!!!";
@@ -228,11 +227,11 @@ public class E2ESteps extends DriverFactory {
 			throw new Exception(message);
 		}
 		
-		if(giftCardTypes.isEmpty()){
+		if(giftCardTypes.isEmpty())
 			return;
-		}else{
-			giftCardsList = stateHolder.getList("giftCardsToBag");					
-		}
+		
+		if(!isItemDataExist && !giftCardTypes.toLowerCase().contains("classic"))
+			stateHolder.put("isShippingDisabled", true);
 		
 		String[] arrGiftCardTypes = giftCardTypes.split(getE2ETestdataDelimiter());
 		String[] arrGiftCardAmounts = giftCardAmounts.split(getE2ETestdataDelimiter());
@@ -273,7 +272,10 @@ public class E2ESteps extends DriverFactory {
 		    	giftCards.enterRecipientName("any ");
 		    	giftCards.enterRecipientEmailAddress("any ");
 		    	giftCards.enterDateToBeSent();
-		    	Date date = (Date)stateHolder.get("giftCardDateSent");
+		    	
+		    	String dateString = stateHolder.get("giftCardDateSent");		    	
+		    	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");				
+				Date date = dateFormat.parse(dateString);
 		    	
 		    	String giftMessage = "This is the automated Gift Message";
 		    	giftCards.enterGiftMessage(giftMessage, "Gift Message");
@@ -410,6 +412,10 @@ public class E2ESteps extends DriverFactory {
 	
 	@And("^Navigate to Shipping Address page, if user is on Review page$")
 	public void navigate_to_shipping_address_page_is_user_on_review_page(){
+		
+		if(stateHolder.hasKey("isShippingDisabled"))
+			return;
+		
 		String currentPageTitle = getDriver().getTitle().toLowerCase();
 		if(currentPageTitle.contains("review")){
 			CheckoutReview review = new CheckoutReview(getDriver());
@@ -420,6 +426,10 @@ public class E2ESteps extends DriverFactory {
 	
 	@When("^User selects Shipping Addresses as per testdata$")
 	public void user_selects_shipping_addessses(){
+		
+		if(stateHolder.hasKey("isShippingDisabled"))
+			return;
+		
 		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
 		String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
 		
@@ -443,6 +453,10 @@ public class E2ESteps extends DriverFactory {
 	
 	@When("^User selects Shipping Methods as per testdata$")
 	public void user_selects_shipping_methods(){
+		
+		if(stateHolder.hasKey("isShippingDisabled"))
+			return;
+		
 		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
 		String multipleShippingMethodsRequired = getDataFromTestDataRowMap("Multiple Shipping Methods Required?");
 		String shippingMethods = getDataFromTestDataRowMap("Shipping Methods");
@@ -474,12 +488,29 @@ public class E2ESteps extends DriverFactory {
 	
 	@And("^Select Gift Receipt as per testdata, if required$")
 	public void select_gift_receipt(){
+		if(stateHolder.hasKey("isShippingDisabled"))
+			return;
+		
 		throw new WebDriverException("Gift receipt implementation is pending");
 	}
 	
 	@And("^Select Gift Wrapping as per testdata, if required$")
 	public void select_gift_wrapping(){
+		if(stateHolder.hasKey("isShippingDisabled"))
+			return;
+		
 		throw new WebDriverException("Gift wrapping implementation is pending");
+	}
+	
+	@And("^Navigate to Billing page, if user is on review page and only e-gift card is added to bag$")
+	public void navigate_billing_page_when_only_egift_card_is_added(){
+		
+		String currentPageTitle = getDriver().getTitle().toLowerCase();
+		if(currentPageTitle.contains("review")){
+			CheckoutReview review = new CheckoutReview(getDriver());
+			 review.editDetails("billing");
+			 new CheckoutBilling(getDriver());
+		}
 	}
 	
 	@When("^User selects Payment Methods as per testdata$")
