@@ -10,6 +10,7 @@ Feature: Checkout Process
     And User clicks on hamburger menu
     And Selects Men Category from hamburger menu
     And User clicks on SWEATERS subcategory from Men Category
+    And Handle the Email Capture pop up
     And Selects the first product from product grid list
     And User is in product detail page
     And A color is selected
