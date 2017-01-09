@@ -1,4 +1,4 @@
-@PDP @Search @HighLevel
+@PDP3 @Search @HighLevel
 Feature: Search is functional from PDP
 
   Background:

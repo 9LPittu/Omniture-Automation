@@ -1,4 +1,4 @@
-@Quickshop @HighLevel
+@Quickshop4 @HighLevel
 Feature: Quick Shop Messaging
 
   Background:

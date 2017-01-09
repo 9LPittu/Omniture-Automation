@@ -1,4 +1,4 @@
-@RegisteredCheckout @HighLevel
+@RegisteredCheckout4 @HighLevel
 Feature: Checkout - Registered user is able to add a gift message
 
   Background: Clean bag for user
