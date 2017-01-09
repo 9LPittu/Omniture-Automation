@@ -42,7 +42,7 @@ public class EmailCapture extends PageObject {
                         public boolean apply(WebDriver driver) {
                             try {
                                 logger.debug("Close: {}", close.getAttribute("class"));
-                                close.click();
+                                Util.scrollAndClick(driver, close);
                                 wait.until(ExpectedConditions.stalenessOf(close));
                             } catch (WebDriverException wde) {
                                 return false;
