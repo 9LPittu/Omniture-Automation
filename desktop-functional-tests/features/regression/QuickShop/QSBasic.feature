@@ -1,4 +1,4 @@
-@Quickshop @HighLevel
+@Quickshop2 @HighLevel
 Feature: Quick Shop full details,close links and variations are functional
 
   Background:
@@ -32,16 +32,4 @@ Feature: Quick Shop full details,close links and variations are functional
     And Verify variations is displayed in QS modal
     And Verify user able to change variations
 
-  Scenario: View Close(X) link in QS is functional
-    When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|casual shirts|
-      |girls|dresses|
-    Then Verify user is in category array page
-
-    When User selects random quick shop from product array
-    Then Verify quick shop modal is displayed
-    And Verify close is displayed in QS modal
-
-    When User clicks on X icon
-    Then Verify quick shop modal is not displayed
+ 
