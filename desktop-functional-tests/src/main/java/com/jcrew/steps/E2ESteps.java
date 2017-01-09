@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -112,7 +113,7 @@ public class E2ESteps extends DriverFactory {
 	}
 	
 	@And("^User enters login credentials$")
-	public void user_enter_login_credentials() throws Exception{
+	public void user_enter_login_credentials() {
 		String userType = getDataFromTestDataRowMap("User Type");
 		String countryName = getDataFromTestDataRowMap("Ship To Country");
 		
@@ -135,7 +136,7 @@ public class E2ESteps extends DriverFactory {
 		catch (SQLException e) {
 			String errorMsg = "Failed to retrieve '" +  userType + "' type username and password from DB!!!";
 			Util.e2eErrorMessagesBuilder(errorMsg);
-			throw new Exception(errorMsg);
+			throw new WebDriverException(errorMsg);
 		}
 		
 		LogIn logIn = new LogIn(getDriver());
@@ -211,7 +212,7 @@ public class E2ESteps extends DriverFactory {
 				pdp.addToBag();
 			}else{
 				  Util.e2eErrorMessagesBuilder("Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet");
-				  throw new Exception("Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet!!!");				
+				  throw new WebDriverException("Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet!!!");				
 			}
 		}
 	}
@@ -224,7 +225,7 @@ public class E2ESteps extends DriverFactory {
 		if(!isItemDataExist && giftCardTypes.isEmpty()){
 			String message = "No test data is provided for items/gift cards!!!";
 			Util.e2eErrorMessagesBuilder(message);
-			throw new Exception(message);
+			throw new WebDriverException(message);
 		}
 		
 		if(giftCardTypes.isEmpty())
@@ -275,12 +276,17 @@ public class E2ESteps extends DriverFactory {
 		    	
 		    	String dateString = stateHolder.get("giftCardDateSent");		    	
 		    	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");				
-				Date date = dateFormat.parse(dateString);
+				Date date = null;
+				try {
+					date = dateFormat.parse(dateString);
+				} catch (ParseException e) {
+					throw new Exception("Failed to parse date");
+				}
 		    	
 		    	String giftMessage = "This is the automated Gift Message";
 		    	giftCards.enterGiftMessage(giftMessage, "Gift Message");
 		    	
-		    	giftCards.clickAddtoBag();    	
+		    	giftCards.clickAddtoBag();
 		    	
 		    	GiftCard eGiftCard = new GiftCard("J.CREW E-GIFT CARD", arrGiftCardAmounts[i],
                                                   (String)stateHolder.get("giftCardSenderName"), (String)stateHolder.get("giftCardRecipientName"),
