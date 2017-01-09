@@ -1,5 +1,5 @@
 @Quickshop6 @HighLevel
-Feature: Quick Shop bag is functional
+Feature: Quick Shop bag is functional2
 
   Background:
     Given User goes to homepage

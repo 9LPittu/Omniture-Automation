@@ -1,5 +1,5 @@
 @Footer2 @HighLevel
-Feature: Footer - From Category Array page
+Feature: Footer - From Category Array page2
 
   Background:
     Given User goes to homepage

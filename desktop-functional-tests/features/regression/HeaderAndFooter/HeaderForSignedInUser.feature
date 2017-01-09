@@ -1,5 +1,5 @@
 @Header2 @HighLevel
-Feature: Header verification for registered user
+Feature: Header verification for registered user2
 
   Background:
     Given User is on homepage with clean session
