@@ -1,4 +1,4 @@
-@ShoppingBag @HighLevel
+@ShoppingBag1 @HighLevel
 Feature: Checkout - Editing items from shopping bag
 
   Scenario: Checkout - Multiple shopping bag functions
