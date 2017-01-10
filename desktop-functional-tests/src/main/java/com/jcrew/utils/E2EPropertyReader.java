@@ -3,6 +3,7 @@ package com.jcrew.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,8 +29,14 @@ public class E2EPropertyReader {
 
     private void loadProperties() throws IOException {        
         FileInputStream propertiesFile = null;
-		try {
-			propertiesFile = new FileInputStream("desktop-functional-tests/properties/e2e.properties");
+		try {			
+			if(System.getProperty("os.name").toLowerCase().contains("windows")){
+				propertiesFile = new FileInputStream("properties/e2e.properties");
+			}
+			else{				
+				propertiesFile = new FileInputStream("desktop-functional-tests/properties/e2e.properties");
+		    }
+			
 			properties.load(propertiesFile);
 		} catch (FileNotFoundException fnfe) {
 			fnfe.printStackTrace();
