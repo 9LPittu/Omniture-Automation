@@ -41,15 +41,26 @@ public class E2EExecutorService implements Runnable {
 		//Read the test data sheet for the E2E scenario
 		ExcelUtils testDataReader = null;
 		try {
-			testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
+			if(System.getProperty("os.name").toLowerCase().contains("windows")){
+				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
+			}
+			else{				
+				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("jenkins.ftp.path") + testdataFile, "Testdata", "");
+		    }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}				
+		
 		cleanTestDataSheet(testDataReader);
 		
 		Map<String, Object> testdataRowMap = null;
 		try {
-			testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
+			if(System.getProperty("os.name").toLowerCase().contains("windows")){
+				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
+			}
+			else{				
+				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("jenkins.ftp.path") + testdataFile, "Testdata", "");
+		    }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
