@@ -218,7 +218,7 @@ public class SaleLanding {
 			@Override
 			public WebElement apply(WebDriver driver) {
 				try{
-					WebElement promoLinkElement = secondPromoBox.findElement(By.xpath(".//div/b/a[" + Util.xpathGetTextLower + "='" + secondPromoLinkName + "']"));
+					WebElement promoLinkElement = secondPromoBox.findElement(By.xpath("..//section[@id='c-promo-alert']/div/a[" + Util.xpathGetTextLower + "='" + secondPromoLinkName + "']"));
 					return promoLinkElement;
 				}
 				catch(NoSuchElementException nsee){
