@@ -30,7 +30,8 @@ public class E2EPropertyReader {
     private void loadProperties() throws IOException {        
         FileInputStream propertiesFile = null;
 		try {
-			propertiesFile = new FileInputStream(System.getProperty("user.dir") + File.separator + "properties/e2e.properties");
+			//propertiesFile = new FileInputStream(System.getProperty("user.dir") + File.separator + "properties/e2e.properties");
+			propertiesFile = new FileInputStream("properties/e2e.properties");
 			properties.load(propertiesFile);
 		} catch (FileNotFoundException fnfe) {
 			fnfe.printStackTrace();
