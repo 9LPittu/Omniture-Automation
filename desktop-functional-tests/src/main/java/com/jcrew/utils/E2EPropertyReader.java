@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class E2EPropertyReader {
 
-    private static final E2EPropertyReader propertyReader = new E2EPropertyReader();
+    private static final E2EPropertyReader e2ePropertyReader = new E2EPropertyReader();
     private final Properties properties = new Properties();
     private final Logger logger = LoggerFactory.getLogger(E2EPropertyReader.class);
 
@@ -24,7 +24,7 @@ public class E2EPropertyReader {
     }
 
     public static E2EPropertyReader getPropertyReader() {
-        return propertyReader;
+        return e2ePropertyReader;
     }
 
     private void loadProperties() throws IOException {        
