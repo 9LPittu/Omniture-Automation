@@ -205,7 +205,7 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>java</goal>
+							<goal>exec</goal>
 						</goals>
 					</execution>
 				</executions>	
