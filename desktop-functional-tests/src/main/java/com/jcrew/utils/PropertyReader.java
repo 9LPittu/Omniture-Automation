@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -14,41 +13,30 @@ public class PropertyReader {
     private final Properties properties = new Properties();
     private final Logger logger = LoggerFactory.getLogger(PropertyReader.class);
 
-    private PropertyReader()  {
-//        try {
-//            loadProperties();
-//        } catch (IOException e) {
-//            logger.error("Unable to load configuration file.");
-//        }
-    	
-    	loadProperties();
+    private PropertyReader() {
+        try {
+            loadProperties();
+        } catch (IOException e) {
+            logger.error("Unable to load configuration file.");
+        }
     }
 
     public static PropertyReader getPropertyReader() {
         return propertyReader;
     }
 
-    private void loadProperties()  {
+    private void loadProperties() throws IOException {
         String execEnvironment = Util.getEnvironment();
         String execViewport = System.getProperty("viewport", "chrome");
         String execUser = System.getProperty("user", "user.1");
         String country = System.getProperty("country", "us");
-        
-        FileInputStream inputFile;
-		try {
-			inputFile = new FileInputStream("properties/environment.properties");
-			properties.load(inputFile);			
-	        inputFile = new FileInputStream("properties/viewport.properties");
-	        properties.load(inputFile);
-	        inputFile = new FileInputStream("properties/users.properties");
-	        properties.load(inputFile);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-        
+
+        FileInputStream inputFile = new FileInputStream("properties/environment.properties");
+        properties.load(inputFile);
+        inputFile = new FileInputStream("properties/viewport.properties");
+        properties.load(inputFile);
+        inputFile = new FileInputStream("properties/users.properties");
+        properties.load(inputFile);
 
         properties.setProperty("environment", execEnvironment);
 
@@ -64,7 +52,6 @@ public class PropertyReader {
 
         logger.info("Country to be used {}", country);
         properties.setProperty("country", country);
-
     }
 
     public boolean isSystemPropertyTrue(String key) {

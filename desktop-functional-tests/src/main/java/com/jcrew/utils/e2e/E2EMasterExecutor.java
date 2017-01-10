@@ -1,29 +1,39 @@
 package com.jcrew.utils.e2e;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.jcrew.utils.ExcelUtils;
-import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.e2e.E2EExecutorService;
 
 public class E2EMasterExecutor {
 	
 	public static void main(String[] args) {
 		
-		PropertyReader propertyReader = PropertyReader.getPropertyReader();
+		Properties properties = new Properties();
+		FileInputStream propertiesFile = null;
+		try {
+			propertiesFile = new FileInputStream(System.getProperty("user.dir") + File.separator + "properties/e2e.properties");
+			properties.load(propertiesFile);
+		} catch (FileNotFoundException fnfe) {
+			fnfe.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 		
 		//delete the existing reports directory and create a new directory
 		File targetDirectory = new File(System.getProperty("user.dir") + File.separator + "target");
-		String ftpPath = propertyReader.getProperty("jenkins.ftp.path");
+		String ftpPath = properties.getProperty("jenkins.ftp.path");
 		
 		File reportsDirectory = null;
 		if(System.getProperty("os.name").toLowerCase().contains("windows")){
-			reportsDirectory = new File(propertyReader.getProperty("windows.e2e.reports.dir"));
+			reportsDirectory = new File(properties.getProperty("windows.e2e.reports.dir"));
 		}
 		else{			
 			reportsDirectory = new File(ftpPath + "e2e_reports");
@@ -36,7 +46,7 @@ public class E2EMasterExecutor {
 		ExcelUtils masterReader = null;
 		try {
 			if(System.getProperty("os.name").toLowerCase().contains("windows")){
-				masterReader = new ExcelUtils(propertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + "E2E_Master.xls", "Master", "");
+				masterReader = new ExcelUtils(properties.getProperty("windows.e2e.testdata.dir") + File.separator + "E2E_Master.xls", "Master", "");
 			}
 			else{
 				masterReader = new ExcelUtils(ftpPath + "E2E_Master.xls", "Master", "");
