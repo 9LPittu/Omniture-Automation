@@ -18,7 +18,7 @@ public class EmailCapture extends PageObject {
 
     public EmailCapture(WebDriver driver) {
         super(driver);
-        this.shortWait = Util.createWebDriverWait(driver, 10);
+        this.shortWait = Util.createWebDriverWait(driver, 30);
 
         PageFactory.initElements(driver, this);
     }
