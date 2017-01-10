@@ -13,7 +13,7 @@ import com.jcrew.utils.e2e.E2EExecutorService;
 
 public class E2EMasterExecutor {
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		
 		PropertyReader propertyReader = PropertyReader.getPropertyReader();
 		
@@ -42,19 +42,15 @@ public class E2EMasterExecutor {
 				masterReader = new ExcelUtils(ftpPath + "E2E_Master.xls", "Master", "");
 			}
 		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException();
+			e.printStackTrace();
 		} catch (IOException e) {
-			throw new IOException();
+			e.printStackTrace();
 		}
 		
 		//identify number of threads to be created for parallel execution
 		int threadCount;
-		try {
-			threadCount = getThreadCount(masterReader);
-		} catch (Exception e1) {
-			throw new Exception("Failed to retrieve the thread count!!!");
-		}
-		
+		threadCount = getThreadCount(masterReader);
+				
 		ExecutorService executor = Executors.newFixedThreadPool(threadCount);
 		
 		//loop through each record and store the data which are marked for execution as 'YES'
@@ -63,9 +59,9 @@ public class E2EMasterExecutor {
 			try {
 				masterMap = masterReader.getDataFromExcel(i);
 			} catch (FileNotFoundException e) {
-				throw new FileNotFoundException();
+				e.printStackTrace();
 			} catch (IOException e) {
-				throw new IOException();
+				e.printStackTrace();
 			}
 			
 			if(((String)masterMap.get("Execute")).equalsIgnoreCase("YES")){				
@@ -111,7 +107,7 @@ public class E2EMasterExecutor {
 		  }
 	  }
 	
-	public static int getThreadCount(ExcelUtils excelReader) throws Exception{
+	public static int getThreadCount(ExcelUtils excelReader){
 		
 		Map<String, Object> masterMap = null;
 		int threadCount = 0;
@@ -119,9 +115,9 @@ public class E2EMasterExecutor {
 			try {
 				masterMap = excelReader.getDataFromExcel(i);
 			} catch (FileNotFoundException e) {
-				throw new FileNotFoundException();
+				e.printStackTrace();
 			} catch (IOException e) {
-				throw new IOException();
+				e.printStackTrace();
 			}
 			
 			if(((String)masterMap.get("Execute")).equalsIgnoreCase("YES")){
@@ -131,7 +127,11 @@ public class E2EMasterExecutor {
 		
 		//terminate execution if no scenarios are selected for execution 
 		if(threadCount==0){
-			throw new Exception("Mark atleast one scenario as 'Yes' for execution in E2E Master sheet. Terminating execution as no scenarios are selected!!!");
+			try {
+				throw new Exception("Mark atleast one scenario as 'Yes' for execution in E2E Master sheet. Terminating execution as no scenarios are selected!!!");
+			} catch (Exception e) {				
+				e.printStackTrace();
+			}
 		}
 		
 		return threadCount;
