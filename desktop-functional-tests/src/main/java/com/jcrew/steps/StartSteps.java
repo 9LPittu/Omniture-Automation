@@ -43,7 +43,7 @@ public class StartSteps {
         driver = driverFactory.getDriver();
     }
     
-    public void getItemsMasterTestdata(){
+    public void getItemsMasterTestdata() throws IOException{
     	String itemsMasterExcelFileName = "E2E_ITEMS_MASTER_TESTDATA.xls"; 
 		ExcelUtils itemMasterReader = null;
 		
@@ -56,7 +56,7 @@ public class StartSteps {
 					itemMasterReader = new ExcelUtils(ftpPath + itemsMasterExcelFileName , "E2E_ITEMS", "");
 				}
 			}catch (IOException e) {
-				e.printStackTrace();
+				throw new IOException();
 			}
 			
 			stateHolder.put("itemMasterTestdata", itemMasterReader);

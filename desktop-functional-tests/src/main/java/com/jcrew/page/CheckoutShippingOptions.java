@@ -161,7 +161,6 @@ public class CheckoutShippingOptions extends Checkout {
     		return firstShipMethod.isSelected();
     	}
     	catch(Exception e){
-    		e.printStackTrace();
     		return false;
     	}
     }

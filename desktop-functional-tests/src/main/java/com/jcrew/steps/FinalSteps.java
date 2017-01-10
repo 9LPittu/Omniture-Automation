@@ -55,7 +55,7 @@ public class FinalSteps {
     }
 
     @After
-    public void quitDriver(Scenario scenario) throws IOException {
+    public void quitDriver(Scenario scenario) throws Exception {
     	String data;
 
         if (scenario.isFailed()) {
@@ -127,7 +127,7 @@ public class FinalSteps {
         return products + userDetails;
     }
     
-    private String captureE2EDetails(){
+    private String captureE2EDetails() throws Exception{
     	
     	String orderTestData = "";
     	
@@ -137,7 +137,7 @@ public class FinalSteps {
         	try {
 				testdataReader.setCellValueInExcel(rowNumber, "Execution Completed", "Yes");
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new Exception("Failed to set value in excel for the column 'Execution Completed'");
 			}
         	
         	String orderNumber = "";
@@ -154,7 +154,7 @@ public class FinalSteps {
         	try {
 				testdataReader.setCellValueInExcel(rowNumber, "Order Number", orderNumber);				
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new Exception("Failed to set value in excel for the column 'Order Number'");
 			}
         	
     		try {
@@ -162,20 +162,20 @@ public class FinalSteps {
         		String currentDateTime = dateFormat.format(new Date());
 				testdataReader.setCellValueInExcel(rowNumber, "LastUpdated_DateTime", currentDateTime);
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new Exception("Failed to set value in excel for the column 'LastUpdated_DateTime'");
 			}
         	
         	try {
         		String e2eErrorMessages = stateHolder.get("e2e_error_messages");
 				testdataReader.setCellValueInExcel(rowNumber, "Additional Error Details", e2eErrorMessages);
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new Exception("Failed to set value in excel for the column 'Additional Error Details'");
 			}
         	
         	try {
 				testdataReader.writeAndSaveExcel();
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new Exception("Failed to save the excel file!!");
 			}
         	
         	orderTestData +=  "Order Number = " + orderNumber + "\n";

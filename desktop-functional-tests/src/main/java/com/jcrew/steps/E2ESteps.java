@@ -301,7 +301,7 @@ public class E2ESteps extends DriverFactory {
 		}
 	}
 	
-	private int getRowNumberFromItemMaster(String itemIdentifier){		
+	private int getRowNumberFromItemMaster(String itemIdentifier) throws IOException{		
 		int rowNumber = -1;
 		
 		if(itemIdentifier.isEmpty())
@@ -317,16 +317,16 @@ public class E2ESteps extends DriverFactory {
 					rowNumber = i;
 				}
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				throw new FileNotFoundException();
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new IOException();
 			}
 		}
 		
 		return rowNumber;
 	}
 	
-	private String getColumnValueFromItemMaster(int rowNumber, String columnName){
+	private String getColumnValueFromItemMaster(int rowNumber, String columnName) throws IOException{
 		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
 		
 		Map<String, Object> itemMasterTestdataMap = null;
@@ -334,9 +334,9 @@ public class E2ESteps extends DriverFactory {
 		try {
 			 itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(rowNumber);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			throw new FileNotFoundException();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new IOException();
 		}
 		
 		if(itemMasterTestdataMap.containsKey(columnName)){
