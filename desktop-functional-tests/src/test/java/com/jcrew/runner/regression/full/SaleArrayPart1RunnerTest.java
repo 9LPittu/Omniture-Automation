@@ -1,8 +1,9 @@
 package com.jcrew.runner.regression.full;
 
+import org.junit.runner.RunWith;
+
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
-import org.junit.runner.RunWith;
 
 /**
  * Created by 9msyed on 8/22/2016.

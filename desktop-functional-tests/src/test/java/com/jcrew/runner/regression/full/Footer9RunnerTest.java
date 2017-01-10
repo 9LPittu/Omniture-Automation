@@ -5,19 +5,18 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 /**
- * Created by 9msyed on 8/22/2016.
+ * Created by msayed3 on 11/27/2016.
  */
-
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression/AccountFeature"},
-        tags = {"@Account2"},
+        features = {"features/regression/HeaderAndFooter"},
+        tags = {"@Footer9"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-Account.json",
+                "json:target/cucumber-Footer9.json",
                 "pretty",
-                "html:target/cucumber/Account"
+                "html:target/cucumber/Footer9"
         }
 )
-public class AccountRunner2Test {
+public class Footer9RunnerTest {
 }
