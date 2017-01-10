@@ -34,8 +34,8 @@ import com.jcrew.page.ProductDetails;
 import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.ExcelUtils;
-import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.UsersHub;
@@ -51,9 +51,9 @@ public class E2ESteps extends DriverFactory {
 	
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(E2ESteps.class);
-	private PropertyReader propertyReader = PropertyReader.getPropertyReader();
+	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
 	private TestDataReader testdataReader = TestDataReader.getTestDataReader();
-	private String ftpPath = propertyReader.getProperty("jenkins.ftp.path");
+	private String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");
 	private boolean isItemDataExist = true;
 	
 	@Given("^Test data is read from excel file \"([^\"]*)\"$")
@@ -62,7 +62,7 @@ public class E2ESteps extends DriverFactory {
 		ExcelUtils testDataReader;
 		
 		if(System.getProperty("os.name").toLowerCase().contains("windows")){
-			testDataReader = new ExcelUtils(propertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
+			testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
 		}
 		else{
 			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");

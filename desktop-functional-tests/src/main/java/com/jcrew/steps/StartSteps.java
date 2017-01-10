@@ -24,10 +24,11 @@ import cucumber.api.Scenario;
 public class StartSteps {
     private final Logger logger = LoggerFactory.getLogger(StartSteps.class);
     private final PropertyReader reader = PropertyReader.getPropertyReader();
+    private E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
     private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
     private WebDriver driver;
-    private String ftpPath = reader.getProperty("jenkins.ftp.path");
+    private String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");
 
     @Before
     public void setupDriver(Scenario scenario) throws IOException {
@@ -50,7 +51,7 @@ public class StartSteps {
 		if(!stateHolder.hasKey("itemMasterTestdata")){
 			try {
 				if(System.getProperty("os.name").toLowerCase().contains("windows")){			
-					itemMasterReader = new ExcelUtils(reader.getProperty("windows.e2e.testdata.dir") + File.separator + itemsMasterExcelFileName , "E2E_ITEMS", "");			
+					itemMasterReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + itemsMasterExcelFileName , "E2E_ITEMS", "");			
 				}
 				else{
 					itemMasterReader = new ExcelUtils(ftpPath + itemsMasterExcelFileName , "E2E_ITEMS", "");
