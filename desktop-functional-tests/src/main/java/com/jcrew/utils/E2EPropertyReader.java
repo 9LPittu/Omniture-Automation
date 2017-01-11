@@ -59,5 +59,4 @@ public class E2EPropertyReader {
 
         return value;
     }
-
 }
