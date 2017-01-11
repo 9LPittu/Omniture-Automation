@@ -10,13 +10,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/regression/HeaderAndFooter"},
-        tags = {"@Footer"},
+        tags = {"@Footer4"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-Footer.json",
+                "json:target/cucumber-Footer4.json",
                 "pretty",
-                "html:target/cucumber/Footer"
+                "html:target/cucumber/Footer4"
         }
 )
-public class FooterRunnerTest {
+public class Footer4RunnerTest {
 }

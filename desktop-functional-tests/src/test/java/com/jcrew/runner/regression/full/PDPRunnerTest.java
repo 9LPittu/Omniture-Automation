@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression/PDP"},
+        features = {"features/regression"},
         tags = {"@PDP"},
         glue = {"com.jcrew.steps"},
         format = {
