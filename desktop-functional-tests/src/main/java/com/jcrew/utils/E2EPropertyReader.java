@@ -34,7 +34,7 @@ public class E2EPropertyReader {
 				propertiesFile = new FileInputStream("properties/e2e.properties");
 			}
 			else{				
-				propertiesFile = new FileInputStream("desktop-functional-tests/properties/e2e.properties");
+				propertiesFile = new FileInputStream(System.getProperty("user.dir") + File.separator + "desktop-functional-tests/properties/e2e.properties");
 		    }
 			
 			properties.load(propertiesFile);
