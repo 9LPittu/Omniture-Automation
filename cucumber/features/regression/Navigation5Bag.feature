@@ -46,7 +46,7 @@ Feature: Edit Product In Bags Scenarios
     And in shopping bag page, user should see the size selected on the PDP page
     And Verify 1 items are specified as quantity in shopping bag
     And Deletes browser cookies
-
+    
   Scenario: signed in Edit link redirects user to PDP
     And Handle the Email Capture pop up
     When Goes to sign in page
