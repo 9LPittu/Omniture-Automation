@@ -49,8 +49,10 @@ public class EmailCapture extends PageObject {
                         return true;
                     }
                 });
-                logger.debug("Email capture is not visible.");
+                logger.debug("Email capture is closed.");
                 shortWait.until(ExpectedConditions.stalenessOf(global__email_capture));
+            } else {
+            	logger.debug("Email capture is not visible.");
             }
 
         } catch (TimeoutException noEmailCapture) {
