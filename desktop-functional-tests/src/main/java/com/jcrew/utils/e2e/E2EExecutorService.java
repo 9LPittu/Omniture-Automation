@@ -81,15 +81,16 @@ public class E2EExecutorService implements Runnable {
 					command[0] = "cmd";
 					command[1] = "/c";						
 					command[2] = e2ePropertyReader.getProperty("windows.box.maven.path");
+					command[2] += " test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
+					  	          " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
 				}
 				else{
 					command[0] = "sh";
 					command[1] = "-c";
 					command[2] = e2ePropertyReader.getProperty("jenkins.box.maven.path");
+					command[2] += " -f desktop-functional-tests/pom.xml test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
+					 	          " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
 				}
-				
-				command[2] += " test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
-					 	      " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
 				
 				ProcessExecutor processExecutor = new ProcessExecutor();
 				Process p = processExecutor.executeCommand(command);
