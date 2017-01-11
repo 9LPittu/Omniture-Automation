@@ -26,6 +26,7 @@ public class EmailCapture extends PageObject {
     public void closeEmailCapture() {
     	
     	try {
+    		logger.debug("Script is in email capture page now.");
             WebElement global__email_capture = shortWait.until(
                     ExpectedConditions.presenceOfElementLocated(By.id("global__email-capture")));
             List<WebElement> close_email_capture = global__email_capture.findElements(
@@ -40,12 +41,15 @@ public class EmailCapture extends PageObject {
                     public boolean apply(WebDriver driver) {
                         try {
                             close.click();
+                            logger.debug("Successfully closed email capture");
                         } catch (WebDriverException wde) {
+                        	logger.debug("Failed to click close link on email capture");
                             return false;
                         }
                         return true;
                     }
                 });
+                logger.debug("Email capture is not visible.");
                 shortWait.until(ExpectedConditions.stalenessOf(global__email_capture));
             }
 
