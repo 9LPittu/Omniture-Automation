@@ -67,9 +67,9 @@ Feature: Search Regression Suite
     Then Search drawer is open
     And User is in search results page
     And Dresses is populated
-    When Enters pink dresses to the search field
+    When Enters yellow dresses to the search field
     And Hits enter in search field
-    Then Verify pink product is displayed
+    Then Verify yellow product is displayed
 
 
   Scenario: Search term should display search array & validate with regular priced product
