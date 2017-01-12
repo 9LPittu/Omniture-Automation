@@ -79,16 +79,15 @@ public class E2EExecutorService implements Runnable {
 				
 				if(System.getProperty("os.name").toLowerCase().contains("windows")){
 					command[0] = "cmd";
-					command[1] = "/c";						
-					command[2] = e2ePropertyReader.getProperty("windows.box.maven.path");					
+					command[1] = "/c";					
 				}
 				else{
 					command[0] = "sh";
 					command[1] = "-c";
-					command[2] = e2ePropertyReader.getProperty("jenkins.box.maven.path");
 				}
 				
-				command[2] += " test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
+				String mavenExecutablePath = System.getenv("M2_HOME") + File.separator + "bin" + File.separator + "mvn"; 
+				command[2] += mavenExecutablePath +  " test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
 			  	              " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
 				
 				ProcessExecutor processExecutor = new ProcessExecutor();
