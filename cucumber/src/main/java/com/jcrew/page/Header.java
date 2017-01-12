@@ -48,7 +48,7 @@ public class Header {
     @FindBy(xpath = "//li[@id='c-header__userpanel']/a/span[contains(text(),'sign in')]")
     private WebElement signInFromHeader;
 
-    @FindBy(xpath = "//*[@id='c-nav__userpanel']/a")
+    @FindBy(xpath = "//li[@id='c-nav__userpanel']/a")
     private WebElement myAccountFromHeader;
 
     @FindBy(xpath = "//div[@id='global__promo']/section")
