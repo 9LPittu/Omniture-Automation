@@ -57,6 +57,7 @@ Feature: Search Regression Suite
   Scenario: Search box functionality
     When Enters dresses to the search field
     And Clicks on search button for input field
+    And Handle the Email Capture pop up
     Then User is in search results page
     And Gender selectors are displayed
     When User scrolls down the page
@@ -67,9 +68,9 @@ Feature: Search Regression Suite
     Then Search drawer is open
     And User is in search results page
     And Dresses is populated
-    When Enters yellow dresses to the search field
+    When Enters pink dresses to the search field
     And Hits enter in search field
-    Then Verify yellow product is displayed
+    Then Verify pink product is displayed
 
 
   Scenario: Search term should display search array & validate with regular priced product
