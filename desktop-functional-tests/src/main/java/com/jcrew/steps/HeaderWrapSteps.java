@@ -110,7 +110,7 @@ public class HeaderWrapSteps extends DriverFactory {
     
     @When("User hovers on My Account")
     public void user_hovers_on_myAccount() {
-    	header.hoverMyAccount();
+    	header.hoverOverIcon("my account");
     }
     
     @And("Verify My Account drop down is displayed")
