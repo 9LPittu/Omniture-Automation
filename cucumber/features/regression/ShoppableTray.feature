@@ -44,6 +44,7 @@ Feature: Shoppable Tray
     Then Verify all products are in cart
 
 #US9881_TC13
+
   Scenario: Verify that externalProductCodes parameter supports lowercase
     And Copy URL and use externalProductCodes in lower case to access tray
     Then Verify that all products match with original URL

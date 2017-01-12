@@ -57,6 +57,7 @@ Feature: Search Regression Suite
   Scenario: Search box functionality
     When Enters dresses to the search field
     And Clicks on search button for input field
+    And Handle the Email Capture pop up
     Then User is in search results page
     And Gender selectors are displayed
     When User scrolls down the page
