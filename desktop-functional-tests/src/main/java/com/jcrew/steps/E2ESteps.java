@@ -492,20 +492,32 @@ public class E2ESteps extends DriverFactory {
 		}
 	}
 	
-	@And("^Select Gift Receipt as per testdata, if required$")
-	public void select_gift_receipt(){
+	@And("^User select Gift Options as per testdata, if required$")
+	public void select_gift_options(){
 		if(stateHolder.hasKey("isShippingDisabled"))
 			return;
 		
-		throw new WebDriverException("Gift receipt implementation is pending");
-	}
-	
-	@And("^Select Gift Wrapping as per testdata, if required$")
-	public void select_gift_wrapping(){
-		if(stateHolder.hasKey("isShippingDisabled"))
-			return;
+		String giftOptionSelection = getDataFromTestDataRowMap("Gift Option Selection");
+		String giftWrappingService = getDataFromTestDataRowMap("Gift Wrapping Service");
 		
-		throw new WebDriverException("Gift wrapping implementation is pending");
+		if(giftOptionSelection.equalsIgnoreCase("NONE")){
+			return;
+		}else{
+			//Select gift option as 'yes'
+			CheckoutShippingOptions shippingOptions = new CheckoutShippingOptions(getDriver());
+			shippingOptions.selectGiftOptionRadioButton();
+			
+			switch(giftWrappingService.toUpperCase()){
+				case "GIFT RECEIPT":
+					break;
+				case "GIFT WRAPPING":
+					shippingOptions.continueCheckout();
+					break;
+				case "GIFT WRAPPING + GIFT MESSAGE":
+					shippingOptions.continueCheckout();
+					break;			
+			}
+		}
 	}
 	
 	@And("^Navigate to Billing page, if user is on review page and only e-gift card is added to bag$")

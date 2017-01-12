@@ -200,4 +200,11 @@ public class CheckoutShippingOptions extends Checkout {
     		selectSpecificShippingMethod(shippingMethodSections.get(i), arrShippingMethods[i]);
     	}
     }
+    
+    public void selectGiftOptionRadioButton(){
+    	List<WebElement> giftOptionRadioElements = shippingMethodContainer.findElements(By.xpath(".//input[@id='includesGifts']"));
+    	for(WebElement giftOptionRadioElement:giftOptionRadioElements){
+    		giftOptionRadioElement.click();
+    	}
+    }
 }

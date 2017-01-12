@@ -36,9 +36,9 @@ Feature: Registered User E2E order placing
   	When User continues to Shipping and Gift Options page
   	Then Verify Shipping And Gift Options page is displayed
   	
-  	When User selects Shipping Methods as per testdata  	
-  	#And Select Gift Receipt as per testdata, if required
-  	#And Select Gift Wrapping as per testdata, if required
+  	When User selects Shipping Methods as per testdata
+  	And User select Gift Options as per testdata, if required
+  	
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to Payment Method page
