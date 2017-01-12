@@ -12,7 +12,7 @@ Feature: Header verification for registered user2
     Then Verify user is in homepage
 
   Scenario: Verify Header links are functional from home page
-    When User clicks in My Account
+    When User hovers on My Account
     Then Verify My Account drop down is displayed
 
     When User clicks in bag

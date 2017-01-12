@@ -18,7 +18,7 @@ Feature: Header verification for registered user5
       |girls|dresses|
     Then Verify user is in category array page
 
-    When User clicks in My Account
+    When User hovers on My Account
     Then Verify My Account drop down is displayed
 
     When User clicks in bag

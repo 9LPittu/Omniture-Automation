@@ -389,6 +389,12 @@ public class HeaderWrap {
 		stateHolder.put("category", Category);
 	}
 	
+	public void hoverMyAccount() {
+		wait.until(ExpectedConditions.visibilityOf(myAccount));
+		hoverAction.moveToElement(myAccount);
+		hoverAction.perform(); 
+	}
+	
 	
 
 	public void selectSubCategory() {

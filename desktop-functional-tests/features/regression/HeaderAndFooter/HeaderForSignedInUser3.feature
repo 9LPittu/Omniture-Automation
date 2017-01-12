@@ -15,7 +15,7 @@ Feature: Header verification for registered user4
     When User clicks on sale link from top nav
     Then Verify sale landing page is displayed
 
-    When User clicks in My Account
+    When User hovers on My Account
     Then Verify My Account drop down is displayed
 
     When User clicks in bag
