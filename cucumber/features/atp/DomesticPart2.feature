@@ -11,7 +11,7 @@ Feature: Verify view for Monogram Items in Domestic Context
     And User goes to homepage
 	
     And click on MY ACCOUNT from header
-    And User selects SIGN OUT from my details dropdown
+    And User selects Sign Out from my details dropdown
     Then Verify user is in homepage
    
    Scenario: No ATP view should be displayed for monogram item
