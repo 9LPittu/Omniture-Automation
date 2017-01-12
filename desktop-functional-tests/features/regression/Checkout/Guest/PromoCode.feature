@@ -5,7 +5,7 @@ Feature: Checkout - Guest user is able to checkout with promo code
     Given User goes to homepage
     And User closes email capture
     
-    When User navigates to regular product
+    When User navigates to promo applicable product
     And User adds product to bag
 
     When User clicks in bag

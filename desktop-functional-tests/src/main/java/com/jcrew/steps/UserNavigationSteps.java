@@ -238,6 +238,21 @@ public class UserNavigationSteps extends DriverFactory {
         header.stateHolder.put("regularItem", testDataReader.getData("regular.item"));
     }
     
+	@When("^User navigates to promo applicable product$")
+	public void navigate_promoapplicable_item() {
+		HeaderWrap header = new HeaderWrap(getDriver());
+		header.searchFor(testDataReader.getData("promoaplicable.item"));
+
+		select_item_from_search_results();
+
+		ProductDetails pdp = new ProductDetails(getDriver());
+		pdp.selectColor(testDataReader.getData("promoaplicable.item.color"));
+		pdp.selectSize(testDataReader.getData("promoaplicable.item.size"));
+
+		header.stateHolder.put("promoaplicableItem",
+				testDataReader.getData("promoaplicable.item"));
+	}
+    
     public void select_item_from_search_results(){
     	String currentUrl = driver.getCurrentUrl();
 		if(currentUrl.contains("/r/search")){
