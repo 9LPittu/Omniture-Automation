@@ -18,52 +18,49 @@ public class EmailCapture extends PageObject {
 
     public EmailCapture(WebDriver driver) {
         super(driver);
-        this.shortWait = Util.createWebDriverWait(driver, 10);
+        this.shortWait = Util.createWebDriverWait(driver, 30);
 
         PageFactory.initElements(driver, this);
     }
 
     public void closeEmailCapture() {
-
-        try {
-            List<WebElement> global__email_capture_list = shortWait.until(
-                    ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id='global__email-capture']")));
-
-            if (global__email_capture_list.size() > 0) {
-                List<WebElement> close_email_capture =
-                        global__email_capture_list.get(0).findElements(By.className("js-email-capture--close"));
-
-                if (close_email_capture.size() > 0) {
-                    logger.debug("Email capture is visible, closing.");
-                    final WebElement close = close_email_capture.get(0);
-
-                    wait.until(new Predicate<WebDriver>() {
-                        @Override
-                        public boolean apply(WebDriver driver) {
-                            try {
-                                logger.debug("Close: {}", close.getAttribute("class"));
-                                close.click();
-                                wait.until(ExpectedConditions.stalenessOf(close));
-                            } catch (WebDriverException wde) {
-                                return false;
-                            }
-                            return true;
-                        }
-                    });
-                }
-            }
-        } catch (TimeoutException timeout) {
-            //for some reason, in zanker, the email capture is not displayed with PhantomJS, but the overlay is.
-            //catching this timeout and ignoring.
-        	try{
-        		WebElement overlay = driver.findElement(By.className("js-global__overlay--emailcapture"));
-	            if(overlay.isDisplayed()) {
-	                logger.error("No email capture, but we have the email capture overlay");
+    	
+    	try {
+            WebElement global__email_capture = shortWait.until(
+                    ExpectedConditions.presenceOfElementLocated(By.id("global__email-capture")));
+            
+            int retry = 0;
+            boolean emailcapture = true;
+            do {
+	            List<WebElement> close_email_capture = global__email_capture.findElements(
+	                    By.xpath(".//span[@class='icon-close']/ancestor::div[contains(@class,'js-email-capture--close')]"));
+	
+	            if (close_email_capture.size() > 0) {
+	                logger.debug("Email capture is visible, closing.");
+	                final WebElement close = close_email_capture.get(0);
+	
+	                wait.until(new Predicate<WebDriver>() {
+	                    @Override
+	                    public boolean apply(WebDriver driver) {
+	                        try {
+	                            close.click();
+	                        } catch (WebDriverException wde) {
+	                        	logger.debug("Failed to close email capture");
+	                            return false;
+	                        }
+	                        return true;
+	                    }
+	                });
+	                shortWait.until(ExpectedConditions.stalenessOf(global__email_capture));
+	                emailcapture = false;
+	            } else {
+	            	logger.debug("No email capture was found. Trying again.");
+	            	Util.wait(3000);
+	            	retry ++;
 	            }
-        	}
-        	catch(Exception e){
-        		logger.error("No email capture overlay!!");
-        	}
+            } while (emailcapture && retry <3);   
+        } catch (TimeoutException noEmailCapture) {
+            logger.error("No email capture was found. Ignoring Error.");
         }
     }
 }

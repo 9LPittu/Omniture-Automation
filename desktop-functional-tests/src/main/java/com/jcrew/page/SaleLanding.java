@@ -93,7 +93,7 @@ public class SaleLanding {
     public List<String> getSaleCategory() {
     	List <String> categoryName = new ArrayList<String>();
     	WebElement saleCategories = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("c-promo-categories")));
-    	List<WebElement> saleCategoryList = saleCategories.findElements(By.xpath(".//div[contains(@class,'c-category__list-item')]/b/a"));
+    	List<WebElement> saleCategoryList = saleCategories.findElements(By.xpath(".//div[contains(@class,'c-category__list-item')]/a"));
     	for (WebElement saleCategory:saleCategoryList) {
     		String categoryText = saleCategory.getAttribute("data-label").toLowerCase();
     		categoryName.add(categoryText);	
@@ -218,7 +218,7 @@ public class SaleLanding {
 			@Override
 			public WebElement apply(WebDriver driver) {
 				try{
-					WebElement promoLinkElement = secondPromoBox.findElement(By.xpath(".//div/b/a[" + Util.xpathGetTextLower + "='" + secondPromoLinkName + "']"));
+					WebElement promoLinkElement = secondPromoBox.findElement(By.xpath("..//section[@id='c-promo-alert']/div/a[" + Util.xpathGetTextLower + "='" + secondPromoLinkName + "']"));
 					return promoLinkElement;
 				}
 				catch(NoSuchElementException nsee){
