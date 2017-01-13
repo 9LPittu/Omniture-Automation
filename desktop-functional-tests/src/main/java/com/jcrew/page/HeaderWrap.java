@@ -463,7 +463,6 @@ public class HeaderWrap {
 		stateHolder.put("category", Category);
 	}
 	
-	
 
 	public void selectSubCategory() {
 		String clothClassName = testdataReader.getData("clothing.className");

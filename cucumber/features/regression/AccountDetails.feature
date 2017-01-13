@@ -72,7 +72,6 @@ Feature: Account details Page validations
     Then Verify user is in homepage
 
     When click on MY ACCOUNT from header
-    And user clicks on "My Details" from My Account dropdown
     Then Verify birth field is enabled
 
 #    And Verify 'Add your birthday and we'll send you something special on your big day!' copy displayed
@@ -95,8 +94,6 @@ Feature: Account details Page validations
 
     When User scrolls up the page
     And click on MY ACCOUNT from header
-    And user clicks on "My Details" from My Account dropdown
-
 
     When Update first name with valid data
     And Update last name with valid data

@@ -106,6 +106,12 @@ public class HeaderWrapSteps extends DriverFactory {
     public void user_clicks_in_myAccount() {
         header.myAccount();
     }
+    
+    @When("User hovers on My Account")
+    public void user_hovers_on_myAccount() {
+    	header.hoverOverIcon("my account");
+    }
+    
     @And("Verify My Account drop down is displayed")
     public void my_account_drop_down_displayed(){
         assertTrue("My Account drop down should display",header.isMyAccountDropdownDisplayed());
