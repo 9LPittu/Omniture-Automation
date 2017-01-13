@@ -15,7 +15,7 @@ Feature: Header verification for registered user3
     When User clicks on random link from top nav
     Then Verify gender landing page is displayed
 
-    When User clicks in My Account
+    When User hovers on My Account
     Then Verify My Account drop down is displayed
 
     When User clicks in bag
