@@ -25,7 +25,7 @@ Feature: Checkout - No Default user gets confirmation to merge cart
     
     And User goes to homepage
     And click on MY ACCOUNT from header
-    When user clicks on "Sign Out" from My Account dropdown 
+    When User selects Sign Out from my details dropdown
     Then Verify user is in homepage
     
   Scenario: Checkout - User checks out with a merged bag

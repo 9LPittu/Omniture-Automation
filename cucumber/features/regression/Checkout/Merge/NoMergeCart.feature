@@ -11,7 +11,7 @@ Feature: Checkout - Users with clean bag do not get a Merge Cart page
     
     And User goes to homepage
     And click on MY ACCOUNT from header
-    When user clicks on "Sign Out" from My Account dropdown 
+    When User selects Sign Out from my details dropdown
     Then Verify user is in homepage
 
     Given User goes to homepage

@@ -12,7 +12,7 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     
     And User goes to homepage
     And click on MY ACCOUNT from header
-    When user clicks on "Sign Out" from My Account dropdown 
+    When User selects Sign Out from my details dropdown
     Then Verify user is in homepage
     
     And User goes to homepage
@@ -45,7 +45,7 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     
     And User goes to homepage
     And click on MY ACCOUNT from header
-    When user clicks on "Sign Out" from My Account dropdown 
+    When User selects Sign Out from my details dropdown
     
   Scenario: Checkout - Verify default shipping, billing and shipping method on Review page  for registered user from My Account login
   	Given User is on homepage with clean session
