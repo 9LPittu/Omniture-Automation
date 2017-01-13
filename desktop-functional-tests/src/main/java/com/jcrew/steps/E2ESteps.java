@@ -86,13 +86,12 @@ public class E2ESteps extends DriverFactory {
 		if(testdataMap.containsKey(columnName)){
 			columnValue = ((String) testdataMap.get(columnName)).trim();
 		}
-		logger.debug("Data for {} = {}", columnName, columnValue);
+		logger.debug("Testdata for '{}' = {}", columnName, columnValue);
 		return columnValue;
 	}
 	
 	public String getE2ETestdataDelimiter(){
-		TestDataReader testData = TestDataReader.getTestDataReader();
-		String e2eDelimiter = testData.getData("e2e.testdata.delimiter");
+		String e2eDelimiter = e2ePropertyReader.getProperty("e2e.testdata.delimiter");
 		return e2eDelimiter;
 	}
 		
@@ -500,22 +499,25 @@ public class E2ESteps extends DriverFactory {
 		String giftOptionSelection = getDataFromTestDataRowMap("Gift Option Selection");
 		String giftWrappingService = getDataFromTestDataRowMap("Gift Wrapping Service");
 		
-		if(giftOptionSelection.equalsIgnoreCase("NONE")){
+		if(giftOptionSelection.equalsIgnoreCase("NONE") || giftOptionSelection==null){
 			return;
 		}else{
 			//Select gift option as 'yes'
 			CheckoutShippingOptions shippingOptions = new CheckoutShippingOptions(getDriver());
-			shippingOptions.selectGiftOptionRadioButton();
+			shippingOptions.selectGiftOptionRadioButtons();
 			
-			switch(giftWrappingService.toUpperCase()){
-				case "GIFT RECEIPT":
-					break;
-				case "GIFT WRAPPING":
-					shippingOptions.continueCheckout();
-					break;
-				case "GIFT WRAPPING + GIFT MESSAGE":
-					shippingOptions.continueCheckout();
-					break;			
+			if(giftOptionSelection.equalsIgnoreCase("GIFT RECEIPT")){
+				shippingOptions.enterGiftReceiptMessages();
+			}else{
+				shippingOptions.selectGiftWrappingServiceRadioButtons();
+			}
+			
+			//click on 'continue' button on shipping methods page
+			shippingOptions.continueCheckout();
+			
+			//gift boxes selection
+			if(giftOptionSelection.contains("GIFT WRAPPING")){
+				
 			}
 		}
 	}

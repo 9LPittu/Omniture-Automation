@@ -86,9 +86,13 @@ public class E2EExecutorService implements Runnable {
 					command[1] = "-c";
 				}
 				
-				String mavenExecutablePath = System.getenv("M2_HOME") + File.separator + "bin" + File.separator + "mvn"; 
-				command[2] += mavenExecutablePath +  " test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
-			  	              " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
+				String mavenExecutablePath = System.getenv("M2_HOME") + File.separator + "bin" + File.separator + "mvn";
+				if(mavenExecutablePath.contains(" ")){
+				   mavenExecutablePath = "\"" + mavenExecutablePath + "\"";
+				}
+				
+				command[2] = mavenExecutablePath +  " test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
+			  	             " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
 				
 				ProcessExecutor processExecutor = new ProcessExecutor();
 				Process p = processExecutor.executeCommand(command);

@@ -201,10 +201,29 @@ public class CheckoutShippingOptions extends Checkout {
     	}
     }
     
-    public void selectGiftOptionRadioButton(){
+    public void selectGiftOptionRadioButtons(){
     	List<WebElement> giftOptionRadioElements = shippingMethodContainer.findElements(By.xpath(".//input[@id='includesGifts']"));
     	for(WebElement giftOptionRadioElement:giftOptionRadioElements){
     		giftOptionRadioElement.click();
+    		logger.debug("Gift option is selected...");
+    	}
+    }
+    
+    public void enterGiftReceiptMessages(){
+    	List<WebElement> giftReceiptMessageElements = shippingMethodContainer.findElements(By.xpath(".//textarea[contains(@id,'gift-receipt-msg')]"));
+    	
+    	for(int i=0;i<giftReceiptMessageElements.size();i++){
+    		String giftReceiptMessage = "Automated Gift Receipt Message " + (i+1);
+    		giftReceiptMessageElements.get(i).sendKeys(giftReceiptMessage);
+    		logger.debug("Gift Receipt Message entered is '{}'", giftReceiptMessage);
+    	}
+    }
+    
+    public void selectGiftWrappingServiceRadioButtons(){
+    	List<WebElement> giftWrappingServiceRadioElements = shippingMethodContainer.findElements(By.xpath(".//input[contains(@id,'giftWrapService')]"));
+    	for(WebElement giftWrappingServiceRadioElement:giftWrappingServiceRadioElements){
+    		giftWrappingServiceRadioElement.click();
+    		logger.debug("Gift Wrapping Service radio button is selected...");
     	}
     }
 }
