@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 
 import com.jcrew.pojo.Country;
+import com.jcrew.pojo.Product;
 import com.jcrew.util.StateHolder;
 import com.jcrew.util.UsersHub;
 import com.jcrew.util.Util;
@@ -9,6 +10,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import java.util.List;
 
 /**
  * Created by 9msyed on 8/8/2016.
@@ -114,6 +116,12 @@ public class AccountDetailsPage {
             WebElement item = navList.findElement(By.xpath("//li[contains(text(), '" + link + "')]"));
 
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", item);
+        }
+
+        if ("sign out".equalsIgnoreCase(link)) {
+            List<Product> bag = stateHolder.getList("toBag");
+            stateHolder.put("userBag", bag);
+            stateHolder.remove("toBag");
         }
     }
 
