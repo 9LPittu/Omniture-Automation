@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.jcrew.utils.Util;
 
-public class CheckoutGiftBox extends Checkout {
+public class CheckoutGiftOptions extends Checkout {
 
     @FindBy(name="frm_gift_options")
     private WebElement giftOptionsForm;
@@ -23,7 +23,7 @@ public class CheckoutGiftBox extends Checkout {
     @FindBy(className="checkout-container")
     private WebElement checkoutContainer;
     
-    public CheckoutGiftBox(WebDriver driver) {
+    public CheckoutGiftOptions(WebDriver driver) {
         super(driver);        
 
         wait.until(ExpectedConditions.visibilityOf(giftOptionsReturn));
@@ -78,7 +78,10 @@ public class CheckoutGiftBox extends Checkout {
     }
     
     private List<WebElement> getGiftBoxDropdownElements(WebElement itemRowElement){
-    	List<WebElement> giftBoxDropdownElements = itemRowElement.findElements(By.name("giftBoxKit"));
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    	wait.until(ExpectedConditions.visibilityOf(itemRowElement));
+    	List<WebElement> giftBoxDropdownElements = itemRowElement.findElements(By.name("giftBox"));
     	return giftBoxDropdownElements;
     }
     
@@ -91,8 +94,9 @@ public class CheckoutGiftBox extends Checkout {
     private void selectExistingGiftBox(WebElement parentElement, String value){
     	WebElement giftBoxDropdown = parentElement.findElement(By.name("giftBox"));
     	Select select = new Select(giftBoxDropdown);
-    	select.selectByValue(value);
-		logger.debug("Gift box dropdown value selected: {}", select.getFirstSelectedOption().getText());
+    	String valueToBeSelected = select.getOptions().get(Integer.parseInt(value)).getText();
+    	select.selectByValue(value);    	
+		logger.debug("Gift box dropdown value selected: {}", valueToBeSelected);
     }
     
     private void placeAllItemsInOneGiftBox(){
@@ -105,6 +109,7 @@ public class CheckoutGiftBox extends Checkout {
     	}
     	
     	for(int i=1;i<items.size();i++){
+    		items = getItems();
     		List<WebElement> giftBoxDropdown = getGiftBoxDropdownElements(items.get(i));
     		if(giftBoxDropdown.size()==0){
     			//item with different shipping address
@@ -120,12 +125,14 @@ public class CheckoutGiftBox extends Checkout {
     	List<WebElement> items = getItems();
     	for(int i=1;i<items.size();i++){
    			addNewGiftBox(items.get(i));
+   			items = getItems();
     	}
     }
     
     private void placeOnlyOneItemInGiftBox(){
     	List<WebElement> items = getItems();
     	for(int i=1;i<items.size();i++){
+    		items = getItems();
     		List<WebElement> giftBoxDropdown = getGiftBoxDropdownElements(items.get(i));
     		if(giftBoxDropdown.size()==0){
     			//item with different shipping address
@@ -151,7 +158,8 @@ public class CheckoutGiftBox extends Checkout {
     		int firstGiftBoxItemsCount = items.size()/2;
     		
     		//first gift box
-    		for(int i=1;i<firstGiftBoxItemsCount-1;i++){
+    		for(int i=0;i<firstGiftBoxItemsCount;i++){
+    			items = getItems();
     			List<WebElement> giftBoxDropdown = getGiftBoxDropdownElements(items.get(i));
         		if(giftBoxDropdown.size()==0){
         			addNewGiftBox(items.get(i));
@@ -161,7 +169,9 @@ public class CheckoutGiftBox extends Checkout {
     		}
     		
     		//second gift box
-    		for(int j=firstGiftBoxItemsCount;j<items.size()-1;j++){
+    		items = getItems();
+    		for(int j=firstGiftBoxItemsCount;j<items.size();j++){
+    			items = getItems();
     			if(j==firstGiftBoxItemsCount){
     				addNewGiftBox(items.get(j));
     			}else{
@@ -172,6 +182,7 @@ public class CheckoutGiftBox extends Checkout {
     		//If multiple shipping addresses are selected
     		List<WebElement> giftOptions = checkoutContainer.findElements(By.id("gift-options"));
     		for(int i=0;i<giftOptions.size();i++){
+    			giftOptions = checkoutContainer.findElements(By.id("gift-options"));
     			List<WebElement> itemsInGiftOption = giftOptions.get(i).findElements(By.xpath(".//div[@class='item-row clearfix']"));
     			for(int j=0;j<itemsInGiftOption.size();j++){
     				if(j==0 || itemsInGiftOption.size()==1){
