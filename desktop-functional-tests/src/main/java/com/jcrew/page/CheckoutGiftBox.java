@@ -12,15 +12,18 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.jcrew.utils.Util;
 
-public class CheckoutGiftBoxes extends Checkout {
+public class CheckoutGiftBox extends Checkout {
 
-    @FindBy(id = "giftOptionsReturn")
+    @FindBy(name="frm_gift_options")
+    private WebElement giftOptionsForm;
+	
+	@FindBy(id = "giftOptionsReturn")
     private WebElement giftOptionsReturn;
     
     @FindBy(className="checkout-container")
     private WebElement checkoutContainer;
     
-    public CheckoutGiftBoxes(WebDriver driver) {
+    public CheckoutGiftBox(WebDriver driver) {
         super(driver);        
 
         wait.until(ExpectedConditions.visibilityOf(giftOptionsReturn));
@@ -33,7 +36,12 @@ public class CheckoutGiftBoxes extends Checkout {
         return bodyId.equals("gift");
     }
     
-    public void selectGiftBoxesforItems(String giftBoxSelectionType){
+    public void continueCheckout() {
+        nextStep(giftOptionsForm);
+    }
+
+    
+    public void selectGiftBoxesForItems(String giftBoxSelectionType){
     	
     	List<WebElement> newGiftBoxButtons = checkoutContainer.findElements(By.xpath(".//a[@class='item-button item-box']"));
     	if(newGiftBoxButtons.size()==0){
@@ -128,5 +136,61 @@ public class CheckoutGiftBoxes extends Checkout {
     
     private void placeAllItemsInTwoGiftBoxes(){
     	
+    	List<WebElement> multipleShipping = checkoutContainer.findElements(By.className("gift-multiship"));
+    	
+    	//If single address was selected on the 'Shipping Address' page
+    	if(multipleShipping.size()==0){
+    		List<WebElement> items = getItems();
+    		if(items.size() > 8){
+    			String message = "Only 4 items per gift box can be placed. Number of items per gift box is crossed. Change the test data and try again.";
+    			Util.e2eErrorMessagesBuilder(message);
+        		throw new WebDriverException(message);
+    		}
+    		
+    		//Divide the items to the 2 gift boxes
+    		int firstGiftBoxItemsCount = items.size()/2;
+    		
+    		//first gift box
+    		for(int i=1;i<firstGiftBoxItemsCount-1;i++){
+    			List<WebElement> giftBoxDropdown = getGiftBoxDropdownElements(items.get(i));
+        		if(giftBoxDropdown.size()==0){
+        			addNewGiftBox(items.get(i));
+        		}else{
+        			selectExistingGiftBox(items.get(i), "1");
+        		}
+    		}
+    		
+    		//second gift box
+    		for(int j=firstGiftBoxItemsCount;j<items.size()-1;j++){
+    			if(j==firstGiftBoxItemsCount){
+    				addNewGiftBox(items.get(j));
+    			}else{
+    				selectExistingGiftBox(items.get(j), "2");
+    			}
+    		}    		
+    	}else{
+    		//If multiple shipping addresses are selected
+    		List<WebElement> giftOptions = checkoutContainer.findElements(By.id("gift-options"));
+    		for(int i=0;i<giftOptions.size();i++){
+    			List<WebElement> itemsInGiftOption = giftOptions.get(i).findElements(By.xpath(".//div[@class='item-row clearfix']"));
+    			for(int j=0;j<itemsInGiftOption.size();j++){
+    				if(j==0 || itemsInGiftOption.size()==1){
+    					addNewGiftBox(itemsInGiftOption.get(j));
+    				}else{
+    					selectExistingGiftBox(itemsInGiftOption.get(j), "1");
+    				}
+    			}
+    		}
+    	}
+    }
+    
+    public void enterGiftBoxMessages(){
+    	List<WebElement> giftBoxMessageElements = checkoutContainer.findElements(By.xpath(".//textarea[contains(@id,'giftbox-msg')]"));
+    	
+    	for(int i=0;i<giftBoxMessageElements.size();i++){
+    		String giftBoxMessage = "Automated Gift Box Message " + (i+1);
+    		giftBoxMessageElements.get(i).sendKeys(giftBoxMessage);
+    		logger.debug("Gift Box Message entered is '{}'", giftBoxMessage);
+    	}
     }
 }

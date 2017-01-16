@@ -201,7 +201,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
 
     @When("User continues to Payment Method page")
     public void continue_to_payment_method() {
-    	if(stateHolder.hasKey("isShippingDisabled"))
+    	if(stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isShippingMethodContinueClicked"))
 			return;
     	
         shippingOptions.continueCheckout();

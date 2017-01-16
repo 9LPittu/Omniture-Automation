@@ -18,6 +18,7 @@ import com.jcrew.page.ArraySearch;
 import com.jcrew.page.Checkout;
 import com.jcrew.page.CheckoutBilling;
 import com.jcrew.page.CheckoutBillingPayment;
+import com.jcrew.page.CheckoutGiftBox;
 import com.jcrew.page.CheckoutReview;
 import com.jcrew.page.CheckoutShippingEdit;
 import com.jcrew.page.CheckoutShippingOptions;
@@ -514,10 +515,18 @@ public class E2ESteps extends DriverFactory {
 			
 			//click on 'continue' button on shipping methods page
 			shippingOptions.continueCheckout();
+			stateHolder.put("isShippingMethodContinueClicked", true);
 			
 			//gift boxes selection
 			if(giftOptionSelection.contains("GIFT WRAPPING")){
+				CheckoutGiftBox giftBox = new CheckoutGiftBox(getDriver());
+				giftBox.selectGiftBoxesForItems(giftWrappingService);
 				
+				if(giftOptionSelection.contains("GIFT MESSAGE")){
+					giftBox.enterGiftBoxMessages();
+				}
+				
+				giftBox.continueCheckout();
 			}
 		}
 	}
