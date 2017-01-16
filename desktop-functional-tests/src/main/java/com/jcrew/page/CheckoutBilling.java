@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.pojo.User;
+import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
@@ -212,11 +213,11 @@ public class CheckoutBilling extends Checkout {
     
     public void selectSpecificPaymentMethod(String paymentMethodName){
     	
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	String cardNumber = testDataReader.getData(paymentMethodName.toLowerCase() + ".card.number");
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	String cardNumber = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".card.number");
     	String lastFourDigitsOfCardNum = cardNumber.substring(cardNumber.length() - 4);
     	
-    	String cardDisplayName = testDataReader.getData(paymentMethodName.toLowerCase() + ".display.name");
+    	String cardDisplayName = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".display.name");
     	
     	List<WebElement> paymentMethodElements = wallet_container.findElements(By.xpath(".//span[contains(@class,'wallet-brand') and " + Util.xpathGetTextLower + "='" 
     											 + cardDisplayName.toLowerCase() + "']/following-sibling::span[contains(@class,'wallet-line')"
@@ -227,16 +228,16 @@ public class CheckoutBilling extends Checkout {
     }
     
     public void fillPaymentCardDetails(String paymentMethodName){
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
     	
-    	creditCardNumber.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".card.number"));
-        secuirtyCode.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code"));
+    	creditCardNumber.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".card.number"));
+        secuirtyCode.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code"));
 
         Select month = new Select(expirationMonth);
-        month.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.month"));
+        month.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.month"));
 
         Select year = new Select(expirationYear);
-        year.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.year"));
+        year.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.year"));
 
         User checkoutUser = User.getFakeUser();
 
@@ -254,12 +255,12 @@ public class CheckoutBilling extends Checkout {
     }
     
     public void splitPayment(String paymentMethod1 , String paymentMethod2){
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	String cardShortName1 = testDataReader.getData(paymentMethod1.toLowerCase() + ".short.name"); 
-    	String cardShortName2 = testDataReader.getData(paymentMethod2.toLowerCase() + ".short.name");
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	String cardShortName1 = e2ePropertyReader.getProperty(paymentMethod1.toLowerCase() + ".short.name"); 
+    	String cardShortName2 = e2ePropertyReader.getProperty(paymentMethod2.toLowerCase() + ".short.name");
     	
-    	String cardNumber1 = testDataReader.getData(paymentMethod1.toLowerCase() + ".card.number");
-    	String cardNumber2 = testDataReader.getData(paymentMethod2.toLowerCase() + ".card.number");
+    	String cardNumber1 = e2ePropertyReader.getProperty(paymentMethod1.toLowerCase() + ".card.number");
+    	String cardNumber2 = e2ePropertyReader.getProperty(paymentMethod2.toLowerCase() + ".card.number");
     	
     	String lastFourDigitsOfCardNum1 = cardNumber1.substring(cardNumber1.length() - 4);
     	String lastFourDigitsOfCardNum2 = cardNumber2.substring(cardNumber2.length() - 4);
