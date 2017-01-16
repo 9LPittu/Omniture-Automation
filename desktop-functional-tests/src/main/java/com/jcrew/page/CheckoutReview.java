@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
@@ -181,8 +182,8 @@ public class CheckoutReview extends Checkout{
     			break;
     	}
     	
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	String securityCodeText = testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code");
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	String securityCodeText = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code");
     	securityCode.get(0).sendKeys(securityCodeText);    	
     }
     
@@ -190,9 +191,9 @@ public class CheckoutReview extends Checkout{
     	if(paymentMethodName.equalsIgnoreCase("JCC"))
     		return;
     	
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	String paymentMethodShortName = testDataReader.getData(paymentMethodName.toLowerCase() + ".short.name");
-    	String securityCodeText = testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code");
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	String paymentMethodShortName = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".short.name");
+    	String securityCodeText = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code");
     	
     	WebElement securityCode = billing_details.findElement(By.xpath(".//input[@class='textbox-manager security-code-id form-textbox " +  paymentMethodShortName.toUpperCase() + "']"));
         securityCode.sendKeys(securityCodeText);
