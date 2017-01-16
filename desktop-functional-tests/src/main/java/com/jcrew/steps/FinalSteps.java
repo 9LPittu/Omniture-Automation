@@ -172,6 +172,17 @@ public class FinalSteps {
 				throw new Exception("Failed to set value in excel for the column 'Additional Error Details'");
 			}
         	
+        	if(stateHolder.hasKey("e2eUserObject")){
+	        	try {
+	        		User user = stateHolder.get("e2eUserObject");
+	        		String userCredentials = "";
+                	userCredentials = user.getEmail() + "/" + user.getPassword();
+					testdataReader.setCellValueInExcel(rowNumber, "User Credentials", userCredentials);
+				} catch (Exception e) {
+					throw new Exception("Failed to set value in excel for the column 'User Credentials'");
+				}
+        	}
+        	
         	try {
 				testdataReader.writeAndSaveExcel();
 			} catch (IOException e) {
