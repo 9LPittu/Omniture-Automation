@@ -3,6 +3,7 @@ package com.jcrew.page;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -92,10 +93,19 @@ public class CheckoutGiftOptions extends Checkout {
     }
     
     private void selectExistingGiftBox(WebElement parentElement, String value){
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    	wait.until(ExpectedConditions.visibilityOf(parentElement));
     	WebElement giftBoxDropdown = parentElement.findElement(By.name("giftBox"));
     	Select select = new Select(giftBoxDropdown);
-    	String valueToBeSelected = select.getOptions().get(Integer.parseInt(value)).getText();
-    	select.selectByValue(value);    	
+    	String valueToBeSelected = select.getOptions().get(Integer.parseInt(value)).getText().trim();
+    	
+    	try{
+    		select.selectByValue(value);
+    	}catch(NoSuchElementException nsee){
+    		select.selectByIndex(Integer.parseInt(value));
+    	}
+    	
 		logger.debug("Gift box dropdown value selected: {}", valueToBeSelected);
     }
     

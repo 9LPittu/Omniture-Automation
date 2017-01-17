@@ -305,15 +305,18 @@ public class HeaderWrap {
 		
 		int cntr = 0;
 		WebElement optionElement = null;
+		
 		do{
 			try{
 				hoverOverIcon("my account");
+				logger.debug("My Account hover is done...");
+				Util.wait(1000);
+				logger.debug("waited for 2 secs");
 				dropdown = userPanel.findElement(By.tagName("dl"));
-				WebElement ddElement = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel-item--signout']"));
-				optionElement = ddElement.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + option.toLowerCase() + "']"));
-				optionElement.click();
-				break;
-			}catch(NoSuchElementException nsee){
+				if(dropdown.isDisplayed())
+					break;
+			}
+			catch(NoSuchElementException nsee){
 				logger.info("NoSuchElementException is thrown when tried to click on {} option", option);
 				cntr++;
 			}
@@ -321,7 +324,11 @@ public class HeaderWrap {
 				logger.info("ElementNotVisibleException is thrown when tried to click on {} option", option);
 				cntr++;
 			}
-		}while(cntr<=5);
+		}while(cntr<5);
+			
+		WebElement ddElement = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel-item--signout']"));
+		optionElement = ddElement.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + option.toLowerCase() + "']"));
+		optionElement.click();			
 		
 		Util.waitLoadingBar(driver);
 

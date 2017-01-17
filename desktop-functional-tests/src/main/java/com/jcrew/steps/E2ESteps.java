@@ -384,10 +384,7 @@ public class E2ESteps extends DriverFactory {
 			}
 			
 			Checkout checkout = null;			
-			switch(promoApplyPage.toLowerCase()){
-				case "shopping bag":
-					checkout = new CheckoutShoppingBag(getDriver());
-					break;
+			switch(promoApplyPage.toLowerCase()){				
 				case "shipping address":
 					checkout = new CheckoutShippingEdit(getDriver());
 					break;
@@ -400,6 +397,9 @@ public class E2ESteps extends DriverFactory {
 				case "review":
 					checkout = new CheckoutReview(getDriver());
 					break;
+				case "shopping bag":
+				default:
+					checkout = new CheckoutShoppingBag(getDriver());					
 			}
 			
 			for(int i=0;i<=maxPromoCodesCount - 1;i++){

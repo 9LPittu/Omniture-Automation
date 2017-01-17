@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -202,7 +203,7 @@ public class CheckoutShippingOptions extends Checkout {
     }
     
     public void selectGiftOptionRadioButtons(){
-    	List<WebElement> giftOptionRadioElements = shippingMethodContainer.findElements(By.xpath(".//input[@id='includesGifts']"));
+    	List<WebElement> giftOptionRadioElements = shippingMethodContainer.findElements(By.xpath(".//input[contains(@id, 'includesGifts')]"));
     	for(WebElement giftOptionRadioElement:giftOptionRadioElements){
     		giftOptionRadioElement.click();
     		logger.debug("Gift option is selected...");
@@ -222,8 +223,12 @@ public class CheckoutShippingOptions extends Checkout {
     public void selectGiftWrappingServiceRadioButtons(){
     	List<WebElement> giftWrappingServiceRadioElements = shippingMethodContainer.findElements(By.xpath(".//input[contains(@id,'giftWrapService')]"));
     	for(WebElement giftWrappingServiceRadioElement:giftWrappingServiceRadioElements){
-    		giftWrappingServiceRadioElement.click();
-    		logger.debug("Gift Wrapping Service radio button is selected...");
+    		try{
+    			 giftWrappingServiceRadioElement.click();
+    			 logger.debug("Gift Wrapping Service radio button is selected...");
+    		}catch(ElementNotVisibleException enve){
+    			logger.debug("Gift Wrapping Service radio button is not visible");
+    		}
     	}
     }
 }
