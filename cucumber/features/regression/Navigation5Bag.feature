@@ -3,13 +3,12 @@ Feature: Edit Product In Bags Scenarios
 
   Background:
     Given User is on homepage
-    And Handle the Email Capture pop up
-
   
   Scenario: Verify on edit mode add to bag changes to update bag
     When User clicks on hamburger menu
     And user selects WOMEN category from hamburger menu
     And user selects NEW ARRIVALS subcategory
+    And Handle the Email Capture pop up
     And Selects the first product with available colors from product grid list
     And User is in product detail page
     And A color is selected
@@ -35,6 +34,7 @@ Feature: Edit Product In Bags Scenarios
     When User clicks on hamburger menu
     And user selects any category from hamburger menu
 	And user selects any subcategory
+    And Handle the Email Capture pop up
     And user selects any item from array page, select any color and size
     Then User is in product detail page
     And Add to cart button is pressed
@@ -53,6 +53,7 @@ Feature: Edit Product In Bags Scenarios
     And User provides login information
     And Hits sign in button
     And User is on homepage
+    And Handle the Email Capture pop up
     And User bag is cleared
     And User goes to homepage
     When User clicks on hamburger menu
