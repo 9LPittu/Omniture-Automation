@@ -56,4 +56,5 @@ Feature: Registered User E2E order placing
   	
   	When User clicks on PLACE MY ORDER
   	Then Verify user is in order confirmation page
+  	When User closes the Bizrate Popup
   	Then Verify user gets a confirmation number

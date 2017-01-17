@@ -49,30 +49,32 @@ import cucumber.api.java.en.When;
 import static org.junit.Assert.*;
 
 public class E2ESteps extends DriverFactory {
-	
+
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	private final Logger logger = LoggerFactory.getLogger(E2ESteps.class);
 	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
 	private TestDataReader testdataReader = TestDataReader.getTestDataReader();
 	private String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");
 	private boolean isItemDataExist = true;
-	
+
 	@Given("^Test data is read from excel file \"([^\"]*)\"$")
-	public void read_test_data_from_excel(String excelFileName) throws FileNotFoundException, IOException{
-		
+	public void read_test_data_from_excel(String excelFileName) throws FileNotFoundException, IOException {
+
 		ExcelUtils testDataReader;
-		
-		if(System.getProperty("os.name").toLowerCase().contains("windows")){
-			testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
-		}
-		else{
+
+		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+			testDataReader = new ExcelUtils(
+					e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName,
+					"Testdata", "");
+		} else {
 			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");
 		}
-		
+
 		Map<String, Object> testdataRowMap = null;
-		for(int j=testDataReader.getSearchTextFirstRowNum();j<=testDataReader.getSearchTextLastRowNum();j++){
+		for (int j = testDataReader.getSearchTextFirstRowNum(); j <= testDataReader.getSearchTextLastRowNum(); j++) {
 			testdataRowMap = testDataReader.getDataFromExcel(j);
-			if(((String)testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String)testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")){
+			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES")
+					&& !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")) {
 				stateHolder.put("excelObject", testDataReader);
 				stateHolder.put("excelrowno", j);
 				stateHolder.put("testdataRowMap", testdataRowMap);
@@ -80,125 +82,124 @@ public class E2ESteps extends DriverFactory {
 			}
 		}
 	}
-	
-	public String getDataFromTestDataRowMap(String columnName){
+
+	public String getDataFromTestDataRowMap(String columnName) {
 		Map<String, Object> testdataMap = stateHolder.get("testdataRowMap");
 		String columnValue = null;
-		if(testdataMap.containsKey(columnName)){
+		if (testdataMap.containsKey(columnName)) {
 			columnValue = ((String) testdataMap.get(columnName)).trim();
 		}
 		logger.debug("Testdata for '{}' = {}", columnName, columnValue);
 		return columnValue;
 	}
-	
-	public String getE2ETestdataDelimiter(){
+
+	public String getE2ETestdataDelimiter() {
 		String e2eDelimiter = e2ePropertyReader.getProperty("e2e.testdata.delimiter");
 		return e2eDelimiter;
 	}
-		
+
 	@When("^User selects country as per testdata$")
-	public void user_selects_country_as_per_testdata(){
+	public void user_selects_country_as_per_testdata() {
 		String countryName = getDataFromTestDataRowMap("Ship To Country");
-		
-		//click on change link from footer
+
+		// click on change link from footer
 		Footer footer = new Footer(getDriver());
 		footer.clickChangeLinkInFooter();
-		
-		//Validate context chooser page is displayed
+
+		// Validate context chooser page is displayed
 		ContextChooser contextChooser = new ContextChooser(getDriver());
 		assertTrue("Is this context chooser page?", contextChooser.isInternationalContextChooserPageDisplayed());
-		
-		//Select country
+
+		// Select country
 		contextChooser.selectCountryOnContextChooserPage(countryName);
 	}
-	
+
 	@And("^User enters login credentials$")
 	public void user_enter_login_credentials() {
 		String userType = getDataFromTestDataRowMap("User Type");
 		String countryName = getDataFromTestDataRowMap("Ship To Country");
-		
+
 		String emailAddress = "";
-		String password = "";		
+		String password = "";
 		User user = null;
-		
+
 		try {
-			  if(!stateHolder.hasKey("e2eUserObject")){
-				  UsersHub userHub = UsersHub.getInstance();
-				  user = userHub.getE2EUser(userType.toLowerCase(), countryName.toLowerCase());
-				  stateHolder.put("e2eUserObject", user);
-			  }else{
-				  user = stateHolder.get("e2eUserObject");
-			  }
-			  
-			  emailAddress = user.getEmail();
-		      password = user.getPassword();		      
-		}
-		catch (SQLException e) {
-			String errorMsg = "Failed to retrieve '" +  userType + "' type username and password from DB!!!";
+			if (!stateHolder.hasKey("e2eUserObject")) {
+				UsersHub userHub = UsersHub.getInstance();
+				user = userHub.getE2EUser(userType.toLowerCase(), countryName.toLowerCase());
+				stateHolder.put("e2eUserObject", user);
+			} else {
+				user = stateHolder.get("e2eUserObject");
+			}
+
+			emailAddress = user.getEmail();
+			password = user.getPassword();
+		} catch (SQLException e) {
+			String errorMsg = "Failed to retrieve '" + userType + "' type username and password from DB!!!";
 			Util.e2eErrorMessagesBuilder(errorMsg);
 			throw new WebDriverException(errorMsg);
 		}
-		
+
 		LogIn logIn = new LogIn(getDriver());
 		logIn.submitUserCredentials(emailAddress, password);
 	}
-	
+
 	@When("^User adds the products to bag as per testdata$")
-	public void user_adds_products_to_bag() throws Exception{
+	public void user_adds_products_to_bag() throws Exception {
 		String itemIdentifiers = getDataFromTestDataRowMap("Item Identifiers");
 		String quantities = getDataFromTestDataRowMap("Quantities");
-		
-		if(itemIdentifiers.isEmpty()){
-			isItemDataExist=false;
+
+		if (itemIdentifiers.isEmpty()) {
+			isItemDataExist = false;
 			return;
 		}
-		
+
 		String[] arrItemIdentifiers = itemIdentifiers.split(getE2ETestdataDelimiter());
 		String[] arrQuantities = quantities.split(getE2ETestdataDelimiter());
-		
-		for(int i=0;i<arrItemIdentifiers.length;i++){
+
+		for (int i = 0; i < arrItemIdentifiers.length; i++) {
 			int rowNumber = getRowNumberFromItemMaster(arrItemIdentifiers[i]);
-			if(rowNumber>0){
+			if (rowNumber > 0) {
 				String itemCode = getColumnValueFromItemMaster(rowNumber, "Item Code");
 				String color = getColumnValueFromItemMaster(rowNumber, "Color");
 				String size = getColumnValueFromItemMaster(rowNumber, "Size");
-				String quantity = arrQuantities[i];				
+				String quantity = arrQuantities[i];
 				String isMonogramRequired = getColumnValueFromItemMaster(rowNumber, "isMonogramRequired?");
-				
-				//search for item
+
+				// search for item
 				HeaderWrap headerWrap = new HeaderWrap(getDriver());
 				headerWrap.searchForSpecificTerm(itemCode);
-				
-				//select random item from search results
+
+				// select random item from search results
 				String currentURL = getDriver().getCurrentUrl();
-				if(currentURL.contains("/r/search")){					
+				if (currentURL.contains("/r/search")) {
 					ArraySearch searchArray = new ArraySearch(getDriver());
 					searchArray.selectRandomProduct();
 				}
-				
-				//Select color
+
+				// Select color
 				ProductDetails pdp = new ProductDetails(getDriver());
 				pdp.selectSpecifiedColor(color);
-				
-				//Select size
+
+				// Select size
 				pdp.selectSpecifiedSize(size);
-				
-				//Select quantity
+
+				// Select quantity
 				pdp.selectSpecifiedQuantity(quantity);
-				
-				//Add monogramming
-				if(isMonogramRequired.equalsIgnoreCase("YES")){
+
+				// Add monogramming
+				if (isMonogramRequired.equalsIgnoreCase("YES")) {
 					String placement = getColumnValueFromItemMaster(rowNumber, "Placement");
 					String style = getColumnValueFromItemMaster(rowNumber, "Style");
 					String firstInitial = getColumnValueFromItemMaster(rowNumber, "First Initial");
 					String middleInitial = getColumnValueFromItemMaster(rowNumber, "Middle Initial");
 					String lastInitial = getColumnValueFromItemMaster(rowNumber, "Last Initial");
 					String threadColor = getColumnValueFromItemMaster(rowNumber, "Thread Color");
-					
+
 					pdp.addMonogram();
-					
+
 					Monogram monogram = new Monogram(getDriver());
-					
+
 					monogram.selectPlacement(placement);
 					monogram.selectStyle(style);
 					monogram.selectInitial("First", firstInitial);
@@ -207,113 +208,117 @@ public class E2ESteps extends DriverFactory {
 					monogram.selectThreadColor(threadColor);
 					monogram.saveMonogram();
 				}
-				
-				//Add item to bag
+
+				// Add item to bag
 				pdp.addToBag();
-			}else{
-				  Util.e2eErrorMessagesBuilder("Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet");
-				  throw new WebDriverException("Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet!!!");				
+			} else {
+				Util.e2eErrorMessagesBuilder("Failed to find item identifier '" + arrItemIdentifiers[i]
+						+ "' in E2E item master test data sheet");
+				throw new WebDriverException("Failed to find item identifier '" + arrItemIdentifiers[i]
+						+ "' in E2E item master test data sheet!!!");
 			}
 		}
 	}
-	
+
 	@And("^User adds gift cards to bag as per testdata$")
-	public void user_adds_gift_card_to_bag() throws Exception{
+	public void user_adds_gift_card_to_bag() throws Exception {
 		String giftCardTypes = getDataFromTestDataRowMap("Gift Card Type");
 		String giftCardAmounts = getDataFromTestDataRowMap("Gift Card Amount");
-		
-		if(!isItemDataExist && giftCardTypes.isEmpty()){
+
+		if (!isItemDataExist && giftCardTypes.isEmpty()) {
 			String message = "No test data is provided for items/gift cards!!!";
 			Util.e2eErrorMessagesBuilder(message);
 			throw new WebDriverException(message);
 		}
-		
-		if(giftCardTypes.isEmpty())
+
+		if (giftCardTypes.isEmpty())
 			return;
-		
-		if(!isItemDataExist && !giftCardTypes.toLowerCase().contains("classic"))
+
+		if (!isItemDataExist && !giftCardTypes.toLowerCase().contains("classic"))
 			stateHolder.put("isShippingDisabled", true);
-		
+
 		String[] arrGiftCardTypes = giftCardTypes.split(getE2ETestdataDelimiter());
 		String[] arrGiftCardAmounts = giftCardAmounts.split(getE2ETestdataDelimiter());
-		
-		for(int i =0;i<arrGiftCardTypes.length;i++){
+
+		for (int i = 0; i < arrGiftCardTypes.length; i++) {
 			Footer footer = new Footer(getDriver());
-		    footer.clickFooterLinkFromDrawer("The J.Crew Gift Card", "Let Us Help You");
-		    
-		    GiftCards giftCards = new GiftCards(getDriver());
-		    
-		    arrGiftCardTypes[i] = arrGiftCardTypes[i].toLowerCase();
-		    if(arrGiftCardTypes[i].contains("classic")){
-		    	giftCards.selectCardType("classic card");
-		    	giftCards.selectGiftAmount(arrGiftCardAmounts[i]);
-		    	giftCards.enterSenderName("any ");
-		    	giftCards.enterRecipientName("any ");
-		    	giftCards.enterRecipientEmailAddress("any ");
-		    	
-		    	String lineMessage1 = "Automated message for line 1";
-		    	giftCards.enterGiftMessage(lineMessage1, "Line 1");
-		    	
-		    	
-		    	String lineMessage2 = "Automated message for line 2";
-		    	giftCards.enterGiftMessage(lineMessage2, "Line 2");
-		    	
-		    	giftCards.clickAddtoBag();
-		    	
-		    	GiftCard classicGiftCard = new GiftCard("J.CREW GIFT CARD", arrGiftCardAmounts[i],
-		    			                                (String)stateHolder.get("giftCardSenderName"), (String)stateHolder.get("giftCardRecipientName"),
-		    			                                (String)stateHolder.get("giftCardRecipientEmail"), lineMessage1, lineMessage2);
-		    	
-		    	stateHolder.addToList("giftCardsToBag", classicGiftCard);
-		    	
-		    }else if(arrGiftCardTypes[i].contains("e-gift")){
-		    	giftCards.selectCardType("e-gift card");
-		    	giftCards.selectGiftAmount(arrGiftCardAmounts[i]);
-		    	giftCards.enterSenderName("any ");
-		    	giftCards.enterRecipientName("any ");
-		    	giftCards.enterRecipientEmailAddress("any ");
-		    	giftCards.enterDateToBeSent();
-		    	
-		    	String dateString = stateHolder.get("giftCardDateSent");		    	
-		    	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");				
+			footer.clickFooterLinkFromDrawer("The J.Crew Gift Card", "Let Us Help You");
+
+			GiftCards giftCards = new GiftCards(getDriver());
+
+			arrGiftCardTypes[i] = arrGiftCardTypes[i].toLowerCase();
+			if (arrGiftCardTypes[i].contains("classic")) {
+				giftCards.selectCardType("classic card");
+				giftCards.selectGiftAmount(arrGiftCardAmounts[i]);
+				giftCards.enterSenderName("any ");
+				giftCards.enterRecipientName("any ");
+				giftCards.enterRecipientEmailAddress("any ");
+
+				String lineMessage1 = "Automated message for line 1";
+				giftCards.enterGiftMessage(lineMessage1, "Line 1");
+
+				String lineMessage2 = "Automated message for line 2";
+				giftCards.enterGiftMessage(lineMessage2, "Line 2");
+
+				giftCards.clickAddtoBag();
+
+				GiftCard classicGiftCard = new GiftCard("J.CREW GIFT CARD", arrGiftCardAmounts[i],
+						(String) stateHolder.get("giftCardSenderName"),
+						(String) stateHolder.get("giftCardRecipientName"),
+						(String) stateHolder.get("giftCardRecipientEmail"), lineMessage1, lineMessage2);
+
+				stateHolder.addToList("giftCardsToBag", classicGiftCard);
+
+			} else if (arrGiftCardTypes[i].contains("e-gift")) {
+				giftCards.selectCardType("e-gift card");
+				giftCards.selectGiftAmount(arrGiftCardAmounts[i]);
+				giftCards.enterSenderName("any ");
+				giftCards.enterRecipientName("any ");
+				giftCards.enterRecipientEmailAddress("any ");
+				giftCards.enterDateToBeSent();
+
+				String dateString = stateHolder.get("giftCardDateSent");
+				DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 				Date date = null;
 				try {
 					date = dateFormat.parse(dateString);
 				} catch (ParseException e) {
 					throw new Exception("Failed to parse date");
 				}
-		    	
-		    	String giftMessage = "This is the automated Gift Message";
-		    	giftCards.enterGiftMessage(giftMessage, "Gift Message");
-		    	
-		    	giftCards.clickAddtoBag();
-		    	
-		    	GiftCard eGiftCard = new GiftCard("J.CREW E-GIFT CARD", arrGiftCardAmounts[i],
-                                                  (String)stateHolder.get("giftCardSenderName"), (String)stateHolder.get("giftCardRecipientName"),
-                                                  (String)stateHolder.get("giftCardRecipientEmail"), date, giftMessage);
-		    	
-		    	stateHolder.addToList("giftCardsToBag", eGiftCard);
-		    }else{
-		    	String message = arrGiftCardTypes[i] + " is not recognized gift card!!!";
+
+				String giftMessage = "This is the automated Gift Message";
+				giftCards.enterGiftMessage(giftMessage, "Gift Message");
+
+				giftCards.clickAddtoBag();
+
+				GiftCard eGiftCard = new GiftCard("J.CREW E-GIFT CARD", arrGiftCardAmounts[i],
+						(String) stateHolder.get("giftCardSenderName"),
+						(String) stateHolder.get("giftCardRecipientName"),
+						(String) stateHolder.get("giftCardRecipientEmail"), date, giftMessage);
+
+				stateHolder.addToList("giftCardsToBag", eGiftCard);
+			} else {
+				String message = arrGiftCardTypes[i] + " is not recognized gift card!!!";
 				Util.e2eErrorMessagesBuilder(message);
 				throw new WebDriverException(message);
-		    }
+			}
 		}
 	}
-	
-	private int getRowNumberFromItemMaster(String itemIdentifier) throws IOException{		
+
+	private int getRowNumberFromItemMaster(String itemIdentifier) throws IOException {
 		int rowNumber = -1;
-		
-		if(itemIdentifier.isEmpty())
+
+		if (itemIdentifier.isEmpty())
 			return rowNumber;
-		
+
 		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
-		
-		for(int i = itemMasterTestdata.getSearchTextFirstRowNum();i<=itemMasterTestdata.getSearchTextLastRowNum();i++){
+
+		for (int i = itemMasterTestdata.getSearchTextFirstRowNum(); i <= itemMasterTestdata
+				.getSearchTextLastRowNum(); i++) {
 			try {
 				Map<String, Object> itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(i);
-				String itemIdentifierFromSheet = (String) itemMasterTestdataMap.get("Item Identifier");				
-				if(itemIdentifierFromSheet.equalsIgnoreCase(itemIdentifier)){
+				String itemIdentifierFromSheet = (String) itemMasterTestdataMap.get("Item Identifier");
+				if (itemIdentifierFromSheet.equalsIgnoreCase(itemIdentifier)) {
 					rowNumber = i;
 				}
 			} catch (FileNotFoundException e) {
@@ -322,349 +327,352 @@ public class E2ESteps extends DriverFactory {
 				throw new IOException();
 			}
 		}
-		
+
 		return rowNumber;
 	}
-	
-	private String getColumnValueFromItemMaster(int rowNumber, String columnName) throws IOException{
+
+	private String getColumnValueFromItemMaster(int rowNumber, String columnName) throws IOException {
 		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
-		
+
 		Map<String, Object> itemMasterTestdataMap = null;
-		
+
 		try {
-			 itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(rowNumber);
+			itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(rowNumber);
 		} catch (FileNotFoundException e) {
 			throw new FileNotFoundException();
 		} catch (IOException e) {
 			throw new IOException();
 		}
-		
-		if(itemMasterTestdataMap.containsKey(columnName)){
+
+		if (itemMasterTestdataMap.containsKey(columnName)) {
 			return (String) itemMasterTestdataMap.get(columnName);
-		}else{
+		} else {
 			return null;
 		}
 	}
-	
+
 	@When("^User clicks on CHECK OUT NOW button or Express Paypal button$")
-	public void user_clicks_checkout_express_paypal(){
+	public void user_clicks_checkout_express_paypal() {
 		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
-		
-		switch(paymentMethod.toUpperCase()){
-			case "EXPRESS PAYPAL":
-				CheckoutShoppingBag checkoutShoppingBag = new CheckoutShoppingBag(getDriver());
-				checkoutShoppingBag.clickPaypalElement();
-				break;
-			default:
-				CheckoutShoppingBagSteps checkoutShoppingBagSteps = new CheckoutShoppingBagSteps();
-				checkoutShoppingBagSteps.check_out_now();
+
+		switch (paymentMethod.toUpperCase()) {
+		case "EXPRESS PAYPAL":
+			CheckoutShoppingBag checkoutShoppingBag = new CheckoutShoppingBag(getDriver());
+			checkoutShoppingBag.clickPaypalElement();
+			break;
+		default:
+			CheckoutShoppingBagSteps checkoutShoppingBagSteps = new CheckoutShoppingBagSteps();
+			checkoutShoppingBagSteps.check_out_now();
 		}
 	}
-	
+
 	@And("^Apply promos, if required. If applied, verify promos are applied successfully$")
-	public void apply_and_verify_promo(){
+	public void apply_and_verify_promo() {
 		String promoCodes = getDataFromTestDataRowMap("Promo Codes");
-		if(promoCodes.isEmpty()){
+		if (promoCodes.isEmpty()) {
 			return;
 		}
-		
-		String promoApplyPage = getDataFromTestDataRowMap("Promo Apply Page").toLowerCase();		
+
+		String promoApplyPage = getDataFromTestDataRowMap("Promo Apply Page").toLowerCase();
 		String currentPageTitle = getDriver().getTitle().toLowerCase();
-		
-		if(currentPageTitle.contains(promoApplyPage)){			
-			
+
+		if (currentPageTitle.contains(promoApplyPage)) {
+
 			String[] arrPromoCodes = promoCodes.split(getE2ETestdataDelimiter());
 			int maxPromoCodesCount = 0;
-			if(arrPromoCodes.length > 2){
+			if (arrPromoCodes.length > 2) {
 				maxPromoCodesCount = 2;
-				Util.e2eErrorMessagesBuilder("More than 2 promos cannot be applied on checkout pages. Only first 2 promos from test data will be applied!!");
-			}
-			else{
+				Util.e2eErrorMessagesBuilder(
+						"More than 2 promos cannot be applied on checkout pages. Only first 2 promos from test data will be applied!!");
+			} else {
 				maxPromoCodesCount = arrPromoCodes.length;
 			}
-			
-			Checkout checkout = null;			
-			switch(promoApplyPage.toLowerCase()){				
-				case "shipping address":
-					checkout = new CheckoutShippingEdit(getDriver());
-					break;
-				case "shipping & gift options":
-					checkout = new CheckoutShippingOptions(getDriver());
-					break;
-				case "billing":
-					checkout = new CheckoutBilling(getDriver());
-					break;
-				case "review":
-					checkout = new CheckoutReview(getDriver());
-					break;
-				case "shopping bag":
-				default:
-					checkout = new CheckoutShoppingBag(getDriver());					
+
+			Checkout checkout = null;
+			switch (promoApplyPage.toLowerCase()) {
+			case "shipping address":
+				checkout = new CheckoutShippingEdit(getDriver());
+				break;
+			case "shipping & gift options":
+				checkout = new CheckoutShippingOptions(getDriver());
+				break;
+			case "billing":
+				checkout = new CheckoutBilling(getDriver());
+				break;
+			case "review":
+				checkout = new CheckoutReview(getDriver());
+				break;
+			case "shopping bag":
+			default:
+				checkout = new CheckoutShoppingBag(getDriver());
 			}
-			
-			for(int i=0;i<=maxPromoCodesCount - 1;i++){
+
+			for (int i = 0; i <= maxPromoCodesCount - 1; i++) {
 				String promoCode = arrPromoCodes[i];
 				checkout.addPromoCode(promoCode);
-				
-				if(!checkout.isPromoCodeApplied(promoCode)){
-					Util.e2eErrorMessagesBuilder("Failed to apply promo code: " + promoCode  + " in the order!!");
-				}
-				else{
+
+				if (!checkout.isPromoCodeApplied(promoCode)) {
+					Util.e2eErrorMessagesBuilder("Failed to apply promo code: " + promoCode + " in the order!!");
+				} else {
 					logger.debug("Successfully applied promo code: {}", promoCode);
 				}
-			}	
+			}
 		}
 	}
-	
+
 	@And("^Navigate to Shipping Address page, if user is on Review page$")
-	public void navigate_to_shipping_address_page_is_user_on_review_page(){
-		
-		if(stateHolder.hasKey("isShippingDisabled"))
+	public void navigate_to_shipping_address_page_is_user_on_review_page() {
+
+		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
-		
+
 		String currentPageTitle = getDriver().getTitle().toLowerCase();
-		if(currentPageTitle.contains("review")){
+		if (currentPageTitle.contains("review")) {
 			CheckoutReview review = new CheckoutReview(getDriver());
-			 review.editDetails("shipping");
-			 new CheckoutShippingEdit(getDriver());
+			review.editDetails("shipping");
+			new CheckoutShippingEdit(getDriver());
 		}
 	}
-	
+
 	@When("^User selects Shipping Addresses as per testdata$")
-	public void user_selects_shipping_addessses(){
-		
-		if(stateHolder.hasKey("isShippingDisabled"))
+	public void user_selects_shipping_addessses() {
+
+		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
-		
+
 		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
 		String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
-		
+
 		CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
-		
-		if(!multipleShippingAddressRequired.equalsIgnoreCase("YES")){
-			//single shipping address selection
-			if(shippingAddresses.isEmpty())
-				return;			
-			
+
+		if (!multipleShippingAddressRequired.equalsIgnoreCase("YES")) {
+			// single shipping address selection
+			if (shippingAddresses.isEmpty())
+				return;
+
 			checkoutShipping.selectSpecificShippingAddress(shippingAddresses);
-		}
-		else{
-			//multiple shipping addresses selection
+		} else {
+			// multiple shipping addresses selection
 			String[] arrShippingAddresses = shippingAddresses.split(getE2ETestdataDelimiter());
 			checkoutShipping.selectMultipleShippingAddresses(arrShippingAddresses);
 			checkoutShipping.continueCheckout();
 			stateHolder.put("isShippingAddressContinueClicked", true);
 		}
 	}
-	
+
 	@When("^User selects Shipping Methods as per testdata$")
-	public void user_selects_shipping_methods(){
-		
-		if(stateHolder.hasKey("isShippingDisabled"))
+	public void user_selects_shipping_methods() {
+
+		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
-		
+
 		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
 		String multipleShippingMethodsRequired = getDataFromTestDataRowMap("Multiple Shipping Methods Required?");
 		String shippingMethods = getDataFromTestDataRowMap("Shipping Methods");
-		
+
 		/*
-		 	1. If scenario specifies single shipping address, then obviously multiple shipping methods are not possible
-		 	2. If scenario specifies multiple shipping addresses and no data is provided for shipping methods, then default selections
-		 	   will be used
-		 	3. If scenario specifies multiple shipping addresses and shipping methods are provided in test data, then shipping methods
-		 	   will be selected as per test data
-		*/
-		
+		 * 1. If scenario specifies single shipping address, then obviously
+		 * multiple shipping methods are not possible 2. If scenario specifies
+		 * multiple shipping addresses and no data is provided for shipping
+		 * methods, then default selections will be used 3. If scenario
+		 * specifies multiple shipping addresses and shipping methods are
+		 * provided in test data, then shipping methods will be selected as per
+		 * test data
+		 */
+
 		CheckoutShippingOptions shippingOptions = new CheckoutShippingOptions(getDriver());
-		
-		if(multipleShippingAddressRequired.equalsIgnoreCase("NO")){
-			//single shipping method selection
-			if(shippingMethods.isEmpty())
+
+		if (multipleShippingAddressRequired.equalsIgnoreCase("NO")) {
+			// single shipping method selection
+			if (shippingMethods.isEmpty())
 				return;
-			
+
 			shippingOptions.selectSpecificShippingMethod(shippingMethods);
-		}
-		else{
-			if(multipleShippingMethodsRequired.equalsIgnoreCase("YES")){
+		} else {
+			if (multipleShippingMethodsRequired.equalsIgnoreCase("YES")) {
 				String[] arrShippingMethods = shippingMethods.split(getE2ETestdataDelimiter());
 				shippingOptions.selectMultipleShippingMethods(arrShippingMethods);
 			}
 		}
 	}
-	
+
 	@And("^User select Gift Options as per testdata, if required$")
-	public void select_gift_options(){
-		if(stateHolder.hasKey("isShippingDisabled"))
+	public void select_gift_options() {
+		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
-		
+
 		String giftOptionSelection = getDataFromTestDataRowMap("Gift Option Selection");
 		String giftWrappingService = getDataFromTestDataRowMap("Gift Wrapping Service");
-		
-		if(giftOptionSelection.equalsIgnoreCase("NONE") || giftOptionSelection==null){
+
+		CheckoutShippingOptions shippingOptions = new CheckoutShippingOptions(getDriver());
+
+		if (giftOptionSelection.equalsIgnoreCase("NONE") || giftOptionSelection == null) {
 			return;
-		}else{
-			//Select gift option as 'yes'
-			CheckoutShippingOptions shippingOptions = new CheckoutShippingOptions(getDriver());
+		} else {
+			// Select gift option as 'yes'
 			shippingOptions.selectGiftOptionRadioButtons();
-			
-			if(giftOptionSelection.equalsIgnoreCase("GIFT RECEIPT")){
+
+			if (giftOptionSelection.equalsIgnoreCase("GIFT RECEIPT")) {
 				shippingOptions.enterGiftReceiptMessages();
-			}else{
+			} else {
+				if (giftWrappingService.isEmpty() || giftWrappingService == null || giftWrappingService.equalsIgnoreCase("NONE")) {
+					String message = "Gift Wrapping Service value is provided as NONE/empty. Please select valid value for Gift wrapping service.";
+					Util.e2eErrorMessagesBuilder(message);
+					throw new WebDriverException(message);
+				}
 				shippingOptions.selectGiftWrappingServiceRadioButtons();
 			}
-			
-			//click on 'continue' button on shipping methods page
+
+			// click on 'continue' button on shipping methods page
 			shippingOptions.continueCheckout();
 			stateHolder.put("isShippingMethodContinueClicked", true);
-			
-			//gift boxes selection
-			if(giftOptionSelection.toUpperCase().contains("GIFT WRAPPING")){
+
+			// gift boxes selection
+			if (giftOptionSelection.toUpperCase().contains("GIFT WRAPPING")) {
 				CheckoutGiftOptions giftOptions = new CheckoutGiftOptions(getDriver());
 				giftOptions.selectGiftBoxesForItems(giftWrappingService);
-				
-				if(giftOptionSelection.toUpperCase().contains("GIFT MESSAGE")){
+
+				if (giftOptionSelection.toUpperCase().contains("GIFT MESSAGE")) {
 					giftOptions.enterGiftBoxMessages();
 				}
-				
+
 				giftOptions.continueCheckout();
 			}
 		}
 	}
-	
+
 	@And("^Navigate to Billing page, if user is on review page and only e-gift card is added to bag$")
-	public void navigate_billing_page_when_only_egift_card_is_added(){
-		
+	public void navigate_billing_page_when_only_egift_card_is_added() {
+
 		String currentPageTitle = getDriver().getTitle().toLowerCase();
-		if(currentPageTitle.contains("review")){
+		if (currentPageTitle.contains("review")) {
 			CheckoutReview review = new CheckoutReview(getDriver());
-			 review.editDetails("billing");
-			 new CheckoutBilling(getDriver());
+			review.editDetails("billing");
+			new CheckoutBilling(getDriver());
 		}
 	}
-	
+
 	@When("^User selects Payment Methods as per testdata$")
-	public void user_selects_payment_methods(){
+	public void user_selects_payment_methods() {
 		String userType = getDataFromTestDataRowMap("User Type");
 		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
 		String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
 		String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
-		
-		if(!splitPaymentsRequired.equalsIgnoreCase("YES")){
 
-			//single payment method selection			
-			if(paymentMethod1.isEmpty())
-				return;	
-			
+		if (!splitPaymentsRequired.equalsIgnoreCase("YES")) {
+
+			// single payment method selection
+			if (paymentMethod1.isEmpty())
+				return;
+
 			singlePaymentMethod(userType, paymentMethod1);
-		}
-		else{
-			//split payment methods selection
-			
-			//first payment method selection
+		} else {
+			// split payment methods selection
+
+			// first payment method selection
 			singlePaymentMethod(userType, paymentMethod1);
-			
+
 			CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
 			CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
-			
-			//second payment selection
-			if(userType.equalsIgnoreCase("GUEST")){
+
+			// second payment selection
+			if (userType.equalsIgnoreCase("GUEST")) {
 				checkoutBilling.addNewCard();
 				checkoutBillingPayment.addNewCreditDebitCard(paymentMethod2);
-			}				
-		    
-			checkoutBilling.clickTwoCardsPayment();			
-			checkoutBilling.continueCheckout();			
+			}
+
+			checkoutBilling.clickTwoCardsPayment();
+			checkoutBilling.continueCheckout();
 			checkoutBilling.splitPayment(paymentMethod1, paymentMethod2);
-			
+
 			stateHolder.put("isBillingContinueClicked", true);
 		}
 	}
-	
-	public void singlePaymentMethod(String userType, String paymentMethodName){
+
+	public void singlePaymentMethod(String userType, String paymentMethodName) {
 		CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
-		if(userType.equalsIgnoreCase("REGISTERED") && !userType.equalsIgnoreCase("EXPRESS")){				
-			switch(paymentMethodName.toUpperCase()){
-				case "PAYPAL":
-					checkoutBilling.selectPaypalRadioButton();
-					checkoutBilling.continueCheckout();
-					
-					enterPaypalDetails();
-					break;
-				default:						
-					checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
+		if (userType.equalsIgnoreCase("REGISTERED") && !userType.equalsIgnoreCase("EXPRESS")) {
+			switch (paymentMethodName.toUpperCase()) {
+			case "PAYPAL":
+				checkoutBilling.selectPaypalRadioButton();
+				checkoutBilling.continueCheckout();
+
+				enterPaypalDetails();
+				break;
+			default:
+				checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
 			}
-		}else if(userType.equalsIgnoreCase("GUEST")){
+		} else if (userType.equalsIgnoreCase("GUEST")) {
 			checkoutBilling.fillPaymentCardDetails(paymentMethodName);
 		}
 	}
-	
+
 	@And("^User completes Paypal transaction, if required$")
-	public void user_completes_paypal_transaction(){
-		
+	public void user_completes_paypal_transaction() {
+
 		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
-		if(!paymentMethod.equalsIgnoreCase("EXPRESS PAYPAL"))
+		if (!paymentMethod.equalsIgnoreCase("EXPRESS PAYPAL"))
 			return;
-		
+
 		enterPaypalDetails();
 	}
-	
-	public void enterPaypalDetails(){
+
+	public void enterPaypalDetails() {
 		PaypalLogin paypalLogin = new PaypalLogin(getDriver());
 		String paypalEmail = testdataReader.getData("paypal.email");
 		String paypalPassword = testdataReader.getData("paypal.password");
 		paypalLogin.submitPaypalCredentials(paypalEmail, paypalPassword);
-		
+
 		PaypalReview paypalReview = new PaypalReview(getDriver());
 		paypalReview.clickContinue();
-		
+
 		stateHolder.put("isBillingContinueClicked", true);
 	}
-	
+
 	@And("^User enters security code as per payment method, if required$")
-	public void user_enters_security_code(){
-		
+	public void user_enters_security_code() {
+
 		String userType = getDataFromTestDataRowMap("User Type");
-		
-		switch(userType.toUpperCase()){
-			case "REGISTERED":
-				enterSecurityCodeForRegisteredUser();
-				break;
-			case "EXPRESS":
-				enterSecurityCodeForExpressUser();
-				break;
+
+		switch (userType.toUpperCase()) {
+		case "REGISTERED":
+			enterSecurityCodeForRegisteredUser();
+			break;
+		case "EXPRESS":
+			enterSecurityCodeForExpressUser();
+			break;
 		}
 	}
-	
-	public void enterSecurityCodeForRegisteredUser(){
+
+	public void enterSecurityCodeForRegisteredUser() {
 		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
 		String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
 		String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
-		
+
 		CheckoutReview checkoutReview = new CheckoutReview(getDriver());
-		
-		if(!splitPaymentsRequired.equalsIgnoreCase("YES")){
-			switch(paymentMethod1.toUpperCase()){
-				case "PAYPAL":
-				case "JCC":
-					return;
-				default:
-					//entering security code when single payment method is used
-					checkoutReview.enterSecurityCode(paymentMethod1);
+
+		if (!splitPaymentsRequired.equalsIgnoreCase("YES")) {
+			switch (paymentMethod1.toUpperCase()) {
+			case "PAYPAL":
+			case "JCC":
+				return;
+			default:
+				// entering security code when single payment method is used
+				checkoutReview.enterSecurityCode(paymentMethod1);
 			}
-		}
-		else{
-			//entering security code when split payment is done
+		} else {
+			// entering security code when split payment is done
 			checkoutReview.enterSecurityCode(paymentMethod1);
 			checkoutReview.enterSecurityCode(paymentMethod2);
 		}
 	}
-	
-	public void enterSecurityCodeForExpressUser(){
+
+	public void enterSecurityCodeForExpressUser() {
 		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
-		
-		if(paymentMethod.equalsIgnoreCase("EXPRESS PAYPAL"))
+
+		if (paymentMethod.equalsIgnoreCase("EXPRESS PAYPAL"))
 			return;
-		
+
 		CheckoutReview checkoutReview = new CheckoutReview(getDriver());
 		checkoutReview.enterSecurityCode();
 	}

@@ -309,9 +309,7 @@ public class HeaderWrap {
 		do{
 			try{
 				hoverOverIcon("my account");
-				logger.debug("My Account hover is done...");
 				Util.wait(1000);
-				logger.debug("waited for 2 secs");
 				dropdown = userPanel.findElement(By.tagName("dl"));
 				if(dropdown.isDisplayed())
 					break;

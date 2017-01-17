@@ -190,18 +190,7 @@ public class CheckoutGiftOptions extends Checkout {
     		}    		
     	}else{
     		//If multiple shipping addresses are selected
-    		List<WebElement> giftOptions = checkoutContainer.findElements(By.id("gift-options"));
-    		for(int i=0;i<giftOptions.size();i++){
-    			giftOptions = checkoutContainer.findElements(By.id("gift-options"));
-    			List<WebElement> itemsInGiftOption = giftOptions.get(i).findElements(By.xpath(".//div[@class='item-row clearfix']"));
-    			for(int j=0;j<itemsInGiftOption.size();j++){
-    				if(j==0 || itemsInGiftOption.size()==1){
-    					addNewGiftBox(itemsInGiftOption.get(j));
-    				}else{
-    					selectExistingGiftBox(itemsInGiftOption.get(j), "1");
-    				}
-    			}
-    		}
+    		throw new WebDriverException("Placing all items in two gift boxes for multiple addresses is not yet implemented");
     	}
     }
     
