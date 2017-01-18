@@ -4,12 +4,12 @@ Feature: Multiple Items Random
   Background:
     Given User bag is cleared
     And User is on homepage
-    And Handle the Email Capture pop up
 
   Scenario: Validate PDP's work for Women
     When User clicks on hamburger menu
     And user selects WOMEN category from hamburger menu
     And user selects any subcategory
+    And Handle the Email Capture pop up
     And user selects any item from array page, select any color and size
     Then User is in product detail page
 
@@ -31,6 +31,7 @@ Feature: Multiple Items Random
     When User clicks on hamburger menu
     And user selects MEN category from hamburger menu
     And user selects any subcategory
+    And Handle the Email Capture pop up
     And user selects any item from array page, select any color and size
     Then User is in product detail page
 
@@ -51,6 +52,7 @@ Feature: Multiple Items Random
     When User clicks on hamburger menu
     And user selects GIRLS category from hamburger menu
     And user selects any subcategory
+    And Handle the Email Capture pop up
     And user selects any item from array page, select any color and size
     Then User is in product detail page
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button
@@ -70,6 +72,7 @@ Feature: Multiple Items Random
     When User clicks on hamburger menu
     And user selects BOYS category from hamburger menu
     And user selects any subcategory
+    And Handle the Email Capture pop up
     And user selects any item from array page, select any color and size
     Then User is in product detail page
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button
@@ -90,6 +93,7 @@ Feature: Multiple Items Random
     And Enters sweaters to the search field
     And Clicks on search button for input field
     Then Search results are displayed
+    And Handle the Email Capture pop up
     And Selects the first product from product grid list
     And User is in product detail page
     Then Verify 'SIZE & FIT' drawer is displayed below the 'Add to Bag' button
