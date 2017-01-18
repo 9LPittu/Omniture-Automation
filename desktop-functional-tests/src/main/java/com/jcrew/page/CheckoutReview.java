@@ -66,11 +66,10 @@ public class CheckoutReview extends Checkout{
         String env = propertyReader.getProperty("environment");
 
         if (!"production".equals(env)) {
-            String currentUrl = driver.getCurrentUrl();
-            WebElement place_my_order = slidertrack.findElement(By.className("button-submit-bg"));
-
-            place_my_order.click();
-            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+            List<WebElement> place_my_order_elements = slidertrack.findElements(By.className("button-submit-bg"));
+            place_my_order_elements.get(0).click();
+            
+            wait.until(ExpectedConditions.invisibilityOfAllElements(place_my_order_elements));
         } else {
             logger.info("Trying to place an order in production, ignoring");
         }
