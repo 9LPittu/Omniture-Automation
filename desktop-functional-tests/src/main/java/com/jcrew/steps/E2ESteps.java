@@ -472,10 +472,12 @@ public class E2ESteps extends DriverFactory {
 
 		/*
 		 * 1. If scenario specifies single shipping address, then obviously
-		 * multiple shipping methods are not possible 2. If scenario specifies
-		 * multiple shipping addresses and no data is provided for shipping
-		 * methods, then default selections will be used 3. If scenario
-		 * specifies multiple shipping addresses and shipping methods are
+		 * multiple shipping methods are not possible 
+		 * 
+		 * 2. If scenario specifies multiple shipping addresses and no data is provided for shipping
+		 * methods, then default selections will be used
+		 * 
+		 * 3. If scenario specifies multiple shipping addresses and shipping methods are
 		 * provided in test data, then shipping methods will be selected as per
 		 * test data
 		 */
@@ -545,14 +547,14 @@ public class E2ESteps extends DriverFactory {
 	public void navigate_billing_page_when_only_egift_card_is_added() {
 
 		String currentPageTitle = getDriver().getTitle().toLowerCase();
-		if (currentPageTitle.contains("review")) {
+		if (currentPageTitle.contains("review") && stateHolder.hasKey("isShippingDisabled")) {
 			CheckoutReview review = new CheckoutReview(getDriver());
 			review.editDetails("billing");
 			new CheckoutBilling(getDriver());
 		}
 	}
 
-	@When("^User selects Payment Methods as per testdata$")
+	@When("^User (selects|enters) Payment Methods as per testdata$")
 	public void user_selects_payment_methods() {
 		String userType = getDataFromTestDataRowMap("User Type");
 		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");

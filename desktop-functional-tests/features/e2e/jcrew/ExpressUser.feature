@@ -19,7 +19,9 @@ Feature: Express User E2E order placing
   	When User adds the products to bag as per testdata
   	
   	And User clicks in bag
-  	Then Verify products added matches with products in bag
+  	
+  	Then Verify shopping bag is displayed
+  	And Verify products added matches with products in bag
   	
   	And Apply promos, if required. If applied, verify promos are applied successfully  	
   	
