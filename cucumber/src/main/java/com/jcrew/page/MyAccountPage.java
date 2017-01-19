@@ -157,13 +157,15 @@ public class MyAccountPage {
     public void deleteNonDefaultAddresses() {
 
         List<WebElement> tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
-        while (tables.size() > 3) {
+        int counter = 0;
+        while (tables.size() > 4 && counter < 100) {
             WebElement deleteButton = tables.get(2).findElement(By.linkText("DELETE"));
             //going directly to the url to avoid having a confirmation pop-up that cannot be handled in iphone
             String url = deleteButton.getAttribute("href");
             driver.get(url);
 
             tables = driver.findElements(By.xpath("//td[@id='containerBorderLeft']/form/table/tbody/tr/td/table"));
+            counter ++;
         }
     }
 

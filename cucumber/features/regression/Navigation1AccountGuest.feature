@@ -3,7 +3,6 @@ Feature: Sign In Page
 
   Background:
     Given User is on homepage with clean session
-    And Handle the Email Capture pop up
     And Goes to sign in page
     Then Login page is loaded
 
@@ -77,6 +76,7 @@ Feature: Sign In Page
     And selects any country from the country list
     And User clicks on create an account button
     And Verify user is in homepage
+    And Handle the Email Capture pop up
     And User clicks on hamburger menu
     And user selects any category from hamburger menu
 	And user selects any subcategory
@@ -93,6 +93,7 @@ Feature: Sign In Page
     When User clicks on hamburger menu
     And user selects any category from hamburger menu
 	And user selects any subcategory
+    And Handle the Email Capture pop up
     And Selects the first product from product grid list
     And User is in product detail page
     And User clicks on hamburger menu
