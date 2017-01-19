@@ -528,4 +528,12 @@ public abstract class Checkout extends PageObject{
 
         return result;
     }
+    
+    public void selectMultipleShippingAddressRadioButton(WebElement checkoutFormElement){
+    	WebElement multipleAddressRadioBtn = checkoutFormElement.findElement(By.id("multiShippingAddresses"));
+    	multipleAddressRadioBtn.click();
+    	
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    }
 }

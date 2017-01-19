@@ -48,7 +48,7 @@ Feature: Registered User E2E order placing
   	And Navigate to Billing page, if user is on review page and only e-gift card is added to bag  	
   	Then Verify Billing page is displayed
   	
-  	When User selects Payment Methods as per testdata  	
+  	When User selects/enters Payment Methods as per testdata  	
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to review page

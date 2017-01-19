@@ -43,11 +43,15 @@ public class CheckoutShippingAdd extends Checkout {
     private WebElement state_province;
     @FindBy(id = "shoppingAddressValidate")
     private WebElement addresValidate;
+    
+    @FindBy(name="frm_shipping")
+    private WebElement addShippingAddressForm;
 
 
     public CheckoutShippingAdd(WebDriver driver) {
         super(driver);
-//        wait.until(ExpectedConditions.visibilityOf(shippingForm));
+        
+        isDisplayed();
     }
 
     public boolean isDisplayed() {
@@ -59,8 +63,8 @@ public class CheckoutShippingAdd extends Checkout {
     private void fillFormData(Address address) {
         User user = User.getFakeUser();
 
-        firstName.sendKeys(user.getFirstName());
-        lastName.sendKeys(user.getLastName());
+        firstName.sendKeys(user.getFirstName().replaceAll("'", ""));
+        lastName.sendKeys(user.getLastName().replaceAll("'", ""));
         address1.sendKeys(address.getLine1());
         address2.sendKeys(address.getLine2());
         phoneNum.sendKeys(address.getPhone());
@@ -121,6 +125,10 @@ public class CheckoutShippingAdd extends Checkout {
         Address address = new Address();
         fillFormData(address);
     }
+    
+    public void fillShippingData(Address address) {
+        fillFormData(address);
+    }
 
     public void continueCheckout() {
         nextStep(shippingForm);
@@ -148,6 +156,17 @@ public class CheckoutShippingAdd extends Checkout {
         WebElement continueWithDefault = frmSelectShippingAddress.findElement(By.className("button-submit-bg"));
         continueWithDefault.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+    }
+    
+    public void sameBillingAddressCheckbox(String actionName){
+    	if(actionName.equalsIgnoreCase("UNCHECK")){
+    		WebElement sameBillingAddressCheckboxElement = shippingForm.findElement(By.id("sameBillShip"));
+    		sameBillingAddressCheckboxElement.click();
+    	}
+    }
+    
+    public void selectMultipleAddressesRadioButton(){
+    	selectMultipleShippingAddressRadioButton(addShippingAddressForm);
     }
 
 }

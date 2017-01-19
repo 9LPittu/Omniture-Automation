@@ -10,11 +10,13 @@ Feature: Guest User E2E order placing
   	When User selects country as per testdata
   	
   	When User adds the products to bag as per testdata
+  	And User adds gift cards to bag as per testdata
   	
   	And User clicks in bag
   	
   	Then Verify shopping bag is displayed
   	And Verify products added matches with products in bag
+  	And Verify gift cards added matches with gift cards in bag
   	
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
@@ -23,7 +25,8 @@ Feature: Guest User E2E order placing
     
     Then Verify Shipping Page is displayed
   	
-  	#When User selects Shipping Addresses as per testdata  		  	
+  	When User enters Shipping Addresses as per testdata  	
+  	And User selects different billing address as per testdata  	
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to Shipping and Gift Options page
@@ -37,7 +40,8 @@ Feature: Guest User E2E order placing
   	When User continues to Payment Method page
   	Then Verify Billing page is displayed
   	
-  	When User selects Payment Methods as per testdata
+  	When User selects/enters Payment Methods as per testdata
+  	And User enters Billing Address as per testdata, if required
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to review page

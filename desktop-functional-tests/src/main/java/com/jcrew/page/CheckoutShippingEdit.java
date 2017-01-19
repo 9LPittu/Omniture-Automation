@@ -74,8 +74,8 @@ public class CheckoutShippingEdit extends Checkout {
     }
     
     public void selectMultipleShippingAddresses(String[] arrShippingAddresses){
-    	WebElement multipleAddressRadioBtn = shippingForm.findElement(By.id("multiShippingAddresses"));
-    	multipleAddressRadioBtn.click();
+
+    	selectMultipleShippingAddressRadioButton(shippingForm);
     	
     	continueCheckout();
     	

@@ -29,6 +29,15 @@ public class Address {
         }
     }
     
+    public Address(String addressLine1, String addressLine2, String city, String state, String zipcode, String phoneNumber){
+    	this.line1 = addressLine1;
+        this.line2 = addressLine2;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.phone = phoneNumber;
+    }
+    
     private void load(String prefix) {
         this.line1 = dataReader.getData(prefix + ".address.line1");
         this.line2 = dataReader.getData(prefix + ".address.line2");

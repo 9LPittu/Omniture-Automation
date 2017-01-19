@@ -14,12 +14,14 @@ import org.openqa.selenium.WebDriverException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.javafaker.Faker;
 import com.jcrew.page.ArraySearch;
 import com.jcrew.page.Checkout;
 import com.jcrew.page.CheckoutBilling;
 import com.jcrew.page.CheckoutBillingPayment;
 import com.jcrew.page.CheckoutGiftOptions;
 import com.jcrew.page.CheckoutReview;
+import com.jcrew.page.CheckoutShippingAdd;
 import com.jcrew.page.CheckoutShippingEdit;
 import com.jcrew.page.CheckoutShippingOptions;
 import com.jcrew.page.CheckoutShoppingBag;
@@ -32,6 +34,7 @@ import com.jcrew.page.Monogram;
 import com.jcrew.page.PaypalLogin;
 import com.jcrew.page.PaypalReview;
 import com.jcrew.page.ProductDetails;
+import com.jcrew.pojo.Address;
 import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
@@ -554,7 +557,7 @@ public class E2ESteps extends DriverFactory {
 		}
 	}
 
-	@When("^User selects Payment Methods as per testdata$")
+	@When("^User selects/enters Payment Methods as per testdata$")
 	public void user_selects_payment_methods() {
 		String userType = getDataFromTestDataRowMap("User Type");
 		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
@@ -593,19 +596,19 @@ public class E2ESteps extends DriverFactory {
 
 	public void singlePaymentMethod(String userType, String paymentMethodName) {
 		CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
-		if (userType.equalsIgnoreCase("REGISTERED") && !userType.equalsIgnoreCase("EXPRESS")) {
-			switch (paymentMethodName.toUpperCase()) {
+		switch (paymentMethodName.toUpperCase()) {
 			case "PAYPAL":
 				checkoutBilling.selectPaypalRadioButton();
 				checkoutBilling.continueCheckout();
-
+	
 				enterPaypalDetails();
 				break;
 			default:
-				checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
-			}
-		} else if (userType.equalsIgnoreCase("GUEST")) {
-			checkoutBilling.fillPaymentCardDetails(paymentMethodName);
+				if (userType.equalsIgnoreCase("REGISTERED") && !userType.equalsIgnoreCase("EXPRESS")) {
+					checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
+				} else if (userType.equalsIgnoreCase("GUEST")) {
+					checkoutBilling.fillPaymentCardDetails(paymentMethodName);
+				}
 		}
 	}
 
@@ -677,5 +680,41 @@ public class E2ESteps extends DriverFactory {
 
 		CheckoutReview checkoutReview = new CheckoutReview(getDriver());
 		checkoutReview.enterSecurityCode();
+	}
+	
+	@When("^User enters Shipping Addresses as per testdata$")
+	public void user_enters_shipping_addresses(){
+		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
+		
+		CheckoutShippingAdd checkoutShippingAdd = new CheckoutShippingAdd(getDriver());
+		
+		if(multipleShippingAddressRequired.equalsIgnoreCase("YES")){
+			checkoutShippingAdd.selectMultipleAddressesRadioButton();
+		}
+		
+		String firstAddress_AddressLine1 = getDataFromTestDataRowMap("FirstAddress_AddressLine1");
+		String firstAddress_AddressLine2 = getDataFromTestDataRowMap("FirstAddress_AddressLine2");
+		String firstAddress_City = getDataFromTestDataRowMap("FirstAddress_City");
+		String firstAddress_State = getDataFromTestDataRowMap("FirstAddress_State");
+		String firstAddress_ZipCode = getDataFromTestDataRowMap("FirstAddress_ZipCode");
+		
+		Address address = new Address(firstAddress_AddressLine1, firstAddress_AddressLine2, firstAddress_City, firstAddress_State, firstAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
+		checkoutShippingAdd.fillShippingData(address);
+		
+		checkoutShippingAdd.continueCheckout();
+		
+		if(multipleShippingAddressRequired.equalsIgnoreCase("YES")){
+			
+		}
+	}
+	
+	@And("^User selects different billing address as per testdata$")
+	public void user_selects_different_billing_address(){
+		String differentBillingAddressRequired = getDataFromTestDataRowMap("Different Billing Address Required?");
+		
+		if(differentBillingAddressRequired.equalsIgnoreCase("YES")){
+			CheckoutShippingAdd checkoutShippingAdd = new CheckoutShippingAdd(getDriver());
+			checkoutShippingAdd.sameBillingAddressCheckbox("uncheck");
+		}
 	}
 }
