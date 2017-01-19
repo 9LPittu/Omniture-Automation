@@ -17,6 +17,7 @@ public class PaypalReview extends PageObject{
         Util.waitForPageFullyLoaded(driver);
         PageFactory.initElements(driver, this);
         
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
         continueButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='confirmButtonTop']")));
     }
     

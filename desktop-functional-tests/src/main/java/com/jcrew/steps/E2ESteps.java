@@ -554,7 +554,7 @@ public class E2ESteps extends DriverFactory {
 		}
 	}
 
-	@When("^User (selects|enters) Payment Methods as per testdata$")
+	@When("^User selects Payment Methods as per testdata$")
 	public void user_selects_payment_methods() {
 		String userType = getDataFromTestDataRowMap("User Type");
 		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
