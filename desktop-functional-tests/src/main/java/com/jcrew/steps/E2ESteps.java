@@ -721,12 +721,21 @@ public class E2ESteps extends DriverFactory {
 		String firstAddress_State = getDataFromTestDataRowMap("FirstAddress_State");
 		String firstAddress_ZipCode = getDataFromTestDataRowMap("FirstAddress_ZipCode");
 		
-		Address address = new Address(firstAddress_AddressLine1, firstAddress_AddressLine2, firstAddress_City, firstAddress_State, firstAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
-		checkoutShippingAdd.fillShippingData(address);
+		Address firstAddress = new Address(firstAddress_AddressLine1, firstAddress_AddressLine2, firstAddress_City, firstAddress_State, firstAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
+		checkoutShippingAdd.fillShippingData(firstAddress);
 		
 		checkoutShippingAdd.continueCheckout();
 		
 		if(multipleShippingAddressRequired.equalsIgnoreCase("YES")){
+			checkoutShippingAdd.clickAddNewShippingAddress();
+			
+			String secondAddress_AddressLine1 = getDataFromTestDataRowMap("SecondAddress_AddressLine1");
+			String secondAddress_AddressLine2 = getDataFromTestDataRowMap("SecondAddress_AddressLine2");
+			String secondAddress_City = getDataFromTestDataRowMap("SecondAddress_City");
+			String secondAddress_State = getDataFromTestDataRowMap("SecondAddress_State");
+			String secondAddress_ZipCode = getDataFromTestDataRowMap("SecondAddress_ZipCode");
+			
+			Address secondAddress = new Address(secondAddress_AddressLine1, secondAddress_AddressLine2, secondAddress_City, secondAddress_State, secondAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
 			
 		}
 	}

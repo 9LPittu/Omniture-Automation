@@ -63,8 +63,8 @@ public class CheckoutShippingAdd extends Checkout {
     private void fillFormData(Address address) {
         User user = User.getFakeUser();
 
-        firstName.sendKeys(user.getFirstName().replaceAll("'", ""));
-        lastName.sendKeys(user.getLastName().replaceAll("'", ""));
+        firstName.sendKeys(user.getFirstName());
+        lastName.sendKeys(user.getLastName());
         address1.sendKeys(address.getLine1());
         address2.sendKeys(address.getLine2());
         phoneNum.sendKeys(address.getPhone());
@@ -168,5 +168,66 @@ public class CheckoutShippingAdd extends Checkout {
     public void selectMultipleAddressesRadioButton(){
     	selectMultipleShippingAddressRadioButton(addShippingAddressForm);
     }
+    
+    public void clickAddNewShippingAddress(){
+    	WebElement addNewShippingAddress = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@id='address-new']")));
+    	addNewShippingAddress.click();
+    }
+    
+    public void addNewShippingAddress(Address address){
+    	User user = User.getFakeUser();
 
+        firstName.sendKeys(user.getFirstName());
+        lastName.sendKeys(user.getLastName());
+        address1.sendKeys(address.getLine1());
+        address2.sendKeys(address.getLine2());
+        phoneNum.sendKeys(address.getPhone());
+
+        Country country = (Country) stateHolder.get("context");
+        String countryCode = country.getCountry().toLowerCase();
+
+        switch (countryCode) {
+            case "us":
+            case "ca":
+                zipcode.clear();
+                zipcode.sendKeys(address.getZipcode());
+
+                wait.until(ExpectedConditions.visibilityOf(us_city_state));
+                break;
+
+            case "au":
+                city.sendKeys(address.getCity());
+
+                Select select = new Select(state_province);
+                select.selectByVisibleText(address.getState());
+
+                zipcode.clear();
+                zipcode.sendKeys(address.getZipcode());
+                break;
+
+            case "jp":
+            case "uk":
+                city.sendKeys(address.getCity());
+
+                state.sendKeys(address.getState());
+
+                zipcode.clear();
+                zipcode.sendKeys(address.getZipcode());
+                break;
+
+            case "hk":
+                city.sendKeys(address.getCity());
+
+                state.sendKeys(address.getState());
+                break;
+
+            default:
+                city.sendKeys(address.getCity());
+
+                zipcode.clear();
+                zipcode.sendKeys(address.getZipcode());
+                break;
+        }
+
+    }
 }
