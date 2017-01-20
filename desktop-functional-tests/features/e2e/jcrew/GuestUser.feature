@@ -1,4 +1,4 @@
-@e2e-guestuser
+@e2e @e2e-guestuser
 Feature: Guest User E2E order placing
 
  Scenario: Guest User order placing E2E scenario

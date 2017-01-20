@@ -1,4 +1,4 @@
-@e2e-registereduser
+@e2e @e2e-registereduser
 Feature: Registered User E2E order placing
 
  Scenario: Registered User order placing E2E scenario

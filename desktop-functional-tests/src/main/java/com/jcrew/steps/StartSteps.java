@@ -13,8 +13,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import cucumber.api.Scenario;
 
@@ -24,44 +22,19 @@ import cucumber.api.Scenario;
 public class StartSteps {
     private final Logger logger = LoggerFactory.getLogger(StartSteps.class);
     private final PropertyReader reader = PropertyReader.getPropertyReader();
-    private E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
     private final StateHolder stateHolder = StateHolder.getInstance();
     private DriverFactory driverFactory;
     private WebDriver driver;
-    private String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");
 
     @Before
-    public void setupDriver(Scenario scenario) throws IOException {
+    public void setupDriver(Scenario scenario){
         String scenarioName = scenario.getName();
         stateHolder.put("scenarioName", scenarioName);
         
         stateHolder.put("deletecookies", false);
         
-        stateHolder.put("e2e_error_messages", "");
-        getItemsMasterTestdata();
-        
         driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
-    }
-    
-    public void getItemsMasterTestdata() throws IOException{
-    	String itemsMasterExcelFileName = "E2E_ITEMS_MASTER_TESTDATA.xls"; 
-		ExcelUtils itemMasterReader = null;
-		
-		if(!stateHolder.hasKey("itemMasterTestdata")){
-			try {
-				if(System.getProperty("os.name").toLowerCase().contains("windows")){			
-					itemMasterReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + itemsMasterExcelFileName , "E2E_ITEMS", "");			
-				}
-				else{
-					itemMasterReader = new ExcelUtils(ftpPath + itemsMasterExcelFileName , "E2E_ITEMS", "");
-				}
-			}catch (IOException e) {
-				throw new IOException();
-			}
-			
-			stateHolder.put("itemMasterTestdata", itemMasterReader);
-		}
     }
 
     @Given("User goes to homepage")

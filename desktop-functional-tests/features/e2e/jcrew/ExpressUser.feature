@@ -1,4 +1,4 @@
-@e2e-expressuser
+@e2e @e2e-expressuser
 Feature: Express User E2E order placing
 
  Scenario: Express User order placing E2E scenario

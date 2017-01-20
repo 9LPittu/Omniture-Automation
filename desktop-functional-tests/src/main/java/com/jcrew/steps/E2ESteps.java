@@ -45,6 +45,7 @@ import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
@@ -59,6 +60,32 @@ public class E2ESteps extends DriverFactory {
 	private TestDataReader testdataReader = TestDataReader.getTestDataReader();
 	private String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");
 	private boolean isItemDataExist = true;
+	
+	@Before("@e2e")
+	public void read_item_master_testdata() throws IOException{
+		stateHolder.put("e2e_error_messages", "");
+        getItemsMasterTestdata();
+	}
+	
+	public void getItemsMasterTestdata() throws IOException{
+    	String itemsMasterExcelFileName = "E2E_ITEMS_MASTER_TESTDATA.xls"; 
+		ExcelUtils itemMasterReader = null;
+		
+		if(!stateHolder.hasKey("itemMasterTestdata")){
+			try {
+				if(System.getProperty("os.name").toLowerCase().contains("windows")){			
+					itemMasterReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + itemsMasterExcelFileName , "E2E_ITEMS", "");			
+				}
+				else{
+					itemMasterReader = new ExcelUtils(ftpPath + itemsMasterExcelFileName , "E2E_ITEMS", "");
+				}
+			}catch (IOException e) {
+				throw new IOException();
+			}
+			
+			stateHolder.put("itemMasterTestdata", itemMasterReader);
+		}
+    }
 
 	@Given("^Test data is read from excel file \"([^\"]*)\"$")
 	public void read_test_data_from_excel(String excelFileName) throws FileNotFoundException, IOException {
@@ -67,8 +94,7 @@ public class E2ESteps extends DriverFactory {
 
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
 			testDataReader = new ExcelUtils(
-					e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName,
-					"Testdata", "");
+					e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
 		} else {
 			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");
 		}
@@ -76,8 +102,7 @@ public class E2ESteps extends DriverFactory {
 		Map<String, Object> testdataRowMap = null;
 		for (int j = testDataReader.getSearchTextFirstRowNum(); j <= testDataReader.getSearchTextLastRowNum(); j++) {
 			testdataRowMap = testDataReader.getDataFromExcel(j);
-			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES")
-					&& !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")) {
+			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")) {
 				stateHolder.put("excelObject", testDataReader);
 				stateHolder.put("excelrowno", j);
 				stateHolder.put("testdataRowMap", testdataRowMap);
@@ -215,10 +240,9 @@ public class E2ESteps extends DriverFactory {
 				// Add item to bag
 				pdp.addToBag();
 			} else {
-				Util.e2eErrorMessagesBuilder("Failed to find item identifier '" + arrItemIdentifiers[i]
-						+ "' in E2E item master test data sheet");
-				throw new WebDriverException("Failed to find item identifier '" + arrItemIdentifiers[i]
-						+ "' in E2E item master test data sheet!!!");
+				String message = "Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet";
+				Util.e2eErrorMessagesBuilder(message);
+				throw new WebDriverException(message);
 			}
 		}
 	}
@@ -295,9 +319,9 @@ public class E2ESteps extends DriverFactory {
 				giftCards.clickAddtoBag();
 
 				GiftCard eGiftCard = new GiftCard("J.CREW E-GIFT CARD", arrGiftCardAmounts[i],
-						(String) stateHolder.get("giftCardSenderName"),
-						(String) stateHolder.get("giftCardRecipientName"),
-						(String) stateHolder.get("giftCardRecipientEmail"), date, giftMessage);
+												  (String) stateHolder.get("giftCardSenderName"),
+												  (String) stateHolder.get("giftCardRecipientName"),
+												  (String) stateHolder.get("giftCardRecipientEmail"), date, giftMessage);
 
 				stateHolder.addToList("giftCardsToBag", eGiftCard);
 			} else {
@@ -359,13 +383,13 @@ public class E2ESteps extends DriverFactory {
 		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
 
 		switch (paymentMethod.toUpperCase()) {
-		case "EXPRESS PAYPAL":
-			CheckoutShoppingBag checkoutShoppingBag = new CheckoutShoppingBag(getDriver());
-			checkoutShoppingBag.clickPaypalElement();
-			break;
-		default:
-			CheckoutShoppingBagSteps checkoutShoppingBagSteps = new CheckoutShoppingBagSteps();
-			checkoutShoppingBagSteps.check_out_now();
+			case "EXPRESS PAYPAL":
+				CheckoutShoppingBag checkoutShoppingBag = new CheckoutShoppingBag(getDriver());
+				checkoutShoppingBag.clickPaypalElement();
+				break;
+			default:
+				CheckoutShoppingBagSteps checkoutShoppingBagSteps = new CheckoutShoppingBagSteps();
+				checkoutShoppingBagSteps.check_out_now();
 		}
 	}
 
@@ -385,8 +409,7 @@ public class E2ESteps extends DriverFactory {
 			int maxPromoCodesCount = 0;
 			if (arrPromoCodes.length > 2) {
 				maxPromoCodesCount = 2;
-				Util.e2eErrorMessagesBuilder(
-						"More than 2 promos cannot be applied on checkout pages. Only first 2 promos from test data will be applied!!");
+				Util.e2eErrorMessagesBuilder("More than 2 promos cannot be applied on checkout pages. Only first 2 promos from test data will be applied!!");
 			} else {
 				maxPromoCodesCount = arrPromoCodes.length;
 			}
