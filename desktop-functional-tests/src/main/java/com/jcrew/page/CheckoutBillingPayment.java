@@ -47,6 +47,9 @@ public class CheckoutBillingPayment extends Checkout {
     @FindBy(id="submit-new-shipping-address")
     private WebElement saveChangesButton;
     
+    @FindBy(id="address-new")
+    private WebElement addNewBillingAddressButton;
+    
     private final HeaderWrap header;
 
     public CheckoutBillingPayment(WebDriver driver) {
@@ -234,6 +237,42 @@ public class CheckoutBillingPayment extends Checkout {
 
         WebElement phone = newCardDiv.findElement(By.name("ADDRESS<>phone"));
         phone.sendKeys(address.getPhone());
+    }
+    
+    public void addNewBillingAdrress(Address address) {
+    	
+    	User user = User.getFakeUser();
+    	
+    	addNewBillingAddressButton.click();
+    	
+    	WebElement addNewBillingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("addEditBillingAddress")));
+
+        WebElement country = addNewBillingAddressForm.findElement(By.name("ADDRESS<>country_cd"));
+        Select countrySelect = new Select(country);
+        countrySelect.selectByValue(address.getCountry());
+
+        WebElement firstName = addNewBillingAddressForm.findElement(By.name("ADDRESS<>firstName"));
+        firstName.sendKeys(user.getFirstName());
+
+        WebElement lastName = addNewBillingAddressForm.findElement(By.name("ADDRESS<>lastName"));
+        lastName.sendKeys(user.getFirstName());
+
+        WebElement address1 = addNewBillingAddressForm.findElement(By.name("ADDRESS<>address1"));
+        address1.sendKeys(address.getLine1());
+
+        WebElement address2 = addNewBillingAddressForm.findElement(By.name("ADDRESS<>address2"));
+        address2.sendKeys(address.getLine2());
+
+        WebElement zipcode = addNewBillingAddressForm.findElement(By.name("ADDRESS<>postal"));
+        zipcode.sendKeys(address.getZipcode());
+
+        WebElement phone = addNewBillingAddressForm.findElement(By.name("ADDRESS<>phone"));
+        phone.sendKeys(address.getPhone());
+        
+        WebElement saveButton = addNewBillingAddressForm.findElement(By.id("submit-new-shipping-address"));
+        saveButton.click();
+        
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));
     }
     
     public void addNewCreditDebitCard(String paymentMethodName) {

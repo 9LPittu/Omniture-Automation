@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 
 import com.jcrew.utils.Util;
 
@@ -73,44 +72,7 @@ public class CheckoutShippingEdit extends Checkout {
     	logger.debug("Selected address: {}", addressLine1);
     }
     
-    public void selectMultipleShippingAddresses(String[] arrShippingAddresses){
-
-    	selectMultipleShippingAddressRadioButton(shippingForm);
-    	
-    	continueCheckout();
-    	
-    	List<WebElement> shippingAddressDropdown = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.name("shipAddress")));
-    	
-    	if(arrShippingAddresses.length>0){
-    		//multiple specific shipping address selection
-    		for(int i=0;i<arrShippingAddresses.length;i++){
-    			boolean isAddressSelected = false;
-    			Select select = new Select(shippingAddressDropdown.get(i));
-    			List<WebElement> options = select.getOptions();
-    			for(WebElement option:options){
-    				String optionText = option.getText();
-    				if(optionText.toLowerCase().contains(arrShippingAddresses[i].toLowerCase())){
-    					select.selectByVisibleText(optionText);
-    					isAddressSelected = true;
-    				}
-    			}
-    			
-    			if(!isAddressSelected){
-    				String errorMsg = "Failed to select shipping address '" + arrShippingAddresses[i] + "'";
-    				Util.e2eErrorMessagesBuilder(errorMsg);
-    				throw new WebDriverException(errorMsg);
-    			}else{
-    				logger.info("Shipping address selected: {}", arrShippingAddresses[i]);
-    			}
-    		}
-    	}else{
-    		//multiple random shipping address selection
-    		for(int i=0;i<shippingAddressDropdown.size();i++){
-    			Select select = new Select(shippingAddressDropdown.get(i));
-    			int randomIndex = Util.randomIndex(select.getOptions().size());
-    			select.selectByIndex(randomIndex);
-    			logger.info("Shipping address selected: {}", select.getFirstSelectedOption().getText());
-    		}
-    	}
+    public void selectMultipleShippingAddressRadioButton(){
+    	selectMultipleShippingAddressRadioButton(shippingForm);    	
     }
 }

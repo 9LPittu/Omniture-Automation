@@ -25,8 +25,7 @@ Feature: Guest User E2E order placing
     
     Then Verify Shipping Page is displayed
   	
-  	When User enters Shipping Addresses as per testdata  	
-  	And User selects different billing address as per testdata  	
+  	When User enters Shipping Addresses as per testdata 	
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to Shipping and Gift Options page
@@ -41,7 +40,6 @@ Feature: Guest User E2E order placing
   	Then Verify Billing page is displayed
   	
   	When User selects/enters Payment Methods as per testdata
-  	And User enters Billing Address as per testdata, if required
   	And Apply promos, if required. If applied, verify promos are applied successfully
   	
   	When User continues to review page

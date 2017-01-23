@@ -1,6 +1,5 @@
 package com.jcrew.pojo;
 
-import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 
 /**
@@ -13,6 +12,7 @@ public class Address {
     String state;
     String zipcode;
     String phone;
+    String country;
     
     TestDataReader dataReader = TestDataReader.getTestDataReader();
     
@@ -36,6 +36,16 @@ public class Address {
         this.state = state;
         this.zipcode = zipcode;
         this.phone = phoneNumber;
+    }
+    
+    public Address(String addressLine1, String addressLine2, String city, String state, String zipcode, String phoneNumber,String country){
+    	this.line1 = addressLine1;
+        this.line2 = addressLine2;
+        this.city = city;
+        this.state = state;
+        this.zipcode = zipcode;
+        this.phone = phoneNumber;
+        this.country = country;
     }
     
     private void load(String prefix) {
@@ -74,6 +84,11 @@ public class Address {
         return zipcode;
     }
 
-    public String getPhone() {return phone;}
-
+    public String getPhone() {
+    	return phone;
+    }
+    
+    public String getCountry() {
+        return country;
+    }
 }

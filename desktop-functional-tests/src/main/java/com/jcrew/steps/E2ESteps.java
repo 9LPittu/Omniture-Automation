@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriverException;
@@ -20,6 +21,7 @@ import com.jcrew.page.Checkout;
 import com.jcrew.page.CheckoutBilling;
 import com.jcrew.page.CheckoutBillingPayment;
 import com.jcrew.page.CheckoutGiftOptions;
+import com.jcrew.page.CheckoutMultipleShippingAddresses;
 import com.jcrew.page.CheckoutReview;
 import com.jcrew.page.CheckoutShippingAdd;
 import com.jcrew.page.CheckoutShippingEdit;
@@ -480,8 +482,20 @@ public class E2ESteps extends DriverFactory {
 		} else {
 			// multiple shipping addresses selection
 			String[] arrShippingAddresses = shippingAddresses.split(getE2ETestdataDelimiter());
-			checkoutShipping.selectMultipleShippingAddresses(arrShippingAddresses);
+			
+			for(int i =0;i<arrShippingAddresses.length;i++){
+				stateHolder.addToList("shippingAddresses", arrShippingAddresses[i]);
+			}
+			
+			checkoutShipping.selectMultipleShippingAddressRadioButton();
 			checkoutShipping.continueCheckout();
+			
+			CheckoutMultipleShippingAddresses multiShipping = new CheckoutMultipleShippingAddresses(getDriver());
+			List<String> shippingAddressesList = stateHolder.getList("shippingAddresses");
+			multiShipping.multiShippingAddressSelection(shippingAddressesList);
+			
+			multiShipping.continueCheckout();
+			
 			stateHolder.put("isShippingAddressContinueClicked", true);
 		}
 	}
@@ -594,11 +608,16 @@ public class E2ESteps extends DriverFactory {
 				return;
 
 			singlePaymentMethod(userType, paymentMethod1);
+			
+			enter_billing_address();
+			
 		} else {
 			// split payment methods selection
 
 			// first payment method selection
 			singlePaymentMethod(userType, paymentMethod1);
+			
+			enter_billing_address();
 
 			CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
 			CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
@@ -724,6 +743,8 @@ public class E2ESteps extends DriverFactory {
 		Address firstAddress = new Address(firstAddress_AddressLine1, firstAddress_AddressLine2, firstAddress_City, firstAddress_State, firstAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
 		checkoutShippingAdd.fillShippingData(firstAddress);
 		
+		stateHolder.addToList("shippingAddresses", firstAddress_AddressLine1);
+		
 		checkoutShippingAdd.continueCheckout();
 		
 		if(multipleShippingAddressRequired.equalsIgnoreCase("YES")){
@@ -736,17 +757,37 @@ public class E2ESteps extends DriverFactory {
 			String secondAddress_ZipCode = getDataFromTestDataRowMap("SecondAddress_ZipCode");
 			
 			Address secondAddress = new Address(secondAddress_AddressLine1, secondAddress_AddressLine2, secondAddress_City, secondAddress_State, secondAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
+			checkoutShippingAdd.addNewShippingAddress(secondAddress);
+			stateHolder.addToList("shippingAddresses", secondAddress_AddressLine1);
 			
+			checkoutShippingAdd.continueCheckout();
+			
+			CheckoutMultipleShippingAddresses multiShipping = new CheckoutMultipleShippingAddresses(getDriver());
+			List<String> shippingAddressesList = stateHolder.getList("shippingAddresses");
+			multiShipping.multiShippingAddressSelection(shippingAddressesList);
+			
+			multiShipping.continueCheckout();
+			
+			stateHolder.put("isShippingAddressContinueClicked", true);
 		}
 	}
 	
-	@And("^User selects different billing address as per testdata$")
-	public void user_selects_different_billing_address(){
+	public void enter_billing_address(){
 		String differentBillingAddressRequired = getDataFromTestDataRowMap("Different Billing Address Required?");
 		
-		if(differentBillingAddressRequired.equalsIgnoreCase("YES")){
-			CheckoutShippingAdd checkoutShippingAdd = new CheckoutShippingAdd(getDriver());
-			checkoutShippingAdd.sameBillingAddressCheckbox("uncheck");
-		}
+		if(!differentBillingAddressRequired.equalsIgnoreCase("YES"))
+			return;
+		
+		String billingAddress_Country = getDataFromTestDataRowMap("BillingAddress_Country");
+		String billingAddress_AddressLine1 = getDataFromTestDataRowMap("BillingAddress_AddressLine1");
+		String billingAddress_AddressLine2 = getDataFromTestDataRowMap("BillingAddress_AddressLine2");
+		String billingAddress_City = getDataFromTestDataRowMap("BillingAddress_City");
+		String billingAddress_State = getDataFromTestDataRowMap("BillingAddress_State");
+		String billingAddress_ZipCode = getDataFromTestDataRowMap("BillingAddress_ZipCode");
+		
+		Address billingAddress = new Address(billingAddress_AddressLine1, billingAddress_AddressLine2, billingAddress_City, billingAddress_State, billingAddress_ZipCode, new Faker().phoneNumber().phoneNumber(), billingAddress_Country);
+		
+		CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
+		checkoutBillingPayment.addNewBillingAdrress(billingAddress);
 	}
 }

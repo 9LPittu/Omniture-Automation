@@ -46,7 +46,8 @@ public class CheckoutShippingAdd extends Checkout {
     
     @FindBy(name="frm_shipping")
     private WebElement addShippingAddressForm;
-
+    
+    private WebElement addNewShippingAddressForm;
 
     public CheckoutShippingAdd(WebDriver driver) {
         super(driver);
@@ -158,13 +159,6 @@ public class CheckoutShippingAdd extends Checkout {
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
     
-    public void sameBillingAddressCheckbox(String actionName){
-    	if(actionName.equalsIgnoreCase("UNCHECK")){
-    		WebElement sameBillingAddressCheckboxElement = shippingForm.findElement(By.id("sameBillShip"));
-    		sameBillingAddressCheckboxElement.click();
-    	}
-    }
-    
     public void selectMultipleAddressesRadioButton(){
     	selectMultipleShippingAddressRadioButton(addShippingAddressForm);
     }
@@ -172,62 +166,37 @@ public class CheckoutShippingAdd extends Checkout {
     public void clickAddNewShippingAddress(){
     	WebElement addNewShippingAddress = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@id='address-new']")));
     	addNewShippingAddress.click();
+    	
+    	addNewShippingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("frm_new_shipping_address")));
     }
     
     public void addNewShippingAddress(Address address){
     	User user = User.getFakeUser();
+    	
+    	WebElement newShippingAddress_FirstName = addNewShippingAddressForm.findElement(By.id("firstNameAM"));
+    	newShippingAddress_FirstName.sendKeys(user.getFirstName());
+    	
+    	WebElement newShippingAddress_LastName = addNewShippingAddressForm.findElement(By.id("lastNameAM"));
+    	newShippingAddress_LastName.sendKeys(user.getLastName());
+    	
+    	WebElement newShippingAddress_Address1 = addNewShippingAddressForm.findElement(By.id("address1"));
+    	newShippingAddress_Address1.sendKeys(address.getLine1());
+        
+    	WebElement newShippingAddress_Address2 = addNewShippingAddressForm.findElement(By.id("address2"));
+    	newShippingAddress_Address2.sendKeys(address.getLine2());
+        
+    	WebElement newShippingAddress_PhoneNum = addNewShippingAddressForm.findElement(By.id("phoneNumAM"));
+    	newShippingAddress_PhoneNum.sendKeys(address.getPhone());
+    	
+    	WebElement newShippingAddress_ZipCode = addNewShippingAddressForm.findElement(By.id("zipcode"));
+    	newShippingAddress_ZipCode.clear();
+    	newShippingAddress_ZipCode.sendKeys(address.getZipcode());
 
-        firstName.sendKeys(user.getFirstName());
-        lastName.sendKeys(user.getLastName());
-        address1.sendKeys(address.getLine1());
-        address2.sendKeys(address.getLine2());
-        phoneNum.sendKeys(address.getPhone());
-
-        Country country = (Country) stateHolder.get("context");
-        String countryCode = country.getCountry().toLowerCase();
-
-        switch (countryCode) {
-            case "us":
-            case "ca":
-                zipcode.clear();
-                zipcode.sendKeys(address.getZipcode());
-
-                wait.until(ExpectedConditions.visibilityOf(us_city_state));
-                break;
-
-            case "au":
-                city.sendKeys(address.getCity());
-
-                Select select = new Select(state_province);
-                select.selectByVisibleText(address.getState());
-
-                zipcode.clear();
-                zipcode.sendKeys(address.getZipcode());
-                break;
-
-            case "jp":
-            case "uk":
-                city.sendKeys(address.getCity());
-
-                state.sendKeys(address.getState());
-
-                zipcode.clear();
-                zipcode.sendKeys(address.getZipcode());
-                break;
-
-            case "hk":
-                city.sendKeys(address.getCity());
-
-                state.sendKeys(address.getState());
-                break;
-
-            default:
-                city.sendKeys(address.getCity());
-
-                zipcode.clear();
-                zipcode.sendKeys(address.getZipcode());
-                break;
-        }
-
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dropdown-us-city-state")));
+        
+        WebElement saveButton = addNewShippingAddressForm.findElement(By.id("submit-new-shipping-address"));
+        saveButton.click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));
+        
     }
 }
