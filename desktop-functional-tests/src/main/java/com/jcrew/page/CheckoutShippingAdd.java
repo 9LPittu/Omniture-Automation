@@ -3,6 +3,8 @@ package com.jcrew.page;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.utils.Util;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,8 +17,6 @@ import org.openqa.selenium.support.ui.Select;
  */
 public class CheckoutShippingAdd extends Checkout {
 
-    @FindBy(id = "shipping-address")
-    private WebElement shippingForm;
     @FindBy(id = "firstNameSA")
     private WebElement firstName;
     @FindBy(id = "lastNameSA")
@@ -31,8 +31,6 @@ public class CheckoutShippingAdd extends Checkout {
     private WebElement phoneNum; 
     @FindBy(id = "order-listing")
     private WebElement order_listing;
-    @FindBy(id = "frmSelectShippingAddress")
-    private WebElement frmSelectShippingAddress;
     @FindBy(id = "dropdown-us-city-state")
     private WebElement us_city_state;
     @FindBy(id = "city")
@@ -44,15 +42,19 @@ public class CheckoutShippingAdd extends Checkout {
     @FindBy(id = "shoppingAddressValidate")
     private WebElement addresValidate;
     
-    @FindBy(name="frm_shipping")
-    private WebElement addShippingAddressForm;
-    
+    private WebElement shippingAddressForm;
     private WebElement addNewShippingAddressForm;
 
     public CheckoutShippingAdd(WebDriver driver) {
-        super(driver);
-        
-        isDisplayed();
+        super(driver);        
+        isDisplayed();        
+    }
+    
+    private WebElement getShippingAddressForm(){
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    	shippingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body/article/descendant::form")));
+    	return shippingAddressForm;
     }
 
     public boolean isDisplayed() {
@@ -131,8 +133,8 @@ public class CheckoutShippingAdd extends Checkout {
         fillFormData(address);
     }
 
-    public void continueCheckout() {
-        nextStep(shippingForm);
+    public void continueCheckout() {    	
+        nextStep(getShippingAddressForm());
     }
 
     public void fillAPOShippingData() {
@@ -147,20 +149,20 @@ public class CheckoutShippingAdd extends Checkout {
     
     public void saveShippingAddress() {
         String currentUrl = driver.getCurrentUrl();
-        WebElement saveShippingAddress = shippingForm.findElement(By.className("button-submit-bg"));
+        WebElement saveShippingAddress = getShippingAddressForm().findElement(By.className("button-submit-bg"));
         saveShippingAddress.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
     }
 
     public void continueWithDefaultAddress() {
         String url = driver.getCurrentUrl();
-        WebElement continueWithDefault = frmSelectShippingAddress.findElement(By.className("button-submit-bg"));
+        WebElement continueWithDefault = getShippingAddressForm().findElement(By.className("button-submit-bg"));
         continueWithDefault.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
     
     public void selectMultipleAddressesRadioButton(){
-    	selectMultipleShippingAddressRadioButton(addShippingAddressForm);
+    	selectMultipleShippingAddressRadioButton(getShippingAddressForm());
     }
     
     public void clickAddNewShippingAddress(){
@@ -171,7 +173,7 @@ public class CheckoutShippingAdd extends Checkout {
     }
     
     public void addNewShippingAddress(Address address){
-    	User user = User.getFakeUser();
+    	User user = User.getNewFakeUser();
     	
     	WebElement newShippingAddress_FirstName = addNewShippingAddressForm.findElement(By.id("firstNameAM"));
     	newShippingAddress_FirstName.sendKeys(user.getFirstName());

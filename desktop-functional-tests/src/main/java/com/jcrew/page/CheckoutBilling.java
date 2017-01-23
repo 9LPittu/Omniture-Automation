@@ -239,9 +239,9 @@ public class CheckoutBilling extends Checkout {
         Select year = new Select(expirationYear);
         year.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.year"));
 
-        User checkoutUser = User.getFakeUser();
+        User checkoutUser = User.getNewFakeUser();
 
-        nameOnCard.sendKeys(checkoutUser.getFirstName().replaceAll("'", "") + " " + checkoutUser.getLastName().replaceAll("'", ""));
+        nameOnCard.sendKeys(checkoutUser.getFirstName() + " " + checkoutUser.getLastName());
         emailReceipt.sendKeys(checkoutUser.getEmail());
     }
     

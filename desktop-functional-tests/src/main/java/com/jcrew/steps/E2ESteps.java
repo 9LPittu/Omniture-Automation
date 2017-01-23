@@ -397,6 +397,7 @@ public class E2ESteps extends DriverFactory {
 
 	@And("^Apply promos, if required. If applied, verify promos are applied successfully$")
 	public void apply_and_verify_promo() {
+		String userType = getDataFromTestDataRowMap("User Type");
 		String promoCodes = getDataFromTestDataRowMap("Promo Codes");
 		if (promoCodes.isEmpty()) {
 			return;
@@ -419,13 +420,21 @@ public class E2ESteps extends DriverFactory {
 			Checkout checkout = null;
 			switch (promoApplyPage.toLowerCase()) {
 			case "shipping address":
-				checkout = new CheckoutShippingEdit(getDriver());
+				if(userType.equalsIgnoreCase("GUEST")){
+					checkout = new CheckoutShippingAdd(getDriver());
+				}else{
+					checkout = new CheckoutShippingEdit(getDriver());
+				}
 				break;
 			case "shipping & gift options":
 				checkout = new CheckoutShippingOptions(getDriver());
 				break;
 			case "billing":
-				checkout = new CheckoutBilling(getDriver());
+				if(userType.equalsIgnoreCase("GUEST")){
+					checkout = new CheckoutBillingPayment(getDriver());
+				}else{
+					checkout = new CheckoutBilling(getDriver());
+				}
 				break;
 			case "review":
 				checkout = new CheckoutReview(getDriver());
@@ -726,6 +735,10 @@ public class E2ESteps extends DriverFactory {
 	
 	@When("^User enters Shipping Addresses as per testdata$")
 	public void user_enters_shipping_addresses(){
+		
+		if (stateHolder.hasKey("isShippingDisabled"))
+			return;
+		
 		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
 		
 		CheckoutShippingAdd checkoutShippingAdd = new CheckoutShippingAdd(getDriver());
@@ -746,6 +759,7 @@ public class E2ESteps extends DriverFactory {
 		stateHolder.addToList("shippingAddresses", firstAddress_AddressLine1);
 		
 		checkoutShippingAdd.continueCheckout();
+		stateHolder.put("isShippingAddressContinueClicked", true);
 		
 		if(multipleShippingAddressRequired.equalsIgnoreCase("YES")){
 			checkoutShippingAdd.clickAddNewShippingAddress();
@@ -775,7 +789,7 @@ public class E2ESteps extends DriverFactory {
 	public void enter_billing_address(){
 		String differentBillingAddressRequired = getDataFromTestDataRowMap("Different Billing Address Required?");
 		
-		if(!differentBillingAddressRequired.equalsIgnoreCase("YES"))
+		if(!differentBillingAddressRequired.equalsIgnoreCase("YES") && !stateHolder.hasKey("isShippingDisabled"))
 			return;
 		
 		String billingAddress_Country = getDataFromTestDataRowMap("BillingAddress_Country");

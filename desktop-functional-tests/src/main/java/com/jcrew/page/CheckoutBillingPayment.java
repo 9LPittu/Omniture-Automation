@@ -241,7 +241,7 @@ public class CheckoutBillingPayment extends Checkout {
     
     public void addNewBillingAdrress(Address address) {
     	
-    	User user = User.getFakeUser();
+    	User user = User.getNewFakeUser();
     	
     	addNewBillingAddressButton.click();
     	
