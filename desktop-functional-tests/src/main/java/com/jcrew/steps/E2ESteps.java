@@ -787,6 +787,12 @@ public class E2ESteps extends DriverFactory {
 	}
 	
 	public void enter_billing_address(){
+		
+		String userType = getDataFromTestDataRowMap("User Type");
+		
+		if(!userType.equalsIgnoreCase("GUEST"))
+			return;
+		
 		String differentBillingAddressRequired = getDataFromTestDataRowMap("Different Billing Address Required?");
 		
 		if(!differentBillingAddressRequired.equalsIgnoreCase("YES") && !stateHolder.hasKey("isShippingDisabled"))
@@ -801,7 +807,13 @@ public class E2ESteps extends DriverFactory {
 		
 		Address billingAddress = new Address(billingAddress_AddressLine1, billingAddress_AddressLine2, billingAddress_City, billingAddress_State, billingAddress_ZipCode, new Faker().phoneNumber().phoneNumber(), billingAddress_Country);
 		
-		CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
-		checkoutBillingPayment.addNewBillingAdrress(billingAddress);
+		if(stateHolder.hasKey("isShippingDisabled")){
+			CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
+			checkoutBilling.enterBillingAddress(billingAddress);
+			
+		}else{
+			CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
+			checkoutBillingPayment.addNewBillingAdrress(billingAddress);
+		}
 	}
 }

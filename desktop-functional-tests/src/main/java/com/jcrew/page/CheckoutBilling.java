@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Address;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.TestDataReader;
@@ -299,5 +300,31 @@ public class CheckoutBilling extends Checkout {
     public void selectPaypalRadioButton(){
     	paypalRadioButton.click();
     	wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//p[@class='page-msg']")));
+    }
+    
+    public void enterBillingAddress(Address address){
+    	User user = User.getNewFakeUser();
+    	
+    	WebElement country = payment_page.findElement(By.name("ADDRESS<>country_cd"));
+        Select countrySelect = new Select(country);
+        countrySelect.selectByValue(address.getCountry());
+        
+        WebElement firstName = payment_page.findElement(By.name("ADDRESS<>firstName"));
+        firstName.sendKeys(user.getFirstName());
+
+        WebElement lastName = payment_page.findElement(By.name("ADDRESS<>lastName"));
+        lastName.sendKeys(user.getFirstName());
+
+        WebElement address1 = payment_page.findElement(By.name("ADDRESS<>address1"));
+        address1.sendKeys(address.getLine1());
+
+        WebElement address2 = payment_page.findElement(By.name("ADDRESS<>address2"));
+        address2.sendKeys(address.getLine2());
+        
+        WebElement zipcode = payment_page.findElement(By.name("ADDRESS<>postal"));
+        zipcode.sendKeys(address.getZipcode());
+
+        WebElement phone = payment_page.findElement(By.name("ADDRESS<>phone"));
+        phone.sendKeys(address.getPhone());
     }
 }
