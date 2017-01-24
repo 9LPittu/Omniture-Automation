@@ -1,8 +1,8 @@
-@e2e @e2e-registereduser
-Feature: Registered User E2E order placing
+@e2e @e2e-nonexpressuser
+Feature: Non Express User E2E order placing
 
- Scenario: Registered User order placing E2E scenario
-	Given Test data is read from excel file "JC_E2E_RegisteredUser_Testdata_Sheet.xls"	
+ Scenario: Non Express User order placing E2E scenario
+	Given Test data is read from excel file "JC_E2E_NonExpressUser_Testdata_Sheet.xls"	
  	
  	And User goes to homepage
   	And User closes email capture

@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/e2e/jcrew"},
-        tags = {"@e2e-registereduser"},
+        tags = {"@e2e-nonexpressuser"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/JC_E2E_RegisteredUser_Testdata_Sheet.json",
+                "json:target/JC_E2E_NonExpressUser_Testdata_Sheet.json",
                 "pretty",
-                "html:target/cucumber/JC_E2E_RegisteredUser_Testdata_Sheet"
+                "html:target/cucumber/JC_E2E_NonExpressUser_Testdata_Sheet"
         }
 )
-public class E2ERegisteredUserRunnerTest {
+public class E2ENonExpressUserRunnerTest {
 }

@@ -204,7 +204,7 @@ public class E2ESteps extends DriverFactory {
 				String currentURL = getDriver().getCurrentUrl();
 				if (currentURL.contains("/r/search")) {
 					ArraySearch searchArray = new ArraySearch(getDriver());
-					searchArray.selectRandomProduct();
+					searchArray.click_first_product_in_grid();
 				}
 
 				// Select color
@@ -655,7 +655,7 @@ public class E2ESteps extends DriverFactory {
 				enterPaypalDetails();
 				break;
 			default:
-				if (userType.equalsIgnoreCase("REGISTERED") && !userType.equalsIgnoreCase("EXPRESS")) {
+				if (userType.equalsIgnoreCase("NONEXPRESS") && !userType.equalsIgnoreCase("EXPRESS")) {
 					checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
 				} else if (userType.equalsIgnoreCase("GUEST")) {
 					checkoutBilling.fillPaymentCardDetails(paymentMethodName);
@@ -691,8 +691,8 @@ public class E2ESteps extends DriverFactory {
 		String userType = getDataFromTestDataRowMap("User Type");
 
 		switch (userType.toUpperCase()) {
-		case "REGISTERED":
-			enterSecurityCodeForRegisteredUser();
+		case "NONEXPRESS":
+			enterSecurityCodeForNonExpressUser();
 			break;
 		case "EXPRESS":
 			enterSecurityCodeForExpressUser();
@@ -700,7 +700,7 @@ public class E2ESteps extends DriverFactory {
 		}
 	}
 
-	public void enterSecurityCodeForRegisteredUser() {
+	public void enterSecurityCodeForNonExpressUser() {
 		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
 		String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
 		String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
