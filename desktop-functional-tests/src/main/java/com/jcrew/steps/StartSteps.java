@@ -197,6 +197,7 @@ public class StartSteps {
     }
     
     private void setSidecarCookie() {
+    	String environment = System.getProperty("environment");
     	TestDataReader testdataReader = TestDataReader.getTestDataReader();
     	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
     	setCookie = true;
@@ -204,7 +205,12 @@ public class StartSteps {
     		String url = reader.getProperty("url");
     		String domain = url.replace("https://", "");
             driver.get(url + "/404");
-            Util.wait(15000);
+            if (environment.equalsIgnoreCase("production")) {
+            	Util.wait(15000);
+            	String removeCookie=testdataReader.getData("remove.cookie");
+            	JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+            	jsExecutor.executeScript(removeCookie);
+            }
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
             logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
