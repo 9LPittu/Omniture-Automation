@@ -267,7 +267,6 @@ public class StartSteps {
     	if(setCookie) {
     		String url = reader.getProperty("url");
     		String domain = url.replace("https://", "");
-            if (environment.equalsIgnoreCase("production")) {
             	Cookie cookie = driver.manage().getCookieNamed("x-origin");
                 if (!(cookie == null)) {
                 	String cookieValue = cookie.getValue();
@@ -292,7 +291,6 @@ public class StartSteps {
                     
                     driver.get(URL);
                 }
-            }
             
         }
     	
