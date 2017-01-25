@@ -204,6 +204,7 @@ public class StartSteps {
     		String url = reader.getProperty("url");
     		String domain = url.replace("https://", "");
             driver.get(url + "/404");
+            Util.wait(15000);
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
             logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
