@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
@@ -276,19 +277,19 @@ public class CheckoutBillingPayment extends Checkout {
     }
     
     public void addNewCreditDebitCard(String paymentMethodName) {
-        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
         User checkoutUser = User.getFakeUser();
 
-        creditCardNumber.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".card.number"));
+        creditCardNumber.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".card.number"));
         
         if(!paymentMethodName.equalsIgnoreCase("JCC")){
-	        securityCode.sendKeys(testDataReader.getData(paymentMethodName.toLowerCase() + ".security.code"));
+	        securityCode.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code"));
 	
 	        Select month = new Select(expirationMonth);
-	        month.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.month"));
+	        month.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.month"));
 	
 	        Select year = new Select(expirationYear);
-	        year.selectByVisibleText(testDataReader.getData(paymentMethodName.toLowerCase() + ".expiration.year"));
+	        year.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.year"));
 	
 	        nameOnCard.sendKeys(checkoutUser.getFirstName().replaceAll("'", "") + " " + checkoutUser.getLastName().replaceAll("'", ""));
         }

@@ -32,7 +32,7 @@ public class CheckoutBilling extends Checkout {
     @FindBy(id = "creditCardNumber")
     private WebElement creditCardNumber;
     @FindBy(id = "securityCode")
-    private WebElement secuirtyCode;
+    private WebElement securityCode;
     @FindBy(id = "nameOnCard")
     private WebElement nameOnCard;
     @FindBy(id = "emailReceipt")
@@ -65,7 +65,7 @@ public class CheckoutBilling extends Checkout {
         User checkoutUSer;
 
         creditCardNumber.sendKeys(testData.getData("card.number"));
-        secuirtyCode.sendKeys(testData.getData("card.cvv"));
+        securityCode.sendKeys(testData.getData("card.cvv"));
 
         Select month = new Select(expirationMonth);
         month.selectByVisibleText(testData.getData("card.month"));
@@ -232,18 +232,20 @@ public class CheckoutBilling extends Checkout {
     	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
     	
     	creditCardNumber.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".card.number"));
-        secuirtyCode.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code"));
+    	
+    	if(!paymentMethodName.equalsIgnoreCase("JCC")){
+    		securityCode.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code"));
 
-        Select month = new Select(expirationMonth);
-        month.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.month"));
+	        Select month = new Select(expirationMonth);
+	        month.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.month"));
+	
+	        Select year = new Select(expirationYear);
+	        year.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.year"));
+    	}
 
-        Select year = new Select(expirationYear);
-        year.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.year"));
-
-        User checkoutUser = User.getNewFakeUser();
-
-        nameOnCard.sendKeys(checkoutUser.getFirstName() + " " + checkoutUser.getLastName());
-        emailReceipt.sendKeys(checkoutUser.getEmail());
+        User user = User.getNewFakeUser();
+        nameOnCard.sendKeys(user.getFirstName() + " " + user.getLastName());
+        emailReceipt.sendKeys(user.getEmail());
     }
     
     public void clickTwoCardsPayment(){
@@ -326,5 +328,10 @@ public class CheckoutBilling extends Checkout {
 
         WebElement phone = payment_page.findElement(By.name("ADDRESS<>phone"));
         phone.sendKeys(address.getPhone());
+    }
+    
+    public void enterEmailAddress(){
+    	User user = User.getNewFakeUser();
+        emailReceipt.sendKeys(user.getEmail());
     }
 }

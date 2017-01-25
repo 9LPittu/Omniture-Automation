@@ -650,6 +650,11 @@ public class E2ESteps extends DriverFactory {
 		switch (paymentMethodName.toUpperCase()) {
 			case "PAYPAL":
 				checkoutBilling.selectPaypalRadioButton();
+				
+				if (userType.equalsIgnoreCase("GUEST")){
+					checkoutBilling.enterEmailAddress();
+				}
+				
 				checkoutBilling.continueCheckout();
 	
 				enterPaypalDetails();
