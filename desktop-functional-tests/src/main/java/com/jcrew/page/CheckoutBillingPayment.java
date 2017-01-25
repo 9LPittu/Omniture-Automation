@@ -278,7 +278,7 @@ public class CheckoutBillingPayment extends Checkout {
     
     public void addNewCreditDebitCard(String paymentMethodName) {
         E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
-        User checkoutUser = User.getFakeUser();
+        User user = User.getNewFakeUser();
 
         creditCardNumber.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".card.number"));
         
@@ -291,7 +291,7 @@ public class CheckoutBillingPayment extends Checkout {
 	        Select year = new Select(expirationYear);
 	        year.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.year"));
 	
-	        nameOnCard.sendKeys(checkoutUser.getFirstName().replaceAll("'", "") + " " + checkoutUser.getLastName().replaceAll("'", ""));
+	        nameOnCard.sendKeys(user.getFirstName().replaceAll("'", "") + " " + user.getLastName().replaceAll("'", ""));
         }
 
         selectAddressFromList(cardForm);

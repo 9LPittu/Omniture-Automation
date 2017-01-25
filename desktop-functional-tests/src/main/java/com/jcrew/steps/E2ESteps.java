@@ -632,12 +632,14 @@ public class E2ESteps extends DriverFactory {
 			CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
 
 			// second payment selection
+			checkoutBilling.clickTwoCardsPayment();
+			
 			if (userType.equalsIgnoreCase("GUEST")) {
+				checkoutBilling.continueCheckout();
 				checkoutBilling.addNewCard();
 				checkoutBillingPayment.addNewCreditDebitCard(paymentMethod2);
 			}
-
-			checkoutBilling.clickTwoCardsPayment();
+			
 			checkoutBilling.continueCheckout();
 			checkoutBilling.splitPayment(paymentMethod1, paymentMethod2);
 
