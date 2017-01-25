@@ -260,41 +260,38 @@ public class StartSteps {
         Util.waitLoadingBar(driver);
     }
     
-    private void verifyAndSetSidecarCookie(String URL) {
+    private void verifyAndSetSidecarCookie(String urlToNavigate) {
     	String environment = System.getProperty("environment");
     	TestDataReader testdataReader = TestDataReader.getTestDataReader();
     	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
     	if(setCookie) {
-    		String url = reader.getProperty("url");
-    		String domain = url.replace("https://", "");
-            	Cookie cookie = driver.manage().getCookieNamed("x-origin");
-                if (!(cookie == null)) {
-                	String cookieValue = cookie.getValue();
-                	if (!cookieValue.equalsIgnoreCase("sidecar_render")) {
-                		String removeCookie=testdataReader.getData("remove.cookie");
-                    	
-                		JavascriptExecutor jse = (JavascriptExecutor) driver;
-                    	jse.executeScript(removeCookie);
-                    	driverFactory.deleteBrowserCookies();
-                    	
-                    	jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-                        logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-                        
-                        driver.get(URL);
-                	}
-                } else {
-                	driverFactory.deleteBrowserCookies();
+        	Cookie cookie = driver.manage().getCookieNamed("x-origin");
+            if (!(cookie == null)) {
+            	String cookieValue = cookie.getValue();
+            	if (!cookieValue.equalsIgnoreCase("sidecar_render")) {
+            		String removeCookie=testdataReader.getData("remove.cookie");
                 	
-                	JavascriptExecutor jse = (JavascriptExecutor) driver;
-                	jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-                    logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-                    
-                    driver.get(URL);
-                }
-            
+            		JavascriptExecutor jse = (JavascriptExecutor) driver;
+                	jse.executeScript(removeCookie);
+                	
+                	deleteCookiesAndNavigateAgain(urlToNavigate);	
+            	}
+            } else {
+            	deleteCookiesAndNavigateAgain(urlToNavigate);
+            }  
         }
-    	
     }
     
-    
+    public void deleteCookiesAndNavigateAgain(String urlToNavigate) {
+	    String url = reader.getProperty("url");
+		String domain = url.replace("https://", "");
+		
+		driverFactory.deleteBrowserCookies();
+    	
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+        logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+        
+        driver.get(urlToNavigate);
+    }
 }
