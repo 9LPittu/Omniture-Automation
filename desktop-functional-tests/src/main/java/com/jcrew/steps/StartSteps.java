@@ -141,8 +141,6 @@ public class StartSteps {
         String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
         logger.debug("getting url: " + intlPageURL);
 
-        setSidecarCookie();
-
         driver.get(intlPageURL);
         verifyAndSetSidecarCookie(intlPageURL);
     }
@@ -161,8 +159,6 @@ public class StartSteps {
 
         logger.debug("getting url: " + envUrl);
 
-        setSidecarCookie();
-
         driver.get(envUrl);
         verifyAndSetSidecarCookie(envUrl);
     }
@@ -177,8 +173,6 @@ public class StartSteps {
         stateHolder.put("context", context);
 
         envUrl = context.getHomeurl();
-
-        setSidecarCookie();
 
         String intlHomeURL = envUrl +"/"+ context + "/" ;
         logger.debug("getting url: " + intlHomeURL);
@@ -195,39 +189,21 @@ public class StartSteps {
         envUrl=envUrl + "?siteId=asdfsadf&srcCode=asdfsadf";
         logger.debug("getting url: " + envUrl);
 
-        setSidecarCookie();
-
         driver.get(envUrl);
         verifyAndSetSidecarCookie(envUrl);
     }
     
     private void setSidecarCookie() {
-//    	String environment = System.getProperty("environment");
-//    	TestDataReader testdataReader = TestDataReader.getTestDataReader();
-//    	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
-//    	if(setCookie) {
-//    		String url = reader.getProperty("url");
-//    		String domain = url.replace("https://", "");
-//            driver.get(url + "/404");
-//            if (environment.equalsIgnoreCase("production")) {
-//            	Util.wait(15000);
-//            	Cookie cookie = driver.manage().getCookieNamed("x-origin");
-//                if (!(cookie == null)) {
-//                	String cookieValue = cookie.getValue();
-//                	if (!cookieValue.equalsIgnoreCase("x-origin")) {
-//                		String removeCookie=testdataReader.getData("remove.cookie");
-//                    	JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-//                    	jsExecutor.executeScript(removeCookie);	
-//                	}
-//
-//                }
-//            }
-//            JavascriptExecutor jse = (JavascriptExecutor) driver;
-//            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-//            logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-//        }
-    logger.info("This method is commented temparorily");
-    	
+    	TestDataReader testdataReader = TestDataReader.getTestDataReader();
+    	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
+    	if(setCookie) {
+    		String url = reader.getProperty("url");
+    		String domain = url.replace("https://", "");
+            driver.get(url + "/404");
+            JavascriptExecutor jse = (JavascriptExecutor) driver;
+            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+            logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+        }
     }
     
     @Given("User navigates to ([^\"]*) with clean session")
