@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.Calendar;
 import java.util.Date;
 import cucumber.api.Scenario;
@@ -207,9 +208,16 @@ public class StartSteps {
             driver.get(url + "/404");
             if (environment.equalsIgnoreCase("production")) {
             	Util.wait(15000);
-            	String removeCookie=testdataReader.getData("remove.cookie");
-            	JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-            	jsExecutor.executeScript(removeCookie);
+            	Cookie cookie = driver.manage().getCookieNamed("x-origin");
+                if (!(cookie == null)) {
+                	String cookieValue = cookie.getValue();
+                	if (!cookieValue.equalsIgnoreCase("x-origin")) {
+                		String removeCookie=testdataReader.getData("remove.cookie");
+                    	JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+                    	jsExecutor.executeScript(removeCookie);	
+                	}
+
+                }
             }
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
