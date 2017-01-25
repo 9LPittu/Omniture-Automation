@@ -144,6 +144,7 @@ public class StartSteps {
         setSidecarCookie();
 
         driver.get(intlPageURL);
+        verifyAndSetSidecarCookie(intlPageURL);
     }
 
     private void waitForHeaderPromo() {
@@ -163,6 +164,7 @@ public class StartSteps {
         setSidecarCookie();
 
         driver.get(envUrl);
+        verifyAndSetSidecarCookie(envUrl);
     }
 
     private void getIntlHomePage(String country) {
@@ -181,6 +183,7 @@ public class StartSteps {
         String intlHomeURL = envUrl +"/"+ context + "/" ;
         logger.debug("getting url: " + intlHomeURL);
         driver.get(intlHomeURL);
+        verifyAndSetSidecarCookie(intlHomeURL);
     }
     private void getHomePageWithSideID(){
         String country = reader.getProperty("country");
@@ -195,34 +198,35 @@ public class StartSteps {
         setSidecarCookie();
 
         driver.get(envUrl);
+        verifyAndSetSidecarCookie(envUrl);
     }
     
     private void setSidecarCookie() {
-    	String environment = System.getProperty("environment");
-    	TestDataReader testdataReader = TestDataReader.getTestDataReader();
-    	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
-    	setCookie = true;
-    	if(setCookie) {
-    		String url = reader.getProperty("url");
-    		String domain = url.replace("https://", "");
-            driver.get(url + "/404");
-            if (environment.equalsIgnoreCase("production")) {
-            	Util.wait(15000);
-            	Cookie cookie = driver.manage().getCookieNamed("x-origin");
-                if (!(cookie == null)) {
-                	String cookieValue = cookie.getValue();
-                	if (!cookieValue.equalsIgnoreCase("x-origin")) {
-                		String removeCookie=testdataReader.getData("remove.cookie");
-                    	JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-                    	jsExecutor.executeScript(removeCookie);	
-                	}
-
-                }
-            }
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-            logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-        }
+//    	String environment = System.getProperty("environment");
+//    	TestDataReader testdataReader = TestDataReader.getTestDataReader();
+//    	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
+//    	if(setCookie) {
+//    		String url = reader.getProperty("url");
+//    		String domain = url.replace("https://", "");
+//            driver.get(url + "/404");
+//            if (environment.equalsIgnoreCase("production")) {
+//            	Util.wait(15000);
+//            	Cookie cookie = driver.manage().getCookieNamed("x-origin");
+//                if (!(cookie == null)) {
+//                	String cookieValue = cookie.getValue();
+//                	if (!cookieValue.equalsIgnoreCase("x-origin")) {
+//                		String removeCookie=testdataReader.getData("remove.cookie");
+//                    	JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+//                    	jsExecutor.executeScript(removeCookie);	
+//                	}
+//
+//                }
+//            }
+//            JavascriptExecutor jse = (JavascriptExecutor) driver;
+//            jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+//            logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+//        }
+    logger.info("This method is commented temparorily");
     	
     }
     
@@ -255,4 +259,44 @@ public class StartSteps {
         driver.get(env + extensionUrl);
         Util.waitLoadingBar(driver);
     }
+    
+    private void verifyAndSetSidecarCookie(String URL) {
+    	String environment = System.getProperty("environment");
+    	TestDataReader testdataReader = TestDataReader.getTestDataReader();
+    	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
+    	if(setCookie) {
+    		String url = reader.getProperty("url");
+    		String domain = url.replace("https://", "");
+            if (environment.equalsIgnoreCase("production")) {
+            	Cookie cookie = driver.manage().getCookieNamed("x-origin");
+                if (!(cookie == null)) {
+                	String cookieValue = cookie.getValue();
+                	if (!cookieValue.equalsIgnoreCase("sidecar_render")) {
+                		String removeCookie=testdataReader.getData("remove.cookie");
+                    	
+                		JavascriptExecutor jse = (JavascriptExecutor) driver;
+                    	jse.executeScript(removeCookie);
+                    	driverFactory.deleteBrowserCookies();
+                    	
+                    	jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+                        logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+                        
+                        driver.get(URL);
+                	}
+                } else {
+                	driverFactory.deleteBrowserCookies();
+                	
+                	JavascriptExecutor jse = (JavascriptExecutor) driver;
+                	jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+                    logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
+                    
+                    driver.get(URL);
+                }
+            }
+            
+        }
+    	
+    }
+    
+    
 }
