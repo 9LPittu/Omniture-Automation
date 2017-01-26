@@ -241,7 +241,7 @@ public class StartSteps {
     	TestDataReader testdataReader = TestDataReader.getTestDataReader();
     	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
     	if(setCookie) {
-    		Util.wait(12000);
+    		Util.wait(10000);
         	Cookie cookie = driver.manage().getCookieNamed("x-origin");
             if (!(cookie == null)) {
             	String cookieValue = cookie.getValue();
