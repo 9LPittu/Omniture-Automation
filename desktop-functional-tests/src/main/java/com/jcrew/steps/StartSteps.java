@@ -237,17 +237,18 @@ public class StartSteps {
     }
     
     private void verifyAndSetSidecarCookie(String urlToNavigate) {
-    	String environment = System.getProperty("environment");
     	TestDataReader testdataReader = TestDataReader.getTestDataReader();
     	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
     	if(setCookie) {
-    		Util.wait(10000);
+    		String environment = reader.getProperty("environment");
+        	String url = reader.getProperty("url");
+        	
+    		Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(url));
         	Cookie cookie = driver.manage().getCookieNamed("x-origin");
             if (!(cookie == null)) {
             	String cookieValue = cookie.getValue();
             	if (!cookieValue.equalsIgnoreCase("sidecar_render")) {
             		String removeCookie=testdataReader.getData("remove.cookie");
-                	
             		JavascriptExecutor jse = (JavascriptExecutor) driver;
                 	jse.executeScript(removeCookie);
                 	
