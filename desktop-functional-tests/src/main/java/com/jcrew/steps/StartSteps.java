@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.*;
 
@@ -239,13 +240,20 @@ public class StartSteps {
     private void verifyAndSetSidecarCookie(String urlToNavigate) {
     	TestDataReader testdataReader = TestDataReader.getTestDataReader();
     	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
+    	
     	if(setCookie) {
     		String environment = reader.getProperty("environment");
         	String url = reader.getProperty("url");
         	
-    		Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(url));
-        	Cookie cookie = driver.manage().getCookieNamed("x-origin");
-            if (!(cookie == null)) {
+    		Util.createWebDriverWait(driver).until(new Function<WebDriver, Object>() {
+				@Override
+				public Object apply(WebDriver driver) {
+					return driver.manage().getCookieNamed("x-origin");
+				}
+    		});
+        	
+            //if (!(cookie == null)) {
+    		Cookie cookie = driver.manage().getCookieNamed("x-origin");
             	String cookieValue = cookie.getValue();
             	if (!cookieValue.equalsIgnoreCase("sidecar_render")) {
             		String removeCookie=testdataReader.getData("remove.cookie");
@@ -254,9 +262,9 @@ public class StartSteps {
                 	
                 	deleteCookiesAndNavigateAgain(urlToNavigate);	
             	}
-            } else {
-            	deleteCookiesAndNavigateAgain(urlToNavigate);
-            }  
+//            } else {
+//            	deleteCookiesAndNavigateAgain(urlToNavigate);
+//            }  
         }
     }
     
