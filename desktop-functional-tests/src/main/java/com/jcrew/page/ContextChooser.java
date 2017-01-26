@@ -116,12 +116,8 @@ public class ContextChooser {
 	public void clickLinkFromTermsSectionOnContextChooserPage(String linkName) {
 		WebElement link = internationalContextChooserPage.findElement(By.xpath("//p[@class='terms']/a[" + Util.xpathGetTextLower + "='" + linkName.toLowerCase() + "']"));
 		wait.until(ExpectedConditions.elementToBeClickable(link));
-		Util.scrollToElement(driver, link);
 		
-		JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("arguments[0].scrollIntoView();", link);
-		
-		link.click();
+		Util.scrollAndClick(driver, link);
 	}
 
 	public void clickButtonFromFAQSectionOnContextChooserPage(String buttonName) {
