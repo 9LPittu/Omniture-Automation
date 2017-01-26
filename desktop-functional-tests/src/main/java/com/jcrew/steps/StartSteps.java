@@ -1,6 +1,5 @@
 package com.jcrew.steps;
 
-import com.google.common.base.Function;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.*;
 
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.Calendar;
 import java.util.Date;
 import cucumber.api.Scenario;
@@ -142,8 +140,9 @@ public class StartSteps {
         String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
         logger.debug("getting url: " + intlPageURL);
 
+        setSidecarCookie();
+
         driver.get(intlPageURL);
-        verifyAndSetSidecarCookie(intlPageURL);
     }
 
     private void waitForHeaderPromo() {
@@ -160,8 +159,9 @@ public class StartSteps {
 
         logger.debug("getting url: " + envUrl);
 
+        setSidecarCookie();
+
         driver.get(envUrl);
-        verifyAndSetSidecarCookie(envUrl);
     }
 
     private void getIntlHomePage(String country) {
@@ -175,10 +175,11 @@ public class StartSteps {
 
         envUrl = context.getHomeurl();
 
+        setSidecarCookie();
+
         String intlHomeURL = envUrl +"/"+ context + "/" ;
         logger.debug("getting url: " + intlHomeURL);
         driver.get(intlHomeURL);
-        verifyAndSetSidecarCookie(intlHomeURL);
     }
     private void getHomePageWithSideID(){
         String country = reader.getProperty("country");
@@ -190,8 +191,9 @@ public class StartSteps {
         envUrl=envUrl + "?siteId=asdfsadf&srcCode=asdfsadf";
         logger.debug("getting url: " + envUrl);
 
+        setSidecarCookie();
+
         driver.get(envUrl);
-        verifyAndSetSidecarCookie(envUrl);
     }
     
     private void setSidecarCookie() {
@@ -205,6 +207,7 @@ public class StartSteps {
             jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
             logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
         }
+    	
     }
     
     @Given("User navigates to ([^\"]*) with clean session")
@@ -235,49 +238,5 @@ public class StartSteps {
         driverFactory.deleteBrowserCookies();
         driver.get(env + extensionUrl);
         Util.waitLoadingBar(driver);
-    }
-    
-    private void verifyAndSetSidecarCookie(String urlToNavigate) {
-    	TestDataReader testdataReader = TestDataReader.getTestDataReader();
-    	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
-    	
-    	if(setCookie) {
-    		String environment = reader.getProperty("environment");
-        	String url = reader.getProperty("url");
-        	
-    		Util.createWebDriverWait(driver).until(new Function<WebDriver, Object>() {
-				@Override
-				public Object apply(WebDriver driver) {
-					return driver.manage().getCookieNamed("x-origin");
-				}
-    		});
-        	
-            //if (!(cookie == null)) {
-    		Cookie cookie = driver.manage().getCookieNamed("x-origin");
-            	String cookieValue = cookie.getValue();
-            	if (!cookieValue.equalsIgnoreCase("sidecar_render")) {
-            		String removeCookie=testdataReader.getData("remove.cookie");
-            		JavascriptExecutor jse = (JavascriptExecutor) driver;
-                	jse.executeScript(removeCookie);
-                	
-                	deleteCookiesAndNavigateAgain(urlToNavigate);	
-            	}
-//            } else {
-//            	deleteCookiesAndNavigateAgain(urlToNavigate);
-//            }  
-        }
-    }
-    
-    public void deleteCookiesAndNavigateAgain(String urlToNavigate) {
-	    String url = reader.getProperty("url");
-		String domain = url.replace("https://", "");
-		
-		driverFactory.deleteBrowserCookies();
-    	
-		JavascriptExecutor jse = (JavascriptExecutor) driver;
-		jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-        logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
-        
-        driver.get(urlToNavigate);
     }
 }
