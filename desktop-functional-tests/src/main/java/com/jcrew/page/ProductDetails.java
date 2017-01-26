@@ -280,7 +280,7 @@ public class ProductDetails extends PageObject {
         logger.info("Adding to bag {}", product);
         stateHolder.put("bag_items", productsInBag);
 
-        addToBagButton.click();
+        Util.scrollAndClick(driver, addToBagButton);
         handleShipRestrictionMessage();
         
         try {
