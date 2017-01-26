@@ -100,6 +100,7 @@ public class ProductDetails extends PageObject {
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(product__details));
+        headerWrap.hoverOverIcon("logo");
     }
 
     public void selectRandomColor() {
@@ -313,7 +314,6 @@ public class ProductDetails extends PageObject {
         
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
-        
         return  isURL && isURL;
     }
 
