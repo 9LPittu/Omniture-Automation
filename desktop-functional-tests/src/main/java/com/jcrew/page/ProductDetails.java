@@ -469,7 +469,7 @@ public class ProductDetails extends PageObject {
 				}            	
             });
             
-            logger.info("Actual PDP Message: {}", expectedPDPMessage);
+            logger.info("Actual PDP Message: {}", actualPDPMessage);
         } else {
             logger.info("PDP message will not be displayed for '" + countryCode + "' country");
         }
