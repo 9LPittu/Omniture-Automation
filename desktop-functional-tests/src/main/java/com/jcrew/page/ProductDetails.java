@@ -111,7 +111,7 @@ public class ProductDetails extends PageObject {
         if (availableColors.size() > 0) {
             WebElement selectedColor = Util.randomIndex(availableColors);
 
-            selectedColor.click();
+            Util.scrollAndClick(driver, selectedColor);
         }
     }
 
@@ -128,8 +128,7 @@ public class ProductDetails extends PageObject {
 
         if (availableSizes.size() > 0) {
             final WebElement selectedSize = Util.randomIndex(availableSizes);
-            Util.scrollToElement(driver, selectedSize);
-            selectedSize.click();
+            Util.scrollAndClick(driver, selectedSize);
         }
     }
 
