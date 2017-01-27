@@ -187,6 +187,8 @@ public class E2ESteps extends DriverFactory {
 		String[] arrItemIdentifiers = itemIdentifiers.split(getE2ETestdataDelimiter());
 		String[] arrQuantities = quantities.split(getE2ETestdataDelimiter());
 
+		stateHolder.put("itemsCount", arrItemIdentifiers.length);
+		
 		for (int i = 0; i < arrItemIdentifiers.length; i++) {
 			int rowNumber = getRowNumberFromItemMaster(arrItemIdentifiers[i]);
 			if (rowNumber > 0) {
@@ -492,6 +494,13 @@ public class E2ESteps extends DriverFactory {
 			// multiple shipping addresses selection
 			String[] arrShippingAddresses = shippingAddresses.split(getE2ETestdataDelimiter());
 			
+			int itemsCount = stateHolder.get("itemsCount");
+			if(itemsCount<2){
+				String message = "Multiple shipping addresses are selected. But only 1 item is added to bag.";
+				Util.e2eErrorMessagesBuilder(message);
+				throw new WebDriverException(message);
+			}
+			
 			for(int i =0;i<arrShippingAddresses.length;i++){
 				stateHolder.addToList("shippingAddresses", arrShippingAddresses[i]);
 			}
@@ -751,6 +760,14 @@ public class E2ESteps extends DriverFactory {
 		CheckoutShippingAdd checkoutShippingAdd = new CheckoutShippingAdd(getDriver());
 		
 		if(multipleShippingAddressRequired.equalsIgnoreCase("YES")){
+			
+			int itemsCount = stateHolder.get("itemsCount");
+			if(itemsCount<2){
+				String message = "Multiple shipping addresses are selected. But only 1 item is added to bag.";
+				Util.e2eErrorMessagesBuilder(message);
+				throw new WebDriverException(message);
+			}
+			
 			checkoutShippingAdd.selectMultipleAddressesRadioButton();
 		}
 		

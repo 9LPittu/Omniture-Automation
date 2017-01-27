@@ -23,6 +23,7 @@ public class PaypalReview extends PageObject{
     
     public void clickContinue(){
     	wait.until(ExpectedConditions.elementToBeClickable(continueButton));
+    	Util.wait(2000);
     	continueButton.click();
     }    
 }
