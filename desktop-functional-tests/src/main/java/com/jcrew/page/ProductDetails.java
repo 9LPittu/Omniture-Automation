@@ -100,7 +100,7 @@ public class ProductDetails extends PageObject {
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(product__details));
-        headerWrap.hoverOverIcon("storess");
+        headerWrap.hoverOverIcon("stores");
     }
 
     public void selectRandomColor() {
