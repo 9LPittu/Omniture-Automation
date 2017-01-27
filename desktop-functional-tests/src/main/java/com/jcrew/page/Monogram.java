@@ -36,6 +36,12 @@ public class Monogram extends PageObject{
     	}
     	else{
     		List<WebElement>  placementElements = monogramModalWindow.findElements(By.xpath(".//div[contains(@class,'js-monogram__location')]/span"));
+    		
+    		if(placementElements.size()==0){
+    			logger.info("There is no option provided for selecting placement...");
+    			return;
+    		}
+    		
     		placementElement = placementElements.get(Util.randomIndex(placementElements.size()));
     	}
     	
