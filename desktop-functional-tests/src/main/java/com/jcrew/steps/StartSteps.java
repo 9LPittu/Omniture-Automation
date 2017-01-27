@@ -193,7 +193,6 @@ public class StartSteps {
     private void setSidecarCookie() {
     	TestDataReader testdataReader = TestDataReader.getTestDataReader();
     	boolean setCookie = testdataReader.getBoolean("setSidecarCookie");
-    	setCookie = true;
     	if(setCookie) {
     		String url = reader.getProperty("url");
     		String domain = url.replace("https://", "");
