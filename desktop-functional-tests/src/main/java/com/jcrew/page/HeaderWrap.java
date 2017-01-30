@@ -281,6 +281,10 @@ public class HeaderWrap {
 					"//span[contains(@class, 'department-nav__text') and " + Util.xpathGetTextLower + " = 'men']"));
 			hoverAction.moveToElement(logo);
 			hoverAction.perform();
+		} else if ("stores".equalsIgnoreCase(icon)) {
+			wait.until(ExpectedConditions.visibilityOf(stores));
+			hoverAction.moveToElement(stores);
+			hoverAction.perform();
 		}
 	}
 

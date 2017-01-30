@@ -100,6 +100,7 @@ public class ProductDetails extends PageObject {
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(product__details));
+        headerWrap.hoverOverIcon("stores");
     }
 
     public void selectRandomColor() {
@@ -111,7 +112,7 @@ public class ProductDetails extends PageObject {
         if (availableColors.size() > 0) {
             WebElement selectedColor = Util.randomIndex(availableColors);
 
-            selectedColor.click();
+            Util.scrollAndClick(driver, selectedColor);
         }
     }
 
@@ -133,8 +134,7 @@ public class ProductDetails extends PageObject {
 
         if (availableSizes.size() > 0) {
             final WebElement selectedSize = Util.randomIndex(availableSizes);
-            Util.scrollToElement(driver, selectedSize);
-            selectedSize.click();
+            Util.scrollAndClick(driver, selectedSize);
         }
     }
     
@@ -304,7 +304,7 @@ public class ProductDetails extends PageObject {
         logger.info("Adding to bag {}", product);
         stateHolder.put("bag_items", productsInBag);
 
-        addToBagButton.click();
+        Util.scrollAndClick(driver, addToBagButton);
         handleShipRestrictionMessage();
         
         try {
@@ -338,7 +338,6 @@ public class ProductDetails extends PageObject {
         
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
-        
         return  isURL && isURL;
     }
 
