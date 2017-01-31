@@ -29,7 +29,7 @@ public class Util {
     public static final String DOWN = "down";
     
     public static String getEnvironment(){
-    	return System.getProperty("environment", "ci");
+    	return System.getProperty("environment", "gold");
     }
 
     public static int randomIndex(int size) {

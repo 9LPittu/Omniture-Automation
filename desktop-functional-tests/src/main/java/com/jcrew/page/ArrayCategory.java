@@ -24,6 +24,8 @@ public class ArrayCategory extends Array{
     private WebElement itemCount;
     @FindBy(id = "plusArrayContainer")
     private WebElement arrayContainer;
+   
+    
 
     public ArrayCategory(WebDriver driver) {
         super(driver);

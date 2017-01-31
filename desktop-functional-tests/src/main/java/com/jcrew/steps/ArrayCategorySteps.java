@@ -159,4 +159,5 @@ public class ArrayCategorySteps extends DriverFactory {
     public void is_category_array_page() {
         assertTrue("Verify Category array page displayed", productsArray.isCategoryArray());
     }
-}
+    
+  }
