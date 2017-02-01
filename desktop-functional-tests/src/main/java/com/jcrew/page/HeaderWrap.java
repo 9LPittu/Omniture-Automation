@@ -317,6 +317,8 @@ public class HeaderWrap {
 				dropdown = userPanel.findElement(By.tagName("dl"));
 				if(dropdown.isDisplayed())
 					break;
+				
+				cntr++;
 			}
 			catch(NoSuchElementException nsee){
 				logger.info("NoSuchElementException is thrown when tried to click on {} option", option);
@@ -328,8 +330,7 @@ public class HeaderWrap {
 			}
 		}while(cntr<5);
 			
-		WebElement ddElement = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel-item--signout']"));
-		optionElement = ddElement.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + option.toLowerCase() + "']"));
+		optionElement = dropdown.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + option.toLowerCase() + "']"));
 		optionElement.click();			
 		
 		Util.waitLoadingBar(driver);

@@ -267,7 +267,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     public void verify_gift_card_details(){
     	String expectedSenderName = bag.stateHolder.get("giftCardSenderName");
     	String expectedRecipientName = bag.stateHolder.get("giftCardRecipientName");
-    	String expectedRecipientEmail = bag.stateHolder.get("giftCardRecipientEmailAddress");
+    	String expectedRecipientEmail = bag.stateHolder.get("giftCardRecipientEmail");
     	   	
     	assertEquals("Same gift card sender name", expectedSenderName.toLowerCase(), bag.getEgiftCardSenderName().toLowerCase());
     	assertEquals("Same gift card recipient name", expectedRecipientName.toLowerCase(), bag.getEgiftCardRecipientName().toLowerCase());
