@@ -131,6 +131,9 @@ public class E2ESteps extends DriverFactory {
 	@When("^User selects country as per testdata$")
 	public void user_selects_country_as_per_testdata() {
 		String countryName = getDataFromTestDataRowMap("Ship To Country");
+		
+		if(countryName.equalsIgnoreCase("US"))
+			return;
 
 		// click on change link from footer
 		Footer footer = new Footer(getDriver());
