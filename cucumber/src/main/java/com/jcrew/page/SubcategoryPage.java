@@ -622,7 +622,7 @@ public class SubcategoryPage {
                 arrayPageItems = getArrayPageProductTileElements();
 
                 //Capture the array page item name & price
-                List<WebElement> itemNameElements = driver.findElements(By.xpath("//a[contains(@class,'product-tile__details')]/span[1]"));
+                List<WebElement> itemNameElements = driver.findElements(By.xpath("//a[contains(@class,'product-tile__details')]/span[contains(@class,'tile__detail--name')]"));
                 WebElement itemNameElement = itemNameElements.get(loopCntr);
                 arrayPageItemName = itemNameElement.getText().trim();
                 storeItemPriceFromArrayPage(arrayPageItems.get(loopCntr));
