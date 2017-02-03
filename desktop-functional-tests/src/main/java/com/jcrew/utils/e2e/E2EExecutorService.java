@@ -23,7 +23,7 @@ public class E2EExecutorService implements Runnable {
 	
 	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
 	
-	public E2EExecutorService(File targetDirectory, File reportsDirectory, String testdataFile, String runner, String environment, String viewport, boolean remoteExecution, boolean stepScreenshotRequired, boolean isDesktop){
+	public E2EExecutorService(File targetDirectory, File reportsDirectory, String testdataFile, String runner, String environment, String viewport, boolean remoteExecution, boolean stepScreenshotRequired){
 		this.targetDirectory = targetDirectory;
 		this.reportsDirectory = reportsDirectory;
 		this.testdataFile = testdataFile;
@@ -32,7 +32,6 @@ public class E2EExecutorService implements Runnable {
 		this.viewport = viewport;
 		this.remoteExecution = remoteExecution;
 		this.stepScreenshotRequired = stepScreenshotRequired;
-		this.isDesktop = isDesktop;		
 	}
 
 	@Override
@@ -92,7 +91,7 @@ public class E2EExecutorService implements Runnable {
 				}
 				
 				command[2] = mavenExecutablePath +  " test -Denvironment=" + environment + " -Dviewport=" + viewport + " -Dremote.execution=" + remoteExecution + 
-			  	             " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired + " -Dis.desktop=" + isDesktop;
+			  	             " -Dtest=" + runner + " -Dtake.step.screenshot=" + stepScreenshotRequired;
 				
 				ProcessExecutor processExecutor = new ProcessExecutor();
 				Process p = processExecutor.executeCommand(command);

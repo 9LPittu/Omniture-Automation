@@ -71,13 +71,12 @@ public class E2EMasterExecutor {
 				String viewport = (String) masterMap.get("Viewport");
 				boolean remoteExecution = (boolean) masterMap.get("Remote Execution");
 				boolean stepScreenshotRequired = (boolean) masterMap.get("Step Screenshot");				
-				boolean isDesktop = (boolean) masterMap.get("isDesktop");
 				
 				if(!testdataFile.contains(".xls")){
 					testdataFile += ".xls";
 				}			
 
-				Runnable worker = new E2EExecutorService(targetDirectory, reportsDirectory, testdataFile, runner, environment, viewport, remoteExecution, stepScreenshotRequired, isDesktop);
+				Runnable worker = new E2EExecutorService(targetDirectory, reportsDirectory, testdataFile, runner, environment, viewport, remoteExecution, stepScreenshotRequired);
 				executor.execute(worker);				
 			}
 		}
