@@ -235,7 +235,9 @@ public class Header {
     	        
     	        if(headerSearchInput.isDisplayed()){
     	        	break;
-    	        }
+    	        } else {
+                    cntr++;
+                }
     		}
     		catch(Exception e){
     			cntr++;
