@@ -472,10 +472,11 @@ public class HeaderWrap {
 	}
 	
 	public String getSearchDrawerState() {
-	    WebElement 	searchDrawer = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'js-header__primary-nav c-header__primary-nav')]")));
+		wait.until(ExpectedConditions.visibilityOf(search));
+	    WebElement 	searchDrawer = driver.findElement(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input"));
 	    String className = searchDrawer.getAttribute("class").toLowerCase().trim();
 	    
-	    if(className.contains("is-collapsed")) {
+	    if(className.contains("is-hidden")) {
 	    	return "closed";			
 	    } else {
 	    	return "open";
