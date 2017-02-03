@@ -37,8 +37,10 @@ public class HeaderWrap {
 
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
 	private WebElement menu;
-	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/a")
+	
+	@FindBy(xpath = "//span[contains(@class,'icon-header-search')]")
 	private WebElement search;
+	
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--stores']/a")
 	private WebElement stores;
 	@FindBy(id = "c-header__userpanel")
@@ -186,7 +188,8 @@ public class HeaderWrap {
 		do{
 			try{
 				searchHeader = global_header.findElement(By.className("header__search__wrap"));
-				searchInput = searchHeader.findElement(By.xpath(".//input[contains(@class,'js-header__search__input')]"));
+				searchInput = search.findElement(By.xpath("following::input[1]"));
+				search.findElement(By.xpath("following::input[1]"));
 				if(searchInput.isDisplayed())
 					break;
 			}
@@ -197,8 +200,7 @@ public class HeaderWrap {
 		
 		searchInput.clear();
 		searchInput.sendKeys(searchTerm);
-		WebElement searchButton = searchHeader
-				.findElement(By.xpath(".//a[contains(@class, 'js-header__search__button')]"));
+		WebElement searchButton = searchHeader.findElement(By.xpath("//span[text()='search']"));
 		searchButton.click();
 		logger.info("Searching for {}", searchTerm);
 		Util.waitLoadingBar(driver);
