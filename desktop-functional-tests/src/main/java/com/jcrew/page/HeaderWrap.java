@@ -37,7 +37,7 @@ public class HeaderWrap {
 
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
 	private WebElement menu;
-	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/a")
+	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/span[contains(@class,'primary-nav__text--search')]")
 	private WebElement search;
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--stores']/a")
 	private WebElement stores;
@@ -151,14 +151,10 @@ public class HeaderWrap {
 	public void searchForSpecificTerm(String searchTerm) {
 		wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
 		search.click();
-		WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
-		WebElement searchInput = searchHeader
-				.findElement(By.xpath(".//input[contains(@class,'js-header__search__input')]"));
+		WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input")));		
 		searchInput.clear();
 		searchInput.sendKeys(searchTerm);
-		WebElement searchButton = searchHeader
-				.findElement(By.xpath(".//a[contains(@class, 'js-header__search__button')]"));
-		searchButton.click();
+		search.click();
 		logger.info("Searching for {}", searchTerm);
 		Util.waitLoadingBar(driver);
 	}
