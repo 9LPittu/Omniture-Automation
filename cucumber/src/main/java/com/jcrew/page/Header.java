@@ -235,11 +235,14 @@ public class Header {
     	        
     	        if(headerSearchInput.isDisplayed()){
     	        	break;
-    	        }
+    	        } else {
+                    cntr++;
+                }
     		}
     		catch(Exception e){
     			cntr++;
     		}
+            Util.wait(1000);
     	}while(cntr<3);
     	
     	if(!headerSearchInput.isDisplayed()){

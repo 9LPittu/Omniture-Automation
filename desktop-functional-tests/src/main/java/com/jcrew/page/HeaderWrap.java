@@ -36,11 +36,9 @@ public class HeaderWrap {
 	TestDataReader testdataReader = TestDataReader.getTestDataReader();
 
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
-	private WebElement menu;
-	
-	@FindBy(xpath = "//span[contains(@class,'icon-header-search')]")
-	private WebElement search;
-	
+	private WebElement menu;	
+	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/span[contains(@class,'primary-nav__text--search')]")
+	private WebElement search;	
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--stores']/a")
 	private WebElement stores;
 	@FindBy(id = "c-header__userpanel")
@@ -180,28 +178,12 @@ public class HeaderWrap {
 			}
 		});
 		
-		search.click();
+		search.click();		
 		
-		int cntr = 0;
-		WebElement searchHeader = null;
-		WebElement searchInput = null;
-		do{
-			try{
-				searchHeader = global_header.findElement(By.className("header__search__wrap"));
-				searchInput = search.findElement(By.xpath("following::input[1]"));
-				search.findElement(By.xpath("following::input[1]"));
-				if(searchInput.isDisplayed())
-					break;
-			}
-			catch(StaleElementReferenceException sere){
-				cntr++;
-			}
-		}while(cntr<=2);
-		
+		WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input")));		
 		searchInput.clear();
 		searchInput.sendKeys(searchTerm);
-		WebElement searchButton = searchHeader.findElement(By.xpath("//span[text()='search']"));
-		searchButton.click();
+		search.click();
 		logger.info("Searching for {}", searchTerm);
 		Util.waitLoadingBar(driver);
 	}
@@ -558,10 +540,11 @@ public class HeaderWrap {
 	}
 	
 	public String getSearchDrawerState() {
-	    WebElement 	searchDrawer = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'js-header__primary-nav c-header__primary-nav')]")));
+		wait.until(ExpectedConditions.visibilityOf(search));
+	    WebElement 	searchDrawer = driver.findElement(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input"));
 	    String className = searchDrawer.getAttribute("class").toLowerCase().trim();
 	    
-	    if(className.contains("is-collapsed")) {
+	    if(className.contains("is-hidden")) {
 	    	return "closed";			
 	    } else {
 	    	return "open";
