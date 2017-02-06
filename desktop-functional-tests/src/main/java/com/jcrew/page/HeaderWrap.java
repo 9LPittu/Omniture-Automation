@@ -168,17 +168,28 @@ public class HeaderWrap {
 		Util.waitForPageFullyLoaded(driver);
 		wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
 		
-		wait.until(new Predicate<WebDriver>(){
-			@Override
-			public boolean apply(WebDriver driver) {
-				boolean result = false;
-				if(search.isDisplayed())
-					result = true;
-				return result;
-			}
-		});
+		WebElement searchClear = null;
+		try{
+			searchClear = Util.createWebDriverWait(driver, 1).until(
+											ExpectedConditions.visibilityOfElementLocated(By.className("js-primary-nav__search__button--clear")));
+			searchClear.click();
+		}catch(TimeoutException toe){
+			logger.debug("Search clear button is not displayed...");
+		}
 		
-		search.click();		
+		if(searchClear==null){
+			wait.until(new Predicate<WebDriver>(){
+				@Override
+				public boolean apply(WebDriver driver) {
+					boolean result = false;
+					if(search.isDisplayed())
+						result = true;
+					return result;
+				}
+			});
+		
+			search.click();
+		}
 		
 		WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input")));		
 		searchInput.clear();
