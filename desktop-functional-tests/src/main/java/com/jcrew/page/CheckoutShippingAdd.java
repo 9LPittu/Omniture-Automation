@@ -6,7 +6,7 @@ import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -84,7 +84,7 @@ public class CheckoutShippingAdd extends Checkout {
                 
                 try{
                 	Util.createWebDriverWait(driver, 3).until(ExpectedConditions.visibilityOf(us_city_state));
-                }catch(NoSuchElementException nsee){	
+                }catch(TimeoutException toe){	
                 	city.sendKeys(address.getCity());
                 	Select select = new Select(state_province);
                 	select.selectByVisibleText(address.getState());
