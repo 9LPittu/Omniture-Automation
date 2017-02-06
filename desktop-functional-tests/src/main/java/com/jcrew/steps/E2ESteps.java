@@ -639,6 +639,9 @@ public class E2ESteps extends DriverFactory {
 			singlePaymentMethod(userType, paymentMethod1);
 			
 			enter_billing_address();
+			
+			if(paymentMethod2.isEmpty())
+				return;
 
 			CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
 			CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
