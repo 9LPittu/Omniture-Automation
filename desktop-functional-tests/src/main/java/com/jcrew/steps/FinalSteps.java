@@ -94,6 +94,7 @@ public class FinalSteps {
         String orderTestData = "";
         orderTestData = captureE2EDetails();        
         if(!orderTestData.isEmpty()){
+        	logger.info("E2E scenario details:\n" + orderTestData);
         	scenario.embed(orderTestData.getBytes(), "text/plain");
         }
         
