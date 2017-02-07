@@ -448,6 +448,12 @@ public class E2ESteps extends DriverFactory {
 			default:
 				checkout = new CheckoutShoppingBag(getDriver());
 			}
+			
+			//Verify promo codes are already applied
+			if(checkout.getAppliedPromoCodesCount()==2){
+				logger.debug("2 promo codes are already applied...");
+				return;
+			}
 
 			for (int i = 0; i <= maxPromoCodesCount - 1; i++) {
 				String promoCode = arrPromoCodes[i];

@@ -428,6 +428,16 @@ public abstract class Checkout extends PageObject{
     	}
     }
     
+    public int getAppliedPromoCodesCount(){    	
+    	try{
+    		 List<WebElement> appliedPromoCodeElements = promoCode.findElements(By.xpath(".//span[contains(@class, 'module-name')]"));
+    		 return appliedPromoCodeElements.size();
+    	}
+    	catch(NoSuchElementException nsee){
+    		return -1;
+    	}
+    }
+    
     public boolean giftCardsInBag(){
     	if(!stateHolder.hasKey("giftCardsToBag"))
     		return true;
