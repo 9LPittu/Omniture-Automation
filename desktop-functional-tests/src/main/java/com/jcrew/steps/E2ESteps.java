@@ -450,8 +450,9 @@ public class E2ESteps extends DriverFactory {
 			}
 			
 			//Verify promo codes are already applied
-			if(checkout.getAppliedPromoCodesCount()==2){
-				logger.debug("2 promo codes are already applied...");
+			int promoAppliedCount = checkout.getAppliedPromoCodesCount(); 
+			if(promoAppliedCount == 2 || promoAppliedCount == arrPromoCodes.length){
+				logger.debug("Required promo codes are already applied as per test data...");
 				return;
 			}
 
