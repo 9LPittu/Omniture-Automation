@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.google.common.base.Predicate;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
@@ -250,8 +251,9 @@ public class CheckoutBillingPayment extends Checkout {
 
         WebElement country = addNewBillingAddressForm.findElement(By.name("ADDRESS<>country_cd"));
         Select countrySelect = new Select(country);
-        countrySelect.selectByValue(address.getCountry());
-
+        countrySelect.selectByValue(address.getCountry());        
+        
+        wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(addNewBillingAddressForm.findElement(By.name("ADDRESS<>firstName")))));
         WebElement firstName = addNewBillingAddressForm.findElement(By.name("ADDRESS<>firstName"));
         firstName.sendKeys(user.getFirstName());
 
