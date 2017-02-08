@@ -74,6 +74,7 @@ public class DriverFactory {
         WebDriver driver = null;
 
         if ("chrome".equals(browser)) {
+        	System.setProperty("webdriver.chrome.driver", "c:\\git\\chromedriver.exe");
         	DesiredCapabilities chrome = DesiredCapabilities.chrome();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--disable-extensions");

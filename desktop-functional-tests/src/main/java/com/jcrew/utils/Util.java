@@ -23,6 +23,7 @@ public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
 
     public static final int DEFAULT_TIMEOUT = 60;
+    public static final int DEFAULT_TIMEOUT_STEEL = 120;
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
     
     public static final String UP = "up";
@@ -326,5 +327,17 @@ public class Util {
         return variable_value;
 
     }
+    public static int getDefaultTimeOutValue(){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (reader.getProperty("environment").equalsIgnoreCase("steel"))
+            return DEFAULT_TIMEOUT_STEEL;
+        else
+            return DEFAULT_TIMEOUT;
+    }
 
+    public static void clickOnElement(WebDriver driver, WebElement element) {
+        Actions action = new Actions(driver);
+        createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+        action.click(element).build().perform();
+    }
 }

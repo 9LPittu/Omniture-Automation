@@ -35,7 +35,7 @@ public class ShoppableTrayPage extends PageObject {
 	 private WebElement itemPrice;
 	 
 		 @FindBy(className = "desc_line4")
-	    private WebElement temp;
+	    private List<WebElement> temp;
     public ShoppableTrayPage(WebDriver driver) {
         super(driver);
         //headerWrap = new HeaderWrap(driver);
@@ -47,8 +47,8 @@ public class ShoppableTrayPage extends PageObject {
     
     public void selectTheRandomProductForShoppableTray(){
         Util.waitForPageFullyLoaded(driver);
-        Util.scrollToElement(driver, temp);
-        temp.click();
+      
+        temp.get(1).click();
         
       // MpdarrayContainer.get(1).click();
         
