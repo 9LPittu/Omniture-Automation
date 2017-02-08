@@ -47,6 +47,10 @@ public class MultiplePdpPage {
     @FindBy(xpath="//section[@id='c-product__details--link']/div/a")
     private WebElement fullProductDetailsLink;
     
+    @FindBy(xpath=".//div[@class='tray--count']")
+    private WebElement shopthelookitemcount;
+    @FindBy(xpath=".//li[contains(@class,'js-tray__item tray-list__item')]")
+	 private List<WebElement> shopthelookitemslist;
     private WebElement header;
     private List<WebElement> products = null;
     private List<WebElement> productsImages = null;
@@ -157,6 +161,7 @@ public class MultiplePdpPage {
 
                 Util.waitForPageFullyLoaded(driver);
                 stateHolder.put("shoppableTrayProduct", article);
+                Util.scrollToElement(driver, selected);
                 Util.scrollAndClick(driver, selected);
                 Util.waitLoadingBar(driver);
                 Util.createWebDriverWait(driver, Util.getDefaultTimeOutValue()/3).until(ExpectedConditions.urlContains("itemCode="+productCode));
@@ -323,7 +328,8 @@ public class MultiplePdpPage {
 
     public boolean checkEveryItemDrawers() {
         if(getSelectedProductIndex() != 0)
-            setSelectProductIndex(0);
+        	Util.scrollToElement(driver, multipleProductSection);
+        	setSelectProductIndex(0);
 
         boolean result = true;
 
@@ -395,9 +401,11 @@ public class MultiplePdpPage {
             for (int i = 0; i < numProducts; i++) {
                 pickColor();
                 pickAvailableSize();
+                
                 addToBagButton.click();
                 waitForBag(Integer.toString(i+1));
                 navigateToNextProduct(i);
+                
             }
 
         } else if("wish list".equals(bag)){
@@ -478,7 +486,7 @@ public class MultiplePdpPage {
                 "/li[contains(@class,'js-product__size sizes-list__item') and not(contains(@class,'is-unavailable'))]"));
         WebElement sizeElement;
 
-        if(availableSizes.size() > 0) {
+        if(availableSizes.size() > 1) {
             int random = Util.randomIndex(availableSizes.size());
             sizeElement  = availableSizes.get(random);
         } else {
@@ -494,15 +502,15 @@ public class MultiplePdpPage {
         List<WebElement> availableColors = article.findElements(By.xpath(".//ul[@class='product__colors colors-list']/li"));
         WebElement colorElement;
 
-        if(availableColors.size() > 0) {
+        if(availableColors.size() > 1) {
             int random = Util.randomIndex(availableColors.size());
             colorElement = availableColors.get(random);
+            colorElement.click();
         } else {
             colorElement = availableColors.get(0);
         }
 
-        colorElement.click();
-
+        
         return colorElement.getAttribute("data-code");
     }
 
@@ -624,4 +632,23 @@ public class MultiplePdpPage {
 
         return Util.countryContextURLCompliance(driver,country);
     }
+    
+   
+    public int shoppableTrayItemcount(){
+    	
+        String str = shopthelookitemcount.getText();
+        String[] part = str.split(" ");
+        int itemcount =Integer.parseInt(part[0]);      
+        
+        return itemcount;
+      
+      }
+      
+      public int itemsCountInCarousel(){
+      	
+         int items= shopthelookitemslist.size();
+         
+         return items;
+      }
+  
 }

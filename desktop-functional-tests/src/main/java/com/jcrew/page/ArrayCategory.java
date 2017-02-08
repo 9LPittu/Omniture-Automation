@@ -22,9 +22,12 @@ public class ArrayCategory extends Array{
     private WebElement categoryFilters;
     @FindBy(id = "c-category__item-count")
     private WebElement itemCount;
+    @FindBy(className = "desc_line4")
+	private List<WebElement> shopnowlist;
     @FindBy(id = "plusArrayContainer")
     private WebElement arrayContainer;
-   
+    @FindBy(id = "tray__list")
+	private WebElement trayList;
     
 
     public ArrayCategory(WebDriver driver) {
@@ -186,4 +189,31 @@ public class ArrayCategory extends Array{
         WebElement accordian = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.className("js-accordian__wrap"))));
         return accordian;
     }
+    
+    public boolean selectTheRandomProductForShoppableTray(){
+    	logger.debug("Selecting a random shop the look for {}");
+        Util.waitLoadingBar(driver);
+        
+            int randomIndex = Util.randomIndex(shopnowlist.size());
+            WebElement randomShopTheLook = shopnowlist.get(randomIndex);
+            logger.debug("Picked look #{}", randomIndex);
+            Util.waitLoadingBar(driver);
+            Util.scrollToElement(driver,randomShopTheLook);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.elementToBeClickable(randomShopTheLook));
+            String url = driver.getCurrentUrl();
+            Util.clickOnElement(driver, randomShopTheLook);
+            Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+
+            //Verify that you have more than one product in tray. If you only have one, then select other tray
+            List<WebElement> items = trayList.findElements(By.className("js-tray__item"));
+            logger.debug("items in tray: {}", items.size());
+            if(items.size() == 1){
+                driver.navigate().back();
+                return false;
+            }
+
+            return true;
+        
+    }
+    
 }

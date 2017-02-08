@@ -160,4 +160,11 @@ public class ArrayCategorySteps extends DriverFactory {
         assertTrue("Verify Category array page displayed", productsArray.isCategoryArray());
     }
     
+    @When("^User selects random tray from available categories$")
+	 public void select_random_item_for_shoppableTray() {
+		
+    	productsArray.selectTheRandomProductForShoppableTray();
+	    	
+	 }
+	 
   }

@@ -5,6 +5,7 @@ import com.jcrew.page.CheckoutShoppingBag;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import static org.junit.Assert.*;
 
@@ -25,11 +26,18 @@ public class MultiplePdpSteps extends DriverFactory{
         assertEquals("First product is selected", multiplePDP.getSelectedProductIndex(),0);
         assertTrue("Items number matches pictures in tray", multiplePDP.itemsNumberMatchesPicturesSize());
     }
-
+    
+   
     @And("^User clicks last product in multiple pdp page$")
     public void userClicksLastProductInMultiplePdpPage() {
         //-1 will go to the last product in the list
         multiplePDP.setSelectProductIndex(-1);
+    }
+
+    @And("^User clicks first product in multiple pdp page$")
+    public void userClicksfirstProductInMultiplePdpPage() {
+        //-1 will go to the last product in the list
+        multiplePDP.setSelectProductIndex(0);
     }
 
     @Then("^Verifies ([^\"]*) item arrow is disabled$")
@@ -65,10 +73,11 @@ public class MultiplePdpSteps extends DriverFactory{
     @Then("^Verify every product contains name, image, price, color and size$")
     public void verifyEveryProductContainsDetails() {
         assertTrue("Every product contains details", multiplePDP.checkEveryItemDetails());
+       
     }
 
     //This step will check that the drawer exists, is closed when visiting the product and when opening, remains open
-    @Then("^Verify every product contains product, size and fit and review drawers$")
+    @Then("^Verify every product contains size and fit and review drawers$")
     public void verifyEveryProductContainsProductDetails() {
         assertTrue("Every product contains product, size and fit and review drawers", multiplePDP.checkEveryItemDrawers());
     }
@@ -117,5 +126,13 @@ public class MultiplePdpSteps extends DriverFactory{
     public void verifyTrayHasSelectedColorsAsDefault() {
         assertTrue("New URL contains selected colors by default", multiplePDP.selectedColorsByDefault());
     }
+    
+   
+	 
+	 @When("^Verify the items counts matches with Carousel items$")
+	 public void verifyItemsCount(){
+		 assertEquals("Itmes count matches with Carousel items count",
+			  multiplePDP.shoppableTrayItemcount(), multiplePDP.itemsCountInCarousel());
+	 }
 }
 
