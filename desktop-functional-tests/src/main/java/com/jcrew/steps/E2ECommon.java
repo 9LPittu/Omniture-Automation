@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class E2ECommon extends DriverFactory {
 	protected TestDataReader testdataReader = TestDataReader.getTestDataReader();
 	protected String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");	
 	
-	public void getItemsMasterTestdata() throws IOException{
+	protected void getItemsMasterTestdata() throws IOException{
     	String itemsMasterExcelFileName = "E2E_ITEMS_MASTER_TESTDATA.xls"; 
 		ExcelUtils itemMasterReader = null;
 		
@@ -41,7 +42,53 @@ public class E2ECommon extends DriverFactory {
 		}
     }
 
-	public String getDataFromTestDataRowMap(String columnName) {
+	protected int getRowNumberFromItemMaster(String itemIdentifier) throws IOException {
+		int rowNumber = -1;
+
+		if (itemIdentifier.isEmpty())
+			return rowNumber;
+
+		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
+
+		for (int i = itemMasterTestdata.getSearchTextFirstRowNum(); i <= itemMasterTestdata
+				.getSearchTextLastRowNum(); i++) {
+			try {
+				Map<String, Object> itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(i);
+				String itemIdentifierFromSheet = (String) itemMasterTestdataMap.get("Item Identifier");
+				if (itemIdentifierFromSheet.equalsIgnoreCase(itemIdentifier)) {
+					rowNumber = i;
+				}
+			} catch (FileNotFoundException e) {
+				throw new FileNotFoundException();
+			} catch (IOException e) {
+				throw new IOException();
+			}
+		}
+
+		return rowNumber;
+	}
+
+	protected String getColumnValueFromItemMaster(int rowNumber, String columnName) throws IOException {
+		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
+
+		Map<String, Object> itemMasterTestdataMap = null;
+
+		try {
+			itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(rowNumber);
+		} catch (FileNotFoundException e) {
+			throw new FileNotFoundException();
+		} catch (IOException e) {
+			throw new IOException();
+		}
+
+		if (itemMasterTestdataMap.containsKey(columnName)) {
+			return (String) itemMasterTestdataMap.get(columnName);
+		} else {
+			return null;
+		}
+	}
+	
+	protected String getDataFromTestDataRowMap(String columnName) {
 		Map<String, Object> testdataMap = stateHolder.get("testdataRowMap");
 		String columnValue = null;
 		if (testdataMap.containsKey(columnName)) {
@@ -51,7 +98,7 @@ public class E2ECommon extends DriverFactory {
 		return columnValue;
 	}
 
-	public String getE2ETestdataDelimiter() {
+	protected String getE2ETestdataDelimiter() {
 		String e2eDelimiter = e2ePropertyReader.getProperty("e2e.testdata.delimiter");
 		return e2eDelimiter;
 	}

@@ -68,7 +68,7 @@ public class E2E1Steps extends E2ECommon {
 		Map<String, Object> testdataRowMap = null;
 		for (int j = testDataReader.getSearchTextFirstRowNum(); j <= testDataReader.getSearchTextLastRowNum(); j++) {
 			testdataRowMap = testDataReader.getDataFromExcel(j);
-			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")) {
+			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES") && ((String) testdataRowMap.get("Order Number")).isEmpty()) {
 				stateHolder.put("excelObject", testDataReader);
 				stateHolder.put("excelrowno", j);
 				stateHolder.put("testdataRowMap", testdataRowMap);
@@ -288,52 +288,6 @@ public class E2E1Steps extends E2ECommon {
 		}
 	}
 
-	private int getRowNumberFromItemMaster(String itemIdentifier) throws IOException {
-		int rowNumber = -1;
-
-		if (itemIdentifier.isEmpty())
-			return rowNumber;
-
-		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
-
-		for (int i = itemMasterTestdata.getSearchTextFirstRowNum(); i <= itemMasterTestdata
-				.getSearchTextLastRowNum(); i++) {
-			try {
-				Map<String, Object> itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(i);
-				String itemIdentifierFromSheet = (String) itemMasterTestdataMap.get("Item Identifier");
-				if (itemIdentifierFromSheet.equalsIgnoreCase(itemIdentifier)) {
-					rowNumber = i;
-				}
-			} catch (FileNotFoundException e) {
-				throw new FileNotFoundException();
-			} catch (IOException e) {
-				throw new IOException();
-			}
-		}
-
-		return rowNumber;
-	}
-
-	private String getColumnValueFromItemMaster(int rowNumber, String columnName) throws IOException {
-		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
-
-		Map<String, Object> itemMasterTestdataMap = null;
-
-		try {
-			itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(rowNumber);
-		} catch (FileNotFoundException e) {
-			throw new FileNotFoundException();
-		} catch (IOException e) {
-			throw new IOException();
-		}
-
-		if (itemMasterTestdataMap.containsKey(columnName)) {
-			return (String) itemMasterTestdataMap.get(columnName);
-		} else {
-			return null;
-		}
-	}
-
 	@When("^User clicks on CHECK OUT NOW button or Express Paypal button$")
 	public void user_clicks_checkout_express_paypal() {
 		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
@@ -353,7 +307,8 @@ public class E2E1Steps extends E2ECommon {
 	public void apply_and_verify_promo() {
 		String userType = getDataFromTestDataRowMap("User Type");
 		String promoCodes = getDataFromTestDataRowMap("Promo Codes");
-		if (promoCodes.isEmpty()) {
+		
+		if (promoCodes.isEmpty() || stateHolder.hasKey("isPromoAppliedFail")) {
 			return;
 		}
 
@@ -410,6 +365,7 @@ public class E2E1Steps extends E2ECommon {
 				checkout.addPromoCode(promoCode);
 
 				if (!checkout.isPromoCodeApplied(promoCode)) {
+					stateHolder.put("isPromoAppliedFail", true);
 					Util.e2eErrorMessagesBuilder("Failed to apply promo code: " + promoCode + " in the order!!");
 				} else {
 					logger.debug("Successfully applied promo code: {}", promoCode);
