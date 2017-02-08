@@ -24,7 +24,7 @@ public class E2ECommonSteps extends DriverFactory {
 	protected final Logger logger = LoggerFactory.getLogger(E2ECommonSteps.class);
 	protected E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
 	protected TestDataReader testdataReader = TestDataReader.getTestDataReader();
-	private String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");	
+	protected String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");	
 	
 	@Before("@e2e")
 	public void read_item_master_testdata() throws IOException{
@@ -65,29 +65,5 @@ public class E2ECommonSteps extends DriverFactory {
 	public String getE2ETestdataDelimiter() {
 		String e2eDelimiter = e2ePropertyReader.getProperty("e2e.testdata.delimiter");
 		return e2eDelimiter;
-	}
-	
-	@Given("^Test data is read from excel file \"([^\"]*)\"$")
-	public void read_test_data_from_excel(String excelFileName) throws FileNotFoundException, IOException {
-
-		ExcelUtils testDataReader;
-
-		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-			testDataReader = new ExcelUtils(
-					e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
-		} else {
-			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");
-		}
-
-		Map<String, Object> testdataRowMap = null;
-		for (int j = testDataReader.getSearchTextFirstRowNum(); j <= testDataReader.getSearchTextLastRowNum(); j++) {
-			testdataRowMap = testDataReader.getDataFromExcel(j);
-			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")) {
-				stateHolder.put("excelObject", testDataReader);
-				stateHolder.put("excelrowno", j);
-				stateHolder.put("testdataRowMap", testdataRowMap);
-				break;
-			}
-		}
 	}
 }

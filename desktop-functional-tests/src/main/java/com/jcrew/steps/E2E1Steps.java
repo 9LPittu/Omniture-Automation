@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -36,6 +37,7 @@ import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.*;
@@ -43,6 +45,30 @@ import static org.junit.Assert.*;
 public class E2E1Steps extends E2ECommonSteps {
 	
 	private boolean isItemDataExist = true;
+	
+	@Given("^Test data is read from excel file \"([^\"]*)\"$")
+	public void read_test_data_from_excel(String excelFileName) throws FileNotFoundException, IOException {
+
+		ExcelUtils testDataReader;
+
+		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+			testDataReader = new ExcelUtils(
+					e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
+		} else {
+			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");
+		}
+
+		Map<String, Object> testdataRowMap = null;
+		for (int j = testDataReader.getSearchTextFirstRowNum(); j <= testDataReader.getSearchTextLastRowNum(); j++) {
+			testdataRowMap = testDataReader.getDataFromExcel(j);
+			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")) {
+				stateHolder.put("excelObject", testDataReader);
+				stateHolder.put("excelrowno", j);
+				stateHolder.put("testdataRowMap", testdataRowMap);
+				break;
+			}
+		}
+	}
 	
 	@When("^User selects country as per testdata$")
 	public void user_selects_country_as_per_testdata() {
