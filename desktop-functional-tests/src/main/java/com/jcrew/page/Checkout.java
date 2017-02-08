@@ -420,7 +420,7 @@ public abstract class Checkout extends PageObject{
     
     public boolean isPromoCodeApplied(String promoCodeText){
     	try{
-    		 WebElement appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[contains(@class, 'module-name') and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
+    		 WebElement appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[@class='module-name' and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
     		 return appliedPromoCodeElement.isDisplayed();
     	}
     	catch(NoSuchElementException nsee){
@@ -430,7 +430,7 @@ public abstract class Checkout extends PageObject{
     
     public int getAppliedPromoCodesCount(){    	
     	try{
-    		 List<WebElement> appliedPromoCodeElements = promoCode.findElements(By.xpath(".//span[contains(@class, 'module-name')]"));
+    		 List<WebElement> appliedPromoCodeElements = promoCode.findElements(By.xpath(".//span[@class='module-name']"));
     		 return appliedPromoCodeElements.size();
     	}
     	catch(NoSuchElementException nsee){

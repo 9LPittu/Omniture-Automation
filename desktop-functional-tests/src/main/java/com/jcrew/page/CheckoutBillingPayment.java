@@ -255,10 +255,18 @@ public class CheckoutBillingPayment extends Checkout {
         
         wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(addNewBillingAddressForm.findElement(By.name("ADDRESS<>firstName")))));
         WebElement firstName = addNewBillingAddressForm.findElement(By.name("ADDRESS<>firstName"));
-        firstName.sendKeys(user.getFirstName());
+        if(address.getFirstName().isEmpty()){
+        	firstName.sendKeys(user.getFirstName());
+        }else{
+        	firstName.sendKeys(address.getFirstName());
+        }
 
         WebElement lastName = addNewBillingAddressForm.findElement(By.name("ADDRESS<>lastName"));
-        lastName.sendKeys(user.getFirstName());
+        if(address.getLastName().isEmpty()){
+        	lastName.sendKeys(user.getLastName());
+        }else{
+        	lastName.sendKeys(address.getLastName());
+        }    
 
         WebElement address1 = addNewBillingAddressForm.findElement(By.name("ADDRESS<>address1"));
         address1.sendKeys(address.getLine1());

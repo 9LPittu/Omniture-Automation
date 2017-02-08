@@ -6,6 +6,8 @@ import com.jcrew.utils.TestDataReader;
  * Created by nadiapaolagarcia on 4/19/16.
  */
 public class Address {
+	String firstName;
+	String lastName;
     String line1;
     String line2;
     String city;
@@ -38,7 +40,9 @@ public class Address {
         this.phone = phoneNumber;
     }
     
-    public Address(String addressLine1, String addressLine2, String city, String state, String zipcode, String phoneNumber,String country){
+    public Address(String firstName, String lastName, String addressLine1, String addressLine2, String city, String state, String zipcode, String phoneNumber,String country){
+    	this.firstName = firstName;
+    	this.lastName = lastName;
     	this.line1 = addressLine1;
         this.line2 = addressLine2;
         this.city = city;
@@ -64,6 +68,15 @@ public class Address {
         this.zipcode = dataReader.getData("address.zipcode");
         this.phone = dataReader.getData("address.phone");
     }
+    
+    public String getFirstName(){
+    	return firstName;
+    }
+    
+    public String getLastName(){
+    	return lastName;
+    }
+    
     public String getLine1() {
         return line1;
     }

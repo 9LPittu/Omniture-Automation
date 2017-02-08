@@ -312,10 +312,18 @@ public class CheckoutBilling extends Checkout {
         countrySelect.selectByValue(address.getCountry());
         
         WebElement firstName = payment_page.findElement(By.name("ADDRESS<>firstName"));
-        firstName.sendKeys(user.getFirstName());
+        if(address.getFirstName().isEmpty()){
+        	firstName.sendKeys(user.getFirstName());
+        }else{
+        	firstName.sendKeys(address.getFirstName());
+        }
 
         WebElement lastName = payment_page.findElement(By.name("ADDRESS<>lastName"));
-        lastName.sendKeys(user.getFirstName());
+        if(address.getLastName().isEmpty()){
+        	lastName.sendKeys(user.getLastName());
+        }else{
+        	lastName.sendKeys(address.getLastName());
+        }        
 
         WebElement address1 = payment_page.findElement(By.name("ADDRESS<>address1"));
         address1.sendKeys(address.getLine1());

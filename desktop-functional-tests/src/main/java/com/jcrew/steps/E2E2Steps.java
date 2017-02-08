@@ -330,13 +330,15 @@ public class E2E2Steps extends E2ECommonSteps {
 			return;
 		
 		String billingAddress_Country = getDataFromTestDataRowMap("BillingAddress_Country");
+		String billingAddress_FirstName = getDataFromTestDataRowMap("BillingAddress_FirstName");
+		String billingAddress_LastName = getDataFromTestDataRowMap("BillingAddress_LastName");
 		String billingAddress_AddressLine1 = getDataFromTestDataRowMap("BillingAddress_AddressLine1");
 		String billingAddress_AddressLine2 = getDataFromTestDataRowMap("BillingAddress_AddressLine2");
 		String billingAddress_City = getDataFromTestDataRowMap("BillingAddress_City");
 		String billingAddress_State = getDataFromTestDataRowMap("BillingAddress_State");
 		String billingAddress_ZipCode = getDataFromTestDataRowMap("BillingAddress_ZipCode");
 		
-		Address billingAddress = new Address(billingAddress_AddressLine1, billingAddress_AddressLine2, billingAddress_City, billingAddress_State, billingAddress_ZipCode, new Faker().phoneNumber().phoneNumber(), billingAddress_Country);
+		Address billingAddress = new Address(billingAddress_FirstName, billingAddress_LastName, billingAddress_AddressLine1, billingAddress_AddressLine2, billingAddress_City, billingAddress_State, billingAddress_ZipCode, new Faker().phoneNumber().phoneNumber(), billingAddress_Country);
 		
 		if(stateHolder.hasKey("isShippingDisabled")){
 			CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
