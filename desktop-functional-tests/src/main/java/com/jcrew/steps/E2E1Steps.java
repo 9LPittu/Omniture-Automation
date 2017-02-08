@@ -36,15 +36,22 @@ import com.jcrew.utils.ExcelUtils;
 import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.*;
 
-public class E2E1Steps extends E2ECommonSteps {
+public class E2E1Steps extends E2ECommon {
 	
 	private boolean isItemDataExist = true;
+	
+	@Before("@e2e")
+	public void read_item_master_testdata() throws IOException{
+		stateHolder.put("e2e_error_messages", "");
+        getItemsMasterTestdata();
+	}
 	
 	@Given("^Test data is read from excel file \"([^\"]*)\"$")
 	public void read_test_data_from_excel(String excelFileName) throws FileNotFoundException, IOException {

@@ -1,7 +1,6 @@
 package com.jcrew.steps;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 
@@ -14,23 +13,13 @@ import com.jcrew.utils.ExcelUtils;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 
-import cucumber.api.java.Before;
-import cucumber.api.java.en.Given;
-
-
-public class E2ECommonSteps extends DriverFactory {
+public class E2ECommon extends DriverFactory {
 
 	protected final StateHolder stateHolder = StateHolder.getInstance();
-	protected final Logger logger = LoggerFactory.getLogger(E2ECommonSteps.class);
+	protected final Logger logger = LoggerFactory.getLogger(E2ECommon.class);
 	protected E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
 	protected TestDataReader testdataReader = TestDataReader.getTestDataReader();
 	protected String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");	
-	
-	@Before("@e2e")
-	public void read_item_master_testdata() throws IOException{
-		stateHolder.put("e2e_error_messages", "");
-        getItemsMasterTestdata();
-	}
 	
 	public void getItemsMasterTestdata() throws IOException{
     	String itemsMasterExcelFileName = "E2E_ITEMS_MASTER_TESTDATA.xls"; 

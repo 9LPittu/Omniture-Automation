@@ -20,7 +20,7 @@ import com.jcrew.utils.Util;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 
-public class E2E2Steps extends E2ECommonSteps {
+public class E2E2Steps extends E2ECommon {
 	
 	@When("^User selects Shipping Methods as per testdata$")
 	public void user_selects_shipping_methods() {
