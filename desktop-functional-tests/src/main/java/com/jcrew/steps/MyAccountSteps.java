@@ -1,15 +1,12 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.MyAccount;
-import com.jcrew.page.AccountDetail;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.And;
-
-import java.util.Map;
 
 import static org.junit.Assert.*;
 

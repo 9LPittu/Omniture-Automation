@@ -1,6 +1,5 @@
 package com.jcrew.page;
 
-import com.google.common.base.Predicate;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
@@ -11,6 +10,8 @@ import com.jcrew.utils.Util;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -251,10 +252,30 @@ public class CheckoutBillingPayment extends Checkout {
 
         WebElement country = addNewBillingAddressForm.findElement(By.name("ADDRESS<>country_cd"));
         Select countrySelect = new Select(country);
-        countrySelect.selectByValue(address.getCountry());        
+        countrySelect.selectByValue(address.getCountry());
         
-        wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(addNewBillingAddressForm.findElement(By.name("ADDRESS<>firstName")))));
-        WebElement firstName = addNewBillingAddressForm.findElement(By.name("ADDRESS<>firstName"));
+        WebElement firstName = null;
+        int cntr=0;
+        do{
+           try{
+        	   firstName = addNewBillingAddressForm.findElement(By.name("ADDRESS<>firstName"));
+        	   if(firstName.isDisplayed()){
+        		   break;
+        	   }else{
+        		   cntr++;
+        	   }
+           }
+           catch(StaleElementReferenceException sere){
+        		cntr++;
+           }
+           catch(NoSuchElementException nsee){
+        	   cntr++;
+           }
+           
+           Util.wait(1000);
+           
+        }while(cntr<=4);
+        
         if(address.getFirstName().isEmpty()){
         	firstName.sendKeys(user.getFirstName());
         }else{

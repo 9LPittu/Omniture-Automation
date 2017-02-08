@@ -3,7 +3,6 @@ package com.jcrew.page;
 import com.google.common.base.Predicate;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
-import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
