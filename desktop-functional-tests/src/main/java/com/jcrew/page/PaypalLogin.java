@@ -22,13 +22,31 @@ public class PaypalLogin extends PageObject{
     	
     	WebElement passwordSection = driver.findElement(By.id("passwordSection"));
     	
-    	WebElement emailElement = passwordSection.findElement(By.id("email"));
-    	emailElement.sendKeys(email);
-    	logger.info("Entered paypal email address: {}", email);
+    	int cntr = 0;
+    	do{
+    		WebElement emailElement = passwordSection.findElement(By.id("email"));
+    		emailElement.clear();
+        	emailElement.sendKeys(email);
+        	if(emailElement.getText().equalsIgnoreCase(email)){
+        		logger.info("Entered paypal email address: {}", email);
+        		break;
+        	}else{
+        		cntr++;
+        	}        	
+    	}while(cntr<=2);
     	
-    	WebElement passwordElement = passwordSection.findElement(By.id("password"));
-    	passwordElement.sendKeys(password);
-    	logger.info("Entered paypal password: {}", password);
+    	cntr = 0;
+    	do{
+    		WebElement passwordElement = passwordSection.findElement(By.id("password"));
+    		passwordElement.clear();
+    		passwordElement.sendKeys(password);
+        	if(passwordElement.getText().equalsIgnoreCase(password)){
+        		logger.info("Entered paypal password: {}", password);
+        		break;
+        	}else{
+        		cntr++;
+        	}
+    	}while(cntr<=2);
     	
     	WebElement loginButton = passwordSection.findElement(By.xpath("following-sibling::div[2]/button"));
     	loginButton.click();
@@ -36,5 +54,5 @@ public class PaypalLogin extends PageObject{
     	driver.switchTo().defaultContent();
     	
     	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
-    }    
+    }
 }
