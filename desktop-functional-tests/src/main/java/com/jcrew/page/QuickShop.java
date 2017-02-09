@@ -289,6 +289,7 @@ public class QuickShop extends PageObject {
                 qsElement = wait.until(ExpectedConditions.visibilityOf(price_colors));
                 break;
             case "size chips":
+            	wait.until(ExpectedConditions.visibilityOf(qsModal));
                 qsElement = wait.until(ExpectedConditions.visibilityOf(qsModal.findElement(By.id("c-product__sizes"))));
                 break;
             case "view full details link":
