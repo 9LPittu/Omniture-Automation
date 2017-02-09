@@ -65,6 +65,8 @@ public class HeaderWrap {
 	private WebElement lookingForFactoryLinkInHeader;
 	@FindBy(xpath = "//span[@class='btn__label' and text()='BACK']")
 	private WebElement hamburger_back;
+	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/div[contains(@class,'primary-nav__searchResults--frame')]")
+    private WebElement headerSearch;
 
 	private WebElement dropdown;
 
@@ -150,7 +152,13 @@ public class HeaderWrap {
 
 	public void searchForSpecificTerm(String searchTerm) {
 		wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
-		search.click();
+		WebElement closeIcon = headerSearch.findElement(By.xpath(".//span[contains(@class,'icon-searchtray icon-close')]"));
+		if (closeIcon.isDisplayed()) {
+			closeIcon.click();
+		} else {
+			search.click();
+		}
+		
 		WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input")));		
 		searchInput.clear();
 		searchInput.sendKeys(searchTerm);
