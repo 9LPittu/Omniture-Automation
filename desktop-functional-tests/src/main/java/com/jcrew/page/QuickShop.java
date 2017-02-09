@@ -282,6 +282,7 @@ public class QuickShop extends PageObject {
 
         switch (element.toLowerCase()) {
             case "name":
+            	wait.until(ExpectedConditions.visibilityOf(prodOverviewSection));
                 WebElement productOverview = prodOverviewSection.findElement(By.className("product__overview"));
                 qsElement = productOverview.findElement(By.className("product__name"));
                 break;
@@ -289,10 +290,10 @@ public class QuickShop extends PageObject {
                 qsElement = wait.until(ExpectedConditions.visibilityOf(price_colors));
                 break;
             case "size chips":
-            	wait.until(ExpectedConditions.visibilityOf(qsModal));
-                qsElement = wait.until(ExpectedConditions.visibilityOf(qsModal.findElement(By.id("c-product__sizes"))));
+                qsElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("c-product__sizes")));
                 break;
             case "view full details link":
+            	wait.until(ExpectedConditions.visibilityOf(prod_full_detials));
                 qsElement = prod_full_detials.findElement(By.linkText("View full details"));
                 break;
             case "close":
