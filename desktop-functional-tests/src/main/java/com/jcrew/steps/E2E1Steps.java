@@ -59,8 +59,7 @@ public class E2E1Steps extends E2ECommon {
 		ExcelUtils testDataReader;
 
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-			testDataReader = new ExcelUtils(
-					e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
+			testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
 		} else {
 			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");
 		}

@@ -242,66 +242,52 @@ public class CheckoutBillingPayment extends Checkout {
         phone.sendKeys(address.getPhone());
     }
     
+    public WebElement getNewBillingAddressFormElement(){
+    	WebElement addNewBillingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("addEditBillingAddress")));
+    	return addNewBillingAddressForm;
+    }
+    
     public void addNewBillingAdrress(Address address) {
     	
     	User user = User.getNewFakeUser();
     	
     	addNewBillingAddressButton.click();
     	
-    	WebElement addNewBillingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("addEditBillingAddress")));
+    	WebElement addNewBillingAddressForm = getNewBillingAddressFormElement();
 
         WebElement country = addNewBillingAddressForm.findElement(By.name("ADDRESS<>country_cd"));
         Select countrySelect = new Select(country);
         countrySelect.selectByValue(address.getCountry());
+        Util.waitForPageFullyLoaded(driver);
+        Util.waitLoadingBar(driver);
         
-        WebElement firstName = null;
-        int cntr=0;
-        do{
-           try{
-        	   firstName = addNewBillingAddressForm.findElement(By.name("ADDRESS<>firstName"));
-        	   if(firstName.isDisplayed()){
-        		   break;
-        	   }else{
-        		   cntr++;
-        	   }
-           }
-           catch(StaleElementReferenceException sere){
-        		cntr++;
-           }
-           catch(NoSuchElementException nsee){
-        	   cntr++;
-           }
-           
-           Util.wait(1000);
-           
-        }while(cntr<=4);
-        
+        WebElement firstName = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>firstName"));        
         if(address.getFirstName().isEmpty()){
         	firstName.sendKeys(user.getFirstName());
         }else{
         	firstName.sendKeys(address.getFirstName());
         }
 
-        WebElement lastName = addNewBillingAddressForm.findElement(By.name("ADDRESS<>lastName"));
+        WebElement lastName = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>lastName"));
         if(address.getLastName().isEmpty()){
         	lastName.sendKeys(user.getLastName());
         }else{
         	lastName.sendKeys(address.getLastName());
         }    
 
-        WebElement address1 = addNewBillingAddressForm.findElement(By.name("ADDRESS<>address1"));
+        WebElement address1 = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>address1"));
         address1.sendKeys(address.getLine1());
 
-        WebElement address2 = addNewBillingAddressForm.findElement(By.name("ADDRESS<>address2"));
+        WebElement address2 = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>address2"));
         address2.sendKeys(address.getLine2());
 
-        WebElement zipcode = addNewBillingAddressForm.findElement(By.name("ADDRESS<>postal"));
+        WebElement zipcode = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>postal"));
         zipcode.sendKeys(address.getZipcode());
-
-        WebElement phone = addNewBillingAddressForm.findElement(By.name("ADDRESS<>phone"));
+        
+        WebElement phone = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>phone"));
         phone.sendKeys(address.getPhone());
         
-        WebElement saveButton = addNewBillingAddressForm.findElement(By.id("submit-new-shipping-address"));
+        WebElement saveButton = getNewBillingAddressFormElement().findElement(By.id("submit-new-shipping-address"));
         saveButton.click();
         
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));

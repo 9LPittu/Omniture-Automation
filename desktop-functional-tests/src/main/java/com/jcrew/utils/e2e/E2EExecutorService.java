@@ -64,7 +64,7 @@ public class E2EExecutorService implements Runnable {
 			e.printStackTrace();
 		}
 		
-		//Loop through each record in the test data sheet and execute the runner 
+		//Loop through each record in the test data sheet and execute the runner		
 		for(int j=testDataReader.getSearchTextFirstRowNum();j<=testDataReader.getSearchTextLastRowNum();j++){
 			try {
 				testdataRowMap = testDataReader.getDataFromExcel(j);
@@ -72,7 +72,7 @@ public class E2EExecutorService implements Runnable {
 				e.printStackTrace();
 			}
 			
-			if(((String)testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String)testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")){					
+			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES") && ((String) testdataRowMap.get("Order Number")).isEmpty()) {
 				
 				String[] command = new String[3];
 				
