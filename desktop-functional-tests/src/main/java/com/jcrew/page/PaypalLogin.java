@@ -32,7 +32,7 @@ public class PaypalLogin extends PageObject{
         		break;
         	}else{
         		cntr++;
-        	}        	
+        	}
     	}while(cntr<=2);
     	
     	cntr = 0;
