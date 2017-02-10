@@ -65,7 +65,7 @@ public class HeaderWrap {
 	private WebElement lookingForFactoryLinkInHeader;
 	@FindBy(xpath = "//span[@class='btn__label' and text()='BACK']")
 	private WebElement hamburger_back;
-	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/div[contains(@class,'primary-nav__searchResults--frame')]")
+	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/div[contains(@class,'primary-nav__search-results--frame')]")
     private WebElement headerSearch;
 
 	private WebElement dropdown;
