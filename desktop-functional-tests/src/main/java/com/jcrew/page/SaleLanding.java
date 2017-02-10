@@ -36,7 +36,7 @@ public class SaleLanding {
     @FindBy(id="c-promo-frame")
     private WebElement promoFrame;
     
-    @FindBy(className = "c-sale__promo-frame")
+    @FindBy(xpath = "//div[@class='c-sale__promo-frame' and not(@style)]/div[@class='c-sale__promo-frame--inner']")
     private WebElement salePromoFrame;
     
     @FindBy(id = "c-promo-alert")

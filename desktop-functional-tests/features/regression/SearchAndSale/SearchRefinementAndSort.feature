@@ -5,7 +5,7 @@ Feature: Search Refinement and Sort
     Given User goes to homepage
     And User closes email capture
     
-    When User searches specific term tops
+    When User searches specific term shirts
     Then User is in search results page
     
     When User clicks on random gender selector

@@ -65,6 +65,8 @@ public class HeaderWrap {
 	private WebElement lookingForFactoryLinkInHeader;
 	@FindBy(xpath = "//span[@class='btn__label' and text()='BACK']")
 	private WebElement hamburger_back;
+	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/div[contains(@class,'primary-nav__searchResults--frame')]")
+    private WebElement headerSearch;
 
 	private WebElement dropdown;
 
@@ -189,7 +191,7 @@ public class HeaderWrap {
 			});
 		
 			search.click();
-		}
+		}		
 		
 		WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input")));		
 		searchInput.clear();
