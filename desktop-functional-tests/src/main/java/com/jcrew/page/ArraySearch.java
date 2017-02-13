@@ -26,7 +26,7 @@ public class ArraySearch extends Array{
     private WebElement pageSearch;
     @FindBy(id = "c-search__results")
     private WebElement searchResults;
-    @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/div[@class='primary-nav__searchResults--frame']")
+    @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/div[@class='primary-nav__search-results--frame']")
     private WebElement headerSearch;
     @FindBy(xpath = "//div[@class='product__grid']")
     private WebElement productGrid;
