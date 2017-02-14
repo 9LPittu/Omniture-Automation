@@ -549,7 +549,9 @@ public abstract class Checkout extends PageObject{
     
     public void handleQAS(){
     	WebElement qasModal = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("modal-qas")));
+    	logger.debug("QAS is displayed for entered address...");
     	WebElement useAddressAsEntered = qasModal.findElement(By.xpath(".//a[@class='button-submit']"));
     	useAddressAsEntered.click();
+    	logger.debug("QAS is handled by clicking on 'USE ADDRESS AS ENTERED' button...");
     }
 }
