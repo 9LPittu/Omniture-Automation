@@ -245,7 +245,7 @@ public class CheckoutBillingPayment extends Checkout {
     	return addNewBillingAddressForm;
     }
     
-    public void addNewBillingAdrress(Address address) {
+    public void addNewBillingAdrress(String isAddressQAS, Address address) {
     	
     	User user = User.getNewFakeUser();
     	
@@ -288,7 +288,11 @@ public class CheckoutBillingPayment extends Checkout {
         WebElement saveButton = getNewBillingAddressFormElement().findElement(By.id("submit-new-shipping-address"));
         saveButton.click();
         
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));
+        if(isAddressQAS.equalsIgnoreCase("YES")){
+        	handleQAS();
+        }else{
+        	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));
+        }
     }
     
     public void addNewCreditDebitCard(String paymentMethodName) {

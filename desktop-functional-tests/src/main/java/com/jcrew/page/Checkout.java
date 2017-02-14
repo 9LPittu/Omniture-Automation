@@ -546,4 +546,10 @@ public abstract class Checkout extends PageObject{
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
     }
+    
+    public void handleQAS(){
+    	WebElement qasModal = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("modal-qas")));
+    	WebElement useAddressAsEntered = qasModal.findElement(By.xpath(".//a[@class='button-submit']"));
+    	useAddressAsEntered.click();
+    }
 }

@@ -180,7 +180,7 @@ public class CheckoutShippingAdd extends Checkout {
     	addNewShippingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("frm_new_shipping_address")));
     }
     
-    public void addNewShippingAddress(Address address){
+    public void addNewShippingAddress(String isQASAddress, Address address){
     	User user = User.getNewFakeUser();
     	
     	WebElement newShippingAddress_FirstName = addNewShippingAddressForm.findElement(By.id("firstNameAM"));
@@ -206,7 +206,11 @@ public class CheckoutShippingAdd extends Checkout {
         
         WebElement saveButton = addNewShippingAddressForm.findElement(By.id("submit-new-shipping-address"));
         saveButton.click();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));
         
+        if(isQASAddress.equalsIgnoreCase("YES")){
+        	handleQAS();
+        }else{
+        	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));
+        }
     }
 }

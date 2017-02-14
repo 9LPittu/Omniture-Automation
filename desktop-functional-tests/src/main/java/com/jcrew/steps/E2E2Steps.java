@@ -270,7 +270,7 @@ public class E2E2Steps extends E2ECommon {
 			
 			int itemsCount = stateHolder.get("itemsCount");
 			if(itemsCount<2){
-				String message = "Multiple shipping addresses are selected. But only 1 item is added to bag.";
+				String message = "Multiple shipping addresses are selected in the testdata. But only 1 item is added to bag.";
 				Util.e2eErrorMessagesBuilder(message);
 				throw new WebDriverException(message);
 			}
@@ -278,6 +278,7 @@ public class E2E2Steps extends E2ECommon {
 			checkoutShippingAdd.selectMultipleAddressesRadioButton();
 		}
 		
+		String isFirstAddressQAS = getDataFromTestDataRowMap("is First Address QAS?");
 		String firstAddress_AddressLine1 = getDataFromTestDataRowMap("FirstAddress_AddressLine1");
 		String firstAddress_AddressLine2 = getDataFromTestDataRowMap("FirstAddress_AddressLine2");
 		String firstAddress_City = getDataFromTestDataRowMap("FirstAddress_City");
@@ -290,11 +291,16 @@ public class E2E2Steps extends E2ECommon {
 		stateHolder.addToList("shippingAddresses", firstAddress_AddressLine1);
 		
 		checkoutShippingAdd.continueCheckout();
-		stateHolder.put("isShippingAddressContinueClicked", true);
+		stateHolder.put("isShippingAddressContinueClicked", true);		
+		
+		if(isFirstAddressQAS.equalsIgnoreCase("YES")){
+			checkoutShippingAdd.handleQAS();
+		}
 		
 		if(multipleShippingAddressRequired.equalsIgnoreCase("YES")){
 			checkoutShippingAdd.clickAddNewShippingAddress();
 			
+			String isSecondAddressQAS = getDataFromTestDataRowMap("is Second Address QAS?");
 			String secondAddress_AddressLine1 = getDataFromTestDataRowMap("SecondAddress_AddressLine1");
 			String secondAddress_AddressLine2 = getDataFromTestDataRowMap("SecondAddress_AddressLine2");
 			String secondAddress_City = getDataFromTestDataRowMap("SecondAddress_City");
@@ -302,7 +308,7 @@ public class E2E2Steps extends E2ECommon {
 			String secondAddress_ZipCode = getDataFromTestDataRowMap("SecondAddress_ZipCode");
 			
 			Address secondAddress = new Address(secondAddress_AddressLine1, secondAddress_AddressLine2, secondAddress_City, secondAddress_State, secondAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
-			checkoutShippingAdd.addNewShippingAddress(secondAddress);
+			checkoutShippingAdd.addNewShippingAddress(isSecondAddressQAS, secondAddress);
 			stateHolder.addToList("shippingAddresses", secondAddress_AddressLine1);
 			
 			checkoutShippingAdd.continueCheckout();
@@ -329,6 +335,7 @@ public class E2E2Steps extends E2ECommon {
 		if(!differentBillingAddressRequired.equalsIgnoreCase("YES") && !stateHolder.hasKey("isShippingDisabled"))
 			return;
 		
+		String isBillingAddressQAS = getDataFromTestDataRowMap("is Billing Address QAS?");
 		String billingAddress_Country = getDataFromTestDataRowMap("BillingAddress_Country");
 		String billingAddress_FirstName = getDataFromTestDataRowMap("BillingAddress_FirstName");
 		String billingAddress_LastName = getDataFromTestDataRowMap("BillingAddress_LastName");
@@ -344,9 +351,15 @@ public class E2E2Steps extends E2ECommon {
 			CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
 			checkoutBilling.enterBillingAddress(billingAddress);
 			
+			if(isBillingAddressQAS.equalsIgnoreCase("YES")){
+				checkoutBilling.continueCheckout();
+				stateHolder.put("isBillingContinueClicked", true);
+				checkoutBilling.handleQAS();
+	        }
+			
 		}else{
 			CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
-			checkoutBillingPayment.addNewBillingAdrress(billingAddress);
+			checkoutBillingPayment.addNewBillingAdrress(isBillingAddressQAS, billingAddress);
 		}
 	}
 }
