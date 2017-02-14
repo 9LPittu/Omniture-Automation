@@ -67,7 +67,7 @@ public class E2E1Steps extends E2ECommon {
 		Map<String, Object> testdataRowMap = null;
 		for (int j = testDataReader.getSearchTextFirstRowNum(); j <= testDataReader.getSearchTextLastRowNum(); j++) {
 			testdataRowMap = testDataReader.getDataFromExcel(j);
-			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES") && ((String) testdataRowMap.get("Order Number")).isEmpty()) {
+			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")) {
 				stateHolder.put("excelObject", testDataReader);
 				stateHolder.put("excelrowno", j);
 				stateHolder.put("testdataRowMap", testdataRowMap);
