@@ -51,13 +51,11 @@ public class E2EMasterExecutor {
 		
 		scrubTestDataSheets(masterReader);
 		
-		//identify number of threads to be created for parallel execution
-		int threadCount = getThreadCount(masterReader);
-		
 		//loop through each record and store the data which are marked for execution as 'YES'
 		Map<String, Object> masterMap = null;
-		String executionRunners = "";
-		String testDataFiles = "";
+		String executionRunners;
+		String testDataFiles;
+		int threadCount;
 		boolean iterate = false;
 		
 		Calendar calendar = Calendar.getInstance();
@@ -65,6 +63,8 @@ public class E2EMasterExecutor {
 		do{
 			executionRunners = "";
 			testDataFiles = "";
+			threadCount = 0;
+			
 			for(int i = masterReader.getSearchTextFirstRowNum();i<=masterReader.getSearchTextLastRowNum();i++){			
 				try {
 					masterMap = masterReader.getDataFromExcel(i);
@@ -85,6 +85,7 @@ public class E2EMasterExecutor {
 					if(isTestDataRowAvailableForExecution(testdataFile)){
 						executionRunners += runner + ",";
 						testDataFiles += testdataFile + ",";
+						threadCount++;
 					}				
 				}
 			}
@@ -97,7 +98,7 @@ public class E2EMasterExecutor {
 	        long currentTime = calendar1.getTimeInMillis();
 			long timeDifference = currentTime - startTime;
 			
-			//waiting for maximum of 1 hour
+			//waiting for maximum of 1 hour for execution to continue before terminating
             iterate = timeDifference <= 3600000;
 			
 		}while(!executionRunners.isEmpty() && iterate);
@@ -109,7 +110,7 @@ public class E2EMasterExecutor {
 			  File[] files=directory.listFiles();	
 	          for(int i=0;i<files.length;i++){	
 				deleteDirectory(files[i]);	
-			  }	
+			  }
 			  
 	          if(directory.exists()){
 					directory.delete();
@@ -120,36 +121,6 @@ public class E2EMasterExecutor {
 				directory.delete();
 			}
 		  }
-	  }
-	
-	public static int getThreadCount(ExcelUtils excelReader){
-		
-		Map<String, Object> masterMap = null;
-		int threadCount = 0;
-		for(int i = excelReader.getSearchTextFirstRowNum();i<=excelReader.getSearchTextLastRowNum();i++){
-			try {
-				masterMap = excelReader.getDataFromExcel(i);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			if(((String)masterMap.get("Execute")).equalsIgnoreCase("YES")){
-				threadCount++;
-			}
-		}
-		
-		//terminate execution if no scenarios are selected for execution 
-		if(threadCount==0){
-			try {
-				throw new Exception("Mark atleast one scenario as 'Yes' for execution in E2E Master sheet. Terminating execution as no scenarios are selected!!!");
-			} catch (Exception e) {				
-				e.printStackTrace();
-			}
-		}
-		
-		return threadCount;
 	}
 	
 	public static boolean isTestDataRowAvailableForExecution(String testdataFile){
