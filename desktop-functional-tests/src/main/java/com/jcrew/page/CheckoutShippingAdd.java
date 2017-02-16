@@ -83,7 +83,7 @@ public class CheckoutShippingAdd extends Checkout {
                 zipcode.sendKeys(address.getZipcode());
                 
                 try{
-                	Util.createWebDriverWait(driver, 3).until(ExpectedConditions.visibilityOf(us_city_state));
+                	Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(us_city_state));
                 }catch(TimeoutException toe){	
                 	city.sendKeys(address.getCity());
                 	Select select = new Select(state_province);

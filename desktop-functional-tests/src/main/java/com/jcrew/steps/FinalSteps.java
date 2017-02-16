@@ -98,6 +98,12 @@ public class FinalSteps {
         	scenario.embed(orderTestData.getBytes(), "text/plain");
         }
         
+        if(stateHolder.hasKey("e2eUserObject")){
+        	User user = stateHolder.get("e2eUserObject");
+        	String userCredentials = "email address/password:" + user.getEmail() + "/" + user.getPassword();
+        	scenario.embed(userCredentials.getBytes(), "text/plain");
+        }
+        
         stateHolder.clear();
     }
     
