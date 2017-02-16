@@ -152,7 +152,7 @@ public class HeaderWrap {
 
 	public void searchForSpecificTerm(String searchTerm) {
 		wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
-		WebElement closeIcon = headerSearch.findElement(By.xpath(".//span[contains(@class,'icon-searchtray icon-close')]"));
+		WebElement closeIcon = headerSearch.findElement(By.xpath(".//span[contains(@class,'icon-close js-primary-nav__search__button--clear')]"));
 		if (closeIcon.isDisplayed()) {
 			closeIcon.click();
 		} else {
@@ -473,7 +473,7 @@ public class HeaderWrap {
 	
 	public void closeSearchDrawer() {
 		WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
-		WebElement closeSearch = searchHeader.findElement(By.xpath(".//span[@class='icon-searchtray icon-close']"));
+		WebElement closeSearch = searchHeader.findElement(By.xpath(".//span[@class='icon-close js-primary-nav__search__button--clear']"));
 		wait.until(ExpectedConditions.elementToBeClickable(closeSearch));
 		closeSearch.click();
 				
