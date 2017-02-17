@@ -131,7 +131,7 @@ public abstract class Array extends PageObject{
             JavascriptExecutor js = (JavascriptExecutor) driver;
             js.executeScript("arguments[0].click();",qs);
         }
-        Util.waitForPageReady(driver);
+        //Util.waitForPageReady(driver);
         Util.waitForPageFullyLoaded(driver);
     }
     public Product getProduct(WebElement tile) {
