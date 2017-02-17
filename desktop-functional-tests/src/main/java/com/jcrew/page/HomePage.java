@@ -35,7 +35,7 @@ public class HomePage extends PageObject{
         String bodyClass = body.getAttribute("class");
         Util.waitForPageFullyLoaded(driver);
         logger.error("home page body class is " + bodyClass);
-        return "jcrew home".equals(bodyClass);
+        return "jcrew home size-desktop".equals(bodyClass);
     }
 
 }
