@@ -30,10 +30,15 @@ public class HomePage extends PageObject{
     }
 
     public boolean isHomePage() {
+    	logger.error("a");
         wait.until(ExpectedConditions.visibilityOf(pageContent));
+        logger.error("b");
         WebElement body = driver.findElement(By.tagName("body"));
+        logger.error("c");
         String bodyClass = body.getAttribute("class");
+        logger.error("d");
         Util.waitForPageFullyLoaded(driver);
+        logger.error("e");
         return "jcrew home".equals(bodyClass);
     }
 
