@@ -65,10 +65,5 @@ Feature: Footer - From Sale landing page2
     When User presses browser back button
     Then Verify sale landing page is displayed
 
-    When User clicks on Men's Chinos footer link under Popular Searches
-    Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify sale landing page is displayed
-
     When User clicks on Men's Suits footer link under Popular Searches
     Then Verify user is in category array page
