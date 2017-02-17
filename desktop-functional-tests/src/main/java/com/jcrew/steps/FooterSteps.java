@@ -74,8 +74,8 @@ public class FooterSteps extends DriverFactory {
 
     @And("^Verify user is navigated to url ([^\"]*) on same page$")
     public void user_navigated_to(String pageURL){
+        Util.createWebDriverWait(getDriver(), 60).until(ExpectedConditions.urlContains(pageURL));
         String current_url = getDriver().getCurrentUrl();
-        Util.createWebDriverWait(getDriver(), 60).until(ExpectedConditions.not(ExpectedConditions.urlContains(current_url)));
-       assertTrue("Current page url contains" + pageURL+" and current url is "+current_url, current_url.contains(pageURL));
+        assertTrue("Current page url contains" + pageURL+" and current url is "+current_url, current_url.contains(pageURL));
     }
 }
