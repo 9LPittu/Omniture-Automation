@@ -1,11 +1,16 @@
 package com.jcrew.steps;
 import com.jcrew.page.Footer;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.Util;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertTrue;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -70,6 +75,7 @@ public class FooterSteps extends DriverFactory {
     @And("^Verify user is navigated to url ([^\"]*) on same page$")
     public void user_navigated_to(String pageURL){
         String current_url = getDriver().getCurrentUrl();
+        Util.createWebDriverWait(getDriver(), 60).until(ExpectedConditions.not(ExpectedConditions.urlContains(current_url)));
        assertTrue("Current page url contains" + pageURL+" and current url is "+current_url, current_url.contains(pageURL));
     }
 }
