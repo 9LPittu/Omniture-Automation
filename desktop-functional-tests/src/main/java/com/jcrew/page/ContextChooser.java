@@ -48,7 +48,7 @@ public class ContextChooser {
 
 	public boolean isRegionDisplayed(String region) {
 
-		WebElement regionHeader = internationalContextChooserPage.findElement(By.xpath("//h5[text()='" + region + "']"));
+		WebElement regionHeader = internationalContextChooserPage.findElement(By.xpath("//h5[normalize-space(text())='" + region + "']"));
 		return regionHeader.isDisplayed();
 	}
 
@@ -121,7 +121,7 @@ public class ContextChooser {
 	}
 
 	public void clickButtonFromFAQSectionOnContextChooserPage(String buttonName) {
-		WebElement button = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/a[" + Util.xpathGetTextLower + "='" + buttonName.toLowerCase() + "']"));
+		WebElement button = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/a[normalize-space(" + Util.xpathGetTextLower + ")='" + buttonName.toLowerCase() + "']"));
 		
 		JavascriptExecutor jse = (JavascriptExecutor)driver;
         jse.executeScript("arguments[0].scrollIntoView();", button);
@@ -131,11 +131,7 @@ public class ContextChooser {
 
 	public void clickLinkFromFAQSectionOnContextChooserPage(String linkName) {
 		WebElement link = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/article/section/p/a[text()='borderfree.com']"));
-		
-		JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("arguments[0].scrollIntoView();", link);
-		
-		link.click();
+		Util.scrollAndClick(driver, link);
 	}
 
 
