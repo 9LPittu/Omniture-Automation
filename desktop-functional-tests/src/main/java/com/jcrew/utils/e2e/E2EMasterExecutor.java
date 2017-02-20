@@ -256,4 +256,32 @@ public class E2EMasterExecutor {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void checkRunnerSelection(ExcelUtils excelReader){
+ 		Map<String, Object> masterMap = null;
+ 		int runnersCount = 0;
+ 		
+ 		for(int i = excelReader.getSearchTextFirstRowNum();i<=excelReader.getSearchTextLastRowNum();i++){
+ 			try {
+ 				  masterMap = excelReader.getDataFromExcel(i);
+ 			} catch (FileNotFoundException e) {
+ 				e.printStackTrace();
+ 			} catch (IOException e) {
+ 				e.printStackTrace();
+ 			}
+
+ 			if(((String)masterMap.get("Execute")).equalsIgnoreCase("YES")){
+ 				runnersCount++;
+ 			}
+ 		}
+
+ 		//terminate execution if no scenarios are selected for execution
+ 		if(runnersCount==0){
+ 			try {
+ 				throw new Exception("Mark atleast one scenario as 'Yes' for execution in E2E Master sheet. Terminating execution as no scenarios are selected!!!");
+ 			} catch (Exception e) {				
+ 				e.printStackTrace();
+ 			}
+ 		}
+ 	}
 }

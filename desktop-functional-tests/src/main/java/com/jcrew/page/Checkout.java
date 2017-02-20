@@ -303,6 +303,7 @@ public abstract class Checkout extends PageObject{
     public void nextStep(WebElement form) {
         WebElement continueButton = form.findElement(By.className("button-submit"));
         wait.until(ExpectedConditions.elementToBeClickable(continueButton));
+        Util.scrollPage(driver, "down");
         continueButton.click();
 
         wait.until(ExpectedConditions.stalenessOf(continueButton));
@@ -324,6 +325,7 @@ public abstract class Checkout extends PageObject{
         promoCodeField.sendKeys(code);
 
         WebElement apply = promoCode.findElement(By.id("promoApply"));
+        Util.scrollPage(driver, "down");
         apply.click();
 
         wait.until(ExpectedConditions.stalenessOf(promoCodeField));
