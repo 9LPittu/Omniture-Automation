@@ -166,32 +166,13 @@ public class HeaderWrap {
 	}
 
 	public void searchForSpecificTerm(String searchTerm) {
-		Util.waitLoadingBar(driver);
-		Util.waitForPageFullyLoaded(driver);
 		wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
-		
-		WebElement searchClear = null;
-		try{
-			searchClear = Util.createWebDriverWait(driver, 1).until(
-											ExpectedConditions.visibilityOfElementLocated(By.className("js-primary-nav__search__button--clear")));
-			searchClear.click();
-		}catch(TimeoutException toe){
-			logger.debug("Search clear button is not displayed...");
-		}
-		
-		if(searchClear==null){
-			wait.until(new Predicate<WebDriver>(){
-				@Override
-				public boolean apply(WebDriver driver) {
-					boolean result = false;
-					if(search.isDisplayed())
-						result = true;
-					return result;
-				}
-			});
-		
+		WebElement closeIcon = headerSearch.findElement(By.xpath(".//span[contains(@class,'icon-close js-primary-nav__search__button--clear')]"));
+		if (closeIcon.isDisplayed()) {
+			closeIcon.click();
+		} else {
 			search.click();
-		}		
+		}
 		
 		WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input")));		
 		searchInput.clear();
@@ -546,7 +527,7 @@ public class HeaderWrap {
 	
 	public void closeSearchDrawer() {
 		WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
-		WebElement closeSearch = searchHeader.findElement(By.xpath(".//span[@class='icon-searchtray icon-close']"));
+		WebElement closeSearch = searchHeader.findElement(By.xpath(".//span[@class='icon-close js-primary-nav__search__button--clear']"));
 		wait.until(ExpectedConditions.elementToBeClickable(closeSearch));
 		closeSearch.click();
 				
