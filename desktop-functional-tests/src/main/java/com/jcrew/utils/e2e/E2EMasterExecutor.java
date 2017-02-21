@@ -49,6 +49,8 @@ public class E2EMasterExecutor {
 			e.printStackTrace();
 		}
 		
+		checkRunnerSelection(masterReader);
+		
 		scrubTestDataSheets(masterReader);
 		
 		//loop through each record and store the data which are marked for execution as 'YES'
