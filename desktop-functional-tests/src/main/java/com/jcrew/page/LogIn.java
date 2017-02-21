@@ -211,7 +211,7 @@ public class LogIn extends PageObject {
         createAccountFormIsDisplayed();
         Select countrySelector = new Select(registerForm.findElement(By.id(countryId)));
 
-        return countrySelector.getFirstSelectedOption().getText();
+        return countrySelector.getFirstSelectedOption().getText().replace("\n", "").trim();
     }
 
     public boolean selectedCountryMatchesContext() {

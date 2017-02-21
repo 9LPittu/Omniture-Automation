@@ -65,11 +65,6 @@ Feature: Footer - From home page2
     When User presses browser back button
     Then Verify user is in homepage
 
-    When User clicks on Men's Chinos footer link under Popular Searches
-    Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify user is in homepage
-
     When User clicks on Men's Suits footer link under Popular Searches
     Then Verify user is in category array page
 

@@ -67,10 +67,5 @@ Feature: Footer - From my Account page2
     When User presses browser back button
     Then Verify user is in My Account main page
 
-    When User clicks on Men's Chinos footer link under Popular Searches
-    Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify user is in My Account main page
-
     When User clicks on Men's Suits footer link under Popular Searches
     Then Verify user is in category array page

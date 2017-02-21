@@ -234,7 +234,6 @@ public class QuickShop extends PageObject {
         if(variations.size() > 0 ){
             variations.get(0).click();
         }
-        Util.waitForPageReady(driver);
 
     }
     private String getSelectedVariationItemCode(){
