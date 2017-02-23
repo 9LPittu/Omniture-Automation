@@ -189,7 +189,7 @@ public class ArraySearch extends Array{
     	WebElement pagination = getPaginationElement(position);
     	wait.until(ExpectedConditions.visibilityOf(pagination));
     	
-    	WebElement pageNumber = pagination.findElement(By.xpath(".//select[contains(@class,'dropdown--quantity')]/option[@selected='selected']"));
+    	WebElement pageNumber = pagination.findElement(By.xpath(".//select[contains(@class,'dropdown--quantity')]/option[@selected]"));
     	String selectedPageNumber = pageNumber.getAttribute("value").trim();
     	
     	return Integer.parseInt(selectedPageNumber);

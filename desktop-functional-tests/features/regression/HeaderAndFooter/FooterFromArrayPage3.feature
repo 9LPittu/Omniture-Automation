@@ -48,8 +48,5 @@ Feature: Footer - From Category Array page3
     When User clicks on Business Casual For Women footer link under Popular Searches
     Then Verify user is in category array page
 
-    When User clicks on Men's Chinos footer link under Popular Searches
-    Then Verify user is in category array page
-
     When User clicks on Men's Suits footer link under Popular Searches
     Then Verify user is in category array page

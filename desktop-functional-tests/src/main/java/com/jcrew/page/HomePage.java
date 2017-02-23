@@ -34,7 +34,8 @@ public class HomePage extends PageObject{
         WebElement body = driver.findElement(By.tagName("body"));
         String bodyClass = body.getAttribute("class");
         Util.waitForPageFullyLoaded(driver);
-        return "jcrew home".equals(bodyClass);
+        logger.info("home page body class is " + bodyClass);
+        return "jcrew home size-desktop".equals(bodyClass);
     }
 
 }
