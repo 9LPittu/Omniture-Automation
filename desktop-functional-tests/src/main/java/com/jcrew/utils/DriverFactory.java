@@ -108,6 +108,7 @@ public class DriverFactory {
 
 
         if ("chrome".equals(browser)) {
+        	
             DesiredCapabilities chrome = DesiredCapabilities.chrome();
             if (propertyReader.getProperty("environment").equalsIgnoreCase("production"))
             	chrome.setPlatform(Platform.WINDOWS);
