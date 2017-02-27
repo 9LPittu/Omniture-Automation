@@ -54,8 +54,6 @@ public class ProductDetailSteps extends DriverFactory {
         		productDetails.isProductDetailPage());
     }
 
-
-
     @Then("Verify price matches with category array")
     public void price_matches_category_array() {
         Product product = (Product) stateHolder.get("fromArray");

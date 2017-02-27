@@ -1,6 +1,5 @@
 package com.jcrew.pojo;
 
-import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 
 /**
@@ -25,7 +24,6 @@ public class Country {
     private TestDataReader dataReader = TestDataReader.getTestDataReader();
 
     public Country(String environment, String country) {
-        PropertyReader properties = PropertyReader.getPropertyReader();
         country = country.toLowerCase();
 
         this.country = country;               

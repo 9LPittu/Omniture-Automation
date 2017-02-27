@@ -176,8 +176,43 @@ public class UsersHub {
 		
 		return user;
 	}
-
-
+    
+    public synchronized User getE2EUser(String userType, String countryCode) throws SQLException{
+    	String scenarioName = stateHolder.get("scenarioName");
+    	
+		String getUserCredentialsSQLQuery = "select username, password, first_name, last_name, DEFAULT_ADDRESS_COUNTRY from JCINT2_CUSTOM.E2EQAUSERS "
+										    + "where brand='jcrew' and Environment='"  + environment + "'"
+										    + " and default_address_country='" + countryCode + "'"										    
+										    + " and Allocation = 'N'" + getE2EUserWhereClause(userType);
+			
+		ResultSet rs = executeSQLQuery(getUserCredentialsSQLQuery);
+		if(rs!=null){
+			try {
+				  rs.next();
+				  user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+				  logger.info("userType - " + userType);
+				  logger.info("Current available username for scenario: {} is '{}' in the environment: {}", scenarioName, user.getEmail(), environment);
+			}
+			catch (SQLException e) {
+				throw new SQLException("Exception occurred when retrieving user credentials from DB..." + e.getMessage());					
+			}
+		
+			String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.E2EQAUSERS set allocation = 'Y'"
+								                  + " where brand='jcrew' and username='" + user.getEmail() + "'"
+								                  + " and default_address_country='" + countryCode + "'"
+								                  + " and Environment='"  + environment + "'" + getE2EUserWhereClause(userType);
+			
+			executeSQLQuery(updateAllocationFlagSQLQuery);
+		    closeDBConnection();
+		    
+			return user;
+		}
+		else{
+			logger.error("No username records are available in DB for the scenario '{}' ",scenarioName);
+			throw new SQLException("No username records are available in DB for the scenario '" + scenarioName + "'");
+		}
+	}
+    
     private String getQuery(String queryType,String userCategory) {
         String getUserSQLQuery;
         if (queryType.equalsIgnoreCase("count")) {
@@ -212,7 +247,9 @@ public class UsersHub {
         }
         
         if(currentUserName!=null){
-	        String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N' where brand='jcrew' and username='" + currentUserName + "' and environment='" + environment + "'";
+	        String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.SIDECARQAUSERS set allocation = 'N'"
+	        									  + " where brand='jcrew' and username='" + currentUserName + "'"
+	        									  + " and environment='" + environment + "'";
 	        try {
 	            executeSQLQuery(updateAllocationFlagSQLQuery);
 	
@@ -222,6 +259,33 @@ public class UsersHub {
                 if(scenarioName != null && scenarioName.contains("Checkout")){
                 	logger.debug("Releasing user '{}' for scenario '{}' @ {}", currentUserName, scenarioName, new Date().toString());
                 }
+                
+	            closeDBConnection();
+	            user = null;
+	        } catch (SQLException e) {
+	            logger.error("Failed to release user '{}' in DB!!!", currentUserName);
+	        }
+        }
+    }
+    
+    public void releaseE2EUserCredentials() {
+    	
+    	String currentUserName = null;
+    	
+    	if(stateHolder.hasKey("e2eUserObject")) {
+    		logger.info("Retrieiving user details from stateholder...");
+        	user =  stateHolder.get("e2eUserObject");
+        	currentUserName = user.getEmail();
+        }
+        
+        if(currentUserName!=null){
+	        String updateAllocationFlagSQLQuery = "update JCINT2_CUSTOM.E2EQAUSERS set allocation = 'N'"
+	        		                              + " where brand='jcrew' and username='" + currentUserName + "'"
+	        		                              + " and environment='" + environment + "'";
+	        try {
+	            executeSQLQuery(updateAllocationFlagSQLQuery);	
+	            String scenarioName = stateHolder.get("scenarioName");
+               	logger.debug("Releasing user '{}' in '{}' environment for scenario '{}' @ {}", currentUserName, environment, scenarioName, new Date().toString());
                 
 	            closeDBConnection();
 	            user = null;
@@ -247,6 +311,16 @@ public class UsersHub {
 		if(!addressType.isEmpty()){
 			whereClause += " and " + "addresstype='" + addressType + "'";
 		}
+		
+		return whereClause;
+	}
+    
+    public String getE2EUserWhereClause(String userType){
+		String whereClause = "";
+		
+		if(!userType.isEmpty()){
+			whereClause += " and " + "user_type='" + userType + "'";
+		}		
 		
 		return whereClause;
 	}

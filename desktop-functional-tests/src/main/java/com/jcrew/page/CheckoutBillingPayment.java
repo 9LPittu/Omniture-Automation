@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
@@ -24,8 +25,7 @@ public class CheckoutBillingPayment extends Checkout {
     private WebElement cardForm;
     @FindBy(id = "creditCardNumber")
     private WebElement creditCardNumber;
-    @FindBy(id = "securityCode")
-    private WebElement secuirtyCode;
+    
     @FindBy(id = "nameOnCard")
     private WebElement nameOnCard;
     @FindBy(id = "emailReceipt")
@@ -44,6 +44,12 @@ public class CheckoutBillingPayment extends Checkout {
     private WebElement leftContainer;
     @FindBy(id = "creditCardList")
     private WebElement creditCardList;
+    
+    @FindBy(id="submit-new-shipping-address")
+    private WebElement saveChangesButton;
+    
+    @FindBy(id="address-new")
+    private WebElement addNewBillingAddressButton;
     
     private final HeaderWrap header;
 
@@ -82,7 +88,7 @@ public class CheckoutBillingPayment extends Checkout {
         User checkoutUSer = User.getFakeUser();
 
         creditCardNumber.sendKeys(testData.getData(type + ".card.number"));
-        secuirtyCode.sendKeys(testData.getData(type + ".card.cvv"));
+        securityCode.sendKeys(testData.getData(type + ".card.cvv"));
 
         Select month = new Select(expirationMonth);
         month.selectByVisibleText(testData.getData(type + ".card.month"));
@@ -105,7 +111,7 @@ public class CheckoutBillingPayment extends Checkout {
     }
 
     public void editPayment() {
-        secuirtyCode.sendKeys("156");
+    	securityCode.sendKeys("156");
         nameOnCard.clear();
         nameOnCard.sendKeys("Edited Card Name");
     }
@@ -232,5 +238,85 @@ public class CheckoutBillingPayment extends Checkout {
 
         WebElement phone = newCardDiv.findElement(By.name("ADDRESS<>phone"));
         phone.sendKeys(address.getPhone());
+    }
+    
+    public WebElement getNewBillingAddressFormElement(){
+    	WebElement addNewBillingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("addEditBillingAddress")));
+    	return addNewBillingAddressForm;
+    }
+    
+    public void addNewBillingAdrress(String isAddressQAS, Address address) {
+    	
+    	User user = User.getNewFakeUser();
+    	
+    	addNewBillingAddressButton.click();
+    	
+    	WebElement addNewBillingAddressForm = getNewBillingAddressFormElement();
+
+        WebElement country = addNewBillingAddressForm.findElement(By.name("ADDRESS<>country_cd"));
+        Select countrySelect = new Select(country);
+        countrySelect.selectByValue(address.getCountry());
+        Util.waitForPageFullyLoaded(driver);
+        Util.waitLoadingBar(driver);
+        
+        WebElement firstName = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>firstName"));        
+        if(address.getFirstName().isEmpty()){
+        	firstName.sendKeys(user.getFirstName());
+        }else{
+        	firstName.sendKeys(address.getFirstName());
+        }
+
+        WebElement lastName = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>lastName"));
+        if(address.getLastName().isEmpty()){
+        	lastName.sendKeys(user.getLastName());
+        }else{
+        	lastName.sendKeys(address.getLastName());
+        }    
+
+        WebElement address1 = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>address1"));
+        address1.sendKeys(address.getLine1());
+
+        WebElement address2 = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>address2"));
+        address2.sendKeys(address.getLine2());
+
+        WebElement zipcode = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>postal"));
+        zipcode.sendKeys(address.getZipcode());
+        
+        WebElement phone = getNewBillingAddressFormElement().findElement(By.name("ADDRESS<>phone"));
+        phone.sendKeys(address.getPhone());
+        
+        WebElement saveButton = getNewBillingAddressFormElement().findElement(By.id("submit-new-shipping-address"));
+        saveButton.click();
+        
+        if(isAddressQAS.equalsIgnoreCase("YES")){
+        	handleQAS();
+        }else{
+        	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));
+        }
+    }
+    
+    public void addNewCreditDebitCard(String paymentMethodName) {
+        E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+        User user = User.getNewFakeUser();
+
+        creditCardNumber.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".card.number"));
+        
+        if(!paymentMethodName.equalsIgnoreCase("JCC")){
+	        securityCode.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code"));
+	
+	        Select month = new Select(expirationMonth);
+	        month.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.month"));
+	
+	        Select year = new Select(expirationYear);
+	        year.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.year"));
+        }
+        
+        nameOnCard.sendKeys(user.getFirstName().replaceAll("'", "") + " " + user.getLastName().replaceAll("'", ""));
+
+        selectAddressFromList(cardForm);
+        
+        saveChangesButton.click();
+        
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("modal-payment")));
     }
 }

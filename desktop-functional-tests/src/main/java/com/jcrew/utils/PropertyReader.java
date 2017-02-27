@@ -52,7 +52,6 @@ public class PropertyReader {
 
         logger.info("Country to be used {}", country);
         properties.setProperty("country", country);
-
     }
 
     public boolean isSystemPropertyTrue(String key) {

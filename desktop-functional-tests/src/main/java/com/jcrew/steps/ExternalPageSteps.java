@@ -4,7 +4,6 @@ import com.jcrew.page.ExternalPage;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.Then;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**

@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
@@ -65,11 +66,10 @@ public class CheckoutReview extends Checkout{
         String env = propertyReader.getProperty("environment");
 
         if (!"production".equals(env)) {
-            String currentUrl = driver.getCurrentUrl();
-            WebElement place_my_order = slidertrack.findElement(By.className("button-submit-bg"));
-
-            place_my_order.click();
-            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+            List<WebElement> place_my_order_elements = slidertrack.findElements(By.className("button-submit-bg"));
+            place_my_order_elements.get(0).click();
+            
+            wait.until(ExpectedConditions.invisibilityOfAllElements(place_my_order_elements));
         } else {
             logger.info("Trying to place an order in production, ignoring");
         }
@@ -107,8 +107,11 @@ public class CheckoutReview extends Checkout{
         WebElement changeButton;
 
         wait.until(ExpectedConditions.visibilityOf(billing_details));
-        wait.until(ExpectedConditions.visibilityOf(shipping_details));
-        wait.until(ExpectedConditions.visibilityOf(gifting_details));
+        
+        if(!stateHolder.hasKey("isShippingDisabled")){
+        	wait.until(ExpectedConditions.visibilityOf(shipping_details));
+        }
+        
         wait.until(ExpectedConditions.visibilityOf(order__listing));
 
         switch (group) {
@@ -147,5 +150,51 @@ public class CheckoutReview extends Checkout{
     	
     	String selectedShippingMethod = getShippingMethod();
         stateHolder.put("selectedShippingMethod", selectedShippingMethod);
+    }
+    
+    public void enterSecurityCode(){
+    	List<WebElement> securityCode = billing_details.findElements(By.id("securityCode"));
+    	
+    	if(securityCode.size()==0)
+    		return;
+    	
+    	String className = securityCode.get(0).getAttribute("class");
+    	String[] arrClassName = className.split(" "); 
+    	String cardType = arrClassName[arrClassName.length - 1];
+    	
+    	String paymentMethodName = "";
+    	switch(cardType.toUpperCase()){
+    		case "VISA":
+    			paymentMethodName = "visa";
+    			break;
+    		case "MC":
+    			paymentMethodName = "master";
+    			break;
+    		case "AMEX":
+    			paymentMethodName = "amex";
+    			break;
+    		case "DISC":
+    			paymentMethodName = "discover";
+    			break;
+    		case "JCB":
+    			paymentMethodName = "jcb";
+    			break;
+    	}
+    	
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	String securityCodeText = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code");
+    	securityCode.get(0).sendKeys(securityCodeText);    	
+    }
+    
+    public void enterSecurityCode(String paymentMethodName){
+    	if(paymentMethodName.equalsIgnoreCase("JCC"))
+    		return;
+    	
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	String paymentMethodShortName = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".short.name");
+    	String securityCodeText = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code");
+    	
+    	WebElement securityCode = billing_details.findElement(By.xpath(".//input[@class='textbox-manager security-code-id form-textbox " +  paymentMethodShortName.toUpperCase() + "']"));
+        securityCode.sendKeys(securityCodeText);
     }
 }

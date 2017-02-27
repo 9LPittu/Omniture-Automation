@@ -1,9 +1,12 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Address;
 import com.jcrew.pojo.User;
+import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,7 +32,7 @@ public class CheckoutBilling extends Checkout {
     @FindBy(id = "creditCardNumber")
     private WebElement creditCardNumber;
     @FindBy(id = "securityCode")
-    private WebElement secuirtyCode;
+    private WebElement securityCode;
     @FindBy(id = "nameOnCard")
     private WebElement nameOnCard;
     @FindBy(id = "emailReceipt")
@@ -40,6 +43,9 @@ public class CheckoutBilling extends Checkout {
     private WebElement expirationYear;
     @FindBy(id = "address-entry-new")
     private WebElement newAddressEntry;
+    
+    @FindBy(id="paypalPayment")
+    private WebElement paypalRadioButton;
 
     public CheckoutBilling(WebDriver driver) {
         super(driver);
@@ -59,7 +65,7 @@ public class CheckoutBilling extends Checkout {
         User checkoutUSer;
 
         creditCardNumber.sendKeys(testData.getData("card.number"));
-        secuirtyCode.sendKeys(testData.getData("card.cvv"));
+        securityCode.sendKeys(testData.getData("card.cvv"));
 
         Select month = new Select(expirationMonth);
         month.selectByVisibleText(testData.getData("card.month"));
@@ -78,8 +84,11 @@ public class CheckoutBilling extends Checkout {
         if (isGuest)
         	emailReceipt.sendKeys(checkoutUSer.getEmail());
     }
-
-    public void continueCheckout() {
+    
+    public void continueCheckout() {    	
+    	if(stateHolder.hasKey("isBillingContinueClicked"))
+    		return;
+    	
         nextStep(payment_page);
     }
 
@@ -201,5 +210,136 @@ public class CheckoutBilling extends Checkout {
         logger.debug("Selected payment method: {}", paymentMethod);
 
         stateHolder.put("selectedPaymentMethod", paymentMethod) ;
+    }
+    
+    public void selectSpecificPaymentMethod(String paymentMethodName){
+    	
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	String cardNumber = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".card.number");
+    	String lastFourDigitsOfCardNum = cardNumber.substring(cardNumber.length() - 4);
+    	
+    	String cardDisplayName = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".display.name");
+    	
+    	List<WebElement> paymentMethodElements = wallet_container.findElements(By.xpath(".//span[contains(@class,'wallet-brand') and " + Util.xpathGetTextLower + "='" 
+    											 + cardDisplayName.toLowerCase() + "']/following-sibling::span[contains(@class,'wallet-line')"
+    											 + " and contains(normalize-space(.),'" + lastFourDigitsOfCardNum + "')]"));
+    	
+   		WebElement paymentRadioButton = paymentMethodElements.get(0).findElement(By.xpath("preceding-sibling::input[@class='address-radio']"));
+   		paymentRadioButton.click();
+    }
+    
+    public void fillPaymentCardDetails(String paymentMethodName){
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	
+    	creditCardNumber.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".card.number"));
+    	
+    	if(!paymentMethodName.equalsIgnoreCase("JCC")){
+    		securityCode.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code"));
+
+	        Select month = new Select(expirationMonth);
+	        month.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.month"));
+	
+	        Select year = new Select(expirationYear);
+	        year.selectByVisibleText(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.year"));
+    	}
+
+        User user = User.getNewFakeUser();
+        nameOnCard.sendKeys(user.getFirstName() + " " + user.getLastName());
+        emailReceipt.sendKeys(user.getEmail());
+    }
+    
+    public void clickTwoCardsPayment(){
+    	WebElement payWithTwoCardsElement = payment_page.findElement(By.xpath(".//a[contains(@class,'item-link-submit') and contains(text(),'pay with two cards')]"));
+    	payWithTwoCardsElement.click();
+    	wait.until(ExpectedConditions.visibilityOf(payment_page.findElement(By.xpath(".//a[contains(@class,'item-link-submit') and contains(text(),'pay with one card')]"))));
+    	
+    	List<WebElement> numberofCardsAvailable = payment_page.findElements(By.xpath(".//li[contains(@id, 'cardId')]"));
+    	stateHolder.put("numberofCardsAvailable", numberofCardsAvailable.size());
+    }
+    
+    public void splitPayment(String paymentMethod1 , String paymentMethod2){
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	String cardShortName1 = e2ePropertyReader.getProperty(paymentMethod1.toLowerCase() + ".short.name"); 
+    	String cardShortName2 = e2ePropertyReader.getProperty(paymentMethod2.toLowerCase() + ".short.name");
+    	
+    	String cardNumber1 = e2ePropertyReader.getProperty(paymentMethod1.toLowerCase() + ".card.number");
+    	String cardNumber2 = e2ePropertyReader.getProperty(paymentMethod2.toLowerCase() + ".card.number");
+    	
+    	String lastFourDigitsOfCardNum1 = cardNumber1.substring(cardNumber1.length() - 4);
+    	String lastFourDigitsOfCardNum2 = cardNumber2.substring(cardNumber2.length() - 4);
+    	
+    	WebElement splitPaymentForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("modal-multitender")));
+    	
+    	int numberofCardsAvailable = stateHolder.get("numberofCardsAvailable");
+    	
+    	String valueToBeSelected;
+    	Select select;
+    	List<WebElement> paymentDropdowns = splitPaymentForm.findElements(By.xpath(".//select[contains(@id, 'distributionCard')]"));
+    	
+    	if(numberofCardsAvailable > 2){    		
+    		valueToBeSelected = cardShortName1.toUpperCase() + " ending in " + lastFourDigitsOfCardNum1;
+    		select = new Select(paymentDropdowns.get(0));
+    		select.selectByVisibleText(valueToBeSelected);
+    	}
+    	
+    	valueToBeSelected = cardShortName2.toUpperCase() + " ending in " + lastFourDigitsOfCardNum2;
+		select = new Select(paymentDropdowns.get(1));
+		select.selectByVisibleText(valueToBeSelected);
+    	
+    	String orderTotal = stateHolder.get("total");
+    	Double dblOrderTotal = Double.parseDouble(orderTotal.replaceAll("[^\\d.]*", ""));
+    	dblOrderTotal = dblOrderTotal/2;
+    	
+    	WebElement secondAmountElement = splitPaymentForm.findElement(By.id("secondAmount"));
+    	secondAmountElement.clear();
+    	secondAmountElement.sendKeys(dblOrderTotal.toString());
+    	secondAmountElement.sendKeys(Keys.TAB);
+    	
+    	splitPaymentForm.findElement(By.id("multiTenderDistributionSubmit")).click();    	
+    	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("multiTenderDistributionSubmit")));
+    }
+    
+    public void selectPaypalRadioButton(){
+    	paypalRadioButton.click();
+    	wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//p[@class='page-msg']")));
+    }
+    
+    public void enterBillingAddress(Address address){
+    	User user = User.getNewFakeUser();
+    	
+    	WebElement country = payment_page.findElement(By.name("ADDRESS<>country_cd"));
+        Select countrySelect = new Select(country);
+        countrySelect.selectByValue(address.getCountry());
+        
+        WebElement firstName = payment_page.findElement(By.name("ADDRESS<>firstName"));
+        if(address.getFirstName().isEmpty()){
+        	firstName.sendKeys(user.getFirstName());
+        }else{
+        	firstName.sendKeys(address.getFirstName());
+        }
+
+        WebElement lastName = payment_page.findElement(By.name("ADDRESS<>lastName"));
+        if(address.getLastName().isEmpty()){
+        	lastName.sendKeys(user.getLastName());
+        }else{
+        	lastName.sendKeys(address.getLastName());
+        }        
+
+        WebElement address1 = payment_page.findElement(By.name("ADDRESS<>address1"));
+        address1.sendKeys(address.getLine1());
+
+        WebElement address2 = payment_page.findElement(By.name("ADDRESS<>address2"));
+        address2.sendKeys(address.getLine2());
+        
+        WebElement zipcode = payment_page.findElement(By.name("ADDRESS<>postal"));
+        zipcode.sendKeys(address.getZipcode());
+
+        WebElement phone = payment_page.findElement(By.name("ADDRESS<>phone"));
+        phone.sendKeys(address.getPhone());
+    }
+    
+    public void enterEmailAddress(){
+    	User user = User.getNewFakeUser();
+        emailReceipt.sendKeys(user.getEmail());
     }
 }
