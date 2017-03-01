@@ -36,8 +36,6 @@ public class PropertyReader {
         properties.load(inputFile);
         inputFile = new FileInputStream("properties/viewport.properties");
         properties.load(inputFile);
-        inputFile = new FileInputStream("properties/users.properties");
-        properties.load(inputFile);
 
         properties.setProperty("environment", execEnvironment);
 
