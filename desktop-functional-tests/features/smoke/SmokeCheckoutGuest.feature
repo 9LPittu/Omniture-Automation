@@ -1,4 +1,4 @@
-@Checkout
+@CheckoutGuest
 Feature: Smoke Checkout - Guest user is able to checkout
 
   Scenario: Smoke Checkout - Guest user is able to checkout
@@ -19,7 +19,6 @@ Feature: Smoke Checkout - Guest user is able to checkout
     When User clicks in bag
     Then Verify shopping bag is displayed
     Then Verify products added matches with products in bag
-    And Verify all products have edit and remove buttons
     And Verify bag has a promo code section
     And Verify bag has a gift card section
     And Verify bag has a order summary section

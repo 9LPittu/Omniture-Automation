@@ -12,6 +12,7 @@ Feature: Product Detail Page
     And User selects random subcategory array
 
   Scenario: Product Detail Page Validation
+    And User closes email capture
     And User selects random product from product array
     And Verify product detail page is displayed
     
