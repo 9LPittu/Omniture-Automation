@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
@@ -106,6 +107,7 @@ public class LogIn extends PageObject {
 
 
     public void userSignIn(String userCategory) {
+    	
     	knownUser = User.getUserFromHub(userCategory);
         logger.info("User and password used {} / {}", knownUser.getEmail(), knownUser.getPassword());
         sidecarUser.sendKeys(knownUser.getEmail());

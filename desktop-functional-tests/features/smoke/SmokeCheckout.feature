@@ -7,8 +7,6 @@
     And User hovers on a random category from list
     	|Women|
     	|Men|
-    	|Girls|
-    	|Boys|
     And User selects random subcategory array
     And User closes email capture
     And User selects random product from product array
@@ -67,17 +65,15 @@
       
   Scenario: Smoke Checkout - Signed user
   	Given User goes to homepage
-  	And User closes email capture
-  	
-    When User clicks on sign in using header
-    And User fills form and signs in
+  	When User clicks on sign in using header
+    Then User goes to sign in page
+    And User fills user data and signs in
     And This script cleans bag for current user
     And User goes to homepage
     And User hovers on a random category from list
     	|Women|
     	|Men|
-    	|Girls|
-    	|Boys|
+    	
     And User selects random subcategory array
     And User closes email capture
     And User selects random product from product array
