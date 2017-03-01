@@ -20,7 +20,7 @@ public class DriverGenarator {
     private static PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
     public static WebDriver remoteDriver() throws MalformedURLException {
-        String browser = propertyReader.getProperty("browser");
+        String browser = propertyReader.getProperty("viewport");
 
         DesiredCapabilities capabilities;
 
@@ -43,7 +43,7 @@ public class DriverGenarator {
         DesiredCapabilities capabilities;
         WebDriver driver;
 
-        switch (propertyReader.getProperty("browser")) {
+        switch (propertyReader.getProperty("viewport")) {
             case "chrome":
                 capabilities = getChromeCapabilities();
                 driver = new ChromeDriver(capabilities);
