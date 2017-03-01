@@ -110,10 +110,10 @@ public class StartSteps {
         String envUrl = reader.getProperty("url");
 
         //Update Reader and create context
-        testData.updateReader(country);
-
         Country countrySettings = new Country(envUrl, country);
         stateHolder.put("context", countrySettings);
+
+        testData.updateReader();
 
         String homeURL = countrySettings.getHomeurl();
         String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
@@ -147,9 +147,10 @@ public class StartSteps {
         String envUrl = reader.getProperty("url");
 
         //Update Reader and create context
-        testData.updateReader(country);
         Country context = new Country(envUrl, country);
         stateHolder.put("context", context);
+
+        testData.updateReader();
 
         envUrl = context.getHomeurl();
 
@@ -194,7 +195,6 @@ public class StartSteps {
     @Given("User navigates to ([^\"]*) with clean session")
     public void user_navigates_with_clean_session(String extensionUrl) {
         String country = reader.getProperty("country");
-        testData.updateReader(country);
 
         switch (extensionUrl.toLowerCase().trim()) {
             case "category page":
@@ -211,6 +211,8 @@ public class StartSteps {
 
         Country context = new Country(env, country);
         stateHolder.put("context", context);
+        testData.updateReader();
+
         env = context.getHomeurl();
 
         driver.get(env + extensionUrl);

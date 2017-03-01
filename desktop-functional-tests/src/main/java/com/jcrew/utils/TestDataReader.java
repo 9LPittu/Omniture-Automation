@@ -1,9 +1,11 @@
 package com.jcrew.utils;
 
+import com.jcrew.pojo.Country;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -24,29 +26,57 @@ public class TestDataReader {
 
     private Properties loadProperties()  {
         Properties testDataProperties = new Properties();
+        StateHolder stateHolder = StateHolder.getInstance();
 
         try {
-            String testData = "properties/TestData.properties";
+            PropertyReader propertyReader = PropertyReader.getPropertyReader();
+            String brandPath = "properties/" + propertyReader.getProperty("brand") + "/";
+
+            String testData = brandPath + "TestData.properties";
 
             FileInputStream propertiesInput = new FileInputStream(testData);
             testDataProperties.load(propertiesInput);
 
             String env = Util.getEnvironment();
-            String environmentData = "properties/environment/" + env + ".properties";
+            String environmentData = brandPath + "environment/" + env + ".properties";
 
             propertiesInput = new FileInputStream(environmentData);
             testDataProperties.load(propertiesInput);
 
-            String shipData = "properties/shippingmethod.properties";
+            String shipData = brandPath + "shippingmethod.properties";
             FileInputStream shippingInput = new FileInputStream(shipData);
             testDataProperties.load(shippingInput);
             logger.debug("Shipping data file to be used {}", shipData);
 
-            String country = System.getProperty("country", "us");
-            String countryPath = "properties/countries/" + country.toLowerCase() + ".properties";
-            propertiesInput = new FileInputStream(countryPath);
-            testDataProperties.load(propertiesInput);
-            logger.debug("country path: {}", countryPath);
+            String country = propertyReader.getProperty("country");
+            if (stateHolder.hasKey("context")) {
+                Country c = stateHolder.get("context");
+                country = c.getCountry();
+                logger.info("Found country in context {}", country);
+            }
+
+            try {
+                String countryPath = "properties/countries/" + country + ".properties";
+                logger.debug("country path to file 1: {}", countryPath);
+
+                propertiesInput = new FileInputStream(countryPath);
+                testDataProperties.load(propertiesInput);
+
+                countryPath = brandPath + "countries/" + country + ".properties";
+                logger.debug("country path to file 2: {}", countryPath);
+
+                propertiesInput = new FileInputStream(countryPath);
+                testDataProperties.load(propertiesInput);
+
+            } catch (FileNotFoundException noCountryFile) {
+                logger.info("Country {} does not have a properties file, loading us file", country);
+
+                propertiesInput = new FileInputStream("properties/countries/us.properties");
+                testDataProperties.load(propertiesInput);
+
+                propertiesInput = new FileInputStream( brandPath + "countries/us.properties");
+                testDataProperties.load(propertiesInput);
+            }
 
         }  catch (IOException e) {
             logger.debug("Unable to load test data file.", e);
@@ -54,40 +84,6 @@ public class TestDataReader {
 
         return testDataProperties;
     }
-
-
-    private Properties loadProperties(String country)  {
-        Properties testDataProperties = new Properties();
-
-        try {
-            String testData = "properties/TestData.properties";
-
-            FileInputStream propertiesInput = new FileInputStream(testData);
-            testDataProperties.load(propertiesInput);
-
-            String env = Util.getEnvironment();
-            String environmentData = "properties/environment/" + env+ ".properties";
-
-            propertiesInput = new FileInputStream(environmentData);
-            testDataProperties.load(propertiesInput);
-
-            String shipData = "properties/shippingmethod.properties";
-            FileInputStream shippingInput = new FileInputStream(shipData);
-            testDataProperties.load(shippingInput);
-            logger.debug("Shipping data file to be used {}", shipData);
-
-            String countryPath = "properties/countries/" + country.toLowerCase() + ".properties";
-            propertiesInput = new FileInputStream(countryPath);
-            testDataProperties.load(propertiesInput);
-            logger.debug("country path: {}", countryPath);
-
-        }  catch (IOException e) {
-            logger.debug("Unable to load test data file.", e);
-        }
-
-        return testDataProperties;
-    }
-
 
     public String getData(String key) {
         if (!hasProperty(key)) {
@@ -155,15 +151,11 @@ public class TestDataReader {
     public void updateReader() {
         Properties testDataProperties = getPropertiesForCurrentThread();
         testDataProperties.clear();
-        testDataProperties = loadProperties();
-        testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
-    }
 
-    public void updateReader(String country) {
-        Properties testDataProperties = getPropertiesForCurrentThread();
-        testDataProperties.clear();
-        testDataProperties = loadProperties(country);
-        testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
+        synchronized (testDataPropertiesMap) {
+            testDataProperties = loadProperties();
+            testDataPropertiesMap.put(Thread.currentThread().getName(), testDataProperties);
+        }
     }
 
     private Properties getPropertiesForCurrentThread() {
