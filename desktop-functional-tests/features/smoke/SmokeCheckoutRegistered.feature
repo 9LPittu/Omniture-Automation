@@ -1,9 +1,10 @@
-@Checkout
+@CheckoutRegistered
 Feature: Smoke Checkout - Signed user
 
   Scenario: Smoke Checkout - Signed user
     Given User goes to homepage
-    When User clicks on sign in using header
+    When User closes email capture
+    And User clicks on sign in using header
     Then User goes to sign in page
     And User fills user data and signs in
     And This script cleans bag for current user
@@ -11,7 +12,6 @@ Feature: Smoke Checkout - Signed user
     And User hovers on a random category from list
       | Women |
       | Men   |
-
     And User selects random subcategory array
     And User closes email capture
     And User selects random product from product array
