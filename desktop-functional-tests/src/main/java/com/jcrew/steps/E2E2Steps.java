@@ -5,12 +5,14 @@ import java.util.List;
 import org.openqa.selenium.WebDriverException;
 
 import com.github.javafaker.Faker;
+import com.jcrew.page.Checkout;
 import com.jcrew.page.CheckoutBilling;
 import com.jcrew.page.CheckoutBillingPayment;
 import com.jcrew.page.CheckoutGiftOptions;
 import com.jcrew.page.CheckoutMultipleShippingAddresses;
 import com.jcrew.page.CheckoutReview;
 import com.jcrew.page.CheckoutShippingAdd;
+import com.jcrew.page.CheckoutShippingEdit;
 import com.jcrew.page.CheckoutShippingOptions;
 import com.jcrew.page.PaypalLogin;
 import com.jcrew.page.PaypalReview;
@@ -259,6 +261,53 @@ public class E2E2Steps extends E2ECommon {
 	@When("^User enters Shipping Addresses as per testdata$")
 	public void user_enters_shipping_addresses(){
 		
+		String shippingType = getDataFromTestDataRowMap("Shipping Type");
+		
+		switch(shippingType.toUpperCase()){
+			case "SHIP TO STORE":
+				ship_to_store_selection();
+				break;
+			case "PERSONAL SHIPPING ADDRESS":
+			default:
+				personal_shipping_address_selection_for_guest_user();
+		}
+	}
+	
+	private void ship_to_store_selection(){
+		String storeType = getDataFromTestDataRowMap("Store Type");
+		String storeZipCode = getDataFromTestDataRowMap("Store Zip Code");
+		String storeName = getDataFromTestDataRowMap("Store Name");
+		
+		String userType = getDataFromTestDataRowMap("User Type");
+		
+		Checkout checkout = null;
+		switch(userType.toUpperCase()){
+			case "GUEST":
+				checkout = new CheckoutShippingAdd(getDriver());
+				break;
+			case "NONEXPRESS":
+				checkout = new CheckoutShippingEdit(getDriver());
+				break;
+		}
+		
+		checkout.selectShipToStoreRadioButton();
+		
+		switch(storeType.toUpperCase()){
+			case "NEARBY STORES":
+				checkout.clickNearByStoresLink();
+				break;
+			case "SEARCH BY ZIP CODE":
+				checkout.searchByZipCode(storeZipCode);
+				break;
+			case "RECOMMENDED STORES":
+			default:
+				checkout.clickRecommendedStoresLink();
+		}
+		
+		//select store radio button
+	}
+	
+	private void personal_shipping_address_selection_for_guest_user(){
 		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
 		

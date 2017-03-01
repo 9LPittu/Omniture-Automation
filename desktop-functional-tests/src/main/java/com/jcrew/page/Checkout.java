@@ -8,6 +8,7 @@ import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
@@ -49,6 +50,8 @@ public abstract class Checkout extends PageObject{
     private WebElement promoCode;
     @FindBy(id = "orderSummaryContainer")
     protected WebElement orderSummary;
+    
+    private WebElement shipToStoreSection;
 
     public Checkout(WebDriver driver) {
         super(driver);
@@ -555,5 +558,33 @@ public abstract class Checkout extends PageObject{
     	WebElement useAddressAsEntered = qasModal.findElement(By.xpath(".//a[@class='button-submit']"));
     	useAddressAsEntered.click();
     	logger.debug("QAS is handled by clicking on 'USE ADDRESS AS ENTERED' button...");
+    }
+    
+    public void selectShipToStoreRadioButton(){
+    	WebElement shipToStoreRadioElement = checkoutContainer.findElement(By.id("shipToStore"));
+    	shipToStoreRadioElement.click();
+    	logger.debug("'Ship To Store' radio button is selected...");
+    	
+    	Util.waitLoadingBar(driver);    	
+    	shipToStoreSection = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("ship-to-store")));
+    }
+    
+    public void clickRecommendedStoresLink(){
+    	WebElement linkElement = shipToStoreSection.findElement(By.xpath(".//span[@id='rec-stores-link']/a"));
+    	linkElement.click();
+    }
+    
+    public void clickNearByStoresLink(){
+    	WebElement linkElement = shipToStoreSection.findElement(By.xpath(".//span[@id='nearby-stores-link']/a"));
+    	linkElement.click();
+    }
+    
+    public void searchByZipCode(String zipCode){
+    	WebElement zipCodeEditElement = shipToStoreSection.findElement(By.id("zipcode"));
+    	zipCodeEditElement.clear();
+    	zipCodeEditElement.sendKeys(zipCode);
+    	zipCodeEditElement.sendKeys(Keys.TAB);
+    	
+    	logger.debug("Search for store with zip code as '{}'", zipCode);
     }
 }
