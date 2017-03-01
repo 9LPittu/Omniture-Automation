@@ -2,7 +2,8 @@
 
 Feature: Welcome mat takes you to the international page or US site
 
-  Scenario Outline: User gets to international page
+  Scenario Outline: Development
+  #User gets to international page
     Given User lands on international page from list for <country_group>
       | PDP      |
       | category |
