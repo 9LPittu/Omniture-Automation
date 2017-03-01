@@ -18,126 +18,47 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
 
-public class GiftCards  extends PageObject {
-	
+public class GiftCards  extends PageObject {	
 	
 	@FindBy(id="cardTypePanel")
-	private WebElement cardPanel;
-	
-	@FindBy(id="senderInfoPanel")
-	private WebElement senderInfoPanel;
-	
-	@FindBy(id="recipientInfoPanel")
-	private WebElement recipientInfoPanel;
-	
-	@FindBy(id="giftMessagePanel")
-	private WebElement giftMessagePanel;
-	
-	@FindBy(id="amountList")
-	private WebElement amountList;
-	
-	@FindBy(xpath="//a[@id='eGiftCard']/img")
-	private WebElement eGiftCardImage;
-	
-	@FindBy(xpath="//div[@id='egiftPanel']")
-	private WebElement eGiftPanel;
-	
-	@FindBy(id="senderNameEgc")
-	private WebElement eGiftSenderName;
-	
-	@FindBy(id="RecipientNameEgc")
-	private WebElement recipientName;
-	
-	@FindBy(id="emailAddressEgc")
-	private WebElement recipientEmailAddress;
+	private WebElement cardTypePanel;
 	
 	@FindBy(xpath=".//div[@class='calendarPanel']/input[@id='date']")
 	private WebElement dateToBeSent;
 	
-	@FindBy(xpath=".//textarea[@id='textAreaMessage']")
-	private WebElement giftMessage;
-	
-	@FindBy(id="submitEgift")
-	private WebElement addToBag;
-	
-	private String cardType;
-	
+	private String cardType;	
+	private WebElement cardPanel;
 	
     public GiftCards(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
         
-        wait.until(ExpectedConditions.visibilityOf(eGiftCardImage));
+        wait.until(ExpectedConditions.visibilityOf(cardTypePanel));
     }
     
     public void addEgiftCardToBag(String giftCardAmountValue){
     	
-    	eGiftCardImage.click();
+    	selectCardType("e-Gift Card");
     	
     	//choose amount
-    	wait.until(ExpectedConditions.visibilityOf(eGiftPanel));
-    	
-    	WebElement giftCardAmount = null;
-    	if(giftCardAmountValue.equalsIgnoreCase("any")){
-    		List<WebElement> giftCardAmounts = eGiftPanel.findElements(By.xpath(".//a[contains(@id,'amount')]"));
-    		int randomIndex = Util.randomIndex(giftCardAmounts.size());
-    		giftCardAmount = giftCardAmounts.get(randomIndex);    		
-    	}
-    	else{
-    		try{
-    			giftCardAmount = eGiftPanel.findElement(By.xpath(".//a[@id='amount'" + giftCardAmountValue +"]"));
-    		}
-    		catch(NoSuchElementException e){
-    			logger.error("Invalid e-gift card amount - {}", giftCardAmountValue);    			
-    			throw new WebDriverException("Invalid e-gift card amount - " + giftCardAmountValue);
-    		}
-    	}
-    	
-    	logger.info("Gift amount selected: {}", giftCardAmount.getText().trim());
-    	giftCardAmount.click();
+    	selectGiftAmount(giftCardAmountValue);
     	
     	//Enter sender name
-    	User sender = User.getNewFakeUser();
-    	String senderNameValue = sender.getFirstName();
-    	eGiftSenderName.sendKeys(senderNameValue);
-    	logger.info("Sender name entered: {}", senderNameValue);
-    	stateHolder.put("giftCardSenderName", senderNameValue);
+    	enterSenderName("any ");
     	
     	//Enter recipient name
-    	User recipient = User.getNewFakeUser();
-    	String recipientNameValue = recipient.getFirstName();
-    	recipientName.sendKeys(recipientNameValue);
-    	logger.info("Recipient name entered: {}", recipientNameValue);
-    	stateHolder.put("giftCardRecipientName", recipientNameValue);
+    	enterRecipientName("any ");
     	
     	//Enter recipient email address
-    	String recipientEmail = recipient.getEmail();
-    	recipientEmailAddress.sendKeys(recipientEmail);
-    	logger.info("Recipient email address entered: {}", recipientEmail);
-    	stateHolder.put("giftCardRecipientEmail", recipientEmail);
+    	enterRecipientEmailAddress("any ");
     	
     	//enter date
-    	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    	Calendar calendar = Calendar.getInstance();
-    	calendar.add(Calendar.DATE, 1);
-    	String tomorrowDate = dateFormat.format(calendar.getTime());
-    	dateToBeSent.sendKeys(tomorrowDate);
-    	logger.info("Date to be sent entered: {}", tomorrowDate);
-    	stateHolder.put("giftCardDateSent", tomorrowDate);    	
+    	enterDateToBeSent();
     	
     	//enter gift message
-    	giftMessage.sendKeys("This is automation gift message");    	
+    	enterGiftMessage("This is automation gift message", "Gift Message");
     	
-    	try{
-    		Util.scrollToElement(driver, addToBag);
-    		addToBag.click();
-    	}
-    	catch(WebDriverException e){
-    		JavascriptExecutor jse = (JavascriptExecutor)driver;
-    		jse.executeScript("arguments[0].click();", addToBag);
-    	}
-    	
-		Util.waitLoadingBar(driver);
+    	clickAddtoBag();
     }
     
     public boolean isDisplayed() {
@@ -145,15 +66,22 @@ public class GiftCards  extends PageObject {
     }
     
     public void selectCardType(String cardTypeName){
-    	WebElement cardImage = cardPanel.findElement(By.xpath(".//h4[text()='" + cardTypeName + "']/preceding-sibling::a/img"));
+    	WebElement cardImage = cardTypePanel.findElement(By.xpath(".//h4[" + Util.xpathGetTextLower + "='" + cardTypeName.toLowerCase() + "']/preceding-sibling::a/img"));
     	cardImage.click();
-    	cardType = cardTypeName;
+    	cardType = cardTypeName.toLowerCase();
+    	
+    	if(cardType.contains("classic")){
+    		cardPanel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='classicPanel']")));
+    	}else{
+    		cardPanel = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='egiftPanel']")));
+    	}
+    	
     	stateHolder.put("giftCardType", cardTypeName);
     }
     
     public void selectGiftAmount(String giftAmount){
-    	//choose amount
-    	wait.until(ExpectedConditions.visibilityOf(amountList));
+    	//choose amount    	
+   		WebElement amountList = wait.until(ExpectedConditions.visibilityOf(cardPanel.findElement(By.xpath("descendant::form/div/div"))));
     	
     	WebElement giftCardAmount = null;
     	if(giftAmount.equalsIgnoreCase("any")){
@@ -163,7 +91,7 @@ public class GiftCards  extends PageObject {
     	}
     	else{
     		try{
-    			giftCardAmount = amountList.findElement(By.xpath(".//a[@id='amount'" + giftAmount +"]"));
+    			giftCardAmount = amountList.findElement(By.xpath(".//a[@id='amount" + giftAmount +"']"));
     		}
     		catch(NoSuchElementException e){
     			logger.error("Invalid e-gift card amount - {}", giftAmount);    			
@@ -176,6 +104,8 @@ public class GiftCards  extends PageObject {
     }
     
     public void enterSenderName(String senderNameText){
+    	
+    	WebElement senderInfoPanel = cardPanel.findElement(By.id("senderInfoPanel"));
 
     	WebElement senderNameElement = null;
     	if(cardType.contains("classic")){
@@ -187,7 +117,8 @@ public class GiftCards  extends PageObject {
     	
     	if(senderNameText.contains("any ")){
         	User sender = User.getNewFakeUser();
-        	senderNameText = sender.getFirstName();        	
+        	senderNameText = sender.getFirstName();  
+        	senderNameText = senderNameText.replaceAll("'", "");
     	}
     	
     	senderNameElement.sendKeys(senderNameText);
@@ -195,7 +126,13 @@ public class GiftCards  extends PageObject {
     	stateHolder.put("giftCardSenderName", senderNameText);
     }
     
+    private WebElement getRecipientPanelElement(){
+    	return cardPanel.findElement(By.id("recipientInfoPanel"));
+    }
+    
     public void enterRecipientName(String recipientNameText){
+    	
+    	WebElement recipientInfoPanel = getRecipientPanelElement();
 
     	WebElement recipientNameElement = null;
     	if(cardType.contains("classic")){
@@ -208,6 +145,7 @@ public class GiftCards  extends PageObject {
     	if(recipientNameText.contains("any ")){
         	User user = User.getNewFakeUser();
         	recipientNameText = user.getFirstName();
+        	recipientNameText = recipientNameText.replaceAll("'", "");
     	}
     	
     	recipientNameElement.sendKeys(recipientNameText);
@@ -216,6 +154,9 @@ public class GiftCards  extends PageObject {
     }
     
     public void enterRecipientEmailAddress(String recipientEmailAddressText){
+    	
+    	WebElement recipientInfoPanel = getRecipientPanelElement();
+    	
     	WebElement recipientEmailAddressElement = null;
     	if(cardType.contains("classic")){
     		recipientEmailAddressElement = recipientInfoPanel.findElement(By.id("emailAddress"));
@@ -231,10 +172,23 @@ public class GiftCards  extends PageObject {
     	
     	recipientEmailAddressElement.sendKeys(recipientEmailAddressText);
     	logger.info("Recipient Email Address entered: {}", recipientEmailAddressText);
-    	stateHolder.put("giftCardRecipientEmailAddress", recipientEmailAddressText);
+    	stateHolder.put("giftCardRecipientEmail", recipientEmailAddressText);
+    }
+    
+    public void enterDateToBeSent(){
+    	DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    	Calendar calendar = Calendar.getInstance();
+    	calendar.add(Calendar.DATE, 1);
+    	String tomorrowDate = dateFormat.format(calendar.getTime());
+    	dateToBeSent.sendKeys(tomorrowDate);
+    	logger.info("Date to be sent entered: {}", tomorrowDate);
+    	stateHolder.put("giftCardDateSent", tomorrowDate);
     }
     
     public void enterGiftMessage(String message, String fieldName){
+    	
+    	WebElement giftMessagePanel = cardPanel.findElement(By.id("giftMessagePanel"));
+    	
     	WebElement giftMessageElement=null;
     	switch(fieldName.toLowerCase()){
     		case "line 1":
@@ -266,7 +220,7 @@ public class GiftCards  extends PageObject {
     	
     	try{
     		Util.scrollToElement(driver, addToBagButton);
-    		addToBag.click();
+    		addToBagButton.click();
     	}
     	catch(WebDriverException e){
     		JavascriptExecutor jse = (JavascriptExecutor)driver;
@@ -274,5 +228,6 @@ public class GiftCards  extends PageObject {
     	}
     	
 		Util.waitLoadingBar(driver);
+		driver.navigate().refresh();
     }
 }

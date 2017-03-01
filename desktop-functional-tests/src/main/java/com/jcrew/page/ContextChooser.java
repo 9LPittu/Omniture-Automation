@@ -148,26 +148,36 @@ public class ContextChooser {
 
 
 	public void selectGroupRandomCountry(String country_group) {
-
 		TestDataReader testData = TestDataReader.getTestDataReader();
+		String selectedCountry = testData.getRandomCountry(country_group);
+		
+		selectCountryOnContextChooserPage(selectedCountry);
+		
+	}
+	
+	public void selectCountryOnContextChooserPage(String countryName){		
 		PropertyReader propertyReader = PropertyReader.getPropertyReader();
 		String url = propertyReader.getProperty("url");
-
-		String selectedCountry = testData.getRandomCountry(country_group);
-		logger.info("Selected country: {}", selectedCountry);
-
+		
+		String currentUrl = driver.getCurrentUrl();
+		
 		//Click on country
 		WebElement countryElement = internationalContextChooserPage.findElement(
-                By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a[@data-country='" + selectedCountry + "']"));
+                By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a[@data-country='" + countryName + "']"));
         wait.until(ExpectedConditions.visibilityOf(countryElement));
 		countryElement.click();
+		Util.waitLoadingBar(driver);
 
 		//Update Reader and create context
 		TestDataReader reader = TestDataReader.getTestDataReader();
-		reader.updateReader(selectedCountry);
-		Country country = new Country(url, selectedCountry);
-
+		reader.updateReader(countryName);
+		Country country = new Country(url, countryName);
 
 		stateHolder.put("context", country);
+		
+		logger.info("Selected country: {}", countryName);
+		
+		wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+		Util.waitForPageFullyLoaded(driver);
 	}
 }

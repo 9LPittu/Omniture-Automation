@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.jcrew.pojo.ShippingMethod;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -21,11 +22,17 @@ public class CheckoutShippingOptions extends Checkout {
     @FindBy(id = "frmSelectShippingMethod")
     private WebElement shippingMethodForm;
     
+    @FindBy(className="shippingmethod-container")
+    private WebElement shippingMethodContainer;
+    
     @FindBy(id = "method0")
     private WebElement firstShipMethod;
 
     public CheckoutShippingOptions(WebDriver driver) {
         super(driver);
+        
+        if(stateHolder.hasKey("isShippingDisabled"))
+			return;
 
         wait.until(ExpectedConditions.visibilityOf(shippingMethodForm));
     }
@@ -155,8 +162,73 @@ public class CheckoutShippingOptions extends Checkout {
     		return firstShipMethod.isSelected();
     	}
     	catch(Exception e){
-    		e.printStackTrace();
     		return false;
+    	}
+    }
+    
+    public void selectSpecificShippingMethod(String shippingMethodName){
+    	try{
+    		WebElement shippingMethodRadioBtn = shippingMethodContainer.findElement(By.xpath(".//span[@class='method-group' and contains(normalize-space(.),'" + shippingMethodName
+    			                                                                              + "')]/preceding-sibling::input[@name='shippingMethod']"));
+    	    shippingMethodRadioBtn.click();
+    	    logger.debug("Selected Shipping Method: {}", shippingMethodName);
+    	}
+    	catch(NoSuchElementException nsee){
+    		String errorMsg = "Failed to identify/select the shipping method '" + shippingMethodName + "'";
+    		Util.e2eErrorMessagesBuilder(errorMsg);
+    		throw new NoSuchElementException(errorMsg);
+    	}
+    }
+    
+    public void selectSpecificShippingMethod(WebElement shippingMethodSection, String shippingMethodName){
+    	
+    	try{
+    		WebElement shippingMethodRadioBtn = shippingMethodSection.findElement(By.xpath(".//span[@class='method-group' and contains(normalize-space(.),'" + shippingMethodName
+    			                                                                         + "')]/preceding-sibling::input[contains(@name, 'shippingMethod')]"));
+    		shippingMethodRadioBtn.click();
+    		logger.debug("Selected Shipping Method: {}", shippingMethodName);
+    	}
+    	catch(NoSuchElementException nsee){
+    		String errorMsg = "Failed to identify/select the shipping method '" + shippingMethodName + "'";
+    		Util.e2eErrorMessagesBuilder(errorMsg);
+    		throw new NoSuchElementException(errorMsg);
+    	}
+    }
+    
+    public void selectMultipleShippingMethods(String[] arrShippingMethods){
+    	List<WebElement> shippingMethodSections = shippingMethodForm.findElements(By.className("form-section-address"));
+    	for(int i=0;i<arrShippingMethods.length;i++){
+    		selectSpecificShippingMethod(shippingMethodSections.get(i), arrShippingMethods[i]);
+    	}
+    }
+    
+    public void selectGiftOptionRadioButtons(){
+    	List<WebElement> giftOptionRadioElements = shippingMethodContainer.findElements(By.xpath(".//input[contains(@id, 'includesGifts')]"));
+    	for(WebElement giftOptionRadioElement:giftOptionRadioElements){
+    		giftOptionRadioElement.click();
+    		logger.debug("Gift option is selected...");
+    	}
+    }
+    
+    public void enterGiftReceiptMessages(){
+    	List<WebElement> giftReceiptMessageElements = shippingMethodContainer.findElements(By.xpath(".//textarea[contains(@id,'gift-receipt-msg')]"));
+    	
+    	for(int i=0;i<giftReceiptMessageElements.size();i++){
+    		String giftReceiptMessage = "Automated Gift Receipt Message " + (i+1);
+    		giftReceiptMessageElements.get(i).sendKeys(giftReceiptMessage);
+    		logger.debug("Gift Receipt Message entered is '{}'", giftReceiptMessage);
+    	}
+    }
+    
+    public void selectGiftWrappingServiceRadioButtons(){
+    	List<WebElement> giftWrappingServiceRadioElements = shippingMethodContainer.findElements(By.xpath(".//input[contains(@id,'giftWrapService')]"));
+    	for(WebElement giftWrappingServiceRadioElement:giftWrappingServiceRadioElements){
+    		try{
+    			 giftWrappingServiceRadioElement.click();
+    			 logger.debug("Gift Wrapping Service radio button is selected...");
+    		}catch(ElementNotVisibleException enve){
+    			logger.debug("Gift Wrapping Service radio button is not visible");
+    		}
     	}
     }
 }

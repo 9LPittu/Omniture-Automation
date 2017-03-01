@@ -3,7 +3,10 @@ package com.jcrew.page;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.utils.Util;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,8 +18,6 @@ import org.openqa.selenium.support.ui.Select;
  */
 public class CheckoutShippingAdd extends Checkout {
 
-    @FindBy(id = "shipping-address")
-    private WebElement shippingForm;
     @FindBy(id = "firstNameSA")
     private WebElement firstName;
     @FindBy(id = "lastNameSA")
@@ -31,8 +32,6 @@ public class CheckoutShippingAdd extends Checkout {
     private WebElement phoneNum; 
     @FindBy(id = "order-listing")
     private WebElement order_listing;
-    @FindBy(id = "frmSelectShippingAddress")
-    private WebElement frmSelectShippingAddress;
     @FindBy(id = "dropdown-us-city-state")
     private WebElement us_city_state;
     @FindBy(id = "city")
@@ -43,11 +42,20 @@ public class CheckoutShippingAdd extends Checkout {
     private WebElement state_province;
     @FindBy(id = "shoppingAddressValidate")
     private WebElement addresValidate;
-
+    
+    private WebElement shippingAddressForm;
+    private WebElement addNewShippingAddressForm;
 
     public CheckoutShippingAdd(WebDriver driver) {
-        super(driver);
-//        wait.until(ExpectedConditions.visibilityOf(shippingForm));
+        super(driver);        
+        isDisplayed();        
+    }
+    
+    private WebElement getShippingAddressForm(){
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    	shippingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body/article/descendant::form")));
+    	return shippingAddressForm;
     }
 
     public boolean isDisplayed() {
@@ -73,8 +81,15 @@ public class CheckoutShippingAdd extends Checkout {
             case "ca":
                 zipcode.clear();
                 zipcode.sendKeys(address.getZipcode());
-
-                wait.until(ExpectedConditions.visibilityOf(us_city_state));
+                
+                try{
+                	Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(us_city_state));
+                }catch(TimeoutException toe){	
+                	city.sendKeys(address.getCity());
+                	Select select = new Select(state_province);
+                	select.selectByVisibleText(address.getState());
+                }
+                
                 break;
 
             case "au":
@@ -121,9 +136,13 @@ public class CheckoutShippingAdd extends Checkout {
         Address address = new Address();
         fillFormData(address);
     }
+    
+    public void fillShippingData(Address address) {
+        fillFormData(address);
+    }
 
-    public void continueCheckout() {
-        nextStep(shippingForm);
+    public void continueCheckout() {    	
+        nextStep(getShippingAddressForm());
     }
 
     public void fillAPOShippingData() {
@@ -138,16 +157,60 @@ public class CheckoutShippingAdd extends Checkout {
     
     public void saveShippingAddress() {
         String currentUrl = driver.getCurrentUrl();
-        WebElement saveShippingAddress = shippingForm.findElement(By.className("button-submit-bg"));
+        WebElement saveShippingAddress = getShippingAddressForm().findElement(By.className("button-submit-bg"));
         saveShippingAddress.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
     }
 
     public void continueWithDefaultAddress() {
         String url = driver.getCurrentUrl();
-        WebElement continueWithDefault = frmSelectShippingAddress.findElement(By.className("button-submit-bg"));
+        WebElement continueWithDefault = getShippingAddressForm().findElement(By.className("button-submit-bg"));
         continueWithDefault.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
+    
+    public void selectMultipleAddressesRadioButton(){
+    	selectMultipleShippingAddressRadioButton(getShippingAddressForm());
+    }
+    
+    public void clickAddNewShippingAddress(){
+    	WebElement addNewShippingAddress = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@id='address-new']")));
+    	addNewShippingAddress.click();
+    	
+    	addNewShippingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("frm_new_shipping_address")));
+    }
+    
+    public void addNewShippingAddress(String isQASAddress, Address address){
+    	User user = User.getNewFakeUser();
+    	
+    	WebElement newShippingAddress_FirstName = addNewShippingAddressForm.findElement(By.id("firstNameAM"));
+    	newShippingAddress_FirstName.sendKeys(user.getFirstName());
+    	
+    	WebElement newShippingAddress_LastName = addNewShippingAddressForm.findElement(By.id("lastNameAM"));
+    	newShippingAddress_LastName.sendKeys(user.getLastName());
+    	
+    	WebElement newShippingAddress_Address1 = addNewShippingAddressForm.findElement(By.id("address1"));
+    	newShippingAddress_Address1.sendKeys(address.getLine1());
+        
+    	WebElement newShippingAddress_Address2 = addNewShippingAddressForm.findElement(By.id("address2"));
+    	newShippingAddress_Address2.sendKeys(address.getLine2());
+        
+    	WebElement newShippingAddress_PhoneNum = addNewShippingAddressForm.findElement(By.id("phoneNumAM"));
+    	newShippingAddress_PhoneNum.sendKeys(address.getPhone());
+    	
+    	WebElement newShippingAddress_ZipCode = addNewShippingAddressForm.findElement(By.id("zipcode"));
+    	newShippingAddress_ZipCode.clear();
+    	newShippingAddress_ZipCode.sendKeys(address.getZipcode());
 
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dropdown-us-city-state")));
+        
+        WebElement saveButton = addNewShippingAddressForm.findElement(By.id("submit-new-shipping-address"));
+        saveButton.click();
+        
+        if(isQASAddress.equalsIgnoreCase("YES")){
+        	handleQAS();
+        }else{
+        	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));
+        }
+    }
 }

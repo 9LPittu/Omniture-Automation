@@ -116,8 +116,13 @@ public class ProductDetails extends PageObject {
         }
     }
 
-
-
+    public void selectSpecifiedColor(String colorName){
+    	wait.until(ExpectedConditions.visibilityOf(price_colors));
+    	WebElement colorElement = price_colors.findElement(By.xpath(".//li[contains(@class, 'js-product__color colors-list__item')"
+    																+ " and @data-name='" + colorName.toUpperCase() + "']"));
+    	colorElement.click();
+    	logger.debug("Selected color: {}", colorName);
+    }
 
     public void selectRandomSize() {
         wait.until(ExpectedConditions.visibilityOf(sizes));
@@ -132,6 +137,17 @@ public class ProductDetails extends PageObject {
             Util.scrollAndClick(driver, selectedSize);
         }
     }
+    
+    public void selectSpecifiedSize(String size){
+    	wait.until(ExpectedConditions.visibilityOf(sizes));
+        String sizeSelector = ".//li[contains(@class,'js-product__size sizes-list__item')"
+        					  + " and @data-name='" + size.toUpperCase() + "']"; 
+        
+        WebElement sizeElement = sizes.findElement(By.xpath(sizeSelector));
+        Util.scrollToElement(driver, sizeElement);
+        sizeElement.click();
+        logger.debug("Selected size: {}", size);
+    }
 
     public void selectRandomQty() {
         wait.until(ExpectedConditions.visibilityOf(product_quantity));
@@ -142,6 +158,13 @@ public class ProductDetails extends PageObject {
             int randomQty = Util.randomIndex(availableQty - 1) + 1;
             qty.selectByValue(Integer.toString(randomQty));
         }
+    }
+    
+    public void selectSpecifiedQuantity(String quantity){
+    	wait.until(ExpectedConditions.visibilityOf(product_quantity));
+        Select quantityElement = new Select(product_quantity.findElement(By.tagName("select")));
+        quantityElement.selectByValue(quantity);
+        logger.debug("Selected quantity: {}", quantity);
     }
 
     public String getSelectedColor() {
@@ -290,6 +313,7 @@ public class ProductDetails extends PageObject {
         	logger.info("Mini cart is not displayed. Hence, checking item count in bag has increased");
         	int itemCount = headerWrap.getItemsInBag();
         	if (itemCount <= itemsInBag)
+        		Util.e2eErrorMessagesBuilder("Item " + product.getItemNumber() + " is not added to bag");
         		new WebDriverException("product not added to bag");
         }
     }
@@ -782,5 +806,10 @@ public class ProductDetails extends PageObject {
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    public void addMonogram(){
+    	WebElement addMonogramElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='p-monogram--add']/span[1]")));
+    	addMonogramElement.click();
     }
 }

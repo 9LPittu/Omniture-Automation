@@ -37,25 +37,25 @@ public class ShippingMethodCalculator {
             restrictedAddress=false;
         }
 
-        List<Product> productsInBag = stateHolder.getList("toBag");
-        crewCut=true;
-        mixedItems = false;
-        Product p = productsInBag.get(0);
-        restrictedItem = p.isBackorder();
-        crewCut = crewCut && p.isCrewCut();
-
-        for (int i = 1; i < productsInBag.size(); i++) {
-            p = productsInBag.get(i);
-            mixedItems = mixedItems || (p.isBackorder() != restrictedItem);
-            restrictedItem = p.isBackorder();
-            crewCut = crewCut && p.isCrewCut();
+        if(stateHolder.hasKey("toBag")){
+	        List<Product> productsInBag = stateHolder.getList("toBag");
+	        crewCut=true;
+	        mixedItems = false;
+	        Product p = productsInBag.get(0);
+	        restrictedItem = p.isBackorder();
+	        crewCut = crewCut && p.isCrewCut();
+	
+	        for (int i = 1; i < productsInBag.size(); i++) {
+	            p = productsInBag.get(i);
+	            mixedItems = mixedItems || (p.isBackorder() != restrictedItem);
+	            restrictedItem = p.isBackorder();
+	            crewCut = crewCut && p.isCrewCut();
+	        }
+	        environment = propertyReader.getProperty("environment");
+	        toggle = dataReader.getBoolean(environment + ".atp.toggle");
+	        logger.debug("This bag has backordered products: {} - This bag has mixed products: {}", restrictedItem, mixedItems);
         }
-        environment = propertyReader.getProperty("environment");
-        toggle = dataReader.getBoolean(environment + ".atp.toggle");
-        logger.debug("This bag has backordered products: {} - This bag has mixed products: {}", restrictedItem, mixedItems);
     }
-
-
 
     public List<ShippingMethod> getExpectedList() {
         List<ShippingMethod> expectedMethods = new ArrayList<>();
