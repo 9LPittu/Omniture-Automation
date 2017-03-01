@@ -49,7 +49,6 @@ public class FinalSteps {
 
             } catch (WebDriverException e) {
                 logger.error("An exception happened when taking step screenshot after step", e);
-                driverFactory.resetDriver();
             }
         }
     }
@@ -80,7 +79,6 @@ public class FinalSteps {
                 
             } catch (WebDriverException e) {
                 logger.error("An exception happened when taking step screenshot after scenario", e);
-                driverFactory.resetDriver();
             }
         }
 
