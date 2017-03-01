@@ -30,7 +30,7 @@ public class PropertyReader {
         String execViewport = System.getProperty("viewport", "chrome");
         String execUser = System.getProperty("user", "user.1");
         String country = System.getProperty("country", "us");
-        String brand = System.getProperty("brabd", "jcrew");
+        String brand = System.getProperty("brand", "jcrew");
 
         FileInputStream inputFile = new FileInputStream("properties/environment.properties");
         properties.load(inputFile);
@@ -55,7 +55,7 @@ public class PropertyReader {
         properties.setProperty("country", country);
 
         logger.info("Brand under test {}", brand);
-        properties.setProperty("country", brand);
+        properties.setProperty("brand", brand);
     }
 
     public boolean isSystemPropertyTrue(String key) {
