@@ -11,7 +11,7 @@ import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression/SearchAndSale"},
+        features = {"features/jcrew/regression/SearchAndSale"},
         tags = {"@SaleArray1"},
         glue = {"com.jcrew.steps"},
         format = {

@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression/QuickShop"},
+        features = {"features/jcrew/regression/QuickShop"},
         tags = {"@Quickshop","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {

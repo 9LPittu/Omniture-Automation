@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression/AccountFeature"},
+        features = {"features/jcrew/regression/AccountFeature"},
         tags = {"@NewAccount2","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {
