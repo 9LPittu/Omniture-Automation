@@ -587,4 +587,13 @@ public abstract class Checkout extends PageObject{
     	
     	logger.debug("Search for store with zip code as '{}'", zipCode);
     }
+    
+    public void selectStoreRadioButton(String storeName){
+    	WebElement radioButtonElement = shipToStoreSection.findElement(
+    														By.xpath("//span[@id='store-name' and " + Util.xpathGetTextLower + "='" + storeName.toLowerCase() + "']"
+    																+ "/ancestor::div[@class='address-container']/preceding-sibling::input[@class='address-radio']"));
+    	
+    	radioButtonElement.click();
+    	logger.debug("Radio button is selected for  store '{}'", storeName);
+    }
 }

@@ -386,49 +386,4 @@ public class E2E1Steps extends E2ECommon {
 			new CheckoutShippingEdit(getDriver());
 		}
 	}
-
-	@When("^User selects Shipping Addresses as per testdata$")
-	public void user_selects_shipping_addessses() {
-
-		if (stateHolder.hasKey("isShippingDisabled"))
-			return;
-
-		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
-		String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
-
-		CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
-
-		if (!multipleShippingAddressRequired.equalsIgnoreCase("YES")) {
-			// single shipping address selection
-			if (shippingAddresses.isEmpty())
-				return;
-
-			checkoutShipping.selectSpecificShippingAddress(shippingAddresses);
-		} else {
-			// multiple shipping addresses selection
-			String[] arrShippingAddresses = shippingAddresses.split(getE2ETestdataDelimiter());
-			
-			int itemsCount = stateHolder.get("itemsCount");
-			if(itemsCount<2){
-				String message = "Multiple shipping addresses are selected. But only 1 item is added to bag.";
-				Util.e2eErrorMessagesBuilder(message);
-				throw new WebDriverException(message);
-			}
-			
-			for(int i =0;i<arrShippingAddresses.length;i++){
-				stateHolder.addToList("shippingAddresses", arrShippingAddresses[i]);
-			}
-			
-			checkoutShipping.selectMultipleShippingAddressRadioButton();
-			checkoutShipping.continueCheckout();
-			
-			CheckoutMultipleShippingAddresses multiShipping = new CheckoutMultipleShippingAddresses(getDriver());
-			List<String> shippingAddressesList = stateHolder.getList("shippingAddresses");
-			multiShipping.multiShippingAddressSelection(shippingAddressesList);
-			
-			multiShipping.continueCheckout();
-			
-			stateHolder.put("isShippingAddressContinueClicked", true);
-		}
-	}
 }

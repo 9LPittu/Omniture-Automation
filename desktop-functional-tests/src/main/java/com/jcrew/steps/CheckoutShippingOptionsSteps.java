@@ -35,7 +35,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
     @Then("Verify Shipping And Gift Options page is displayed")
     public void is_shipping_options() {
     	
-    	if(stateHolder.hasKey("isShippingDisabled"))
+    	if(stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isSTS"))
     		return;
     	
         assertTrue("Is shipping and gift options page", shippingOptions.isDisplayed());
@@ -201,7 +201,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
 
     @When("User continues to Payment Method page")
     public void continue_to_payment_method() {
-    	if(stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isShippingMethodContinueClicked"))
+    	if(stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isShippingMethodContinueClicked") || stateHolder.hasKey("isSTS"))
 			return;
     	
         shippingOptions.continueCheckout();

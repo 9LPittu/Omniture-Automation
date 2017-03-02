@@ -27,7 +27,7 @@ public class E2E2Steps extends E2ECommon {
 	@When("^User selects Shipping Methods as per testdata$")
 	public void user_selects_shipping_methods() {
 
-		if (stateHolder.hasKey("isShippingDisabled"))
+		if (stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isSTS"))
 			return;
 
 		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
@@ -64,7 +64,7 @@ public class E2E2Steps extends E2ECommon {
 
 	@And("^User select Gift Options as per testdata, if required$")
 	public void select_gift_options() {
-		if (stateHolder.hasKey("isShippingDisabled"))
+		if (stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isSTS"))
 			return;
 
 		String giftOptionSelection = getDataFromTestDataRowMap("Gift Option Selection");
@@ -305,6 +305,9 @@ public class E2E2Steps extends E2ECommon {
 		}
 		
 		//select store radio button
+		checkout.selectStoreRadioButton(storeName);
+		
+		stateHolder.put("isSTS", true);
 	}
 	
 	private void personal_shipping_address_selection_for_guest_user(){
@@ -409,6 +412,64 @@ public class E2E2Steps extends E2ECommon {
 		}else{
 			CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
 			checkoutBillingPayment.addNewBillingAdrress(isBillingAddressQAS, billingAddress);
+		}
+	}
+	
+	@When("^User selects Shipping Addresses as per testdata$")
+	public void user_selects_shipping_addessses() {
+
+		if (stateHolder.hasKey("isShippingDisabled"))
+			return;
+		
+		String shippingType = getDataFromTestDataRowMap("Shipping Type");
+		
+		switch(shippingType.toUpperCase()){
+			case "SHIP TO STORE":
+				ship_to_store_selection();
+				break;
+			case "PERSONAL SHIPPING ADDRESS":
+			default:
+				personal_shipping_address_selection_for_nonexpress_user();
+		}
+	}
+	
+	private void personal_shipping_address_selection_for_nonexpress_user(){
+		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
+		String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
+
+		CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
+
+		if (!multipleShippingAddressRequired.equalsIgnoreCase("YES")) {
+			// single shipping address selection
+			if (shippingAddresses.isEmpty())
+				return;
+
+			checkoutShipping.selectSpecificShippingAddress(shippingAddresses);
+		} else {
+			// multiple shipping addresses selection
+			String[] arrShippingAddresses = shippingAddresses.split(getE2ETestdataDelimiter());
+			
+			int itemsCount = stateHolder.get("itemsCount");
+			if(itemsCount < 2){
+				String message = "Multiple shipping addresses are selected. But only 1 item is added to bag.";
+				Util.e2eErrorMessagesBuilder(message);
+				throw new WebDriverException(message);
+			}
+			
+			for(int i = 0;i<arrShippingAddresses.length;i++){
+				stateHolder.addToList("shippingAddresses", arrShippingAddresses[i]);
+			}
+			
+			checkoutShipping.selectMultipleShippingAddressRadioButton();
+			checkoutShipping.continueCheckout();
+			
+			CheckoutMultipleShippingAddresses multiShipping = new CheckoutMultipleShippingAddresses(getDriver());
+			List<String> shippingAddressesList = stateHolder.getList("shippingAddresses");
+			multiShipping.multiShippingAddressSelection(shippingAddressesList);
+			
+			multiShipping.continueCheckout();
+			
+			stateHolder.put("isShippingAddressContinueClicked", true);
 		}
 	}
 }
