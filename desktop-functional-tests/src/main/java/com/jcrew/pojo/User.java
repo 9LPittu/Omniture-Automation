@@ -50,12 +50,19 @@ public class User {
     }
 
     public static User getUserFromHub(String userCategory) {
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        
+        if(reader.getProperty("environment").contains("ci")){
+        	return new User(reader.getProperty("environment") + "." + reader.getProperty("user"));
+        }
+        else{
         try {
             return UsersHub.getInstance().getUser(userCategory);
         } catch (SQLException e) {
             logger.error("Failed to get user from DB. getting from properties file");
             return new User(true);
         }
+        } 
     }
 
     public static User getUser(String userType) {
@@ -117,7 +124,7 @@ public class User {
     private User(boolean fromProperties) {
         if (fromProperties) {
             PropertyReader reader = PropertyReader.getPropertyReader();
-            String userId = reader.getProperty("userID");
+            String userId = reader.getProperty("user");
             this.email = reader.getProperty(userId + ".email");
             this.password = reader.getProperty(userId + ".password");
             this.firstName = reader.getProperty(userId + ".firstName");
