@@ -18,7 +18,7 @@ public class CheckoutShippingEditSteps extends DriverFactory {
 
     @When("^User continues to Shipping and Gift Options page$")
     public void continue_to_shipping_option() {
-    	if(stateHolder.hasKey("isShippingAddressContinueClicked") || stateHolder.hasKey("isShippingDisabled"))
+    	if(stateHolder.hasKey("isShippingAddressContinueClicked") || stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isSTS"))
     		return;
     	
         shipping.continueCheckout();

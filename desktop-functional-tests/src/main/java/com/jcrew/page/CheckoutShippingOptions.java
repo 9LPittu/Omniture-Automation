@@ -31,7 +31,7 @@ public class CheckoutShippingOptions extends Checkout {
     public CheckoutShippingOptions(WebDriver driver) {
         super(driver);
         
-        if(stateHolder.hasKey("isShippingDisabled"))
+        if(stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isSTS"))
 			return;
 
         wait.until(ExpectedConditions.visibilityOf(shippingMethodForm));

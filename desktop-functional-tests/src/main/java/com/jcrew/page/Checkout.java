@@ -565,18 +565,20 @@ public abstract class Checkout extends PageObject{
     	shipToStoreRadioElement.click();
     	logger.debug("'Ship To Store' radio button is selected...");
     	
-    	Util.waitLoadingBar(driver);    	
-    	shipToStoreSection = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("ship-to-store")));
+    	Util.waitLoadingBar(driver);
+    	shipToStoreSection = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("shipping-method")));
     }
     
     public void clickRecommendedStoresLink(){
     	WebElement linkElement = shipToStoreSection.findElement(By.xpath(".//span[@id='rec-stores-link']/a"));
     	linkElement.click();
+    	Util.waitLoadingBar(driver);
     }
     
     public void clickNearByStoresLink(){
     	WebElement linkElement = shipToStoreSection.findElement(By.xpath(".//span[@id='nearby-stores-link']/a"));
     	linkElement.click();
+    	Util.waitLoadingBar(driver);
     }
     
     public void searchByZipCode(String zipCode){
@@ -589,11 +591,20 @@ public abstract class Checkout extends PageObject{
     }
     
     public void selectStoreRadioButton(String storeName){
-    	WebElement radioButtonElement = shipToStoreSection.findElement(
-    														By.xpath("//span[@id='store-name' and " + Util.xpathGetTextLower + "='" + storeName.toLowerCase() + "']"
-    																+ "/ancestor::div[@class='address-container']/preceding-sibling::input[@class='address-radio']"));
     	
+    	storeName = storeName.toLowerCase();
+    	
+    	if(storeName.contains("'")){
+    		storeName = "\"" + storeName + "\"";    		
+    	}else{
+    		storeName = "'" + storeName + "'";
+    	}
+    	
+    	WebElement radioButtonElement = Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(
+				   								By.xpath("//span[@id='store-name' and " + Util.xpathGetTextLower + "=" + storeName + "]"
+				   								+ "/ancestor::div[@class='address-container']/preceding-sibling::input[@class='address-radio']")));
+
     	radioButtonElement.click();
-    	logger.debug("Radio button is selected for  store '{}'", storeName);
+    	logger.debug("Radio button is selected for store '{}'", storeName);
     }
 }

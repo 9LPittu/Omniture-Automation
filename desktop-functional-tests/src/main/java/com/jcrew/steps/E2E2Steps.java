@@ -308,6 +308,17 @@ public class E2E2Steps extends E2ECommon {
 		checkout.selectStoreRadioButton(storeName);
 		
 		stateHolder.put("isSTS", true);
+		
+		switch(userType.toUpperCase()){
+			case "GUEST":
+				CheckoutShippingAdd checkoutShippingAdd = new CheckoutShippingAdd(getDriver());
+				checkoutShippingAdd.continueCheckout();
+				break;
+			case "NONEXPRESS":
+				CheckoutShippingEdit checkoutShippingEdit = new CheckoutShippingEdit(getDriver());
+				checkoutShippingEdit.continueCheckout();
+				break;
+		}
 	}
 	
 	private void personal_shipping_address_selection_for_guest_user(){
@@ -384,7 +395,7 @@ public class E2E2Steps extends E2ECommon {
 		
 		String differentBillingAddressRequired = getDataFromTestDataRowMap("Different Billing Address Required?");
 		
-		if(!differentBillingAddressRequired.equalsIgnoreCase("YES") && !stateHolder.hasKey("isShippingDisabled"))
+		if(!differentBillingAddressRequired.equalsIgnoreCase("YES") && !stateHolder.hasKey("isShippingDisabled") && !stateHolder.hasKey("isSTS"))
 			return;
 		
 		String isBillingAddressQAS = getDataFromTestDataRowMap("is Billing Address QAS?");
@@ -399,7 +410,7 @@ public class E2E2Steps extends E2ECommon {
 		
 		Address billingAddress = new Address(billingAddress_FirstName, billingAddress_LastName, billingAddress_AddressLine1, billingAddress_AddressLine2, billingAddress_City, billingAddress_State, billingAddress_ZipCode, new Faker().phoneNumber().phoneNumber(), billingAddress_Country);
 		
-		if(stateHolder.hasKey("isShippingDisabled")){
+		if(stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isSTS")){
 			CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
 			checkoutBilling.enterBillingAddress(billingAddress);
 			
