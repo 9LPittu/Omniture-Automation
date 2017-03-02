@@ -10,6 +10,8 @@ import org.openqa.selenium.Cookie;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,7 @@ public abstract class PageObject {
     protected final WebDriver driver;
     public final Logger logger = LoggerFactory.getLogger(PageObject.class);
     protected final WebDriverWait wait;
+    protected final Actions hoverAction;
 
     public final StateHolder stateHolder = StateHolder.getInstance();
     public final Country country;
@@ -32,7 +35,10 @@ public abstract class PageObject {
     public PageObject(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
-        this.country = (Country) stateHolder.get("context");
+        this.country = stateHolder.get("context");
+        this.hoverAction = new Actions(driver);
+
+        PageFactory.initElements(driver, this);
     }
 
     public boolean verifyURL() {

@@ -1,6 +1,9 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.page.header.GlobalPromo;
+import com.jcrew.page.header.HeaderLogo;
+import com.jcrew.page.header.TopNav;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
@@ -26,19 +29,14 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 3/28/16.
  */
-public class HeaderWrap {
+public class HeaderWrap extends PageObject {
 
-	private final WebDriver driver;
 	private final Logger logger = LoggerFactory.getLogger(HeaderWrap.class);
 	public final StateHolder stateHolder = StateHolder.getInstance();
-	private final WebDriverWait wait;
-	private final Actions hoverAction;
-	TestDataReader testdataReader = TestDataReader.getTestDataReader();
+	private TestDataReader testdataReader = TestDataReader.getTestDataReader();
 
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
-	private WebElement menu;	
-	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/span[contains(@class,'primary-nav__text--search')]")
-	private WebElement search;	
+	private WebElement menu;
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--stores']/a")
 	private WebElement stores;
 	@FindBy(id = "c-header__userpanel")
@@ -49,33 +47,22 @@ public class HeaderWrap {
 	private WebElement bag;
 	@FindBy(id = "c-header__userpanel")
 	private WebElement userPanel;
-	@FindBy(id = "global__promo")
-	private WebElement global_promo;
 	@FindBy(id = "c-header__minibag")
 	private WebElement minibag;
 	@FindBy(id = "global__header")
 	private WebElement global_header;
 	@FindBy(id = "global__nav")
 	private WebElement global_nav;
-	@FindBy(id = "js-header__logo")
-	private WebElement header_logo;
-	@FindBy(className = "header__department-nav")
-	private WebElement top_nav;
 	@FindBy(xpath = ".//div[@id='c-header__factory-link']/a")
 	private WebElement lookingForFactoryLinkInHeader;
 	@FindBy(xpath = "//span[@class='btn__label' and text()='BACK']")
 	private WebElement hamburger_back;
-	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/div[contains(@class,'primary-nav__search-results--frame')]")
-    private WebElement headerSearch;
 
 	private WebElement dropdown;
 
 	public HeaderWrap(WebDriver driver) {
-		this.driver = driver;
-		this.hoverAction = new Actions(driver);
-		this.wait = Util.createWebDriverWait(driver);
-
-		PageFactory.initElements(driver, this);
+        super(driver);
+        GlobalPromo promo = new GlobalPromo(driver);
 
 		reload();
 	}
@@ -88,15 +75,13 @@ public class HeaderWrap {
 				@Override
 				public boolean apply(WebDriver driver) {
 					boolean result = false;
-					if(global_promo.isDisplayed() && global_header.isDisplayed() && bag.isDisplayed()){
+					if(global_header.isDisplayed() && bag.isDisplayed()){
 						result = true;
 					}
 					return result;
 				}				
 			});
-			
-			wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(global_promo)));
-			wait.until(ExpectedConditions.visibilityOf(global_promo));
+
 			wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(global_header)));
 			wait.until(ExpectedConditions.visibilityOf(global_header));
 			wait.until(ExpectedConditions.visibilityOf(bag));
@@ -128,59 +113,10 @@ public class HeaderWrap {
 		}
 	}
 
-	public void clickLogo() {
-		if (header_logo.isDisplayed()) {
-			header_logo.click();
-		} else {
-			clickBreadCrumb("J.Crew");
-		}
-
-		HomePage homePage = new HomePage(driver);
-		logger.debug("We are in homepage after clicking logo or breadcrumb: {}", homePage.isHomePage());
-	}
-
-	public void clickBreadCrumb(String text) {
-		WebElement breadCrumb = global_header
-				.findElement(By.xpath(".//a[@class='breadcrumb__link' and text()='" + text + "']"));
-		breadCrumb.click();
-	}
-
-	public void searchFor(String searchItem) {
-		PropertyReader propertyReader = PropertyReader.getPropertyReader();
-		String env = propertyReader.getProperty("environment");
-
-		if (testdataReader.hasProperty(env + "." + searchItem)) {
-			searchItem = testdataReader.getData(env + "." + searchItem);
-		}
-
-		searchForSpecificTerm(searchItem);
-	}
-
 	public void clickStores(){
         wait.until(ExpectedConditions.visibilityOf(stores));
         stores.click();
     }
-	public void clickSearch() {
-        wait.until(ExpectedConditions.visibilityOf(search));
-		search.click();
-	}
-
-	public void searchForSpecificTerm(String searchTerm) {
-		wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
-		WebElement closeIcon = headerSearch.findElement(By.xpath(".//span[contains(@class,'icon-close js-primary-nav__search__button--clear')]"));
-		if (closeIcon.isDisplayed()) {
-			closeIcon.click();
-		} else {
-			search.click();
-		}
-		
-		WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input")));		
-		searchInput.clear();
-		searchInput.sendKeys(searchTerm);
-		search.click();
-		logger.info("Searching for {}", searchTerm);
-		Util.waitLoadingBar(driver);
-	}
 
 	public void clickSignIn() {
 		int cntr = 0;
@@ -244,21 +180,13 @@ public class HeaderWrap {
 			hoverAction.perform();
 
 		} else if ("logo".equalsIgnoreCase(icon)) {
+            HeaderLogo logo = new HeaderLogo(driver);
+            logo.hoverLogo();
 
-			WebElement logo = global_header.findElement(By.className("c-header__logo"));
-			String logoClass = logo.getAttribute("class");
-
-			if (logoClass.contains("is-hidden")) {
-				logo = global_header.findElement(By.className("c-header__breadcrumb"));
-			}
-
-			hoverAction.moveToElement(logo);
-			hoverAction.perform();
 		} else if ("gender landing".equalsIgnoreCase(icon)) {
-			WebElement logo = top_nav.findElement(By.xpath(
-					"//span[contains(@class, 'department-nav__text') and " + Util.xpathGetTextLower + " = 'men']"));
-			hoverAction.moveToElement(logo);
-			hoverAction.perform();
+            TopNav topNav = new TopNav(driver);
+            topNav.hoverCategory("men");
+
 		} else if ("stores".equalsIgnoreCase(icon)) {
 			wait.until(ExpectedConditions.visibilityOf(stores));
 			hoverAction.moveToElement(stores);
@@ -355,32 +283,7 @@ public class HeaderWrap {
 
 	}
 
-	public void clickDeptLinkFromTopNav(String dept) {
-		String url = driver.getCurrentUrl();
-		WebElement topnavlink = top_nav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and " + Util.xpathGetTextLower
-				+ " = '" + dept.toLowerCase() + "']"));
-		wait.until(ExpectedConditions.elementToBeClickable(topnavlink));
-		topnavlink.click();
-
-		if (!"view all".equals(dept))
-			wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
-
-		reload();
-	}
-
-	public List<String> getTopNavOptions() {
-		List<WebElement> options = top_nav.findElements(By.className("department-nav__item"));
-		List<String> optionsString = new ArrayList<>(options.size());
-
-		for (WebElement option : options) {
-			optionsString.add(option.getText().toLowerCase());
-		}
-
-		return optionsString;
-	}
-
 	public int getItemsInBag() {
-		wait.until(ExpectedConditions.visibilityOf(global_promo));
 		wait.until(ExpectedConditions.visibilityOf(bag));
 		WebElement cart_size = bag.findElement(By.className("js-cart-size"));
 		String cartSizeText = cart_size.getText().trim();
@@ -393,153 +296,4 @@ public class HeaderWrap {
 		return Integer.parseInt(cartSizeText);
 	}
 
-	public boolean isLogoVisible() {
-		WebElement logo = global_header.findElement(By.className("c-header__logo"));
-		return logo.isDisplayed();
-	}
-
-	public void clickBack() {
-		if (hamburger_back.isDisplayed()) {
-			hamburger_back.click();
-		} else {
-
-			clickLogo();
-			openMenu();
-		}
-	}
-
-    public void hoverCategory(List<String> categories) {
-        int index = Util.randomIndex(categories.size());
-        String randomCategory = categories.get(index);
-
-        hoverCategory(randomCategory);
-        logger.info("Selected Category is {} ", randomCategory);
-        stateHolder.put("category", randomCategory);
-    }
-
-	public void hoverCategory(DataTableRow categories) {
-        String category = categories.getCells().get(0);
-        String subcategory = categories.getCells().get(1);
-
-		hoverCategory(category);
-        selectSubCategory(subcategory);
-	}
-
-	public void hoverCategory(String Category) {
-		wait.until(ExpectedConditions.visibilityOf(top_nav));
-
-		WebElement categoryLink = top_nav.findElement(By.xpath(
-				".//a[@class='department-nav__link' and contains(@name,'>>" + Category.toLowerCase() + "')]"));
-		hoverAction.moveToElement(categoryLink);
-		hoverAction.perform();
-		logger.info("Selected Category is {} ", Category);
-		stateHolder.put("category", Category);
-	}
-	
-	public void hoverCategory() {
-		wait.until(ExpectedConditions.visibilityOf(top_nav));
-		
-		String Category = testdataReader.getCategory().toLowerCase().trim();
-		
-		WebElement categoryLink = top_nav.findElement(By.xpath(
-				".//a[@class='department-nav__link' and contains(@name,'>>" + Category + "')]"));
-		hoverAction.moveToElement(categoryLink);
-		hoverAction.perform();
-		logger.info("Selected Category is {} ", Category);
-		stateHolder.put("category", Category);
-	}
-	
-
-	public void selectSubCategory() {
-		String clothClassName = testdataReader.getData("clothing.className");
-		String shoesClassName = testdataReader.getData("shoes.className");
-	
-    	int counter = 0;
-    	boolean retry = true;
-		do {		
-			try {
-				WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
-		        		+ "js-department-subcat-nav__wrap js-expand-subcat-nav is-visible')]")));
-		    
-		        List<WebElement> subCategories = holder.findElements(By.xpath(".//div[contains(@class,'" + clothClassName + "') or contains(@class,'" + shoesClassName + "')]/div/ul/li/a"));
-		        
-		        WebElement selectedSubCategory = Util.randomIndex(subCategories);
-		
-		        logger.info("Selected subcategory: {}", selectedSubCategory.getText());
-		        stateHolder.put("subcategory", selectedSubCategory.getText());
-		        selectedSubCategory.click();
-		
-		        Util.waitLoadingBar(driver);
-		        hoverOverIcon("logo");
-		        
-		        //verify if if the category array page is non-akamai
-		        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("c-product__list")));
-		        
-		        retry = false;
-		        
-	    	} catch (Exception e) {
-	    		logger.info("Selected subcategory: {} is an akamai page. So, trying with a different sub category");
-	    		hoverCategory();
-	    		counter ++;
-	    	}
-    	} while (retry && (counter < 3));
-    }
-
-	public void selectSubCategory(String subCategory) {
-		WebElement subCategoryElement;
-		WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
-        		+ "js-department-subcat-nav__wrap js-expand-subcat-nav is-visible')]")));
-    
-        if (subCategory.equalsIgnoreCase("looks we love")) {
-        	subCategoryElement = holder.findElement(By.xpath(".//ul/li/a[contains(@name,'lookswelove')]"));
-        } else {
-        	subCategoryElement = holder.findElement(By.xpath(".//ul/li/a[" + Util.xpathGetTextLower + "='" + subCategory.toLowerCase() + "']"));
-        }
-        logger.info("Selected subcategory: {}", subCategoryElement.getText());
-        stateHolder.put("subcategory", subCategoryElement.getText());
-        subCategoryElement.click();
-
-        Util.waitLoadingBar(driver);
-        hoverOverIcon("logo");
-	}
-	
-	public void selectASaleSubCategory(){
-		WebElement holder = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(".//div[contains(@class,'department-subcat-nav__wrap "
-        		+ "js-department-subcat-nav__wrap js-expand-subcat-nav is-visible')]")));
-		 List<WebElement> saleCategories = holder.findElements(By.xpath(".//ul/li/a[contains(@class,'nav-page__link')]"));
-	        
-	        WebElement selectedSaleCategory = Util.randomIndex(saleCategories);
-	
-	        logger.info("Selected sale category: {}", selectedSaleCategory.getText());
-	        stateHolder.put("saleCategory", selectedSaleCategory.getText());
-	        selectedSaleCategory.click();
-	
-	        Util.waitLoadingBar(driver);
-	        hoverOverIcon("logo");
-	}
-	
-	public void openSearchDrawer() {
-		wait.until(ExpectedConditions.elementToBeClickable(search));
-		search.click();	
-	}
-	
-	public void closeSearchDrawer() {
-		WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
-		WebElement closeSearch = searchHeader.findElement(By.xpath(".//span[@class='icon-close js-primary-nav__search__button--clear']"));
-		wait.until(ExpectedConditions.elementToBeClickable(closeSearch));
-		closeSearch.click();
-				
-	}
-	
-	public String getSearchDrawerState() {
-		wait.until(ExpectedConditions.visibilityOf(search));
-	    WebElement 	searchDrawer = driver.findElement(By.xpath("//li[@class='primary-nav__item primary-nav__item--search']/div/input"));
-	    String className = searchDrawer.getAttribute("class").toLowerCase().trim();
-	    
-	    if(className.contains("is-hidden")) {
-	    	return "closed";			
-	    } else {
-	    	return "open";
-	    }
-    }
 }
