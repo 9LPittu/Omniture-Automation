@@ -69,7 +69,7 @@ public class TestDataReader {
                 testDataProperties.load(propertiesInput);
 
             } catch (FileNotFoundException noCountryFile) {
-                logger.info("Country {} does not have a properties file, loading us file", country);
+                logger.error("Country {} does not have a properties file, loading us file", country);
 
                 propertiesInput = new FileInputStream("properties/countries/us.properties");
                 testDataProperties.load(propertiesInput);
