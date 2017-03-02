@@ -338,7 +338,6 @@ public class HeaderWrap {
 		wait.until(new Predicate<WebDriver>() {
 			@Override
 			public boolean apply(WebDriver driver) {
-				logger.info("minibag class: {}", minibag.getAttribute("class"));
 				return !minibag.isDisplayed();
 			}
 		});
@@ -350,7 +349,6 @@ public class HeaderWrap {
 		wait.until(new Predicate<WebDriver>() {
 			@Override
 			public boolean apply(WebDriver driver) {
-				logger.info("minibag class: {}", minibag.getAttribute("class"));
 				return minibag.isDisplayed();
 			}
 		});

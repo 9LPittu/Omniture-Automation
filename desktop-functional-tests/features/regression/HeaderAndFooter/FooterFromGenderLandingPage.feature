@@ -2,7 +2,7 @@
 Feature: Footer - From Gender landing page
 
   Background:
-    Given User is on homepage with clean session
+    Given User goes to homepage
     And User closes email capture
     When User clicks on random link from top nav
     Then Verify gender landing page is displayed
