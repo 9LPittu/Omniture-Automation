@@ -2,7 +2,7 @@
 Feature: Footer - From home page2
 
   Background:
-    Given User is on homepage with clean session
+    Given User goes to homepage
     And User closes email capture
 
   

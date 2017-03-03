@@ -1,5 +1,5 @@
 @Search @HighLevel
-Feature: SmokeSearch Functionality
+Feature: Search Functionality
 
   Background:
     Given User goes to homepage

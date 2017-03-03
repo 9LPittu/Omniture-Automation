@@ -2,7 +2,7 @@
 Feature: Footer - From home page
 
   Background:
-    Given User is on homepage with clean session
+    Given User goes to homepage
     And User closes email capture
 
   Scenario: Verify Let Us Help You links in footer are functional from home page

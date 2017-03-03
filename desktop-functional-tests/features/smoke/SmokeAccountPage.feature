@@ -2,7 +2,7 @@
 Feature: Account Page
 
   Background:
-  	Given User is on homepage with clean session
+  	Given User goes to homepage
     And User closes email capture
     When User clicks on sign in using header
     Then User goes to sign in page

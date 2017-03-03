@@ -3,7 +3,7 @@
   Feature: Header verification for guest user
 
     Background:
-      Given User is on homepage with clean session
+      Given User goes to homepage
       And User closes email capture
 
     Scenario: Verify Header links are functional from home page

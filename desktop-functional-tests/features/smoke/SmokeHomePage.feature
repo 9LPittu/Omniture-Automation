@@ -2,7 +2,7 @@
 Feature: Home Page
 
   Background:
-    Given User is on homepage with clean session
+    Given User goes to homepage
 	And User closes email capture
   Scenario: Verification of Header and Footer section in the Home page
     Then Verify jcrew logo is visible

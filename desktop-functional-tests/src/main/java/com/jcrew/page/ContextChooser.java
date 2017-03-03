@@ -169,11 +169,11 @@ public class ContextChooser {
 		Util.waitLoadingBar(driver);
 
 		//Update Reader and create context
-		TestDataReader reader = TestDataReader.getTestDataReader();
-		reader.updateReader(countryName);
 		Country country = new Country(url, countryName);
-
 		stateHolder.put("context", country);
+
+		TestDataReader reader = TestDataReader.getTestDataReader();
+		reader.updateReader();
 		
 		logger.info("Selected country: {}", countryName);
 		

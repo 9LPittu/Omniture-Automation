@@ -1,5 +1,5 @@
 @Search
-Feature: Smoke Search Functionality
+Feature: Search Functionality 2
 
   Background:
     Given User goes to homepage

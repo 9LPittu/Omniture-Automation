@@ -1,6 +1,6 @@
 package com.jcrew.pojo;
 
-import com.jcrew.utils.TestDataReader;
+import com.jcrew.utils.CountryReader;
 
 /**
  * Created by nadiapaolagarcia on 4/11/16.
@@ -20,11 +20,12 @@ public class Country {
     private String zipcode;
     private String city;
     private String state;
-    
-    private TestDataReader dataReader = TestDataReader.getTestDataReader();
+
+    private CountryReader dataReader;
 
     public Country(String environment, String country) {
         country = country.toLowerCase();
+        dataReader = new CountryReader(country);
 
         this.country = country;               
         this.currency = dataReader.getData("currency");
