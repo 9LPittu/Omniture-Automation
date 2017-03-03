@@ -5,6 +5,7 @@ import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -32,9 +33,11 @@ public class SubCategory extends TopNav {
         int counter = 0;
         boolean retry = true;
 
+        String selectedSubCategoryText = "";
+
         do {
             try {
-
+                String url = driver.getCurrentUrl();
                 WebElement holder = wait.until(ExpectedConditions.visibilityOf(subcat_nav));
 
                 List<WebElement> subCategories = holder.findElements(
@@ -42,11 +45,13 @@ public class SubCategory extends TopNav {
                                 "contains(@class,'" + shoesClassName + "')]/div/ul/li/a"));
 
                 WebElement selectedSubCategory = Util.randomIndex(subCategories);
+                selectedSubCategoryText = selectedSubCategory.getText();
 
-                logger.info("Selected subcategory: {}", selectedSubCategory.getText());
-                stateHolder.put("subcategory", selectedSubCategory.getText());
+                logger.info("Selected subcategory: {}", selectedSubCategoryText);
+                stateHolder.put("subcategory", selectedSubCategoryText);
                 selectedSubCategory.click();
 
+                wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
                 Util.waitLoadingBar(driver);
                 HeaderWrap header = new HeaderWrap(driver);
                 header.hoverOverIcon("logo");
@@ -57,12 +62,17 @@ public class SubCategory extends TopNav {
                 retry = false;
 
             } catch (Exception e) {
-                logger.info("Selected subcategory: {} is an akamai page. So, trying with a different sub category");
+                logger.info("Selected subcategory: {} is an akamai page. So, trying with a different sub category",
+                        selectedSubCategoryText);
                 hoverCategory();
                 counter ++;
             }
 
         } while (retry && (counter < 3));
+
+        if(!retry) {
+            throw new WebDriverException("Script not able to find a category that is not akamai page");
+        }
     }
 
     public void selectSubCategory(String subCategory) {
