@@ -29,7 +29,7 @@ public class TopNav extends PageObject {
     public void clickDeptLinkFromTopNav(String dept) {
         String url = driver.getCurrentUrl();
         WebElement topnavlink = top_nav.findElement(
-                By.xpath(".//a[@class='department-nav__link'/span[" + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']"));
+                By.xpath(".//a[@class='department-nav__link']/span[" + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']"));
         topnavlink.click();
 
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
