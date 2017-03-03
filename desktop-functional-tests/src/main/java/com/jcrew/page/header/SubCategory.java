@@ -70,7 +70,7 @@ public class SubCategory extends TopNav {
 
         } while (retry && (counter < 3));
 
-        if(!retry) {
+        if(retry) {
             throw new WebDriverException("Script not able to find a category that is not akamai page");
         }
     }
