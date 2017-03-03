@@ -1,6 +1,8 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.MyAccount;
+import com.jcrew.page.account.IMyAccount;
+import com.jcrew.page.account.JcrewMyAccount;
+import com.jcrew.page.account.MyAccount;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
@@ -14,9 +16,8 @@ import static org.junit.Assert.*;
  * Created by nadiapaolagarcia on 3/29/16.
  */
 public class MyAccountSteps extends DriverFactory {
-    MyAccount myAccount = new MyAccount(getDriver());
-
-    StateHolder stateHolder = StateHolder.getInstance();
+    private IMyAccount myAccount = MyAccount.getAccountMain(getDriver());
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     @When("User goes to ([^\"]*) using My Account menu")
     public void user_goes_to_option_using_my_account_menu(String option){

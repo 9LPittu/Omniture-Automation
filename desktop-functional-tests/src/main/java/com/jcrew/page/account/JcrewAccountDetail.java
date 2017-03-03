@@ -1,4 +1,4 @@
-package com.jcrew.page;
+package com.jcrew.page.account;
 
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
@@ -12,19 +12,17 @@ import org.openqa.selenium.WebDriverException;
 /**
  * Created by msayed3 on 8/20/2016.
  */
-public class AccountDetail extends Account {
+public class JcrewAccountDetail extends Account implements IAccountDetail {
 
     @FindBy(className = "my-details-form")
-    WebElement accountDetailForm;
-
+    private WebElement accountDetailForm;
     @FindBy(id = "account_navigation")
-    WebElement accountNavigationSection;
-
+    private WebElement accountNavigationSection;
     @FindBy(id = "account_content")
-    WebElement accountContentSection;
+    private WebElement accountContentSection;
 
 
-    public AccountDetail(WebDriver driver) {
+    public JcrewAccountDetail(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
@@ -132,7 +130,7 @@ public class AccountDetail extends Account {
 
     public void clickLeftNavLinks(String linkText) {
         Util.waitForPageFullyLoaded(driver);
-        Country country = (Country) stateHolder.get("context");
+        Country country = stateHolder.get("context");
         logger.debug(country.getCountry());
         wait.until(ExpectedConditions.visibilityOf(accountNavigationSection));
         WebElement linksTray = accountNavigationSection.findElement(By.className("account__navigation__items"));
@@ -143,8 +141,8 @@ public class AccountDetail extends Account {
 
 
     public void click_reward_link(String link) {
-        User signedInUser = (User) stateHolder.get("signedUser");
-        Country c = (Country) stateHolder.get("context");
+        User signedInUser = stateHolder.get("signedUser");
+        Country c = stateHolder.get("context");
         boolean rewardLinkShouldExists = ((signedInUser.getUserCategory().equalsIgnoreCase(User.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()));
         if (rewardLinkShouldExists) {
             clickLeftNavLinks(link);
@@ -213,7 +211,7 @@ public class AccountDetail extends Account {
                 break;
             default:
                 logger.debug("Unable to find element {} in myDetail form ", fieldLabel);
-                new WebDriverException("Unable to find element in myDetail form "+fieldLabel);
+                throw new WebDriverException("Unable to find element in myDetail form "+fieldLabel);
         }
         return formElement;
     }

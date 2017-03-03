@@ -1,5 +1,6 @@
-package com.jcrew.page;
+package com.jcrew.page.account;
 
+import com.jcrew.page.HeaderWrap;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
@@ -14,9 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by nadiapaolagarcia on 3/29/16.
  */
-public class MyAccount extends Account{
-
-    private final HeaderWrap header;
+public class JcrewMyAccount extends Account implements IMyAccount {
 
     @FindBy(id = "main_cont")
     private WebElement main_content;
@@ -27,11 +26,11 @@ public class MyAccount extends Account{
     @FindBy(id = "main_cont_hist")
     private WebElement main_content_history;
 
-    public MyAccount(WebDriver driver) {
+    public JcrewMyAccount(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(main_content));
-        this.header = new HeaderWrap(driver);
+
+        HeaderWrap header = new HeaderWrap(driver);
     }
 
 
@@ -40,14 +39,7 @@ public class MyAccount extends Account{
         String bannerText = myAccountBanner.getText();
         WebElement homecopy = main_inside.findElement(By.xpath(".//td[@class='homecopysm']"));
 
-        boolean expectedContent = "MY ACCOUNT".equalsIgnoreCase(bannerText) && homecopy.isDisplayed();
-
-        Country country = (Country) stateHolder.get("context");
-        //for jsp pages, country context will not show in the url
-        boolean expectedURL = Util.countryContextURLCompliance(driver, country, "/account/home.jsp");
-
-        return expectedContent;
-
+        return "MY ACCOUNT".equalsIgnoreCase(bannerText) && homecopy.isDisplayed();
     }
 
     public void clickInMenuOption(String menuOption) {
@@ -66,18 +58,18 @@ public class MyAccount extends Account{
         boolean expectedContent = "MY ACCOUNT".equalsIgnoreCase(bannerText) &&
                 "My Orders".equalsIgnoreCase(myOrdersTitle.getText());
 
-        Country country = (Country) stateHolder.get("context");
+        Country country = stateHolder.get("context");
         boolean expectedURL = Util.countryContextURLCompliance(driver, country, "account/reg_user_order_history.jsp?");
 
         return expectedContent & expectedURL;
     }
 
-    public void click_reward_link(String link){
+    public void click_reward_link(String link) {
         WebElement menu = null;
-        User signedInUser = (User ) stateHolder.get("signedUser");
-        Country c = (Country) stateHolder.get("context");
+        User signedInUser = stateHolder.get("signedUser");
+        Country c = stateHolder.get("context");
         boolean rewardLinkShouldExists = ((signedInUser.getUserCategory().equalsIgnoreCase(User.CAT_LOYALTY)) && "us".equalsIgnoreCase(c.getCountry()));
-        if (rewardLinkShouldExists){
+        if (rewardLinkShouldExists) {
             menu = getMenuLink(link);
             wait.until(ExpectedConditions.elementToBeClickable(menu));
             Util.clickWithStaleRetry(menu);
@@ -88,7 +80,7 @@ public class MyAccount extends Account{
     public void click_menu_link(String link) {
         WebElement menu = null;
 
-        Country c = (Country) stateHolder.get("context");
+        Country c = stateHolder.get("context");
 
 
         // to validate the my account page left nav links
@@ -97,43 +89,40 @@ public class MyAccount extends Account{
         //All the other countries: Gift card Balance and Catalog Preferences will not be present
 
 
-
         switch (c.getCountry()) {
             case "us":
                 menu = getMenuLink(link);
                 break;
             case "ca":
-                if(!link.equalsIgnoreCase("GIFT CARD BALANCE")) {
+                if (!link.equalsIgnoreCase("GIFT CARD BALANCE")) {
                     menu = getMenuLink(link);
                 }
                 break;
             default:
-                if(!link.equalsIgnoreCase("GIFT CARD BALANCE") && !link.equalsIgnoreCase("CATALOG PREFERENCES") ) {
+                if (!link.equalsIgnoreCase("GIFT CARD BALANCE") && !link.equalsIgnoreCase("CATALOG PREFERENCES")) {
                     menu = getMenuLink(link);
                 }
                 break;
         }
 
-        if(menu != null) {
+        if (menu != null) {
             wait.until(ExpectedConditions.elementToBeClickable(menu));
             Util.clickWithStaleRetry(menu);
         }
     }
 
 
-
-
     private WebElement getMenuLink(String link) {
         Util.waitForPageFullyLoaded(driver);
-        Country c = (Country) stateHolder.get("context");
+        Country c = stateHolder.get("context");
         logger.debug(c.getCountry());
         wait.until(ExpectedConditions.visibilityOf(main_inside));
-       return main_inside.findElement(By.linkText(link));
+        return main_inside.findElement(By.linkText(link));
     }
 
     public boolean isInMenuLinkPage(String page) {
-        Country c = (Country) stateHolder.get("context");
-        User signedInUser = (User ) stateHolder.get("signedUser");
+        Country c = stateHolder.get("context");
+        User signedInUser = stateHolder.get("signedUser");
         // to validate the my account page left nav links
         //US: Gift card balance, Catalog Preferences,My Details, Email Preferences, Payment Methods, Address Book, Order History, Wish list & Sign Out
         //CANADA: All the above except Gift card balance will be present
