@@ -20,6 +20,9 @@ public class CheckoutShippingAddSteps extends DriverFactory {
 
     @Then("Verify Shipping Page is displayed")
     public void shipping_page_displayed() {
+    	if (stateHolder.hasKey("isShippingDisabled"))
+			return;
+    	
         assertTrue("Is shipping address", shipping.isDisplayed());
     }
     

@@ -107,7 +107,7 @@ public class SaleLanding {
     	if(isMonetateImageDisplayed()){    		
     		return true;
     	}else{
-    		return page__sale.findElement(By.xpath("//div[@class='c-sale__title' and "+ Util.xpathGetTextLower +"='sale']")).isDisplayed();
+    		return page__sale.findElement(By.xpath("//div[@class='c-sale__title' and normalize-space("+ Util.xpathGetTextLower +")='sale']")).isDisplayed();
     	}    	
     }
     

@@ -2,7 +2,7 @@
 Feature: Verify s.pageName
 
   Scenario: Verify s.pageName value on Home, Category pages and PDP
-    Given User is on homepage with clean session
+    Given User goes to homepage
     And User closes email capture
     Then Verify omniture variables have values
 
@@ -19,7 +19,7 @@ Feature: Verify s.pageName
     And Verify omniture variables have values
 
   Scenario: Verify s.pageName value on Sale and Search pages
-	Given User is on homepage with clean session
+	Given User goes to homepage
     And User closes email capture
     
     When User clicks on sale link from top nav
@@ -35,14 +35,14 @@ Feature: Verify s.pageName
 	And Verify omniture variables have values
 
   Scenario: Verify s.pageName value on Landing pages
-    Given User is on homepage with clean session
+    Given User goes to homepage
     And User closes email capture
     
     When User clicks on random link from top nav
     And Verify omniture variables have values
 
   Scenario: Verify s.pageName value on Feature pages and shoppable tray
-    Given User is on homepage with clean session
+    Given User goes to homepage
     And User closes email capture
 	
 	When User selects a random feature page from list

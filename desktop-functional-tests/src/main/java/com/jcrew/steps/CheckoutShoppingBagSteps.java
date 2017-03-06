@@ -35,6 +35,11 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     public void products_matches() {
         assertTrue("Same products are in bag", bag.itemsInBag());
     }
+    
+    @Then("^Verify gift cards added matches with gift cards in bag$")
+    public void gift_cards_matches() {
+        assertTrue("Same gift cards are in bag", bag.giftCardsInBag());
+    }
 
     @Then("Verify all products have edit and remove buttons")
     public void edit_and_remove_buttons() {
@@ -111,6 +116,8 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	String subTotal = bag.getSubtotalValue().trim();
         subTotal=subTotal.replaceAll("[^0-9\\.]", "");
         bag.stateHolder.put("subtotal",subTotal);
+        
+        bag.stateHolder.put("total", bag.getTotalValue());
         
         bag.checkOutNow();
     }
@@ -260,7 +267,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     public void verify_gift_card_details(){
     	String expectedSenderName = bag.stateHolder.get("giftCardSenderName");
     	String expectedRecipientName = bag.stateHolder.get("giftCardRecipientName");
-    	String expectedRecipientEmail = bag.stateHolder.get("giftCardRecipientEmailAddress");
+    	String expectedRecipientEmail = bag.stateHolder.get("giftCardRecipientEmail");
     	   	
     	assertEquals("Same gift card sender name", expectedSenderName.toLowerCase(), bag.getEgiftCardSenderName().toLowerCase());
     	assertEquals("Same gift card recipient name", expectedRecipientName.toLowerCase(), bag.getEgiftCardRecipientName().toLowerCase());

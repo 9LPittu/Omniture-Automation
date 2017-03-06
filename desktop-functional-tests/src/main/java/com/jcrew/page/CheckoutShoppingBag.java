@@ -77,11 +77,22 @@ public class CheckoutShoppingBag extends Checkout {
     public boolean summary() {
         return orderSummary.isDisplayed();
     }
+    
+    public WebElement getPaypalElement(){
+    	return orderSummary.findElement(By.className("button-paypal"));
+    }
 
     public boolean payPalButton() {
-        WebElement payPal = orderSummary.findElement(By.className("button-paypal"));
+        WebElement payPal = getPaypalElement();
 
         return payPal.isDisplayed();
+    }
+    
+    public void clickPaypalElement(){
+    	WebElement paypalElement = getPaypalElement();    	
+    	paypalElement.click();
+    	
+    	Util.waitLoadingBar(driver);    	
     }
 
     public boolean help() {
@@ -121,6 +132,10 @@ public class CheckoutShoppingBag extends Checkout {
     
     public String getSubtotalValue() {
         return subtotalValue.getText();
+    }
+    
+    public String getTotalValue(){
+    	return getSummaryText("total");
     }
 
     public String getQuestionsPhone() {

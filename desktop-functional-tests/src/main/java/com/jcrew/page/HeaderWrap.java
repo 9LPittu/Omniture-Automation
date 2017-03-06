@@ -36,9 +36,9 @@ public class HeaderWrap {
 	TestDataReader testdataReader = TestDataReader.getTestDataReader();
 
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
-	private WebElement menu;
+	private WebElement menu;	
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/span[contains(@class,'primary-nav__text--search')]")
-	private WebElement search;
+	private WebElement search;	
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--stores']/a")
 	private WebElement stores;
 	@FindBy(id = "c-header__userpanel")
@@ -82,7 +82,22 @@ public class HeaderWrap {
 
 	public void reload() {
 		try {
+			Util.waitForPageFullyLoaded(driver);
+			
+			wait.until(new Predicate<WebDriver>(){
+				@Override
+				public boolean apply(WebDriver driver) {
+					boolean result = false;
+					if(global_promo.isDisplayed() && global_header.isDisplayed() && bag.isDisplayed()){
+						result = true;
+					}
+					return result;
+				}				
+			});
+			
+			wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(global_promo)));
 			wait.until(ExpectedConditions.visibilityOf(global_promo));
+			wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(global_header)));
 			wait.until(ExpectedConditions.visibilityOf(global_header));
 			wait.until(ExpectedConditions.visibilityOf(bag));
 		} catch (TimeoutException timeout) {
@@ -152,7 +167,7 @@ public class HeaderWrap {
 
 	public void searchForSpecificTerm(String searchTerm) {
 		wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(minibag)));
-		WebElement closeIcon = headerSearch.findElement(By.xpath(".//span[contains(@class,'icon-searchtray icon-close')]"));
+		WebElement closeIcon = headerSearch.findElement(By.xpath(".//span[contains(@class,'icon-close js-primary-nav__search__button--clear')]"));
 		if (closeIcon.isDisplayed()) {
 			closeIcon.click();
 		} else {
@@ -168,9 +183,25 @@ public class HeaderWrap {
 	}
 
 	public void clickSignIn() {
-		wait.until(ExpectedConditions.visibilityOf(sign_in));
-		WebElement signInLink = sign_in.findElement(By.tagName("a"));
-		signInLink.click();
+		int cntr = 0;
+		do{
+			try{
+				Util.waitLoadingBar(driver);
+				Util.waitForPageFullyLoaded(driver);
+				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sign_in)));
+				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.visibilityOf(sign_in));
+				WebElement signInLink = sign_in.findElement(By.tagName("a"));
+				signInLink.click();
+				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.urlContains("/r/login"));
+				break;
+			}
+			catch(StaleElementReferenceException sere){
+				cntr++;
+			}
+			catch(TimeoutException toe){
+				cntr++;
+			}			
+		}while(cntr<=2);		
 	}
 
 	public void clickBag() {
@@ -251,12 +282,35 @@ public class HeaderWrap {
 	}
 
 	public void goToMyDetailsDropDownMenu(String option) {
-		hoverOverIcon("my account");
-		dropdown = userPanel.findElement(By.tagName("dl"));
-		WebElement optionElement = dropdown.findElement(By.linkText(option));
-
+		
 		String url = driver.getCurrentUrl();
-		optionElement.click();
+		
+		int cntr = 0;
+		WebElement optionElement = null;
+		
+		do{
+			try{
+				hoverOverIcon("my account");
+				Util.wait(1000);
+				dropdown = userPanel.findElement(By.tagName("dl"));
+				if(dropdown.isDisplayed())
+					break;
+				
+				cntr++;
+			}
+			catch(NoSuchElementException nsee){
+				logger.info("NoSuchElementException is thrown when tried to click on {} option", option);
+				cntr++;
+			}
+			catch(ElementNotVisibleException enve){
+				logger.info("ElementNotVisibleException is thrown when tried to click on {} option", option);
+				cntr++;
+			}
+		}while(cntr<5);
+			
+		optionElement = dropdown.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + option.toLowerCase() + "']"));
+		optionElement.click();			
+		
 		Util.waitLoadingBar(driver);
 
 		if ("sign out".equalsIgnoreCase(option)) {
@@ -284,7 +338,6 @@ public class HeaderWrap {
 		wait.until(new Predicate<WebDriver>() {
 			@Override
 			public boolean apply(WebDriver driver) {
-				logger.info("minibag class: {}", minibag.getAttribute("class"));
 				return !minibag.isDisplayed();
 			}
 		});
@@ -296,7 +349,6 @@ public class HeaderWrap {
 		wait.until(new Predicate<WebDriver>() {
 			@Override
 			public boolean apply(WebDriver driver) {
-				logger.info("minibag class: {}", minibag.getAttribute("class"));
 				return minibag.isDisplayed();
 			}
 		});
@@ -473,7 +525,7 @@ public class HeaderWrap {
 	
 	public void closeSearchDrawer() {
 		WebElement searchHeader = global_header.findElement(By.className("header__search__wrap"));
-		WebElement closeSearch = searchHeader.findElement(By.xpath(".//span[@class='icon-searchtray icon-close']"));
+		WebElement closeSearch = searchHeader.findElement(By.xpath(".//span[@class='icon-close js-primary-nav__search__button--clear']"));
 		wait.until(ExpectedConditions.elementToBeClickable(closeSearch));
 		closeSearch.click();
 				

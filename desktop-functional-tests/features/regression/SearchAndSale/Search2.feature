@@ -1,5 +1,5 @@
-@Search2 @HighLevel
-Feature: Search Functionality2
+@Search
+Feature: Search Functionality 2
 
   Background:
     Given User goes to homepage

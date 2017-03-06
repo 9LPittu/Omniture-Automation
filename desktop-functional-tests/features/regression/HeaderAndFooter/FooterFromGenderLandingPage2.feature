@@ -2,7 +2,7 @@
 Feature: Footer - From Gender landing page2
 
   Background:
-    Given User is on homepage with clean session
+    Given User goes to homepage
     And User closes email capture
     When User clicks on random link from top nav
     Then Verify gender landing page is displayed
@@ -59,11 +59,6 @@ Feature: Footer - From Gender landing page2
     Then Verify gender landing page is displayed
 
     When User clicks on Business Casual For Women footer link under Popular Searches
-    Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify gender landing page is displayed
-
-    When User clicks on Men's Chinos footer link under Popular Searches
     Then Verify user is in category array page
     When User presses browser back button
     Then Verify gender landing page is displayed

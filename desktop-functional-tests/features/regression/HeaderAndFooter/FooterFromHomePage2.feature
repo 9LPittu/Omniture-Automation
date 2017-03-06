@@ -2,7 +2,7 @@
 Feature: Footer - From home page2
 
   Background:
-    Given User is on homepage with clean session
+    Given User goes to homepage
     And User closes email capture
 
   
@@ -61,11 +61,6 @@ Feature: Footer - From home page2
     Then Verify user is in homepage
 
     When User clicks on Business Casual For Women footer link under Popular Searches
-    Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify user is in homepage
-
-    When User clicks on Men's Chinos footer link under Popular Searches
     Then Verify user is in category array page
     When User presses browser back button
     Then Verify user is in homepage

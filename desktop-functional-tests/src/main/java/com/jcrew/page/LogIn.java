@@ -3,7 +3,6 @@ package com.jcrew.page;
 import com.google.common.base.Predicate;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
-import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
@@ -102,8 +101,6 @@ public class LogIn extends PageObject {
     public void userSignIn() {
         userSignIn("noUserCategory");
     }
-
-
 
     public void userSignIn(String userCategory) {
     	knownUser = User.getUserFromHub(userCategory);
@@ -211,7 +208,7 @@ public class LogIn extends PageObject {
         createAccountFormIsDisplayed();
         Select countrySelector = new Select(registerForm.findElement(By.id(countryId)));
 
-        return countrySelector.getFirstSelectedOption().getText();
+        return countrySelector.getFirstSelectedOption().getText().replace("\n", "").trim();
     }
 
     public boolean selectedCountryMatchesContext() {

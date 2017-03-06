@@ -4,6 +4,7 @@ import com.jcrew.pojo.User;
 import com.jcrew.pojo.Product;
 
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.ExcelUtils;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
@@ -18,7 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -28,7 +35,6 @@ public class FinalSteps {
     private final Logger logger = LoggerFactory.getLogger(StartSteps.class);
     private DriverFactory driverFactory = new DriverFactory();
     private WebDriver driver = driverFactory.getDriver();
-    private StateHolder holder = StateHolder.getInstance();
     private final StateHolder stateHolder = StateHolder.getInstance();
 
     @AfterStep
@@ -43,13 +49,12 @@ public class FinalSteps {
 
             } catch (WebDriverException e) {
                 logger.error("An exception happened when taking step screenshot after step", e);
-                driverFactory.resetDriver();
             }
         }
     }
 
     @After
-    public void quitDriver(Scenario scenario) throws IOException {
+    public void quitDriver(Scenario scenario) throws Exception {
     	String data;
 
         if (scenario.isFailed()) {
@@ -66,24 +71,38 @@ public class FinalSteps {
                     scenario.embed(data.getBytes(), "text/plain");
                 }
                 
-                if(holder.hasKey("userObject")){
-                	User user = holder.get("userObject");
+                if(stateHolder.hasKey("userObject")){
+                	User user = stateHolder.get("userObject");
                 	String userName = "Email address: " + user.getEmail();
                 	scenario.embed(userName.getBytes(), "text/plain");
                 }
                 
             } catch (WebDriverException e) {
                 logger.error("An exception happened when taking step screenshot after scenario", e);
-                driverFactory.resetDriver();
             }
         }
 
         driverFactory.destroyDriver();
         
         UsersHub userHub = UsersHub.getInstance();
-        userHub.releaseUserCredentials();
+        userHub.releaseUserCredentials();        
+        userHub.releaseE2EUserCredentials();
         
-        holder.clear();
+        //capture E2E order details
+        String orderTestData = "";
+        orderTestData = captureE2EDetails();        
+        if(!orderTestData.isEmpty()){
+        	logger.info("E2E scenario details:\n" + orderTestData);
+        	scenario.embed(orderTestData.getBytes(), "text/plain");
+        }
+        
+        if(stateHolder.hasKey("e2eUserObject")){
+        	User user = stateHolder.get("e2eUserObject");
+        	String userCredentials = "email address/password:" + user.getEmail() + "/" + user.getPassword();
+        	scenario.embed(userCredentials.getBytes(), "text/plain");
+        }
+        
+        stateHolder.clear();
     }
     
     private String getExecutionDetails() {
@@ -111,5 +130,86 @@ public class FinalSteps {
             userDetails = "User Name\t\t\tFirst Name\tLast Name\n" + userDetails + "\n";
         }
         return products + userDetails;
+    }
+    
+    private String captureE2EDetails() throws Exception{
+    	
+    	String orderTestData = "";
+    	
+    	if(stateHolder.hasKey("testdataRowMap")){
+        	ExcelUtils testdataReader = stateHolder.get("excelObject");
+        	int rowNumber = stateHolder.get("excelrowno");
+        	try {
+				testdataReader.setCellValueInExcel(rowNumber, "Execution Completed", "Yes");
+			} catch (Exception e) {
+				throw new Exception("Failed to set value in excel for the column 'Execution Completed'");
+			}
+        	
+        	String orderNumber = "";
+        	if(stateHolder.hasKey("orderNumber")){
+        		orderNumber = stateHolder.get("orderNumber");
+        		if(orderNumber.isEmpty()){
+        			orderNumber = "Order is not placed!";
+        		}
+        	}
+        	else{
+        		orderNumber = "Order is not placed!";
+        	}
+        	
+        	try {
+				testdataReader.setCellValueInExcel(rowNumber, "Order Number", orderNumber);				
+			} catch (Exception e) {
+				throw new Exception("Failed to set value in excel for the column 'Order Number'");
+			}
+        	
+    		try {
+    			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
+        		String currentDateTime = dateFormat.format(new Date());
+				testdataReader.setCellValueInExcel(rowNumber, "LastUpdated_DateTime", currentDateTime);
+			} catch (Exception e) {
+				throw new Exception("Failed to set value in excel for the column 'LastUpdated_DateTime'");
+			}
+        	
+        	try {
+        		String e2eErrorMessages = stateHolder.get("e2e_error_messages");
+				testdataReader.setCellValueInExcel(rowNumber, "Additional Error Details", e2eErrorMessages);
+			} catch (Exception e) {
+				throw new Exception("Failed to set value in excel for the column 'Additional Error Details'");
+			}
+        	
+        	if(stateHolder.hasKey("e2eUserObject")){
+	        	try {
+	        		User user = stateHolder.get("e2eUserObject");
+	        		String userCredentials = "";
+                	userCredentials = user.getEmail() + "/" + user.getPassword();
+					testdataReader.setCellValueInExcel(rowNumber, "User Credentials", userCredentials);
+				} catch (Exception e) {
+					throw new Exception("Failed to set value in excel for the column 'User Credentials'");
+				}
+        	}
+        	
+        	try {
+				testdataReader.writeAndSaveExcel();
+			} catch (IOException e) {
+				throw new Exception("Failed to save the excel file!!");
+			}
+        	
+        	orderTestData +=  "Order Number = " + orderNumber + "\n";
+        	
+        	Map<String, Object> testdataRowMap = stateHolder.get("testdataRowMap");
+        	testdataRowMap.remove("Order Number");
+        	testdataRowMap.remove("Execute");
+        	testdataRowMap.remove("Execution Completed");
+        	
+        	Iterator<Map.Entry<String, Object>> entries = testdataRowMap.entrySet().iterator();
+        	while (entries.hasNext()) {
+        	    Map.Entry<String, Object> entry = (Entry<String, Object>) entries.next();
+        	    String key = (String) entry.getKey();
+        	    String value = (String) entry.getValue();
+        	    orderTestData += key + " = " + value + "\n";
+        	}       	
+        }
+    	
+    	return orderTestData;
     }
 }

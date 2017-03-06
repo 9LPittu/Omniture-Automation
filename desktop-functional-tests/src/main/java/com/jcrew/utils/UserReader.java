@@ -30,9 +30,10 @@ public class UserReader {
     private void loadProperties() throws IOException {
         PropertyReader reader = PropertyReader.getPropertyReader();
         String execEnvironment = reader.getProperty("environment");
+        String brand = reader.getProperty("brand");
         String execUser = reader.getProperty("user");
 
-        FileInputStream inputFile = new FileInputStream("properties/users.properties");
+        FileInputStream inputFile = new FileInputStream("properties/" + brand + "/users.properties");
         properties.load(inputFile);
 
         properties.setProperty("user", execEnvironment + "." + execUser);

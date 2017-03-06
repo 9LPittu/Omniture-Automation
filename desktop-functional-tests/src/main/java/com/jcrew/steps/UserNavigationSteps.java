@@ -33,7 +33,6 @@ public class UserNavigationSteps extends DriverFactory {
     @When("User navigates to a subcategory from main category")
     public void user_navigates_to_subcategory_from_main_category() {
         String category = testDataReader.getCategory();
-        String subCategotySection =testDataReader.getSubCategorySection(category);
 
         HeaderWrap header = new HeaderWrap(driver);
         header.hoverCategory(category);

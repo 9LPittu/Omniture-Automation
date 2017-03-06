@@ -48,7 +48,7 @@ public class ContextChooser {
 
 	public boolean isRegionDisplayed(String region) {
 
-		WebElement regionHeader = internationalContextChooserPage.findElement(By.xpath("//h5[text()='" + region + "']"));
+		WebElement regionHeader = internationalContextChooserPage.findElement(By.xpath("//h5[normalize-space(text())='" + region + "']"));
 		return regionHeader.isDisplayed();
 	}
 
@@ -121,7 +121,7 @@ public class ContextChooser {
 	}
 
 	public void clickButtonFromFAQSectionOnContextChooserPage(String buttonName) {
-		WebElement button = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/a[" + Util.xpathGetTextLower + "='" + buttonName.toLowerCase() + "']"));
+		WebElement button = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/a[normalize-space(" + Util.xpathGetTextLower + ")='" + buttonName.toLowerCase() + "']"));
 		
 		JavascriptExecutor jse = (JavascriptExecutor)driver;
         jse.executeScript("arguments[0].scrollIntoView();", button);
@@ -131,11 +131,7 @@ public class ContextChooser {
 
 	public void clickLinkFromFAQSectionOnContextChooserPage(String linkName) {
 		WebElement link = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/article/section/p/a[text()='borderfree.com']"));
-		
-		JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("arguments[0].scrollIntoView();", link);
-		
-		link.click();
+		Util.scrollAndClick(driver, link);
 	}
 
 
@@ -152,26 +148,36 @@ public class ContextChooser {
 
 
 	public void selectGroupRandomCountry(String country_group) {
-
 		TestDataReader testData = TestDataReader.getTestDataReader();
+		String selectedCountry = testData.getRandomCountry(country_group);
+		
+		selectCountryOnContextChooserPage(selectedCountry);
+		
+	}
+	
+	public void selectCountryOnContextChooserPage(String countryName){		
 		PropertyReader propertyReader = PropertyReader.getPropertyReader();
 		String url = propertyReader.getProperty("url");
-
-		String selectedCountry = testData.getRandomCountry(country_group);
-		logger.info("Selected country: {}", selectedCountry);
-
+		
+		String currentUrl = driver.getCurrentUrl();
+		
 		//Click on country
 		WebElement countryElement = internationalContextChooserPage.findElement(
-                By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a[@data-country='" + selectedCountry + "']"));
+                By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a[@data-country='" + countryName + "']"));
         wait.until(ExpectedConditions.visibilityOf(countryElement));
 		countryElement.click();
+		Util.waitLoadingBar(driver);
 
 		//Update Reader and create context
-		TestDataReader reader = TestDataReader.getTestDataReader();
-		reader.updateReader(selectedCountry);
-		Country country = new Country(url, selectedCountry);
-
-
+		Country country = new Country(url, countryName);
 		stateHolder.put("context", country);
+
+		TestDataReader reader = TestDataReader.getTestDataReader();
+		reader.updateReader();
+		
+		logger.info("Selected country: {}", countryName);
+		
+		wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+		Util.waitForPageFullyLoaded(driver);
 	}
 }

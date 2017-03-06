@@ -4,10 +4,7 @@ import com.jcrew.page.Wishlist;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
-
-import java.util.List;
 
 import static org.junit.Assert.*;
 

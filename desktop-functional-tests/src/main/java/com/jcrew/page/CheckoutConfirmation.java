@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -40,5 +42,13 @@ public class CheckoutConfirmation extends Checkout {
         WebElement message = options.findElement(By.tagName("pre"));
 
         return message.getText();
+    }
+    
+    public void handleBizratePopup(){
+    	List<WebElement> bizratePopupClose = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("brdialog-close")));
+    	if(bizratePopupClose.size()>0){
+    		bizratePopupClose.get(0).click();
+    		logger.debug("Bizrate popup is closed...");
+    	}
     }
 }

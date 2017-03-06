@@ -3,14 +3,11 @@ package com.jcrew.steps;
 import com.jcrew.page.CheckoutSignIn;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
-import com.jcrew.utils.UsersHub;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertTrue;
-
-import java.sql.SQLException;
 
 /**
  * Created by nadiapaolagarcia on 5/3/16.

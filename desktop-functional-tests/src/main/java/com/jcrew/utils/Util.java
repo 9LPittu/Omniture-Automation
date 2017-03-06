@@ -21,6 +21,7 @@ import java.util.*;
 
 public class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
+    public final static StateHolder stateHolder = StateHolder.getInstance();
 
     public static final int DEFAULT_TIMEOUT = 60;
     public static final int DEFAULT_TIMEOUT_STEEL = 120;
@@ -28,6 +29,7 @@ public class Util {
     
     public static final String UP = "up";
     public static final String DOWN = "down";
+    public static String e2eErrorMessages= "";
     
     public static String getEnvironment(){
     	return System.getProperty("environment", "gold");
@@ -54,6 +56,7 @@ public class Util {
         Actions action = new Actions(driver);
         action.moveToElement(element);
     }
+    
     public static void waitForPageReady(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
@@ -63,6 +66,7 @@ public class Util {
             }
         });
     }
+    
     public static void waitForPageFullyLoaded(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
@@ -220,8 +224,7 @@ public class Util {
             long timeDifference = currentTime - startTime;
             iterate = timeDifference < waitTime;
         }while(iterate);
-    }
-    
+    }    
     
     public static void waitSpinningImage(WebDriver driver){
         try {
@@ -237,8 +240,7 @@ public class Util {
             logger.error("StaleElementReferenceException when waiting for spinning image. " +
                     "Assuming it is gone and ignoring this exception");
         }
-    }
-    
+    }    
       
     public static void scrollAndClick(WebDriver driver, WebElement element){
     	int cntr = 0;
@@ -327,6 +329,7 @@ public class Util {
         return variable_value;
 
     }
+
     public static int getDefaultTimeOutValue(){
     	PropertyReader reader = PropertyReader.getPropertyReader();
         if (reader.getProperty("environment").equalsIgnoreCase("steel"))
@@ -340,4 +343,14 @@ public class Util {
         createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
         action.click(element).build().perform();
     }
+
+    public static void e2eErrorMessagesBuilder(String errorMessageText){
+		if(stateHolder.hasKey("e2e_error_messages")){
+			e2eErrorMessages = stateHolder.get("e2e_error_messages");
+		}
+		
+		e2eErrorMessages += errorMessageText + "\n\n";
+		stateHolder.put("e2e_error_messages", e2eErrorMessages);
+	}
+
 }

@@ -3,6 +3,8 @@ package com.jcrew.steps;
 import com.jcrew.page.CheckoutConfirmation;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
+
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 
 import static org.junit.Assert.assertEquals;
@@ -33,6 +35,7 @@ public class CheckoutConfirmationSteps extends DriverFactory {
             if (confirmation.isOrderConfirmationPage()) {
             	assertTrue("User is in confirmation page", confirmation.isDisplayed());
                 assertFalse("Get confirmation number", confirmation.getConfirmationCode().isEmpty());
+                confirmation.stateHolder.put("orderNumber", confirmation.getConfirmationCode());
             } else {
                 float total = confirmation.getOrderTotal();
                 assertTrue("Order total is " + total + " than threshold and there is no error", confirmation.hasErrors());
@@ -81,5 +84,11 @@ public class CheckoutConfirmationSteps extends DriverFactory {
     public void verify_user_is_in_order_confirmation_page() {
         assertTrue("User should be in order confirmation page", confirmation.isOrderConfirmationPage());
     }
-
+    
+    @And("User closes the Bizrate Popup")
+    public void closeBizratePopup() {
+        if(!isProduction) {
+         confirmation.handleBizratePopup();                    
+        }
+    }
 }
