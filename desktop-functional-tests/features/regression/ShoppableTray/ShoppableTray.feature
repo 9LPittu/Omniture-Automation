@@ -1,5 +1,5 @@
 @ShoppableTray @HighLevel
-Feature: Shopplbale tray features
+Feature: Shoppable tray features
 
   Background:
     Given User goes to homepage
