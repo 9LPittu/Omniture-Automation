@@ -24,6 +24,7 @@ public class Util {
     public final static StateHolder stateHolder = StateHolder.getInstance();
 
     public static final int DEFAULT_TIMEOUT = 60;
+    public static final int DEFAULT_TIMEOUT_STEEL = 120;
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
     
     public static final String UP = "up";
@@ -328,7 +329,21 @@ public class Util {
         return variable_value;
 
     }
-    
+
+    public static int getDefaultTimeOutValue(){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (reader.getProperty("environment").equalsIgnoreCase("steel"))
+            return DEFAULT_TIMEOUT_STEEL;
+        else
+            return DEFAULT_TIMEOUT;
+    }
+
+    public static void clickOnElement(WebDriver driver, WebElement element) {
+        Actions action = new Actions(driver);
+        createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+        action.click(element).build().perform();
+    }
+
     public static void e2eErrorMessagesBuilder(String errorMessageText){
 		if(stateHolder.hasKey("e2e_error_messages")){
 			e2eErrorMessages = stateHolder.get("e2e_error_messages");
@@ -337,4 +352,5 @@ public class Util {
 		e2eErrorMessages += errorMessageText + "\n\n";
 		stateHolder.put("e2e_error_messages", e2eErrorMessages);
 	}
+
 }
