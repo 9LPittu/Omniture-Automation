@@ -133,8 +133,9 @@ public class E2E2Steps extends E2ECommon {
 
 			singlePaymentMethod(userType, paymentMethod1);
 			
-			enter_billing_address();
-			
+			if(!paymentMethod1.equalsIgnoreCase("PAYPAL")){
+				enter_billing_address();
+			}			
 		} else {
 			// split payment methods selection
 
