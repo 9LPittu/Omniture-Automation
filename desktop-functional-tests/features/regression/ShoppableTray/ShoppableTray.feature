@@ -1,5 +1,5 @@
 @ShoppableTray @HighLevel
-Feature: PDP Layout
+Feature: Shopplbale tray features
 
   Background:
     Given User goes to homepage
