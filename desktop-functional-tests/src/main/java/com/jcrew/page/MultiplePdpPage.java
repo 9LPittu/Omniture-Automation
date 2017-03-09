@@ -9,6 +9,7 @@ import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,7 +29,7 @@ public class MultiplePdpPage {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(MultiplePdpPage.class);
     private final StateHolder stateHolder = StateHolder.getInstance();
-
+    
     @FindBy (id = "c-tray__pagination")
     private WebElement paginationSection;
     @FindBy (id = "c-tray__list")
@@ -46,11 +47,12 @@ public class MultiplePdpPage {
     
     @FindBy(xpath="//section[@id='c-product__details--link']/div/a")
     private WebElement fullProductDetailsLink;
-    
+       
     @FindBy(xpath=".//div[@class='tray--count']")
     private WebElement shopthelookitemcount;
     @FindBy(xpath=".//li[contains(@class,'js-tray__item tray-list__item')]")
 	 private List<WebElement> shopthelookitemslist;
+    
     private WebElement header;
     private List<WebElement> products = null;
     private List<WebElement> productsImages = null;
@@ -60,8 +62,11 @@ public class MultiplePdpPage {
     private WebElement trayCount;
     private WebElement article;
     private WebElement productDetailsDrawer;
+    @FindBy(id = "c-product__details")
+    private WebElement product__details;
+    @FindBy(xpath = "//div[@class='product__size-fit product__description']/div/div/span")
     private WebElement sizeAndFitDrawer;
-
+    
     private WebDriverWait wait;
     
     public MultiplePdpPage(WebDriver driver){
@@ -650,5 +655,53 @@ public class MultiplePdpPage {
          
          return items;
       }
-  
+      
+      public boolean checkEveryItemSizeandFitDetails(){
+          if(getSelectedProductIndex() != 0)
+              setSelectProductIndex(0);
+
+          boolean result = true;
+
+          for (int i = 0; i < numProducts && result; i++) {
+          	int cntr = 0;
+          	do{
+          	  result = verify_elements_layout_ShoppableTray();
+          	  cntr++;
+          	}while(!result && cntr<=2);
+              
+              navigateToNextProduct(i);
+              Util.waitLoadingBar(driver);
+          }
+
+          return result;
+      }
+      
+      public boolean verify_elements_layout_ShoppableTray(){
+    	boolean result=false;  
+  		boolean isSizeAndFit  = isSizeAndFitDrawerDisplayed();
+  		
+  		if (isSizeAndFit) {
+  			WebElement sizeAndFitelement = wait.until(ExpectedConditions.visibilityOf(sizeAndFitDrawer));
+  	    	int Find_Y = getYCoordinate(sizeAndFitelement);
+		    WebElement productdetails =wait.until(ExpectedConditions.visibilityOf(product__details));    
+		    int below_Y =  getYCoordinate(productdetails);
+	        result = result && (below_Y > Find_Y);
+  		}
+  		return result;
+  }
+      
+      public int getYCoordinate(WebElement element){
+      	Point point = element.getLocation();
+      	int yCoordinate = point.getY();
+      	return yCoordinate;
+      }
+      
+      public boolean isSizeAndFitDrawerDisplayed() {
+          try {
+              driver.findElement(By.id("c-product__size-fit"));
+              return true;
+          } catch (Exception e) {
+              return false;
+          }
+      }
 }

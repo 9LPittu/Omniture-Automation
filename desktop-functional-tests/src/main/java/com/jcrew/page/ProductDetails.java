@@ -812,4 +812,6 @@ public class ProductDetails extends PageObject {
     	WebElement addMonogramElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='p-monogram--add']/span[1]")));
     	addMonogramElement.click();
     }
+    
+    
 }

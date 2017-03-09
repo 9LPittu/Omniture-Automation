@@ -134,5 +134,12 @@ public class MultiplePdpSteps extends DriverFactory{
 		 assertEquals("Itmes count matches with Carousel items count",
 			  multiplePDP.shoppableTrayItemcount(), multiplePDP.itemsCountInCarousel());
 	 }
+	 
+	 @Then("^Verify every product contains SIZE & FIT$")
+	    public void verifyEveryProductSizeandFitDetails() {
+	        assertTrue("Every product contains details", multiplePDP.checkEveryItemSizeandFitDetails());
+	       
+	    }
 }
+
 
