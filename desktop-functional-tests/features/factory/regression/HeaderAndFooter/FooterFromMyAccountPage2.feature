@@ -1,5 +1,5 @@
-
-Feature: Footer - From my Account page2
+@Footer10
+Feature: Footer From My Account page2
 
   Background:
     Given User goes to homepage
@@ -9,63 +9,49 @@ Feature: Footer - From my Account page2
     And User fills user data and signs in
     Then Verify user is in My Account main page
 
-  Scenario: Verify jcrew credit card links in footer are functional from my Account page
+  Scenario: Verify Our Brands links in footer are functional from My Account page
+    When User clicks on J.Crew footer link under Our Brands
+    Then Verify user is navigated to url https://www.jcrew.com/index.jsp?srcCode=FCFooter on external page
+
+    When User clicks on Madewell footer link under Our Brands
+    Then Verify user is navigated to url https://www.madewell.com/index.jsp?srcCode=FCFooter on external page
+
+    When User clicks on J.Crew Mercantile footer link under Our Brands
+    Then Verify user is navigated to url /help/mercantile.jsp?sidecar=true on same page
+
+  Scenario: Verify jcrew credit card links in footer are functional from My Account page
     When User clicks on Manage Your Card footer link under The J.Crew Credit Card
     Then Verify user is navigated to url https://d.comenity.net/jcrew/ on external page
 
     When User clicks on Apply Today & Get 15% Off* footer link under The J.Crew Credit Card
     Then Verify user is navigated to url /help/credit_card.jsp?sidecar=true on same page
 
-#    When User presses browser back button
-#    Then Verify user is in homepage
-#    When User clicks on Get $25 For Every $500 You Spend** footer link under The J.Crew Credit Card
-#    Then Verify user is navigated to url /help/credit_card.jsp?sidecar=true on same page
-
-  Scenario: Verify social links in footer are functional from my Account page
+  Scenario: Verify social links in footer are functional from category array page
     When User clicks on facebook social link
-    Then Verify user is navigated to url https://www.facebook.com/jcrew on external page
+    Then Verify user is navigated to url https://www.facebook.com/jcrewfactory on same page
 
-    When User clicks on twitter social link
-    Then Verify user is navigated to url https://twitter.com/jcrew on external page
+    When User presses browser back button
+    And User clicks on plus.google social link
+    Then Verify user is navigated to url https://plus.google.com/+JCrewFactory on same page
 
-    When User clicks on tumblr social link
-    Then Verify user is navigated to url http://jcrew.tumblr.com/ on external page
+  Scenario: Verify popular search links in footer are functional from My Account page
+    When User clicks on Chambray Shirts footer link under Popular Searches
+    Then Verify user is in category array page
 
-    When User clicks on pinterest social link
-    Then Verify user is navigated to url https://www.pinterest.com/jcrew/ on external page
+    When User clicks on Casual Dresses footer link under Popular Searches
+    Then Verify user is in category array page
 
-    When User clicks on instagram social link
-    Then Verify user is navigated to url https://www.instagram.com/jcrew/ on external page
+    When User clicks on Chino Shorts footer link under Popular Searches
+    Then Verify user is in category array page
 
-    When User clicks on plus.google social link
-    Then Verify user is navigated to url https://plus.google.com/+JCrew on external page
+    When User clicks on Polos footer link under Popular Searches
+    Then Verify user is in category array page
 
-    When User clicks on youtube social link
-    Then Verify user is navigated to url https://www.youtube.com/user/jcrewinsider on external page
-
-    When User clicks on spotify social link
-    Then Verify user is navigated to url https://play.spotify.com/user/jcrew on external page
-
-  Scenario: Verify popular search links in footer are functional from my Account page
     When User clicks on Cardigans footer link under Popular Searches
     Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify user is in My Account main page
 
-    When User clicks on Blazers footer link under Popular Searches
+    When User clicks on Work Dresses footer link under Popular Searches
     Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify user is in My Account main page
-
-    When User clicks on Men's Sweaters footer link under Popular Searches
-    Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify user is in My Account main page
-
-    When User clicks on Business Casual For Women footer link under Popular Searches
-    Then Verify user is in category array page
-    When User presses browser back button
-    Then Verify user is in My Account main page
 
     When User clicks on Men's Suits footer link under Popular Searches
     Then Verify user is in category array page

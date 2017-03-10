@@ -1,4 +1,4 @@
-@Header3 @HighLevel
+@Header3
 Feature: Header verification for registered user3
 
   Background:
