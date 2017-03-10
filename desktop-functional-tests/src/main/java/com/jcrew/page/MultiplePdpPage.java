@@ -677,7 +677,7 @@ public class MultiplePdpPage {
       }
       
       public boolean verify_elements_layout_ShoppableTray(){
-    	boolean result=false;  
+    	boolean result=true;  
   		boolean isSizeAndFit  = isSizeAndFitDrawerDisplayed();
   		
   		if (isSizeAndFit) {
