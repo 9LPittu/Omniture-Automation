@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/omniture"},
+        features = {"features/jcrew/omniture"},
         tags = {"@s.pageName"},
         glue = {"com.jcrew.steps"},
         format = {

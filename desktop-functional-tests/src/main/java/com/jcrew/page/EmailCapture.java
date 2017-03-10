@@ -24,41 +24,35 @@ public class EmailCapture extends PageObject {
     }
 
     public void closeEmailCapture() {
-    	
-    	try {
+
+        try {
             WebElement global__email_capture = shortWait.until(
                     ExpectedConditions.presenceOfElementLocated(By.id("global__email-capture")));
-            
-            int retry = 0;
-            boolean emailcapture = true;
-            do {
-	            List<WebElement> close_email_capture = global__email_capture.findElements(
-	                    By.xpath(".//span[@class='icon-close']/ancestor::div[contains(@class,'js-email-capture--close')]"));
-	
-	            if (close_email_capture.size() > 0) {
-	                logger.debug("Email capture is visible, closing.");
-	                final WebElement close = close_email_capture.get(0);
-	
-	                wait.until(new Predicate<WebDriver>() {
-	                    @Override
-	                    public boolean apply(WebDriver driver) {
-	                        try {
-	                            close.click();
-	                        } catch (WebDriverException wde) {
-	                        	logger.debug("Failed to close email capture");
-	                            return false;
-	                        }
-	                        return true;
-	                    }
-	                });
-	                shortWait.until(ExpectedConditions.stalenessOf(global__email_capture));
-	                emailcapture = false;
-	            } else {
-	            	logger.debug("No email capture was found. Trying again.");
-	            	Util.wait(3000);
-	            	retry ++;
-	            }
-            } while (emailcapture && retry <3);   
+
+            List<WebElement> close_email_capture = global__email_capture.findElements(
+                    By.xpath(".//span[@class='icon-close']/ancestor::div[contains(@class,'js-email-capture--close')]"));
+
+            if (close_email_capture.size() > 0) {
+                logger.debug("Email capture is visible, closing.");
+                final WebElement close = close_email_capture.get(0);
+
+                wait.until(new Predicate<WebDriver>() {
+                    @Override
+                    public boolean apply(WebDriver driver) {
+                        try {
+                            close.click();
+                        } catch (WebDriverException wde) {
+                            logger.debug("Failed to close email capture");
+                            return false;
+                        }
+                        return true;
+                    }
+                });
+                shortWait.until(ExpectedConditions.stalenessOf(global__email_capture));
+            } else {
+                logger.debug("No email capture was found. Ignoring error.");
+            }
+
         } catch (TimeoutException noEmailCapture) {
             logger.error("No email capture was found. Ignoring Error.");
         }

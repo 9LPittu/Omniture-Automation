@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression/SearchAndSale"},
+        features = {"features/jcrew/regression/SearchAndSale"},
         tags = {"@SearchRefinement"},
         glue = {"com.jcrew.steps"},
         format = {

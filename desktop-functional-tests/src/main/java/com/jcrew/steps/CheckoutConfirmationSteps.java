@@ -6,6 +6,7 @@ import com.jcrew.utils.PropertyReader;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import org.openqa.selenium.WebDriverException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -72,11 +73,21 @@ public class CheckoutConfirmationSteps extends DriverFactory {
     @Then("Verify that confirmation message is visible")
     public void verify_subtitle() {
         if(!isProduction) {
-            String title = confirmation.getSubtitle();
-            title = title.replaceAll("\n", " ");
+            String title = confirmation.getSubtitle().replace("\n", " ");
+            String expected = "THANK YOU FOR SHOPPING AT ";
 
-            assertTrue("Confirmation message is dsiplayed",
-                    title.equalsIgnoreCase("THANK YOU FOR SHOPPING AT JCREW.COM"));
+            PropertyReader propertyReader = PropertyReader.getPropertyReader();
+            String brandName = propertyReader.getProperty("brand");
+
+            if(brandName.equalsIgnoreCase("factory")) {
+                expected += "JCREWFACTORY.COM";
+            } else if(brandName.equalsIgnoreCase("jcrew")) {
+                expected += "JCREW.COM";
+            } else {
+                throw new WebDriverException("Unable to find subtitle for brand " + brandName);
+            }
+
+            assertTrue("Confirmation message is displayed", title.equalsIgnoreCase(expected));
         }
     }
     

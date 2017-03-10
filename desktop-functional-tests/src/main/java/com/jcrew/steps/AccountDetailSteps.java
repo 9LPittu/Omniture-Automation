@@ -1,6 +1,8 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.AccountDetail;
+import com.jcrew.page.account.AccountDetail;
+import com.jcrew.page.account.IAccountDetail;
+import com.jcrew.page.account.JcrewAccountDetail;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
@@ -16,8 +18,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class AccountDetailSteps extends DriverFactory{
 
-    AccountDetail accountDetail = new AccountDetail(getDriver());
-    StateHolder stateHolder = StateHolder.getInstance();
+    private IAccountDetail accountDetail = AccountDetail.getAccountDetail(getDriver());
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("Verify user is in account details page")
     public void user_is_in_my_account_page(){

@@ -1,7 +1,11 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.*;
+import com.jcrew.page.header.HeaderSearch;
+import com.jcrew.page.header.SubCategory;
+import com.jcrew.page.header.TopNav;
 import com.jcrew.pojo.Country;
+import com.jcrew.steps.header.HeaderSearchSteps;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
@@ -34,9 +38,10 @@ public class UserNavigationSteps extends DriverFactory {
     public void user_navigates_to_subcategory_from_main_category() {
         String category = testDataReader.getCategory();
 
-        HeaderWrap header = new HeaderWrap(driver);
+        TopNav header = new TopNav(driver);
         header.hoverCategory(category);
-        header.selectSubCategory();
+        SubCategory subCategory = new SubCategory(driver);
+        subCategory.selectSubCategory();
         Util.waitLoadingBar(driver);
     }
 
@@ -51,31 +56,10 @@ public class UserNavigationSteps extends DriverFactory {
 
     }
 
-    @When("User searches for a (random|single result|multi result) search term")
-    public void user_searches_for_a_search_term(String searchType) {
-    	String term="";
-    	switch (searchType) {
-        	case "single result":
-        		term = testDataReader.getData("single.result.search.term");
-        		break;
-        	case "multi result":
-        		term = testDataReader.getData("multi.result.search.term");
-        		break;
-        	case "random":
-        	default:
-        		term = testDataReader.getSearchWord();
-        		break;	
-        }
-
-        HeaderWrap header = new HeaderWrap(driver);
-        header.searchFor(term);
-        stateHolder.put("randomSearchTerm", term);
-
-    }
-
     @When("User adds to bag a random product from a search")
     public void users_add_random_product_from_search() {
-        user_searches_for_a_search_term("random");
+        HeaderSearchSteps searchSteps = new HeaderSearchSteps();
+        searchSteps.user_searches_for_a_search_term("random");
 
         ArraySearch searchArray = new ArraySearch(driver);
         searchArray.selectRandomProduct();
@@ -85,19 +69,10 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User navigates to a random sale page")
     public void user_navigates_to_a_random_sale_page() {
-        HeaderWrap header = new HeaderWrap(driver);
+        TopNav header = new TopNav(driver);
         header.hoverCategory("sale");
-        header.selectASaleSubCategory();
-    }
-
-    @When("User navigates to specific ([^\"]*) sale page")
-    public void user_navigates_specific_sale_page(String specific) {
-        MenuDrawer menuDrawer = new MenuDrawer(driver);
-        menuDrawer.openSaleLandingPage();
-
-        SaleLanding saleLandingPage = new SaleLanding(driver);
-        saleLandingPage.click_on_sale_subcategory(specific);
-
+        SubCategory subCategory = new SubCategory(driver);
+        subCategory.selectASaleSubCategory();
     }
 
     @When("User adds to bag a random product from sale")
@@ -186,7 +161,7 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("^User navigates to product ([^\"]*) with multiple colors and multiple sizes$")
     public void search_product_from_reading_testdata(String sequenceNum) {
-        HeaderWrap header = new HeaderWrap(getDriver());
+        HeaderSearch header = new HeaderSearch(driver);
         header.searchFor(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
     }
     
@@ -197,7 +172,7 @@ public class UserNavigationSteps extends DriverFactory {
     
     @When("^User navigates to backordered product$")
     public void navigate_backordered() {
-        HeaderWrap header = new HeaderWrap(getDriver());
+        HeaderSearch header = new HeaderSearch(driver);
         header.searchFor(testDataReader.getData("back.order.item"));
         
         select_item_from_search_results();
@@ -211,7 +186,7 @@ public class UserNavigationSteps extends DriverFactory {
     
     @When("^User navigates to only few left product$")
     public void navigate_only_few_left() {
-        HeaderWrap header = new HeaderWrap(getDriver());
+        HeaderSearch header = new HeaderSearch(driver);
         header.searchFor(testDataReader.getData("few.left.item"));
         
         select_item_from_search_results();
@@ -225,7 +200,7 @@ public class UserNavigationSteps extends DriverFactory {
     
     @When("^User navigates to regular product$")
     public void navigate_regular_item() {
-        HeaderWrap header = new HeaderWrap(getDriver());
+        HeaderSearch header = new HeaderSearch(driver);
         header.searchFor(testDataReader.getData("regular.item"));
         
         select_item_from_search_results();
@@ -239,7 +214,7 @@ public class UserNavigationSteps extends DriverFactory {
     
 	@When("^User navigates to promo applicable product$")
 	public void navigate_promoapplicable_item() {
-		HeaderWrap header = new HeaderWrap(getDriver());
+        HeaderSearch header = new HeaderSearch(driver);
 		header.searchFor(testDataReader.getData("promoaplicable.item"));
 
 		select_item_from_search_results();

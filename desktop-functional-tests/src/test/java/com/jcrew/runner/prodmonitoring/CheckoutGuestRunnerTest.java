@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/prodmonitoring"},
+        features = {"features/jcrew/prodmonitoring"},
         tags = {"@ProdCheckout"},
         glue = {"com.jcrew.steps"},
         format = {

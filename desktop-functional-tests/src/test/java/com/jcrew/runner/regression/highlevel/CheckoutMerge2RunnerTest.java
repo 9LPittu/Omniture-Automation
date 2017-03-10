@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression/Checkout/Merge"},
+        features = {"features/jcrew/regression/Checkout/Merge"},
         tags = {"@MergeCheckout2"},
         glue = {"com.jcrew.steps","@HighLevel"},
         format = {

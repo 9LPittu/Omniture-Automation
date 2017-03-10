@@ -57,21 +57,10 @@ public class Util {
         action.moveToElement(element);
     }
     
-    public static void waitForPageReady(WebDriver driver) {
-        createWebDriverWait(driver).until(new Predicate<WebDriver>() {
-            public boolean apply(WebDriver driver) {
-                boolean result = ((long) ((JavascriptExecutor) driver).executeScript("return jQuery.active") == 0);
-                logger.info("document.readyState returned {}", result);
-                return result;
-            }
-        });
-    }
-    
     public static void waitForPageFullyLoaded(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
                 String complete = (String) ((JavascriptExecutor) driver).executeScript("return document.readyState");
-                logger.info("document.readyState returned {}", complete);
                 return complete.equals("complete");
             }
         });
