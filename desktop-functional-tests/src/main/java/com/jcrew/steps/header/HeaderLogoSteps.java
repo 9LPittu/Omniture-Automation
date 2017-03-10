@@ -11,8 +11,8 @@ import cucumber.api.java.en.When;
 public class HeaderLogoSteps extends DriverFactory {
     private HeaderLogo logo = new HeaderLogo(getDriver());
 
-    @When("User clicks JCrew logo")
-    public void user_clicks_jcrew_logo() {
+    @When("User clicks (JCrew|Factory) logo")
+    public void user_clicks_jcrew_logo(String brand) {
         logo.clickLogo();
     }
 
