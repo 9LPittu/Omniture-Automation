@@ -338,7 +338,8 @@ public class ProductDetails extends PageObject {
         
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
-        return  isURL && isURL;
+        
+        return  isNameBlank && isURL;
     }
 
 
@@ -614,7 +615,6 @@ public class ProductDetails extends PageObject {
 
     }
     private WebElement getPDPElement(String element){
-        boolean result = false;
         WebElement pdpElement = null;
 
         switch (element.toLowerCase()) {

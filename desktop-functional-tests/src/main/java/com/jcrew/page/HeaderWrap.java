@@ -7,11 +7,8 @@ import com.jcrew.page.header.TopNav;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
-import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
-import gherkin.formatter.model.DataTableRow;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
@@ -19,11 +16,9 @@ import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +28,6 @@ public class HeaderWrap extends PageObject {
 
 	private final Logger logger = LoggerFactory.getLogger(HeaderWrap.class);
 	public final StateHolder stateHolder = StateHolder.getInstance();
-	private TestDataReader testdataReader = TestDataReader.getTestDataReader();
 
 	@FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--menu']/a")
 	private WebElement menu;
@@ -277,7 +271,12 @@ public class HeaderWrap extends PageObject {
 		wait.until(new Predicate<WebDriver>() {
 			@Override
 			public boolean apply(WebDriver driver) {
-				return minibag.isDisplayed();
+				if(minibag.isDisplayed()){
+					return true;
+				}else{
+					Util.scrollToElement(driver, bag);
+					return false;
+				}					
 			}
 		});
 
