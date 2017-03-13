@@ -30,10 +30,8 @@ public class FactoryMyAccount extends Account implements IMyAccount {
 
     public boolean isMyAccountMainPage() {
         WebElement homecopy = main_inside.findElement(By.xpath(".//div[@class='accountWelcome']"));
-        String copy = homecopy.getText().trim().toLowerCase();
-        User user = stateHolder.get("signedUser");
 
-        return copy.equalsIgnoreCase("Welcome,  " + user.getFirstName());
+        return homecopy.isDisplayed();
     }
 
     public void clickInMenuOption(String menuOption) {
