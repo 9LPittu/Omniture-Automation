@@ -1,5 +1,5 @@
 @PDP3
-Feature: PDP Layout4
+Feature: PDP Layout from sale array
 
   Background:
     Given User goes to homepage

@@ -1,5 +1,5 @@
 @PDP2
-Feature: PDP Layout3
+Feature: PDP Layout from search and variations
 
   Background:
     Given User goes to homepage
