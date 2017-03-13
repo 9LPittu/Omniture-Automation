@@ -260,6 +260,10 @@ public class ProductDetails extends PageObject {
     }
 
     private boolean isSoldOut() {
+    	
+    	if(stateHolder.hasKey("isE2E"))
+    		return false;
+    	
         List<WebElement> message = soldoutMessage.findElements(By.className("product__sold-out"));
 
         return message.size() > 0;
@@ -791,6 +795,10 @@ public class ProductDetails extends PageObject {
     }
     
     public void handleShipRestrictionMessage(){
+    	
+    	if(stateHolder.hasKey("isE2E"))
+    		return;
+    	
     	try {
 	    	WebElement yesButton = driver.findElement(By.id("btn__yes"));
 	    	yesButton.click();

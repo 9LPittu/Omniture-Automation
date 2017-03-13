@@ -48,6 +48,7 @@ public class E2E1Steps extends E2ECommon {
 	@Before("@e2e")
 	public void read_item_master_testdata() throws IOException{
 		stateHolder.put("e2e_error_messages", "");
+		stateHolder.put("isE2E", true);
         getItemsMasterTestdata();
 	}
 	
