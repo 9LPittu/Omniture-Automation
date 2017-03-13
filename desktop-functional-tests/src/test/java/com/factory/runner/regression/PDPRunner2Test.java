@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/factory/regression/HeaderAndFooter"},
+        features = {"features/factory/regression/PDP"},
         tags = {"@PDP2"},
         glue = {"com.jcrew.steps"},
         format = {
