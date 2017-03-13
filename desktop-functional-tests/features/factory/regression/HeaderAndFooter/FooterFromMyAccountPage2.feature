@@ -1,5 +1,5 @@
 @Footer10
-Feature: Footer From My Account page2
+Feature: Footer From My Account page
 
   Background:
     Given User goes to homepage

@@ -1,5 +1,5 @@
 @Header4
-Feature: Header verification for registered user4
+Feature: Header verification for registered from Sale landing page
 
   Background:
     Given User goes to homepage

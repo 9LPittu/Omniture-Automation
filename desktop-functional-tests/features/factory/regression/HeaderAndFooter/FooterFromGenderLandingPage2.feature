@@ -1,5 +1,5 @@
 @Footer4
-Feature: Footer From Gender landing page2
+Feature: Footer From Gender landing page
 
   Background:
     Given User goes to homepage

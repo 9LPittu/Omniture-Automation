@@ -1,5 +1,5 @@
 @Header2
-Feature: Header verification for registered user2
+Feature: Header verification for registered from home page
 
   Background:
     Given User goes to homepage

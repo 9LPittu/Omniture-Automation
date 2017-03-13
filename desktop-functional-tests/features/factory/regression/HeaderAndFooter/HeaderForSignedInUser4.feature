@@ -1,5 +1,5 @@
 @Header5
-Feature: Header verification for registered user5
+Feature: Header verification for registered from Array page
 
   Background:
     Given User goes to homepage

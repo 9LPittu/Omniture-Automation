@@ -1,5 +1,5 @@
 @Header3
-Feature: Header verification for registered user3
+Feature: Header verification for registered from Gender landing pages
 
   Background:
     Given User goes to homepage
