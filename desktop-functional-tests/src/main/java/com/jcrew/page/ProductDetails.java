@@ -275,8 +275,7 @@ public class ProductDetails extends PageObject {
 
         if (!isSoldOut()) {
             product.setColor(getSelectedColor());
-            product.setSize(getSelectedSize());
-            product.setQuantity(getQuantity());
+            product.setSize(getSelectedSize());            
             product.setPrice(getPrice());
             product.setItemNumber(getProductCode());
             product.setQuantity(getQuantity());
