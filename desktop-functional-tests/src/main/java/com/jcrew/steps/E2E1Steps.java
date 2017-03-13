@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.jcrew.page.header.HeaderSearch;
 import org.openqa.selenium.WebDriverException;
 
 import com.jcrew.page.ArraySearch;
@@ -150,7 +151,7 @@ public class E2E1Steps extends E2ECommon {
 				String isMonogramRequired = getColumnValueFromItemMaster(rowNumber, "isMonogramRequired?");
 
 				// search for item
-				HeaderWrap headerWrap = new HeaderWrap(getDriver());
+				HeaderSearch headerWrap = new HeaderSearch(getDriver());
 				headerWrap.searchForSpecificTerm(itemCode);
 
 				// select random item from search results

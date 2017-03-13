@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/regression/Checkout/ShoppingBag"},
+        features = {"features/jcrew/regression/Checkout/ShoppingBag"},
         tags = {"@ShoppingBag","@HighLevel"},
         glue = {"com.jcrew.steps"},
         format = {

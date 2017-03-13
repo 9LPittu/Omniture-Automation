@@ -39,7 +39,7 @@ public class PropertyReader {
 
         properties.setProperty("environment", execEnvironment);
 
-        execEnvironment = properties.getProperty(execEnvironment);
+        execEnvironment = properties.getProperty(brand + "." + execEnvironment);
         logger.info("URL to be used {}", execEnvironment);
         properties.setProperty("url", execEnvironment);
 

@@ -24,6 +24,7 @@ public class Util {
     public final static StateHolder stateHolder = StateHolder.getInstance();
 
     public static final int DEFAULT_TIMEOUT = 60;
+    public static final int DEFAULT_TIMEOUT_STEEL = 120;
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
     
     public static final String UP = "up";
@@ -56,21 +57,10 @@ public class Util {
         action.moveToElement(element);
     }
     
-    public static void waitForPageReady(WebDriver driver) {
-        createWebDriverWait(driver).until(new Predicate<WebDriver>() {
-            public boolean apply(WebDriver driver) {
-                boolean result = ((long) ((JavascriptExecutor) driver).executeScript("return jQuery.active") == 0);
-                logger.info("document.readyState returned {}", result);
-                return result;
-            }
-        });
-    }
-    
     public static void waitForPageFullyLoaded(WebDriver driver) {
         createWebDriverWait(driver).until(new Predicate<WebDriver>() {
             public boolean apply(WebDriver driver) {
                 String complete = (String) ((JavascriptExecutor) driver).executeScript("return document.readyState");
-                logger.info("document.readyState returned {}", complete);
                 return complete.equals("complete");
             }
         });
@@ -328,7 +318,21 @@ public class Util {
         return variable_value;
 
     }
-    
+
+    public static int getDefaultTimeOutValue(){
+    	PropertyReader reader = PropertyReader.getPropertyReader();
+        if (reader.getProperty("environment").equalsIgnoreCase("steel"))
+            return DEFAULT_TIMEOUT_STEEL;
+        else
+            return DEFAULT_TIMEOUT;
+    }
+
+    public static void clickOnElement(WebDriver driver, WebElement element) {
+        Actions action = new Actions(driver);
+        createWebDriverWait(driver).until(ExpectedConditions.visibilityOf(element));
+        action.click(element).build().perform();
+    }
+
     public static void e2eErrorMessagesBuilder(String errorMessageText){
 		if(stateHolder.hasKey("e2e_error_messages")){
 			e2eErrorMessages = stateHolder.get("e2e_error_messages");
@@ -337,4 +341,5 @@ public class Util {
 		e2eErrorMessages += errorMessageText + "\n\n";
 		stateHolder.put("e2e_error_messages", e2eErrorMessages);
 	}
+
 }
