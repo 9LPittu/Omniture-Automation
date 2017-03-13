@@ -22,20 +22,16 @@ import java.util.Set;
 /**
  * Created by nadiapaolagarcia on 7/19/16.
  */
-public abstract class PageObject {
+public abstract class PageObject implements IPageObject {
 
     protected final WebDriver driver;
     public final Logger logger = LoggerFactory.getLogger(PageObject.class);
     protected final WebDriverWait wait;
     protected final Actions hoverAction;
 
-    public final StateHolder stateHolder = StateHolder.getInstance();
-    public final Country country;
-
     public PageObject(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
-        this.country = stateHolder.get("context");
         this.hoverAction = new Actions(driver);
 
         PageFactory.initElements(driver, this);

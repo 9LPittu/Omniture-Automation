@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.page.homepage.JCrewHomePage;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
@@ -141,7 +142,7 @@ public class ContextChooser {
 
 		String expectedURL = country.getHomeurl();
 		wait.until(ExpectedConditions.urlMatches(expectedURL));
-		new HomePage(driver);
+		new JCrewHomePage(driver);
 		logger.debug("expected url at this point should be " + expectedURL + " current url is " + driver.getCurrentUrl());
 		return driver.getCurrentUrl().matches(expectedURL);
 	}
