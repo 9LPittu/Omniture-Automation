@@ -1,5 +1,8 @@
-package com.jcrew.page;
+package com.jcrew.page.homepage;
 
+import com.jcrew.page.Footer;
+import com.jcrew.page.HeaderWrap;
+import com.jcrew.page.PageObject;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,14 +14,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by nadiapaolagarcia on 3/30/16.
  */
-public class HomePage extends PageObject{
+public class JCrewHomePage extends PageObject implements IHomePage {
     private HeaderWrap headerWrap;
     private Footer footer;
 
     @FindBy(id = "page__home")
     private WebElement pageContent;
 
-    public HomePage(WebDriver driver) {
+    public JCrewHomePage(WebDriver driver) {
 
         super(driver);
 

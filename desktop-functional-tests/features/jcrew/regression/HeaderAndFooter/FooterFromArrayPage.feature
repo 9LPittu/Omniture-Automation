@@ -5,9 +5,9 @@ Feature: Footer - From Category Array page
     Given User goes to homepage
     And User closes email capture
     When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|dress shirts|
-      |girls|dresses|
+      | women | sweaters     |
+      | men   | dress shirts |
+      | girls | dresses      |
     Then Verify user is in category array page
 
   Scenario: Verify Let Us Help You links in footer are functional from category array page
