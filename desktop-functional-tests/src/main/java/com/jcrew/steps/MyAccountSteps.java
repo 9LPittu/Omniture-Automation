@@ -59,5 +59,5 @@ public class MyAccountSteps extends DriverFactory {
         assertTrue("User should have been in menu link " + page,
                 myAccount.isInMenuLinkPage(page));
     }
-
+    
 }

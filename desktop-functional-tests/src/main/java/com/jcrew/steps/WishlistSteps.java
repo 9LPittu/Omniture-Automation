@@ -8,6 +8,8 @@ import cucumber.api.java.en.Then;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 /**
  * Created by nadiapaolagarcia on 3/31/16.
  */
@@ -30,7 +32,29 @@ public class WishlistSteps extends DriverFactory {
         Product product = (Product) stateHolder.get("fromQuickShop");
         assertTrue("Product "+product.getName()+" is available in wishlist page", wishlist.verifyProductInWishlist(product.getName()));
     }
+    @Then("Verify all items were added to wishlist")
+    public void all_items_added_to_wishlist() {
+        List<Product> addedList = stateHolder.getList("toWishList");
 
+        assertEquals("All items were added", addedList.size(), wishlist.getItemNumber());
 
+        for(Product added : addedList) {
+            Product inWishList = wishlist.getWishlistItem(added.getItemNumber());
+
+            assertNotNull("Added item " + added.getItemNumber() + " is in wishlist", inWishList);
+            assertEquals("Added item has same name", added.getName().toLowerCase(), inWishList.getName().toLowerCase());
+            assertEquals("Added item has same color", added.getColor().toLowerCase(), inWishList.getColor().toLowerCase());
+            assertEquals("Added item has same size", added.getSize().toLowerCase(), inWishList.getSize().toLowerCase());
+        }
+    }
+    @Then("Verify items count matches in wishlist")
+    public void isWishlistItemsCountMatches() {
+    	List<Product> itemsCount = stateHolder.get("itemsInTray");
+    	
+    	int expected = itemsCount.size();
+            int actual = wishlist.getItemNumber();
+
+            assertEquals("Expected number of items in wishlist", expected, actual);
+        }
 }
 

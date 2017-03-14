@@ -339,9 +339,9 @@ public class MultiplePdpPage {
         boolean result = true;
 
         for (int i = 0; i < numProducts && result; i++) {
-           // result = openDrawer(productDetailsDrawer);
-          //  result &= openDrawer(productReviewRatingsSection);
-          //  result &= isDrawerOpen(productDetailsDrawer);
+            result = openDrawer(productDetailsDrawer);
+            result &= openDrawer(productReviewRatingsSection);
+            result &= isDrawerOpen(productDetailsDrawer);
             
             try{
             	sizeAndFitDrawer = productInformationSection.findElement(By.id("c-product__size-fit"));
@@ -658,6 +658,7 @@ public class MultiplePdpPage {
       
       public boolean checkEveryItemSizeandFitDetails(){
           if(getSelectedProductIndex() != 0)
+        	  Util.scrollPage(driver, "UP");
               setSelectProductIndex(0);
 
           boolean result = true;
@@ -685,7 +686,7 @@ public class MultiplePdpPage {
   	    	int Find_Y = getYCoordinate(sizeAndFitelement);
 		    WebElement productdetails =wait.until(ExpectedConditions.visibilityOf(product__details));    
 		    int below_Y =  getYCoordinate(productdetails);
-	        result = result && (below_Y > Find_Y);
+	        result = result && (below_Y < Find_Y);
   		}
   		return result;
   }

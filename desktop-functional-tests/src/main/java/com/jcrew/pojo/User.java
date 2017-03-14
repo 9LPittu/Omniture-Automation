@@ -51,7 +51,6 @@ public class User {
 
     public static User getUserFromHub(String userCategory) {
     	PropertyReader reader = PropertyReader.getPropertyReader();
-        
         if(reader.getProperty("environment").contains("ci")){
         	return new User(reader.getProperty("environment") + "." + reader.getProperty("user"));
         }
