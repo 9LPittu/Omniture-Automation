@@ -1,49 +1,49 @@
-@GuestCheckout-Part3A @HighLevel
+@GuestCheckout7
 Feature: Checkout - User is able to edit quantity for item from shopping bag during Guest checkout
 
   Scenario: Checkout - User is able to edit quantity for item from shopping bag during Guest checkout
     Given User goes to homepage
     And User closes email capture
-    
-	#Add Item 1 to bag
+
+ #Add Item 1 to bag
     And User hovers on a random category from list
-    	|Women|
-    	|Men|
-    	|Girls|
-    	|Boys|
+      | Women |
+      | Men   |
+      | Girls |
+      | Boys  |
     And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
-    
+
     When User selects random color
-    And User selects random size        
+    And User selects random size
     And User adds product to bag
-    
+
     #Add Item 2 to bag
     When User hovers on any random category
     And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
-    
+
     When User selects random color
-    And User selects random size        
+    And User selects random size
     And User adds product to bag
 
     When User clicks in bag
 
     Then Verify shopping bag is displayed
     Then Verify products added matches with products in bag
-    
+
     When User edits quantity of first item from bag
     Then Verify items quantity and prices
     Then Verify Order Subtotal is updated when item quantity is changed
-    
-    When User edits first added item from bag    
+
+    When User edits first added item from bag
     And Verify product detail page is displayed
-    
+
     Then Verify UPDATE BAG displayed in PDP
     When Update Bag button is pressed
-    
+
     When User clicks in bag
     Then Verify shopping bag is displayed
     Then Verify products added matches with products in bag

@@ -1,4 +1,4 @@
-@GuestCheckout-Part3 @HighLevel
+@GuestCheckout9
 Feature: Checkout - Expected Shipping Options for special addresses
 
   Scenario: Checkout - Expected Shipping Options for APO
