@@ -20,17 +20,12 @@ Feature: Account details Page validations
     Then User should be in account/email_preferences.jsp menu link page
     And User presses browser back button
 
-    When User clicks on Catalog Preferences link in Account detail Page
-    Then User should be in account/catalog_preferences.jsp menu link page
-    And User presses browser back button
-
     When User clicks on Payment Methods link in Account detail Page
     Then User should be in account/payment_info.jsp menu link page
     And User presses browser back button
 
     When User clicks on Gift Card Balance link in Account detail Page
-    Then User should be in checkout/giftcard_balance1.jsp menu link page
-    And User presses browser back button
+    Then Verify user is navigated to url checkout/giftcard_balance1.jsp on external page   
 
     When User clicks on Address Book link in Account detail Page
     Then User should be in account/address_book.jsp menu link page
@@ -45,7 +40,6 @@ Feature: Account details Page validations
     And User presses browser back button
 
     And User clicks on Sign Out link in Account detail Page
-
 
 #  Scenario Outline: Validate rewards link is visible only for JCCC associated users in account detail page
 #

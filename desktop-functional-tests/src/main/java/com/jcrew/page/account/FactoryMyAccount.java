@@ -60,8 +60,7 @@ public class FactoryMyAccount extends Account implements IMyAccount {
     }
 
     public boolean isInMenuLinkPage(String page) {
-        throw new WebDriverException("Method not implemented for Factory");
-
+    	return wait.until(ExpectedConditions.urlContains(page));
     }
 
     public boolean isMenuLinkPresent(String link) {
