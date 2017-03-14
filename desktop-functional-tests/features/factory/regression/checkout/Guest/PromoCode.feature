@@ -25,7 +25,7 @@ Feature: Checkout - Guest user is able to checkout with promo code
     Then Verify Billing page is displayed
 
     When User adds a promo code Test-invalid in Payment Method page
-    Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 800 562 0258 for help.
+    Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 866 739 5942 for help.
 
     When User adds a promo code Test-10p in Payment Method page
     Then Verify promo details contains: 10% off (no min)
