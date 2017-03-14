@@ -140,7 +140,17 @@ public class FactoryAccountDetail extends Account implements IAccountDetail {
 
 
     public User getUserDetails() {
-        throw new WebDriverException("Method not implemented for Factory");
+    	wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
+
+        String firstName = getformElement("first name").getAttribute("value");
+        String lastName = getformElement("last name").getAttribute("value");
+        String email = getformElement("email").getAttribute("value");
+        
+        WebElement countryElement = getformElement("country");
+        Select select = new Select(countryElement);
+        String country = select.getFirstSelectedOption().getText();
+
+        return new User(email, "nullPassword", firstName, lastName, country);
     }
 
     private WebElement getformElement(String fieldLabel) {
