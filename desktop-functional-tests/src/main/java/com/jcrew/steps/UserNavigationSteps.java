@@ -163,6 +163,12 @@ public class UserNavigationSteps extends DriverFactory {
     public void search_product_from_reading_testdata(String sequenceNum) {
         HeaderSearch header = new HeaderSearch(driver);
         header.searchFor(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
+
+        String url = getDriver().getCurrentUrl();
+        if (url.contains("/r/search")) {
+            ArraySearch search = new ArraySearch(getDriver());
+            search.selectRandomProduct();
+        }
     }
     
     @When("This script cleans bag for current user")
