@@ -38,14 +38,12 @@ Feature: Smoke Checkout - Guest user is able to checkout
     When User selects a suggested address and continues
     Then Verify Shipping And Gift Options page is displayed
     And Verify Shipping Options Page contains gift option section
-    And Verify default value for shipping method
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
     And Verify available payment methods from list
       | Credit/Debit Card |
       | PayPal            |
-      | MasterPass        |
 
     And Verify accepted cards from list
       | jccc |
