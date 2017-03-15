@@ -1,5 +1,5 @@
 @NewAccount @HighLevel
-Feature: Create New Account International
+Feature: Create New Account error messages validation
 
   Background:
     Given User goes to homepage
