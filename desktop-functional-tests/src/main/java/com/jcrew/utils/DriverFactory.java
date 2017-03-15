@@ -17,8 +17,6 @@ public class DriverFactory {
     private final int DEFAULT_WINDOW_HEIGHT = 667;
     private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
     private final PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    private final StateHolder Holder = StateHolder.getInstance();
-
 
     private int width = DEFAULT_WINDOW_WIDTH;
     private int height = DEFAULT_WINDOW_HEIGHT;

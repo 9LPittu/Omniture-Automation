@@ -74,6 +74,14 @@ public class UserNavigationSteps extends DriverFactory {
         SubCategory subCategory = new SubCategory(driver);
         subCategory.selectASaleSubCategory();
     }
+    
+    @When("User navigates to random ([^\"]*) page")
+    public void user_navigates_to_a_random_sale_clearance_page(String link) {
+        TopNav header = new TopNav(driver);
+        header.hoverCategory(link);
+        SubCategory subCategory = new SubCategory(driver);
+        subCategory.selectASaleSubCategory();
+    }
 
     @When("User adds to bag a random product from sale")
     public void users_add_random_product_from_sale() {

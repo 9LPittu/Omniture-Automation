@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/factory/regression/Account"},
-        tags = {"@NewAccount3"},
+        tags = {"@SignIn"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-factory-newaccountressionfeatures.json",
+                "json:target/cucumber-factory-signingressionfeatures.json",
                 "pretty",
-                "html:target/cucumber/factory-newaccountregressionfeatures"
+                "html:target/cucumber/factory-signinregressionfeatures"
         }
 )
-public class NewAccount3RunnerTest {
+public class SignInRunnerTest {
 }
