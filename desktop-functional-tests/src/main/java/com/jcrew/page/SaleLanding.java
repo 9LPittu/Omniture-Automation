@@ -103,11 +103,11 @@ public class SaleLanding {
     	
     }
     
-    public boolean isSaleTitle() {    	
+    public boolean isSaleTitle(String title) {    	
     	if(isMonetateImageDisplayed()){    		
     		return true;
     	}else{
-    		return page__sale.findElement(By.xpath("//div[@class='c-sale__title' and normalize-space("+ Util.xpathGetTextLower +")='sale']")).isDisplayed();
+    		return page__sale.findElement(By.xpath("//div[@class='c-sale__title' and normalize-space("+ Util.xpathGetTextLower +")='"+title+"']")).isDisplayed();
     	}    	
     }
     
