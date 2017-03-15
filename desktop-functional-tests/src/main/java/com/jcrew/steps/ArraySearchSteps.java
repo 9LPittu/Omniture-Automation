@@ -204,15 +204,21 @@ public class ArraySearchSteps extends DriverFactory {
 
     @When("^User selects random page number from ([^\"]*) pagination dropdown$")
     public void select_page_number_from_pagaination_dropdown(String pagination){
-    	searchArray.selectRandomPageNumberFromPaginationDropdown(pagination);
+    	boolean isPagination = stateHolder.get("pagination");
+    	if (isPagination) {	
+    		searchArray.selectRandomPageNumberFromPaginationDropdown(pagination);
+    	}
     }
     
     @Then("Verify content changes when page number is changed$")
     public void verify_page_content() {
-    	String firstIteminPreviousPage = (String) stateHolder.get("firstItemNameInArray");
-    	String firstIteminCurrentPage = searchArray.getFirstItemName();
-    	assertTrue("First item in Previous page: " + firstIteminPreviousPage + " and first item in current page: " 
+    	boolean isPagination = stateHolder.get("pagination");
+    	if (isPagination) {
+	    	String firstIteminPreviousPage = (String) stateHolder.get("firstItemNameInArray");
+	    	String firstIteminCurrentPage = searchArray.getFirstItemName();
+	    	assertTrue("First item in Previous page: " + firstIteminPreviousPage + " and first item in current page: " 
     			+ firstIteminCurrentPage + " should not be same ", !firstIteminPreviousPage.equalsIgnoreCase(firstIteminCurrentPage));
+    	}
     }
     
     
