@@ -43,9 +43,9 @@ public class SaleLandingPageSteps extends DriverFactory{
     	
     }
     
-    @Then("Verify Sale title is displayed on sale landing page$") 
-    public void verify_sale_title(){
-    	assertTrue("Sale title should be displayed on sale landing page",sale.isSaleTitle());
+    @Then("Verify ([^\"]*) title is displayed on sale landing page$") 
+    public void verify_sale_title(String title){
+    	assertTrue("Sale title should be displayed on sale landing page",sale.isSaleTitle(title));
     }
     
     @Then("Verify first promo is displayed$")
