@@ -44,7 +44,6 @@ Feature: Smoke Checkout - Guest user is able to checkout
     And Verify available payment methods from list
       | Credit/Debit Card |
       | PayPal            |
-      | MasterPass        |
 
     And Verify accepted cards from list
       | jccc |
