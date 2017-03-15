@@ -177,6 +177,7 @@ public class ArraySearch extends Array{
         	result = headerPagination.isDisplayed();
         } else{
         	try {
+        		stateHolder.put("pagination", false);
         		result = !headerPagination.isDisplayed();
         	} catch (NoSuchElementException noElement) {
         		result = true;	
