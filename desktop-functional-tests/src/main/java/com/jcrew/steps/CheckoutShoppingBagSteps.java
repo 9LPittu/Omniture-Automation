@@ -11,6 +11,7 @@ import cucumber.api.java.en.When;
 
 import java.util.List;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +28,13 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     public void is_displayed() {
         assertTrue("Shopping bag is displayed", bag.isDisplayed());
         
-        String subTotal = bag.getSubTotal();
+        String subTotal = "0";
+        try {
+            bag.getSubTotal();
+        } catch (NoSuchElementException noSubtotal) {
+            bag.logger.error("Bag has no subtotal");
+        }
+
         bag.stateHolder.put("ordersubtotal", subTotal);
     }
 

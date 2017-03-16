@@ -9,7 +9,7 @@ Feature: Product Detail Page
       | Men   |
       | Girls |
       | Boys  |
-    And User selects random subcategory array
+    And User selects sweaters subcategory array
 
   Scenario: Product Detail Page Validation
     And User closes email capture
