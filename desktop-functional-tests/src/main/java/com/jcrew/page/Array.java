@@ -94,7 +94,7 @@ public abstract class Array extends PageObject{
         new ProductDetails(driver);
     }
 
-    private void clickProduct(WebElement product) {
+    public void clickProduct(WebElement product) {
 
         wait.until(ExpectedConditions.visibilityOf(product));
 
@@ -114,6 +114,7 @@ public abstract class Array extends PageObject{
         Util.waitLoadingBar(driver);
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
+    
     private void clickQuickShop(WebElement product) {
 
         wait.until(ExpectedConditions.visibilityOf(product));
@@ -134,6 +135,7 @@ public abstract class Array extends PageObject{
         
         Util.waitForPageFullyLoaded(driver);
     }
+    
     public Product getProduct(WebElement tile) {
         Product product = new Product();
         product.setName(getProductName(tile));
