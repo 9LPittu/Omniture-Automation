@@ -14,7 +14,7 @@ Feature: Smoke Checkout - Signed user
       | Men   |
     And User selects pants subcategory array
     And User closes email capture
-    And User selects random product from product array
+    And User selects first product from product array
     And Verify product detail page is displayed
 
     When User selects random color
@@ -35,9 +35,3 @@ Feature: Smoke Checkout - Signed user
     Then Verify user gets a confirmation number
     And Verify that title is Order Complete
     And Verify that confirmation message is visible
-
-
-
-
-
-
