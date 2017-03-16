@@ -8,7 +8,7 @@ Feature: Product Detail Page
       | Women |
       | Men   |
       | Girls |
-      | Boys  |
+      #| Boys  | boys sweaters category does not have any product
     And User selects sweaters subcategory array
 
   Scenario: Product Detail Page Validation
