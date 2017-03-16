@@ -1,4 +1,4 @@
-@NewAccount @HighLevel
+@NewAccount
 Feature: Create New Account error messages validation
 
   Background:

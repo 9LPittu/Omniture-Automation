@@ -7,7 +7,6 @@ Feature: Account details Page validations 2
     When User clicks on sign in using header
     Then User goes to sign in page
 
-  @HighLevel
   Scenario: Validate error messages and update details in my details form
     When User get create account form
     And first name field is filled with new data
