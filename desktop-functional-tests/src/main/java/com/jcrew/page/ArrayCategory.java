@@ -73,6 +73,12 @@ public class ArrayCategory extends Array{
             selectRandomQS(productList,false);
         }
     }
+    
+    public void selectFirstProduct(){
+    	List<WebElement> productTiles = getProductTiles();    	
+    	clickProduct(productTiles.get(0));
+        new ProductDetails(driver);
+    }
 
     public void selectRandomProduct(String type) {
         if("variation".equalsIgnoreCase(type)) {
@@ -86,8 +92,7 @@ public class ArrayCategory extends Array{
         								By.xpath("//div[@class='c-inline-error']")));
         	 logger.info("Handling oops error message ...");
         	 errorMessageElement.findElement(By.linkText("retry")).click();
-        	 Util.waitLoadingBar(driver);
-        	 
+        	 Util.waitLoadingBar(driver);        	 
         }
         catch(Exception e){
         	logger.info("Oops error message is not displayed");
