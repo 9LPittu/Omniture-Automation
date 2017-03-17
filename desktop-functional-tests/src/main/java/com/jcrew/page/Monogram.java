@@ -60,8 +60,9 @@ public class Monogram extends PageObject{
     public void selectStyle(String style){
     	WebElement styleElement = null;
     	if(!style.isEmpty()){
-    		styleElement = monogramModalWindow.findElement(By.xpath(".//div[contains(@class,'js-p-monogram--stamp')]/span[" 
-    															    + Util.xpathGetTextLower + "='" +	style.toLowerCase() + "']"));   	
+    		styleElement = monogramModalWindow.findElement(By.xpath(".//div[contains(@class,'js-p-monogram--stamp') and "
+    																+ "translate(@data-name, 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz') = '"
+    																+	style.toLowerCase() + "']"));  	
     	}
     	else{
     		List<WebElement>  styleElements = monogramModalWindow.findElements(By.xpath(".//div[contains(@class,'js-p-monogram--stamp')]/span"));
