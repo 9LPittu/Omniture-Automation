@@ -39,7 +39,15 @@ public class FactoryMyAccount extends Account implements IMyAccount {
     }
 
     public boolean isOrderHistoryPage() {
-        throw new WebDriverException("Method not implemented for Factory");
+    	wait.until(ExpectedConditions.visibilityOf(main_content));
+        
+        WebElement myOrdersTitle = main_content.findElement(By.className("orderHistoryTitle"));
+        boolean expectedContent = "order history".equalsIgnoreCase(myOrdersTitle.getText());
+
+        Country country = stateHolder.get("context");
+        boolean expectedURL = Util.countryContextURLCompliance(driver, country, "account/reg_user_order_history.jsp?");
+
+        return expectedContent & expectedURL;
     }
 
     public void click_reward_link(String link) {
@@ -60,8 +68,7 @@ public class FactoryMyAccount extends Account implements IMyAccount {
     }
 
     public boolean isInMenuLinkPage(String page) {
-        throw new WebDriverException("Method not implemented for Factory");
-
+    	return wait.until(ExpectedConditions.urlContains(page));
     }
 
     public boolean isMenuLinkPresent(String link) {

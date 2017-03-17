@@ -1,4 +1,4 @@
-@SearchRefinement @HighLevel
+@SearchRefinement
 Feature: Search Refinement and Sort
 
   Background:

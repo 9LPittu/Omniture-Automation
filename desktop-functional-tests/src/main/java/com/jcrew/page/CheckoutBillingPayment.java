@@ -4,6 +4,7 @@ import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.E2EPropertyReader;
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -50,6 +52,9 @@ public class CheckoutBillingPayment extends Checkout {
     
     @FindBy(id="address-new")
     private WebElement addNewBillingAddressButton;
+    
+    @FindBy(className="accountPaymentContainer")
+    private WebElement accountPaymentContainer;
     
     private final HeaderWrap header;
 
@@ -146,8 +151,8 @@ public class CheckoutBillingPayment extends Checkout {
 
         Util.waitForPageFullyLoaded(driver);
 
-        wait.until(ExpectedConditions.visibilityOf(leftContainer));
-        WebElement newCardDiv = leftContainer.findElement(By.id("AddCreditCard"));
+        wait.until(ExpectedConditions.visibilityOf(getContainer()));
+        WebElement newCardDiv = getContainer().findElement(By.xpath(".//div[contains(@id, 'CreditCard')]"));
         wait.until(ExpectedConditions.visibilityOf(newCardDiv));
 
 
@@ -169,13 +174,13 @@ public class CheckoutBillingPayment extends Checkout {
     }
 
     public void addNewPaymentMethod() {
-        WebElement addNewCardButton = leftContainer.findElement(
+        WebElement addNewCardButton = getContainer().findElement(
                 By.xpath(".//td[@class='paymentcopy']/input[@name='addANewCard']"));
         addNewCardButton.click();
 
         fillNewCardData();
 
-        WebElement newCardDiv = leftContainer.findElement(By.id("AddCreditCard"));
+        WebElement newCardDiv = getContainer().findElement(By.xpath(".//div[contains(@id, 'CreditCard')]"));
         wait.until(ExpectedConditions.visibilityOf(newCardDiv));
 
         addNewBillingAdrress();
@@ -187,7 +192,35 @@ public class CheckoutBillingPayment extends Checkout {
         header.reload();
         Util.waitForPageFullyLoaded(driver);
     }
-
+    
+    public WebElement getContainer(){
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();    	
+    	String brand = propertyReader.getProperty("brand");
+    	
+    	switch (brand) {
+	        case "jcrew":
+	            return leftContainer;
+	        case "factory":
+	            return accountPaymentContainer;
+	        default:
+	            throw new WebDriverException("Unrecognized brand " + brand);
+    	}
+    }
+    
+    public String getNewAddressElementLocator(){
+    	PropertyReader propertyReader = PropertyReader.getPropertyReader();    	
+    	String brand = propertyReader.getProperty("brand");
+    	
+    	switch (brand) {
+	        case "jcrew":
+	            return ".//td[@class='formcopy']/a";
+	        case "factory":
+	            return ".//a[@id='newAddressLink']";
+	        default:
+	            throw new WebDriverException("Unrecognized brand " + brand);
+    	}
+    }
+    
     public int getPaymentMethodsNumber() {
         List<WebElement> methods = creditCardList.findElements(By.tagName("table"));
 
@@ -202,10 +235,10 @@ public class CheckoutBillingPayment extends Checkout {
         Country countryPojo = (Country) stateHolder.get("context");
         Address address = new Address(countryPojo.getCountry());
 
-        WebElement newCardDiv = leftContainer.findElement(By.id("AddCreditCard"));
+        WebElement newCardDiv = getContainer().findElement(By.xpath(".//div[contains(@id, 'CreditCard')]"));
         wait.until(ExpectedConditions.visibilityOf(newCardDiv));
 
-        WebElement newAddressButton = newCardDiv.findElement(By.xpath(".//td[@class='formcopy']/a"));
+        WebElement newAddressButton = newCardDiv.findElement(By.xpath(getNewAddressElementLocator()));
         newAddressButton.click();
 
         User user = (User) stateHolder.get("signedUser");
