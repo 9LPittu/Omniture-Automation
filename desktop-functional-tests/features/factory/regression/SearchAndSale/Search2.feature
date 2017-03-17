@@ -26,6 +26,4 @@ Feature: Search Functionality 2
 	|boys|
 	
 	When User clicks on random gender selector
-	Then Verify gender filter displays selected gender
-
-    	
+	Then Verify gender filter displays selected gender 	

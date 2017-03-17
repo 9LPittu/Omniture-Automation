@@ -1,7 +1,6 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.account.IMyAccount;
-import com.jcrew.page.account.JcrewMyAccount;
 import com.jcrew.page.account.MyAccount;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;

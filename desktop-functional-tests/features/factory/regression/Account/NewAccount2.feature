@@ -1,4 +1,4 @@
-@NewAccount2 @HighLevel
+@NewAccount2
 Feature: Create New Account International
 
   Background:
@@ -14,7 +14,7 @@ Feature: Create New Account International
     And last name field is filled with new data
     And email field is filled with new data
     And password field is filled with new data
-    And User selects country from <country_group> group
+    When User selects <country> country
     And User clicks Create An Account button
     Then Verify user is in homepage
     When User goes to My Details using header
@@ -22,9 +22,10 @@ Feature: Create New Account International
     Then User information should match My Details page
 
     Examples:
-      | country_group |
-      | PRICEBOOK     |
-      | NON-PRICEBOOK |
+      | country|
+      | US     |
+      | CA     |
+      | other  |
 
   Scenario: Create an existing account shows error message
     When first name field is filled with new data
