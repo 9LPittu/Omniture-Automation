@@ -22,10 +22,16 @@ public class ArrayCategorySteps extends DriverFactory {
     ArrayCategory productsArray = new ArrayCategory(getDriver());
     StateHolder holder = StateHolder.getInstance();
 
+    @When("User selects first product from product array")
+    public void user_selects_first_product(){
+        productsArray.selectFirstProduct();
+    }
+    
     @When("User selects random product from product array")
     public void user_selects_random_product(){
         productsArray.selectRandomProduct("any");
     }
+    
     @When("User selects random variation product from product array")
     public void user_selects_random_variation_product(){
         productsArray.selectRandomProduct("variation");
@@ -35,6 +41,7 @@ public class ArrayCategorySteps extends DriverFactory {
     public void user_selects_random_qs_product(){
         productsArray.selectRandomQS("any");
     }
+    
     @When("User selects random quick shop with variation product from product array")
     public void user_selects_random_variation_qs_product(){
         productsArray.selectRandomQS("variation");
@@ -155,6 +162,7 @@ public class ArrayCategorySteps extends DriverFactory {
         }
         assertTrue("Category array page for " + subCategoryName + " should be displayed", productsArray.isCategoryArrayPage(subCategoryName));
     }
+    
     @Then("Verify user is in category array page")
     public void is_category_array_page() {
         assertTrue("Verify Category array page displayed", productsArray.isCategoryArray());
@@ -165,6 +173,5 @@ public class ArrayCategorySteps extends DriverFactory {
 		
     	productsArray.selectTheRandomProductForShoppableTray();
 	    	
-	 }
-	 
-  }
+	 }	 
+}
