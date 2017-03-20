@@ -1,4 +1,4 @@
-@Search @HighLevel
+@Search
 Feature: Search Functionality
 
   Background:

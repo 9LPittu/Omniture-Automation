@@ -2,7 +2,6 @@ package com.jcrew.steps;
 
 import com.jcrew.page.account.AccountDetail;
 import com.jcrew.page.account.IAccountDetail;
-import com.jcrew.page.account.JcrewAccountDetail;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
@@ -29,7 +28,7 @@ public class AccountDetailSteps extends DriverFactory{
 
     @And("Verify birth field is ([^\"]*)")
     public void verify_birth_field(String isEnabled) {
-        assertTrue("Verify birthday filed should be " + isEnabled, accountDetail.isBirthField(isEnabled));
+        assertTrue("Verify birthday field should be " + isEnabled, accountDetail.isBirthField(isEnabled));
     }
 
     @And("Verify \'([^\"]*)\' copy displayed")
@@ -57,35 +56,42 @@ public class AccountDetailSteps extends DriverFactory{
 
     @And("^Verify \'([^\"]*)\' error message displayed for ([^\"]*) field$")
     public void verify_error_message(String errMsgExpected, String fieldLabel) {
-        assertEquals(fieldLabel + " error message should match", errMsgExpected, accountDetail.getErrorMessage(fieldLabel));
-
+    	boolean result = accountDetail.getErrorMessage(fieldLabel).contains(errMsgExpected);
+        assertTrue(fieldLabel + " error message should match", result);
     }
+    
     @And("Select ([^\"]*) as ([^\"]*) from date")
     public void user_selects_Month(String value, String dateType) {
         accountDetail.selectDate(dateType, value);
     }
+    
     @And("click on save button")
     public void click_Save() {
         accountDetail.saveUpdates();
 
     }
+    
     @And("User clicks on ([^\"]*) link in Account detail Page")
     public void click_on_link_from_account_detail_page(String linkText){
         accountDetail.clickLeftNavLinks(linkText);
 
     }
+    
     @Then("User clicks on ([^\"]*) reward link from Account detail Page")
     public void user_clicks_on_reward_link_in_my_account_page(String link) throws Throwable {
         accountDetail.click_reward_link(link);
     }
+    
     @And("verify confirmation message displayed")
     public void validate_confirmation_msg() {
         assertEquals("", "Your information has been updated.", accountDetail.getConfirmatonMsg());
     }
+    
     @And("^Click on Change Password in my details form$")
     public void click_on_change_password_link() {
         accountDetail.clickChangePassword();
     }
+    
     @And("Enter old and new password details")
     public void change_password() {
         accountDetail.fillChangePasswordFileds();

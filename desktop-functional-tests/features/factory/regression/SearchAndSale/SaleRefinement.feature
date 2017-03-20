@@ -1,4 +1,4 @@
-@SaleRefinement @HighLevel
+@SaleRefinement
 Feature: Sale Array - Refinement
 
   Background:
@@ -73,5 +73,4 @@ Feature: Sale Array - Refinement
 	Then Verify Price filter is cleared
 	
 	When User clears New in Sale refinements
-	Then Verify New in Sale filter is cleared
-	
+	Then Verify New in Sale filter is cleared	

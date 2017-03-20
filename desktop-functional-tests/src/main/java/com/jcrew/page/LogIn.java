@@ -3,6 +3,7 @@ package com.jcrew.page;
 import com.google.common.base.Predicate;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
@@ -39,6 +40,8 @@ public class LogIn extends PageObject {
             "and affiliates. Your consent is required for us to do so.";
     private final String signupForEmails_ZZ_Text = "I want to receive marketing communications, including emails, " +
             "from J.Crew and its family of brands.";
+    private final String signupForEmails_ZZ1_Text = "I want to receive marketing communications, including emails, " +
+            "from J.Crew Factory and its family of brands.";
     
     public final String DEFAULT = User.DEFAULT;
     public final String NO_DEFAULT = User.NO_DEFAULT;
@@ -295,8 +298,18 @@ public class LogIn extends PageObject {
             String messageText = optMessageDiv.get(0).getText();
             if ("HK".equals(getSelectedCountryValue()))
                 result = messageText.equals(signupForEmails_HK_Text);
-            else
-                result = messageText.equals(signupForEmails_ZZ_Text);
+            else{
+            	 PropertyReader propertyReader = PropertyReader.getPropertyReader();
+            	 String brand = propertyReader.getProperty("brand");
+            	 switch(brand){
+            	 	case "jcrew":
+            	 		result = messageText.equals(signupForEmails_ZZ_Text);
+            	 		break;
+            	 	case "factory":
+            	 		result = messageText.equals(signupForEmails_ZZ1_Text);
+            	 		break;
+            	 }            	 
+            }
         }
 
         return result;

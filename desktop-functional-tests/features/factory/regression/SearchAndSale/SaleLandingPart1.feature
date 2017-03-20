@@ -1,4 +1,4 @@
-@SaleLanding1 @HighLevel
+@SaleLanding1
 Feature: Sale Landing functionality-Part1
 
   Background:
@@ -31,6 +31,3 @@ Feature: Sale Landing functionality-Part1
 	|men|/r/search/?N=217+16&Ntrm=&Nsrt=3&Npge=1&Nrpp=60|
 	|girls|/r/search/?N=217+19&Ntrm=&Nsrt=3&Npge=1&Nrpp=60|
 	|boys|/r/search/?N=217+18&Ntrm=&Nsrt=3&Npge=1&Nrpp=60|
-	
-	
-	
