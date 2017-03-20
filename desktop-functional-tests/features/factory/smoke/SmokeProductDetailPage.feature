@@ -8,8 +8,8 @@ Feature: Product Detail Page
       | Women |
       | Men   |
       | Girls |
-      | Boys  |
-    And User selects random subcategory array
+      #| Boys  | boys sweaters category does not have any product
+    And User selects sweaters subcategory array
 
   Scenario: Product Detail Page Validation
     And User closes email capture

@@ -32,6 +32,7 @@ public class LogInSteps extends DriverFactory {
     public void fills_user_data() {
         logIn.userSignIn();
     }
+    
     @When("User fills ([^\"]*) category data and signs in")
     public void fill_user_category_data(String userCategory){
         logIn.userSignIn(userCategory);

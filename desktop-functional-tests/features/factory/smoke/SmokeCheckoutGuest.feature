@@ -7,9 +7,9 @@ Feature: Smoke Checkout - Guest user is able to checkout
     And User hovers on a random category from list
       | Women |
       | Men   |
-    And User selects sweaters subcategory array
+    And User selects pants subcategory array
     And User closes email capture
-    And User selects random product from product array
+    And User selects first product from product array
     And Verify product detail page is displayed
 
     When User selects random color
@@ -38,14 +38,12 @@ Feature: Smoke Checkout - Guest user is able to checkout
     When User selects a suggested address and continues
     Then Verify Shipping And Gift Options page is displayed
     And Verify Shipping Options Page contains gift option section
-    And Verify default value for shipping method
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
     And Verify available payment methods from list
       | Credit/Debit Card |
       | PayPal            |
-      | MasterPass        |
 
     And Verify accepted cards from list
       | jccc |
