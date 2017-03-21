@@ -148,7 +148,8 @@ public class ShippingMethodCalculator {
         String freeCrewCutMethods[] = dataReader.getDataArray(addressType + ".crewcut.freemethods");
         List<String> listFreeCrewCuttMethods = Arrays.asList(freeCrewCutMethods);
 
-        if(crewCut && listFreeCrewCuttMethods.contains(method) ) {
+        if(crewCut && listFreeCrewCuttMethods.contains(method) &&
+                propertyReader.getProperty("brand").equalsIgnoreCase("jcrew") ) {
             return "free";
         } else {
             return price;
