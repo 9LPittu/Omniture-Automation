@@ -133,9 +133,11 @@ public class Footer {
         String xpath;
 
         if (link.contains("'")) {
-            xpath = ".//a[contains(@class,'accordian__menu__link ') and text()=\"" + link + "\"]";
+            xpath = ".//a[contains(@class,'footer__item__link') and translate(., 'ABCDEFGHJIKLMNOPQRSTUVWXYZ'," +
+            "'abcdefghjiklmnopqrstuvwxyz')=\"" + link + "\"]";
         } else {
-            xpath = ".//a[contains(@class,'accordian__menu__link ') and text()='" + link + "']";
+            xpath = ".//a[contains(@class,'footer__item__link') and translate(., 'ABCDEFGHJIKLMNOPQRSTUVWXYZ'," +
+                    "'abcdefghjiklmnopqrstuvwxyz')='" + link + "']";
         }
 
         return drawerElement.findElement(By.xpath(xpath));
