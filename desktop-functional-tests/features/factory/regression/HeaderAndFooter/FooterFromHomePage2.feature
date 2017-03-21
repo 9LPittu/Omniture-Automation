@@ -27,7 +27,7 @@ Feature: Footer From home page
 
     When User presses browser back button
     And User clicks on plus.google social link
-    Then Verify user is navigated to url https://plus.google.com/+JCrewFactory on same page
+    Then Verify user is navigated to url https://plus.google.com/+JCrewFactory on external page
 
   Scenario: Verify popular search links in footer are functional from home page
     When User clicks on Chambray Shirts footer link under Popular Searches
