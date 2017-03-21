@@ -134,10 +134,10 @@ public class Footer {
 
         if (link.contains("'")) {
             xpath = ".//a[contains(@class,'footer__item__link') and translate(., 'ABCDEFGHJIKLMNOPQRSTUVWXYZ'," +
-            "'abcdefghjiklmnopqrstuvwxyz')=\"" + link + "\"]";
+            "'abcdefghjiklmnopqrstuvwxyz')=\"" + link.toLowerCase() + "\"]";
         } else {
             xpath = ".//a[contains(@class,'footer__item__link') and translate(., 'ABCDEFGHJIKLMNOPQRSTUVWXYZ'," +
-                    "'abcdefghjiklmnopqrstuvwxyz')='" + link + "']";
+                    "'abcdefghjiklmnopqrstuvwxyz')='" + link.toLowerCase() + "']";
         }
 
         return drawerElement.findElement(By.xpath(xpath));
