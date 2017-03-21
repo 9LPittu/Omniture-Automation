@@ -1,8 +1,7 @@
 @GuestCheckout5
 Feature: Checkout - Guest user is able to checkout
 
-  Scenario: Development
-  #Checkout - Guest user is able to checkout
+  Scenario: Checkout - Guest user is able to checkout
     Given User goes to homepage
     And User closes email capture
     And User hovers on a random category from list

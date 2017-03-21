@@ -26,6 +26,9 @@ public class SubCategory extends TopNav {
     }
 
     public void selectSubCategory() {
+        subcat_nav = wait.until(ExpectedConditions.visibilityOf(top_nav.findElement(
+            By.xpath(".//div[contains(@class,'js-department-subcat-nav__wrap') and contains(@class,'is-visible')]"))));
+
         String category = stateHolder.get("category");
 
         TestDataReader testdataReader = TestDataReader.getTestDataReader();
