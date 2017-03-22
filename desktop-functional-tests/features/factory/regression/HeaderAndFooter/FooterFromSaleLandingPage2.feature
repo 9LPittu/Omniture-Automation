@@ -26,11 +26,11 @@ Feature: Footer From Sale landing page
 
   Scenario: Verify social links in footer are functional from  sale landing page
     When User clicks on facebook social link
-    Then Verify user is navigated to url https://www.facebook.com/jcrewfactory on same page
+    Then Verify user is navigated to url https://www.facebook.com/jcrewfactory on external page
 
     When User presses browser back button
     And User clicks on plus.google social link
-    Then Verify user is navigated to url https://plus.google.com/+JCrewFactory on same page
+    Then Verify user is navigated to url https://plus.google.com/+JCrewFactory on external page
 
   Scenario: Verify popular search links in footer are functional from  sale landing page
     When User clicks on Chambray Shirts footer link under Popular Searches

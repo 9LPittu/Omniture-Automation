@@ -83,19 +83,8 @@ public class ArrayCategory extends Array{
     public void selectRandomProduct(String type) {
         if("variation".equalsIgnoreCase(type)) {
             selectRandomProduct(productList,true);
-        }else{
+        } else {
             selectRandomProduct(productList,false);
-        }
-        
-        try{
-        	 WebElement errorMessageElement = Util.createWebDriverWait(driver, 2).until(ExpectedConditions.visibilityOfElementLocated(
-        								By.xpath("//div[@class='c-inline-error']")));
-        	 logger.info("Handling oops error message ...");
-        	 errorMessageElement.findElement(By.linkText("retry")).click();
-        	 Util.waitLoadingBar(driver);        	 
-        }
-        catch(Exception e){
-        	logger.info("Oops error message is not displayed");
         }
     }
 
