@@ -21,8 +21,8 @@ Feature: PDP Layout4
     And Verify product name on PDP matches with category array
     And Verify Item code displayed in PDP
     And Verify price matches with category array
-    And Verify color swatchs displayed in PDP
-    And Verify size chips displayed in PDP
+    And Verify that page contains a selected color
+    And Verify size chips are displayed
     And Verify quantity displayed in PDP
     And Verify Add to Bag displayed in PDP
     And Verify Wishlist displayed in PDP
@@ -49,8 +49,8 @@ Feature: PDP Layout4
     And Verify Item code displayed in PDP
     And Verify Variations displayed in PDP
     And Verify price matches with category array
-    And Verify color swatchs displayed in PDP
-    And Verify size chips displayed in PDP
+    And Verify that page contains a selected color
+    And Verify size chips are displayed
     And Verify quantity displayed in PDP
     And Verify Add to Bag displayed in PDP
     And Verify Wishlist displayed in PDP

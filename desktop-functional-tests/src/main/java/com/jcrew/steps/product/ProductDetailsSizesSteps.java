@@ -6,6 +6,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by ngarcia on 3/22/17.
@@ -23,4 +24,13 @@ public class ProductDetailsSizesSteps extends DriverFactory {
         sizes.selectRandomSize();
     }
 
+    @Then("Verify size chart link is displayed")
+    public void has_size_chart_link() {
+        assertTrue("Size Chart link is displayed", sizes.sizeChartIsDisplayed());
+    }
+
+    @Then("Verify size chips are displayed")
+    public void has_size_chips_link() {
+        assertTrue("Size Chips are displayed", sizes.isDisplayed());
+    }
 }

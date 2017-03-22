@@ -560,7 +560,8 @@ public class ProductDetails extends PageObject {
         return result;
 
     }
-    private WebElement getPDPElement(String element){
+
+    public WebElement getPDPElement(String element){
         WebElement pdpElement = null;
 
         switch (element.toLowerCase()) {
@@ -621,8 +622,6 @@ public class ProductDetails extends PageObject {
         }
         return pdpElement;
     }
-
-
 
     public boolean isDisplayedInPDP(String element){
         WebElement pdpElement = getPDPElement(element);

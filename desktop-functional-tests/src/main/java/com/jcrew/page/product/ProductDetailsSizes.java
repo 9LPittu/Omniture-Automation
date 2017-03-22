@@ -67,4 +67,13 @@ public class ProductDetailsSizes extends ProductDetails {
             logger.info("Size " + size + " not found");
         }
     }
+
+    public boolean isDisplayed() {
+        return sizes.isDisplayed();
+    }
+
+    public boolean sizeChartIsDisplayed() {
+        WebElement sizeChartLink = sizes.findElement(By.xpath(".//a[contains(@class,'js-link__size-chart')]"));
+        return sizeChartLink.isDisplayed();
+    }
 }
