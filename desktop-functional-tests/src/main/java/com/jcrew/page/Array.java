@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
@@ -86,15 +87,18 @@ public abstract class Array extends PageObject{
 
     protected void selectRandomProduct(WebElement productList,boolean isVariationProducts) {
         List<WebElement> productTiles;
-        if(isVariationProducts){
+        if (isVariationProducts) {
             productTiles = getVariationProductsList(productList);
-        }else{
+        } else {
             productTiles = getProductTiles(productList);
         }
+
         logger.info("This array page has {} products", productTiles.size());
         WebElement random_product_tile = Util.randomIndex(productTiles);
         clickProduct(random_product_tile);
-        new ProductDetails(driver);
+
+        HeaderLogo logo = new HeaderLogo(driver);
+        logo.hoverLogo();
     }
 
     public void clickProduct(WebElement product) {

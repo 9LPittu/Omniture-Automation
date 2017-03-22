@@ -30,7 +30,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
         
         String subTotal = "0";
         try {
-            bag.getSubTotal();
+            subTotal = bag.getSubTotal();
         } catch (NoSuchElementException noSubtotal) {
             bag.logger.error("Bag has no subtotal");
         }
