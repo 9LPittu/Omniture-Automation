@@ -1,6 +1,6 @@
-package com.jcrew.steps;
+package com.jcrew.steps.product;
 
-import com.jcrew.page.ProductDetails;
+import com.jcrew.page.product.ProductDetails;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
@@ -23,15 +23,8 @@ public class ProductDetailSteps extends DriverFactory {
     private StateHolder stateHolder = StateHolder.getInstance();
     ProductDetails productDetails = new ProductDetails(getDriver());
 
-    @When("User selects random color")
-    public void user_selects_random_color() {
-        productDetails.selectRandomColor();
-    }
 
-    @When("User selects random size")
-    public void user_selects_random_size() {
-        productDetails.selectRandomSize();
-    }
+
 
     @When("User selects random quantity")
     public void user_selects_random_quantity() {
@@ -175,15 +168,5 @@ public class ProductDetailSteps extends DriverFactory {
     		if (isEndNavDiaplay)
     			assertEquals("Verify "+element+" is displayed in PDP",true,productDetails.isDisplayedInPDP(element));
     	}
-    }
-
-    @Then("Verify that page contains a selected color")
-    public void has_selected_color() {
-        assertFalse("Color field is not empty", productDetails.getSelectedColor().isEmpty());
-    }
-
-    @Then("Verify that page contains a selected size")
-    public void has_selected_size() {
-        assertFalse("Size field is not empty", productDetails.getSelectedSize().isEmpty());
     }
 }

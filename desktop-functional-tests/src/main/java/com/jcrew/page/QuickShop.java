@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.page.product.ProductDetails;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;

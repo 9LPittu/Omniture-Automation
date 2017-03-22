@@ -2,9 +2,8 @@ package com.jcrew.steps;
 
 import com.jcrew.page.header.HeaderBag;
 import com.jcrew.page.header.HeaderLogo;
-import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.page.MiniBag;
-import com.jcrew.page.ProductDetails;
+import com.jcrew.page.product.ProductDetails;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;

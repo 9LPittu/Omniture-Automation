@@ -1,8 +1,10 @@
-package com.jcrew.page;
+package com.jcrew.page.product;
 
 import com.google.common.base.Function;
+import com.jcrew.page.PageObject;
 import com.jcrew.page.header.HeaderBag;
 import com.jcrew.page.header.HeaderWrap;
+import com.jcrew.page.product.ProductDetailColors;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.TestDataReader;
@@ -35,12 +37,6 @@ public class ProductDetails extends PageObject {
     private final String PRICE_SALE_CLASS = "product__price--sale";
     private final String PRICE_LIST_CLASS = "product__price--list";
 
-    @FindBy(id = "c-product__price-colors")
-    private WebElement price_colors;
-    @FindBy(className = "c-product__colors")
-    private WebElement c_product_colors;
-    @FindBy(id = "c-product__sizes")
-    private WebElement sizes;
     @FindBy(id = "c-product__price")
     private WebElement price;
     @FindBy(id = "c-product__variations")
@@ -105,52 +101,6 @@ public class ProductDetails extends PageObject {
         headerWrap.hoverOverIcon("logo");
     }
 
-    public void selectRandomColor() {
-        wait.until(ExpectedConditions.visibilityOf(price_colors));
-        List<WebElement> availableColors =
-                price_colors.findElements(By.xpath(".//li[@class='js-product__color colors-list__item'"
-                        + " and not(contains(@class,'is-selected'))]"));
-
-        if (availableColors.size() > 0) {
-            WebElement selectedColor = Util.randomIndex(availableColors);
-
-            Util.scrollAndClick(driver, selectedColor);
-        }
-    }
-
-    public void selectSpecifiedColor(String colorName){
-    	wait.until(ExpectedConditions.visibilityOf(price_colors));
-    	WebElement colorElement = price_colors.findElement(By.xpath(".//li[contains(@class, 'js-product__color colors-list__item')"
-    																+ " and @data-name='" + colorName.toUpperCase() + "']"));
-    	colorElement.click();
-    	logger.debug("Selected color: {}", colorName);
-    }
-
-    public void selectRandomSize() {
-        wait.until(ExpectedConditions.visibilityOf(sizes));
-        String availableSizesSelector = ".//li[contains(@class,'js-product__size sizes-list__item') " +
-                "and not(contains(@class,'is-unavailable')) " +
-                "and not(contains(@class,'is-selected'))]";
-
-        List<WebElement> availableSizes = sizes.findElements(By.xpath(availableSizesSelector));
-
-        if (availableSizes.size() > 0) {
-            final WebElement selectedSize = Util.randomIndex(availableSizes);
-            Util.scrollAndClick(driver, selectedSize);
-        }
-    }
-    
-    public void selectSpecifiedSize(String size){
-    	wait.until(ExpectedConditions.visibilityOf(sizes));
-        String sizeSelector = ".//li[contains(@class,'js-product__size sizes-list__item')"
-        					  + " and @data-name='" + size.toUpperCase() + "']"; 
-        
-        WebElement sizeElement = sizes.findElement(By.xpath(sizeSelector));
-        Util.scrollToElement(driver, sizeElement);
-        sizeElement.click();
-        logger.debug("Selected size: {}", size);
-    }
-
     public void selectRandomQty() {
         wait.until(ExpectedConditions.visibilityOf(product_quantity));
         Select qty = new Select(product_quantity.findElement(By.tagName("select")));
@@ -167,18 +117,6 @@ public class ProductDetails extends PageObject {
         Select quantityElement = new Select(product_quantity.findElement(By.tagName("select")));
         quantityElement.selectByValue(quantity);
         logger.debug("Selected quantity: {}", quantity);
-    }
-
-    public String getSelectedColor() {
-    	wait.until(ExpectedConditions.visibilityOf(price_colors));
-        WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
-        return selectedColor.getAttribute("data-name");
-    }
-
-    public String getSelectedSize() {
-        WebElement selectedSize = sizes.findElement(
-                By.xpath(".//li[contains(@class,'js-product__size') and contains(@class,'is-selected')]"));
-        return selectedSize.getAttribute("data-name");
     }
 
     public String getProductName() {
@@ -223,18 +161,18 @@ public class ProductDetails extends PageObject {
         price = price.replace(" ", "");
         return price;
     }
-    private String getPrice() {
-        List<WebElement> priceGroups = price_colors.findElements(By.xpath(".//div[@class='product__group']"));
-        WebElement productPrice;
-//        c-product__price-colors
-        if (priceGroups.size() > 1) {
 
-            WebElement selectedColor = price_colors.findElement(By.xpath(".//li[contains(@class,'is-selected')]"));
-            productPrice = selectedColor.findElement(By.xpath(".//ancestor::div[@class='product__group']/span"));
+    private String getPrice() {
+        ProductDetailColors colors = new ProductDetailColors(driver);
+
+        if (colors.hasGroups()) {
+            return colors.getGroupPrice();
 
         } else {
             //if has variations, get price from variations
             List<WebElement> variationsPrice = variations.findElements(By.tagName("li"));
+            WebElement productPrice;
+
             if (variationsPrice.size() > 0) {
                 WebElement selectedVariation = variations.findElement(By.className("is-selected"));
 
@@ -255,10 +193,10 @@ public class ProductDetails extends PageObject {
                     productPrice = price.findElement(By.className(PRICE_LIST_CLASS));
                 }
             }
+
+            return productPrice.getText();
         }
 
-        String price = productPrice.getText();
-        return price;
     }
 
     private boolean isSoldOut() {
@@ -268,12 +206,15 @@ public class ProductDetails extends PageObject {
     }
 
     public Product getProduct() {
+        ProductDetailColors colors = new ProductDetailColors(driver);
+        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
+
         Product product = new Product();
         product.setName(getProductName());
 
         if (!isSoldOut()) {
-            product.setColor(getSelectedColor());
-            product.setSize(getSelectedSize());
+            product.setColor(colors.getSelectedColor());
+            product.setSize(sizes.getSelectedSize());
             product.setQuantity(getQuantity());
             product.setPrice(getPrice());
             product.setItemNumber(getProductCode());
@@ -346,11 +287,13 @@ public class ProductDetails extends PageObject {
 
     public void click_add_to_cart() {
         wait.until(ExpectedConditions.visibilityOf(addToBag));
+        ProductDetailColors colors = new ProductDetailColors(driver);
+        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
 
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductName());
-        thisProduct.setSelectedColor(getSelectedColor());
-        thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setSelectedColor(colors.getSelectedColor());
+        thisProduct.setSelectedSize(sizes.getSelectedSize());
         thisProduct.setIsBackOrder(getIsBackordered());
         thisProduct.setIsCrewCut(getIsCrewCut());
 
@@ -380,11 +323,13 @@ public class ProductDetails extends PageObject {
     }
     public void click_update_cart() {
         wait.until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
+        ProductDetailColors colors = new ProductDetailColors(driver);
+        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
 
         Product thisProduct = new Product();
         thisProduct.setProductName(getProductName());
-        thisProduct.setSelectedColor(getSelectedColor());
-        thisProduct.setSelectedSize(getSelectedSize());
+        thisProduct.setSelectedColor(colors.getSelectedColor());
+        thisProduct.setSelectedSize(sizes.getSelectedSize());
         thisProduct.setIsBackOrder(getIsBackordered());
 
         stateHolder.put("recentlyAdded", thisProduct);
@@ -512,7 +457,7 @@ public class ProductDetails extends PageObject {
         logger.debug("Selected variation {}", selectedVariationName.getText());
         selectedVariation.click();
 
-        Util.waitWithStaleRetry(driver, price_colors);
+        Util.waitWithStaleRetry(driver, productName);
     }
 
     public boolean isVPSMessageDisplayed() {
@@ -616,7 +561,6 @@ public class ProductDetails extends PageObject {
 
     }
     private WebElement getPDPElement(String element){
-        boolean result = false;
         WebElement pdpElement = null;
 
         switch (element.toLowerCase()) {
@@ -627,13 +571,13 @@ public class ProductDetails extends PageObject {
                 pdpElement = variations;
                 break;
             case "color swatchs":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(price_colors));
+                //pdpElement = wait.until(ExpectedConditions.visibilityOf(price_colors));
                 break;
             case "size chips":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(sizes));
+                //pdpElement = wait.until(ExpectedConditions.visibilityOf(sizes));
                 break;
             case "size chart":
-                pdpElement = sizes.findElement(By.linkText("size charts"));
+                //pdpElement = sizes.findElement(By.linkText("size charts"));
                 break;
             case "quantity":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(product_quantity));
@@ -701,45 +645,6 @@ public class ProductDetails extends PageObject {
         productCodeText = productCodeText.replace(".", "").toUpperCase();
         return productCodeText;
     }
-
-
-
-
-
-    public void selectColor(String colorName) {
-        wait.until(ExpectedConditions.visibilityOf(price_colors));
-
-        List<WebElement> colors = price_colors.findElements(
-                By.xpath(".//li[contains(@class, 'js-product__color') and @data-name='" + colorName.toUpperCase() + "']"));
-
-        if (colors.size() > 0) {
-            WebElement selectedColor = colors.get(0);
-            WebElement selectedColorImage = selectedColor.findElement(By.tagName("img"));
-
-            logger.info("Selecting specified color {}", colorName);
-
-            wait.until(ExpectedConditions.visibilityOf(selectedColorImage));
-            selectedColorImage.click();
-        } else {
-            logger.info("Color " + colorName + " not found");
-        }
-    }
-
-    public void selectSize(String size) {
-        List<WebElement> productSizes = sizes.findElements(
-                By.xpath(".//li[contains(@class,'js-product__size') and @data-name='" + size.toUpperCase() + "']"));
-
-        if (productSizes.size() > 0) {
-            WebElement selectedSize = productSizes.get(0);
-            WebElement selectedSizeLabel = selectedSize.findElement(By.className("btn__label"));
-            selectedSizeLabel.click();
-
-            logger.info("Selecting specified size {}", size);
-        } else {
-            logger.info("Size " + size + " not found");
-        }
-    }
-
 
     public boolean getIsBackordered() {
         String message = getButtonErrorMessage().toLowerCase();
