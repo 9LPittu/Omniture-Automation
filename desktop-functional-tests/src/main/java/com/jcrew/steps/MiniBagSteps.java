@@ -1,6 +1,8 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.HeaderWrap;
+import com.jcrew.page.header.HeaderBag;
+import com.jcrew.page.header.HeaderLogo;
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.page.MiniBag;
 import com.jcrew.page.ProductDetails;
 import com.jcrew.pojo.Product;
@@ -23,10 +25,9 @@ import static org.junit.Assert.assertTrue;
  */
 public class MiniBagSteps extends DriverFactory {
     private final Logger logger = LoggerFactory.getLogger(MiniBagSteps.class);
-    MiniBag miniBag = new MiniBag(getDriver());
-    HeaderWrap headerWrap = new HeaderWrap(getDriver());
-    StateHolder holder = StateHolder.getInstance();
-    final boolean isBrowser;
+    private MiniBag miniBag = new MiniBag(getDriver());
+    private StateHolder holder = StateHolder.getInstance();
+    private final boolean isBrowser;
 
     public MiniBagSteps() {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
@@ -57,7 +58,7 @@ public class MiniBagSteps extends DriverFactory {
     @Then("Verify subtotal in mini bag matches items")
     public void verify_subtotal_in_mini_bag_matches_items() {
         float stackSum = 0;
-        Stack<Product> productsStack = (Stack<Product>) holder.get("bag_items");
+        Stack<Product> productsStack = holder.get("bag_items");
         Stack<Product> original = (Stack<Product>) productsStack.clone();
 
         while (!productsStack.empty()) {
@@ -73,23 +74,27 @@ public class MiniBagSteps extends DriverFactory {
 
     @Then("Verify first item is the recently added product")
     public void verify_first_item_is_the_recently_added_product() {
-        Stack<Product> products = (Stack<Product>) holder.get("bag_items");
+        Stack<Product> products = holder.get("bag_items");
 
         Product firstProduct = miniBag.getItem(0);
         Product topProduct = products.peek();
 
         assertTrue("First product in bag is the recently added product", firstProduct.equals(topProduct));
 
-        headerWrap.hoverOverIcon("logo");
-        headerWrap.waitUntilNoCheckOutDropdown();
+        HeaderLogo headerLogo = new HeaderLogo(getDriver());
+        headerLogo.hoverLogo();
+
+        HeaderBag bag = new HeaderBag(getDriver());
+        bag.waitUntilNoCheckOutDropdown();
     }
 
     @Then("Verify each item links to product PDP")
     public void verify_each_item_links_to_product_pdp() {
+        HeaderBag bag = new HeaderBag(getDriver());
         if(isBrowser) {
             int items = miniBag.getItemsNumber();
 
-            Stack<Product> bagStack = (Stack<Product>) holder.get("bag_items");
+            Stack<Product> bagStack = holder.get("bag_items");
             assertTrue("Number of items in mini bag (" + items + ") are less or equal " +
                     "than expected (" + bagStack.size() + ")", items <= bagStack.size());
 
@@ -98,7 +103,7 @@ public class MiniBagSteps extends DriverFactory {
             logger.debug("Checking {} items in bag", items);
 
             for (int i = 0; i < items; i++) {
-                headerWrap.hoverOverIcon("bag");
+                bag.hoverBag();
                 miniBag.clickOnItem(i);
                 ProductDetails pdp = new ProductDetails(getDriver());
                 Product product;

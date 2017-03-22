@@ -1,11 +1,9 @@
 package com.jcrew.page.header;
 
-import com.jcrew.page.HeaderWrap;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -36,7 +34,8 @@ public class SubCategory extends TopNav {
         String subcategory = subCategories[Util.randomIndex(subCategories.length)];
 
         WebElement flyoutLink = subcat_nav.findElement(
-        By.xpath(".//a[contains(@class,'js-menu__link--has-href') and " + Util.xpathGetTextLower + "='" + subcategory +"']"));
+        By.xpath(".//div[@class='nav-page__group' and not(@style='display: none;')]/." +
+                "//a[contains(@class,'js-menu__link--has-href') and " + Util.xpathGetTextLower + "='" + subcategory +"']"));
 
         clickAndHideFlyout(flyoutLink);
 

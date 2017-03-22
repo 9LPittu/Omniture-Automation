@@ -1,6 +1,8 @@
 package com.jcrew.page;
 
 import com.google.common.base.Function;
+import com.jcrew.page.header.HeaderBag;
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.TestDataReader;
@@ -28,7 +30,7 @@ import java.util.Stack;
  * Created by nadiapaolagarcia on 4/1/16.
  */
 public class ProductDetails extends PageObject {
-    private final HeaderWrap headerWrap;
+    private final HeaderBag headerWrap;
 
     private final String PRICE_SALE_CLASS = "product__price--sale";
     private final String PRICE_LIST_CLASS = "product__price--list";
@@ -96,11 +98,11 @@ public class ProductDetails extends PageObject {
 
     public ProductDetails(WebDriver driver) {
         super(driver);
-        headerWrap = new HeaderWrap(driver);
+        headerWrap = new HeaderBag(driver);
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(product__details));
-        headerWrap.hoverOverIcon("stores");
+        headerWrap.hoverOverIcon("logo");
     }
 
     public void selectRandomColor() {

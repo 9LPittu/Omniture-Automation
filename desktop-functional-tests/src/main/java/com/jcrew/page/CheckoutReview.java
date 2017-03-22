@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;

@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.page.homepage.JCrewHomePage;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.PropertyReader;

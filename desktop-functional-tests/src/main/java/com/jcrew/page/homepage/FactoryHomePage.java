@@ -1,7 +1,7 @@
 package com.jcrew.page.homepage;
 
 import com.jcrew.page.Footer;
-import com.jcrew.page.HeaderWrap;
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.page.PageObject;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;

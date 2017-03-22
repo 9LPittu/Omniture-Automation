@@ -27,7 +27,6 @@ import com.jcrew.page.CheckoutShoppingBag;
 import com.jcrew.page.ContextChooser;
 import com.jcrew.page.Footer;
 import com.jcrew.page.GiftCards;
-import com.jcrew.page.HeaderWrap;
 import com.jcrew.page.LogIn;
 import com.jcrew.page.Monogram;
 import com.jcrew.page.ProductDetails;

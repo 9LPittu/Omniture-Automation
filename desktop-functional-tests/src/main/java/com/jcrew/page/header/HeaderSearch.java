@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by ngarcia on 3/2/17.
  */
-public class HeaderSearch extends PageObject {
+public class HeaderSearch extends HeaderWrap {
 
     @FindBy(className = "js-primary-nav__link--search")
     private WebElement headerSearch;

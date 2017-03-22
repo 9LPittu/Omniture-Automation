@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by ngarcia on 3/2/17.
  */
-public class TopNav extends PageObject {
+public class TopNav extends HeaderWrap {
 
     @FindBy(className = "js-header__department-nav")
     protected WebElement top_nav;

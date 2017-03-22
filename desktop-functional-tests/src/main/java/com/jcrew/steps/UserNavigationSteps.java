@@ -1,9 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.*;
-import com.jcrew.page.header.HeaderSearch;
-import com.jcrew.page.header.SubCategory;
-import com.jcrew.page.header.TopNav;
+import com.jcrew.page.header.*;
 import com.jcrew.pojo.Country;
 import com.jcrew.steps.header.HeaderSearchSteps;
 import com.jcrew.utils.DriverFactory;
@@ -104,7 +102,7 @@ public class UserNavigationSteps extends DriverFactory {
         
         productDetails.addToBag();
 
-        HeaderWrap header = new HeaderWrap(driver);
+        HeaderBag header = new HeaderBag(driver);
         header.waitUntilNoCheckOutDropdown();
     }
 

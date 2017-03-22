@@ -1,6 +1,6 @@
 package com.jcrew.page.account;
 
-import com.jcrew.page.HeaderWrap;
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
