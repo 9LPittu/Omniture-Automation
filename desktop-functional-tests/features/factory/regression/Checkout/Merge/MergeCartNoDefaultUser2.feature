@@ -1,4 +1,4 @@
-@MergeCheckout4 @HighLevel
+@MergeCheckout4
 Feature: Checkout - No Default user gets confirmation to merge cart2
 
   Background: Clean bag for user

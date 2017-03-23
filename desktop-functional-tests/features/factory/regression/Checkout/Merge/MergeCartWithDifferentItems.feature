@@ -1,4 +1,4 @@
-@MergeCheckout @HighLevel
+@MergeCheckout
 Feature: Checkout - Merge cart page validation for e-gift card, regular item, backorder item and few left item
 
   Background: Clean bag for user

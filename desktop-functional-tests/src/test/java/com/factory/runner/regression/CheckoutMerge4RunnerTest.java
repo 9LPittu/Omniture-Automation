@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = {"features/factory/regression/Checkout/Merge"},
         tags = {"@MergeCheckout4"},
-        glue = {"com.jcrew.steps","@HighLevel"},
+        glue = {"com.jcrew.steps"},
         format = {
                 "json:target/cucumber-regression-merge4.json",
                 "pretty",
