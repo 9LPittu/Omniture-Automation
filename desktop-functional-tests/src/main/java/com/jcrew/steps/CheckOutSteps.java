@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.*;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
 
 import java.util.List;
@@ -13,8 +14,7 @@ import static org.junit.Assert.assertTrue;
  * Created by nadiapaolagarcia on 4/8/16.
  */
 public class CheckOutSteps extends DriverFactory {
-	
-	CheckoutShoppingBag checkout = new CheckoutShoppingBag(getDriver());
+	private CheckoutShoppingBag checkout = new CheckoutShoppingBag(getDriver());
 
     @Then("^Verify proper currency symbol for the items is displayed on bag page$")
     public void verify_items_currency_sign_matches_context_on_bag_page() {

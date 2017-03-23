@@ -141,7 +141,8 @@ public class MiniBagSteps extends DriverFactory {
     @Then("Verify proper currency symbol is displayed on minibag")
     public void verify_currency_on_mini_bag() {
         if(isBrowser) {
-            assertTrue("mini bag currency should be displayed correctly", miniBag.isCorrectCurrencyDisplayedOnMinibag());
+            assertTrue("mini bag currency should be displayed correctly",
+                    miniBag.isCorrectCurrencyDisplayedOnMinibag());
         } else {
             logger.warn("Not able to verify mini bag in phantomJS, skipping assert");
         }

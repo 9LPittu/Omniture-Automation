@@ -107,7 +107,7 @@ public class CurrencyChecker {
 
     public static boolean isValid(String price, Country country) {
 
-        if (price.equalsIgnoreCase("free") | price.isEmpty()) {
+        if (price.equalsIgnoreCase("free") | price.isEmpty() | price.equalsIgnoreCase("- - - -")) {
             return true;
         }
 

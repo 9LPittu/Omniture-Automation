@@ -83,6 +83,9 @@ public class HeaderWrap extends PageObject {
             TopNav topNav = new TopNav(driver);
             topNav.hoverCategory("men");
 
+		} else if ("bag".equalsIgnoreCase(icon)) {
+			HeaderBag bag = new HeaderBag(driver);
+			bag.hoverBag();
 		}
 	}
 
