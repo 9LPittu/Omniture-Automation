@@ -56,7 +56,7 @@ public class ArraySearch extends Array{
         Util.waitWithStaleRetry(driver, headerSearch);
         wait.until(ExpectedConditions.visibilityOf(searchResults));
 
-        return headerSearch.isDisplayed() && searchResults.isDisplayed() && Util.countryContextURLCompliance(driver, country);
+        return headerSearch.isDisplayed() && searchResults.isDisplayed() && Util.countryContextURLCompliance(driver);
     }
     
     public boolean isSalePage() {
@@ -68,7 +68,7 @@ public class ArraySearch extends Array{
     		result = searchResults.isDisplayed();
     	}
     	
-    	result = result && Util.countryContextURLCompliance(driver, country);
+    	result = result && Util.countryContextURLCompliance(driver);
         
     	return result;
     }

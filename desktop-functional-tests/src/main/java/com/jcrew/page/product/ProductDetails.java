@@ -2,10 +2,7 @@ package com.jcrew.page.product;
 
 import com.google.common.base.Function;
 import com.jcrew.page.PageObject;
-import com.jcrew.page.header.HeaderBag;
 import com.jcrew.page.header.HeaderLogo;
-import com.jcrew.page.header.HeaderWrap;
-import com.jcrew.page.product.ProductDetailColors;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.TestDataReader;
@@ -20,14 +17,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * Created by nadiapaolagarcia on 4/1/16.
@@ -187,7 +181,7 @@ public class ProductDetails extends PageObject {
     public boolean verifyContext() {
         Country country = (Country) stateHolder.get("context");
 
-        boolean result = Util.countryContextURLCompliance(driver, country);
+        boolean result = Util.countryContextURLCompliance(driver);
 
         return result;
     }
@@ -202,7 +196,7 @@ public class ProductDetails extends PageObject {
         boolean isNameBlank = StringUtils.isNotBlank(productName.getText());
         logger.debug("is blank product name on PDP?  {}", isNameBlank);
         
-        boolean isURL = Util.countryContextURLCompliance(driver, country);
+        boolean isURL = Util.countryContextURLCompliance(driver);
         logger.debug("is url?  {}", isURL);
         return  isURL && isURL;
     }

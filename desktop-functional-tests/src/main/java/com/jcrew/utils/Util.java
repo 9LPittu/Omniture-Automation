@@ -122,7 +122,8 @@ public class Util {
         }
     }
 
-    public static boolean countryContextURLCompliance(WebDriver driver, Country country) {
+    public static boolean countryContextURLCompliance(WebDriver driver) {
+        Country country = stateHolder.get("context");
         String url = driver.getCurrentUrl();
         String countryURL = country.getHomeurl();
         String countryCode = country.getCountry();

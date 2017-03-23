@@ -116,7 +116,7 @@ public class UserNavigationSteps extends DriverFactory {
         StateHolder stateHolder = StateHolder.getInstance();
         Country country = (Country) stateHolder.get("context");
 
-        assertTrue("Is an array url", Util.countryContextURLCompliance(driver, country));
+        assertTrue("Is an array url", Util.countryContextURLCompliance(driver));
     }
 
     @Then("^User is on internal ([^\"]*) page$")
@@ -152,7 +152,7 @@ public class UserNavigationSteps extends DriverFactory {
         Country country = (Country)stateHolder.get("context");
         WebDriver driver = getDriver();
         assertTrue("Country code for'" + country.getName() + "' should be displayed in the url except United States",
-                Util.countryContextURLCompliance(driver, country));
+                Util.countryContextURLCompliance(driver));
     }
 
 
