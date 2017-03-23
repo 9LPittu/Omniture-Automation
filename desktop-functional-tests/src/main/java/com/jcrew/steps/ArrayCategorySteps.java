@@ -76,19 +76,19 @@ public class ArrayCategorySteps extends DriverFactory {
 
         for(String price : listPrice) {
             assertTrue("List price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, c));
+                    CurrencyChecker.isValid(price));
         }
 
         List<String> salePrice = productsArray.getSalePrices();
         for(String price : salePrice) {
             assertTrue("Sale price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, c));
+                    CurrencyChecker.isValid(price));
         }
 
         List<String> wasPrice = productsArray.getWasPrices();
         for(String price : wasPrice) {
             assertTrue("Was price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, c));
+                    CurrencyChecker.isValid(price));
         }
     }
 

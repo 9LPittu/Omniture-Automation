@@ -1,6 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.*;
+import com.jcrew.pojo.Country;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
@@ -15,32 +16,37 @@ import static org.junit.Assert.assertTrue;
  */
 public class CheckOutSteps extends DriverFactory {
 	private CheckoutShoppingBag checkout = new CheckoutShoppingBag(getDriver());
+	private StateHolder holder = StateHolder.getInstance();
 
     @Then("^Verify proper currency symbol for the items is displayed on bag page$")
     public void verify_items_currency_sign_matches_context_on_bag_page() {
-    	
-        String countryName = checkout.country.getName();
+    	Country country = holder.get("context");
+        String countryName = country.getName();
+
         List<String> itemsPrice = checkout.getItemsPrice();
         for (String price : itemsPrice) {
             assertTrue("Item price " + price + " matches country context " + countryName,
-                    CurrencyChecker.isValid(price, checkout.country));
+                    CurrencyChecker.isValid(price));
         }
     }
 
     @Then("^Verify proper currency symbol for subtotal is displayed on bag page$")
     public void verify_subtotal_currency_sign_matches_context_on_bag_page() {
-        String countryName = checkout.country.getName();
+        Country country = holder.get("context");
+        String countryName = country.getName();
+
         String subtotal = checkout.getSubtotal();
         assertTrue("Subtotal " + subtotal + " matches country context " + countryName,
-                    CurrencyChecker.isValid(subtotal, checkout.country));
+                    CurrencyChecker.isValid(subtotal));
     }
 
     @Then("^Verify proper currency symbol for shipping is displayed on bag page$")
     public void verify_shipping_currency_sign_matches_context() {
         String shipping = checkout.getEstimatedShipping();
-        String countryName = checkout.country.getName();
+        Country country = holder.get("context");
+        String countryName = country.getName();
         assertTrue("Shipping " + shipping + " matches country context " + countryName,
-                CurrencyChecker.isValid(shipping, checkout.country));
+                CurrencyChecker.isValid(shipping));
 
     }
 
@@ -48,8 +54,9 @@ public class CheckOutSteps extends DriverFactory {
     public void verify_total_currency_sign_matches_context() {
 
         String total = checkout.getEstimatedTotal();
-        String countryName = checkout.country.getName();
+        Country country = holder.get("context");
+        String countryName = country.getName();
         assertTrue("Subtotal " + total + " matches country context " + countryName,
-                CurrencyChecker.isValid(total, checkout.country));
+                CurrencyChecker.isValid(total));
     }
 }

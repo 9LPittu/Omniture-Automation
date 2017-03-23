@@ -44,19 +44,19 @@ public class ArraySearchSteps extends DriverFactory {
         List<String> listPrice = searchArray.getPrices();
         for(String price : listPrice) {
             assertTrue("List price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, searchArray.country));
+                    CurrencyChecker.isValid(price));
         }
 
         List<String> salePrice = searchArray.getSalePrices();
         for(String price : salePrice) {
             assertTrue("Sale price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, searchArray.country));
+                    CurrencyChecker.isValid(price));
         }
 
         List<String> wasPrice = searchArray.getWasPrices();
         for(String price : wasPrice) {
             assertTrue("Was price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, searchArray.country));
+                    CurrencyChecker.isValid(price));
         }
     }
     

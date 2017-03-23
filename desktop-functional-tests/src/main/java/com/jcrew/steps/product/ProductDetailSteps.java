@@ -96,11 +96,11 @@ public class ProductDetailSteps extends DriverFactory {
     public void verify_currency_on_product_PDP(){
         List<String> listPrice = productDetails.getAllPrices();
         Country country = stateHolder.get("context");
-
         String countryName = country.getName();
+
         for(String price : listPrice) {
             assertTrue("Price " + price + " matches country context " + countryName,
-                    CurrencyChecker.isValid(price, country));
+                    CurrencyChecker.isValid(price));
         }
     }
     
