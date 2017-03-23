@@ -76,4 +76,15 @@ public class ProductDetailsSizes extends ProductDetails {
         WebElement sizeChartLink = sizes.findElement(By.xpath(".//a[contains(@class,'js-link__size-chart')]"));
         return sizeChartLink.isDisplayed();
     }
+
+    public String getMessage() {
+        String message = "";
+        List<WebElement> messageList = sizes.findElements(By.className("product__us-sizes"));
+
+        if(messageList.size() > 1) {
+            message = messageList.get(0).getText().trim();
+        }
+
+        return message;
+    }
 }

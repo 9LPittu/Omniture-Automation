@@ -32,6 +32,11 @@ public class HeaderBag extends HeaderWrap {
         wait.until(ExpectedConditions.visibilityOf(minibag));
     }
 
+    public boolean isMiniBagDisplayed() {
+        String miniBagClass = minibag.getAttribute("class");
+        return miniBagClass.contains("is-active");
+    }
+
     public void waitUntilNoCheckOutDropdown() {
 
         wait.until(new Predicate<WebDriver>() {

@@ -20,9 +20,9 @@ Feature: PDP Layout
     And Verify that page contains a selected color
     And Verify size chips are displayed
     And Verify size chart link is displayed
-    And Verify quantity displayed in PDP
-    And Verify Add to Bag displayed in PDP
-    And Verify Wishlist displayed in PDP
+    And Verify quantity dropdown is displayed
+    And Verify Add To Bag button is displayed
+    And Verify Wishlist button is displayed
     And Verify social icons displayed in PDP
 
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS

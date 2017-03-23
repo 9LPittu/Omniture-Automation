@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jcrew.page.header.HeaderSearch;
-import com.jcrew.page.product.ProductDetailColors;
-import com.jcrew.page.product.ProductDetailsSizes;
+import com.jcrew.page.product.*;
 import org.openqa.selenium.WebDriverException;
 
 import com.jcrew.page.ArraySearch;
@@ -31,7 +30,6 @@ import com.jcrew.page.Footer;
 import com.jcrew.page.GiftCards;
 import com.jcrew.page.LogIn;
 import com.jcrew.page.Monogram;
-import com.jcrew.page.product.ProductDetails;
 import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.ExcelUtils;
@@ -171,8 +169,7 @@ public class E2E1Steps extends E2ECommon {
 				sizes.selectSpecifiedSize(size);
 
 				// Select quantity
-
-				ProductDetails pdp = new ProductDetails(getDriver());
+				ProductDetailsQuantity pdp = new ProductDetailsQuantity(getDriver());
 				pdp.selectSpecifiedQuantity(quantity);
 
 				// Add monogramming
@@ -198,7 +195,8 @@ public class E2E1Steps extends E2ECommon {
 				}
 
 				// Add item to bag
-				pdp.addToBag();
+				ProductDetailsActions pdpAction = new ProductDetailsActions(getDriver());
+				pdpAction.addToBag();
 			} else {
 				String message = "Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet";
 				Util.e2eErrorMessagesBuilder(message);

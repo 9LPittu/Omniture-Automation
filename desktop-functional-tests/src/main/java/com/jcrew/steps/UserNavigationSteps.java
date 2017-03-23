@@ -3,7 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.*;
 import com.jcrew.page.header.*;
 import com.jcrew.page.product.ProductDetailColors;
-import com.jcrew.page.product.ProductDetails;
+import com.jcrew.page.product.ProductDetailsActions;
 import com.jcrew.page.product.ProductDetailsSizes;
 import com.jcrew.pojo.Country;
 import com.jcrew.steps.header.HeaderSearchSteps;
@@ -104,7 +104,7 @@ public class UserNavigationSteps extends DriverFactory {
         //Commenting the below step as higher quantities are getting selected and causing problem during checkout 
         //productDetails.selectRandomQty();
 
-        ProductDetails productDetails = new ProductDetails(driver);
+        ProductDetailsActions productDetails = new ProductDetailsActions(driver);
         productDetails.addToBag();
 
         HeaderBag header = new HeaderBag(driver);

@@ -41,7 +41,7 @@ Feature: Checkout - User is able to edit quantity for item from shopping bag dur
     When User edits first added item from bag
     And Verify product detail page is displayed
 
-    Then Verify UPDATE BAG displayed in PDP
+    Then Verify Update Bag button is displayed
     When Update Bag button is pressed
 
     When User clicks in bag

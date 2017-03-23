@@ -1,6 +1,8 @@
 package com.jcrew.steps.product;
 
 import com.jcrew.page.product.ProductDetails;
+import com.jcrew.page.product.ProductDetailsActions;
+import com.jcrew.page.product.ProductDetailsSizes;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
@@ -19,22 +21,9 @@ import static org.junit.Assert.*;
  */
 
 public class ProductDetailSteps extends DriverFactory {
-
     private StateHolder stateHolder = StateHolder.getInstance();
-    ProductDetails productDetails = new ProductDetails(getDriver());
+    private ProductDetails productDetails = new ProductDetails(getDriver());
 
-
-
-
-    @When("User selects random quantity")
-    public void user_selects_random_quantity() {
-        productDetails.selectRandomQty();
-    }
-
-    @When("User adds product to bag")
-    public void user_adds_product_to_bag() {
-        productDetails.addToBag();
-    }
 
     @Then("Verify context in the product detail page")
     public void verify_context_in_the_product_detail_page() {
@@ -70,26 +59,21 @@ public class ProductDetailSteps extends DriverFactory {
         productDetails.click_write_review();
     }
 
-    @When("^Add to cart button is pressed$")
-    public void add_to_cart_button_is_pressed() throws Throwable {
-    	productDetails.click_add_to_cart();
-    }
-
-
-    @When("^Update Bag button is pressed$")
-    public void Update_Bag_button_is_pressed() throws Throwable {
-    	productDetails.click_update_cart();
-    }
-
-    @Then("^Verify sold out message is displayed on PDP$")
-    public void user_should_see_pdp_page_soldout_message_which_includes_phone_number(){
-        assertTrue("user should see PDP page with soldout message which includes phone number", productDetails.isSoldOutMessageDisplayed());
-    }
 
     @Then("^Verify PDP message is displayed for the selected country$")
     public void user_should_see_pdp_messages(){
-        assertTrue("User should see size related messages on the PDP page for the selected country",productDetails.isSizeMessageDisplayedOnPDP());
-        assertTrue("User should see message on the PDP page for the selected country",productDetails.isPriceMessageDisplayedOnPDP());
+        ProductDetailsSizes sizes = new ProductDetailsSizes(getDriver());
+
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
+        String expected = testDataReader.getData("pdp.size.message");
+        String actual = sizes.getMessage();
+
+        assertEquals("User should see size related messages on the PDP page for the selected country",
+                expected.toLowerCase(), actual.toLowerCase());
+
+        assertTrue("User should see message on the PDP page for the selected country",
+                productDetails.isPriceMessageDisplayedOnPDP());
+
     }
 
     @When("^User selects random variant on the PDP page$")
@@ -119,26 +103,29 @@ public class ProductDetailSteps extends DriverFactory {
     
 
 
-    @Then("^Verify ([^\"]*) is displayed between ([^\"]*) and ([^\"]*)$")
-    public void verify_elements_layout_PDP(String elementtoFind,String elementAbove,String elementBelow){
-    		boolean isSizeAndFit  = productDetails.isSizeAndFitDrawerDisplayed();
-    		boolean result=true;
-    		
-    		if ((!elementtoFind.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
-		        int Find_Y = productDetails.getYCoordinate(elementtoFind);
-		        
-		        if ((!elementBelow.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
-			        int below_Y = productDetails.getYCoordinate(elementBelow);
-			        result = result && (below_Y > Find_Y);
-		        }
-		        
-		        if ((!elementAbove.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
-		        	int Above_Y = productDetails.getYCoordinate(elementAbove);
-		        	result = result && (Above_Y < Find_Y);
-		        }
-		        
-		        assertTrue("Verify '"+elementtoFind+"' is displayed below the '"+elementAbove+"'",result);
-    		}
+    @Then("^Verify (SIZE & FIT|PRODUCT DETAILS) is displayed between (Add to Bag|SIZE & FIT) and ([^\"]*)$")
+    public void verify_elements_layout_PDP(String elementtoFind, String elementAbove, String elementBelow){
+        boolean isSizeAndFit  = productDetails.isSizeAndFitDrawerDisplayed();
+        boolean result=true;
+
+        if ((!elementtoFind.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
+            int Find_Y = productDetails.getYCoordinate(elementtoFind);
+
+            if ((!elementBelow.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
+                int below_Y = productDetails.getYCoordinate(elementBelow);
+                result = result && (below_Y > Find_Y);
+            }
+
+            if (elementAbove.equalsIgnoreCase("add to bag")) {
+                ProductDetailsActions productDetailsActions = new ProductDetailsActions(getDriver());
+                result &= productDetailsActions.getYCoordinate() < Find_Y;
+            } else if (isSizeAndFit) {
+                int Above_Y = productDetails.getYCoordinate(elementAbove);
+                result &= result && (Above_Y < Find_Y);
+            }
+
+            assertTrue("Verify '"+elementtoFind+"' is displayed below the '"+elementAbove+"'",result);
+        }
     }
 
 

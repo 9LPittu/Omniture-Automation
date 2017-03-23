@@ -32,7 +32,6 @@ import java.util.Stack;
  * Created by nadiapaolagarcia on 4/1/16.
  */
 public class ProductDetails extends PageObject {
-    private final HeaderBag headerWrap;
 
     private final String PRICE_SALE_CLASS = "product__price--sale";
     private final String PRICE_LIST_CLASS = "product__price--list";
@@ -43,13 +42,7 @@ public class ProductDetails extends PageObject {
     private WebElement variations;
     @FindBy(xpath = "//div[@id='c-product__vps']")
     private WebElement vpsMessage;
-    @FindBy(id = "c-product__quantity")
-    private WebElement product_quantity;
 
-    @FindBy(id = "btn__add-to-bag")
-    private WebElement addToBagButton;
-    @FindBy(id = "btn__wishlist")
-    private WebElement wishListButton;
     @FindBy(id = "c-product__overview")
     private WebElement productOverview;
     @FindBy(id = "c-product__reviews--ratings-summary")
@@ -63,8 +56,6 @@ public class ProductDetails extends PageObject {
     @FindBy(id="c-page__navigation")
     private WebElement endCapNav;
 
-    @FindBy(id = "c-product__sold-out")
-    private WebElement soldoutMessage;
     @FindBy(xpath = "//div[@class='product__us-sizes']")
     private WebElement sizeMessage;
     @FindBy(xpath = "//div[@class='c-product_pdpMessage']/div")
@@ -73,8 +64,6 @@ public class ProductDetails extends PageObject {
     private WebElement shippingRestrictionMessage;
     @FindBy(className = "product__name")
     private WebElement productName;
-    @FindBy(id = "btn__add-to-bag")
-    private WebElement addToBag;
     @FindBy(xpath = "//a[contains(@class,'js-link__size-fit') and text()='Size & Fit Details']")
     private WebElement sizeAndFitDetailsLink;
     @FindBy(xpath = "//div[@class='product__size-fit product__description']/div/div/span")
@@ -86,49 +75,15 @@ public class ProductDetails extends PageObject {
     @FindBy(className = "c-product__description")
     private WebElement productDetailsSection;
 
-    @FindBy(xpath = "//button[@id='btn__add-to-bag' and text()='Update Bag']")
-    private WebElement updateBagButton;
-
-    @FindBy(id = "c-product__actions")
-    private WebElement productActionsSection;
-
     public ProductDetails(WebDriver driver) {
         super(driver);
-        headerWrap = new HeaderBag(driver);
-
-        PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(product__details));
-        headerWrap.hoverOverIcon("logo");
-    }
-
-    public void selectRandomQty() {
-        wait.until(ExpectedConditions.visibilityOf(product_quantity));
-        Select qty = new Select(product_quantity.findElement(By.tagName("select")));
-
-        int availableQty = qty.getOptions().size();
-        if (availableQty > 1) {
-            int randomQty = Util.randomIndex(availableQty - 1) + 1;
-            qty.selectByValue(Integer.toString(randomQty));
-        }
-    }
-    
-    public void selectSpecifiedQuantity(String quantity){
-    	wait.until(ExpectedConditions.visibilityOf(product_quantity));
-        Select quantityElement = new Select(product_quantity.findElement(By.tagName("select")));
-        quantityElement.selectByValue(quantity);
-        logger.debug("Selected quantity: {}", quantity);
     }
 
     public String getProductName() {
         wait.until(ExpectedConditions.visibilityOf(productOverview));
         WebElement name = productOverview.findElement(By.tagName("h1"));
         return name.getText();
-    }
-
-
-    private String getQuantity() {
-        Select qty = new Select(product_quantity.findElement(By.tagName("select")));
-        return qty.getFirstSelectedOption().getText();
     }
 
     public  String getProductPrice(){
@@ -199,27 +154,23 @@ public class ProductDetails extends PageObject {
 
     }
 
-    private boolean isSoldOut() {
-        List<WebElement> message = soldoutMessage.findElements(By.className("product__sold-out"));
-
-        return message.size() > 0;
-    }
-
     public Product getProduct() {
         ProductDetailColors colors = new ProductDetailColors(driver);
         ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
+        ProductDetailSoldOut soldOut = new ProductDetailSoldOut(driver);
+        ProductDetailsQuantity quantity = new ProductDetailsQuantity(driver);
+        ProductDetailsActions actions = new ProductDetailsActions(driver);
 
         Product product = new Product();
         product.setName(getProductName());
 
-        if (!isSoldOut()) {
+        if (!soldOut.isSoldOut()) {
             product.setColor(colors.getSelectedColor());
             product.setSize(sizes.getSelectedSize());
-            product.setQuantity(getQuantity());
+            product.setQuantity(quantity.getQuantity());
             product.setPrice(getPrice());
             product.setItemNumber(getProductCode());
-            product.setQuantity(getQuantity());
-            product.setIsBackOrder(getIsBackordered());
+            product.setIsBackOrder(actions.getIsBackordered());
             product.setIsCrewCut(getIsCrewCut());
         } else {
             product.setSoldOut(true);
@@ -228,38 +179,6 @@ public class ProductDetails extends PageObject {
         return product;
     }
 
-    public void addToBag() {
-        Stack<Product> productsInBag = (Stack<Product>) stateHolder.get("bag_items");
-
-        if (productsInBag == null) {
-            productsInBag = new Stack<>();
-        }
-
-        Product product = getProduct();
-
-        productsInBag.add(product);
-
-        stateHolder.addToList("toBag", product);
-
-        int itemsInBag = headerWrap.getItemsInBag();
-        stateHolder.put("itemsInBag", itemsInBag);
-
-        logger.info("Adding to bag {}", product);
-        stateHolder.put("bag_items", productsInBag);
-
-        Util.scrollAndClick(driver, addToBagButton);
-        handleShipRestrictionMessage();
-        
-        try {
-        	headerWrap.waitUntilCheckOutDropdown();
-        } catch (Exception e) {
-        	logger.info("Mini cart is not displayed. Hence, checking item count in bag has increased");
-        	int itemCount = headerWrap.getItemsInBag();
-        	if (itemCount <= itemsInBag)
-        		Util.e2eErrorMessagesBuilder("Item " + product.getItemNumber() + " is not added to bag");
-        		new WebDriverException("product not added to bag");
-        }
-    }
 
     public boolean verifyContext() {
         Country country = (Country) stateHolder.get("context");
@@ -284,25 +203,6 @@ public class ProductDetails extends PageObject {
         return  isURL && isURL;
     }
 
-
-    public void click_add_to_cart() {
-        wait.until(ExpectedConditions.visibilityOf(addToBag));
-        ProductDetailColors colors = new ProductDetailColors(driver);
-        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
-
-        Product thisProduct = new Product();
-        thisProduct.setProductName(getProductName());
-        thisProduct.setSelectedColor(colors.getSelectedColor());
-        thisProduct.setSelectedSize(sizes.getSelectedSize());
-        thisProduct.setIsBackOrder(getIsBackordered());
-        thisProduct.setIsCrewCut(getIsCrewCut());
-
-        stateHolder.put("recentlyAdded", thisProduct);
-
-        addToBag.click();
-    }
-
-
     public void click_write_review(){
         WebElement writeReviewButton;
         List<WebElement> noReviews = reviewSection.findElements(By.id("BVRRDisplayContentNoReviewsID"));
@@ -321,93 +221,6 @@ public class ProductDetails extends PageObject {
 
 
     }
-    public void click_update_cart() {
-        wait.until(ExpectedConditions.textToBePresentInElement(addToBag, "UPDATE BAG"));
-        ProductDetailColors colors = new ProductDetailColors(driver);
-        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
-
-        Product thisProduct = new Product();
-        thisProduct.setProductName(getProductName());
-        thisProduct.setSelectedColor(colors.getSelectedColor());
-        thisProduct.setSelectedSize(sizes.getSelectedSize());
-        thisProduct.setIsBackOrder(getIsBackordered());
-
-        stateHolder.put("recentlyAdded", thisProduct);
-
-        stateHolder.addToList("toBag", getProduct());
-        stateHolder.addToList("editedItem", getProduct());
-
-        int itemsInBag = headerWrap.getItemsInBag();
-        stateHolder.put("itemsInBag", itemsInBag);
-
-        Util.clickWithStaleRetry(addToBag);
-    }
-
-    public boolean isSoldOutMessageDisplayed() {
-        Country c = (Country) stateHolder.get("context");
-        String countryCode = c.getCountry();
-
-        TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        String message = testDataReader.getData("pdp.soldout.item.message") + " " +
-                testDataReader.getData(countryCode + ".phone");
-
-        logger.info("Expected soldout message: {}", message);
-
-        wait.until(ExpectedConditions.visibilityOf(soldoutMessage));
-        String actualSoldOutMessage = soldoutMessage.getText().trim();
-        logger.info("Actual soldout message: {}", actualSoldOutMessage);
-
-
-        boolean result = actualSoldOutMessage.equalsIgnoreCase(message);
-
-        if ("jp".equalsIgnoreCase(countryCode)) {
-            message = testDataReader.getData("pdp.soldout.item.message") + " " +
-                    testDataReader.getData(countryCode + ".email");
-
-            result |= actualSoldOutMessage.equalsIgnoreCase(message);
-        }
-
-        return result;
-
-    }
-
-    public boolean isSizeMessageDisplayedOnPDP() {
-
-        Country c = (Country) stateHolder.get("context");
-        String countryCode = c.getCountry();
-
-        String expectedSizeMessage = "";
-        String actualSizeMessage = "";
-
-        if (!countryCode.equalsIgnoreCase("us")) {
-            TestDataReader testDataReader = TestDataReader.getTestDataReader();
-            expectedSizeMessage = testDataReader.getData("pdp.size.message");
-            logger.info("Expected Size Message on PDP: {}", expectedSizeMessage);
-
-            wait.until(ExpectedConditions.visibilityOf(sizeMessage));
-            
-            actualSizeMessage = wait.until(new Function<WebDriver, String>(){
-				@Override
-				public String apply(WebDriver driver) {
-					String sizeMessageText = null;					
-					try{
-						sizeMessageText = sizeMessage.getText().trim();
-						return sizeMessageText;
-					}
-					catch(StaleElementReferenceException sere){
-						logger.debug("StaleElementReferenceException is thrown...");
-						return null;
-					}					
-				}            	
-            });
-            
-            logger.info("Actual Size Message on PDP: {}", actualSizeMessage);
-        } else {
-            logger.info("Size message on PDP will not be displayed for '" + countryCode + "' country");
-        }
-
-        return actualSizeMessage.equalsIgnoreCase(expectedSizeMessage);
-    }
 
     public boolean isPriceMessageDisplayedOnPDP() {
 
@@ -420,7 +233,7 @@ public class ProductDetails extends PageObject {
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
 
         if (!countryCode.equalsIgnoreCase("us")) {
-            expectedPDPMessage = testDataReader.getData(countryCode + ".pdp.message");
+            expectedPDPMessage = testDataReader.getData("pdp.price.message");
             logger.info("Expected PDP Message: {}", expectedPDPMessage);
 
             Util.waitWithStaleRetry(driver, pdpMessage);
@@ -524,10 +337,13 @@ public class ProductDetails extends PageObject {
 
     public int getYCoordinate(String elementName){
         WebElement element = getPDPElement(elementName);
-    	element = wait.until(ExpectedConditions.visibilityOf(element));
-    	Point point = element.getLocation();
-    	int yCoordinate = point.getY();
-    	return yCoordinate;
+
+        if(element.isDisplayed()) {
+    	    Point point = element.getLocation();
+    	    return point.getY();
+        } else {
+            return 0;
+        }
     }
 
     public void clickPdpDrawer(String drawerName) {
@@ -571,24 +387,6 @@ public class ProductDetails extends PageObject {
             case "variations":
                 pdpElement = variations;
                 break;
-            case "color swatchs":
-                //pdpElement = wait.until(ExpectedConditions.visibilityOf(price_colors));
-                break;
-            case "size chips":
-                //pdpElement = wait.until(ExpectedConditions.visibilityOf(sizes));
-                break;
-            case "size chart":
-                //pdpElement = sizes.findElement(By.linkText("size charts"));
-                break;
-            case "quantity":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(product_quantity));
-                break;
-            case "add to bag":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(addToBagButton));
-                break;
-            case "wishlist":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(wishListButton));
-                break;
             case "social icons":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(".//ul[@class='footer__social__menu']"))));
                 break;
@@ -600,9 +398,6 @@ public class ProductDetails extends PageObject {
                 break;
             case "endcaps":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(endCapNav));
-                break;
-            case "update bag":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(updateBagButton));
                 break;
             case "size & fit":
                 pdpElement = sizeAndFitDrawer;
@@ -645,20 +440,6 @@ public class ProductDetails extends PageObject {
         return productCodeText;
     }
 
-    public boolean getIsBackordered() {
-        String message = getButtonErrorMessage().toLowerCase();
-        return message.contains("backordered");
-    }
-
-    public String getButtonErrorMessage() {
-        String message = "";
-        List<WebElement> messages = productActionsSection.findElements(By.className("product__message"));
-        if (messages.size() > 0) {
-            message = messages.get(0).getText();
-        }
-        return message;
-    }
-
     public boolean getIsCrewCut() {
         TestDataReader testDataReader = TestDataReader.getTestDataReader();
         String category = "";
@@ -694,15 +475,6 @@ public class ProductDetails extends PageObject {
         } else {
             return false;
         }
-    }
-    
-    public void handleShipRestrictionMessage(){
-    	try {
-	    	WebElement yesButton = driver.findElement(By.id("btn__yes"));
-	    	yesButton.click();
-    	} catch (Exception e) {
-    		logger.info("Ship restriction message not displayed");
-    	}
     }
     
     public boolean isSizeAndFitDrawerDisplayed() {

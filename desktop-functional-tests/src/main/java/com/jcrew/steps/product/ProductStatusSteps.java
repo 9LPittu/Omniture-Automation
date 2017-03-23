@@ -1,7 +1,6 @@
 package com.jcrew.steps.product;
 
 import com.jcrew.page.product.ProductDetailSoldOut;
-import com.jcrew.page.product.ProductDetailsSizes;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.When;
 
@@ -21,7 +20,7 @@ public class ProductStatusSteps extends DriverFactory {
             ProductDetailsSizesSteps sizes = new ProductDetailsSizesSteps();
             sizes.user_selects_random_size();
 
-            ProductDetailSteps pdpSteps = new ProductDetailSteps();
+            ProductDetailsActionsSteps pdpSteps = new ProductDetailsActionsSteps();
             pdpSteps.user_adds_product_to_bag();
         }
     }
