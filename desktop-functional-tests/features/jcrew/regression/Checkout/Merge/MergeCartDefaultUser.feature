@@ -10,10 +10,10 @@ Feature: Checkout - Default user gets confirmation to merge cart
     And User goes to homepage
 
    And User hovers on a random category from list
-    	|Women|
-    	|Men|
-    	|Girls|
-    	|Boys|
+    	|WOMEN|
+    	|MEN|
+    	|GIRLS|
+    	|BOYS|
     And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
