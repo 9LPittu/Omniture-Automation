@@ -1,14 +1,15 @@
-@CheckoutGuest
-Feature: Smoke Checkout - Guest user is able to checkout
+@GuestCheckout5
+Feature: Checkout - Guest user is able to checkout
 
-  Scenario: Smoke Checkout - Guest user is able to checkout
+  Scenario: Checkout - Guest user is able to checkout
     Given User goes to homepage
     And User closes email capture
     And User hovers on a random category from list
       | Women |
       | Men   |
-    And User selects Sweaters subcategory array
-    And User closes email capture
+      | Girls |
+      | Boys  |
+    And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
 
@@ -19,11 +20,11 @@ Feature: Smoke Checkout - Guest user is able to checkout
     When User clicks in bag
     Then Verify shopping bag is displayed
     Then Verify products added matches with products in bag
+    And Verify all products have edit and remove buttons
     And Verify bag has a promo code section
     And Verify bag has a gift card section
     And Verify bag has a order summary section
     And Verify bag has a paypal button
-    And Verify bag has a help section with phone 800 562 0258 for questions
 
     When User fills zip code field with 10003
     Then Verify estimated tax is populated
@@ -38,14 +39,16 @@ Feature: Smoke Checkout - Guest user is able to checkout
 
     When User selects a suggested address and continues
     Then Verify Shipping And Gift Options page is displayed
+    And validate correct shipping methods displayed on the page
+
     And Verify Shipping Options Page contains gift option section
+    And Verify default value for shipping method
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
     And Verify available payment methods from list
       | Credit/Debit Card |
       | PayPal            |
-      | MasterPass        |
 
     And Verify accepted cards from list
       | jccc |

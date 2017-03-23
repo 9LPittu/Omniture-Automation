@@ -130,7 +130,7 @@ public class ShippingMethodCalculator {
 
         double subtotal = Double.parseDouble((String) stateHolder.get("subtotal"));
 
-        String promotionalShippingDetails = dataReader.getData(environment + "." + method + ".promotional.shipping.charge");
+        String promotionalShippingDetails = dataReader.getData(method + ".promotional.shipping.charge");
         if (promotionalShippingDetails.contains(";")) {
             String promotionalShippingCharge = promotionalShippingDetails.split(";")[0];
             String promotionalShippingThreshold = promotionalShippingDetails.split(";")[1];
@@ -148,7 +148,8 @@ public class ShippingMethodCalculator {
         String freeCrewCutMethods[] = dataReader.getDataArray(addressType + ".crewcut.freemethods");
         List<String> listFreeCrewCuttMethods = Arrays.asList(freeCrewCutMethods);
 
-        if(crewCut && listFreeCrewCuttMethods.contains(method) ) {
+        if(crewCut && listFreeCrewCuttMethods.contains(method) &&
+                propertyReader.getProperty("brand").equalsIgnoreCase("jcrew") ) {
             return "free";
         } else {
             return price;
