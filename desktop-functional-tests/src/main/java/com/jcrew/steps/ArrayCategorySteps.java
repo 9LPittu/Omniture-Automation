@@ -57,7 +57,8 @@ public class ArrayCategorySteps extends DriverFactory {
     public void verify_context_in_url_and_footer_in_array_page() {
         String countryName = productsArray.country.getName();
 
-        assertTrue("Category Array url contains expected country code", productsArray.verifyURL());
+        assertTrue("Category Array URL: <" + getDriver().getCurrentUrl() + "> does not contains expected" +
+                "country code for " +  countryName, productsArray.verifyURL());
 
         Footer footer = new Footer(getDriver());
         assertEquals("Homepage footer matches expected country",
