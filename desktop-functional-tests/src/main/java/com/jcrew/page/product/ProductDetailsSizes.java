@@ -81,7 +81,7 @@ public class ProductDetailsSizes extends ProductDetails {
         String message = "";
         List<WebElement> messageList = sizes.findElements(By.className("product__us-sizes"));
 
-        if(messageList.size() > 1) {
+        if(messageList.size() > 0) {
             message = messageList.get(0).getText().trim();
         }
 
