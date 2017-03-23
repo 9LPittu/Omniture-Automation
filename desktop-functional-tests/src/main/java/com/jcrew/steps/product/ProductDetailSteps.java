@@ -3,6 +3,7 @@ package com.jcrew.steps.product;
 import com.jcrew.page.product.ProductDetails;
 import com.jcrew.page.product.ProductDetailsActions;
 import com.jcrew.page.product.ProductDetailsSizes;
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
@@ -94,10 +95,12 @@ public class ProductDetailSteps extends DriverFactory {
     @Then("^Verify proper currency symbol is displayed on PDP page$")
     public void verify_currency_on_product_PDP(){
         List<String> listPrice = productDetails.getAllPrices();
-        String countryName = productDetails.country.getName();
+        Country country = stateHolder.get("context");
+
+        String countryName = country.getName();
         for(String price : listPrice) {
             assertTrue("Price " + price + " matches country context " + countryName,
-                    CurrencyChecker.isValid(price, productDetails.country));
+                    CurrencyChecker.isValid(price, country));
         }
     }
     
