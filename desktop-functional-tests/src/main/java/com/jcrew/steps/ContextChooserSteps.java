@@ -37,14 +37,14 @@ public class ContextChooserSteps extends DriverFactory {
     	contextChooser.clickLinkFromTermsSectionOnContextChooserPage(linkName);
     }
     
-    @When("^Click on \"([^\"]*)\" button from FAQ section on the context chooser page$")
-    public void click_button_from_faq_section_on_context_chooser_page(String buttonName){
-    	contextChooser.clickButtonFromFAQSectionOnContextChooserPage(buttonName);
+    @When("^Click on SEE ALL FAQ & HELP button from FAQ section on the context chooser page$")
+    public void click_button_from_faq_section_on_context_chooser_page(){
+    	contextChooser.clickButtonFromFAQSectionOnContextChooserPage();
     }
     
-    @When("^Click on \"([^\"]*)\" link from FAQ section on the context chooser page$")
-    public void click_link_from_faq_section_on_context_chooser_page(String linkName){
-    	contextChooser.clickLinkFromFAQSectionOnContextChooserPage(linkName);
+    @When("^Click on borderfree.com link from FAQ section on the context chooser page$")
+    public void click_link_from_faq_section_on_context_chooser_page(){
+    	contextChooser.clickLinkFromFAQSectionOnContextChooserPage();
     }
     
 

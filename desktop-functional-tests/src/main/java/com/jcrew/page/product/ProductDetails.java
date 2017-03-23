@@ -3,6 +3,7 @@ package com.jcrew.page.product;
 import com.google.common.base.Function;
 import com.jcrew.page.PageObject;
 import com.jcrew.page.header.HeaderBag;
+import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.page.product.ProductDetailColors;
 import com.jcrew.pojo.Country;
@@ -78,6 +79,9 @@ public class ProductDetails extends PageObject {
     public ProductDetails(WebDriver driver) {
         super(driver);
         wait.until(ExpectedConditions.visibilityOf(product__details));
+
+        HeaderLogo logo = new HeaderLogo(driver);
+        logo.hoverLogo();
     }
 
     public String getProductName() {
