@@ -63,12 +63,8 @@ public class ArraySearchSteps extends DriverFactory {
     @Then("Verify Sale array page is displayed$")
     public void verify_sale_array() {
     	if (!stateHolder.hasKey("secondPromoVerification")) {
-	    	boolean isSearchArray = searchArray.isSalePage();
-	    	
-	    	String saleTitle = searchArray.getHeaderTitle();
-	    	boolean isSaleTitle = saleTitle.equalsIgnoreCase("sale");
-	    	
-	    	assertTrue("Sale array should be displayed",isSearchArray && isSaleTitle);
+			assertTrue("Sale array should be displayed", searchArray.isSalePage());
+	    	assertEquals("Sale title should be displayed","sale", searchArray.getHeaderTitle().toLowerCase());
     	}
     }
     
