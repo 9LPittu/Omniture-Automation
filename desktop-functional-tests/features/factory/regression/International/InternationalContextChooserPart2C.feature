@@ -12,10 +12,6 @@ Feature: International Country Context - Part 2C
     Then Verify product detail page is displayed
     And Verify sold out message is displayed on PDP
 
-#    When User searches for the item shipping.restriction.item
-#    Then Verify product detail page is displayed
-#    And Verify shipping restriction message is displayed on PDP
-
     When User searches for the item variations.item
     And User selects first product from search results
     Then Verify product detail page is displayed
