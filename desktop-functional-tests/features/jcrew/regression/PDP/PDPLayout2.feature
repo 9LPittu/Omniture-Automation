@@ -4,11 +4,11 @@ Feature: PDP Layout2
   Background:
     Given User goes to homepage
     And User closes email capture
-    
+
     When User hovers on a random category from list
-    	|Women|
-    	|Men|
-	And User selects sweaters subcategory array
+      | Women |
+      | Men   |
+    And User selects sweaters subcategory array
     Then Verify user is in category array page
 
     Scenario: PDP layout from search array page
