@@ -1,4 +1,4 @@
-@Quickshop3 @HighLevel
+@Quickshop3
 Feature: Quick Shop Layout
 
   Background:
@@ -7,9 +7,9 @@ Feature: Quick Shop Layout
 
   Scenario: QS layout from category array page
     When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|casual shirts|
-      |girls|dresses|
+     |women|sweaters        |
+     |men  |shirts          |
+     |girls|dresses & skirts|
     Then Verify user is in category array page
 
     When User selects random quick shop from product array
@@ -29,8 +29,8 @@ Feature: Quick Shop Layout
 
   Scenario: Variation quickshop layout
     When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|casual shirts|
+      |women|sweaters        |
+      |men  |shirts          |
     Then Verify user is in category array page
 
     When User selects random quick shop with variation product from product array

@@ -1,5 +1,5 @@
-@Quickshop6 @HighLevel
-Feature: Quick Shop bag is functional2
+@Quickshop6
+Feature: Quick Shop bag is functional 2
 
   Background:
     Given User goes to homepage
@@ -14,9 +14,9 @@ Feature: Quick Shop bag is functional2
     And This script cleans bag for current user
 
     When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|dress shirts|
-      |girls|dresses|
+      |women|sweaters        |
+      |men  |shirts          |
+      |girls|dresses & skirts|
     Then Verify user is in category array page
 
     When User selects random quick shop from product array

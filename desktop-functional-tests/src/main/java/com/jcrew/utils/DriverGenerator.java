@@ -15,7 +15,7 @@ import java.net.URL;
 /**
  * Created by ngarcia on 3/1/17.
  */
-public class DriverGenarator {
+public class DriverGenerator {
 
     private static PropertyReader propertyReader = PropertyReader.getPropertyReader();
 

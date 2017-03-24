@@ -1,4 +1,4 @@
-@Quickshop4 @HighLevel
+@Quickshop4
 Feature: Quick Shop Messaging
 
   Background:
@@ -7,9 +7,9 @@ Feature: Quick Shop Messaging
 
   Scenario: Verify Error message on Quick shop if size and color not selected and adds to bag
     When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|casual shirts|
-      |girls|dresses|
+      |women|sweaters        |
+      |men  |shirts          |
+      |girls|dresses & skirts|
     Then Verify user is in category array page
 
     When User selects random quick shop from product array
@@ -22,9 +22,9 @@ Feature: Quick Shop Messaging
 
   Scenario: Verify Error message on Quick shop if size and color not selected and adds to wishlist
     When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|casual shirts|
-      |girls|dresses|
+      |women|sweaters        |
+      |men  |shirts          |
+      |girls|dresses & skirts|
     Then Verify user is in category array page
 
     When User selects random quick shop from product array

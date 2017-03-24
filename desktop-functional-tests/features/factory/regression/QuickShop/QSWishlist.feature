@@ -1,4 +1,4 @@
-@Quickshop5 @HighLevel
+@Quickshop5
 Feature: Quickshop wishlist is functional
 
   Background:

@@ -26,5 +26,3 @@ Feature: Quick Shop bag is functional
 
     Then Verify shopping bag is displayed
     And Verify products added matches with products in bag
-
-  

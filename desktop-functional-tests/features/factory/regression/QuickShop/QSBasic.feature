@@ -1,4 +1,4 @@
-@Quickshop2 @HighLevel
+@Quickshop2
 Feature: Quick Shop full details,close links and variations are functional
 
   Background:
@@ -6,10 +6,10 @@ Feature: Quick Shop full details,close links and variations are functional
     And User closes email capture
 
   Scenario: View full detail link in QS is functional
-    When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|sweaters|
-      |girls|dresses|
+   When User hovers on a random category and subcategory from list
+      |women|sweaters        |
+      |men  |shirts          |
+      |girls|dresses & skirts|
     Then Verify user is in category array page
 
     When User selects random quick shop from product array
@@ -23,13 +23,11 @@ Feature: Quick Shop full details,close links and variations are functional
 
   Scenario: Verify user able to change variations in quickshop
     When User hovers on a random category and subcategory from list
-      |women|sweaters|
-      |men|casual shirts|
+     |women|sweaters|
+     |men  |sweaters|
     Then Verify user is in category array page
 
     When User selects random quick shop with variation product from product array
     Then Verify quick shop modal is displayed
     And Verify variations is displayed in QS modal
     And Verify user able to change variations
-
- 
