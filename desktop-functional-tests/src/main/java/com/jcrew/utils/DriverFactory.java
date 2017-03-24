@@ -27,9 +27,9 @@ public class DriverFactory {
         final PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
         if (propertyReader.isSystemPropertyTrue("remote.execution")) {
-            driver = DriverGenarator.remoteDriver();
+            driver = DriverGenerator.remoteDriver();
         } else {
-            driver = DriverGenarator.localDriver();
+            driver = DriverGenerator.localDriver();
         }
 
         setDimensions(driver);

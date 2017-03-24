@@ -60,7 +60,7 @@ public class QuickShop extends PageObject {
 
     public boolean isQuickShop(){
         try{
-            wait.until(ExpectedConditions.visibilityOf(qsModal));
+            Util.createWebDriverWait(driver, 20).until(ExpectedConditions.visibilityOf(qsModal));
             return qsModal.isDisplayed();
         }catch(WebDriverException e){
             return false;
@@ -221,9 +221,10 @@ public class QuickShop extends PageObject {
     public boolean isVariationChanged(){
         String itemCode,newItemCode;
         itemCode = getSelectedVariationItemCode();
+        logger.info("Current item code {}", itemCode);
         selectRandomVarition();
         newItemCode = getSelectedVariationItemCode();
-        logger.info("this is new item code "+newItemCode);
+        logger.info("this is new item code {}", newItemCode);
         return !(itemCode.equalsIgnoreCase(newItemCode));
     }
 
@@ -232,6 +233,7 @@ public class QuickShop extends PageObject {
         List <WebElement> variations=variationList.findElements(By.xpath(".//li[not(contains(@class,'is-selected'))]"));
         if(variations.size() > 0 ){
             variations.get(0).click();
+            Util.waitForPageFullyLoaded(driver);
         }
 
     }
