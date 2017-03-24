@@ -34,7 +34,7 @@ public class ProductDetailSoldOutSteps extends DriverFactory {
         }
 
         assertEquals("user should see PDP page with soldout message which includes phone number",
-                expected.toLowerCase(), actual.toLowerCase());
+                expected.toLowerCase().trim(), actual.toLowerCase());
     }
 
 }
