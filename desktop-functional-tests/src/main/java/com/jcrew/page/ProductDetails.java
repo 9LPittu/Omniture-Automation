@@ -14,6 +14,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -338,7 +339,11 @@ public class ProductDetails extends PageObject {
         
         boolean isURL = Util.countryContextURLCompliance(driver, country);
         logger.debug("is url?  {}", isURL);
-        return  isURL && isURL;
+        
+        Actions action = new Actions(driver);
+        action.moveByOffset(-100,-100).build().perform();
+        
+        return  isURL && isNameBlank;
     }
 
 
@@ -411,7 +416,7 @@ public class ProductDetails extends PageObject {
         logger.info("Actual soldout message: {}", actualSoldOutMessage);
 
 
-        boolean result = actualSoldOutMessage.equalsIgnoreCase(message);
+        boolean result = actualSoldOutMessage.equalsIgnoreCase(message.trim());
 
         if ("jp".equalsIgnoreCase(countryCode)) {
             message = testDataReader.getData("pdp.soldout.item.message") + " " +
@@ -568,7 +573,10 @@ public class ProductDetails extends PageObject {
         List<String> prices = new ArrayList<>(productpricess.size());
 
         for (WebElement price : productpricess) {
-            prices.add(price.getText());
+        	String priceText = price.getText().trim();
+        	priceText = priceText.replaceAll("your price ", "");
+        	priceText = priceText.replaceAll("valued at ", "");
+            prices.add(priceText);
         }
 
         return prices;

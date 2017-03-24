@@ -52,6 +52,11 @@ public class ContextChooserSteps extends DriverFactory {
     public void select_random_country_from_country_group_on_context_chooser_page(String country_group) {
     	contextChooser.selectGroupRandomCountry(country_group);
     }
+    
+    @When("^User selects ([^\"]*) country from context chooser page$")
+    public void select_country_on_context_chooser_page(String country) {
+    	contextChooser.selectCountryOnContextChooserPage(country);
+    }
 
     @Then("^User should land on country specific home page$")
     public void user_should_land_on_country_specific_home_page(){

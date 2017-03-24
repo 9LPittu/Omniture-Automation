@@ -119,7 +119,7 @@ public class LogInSteps extends DriverFactory {
     }
 
     @When("^User selects ([^\"]*) country$")
-    public void user_elects_country(String value) {
+    public void user_selects_country(String value) {
         logIn.setSelectedCountryByValue(value);
     }
 
