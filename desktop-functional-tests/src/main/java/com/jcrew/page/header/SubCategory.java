@@ -39,6 +39,9 @@ public class SubCategory extends TopNav {
         By.xpath(".//a[contains(@class,'js-menu__link--has-href') and " + Util.xpathGetTextLower + "='" + subcategory +"']"));
 
         flyoutLink.click();
+        Util.waitLoadingBar(driver);
+        HeaderWrap header = new HeaderWrap(driver);
+        header.hoverOverIcon("logo");
 
     }
 
