@@ -53,7 +53,7 @@ Feature: Checkout - Editing items from shopping bag
     Then Verify that page contains a selected color    
     Then Verify that page contains a selected size
     
-    Then Verify UPDATE BAG displayed in PDP
+    Then Verify Update Bag button is displayed
     
     When User selects random color
     And User selects random size
