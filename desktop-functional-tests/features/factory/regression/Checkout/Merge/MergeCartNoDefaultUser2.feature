@@ -1,19 +1,20 @@
-@MergeCheckout @HighLevel
-Feature: Checkout - Default user gets confirmation to merge cart
+@MergeCheckout4
+Feature: Checkout - No Default user gets confirmation to merge cart2
 
   Background: Clean bag for user
     Given User goes to homepage
     And User closes email capture
     When User clicks on sign in using header
-    And User fills form and signs in    
-    And This script cleans bag for current user    
+    And User fills form with no default user and signs in
+    Then Verify user is in My Account main page
+    And This script cleans bag for current user
     And User goes to homepage
-
-   And User hovers on a random category from list
-    	|WOMEN|
-    	|MEN|
-    	|GIRLS|
-    	|BOYS|
+    
+    And User hovers on a random category from list
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
     And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
@@ -23,8 +24,8 @@ Feature: Checkout - Default user gets confirmation to merge cart
     And User adds product to bag
     
     And User signs out using header
-
-  Scenario: Checkout - User checks out only with recently added products
+    
+  Scenario: Checkout - User checks out by saving items to wishlist
     Given User goes to homepage
     And User hovers on a random category from list
     	|Women|
@@ -39,11 +40,10 @@ Feature: Checkout - Default user gets confirmation to merge cart
     And User selects random size
     And User adds product to bag
     
-    When User clicks in bag    
+    When User clicks in bag
     And User clicks in CHECK OUT NOW button
     
-    And User signs in and checks out
-    
+    And User signs in with no default user and checks out
     Then Verify user is in Merge Cart page
     And Verify user is welcome to Merge Cart page
     And Verify 'Save to Wishlist & Continue' button is available in Merge Cart Page    
@@ -51,15 +51,8 @@ Feature: Checkout - Default user gets confirmation to merge cart
     And Verify previously added items are in Merge Cart page
 
     When User clicks Save to Wishlist & Continue
-    Then Verify user is in review page
-    And Verify Review Page url is /checkout2/mergebags.jsp
-    And Verify checkout breadcrumb is REVIEW
-    And Verify that Review title is Checkout
-    And Verify products added matches with products in bag
-
-    When User fills security code
-    And User clicks on PLACE MY ORDER
-    Then Verify user gets a confirmation number
-    And Verify that title is Order Complete
-    And Verify that confirmation message is visible
-
+    
+    Then Verify select shipping address page is displayed
+    
+    When User clicks in bag
+    Then Verify previously added item is not shown in bag page
