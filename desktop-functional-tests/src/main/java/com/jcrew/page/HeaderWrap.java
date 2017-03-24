@@ -275,9 +275,14 @@ public class HeaderWrap extends PageObject {
 	public void waitUntilCheckOutDropdown() {
 
 		wait.until(new Predicate<WebDriver>() {
-			@Override
+			@Override		
 			public boolean apply(WebDriver driver) {
-				return minibag.isDisplayed();
+				if(minibag.isDisplayed())
+					return true;
+				else{
+					Util.scrollToElement(driver, minibag);
+					return false;
+				}
 			}
 		});
 
