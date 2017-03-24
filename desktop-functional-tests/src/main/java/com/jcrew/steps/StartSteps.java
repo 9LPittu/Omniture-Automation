@@ -83,6 +83,22 @@ public class StartSteps {
             }
         }
     }
+    
+    @Given("User goes to international homepage with country as ([^\"]*)")
+    public void user_goes_to_international_homepage_with_country(String country) {
+        int retry = 0;
+        boolean successfulLoad = false;
+        while (retry < 2 && !successfulLoad) {
+            try {
+                getIntlHomePage(country);
+                waitForHeaderPromo();
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1);
+                retry++;
+            }
+        }
+    }
 
     @Given("User lands on international page from list for ([^\"]*)")
     public void user_goes_lands_on_international(String group, List<String> pageList) {
@@ -91,6 +107,27 @@ public class StartSteps {
 
         String pageURL = testData.getData("page."+page);
         String country = testData.getRandomCountry(group);
+
+        int retry = 0;
+        boolean successfulLoad = false;
+        while (retry < 2 && !successfulLoad) {
+            try {
+                getInternationalPage(pageURL, country);
+                waitForHeaderPromo();
+                successfulLoad = true;
+            } catch (TimeoutException te) {
+                logger.debug("Page did not load retry: {}", retry + 1);
+                retry++;
+            }
+        }
+    }
+
+    @Given("User lands on international page from below list for ([^\"]*) country")
+    public void user_goes_lands_on_international_country(String country, List<String> pageList) {
+        String page = pageList.get(Util.randomIndex(pageList.size()));
+        page = page.toLowerCase();
+
+        String pageURL = testData.getData("page."+page);        
 
         int retry = 0;
         boolean successfulLoad = false;
