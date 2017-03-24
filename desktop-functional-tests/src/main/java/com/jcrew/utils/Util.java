@@ -54,7 +54,7 @@ public class Util {
     
     public static void scrollToElement(WebDriver driver, WebElement element) {
         Actions action = new Actions(driver);
-        action.moveToElement(element);
+        action.moveToElement(element).build().perform();
     }
     
     public static void waitForPageFullyLoaded(WebDriver driver) {

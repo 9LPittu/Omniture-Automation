@@ -4,6 +4,8 @@ import com.jcrew.page.PageObject;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import gherkin.formatter.model.DataTableRow;
+
+import org.apache.maven.model.Build;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -50,7 +52,7 @@ public class TopNav extends HeaderWrap {
         WebElement categoryLink = top_nav.findElement(By.xpath(
                 ".//a[@class='department-nav__link']/span[" + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']"));
         hoverAction.moveToElement(categoryLink);
-        hoverAction.perform();
+        hoverAction.build().perform();
 
         logger.info("Hovering over category {} in top nav", dept);
         stateHolder.put("category", dept);

@@ -64,7 +64,10 @@ public abstract class Array extends PageObject{
         List<String> productPrices = new ArrayList<>(priceList.size());
 
         for (WebElement price:priceList ) {
-            productPrices.add(price.getText());
+        	String priceText = price.getText().trim();
+        	priceText = priceText.replaceAll("your price ", "");
+        	priceText = priceText.replaceAll("valued at ", "");
+            productPrices.add(priceText);
         }
 
         return productPrices;

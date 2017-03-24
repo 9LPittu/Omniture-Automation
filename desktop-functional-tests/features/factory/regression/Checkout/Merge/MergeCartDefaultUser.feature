@@ -1,4 +1,4 @@
-@MergeCheckout @HighLevel
+@MergeCheckout
 Feature: Checkout - Default user gets confirmation to merge cart
 
   Background: Clean bag for user
@@ -8,12 +8,11 @@ Feature: Checkout - Default user gets confirmation to merge cart
     And User fills form and signs in    
     And This script cleans bag for current user    
     And User goes to homepage
-
    And User hovers on a random category from list
-    	|WOMEN|
-    	|MEN|
-    	|GIRLS|
-    	|BOYS|
+    	|Women|
+    	|Men|
+    	|Girls|
+    	|Boys|
     And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
