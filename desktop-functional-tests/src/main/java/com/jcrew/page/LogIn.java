@@ -148,7 +148,10 @@ public class LogIn extends PageObject {
         String url = driver.getCurrentUrl();
         wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
         createAnAccount.click();
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+
+        if (stateHolder.getBoolean("waitHomepage")) {
+            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        }
     }
 
     private WebElement getNewUserField(String field) {

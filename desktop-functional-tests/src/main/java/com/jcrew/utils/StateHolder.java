@@ -50,7 +50,13 @@ public class StateHolder {
         Map<String, Object> threadMap = getMapForCurrentThread();
         return (T) threadMap.get(key);
     }
-    
+
+    public boolean getBoolean(String key) {
+        Boolean value = get(key);
+
+        return value == null ? false : value;
+    }
+
     public void remove(String key) {
         Map<String, Object> threadMap = getMapForCurrentThread();
         threadMap.remove(key);
