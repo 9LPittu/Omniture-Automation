@@ -72,10 +72,11 @@ public class ProductDetails extends PageObject {
 
     public ProductDetails(WebDriver driver) {
         super(driver);
-        wait.until(ExpectedConditions.visibilityOf(product__details));
 
         HeaderLogo logo = new HeaderLogo(driver);
         logo.hoverLogo();
+
+        wait.until(ExpectedConditions.visibilityOf(product__details));
     }
 
     public String getProductName() {
