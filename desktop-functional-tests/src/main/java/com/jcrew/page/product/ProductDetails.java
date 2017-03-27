@@ -179,14 +179,10 @@ public class ProductDetails extends PageObject {
 
 
     public boolean verifyContext() {
-        Country country = (Country) stateHolder.get("context");
-
-        boolean result = Util.countryContextURLCompliance(driver);
-
-        return result;
+        return Util.countryContextURLCompliance(driver);
     }
     public boolean isProductDetailPage() {
-        Country country = (Country) stateHolder.get("context");
+        Country country = stateHolder.get("context");
         logger.info("country context is  : {}", country.getName());
         Util.waitForPageFullyLoaded(driver);
         
@@ -198,7 +194,7 @@ public class ProductDetails extends PageObject {
         
         boolean isURL = Util.countryContextURLCompliance(driver);
         logger.debug("is url?  {}", isURL);
-        return  isURL && isURL;
+        return  isURL;
     }
 
     public void click_write_review(){
