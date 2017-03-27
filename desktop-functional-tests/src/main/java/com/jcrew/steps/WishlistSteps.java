@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.Wishlist;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
@@ -12,7 +13,7 @@ import static org.junit.Assert.*;
  */
 public class WishlistSteps extends DriverFactory {
     private StateHolder stateHolder = StateHolder.getInstance();
-    Wishlist wishlist = new Wishlist(getDriver());
+    private Wishlist wishlist = new Wishlist(getDriver());
 
 
     @Then("Verify user is in wishlist page")
