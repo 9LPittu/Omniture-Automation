@@ -1,6 +1,5 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.Wishlist;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
