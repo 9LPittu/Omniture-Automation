@@ -182,6 +182,9 @@ public class ProductDetails extends PageObject {
         return Util.countryContextURLCompliance(driver);
     }
     public boolean isProductDetailPage() {
+        HeaderLogo logo = new HeaderLogo(driver);
+        logo.hoverLogo();
+
         Country country = stateHolder.get("context");
         logger.info("country context is  : {}", country.getName());
         Util.waitForPageFullyLoaded(driver);
