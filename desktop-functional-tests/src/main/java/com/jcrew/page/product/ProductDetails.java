@@ -321,10 +321,13 @@ public class ProductDetails extends PageObject {
     }
 
     public List<String> getAllPrices() {
-        List<WebElement> productpricess = product__details.findElements(By.xpath("//span[contains(@class,'product__price--')]"));
+        List<WebElement> productpricess = product__details.findElements(By.xpath(".//span[contains(@class,'product__price--')]"));
         List<String> prices = new ArrayList<>(productpricess.size());
 
         for (WebElement price : productpricess) {
+            String priceText = price.getText().trim();
+            priceText = priceText.replaceAll("your price ", "");
+            priceText = priceText.replaceAll("valued at ", "");
             prices.add(price.getText());
         }
 
