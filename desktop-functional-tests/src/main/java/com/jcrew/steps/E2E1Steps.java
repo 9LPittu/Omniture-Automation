@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.jcrew.page.header.HeaderSearch;
+import com.jcrew.page.product.*;
 import org.openqa.selenium.WebDriverException;
 
 import com.jcrew.page.ArraySearch;
@@ -27,10 +28,8 @@ import com.jcrew.page.CheckoutShoppingBag;
 import com.jcrew.page.ContextChooser;
 import com.jcrew.page.Footer;
 import com.jcrew.page.GiftCards;
-import com.jcrew.page.HeaderWrap;
 import com.jcrew.page.LogIn;
 import com.jcrew.page.Monogram;
-import com.jcrew.page.ProductDetails;
 import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.ExcelUtils;
@@ -162,13 +161,15 @@ public class E2E1Steps extends E2ECommon {
 				}
 
 				// Select color
-				ProductDetails pdp = new ProductDetails(getDriver());
-				pdp.selectSpecifiedColor(color);
+				ProductDetailColors colors = new ProductDetailColors(getDriver());
+				colors.selectSpecifiedColor(color);
 
 				// Select size
-				pdp.selectSpecifiedSize(size);
+				ProductDetailsSizes sizes = new ProductDetailsSizes(getDriver());
+				sizes.selectSpecifiedSize(size);
 
 				// Select quantity
+				ProductDetailsQuantity pdp = new ProductDetailsQuantity(getDriver());
 				pdp.selectSpecifiedQuantity(quantity);
 
 				// Add monogramming
@@ -194,7 +195,8 @@ public class E2E1Steps extends E2ECommon {
 				}
 
 				// Add item to bag
-				pdp.addToBag();
+				ProductDetailsActions pdpAction = new ProductDetailsActions(getDriver());
+				pdpAction.addToBag();
 			} else {
 				String message = "Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet";
 				Util.e2eErrorMessagesBuilder(message);

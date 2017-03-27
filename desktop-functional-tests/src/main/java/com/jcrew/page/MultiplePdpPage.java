@@ -630,7 +630,7 @@ public class MultiplePdpPage {
     public boolean checkURLCountryContext() {
         Country country = (Country) stateHolder.get("context");
 
-        return Util.countryContextURLCompliance(driver,country);
+        return Util.countryContextURLCompliance(driver);
     }
     
    

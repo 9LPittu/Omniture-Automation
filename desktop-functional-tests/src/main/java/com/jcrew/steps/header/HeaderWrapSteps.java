@@ -1,19 +1,13 @@
 package com.jcrew.steps.header;
 
-import com.jcrew.page.HeaderWrap;
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
-import com.jcrew.utils.TestDataReader;
-import com.jcrew.utils.Util;
 import com.jcrew.utils.StateHolder;
 
-import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import gherkin.formatter.model.DataTableRow;
-
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +16,6 @@ import static org.junit.Assert.*;
  */
 public class HeaderWrapSteps extends DriverFactory {
     private HeaderWrap header = new HeaderWrap(getDriver());
-    private TestDataReader reader = TestDataReader.getTestDataReader();
 
     @When("User clicks on sign in using header")
     public void click_sign_in() {
@@ -60,15 +53,7 @@ public class HeaderWrapSteps extends DriverFactory {
     public void verify_header_contains_sign_in_visible() {
         assertTrue("Header contains a visible sign in", header.isSignInVisible());
     }
-    @And("User clicks on stores using header")
-    public void user_clicks_stores_from_header(){
-        header.clickStores();
-    }
 
-    @When("User clicks in bag")
-    public void user_clicks_in_bag() {
-        header.clickBag();
-    }
     @When("User clicks in My Account")
     public void user_clicks_in_myAccount() {
         header.myAccount();

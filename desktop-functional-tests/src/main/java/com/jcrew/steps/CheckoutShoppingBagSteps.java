@@ -2,8 +2,11 @@ package com.jcrew.steps;
 
 import com.google.common.collect.Lists;
 import com.jcrew.page.CheckoutShoppingBag;
+import com.jcrew.page.Footer;
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.Then;
@@ -267,7 +270,14 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
 
     @Then("Verify that shopping bag has expected context")
     public void verify_that_shopping_bag_has_expected_context() {
-        assertTrue("Shopping bag has the expected context", bag.verifyContext());
+        Footer footer = new Footer(getDriver());
+        String countryFooter = footer.getCountry();
+
+        StateHolder stateHolder = StateHolder.getInstance();
+        Country c = stateHolder.get("context");
+
+        assertEquals("Shopping bag has the expected context",
+                countryFooter.toLowerCase(), c.getName().toLowerCase());
     }
     
     @Then("^Verify gift card details in shopping bag page$")

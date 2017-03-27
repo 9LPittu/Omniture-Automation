@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.WelcomeMat;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -13,7 +14,8 @@ import static org.junit.Assert.assertTrue;
  * Created by nadiapaolagarcia on 4/18/16.
  */
 public class WelcomeMatSteps extends DriverFactory {
-    WelcomeMat welcomeMat = new WelcomeMat(getDriver());
+    private WelcomeMat welcomeMat = new WelcomeMat(getDriver());
+    private StateHolder holder = StateHolder.getInstance();
 
     @Then("Verify welcome mat is displayed")
     public void verify_walcome_mat_is_displayed() {
@@ -22,7 +24,7 @@ public class WelcomeMatSteps extends DriverFactory {
 
     @Then("Verify country context matches selected country")
     public void verify_country_context_matches_selected_country() {
-        Country country = welcomeMat.country;
+        Country country = holder.get("context");
         String countryName = country.getName().toLowerCase();
         String countryFlagName = countryName.replace(" ", "");
 
@@ -33,7 +35,7 @@ public class WelcomeMatSteps extends DriverFactory {
 
     @Then("Verify welcome message")
     public void verify_welcome_message() {
-        Country country = welcomeMat.country;
+        Country country = holder.get("context");
         String countryCode = country.getCountry();
 
         String expectedWelcomeMessage;

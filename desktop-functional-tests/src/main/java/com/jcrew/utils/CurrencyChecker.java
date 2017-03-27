@@ -89,7 +89,7 @@ public class CurrencyChecker {
                     priceText = priceText.substring(0, index - 1);
                 }
                 if (!priceText.isEmpty()) {
-                    result &= isValid(priceText, c);
+                    result &= isValid(priceText);
                 }
             }
         }
@@ -101,13 +101,15 @@ public class CurrencyChecker {
 
         String subTotalprice = price.getText();
         subTotalprice = subTotalprice.replace("SUBTOTAL:", "");
-        return isValid(subTotalprice, c);
+        return isValid(subTotalprice);
 
     }
 
-    public static boolean isValid(String price, Country country) {
+    public static boolean isValid(String price) {
+        StateHolder holder = StateHolder.getInstance();
+        Country country = holder.get("context");
 
-        if (price.equalsIgnoreCase("free") | price.isEmpty()) {
+        if (price.equalsIgnoreCase("free") | price.isEmpty() | price.equalsIgnoreCase("- - - -")) {
             return true;
         }
 

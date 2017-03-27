@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import java.util.List;
 
+import com.jcrew.page.header.HeaderWrap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

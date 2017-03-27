@@ -9,8 +9,9 @@ Feature: International Country Context - Part 1
     Then User should see Ship To section in footer
     And Verify country name is displayed in the ship to section of footer
     And Verify change link is displayed in the ship to section of footer
-    Then Click on change link from footer
-    And User is on context chooser page
+
+    When Click on change link from footer
+    Then User is on context chooser page
     And User is on internal /r/context-chooser page
     And UNITED STATES & CANADA region is displayed
     And ASIA PACIFIC region is displayed
@@ -23,16 +24,18 @@ Feature: International Country Context - Part 1
       | EUROPE                        |
       | LATIN AMERICA & THE CARIBBEAN |
       | MIDDLE EAST & AFRICA          |
-    And Click on "terms of use" link from terms section on the context chooser page
-    And User is on internal /footer/termsofuse.jsp?sidecar=true page
-    And User presses browser back button
-    And Click on "privacy policy" link from terms section on the context chooser page
-    And User is on internal /help/privacy_policy.jsp?sidecar=true page
-    And User presses browser back button
-    And Click on "SEE ALL FAQ & HELP" button from FAQ section on the context chooser page
-    And User is on internal /help/international_orders.jsp?sidecar=true page
-    And User presses browser back button
-    And Click on "borderfree.com" link from FAQ section on the context chooser page
+
+    When Click on "terms of use" link from terms section on the context chooser page
+    Then Verify user is navigated to url /footer/termsofuse.jsp?sidecar=true on external page
+
+    When Click on "privacy policy" link from terms section on the context chooser page
+    Then Verify user is navigated to url /help/privacy_policy.jsp?sidecar=true on external page
+
+    When Click on SEE ALL FAQ & HELP button from FAQ section on the context chooser page
+    Then User is on internal /help/international_orders.jsp?sidecar=true page
+
+    When User presses browser back button
+    And Click on borderfree.com link from FAQ section on the context chooser page
     And External https://www.borderfree.com/#/ page is opened in a different tab
 
 

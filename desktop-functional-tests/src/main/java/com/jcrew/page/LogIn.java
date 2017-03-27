@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.PropertyReader;
@@ -144,9 +145,13 @@ public class LogIn extends PageObject {
         createAccountFormIsDisplayed();
         createAnAccount = registerForm.findElement(By.tagName("button"));
 
+        String url = driver.getCurrentUrl();
         wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
         createAnAccount.click();
 
+        if (stateHolder.getBoolean("waitHomepage")) {
+            wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+        }
     }
 
     private WebElement getNewUserField(String field) {

@@ -1,9 +1,10 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.*;
-import com.jcrew.page.header.HeaderSearch;
-import com.jcrew.page.header.SubCategory;
-import com.jcrew.page.header.TopNav;
+import com.jcrew.page.header.*;
+import com.jcrew.page.product.ProductDetailColors;
+import com.jcrew.page.product.ProductDetailsActions;
+import com.jcrew.page.product.ProductDetailsSizes;
 import com.jcrew.pojo.Country;
 import com.jcrew.steps.header.HeaderSearchSteps;
 import com.jcrew.utils.DriverFactory;
@@ -48,7 +49,6 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User navigates to a pdp")
     public void user_navigates_to_a_pdp () {
-
         user_navigates_to_subcategory_from_main_category();
 
         ArrayCategory productsArray = new ArrayCategory(driver);
@@ -95,16 +95,19 @@ public class UserNavigationSteps extends DriverFactory {
 
     @When("User adds selected product to bag")
     public void select_product_and_add_to_bag() {
-        ProductDetails productDetails = new ProductDetails(driver);
-        productDetails.selectRandomColor();
-        productDetails.selectRandomSize();
+        ProductDetailColors colors = new ProductDetailColors(driver);
+        colors.selectRandomColor();
+
+        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
+        sizes.selectRandomSize();
         
         //Commenting the below step as higher quantities are getting selected and causing problem during checkout 
         //productDetails.selectRandomQty();
-        
+
+        ProductDetailsActions productDetails = new ProductDetailsActions(driver);
         productDetails.addToBag();
 
-        HeaderWrap header = new HeaderWrap(driver);
+        HeaderBag header = new HeaderBag(driver);
         header.waitUntilNoCheckOutDropdown();
     }
 
@@ -113,7 +116,7 @@ public class UserNavigationSteps extends DriverFactory {
         StateHolder stateHolder = StateHolder.getInstance();
         Country country = (Country) stateHolder.get("context");
 
-        assertTrue("Is an array url", Util.countryContextURLCompliance(driver, country));
+        assertTrue("Is an array url", Util.countryContextURLCompliance(driver));
     }
 
     @Then("^User is on internal ([^\"]*) page$")
@@ -145,11 +148,12 @@ public class UserNavigationSteps extends DriverFactory {
 
     @Then("Verify country code in the url for international countries")
     public void user_should_see_country_code_in_url_for_international_countries(){
-    	
-        Country country = (Country)stateHolder.get("context");
+        Country country = stateHolder.get("context");
         WebDriver driver = getDriver();
-        assertTrue("Country code for'" + country.getName() + "' should be displayed in the url except United States",
-                Util.countryContextURLCompliance(driver, country));
+
+        assertTrue("Country code for'" + country.getName() + "' should be displayed in the url except " +
+                        "United States; curent url is: <" + driver.getCurrentUrl() + ">",
+                Util.countryContextURLCompliance(driver));
     }
 
 
@@ -190,10 +194,12 @@ public class UserNavigationSteps extends DriverFactory {
         header.searchFor(testDataReader.getData("back.order.item"));
         
         select_item_from_search_results();
-        
-        ProductDetails pdp = new ProductDetails(getDriver());
-        pdp.selectColor(testDataReader.getData("back.order.color"));
-        pdp.selectSize(testDataReader.getData("back.order.size"));
+
+        ProductDetailColors colors = new ProductDetailColors(getDriver());
+        colors.selectColor(testDataReader.getData("back.order.color"));
+
+        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
+        sizes.selectSize(testDataReader.getData("back.order.size"));
         
         header.stateHolder.put("backorderedItem", testDataReader.getData("back.order.item"));
     }
@@ -204,10 +210,12 @@ public class UserNavigationSteps extends DriverFactory {
         header.searchFor(testDataReader.getData("few.left.item"));
         
         select_item_from_search_results();
-        
-        ProductDetails pdp = new ProductDetails(getDriver());
-        pdp.selectColor(testDataReader.getData("few.left.color"));
-        pdp.selectSize(testDataReader.getData("few.left.size"));
+
+        ProductDetailColors colors = new ProductDetailColors(getDriver());
+        colors.selectColor(testDataReader.getData("few.left.color"));
+
+        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
+        sizes.selectSize(testDataReader.getData("few.left.size"));
         
         header.stateHolder.put("fewLeftItem", testDataReader.getData("few.left.item"));
     }
@@ -218,10 +226,12 @@ public class UserNavigationSteps extends DriverFactory {
         header.searchFor(testDataReader.getData("regular.item"));
         
         select_item_from_search_results();
-        
-        ProductDetails pdp = new ProductDetails(getDriver());
-        pdp.selectColor(testDataReader.getData("regular.item.color"));
-        pdp.selectSize(testDataReader.getData("regular.item.size"));
+
+        ProductDetailColors colors = new ProductDetailColors(getDriver());
+        colors.selectColor(testDataReader.getData("regular.item.color"));
+
+        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
+        sizes.selectSize(testDataReader.getData("regular.item.size"));
         
         header.stateHolder.put("regularItem", testDataReader.getData("regular.item"));
     }
@@ -233,9 +243,11 @@ public class UserNavigationSteps extends DriverFactory {
 
 		select_item_from_search_results();
 
-		ProductDetails pdp = new ProductDetails(getDriver());
-		pdp.selectColor(testDataReader.getData("promoaplicable.item.color"));
-		pdp.selectSize(testDataReader.getData("promoaplicable.item.size"));
+        ProductDetailColors colors = new ProductDetailColors(getDriver());
+		colors.selectColor(testDataReader.getData("promoaplicable.item.color"));
+
+        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
+		sizes.selectSize(testDataReader.getData("promoaplicable.item.size"));
 
 		header.stateHolder.put("promoaplicableItem",
 				testDataReader.getData("promoaplicable.item"));

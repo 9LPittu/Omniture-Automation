@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.LogIn;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
 import cucumber.api.java.en.Then;
@@ -21,7 +22,8 @@ public class LogInSteps extends DriverFactory {
 	
 	private String emailAddress;
     private String password;    
-    LogIn logIn = new LogIn(getDriver());
+    private LogIn logIn = new LogIn(getDriver());
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("User goes to sign in page")
     public void user_in_signin_page(){
@@ -31,11 +33,13 @@ public class LogInSteps extends DriverFactory {
     @When("User fills user data and signs in")
     public void fills_user_data() {
         logIn.userSignIn();
+        stateHolder.put("waitHomepage", true);
     }
     
     @When("User fills ([^\"]*) category data and signs in")
     public void fill_user_category_data(String userCategory){
         logIn.userSignIn(userCategory);
+        stateHolder.put("waitHomepage", true);
     }
 
 
@@ -82,14 +86,19 @@ public class LogInSteps extends DriverFactory {
     @When("^([^\"]*) field is filled with invalid data \"([^\"]*)\"$")
     public void field_is_filled_with(String field, String value) {
         logIn.fillField(field, value);
+        stateHolder.put("waitHomepage", false);
     }
 
     @When("^([^\"]*) field is filled with ([^\"]*) data$")
     public void field_is_filled_with_new_data(String field, String userType) {
-        if("new".equalsIgnoreCase(userType))
+        if("new".equalsIgnoreCase(userType)) {
             logIn.fillField(field, true);
-        else
+            stateHolder.put("waitHomepage", true);
+        }
+        else {
             logIn.fillField(field, false);
+            stateHolder.put("waitHomepage", false);
+        }
     }
 
     @When("([^\"]*) field is filled with less than (\\d+) characters")
@@ -165,7 +174,9 @@ public class LogInSteps extends DriverFactory {
 		boolean result = logIn.submitUserCredentials(emailAddress, password);
 		if(!result){
 			logIn.signIn(userClassUserType);
-		}		
+		}
+
+        stateHolder.put("waitHomepage", true);
     }
 
 }

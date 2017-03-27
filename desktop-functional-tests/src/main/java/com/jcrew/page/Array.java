@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.jcrew.page.header.HeaderLogo;
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;

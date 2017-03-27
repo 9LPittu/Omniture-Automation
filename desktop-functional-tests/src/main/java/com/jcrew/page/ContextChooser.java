@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.page.homepage.JCrewHomePage;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.PropertyReader;
@@ -121,17 +122,13 @@ public class ContextChooser {
 		Util.scrollAndClick(driver, link);
 	}
 
-	public void clickButtonFromFAQSectionOnContextChooserPage(String buttonName) {
-		WebElement button = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/a[normalize-space(" + Util.xpathGetTextLower + ")='" + buttonName.toLowerCase() + "']"));
-		
-		JavascriptExecutor jse = (JavascriptExecutor)driver;
-        jse.executeScript("arguments[0].scrollIntoView();", button);
-		
+	public void clickButtonFromFAQSectionOnContextChooserPage() {
+		WebElement button = internationalContextChooserPage.findElement(By.xpath(".//a[@class='r-international__faq--more']"));
         button.click();
 	}
 
-	public void clickLinkFromFAQSectionOnContextChooserPage(String linkName) {
-		WebElement link = internationalContextChooserPage.findElement(By.xpath("//section[@class='r-international__faq']/article/section/p/a[text()='borderfree.com']"));
+	public void clickLinkFromFAQSectionOnContextChooserPage() {
+		WebElement link = internationalContextChooserPage.findElement(By.xpath(".//a[contains(text(),'borderfree.com')]"));
 		Util.scrollAndClick(driver, link);
 	}
 

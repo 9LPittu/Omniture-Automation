@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.pojo.Country;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -33,6 +34,7 @@ public class WelcomeMat extends PageObject{
         PageFactory.initElements(driver, this);
 
         wait.until(ExpectedConditions.visibilityOf(welcomemat));
+        Country country = stateHolder.get("context");
 
         if ("CA".equalsIgnoreCase(country.getCountry())) {
             body = welcomemat.findElement(By.className("c-header__welcomematCanada--byline"));

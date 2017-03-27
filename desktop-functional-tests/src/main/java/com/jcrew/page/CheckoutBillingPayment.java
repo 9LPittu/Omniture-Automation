@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
@@ -56,7 +57,7 @@ public class CheckoutBillingPayment extends Checkout {
     @FindBy(className="accountPaymentContainer")
     private WebElement accountPaymentContainer;
     
-    private final HeaderWrap header;
+    private HeaderWrap header;
 
     public CheckoutBillingPayment(WebDriver driver) {
         super(driver);
@@ -189,7 +190,7 @@ public class CheckoutBillingPayment extends Checkout {
         submit.click();
 
         Util.waitForPageFullyLoaded(driver);
-        header.reload();
+        header = new HeaderWrap(driver);
         Util.waitForPageFullyLoaded(driver);
     }
     
