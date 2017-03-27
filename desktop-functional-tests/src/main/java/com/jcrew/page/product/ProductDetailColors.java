@@ -3,6 +3,7 @@ package com.jcrew.page.product;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -78,7 +79,8 @@ public class ProductDetailColors extends ProductDetails {
             wait.until(ExpectedConditions.visibilityOf(selectedColorImage));
             selectedColorImage.click();
         } else {
-            logger.info("Color " + colorName + " not found");
+            logger.error("Color " + colorName + " not found");
+            throw new WebDriverException("Color " + colorName + " not found");
         }
     }
 }
