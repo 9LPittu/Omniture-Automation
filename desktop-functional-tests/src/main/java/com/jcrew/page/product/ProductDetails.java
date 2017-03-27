@@ -194,7 +194,7 @@ public class ProductDetails extends PageObject {
         
         boolean isURL = Util.countryContextURLCompliance(driver);
         logger.debug("is url?  {}", isURL);
-        return  isURL;
+        return  isURL & isNameBlank;
     }
 
     public void click_write_review(){
