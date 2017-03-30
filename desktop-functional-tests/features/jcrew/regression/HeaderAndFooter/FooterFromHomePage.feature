@@ -52,7 +52,7 @@ Feature: Footer - From home page
     Then Verify user is in homepage
 
     When User clicks on Careers footer link under About J.Crew
-    Then Verify user is navigated to url https://jobs.jcrew.com/ on same page
+    Then External https://jobs.jcrew.com/ page is opened in a different tab
     When User presses browser back button
     Then Verify user is in homepage
 
