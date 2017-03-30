@@ -110,6 +110,7 @@ public class Footer {
 
     public void clickChangeLinkInFooter() {
         WebElement changeLinkInFooter = shipToSectionInFooter.findElement(By.className("footer__country-context__link"));
+        Util.scrollToElement(driver, changeLinkInFooter);
         changeLinkInFooter.click();
         logger.info("clicked change link");
     }
