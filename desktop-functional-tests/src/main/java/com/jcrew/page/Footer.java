@@ -150,6 +150,7 @@ public class Footer {
     public void clickFooterSocialLinks(String socialLink) {
         String xpath = ".//a[@class='footer__social__link' and contains(@href,'" + socialLink + "')]";
         WebElement sLink =  footer_social.findElement(By.xpath(xpath));
+        Util.scrollToElement(driver, sLink);
         sLink.click();
         Util.waitLoadingBar(driver);
     }
