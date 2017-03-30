@@ -55,7 +55,6 @@ Feature: Footer - From Sale landing page
 
     When User clicks on Careers footer link under About J.Crew
     Then External https://jobs.jcrew.com/ page is opened in a different tab
-    When User presses browser back button
     Then Verify sale landing page is displayed
 
     When User clicks on Social Responsibility footer link under About J.Crew
