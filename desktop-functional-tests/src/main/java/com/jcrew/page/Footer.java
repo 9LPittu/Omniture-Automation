@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
@@ -58,6 +59,9 @@ public class Footer {
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(global__footer));
         wait.until(ExpectedConditions.visibilityOf(footer_social));
+        
+        HeaderLogo logo = new HeaderLogo(driver);
+        logo.hoverLogo();
     }
 
     private void waitForFooter() {
