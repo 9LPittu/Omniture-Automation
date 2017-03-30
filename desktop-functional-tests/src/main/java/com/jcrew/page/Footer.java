@@ -184,7 +184,8 @@ public class Footer {
     public void clickFooterLinkFromDrawer(String linkText, String drawer) {
         WebElement footerLink = getAccordianLink(linkText, drawer);
         wait.until(ExpectedConditions.elementToBeClickable(footerLink));
-
+        
+        Util.scrollToElement(driver, footerLink);
         footerLink.click();
         Util.waitLoadingBar(driver);
     }
