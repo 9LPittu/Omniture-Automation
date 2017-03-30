@@ -46,8 +46,6 @@ public class ProductDetails extends PageObject {
     @FindBy(id = "c-product__reviews--ratings")
     private WebElement reviewSection;
 
-    @FindBy(id = "c-product__recommendations")
-    private WebElement bayNoteSection;
     @FindBy(id="c-page__navigation")
     private WebElement endCapNav;
 
@@ -393,9 +391,6 @@ public class ProductDetails extends PageObject {
                 break;
             case "reviews":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(reviewSection));
-                break;
-            case "baynotes":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(bayNoteSection));
                 break;
             case "endcaps":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(endCapNav));
