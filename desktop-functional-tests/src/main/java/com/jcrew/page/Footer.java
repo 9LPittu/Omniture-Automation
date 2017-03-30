@@ -1,5 +1,6 @@
 package com.jcrew.page;
 
+import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
@@ -58,6 +59,9 @@ public class Footer {
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(global__footer));
         wait.until(ExpectedConditions.visibilityOf(footer_social));
+        
+        HeaderLogo logo = new HeaderLogo(driver);
+        logo.hoverLogo();
     }
 
     private void waitForFooter() {
@@ -106,6 +110,7 @@ public class Footer {
 
     public void clickChangeLinkInFooter() {
         WebElement changeLinkInFooter = shipToSectionInFooter.findElement(By.className("footer__country-context__link"));
+        Util.scrollToElement(driver, changeLinkInFooter);
         changeLinkInFooter.click();
         logger.info("clicked change link");
     }
@@ -146,6 +151,7 @@ public class Footer {
     public void clickFooterSocialLinks(String socialLink) {
         String xpath = ".//a[@class='footer__social__link' and contains(@href,'" + socialLink + "')]";
         WebElement sLink =  footer_social.findElement(By.xpath(xpath));
+        Util.scrollToElement(driver, sLink);
         sLink.click();
         Util.waitLoadingBar(driver);
     }
@@ -180,7 +186,8 @@ public class Footer {
     public void clickFooterLinkFromDrawer(String linkText, String drawer) {
         WebElement footerLink = getAccordianLink(linkText, drawer);
         wait.until(ExpectedConditions.elementToBeClickable(footerLink));
-
+        
+        Util.scrollToElement(driver, footerLink);
         footerLink.click();
         Util.waitLoadingBar(driver);
     }
