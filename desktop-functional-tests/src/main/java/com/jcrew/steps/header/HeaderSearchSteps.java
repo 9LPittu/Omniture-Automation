@@ -72,4 +72,12 @@ public class HeaderSearchSteps extends DriverFactory {
         assertEquals("State of search drawer should match",expectedState, actualState );
 
     }
+    
+    @When("^User searches for free shipping product$")
+    public void search_free_shipping_product(){
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	String searchTerm = testDataReader.getData("free.shipping.product");
+    	
+    	search.searchForSpecificTerm(searchTerm);
+    }
 }

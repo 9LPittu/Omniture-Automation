@@ -290,4 +290,15 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	assertEquals("Same gift card recipient name", expectedRecipientName.toLowerCase(), bag.getEgiftCardRecipientName().toLowerCase());
     	assertEquals("Same gift card recipient email", expectedRecipientEmail.toLowerCase(), bag.getEgiftCardRecipientEmailAddress().toLowerCase());
     }
+    
+    @When("User adds a promo code ([^\"]*) in shopping bag page")
+    public void add_promo_code_in_shopping_bag(String code) {
+        bag.addPromoCode(code);
+    }
+    
+    @Then("^Verify the applied promo code is (active|inactive)$")
+    public void verify_promo_code_state(String state){
+    	String promoCode = bag.stateHolder.get("promocode");
+    	bag.isPromoCodeApplied(promoCode, state);
+    }
 }

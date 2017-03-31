@@ -1,0 +1,19 @@
+package com.jcrew.runner.regression.full;
+
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = {"features/jcrew/regression/ShoppingBag"},
+        tags = {"@shoppingbag1"},
+        glue = {"com.jcrew.steps"},
+        format = {
+                "json:target/cucumber-regression-guest-part2.json",
+                "pretty",
+                "html:target/cucumber/regression-guest-part2"
+        })
+
+public class ShoppingBag1RunnerTest {
+}
