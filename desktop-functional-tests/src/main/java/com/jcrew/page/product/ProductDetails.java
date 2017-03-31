@@ -207,7 +207,8 @@ public class ProductDetails extends PageObject {
             logger.debug("Product has no reviews, this is the first review");
             writeReviewButton = noReviews.get(0).findElement(By.tagName("a"));
         } else {
-            WebElement reviewContainer = reviewSection.findElement(By.id("BVRRContainer"));
+            WebElement reviewContainer = wait.until(
+                    ExpectedConditions.presenceOfNestedElementLocatedBy(reviewSection, By.id("BVRRContainer")));
             WebElement reviewId = reviewContainer.findElement(By.id("BVRRRatingSummaryLinkWriteID"));
             writeReviewButton = reviewId.findElement(By.tagName("a"));
         }
