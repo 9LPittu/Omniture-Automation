@@ -61,11 +61,14 @@ public class CheckoutShoppingBag extends Checkout {
         List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
 
         for (WebElement product : productsInBag) {
-            List<WebElement> buttons = product.findElements(By.xpath(".//li[@class='item-actions']/a"));
+            WebElement productName = product.findElement(By.className("item-name"));
+            if (!productName.getText().toLowerCase().contains("promo card")) {
+                List<WebElement> buttons = product.findElements(By.xpath(".//li[@class='item-actions']/a"));
 
-            result &= buttons.size() == 2;
-            result &= buttons.get(0).getText().equals("EDIT");
-            result &= buttons.get(1).getText().equals("REMOVE");
+                result &= buttons.size() == 2;
+                result &= buttons.get(0).getText().equals("EDIT");
+                result &= buttons.get(1).getText().equals("REMOVE");
+            }
         }
 
         return result;
