@@ -301,4 +301,11 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	String promoCode = bag.stateHolder.get("promocode");
     	bag.isPromoCodeApplied(promoCode, state);
     }
+    
+    @Then("^Verify the estimated shipping is ([^\"]*)$")
+    public void verify_estimated_shipping_value(String expectedShippingVal){
+    	String estimatedShipping = bag.getEstimatedShipping();       
+        estimatedShipping = estimatedShipping.replaceAll("[^.0-9]", "");
+        assertEquals("Estimated shipping cost is different", expectedShippingVal, estimatedShipping);
+    }
 }
