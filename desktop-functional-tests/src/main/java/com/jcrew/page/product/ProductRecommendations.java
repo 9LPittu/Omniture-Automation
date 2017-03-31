@@ -34,8 +34,9 @@ public class ProductRecommendations extends ProductDetails {
 
     public void clickRandomRecommendedProduct() {
         List<WebElement> recommendations = product__recommendations.findElements(By.className("c-product-tile"));
+        int randomIndex = recommendations.size() > 5 ? 5 : recommendations.size();
 
-        clickRecommendation(recommendations.get(Util.randomIndex(recommendations.size())));
+        clickRecommendation(recommendations.get(randomIndex));
 
     }
 
