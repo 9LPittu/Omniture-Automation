@@ -10,9 +10,9 @@ import org.junit.runner.RunWith;
         tags = {"@shoppingbag1"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-regression-guest-part2.json",
+                "json:target/cucumber-shopping-bag-promos-part1.json",
                 "pretty",
-                "html:target/cucumber/regression-guest-part2"
+                "html:target/cucumber/cucumber-shopping-bag-promos-part1"
         })
 
 public class ShoppingBag1RunnerTest {
