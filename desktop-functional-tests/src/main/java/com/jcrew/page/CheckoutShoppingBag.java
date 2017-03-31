@@ -1,7 +1,6 @@
 package com.jcrew.page;
 
 import com.google.common.collect.Lists;
-import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
