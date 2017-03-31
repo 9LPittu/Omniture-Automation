@@ -1,4 +1,4 @@
-@shoppingbag1
+@shoppingbag1 @HighLevel
 Feature: Stackable promo functionality for free shipping and regular products
 
   Background:
