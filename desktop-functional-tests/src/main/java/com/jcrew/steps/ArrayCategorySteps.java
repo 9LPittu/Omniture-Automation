@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.Footer;
 import com.jcrew.page.ArrayCategory;
+import com.jcrew.pojo.Country;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
@@ -19,8 +20,8 @@ import static org.junit.Assert.assertTrue;
  * Created by nadiapaolagarcia on 4/1/16.
  */
 public class ArrayCategorySteps extends DriverFactory {
-    ArrayCategory productsArray = new ArrayCategory(getDriver());
-    StateHolder holder = StateHolder.getInstance();
+    private ArrayCategory productsArray = new ArrayCategory(getDriver());
+    private StateHolder holder = StateHolder.getInstance();
 
     @When("User selects first product from product array")
     public void user_selects_first_product(){
@@ -55,9 +56,11 @@ public class ArrayCategorySteps extends DriverFactory {
 
     @Then("Verify context in the array page")
     public void verify_context_in_url_and_footer_in_array_page() {
-        String countryName = productsArray.country.getName();
+        Country c = holder.get("context");
+        String countryName = c.getName();
 
-        assertTrue("Category Array url contains expected country code", productsArray.verifyURL());
+        assertTrue("Category Array URL: <" + getDriver().getCurrentUrl() + "> does not contains expected " +
+                "country code for " +  countryName, productsArray.verifyURL());
 
         Footer footer = new Footer(getDriver());
         assertEquals("Homepage footer matches expected country",
@@ -68,22 +71,24 @@ public class ArrayCategorySteps extends DriverFactory {
     @Then("^Verify proper currency symbol is displayed on product grid list$")
     public void verify_currency_on_product_gridlist(){
         List<String> listPrice = productsArray.getPrices();
-        String countryName = productsArray.country.getName();
+        Country c = holder.get("context");
+        String countryName = c.getName();
+
         for(String price : listPrice) {
             assertTrue("List price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, productsArray.country));
+                    CurrencyChecker.isValid(price));
         }
 
         List<String> salePrice = productsArray.getSalePrices();
         for(String price : salePrice) {
             assertTrue("Sale price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, productsArray.country));
+                    CurrencyChecker.isValid(price));
         }
 
         List<String> wasPrice = productsArray.getWasPrices();
         for(String price : wasPrice) {
             assertTrue("Was price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, productsArray.country));
+                    CurrencyChecker.isValid(price));
         }
     }
 

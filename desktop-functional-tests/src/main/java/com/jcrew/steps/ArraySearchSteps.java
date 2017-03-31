@@ -44,31 +44,27 @@ public class ArraySearchSteps extends DriverFactory {
         List<String> listPrice = searchArray.getPrices();
         for(String price : listPrice) {
             assertTrue("List price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, searchArray.country));
+                    CurrencyChecker.isValid(price));
         }
 
         List<String> salePrice = searchArray.getSalePrices();
         for(String price : salePrice) {
             assertTrue("Sale price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, searchArray.country));
+                    CurrencyChecker.isValid(price));
         }
 
         List<String> wasPrice = searchArray.getWasPrices();
         for(String price : wasPrice) {
             assertTrue("Was price " + price + " matches country context "+countryName,
-                    CurrencyChecker.isValid(price, searchArray.country));
+                    CurrencyChecker.isValid(price));
         }
     }
     
     @Then("Verify Sale array page is displayed$")
     public void verify_sale_array() {
     	if (!stateHolder.hasKey("secondPromoVerification")) {
-	    	boolean isSearchArray = searchArray.isSalePage();
-	    	
-	    	String saleTitle = searchArray.getHeaderTitle();
-	    	boolean isSaleTitle = saleTitle.equalsIgnoreCase("sale");
-	    	
-	    	assertTrue("Sale array should be displayed",isSearchArray && isSaleTitle);
+			assertTrue("Sale array should be displayed", searchArray.isSalePage());
+	    	assertEquals("Sale title should be displayed","sale", searchArray.getHeaderTitle().toLowerCase());
     	}
     }
     

@@ -1,8 +1,6 @@
 package com.jcrew.page;
 
 import com.google.common.base.Function;
-import com.jcrew.pojo.Country;
-import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
@@ -38,7 +36,7 @@ public abstract class PageObject implements IPageObject {
     }
 
     public boolean verifyURL() {
-        return Util.countryContextURLCompliance(driver, country);
+        return Util.countryContextURLCompliance(driver);
     }
     
     public boolean urlContains(String url) {

@@ -15,7 +15,8 @@ public class ExternalPageSteps extends DriverFactory {
     @Then("Verify user is in external page url contains ([^\"]*)")
     public void external_page(String page_url) {
         String current_url = getDriver().getCurrentUrl();
-        assertTrue("Current page url contains" + page_url+" and current url is "+current_url, current_url.contains(page_url));
+        assertTrue("Current page url contains" + page_url + " and current url is " + current_url,
+                current_url.contains(page_url));
     }
 
 

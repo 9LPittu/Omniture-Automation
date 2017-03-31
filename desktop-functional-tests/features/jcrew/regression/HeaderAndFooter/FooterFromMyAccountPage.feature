@@ -56,8 +56,7 @@ Feature: Footer - From my Account page
     Then Verify user is in My Account main page
 
     When User clicks on Careers footer link under About J.Crew
-    Then Verify user is navigated to url https://jobs.jcrew.com/ on same page
-    When User presses browser back button
+    Then External https://jobs.jcrew.com/ page is opened in a different tab
     Then Verify user is in My Account main page
 
     When User clicks on Social Responsibility footer link under About J.Crew

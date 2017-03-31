@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.collect.Lists;
+import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
@@ -261,12 +262,6 @@ public class CheckoutShoppingBag extends Checkout {
     	return itemCode;
     }
 
-    public boolean verifyContext() {
-        String countryFooter = footer.getCountry();
-        boolean result = countryFooter.equalsIgnoreCase(country.getName());
-        return result;
-    }
-    
     public String getEgiftCardSenderName(){
     	WebElement senderNameElement = giftCardElement.findElement(By.xpath(".//ul[@class='item-description']/li[1]/span"));
     	String senderName = senderNameElement.getText().trim();

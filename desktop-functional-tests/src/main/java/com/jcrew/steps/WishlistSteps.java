@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  */
 public class WishlistSteps extends DriverFactory {
     private StateHolder stateHolder = StateHolder.getInstance();
-    Wishlist wishlist = new Wishlist(getDriver());
+    private Wishlist wishlist = new Wishlist(getDriver());
 
 
     @Then("Verify user is in wishlist page")

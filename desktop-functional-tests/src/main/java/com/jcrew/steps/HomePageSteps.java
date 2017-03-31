@@ -5,6 +5,7 @@ import com.jcrew.page.homepage.HomePage;
 import com.jcrew.page.homepage.IHomePage;
 import com.jcrew.pojo.Country;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
 
 import static org.junit.Assert.*;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
  * Created by nadiapaolagarcia on 3/30/16.
  */
 public class HomePageSteps extends DriverFactory{
-    IHomePage homePage = HomePage.getHomePage(getDriver());
+    private IHomePage homePage = HomePage.getHomePage(getDriver());
 
     @Then("Verify user is in homepage")
     public void verify_user_is_in_hompage(){
@@ -22,7 +23,8 @@ public class HomePageSteps extends DriverFactory{
 
     @Then("Verify user is in international homepage")
     public void verify_user_is_in_international_hompage(){
-        Country country = homePage.country;
+        StateHolder stateHolder = StateHolder.getInstance();
+        Country country = stateHolder.get("context");
         String countryName = country.getName();
 
         assertTrue("user is in homepage", homePage.isHomePage());

@@ -1,7 +1,6 @@
 package com.jcrew.steps.product;
 
 import com.jcrew.page.product.ProductDetailSoldOut;
-import com.jcrew.steps.ProductDetailSteps;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.When;
 
@@ -15,9 +14,13 @@ public class ProductStatusSteps extends DriverFactory {
         ProductDetailSoldOut soldOut = new ProductDetailSoldOut(getDriver());
 
         if (!soldOut.isSoldOut()) {
-            ProductDetailSteps pdpSteps = new ProductDetailSteps();
-            pdpSteps.user_selects_random_color();
-            pdpSteps.user_selects_random_size();
+            ProductDetailColorsSteps colors = new ProductDetailColorsSteps();
+            colors.user_selects_random_color();
+
+            ProductDetailsSizesSteps sizes = new ProductDetailsSizesSteps();
+            sizes.user_selects_random_size();
+
+            ProductDetailsActionsSteps pdpSteps = new ProductDetailsActionsSteps();
             pdpSteps.user_adds_product_to_bag();
         }
     }

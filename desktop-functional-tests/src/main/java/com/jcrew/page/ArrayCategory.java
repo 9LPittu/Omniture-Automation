@@ -1,5 +1,7 @@
 package com.jcrew.page;
 
+import com.jcrew.page.header.HeaderWrap;
+import com.jcrew.page.product.ProductDetails;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

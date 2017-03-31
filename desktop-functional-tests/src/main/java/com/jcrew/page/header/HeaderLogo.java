@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by ngarcia on 3/2/17.
  */
-public class HeaderLogo extends PageObject {
+public class HeaderLogo extends HeaderWrap {
 
     @FindBy(id = "js-header__logo")
     private WebElement header_logo;
