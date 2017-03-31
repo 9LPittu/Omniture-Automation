@@ -73,14 +73,4 @@ Feature: PDP Layout
     When User selects random color
     And User selects random size
     And User adds product to bag
-    #id 139
-    And User clicks on any recommended product
-    Then Verify product detail page is displayed
-    And Verify product detail page from recommendation is displayed
-
-    When User selects random color
-    And User selects random size
-    And User adds product to bag
-    And User clicks in bag
-    Then Verify products added matches with products in bag
 
