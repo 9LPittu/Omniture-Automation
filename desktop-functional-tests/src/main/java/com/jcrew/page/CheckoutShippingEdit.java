@@ -69,6 +69,8 @@ public class CheckoutShippingEdit extends Checkout {
     	}
     	
     	radioButtons.get(0).click();
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
     	logger.debug("Selected address: {}", addressLine1);
     }
     

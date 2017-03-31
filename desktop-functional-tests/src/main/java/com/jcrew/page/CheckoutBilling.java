@@ -226,6 +226,8 @@ public class CheckoutBilling extends Checkout {
     	
    		WebElement paymentRadioButton = paymentMethodElements.get(0).findElement(By.xpath("preceding-sibling::input[@class='address-radio']"));
    		paymentRadioButton.click();
+   		Util.waitForPageFullyLoaded(driver);
+   		Util.waitLoadingBar(driver);
     }
     
     public void fillPaymentCardDetails(String paymentMethodName){

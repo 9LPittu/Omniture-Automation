@@ -171,6 +171,8 @@ public class CheckoutShippingOptions extends Checkout {
     		WebElement shippingMethodRadioBtn = shippingMethodContainer.findElement(By.xpath(".//span[@class='method-group' and contains(normalize-space(.),'" + shippingMethodName
     			                                                                              + "')]/preceding-sibling::input[@name='shippingMethod']"));
     	    shippingMethodRadioBtn.click();
+    	    Util.waitForPageFullyLoaded(driver);
+    	    Util.waitLoadingBar(driver);
     	    logger.debug("Selected Shipping Method: {}", shippingMethodName);
     	}
     	catch(NoSuchElementException nsee){
