@@ -27,6 +27,7 @@ public class ProductImage extends PageObject {
 
     public void clickSelectedImage() {
         WebElement selectedImage = selectedImage();
+        wait.until(ExpectedConditions.elementToBeClickable(selectedImage));
         selectedImage.click();
     }
 
