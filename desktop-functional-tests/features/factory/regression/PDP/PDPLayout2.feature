@@ -30,8 +30,19 @@ Feature: PDP Layout from search and variations
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
 
     And Verify reviews displayed in PDP
-    And Verify baynotes displayed in PDP
+    And Verify product has recommended products
     And Verify endcaps displayed in PDP
+
+    #id 139
+    When User clicks on any recommended product
+    Then Verify product detail page is displayed
+    And Verify product detail page from recommendation is displayed
+
+    When User selects random color
+    And User selects random size
+    And User adds product to bag
+    And User clicks in bag
+    Then Verify products added matches with products in bag
 
   Scenario: Variation PDP layout
     When User selects random variation product from product array
@@ -51,5 +62,16 @@ Feature: PDP Layout from search and variations
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
 
     And Verify reviews displayed in PDP
-    And Verify baynotes displayed in PDP
+    And Verify product has recommended products
     And Verify endcaps displayed in PDP
+
+    #id 139
+    When User clicks on any recommended product
+    Then Verify product detail page is displayed
+    And Verify product detail page from recommendation is displayed
+
+    When User selects random color
+    And User selects random size
+    And User adds product to bag
+    And User clicks in bag
+    Then Verify products added matches with products in bag

@@ -37,6 +37,15 @@ public class ProductDetailSteps extends DriverFactory {
         		productDetails.isProductDetailPage());
     }
 
+    @Then("Verify product detail page from recommendation is displayed")
+    public void baynote_pdp_is_displayed() {
+        String expected = stateHolder.get("baynote");
+
+        if (expected != null) {
+            assertEquals("Same item from baynote", expected.toLowerCase(), productDetails.getProductCode().toLowerCase());
+        }
+    }
+
     @Then("Verify price matches with category array")
     public void price_matches_category_array() {
         Product product = (Product) stateHolder.get("fromArray");

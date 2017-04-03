@@ -1,5 +1,5 @@
 @PDP4 @HighLevel
-Feature: PDP Layout3
+Feature: PDP layout from bag page
 
   Background:
     Given User goes to homepage
@@ -34,16 +34,12 @@ Feature: PDP Layout3
     And Verify Update Bag button is displayed
     And Verify Wishlist button is displayed
     And Verify social icons displayed in PDP
-
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-
     And Verify reviews displayed in PDP
-    And Verify baynotes displayed in PDP
+    And Verify product has recommended products
     And Verify endcaps displayed in PDP
+
     When User selects random color
     And User selects random size
     And User adds product to bag
-
-    When User clicks in bag
-    Then Verify products added matches with products in bag

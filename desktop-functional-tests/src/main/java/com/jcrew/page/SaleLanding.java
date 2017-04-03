@@ -201,7 +201,7 @@ public class SaleLanding {
 	    	
 	    	return secondPromo.isDisplayed();
     	
-    	} catch (TimeoutException te)	{
+    	} catch (NoSuchElementException te)	{
     		logger.info("second promo box is not displayed. Ignoring this as second promo is optional");
     		stateHolder.put("secondPromoVerification",true);
     		

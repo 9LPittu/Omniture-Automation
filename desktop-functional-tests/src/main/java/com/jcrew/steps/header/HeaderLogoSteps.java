@@ -20,4 +20,9 @@ public class HeaderLogoSteps extends DriverFactory {
     public void is_logo_visible(String brand) {
         logo.isLogoVisible();
     }
+
+    @When("User hovers (JCrew|Factory) logo")
+    public void user_hovers_jcrew_logo(String brand) {
+        logo.hoverLogo();
+    }
 }
