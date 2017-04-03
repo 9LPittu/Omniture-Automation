@@ -93,7 +93,6 @@ public class LogInSteps extends DriverFactory {
     public void field_is_filled_with_new_data(String field, String userType) {
         if("new".equalsIgnoreCase(userType)) {
             logIn.fillField(field, true);
-            stateHolder.put("waitHomepage", true);
         }
         else {
             logIn.fillField(field, false);

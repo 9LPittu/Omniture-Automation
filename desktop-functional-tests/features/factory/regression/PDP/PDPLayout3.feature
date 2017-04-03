@@ -25,12 +25,19 @@ Feature: PDP Layout from sale array
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
 
     And Verify reviews displayed in PDP
-    And Verify baynotes displayed in PDP
+    And Verify product has recommended products
     And Verify endcaps displayed in PDP
 
     When User selects random color
     And User selects random size
     And User adds product to bag
+    #id 139
+    And User clicks on any recommended product
+    Then Verify product detail page is displayed
+    And Verify product detail page from recommendation is displayed
 
-    When User clicks in bag
+    When User selects random color
+    And User selects random size
+    And User adds product to bag
+    And User clicks in bag
     Then Verify products added matches with products in bag
