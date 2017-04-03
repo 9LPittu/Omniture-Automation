@@ -28,8 +28,8 @@ Feature: PDP Layout from search and variations
 
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-
-    And Verify reviews displayed in PDP
+    #id 136
+    And Verify review section is displayed in PDP
     And Verify product has recommended products
     And Verify endcaps displayed in PDP
 
@@ -49,7 +49,7 @@ Feature: PDP Layout from search and variations
     Then Verify product detail page is displayed
     And Verify product name on PDP matches with category array
     And Verify Item code displayed in PDP
-    And Verify Variations displayed in PDP
+    And Verify product variations are displayed
     And Verify price matches with category array
     And Verify that page contains a selected color
     And Verify size chips are displayed
@@ -60,8 +60,8 @@ Feature: PDP Layout from search and variations
 
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-
-    And Verify reviews displayed in PDP
+    #id 136
+    And Verify review section is displayed in PDP
     And Verify product has recommended products
     And Verify endcaps displayed in PDP
 

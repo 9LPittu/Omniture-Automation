@@ -46,12 +46,6 @@ public class ProductDetailSteps extends DriverFactory {
         }
     }
 
-    @Then("Verify price matches with category array")
-    public void price_matches_category_array() {
-        Product product = (Product) stateHolder.get("fromArray");
-        assertEquals("Product price matches category array", product.getPrice(), productDetails.getProductPrice());
-    }
-
     @Then("Verify product name on PDP matches with QS")
     public void product_name_matches_quick_shop() {
         Product product = (Product) stateHolder.get("fromQuickShop");
@@ -63,12 +57,6 @@ public class ProductDetailSteps extends DriverFactory {
         Product product = (Product) stateHolder.get("fromArray");
         assertEquals("Product name matches category array", product.getName(), productDetails.getProductName());
     }
-
-    @When("User clicks on write a review button")
-    public void write_review_button_pressed(){
-        productDetails.click_write_review();
-    }
-
 
     @Then("^Verify PDP message is displayed for the selected country$")
     public void user_should_see_pdp_messages(){
@@ -84,11 +72,6 @@ public class ProductDetailSteps extends DriverFactory {
         assertTrue("User should see message on the PDP page for the selected country",
                 productDetails.isPriceMessageDisplayedOnPDP());
 
-    }
-
-    @When("^User selects random variant on the PDP page$")
-    public void user_selects_random_variant_on_PDP_Page(){
-        productDetails.selectRandomVariantOnPDP();
     }
 
     @Then("^Verify VPS item message is displayed on PDP$")

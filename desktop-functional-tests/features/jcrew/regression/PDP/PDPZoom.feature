@@ -26,8 +26,7 @@ Feature: PDP Images zoom and thumbnails
     And Verify only non EIEC shots are displayed as thumbnails
 
   #id 124
-  Scenario: Development
-  Click image opens modal and thumbnails are present
+  Scenario: Click image opens modal and thumbnails are present
     #id 125
     Then Verify product has thumbnail selected by default
     And Verify only non EIEC shots are displayed as thumbnails

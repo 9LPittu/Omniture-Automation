@@ -26,7 +26,8 @@ Feature: PDP Layout from category page
     And Verify social icons displayed in PDP
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-    And Verify reviews displayed in PDP
+    #id 136
+    And Verify review section is displayed in PDP
     And Verify product has recommended products
     And Verify endcaps displayed in PDP
 
