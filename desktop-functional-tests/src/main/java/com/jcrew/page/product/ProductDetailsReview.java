@@ -1,6 +1,7 @@
 package com.jcrew.page.product;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -43,7 +44,10 @@ public class ProductDetailsReview extends ProductDetails {
 
         wait.until(ExpectedConditions.visibilityOf(writeReviewButton));
         writeReviewButton.click();
+    }
 
-
+    public int getYCoordinate() {
+        Point point = reviewSection.getLocation();
+        return point.getY();
     }
 }

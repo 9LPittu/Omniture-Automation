@@ -2,6 +2,7 @@ package com.jcrew.steps.product;
 
 import com.jcrew.page.product.ProductDetails;
 import com.jcrew.page.product.ProductDetailsActions;
+import com.jcrew.page.product.ProductDetailsReview;
 import com.jcrew.page.product.ProductDetailsSizes;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
@@ -98,28 +99,33 @@ public class ProductDetailSteps extends DriverFactory {
     
 
 
-    @Then("^Verify (SIZE & FIT|PRODUCT DETAILS) is displayed between (Add to Bag|SIZE & FIT) and ([^\"]*)$")
+    @Then("^Verify (SIZE & FIT|PRODUCT DETAILS) is displayed between (Add to Bag|SIZE & FIT) and (PRODUCT DETAILS|reviews)$")
     public void verify_elements_layout_PDP(String elementtoFind, String elementAbove, String elementBelow){
         boolean isSizeAndFit  = productDetails.isSizeAndFitDrawerDisplayed();
-        boolean result=true;
 
         if ((!elementtoFind.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
-            int Find_Y = productDetails.getYCoordinate(elementtoFind);
+            ProductDetailsActions productDetailsActions = new ProductDetailsActions(getDriver());
+            ProductDetailsReview review = new ProductDetailsReview(getDriver());
 
-            if ((!elementBelow.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
-                int below_Y = productDetails.getYCoordinate(elementBelow);
-                result = result && (below_Y > Find_Y);
+            int find_Y = productDetails.getYCoordinate(elementtoFind);
+            int top_Y = 0, bottom_Y = 0;
+
+            if ((!elementBelow.equalsIgnoreCase("product details"))) {
+                bottom_Y = productDetailsActions.getYCoordinate();
+
+            } else {
+                bottom_Y = review.getYCoordinate(elementBelow);
             }
 
             if (elementAbove.equalsIgnoreCase("add to bag")) {
-                ProductDetailsActions productDetailsActions = new ProductDetailsActions(getDriver());
-                result &= productDetailsActions.getYCoordinate() < Find_Y;
+                top_Y = productDetailsActions.getYCoordinate();
+
             } else if (isSizeAndFit) {
-                int Above_Y = productDetails.getYCoordinate(elementAbove);
-                result &= result && (Above_Y < Find_Y);
+                top_Y = productDetails.getYCoordinate(elementAbove);
             }
 
-            assertTrue("Verify '"+elementtoFind+"' is displayed below the '"+elementAbove+"'",result);
+            assertTrue("Verify '" + elementtoFind + "' is displayed below the '" + elementAbove + "'",
+                    top_Y < find_Y & find_Y < bottom_Y);
         }
     }
 
