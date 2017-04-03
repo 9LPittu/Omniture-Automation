@@ -29,7 +29,7 @@ public class ProductRecommendationsSteps extends DriverFactory {
 
     @Then("Verify product has recommended products")
     public void has_recommended_products() {
-        assertTrue("Product has no more than 9 recommendations", pdp.getRecommendationsNumber() > 0);
+        assertTrue("Product has recommendations", pdp.getRecommendationsNumber() > 0);
     }
 
     @When("User clicks on any recommended product")
