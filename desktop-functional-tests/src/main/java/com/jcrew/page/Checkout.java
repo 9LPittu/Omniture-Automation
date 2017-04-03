@@ -323,6 +323,7 @@ public abstract class Checkout extends PageObject{
         WebElement promoCodeField = promoCode.findElement(By.id("promotionCode1"));
         promoCodeField.clear();
         promoCodeField.sendKeys(code);
+        stateHolder.put("promocode", code);
 
         WebElement apply = promoCode.findElement(By.id("promoApply"));
         Util.scrollPage(driver, "down");
@@ -423,6 +424,22 @@ public abstract class Checkout extends PageObject{
     public boolean isPromoCodeApplied(String promoCodeText){
     	try{
     		 WebElement appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[@class='module-name' and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
+    		 return appliedPromoCodeElement.isDisplayed();
+    	}
+    	catch(NoSuchElementException nsee){
+    		return false;
+    	}
+    }
+    
+    public boolean isPromoCodeApplied(String promoCodeText, String state){
+    	try{
+    		WebElement appliedPromoCodeElement = null;
+        	 if(state.equalsIgnoreCase("active")){
+        		 appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[@class='module-name' and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
+        	 }else{
+        		 appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[@class='module-name-inactive' and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
+        	 }
+        	 
     		 return appliedPromoCodeElement.isDisplayed();
     	}
     	catch(NoSuchElementException nsee){
