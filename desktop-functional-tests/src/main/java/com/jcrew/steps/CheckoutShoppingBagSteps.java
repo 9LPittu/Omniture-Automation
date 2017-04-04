@@ -20,7 +20,7 @@ import org.openqa.selenium.WebElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.assertFalse;
 /**
  * Created by nadiapaolagarcia on 5/3/16.
  */
@@ -307,5 +307,17 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	String estimatedShipping = bag.getEstimatedShipping();       
         estimatedShipping = estimatedShipping.replaceAll("[^.0-9]", "");
         assertEquals("Estimated shipping cost is different", expectedShippingVal, estimatedShipping);
+    }
+    
+    @Then("^Verify second promo text box is displayed in promo section$")
+    public void secondpromo_textBox_displayed_promo_section(){
+        assertTrue("second promo text box  is displayed in promo section after firtst promo code is applied",
+        		bag.isPromoTextBoxDisplayed());
+    }
+    
+    @Then("^Verify user is not allowed to add thrid promo$")
+    public void thirdpromo_textBox_not_displayed_promo_section(){
+    	assertFalse("Promo text box  is not displayed in promo section after second promo code is applied",
+    			bag.isPromoTextBoxDisplayed());
     }
 }
