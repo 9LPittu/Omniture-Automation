@@ -2,8 +2,7 @@
 
 Feature: Verify Add to Bag functionality of Special Size item
 
-  Scenario: Development
-  Verify Add to Bag functionality of Special Size item
+  Scenario: Verify Add to Bag functionality of Special Size item
     Given User goes to homepage
     When User closes email capture
     And User hovers on women category from header

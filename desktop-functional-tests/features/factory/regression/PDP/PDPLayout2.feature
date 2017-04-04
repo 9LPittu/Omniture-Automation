@@ -29,7 +29,7 @@ Feature: PDP Layout from search and variations
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
     #id 136
-    And Verify review section is displayed in PDP
+    And Verify product review section is displayed
     And Verify product has recommended products
     And Verify endcaps displayed in PDP
 
@@ -61,7 +61,7 @@ Feature: PDP Layout from search and variations
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
     #id 136
-    And Verify review section is displayed in PDP
+    And Verify product review section is displayed
     And Verify product has recommended products
     And Verify endcaps displayed in PDP
 

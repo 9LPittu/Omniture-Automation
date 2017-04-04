@@ -24,6 +24,13 @@ public class ProductDetailsReview extends ProductDetails {
         wait.until(ExpectedConditions.visibilityOf(reviewSection));
     }
 
+    public int getYCoordinate() {
+        WebElement reviews = reviewSection.findElement(By.id("BVRRContainer"));
+        Point point = reviews.getLocation();
+
+        return point.getY();
+    }
+
     public boolean isReviewSectionDisplayed() {
         return reviewSection.isDisplayed();
     }
@@ -44,10 +51,5 @@ public class ProductDetailsReview extends ProductDetails {
 
         wait.until(ExpectedConditions.visibilityOf(writeReviewButton));
         writeReviewButton.click();
-    }
-
-    public int getYCoordinate() {
-        Point point = reviewSection.getLocation();
-        return point.getY();
     }
 }

@@ -12,7 +12,8 @@ Feature: PDP layout from bag page
     Then Verify user is in category array page
 
  
-  Scenario: PDP layout from bag page
+  Scenario: Development
+  PDP layout from bag page
     When User selects random product from product array
     Then Verify product detail page is displayed
     And User selects random color
@@ -37,7 +38,7 @@ Feature: PDP layout from bag page
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
     #id 136
-    And Verify review section is displayed in PDP
+    And Verify product review section is displayed
     And Verify product has recommended products
     And Verify endcaps displayed in PDP
 

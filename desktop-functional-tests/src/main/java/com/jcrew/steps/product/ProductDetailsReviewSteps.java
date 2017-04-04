@@ -18,7 +18,7 @@ public class ProductDetailsReviewSteps extends DriverFactory {
         review.click_write_review();
     }
 
-    @Then("Verify review section is displayed in PDP")
+    @Then("Verify product review section is displayed")
     public void review_section_displayed() {
         assertTrue("PDP shows review section", review.isReviewSectionDisplayed());
     }
