@@ -22,6 +22,7 @@ public class Product {
     private boolean isSoldOut = false;
     private boolean isBackOrder = false;
     private boolean isCrewCut = false;
+    private boolean hasMonogram = false;
 
     public Product() {
     }
@@ -207,5 +208,13 @@ public class Product {
         }
 
         return result;
+    }
+
+    public void setHasMonogram(boolean hasMonogram) {
+        this.hasMonogram = hasMonogram;
+    }
+
+    public boolean getHasMonogram() {
+        return this.hasMonogram;
     }
 }
