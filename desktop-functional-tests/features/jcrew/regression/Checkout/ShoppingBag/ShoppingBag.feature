@@ -1,4 +1,4 @@
-@ShoppingBag @HighLevel
+@ShoppingBag2 @HighLevel
 Feature: Checkout - Editing items from shopping bag
 
 Background:
@@ -77,14 +77,14 @@ Scenario: Checkout - Multiple shopping bag functions
 
     When User clicks in bag
     Then Verify products added matches with products in bag
-	When User adds a promo code Test-invalid in shopping bag page
+	When User adds a promo code Test-invalid
 	Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 800 562 0258 for help.
-	When User adds a promo code Test-10p in shopping bag page
+	When User adds a promo code Test-10p
     Then Verify promo details contains: 10% off (no min)
     Then Verify second promo text box is displayed in promo section
     When User adds a promo code Test-20p in shopping bag page
     Then Verify promo message says: These promotion codes cannot be combined.
-    When User adds a promo code Stack10p in shopping bag page
+    When User adds a promo code Stack10p
     Then Verify user is not allowed to add thrid promo 
     
     

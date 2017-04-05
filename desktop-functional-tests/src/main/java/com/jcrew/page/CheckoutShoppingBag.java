@@ -305,4 +305,7 @@ public class CheckoutShoppingBag extends Checkout {
         }
         return actualItemsCount == itemsCount;
     }
+    
+   
+      
 }

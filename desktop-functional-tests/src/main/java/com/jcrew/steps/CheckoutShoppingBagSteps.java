@@ -291,17 +291,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	assertEquals("Same gift card recipient email", expectedRecipientEmail.toLowerCase(), bag.getEgiftCardRecipientEmailAddress().toLowerCase());
     }
     
-    @When("User adds a promo code ([^\"]*) in shopping bag page")
-    public void add_promo_code_in_shopping_bag(String code) {
-        bag.addPromoCode(code);
-    }
-    
-    @Then("^Verify the applied promo code is (active|inactive)$")
-    public void verify_promo_code_state(String state){
-    	String promoCode = bag.stateHolder.get("promocode");
-    	bag.isPromoCodeApplied(promoCode, state);
-    }
-    
+   
     @Then("^Verify the estimated shipping is ([^\"]*)$")
     public void verify_estimated_shipping_value(String expectedShippingVal){
     	String estimatedShipping = bag.getEstimatedShipping();       
@@ -309,15 +299,5 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
         assertEquals("Estimated shipping cost is different", expectedShippingVal, estimatedShipping);
     }
     
-    @Then("^Verify second promo text box is displayed in promo section$")
-    public void secondpromo_textBox_displayed_promo_section(){
-        assertTrue("second promo text box  is displayed in promo section after firtst promo code is applied",
-        		bag.isPromoTextBoxDisplayed());
-    }
-    
-    @Then("^Verify user is not allowed to add thrid promo$")
-    public void thirdpromo_textBox_not_displayed_promo_section(){
-    	assertFalse("Promo text box  is not displayed in promo section after second promo code is applied",
-    			bag.isPromoTextBoxDisplayed());
-    }
+   
 }
