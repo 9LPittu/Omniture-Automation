@@ -11,7 +11,7 @@ Feature: PDP Monogram behavior
       | Girls |
       | Boys  |
 
-  Scenario: Development
+  Scenario: Monogram in PDP
     #id 143
     Then Verify shop monogram shop is available
 
