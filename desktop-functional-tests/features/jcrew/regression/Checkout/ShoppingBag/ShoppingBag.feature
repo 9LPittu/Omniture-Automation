@@ -1,4 +1,4 @@
-@ShoppingBag2 @HighLevel
+@ShoppingBag @HighLevel
 Feature: Checkout - Editing items from shopping bag
 
 Background:
