@@ -65,7 +65,7 @@ Scenario: Checkout - Multiple shopping bag functions
     And Verify products added matches with products in bag
     Then Verify edited item is displayed first in shopping bag
     
-  Scenario: Checkout - Multiple shopping bag functions
+  Scenario: Checkout -shopping bag functions
     When User goes to homepage
     When User searches for a random search term
     And User selects random product from array
