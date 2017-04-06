@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public class ProductImage extends PageObject {
 
     @FindBy(id = "c-product__photos")
-    private WebElement product__photos;
+    WebElement product__photos;
 
     public ProductImage(WebDriver driver) {
         super(driver);
