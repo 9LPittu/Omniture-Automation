@@ -89,7 +89,6 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     }
 
-
     @Then("Verify promo code applied 10 percent from subtotal")
     public void applied_promo() {
         String subtotal = billing.getSubTotal();
@@ -172,10 +171,6 @@ public class CheckoutBillingSteps extends DriverFactory {
     	assertTrue("remove button is displayed in promo section after promo code is applied", billing.getPromoRemoveElement().isDisplayed()); 
     }
     
-    @And("^Verify promo message is updated in the summary section$")
-    public void promo_message_updated_in_summary_section(){
-    	assertTrue("Promo message is updated in the order summary section after promo code is applied", billing.getPromoMessageElementFromOrderSummary().isDisplayed());
-    }
     
     @Then("^Verify no additional charges are applied for gift receipt$")
     public void verify_no_additional_charges_applied_for_gift_receipt(){
