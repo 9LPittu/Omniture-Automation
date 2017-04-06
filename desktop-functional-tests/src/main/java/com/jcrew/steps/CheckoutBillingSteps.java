@@ -149,11 +149,7 @@ public class CheckoutBillingSteps extends DriverFactory {
     	billing.SelectPaymentMethodNoDefault();
     }
     
-    @And("^Verify remove button is displayed in promo section$")
-    public void remove_button_displayed_in_promo_section(){
-    	assertTrue("remove button is displayed in promo section after promo code is applied", billing.getPromoRemoveElement().isDisplayed()); 
-    }
-    
+   
     
     @Then("^Verify no additional charges are applied for gift receipt$")
     public void verify_no_additional_charges_applied_for_gift_receipt(){
