@@ -89,24 +89,7 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     }
 
-    @Then("Verify promo code applied 10 percent from subtotal")
-    public void applied_promo() {
-        String subtotal = billing.getSubTotal();
-        subtotal = subtotal.replaceAll("[^0-9]", "");
-        String promo = billing.getPromoDiscount();
-        promo = promo.replaceAll("[^0-9]", "");
-
-        int subtotalInt = Integer.parseInt(subtotal);
-        int promoInt = Integer.parseInt(promo) * 10;
-        
-        boolean result = false;
-        if(subtotalInt==promoInt || (subtotalInt + 1)==promoInt){
-        	result = true;
-        }
-
-        assertTrue("Promo was applied correctly", result);
-    }
-
+    
     @When("^User adds new billing address$")
     public void add_billing_address() {
         billing.addNewBillingAddress();
