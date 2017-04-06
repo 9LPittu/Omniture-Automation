@@ -89,34 +89,6 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     }
 
-    @When("User adds a promo code ([^\"]*) in Payment Method page")
-    public void add_payment_method(String code) {
-        billing.addPromoCode(code);
-    }
-
-    @Then("Verify promo message says: ([^\"]*)")
-    public void promo_message(String message) {
-        String actual = billing.getPromoCodeMessage();
-
-        assertEquals("Expected promo message", message, actual);
-    }
-
-    @Then("Verify promo name contains: ([^\"]*)")
-    public void promo_name(String message) {
-        message = message.toLowerCase();
-        String actual = billing.getPromoName().toLowerCase();
-
-        assertTrue("Expected promo name contains " +  message, actual.contains(message));
-    }
-
-    @Then("Verify promo details contains: ([^\"]*)")
-    public void promo_details(String message) {
-        message = message.toLowerCase();
-        String actual = billing.getPromoDetails().toLowerCase();
-
-        assertTrue("Expected promo name contains " +  message, actual.contains(message));
-        billing.stateHolder.put("promoMessage", message);
-    }
 
     @Then("Verify promo code applied 10 percent from subtotal")
     public void applied_promo() {
