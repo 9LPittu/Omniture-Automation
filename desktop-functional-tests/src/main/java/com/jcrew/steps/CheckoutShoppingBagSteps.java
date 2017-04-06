@@ -20,6 +20,7 @@ import org.openqa.selenium.WebElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Created by nadiapaolagarcia on 5/3/16.
@@ -313,7 +314,13 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     @Then("^Verify the applied promo code is (active|inactive)$")
     public void verify_promo_code_state(String state){
     	String promoCode = bag.stateHolder.get("promocode");
-    	bag.isPromoCodeApplied(promoCode, state);
+    	boolean actualState = bag.isPromoCodeApplied(promoCode, state);
+    	
+    	if(state.equalsIgnoreCase("active")){
+    		assertTrue("Promo code '" + promoCode + "' should be '" + state + "'", actualState);    		
+    	}else{
+    		assertFalse("Promo code '" + promoCode + "' should be '" + state + "'", actualState);
+    	}
     }
     
     @Then("^Verify the estimated shipping is ([^\"]*)$")

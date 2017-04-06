@@ -28,23 +28,11 @@ import java.util.List;
  */
 public class ProductDetails extends PageObject {
 
-    private final String PRICE_SALE_CLASS = "product__price--sale";
-    private final String PRICE_LIST_CLASS = "product__price--list";
-
-    @FindBy(id = "c-product__price")
-    private WebElement price;
-    @FindBy(id = "c-product__variations")
-    private WebElement variations;
     @FindBy(xpath = "//div[@id='c-product__vps']")
     private WebElement vpsMessage;
 
     @FindBy(id = "c-product__overview")
     private WebElement productOverview;
-    @FindBy(id = "c-product__reviews--ratings-summary")
-    private WebElement reviewSummary;
-
-    @FindBy(id = "c-product__reviews--ratings")
-    private WebElement reviewSection;
 
     @FindBy(id="c-page__navigation")
     private WebElement endCapNav;
@@ -83,80 +71,13 @@ public class ProductDetails extends PageObject {
         return name.getText();
     }
 
-    public  String getProductPrice(){
-        WebElement productPrice;
-        List<WebElement> variationsPrice = variations.findElements(By.tagName("li"));
-        if (variationsPrice.size() > 0) {
-            WebElement selectedVariation = variations.findElement(By.className("is-selected"));
-
-            //check if variation has sale price
-            productPrice = selectedVariation.findElement(
-                    By.xpath(".//span[contains(@class,'" + PRICE_SALE_CLASS + "')]"));
-            if (!productPrice.isDisplayed()) {
-                //if no sale price get regular price from varations
-                productPrice = selectedVariation.findElement(
-                        By.xpath(".//span[contains(@class,'" + PRICE_LIST_CLASS + "')]"));
-            }
-
-        } else { //if no variations, get sale price
-            wait.until(ExpectedConditions.visibilityOf(price));
-            productPrice = price.findElement(By.className(PRICE_SALE_CLASS));
-            if (!productPrice.isDisplayed()) {
-                //if no sale price get regular price
-                productPrice = price.findElement(By.className(PRICE_LIST_CLASS));
-            }
-        }
-        String price = productPrice.getText();
-        price = price.trim().toLowerCase();
-        price = price.replace("select colors", "").replace("now", "");
-        price = price.replace("was", "");
-        price = price.replace(" ", "");
-        return price;
-    }
-
-    private String getPrice() {
-        ProductDetailColors colors = new ProductDetailColors(driver);
-
-        if (colors.hasGroups()) {
-            return colors.getGroupPrice();
-
-        } else {
-            //if has variations, get price from variations
-            List<WebElement> variationsPrice = variations.findElements(By.tagName("li"));
-            WebElement productPrice;
-
-            if (variationsPrice.size() > 0) {
-                WebElement selectedVariation = variations.findElement(By.className("is-selected"));
-
-                //check if variation has sale price
-                productPrice = selectedVariation.findElement(
-                        By.xpath(".//span[contains(@class,'" + PRICE_SALE_CLASS + "')]"));
-                if (!productPrice.isDisplayed()) {
-                    //if no sale price get regular price
-                    productPrice = selectedVariation.findElement(
-                            By.xpath(".//span[contains(@class,'" + PRICE_LIST_CLASS + "')]"));
-                }
-
-            } else { //if no variations, get sale price
-                wait.until(ExpectedConditions.visibilityOf(price));
-                productPrice = price.findElement(By.className(PRICE_SALE_CLASS));
-                if (!productPrice.isDisplayed()) {
-                    //if no sale price get regular price
-                    productPrice = price.findElement(By.className(PRICE_LIST_CLASS));
-                }
-            }
-
-            return productPrice.getText();
-        }
-
-    }
-
     public Product getProduct() {
         ProductDetailColors colors = new ProductDetailColors(driver);
         ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
         ProductDetailSoldOut soldOut = new ProductDetailSoldOut(driver);
         ProductDetailsQuantity quantity = new ProductDetailsQuantity(driver);
         ProductDetailsActions actions = new ProductDetailsActions(driver);
+        ProductDetailsVariations variations = new ProductDetailsVariations(driver);
         ProductDetailsPersonalization personalization = new ProductDetailsPersonalization(driver);
 
         Product product = new Product();
@@ -166,7 +87,7 @@ public class ProductDetails extends PageObject {
             product.setColor(colors.getSelectedColor());
             product.setSize(sizes.getSelectedSize());
             product.setQuantity(quantity.getQuantity());
-            product.setPrice(getPrice());
+            product.setPrice(variations.getPrice());
             product.setItemNumber(getProductCode());
             product.setIsBackOrder(actions.getIsBackordered());
             product.setIsCrewCut(getIsCrewCut());
@@ -199,26 +120,6 @@ public class ProductDetails extends PageObject {
         boolean isURL = Util.countryContextURLCompliance(driver);
         logger.debug("is url?  {}", isURL);
         return  isURL & isNameBlank;
-    }
-
-    public void click_write_review(){
-        WebElement writeReviewButton;
-        List<WebElement> noReviews = reviewSection.findElements(By.id("BVRRDisplayContentNoReviewsID"));
-
-        if(noReviews.size() > 0) {
-            logger.debug("Product has no reviews, this is the first review");
-            writeReviewButton = noReviews.get(0).findElement(By.tagName("a"));
-        } else {
-            WebElement reviewContainer = wait.until(
-                    ExpectedConditions.presenceOfNestedElementLocatedBy(reviewSection, By.id("BVRRContainer")));
-            WebElement reviewId = reviewContainer.findElement(By.id("BVRRRatingSummaryLinkWriteID"));
-            writeReviewButton = reviewId.findElement(By.tagName("a"));
-        }
-
-        wait.until(ExpectedConditions.visibilityOf(writeReviewButton));
-        writeReviewButton.click();
-
-
     }
 
     public boolean isPriceMessageDisplayedOnPDP() {
@@ -258,18 +159,6 @@ public class ProductDetails extends PageObject {
         }
 
         return actualPDPMessage.equalsIgnoreCase(expectedPDPMessage);
-    }
-
-    public void selectRandomVariantOnPDP() {
-        List<WebElement> productVariations = variations.findElements(By.className("radio__label"));
-
-        int randomIndex = Util.randomIndex(productVariations.size());
-        WebElement selectedVariation = productVariations.get(randomIndex);
-        WebElement selectedVariationName = selectedVariation.findElement(By.className("product__variation--name"));
-        logger.debug("Selected variation {}", selectedVariationName.getText());
-        selectedVariation.click();
-
-        Util.waitWithStaleRetry(driver, productName);
     }
 
     public boolean isVPSMessageDisplayed() {
@@ -386,14 +275,8 @@ public class ProductDetails extends PageObject {
             case "item code":
                 pdpElement=  productOverview.findElement(By.className("c-product__code"));
                 break;
-            case "variations":
-                pdpElement = variations;
-                break;
             case "social icons":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(".//ul[@class='footer__social__menu']"))));
-                break;
-            case "reviews":
-                pdpElement = wait.until(ExpectedConditions.visibilityOf(reviewSection));
                 break;
             case "endcaps":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(endCapNav));
@@ -409,9 +292,6 @@ public class ProductDetails extends PageObject {
                 break;
             case "name":
                 pdpElement = productName;
-                break;
-            case "price":
-                pdpElement = price;
                 break;
         }
         return pdpElement;

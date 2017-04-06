@@ -23,8 +23,8 @@ Feature: PDP Layout from sale array
 
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-
-    And Verify reviews displayed in PDP
+    #id 136
+    And Verify product review section is displayed
     And Verify product has recommended products
     And Verify endcaps displayed in PDP
 
