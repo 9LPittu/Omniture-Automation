@@ -389,6 +389,10 @@ public abstract class Checkout extends PageObject{
     public String getSubTotal() {
         return getSummaryText("subtotal");
     }
+    
+    public String getPromoDiscount() {
+        return getSummaryText("promo");
+    }
 
     public void selectAddressFromList(WebElement form) {
         List<WebElement> addressEntry = form.findElements(By.xpath(".//li[contains(@class,'address-entry') " +

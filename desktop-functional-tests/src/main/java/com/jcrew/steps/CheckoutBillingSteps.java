@@ -89,7 +89,7 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     }
 
-    
+
     @When("^User adds new billing address$")
     public void add_billing_address() {
         billing.addNewBillingAddress();

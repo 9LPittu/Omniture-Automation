@@ -2,6 +2,7 @@ package com.jcrew.steps.product;
 
 import com.jcrew.page.product.ProductDetails;
 import com.jcrew.page.product.ProductDetailsActions;
+import com.jcrew.page.product.ProductDetailsReview;
 import com.jcrew.page.product.ProductDetailsSizes;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
@@ -46,12 +47,6 @@ public class ProductDetailSteps extends DriverFactory {
         }
     }
 
-    @Then("Verify price matches with category array")
-    public void price_matches_category_array() {
-        Product product = (Product) stateHolder.get("fromArray");
-        assertEquals("Product price matches category array", product.getPrice(), productDetails.getProductPrice());
-    }
-
     @Then("Verify product name on PDP matches with QS")
     public void product_name_matches_quick_shop() {
         Product product = (Product) stateHolder.get("fromQuickShop");
@@ -63,12 +58,6 @@ public class ProductDetailSteps extends DriverFactory {
         Product product = (Product) stateHolder.get("fromArray");
         assertEquals("Product name matches category array", product.getName(), productDetails.getProductName());
     }
-
-    @When("User clicks on write a review button")
-    public void write_review_button_pressed(){
-        productDetails.click_write_review();
-    }
-
 
     @Then("^Verify PDP message is displayed for the selected country$")
     public void user_should_see_pdp_messages(){
@@ -84,11 +73,6 @@ public class ProductDetailSteps extends DriverFactory {
         assertTrue("User should see message on the PDP page for the selected country",
                 productDetails.isPriceMessageDisplayedOnPDP());
 
-    }
-
-    @When("^User selects random variant on the PDP page$")
-    public void user_selects_random_variant_on_PDP_Page(){
-        productDetails.selectRandomVariantOnPDP();
     }
 
     @Then("^Verify VPS item message is displayed on PDP$")
@@ -115,28 +99,34 @@ public class ProductDetailSteps extends DriverFactory {
     
 
 
-    @Then("^Verify (SIZE & FIT|PRODUCT DETAILS) is displayed between (Add to Bag|SIZE & FIT) and ([^\"]*)$")
-    public void verify_elements_layout_PDP(String elementtoFind, String elementAbove, String elementBelow){
+    @Then("^Verify (SIZE & FIT|PRODUCT DETAILS) is displayed between (Add to Bag|SIZE & FIT) and (PRODUCT DETAILS|reviews)$")
+    public void verify_elements_layout_PDP(String middle, String top, String bottom){
         boolean isSizeAndFit  = productDetails.isSizeAndFitDrawerDisplayed();
-        boolean result=true;
+        int middle_Y, top_Y = 0, bottom_Y;
 
-        if ((!elementtoFind.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
-            int Find_Y = productDetails.getYCoordinate(elementtoFind);
+        ProductDetails details = new ProductDetails(getDriver());
+        ProductDetailsActions productDetailsActions = new ProductDetailsActions(getDriver());
+        ProductDetailsReview review = new ProductDetailsReview(getDriver());
 
-            if ((!elementBelow.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
-                int below_Y = productDetails.getYCoordinate(elementBelow);
-                result = result && (below_Y > Find_Y);
+        if (middle.equalsIgnoreCase("product details") | isSizeAndFit) {
+            middle_Y = productDetails.getYCoordinate(middle);
+
+            if (bottom.equalsIgnoreCase("product details")) {
+                bottom_Y = details.getYCoordinate(bottom);
+
+            } else {
+                bottom_Y = review.getYCoordinate();
             }
 
-            if (elementAbove.equalsIgnoreCase("add to bag")) {
-                ProductDetailsActions productDetailsActions = new ProductDetailsActions(getDriver());
-                result &= productDetailsActions.getYCoordinate() < Find_Y;
+            if (top.equalsIgnoreCase("add to bag")) {
+                top_Y = productDetailsActions.getYCoordinate();
+
             } else if (isSizeAndFit) {
-                int Above_Y = productDetails.getYCoordinate(elementAbove);
-                result &= result && (Above_Y < Find_Y);
+                top_Y = productDetails.getYCoordinate(top);
             }
 
-            assertTrue("Verify '"+elementtoFind+"' is displayed below the '"+elementAbove+"'",result);
+            assertTrue("Verify '" + middle + "' is displayed below the '" + top + "'",
+                    top_Y < middle_Y & middle_Y < bottom_Y);
         }
     }
 

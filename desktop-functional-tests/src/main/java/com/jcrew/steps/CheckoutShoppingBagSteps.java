@@ -20,7 +20,9 @@ import org.openqa.selenium.WebElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+
 import static org.junit.Assert.assertFalse;
+
 /**
  * Created by nadiapaolagarcia on 5/3/16.
  */
@@ -291,7 +293,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	assertEquals("Same gift card recipient email", expectedRecipientEmail.toLowerCase(), bag.getEgiftCardRecipientEmailAddress().toLowerCase());
     }
     
-   
+
     @Then("^Verify the estimated shipping is ([^\"]*)$")
     public void verify_estimated_shipping_value(String expectedShippingVal){
     	String estimatedShipping = bag.getEstimatedShipping();       

@@ -120,8 +120,16 @@ public class CheckoutBilling extends Checkout {
         return methodsString;
     }
 
+<<<<<<< HEAD
     
 
+||||||| merged common ancestors
+    public String getPromoDiscount() {
+        return getSummaryText("promo");
+    }
+
+=======
+>>>>>>> master
     public void addNewBillingAddress() {
         WebElement label = newAddressEntry.findElement(By.tagName("label"));
         Util.scrollToElement(driver, label);
