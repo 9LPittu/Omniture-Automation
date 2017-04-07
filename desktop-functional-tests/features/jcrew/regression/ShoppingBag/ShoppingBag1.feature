@@ -16,7 +16,7 @@ Feature: Stackable promo functionality for free shipping and regular products
     When User clicks in bag
     Then Verify products added matches with products in bag
     
-    When User adds a promo code STACK-FS in shopping bag page
+    When User adds a promo code STACK-FS
     Then Verify the applied promo code is inactive
     
   Scenario: Stackable promo(STACK-FS) functionality for free shipping product and regular product
@@ -33,6 +33,6 @@ Feature: Stackable promo functionality for free shipping and regular products
     When User clicks in bag
     Then Verify products added matches with products in bag
     
-    When User adds a promo code STACK-FS in shopping bag page
+    When User adds a promo code STACK-FS
     Then Verify the applied promo code is active
     And Verify the estimated shipping is 0.00    
