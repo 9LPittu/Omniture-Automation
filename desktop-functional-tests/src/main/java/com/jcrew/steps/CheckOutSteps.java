@@ -59,31 +59,4 @@ public class CheckOutSteps extends DriverFactory {
         assertTrue("Subtotal " + total + " matches country context " + countryName,
                 CurrencyChecker.isValid(total));
     }
-    
-    @Then("Verify promo details contains: ([^\"]*)")
-    public void promo_details(String message) {
-        message = message.toLowerCase();
-        String actual = checkout.getPromoDetails().toLowerCase();
-
-        assertTrue("Expected promo name contains " +  message, actual.contains(message));
-        holder.put("promoMessage", message);
-    }
-
-    @Then("Verify promo code applied 10 percent from subtotal")
-    public void applied_promo() {
-        String subtotal = checkout.getSubTotal();
-        subtotal = subtotal.replaceAll("[^0-9]", "");
-        String promo = checkout.getPromoDiscount();
-        promo = promo.replaceAll("[^0-9]", "");
-
-        int subtotalInt = Integer.parseInt(subtotal);
-        int promoInt = Integer.parseInt(promo) * 10;
-        
-        boolean result = false;
-        if(subtotalInt==promoInt || (subtotalInt + 1)==promoInt){
-        	result = true;
-        }
-
-        assertTrue("Promo was applied correctly", result);
-    }
 }
