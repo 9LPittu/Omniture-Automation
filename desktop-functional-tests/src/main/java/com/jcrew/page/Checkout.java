@@ -589,7 +589,5 @@ public abstract class Checkout extends PageObject{
     	
     	 
     }
-    public String getPromoDiscount() {
-        return getSummaryText("promo");
-    }
+   
 }
