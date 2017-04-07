@@ -20,6 +20,7 @@ import org.openqa.selenium.WebElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+
 import static org.junit.Assert.assertFalse;
 
 /**
@@ -306,27 +307,13 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	assertEquals("Same gift card recipient email", expectedRecipientEmail.toLowerCase(), bag.getEgiftCardRecipientEmailAddress().toLowerCase());
     }
     
-    @When("User adds a promo code ([^\"]*) in shopping bag page")
-    public void add_promo_code_in_shopping_bag(String code) {
-        bag.addPromoCode(code);
-    }
-    
-    @Then("^Verify the applied promo code is (active|inactive)$")
-    public void verify_promo_code_state(String state){
-    	String promoCode = bag.stateHolder.get("promocode");
-    	boolean actualState = bag.isPromoCodeApplied(promoCode, state);
-    	
-    	if(state.equalsIgnoreCase("active")){
-    		assertTrue("Promo code '" + promoCode + "' should be '" + state + "'", actualState);    		
-    	}else{
-    		assertFalse("Promo code '" + promoCode + "' should be '" + state + "'", actualState);
-    	}
-    }
-    
+
     @Then("^Verify the estimated shipping is ([^\"]*)$")
     public void verify_estimated_shipping_value(String expectedShippingVal){
     	String estimatedShipping = bag.getEstimatedShipping();       
         estimatedShipping = estimatedShipping.replaceAll("[^.0-9]", "");
         assertEquals("Estimated shipping cost is different", expectedShippingVal, estimatedShipping);
     }
+    
+   
 }

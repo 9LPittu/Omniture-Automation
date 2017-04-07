@@ -577,4 +577,17 @@ public abstract class Checkout extends PageObject{
     	useAddressAsEntered.click();
     	logger.debug("QAS is handled by clicking on 'USE ADDRESS AS ENTERED' button...");
     }
+    
+    public boolean isPromoTextBoxDisplayed(){
+    	try{
+    		return promoCode.findElement(By.id("promotionCode1")).isDisplayed();
+    	}
+    	
+    	catch(Exception e){
+    		return false;
+    	}
+    	
+    	 
+    }
+   
 }
