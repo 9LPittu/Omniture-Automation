@@ -22,7 +22,7 @@ Feature: Stackable and Non-stackable promos functionality for free shipping prod
     When User adds a promo code STACK-FS in shopping bag page
     Then Verify the applied promo code is active
     
-    When User adds a promo code Test-10P in shopping bag page
+    When User adds promo code Test-10P in shopping bag page
     Then Verify the applied promo code is active
     And Verify promo details contains: 10% off (no min)
     And Verify promo code applied 10 percent from subtotal

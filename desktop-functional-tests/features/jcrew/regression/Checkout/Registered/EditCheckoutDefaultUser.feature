@@ -29,7 +29,7 @@ Feature: Checkout - Express user is able to edit data in review page
     
     Then Verify user is in review page
     
-    When User adds a promo code Test-10p in review page
+    When User adds promo code Test-10p in review page
     
     #In gold environment, second promo code text box is not displayed.
     # So, not adding verification point for second promo code text box existence as per test case

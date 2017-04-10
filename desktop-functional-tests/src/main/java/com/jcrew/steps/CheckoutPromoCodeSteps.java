@@ -19,7 +19,7 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     private CheckoutPromoCode promocode = new CheckoutPromoCode(getDriver());
 
     @When("User adds a promo code ([^\"]*)")
-    public void add_payment_method(String code) {
+    public void add_promo_code(String code) {
     	promocode.addPromoCode(code);
     }
 
@@ -74,6 +74,7 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     public void promo_message_updated_in_summary_section(){
     	assertTrue("Promo message is updated in the order summary section after promo code is applied", promocode.getPromoMessageElementFromOrderSummary().isDisplayed());
     }
+    
     @Then("^Verify second promo text box is displayed in promo section$")
     public void secondpromo_textBox_displayed_promo_section(){
         assertTrue("second promo text box  is displayed in promo section after firtst promo code is applied",
@@ -85,9 +86,15 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     	assertFalse("Promo text box  is not displayed in promo section after second promo code is applied",
     			promocode.isPromoTextBoxDisplayed());
     }
+    
     @Then("^Verify the applied promo code is (active|inactive)$")
     public void verify_promo_code_state(String state){
     	String promoCode = promocode.stateHolder.get("promocode");
     	promocode.isPromoCodeApplied(promoCode, state);
+    }
+    
+    @When("User adds promo code ([^\"]*) in ([^\"]*) page")
+    public void add_promo_code_checkout_page(String promoCode, String page) {
+    	promocode.addPromoCode(promoCode, page);
     }
 }
