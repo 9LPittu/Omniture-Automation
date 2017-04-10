@@ -93,8 +93,8 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     	promocode.isPromoCodeApplied(promoCode, state);
     }
     
-    @When("User adds promo code ([^\"]*) in shopping bag page")
-    public void add_promo_code_shopping_bag(String code) {
-    	promocode.addPromoCode(code);
+    @When("User adds promo code ([^\"]*) in ([^\"]*) page")
+    public void add_promo_code_checkout_page(String promoCode, String page) {
+    	promocode.addPromoCode(promoCode, page);
     }
 }

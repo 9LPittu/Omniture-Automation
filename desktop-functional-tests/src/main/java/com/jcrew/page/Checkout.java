@@ -332,6 +332,31 @@ public abstract class Checkout extends PageObject{
         wait.until(ExpectedConditions.stalenessOf(promoCodeField));
         wait.until(ExpectedConditions.visibilityOf(promoCode));
     }
+    
+    public void addPromoCode(String code, String page) {
+    	
+    	String pageTitle = driver.getTitle().toLowerCase();
+    	
+    	if(pageTitle.contains(page.toLowerCase())){    	
+	        WebElement promoHeader = promoCode.findElement(By.id("summary-promo-header"));
+	        Util.scrollToElement(driver, promoHeader);
+	        promoHeader.click();
+	
+	        WebElement promoCodeField = promoCode.findElement(By.id("promotionCode1"));
+	        promoCodeField.clear();
+	        promoCodeField.sendKeys(code);
+	        stateHolder.put("promocode", code);
+	
+	        WebElement apply = promoCode.findElement(By.id("promoApply"));
+	        Util.scrollPage(driver, "down");
+	        apply.click();
+	
+	        wait.until(ExpectedConditions.stalenessOf(promoCodeField));
+	        wait.until(ExpectedConditions.visibilityOf(promoCode));
+    	}
+    }
+
+    
 
     public String getPromoCodeMessage() {
         wait.until(ExpectedConditions.visibilityOf(promoCode));

@@ -85,7 +85,4 @@ Scenario: Checkout - Multiple shopping bag functions
     When User adds a promo code Test-20p in shopping bag page
     Then Verify promo message says: These promotion codes cannot be combined.
     When User adds a promo code Stack10p
-    Then Verify user is not allowed to add thrid promo 
-    
-    
-    
+    Then Verify user is not allowed to add thrid promo
