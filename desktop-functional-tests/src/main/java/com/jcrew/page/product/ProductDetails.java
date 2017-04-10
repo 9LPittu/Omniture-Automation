@@ -78,6 +78,7 @@ public class ProductDetails extends PageObject {
         ProductDetailsQuantity quantity = new ProductDetailsQuantity(driver);
         ProductDetailsActions actions = new ProductDetailsActions(driver);
         ProductDetailsVariations variations = new ProductDetailsVariations(driver);
+        ProductDetailsPersonalization personalization = new ProductDetailsPersonalization(driver);
 
         Product product = new Product();
         product.setName(getProductName());
@@ -90,6 +91,7 @@ public class ProductDetails extends PageObject {
             product.setItemNumber(getProductCode());
             product.setIsBackOrder(actions.getIsBackordered());
             product.setIsCrewCut(getIsCrewCut());
+            product.setHasMonogram(personalization.hasMonogram());
         } else {
             product.setSoldOut(true);
         }

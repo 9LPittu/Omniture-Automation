@@ -141,6 +141,20 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
         assertTrue("Title is Shopping Bag", "Shopping Bag".equalsIgnoreCase(title));
     }
 
+    @Then("Verify monogram products are unavailable in bag")
+    public void monogram_unavailable() {
+        List<Product> expected = bag.stateHolder.getList("toBag");
+        expected = Lists.reverse(expected);
+        List<Product> actual = bag.getUnavailableItems();
+
+        for (int i = 0; i < expected.size(); i++) {
+            Product p = expected.get(i);
+            if (p.getHasMonogram()) {
+                assertEquals("Item is unavailable", p.getName().toLowerCase(), actual.get(i).getName().toLowerCase());
+            }
+        }
+    }
+
     @Then("Verify items quantity and prices")
     public void items_times_quantity() {
 		List<Product> products = bag.stateHolder.getList("toBag");

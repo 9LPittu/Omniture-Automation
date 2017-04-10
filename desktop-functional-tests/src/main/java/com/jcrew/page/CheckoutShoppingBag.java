@@ -12,6 +12,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -305,7 +306,19 @@ public class CheckoutShoppingBag extends Checkout {
         }
         return actualItemsCount == itemsCount;
     }
-    
-   
-      
+
+    public List<Product> getUnavailableItems() {
+        List<WebElement> productsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
+                order__listing.findElements(By.className("item-row-unavailable"))));
+        List<Product> products = new ArrayList<>();
+
+        for (WebElement product : productsInBag) {
+            WebElement nameElement = product.findElement(By.className("item-name"));
+            Product p = new Product();
+            p.setName(nameElement.getText().trim());
+            products.add(p);
+        }
+
+        return products;
+    }
 }
