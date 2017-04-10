@@ -52,4 +52,8 @@ public class ProductDetailsReview extends ProductDetails {
         wait.until(ExpectedConditions.visibilityOf(writeReviewButton));
         writeReviewButton.click();
     }
+
+    public boolean isSummaryDisplayed() {
+        return reviewSummary.isDisplayed();
+    }
 }

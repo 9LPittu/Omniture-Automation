@@ -1,7 +1,12 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.*;
-import com.jcrew.page.header.*;
+import com.jcrew.page.ArrayCategory;
+import com.jcrew.page.ArraySearch;
+import com.jcrew.page.UserNavigation;
+import com.jcrew.page.header.HeaderBag;
+import com.jcrew.page.header.HeaderSearch;
+import com.jcrew.page.header.SubCategory;
+import com.jcrew.page.header.TopNav;
 import com.jcrew.page.product.ProductDetailColors;
 import com.jcrew.page.product.ProductDetailsActions;
 import com.jcrew.page.product.ProductDetailsSizes;
@@ -14,6 +19,7 @@ import com.jcrew.utils.Util;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.Assert.assertTrue;
@@ -22,10 +28,10 @@ import static org.junit.Assert.assertTrue;
  * Created by nadiapaolagarcia on 4/1/16.
  */
 public class UserNavigationSteps extends DriverFactory {
-    TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    private TestDataReader testDataReader = TestDataReader.getTestDataReader();
     private final UserNavigation navigation = new UserNavigation(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
-    private WebDriver driver = getDriver();    
+    private WebDriver driver = getDriver();
 
     @When("User adds to bag a random product using a main category")
     public void users_add_random_product() {
@@ -48,7 +54,7 @@ public class UserNavigationSteps extends DriverFactory {
 
 
     @When("User navigates to a pdp")
-    public void user_navigates_to_a_pdp () {
+    public void user_navigates_to_a_pdp() {
         user_navigates_to_subcategory_from_main_category();
 
         ArrayCategory productsArray = new ArrayCategory(driver);
@@ -74,7 +80,7 @@ public class UserNavigationSteps extends DriverFactory {
         SubCategory subCategory = new SubCategory(driver);
         subCategory.selectASaleSubCategory();
     }
-    
+
     @When("User navigates to random ([^\"]*) page")
     public void user_navigates_to_a_random_sale_clearance_page(String link) {
         TopNav header = new TopNav(driver);
@@ -100,7 +106,7 @@ public class UserNavigationSteps extends DriverFactory {
 
         ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
         sizes.selectRandomSize();
-        
+
         //Commenting the below step as higher quantities are getting selected and causing problem during checkout 
         //productDetails.selectRandomQty();
 
@@ -122,7 +128,7 @@ public class UserNavigationSteps extends DriverFactory {
     @Then("^User is on internal ([^\"]*) page$")
     public void user_is_on_page(String page) {
         Util.createWebDriverWait(driver).until(ExpectedConditions.urlContains(page));
-        assertTrue("Browser was expected to be at " + page + " and current page is "+driver.getCurrentUrl(),
+        assertTrue("Browser was expected to be at " + page + " and current page is " + driver.getCurrentUrl(),
                 driver.getCurrentUrl().endsWith(page));
     }
 
@@ -137,9 +143,9 @@ public class UserNavigationSteps extends DriverFactory {
         String title = driver.getTitle();
         driver.navigate().back();
         Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
-        
+
         if (title.toLowerCase().contains("wishlist") && driver.getTitle().toLowerCase().contains("wishlist")) {
-        	String newUrl = driver.getCurrentUrl();
+            String newUrl = driver.getCurrentUrl();
             driver.navigate().back();
             Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(newUrl)));
         }
@@ -147,7 +153,7 @@ public class UserNavigationSteps extends DriverFactory {
     }
 
     @Then("Verify country code in the url for international countries")
-    public void user_should_see_country_code_in_url_for_international_countries(){
+    public void user_should_see_country_code_in_url_for_international_countries() {
         Country country = stateHolder.get("context");
         WebDriver driver = getDriver();
 
@@ -161,11 +167,11 @@ public class UserNavigationSteps extends DriverFactory {
     // Keeping the implementation this way will avoid the exception in the search array constructor where we are waiting
     //for the visibilty of the specific search element in that page.Exception handling in that constructor will break other things.
     @When("^User selects first product from search results$")
-    public void user_selects_first_product_from_search_results(){
+    public void user_selects_first_product_from_search_results() {
         WebDriver driver = getDriver();
         String currentUrl = driver.getCurrentUrl();
 
-        if(currentUrl.contains("/r/search/")) {
+        if (currentUrl.contains("/r/search/")) {
             ArraySearch productsArray = new ArraySearch(getDriver());
             productsArray.click_first_product_in_grid();
         }
@@ -176,90 +182,75 @@ public class UserNavigationSteps extends DriverFactory {
         HeaderSearch header = new HeaderSearch(driver);
         header.searchFor(testDataReader.getData("multiple.colors.multiple.sizes.item" + sequenceNum));
 
-        String url = getDriver().getCurrentUrl();
-        if (url.contains("/r/search")) {
-            ArraySearch search = new ArraySearch(getDriver());
-            search.selectRandomProduct();
-        }
+        select_item_from_search_results();
     }
-    
+
     @When("This script cleans bag for current user")
     public void clean_bag_for_current_user() {
-    	navigation.clearBag();
+        navigation.clearBag();
     }
-    
-    @When("^User navigates to backordered product$")
-    public void navigate_backordered() {
+
+    @When("^User navigates to ([^\"]*) product$")
+    public void navigate_to_product(String type) {
+        String item, color, size, key;
+
+        switch (type) {
+            case "backordered":
+                item = "back.order.item";
+                color = "back.order.color";
+                size = "back.order.size";
+                key = "backorderedItem";
+                break;
+            case "only few left":
+                item = "few.left.item";
+                color = "few.left.color";
+                size = "few.left.size";
+                key = "fewLeftItem";
+                break;
+            case "regular":
+                item = "regular.item";
+                color = "regular.item.color";
+                size = "regular.item.size";
+                key = "regularItem";
+                break;
+            case "promo applicable":
+                item = "promoaplicable.item";
+                color = "promoaplicable.item.color";
+                size = "promoaplicable.item.size";
+                key = "promoaplicableItem";
+                break;
+            case "fit slider":
+                item = "fit.slider.item";
+                color = "fit.slider.item.color";
+                size = "fit.slider.item.size";
+                key = "fitSlider";
+                break;
+            default:
+                throw new WebDriverException("Product type " + type + " not recognized");
+        }
+
+
         HeaderSearch header = new HeaderSearch(driver);
-        header.searchFor(testDataReader.getData("back.order.item"));
-        
+        header.searchFor(testDataReader.getData(item));
+
         select_item_from_search_results();
 
         ProductDetailColors colors = new ProductDetailColors(getDriver());
-        colors.selectColor(testDataReader.getData("back.order.color"));
+        colors.selectColor(testDataReader.getData(color));
 
         ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
-        sizes.selectSize(testDataReader.getData("back.order.size"));
-        
-        header.stateHolder.put("backorderedItem", testDataReader.getData("back.order.item"));
+        sizes.selectSize(testDataReader.getData(size));
+
+        header.stateHolder.put(key, testDataReader.getData(item));
     }
-    
-    @When("^User navigates to only few left product$")
-    public void navigate_only_few_left() {
-        HeaderSearch header = new HeaderSearch(driver);
-        header.searchFor(testDataReader.getData("few.left.item"));
-        
-        select_item_from_search_results();
 
-        ProductDetailColors colors = new ProductDetailColors(getDriver());
-        colors.selectColor(testDataReader.getData("few.left.color"));
-
-        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
-        sizes.selectSize(testDataReader.getData("few.left.size"));
-        
-        header.stateHolder.put("fewLeftItem", testDataReader.getData("few.left.item"));
+    private void select_item_from_search_results() {
+        String currentUrl = driver.getCurrentUrl();
+        if (currentUrl.contains("/r/search")) {
+            ArraySearch arraySearch = new ArraySearch(driver);
+            arraySearch.click_first_product_in_grid();
+        }
     }
-    
-    @When("^User navigates to regular product$")
-    public void navigate_regular_item() {
-        HeaderSearch header = new HeaderSearch(driver);
-        header.searchFor(testDataReader.getData("regular.item"));
-        
-        select_item_from_search_results();
 
-        ProductDetailColors colors = new ProductDetailColors(getDriver());
-        colors.selectColor(testDataReader.getData("regular.item.color"));
-
-        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
-        sizes.selectSize(testDataReader.getData("regular.item.size"));
-        
-        header.stateHolder.put("regularItem", testDataReader.getData("regular.item"));
-    }
-    
-	@When("^User navigates to promo applicable product$")
-	public void navigate_promoapplicable_item() {
-        HeaderSearch header = new HeaderSearch(driver);
-		header.searchFor(testDataReader.getData("promoaplicable.item"));
-
-		select_item_from_search_results();
-
-        ProductDetailColors colors = new ProductDetailColors(getDriver());
-		colors.selectColor(testDataReader.getData("promoaplicable.item.color"));
-
-        ProductDetailsSizes sizes = new ProductDetailsSizes(driver);
-		sizes.selectSize(testDataReader.getData("promoaplicable.item.size"));
-
-		header.stateHolder.put("promoaplicableItem",
-				testDataReader.getData("promoaplicable.item"));
-	}
-    
-    public void select_item_from_search_results(){
-    	String currentUrl = driver.getCurrentUrl();
-		if(currentUrl.contains("/r/search")){
-			ArraySearch arraySearch = new ArraySearch(driver);
-			arraySearch.click_first_product_in_grid();
-		}
-    }
-    
 
 }

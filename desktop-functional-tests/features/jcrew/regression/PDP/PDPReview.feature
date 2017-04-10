@@ -1,4 +1,4 @@
-@PDP3 @Reviews @HighLevel
+@Reviews @HighLevel
 Feature: Product Review page from PDP
 
   Background:
@@ -18,7 +18,6 @@ Feature: Product Review page from PDP
     When User fills form and signs in
     Then Verify product review page is displayed
 
-
   Scenario: Registered user gets product review page
     When User clicks on sign in using header
     Then User goes to sign in page
@@ -32,3 +31,11 @@ Feature: Product Review page from PDP
 
     When User clicks on write a review button
     Then Verify product review page is displayed
+
+  Scenario: Product with Fit slider
+    When User navigates to fit slider product
+    Then Verify product detail page is displayed
+    #id 141
+    And Verify product size and fit shows overall fit slider
+    #id 145
+    And Verify reviews summary is displayed

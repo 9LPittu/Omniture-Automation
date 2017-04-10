@@ -45,10 +45,6 @@ public class ProductDetails extends PageObject {
     private WebElement shippingRestrictionMessage;
     @FindBy(className = "product__name")
     private WebElement productName;
-    @FindBy(xpath = "//a[contains(@class,'js-link__size-fit') and text()='Size & Fit Details']")
-    private WebElement sizeAndFitDetailsLink;
-    @FindBy(xpath = "//div[@class='product__size-fit product__description']/div/div/span")
-    private WebElement sizeAndFitDrawer;
     @FindBy(xpath = "//div[@class='product__details product__description']/div/div/span")
     private WebElement productDetailsDrawer;
     @FindBy(id = "c-product__details")
@@ -101,6 +97,7 @@ public class ProductDetails extends PageObject {
     public boolean verifyContext() {
         return Util.countryContextURLCompliance(driver);
     }
+
     public boolean isProductDetailPage() {
         HeaderLogo logo = new HeaderLogo(driver);
         logo.hoverLogo();
@@ -248,23 +245,6 @@ public class ProductDetails extends PageObject {
         String productDetailsDrawerText = productDetailsDrawer.getText();
         return !StringUtils.isBlank(productDetailsDrawerText);
     }
-    public boolean isPdpDrawerInExpectedState(String drawerName, String expectedState) {
-        boolean result = false;
-        WebElement drawerElement = getPDPElement(drawerName);
-
-        switch (expectedState.toLowerCase()) {
-            case "expanded":
-                result = drawerElement.getAttribute("class").contains("is-emphasized");
-                break;
-            case "collapsed":
-            	result = drawerElement.getAttribute("class").contains("is-collapsed");
-            case "disabled":
-                result = drawerElement.getAttribute("class").contains("is-disabled");
-        }
-
-        return result;
-
-    }
 
     public WebElement getPDPElement(String element){
         WebElement pdpElement = null;
@@ -278,12 +258,6 @@ public class ProductDetails extends PageObject {
                 break;
             case "endcaps":
                 pdpElement = wait.until(ExpectedConditions.visibilityOf(endCapNav));
-                break;
-            case "size & fit":
-                pdpElement = sizeAndFitDrawer;
-                break;
-            case "size & fit details":
-                pdpElement = sizeAndFitDetailsLink;
                 break;
             case "product details":
                 pdpElement = productDetailsDrawer;
@@ -299,8 +273,6 @@ public class ProductDetails extends PageObject {
         WebElement pdpElement = getPDPElement(element);
         return pdpElement.isDisplayed();
     }
-
-
 
     public String getProductCode() {
 
@@ -350,15 +322,6 @@ public class ProductDetails extends PageObject {
         if (crewCuts.contains(category) ||  crewCuts.contains(saleCategory) || crewCuts.contains(categoryFromPDPURL) || subCategory.equalsIgnoreCase("flowergirl")) {
             return true;
         } else {
-            return false;
-        }
-    }
-    
-    public boolean isSizeAndFitDrawerDisplayed() {
-        try {
-            driver.findElement(By.id("c-product__size-fit"));
-            return true;
-        } catch (Exception e) {
             return false;
         }
     }
