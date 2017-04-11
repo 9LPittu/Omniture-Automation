@@ -22,4 +22,9 @@ public class ProductDetailsReviewSteps extends DriverFactory {
     public void review_section_displayed() {
         assertTrue("PDP shows review section", review.isReviewSectionDisplayed());
     }
+
+    @Then("Verify reviews summary is displayed")
+    public void reviews_summary() {
+        assertTrue("Product reivew summary is dislayed", review.isSummaryDisplayed());
+    }
 }

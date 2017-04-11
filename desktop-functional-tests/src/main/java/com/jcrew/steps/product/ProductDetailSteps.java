@@ -1,9 +1,6 @@
 package com.jcrew.steps.product;
 
-import com.jcrew.page.product.ProductDetails;
-import com.jcrew.page.product.ProductDetailsActions;
-import com.jcrew.page.product.ProductDetailsReview;
-import com.jcrew.page.product.ProductDetailsSizes;
+import com.jcrew.page.product.*;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
@@ -96,52 +93,12 @@ public class ProductDetailSteps extends DriverFactory {
                     CurrencyChecker.isValid(price));
         }
     }
-    
-
-
-    @Then("^Verify (SIZE & FIT|PRODUCT DETAILS) is displayed between (Add to Bag|SIZE & FIT) and (PRODUCT DETAILS|reviews)$")
-    public void verify_elements_layout_PDP(String middle, String top, String bottom){
-        boolean isSizeAndFit  = productDetails.isSizeAndFitDrawerDisplayed();
-        int middle_Y, top_Y = 0, bottom_Y;
-
-        ProductDetails details = new ProductDetails(getDriver());
-        ProductDetailsActions productDetailsActions = new ProductDetailsActions(getDriver());
-        ProductDetailsReview review = new ProductDetailsReview(getDriver());
-
-        if (middle.equalsIgnoreCase("product details") | isSizeAndFit) {
-            middle_Y = productDetails.getYCoordinate(middle);
-
-            if (bottom.equalsIgnoreCase("product details")) {
-                bottom_Y = details.getYCoordinate(bottom);
-
-            } else {
-                bottom_Y = review.getYCoordinate();
-            }
-
-            if (top.equalsIgnoreCase("add to bag")) {
-                top_Y = productDetailsActions.getYCoordinate();
-
-            } else if (isSizeAndFit) {
-                top_Y = productDetails.getYCoordinate(top);
-            }
-
-            assertTrue("Verify '" + middle + "' is displayed below the '" + top + "'",
-                    top_Y < middle_Y & middle_Y < bottom_Y);
-        }
-    }
-
-
 
     @When("^user clicks on '([^\"]*)' drawer$")
     public void user_clicks_pdp_drawer(String drawerName){
     	productDetails.clickPdpDrawer(drawerName);
     }
-    
-    @Then("^Verify ([^\"]*) drawer is ([^\"]*) state$")
-    public void verify_pdp_drawer_state(String drawerName, String expectedState){
-    	assertTrue("Verify " + drawerName + " drawer is " + expectedState,productDetails.isPdpDrawerInExpectedState(drawerName, expectedState));
-    }
-    
+
     @Then("^Verify item details are displayed in the 'PRODUCT DETAILS' drawer$")
     public void verify_item_details_dsiplayed_in_product_details_drawer(){
     	assertTrue("Verify item details are displayed in the 'PRODUCT DETAILS' drawer",productDetails.isItemDetailsDisplayedInProductDetailsDrawer());
