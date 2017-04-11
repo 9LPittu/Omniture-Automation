@@ -1,5 +1,7 @@
-package com.jcrew.page.product;
+package com.jcrew.page.product.jcrew;
 
+import com.jcrew.page.product.IMonogram;
+import com.jcrew.page.product.jcrew.ProductDetailsPersonalization;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +15,7 @@ import java.util.List;
 /**
  * Created by ngarcia on 4/4/17.
  */
-public class ProductMonogram extends ProductDetailsPersonalization {
+public class ProductMonogram extends ProductDetailsPersonalization implements IMonogram {
 
     private WebElement monogram_modal;
 

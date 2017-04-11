@@ -74,7 +74,7 @@ public class ProductDetails extends PageObject {
         ProductDetailsQuantity quantity = new ProductDetailsQuantity(driver);
         ProductDetailsActions actions = new ProductDetailsActions(driver);
         ProductDetailsVariations variations = new ProductDetailsVariations(driver);
-        ProductDetailsPersonalization personalization = new ProductDetailsPersonalization(driver);
+        IPersonalization personalization = PersonalizationFactory.getProductDetailsPersonalization(driver);
 
         Product product = new Product();
         product.setName(getProductName());
