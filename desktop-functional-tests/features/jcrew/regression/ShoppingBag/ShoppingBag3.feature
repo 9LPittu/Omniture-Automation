@@ -17,5 +17,5 @@ Feature: Stackable promo is applied for promo excluded product
     When User clicks in bag
     Then Verify products added matches with products in bag
     
-    When User adds a promo code STACK10P in shopping bag page
+    When User adds promo code STACK10P in shopping bag page
     Then Verify the applied promo code is active
