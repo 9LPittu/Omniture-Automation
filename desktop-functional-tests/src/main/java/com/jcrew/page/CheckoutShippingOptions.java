@@ -111,7 +111,7 @@ public class CheckoutShippingOptions extends Checkout {
     }
 
     public void selectShippingMethod() {
-        List<WebElement> methods = shippingMethodForm.findElements(By.className("form-shipmethod"));
+        List<WebElement> methods = shippingMethodForm.findElements(By.xpath(".//div[contains(@class, 'form-shipmethod') and contains(@id, 'method_UPS')]"));
         int random = Util.randomIndex(methods.size());
 
         WebElement method = methods.get(random);
@@ -121,7 +121,7 @@ public class CheckoutShippingOptions extends Checkout {
         logger.debug("Selected shipping method: {}", label.getText());
 
         if (!labelClass.contains("radio-checked")) {
-        	WebElement radio = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("input-radio")));
+        	WebElement radio = method.findElement(By.className("input-radio"));
         	radio.click();
         } else {
             logger.debug("Selected method is already selected");
@@ -130,6 +130,7 @@ public class CheckoutShippingOptions extends Checkout {
         ShippingMethod shippingMethod = getShippingMethod(method);
 
         stateHolder.put("selectedShippingMethod", shippingMethod.getMethod());
+        stateHolder.put("selectedShippingMethodPrice", shippingMethod.getPrice());
     }
 
     public void continueCheckout() {

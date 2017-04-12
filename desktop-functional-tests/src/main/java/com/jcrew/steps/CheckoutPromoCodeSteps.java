@@ -99,4 +99,36 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     public void add_promo_code_checkout_page(String promoCode, String page) {
     	promocode.addPromoCode(promoCode, page);
     }
+    
+    @And("^Verify order total is calculated correctly after promo is applied$")
+    public void verify_order_total_calculated_correctly_after_promo_applied(){
+    	String promoCode = promocode.stateHolder.get("promocode");
+    	promoCode = promoCode.toLowerCase();
+    	
+    	String orderSubTotal = promocode.stateHolder.get("subtotal");
+    	Double orderSubTotalDblVal = Double.valueOf(orderSubTotal);
+    	
+    	Double promoDiscountedAmount = 0.0;
+    	if(promocode.stateHolder.hasKey("promoDiscountedAmount")){
+    		promoDiscountedAmount = promocode.stateHolder.get("promoDiscountedAmount");
+    	}
+    	
+    	promoDiscountedAmount += promocode.getPromoDiscountedAmount(orderSubTotalDblVal, promoCode);
+    	promocode.stateHolder.put("promoDiscountedAmount", promoDiscountedAmount);
+    	
+    	String price = promocode.stateHolder.get("selectedShippingMethodPrice");
+    	price = price.replaceAll("[^0-9.]", "");
+    	Double shippingMethodPrice = Double.valueOf(price);
+    	
+    	Double expectedOrderTotal = orderSubTotalDblVal - promoDiscountedAmount + shippingMethodPrice;
+    	
+    	Double actualOrderTotal = Double.valueOf(promocode.getEstimatedTotal().replaceAll("[^0-9.]", ""));
+    	
+    	assertEquals("Order total is not calculated correctly", expectedOrderTotal, actualOrderTotal);
+    }
+    
+    @And("^User removes the already applied promo$")
+    public void remove_promo(){
+    	promocode.removePromo();
+    }
 }
