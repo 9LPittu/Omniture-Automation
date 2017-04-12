@@ -4,7 +4,8 @@ Feature: Stackable and Non-stackable promos functionality for free shipping prod
   Background:
   	Given User goes to homepage
     And User closes email capture    
-     
+  
+  #id 213 
   Scenario: Stackable and Non-stackable promos functionality for free shipping product and regular product
     When User searches for free shipping product
     Then Verify product detail page is displayed
@@ -19,7 +20,7 @@ Feature: Stackable and Non-stackable promos functionality for free shipping prod
     When User clicks in bag
     Then Verify products added matches with products in bag
     
-    When User adds a promo code STACK-FS in shopping bag page
+    When User adds promo code STACK-FS in shopping bag page
     Then Verify the applied promo code is active
     
     When User adds promo code Test-10P in shopping bag page

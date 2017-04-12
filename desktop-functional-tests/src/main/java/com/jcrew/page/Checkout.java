@@ -460,22 +460,6 @@ public abstract class Checkout extends PageObject{
     	}
     }
     
-    public boolean isPromoCodeApplied(String promoCodeText, String state){
-    	try{
-    		WebElement appliedPromoCodeElement = null;
-        	 if(state.equalsIgnoreCase("active")){
-        		 appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[@class='module-name' and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
-        	 }else{
-        		 appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[@class='module-name-inactive' and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
-        	 }
-        	 
-    		 return appliedPromoCodeElement.isDisplayed();
-    	}
-    	catch(NoSuchElementException nsee){
-    		return false;
-    	}
-    }
-    
     public int getAppliedPromoCodesCount(){    	
     	try{
     		 List<WebElement> appliedPromoCodeElements = promoCode.findElements(By.xpath(".//span[@class='module-name']"));
@@ -610,9 +594,6 @@ public abstract class Checkout extends PageObject{
     	
     	catch(Exception e){
     		return false;
-    	}
-    	
-    	 
-    }
-   
+    	}  	
+    }  
 }
