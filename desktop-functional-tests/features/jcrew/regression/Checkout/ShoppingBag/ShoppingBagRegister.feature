@@ -1,5 +1,5 @@
 @ShoppingBag1 @HighLevel
-Feature: Checkout - Editing items from shopping bag
+Feature: Checkout - Editing items from shopping bag for register user
 
 Background:
   
@@ -32,6 +32,4 @@ Background:
 Scenario: Checkout - Verify Save button on shopping bag for register user
     When User clicks in bag
     Then Verify products added matches with products in bag
-    Then Verify products added matches with products in bag
-    And Verify all products have edit and remove buttons
     And Verify all products have save buttons for register user
