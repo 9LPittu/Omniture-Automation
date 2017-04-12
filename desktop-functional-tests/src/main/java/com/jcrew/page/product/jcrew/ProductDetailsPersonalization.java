@@ -1,5 +1,7 @@
-package com.jcrew.page.product;
+package com.jcrew.page.product.jcrew;
 
+import com.jcrew.page.product.IPersonalization;
+import com.jcrew.page.product.ProductDetails;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +12,7 @@ import java.util.List;
 /**
  * Created by ngarcia on 4/4/17.
  */
-public class ProductDetailsPersonalization extends ProductDetails {
+public class ProductDetailsPersonalization extends ProductDetails implements IPersonalization {
 
     @FindBy(id = "c-product__monogram")
     protected WebElement product__monogram;
