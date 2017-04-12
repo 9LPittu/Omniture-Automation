@@ -88,9 +88,11 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     }
     
     @Then("^Verify the applied promo code is (active|inactive)$")
-    public void verify_promo_code_state(String state){
+    public void verify_promo_code_state(String expectedState){
     	String promoCode = promocode.stateHolder.get("promocode");
-    	promocode.isPromoCodeApplied(promoCode, state);
+    	String actualState = promocode.getPromoCodeAppliedState(promoCode);
+    	
+   		assertEquals("Promo code '" + promoCode + "' should be '" + expectedState + "' state", expectedState, actualState);
     }
     
     @When("User adds promo code ([^\"]*) in ([^\"]*) page")

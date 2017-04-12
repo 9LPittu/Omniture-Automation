@@ -65,6 +65,7 @@ public class DriverGenerator {
         DesiredCapabilities desiredCapabilities = DesiredCapabilities.chrome();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-extensions");
+        options.addArguments("disable-infobars");
 
         desiredCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 

@@ -4,7 +4,8 @@ Feature: Stackable promo functionality for free shipping and regular products
   Background:
   	Given User goes to homepage
     And User closes email capture
-    
+  
+  #id 210  
   Scenario: Stackable promo(STACK-FS) functionality for free shipping product
     When User searches for free shipping product
     Then Verify product detail page is displayed
@@ -18,7 +19,8 @@ Feature: Stackable promo functionality for free shipping and regular products
     
     When User adds a promo code STACK-FS
     Then Verify the applied promo code is inactive
-    
+  
+  #id 212 
   Scenario: Stackable promo(STACK-FS) functionality for free shipping product and regular product
     When User searches for free shipping product
     Then Verify product detail page is displayed
