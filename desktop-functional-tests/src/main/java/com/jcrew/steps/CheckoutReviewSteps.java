@@ -1,5 +1,6 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.CheckoutPromoCode;
 import com.jcrew.page.CheckoutReview;
 import com.jcrew.pojo.Address;
 import com.jcrew.utils.DriverFactory;
@@ -144,10 +145,5 @@ public class CheckoutReviewSteps extends DriverFactory {
     	 String payMentMethod = review.getPaymentMethod();
     	 assertTrue("Review payment method contains " + selectedPayment, payMentMethod.contains(selectedPayment));
        
-    }
-    
-    @When("^User adds a promo code ([^\"]*) in review page$")
-    public void add_promo_in_review_page(String promoCode) {
-        review.addPromoCode(promoCode);
     }
 }

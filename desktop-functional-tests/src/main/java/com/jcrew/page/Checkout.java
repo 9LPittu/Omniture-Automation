@@ -595,15 +595,5 @@ public abstract class Checkout extends PageObject{
     	catch(Exception e){
     		return false;
     	}  	
-    }
-    
-    public String getPromoCodeAppliedState(String promoCodeText){
-   		WebElement appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[contains(@class, 'module-name') and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
-       	String className = appliedPromoCodeElement.getAttribute("class");
-       	
-       	if(className.contains("inactive"))
-       		return "inactive";
-       	else
-       		return "active";
-    }   
+    }  
 }
