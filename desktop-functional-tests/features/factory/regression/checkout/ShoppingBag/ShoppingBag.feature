@@ -1,4 +1,4 @@
-@ShoppingBag1 @HighLevel
+@ShoppingBag
 Feature: Checkout - Editing items from shopping bag
 
 Background:
@@ -85,7 +85,7 @@ Scenario: Checkout - Multiple shopping bag functions
 
  	Then Verify zipcode message says: Please enter a valid ZIP code.
 	When User adds a promo code Test-invalid
-	Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 800 562 0258 for help.
+	Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 866 739 5942 for help.
 	When User adds a promo code Test-10p
     Then Verify promo details contains: 10% off (no min)
     Then Verify second promo text box is displayed in promo section

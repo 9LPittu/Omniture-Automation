@@ -1,4 +1,4 @@
-@ShoppingBag1 @HighLevel
+@ShoppingBag
 Feature: Checkout - Editing items from shopping bag for register user
 
 Background:

@@ -1,4 +1,4 @@
-@ShoppingBag @HighLevel
+@ShoppingBag
 Feature: Checkout - Add Classic Gift Card to Bag
 
   Scenario: Checkout - Add Classic Gift Card to Bag
