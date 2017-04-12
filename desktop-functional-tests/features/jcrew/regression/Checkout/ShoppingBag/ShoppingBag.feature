@@ -77,6 +77,10 @@ Scenario: Checkout - Multiple shopping bag functions
 
     When User clicks in bag
     Then Verify products added matches with products in bag
+    And Verify all products do not have save buttons for guest user
+    When User adds a zip code zipin
+
+ 	Then Verify zipcode message says: Please enter a valid ZIP code.
 	When User adds a promo code Test-invalid
 	Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 800 562 0258 for help.
 	When User adds a promo code Test-10p
