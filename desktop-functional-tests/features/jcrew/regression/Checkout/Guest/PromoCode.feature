@@ -24,10 +24,10 @@ Feature: Checkout - Guest user is able to checkout with promo code
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
 
-    When User adds promo code Test-invalid in Payment Method page
+    When User adds a promo code Test-invalid
     Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 800 562 0258 for help.
 
-    When User adds promo code Test-10p in Billing page
+    When User adds a promo code Test-10p
     Then Verify promo details contains: 10% off (no min)
     And Verify promo name contains: TEST-10P
     And Verify promo code applied 10 percent from subtotal

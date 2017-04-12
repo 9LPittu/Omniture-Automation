@@ -35,14 +35,11 @@ public class CheckoutShoppingBag extends Checkout {
     
     @FindBy(className="item-gc")
     private WebElement giftCardElement;
-    
-    private final Footer footer;
 
     public CheckoutShoppingBag(WebDriver driver) {
         super(driver);
- //       wait.until(ExpectedConditions.visibilityOf(checkoutNow));
         Util.waitForPageFullyLoaded(driver);
-        this.footer = new Footer(driver);
+        Footer footer = new Footer(driver);
     }
 
     public boolean isDisplayed() {
@@ -55,6 +52,44 @@ public class CheckoutShoppingBag extends Checkout {
     public void checkOutNow() {
         checkoutNow.click();
         Util.waitLoadingBar(driver);
+    }
+
+    public List<Product> getProducts() {
+        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        List<Product> products = new ArrayList<>();
+
+        for(WebElement inBag : productsInBag) {
+            Product product = new Product();
+
+            WebElement element = inBag.findElement(By.className("item-name"));
+            String value = element.getText().trim();
+            product.setName(value.replaceAll("PRE-ORDER ", ""));
+
+            product.setQuantity(getQuantity(inBag));
+
+            element = inBag.findElement(By.className("item-price"));
+            String price = element.getText().trim();
+            product.setPrice(price.replaceAll("[^0-9.,]", ""));
+
+            List<WebElement> descriptionElements = inBag.findElements(By.className("item-label"));
+
+            element = descriptionElements.get(0).findElement(By.tagName("span"));
+            product.setItemNumber(element.getText().trim());
+
+            element = descriptionElements.get(1).findElement(By.tagName("span"));
+            value = element.getText();
+            if(!value.toUpperCase().contains("ONE SIZE")){
+                value = element.getText().replace("SIZE", "").trim();
+            }
+            product.setSize(value);
+
+            element = descriptionElements.get(2).findElement(By.tagName("span"));
+            product.setColor(element.getText().trim());
+
+            products.add(product);
+        }
+
+        return products;
     }
 
     public boolean itemsButtons() {
