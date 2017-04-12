@@ -88,8 +88,4 @@ Scenario: Checkout - Multiple shopping bag functions
 	Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 866 739 5942 for help.
 	When User adds a promo code Test-10p
     Then Verify promo details contains: 10% off (no min)
-    Then Verify second promo text box is displayed in promo section
-    When User adds a promo code Test-20p in shopping bag page
-    Then Verify promo message says: These promotion codes cannot be combined.
-    When User adds a promo code Stack10p
-    Then Verify user is not allowed to add thrid promo
+    
