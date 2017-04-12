@@ -31,7 +31,6 @@ Feature: PDP Layout from search and variations
     #id 136
     And Verify product review section is displayed
     And Verify product has recommended products
-    And Verify endcaps displayed in PDP
 
     #id 139
     When User clicks on any recommended product
@@ -63,7 +62,6 @@ Feature: PDP Layout from search and variations
     #id 136
     And Verify product review section is displayed
     And Verify product has recommended products
-    And Verify endcaps displayed in PDP
 
     #id 139
     When User clicks on any recommended product
