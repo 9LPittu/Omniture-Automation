@@ -29,11 +29,11 @@ public class CheckoutPromoCode extends Checkout {
     public String getPromoCodeAppliedState(String promoCodeText){
         WebElement appliedPromoCodeElement = promoContainer.findElement(By.xpath(".//span[contains(@class, 'module-name') and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
         String className = appliedPromoCodeElement.getAttribute("class");
-       	
-		if(className.contains("inactive"))
-			return "inactive";
-		else
-			return "active";
+        
+        if(className.contains("inactive"))
+        	return "inactive";
+        else
+        	return "active";
     }       
 }
 
