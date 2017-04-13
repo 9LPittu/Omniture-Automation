@@ -189,6 +189,8 @@ public class CurrencyChecker {
         price = price.replace("was", "");
         price = price.replace("now", "");
         price = price.replace("select colors", "");
+        price = price.replace("valued at ", "");
+        price = price.replace("your price ", "");
 
         return price.toUpperCase();
     }

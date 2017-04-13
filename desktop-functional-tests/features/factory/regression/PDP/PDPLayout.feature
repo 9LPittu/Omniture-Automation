@@ -29,7 +29,6 @@ Feature: PDP Layout
     #id 136
     And Verify product review section is displayed
     And Verify product has recommended products
-    And Verify endcaps displayed in PDP
 
     When User selects random color
     And User selects random size
@@ -70,7 +69,6 @@ Feature: PDP Layout
     #id 136
     And Verify product review section is displayed
     And Verify product has recommended products
-    And Verify endcaps displayed in PDP
 
     When User selects random color
     And User selects random size

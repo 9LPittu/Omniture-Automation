@@ -26,16 +26,15 @@ Feature: Checkout - Express user is able to edit data in review page
     Then Verify products added matches with products in bag
 
     When User clicks in CHECK OUT NOW button
-    
     Then Verify user is in review page
     
-    When User adds promo code Test-10p in review page
+    When User adds a promo code Test-10p
     
     #In gold environment, second promo code text box is not displayed.
     # So, not adding verification point for second promo code text box existence as per test case
     # This scenario needs to re-visited once stackable promos toggle is ON
 	
-    When User edits details for billing
+    And User edits details for billing
     Then Verify Billing page is displayed
 
     When User continues to review page

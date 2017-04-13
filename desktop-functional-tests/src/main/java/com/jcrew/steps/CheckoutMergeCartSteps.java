@@ -1,6 +1,8 @@
 package com.jcrew.steps;
 
+import com.google.common.collect.Lists;
 import com.jcrew.page.CheckoutMergeCart;
+import com.jcrew.pojo.Product;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 
@@ -14,6 +16,8 @@ import static org.junit.Assert.assertTrue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import static org.junit.Assert.fail;
 
 /**
