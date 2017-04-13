@@ -356,4 +356,40 @@ public class CheckoutShoppingBag extends Checkout {
 
         return products;
     }
+    
+    public boolean itemsSaveButtons() {
+        boolean result = true;
+
+        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        try{
+        	
+        
+        
+        for (WebElement product : productsInBag) {
+            List<WebElement> promo = product.findElements(By.xpath(".//li[@class='item-promo']"));
+            List<WebElement> buttons;
+
+            if(promo.size() == 0) {
+                buttons = product.findElements(By.xpath(".//li[@class='item-actions']/a"));
+
+                result &= buttons.size() >= 3;
+                result &= buttons.get(2).getText().equals("SAVE");
+
+            } else {
+                buttons = product.findElements(
+                        By.xpath(".//li[@class='item-promo']/preceding-sibling::li[@class='item-actions']/a"));
+
+                if(buttons.size() > 0) {
+
+                    result &= buttons.get(2).getText().equals("SAVE");
+                }
+            }
+        }
+        }
+        catch(Exception e){
+        	result &=false;
+        	
+        }
+        return result;
+    }
 }
