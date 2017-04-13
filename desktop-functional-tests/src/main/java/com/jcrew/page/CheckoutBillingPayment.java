@@ -57,6 +57,9 @@ public class CheckoutBillingPayment extends Checkout {
     @FindBy(className="accountPaymentContainer")
     private WebElement accountPaymentContainer;
     
+    @FindBy(name="frm_payment_page")
+    private WebElement paymentPageForm;
+    
     private HeaderWrap header;
 
     public CheckoutBillingPayment(WebDriver driver) {
@@ -112,10 +115,7 @@ public class CheckoutBillingPayment extends Checkout {
     }
     
     public void continueCheckout() {
-        wait.until(ExpectedConditions.visibilityOf(cardForm));
-        cardForm.findElement(By.className("button-submit")).click();
-        Util.waitForPageFullyLoaded(driver);
-        Util.waitLoadingBar(driver);
+        nextStep(paymentPageForm);
     }
 
     public void editPayment() {
