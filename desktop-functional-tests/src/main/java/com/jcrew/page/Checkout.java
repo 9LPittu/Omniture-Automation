@@ -1,12 +1,11 @@
 package com.jcrew.page;
 
 import com.google.common.base.Function;
-import com.jcrew.page.account.FactoryAccountDetail;
-import com.jcrew.page.account.JcrewAccountDetail;
 import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
@@ -305,21 +304,15 @@ public abstract class Checkout extends PageObject{
 
     public void nextStep(WebElement form) {
     	
-    	PropertyReader propertyReader = PropertyReader.getPropertyReader();
-    	String brand = propertyReader.getProperty("brand");
-    	
     	WebElement continueButton = null;
     	
-    	switch (brand) {
-        	case "jcrew":
-        		continueButton = form.findElement(By.xpath(".//a[@id='main__button-continue']"));
-        		break;
-        	case "factory":
-        		continueButton = form.findElement(By.className("button-submit"));
-        		break;
-        	default:
-        		throw new WebDriverException("Unrecognized brand " + brand);
-    	}    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	
+    	if(testDataReader.getBoolean("dual.continue.buttons.toggle")){
+    		continueButton = form.findElement(By.xpath(".//a[@id='main__button-continue']"));
+    	}else{
+    		continueButton = form.findElement(By.className("button-submit"));
+    	}
     	
         wait.until(ExpectedConditions.elementToBeClickable(continueButton));
         Util.scrollPage(driver, "down");
