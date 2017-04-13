@@ -2,6 +2,9 @@ package com.jcrew.page;
 
 
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -44,13 +47,28 @@ public class CheckoutPromoCode extends Checkout {
     	
     	Double promoDiscountedAmount = 0.0;
     	Double percentage;
+    	Double freeShippingThresholdAmt;
+    	
+    	DecimalFormat df = new DecimalFormat(".###");
+    	df.setRoundingMode(RoundingMode.HALF_DOWN);
     	
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();
     	switch(promoCode){
     		case "stack10p":
     		case "test-10p":
     			percentage = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
-    			promoDiscountedAmount = orderSubtotal * (percentage/100);
+    			promoDiscountedAmount = Double.valueOf(df.format(orderSubtotal * (percentage/100)));
+    			break;
+    		case "stack-fs-50":
+    			freeShippingThresholdAmt = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
+    			if(orderSubtotal > freeShippingThresholdAmt){
+    				stateHolder.put("shippingCost", "0");
+    			}
+    			break;
+    		case "test-15pf-fs":
+    			percentage = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
+    			promoDiscountedAmount = Double.valueOf(df.format(orderSubtotal * (percentage/100)));
+    			stateHolder.put("shippingCost", "0");
     			break;
     		default:
     			throw new WebDriverException(promoCode + " is not recognized!");

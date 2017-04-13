@@ -130,7 +130,7 @@ public class CheckoutShippingOptions extends Checkout {
         ShippingMethod shippingMethod = getShippingMethod(method);
 
         stateHolder.put("selectedShippingMethod", shippingMethod.getMethod());
-        stateHolder.put("selectedShippingMethodPrice", shippingMethod.getPrice());
+        stateHolder.put("shippingCost", shippingMethod.getPrice());
     }
 
     public void continueCheckout() {

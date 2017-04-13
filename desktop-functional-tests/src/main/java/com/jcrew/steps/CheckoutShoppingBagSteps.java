@@ -21,13 +21,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.assertFalse;
 
 /**
  * Created by nadiapaolagarcia on 5/3/16.
  */
 public class CheckoutShoppingBagSteps extends DriverFactory {
     private CheckoutShoppingBag bag = new CheckoutShoppingBag(getDriver());
+    private StateHolder stateHolder = StateHolder.getInstance(); 
 
     @Then("Verify shopping bag is displayed")
     public void is_displayed() {
@@ -40,7 +40,9 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
             bag.logger.error("Bag has no subtotal");
         }
 
-        bag.stateHolder.put("ordersubtotal", subTotal);
+        stateHolder.put("subtotal", subTotal.replaceAll("[^0-9.]", ""));
+        stateHolder.put("total", bag.getTotalValue().replaceAll("[^0-9.]", ""));
+        stateHolder.put("shippingCost", bag.getEstimatedShipping().replaceAll("[^0-9.]", ""));
     }
 
     @Then("Verify products added matches with products in bag")
@@ -127,9 +129,9 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	
     	String subTotal = bag.getSubtotalValue().trim();
         subTotal=subTotal.replaceAll("[^0-9\\.]", "");
-        bag.stateHolder.put("subtotal",subTotal);
+        stateHolder.put("subtotal",subTotal);
         
-        bag.stateHolder.put("total", bag.getTotalValue());
+        stateHolder.put("total", bag.getTotalValue());
         
         bag.checkOutNow();
     }
@@ -143,7 +145,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
 
     @Then("Verify monogram products are unavailable in bag")
     public void monogram_unavailable() {
-        List<Product> expected = bag.stateHolder.getList("toBag");
+        List<Product> expected = stateHolder.getList("toBag");
         expected = Lists.reverse(expected);
         List<Product> actual = bag.getUnavailableItems();
 
@@ -157,7 +159,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
 
     @Then("Verify items quantity and prices")
     public void items_times_quantity() {
-		List<Product> products = bag.stateHolder.getList("toBag");
+		List<Product> products = stateHolder.getList("toBag");
         products = Lists.reverse(products);
         
         int expectedOrderSubTotal = 0;
@@ -174,7 +176,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
             expectedOrderSubTotal += qty * price;
         }
         
-        bag.stateHolder.put("expectedOrderSubTotal", expectedOrderSubTotal);
+        stateHolder.put("expectedOrderSubTotal", expectedOrderSubTotal);
     }
 
     @When("User removes first item from bag")
@@ -194,15 +196,15 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     
     @Then("^Verify Order Subtotal is updated when item is removed$")
     public void verify_order_subtotal_when_item_removed(){
-    	String orderSubTotalBeforeDeletion = (String) bag.stateHolder.get("ordersubtotal");
+    	String orderSubTotalBeforeDeletion = (String) stateHolder.get("subtotal");
     	orderSubTotalBeforeDeletion = orderSubTotalBeforeDeletion.replaceAll("[^0-9]", "");
     	int subTotalBeforeDeletion = Integer.parseInt(orderSubTotalBeforeDeletion);
     	
-    	String deletedItemPrice = (String) bag.stateHolder.get("deleteditemprice");
+    	String deletedItemPrice = (String) stateHolder.get("deleteditemprice");
     	deletedItemPrice = deletedItemPrice.replaceAll("[^0-9]", "");
     	int itemPrice = Integer.parseInt(deletedItemPrice);
     	
-    	String deletedItemQty = (String) bag.stateHolder.get("deleteditemqty");
+    	String deletedItemQty = (String) stateHolder.get("deleteditemqty");
     	int qty = Integer.parseInt(deletedItemQty);
     	
     	String orderSubTotalAfterDeletion = bag.getSubTotal();
@@ -215,7 +217,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     @Then("^Verify Order Subtotal is updated when item quantity is changed$")
     public void verify_order_subtotal_when_item_changed(){
 
-    	int expectedOrderSubtotal = (int) bag.stateHolder.get("expectedOrderSubTotal");
+    	int expectedOrderSubtotal = (int) stateHolder.get("expectedOrderSubTotal");
     	bag.logger.debug("Expected Order subtotal: {}", expectedOrderSubtotal);
     	
     	String currentOrderSubTotal = bag.getSubTotal();
@@ -235,7 +237,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     public void previously_added_items_not_shown() {
     	
     	@SuppressWarnings("unchecked")
-    	List<Product> previousProducts = (List<Product>) bag.stateHolder.get("userBag");
+    	List<Product> previousProducts = (List<Product>) stateHolder.get("userBag");
     	Product previousProduct = previousProducts.get(0);
     	String previousItemCode = previousProduct.getItemNumber();    	
     	List<Product> bagProducts = deleteProductFromStateHolder(previousItemCode);
@@ -252,7 +254,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	String editedItemCode = bag.getItemCode(lastEditButton);
     	
     	List<Product> bagProducts = deleteProductFromStateHolder(editedItemCode);    	
-    	bag.stateHolder.put("toBag",bagProducts);
+    	stateHolder.put("toBag",bagProducts);
     	
     	lastEditButton.click();
     	Util.waitLoadingBar(getDriver());
@@ -260,7 +262,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     
     private List<Product> deleteProductFromStateHolder(String expectedItemCode){
     	@SuppressWarnings("unchecked")
-    	List<Product> bagProducts = (List<Product>) bag.stateHolder.get("toBag");
+    	List<Product> bagProducts = (List<Product>) stateHolder.get("toBag");
     	for(int i=0;i<bagProducts.size();i++){
     		Product bagProduct = bagProducts.get(i);
     		
@@ -298,9 +300,9 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     
     @Then("^Verify gift card details in shopping bag page$")
     public void verify_gift_card_details(){
-    	String expectedSenderName = bag.stateHolder.get("giftCardSenderName");
-    	String expectedRecipientName = bag.stateHolder.get("giftCardRecipientName");
-    	String expectedRecipientEmail = bag.stateHolder.get("giftCardRecipientEmail");
+    	String expectedSenderName = stateHolder.get("giftCardSenderName");
+    	String expectedRecipientName = stateHolder.get("giftCardRecipientName");
+    	String expectedRecipientEmail = stateHolder.get("giftCardRecipientEmail");
     	   	
     	assertEquals("Same gift card sender name", expectedSenderName.toLowerCase(), bag.getEgiftCardSenderName().toLowerCase());
     	assertEquals("Same gift card recipient name", expectedRecipientName.toLowerCase(), bag.getEgiftCardRecipientName().toLowerCase());

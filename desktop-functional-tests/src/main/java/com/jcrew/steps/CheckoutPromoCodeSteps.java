@@ -12,6 +12,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 /**
  * Created by ravi kumar on 4/5/16.
  */
@@ -118,11 +121,15 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     	promoDiscountedAmount += promocode.getPromoDiscountedAmount(orderSubTotalDblVal, promoCode);
     	stateHolder.put("promoDiscountedAmount", promoDiscountedAmount);
     	
-    	String price = stateHolder.get("selectedShippingMethodPrice");
+    	String price = stateHolder.get("shippingCost");
     	price = price.replaceAll("[^0-9.]", "");
     	Double shippingMethodPrice = Double.valueOf(price);
     	
     	Double expectedOrderTotal = orderSubTotalDblVal - promoDiscountedAmount + shippingMethodPrice;
+    	
+    	DecimalFormat df = new DecimalFormat(".##");
+    	df.setRoundingMode(RoundingMode.FLOOR);
+    	expectedOrderTotal = Double.valueOf(df.format(expectedOrderTotal));
     	
     	Double actualOrderTotal = Double.valueOf(promocode.getEstimatedTotal().replaceAll("[^0-9.]", ""));
     	
