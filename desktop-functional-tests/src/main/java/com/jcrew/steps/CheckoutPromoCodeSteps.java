@@ -2,6 +2,7 @@ package com.jcrew.steps;
 
 import com.jcrew.page.CheckoutPromoCode;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -17,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class CheckoutPromoCodeSteps extends DriverFactory {
 
     private CheckoutPromoCode promocode = new CheckoutPromoCode(getDriver());
+    private StateHolder stateHolder = StateHolder.getInstance();  
 
     @When("User adds a promo code ([^\"]*)")
     public void add_promo_code(String code) {
@@ -44,7 +46,7 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
         String actual = promocode.getPromoDetails().toLowerCase();
 
         assertTrue("Expected promo name contains " +  message, actual.contains(message));
-        promocode.stateHolder.put("promoMessage", message);
+        stateHolder.put("promoMessage", message);
     }
 
     @Then("Verify promo code applied 10 percent from subtotal")
@@ -89,7 +91,7 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     
     @Then("^Verify the applied promo code is (active|inactive)$")
     public void verify_promo_code_state(String expectedState){
-    	String promoCode = promocode.stateHolder.get("promocode");
+    	String promoCode = stateHolder.get("promocode");
     	String actualState = promocode.getPromoCodeAppliedState(promoCode);
     	
    		assertEquals("Promo code '" + promoCode + "' should be '" + expectedState + "' state", expectedState, actualState);
@@ -102,21 +104,21 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     
     @And("^Verify order total is calculated correctly after promo is applied$")
     public void verify_order_total_calculated_correctly_after_promo_applied(){
-    	String promoCode = promocode.stateHolder.get("promocode");
+    	String promoCode = stateHolder.get("promocode");
     	promoCode = promoCode.toLowerCase();
     	
-    	String orderSubTotal = promocode.stateHolder.get("subtotal");
+    	String orderSubTotal = stateHolder.get("subtotal");
     	Double orderSubTotalDblVal = Double.valueOf(orderSubTotal);
     	
     	Double promoDiscountedAmount = 0.0;
-    	if(promocode.stateHolder.hasKey("promoDiscountedAmount")){
-    		promoDiscountedAmount = promocode.stateHolder.get("promoDiscountedAmount");
+    	if(stateHolder.hasKey("promoDiscountedAmount")){
+    		promoDiscountedAmount = stateHolder.get("promoDiscountedAmount");
     	}
     	
     	promoDiscountedAmount += promocode.getPromoDiscountedAmount(orderSubTotalDblVal, promoCode);
-    	promocode.stateHolder.put("promoDiscountedAmount", promoDiscountedAmount);
+    	stateHolder.put("promoDiscountedAmount", promoDiscountedAmount);
     	
-    	String price = promocode.stateHolder.get("selectedShippingMethodPrice");
+    	String price = stateHolder.get("selectedShippingMethodPrice");
     	price = price.replaceAll("[^0-9.]", "");
     	Double shippingMethodPrice = Double.valueOf(price);
     	

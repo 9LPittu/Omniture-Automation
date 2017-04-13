@@ -4,6 +4,7 @@ package com.jcrew.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -43,20 +44,16 @@ public class CheckoutPromoCode extends Checkout {
     	
     	Double promoDiscountedAmount = 0.0;
     	Double percentage;
-    	Double discount;
-    	Double thresholdValue1;
-    	Double thresholdValue2;
-    	Double thresholdValue3;
-    	String freeShippingRequired;
-    	Double  freeShippingThresholdVal;
     	
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader(); 
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
     	switch(promoCode){
     		case "stack10p":
     		case "test-10p":
     			percentage = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
     			promoDiscountedAmount = orderSubtotal * (percentage/100);
     			break;
+    		default:
+    			throw new WebDriverException(promoCode + " is not recognized!");
     	}
     	
     	return promoDiscountedAmount;
