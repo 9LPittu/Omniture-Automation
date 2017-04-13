@@ -38,7 +38,8 @@ public abstract class Checkout extends PageObject{
     private WebElement order_summary;
     @FindBy(id = "order-listing")
     protected WebElement orderListing;
-    
+    @FindBy(id="zipcode")
+    private WebElement zipCode;
     @FindBy(id = "checkout")
     private WebElement checkout;
     @FindBy(id = "order-listing")
@@ -594,6 +595,22 @@ public abstract class Checkout extends PageObject{
     	
     	catch(Exception e){
     		return false;
-    	}  	
-    }  
+
+    	}
+    	
+    	 
+    }
+    public void addZipCode(String code) {
+        wait.until(ExpectedConditions.visibilityOf(zipCode));
+        zipCode.sendKeys(code);
+    }
+    
+    
+    public String getZipCodeMessage() {
+        wait.until(ExpectedConditions.visibilityOf(checkoutContainer));
+        WebElement message = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("summary-zipcode-message")));
+        return message.getText();
+    }	
+   
 }
+  
