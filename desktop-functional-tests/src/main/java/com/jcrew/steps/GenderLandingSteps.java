@@ -10,7 +10,7 @@ import org.junit.Assert;
  * Created by 9msyed on 12/12/2016.
  */
 public class GenderLandingSteps extends DriverFactory{
-    IGenderLandingPage genderLanding = GenderLandingPage.getGenderLandingPage(getDriver());
+    private IGenderLandingPage genderLanding = GenderLandingPage.getGenderLandingPage(getDriver());
 
     @Then("Verify gender landing page is displayed")
     public void verify_gender_landing_page_displayed(){

@@ -66,7 +66,7 @@ public class CheckOutSteps extends DriverFactory {
     	checkout.addZipCode(code);
     }
 
-@Then("Verify zipcode message says: ([^\"]*)")
+    @Then("Verify zipcode message says: ([^\"]*)")
     public void zip_message(String message) {
         String actual = checkout.getZipCodeMessage();
 
