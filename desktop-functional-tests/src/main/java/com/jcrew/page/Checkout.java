@@ -301,7 +301,7 @@ public abstract class Checkout extends PageObject{
     }
 
     public void nextStep(WebElement form) {
-    	WebElement continueButton = form.findElement(By.id("main__button-continue"));
+    	WebElement continueButton = form.findElement(By.xpath(".//a[contains(@id, 'main__button-continue')]"));
         wait.until(ExpectedConditions.elementToBeClickable(continueButton));
         Util.scrollPage(driver, "down");
         continueButton.click();
