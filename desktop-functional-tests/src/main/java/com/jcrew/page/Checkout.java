@@ -595,7 +595,7 @@ public abstract class Checkout extends PageObject{
     	
     	catch(Exception e){
     		return false;
-<<<<<<< HEAD
+
     	}
     	
     	 
@@ -613,15 +613,4 @@ public abstract class Checkout extends PageObject{
     }	
    
 }
-||||||| merged common ancestors
-    	}
-    	
-    	 
-    }
-   
-}
-=======
-    	}  	
-    }  
-}
->>>>>>> master
+  
