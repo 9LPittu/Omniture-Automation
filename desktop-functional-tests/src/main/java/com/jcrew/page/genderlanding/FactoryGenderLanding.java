@@ -13,7 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  */
 public class FactoryGenderLanding extends PageObject implements IGenderLandingPage {
 
-    @FindBy(className = "wrapBG")
+    @FindBy(id = "plusSlideshowWrapper")
     private WebElement sidecarLanding;
 
 

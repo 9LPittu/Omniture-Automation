@@ -17,5 +17,5 @@ Feature: Site wise promo functionality for free shipping product
     When User clicks in bag
     Then Verify products added matches with products in bag
     
-    When User adds promo code TEST-FS in shopping bag page
+    When User adds a promo code TEST-FS
     Then Verify the applied promo code is inactive
