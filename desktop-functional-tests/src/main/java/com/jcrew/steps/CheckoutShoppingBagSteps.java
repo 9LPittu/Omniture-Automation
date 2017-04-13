@@ -317,5 +317,13 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
         assertEquals("Estimated shipping cost is different", expectedShippingVal, estimatedShipping);
     }
     
-   
+    @Then("Verify all products do not have save buttons for guest user")
+    public void no_save_buttons() {
+        assertFalse("All products do not have save buttons", bag.itemsSaveButtons());
+    }
+    
+    @Then("Verify all products have save buttons for register user")
+    public void save_buttons() {
+        assertTrue("All productus have save buttons", bag.itemsSaveButtons());
+    }
 }
