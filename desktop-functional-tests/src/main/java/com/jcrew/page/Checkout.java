@@ -464,4 +464,15 @@ public abstract class Checkout extends PageObject{
     	useAddressAsEntered.click();
     	logger.debug("QAS is handled by clicking on 'USE ADDRESS AS ENTERED' button...");
     }
+
+    public void addZipCode(String code) {
+        wait.until(ExpectedConditions.visibilityOf(zipCode));
+        zipCode.sendKeys(code);
+    }
+
+    public String getZipCodeMessage() {
+        wait.until(ExpectedConditions.visibilityOf(checkoutContainer));
+        WebElement message = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("summary-zipcode-message")));
+        return message.getText();
+    }
 }
