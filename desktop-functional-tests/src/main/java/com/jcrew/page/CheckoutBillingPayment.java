@@ -115,7 +115,9 @@ public class CheckoutBillingPayment extends Checkout {
     }
     
     public void continueCheckout() {
-        nextStep(paymentPageForm);
+        cardForm.findElement(By.className("button-submit")).click();
+        Util.waitLoadingBar(driver);
+        Util.waitForPageFullyLoaded(driver);
     }
 
     public void editPayment() {
