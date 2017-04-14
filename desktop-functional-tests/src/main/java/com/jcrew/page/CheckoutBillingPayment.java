@@ -119,6 +119,13 @@ public class CheckoutBillingPayment extends Checkout {
         Util.waitLoadingBar(driver);
         Util.waitForPageFullyLoaded(driver);
     }
+    
+    public void billingContinueCheckout(){
+    	WebElement continueButton = paymentPageForm.findElement(By.xpath(".//a[@id='main__button-continue']"));
+    	continueButton.click();
+    	Util.waitLoadingBar(driver);
+        Util.waitForPageFullyLoaded(driver);
+    }
 
     public void editPayment() {
     	securityCode.sendKeys("156");

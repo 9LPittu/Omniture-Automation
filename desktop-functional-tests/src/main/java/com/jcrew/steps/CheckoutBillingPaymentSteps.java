@@ -47,7 +47,7 @@ public class CheckoutBillingPaymentSteps extends DriverFactory {
     @When("User fills payment method and continue")
     public void user_fills_payment_method_and_continue() {
         billing.fillPayment();
-        billing.continueCheckout();
+        billing.billingContinueCheckout();
     }
     
     @And("User has (\\d+) payment methods")
