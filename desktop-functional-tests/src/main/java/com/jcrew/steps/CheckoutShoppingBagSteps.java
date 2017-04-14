@@ -28,7 +28,7 @@ import static org.junit.Assert.assertFalse;
  */
 public class CheckoutShoppingBagSteps extends DriverFactory {
     private CheckoutShoppingBag bag = new CheckoutShoppingBag(getDriver());
-    private StateHolder stateHolder = StateHolder.getInstance(); 
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     @Then("Verify shopping bag is displayed")
     public void is_displayed() {
@@ -48,7 +48,32 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
 
     @Then("Verify products added matches with products in bag")
     public void products_matches() {
-        assertTrue("Same products are in bag", bag.itemsInBag());
+        if(stateHolder.hasKey("toBag")) {
+            List<Product> expectedList = stateHolder.getList("toBag");
+            check_items(expectedList);
+        }
+    }
+
+    private void check_items(List<Product> expectedList) {
+        expectedList = Lists.reverse(expectedList);
+        List<Product> actualList = bag.getProducts();
+
+        assertEquals("Same numer of products expected", expectedList.size(), actualList.size());
+
+        for (int i = 0; i < expectedList.size(); i++) {
+            Product expected = expectedList.get(i);
+            Product actual = expectedList.get(i);
+
+            assertEquals("Same item number", expected.getItemNumber(), actual.getItemNumber());
+            assertEquals("Same name for item number " + expected.getItemNumber(),
+                    expected.getName().toLowerCase(), actual.getName().toLowerCase());
+            assertEquals("Same color for item number " + expected.getItemNumber(),
+                    expected.getColor().toLowerCase(), expected.getColor().toLowerCase());
+            assertEquals("Same size for item number " + actual.getItemNumber(),
+                    expected.getSize().toLowerCase(), expected.getSize().toLowerCase());
+            assertEquals("Same quantity for item number " + expected.getItemNumber(),
+                    expected.getQuantity(), actual.getQuantity());
+        }
     }
     
     @Then("^Verify gift cards added matches with gift cards in bag$")
@@ -59,11 +84,6 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     @Then("Verify all products have edit and remove buttons")
     public void edit_and_remove_buttons() {
         assertTrue("All productus have edit and remove buttons", bag.itemsButtons());
-    }
-
-    @Then("Verify bag has a promo code section")
-    public void promo_code_section() {
-        assertTrue("Bag has a promo code section", bag.promoSection());
     }
 
     @Then("Verify bag has a gift card section")
@@ -198,6 +218,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     @Then("^Verify Order Subtotal is updated when item is removed$")
     public void verify_order_subtotal_when_item_removed(){
     	String orderSubTotalBeforeDeletion = (String) stateHolder.get("subtotal");
+
     	orderSubTotalBeforeDeletion = orderSubTotalBeforeDeletion.replaceAll("[^0-9]", "");
     	int subTotalBeforeDeletion = Integer.parseInt(orderSubTotalBeforeDeletion);
     	
@@ -206,6 +227,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	int itemPrice = Integer.parseInt(deletedItemPrice);
     	
     	String deletedItemQty = (String) stateHolder.get("deleteditemqty");
+
     	int qty = Integer.parseInt(deletedItemQty);
     	
     	String orderSubTotalAfterDeletion = bag.getSubTotal();
@@ -239,11 +261,12 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     	
     	@SuppressWarnings("unchecked")
     	List<Product> previousProducts = (List<Product>) stateHolder.get("userBag");
+
     	Product previousProduct = previousProducts.get(0);
     	String previousItemCode = previousProduct.getItemNumber();    	
-    	List<Product> bagProducts = deleteProductFromStateHolder(previousItemCode);
+    	List<Product> expected = deleteProductFromStateHolder(previousItemCode);
     	   	
-        assertTrue("Previously added items should not be shown", bag.matchList(bagProducts));
+        check_items(expected);
     }
     
     @When("^User edits first added item from bag$")
@@ -264,6 +287,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     private List<Product> deleteProductFromStateHolder(String expectedItemCode){
     	@SuppressWarnings("unchecked")
     	List<Product> bagProducts = (List<Product>) stateHolder.get("toBag");
+
     	for(int i=0;i<bagProducts.size();i++){
     		Product bagProduct = bagProducts.get(i);
     		

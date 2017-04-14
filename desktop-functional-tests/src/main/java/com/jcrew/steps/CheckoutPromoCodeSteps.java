@@ -19,9 +19,13 @@ import java.text.DecimalFormat;
  * Created by ravi kumar on 4/5/16.
  */
 public class CheckoutPromoCodeSteps extends DriverFactory {
-
     private CheckoutPromoCode promocode = new CheckoutPromoCode(getDriver());
     private StateHolder stateHolder = StateHolder.getInstance();  
+
+    @Then("Verify bag has a promo code section")
+    public void promo_code_section() {
+        assertTrue("Bag has a promo code section", promocode.isDisplayed());
+    }
 
     @When("User adds a promo code ([^\"]*)")
     public void add_promo_code(String code) {
@@ -72,12 +76,14 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
         
     @And("^Verify remove button is displayed in promo section$")
     public void remove_button_displayed_in_promo_section(){
-    	assertTrue("remove button is displayed in promo section after promo code is applied", promocode.getPromoRemoveElement().isDisplayed()); 
+    	assertTrue("remove button is displayed in promo section after promo code is applied",
+                promocode.getPromoRemoveElement().isDisplayed());
     }
     
     @And("^Verify promo message is updated in the summary section$")
     public void promo_message_updated_in_summary_section(){
-    	assertTrue("Promo message is updated in the order summary section after promo code is applied", promocode.getPromoMessageElementFromOrderSummary().isDisplayed());
+    	assertTrue("Promo message is updated in the order summary section after promo code is applied",
+                promocode.getPromoMessageElementFromOrderSummary().isDisplayed());
     }
     
     @Then("^Verify second promo text box is displayed in promo section$")
@@ -98,11 +104,6 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     	String actualState = promocode.getPromoCodeAppliedState(promoCode);
     	
    		assertEquals("Promo code '" + promoCode + "' should be '" + expectedState + "' state", expectedState, actualState);
-    }
-    
-    @When("User adds promo code ([^\"]*) in ([^\"]*) page")
-    public void add_promo_code_checkout_page(String promoCode, String page) {
-    	promocode.addPromoCode(promoCode, page);
     }
     
     @And("^Verify order total is calculated correctly after promo is applied$")
