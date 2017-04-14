@@ -12,8 +12,7 @@ Feature: PDP layout from bag page
     Then Verify user is in category array page
 
  
-  Scenario: Development
-  PDP layout from bag page
+  Scenario: PDP layout from bag page
     When User selects random product from product array
     Then Verify product detail page is displayed
     And User selects random color

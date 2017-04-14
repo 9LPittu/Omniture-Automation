@@ -26,6 +26,12 @@ public class CheckoutBillingSteps extends DriverFactory {
         billing.fillPaymentMethod(true);
         billing.continueCheckout();
     }
+
+    @When("^User fills payment method as guest with ([^\"]*) and continues$")
+    public void fill_payment_method_card_continue(String card) {
+        billing.fillPaymentMethod(card);
+        billing.continueCheckout();
+    }
     
     @When("User fills payment method as registered user and continues")
     public void fill_payment_method_registered() {

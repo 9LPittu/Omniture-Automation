@@ -60,18 +60,18 @@ public class CheckoutBilling extends Checkout {
         return bodyId.equals("billing");
     }
 
-    public void fillPaymentMethod(boolean isGuest) {
+    private void fillCardFields(String key, boolean isGuest) {
         TestDataReader testData = TestDataReader.getTestDataReader();
         User checkoutUSer;
 
-        creditCardNumber.sendKeys(testData.getData("card.number"));
-        securityCode.sendKeys(testData.getData("card.cvv"));
+        creditCardNumber.sendKeys(testData.getData(key + ".number"));
+        securityCode.sendKeys(testData.getData(key + ".cvv"));
 
         Select month = new Select(expirationMonth);
-        month.selectByVisibleText(testData.getData("card.month"));
+        month.selectByVisibleText(testData.getData(key + ".month"));
 
         Select year = new Select(expirationYear);
-        year.selectByVisibleText(testData.getData("card.year"));
+        year.selectByVisibleText(testData.getData(key + ".year"));
 
         if (isGuest) {
             checkoutUSer = User.getFakeUser();
@@ -84,7 +84,15 @@ public class CheckoutBilling extends Checkout {
         if (isGuest)
         	emailReceipt.sendKeys(checkoutUSer.getEmail());
     }
-    
+
+    public void fillPaymentMethod(boolean isGuest) {
+        fillCardFields("card", isGuest);
+    }
+
+    public void fillPaymentMethod(String card) {
+        fillCardFields(card + ".card", true);
+    }
+
     public void continueCheckout() {    	
     	if(stateHolder.hasKey("isBillingContinueClicked"))
     		return;
