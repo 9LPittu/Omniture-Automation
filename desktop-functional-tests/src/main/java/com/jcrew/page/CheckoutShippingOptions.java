@@ -111,7 +111,7 @@ public class CheckoutShippingOptions extends Checkout {
     }
 
     public void selectShippingMethod() {
-        List<WebElement> methods = shippingMethodForm.findElements(By.xpath(".//div[contains(@class, 'form-shipmethod') and contains(@id, 'method_UPS')]"));
+        List<WebElement> methods = shippingMethodForm.findElements(By.xpath(".//div[contains(@class, 'form-shipmethod') and contains(@id, 'method')]"));
         int random = Util.randomIndex(methods.size());
 
         WebElement method = methods.get(random);
