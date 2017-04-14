@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.CheckoutPromoCode;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -14,6 +15,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+
+import org.openqa.selenium.WebDriverException;
 
 /**
  * Created by ravi kumar on 4/5/16.
@@ -119,7 +122,7 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     		promoDiscountedAmount = stateHolder.get("promoDiscountedAmount");
     	}
     	
-    	promoDiscountedAmount += promocode.getPromoDiscountedAmount(orderSubTotalDblVal, promoCode);
+    	promoDiscountedAmount += getPromoDiscountedAmount(orderSubTotalDblVal, promoCode);
     	stateHolder.put("promoDiscountedAmount", promoDiscountedAmount);
     	
     	String price = stateHolder.get("shippingCost");
@@ -135,6 +138,40 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     	Double actualOrderTotal = Double.valueOf(promocode.getEstimatedTotal().replaceAll("[^0-9.]", ""));
     	
     	assertEquals("Order total is not calculated correctly", expectedOrderTotal, actualOrderTotal);
+    }
+    
+    public Double getPromoDiscountedAmount(Double orderSubtotal, String promoCode){
+    	
+    	Double promoDiscountedAmount = 0.0;
+    	Double percentage;
+    	Double freeShippingThresholdAmt;
+    	
+    	DecimalFormat df = new DecimalFormat(".###");
+    	df.setRoundingMode(RoundingMode.HALF_DOWN);
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	switch(promoCode){
+    		case "stack10p":
+    		case "test-10p":
+    			percentage = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
+    			promoDiscountedAmount = Double.valueOf(df.format(orderSubtotal * (percentage/100)));
+    			break;
+    		case "stack-fs-50":
+    			freeShippingThresholdAmt = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
+    			if(orderSubtotal > freeShippingThresholdAmt){
+    				stateHolder.put("shippingCost", "0");
+    			}
+    			break;
+    		case "test-15pf-fs":
+    			percentage = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
+    			promoDiscountedAmount = Double.valueOf(df.format(orderSubtotal * (percentage/100)));
+    			stateHolder.put("shippingCost", "0");
+    			break;
+    		default:
+    			throw new WebDriverException(promoCode + " is not recognized!");
+    	}
+    	
+    	return promoDiscountedAmount;
     }
     
     @And("^User removes the already applied promo$")

@@ -1,7 +1,5 @@
 package com.jcrew.page;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,8 +10,6 @@ import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import com.jcrew.utils.TestDataReader;
 
 import java.util.List;
 
@@ -45,40 +41,6 @@ public class CheckoutPromoCode extends Checkout {
         	return "inactive";
         else
         	return "active";
-    }
-    
-    public Double getPromoDiscountedAmount(Double orderSubtotal, String promoCode){
-    	
-    	Double promoDiscountedAmount = 0.0;
-    	Double percentage;
-    	Double freeShippingThresholdAmt;
-    	
-    	DecimalFormat df = new DecimalFormat(".###");
-    	df.setRoundingMode(RoundingMode.HALF_DOWN);
-    	
-    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	switch(promoCode){
-    		case "stack10p":
-    		case "test-10p":
-    			percentage = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
-    			promoDiscountedAmount = Double.valueOf(df.format(orderSubtotal * (percentage/100)));
-    			break;
-    		case "stack-fs-50":
-    			freeShippingThresholdAmt = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
-    			if(orderSubtotal > freeShippingThresholdAmt){
-    				stateHolder.put("shippingCost", "0");
-    			}
-    			break;
-    		case "test-15pf-fs":
-    			percentage = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
-    			promoDiscountedAmount = Double.valueOf(df.format(orderSubtotal * (percentage/100)));
-    			stateHolder.put("shippingCost", "0");
-    			break;
-    		default:
-    			throw new WebDriverException(promoCode + " is not recognized!");
-    	}
-    	
-    	return promoDiscountedAmount;
     }
     
     public void removePromo(){
