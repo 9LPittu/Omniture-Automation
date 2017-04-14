@@ -123,6 +123,7 @@ public class CheckoutShippingOptions extends Checkout {
         if (!labelClass.contains("radio-checked")) {
         	WebElement radio = method.findElement(By.className("input-radio"));
         	radio.click();
+        	Util.waitForPageFullyLoaded(driver);
         } else {
             logger.debug("Selected method is already selected");
         }
@@ -130,7 +131,13 @@ public class CheckoutShippingOptions extends Checkout {
         ShippingMethod shippingMethod = getShippingMethod(method);
 
         stateHolder.put("selectedShippingMethod", shippingMethod.getMethod());
-        stateHolder.put("shippingCost", shippingMethod.getPrice());
+        
+        String shippingPrice = shippingMethod.getPrice();
+        if(shippingPrice.equalsIgnoreCase("FREE")){
+        	shippingPrice = "0";
+        }
+        
+        stateHolder.put("shippingCost", shippingPrice);
     }
 
     public void continueCheckout() {
