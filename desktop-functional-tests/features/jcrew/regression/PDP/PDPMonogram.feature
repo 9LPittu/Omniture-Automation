@@ -1,4 +1,4 @@
-@PDPMonogram @Highlevel
+@PDPMonogram @HighLevel
 
 Feature: PDP Monogram behavior
 
