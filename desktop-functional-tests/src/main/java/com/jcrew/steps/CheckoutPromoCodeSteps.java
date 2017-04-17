@@ -2,6 +2,8 @@ package com.jcrew.steps;
 
 import com.jcrew.page.CheckoutPromoCode;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -11,11 +13,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+import org.openqa.selenium.WebDriverException;
+
 /**
  * Created by ravi kumar on 4/5/16.
  */
 public class CheckoutPromoCodeSteps extends DriverFactory {
     private CheckoutPromoCode promocode = new CheckoutPromoCode(getDriver());
+    private StateHolder stateHolder = StateHolder.getInstance();  
 
     @Then("Verify bag has a promo code section")
     public void promo_code_section() {
@@ -48,7 +56,7 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
         String actual = promocode.getPromoDetails().toLowerCase();
 
         assertTrue("Expected promo name contains " +  message, actual.contains(message));
-        promocode.stateHolder.put("promoMessage", message);
+        stateHolder.put("promoMessage", message);
     }
 
     @Then("Verify promo code applied 10 percent from subtotal")
@@ -95,9 +103,79 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     
     @Then("^Verify the applied promo code is (active|inactive)$")
     public void verify_promo_code_state(String expectedState){
-    	String promoCode = promocode.stateHolder.get("promocode");
+    	String promoCode = stateHolder.get("promocode");
     	String actualState = promocode.getPromoCodeAppliedState(promoCode);
     	
    		assertEquals("Promo code '" + promoCode + "' should be '" + expectedState + "' state", expectedState, actualState);
+    }
+    
+    @And("^Verify order total is calculated correctly after promo is applied$")
+    public void verify_order_total_calculated_correctly_after_promo_applied(){
+    	String promoCode = stateHolder.get("promocode");
+    	promoCode = promoCode.toLowerCase();
+    	
+    	String orderSubTotal = stateHolder.get("subtotal");
+    	Double orderSubTotalDblVal = Double.valueOf(orderSubTotal);
+    	
+    	Double promoDiscountedAmount = 0.0;
+    	if(stateHolder.hasKey("promoDiscountedAmount")){
+    		promoDiscountedAmount = stateHolder.get("promoDiscountedAmount");
+    	}
+    	
+    	promoDiscountedAmount += getPromoDiscountedAmount(orderSubTotalDblVal, promoCode);
+    	stateHolder.put("promoDiscountedAmount", promoDiscountedAmount);
+    	
+    	String price = stateHolder.get("shippingCost");
+    	price = price.replaceAll("[^0-9.]", "");
+    	Double shippingMethodPrice = Double.valueOf(price);
+    	
+    	Double expectedOrderTotal = orderSubTotalDblVal - promoDiscountedAmount + shippingMethodPrice;
+    	
+    	DecimalFormat df = new DecimalFormat(".##");
+    	df.setRoundingMode(RoundingMode.FLOOR);
+    	expectedOrderTotal = Double.valueOf(df.format(expectedOrderTotal));
+    	
+    	Double actualOrderTotal = Double.valueOf(promocode.getEstimatedTotal().replaceAll("[^0-9.]", ""));
+    	
+    	assertEquals("Order total is not calculated correctly", expectedOrderTotal, actualOrderTotal);
+    }
+    
+    public Double getPromoDiscountedAmount(Double orderSubtotal, String promoCode){
+    	
+    	Double promoDiscountedAmount = 0.0;
+    	Double percentage;
+    	Double freeShippingThresholdAmt;
+    	
+    	DecimalFormat df = new DecimalFormat(".###");
+    	df.setRoundingMode(RoundingMode.HALF_DOWN);
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	switch(promoCode){
+    		case "stack10p":
+    		case "test-10p":
+    			percentage = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
+    			promoDiscountedAmount = Double.valueOf(df.format(orderSubtotal * (percentage/100)));
+    			break;
+    		case "stack-fs-50":
+    			freeShippingThresholdAmt = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
+    			if(orderSubtotal > freeShippingThresholdAmt){
+    				stateHolder.put("shippingCost", "0");
+    			}
+    			break;
+    		case "test-15pf-fs":
+    			percentage = Double.valueOf(testDataReader.getData(promoCode + ".percentage"));
+    			promoDiscountedAmount = Double.valueOf(df.format(orderSubtotal * (percentage/100)));
+    			stateHolder.put("shippingCost", "0");
+    			break;
+    		default:
+    			throw new WebDriverException(promoCode + " is not recognized!");
+    	}
+    	
+    	return promoDiscountedAmount;
+    }
+    
+    @And("^User removes the already applied promo$")
+    public void remove_promo(){
+    	promocode.removePromo();
     }
 }
