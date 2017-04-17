@@ -145,7 +145,7 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     	assertEquals("Order total is not calculated correctly", expectedOrderTotal, actualOrderTotal);
     }
     
-    public Double getPromoDiscountedAmount(Double orderSubtotal, String promoCode){
+    private Double getPromoDiscountedAmount(Double orderSubtotal, String promoCode){
     	
     	Double promoDiscountedAmount = 0.0;
     	Double percentage;
