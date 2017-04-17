@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
-import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 

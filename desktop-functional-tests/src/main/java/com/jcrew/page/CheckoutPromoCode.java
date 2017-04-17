@@ -1,5 +1,11 @@
 package com.jcrew.page;
 
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -35,6 +41,12 @@ public class CheckoutPromoCode extends Checkout {
         	return "inactive";
         else
         	return "active";
+    }
+    
+    public void removePromo(){
+    	getPromoRemoveElement().click();
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
     }
 
     private WebElement getPromoCodeField() {
@@ -126,4 +138,3 @@ public class CheckoutPromoCode extends Checkout {
         return isDisplayed;
     }
 }
-

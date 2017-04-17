@@ -20,8 +20,8 @@ import org.openqa.selenium.WebElement;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-
 import static org.junit.Assert.assertFalse;
+
 
 /**
  * Created by nadiapaolagarcia on 5/3/16.
@@ -41,7 +41,9 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
             bag.logger.error("Bag has no subtotal");
         }
 
-        stateHolder.put("ordersubtotal", subTotal);
+        stateHolder.put("subtotal", subTotal.replaceAll("[^0-9.]", ""));
+        stateHolder.put("total", bag.getTotalValue().replaceAll("[^0-9.]", ""));
+        stateHolder.put("shippingCost", bag.getEstimatedShipping().replaceAll("[^0-9.]", ""));
     }
 
     @Then("Verify products added matches with products in bag")
@@ -215,15 +217,17 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     
     @Then("^Verify Order Subtotal is updated when item is removed$")
     public void verify_order_subtotal_when_item_removed(){
-    	String orderSubTotalBeforeDeletion = stateHolder.get("ordersubtotal");
+    	String orderSubTotalBeforeDeletion = (String) stateHolder.get("subtotal");
+
     	orderSubTotalBeforeDeletion = orderSubTotalBeforeDeletion.replaceAll("[^0-9]", "");
     	int subTotalBeforeDeletion = Integer.parseInt(orderSubTotalBeforeDeletion);
     	
-    	String deletedItemPrice = stateHolder.get("deleteditemprice");
+    	String deletedItemPrice = (String) stateHolder.get("deleteditemprice");
     	deletedItemPrice = deletedItemPrice.replaceAll("[^0-9]", "");
     	int itemPrice = Integer.parseInt(deletedItemPrice);
     	
-    	String deletedItemQty = stateHolder.get("deleteditemqty");
+    	String deletedItemQty = (String) stateHolder.get("deleteditemqty");
+
     	int qty = Integer.parseInt(deletedItemQty);
     	
     	String orderSubTotalAfterDeletion = bag.getSubTotal();
@@ -236,7 +240,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     @Then("^Verify Order Subtotal is updated when item quantity is changed$")
     public void verify_order_subtotal_when_item_changed(){
 
-    	int expectedOrderSubtotal = stateHolder.get("expectedOrderSubTotal");
+    	int expectedOrderSubtotal = (int) stateHolder.get("expectedOrderSubTotal");
     	bag.logger.debug("Expected Order subtotal: {}", expectedOrderSubtotal);
     	
     	String currentOrderSubTotal = bag.getSubTotal();
@@ -254,7 +258,10 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     
     @Then("Verify previously added item is not shown in bag page")
     public void previously_added_items_not_shown() {
-    	List<Product> previousProducts = stateHolder.get("userBag");
+    	
+    	@SuppressWarnings("unchecked")
+    	List<Product> previousProducts = (List<Product>) stateHolder.get("userBag");
+
     	Product previousProduct = previousProducts.get(0);
     	String previousItemCode = previousProduct.getItemNumber();    	
     	List<Product> expected = deleteProductFromStateHolder(previousItemCode);
@@ -278,7 +285,9 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     }
     
     private List<Product> deleteProductFromStateHolder(String expectedItemCode){
-    	List<Product> bagProducts = stateHolder.get("toBag");
+    	@SuppressWarnings("unchecked")
+    	List<Product> bagProducts = (List<Product>) stateHolder.get("toBag");
+
     	for(int i=0;i<bagProducts.size();i++){
     		Product bagProduct = bagProducts.get(i);
     		
