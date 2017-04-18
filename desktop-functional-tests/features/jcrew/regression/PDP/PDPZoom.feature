@@ -1,4 +1,4 @@
-@PDPZoom @Highlevel
+@PDPZoom @HighLevel
 
 Feature: PDP Images zoom and thumbnails
 
