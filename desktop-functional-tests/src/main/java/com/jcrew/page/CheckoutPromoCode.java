@@ -98,7 +98,8 @@ public class CheckoutPromoCode extends Checkout {
     }
 
     public String getPromoDetails() {
-        WebElement message = wait.until(ExpectedConditions.visibilityOf(promoContainer.findElement(By.className("module-details-last"))));
+        WebElement message = wait.until(ExpectedConditions.visibilityOf(
+                promoContainer.findElement(By.xpath(".//span[contains(@class,'module-details-last')]"))));
         return message.getText();
     }
 

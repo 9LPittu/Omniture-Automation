@@ -59,22 +59,27 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
         stateHolder.put("promoMessage", message);
     }
 
-    @Then("Verify promo code applied 10 percent from subtotal")
-    public void applied_promo() {
+    @Then("Verify promo code applied (\\d+) percent from subtotal")
+    public void applied_promo(int discount) {
         String subtotal = promocode.getSubTotal();
         subtotal = subtotal.replaceAll("[^0-9]", "");
+
         String promo = promocode.getPromoDiscount();
         promo = promo.replaceAll("[^0-9]", "");
-
-        int subtotalInt = Integer.parseInt(subtotal);
         int promoInt = Integer.parseInt(promo) * 10;
-        
-        boolean result = false;
-        if(subtotalInt==promoInt || (subtotalInt + 1)==promoInt){
-        	result = true;
-        }
 
-        assertTrue("Promo was applied correctly", result);
+        double subtotalFloat = Integer.parseInt(subtotal) * (discount / 100.00);
+        subtotalFloat = round(subtotalFloat);
+        double promoFloat = promoInt / 10.00;
+
+        assertEquals("Promo was applied correctly", (int) subtotalFloat, (int) promoFloat);
+    }
+
+    private double round(double doubleNumber) {
+        double decimals = doubleNumber - (int) doubleNumber;
+        double integer = doubleNumber - decimals;
+
+        return decimals >= .60? integer + 1 : integer;
     }
         
     @And("^Verify remove button is displayed in promo section$")
@@ -140,7 +145,7 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     	assertEquals("Order total is not calculated correctly", expectedOrderTotal, actualOrderTotal);
     }
     
-    public Double getPromoDiscountedAmount(Double orderSubtotal, String promoCode){
+    private Double getPromoDiscountedAmount(Double orderSubtotal, String promoCode){
     	
     	Double promoDiscountedAmount = 0.0;
     	Double percentage;
