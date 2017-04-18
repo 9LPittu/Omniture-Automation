@@ -1,5 +1,5 @@
 @PromoCode @HighLevel
-Feature: Checkout - Guest user is able to checkout with two promo's (stack promo and promo related to VISA payment)
+Feature: Checkout - Guest user is able to checkout with two promo's (stack promo and promo related to MASTERCARD payment)
 
   Scenario: Development
   Checkout - with Stack and MASTERCARD promo
