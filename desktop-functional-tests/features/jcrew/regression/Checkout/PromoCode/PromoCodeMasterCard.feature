@@ -1,8 +1,7 @@
 @PromoCode @HighLevel
 Feature: Checkout - Guest user is able to checkout with MASTERCARD promo code
 
-  Scenario: Development
-  Checkout - with MASTERCARD promo
+  Scenario: Checkout - with MASTERCARD promo
     Given User goes to homepage
     And User closes email capture
     And User hovers on a random category from list
