@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,6 +67,26 @@ public class SubCategory extends TopNav {
 
         clickAndHideFlyout(Util.randomIndex(saleCategories));
 
+    }
+
+    public List<String> getShops() {
+        WebElement ourShops = subcat_nav.findElement(By.xpath(".//h5[" + Util.xpathGetTextLower + "='our shops']"));
+        List<WebElement> shops = ourShops.findElements(By.xpath(".//following-sibling::ul/.//a"));
+        List<String> shopText = new ArrayList<>();
+
+        for(WebElement shop : shops) {
+            shopText.add(shop.getText().toLowerCase());
+        }
+
+        return shopText;
+    }
+
+    public void clickShop(String shop) {
+        WebElement ourShops = subcat_nav.findElement(By.xpath(".//h5[" + Util.xpathGetTextLower + "='our shops']"));
+        WebElement shopElement = ourShops.findElement(By.xpath(".//following-sibling::ul/" +
+                ".//a[" + Util.xpathGetTextLower + "='" + shop + "']"));
+
+        clickAndHideFlyout(shopElement);
     }
 
     private void clickAndHideFlyout(WebElement link) {

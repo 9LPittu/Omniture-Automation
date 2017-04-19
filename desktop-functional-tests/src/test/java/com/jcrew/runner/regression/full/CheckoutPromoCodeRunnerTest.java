@@ -6,16 +6,16 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/jcrew/regression/Checkout/ShoppingBag"},
-        tags = {"@ShoppingBag1"},
+        features = {"features/jcrew/regression/Checkout/PromoCode"},
+        tags = {"@PromoCode"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-regression-shoppingbag1.json",
+                "json:target/cucumber-regression-promocode.json",
                 "pretty",
-                "html:target/cucumber/regression-shoppingbag1"
+                "html:target/cucumber/regression-promocode"
         })
 /**
  * Created by nadiapaolagarcia on 5/16/16.
  */
-public class CheckoutShopping1BagRunnerTest {
+public class CheckoutPromoCodeRunnerTest {
 }

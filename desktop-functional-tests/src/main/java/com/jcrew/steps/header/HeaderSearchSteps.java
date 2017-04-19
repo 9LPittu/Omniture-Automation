@@ -10,6 +10,8 @@ import cucumber.api.java.en.When;
 
 import java.util.List;
 
+import org.openqa.selenium.WebDriverException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -71,5 +73,24 @@ public class HeaderSearchSteps extends DriverFactory {
         String actualState = search.getSearchDrawerState().toLowerCase().trim();
         assertEquals("State of search drawer should match",expectedState, actualState );
 
+    }
+    
+    @When("^User searches for (free shipping|promo excluded) product$")
+    public void search_product(String productType){
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	
+    	String searchTerm = "";
+    	switch(productType){
+    		case "free shipping":
+    			searchTerm = testDataReader.getData("free.shipping.product");
+    			break;
+    		case "promo excluded":
+    			searchTerm = testDataReader.getData("promo.excluded.product");
+    			break;
+    		default:
+    			throw new WebDriverException("Unrecognized product type " + productType);
+    	}
+    	
+    	search.searchForSpecificTerm(searchTerm);
     }
 }

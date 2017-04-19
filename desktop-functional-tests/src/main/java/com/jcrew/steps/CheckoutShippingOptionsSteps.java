@@ -104,7 +104,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
     	orderSubtotalThreshold = orderSubtotalThreshold.replaceAll("[^0-9]", "");
     	int threshold = Integer.parseInt(orderSubtotalThreshold);
     	
-    	String orderSubTotal = stateHolder.get("ordersubtotal");
+    	String orderSubTotal = stateHolder.get("subtotal");
     	orderSubTotal = orderSubTotal.replaceAll("[^0-9]", "");
     	int subTotal = Integer.parseInt(orderSubTotal);
     	
@@ -165,7 +165,7 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
     	orderSubtotalThreshold = orderSubtotalThreshold.replaceAll("[^0-9]", "");
     	int threshold = Integer.parseInt(orderSubtotalThreshold);
     	
-    	String orderSubTotal = stateHolder.get("ordersubtotal");
+    	String orderSubTotal = stateHolder.get("subtotal");
     	orderSubTotal = orderSubTotal.replaceAll("[^0-9]", "");
     	int subTotal = Integer.parseInt(orderSubTotal);
     	

@@ -6,11 +6,12 @@ import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.assertEquals;
 /**
  * Created by nadiapaolagarcia on 4/8/16.
  */
@@ -58,5 +59,17 @@ public class CheckOutSteps extends DriverFactory {
         String countryName = country.getName();
         assertTrue("Subtotal " + total + " matches country context " + countryName,
                 CurrencyChecker.isValid(total));
+    }
+    
+    @When("User adds a zip code ([^\"]*)")
+    public void add_zip_code(String code) {
+    	checkout.addZipCode(code);
+    }
+
+    @Then("Verify zipcode message says: ([^\"]*)")
+    public void zip_message(String message) {
+        String actual = checkout.getZipCodeMessage();
+
+        assertEquals("Expected zip code message", message, actual);
     }
 }

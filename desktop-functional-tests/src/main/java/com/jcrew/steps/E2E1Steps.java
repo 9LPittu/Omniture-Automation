@@ -10,18 +10,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import com.jcrew.page.*;
 import com.jcrew.page.header.HeaderSearch;
 import com.jcrew.page.product.*;
 import org.openqa.selenium.WebDriverException;
 
 import com.jcrew.page.ArraySearch;
-import com.jcrew.page.Checkout;
-import com.jcrew.page.CheckoutBilling;
-import com.jcrew.page.CheckoutBillingPayment;
 import com.jcrew.page.CheckoutReview;
-import com.jcrew.page.CheckoutShippingAdd;
 import com.jcrew.page.CheckoutShippingEdit;
-import com.jcrew.page.CheckoutShippingOptions;
 import com.jcrew.page.CheckoutShoppingBag;
 import com.jcrew.page.ContextChooser;
 import com.jcrew.page.Footer;
@@ -306,7 +302,6 @@ public class E2E1Steps extends E2ECommon {
 
 	@And("^Apply promos, if required. If applied, verify promos are applied successfully$")
 	public void apply_and_verify_promo() {
-		String userType = getDataFromTestDataRowMap("User Type");
 		String promoCodes = getDataFromTestDataRowMap("Promo Codes");
 		
 		if (promoCodes.isEmpty() || stateHolder.hasKey("isPromoAppliedFail")) {
@@ -327,32 +322,7 @@ public class E2E1Steps extends E2ECommon {
 				maxPromoCodesCount = arrPromoCodes.length;
 			}
 
-			Checkout checkout = null;
-			switch (promoApplyPage.toLowerCase()) {
-			case "shipping address":
-				if(userType.equalsIgnoreCase("GUEST")){
-					checkout = new CheckoutShippingAdd(getDriver());
-				}else{
-					checkout = new CheckoutShippingEdit(getDriver());
-				}
-				break;
-			case "shipping & gift options":
-				checkout = new CheckoutShippingOptions(getDriver());
-				break;
-			case "billing":
-				if(userType.equalsIgnoreCase("GUEST")){
-					checkout = new CheckoutBillingPayment(getDriver());
-				}else{
-					checkout = new CheckoutBilling(getDriver());
-				}
-				break;
-			case "review":
-				checkout = new CheckoutReview(getDriver());
-				break;
-			case "shopping bag":
-			default:
-				checkout = new CheckoutShoppingBag(getDriver());
-			}
+			CheckoutPromoCode checkout = new CheckoutPromoCode(getDriver());
 			
 			//Verify promo codes are already applied
 			int promoAppliedCount = checkout.getAppliedPromoCodesCount(); 

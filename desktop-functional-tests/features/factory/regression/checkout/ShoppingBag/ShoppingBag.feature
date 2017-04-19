@@ -1,7 +1,8 @@
-@ShoppingBag1 @HighLevel
+@ShoppingBag
 Feature: Checkout - Editing items from shopping bag
 
-  Scenario: Checkout - Multiple shopping bag functions
+Background:
+  
     Given User goes to homepage
     And User closes email capture
 	And User hovers on a random category from list
@@ -34,7 +35,8 @@ Feature: Checkout - Editing items from shopping bag
     When User selects random color
     And User selects random size        
     And User adds product to bag
-
+    
+Scenario: Checkout - Multiple shopping bag functions
     When User clicks in bag
     Then Verify products added matches with products in bag
     And Verify all products have edit and remove buttons
@@ -63,3 +65,27 @@ Feature: Checkout - Editing items from shopping bag
     Then Verify shopping bag is displayed
     And Verify products added matches with products in bag
     Then Verify edited item is displayed first in shopping bag
+    
+        
+    Scenario: Checkout - shopping bag functions
+   
+    When User goes to homepage
+    When User searches for a random search term
+    And User selects random product from array
+    Then Verify product detail page is displayed
+    
+    When User selects random color
+    And User selects random size        
+    And User adds product to bag
+
+    When User clicks in bag
+    Then Verify products added matches with products in bag
+    And Verify all products do not have save buttons for guest user
+    When User adds a zip code zipin
+
+ 	Then Verify zipcode message says: Please enter a valid ZIP code.
+	When User adds a promo code Test-invalid
+	Then Verify promo message says: The promotion code you entered is not valid or has expired. Please try the code again or call 866 739 5942 for help.
+	When User adds a promo code Test-10p
+    Then Verify promo details contains: 10% off (no min)
+    

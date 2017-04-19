@@ -4,13 +4,13 @@ import com.google.common.collect.Lists;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,14 +33,11 @@ public class CheckoutShoppingBag extends Checkout {
     
     @FindBy(className="item-gc")
     private WebElement giftCardElement;
-    
-    private final Footer footer;
 
     public CheckoutShoppingBag(WebDriver driver) {
         super(driver);
- //       wait.until(ExpectedConditions.visibilityOf(checkoutNow));
         Util.waitForPageFullyLoaded(driver);
-        this.footer = new Footer(driver);
+        Footer footer = new Footer(driver);
     }
 
     public boolean isDisplayed() {
@@ -55,16 +52,57 @@ public class CheckoutShoppingBag extends Checkout {
         Util.waitLoadingBar(driver);
     }
 
+    public List<Product> getProducts() {
+        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        List<Product> products = new ArrayList<>();
+
+        for(WebElement inBag : productsInBag) {
+            Product product = new Product();
+
+            WebElement element = inBag.findElement(By.className("item-name"));
+            String value = element.getText().trim();
+            product.setName(value.replaceAll("PRE-ORDER ", ""));
+
+            product.setQuantity(getQuantity(inBag));
+
+            element = inBag.findElement(By.className("item-price"));
+            String price = element.getText().trim();
+            product.setPrice(price.replaceAll("[^0-9.,]", ""));
+
+            List<WebElement> descriptionElements = inBag.findElements(By.className("item-label"));
+
+            element = descriptionElements.get(0).findElement(By.tagName("span"));
+            product.setItemNumber(element.getText().trim());
+
+            element = descriptionElements.get(1).findElement(By.tagName("span"));
+            value = element.getText();
+            if(!value.toUpperCase().contains("ONE SIZE")){
+                value = element.getText().replace("SIZE", "").trim();
+            }
+            product.setSize(value);
+
+            element = descriptionElements.get(2).findElement(By.tagName("span"));
+            product.setColor(element.getText().trim());
+
+            products.add(product);
+        }
+
+        return products;
+    }
+
     public boolean itemsButtons() {
         boolean result = true;
         List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
 
         for (WebElement product : productsInBag) {
-            List<WebElement> buttons = product.findElements(By.xpath(".//li[@class='item-actions']/a"));
+            WebElement productName = product.findElement(By.className("item-name"));
+            if (!productName.getText().toLowerCase().contains("promo card")) {
+                List<WebElement> buttons = product.findElements(By.xpath(".//li[@class='item-actions']/a"));
 
-            result &= buttons.size() == 2;
-            result &= buttons.get(0).getText().equals("EDIT");
-            result &= buttons.get(1).getText().equals("REMOVE");
+                result &= buttons.size() == 2;
+                result &= buttons.get(0).getText().equals("EDIT");
+                result &= buttons.get(1).getText().equals("REMOVE");
+            }
         }
 
         return result;
@@ -300,5 +338,56 @@ public class CheckoutShoppingBag extends Checkout {
             }
         }
         return actualItemsCount == itemsCount;
+    }
+
+    public List<Product> getUnavailableItems() {
+        List<WebElement> productsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
+                order__listing.findElements(By.className("item-row-unavailable"))));
+        List<Product> products = new ArrayList<>();
+
+        for (WebElement product : productsInBag) {
+            WebElement nameElement = product.findElement(By.className("item-name"));
+            Product p = new Product();
+            p.setName(nameElement.getText().trim());
+            products.add(p);
+        }
+
+        return products;
+    }
+    
+    public boolean itemsSaveButtons() {
+        boolean result = true;
+
+        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        try{
+        	
+        
+        
+        for (WebElement product : productsInBag) {
+            List<WebElement> promo = product.findElements(By.xpath(".//li[@class='item-promo']"));
+            List<WebElement> buttons;
+
+            if(promo.size() == 0) {
+                buttons = product.findElements(By.xpath(".//li[@class='item-actions']/a"));
+
+                result &= buttons.size() >= 3;
+                result &= buttons.get(2).getText().equals("SAVE");
+
+            } else {
+                buttons = product.findElements(
+                        By.xpath(".//li[@class='item-promo']/preceding-sibling::li[@class='item-actions']/a"));
+
+                if(buttons.size() > 0) {
+
+                    result &= buttons.get(2).getText().equals("SAVE");
+                }
+            }
+        }
+        }
+        catch(Exception e){
+        	result &=false;
+        	
+        }
+        return result;
     }
 }

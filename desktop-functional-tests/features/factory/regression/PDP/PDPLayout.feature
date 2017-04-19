@@ -26,9 +26,17 @@ Feature: PDP Layout
     And Verify social icons displayed in PDP
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-    And Verify reviews displayed in PDP
-    And Verify baynotes displayed in PDP
-    And Verify endcaps displayed in PDP
+    #id 136
+    And Verify product review section is displayed
+    And Verify product has recommended products
+
+    When User selects random color
+    And User selects random size
+    And User adds product to bag
+    #id 139
+    And User clicks on any recommended product
+    Then Verify product detail page is displayed
+    And Verify product detail page from recommendation is displayed
 
     When User selects random color
     And User selects random size
@@ -58,13 +66,11 @@ Feature: PDP Layout
     And Verify social icons displayed in PDP
     And Verify SIZE & FIT is displayed between Add to Bag and PRODUCT DETAILS
     And Verify PRODUCT DETAILS is displayed between SIZE & FIT and reviews
-    And Verify reviews displayed in PDP
-    And Verify baynotes displayed in PDP
-    And Verify endcaps displayed in PDP
+    #id 136
+    And Verify product review section is displayed
+    And Verify product has recommended products
 
     When User selects random color
     And User selects random size
     And User adds product to bag
-    And  User clicks in bag
-    Then Verify products added matches with products in bag
 

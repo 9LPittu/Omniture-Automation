@@ -7,7 +7,7 @@ Feature: Product Detail Page
     And User hovers on a random category from list
       | Women |
       | Men   |
-      | Girls |
+      #| Girls | girls sweaters category does not exist
       #| Boys  | boys sweaters category does not have any product
     And User selects sweaters subcategory array
 

@@ -4,7 +4,7 @@ import com.google.common.base.Function;
 import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
-import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
@@ -39,15 +39,14 @@ public abstract class Checkout extends PageObject{
     private WebElement order_summary;
     @FindBy(id = "order-listing")
     protected WebElement orderListing;
-    
+    @FindBy(id="zipcode")
+    private WebElement zipCode;
     @FindBy(id = "checkout")
     private WebElement checkout;
     @FindBy(id = "order-listing")
     protected WebElement order__listing;
     @FindBy(id = "breadCrumbs")
     private WebElement breadCrumbs;
-    @FindBy(id = "promoCodeContainer")
-    private WebElement promoCode;
     @FindBy(id = "orderSummaryContainer")
     protected WebElement orderSummary;
     
@@ -97,23 +96,6 @@ public abstract class Checkout extends PageObject{
         List<WebElement> errors = driver.findElements(By.id("errors"));
 
         return errors.size() > 0;
-    }
-
-    public boolean orderNumberIsVisible() {
-        boolean result;
-        WebElement confirmation = driver.findElement(By.id("confirmation-number"));
-
-        PropertyReader propertyReader = PropertyReader.getPropertyReader();
-        String env = propertyReader.getProperty("environment");
-
-        if (!"production".equals(env)) {
-            result = confirmation.isDisplayed();
-        } else {
-            logger.info("Trying to place an order in production, ignoring");
-            result = true;
-        }
-
-        return result;
     }
 
     public boolean isOrderConfirmationPage() {
@@ -217,20 +199,6 @@ public abstract class Checkout extends PageObject{
 		List<Product> products = stateHolder.getList("userBag");
         logger.debug("Got {} items previously added", products.size());
 
-        return matchList(products);
-    }
-
-    public boolean itemsInBag() {    	
-    	if(!stateHolder.hasKey("toBag"))
-    		return true;
-    	
-		List<Product> products = stateHolder.getList("toBag");
-        logger.debug("Got {} items in bag", products.size());
-
-        return matchList(products);
-    }
-
-    public boolean matchList(List<Product> products) {
         List<WebElement> productsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
         								 order__listing.findElements(By.xpath(".//div[@class='item-row clearfix']"))));
         
@@ -239,7 +207,7 @@ public abstract class Checkout extends PageObject{
         boolean result = products.size() == productsInBag.size();
 
         for (int i = 0; i < products.size() && result; i++) {
-            Product fromPDP = (Product) products.get(i);
+            Product fromPDP = products.get(i);
             String productName = fromPDP.getName();
             productName = productName.replaceAll("PRE-ORDER ", "");
 
@@ -304,7 +272,17 @@ public abstract class Checkout extends PageObject{
     }
 
     public void nextStep(WebElement form) {
-        WebElement continueButton = form.findElement(By.className("button-submit"));
+    	
+    	WebElement continueButton = null;
+    	
+    	TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    	
+    	if(testDataReader.getBoolean("dual.continue.buttons.toggle")){
+    		continueButton = form.findElement(By.xpath(".//a[@id='main__button-continue']"));
+    	}else{
+    		continueButton = form.findElement(By.className("button-submit"));
+    	}
+    	
         wait.until(ExpectedConditions.elementToBeClickable(continueButton));
         Util.scrollPage(driver, "down");
         continueButton.click();
@@ -313,45 +291,6 @@ public abstract class Checkout extends PageObject{
     }
 
     public abstract boolean isDisplayed();
-
-    public boolean promoSection() {
-        return promoCode.isDisplayed();
-    }
-
-    public void addPromoCode(String code) {
-        WebElement promoHeader = promoCode.findElement(By.id("summary-promo-header"));
-        Util.scrollToElement(driver, promoHeader);
-        promoHeader.click();
-
-        WebElement promoCodeField = promoCode.findElement(By.id("promotionCode1"));
-        promoCodeField.clear();
-        promoCodeField.sendKeys(code);
-
-        WebElement apply = promoCode.findElement(By.id("promoApply"));
-        Util.scrollPage(driver, "down");
-        apply.click();
-
-        wait.until(ExpectedConditions.stalenessOf(promoCodeField));
-        wait.until(ExpectedConditions.visibilityOf(promoCode));
-    }
-
-    public String getPromoCodeMessage() {
-        wait.until(ExpectedConditions.visibilityOf(promoCode));
-        WebElement message = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("promoCodeMessage")));
-
-        return message.getText();
-    }
-
-    public String getPromoName() {
-        WebElement message = promoCode.findElement(By.className("module-name"));
-
-        return message.getText();
-    }
-
-    public String getPromoDetails() {
-        WebElement message = wait.until(ExpectedConditions.visibilityOf(promoCode.findElement(By.className("module-details-last"))));
-        return message.getText();
-    }
 
     protected String getSummaryText(String field) {
         By xpath;
@@ -391,6 +330,10 @@ public abstract class Checkout extends PageObject{
     public String getSubTotal() {
         return getSummaryText("subtotal");
     }
+    
+    public String getPromoDiscount() {
+        return getSummaryText("promo");
+    }
 
     public void selectAddressFromList(WebElement form) {
         List<WebElement> addressEntry = form.findElements(By.xpath(".//li[contains(@class,'address-entry') " +
@@ -412,37 +355,12 @@ public abstract class Checkout extends PageObject{
         WebElement selectedLabel = selectedAddress.findElement(By.tagName("label"));
         selectedLabel.click();
     }
-    
-    public WebElement getPromoRemoveElement(){
-    	WebElement removeElement = promoCode.findElement(By.className("item-remove"));
-    	return removeElement;
-    }
-    
+
     public WebElement getPromoMessageElementFromOrderSummary(){
     	WebElement promoMessageElement = orderSummary.findElement(By.xpath("//span[@class='summary-label' and text()='" + stateHolder.get("promoMessage") + "']"));
     	return promoMessageElement;
     }
-    
-    public boolean isPromoCodeApplied(String promoCodeText){
-    	try{
-    		 WebElement appliedPromoCodeElement = promoCode.findElement(By.xpath(".//span[@class='module-name' and contains(text(), '" + promoCodeText.toUpperCase() + "')]"));
-    		 return appliedPromoCodeElement.isDisplayed();
-    	}
-    	catch(NoSuchElementException nsee){
-    		return false;
-    	}
-    }
-    
-    public int getAppliedPromoCodesCount(){    	
-    	try{
-    		 List<WebElement> appliedPromoCodeElements = promoCode.findElements(By.xpath(".//span[@class='module-name']"));
-    		 return appliedPromoCodeElements.size();
-    	}
-    	catch(NoSuchElementException nsee){
-    		return -1;
-    	}
-    }
-    
+
     public boolean giftCardsInBag(){
     	if(!stateHolder.hasKey("giftCardsToBag"))
     		return true;
@@ -606,5 +524,16 @@ public abstract class Checkout extends PageObject{
 
     	radioButtonElement.click();
     	logger.debug("Radio button is selected for store '{}'", storeName);
+    }
+
+    public void addZipCode(String code) {
+        wait.until(ExpectedConditions.visibilityOf(zipCode));
+        zipCode.sendKeys(code);
+    }
+
+    public String getZipCodeMessage() {
+        wait.until(ExpectedConditions.visibilityOf(checkoutContainer));
+        WebElement message = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("summary-zipcode-message")));
+        return message.getText();
     }
 }

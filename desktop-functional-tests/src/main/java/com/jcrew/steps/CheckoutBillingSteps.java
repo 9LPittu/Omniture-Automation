@@ -26,6 +26,12 @@ public class CheckoutBillingSteps extends DriverFactory {
         billing.fillPaymentMethod(true);
         billing.continueCheckout();
     }
+
+    @When("^User fills payment method as guest with ([^\"]*) and continues$")
+    public void fill_payment_method_card_continue(String card) {
+        billing.fillPaymentMethod(card);
+        billing.continueCheckout();
+    }
     
     @When("User fills payment method as registered user and continues")
     public void fill_payment_method_registered() {
@@ -89,52 +95,6 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     }
 
-    @When("User adds a promo code ([^\"]*) in Payment Method page")
-    public void add_payment_method(String code) {
-        billing.addPromoCode(code);
-    }
-
-    @Then("Verify promo message says: ([^\"]*)")
-    public void promo_message(String message) {
-        String actual = billing.getPromoCodeMessage();
-
-        assertEquals("Expected promo message", message, actual);
-    }
-
-    @Then("Verify promo name contains: ([^\"]*)")
-    public void promo_name(String message) {
-        message = message.toLowerCase();
-        String actual = billing.getPromoName().toLowerCase();
-
-        assertTrue("Expected promo name contains " +  message, actual.contains(message));
-    }
-
-    @Then("Verify promo details contains: ([^\"]*)")
-    public void promo_details(String message) {
-        message = message.toLowerCase();
-        String actual = billing.getPromoDetails().toLowerCase();
-
-        assertTrue("Expected promo name contains " +  message, actual.contains(message));
-        billing.stateHolder.put("promoMessage", message);
-    }
-
-    @Then("Verify promo code applied 10 percent from subtotal")
-    public void applied_promo() {
-        String subtotal = billing.getSubTotal();
-        subtotal = subtotal.replaceAll("[^0-9]", "");
-        String promo = billing.getPromoDiscount();
-        promo = promo.replaceAll("[^0-9]", "");
-
-        int subtotalInt = Integer.parseInt(subtotal);
-        int promoInt = Integer.parseInt(promo) * 10;
-        
-        boolean result = false;
-        if(subtotalInt==promoInt || (subtotalInt + 1)==promoInt){
-        	result = true;
-        }
-
-        assertTrue("Promo was applied correctly", result);
-    }
 
     @When("^User adds new billing address$")
     public void add_billing_address() {
@@ -195,15 +155,7 @@ public class CheckoutBillingSteps extends DriverFactory {
     	billing.SelectPaymentMethodNoDefault();
     }
     
-    @And("^Verify remove button is displayed in promo section$")
-    public void remove_button_displayed_in_promo_section(){
-    	assertTrue("remove button is displayed in promo section after promo code is applied", billing.getPromoRemoveElement().isDisplayed()); 
-    }
-    
-    @And("^Verify promo message is updated in the summary section$")
-    public void promo_message_updated_in_summary_section(){
-    	assertTrue("Promo message is updated in the order summary section after promo code is applied", billing.getPromoMessageElementFromOrderSummary().isDisplayed());
-    }
+   
     
     @Then("^Verify no additional charges are applied for gift receipt$")
     public void verify_no_additional_charges_applied_for_gift_receipt(){

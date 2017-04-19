@@ -1,9 +1,11 @@
 package com.jcrew.steps;
 
+import com.jcrew.page.CheckoutPromoCode;
 import com.jcrew.page.CheckoutReview;
 import com.jcrew.pojo.Address;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
+import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
@@ -16,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class CheckoutReviewSteps extends DriverFactory {
     private CheckoutReview review = new CheckoutReview(getDriver());
     private boolean isProduction = false;
+    private StateHolder stateHolder = StateHolder.getInstance();
 
     public CheckoutReviewSteps() {
         PropertyReader properties = PropertyReader.getPropertyReader();
@@ -114,15 +117,23 @@ public class CheckoutReviewSteps extends DriverFactory {
 
     @Then("Verify selected shipping method matches review page")
     public void verify_shipping_method() {
-        String selectedMethod = (String) review.stateHolder.get("selectedShippingMethod");
+        String selectedMethod = stateHolder.get("selectedShippingMethod");
         String reviewMethod = review.getShippingMethod();
 
         assertTrue("Review shipping method contains " + selectedMethod, reviewMethod.contains(selectedMethod));
     }
 
+    @Then("Verify ([^\"]*) is the selected shipping method")
+    public void verify_shipping_method(String method) {
+        String reviewMethod = review.getShippingMethod();
+
+        assertTrue("Review shipping method contains " + method,
+                reviewMethod.toLowerCase().contains(method.toLowerCase()));
+    }
+
     @Then("Verify selected shipping address matches review page")
     public void verify_shipping_adress() {
-        String selectedAddress = (String) review.stateHolder.get("selectedshippingAddress");
+        String selectedAddress = stateHolder.get("selectedshippingAddress");
         String reviewAddress = review.getShippingAddress();
 
         assertTrue("Review shipping address contains " + reviewAddress, selectedAddress.contains(reviewAddress));
@@ -140,14 +151,9 @@ public class CheckoutReviewSteps extends DriverFactory {
     
     @Then("Verify selected billing address matches review page")
     public void verify_selected_billing_address() {
-    	 String selectedPayment = (String) review.stateHolder.get("selectedPaymentMethod");
+    	 String selectedPayment = stateHolder.get("selectedPaymentMethod");
     	 String payMentMethod = review.getPaymentMethod();
     	 assertTrue("Review payment method contains " + selectedPayment, payMentMethod.contains(selectedPayment));
        
-    }
-    
-    @When("^User adds a promo code ([^\"]*) in review page$")
-    public void add_promo_in_review_page(String promoCode) {
-        review.addPromoCode(promoCode);
     }
 }

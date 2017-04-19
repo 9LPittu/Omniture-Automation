@@ -1,8 +1,6 @@
 package com.jcrew.steps.product;
 
-import com.jcrew.page.product.ProductDetails;
-import com.jcrew.page.product.ProductDetailsActions;
-import com.jcrew.page.product.ProductDetailsSizes;
+import com.jcrew.page.product.*;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.CurrencyChecker;
@@ -37,10 +35,13 @@ public class ProductDetailSteps extends DriverFactory {
         		productDetails.isProductDetailPage());
     }
 
-    @Then("Verify price matches with category array")
-    public void price_matches_category_array() {
-        Product product = (Product) stateHolder.get("fromArray");
-        assertEquals("Product price matches category array", product.getPrice(), productDetails.getProductPrice());
+    @Then("Verify product detail page from recommendation is displayed")
+    public void baynote_pdp_is_displayed() {
+        String expected = stateHolder.get("baynote");
+
+        if (expected != null) {
+            assertEquals("Same item from baynote", expected.toLowerCase(), productDetails.getProductCode().toLowerCase());
+        }
     }
 
     @Then("Verify product name on PDP matches with QS")
@@ -54,12 +55,6 @@ public class ProductDetailSteps extends DriverFactory {
         Product product = (Product) stateHolder.get("fromArray");
         assertEquals("Product name matches category array", product.getName(), productDetails.getProductName());
     }
-
-    @When("User clicks on write a review button")
-    public void write_review_button_pressed(){
-        productDetails.click_write_review();
-    }
-
 
     @Then("^Verify PDP message is displayed for the selected country$")
     public void user_should_see_pdp_messages(){
@@ -75,11 +70,6 @@ public class ProductDetailSteps extends DriverFactory {
         assertTrue("User should see message on the PDP page for the selected country",
                 productDetails.isPriceMessageDisplayedOnPDP());
 
-    }
-
-    @When("^User selects random variant on the PDP page$")
-    public void user_selects_random_variant_on_PDP_Page(){
-        productDetails.selectRandomVariantOnPDP();
     }
 
     @Then("^Verify VPS item message is displayed on PDP$")
@@ -103,46 +93,12 @@ public class ProductDetailSteps extends DriverFactory {
                     CurrencyChecker.isValid(price));
         }
     }
-    
-
-
-    @Then("^Verify (SIZE & FIT|PRODUCT DETAILS) is displayed between (Add to Bag|SIZE & FIT) and ([^\"]*)$")
-    public void verify_elements_layout_PDP(String elementtoFind, String elementAbove, String elementBelow){
-        boolean isSizeAndFit  = productDetails.isSizeAndFitDrawerDisplayed();
-        boolean result=true;
-
-        if ((!elementtoFind.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
-            int Find_Y = productDetails.getYCoordinate(elementtoFind);
-
-            if ((!elementBelow.equalsIgnoreCase("size & fit")) || isSizeAndFit) {
-                int below_Y = productDetails.getYCoordinate(elementBelow);
-                result = result && (below_Y > Find_Y);
-            }
-
-            if (elementAbove.equalsIgnoreCase("add to bag")) {
-                ProductDetailsActions productDetailsActions = new ProductDetailsActions(getDriver());
-                result &= productDetailsActions.getYCoordinate() < Find_Y;
-            } else if (isSizeAndFit) {
-                int Above_Y = productDetails.getYCoordinate(elementAbove);
-                result &= result && (Above_Y < Find_Y);
-            }
-
-            assertTrue("Verify '"+elementtoFind+"' is displayed below the '"+elementAbove+"'",result);
-        }
-    }
-
-
 
     @When("^user clicks on '([^\"]*)' drawer$")
     public void user_clicks_pdp_drawer(String drawerName){
     	productDetails.clickPdpDrawer(drawerName);
     }
-    
-    @Then("^Verify ([^\"]*) drawer is ([^\"]*) state$")
-    public void verify_pdp_drawer_state(String drawerName, String expectedState){
-    	assertTrue("Verify " + drawerName + " drawer is " + expectedState,productDetails.isPdpDrawerInExpectedState(drawerName, expectedState));
-    }
-    
+
     @Then("^Verify item details are displayed in the 'PRODUCT DETAILS' drawer$")
     public void verify_item_details_dsiplayed_in_product_details_drawer(){
     	assertTrue("Verify item details are displayed in the 'PRODUCT DETAILS' drawer",productDetails.isItemDetailsDisplayedInProductDetailsDrawer());

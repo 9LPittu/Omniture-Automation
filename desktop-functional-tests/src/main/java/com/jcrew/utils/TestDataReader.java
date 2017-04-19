@@ -47,6 +47,11 @@ public class TestDataReader {
             FileInputStream shippingInput = new FileInputStream(shipData);
             testDataProperties.load(shippingInput);
             logger.debug("Shipping data file to be used {}", shipData);
+            
+            String promoData = brandPath + "promoData.properties";
+            FileInputStream promoDataInput = new FileInputStream(promoData);
+            testDataProperties.load(promoDataInput);
+            logger.debug("Promo data file to be used {}", promoData);
 
             String country = propertyReader.getProperty("country");
             if (stateHolder.hasKey("context")) {
