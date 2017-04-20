@@ -1,8 +1,7 @@
 @PromoCode @HighLevel
 Feature: Checkout - Guest user is able to checkout with two promo's (stack promo and promo related to MASTERCARD payment)
 
-  Scenario: Development
-  Checkout - with Stack and MASTERCARD promo
+  Scenario: Checkout - with Stack and MASTERCARD promo
     Given User goes to homepage
     And User closes email capture
     And User hovers on a random category from list

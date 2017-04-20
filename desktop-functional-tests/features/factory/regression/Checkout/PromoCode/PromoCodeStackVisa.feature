@@ -1,7 +1,7 @@
 @PromoCode @HighLevel
 Feature: Checkout - Guest user is able add two promo's (stack promo and promo related to VISA payment)
 
-  Scenario: Checkout - Stack and VISA promo
+  Scenario: Checkout - Guest user is able checkout out with Stack and VISA promo
     Given User goes to homepage
     And User closes email capture
     And User hovers on a random category from list
