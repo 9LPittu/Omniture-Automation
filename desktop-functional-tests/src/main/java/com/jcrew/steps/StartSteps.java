@@ -219,7 +219,7 @@ public class StartSteps {
     }
 
     private void setMonetate() {
-        if (reader.hasProperty("monetate")) {
+        if (reader.isSystemPropertyTrue("monetate")) {
             String monetateURL = testData.getData("monetate.url");
             driver.get(monetateURL);
         }
