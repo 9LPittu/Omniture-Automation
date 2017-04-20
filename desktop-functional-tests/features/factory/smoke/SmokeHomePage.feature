@@ -10,7 +10,7 @@ Feature: Home Page
     Then Verify that top nav options contains Men
     Then Verify that top nav options contains Boys
     Then Verify that top nav options contains Girls
-    Then Verify that top nav options contains Clearance
+    Then Verify that top nav options contains Crew Clearance
     Then Verify Returns & Exchanges link is displayed under Let Us Help You in footer
 	Then Verify Shipping & Handling link is displayed under Let Us Help You in footer
 	Then Verify Need Some Help link is displayed under Let Us Help You in footer
