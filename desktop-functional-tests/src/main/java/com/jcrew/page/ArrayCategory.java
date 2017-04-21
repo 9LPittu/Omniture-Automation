@@ -91,12 +91,12 @@ public class ArrayCategory extends Array{
     }
 
     public boolean isRefineDropdownDisplayed() {
-        WebElement dropDown = categoryFilters.findElement(By.xpath(".//h3/span[contains(@class,'js-label')]"));
+        WebElement dropDown = categoryFilters.findElement(By.xpath(".//*/span[contains(@class,'js-label')]"));
         return dropDown.isDisplayed();
     }
 
     public String getRefineText() {
-        WebElement dropDown = categoryFilters.findElement(By.xpath(".//h3/span[contains(@class,'js-label')]"));
+        WebElement dropDown = categoryFilters.findElement(By.xpath(".//*/span[contains(@class,'js-label')]"));
         return dropDown.getText().toLowerCase();
     }
 
