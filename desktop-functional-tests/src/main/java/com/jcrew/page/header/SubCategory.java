@@ -54,7 +54,7 @@ public class SubCategory extends TopNav {
         } else {
             subCategoryElement = subcat_nav.findElement(
                     By.xpath(".//div[@class='nav-page__group' and not(@style='display: none;')]/" +
-                            ".//a[contains(@class,'js-menu__link--has-href') " +
+                            ".//a[contains(@class,'js-menu__link--has-href') and " +
                             Util.embedGetTextLower + "='" + subCategory.toLowerCase() + "']"));
         }
 
