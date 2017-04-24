@@ -167,14 +167,13 @@ public class CheckoutSummarySteps extends DriverFactory {
 
     @Then("Verify promo code applied (\\d+) percent from subtotal")
     public void applied_promo(int discount) {
-        String subtotal = summary.getSubTotal();
-        subtotal = subtotal.replaceAll("[^0-9]", "");
+        int subtotal = summary.stateHolder.get("promoSubtotal");
 
         String promo = summary.getPromoDiscount();
         promo = promo.replaceAll("[^0-9]", "");
         int promoInt = Integer.parseInt(promo) * 10;
 
-        double subtotalFloat = Integer.parseInt(subtotal) * (discount / 100.00);
+        double subtotalFloat = subtotal * (discount / 100.00);
         subtotalFloat = round(subtotalFloat);
         double promoFloat = promoInt / 10.00;
 

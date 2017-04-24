@@ -53,6 +53,8 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
         if(stateHolder.hasKey("toBag")) {
             List<Product> expectedList = stateHolder.getList("toBag");
             check_items(expectedList);
+
+            stateHolder.put("promoSubtotal",bag.getListingPromoTotal());
         }
     }
 

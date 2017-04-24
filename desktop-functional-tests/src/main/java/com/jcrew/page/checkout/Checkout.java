@@ -41,30 +41,18 @@ public abstract class Checkout extends PageObject {
     protected WebElement orderListing;
     @FindBy(id = "checkout")
     private WebElement checkout;
-    @FindBy(id = "order-listing")
-    protected WebElement order__listing;
     @FindBy(id = "breadCrumbs")
     private WebElement breadCrumbs;
 
     public Checkout(WebDriver driver) {
         super(driver);
         Util.waitForPageFullyLoaded(driver);
-        PageFactory.initElements(driver, this);
     }
 
     public boolean hasErrors() {
         List<WebElement> errors = driver.findElements(By.id("errors"));
 
         return errors.size() > 0;
-    }
-
-    public boolean isOrderConfirmationPage() {
-        try {
-            WebElement confirmation = driver.findElement(By.id("confirmation-number"));
-            return confirmation.isDisplayed();
-        } catch (NoSuchElementException noConfirmationNumber) {
-            return false;
-        }
     }
 
     public List<String> getItemsPrice() {
@@ -91,6 +79,32 @@ public abstract class Checkout extends PageObject {
         WebElement title = checkout.findElement(By.className("page-subtitle"));
 
         return title.getText().trim();
+    }
+
+    public int getListingPromoTotal() {
+        int subtotal = 0;
+        List<WebElement> products = wait.until(ExpectedConditions.visibilityOfAllElements(
+                orderListing.findElements(By.xpath(".//div[@class='item-row clearfix']"))));
+
+        for (WebElement product : products) {
+            boolean addTotal = true;
+
+            WebElement itemTotal = product.findElement(By.className("item-total"));
+            List<WebElement> itemSale = product.findElements(By.className("item-sale"));
+
+            if (itemSale.size() > 0) {
+                WebElement sale = itemSale.get(0);
+                addTotal = !sale.getText().equalsIgnoreCase("excluded from promo");
+            }
+
+            if (addTotal) {
+                String itemTotalString = itemTotal.getText();
+                itemTotalString = itemTotalString.replaceAll("[^0-9]", "");
+                subtotal += Integer.parseInt(itemTotalString);
+            }
+        }
+
+        return subtotal;
     }
 
     protected String getQuantity(final WebElement productElement) {
@@ -160,7 +174,7 @@ public abstract class Checkout extends PageObject {
         logger.debug("Got {} items previously added", products.size());
 
         List<WebElement> productsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
-        								 order__listing.findElements(By.xpath(".//div[@class='item-row clearfix']"))));
+        								 orderListing.findElements(By.xpath(".//div[@class='item-row clearfix']"))));
         
         logger.debug("Got {} items in checkout page excluding gift cards", productsInBag.size());
 
@@ -285,14 +299,14 @@ public abstract class Checkout extends PageObject {
     
     public boolean matchGiftCardList(List<GiftCard> expectedGiftCards) {
         List<WebElement> giftCardsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
-        								 order__listing.findElements(By.xpath(".//div[contains(@class,'item-gc') or contains(@class,'item-egc')]"))));
+        								 orderListing.findElements(By.xpath(".//div[contains(@class,'item-gc') or contains(@class,'item-egc')]"))));
         
         logger.debug("Got {} gift card(s) in checkout page", giftCardsInBag.size());
 
         boolean result = expectedGiftCards.size() == giftCardsInBag.size();
 
         for (int i = 0; i < expectedGiftCards.size() && result; i++) {
-        	GiftCard fromGCPage = (GiftCard) expectedGiftCards.get(i);
+        	GiftCard fromGCPage = expectedGiftCards.get(i);
             String giftCardName = fromGCPage.getGiftCardName();
 
             logger.debug("Looking for gift card '{}', amount '{}', sender '{}', recipient '{}', recipient email address '{}'",

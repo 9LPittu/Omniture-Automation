@@ -3,6 +3,7 @@ package com.jcrew.page.checkout;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -50,5 +51,10 @@ public class CheckoutConfirmation extends Checkout {
     		bizratePopupClose.get(0).click();
     		logger.debug("Bizrate popup is closed...");
     	}
+    }
+
+    public boolean isOrderConfirmationPage() {
+        List<WebElement> confirmation = driver.findElements(By.id("confirmation-number"));
+        return confirmation.size() > 0;
     }
 }
