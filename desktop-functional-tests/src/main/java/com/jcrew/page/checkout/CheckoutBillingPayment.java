@@ -244,16 +244,16 @@ public class CheckoutBillingPayment extends Checkout {
     }
     
     private void addNewBillingAdrress() {
-        Country countryPojo = (Country) stateHolder.get("context");
+        Country countryPojo = stateHolder.get("context");
         Address address = new Address(countryPojo.getCountry());
 
         WebElement newCardDiv = getContainer().findElement(By.xpath(".//div[contains(@id, 'CreditCard')]"));
         wait.until(ExpectedConditions.visibilityOf(newCardDiv));
 
         WebElement newAddressButton = newCardDiv.findElement(By.xpath(getNewAddressElementLocator()));
-        newAddressButton.click();
+        Util.scrollAndClick(driver, newAddressButton);
 
-        User user = (User) stateHolder.get("signedUser");
+        User user = stateHolder.get("signedUser");
 
         WebElement country = newCardDiv.findElement(By.name("ADDRESS<>country_cd"));
         Select countrySelect = new Select(country);
