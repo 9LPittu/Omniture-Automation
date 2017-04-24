@@ -3,6 +3,7 @@ package com.jcrew.page.checkout;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
@@ -154,17 +155,18 @@ public class CheckoutShippingAdd extends Checkout {
         Address address = new Address("apo");
         fillFormData(address);
     }
-    
-    public void saveShippingAddress() {
-        String currentUrl = driver.getCurrentUrl();
-        WebElement saveShippingAddress = getShippingAddressForm().findElement(By.className("button-submit-bg"));
-        saveShippingAddress.click();
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
-    }
 
     public void continueWithDefaultAddress() {
+        TestDataReader testDataReader = TestDataReader.getTestDataReader();
         String url = driver.getCurrentUrl();
-        WebElement continueWithDefault = getShippingAddressForm().findElement(By.className("button-submit-bg"));
+        WebElement continueWithDefault;
+
+        if (testDataReader.getBoolean("dual.continue.buttons.toggle")){
+            continueWithDefault = getShippingAddressForm().findElement(By.xpath(".//a[@id='main__button-continue']"));
+        } else {
+            continueWithDefault = getShippingAddressForm().findElement(By.className("button-submit-bg"));
+        }
+
         continueWithDefault.click();
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }
