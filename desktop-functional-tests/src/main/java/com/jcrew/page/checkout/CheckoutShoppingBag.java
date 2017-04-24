@@ -50,7 +50,7 @@ public class CheckoutShoppingBag extends Checkout {
     }
 
     public List<Product> getProducts() {
-        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        List<WebElement> productsInBag = orderListing.findElements(By.className("item-row"));
         List<Product> products = new ArrayList<>();
 
         for(WebElement inBag : productsInBag) {
@@ -89,7 +89,7 @@ public class CheckoutShoppingBag extends Checkout {
 
     public boolean itemsButtons() {
         boolean result = true;
-        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        List<WebElement> productsInBag = orderListing.findElements(By.className("item-row"));
 
         for (WebElement product : productsInBag) {
             WebElement productName = product.findElement(By.className("item-name"));
@@ -120,7 +120,7 @@ public class CheckoutShoppingBag extends Checkout {
 
     private void actionItem(int index, String action) {
 		List<Product> products = stateHolder.getList("toBag");
-        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        List<WebElement> productsInBag = orderListing.findElements(By.className("item-row"));
         productsInBag = Lists.reverse(productsInBag);
 
         if (index < 0) {
@@ -154,7 +154,7 @@ public class CheckoutShoppingBag extends Checkout {
     }
 
     public void editQuantity(int index) {	
-        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        List<WebElement> productsInBag = orderListing.findElements(By.className("item-row"));
         productsInBag = Lists.reverse(productsInBag);
 
         if (index < 0) {
@@ -178,7 +178,7 @@ public class CheckoutShoppingBag extends Checkout {
     }
 
     public String getItemTotal(int index) {
-        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        List<WebElement> productsInBag = orderListing.findElements(By.className("item-row"));
         WebElement product = productsInBag.get(index);
 
         WebElement productTotal = product.findElement(By.className("item-total"));
@@ -190,7 +190,7 @@ public class CheckoutShoppingBag extends Checkout {
     
     public boolean isEditedItemDisplayedFirst(){
     	List<WebElement> productsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
-				 order__listing.findElements(By.className("item-row"))));
+                orderListing.findElements(By.className("item-row"))));
     	
     	WebElement firstItemInBag = productsInBag.get(0);
     	
@@ -279,7 +279,7 @@ public class CheckoutShoppingBag extends Checkout {
 
     public List<Product> getUnavailableItems() {
         List<WebElement> productsInBag = wait.until(ExpectedConditions.visibilityOfAllElements(
-                order__listing.findElements(By.className("item-row-unavailable"))));
+                orderListing.findElements(By.className("item-row-unavailable"))));
         List<Product> products = new ArrayList<>();
 
         for (WebElement product : productsInBag) {
@@ -295,7 +295,7 @@ public class CheckoutShoppingBag extends Checkout {
     public boolean itemsSaveButtons() {
         boolean result = true;
 
-        List<WebElement> productsInBag = order__listing.findElements(By.className("item-row"));
+        List<WebElement> productsInBag = orderListing.findElements(By.className("item-row"));
         try {
 
             for (WebElement product : productsInBag) {

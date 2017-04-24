@@ -43,7 +43,7 @@ public class CheckoutReview extends Checkout{
 
         PageFactory.initElements(driver, this);
 
-        wait.until(ExpectedConditions.visibilityOf(order__listing));
+        wait.until(ExpectedConditions.visibilityOf(orderListing));
         header = new HeaderWrap(driver);
         wait.until(new Predicate<WebDriver>() {
             @Override
@@ -113,7 +113,7 @@ public class CheckoutReview extends Checkout{
         	wait.until(ExpectedConditions.visibilityOf(shipping_details));
         }
         
-        wait.until(ExpectedConditions.visibilityOf(order__listing));
+        wait.until(ExpectedConditions.visibilityOf(orderListing));
 
         switch (group) {
             case "billing":
@@ -126,7 +126,7 @@ public class CheckoutReview extends Checkout{
                 changeButton = gifting_details.findElement(By.className("item-button"));
                 break;
             case "order":
-                changeButton = order__listing.findElement(By.className("item-button"));
+                changeButton = orderListing.findElement(By.className("item-button"));
                 break;
             default:
                 logger.error("Not recognized change button!");
