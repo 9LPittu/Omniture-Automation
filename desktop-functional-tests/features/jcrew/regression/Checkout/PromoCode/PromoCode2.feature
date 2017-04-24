@@ -1,8 +1,7 @@
 @PromoCode @HighLevel
 Feature: User is able to add promo code in shopping bag
 
-  Scenario: Development
-  User is able to add promo code in shopping bag
+  Scenario: User is able to add promo code in shopping bag
     Given User goes to homepage
     And User closes email capture
     And User hovers on a random category from list

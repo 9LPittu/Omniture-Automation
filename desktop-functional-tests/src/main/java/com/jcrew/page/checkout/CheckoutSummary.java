@@ -9,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
 /**
  * Created by ngarcia on 4/19/17.
  */
@@ -80,9 +82,6 @@ public class CheckoutSummary extends Checkout {
             case "estimated shipping":
                 xpath = By.xpath(".//span[@class='summary-label' and contains(text(), 'Estimated Shipping')]/following-sibling::*");
                 break;
-            case "promo":
-                xpath = By.xpath(".//li[contains(@class,'summary-promo')]/span[contains(@class,'summary-value')]");
-                break;
             case "shipping":
                 xpath = By.xpath(".//span[@class='summary-label' and contains(text(), 'Shipping')]/following-sibling::*");
                 break;
@@ -106,7 +105,15 @@ public class CheckoutSummary extends Checkout {
     }
 
     public String getPromoDiscount() {
-        return getSummaryText("promo");
+        String promo = "0";
+        List<WebElement> promoElement = orderSummary.findElements(
+                By.xpath(".//li[contains(@class,'summary-promo')]/span[contains(@class,'summary-value')]"));
+
+        if (promoElement.size() > 0) {
+            promo = promoElement.get(0).getText();
+        }
+
+        return promo;
     }
 
     public void estimateTax(String zipcode) {

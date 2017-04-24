@@ -20,6 +20,11 @@ public class TopNavSteps extends DriverFactory {
     private TopNav topNav = new TopNav(getDriver());
     private TestDataReader reader = TestDataReader.getTestDataReader();
 
+    @Then("Verify that top nav is visible in page")
+    public void verify_top_nav_visible() {
+        assertTrue("Top nav is displayed in current page", topNav.isDisplayed());
+    }
+
     @When("^User clicks on ([^\"]*) link from top nav$")
     public void click_on_given_link_from_top_nav(String Dept) {
         if (Dept.equalsIgnoreCase("random") || Dept.equalsIgnoreCase("any"))
