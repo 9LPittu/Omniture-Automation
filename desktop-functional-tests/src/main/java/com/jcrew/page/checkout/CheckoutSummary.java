@@ -127,7 +127,7 @@ public class CheckoutSummary extends Checkout {
     }
 
     public WebElement getPromoMessageElementFromOrderSummary(){
-        WebElement promoMessageElement = orderSummary.findElement(By.xpath("//span[@class='summary-label' and text()='"
+        WebElement promoMessageElement = orderSummary.findElement(By.xpath(".//span[@class='summary-label' and text()='"
                 + stateHolder.get("promoMessage") + "']"));
         return promoMessageElement;
     }
