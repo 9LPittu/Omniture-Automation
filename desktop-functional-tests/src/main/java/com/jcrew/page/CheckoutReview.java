@@ -134,7 +134,7 @@ public class CheckoutReview extends Checkout{
         }
 
         if(changeButton != null) {
-            changeButton.click();
+            Util.scrollAndClick(driver, changeButton);
             Util.waitLoadingBar(driver);
             header = new HeaderWrap(driver);
         }

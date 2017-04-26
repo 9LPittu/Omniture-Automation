@@ -110,8 +110,7 @@ public class Footer {
 
     public void clickChangeLinkInFooter() {
         WebElement changeLinkInFooter = shipToSectionInFooter.findElement(By.className("footer__country-context__link"));
-        Util.scrollToElement(driver, changeLinkInFooter);
-        changeLinkInFooter.click();
+        Util.scrollAndClick(driver, changeLinkInFooter);
         logger.info("clicked change link");
     }
 
@@ -151,8 +150,7 @@ public class Footer {
     public void clickFooterSocialLinks(String socialLink) {
         String xpath = ".//a[@class='footer__social__link' and contains(@href,'" + socialLink + "')]";
         WebElement sLink =  footer_social.findElement(By.xpath(xpath));
-        Util.scrollToElement(driver, sLink);
-        sLink.click();
+        Util.scrollAndClick(driver, sLink);
         Util.waitLoadingBar(driver);
     }
 
@@ -187,8 +185,7 @@ public class Footer {
         WebElement footerLink = getAccordianLink(linkText, drawer);
         wait.until(ExpectedConditions.elementToBeClickable(footerLink));
         
-        Util.scrollToElement(driver, footerLink);
-        footerLink.click();
+        Util.scrollAndClick(driver, footerLink);
         Util.waitLoadingBar(driver);
     }
 

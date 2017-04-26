@@ -26,6 +26,7 @@ public class Util {
     public static final int DEFAULT_TIMEOUT = 60;
     public static final int DEFAULT_TIMEOUT_STEEL = 120;
     public static final String xpathGetTextLower = "translate(text(), 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
+    public static final String embedGetTextLower = "translate(., 'ABCDEFGHJIKLMNOPQRSTUVWXYZ','abcdefghjiklmnopqrstuvwxyz')";
     
     public static final String UP = "up";
     public static final String DOWN = "down";

@@ -156,7 +156,7 @@ public class StartSteps {
         String intlPageURL = homeURL +"/"+ countrySettings + "/" + pageURL;
         logger.debug("getting url: " + intlPageURL);
 
-        setSidecarCookie();
+        setUpEnvironment();
 
         driver.get(intlPageURL);
     }
@@ -175,7 +175,7 @@ public class StartSteps {
 
         logger.debug("getting url: " + envUrl);
 
-        setSidecarCookie();
+        setUpEnvironment();
 
         driver.get(envUrl);
     }
@@ -191,7 +191,7 @@ public class StartSteps {
 
         envUrl = context.getHomeurl();
 
-        setSidecarCookie();
+        setUpEnvironment();
 
         String intlHomeURL = envUrl +"/"+ context + "/" ;
         logger.debug("getting url: " + intlHomeURL);
@@ -208,17 +208,29 @@ public class StartSteps {
         envUrl=envUrl + "?siteId=asdfsadf&srcCode=asdfsadf";
         logger.debug("getting url: " + envUrl);
 
-        setSidecarCookie();
+        setUpEnvironment();
 
         driver.get(envUrl);
     }
     
-    private void setSidecarCookie() {
-    	boolean setCookie = testData.getBoolean("setSidecarCookie");
+    private void setUpEnvironment() {
+        setMonetate();
+    	setCookie();
+    }
 
-    	if(setCookie) {
-    		String url = reader.getProperty("url");
-    		String domain = url.replace("https://", "");
+    private void setMonetate() {
+        if (reader.isSystemPropertyTrue("monetate")) {
+            String monetateURL = testData.getData("monetate.url");
+            driver.get(monetateURL);
+        }
+    }
+
+    private void setCookie() {
+        boolean setCookie = testData.getBoolean("setSidecarCookie");
+
+        if(setCookie) {
+            String url = reader.getProperty("url");
+            String domain = url.replace("https://", "");
             driver.get(url + "/404");
             JavascriptExecutor jse = (JavascriptExecutor) driver;
             jse.executeScript("document.cookie=\"x-origin=sidecar_render;path=/;domain=" + domain +
@@ -226,7 +238,6 @@ public class StartSteps {
             logger.info("Setting sidecar cookie as: {}", "document.cookie=\"x-origin=sidecar_render;path=/;domain=" +
                     domain + ";expires=new Date().setDate(new Date().getDate() + 1) \"");
         }
-    	
     }
     
     @Given("User navigates to ([^\"]*) with clean session")

@@ -53,8 +53,8 @@ public class HeaderSearch extends HeaderWrap {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();
         String env = propertyReader.getProperty("environment");
 
-        if (testdataReader.hasProperty(env + "." + searchItem)) {
-            searchItem = testdataReader.getData(env + "." + searchItem);
+        if (testdataReader.hasProperty(searchItem)) {
+            searchItem = testdataReader.getData(searchItem);
         }
 
         searchForSpecificTerm(searchItem);
