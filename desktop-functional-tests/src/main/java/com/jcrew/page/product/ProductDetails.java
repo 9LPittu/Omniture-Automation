@@ -166,7 +166,7 @@ public class ProductDetails extends PageObject {
 
         if (countryCode.equalsIgnoreCase("us") || countryCode.equalsIgnoreCase("ca") || countryCode.equalsIgnoreCase("uk")) {
             TestDataReader testDataReader = TestDataReader.getTestDataReader();
-            String expectedVPSMessage = testDataReader.getData(countryCode + ".pdp.vps.item.message");
+            String expectedVPSMessage = testDataReader.getData("pdp.vps.item.message");
             logger.info("Expected VPS message: {}", expectedVPSMessage);
 
             wait.until(ExpectedConditions.visibilityOf(vpsMessage));

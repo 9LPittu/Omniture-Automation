@@ -36,7 +36,7 @@ public class SubCategory extends TopNav {
 
         WebElement flyoutLink = subcat_nav.findElement(
         By.xpath(".//div[@class='nav-page__group' and not(@style='display: none;')]/." +
-                "//a[contains(@class,'js-menu__link--has-href') and " + Util.xpathGetTextLower + "='" + subcategory +"']"));
+                "//a[contains(@class,'js-menu__link--has-href') and " + Util.embedGetTextLower + "='" + subcategory +"']"));
 
         clickAndHideFlyout(flyoutLink);
 
@@ -55,7 +55,7 @@ public class SubCategory extends TopNav {
             subCategoryElement = subcat_nav.findElement(
                     By.xpath(".//div[@class='nav-page__group' and not(@style='display: none;')]/" +
                             ".//a[contains(@class,'js-menu__link--has-href') and " +
-                            Util.xpathGetTextLower + "='" + subCategory.toLowerCase() + "']"));
+                            Util.embedGetTextLower + "='" + subCategory.toLowerCase() + "']"));
         }
 
         clickAndHideFlyout(subCategoryElement);

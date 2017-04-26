@@ -26,11 +26,11 @@ public class ProductDetailSoldOutSteps extends DriverFactory {
 
         if ("jp".equalsIgnoreCase(countryCode)) {
             expected = testDataReader.getData("pdp.soldout.item.message") + " " +
-                    testDataReader.getData(countryCode + ".email");
+                    testDataReader.getData("email");
 
         } else {
             expected = testDataReader.getData("pdp.soldout.item.message") + " " +
-                    testDataReader.getData(countryCode + ".phone");
+                    testDataReader.getData("phone");
         }
 
         assertEquals("user should see PDP page with soldout message which includes phone number",
