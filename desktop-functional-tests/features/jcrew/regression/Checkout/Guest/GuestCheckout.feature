@@ -19,7 +19,8 @@ Feature: Checkout - Guest user is able to checkout
 
     When User clicks in bag
 	Then Verify shopping bag is displayed
-    Then Verify products added matches with products in bag
+    And Verify that top nav is visible in page
+    And Verify products added matches with products in bag
     And Verify all products have edit and remove buttons
     And Verify bag has a promo code section
     And Verify bag has a gift card section
@@ -34,24 +35,26 @@ Feature: Checkout - Guest user is able to checkout
     When User clicks in CHECK OUT NOW button
     And User checks out as guest
     Then Verify Shipping Page is displayed
+    And Verify that top nav is visible in page
 
     When User fills QAS shipping data and continues
     Then Verify QAS page is displayed
+    And Verify that top nav is visible in page
 
     When User selects a suggested address and continues
     Then Verify Shipping And Gift Options page is displayed
-    And validate correct shipping methods displayed on the page     
-      
+    And Verify that top nav is visible in page
+    And validate correct shipping methods displayed on the page
     And Verify Shipping Options Page contains gift option section
     And Verify default value for shipping method
 
     When User selects a random shipping method and continues
     Then Verify Billing page is displayed
+    And Verify that top nav is visible in page
     And Verify available payment methods from list
       | Credit/Debit Card |
       | PayPal            |      
       | MasterPass		  |
-      
     And Verify accepted cards from list
       | jccc |
       | visa |
@@ -62,6 +65,8 @@ Feature: Checkout - Guest user is able to checkout
 
     When User fills payment method as guest and continues
     Then Verify user is in review page
+    And Verify that top nav is visible in page
 
     When User clicks on PLACE MY ORDER
     Then Verify user gets a confirmation number
+    And Verify that top nav is visible in page

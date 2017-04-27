@@ -12,8 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.jcrew.page.*;
+import com.jcrew.page.checkout.*;
 import com.jcrew.page.header.HeaderSearch;
 import com.jcrew.page.product.*;
+import com.jcrew.steps.checkout.CheckoutShoppingBagSteps;
 import org.openqa.selenium.WebDriverException;
 
 import com.jcrew.pojo.GiftCard;
@@ -282,8 +284,8 @@ public class E2E1Steps extends E2ECommon {
 
 		switch (paymentMethod.toUpperCase()) {
 			case "EXPRESS PAYPAL":
-				CheckoutShoppingBag checkoutShoppingBag = new CheckoutShoppingBag(getDriver());
-				checkoutShoppingBag.clickPaypalElement();
+				CheckoutSummary checkoutSummary = new CheckoutSummary(getDriver());
+				checkoutSummary.clickPaypalElement();
 				break;
 			default:
 				CheckoutShoppingBagSteps checkoutShoppingBagSteps = new CheckoutShoppingBagSteps();
