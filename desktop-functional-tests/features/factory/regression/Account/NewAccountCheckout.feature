@@ -17,7 +17,7 @@ Feature: Create New Account in US
     And User clicks Create An Account button
     Then Verify user is in homepage
 
-    When User goes to My Details using header
+    When User goes to My Details from header
 
     When User clicks on Payment Methods link in Account detail Page
 

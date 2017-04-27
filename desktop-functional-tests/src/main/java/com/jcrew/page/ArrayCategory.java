@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
-public class ArrayCategory extends Array{
+public class ArrayCategory extends Array {
 
     @FindBy(id = "c-product__list")
     private WebElement productList;
@@ -30,12 +29,13 @@ public class ArrayCategory extends Array{
     private WebElement arrayContainer;
     @FindBy(id = "tray__list")
 	private WebElement trayList;
+    @FindBy(id = "c-category__page-title")
+    private WebElement arrayTitle;
     
 
     public ArrayCategory(WebDriver driver) {
         super(driver);
 
-        PageFactory.initElements(driver, this);
         try {
         	wait.until(ExpectedConditions.visibilityOf(productList));
         } catch (Exception e) {
@@ -49,9 +49,11 @@ public class ArrayCategory extends Array{
         return getProductTiles(productList);
     }
 
-    public boolean isCategoryArrayPage(String subCategoryName) {
-        WebElement subCategoty = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h2[" + Util.xpathGetTextLower + "='" + subCategoryName.toLowerCase() + "']"))));
-        return subCategoty.isDisplayed();
+    public String getArrayTitle() {
+        WebElement subCategoty = arrayTitle.findElement(By.xpath(".//div[@class='category__page-title']/*"));
+        wait.until(ExpectedConditions.visibilityOf(subCategoty));
+
+        return subCategoty.getText();
     }
 
 

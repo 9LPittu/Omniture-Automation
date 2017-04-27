@@ -12,7 +12,7 @@ Feature: Sign In
     Then Dropdown should welcome user by first name
 
     # JCSC-1367 for steel
-    When User goes to My Details using header
+    When User goes to My Details from header
     Then Verify user is in account details page
 
     When User goes to Wishlist using header
