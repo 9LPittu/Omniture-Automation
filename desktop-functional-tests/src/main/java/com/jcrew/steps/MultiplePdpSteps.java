@@ -1,7 +1,7 @@
 package com.jcrew.steps;
 
 import com.jcrew.page.MultiplePdpPage;
-import com.jcrew.page.CheckoutShoppingBag;
+import com.jcrew.page.checkout.CheckoutShoppingBag;
 import com.jcrew.utils.DriverFactory;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;

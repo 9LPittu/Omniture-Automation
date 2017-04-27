@@ -7,13 +7,13 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/factory/regression/checkout"},
-        tags = {"@PromoCode"},
+        tags = {"@PromoCode2"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-fa-regression-promocode.json",
+                "json:target/cucumber-fa-regression-promocode2.json",
                 "pretty",
-                "html:target/cucumber/fa-regression-promocode"
+                "html:target/cucumber/fa-regression-promocode2"
         })
 
-public class CheckoutPromoCodeRunnerTest {
+public class CheckoutPromoCode2RunnerTest {
 }

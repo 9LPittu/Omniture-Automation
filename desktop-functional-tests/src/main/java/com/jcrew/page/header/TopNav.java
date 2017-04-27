@@ -28,6 +28,10 @@ public class TopNav extends HeaderWrap {
         wait.until(ExpectedConditions.visibilityOf(top_nav));
     }
 
+    public boolean isDisplayed(){
+        return top_nav.isDisplayed();
+    }
+
     public void clickDeptLinkFromTopNav(String dept) {
         String url = driver.getCurrentUrl();
         WebElement topnavlink = top_nav.findElement(
