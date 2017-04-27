@@ -84,7 +84,7 @@ public class SubCategory extends TopNav {
     public void clickShop(String shop) {
         WebElement ourShops = subcat_nav.findElement(By.xpath(".//h5[" + Util.xpathGetTextLower + "='our shops']"));
         WebElement shopElement = ourShops.findElement(By.xpath(".//following-sibling::ul/" +
-                ".//a[" + Util.xpathGetTextLower + "='" + shop + "']"));
+                ".//a[" + Util.embedGetTextLower + "='" + shop + "']"));
 
         clickAndHideFlyout(shopElement);
     }

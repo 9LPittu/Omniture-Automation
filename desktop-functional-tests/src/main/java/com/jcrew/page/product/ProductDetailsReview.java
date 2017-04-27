@@ -1,5 +1,6 @@
 package com.jcrew.page.product;
 
+import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -50,7 +51,7 @@ public class ProductDetailsReview extends ProductDetails {
         }
 
         wait.until(ExpectedConditions.visibilityOf(writeReviewButton));
-        writeReviewButton.click();
+        Util.scrollAndClick(driver, writeReviewButton);
     }
 
     public boolean isSummaryDisplayed() {
