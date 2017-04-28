@@ -249,6 +249,10 @@ public class Util {
         	}
 
         }while(cntr <= 4);
+
+        if (cntr > 4) {
+            throw new WebDriverException("Unable to click element");
+        }
     }
     
     public static void scrollPage(WebDriver driver, String pagePosition) {
