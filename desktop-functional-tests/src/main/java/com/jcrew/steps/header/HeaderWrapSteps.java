@@ -57,7 +57,7 @@ public class HeaderWrapSteps extends DriverFactory {
         String actualWelcomeMessage = header.getWelcomeMessage();
 
         assertEquals("Dropdown welcomes user",
-                expectedWelcomeMessage, actualWelcomeMessage);
+                expectedWelcomeMessage.toLowerCase(), actualWelcomeMessage.toLowerCase());
     }
 
     @Then("Verify header contains Sign In visible")
