@@ -32,10 +32,10 @@ public class ProductDetailsActions extends ProductDetails {
 
         if (!addToBagButton.isDisplayed()) {
             addToBagButton = product_actions.findElement(By.id("btn__add-to-bag-wide"));
-        }
 
-        if (!addToBagButton.isDisplayed()) {
-            throw new WebDriverException("No add to bag button is displayed at all!");
+            if (!addToBagButton.isDisplayed()) {
+                throw new WebDriverException("No add to bag button is displayed at all!");
+            }
         }
 
         return addToBagButton;
