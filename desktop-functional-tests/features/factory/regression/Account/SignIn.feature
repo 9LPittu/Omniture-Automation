@@ -9,7 +9,7 @@ Feature: Sign In
     Then Verify user is in My Account main page
 
     When User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     # JCSC-1367 for steel
     When User goes to My Details from header
@@ -24,23 +24,23 @@ Feature: Sign In
     When User clicks Factory logo
     Then Verify user is in homepage
     When User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     When User navigates to a subcategory from main category
     And User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     And User selects random product from product array
     And User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     When User searches for a random search term
     And User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     When User navigates to random clearance page    
     And User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     When User signs out using header
     Then Verify user is in homepage

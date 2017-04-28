@@ -83,7 +83,8 @@ public class HeaderWrap extends PageObject {
 
 	public String getWelcomeMessage() {
 		dropdown = userPanel.findElement(By.tagName("dl"));
-		WebElement welcomeRow = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel--welcomeuser']"));
+		WebElement welcomeRow = dropdown.findElement(
+				By.xpath(".//dd[@class='c-nav__userpanel--welcomeuser']"));
 		String message = welcomeRow.getText();
 
 		if (message.isEmpty()) {

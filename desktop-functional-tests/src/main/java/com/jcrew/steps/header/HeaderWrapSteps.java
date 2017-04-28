@@ -48,15 +48,16 @@ public class HeaderWrapSteps extends DriverFactory {
 
     }
 
-    @Then("Dropdown should welcome user by first name")
+    @Then("Dropdown should welcome user")
     public void dropdown_should_welcome_user_using_first_name() {
     	StateHolder stateHolder = StateHolder.getInstance();
     	User user = stateHolder.get("userObject");
-    	String firstName = user.getFirstName();
-        String expectedWelcomeMessage = "Welcome, " + firstName;
+
+    	String expectedWelcomeMessage = user.getFirstName() + user.getLastName() + "\nsign out";
         String actualWelcomeMessage = header.getWelcomeMessage();
 
-        assertEquals("First name should match message", expectedWelcomeMessage, actualWelcomeMessage);
+        assertEquals("Dropdown welcomes user",
+                expectedWelcomeMessage, actualWelcomeMessage);
     }
 
     @Then("Verify header contains Sign In visible")
