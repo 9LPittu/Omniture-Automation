@@ -51,7 +51,9 @@ public class ProductDetailsReview extends ProductDetails {
         }
 
         wait.until(ExpectedConditions.visibilityOf(writeReviewButton));
-        Util.scrollAndClick(driver, writeReviewButton);
+        Util.scrollToElement(driver, writeReviewButton);
+        Util.scrollPage(driver, Util.DOWN);
+        writeReviewButton.click();
     }
 
     public boolean isSummaryDisplayed() {

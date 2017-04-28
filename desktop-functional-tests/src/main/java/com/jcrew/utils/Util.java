@@ -218,9 +218,9 @@ public class Util {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
 
         if (pagePosition.equalsIgnoreCase(UP)) {
-            jse.executeScript("scrollBy(0, -400)", "");
+            jse.executeScript("scrollBy(0, -400)");
         } else if (pagePosition.equalsIgnoreCase(DOWN)) {
-            jse.executeScript("scrollBy(0, 400)", "");
+            jse.executeScript("scrollBy(0, 400)");
         }
     }
     

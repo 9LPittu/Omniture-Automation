@@ -1,8 +1,7 @@
 @SignIn @HighLevel
 Feature: Sign In
 
-  Scenario: Development
-  User is able to sign in
+  Scenario: User is able to sign in
     Given User goes to homepage
     And User closes email capture
     When User clicks on sign in using header
