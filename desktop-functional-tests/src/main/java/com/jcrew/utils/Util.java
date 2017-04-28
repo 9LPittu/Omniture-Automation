@@ -199,6 +199,7 @@ public class Util {
                 element.click();
                 break;
             } catch (WebDriverException e) {
+                logger.error("Unable to click element because... ", e);
                 JavascriptExecutor jse = (JavascriptExecutor) driver;
                 jse.executeScript("arguments[0].scrollIntoView();", element);
 

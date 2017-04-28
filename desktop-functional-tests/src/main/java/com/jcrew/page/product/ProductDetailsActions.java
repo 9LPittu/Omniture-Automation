@@ -98,7 +98,7 @@ public class ProductDetailsActions extends ProductDetails {
         int itemsInBag = headerBag.getItemsInBag();
         stateHolder.put("itemsInBag", itemsInBag);
 
-        Util.clickWithStaleRetry(addToBagButton);
+        Util.scrollAndClick(driver, addToBagButton);
     }
 
     public boolean getIsBackordered() {
