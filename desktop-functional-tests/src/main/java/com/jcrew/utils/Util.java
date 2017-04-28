@@ -146,24 +146,6 @@ public class Util {
 
         return startsWith & contains == country.isContexturl() & hasPattern;
     }
-
-    public static void checkoutNext(WebDriver driver, WebElement checkoutButton) {
-        PropertyReader reader = PropertyReader.getPropertyReader();
-        String browser = reader.getProperty("browser");
-
-        if("desktop".equals(browser)) {
-            String href = checkoutButton.getAttribute("href");
-            try {
-                href = URLDecoder.decode(href, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                logger.error("not able to decode!", e);
-            }
-            JavascriptExecutor jse = (JavascriptExecutor) driver;
-            jse.executeScript(href);
-        } else {
-            checkoutButton.click();
-        }
-    }
     
     public static String logBrowserErrors(WebDriver driver) {
         Logs errorlog = driver.manage().logs();
@@ -179,30 +161,6 @@ public class Util {
             errorMessage = "Browser log: \n" + errorMessage;
 
         return errorMessage;
-    }
-
-    public static String getStringConsoleVariable(WebDriver driver, String variable) {
-        JavascriptExecutor je = (JavascriptExecutor) driver;
-        String value = (String) je.executeScript("return " + variable);
-
-        logger.info("{}: {}", variable, value);
-
-        return value;
-    }
-
-    public static boolean getBooleanConsoleVariable(WebDriver driver, String variable) {
-        JavascriptExecutor je = (JavascriptExecutor) driver;
-        boolean value = false;
-        try {
-            value = (boolean) je.executeScript("return " + variable);
-
-            logger.info("{}: {}", variable, value);
-
-        } catch (WebDriverException wde) {
-            logger.info("Unable to get boolean variable {}; assuming false", variable);
-        }
-
-        return value;
     }
 
     public static void wait(int waitTime) {
@@ -234,21 +192,20 @@ public class Util {
     }    
       
     public static void scrollAndClick(WebDriver driver, WebElement element){
-    	int cntr = 0;
-        do{
-        	try{
-        		scrollToElement(driver, element);
-        		element.click();
-        		break;
-        	}
-        	catch(WebDriverException e){
-                JavascriptExecutor jse = (JavascriptExecutor)driver;
+        int cntr = 0;
+        do {
+            try {
+                scrollToElement(driver, element);
+                element.click();
+                break;
+            } catch (WebDriverException e) {
+                JavascriptExecutor jse = (JavascriptExecutor) driver;
                 jse.executeScript("arguments[0].scrollIntoView();", element);
 
                 cntr++;
-        	}
+            }
 
-        }while(cntr <= 4);
+        } while (cntr <= 4);
 
         if (cntr > 4) {
             throw new WebDriverException("Unable to click element");

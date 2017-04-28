@@ -17,9 +17,6 @@ public class ProductDetailsActions extends ProductDetails {
     @FindBy(id = "c-product__actions")
     private WebElement product_actions;
 
-    private final String ADD_TO_BAG_ID = "btn__add-to-bag";
-    private final String WISHSLIST_ID = "btn__wishlist";
-
     public ProductDetailsActions(WebDriver driver) {
         super(driver);
         wait.until(ExpectedConditions.visibilityOf(product_actions));
@@ -30,6 +27,20 @@ public class ProductDetailsActions extends ProductDetails {
         return point.getY();
     }
 
+    private WebElement getAddToBagButton() {
+        WebElement addToBagButton = product_actions.findElement(By.id("btn__add-to-bag"));
+
+        if (!addToBagButton.isDisplayed()) {
+            addToBagButton = product_actions.findElement(By.id("btn__add-to-bag-wide"));
+        }
+
+        if (!addToBagButton.isDisplayed()) {
+            throw new WebDriverException("No add to bag button is displayed at all!");
+        }
+
+        return addToBagButton;
+    }
+
     public void addToBag() {
         stateHolder.addToList("toBag", getProduct());
 
@@ -38,8 +49,7 @@ public class ProductDetailsActions extends ProductDetails {
 
         logger.info("Adding to bag {}", getProductName());
 
-        WebElement addToBagButton = product_actions.findElement(By.id(ADD_TO_BAG_ID));
-        Util.scrollAndClick(driver, addToBagButton);
+        Util.scrollAndClick(driver, getAddToBagButton());
 
         //handle Ship Restriction Message
         List<WebElement> yesButton = driver.findElements(By.id("btn__yes"));
@@ -63,22 +73,22 @@ public class ProductDetailsActions extends ProductDetails {
     }
 
     public boolean isWishlistDisplayed() {
-        WebElement wishlistButton = product_actions.findElement(By.id(WISHSLIST_ID));
+        WebElement wishlistButton = product_actions.findElement(By.id("btn__wishlist"));
         return wishlistButton.isDisplayed();
     }
 
     public boolean isAddToBagDisplayed() {
-        WebElement addToBagButton = product_actions.findElement(By.id(ADD_TO_BAG_ID));
+        WebElement addToBagButton = getAddToBagButton();
         return addToBagButton.isDisplayed();
     }
 
     public boolean isUpdateBagDisplayed() {
-        WebElement updateButton = product_actions.findElement(By.id(ADD_TO_BAG_ID));
+        WebElement updateButton = getAddToBagButton();
         return wait.until(ExpectedConditions.textToBePresentInElement(updateButton, "UPDATE BAG"));
     }
 
     public void click_update_cart() {
-        WebElement addToBagButton = product_actions.findElement(By.id(ADD_TO_BAG_ID));
+        WebElement addToBagButton = getAddToBagButton();
         wait.until(ExpectedConditions.textToBePresentInElement(addToBagButton, "UPDATE BAG"));
 
         stateHolder.addToList("toBag", getProduct());
