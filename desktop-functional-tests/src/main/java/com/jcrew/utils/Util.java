@@ -193,23 +193,24 @@ public class Util {
       
     public static void scrollAndClick(WebDriver driver, WebElement element){
         int cntr = 0;
+        WebDriverException notClickable = null;
         do {
             try {
                 scrollToElement(driver, element);
                 element.click();
                 break;
             } catch (WebDriverException e) {
-                logger.error("Unable to click element because... ", e);
                 JavascriptExecutor jse = (JavascriptExecutor) driver;
                 jse.executeScript("arguments[0].scrollIntoView();", element);
 
                 cntr++;
+                notClickable = e;
             }
 
         } while (cntr <= 4);
 
         if (cntr > 4) {
-            throw new WebDriverException("Unable to click element");
+            throw new WebDriverException(notClickable);
         }
     }
     
