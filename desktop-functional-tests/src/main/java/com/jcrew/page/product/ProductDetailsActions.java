@@ -49,7 +49,9 @@ public class ProductDetailsActions extends ProductDetails {
 
         logger.info("Adding to bag {}", getProductName());
 
-        Util.scrollPage(driver, Util.DOWN, 120);
+        WebElement addToBagElement = getAddToBagButton();
+        Util.scrollToElement(driver, addToBagElement);
+        Util.scrollPage(driver, Util.UP, 100);
         getAddToBagButton().click();
 
         //handle Ship Restriction Message
