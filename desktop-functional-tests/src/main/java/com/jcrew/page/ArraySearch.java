@@ -338,7 +338,7 @@ public class ArraySearch extends Array{
             }
 
             wait.until(ExpectedConditions.visibilityOf(selectedOption));
-            Util.scrollAndClick(driver, selectedOption);
+            selectedOption.click();
 
             Util.waitSpinningImage(driver);
 
