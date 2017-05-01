@@ -185,7 +185,8 @@ public class Footer {
         WebElement footerLink = getAccordianLink(linkText, drawer);
         wait.until(ExpectedConditions.elementToBeClickable(footerLink));
         
-        Util.scrollAndClick(driver, footerLink);
+        Util.scrollPage(driver, Util.BOTTOM);
+        footerLink.click();
         Util.waitLoadingBar(driver);
     }
 

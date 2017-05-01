@@ -154,7 +154,7 @@ public class E2E1Steps extends E2ECommon {
 
 				// Select size
 				ProductDetailsSizes sizes = new ProductDetailsSizes(getDriver());
-				sizes.selectSpecifiedSize(size);
+				sizes.selectSize(size);
 
 				// Select quantity
 				ProductDetailsQuantity pdp = new ProductDetailsQuantity(getDriver());

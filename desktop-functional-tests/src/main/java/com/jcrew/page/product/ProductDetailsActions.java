@@ -1,6 +1,7 @@
 package com.jcrew.page.product;
 
 import com.jcrew.page.header.HeaderBag;
+import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
@@ -49,10 +50,7 @@ public class ProductDetailsActions extends ProductDetails {
 
         logger.info("Adding to bag {}", getProductName());
 
-        WebElement addToBagElement = getAddToBagButton();
-        Util.scrollToElement(driver, addToBagElement);
-        Util.scrollPage(driver, Util.UP, 100);
-        getAddToBagButton().click();
+        Util.scrollAndClick(driver, getAddToBagButton());
 
         //handle Ship Restriction Message
         List<WebElement> yesButton = driver.findElements(By.id("btn__yes"));

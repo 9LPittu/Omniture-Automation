@@ -3,6 +3,7 @@ package com.jcrew.utils;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.pojo.Country;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -15,8 +16,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.*;
 
 public class Util {
@@ -30,6 +29,7 @@ public class Util {
     
     public static final String UP = "up";
     public static final String DOWN = "down";
+    public static final String BOTTOM = "bottom";
     public static String e2eErrorMessages= "";
     
     public static String getEnvironment(){
@@ -189,29 +189,18 @@ public class Util {
             logger.error("StaleElementReferenceException when waiting for spinning image. " +
                     "Assuming it is gone and ignoring this exception");
         }
-    }    
-      
-    public static void scrollAndClick(WebDriver driver, WebElement element){
-        int cntr = 0;
-        WebDriverException notClickable = null;
-        do {
-            try {
-                scrollToElement(driver, element);
-                element.click();
-                break;
-            } catch (WebDriverException e) {
-                JavascriptExecutor jse = (JavascriptExecutor) driver;
-                jse.executeScript("arguments[0].scrollIntoView();", element);
+    }
 
-                cntr++;
-                notClickable = e;
-            }
+    public static void scrollAndClick(WebDriver driver, WebElement element) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].scrollIntoView();", element);
 
-        } while (cntr <= 4);
+        HeaderLogo logo = new HeaderLogo(driver);
+        logo.hoverLogo();
 
-        if (cntr > 4) {
-            throw new WebDriverException(notClickable);
-        }
+        scrollPage(driver, UP);
+
+        element.click();
     }
     
     public static void scrollPage(WebDriver driver, String pagePosition) {
@@ -221,16 +210,8 @@ public class Util {
             jse.executeScript("scrollBy(0, -400)");
         } else if (pagePosition.equalsIgnoreCase(DOWN)) {
             jse.executeScript("scrollBy(0, 400)");
-        }
-    }
-
-    public static void scrollPage(WebDriver driver, String pagePosition, int pixels) {
-        JavascriptExecutor jse = (JavascriptExecutor) driver;
-
-        if (pagePosition.equalsIgnoreCase(UP)) {
-            jse.executeScript("scrollBy(0, -" + pixels + ")");
-        } else if (pagePosition.equalsIgnoreCase(DOWN)) {
-            jse.executeScript("scrollBy(0, " + pixels + ")");
+        } else if (pagePosition.equalsIgnoreCase(BOTTOM)) {
+            jse.executeScript("scroll(0, document.body.scrollHeight)");
         }
     }
     
