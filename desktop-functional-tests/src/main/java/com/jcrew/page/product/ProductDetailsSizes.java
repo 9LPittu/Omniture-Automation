@@ -61,7 +61,7 @@ public class ProductDetailsSizes extends ProductDetails {
             WebElement selectedSize = productSizes.get(0);
             WebElement selectedSizeLabel = selectedSize.findElement(By.className("btn__label"));
 
-            Util.scrollPage(driver, Util.DOWN, 100);
+            Util.scrollPage(driver, Util.DOWN, 50);
             selectedSizeLabel.click();
 
             logger.info("Selecting specified size {}", size);
