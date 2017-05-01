@@ -223,6 +223,16 @@ public class Util {
             jse.executeScript("scrollBy(0, 400)");
         }
     }
+
+    public static void scrollPage(WebDriver driver, String pagePosition, int pixels) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+        if (pagePosition.equalsIgnoreCase(UP)) {
+            jse.executeScript("scrollBy(0, -" + pixels + ")");
+        } else if (pagePosition.equalsIgnoreCase(DOWN)) {
+            jse.executeScript("scrollBy(0, " + pixels + ")");
+        }
+    }
     
     public static String getPageVariableValue(WebDriver driver, final String variable) throws InterruptedException {
         WebDriverWait waitForVariable = new WebDriverWait(driver, 10);

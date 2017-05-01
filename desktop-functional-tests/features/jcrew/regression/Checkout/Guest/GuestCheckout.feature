@@ -5,10 +5,10 @@ Feature: Checkout - Guest user is able to checkout
     Given User goes to homepage
     And User closes email capture
     And User hovers on a random category from list
-    	|Women|
-    	|Men|
-    	|Girls|
-    	|Boys|
+      | Women |
+      | Men   |
+      | Girls |
+      | Boys  |
     And User selects random subcategory array
     And User selects random product from product array
     And Verify product detail page is displayed
