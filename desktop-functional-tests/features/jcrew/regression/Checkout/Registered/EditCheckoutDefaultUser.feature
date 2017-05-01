@@ -1,8 +1,7 @@
 @RegisteredCheckout3 @HighLevel
 Feature: Checkout - Express user is able to edit data in review page
 
-  Scenario: Development
-  Checkout - Express user is able to edit shipping address, shipping method and billing data in review page
+  Scenario: Checkout - Express user is able to edit shipping address, shipping method and billing data in review page
   	Given User goes to homepage
   	And User closes email capture
   	When User clicks on sign in using header
