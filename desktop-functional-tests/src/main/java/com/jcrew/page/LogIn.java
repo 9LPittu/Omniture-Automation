@@ -147,7 +147,8 @@ public class LogIn extends PageObject {
 
         String url = driver.getCurrentUrl();
         wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
-        Util.scrollAndClick(driver, createAnAccount);
+        Util.scrollPage(driver, Util.BOTTOM);
+        createAnAccount.click();
 
         if (stateHolder.getBoolean("waitHomepage")) {
             wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
