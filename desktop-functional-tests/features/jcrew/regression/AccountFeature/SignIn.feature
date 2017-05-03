@@ -9,7 +9,7 @@ Feature: Sign In
     Then Verify user is in My Account main page
 
     When User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     # JCSC-1367 for steel
     When User goes to My Details using My Account menu
@@ -24,25 +24,25 @@ Feature: Sign In
     When User clicks JCrew logo
     Then Verify user is in homepage
     When User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
 
     When User navigates to a subcategory from main category
     And User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     And User selects random product from product array
     And User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
 
     When User searches for a random search term
     And User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     When User navigates to a random sale page
     And User hovers over My Account
-    Then Dropdown should welcome user by first name
+    Then Dropdown should welcome user
 
     When User signs out using header
     Then Verify user is in homepage

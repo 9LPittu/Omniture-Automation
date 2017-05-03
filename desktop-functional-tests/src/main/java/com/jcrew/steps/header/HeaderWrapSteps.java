@@ -1,5 +1,7 @@
 package com.jcrew.steps.header;
 
+import com.jcrew.page.account.IMyAccount;
+import com.jcrew.page.account.MyAccount;
 import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
@@ -37,16 +39,25 @@ public class HeaderWrapSteps extends DriverFactory {
         header.goToMyDetailsDropDownMenu(item);
     }
 
+    @When("User goes to My Details from header")
+    public void my_details_from_header() {
+        header.goToMyDetailsDropDownMenu("My Account");
 
-    @Then("Dropdown should welcome user by first name")
+        IMyAccount myAccount = MyAccount.getAccountMain(getDriver());
+        myAccount.click_menu_link("My Details");
+
+    }
+
+    @Then("Dropdown should welcome user")
     public void dropdown_should_welcome_user_using_first_name() {
     	StateHolder stateHolder = StateHolder.getInstance();
     	User user = stateHolder.get("userObject");
-    	String firstName = user.getFirstName();
-        String expectedWelcomeMessage = "Welcome, " + firstName;
+
+    	String expectedWelcomeMessage = user.getFirstName() + user.getLastName() + "\nsign out";
         String actualWelcomeMessage = header.getWelcomeMessage();
 
-        assertEquals("First name should match message", expectedWelcomeMessage, actualWelcomeMessage);
+        assertEquals("Dropdown welcomes user",
+                expectedWelcomeMessage.toLowerCase(), actualWelcomeMessage.toLowerCase());
     }
 
     @Then("Verify header contains Sign In visible")

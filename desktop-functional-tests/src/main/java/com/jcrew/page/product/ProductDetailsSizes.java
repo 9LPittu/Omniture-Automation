@@ -31,20 +31,9 @@ public class ProductDetailsSizes extends ProductDetails {
         List<WebElement> availableSizes = sizes.findElements(By.xpath(availableSizesSelector));
 
         if (availableSizes.size() > 0) {
-            final WebElement selectedSize = Util.randomIndex(availableSizes);
+            WebElement selectedSize = Util.randomIndex(availableSizes);
             Util.scrollAndClick(driver, selectedSize);
         }
-    }
-
-    public void selectSpecifiedSize(String size){
-        wait.until(ExpectedConditions.visibilityOf(sizes));
-        String sizeSelector = ".//li[contains(@class,'js-product__size sizes-list__item')"
-                + " and @data-name='" + size.toUpperCase() + "']";
-
-        WebElement sizeElement = sizes.findElement(By.xpath(sizeSelector));
-        Util.scrollToElement(driver, sizeElement);
-        sizeElement.click();
-        logger.debug("Selected size: {}", size);
     }
 
     public String getSelectedSize() {
@@ -60,6 +49,7 @@ public class ProductDetailsSizes extends ProductDetails {
         if (productSizes.size() > 0) {
             WebElement selectedSize = productSizes.get(0);
             WebElement selectedSizeLabel = selectedSize.findElement(By.className("btn__label"));
+
             Util.scrollAndClick(driver, selectedSizeLabel);
 
             logger.info("Selecting specified size {}", size);

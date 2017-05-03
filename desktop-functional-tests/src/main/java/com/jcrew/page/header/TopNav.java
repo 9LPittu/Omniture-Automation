@@ -64,14 +64,6 @@ public class TopNav extends HeaderWrap {
         SubCategory subCategory = new SubCategory(driver);
     }
 
-    public void hoverCategory() {
-        wait.until(ExpectedConditions.visibilityOf(top_nav));
-
-        TestDataReader testdataReader = TestDataReader.getTestDataReader();
-        String dept = testdataReader.getCategory().toLowerCase().trim();
-        hoverCategory(dept);
-    }
-
     public void hoverCategory(List<String> categories) {
         int index = Util.randomIndex(categories.size());
         String randomCategory = categories.get(index);

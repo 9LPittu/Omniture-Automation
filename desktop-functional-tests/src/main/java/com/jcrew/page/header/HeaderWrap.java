@@ -1,20 +1,12 @@
 package com.jcrew.page.header;
 
-import com.google.common.base.Predicate;
 import com.jcrew.page.PageObject;
 import com.jcrew.pojo.Product;
-import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
-import org.openqa.selenium.logging.LogEntries;
-import org.openqa.selenium.logging.LogEntry;
-import org.openqa.selenium.logging.LogType;
-import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -91,7 +83,8 @@ public class HeaderWrap extends PageObject {
 
 	public String getWelcomeMessage() {
 		dropdown = userPanel.findElement(By.tagName("dl"));
-		WebElement welcomeRow = dropdown.findElement(By.xpath(".//dd[@class='c-nav__userpanel--welcomeuser']"));
+		WebElement welcomeRow = dropdown.findElement(
+				By.xpath(".//dd[@class='c-nav__userpanel--welcomeuser']"));
 		String message = welcomeRow.getText();
 
 		if (message.isEmpty()) {
@@ -105,35 +98,16 @@ public class HeaderWrap extends PageObject {
 	}
 
 	public void goToMyDetailsDropDownMenu(String option) {
-		
 		String url = driver.getCurrentUrl();
-		
-		int cntr = 0;
-		WebElement optionElement = null;
-		
-		do{
-			try{
-				hoverOverIcon("my account");
-				Util.wait(1000);
-				dropdown = userPanel.findElement(By.tagName("dl"));
-				if(dropdown.isDisplayed())
-					break;
-				
-				cntr++;
-			}
-			catch(NoSuchElementException nsee){
-				logger.info("NoSuchElementException is thrown when tried to click on {} option", option);
-				cntr++;
-			}
-			catch(ElementNotVisibleException enve){
-				logger.info("ElementNotVisibleException is thrown when tried to click on {} option", option);
-				cntr++;
-			}
-		}while(cntr<5);
-			
-		optionElement = dropdown.findElement(By.xpath(".//a[" + Util.xpathGetTextLower + "='" + option.toLowerCase() + "']"));
-		optionElement.click();			
-		
+
+		hoverOverIcon("my account");
+		Util.wait(1000);
+		dropdown = wait.until(ExpectedConditions.visibilityOf(userPanel.findElement(By.tagName("dl"))));
+
+		WebElement optionElement = dropdown.findElement(
+				By.xpath(".//a[" + Util.xpathGetTextLower + "='" + option.toLowerCase() + "']"));
+		optionElement.click();
+
 		Util.waitLoadingBar(driver);
 
 		if ("sign out".equalsIgnoreCase(option)) {

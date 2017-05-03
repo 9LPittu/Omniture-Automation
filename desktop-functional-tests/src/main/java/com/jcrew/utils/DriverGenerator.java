@@ -1,5 +1,6 @@
 package com.jcrew.utils;
 
+import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -8,6 +9,8 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,6 +21,7 @@ import java.net.URL;
 public class DriverGenerator {
 
     private static PropertyReader propertyReader = PropertyReader.getPropertyReader();
+    private static final Logger logger = LoggerFactory.getLogger(DriverGenerator.class);
 
     public static WebDriver remoteDriver() throws MalformedURLException {
         String browser = propertyReader.getProperty("browser");
@@ -36,7 +40,20 @@ public class DriverGenerator {
                 break;
         }
 
-        return new RemoteWebDriver(new URL(propertyReader.getProperty("selenium.grid.hub.url")), capabilities);
+        int tries = 4;
+
+        while (tries > 0) {
+            try {
+
+                return new RemoteWebDriver(new URL(propertyReader.getProperty("selenium.grid.hub.url")), capabilities);
+
+            } catch (SessionNotCreatedException notCreated) {
+                logger.error("Session not created, attempting again");
+                tries--;
+            }
+        }
+
+        return null;
     }
 
     public static WebDriver localDriver() throws MalformedURLException {
