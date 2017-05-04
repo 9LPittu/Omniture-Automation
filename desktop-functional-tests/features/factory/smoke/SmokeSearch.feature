@@ -18,10 +18,11 @@ Feature: Smoke Search Functionality
   
     When User searches for a single result search term
     Then Verify product detail page is displayed
- 
-    When User searches for a multi result search term
-    Then User is in search results page
-    And Verify that search result number is greater than 1
+
+    # Commenting out because team says that is not important to see where is going
+#    When User searches for a multi result search term
+#    Then User is in search results page
+#    And Verify that search result number is greater than 1
     
     When User selects random product from array
     Then Verify product detail page is displayed
