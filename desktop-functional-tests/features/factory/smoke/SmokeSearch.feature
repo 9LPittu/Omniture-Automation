@@ -24,6 +24,6 @@ Feature: Smoke Search Functionality
 #    Then User is in search results page
 #    And Verify that search result number is greater than 1
     
-    When User selects random product from array
-    Then Verify product detail page is displayed
+#    When User selects random product from array
+#    Then Verify product detail page is displayed
     
