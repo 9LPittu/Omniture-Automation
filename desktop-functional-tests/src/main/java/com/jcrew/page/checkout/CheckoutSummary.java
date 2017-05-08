@@ -2,10 +2,7 @@ package com.jcrew.page.checkout;
 
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.Util;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -120,9 +117,14 @@ public class CheckoutSummary extends Checkout {
         WebElement zipcodeField = orderSummary.findElement(By.id("zipcode"));
         zipcodeField.sendKeys(zipcode);
 
-        WebElement zipcodeIndicator = wait.until(ExpectedConditions.visibilityOf(
-                orderSummary.findElement(By.id("zipcode-transition-indicator"))));;
-        wait.until(ExpectedConditions.stalenessOf(zipcodeIndicator));
+        try {
+            WebElement zipcodeIndicator = wait.until(ExpectedConditions.visibilityOf(
+                    orderSummary.findElement(By.id("zipcode-transition-indicator"))));
+            wait.until(ExpectedConditions.stalenessOf(zipcodeIndicator));
+        } catch (StaleElementReferenceException noZipCodeIndicator) {
+            logger.error("assuming zipcode transition is gone and ignoring");
+        }
+
         wait.until(ExpectedConditions.visibilityOf(checkoutNow));
     }
 
