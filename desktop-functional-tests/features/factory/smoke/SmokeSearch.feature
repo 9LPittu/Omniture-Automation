@@ -8,7 +8,7 @@ Feature: Smoke Search Functionality
   Scenario: Verify Search Functionality
   	Then Verify search drawer is closed
     
-    When User searches for a random search term
+    When User searches specific term dresses
     And User closes email capture
     Then User is in search results page
     And Verify that search result number is greater than 0
