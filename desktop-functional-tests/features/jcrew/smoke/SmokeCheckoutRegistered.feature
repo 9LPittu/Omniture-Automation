@@ -9,6 +9,7 @@ Feature: Smoke Checkout - Signed user
     And User fills user data and signs in
     And This script cleans bag for current user
     And User goes to homepage
+    And User closes email capture
     And User hovers on a random category from list
       | Women |
       | Men   |

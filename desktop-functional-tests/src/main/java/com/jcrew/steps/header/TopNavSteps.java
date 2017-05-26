@@ -38,7 +38,12 @@ public class TopNavSteps extends DriverFactory {
         option = option.toLowerCase();
         List<String> options = topNav.getTopNavOptions();
 
-        assertTrue("Options in topnav contains", options.contains(option));
+        if (!options.contains(option)) {
+            for (String optionList : options)
+                System.out.println("Entry: " + optionList);
+        }
+
+        assertTrue("Options in topnav contains " + option, options.contains(option));
     }
 
     @Then("Verify that top nav contains less or equal to (\\d+) options")

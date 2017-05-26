@@ -1,6 +1,7 @@
 package com.jcrew.page;
 
 import com.google.common.base.Predicate;
+import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
@@ -56,5 +57,8 @@ public class EmailCapture extends PageObject {
         } catch (TimeoutException noEmailCapture) {
             logger.error("No email capture was found. Ignoring Error.");
         }
+
+        HeaderLogo logo = new HeaderLogo(driver);
+        logo.hoverLogo();
     }
 }

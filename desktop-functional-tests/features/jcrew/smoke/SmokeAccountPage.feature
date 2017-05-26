@@ -22,6 +22,8 @@ Feature: Account Page
     Then Verify that top nav options contains Girls
     Then Verify that top nav options contains Blog
     Then Verify that top nav options contains Sale
+
+    When User closes email capture
     Then Verify Returns & Exchanges link is displayed under Let Us Help You in footer
 	Then Verify Shipping & Handling link is displayed under Let Us Help You in footer
 	Then Verify Need Some Help? link is displayed under Let Us Help You in footer
