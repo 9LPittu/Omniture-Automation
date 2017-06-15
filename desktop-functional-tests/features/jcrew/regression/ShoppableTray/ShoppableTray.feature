@@ -6,7 +6,7 @@ Feature: Shoppable tray features
     And User closes email capture    
    When User hovers on a random category from list
     	|Men|
-   When User selects Suits subcategory array 	
+   When User selects Suits & Tuxedos subcategory array 	
    And User selects random tray from available categories	  
 
   Scenario: ShoppableTray from sub category page
