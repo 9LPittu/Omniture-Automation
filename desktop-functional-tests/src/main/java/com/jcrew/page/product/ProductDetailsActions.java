@@ -29,15 +29,7 @@ public class ProductDetailsActions extends ProductDetails {
     }
 
     private WebElement getAddToBagButton() {
-        List<WebElement> testList = product_actions.findElements(By.id("btn__add-to-bag"));
-        WebElement addToBagButton;
-
-        if (testList.size() > 0) {
-            addToBagButton = testList.get(0);
-        } else {
-            addToBagButton = product_actions.findElement(By.id("btn__add-to-bag-wide"));
-        }
-
+    	WebElement addToBagButton = product_actions.findElement(By.id("btn__add-to-bag-wide"));
         return addToBagButton;
     }
 
