@@ -13,12 +13,12 @@ Feature: Array page functionality
     #Commenting the below step as items count is currently not displayed in category array page  
     #And Verify category contains items count
     
-    And Verify refine dropdown displayed in array page
-    And Verify refine dropdown text is All sweaters
+    #And Verify refine dropdown displayed in array page
+    #And Verify refine dropdown text is All sweaters
 
-    When User expands refine dropdown
-    And Verify refine dropdown is open
-    And Verify refine options matches available lists
+    #When User expands refine dropdown
+    #And Verify refine dropdown is open
+    #And Verify refine options matches available lists
 	
 	#Commenting the below steps as items count is currently not displayed in category array page
     #When User selects a random refinement option    
