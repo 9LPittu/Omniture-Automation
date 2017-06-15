@@ -67,7 +67,7 @@ public class CheckoutReview extends Checkout{
         String env = propertyReader.getProperty("environment");
 
         if (!"production".equals(env)) {
-            List<WebElement> place_my_order_elements = slidertrack.findElements(By.className("button-submit-bg"));
+            List<WebElement> place_my_order_elements = slidertrack.findElements(By.id("button-submitorder"));
             place_my_order_elements.get(0).click();
             
             wait.until(ExpectedConditions.invisibilityOfAllElements(place_my_order_elements));
