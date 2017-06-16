@@ -1,7 +1,11 @@
 package com.jcrew.page.account;
 
+import com.jcrew.pojo.Product;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
+
+import java.util.List;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -120,14 +124,23 @@ public class FactoryAccountDetail extends Account implements IAccountDetail {
     }
 
     public void clickLeftNavLinks(String linkText) {
+    	String url = driver.getCurrentUrl();
+    	
         wait.until(ExpectedConditions.visibilityOf(leftNavContainer));
         WebElement linkElement = leftNavContainer.findElement(
         									By.xpath(".//div/a[contains(" + Util.xpathGetTextLower + ", '" + linkText.toLowerCase() + "')]"));
         linkElement.click();
         Util.waitForPageFullyLoaded(driver);
         Util.waitLoadingBar(driver);
-    }
+        
+        if ("sign out".equalsIgnoreCase(linkText)) {
+			List<Product> bag = stateHolder.getList("toBag");
+			stateHolder.put("userBag", bag);
+			stateHolder.remove("toBag");
 
+			wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
+		}
+    }
 
     public void click_reward_link(String link) {
         throw new WebDriverException("Method not implemented for Factory");
