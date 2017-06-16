@@ -76,7 +76,15 @@ public class ProductDetailsActions extends ProductDetails {
     }
 
     public boolean isWishlistDisplayed() {
-        WebElement wishlistButton = product_actions.findElement(By.id("btn__wishlist"));
+        WebElement wishlistButton;
+        
+        try{
+        	wishlistButton = product_actions.findElement(By.id("btn__wishlist-wide"));
+        	Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(wishlistButton));
+        }catch(TimeoutException toe){
+        	wishlistButton = product_actions.findElement(By.id("btn__wishlist"));
+        }
+        
         return wishlistButton.isDisplayed();
     }
 

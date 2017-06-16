@@ -24,7 +24,7 @@ Feature: Header verification for guest user
     Then Verify user is navigated to url https://stores.factory.jcrew.com/ on same page
 
   Scenario: Verify Header links are functional from Sale landing page
-    When User clicks on clearance link from top nav
+    When User clicks on crew clearance link from top nav
     Then Verify sale landing page is displayed
 
     When User clicks on sign in using header

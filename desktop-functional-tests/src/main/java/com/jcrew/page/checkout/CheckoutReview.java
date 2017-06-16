@@ -10,6 +10,7 @@ import com.jcrew.utils.Util;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -67,7 +68,15 @@ public class CheckoutReview extends Checkout{
         String env = propertyReader.getProperty("environment");
 
         if (!"production".equals(env)) {
-            List<WebElement> place_my_order_elements = slidertrack.findElements(By.id("button-submitorder"));
+            List<WebElement> place_my_order_elements;
+            
+            try{
+            	place_my_order_elements = slidertrack.findElements(By.id("button-submitorder"));
+            	Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(place_my_order_elements.get(0)));
+            }catch(TimeoutException toe){
+            	place_my_order_elements = slidertrack.findElements(By.className("button-submit-bg"));
+            }
+            
             place_my_order_elements.get(0).click();
             
             wait.until(ExpectedConditions.invisibilityOfAllElements(place_my_order_elements));

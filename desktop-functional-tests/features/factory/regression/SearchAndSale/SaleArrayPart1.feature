@@ -5,7 +5,7 @@ Feature: Sale Array - Pagination
     Given User goes to homepage
     And User closes email capture
     
-    When User clicks on clearance link from top nav
+    When User clicks on crew clearance link from top nav
     Then Verify sale landing page is displayed
     
     When User Selects random sale category from the list
