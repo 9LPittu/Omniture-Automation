@@ -19,7 +19,9 @@ Feature: Sign In
 	And User clicks on my wishlist link in Account detail Page
     Then Verify user is in wishlist page
 
-    When User goes to Order History using header
+    #When User goes to Order History using header
+    When User clicks in My Account
+    And User clicks on order history link in Account detail Page
     Then Verify user is in Order History page
 
     When User clicks Factory logo
@@ -40,8 +42,8 @@ Feature: Sign In
     #Then Dropdown should welcome user
 
     When User navigates to random crew clearance page    
-    And User hovers over My Account
-    Then Dropdown should welcome user
+    #And User hovers over My Account
+    #Then Dropdown should welcome user
 
     When User clicks in My Account
 	And User clicks on sign out link in Account detail Page
