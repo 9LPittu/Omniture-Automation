@@ -17,9 +17,9 @@ Feature: International Country Context - Part 2A
     And Verify country code in the url for international countries
 
     Examples:
-      | topnav      |
-      | Women       |      
-      | Men         |      
-      | Girls       |      
-      | Boys        |      
-      | clearance   |   
+      | topnav           |
+      | Women            |      
+      | Men              |      
+      | Girls            |      
+      | Boys             |      
+      | crew clearance   |   

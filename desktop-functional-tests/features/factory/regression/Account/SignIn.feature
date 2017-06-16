@@ -38,7 +38,7 @@ Feature: Sign In
     And User hovers over My Account
     Then Dropdown should welcome user
 
-    When User navigates to random clearance page    
+    When User navigates to random crew clearance page    
     And User hovers over My Account
     Then Dropdown should welcome user
 

@@ -3,6 +3,7 @@ package com.jcrew.steps;
 import com.jcrew.page.ArraySearch;
 import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
+import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
@@ -64,7 +65,19 @@ public class ArraySearchSteps extends DriverFactory {
     public void verify_sale_array() {
     	if (!stateHolder.hasKey("secondPromoVerification")) {
 			assertTrue("Sale array should be displayed", searchArray.isSalePage());
-	    	assertEquals("Sale title should be displayed","sale", searchArray.getHeaderTitle().toLowerCase());
+			
+			String expectedSaleTitle = null;
+			PropertyReader propertyReader = PropertyReader.getPropertyReader();
+       	 	String brand = propertyReader.getProperty("brand");
+       	 	switch(brand){
+       	 		case "jcrew":
+       	 			expectedSaleTitle = "sale"; 
+       	 			break;
+       	 		case "factory":
+       	 			expectedSaleTitle = "crew clearance";
+       	 			break;
+       	 	}
+	    	assertEquals("Sale title should be displayed",expectedSaleTitle, searchArray.getHeaderTitle().toLowerCase());
     	}
     }
     
