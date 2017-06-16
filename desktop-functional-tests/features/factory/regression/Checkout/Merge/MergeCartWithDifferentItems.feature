@@ -31,7 +31,8 @@ Feature: Checkout - Merge cart page validation for e-gift card, regular item, ba
 	When User adds e-gift card worth any value to bag
 	 	
 	#sign out 
-	And User signs out using header
+	When User clicks in My Account
+	And User clicks on sign out link in Account detail Page
   	
 	#Add item as guest user
     When User goes to homepage

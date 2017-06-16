@@ -17,7 +17,7 @@ Feature: Create New Account International
     When User selects <country> country
     And User clicks Create An Account button
     Then Verify user is in homepage
-    When User goes to My Details from header
+    When User clicks in My Account
     Then Verify user is in account details page
     Then User information should match My Details page
 

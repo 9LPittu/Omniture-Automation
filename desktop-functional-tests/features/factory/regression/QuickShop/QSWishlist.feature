@@ -44,6 +44,11 @@ Scenario: Add to Wishlist from QS is functional for registered user
   When User clicks on X icon
   And User goes to homepage
 
-  And User goes to Wishlist using header
+  #And User goes to Wishlist using header
+  When User clicks in My Account
+  Then Verify user is in account details page
+  
+  And User clicks on my wishlist link in Account detail Page  
   Then Verify user is in wishlist page
+  
   And Verify product name on wishlist matches with QS

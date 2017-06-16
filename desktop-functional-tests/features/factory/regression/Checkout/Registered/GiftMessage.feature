@@ -8,7 +8,8 @@ Feature: Checkout - Registered user is able to add a gift message
     And User fills form with no default user and signs in
     And This script cleans bag for current user
     And User goes to homepage
-	And User signs out using header
+	When User clicks in My Account
+	And User clicks on sign out link in Account detail Page
 	
   Scenario: Checkout - Registered user is able to add a gift message
     Given User goes to homepage

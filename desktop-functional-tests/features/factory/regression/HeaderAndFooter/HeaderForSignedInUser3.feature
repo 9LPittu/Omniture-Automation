@@ -15,8 +15,8 @@ Feature: Header verification for registered from Sale landing page
     When User clicks on crew clearance link from top nav
     Then Verify sale landing page is displayed
 
-    When User hovers on My Account
-    Then Verify My Account drop down is displayed
+    #When User hovers on My Account
+    Then Verify My Account is displayed
 
     When User clicks in bag
     Then Verify user is in shopping bag page

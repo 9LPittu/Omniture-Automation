@@ -9,7 +9,9 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     And User fills form and signs in
     And This script cleans bag for current user    
     And User goes to homepage
-    And User signs out using header
+    
+    When User clicks in My Account
+	And User clicks on sign out link in Account detail Page
     
     And User goes to homepage
     And User hovers on a random category from list

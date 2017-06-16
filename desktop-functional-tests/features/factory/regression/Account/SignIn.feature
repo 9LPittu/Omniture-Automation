@@ -8,14 +8,15 @@ Feature: Sign In
     And User fills user data and signs in
     Then Verify user is in My Account main page
 
-    When User hovers over My Account
-    Then Dropdown should welcome user
+    #When User hovers over My Account
+    #Then Dropdown should welcome user
 
     # JCSC-1367 for steel
-    When User goes to My Details from header
+    When User clicks in My Account
     Then Verify user is in account details page
 
-    When User goes to Wishlist using header
+    #When User goes to Wishlist using header
+	And User clicks on my wishlist link in Account detail Page
     Then Verify user is in wishlist page
 
     When User goes to Order History using header
@@ -23,25 +24,27 @@ Feature: Sign In
 
     When User clicks Factory logo
     Then Verify user is in homepage
-    When User hovers over My Account
-    Then Dropdown should welcome user
+    #When User hovers over My Account
+    #Then Dropdown should welcome user
 
     When User navigates to a subcategory from main category
-    And User hovers over My Account
-    Then Dropdown should welcome user
+    #And User hovers over My Account
+    #Then Dropdown should welcome user
 
     And User selects random product from product array
-    And User hovers over My Account
-    Then Dropdown should welcome user
+    #And User hovers over My Account
+    #Then Dropdown should welcome user
 
     When User searches for a random search term
-    And User hovers over My Account
-    Then Dropdown should welcome user
+    #And User hovers over My Account
+    #Then Dropdown should welcome user
 
     When User navigates to random crew clearance page    
     And User hovers over My Account
     Then Dropdown should welcome user
 
-    When User signs out using header
+    When User clicks in My Account
+	And User clicks on sign out link in Account detail Page
+	
     Then Verify user is in homepage
     And Verify header contains Sign In visible
