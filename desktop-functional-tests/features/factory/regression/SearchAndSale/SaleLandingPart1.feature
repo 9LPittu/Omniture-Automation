@@ -4,7 +4,7 @@ Feature: Sale Landing functionality-Part1
   Background:
     Given User goes to homepage
     And User closes email capture
-    When User clicks on clearance link from top nav
+    When User clicks on crew clearance link from top nav
     Then Verify sale landing page is displayed
 
    

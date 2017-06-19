@@ -22,7 +22,7 @@ Background:
     And User adds product to bag
 
     When User goes to homepage
-    And User clicks on clearance link from top nav
+    And User clicks on crew clearance link from top nav
     And User selects random sale category
     When User selects random product from array
     And Verify product detail page is displayed

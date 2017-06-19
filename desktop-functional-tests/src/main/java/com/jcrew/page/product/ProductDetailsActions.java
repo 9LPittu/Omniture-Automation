@@ -1,8 +1,6 @@
 package com.jcrew.page.product;
 
 import com.jcrew.page.header.HeaderBag;
-import com.jcrew.page.header.HeaderLogo;
-import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -29,15 +27,20 @@ public class ProductDetailsActions extends ProductDetails {
     }
 
     private WebElement getAddToBagButton() {
-        List<WebElement> testList = product_actions.findElements(By.id("btn__add-to-bag"));
-        WebElement addToBagButton;
+    	List<WebElement> testList = product_actions.findElements(By.id("btn__add-to-bag-wide"));
+    	WebElement addToBagButton;
 
-        if (testList.size() > 0) {
-            addToBagButton = testList.get(0);
-        } else {
-            addToBagButton = product_actions.findElement(By.id("btn__add-to-bag-wide"));
-        }
-
+    	if (testList.size() > 0) {
+    		addToBagButton = testList.get(0);
+    		try{
+    			Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(addToBagButton));
+    		}catch(TimeoutException toe){
+    			addToBagButton = product_actions.findElement(By.id("btn__add-to-bag"));
+    		}    			
+    	}else {
+    		addToBagButton = product_actions.findElement(By.id("btn__add-to-bag"));
+    	}
+    	
         return addToBagButton;
     }
 
@@ -73,7 +76,15 @@ public class ProductDetailsActions extends ProductDetails {
     }
 
     public boolean isWishlistDisplayed() {
-        WebElement wishlistButton = product_actions.findElement(By.id("btn__wishlist"));
+        WebElement wishlistButton;
+        
+        try{
+        	wishlistButton = product_actions.findElement(By.id("btn__wishlist-wide"));
+        	Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(wishlistButton));
+        }catch(TimeoutException toe){
+        	wishlistButton = product_actions.findElement(By.id("btn__wishlist"));
+        }
+        
         return wishlistButton.isDisplayed();
     }
 

@@ -17,16 +17,16 @@ import java.util.List;
  */
 public class ArrayCategory extends Array {
 
-    @FindBy(id = "c-product__list")
+	@FindBy(className = "c-product__list")
     private WebElement productList;
+	
     @FindBy(id = "c-category__filters")
     private WebElement categoryFilters;
     @FindBy(id = "c-category__item-count")
     private WebElement itemCount;
     @FindBy(className = "desc_line4")
 	private List<WebElement> shopnowlist;
-    @FindBy(id = "plusArrayContainer")
-    private WebElement arrayContainer;
+    
     @FindBy(id = "tray__list")
 	private WebElement trayList;
     @FindBy(id = "c-category__page-title")
@@ -36,11 +36,8 @@ public class ArrayCategory extends Array {
     public ArrayCategory(WebDriver driver) {
         super(driver);
 
-        try {
-        	wait.until(ExpectedConditions.visibilityOf(productList));
-        } catch (Exception e) {
-        	wait.until(ExpectedConditions.visibilityOf(arrayContainer));
-        }
+        wait.until(ExpectedConditions.visibilityOf(productList));
+        
         footer = new Footer(driver);
         header = new HeaderWrap(driver);
     }

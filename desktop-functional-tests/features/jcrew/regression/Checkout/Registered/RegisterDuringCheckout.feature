@@ -53,7 +53,6 @@ Feature: Checkout - Register during checkout process
     And Verify available payment methods from list
       | Credit/Debit Card |
       | PayPal            |      
-      | MasterPass		  |
       
     And Verify accepted cards from list
       | jccc |

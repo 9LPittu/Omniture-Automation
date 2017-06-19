@@ -6,7 +6,7 @@ Feature: PDP Layout from sale array
     And User closes email capture
 
   Scenario: PDP layout from sale array page
-    When User clicks on clearance link from top nav
+    When User clicks on crew clearance link from top nav
     And User selects random sale category
     And  User selects random product from array
     Then Verify product detail page is displayed

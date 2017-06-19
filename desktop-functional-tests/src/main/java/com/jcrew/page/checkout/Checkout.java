@@ -239,7 +239,7 @@ public abstract class Checkout extends PageObject {
         WebElement progress = breadCrumbs.findElement(By.className("crumbs-progress"));
         String progressText = progress.getText().trim();
 
-        WebElement breadCrumb = progress.findElement(By.xpath(".//parent::li[@class='crumbs-item' or @class='crumbs-item ']"));
+        WebElement breadCrumb = progress.findElement(By.xpath(".//parent::li[contains(@class, 'crumbs-item')]"));
         String breadCrumbText = breadCrumb.getText().trim();
 
         return breadCrumbText.replace(progressText, "").trim();

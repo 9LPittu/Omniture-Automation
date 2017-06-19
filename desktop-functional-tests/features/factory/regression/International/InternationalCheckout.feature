@@ -26,7 +26,7 @@ Feature: User is able to checkout in international context
 
     When User adds selected product to bag
     #clearance
-    And User navigates to random clearance page
+    And User navigates to random crew clearance page
     Then Verify proper currency symbol is displayed on search grid list
 
     When User selects random product from array

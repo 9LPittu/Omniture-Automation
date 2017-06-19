@@ -56,6 +56,12 @@ public class HeaderWrap extends PageObject {
         wait.until(ExpectedConditions.visibilityOf(myAccount));
         myAccount.click();
     }
+    
+    public boolean isMyAccountDisplayed(){
+        wait.until(ExpectedConditions.visibilityOf(myAccount));
+        return myAccount.isDisplayed();
+    }
+    
     public boolean isMyAccountDropdownDisplayed(){
         dropdown = userPanel.findElement(By.tagName("dl"));
         return dropdown.isDisplayed();

@@ -79,5 +79,10 @@ public class HeaderWrapSteps extends DriverFactory {
     public void my_account_drop_down_displayed(){
         assertTrue("My Account drop down should display",header.isMyAccountDropdownDisplayed());
     }
+    
+    @And("Verify My Account is displayed")
+    public void my_account_displayed(){
+        assertTrue("My Account should display",header.isMyAccountDisplayed());
+    }
 
 }

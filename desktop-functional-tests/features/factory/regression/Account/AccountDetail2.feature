@@ -17,7 +17,8 @@ Feature: Account details Page validations 2
     And User clicks Create An Account button
     Then Verify user is in homepage
 
-    When User goes to My Details from header
+    #When User goes to My Details from header
+    When User clicks in My Account
     Then Verify user is in account details page
     And Verify birth field is enabled
 
@@ -35,7 +36,7 @@ Feature: Account details Page validations 2
     And click on save button
     And Verify 'Please enter a valid email address.' error message displayed for email field
     
-    When User goes to My Details from header
+    When User clicks in My Account
     Then Verify user is in account details page
 
     When User update first name with valid data
