@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         tags = {"@NewAccount3"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-factory-newaccountressionfeatures.json",
+                "json:target/cucumber-factory-newaccountregressionfeatures.json",
                 "pretty",
                 "html:target/cucumber/factory-newaccountregressionfeatures"
         }
