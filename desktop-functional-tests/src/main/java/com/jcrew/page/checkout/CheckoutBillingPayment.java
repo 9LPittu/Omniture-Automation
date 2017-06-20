@@ -153,7 +153,7 @@ public class CheckoutBillingPayment extends Checkout {
     public void submitPayment() {
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
-    	
+
         String currentURl = driver.getCurrentUrl();
         submitButton.click();
 
