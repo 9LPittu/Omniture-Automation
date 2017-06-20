@@ -39,7 +39,7 @@ public class CheckoutBillingPayment extends Checkout {
     private WebElement expirationYear;    
     @FindBy(id = "securityCode")
     private WebElement securityCode;
-    @FindBy(className = "button-submit")
+    @FindBy(className = "billing-options-submit")
     private WebElement submitButton;    
     @FindBy(id = "main_cont")
     private WebElement main_cont;
