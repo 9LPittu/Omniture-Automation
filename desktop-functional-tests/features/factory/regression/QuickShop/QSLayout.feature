@@ -7,9 +7,8 @@ Feature: Quick Shop Layout
 
   Scenario: QS layout from category array page
     When User hovers on a random category and subcategory from list
-     |women|sweaters        |
-     |men  |shirts          |
-     |girls|dresses & skirts|
+     |women|dresses         |
+     |men  |sweaters        |
     Then Verify user is in category array page
 
     When User selects random quick shop from product array

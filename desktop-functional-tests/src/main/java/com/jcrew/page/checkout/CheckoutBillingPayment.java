@@ -39,7 +39,7 @@ public class CheckoutBillingPayment extends Checkout {
     private WebElement expirationYear;    
     @FindBy(id = "securityCode")
     private WebElement securityCode;
-    @FindBy(className = "billing-options-submit")
+    @FindBy(id = "button-submit")
     private WebElement submitButton;    
     @FindBy(id = "main_cont")
     private WebElement main_cont;
@@ -153,6 +153,7 @@ public class CheckoutBillingPayment extends Checkout {
     public void submitPayment() {
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
+
         String currentURl = driver.getCurrentUrl();
         submitButton.click();
 

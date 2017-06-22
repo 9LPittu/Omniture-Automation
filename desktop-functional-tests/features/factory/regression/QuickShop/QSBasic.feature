@@ -7,9 +7,8 @@ Feature: Quick Shop full details,close links and variations are functional
 
   Scenario: View full detail link in QS is functional
    When User hovers on a random category and subcategory from list
-      |women|sweaters        |
-      |men  |shirts          |
-      |girls|dresses & skirts|
+     |women|dresses         |
+     |men  |sweaters        |
     Then Verify user is in category array page
 
     When User selects random quick shop from product array
