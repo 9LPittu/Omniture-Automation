@@ -36,6 +36,9 @@ public class CheckoutReview extends Checkout{
     
     @FindBy(id = "gifting-details")
     private WebElement gifting_details;
+    
+    @FindBy(className = "wallet-brand")
+    private WebElement cardName;
 
     private HeaderWrap header;
     
@@ -86,9 +89,11 @@ public class CheckoutReview extends Checkout{
     }
 
     public void fillSecurityCode() {
-        TestDataReader testDataReader = TestDataReader.getTestDataReader();
-        WebElement securityCode = billing_details.findElement(By.id("securityCode"));
-        securityCode.sendKeys(testDataReader.getData("card.cvv"));
+    	if(cardName.getText().equalsIgnoreCase("VISA")){
+    		TestDataReader testDataReader = TestDataReader.getTestDataReader();
+    		WebElement securityCode = billing_details.findElement(By.id("securityCode"));
+    		securityCode.sendKeys(testDataReader.getData("card.cvv"));
+    	}
     }
     
     public String getBillingAddress() {
