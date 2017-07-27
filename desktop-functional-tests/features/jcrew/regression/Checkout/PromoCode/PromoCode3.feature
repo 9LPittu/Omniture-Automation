@@ -1,7 +1,7 @@
 @promocode3 @HighLevel
-Feature: User is able to add promo code in shopping bag
+Feature: Validate user should not be able to apply same promotion code twice in one order
 
-  Scenario: User is able to add promo code in shopping bag
+  Scenario: Validate user should not be able to apply same promotion code twice in one order
     Given User goes to homepage
     And User closes email capture
     
