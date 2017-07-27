@@ -129,7 +129,7 @@ public abstract class Array extends PageObject{
         WebElement product_name = product.findElement(By.className(NAME_CLASS));
         logger.info("Click on quick shop of product : {}", product_name.getText());
         hoverAction.moveToElement(product).perform();
-        WebElement qs = product.findElement(By.xpath(".//div[contains(@class,'js-product-tile-quickshop')]/a"));
+        WebElement qs = product.findElement(By.xpath(".//button[contains(@class,'js-product-tile-quickshop')]/div"));
         hoverAction.moveToElement(qs);
         hoverAction.perform();
         stateHolder.put("fromArray", getProduct(product));
