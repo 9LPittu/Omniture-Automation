@@ -138,7 +138,7 @@ public abstract class Array extends PageObject{
         }catch (WebDriverException e){
             logger.error("webdriver exception while trying to bring up quickshop retrying with javascriptExecutor: {}", e.toString());
             JavascriptExecutor js = (JavascriptExecutor) driver;
-            js.executeScript("arguments[0].click();",qs);
+            js.executeScript("arguments[0].click();", qs);
         }
         
         Util.waitForPageFullyLoaded(driver);
