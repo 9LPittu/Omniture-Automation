@@ -106,4 +106,10 @@ public class CheckoutPromoCodeSteps extends DriverFactory {
     public void remove_promo(){
     	promocode.removePromo();
     }
+    
+    @Then("^Verify the applied promo code ([^\"]*) is (active|inactive)$")
+    public void verify_specific_promo_code_state(String promotionCode, String expectedState){
+    	String actualState = promocode.getPromoCodeAppliedState(promotionCode);
+    	assertEquals("Promo code '" + promotionCode + "' should be '" + expectedState + "' state", expectedState, actualState);
+	}
 }
