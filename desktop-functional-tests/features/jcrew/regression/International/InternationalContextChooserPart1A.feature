@@ -43,7 +43,7 @@ Feature: International Country Context - Part 1A
     And Verify selected country is in footer
 
     When User clicks on Order History link in My Account Page
-    Then User should be in account/reg_user_order_history.jsp menu link page
+    Then User should be in account/order-history menu link page
     And Verify selected country is in footer
 
     When User clicks on My Wishlist link in My Account Page
