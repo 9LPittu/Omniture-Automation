@@ -33,7 +33,7 @@ Feature: Footer - From Category Array page3
     Then Verify user is navigated to url https://www.youtube.com/user/jcrewinsider on external page
 
     When User clicks on spotify social link
-    Then Verify user is navigated to url https://play.spotify.com/user/jcrew on external page
+    Then Verify user is navigated to url https://open.spotify.com/user/jcrew on external page
 
   Scenario: Verify popular search links in footer are functional from category array page
     When User clicks on Cardigans footer link under Popular Searches

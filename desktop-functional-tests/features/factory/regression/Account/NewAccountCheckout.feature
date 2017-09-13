@@ -7,7 +7,7 @@ Feature: Create New Account in US
     When User clicks on sign in using header
     Then User get create account form
     And Selected country matches the current country context
-    And Verify form does not contain international email option message
+   # And Verify form does not contain international email option message
 
     When first name field is filled with new data
     And last name field is filled with new data
