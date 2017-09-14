@@ -18,4 +18,4 @@ Feature: Stackable promo is not applied for promo excluded product
     Then Verify products added matches with products in bag
     
     When User adds a promo code STACK10P
-    Then Verify the applied promo code is inactive
+ #   Then Verify the applied promo code is inactive  # combined promo is applicable now
