@@ -22,11 +22,14 @@ public class ExternalPageSteps extends DriverFactory {
 
     @Then("^Verify user is navigated to url ([^\"]*) on external page$")
     public void external_page_different_tab(String page_url) {
+    	if (page_url.contains("spotify")) {
+    		page_url = "https://open.spotify.com/user/jcrew" ; // current page url is redirected to new url
+    	}
         page.changeToNewTab(1);
         external_page(page_url);
         page.closeTab(1);
     }
-    
+      
     @Then("^Verify page source contains ([^\"]*)$")
     public void validate_page_source_contains_given_var(String var) {
         assertTrue("page source should contain "+var+"", page.isVariablePresentInSourceCode(var));
