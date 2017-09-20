@@ -52,6 +52,3 @@ Feature: Footer From My Account page
 
     When User clicks on Work Dresses footer link under Popular Searches
     Then Verify user is in category array page
-
-    When User clicks on Men's Suits footer link under Popular Searches
-    Then Verify user is in category array page
