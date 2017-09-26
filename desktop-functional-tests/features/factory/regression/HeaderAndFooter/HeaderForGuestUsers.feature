@@ -7,7 +7,7 @@ Feature: Header verification for guest user
 
   Scenario: Verify Header links are functional from home page
     When User clicks on sign in using header
-    Then Verify user is navigated to url /r/login on same page
+    Then Verify user is navigated to url /r/account/details on same page
     When User presses browser back button
     Then Verify user is in homepage
 
@@ -28,7 +28,7 @@ Feature: Header verification for guest user
     Then Verify sale landing page is displayed
 
     When User clicks on sign in using header
-    Then Verify user is navigated to url /r/login on same page
+    Then Verify user is navigated to url /r/account/details on same page
     When User presses browser back button
     Then Verify sale landing page is displayed
 
@@ -49,7 +49,7 @@ Feature: Header verification for guest user
     Then Verify gender landing page is displayed
 
     When User clicks on sign in using header
-    Then Verify user is navigated to url /r/login on same page
+    Then Verify user is navigated to url /r/account/details on same page
     When User presses browser back button
     Then Verify gender landing page is displayed
 
@@ -73,7 +73,7 @@ Feature: Header verification for guest user
     Then Verify user is in category array page
 
     When User clicks on sign in using header
-    Then Verify user is navigated to url /r/login on same page
+    Then Verify user is navigated to url /r/account/details on same page
     When User presses browser back button
     Then Verify user is in category array page
 

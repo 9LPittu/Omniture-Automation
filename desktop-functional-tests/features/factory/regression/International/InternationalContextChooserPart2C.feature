@@ -9,7 +9,7 @@ Feature: International Country Context - Part 2C
     When User clicks on Start Shopping
     And User closes email capture
     And User searches for the item soldout.item
-    Then Verify product detail page is displayed
+   # Then Verify product detail page is displayed
     And Verify sold out message is displayed on PDP
 
     When User searches for the item variations.item

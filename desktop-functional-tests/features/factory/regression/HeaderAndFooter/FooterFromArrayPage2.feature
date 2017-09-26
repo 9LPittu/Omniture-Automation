@@ -12,10 +12,10 @@ Feature: Footer From Category Array page
 
   Scenario: Verify Our Brands links in footer are functional from category array page
     When User clicks on J.Crew footer link under Our Brands
-    Then Verify user is navigated to url https://www.jcrew.com/index.jsp?srcCode=FCFooter on external page
+    Then Verify user is navigated to url https://www.jcrew.com/?srcCode=FCFooter on external page
 
     When User clicks on Madewell footer link under Our Brands
-    Then Verify user is navigated to url https://www.madewell.com/index.jsp?srcCode=FCFooter on external page
+    Then Verify user is navigated to url https://www.madewell.com/?srcCode=FCFooter on external page
 
     When User clicks on J.Crew Mercantile footer link under Our Brands
     Then Verify user is navigated to url /help/mercantile.jsp?sidecar=true on same page
