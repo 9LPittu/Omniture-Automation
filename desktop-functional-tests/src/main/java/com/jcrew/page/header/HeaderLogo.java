@@ -16,7 +16,7 @@ public class HeaderLogo extends HeaderWrap {
 
     public HeaderLogo(WebDriver driver) {
         super(driver);
-        wait.until(ExpectedConditions.visibilityOf(header_logo));
+       // wait.until(ExpectedConditions.visibilityOf(header_logo));
     }
 
     public void clickLogo() {
