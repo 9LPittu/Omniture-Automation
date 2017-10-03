@@ -27,7 +27,7 @@ Feature: Account details Page validations
     And User presses browser back button
 
     When User clicks on Order History link in Account detail Page
-    Then User should be in account/reg_user_order_history.jsp menu link page
+    Then User should be in r/account/order-history menu link page
     And User presses browser back button
 
     When User clicks on My Wishlist link in Account detail Page

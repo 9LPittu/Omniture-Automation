@@ -118,7 +118,8 @@ public abstract class Array extends PageObject{
         wait.until(ExpectedConditions.visibilityOf(image));
         wait.until(ExpectedConditions.elementToBeClickable(image));
         String url = driver.getCurrentUrl();
-        image.click();
+        //image.click();
+        Util.scrollAndClick(driver, image);
         Util.waitLoadingBar(driver);
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }

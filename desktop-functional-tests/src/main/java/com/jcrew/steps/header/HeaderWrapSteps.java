@@ -10,6 +10,7 @@ import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import com.jcrew.utils.Util;
 
 import static org.junit.Assert.*;
 
@@ -67,7 +68,8 @@ public class HeaderWrapSteps extends DriverFactory {
 
     @When("User clicks in My Account")
     public void user_clicks_in_myAccount() {
-        header.myAccount();
+    	Util.wait(3000);
+    	header.myAccount();
     }
     
     @When("User hovers on My Account")
