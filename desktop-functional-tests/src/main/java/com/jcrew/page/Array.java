@@ -105,6 +105,7 @@ public abstract class Array extends PageObject{
     public void clickProduct(WebElement product) {
 
         wait.until(ExpectedConditions.visibilityOf(product));
+
         WebElement product_name = product.findElement(By.className(NAME_CLASS));
         logger.info("Click on product: {}", product_name.getText());
 
@@ -117,8 +118,7 @@ public abstract class Array extends PageObject{
         wait.until(ExpectedConditions.visibilityOf(image));
         wait.until(ExpectedConditions.elementToBeClickable(image));
         String url = driver.getCurrentUrl();
-        //image.click();
-        Util.scrollAndClick(driver, image);
+        image.click();
         Util.waitLoadingBar(driver);
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
     }

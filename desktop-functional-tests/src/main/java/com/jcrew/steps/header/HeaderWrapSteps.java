@@ -6,7 +6,6 @@ import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
-import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
@@ -68,8 +67,7 @@ public class HeaderWrapSteps extends DriverFactory {
 
     @When("User clicks in My Account")
     public void user_clicks_in_myAccount() {
-    	Util.wait(3000);
-    	header.myAccount();
+        header.myAccount();
     }
     
     @When("User hovers on My Account")
