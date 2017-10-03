@@ -17,7 +17,7 @@ import org.openqa.selenium.support.ui.Select;
  */
 public class FactoryAccountDetail extends Account implements IAccountDetail {
 
-    @FindBy(className = "mainContainer")
+	@FindBy(className = "mainContainer")
     private WebElement accountDetailForm;
     
     @FindBy(className = "accountMainContainer")
@@ -32,7 +32,8 @@ public class FactoryAccountDetail extends Account implements IAccountDetail {
     public FactoryAccountDetail(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-        wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
+        //wait.until(ExpectedConditions.visibilityOf(accountDetailForm));
+        wait.until(ExpectedConditions.visibilityOf(accountMainContainer));
     }
 
     public boolean isAccountDetailPage() {
@@ -51,7 +52,6 @@ public class FactoryAccountDetail extends Account implements IAccountDetail {
         } else {
             String oldValue = formElement.getAttribute("value");
             String newValue = "new" + oldValue;
-            
             formElement.clear();
             formElement.sendKeys(newValue);
             
@@ -110,7 +110,8 @@ public class FactoryAccountDetail extends Account implements IAccountDetail {
 
     public void saveUpdates() {
     	Util.waitForPageFullyLoaded(driver);
-        getformElement("save button").click();
+    	Util.scrollAndClick(driver, getformElement("save button"));
+        //getformElement("save button").click();
         Util.waitForPageFullyLoaded(driver);
     }
 
@@ -125,11 +126,16 @@ public class FactoryAccountDetail extends Account implements IAccountDetail {
 
     public void clickLeftNavLinks(String linkText) {
     	String url = driver.getCurrentUrl();
-    	
-        wait.until(ExpectedConditions.visibilityOf(leftNavContainer));
-        WebElement linkElement = leftNavContainer.findElement(
-        									By.xpath(".//div/a[contains(" + Util.xpathGetTextLower + ", '" + linkText.toLowerCase() + "')]"));
-        linkElement.click();
+    	try {
+    		if(leftNavContainer.isDisplayed()) {
+    			 wait.until(ExpectedConditions.visibilityOf(leftNavContainer));
+    		        WebElement linkElement = leftNavContainer.findElement(By.xpath("//div[@class='leftNavItem']/a[contains(text(),'"+linkText+"')]"));
+    		        linkElement.click();
+    		}
+    	}catch (Exception e) {
+    		
+		}
+       
         Util.waitForPageFullyLoaded(driver);
         Util.waitLoadingBar(driver);
         

@@ -81,7 +81,7 @@ public class LogIn extends PageObject {
 
         PageFactory.initElements(driver, this);
         Util.waitWithStaleRetry(driver, signInHereButton);
-        wait.until(ExpectedConditions.elementToBeClickable(signInHereButton));
+        //wait.until(ExpectedConditions.elementToBeClickable(signInHereButton));
         
         if(driver.getCurrentUrl().contains("/r/login")){
 	        Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
@@ -143,7 +143,7 @@ public class LogIn extends PageObject {
         stateHolder.put("signedUser", fakeUser);
 
         createAccountFormIsDisplayed();
-        createAnAccount = registerForm.findElement(By.tagName("button"));
+        createAnAccount = registerForm.findElement(By.xpath("//button[contains(text(),'create an account')]"));
 
         String url = driver.getCurrentUrl();
         wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
@@ -396,7 +396,7 @@ public class LogIn extends PageObject {
         wait.until(ExpectedConditions.elementToBeClickable(submit));
         Util.scrollAndClick(driver, submit);
 
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPage)));
+        //wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPage)));
         isLoginSuccessful = true;
 
         stateHolder.put("isSignedIn", true);

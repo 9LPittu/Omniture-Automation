@@ -18,9 +18,14 @@ public class FactoryMyAccount extends Account implements IMyAccount {
     private WebElement main_inside;
     @FindBy(className = "leftNavContainer")
     private WebElement navigation;
+    
+    @FindBy(xpath = "//ul/li[contains(text(),'Home')]")
+    private WebElement leftNavContainer_home;
 
     public FactoryMyAccount(WebDriver driver) {
         super(driver);
+        wait.until(ExpectedConditions.visibilityOf(leftNavContainer_home));
+        leftNavContainer_home.click();
         wait.until(ExpectedConditions.visibilityOf(main_content));
 
         HeaderWrap header = new HeaderWrap(driver);

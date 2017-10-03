@@ -54,6 +54,9 @@ public class HeaderWrap extends PageObject {
 
     public void myAccount(){
         wait.until(ExpectedConditions.visibilityOf(myAccount));
+        //myAccount.click();
+        Util.scrollPage(driver, "UP");
+        Util.wait(2000);
         myAccount.click();
     }
     

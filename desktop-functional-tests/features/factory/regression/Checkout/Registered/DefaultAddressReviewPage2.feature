@@ -11,7 +11,7 @@ Feature: Checkout - Default shipping, Billing and Shipping Method on Review page
     And User goes to homepage
     
     When User clicks in My Account
-	And User clicks on sign out link in Account detail Page
+	And User clicks on Sign Out link in Account detail Page
     
     And User goes to homepage
     And User hovers on a random category from list
