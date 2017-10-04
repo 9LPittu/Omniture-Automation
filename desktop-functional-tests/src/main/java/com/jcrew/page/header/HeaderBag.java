@@ -1,6 +1,8 @@
 package com.jcrew.page.header;
 
 import com.google.common.base.Predicate;
+import com.jcrew.utils.Util;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,6 +24,8 @@ public class HeaderBag extends HeaderWrap {
     }
 
     public void clickBag() {
+        Util.scrollPage(driver, "UP");
+    	Util.wait(2000);
         bag.click();
     }
 

@@ -22,7 +22,7 @@ Feature: Checkout - Default user gets confirmation to merge cart
     And User adds product to bag
     
     When User clicks in My Account
-	And User clicks on sign out link in Account detail Page
+	And User clicks on Sign Out link in Account detail Page
 
   Scenario: Checkout - User checks out only with recently added products
     Given User goes to homepage

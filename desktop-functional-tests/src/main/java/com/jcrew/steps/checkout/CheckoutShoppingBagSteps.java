@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -33,6 +35,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
 
     @Then("Verify shopping bag is displayed")
     public void is_displayed() {
+    	Util.wait(3000);
         assertTrue("Shopping bag is displayed", bag.isDisplayed());
 
         CheckoutSummary summary = new CheckoutSummary(getDriver());

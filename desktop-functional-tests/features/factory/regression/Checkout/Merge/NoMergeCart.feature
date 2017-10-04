@@ -10,7 +10,7 @@ Feature: Checkout - Users with clean bag do not get a Merge Cart page
     
     And User goes to homepage
     When User clicks in My Account
-	And User clicks on sign out link in Account detail Page
+	And User clicks on Sign Out link in Account detail Page
 
     Given User goes to homepage
     And User hovers on a random category from list

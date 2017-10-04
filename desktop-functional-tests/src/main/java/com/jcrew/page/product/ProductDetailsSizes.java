@@ -50,8 +50,8 @@ public class ProductDetailsSizes extends ProductDetails {
             WebElement selectedSize = productSizes.get(0);
             WebElement selectedSizeLabel = selectedSize.findElement(By.className("btn__label"));
 
-            Util.scrollAndClick(driver, selectedSizeLabel);
-
+            //Util.scrollAndClick(driver, selectedSizeLabel);
+            selectedSizeLabel.click();
             logger.info("Selecting specified size {}", size);
         } else {
             logger.info("Size " + size + " not found");

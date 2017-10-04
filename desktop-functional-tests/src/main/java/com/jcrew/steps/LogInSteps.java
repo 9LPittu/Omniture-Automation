@@ -139,6 +139,7 @@ public class LogInSteps extends DriverFactory {
     @When("^User fills form and signs in$")
     public void sign_in(){    	
 		login("express", "single", logIn.DEFAULT);
+		Util.wait(5000);
     }
     
     @When("^User fills form with no default user and signs in$")
