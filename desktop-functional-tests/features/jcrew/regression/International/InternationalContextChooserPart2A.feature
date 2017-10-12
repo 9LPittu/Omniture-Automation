@@ -1,4 +1,4 @@
-@International-Part2A @HighLevel
+@Sanity @International-Part2A @HighLevel
 Feature: International Country Context - Part 2A
 
   Background:

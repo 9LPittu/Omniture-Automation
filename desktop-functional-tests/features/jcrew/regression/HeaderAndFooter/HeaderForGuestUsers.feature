@@ -1,11 +1,10 @@
 @Header @HighLevel
-
-  Feature: Header verification for guest user
+Feature: Header verification for guest user
 
     Background:
       Given User goes to homepage
       And User closes email capture
-
+	@Sanity
     Scenario: Verify Header links are functional from home page
       When User clicks on sign in using header
       Then Verify user is navigated to url /r/login on same page

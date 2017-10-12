@@ -10,7 +10,7 @@ Feature: PDP Layout from category page
       | Men   |
     And User selects sweaters subcategory array
     Then Verify user is in category array page
-
+	@Sanity
   Scenario: PDP layout from category page
     When User selects random product from product array
     Then Verify product detail page is displayed

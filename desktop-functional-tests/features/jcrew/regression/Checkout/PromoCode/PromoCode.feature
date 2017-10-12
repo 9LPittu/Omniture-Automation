@@ -1,4 +1,4 @@
-@PromoCode @HighLevel
+@Sanity @PromoCode @HighLevel
 Feature: Checkout - Guest user is able to checkout with promo code
 
   Scenario: Checkout - Guest user is able to checkout with promo code

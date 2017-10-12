@@ -1,4 +1,4 @@
-@Footer5 @HighLevel
+@Sanity @Footer5 @HighLevel
 Feature: Footer - From home page
 
   Background:

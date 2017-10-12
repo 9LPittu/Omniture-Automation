@@ -8,7 +8,7 @@ Feature: Shoppable tray features
     	|Men|
    When User selects Suits & Tuxedos subcategory array 	
    And User selects random tray from available categories	  
-
+  @Sanity
   Scenario: ShoppableTray from sub category page
    Then Verifies header text is SHOP THE LOOK
    Then Verifies initial multiple pdp page state

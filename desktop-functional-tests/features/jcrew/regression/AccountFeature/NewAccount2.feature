@@ -8,7 +8,7 @@ Feature: Create New Account International
     Then User get create account form
     And Selected country matches the current country context
    # And Verify form does not contain international email option message
-  
+  @Sanity
   Scenario Outline: Create account in international context
     When first name field is filled with new data
     And last name field is filled with new data

@@ -1,4 +1,4 @@
-@RegisteredCheckout @HighLevel
+@Sanity @RegisteredCheckout @HighLevel
 Feature: Checkout - Register during checkout process
 
   Scenario: Checkout - Register a user during checkout and place order

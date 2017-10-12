@@ -4,7 +4,7 @@ Feature: PDP layout from sale array page and Variations
   Background:
     Given User goes to homepage
     And User closes email capture
-
+  @Sanity
   Scenario: PDP layout from sale array page
     When User clicks on sale link from top nav
     And User selects random sale category

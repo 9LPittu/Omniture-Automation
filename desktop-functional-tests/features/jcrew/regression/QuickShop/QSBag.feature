@@ -4,7 +4,7 @@ Feature: Quick Shop bag is functional
   Background:
     Given User goes to homepage
     And User closes email capture
-
+  @Sanity
   Scenario: Verify guest user able to add item to bag from quick shop
     When User hovers on a random category and subcategory from list
       |women|sweaters|
