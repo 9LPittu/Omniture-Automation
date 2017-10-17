@@ -10,9 +10,9 @@ Feature: PDP layout from sale array page and Variations
     And User selects random sale category
     And User selects random product from array
     Then Verify product detail page is displayed
-    And Verify product name on PDP matches with category array
+   # And Verify product name on PDP matches with category array
     And Verify Item code displayed in PDP
-    And Verify price matches with category array
+   # And Verify price matches with category array
     And Verify that page contains a selected color
     And Verify size chips are displayed
     And Verify quantity dropdown is displayed

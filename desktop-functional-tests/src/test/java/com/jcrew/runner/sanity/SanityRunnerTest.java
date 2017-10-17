@@ -11,9 +11,9 @@ import org.junit.runner.RunWith;
         tags = {"@Sanity"},
         glue = {"com.jcrew.steps"},
         format = {
-                "json:target/cucumber-Account2.json",
+                "json:target/cucumber-Sanity.json",
                 "pretty",
-                "html:target/cucumber/Account2"
+                "html:target/cucumber/Sanity"
         }
 )
 

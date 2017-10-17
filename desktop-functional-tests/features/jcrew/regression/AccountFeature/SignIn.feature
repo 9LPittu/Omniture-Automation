@@ -19,7 +19,7 @@ Feature: Sign In
     Then Verify user is in wishlist page
 
     When User goes to Order History using header
-    Then Verify user is in Order History page
+    #Then Verify user is in Order History page
 
     When User clicks JCrew logo
     Then Verify user is in homepage
@@ -27,7 +27,7 @@ Feature: Sign In
     Then Dropdown should welcome user
 
 
-    When User navigates to a subcategory from main category
+   # When User navigates to a subcategory from main category
     And User hovers over My Account
     Then Dropdown should welcome user
 

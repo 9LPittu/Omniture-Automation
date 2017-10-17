@@ -7,7 +7,7 @@ Feature: Account details Page validations
     When User clicks on sign in using header
     Then User goes to sign in page
 
-  @HighLevel
+  @Sanity @HighLevel
   Scenario: verify account left nav links from details page for domestic user
     And User fills user data and signs in
     Then Verify user is in My Account main page

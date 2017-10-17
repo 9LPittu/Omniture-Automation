@@ -4,7 +4,7 @@ Feature: Search Functionality
   Background:
     Given User goes to homepage
     And User closes email capture
-
+@Sanity
   Scenario: Verify Search Functionality
   	Then Verify search drawer is closed
     

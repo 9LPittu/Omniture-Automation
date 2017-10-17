@@ -9,6 +9,7 @@ import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -143,12 +144,17 @@ public class LogIn extends PageObject {
         stateHolder.put("signedUser", fakeUser);
 
         createAccountFormIsDisplayed();
-        createAnAccount = registerForm.findElement(By.xpath("//button[contains(text(),'create an account')]"));
+        //createAnAccount = registerForm.findElement(By.xpath("//button[contains(text(),'create an account')]"));
 
+        createAnAccount = driver.findElement(By.xpath(".//form[@class='register-form']/div[@id='js-intl-email-optin']/following-sibling::button"));
+        
+        JavascriptExecutor ex = (JavascriptExecutor)driver;
+		ex.executeScript("arguments[0].click();", createAnAccount);
+		
         String url = driver.getCurrentUrl();
-        wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
-        Util.scrollPage(driver, Util.BOTTOM);
-        createAnAccount.click();
+        //wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
+        //Util.scrollPage(driver, Util.BOTTOM);
+        //createAnAccount.click();
 
         if (stateHolder.getBoolean("waitHomepage")) {
             wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));

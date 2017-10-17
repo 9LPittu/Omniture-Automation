@@ -1,10 +1,10 @@
-@Sanity @Footer5 @HighLevel
+ @Footer5 @HighLevel
 Feature: Footer - From home page
 
   Background:
     Given User goes to homepage
     And User closes email capture
-
+@Sanity
   Scenario: Verify Let Us Help You links in footer are functional from home page
     When User clicks on Order Status footer link under Let Us Help You
     Then Verify user is navigated to url help/order_status.jsp?sidecar=true on same page
