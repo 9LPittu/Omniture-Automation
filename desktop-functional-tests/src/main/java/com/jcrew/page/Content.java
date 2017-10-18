@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -24,7 +25,7 @@ import com.jcrew.utils.Util;
 @SuppressWarnings("static-access")
 public class Content {
 	private WebDriver driver;
-	private String dataKey;
+	//private String dataKey;
 	private String dataValue;
 	private long totalTime;
 	private int urlStatus;
@@ -40,12 +41,21 @@ public class Content {
 	@FindBy(xpath = "//div[@class='email-capture--close modal-capture--close js-email-capture--close']/span[@class='icon-close']")
 	private WebElement emailCapture;
 	public String contextChooser() throws Exception{
-		File f = new File(System.getProperty("user.dir")+"\\properties\\contextchooser.propertis");
+		File f = new File(System.getProperty("user.dir")+"\\properties\\contextchooser.properties");
 		Properties prop = new Properties();
 		FileInputStream inputFile = new FileInputStream(f);
 		prop.load(inputFile);
-		String country = prop.getProperty("India");
-		return country;
+		String cCode = null;
+		String country = prop.getProperty("locale");
+		String[] locales = Locale.getISOCountries();
+		for (String countryCode : locales) {
+			Locale obj = new Locale("", countryCode);
+			if(obj.getDisplayCountry().equalsIgnoreCase(country)) {
+				cCode = obj.getCountry();
+				break;
+			}
+		}
+		return cCode;
 	}
 	public void goesToHomePage() {
 		driver = driverFactory.getDriver();
@@ -55,7 +65,7 @@ public class Content {
 		System.out.println("Environment url is: " + envUrl);
 		driver.get(envUrl);
 		Util.waitForPageFullyLoaded(driver);
-		try {
+		/*try {
 			startShopping.click();
 		} catch (Exception e) {
 			System.out.println("Error message:  " + e.getMessage());
@@ -64,9 +74,8 @@ public class Content {
 			emailCapture.click();
 		} catch (Exception e) {
 			System.out.println("Error message:  " + e.getMessage());
-		}
+		}*/
 	}
-
 	public long pageLoadTime(String url) {
 		long start = System.currentTimeMillis();
 		driver.get(url);
@@ -108,9 +117,8 @@ public class Content {
 				code = connection.getResponseCode();
 				driver.navigate().back();
 				Util.waitForPageFullyLoaded(driver);
-			} catch (Exception e) {
+			 } catch (Exception e) {
 			}
-
 		}
 		return code;
 	}
@@ -122,34 +130,34 @@ public class Content {
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		XSSFSheet sheet1 = wb.getSheetAt(0);
 		int rowCount = sheet1.getLastRowNum();
-		HashMap<String, String> hmap = new HashMap<String, String>();
+		//HashMap<String, String> hmap = new HashMap<String, String>();
 		for (int i = 1; i < rowCount; i++) {
-			dataKey = sheet1.getRow(i).getCell(0).getStringCellValue();
+			//dataKey = sheet1.getRow(i).getCell(0).getStringCellValue();
 			if (util.getEnvironment().equalsIgnoreCase("gold")) {
 				dataValue = sheet1.getRow(i).getCell(1).getStringCellValue().replace("www", "or");
 			} else if (util.getEnvironment().equalsIgnoreCase("production")) {
 				dataValue = sheet1.getRow(i).getCell(1).getStringCellValue();
 			}
 			String country = contextChooser();
-			if(country.equals("in")&&dataValue.contains(".jcrew.com")) {
+			if(country.equalsIgnoreCase("in")&&dataValue.contains(".jcrew.com")) {
 				String context[] = dataValue.split(".com");
-				dataValue = context[0].concat(".com/").concat("in/").concat(context[1]);
-				sheet1.getRow(i).getCell(1).setCellValue(dataValue);
-			}else if(country.equals("cn") && dataValue.contains(".jcrew.com")) {
+				dataValue = context[0].concat(".com/").concat("in").concat(context[1]);
+				//sheet1.getRow(i).getCell(1).setCellValue(dataValue);
+			}else if(country.equalsIgnoreCase("cn") && dataValue.contains(".jcrew.com")) {
 				String context[] = dataValue.split(".com");
-				dataValue = context[0].concat(".com/").concat("cn/").concat(context[1]);
-				sheet1.getRow(i).getCell(1).setCellValue(dataValue); 
-			}else if(country.equals("au")&&dataValue.contains(".jcrew.com")) {
+				dataValue = context[0].concat(".com/").concat("cn").concat(context[1]);
+				//sheet1.getRow(i).getCell(1).setCellValue(dataValue); 
+			}else if(country.equalsIgnoreCase("au")&&dataValue.contains(".jcrew.com")) {
 				String context[] = dataValue.split(".com");
-				dataValue = context[0].concat(".com/").concat("au/").concat(context[1]);
-				sheet1.getRow(i).getCell(1).setCellValue(dataValue);
+				dataValue = context[0].concat(".com/").concat("au").concat(context[1]);
+				//sheet1.getRow(i).getCell(1).setCellValue(dataValue);
 			}
-			hmap.put(dataKey, dataValue);
-			urlStatus = responseCode(hmap.get(dataKey));
-			totalTime = pageLoadTime(hmap.get(dataKey));
+			System.out.println("===================="+dataValue);
+			//hmap.put(dataKey, dataValue);
+			urlStatus = responseCode(/*hmap.get(dataKey)*/dataValue);
+			totalTime = pageLoadTime(/*hmap.get(dataKey)*/dataValue);
 			imageURLStatus = imageResponse();
 			if (200 != imageURLStatus) {
-				
 				sheet1.getRow(i).getCell(5).setCellValue("Failed");
 			}
 			sheet1.getRow(i).getCell(2).setCellValue(totalTime);
