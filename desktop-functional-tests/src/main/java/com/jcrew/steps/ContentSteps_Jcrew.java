@@ -1,14 +1,14 @@
 package com.jcrew.steps;
 
-import com.jcrew.page.Content;
+import com.jcrew.page.Content_Jcrew;
 import com.jcrew.utils.DriverFactory;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
-public class ContentSteps extends DriverFactory {
+public class ContentSteps_Jcrew extends DriverFactory {
 
-	Content contentTest = new Content();
+	Content_Jcrew contentTest = new Content_Jcrew();
 	@Given("User goes to Launching page")
     public void userGoesToHomePage() throws Exception{
         contentTest.goesToHomePage();

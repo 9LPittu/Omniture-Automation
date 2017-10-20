@@ -1,4 +1,4 @@
-@JcrewContentTesting
+@FactoryContentTesting
 Feature: Content - Get the Page load time and response code
 
 
@@ -7,5 +7,5 @@ Feature: Content - Get the Page load time and response code
     #And User closes email capture
   
   Scenario: Content - Get the Page load time and response code
-  Given User goes to Launching page
-  Then Get the page load time for the url
+  Given User goes to factory Launching page
+  Then Get the page load time for the factory url
