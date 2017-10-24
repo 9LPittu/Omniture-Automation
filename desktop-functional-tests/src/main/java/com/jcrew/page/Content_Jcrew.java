@@ -2,16 +2,20 @@ package com.jcrew.page;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.velocity.util.introspection.LinkingUberspector;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -34,6 +38,7 @@ public class Content_Jcrew {
 	DriverFactory driverFactory = new DriverFactory();
 	Util util = new Util();
     String failedUrl = null;
+    HashSet<String> linkUrl;
 
 	@FindBy(xpath = "//div/a[contains(text(),'START SHOPPING')]")
 	private WebElement startShopping;
@@ -65,7 +70,6 @@ public class Content_Jcrew {
 		System.out.println("Country is: " + country);
 		System.out.println("Environment url is: " + envUrl);
 		driver.get(envUrl);
-		Util.waitForPageFullyLoaded(driver);
 		try {
 			emailCapture.click();
 		} catch (Exception e) {
@@ -104,15 +108,14 @@ public class Content_Jcrew {
 	public int imageResponse() {
 		int code = 0;
 		List<WebElement> imgs = driver.findElements(By.xpath("//img[contains(@src,'https')]"));
-		List<String> list = new ArrayList<String>();
+		list = new ArrayList<String>();
 		for (WebElement img : imgs) {
 			list.add(img.getAttribute("src"));
 		}
-		System.out.println("Total num of images: " + list.size());
+		System.out.println("Total no.of images:  "+list.size());
 		for (int j = 0; j < list.size(); j++) {
 			URL url;
 			try {
-				driver.navigate().to(list.get(j));
 				url = new URL(list.get(j));
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
@@ -121,21 +124,51 @@ public class Content_Jcrew {
 				if (code != 200) {
 					failedUrl = list.get(j);
 				}
-				driver.navigate().back();
-				Util.waitForPageFullyLoaded(driver);
 			} catch (Exception e) {
 			}
 		}
 		return code;
 	}
 
-	public void readAndWriteResultsIntoExcel() throws Exception {
+	public void getLinkUrl() throws Exception {
+		driver.navigate().to("https://www.jcrew.com");
+		Util.waitForPageFullyLoaded(driver);
+		List<WebElement> links = driver.findElements(By.tagName("a"));
+		linkUrl=new HashSet<String>();  
+		for (WebElement link : links) {
+			linkUrl.add(link.getAttribute("href"));
+		}
 		File src = new File(
 				System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx");
 		FileInputStream fis;
 		fis = new FileInputStream(src);
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
-		XSSFSheet sheet1 = wb.getSheetAt(1);
+		XSSFSheet sheet1 = wb.getSheetAt(0);
+		List<String> url = new ArrayList<String>();
+		Iterator<String> itr=linkUrl.iterator(); 
+		  while(itr.hasNext()){ 
+			  for(int j=1;j<=linkUrl.size();j++) {
+			  String s = itr.next();
+			  url.add(s);
+			}
+		  }  
+		  for(int j=1;j<url.size();j++) {
+			  sheet1.getRow(j).getCell(1).setCellValue(url.get(j));
+			  FileOutputStream fout = new FileOutputStream(src);
+			  wb.write(fout);
+		  }
+		wb.close();
+		
+	}
+
+	public void readAndWriteResultsIntoExcel() throws Exception {
+		getLinkUrl();	
+		File src = new File(
+				System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx");
+		FileInputStream fis;
+		fis = new FileInputStream(src);
+		XSSFWorkbook wb = new XSSFWorkbook(fis);
+		XSSFSheet sheet1 = wb.getSheetAt(0);
 		int rowCount = sheet1.getLastRowNum();
 		for (int i = 1; i < rowCount; i++) {
 			if (util.getEnvironment().equalsIgnoreCase("gold")) {
@@ -154,9 +187,11 @@ public class Content_Jcrew {
 				String context[] = dataValue.split(".com");
 				dataValue = context[0].concat(".com/").concat("au").concat(context[1]);
 			}
-			urlStatus = responseCode(dataValue);
-			totalTime = pageLoadTime(dataValue);
+			if(!dataValue.isEmpty()) {
+			System.out.println(urlStatus = responseCode(dataValue));
+			System.out.println(totalTime = pageLoadTime(dataValue));
 			imageURLStatus = imageResponse();
+			}
 			sheet1.getRow(i).getCell(1).setCellValue(dataValue);
 			sheet1.getRow(i).getCell(2).setCellValue(totalTime);
 			sheet1.getRow(i).getCell(3).setCellValue(urlStatus);
