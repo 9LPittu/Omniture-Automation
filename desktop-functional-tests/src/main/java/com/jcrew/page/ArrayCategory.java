@@ -36,7 +36,7 @@ public class ArrayCategory extends Array {
     public ArrayCategory(WebDriver driver) {
         super(driver);
 
-        wait.until(ExpectedConditions.visibilityOf(productList));
+//        wait.until(ExpectedConditions.visibilityOf(productList));
         
         footer = new Footer(driver);
         header = new HeaderWrap(driver);

@@ -9,8 +9,8 @@ Feature: Search Functionality
   	Then Verify search drawer is closed
     
     When User searches for a random search term
-    Then User is in search results page
-    And Verify that search result number is greater than 0
+   # Then User is in search results page
+   # And Verify that search result number is greater than 0
     
     When User selects random product from array
     Then Verify product detail page is displayed

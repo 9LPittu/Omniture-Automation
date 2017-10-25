@@ -311,7 +311,7 @@ public class QuickShop extends PageObject {
                 qsElement = wait.until(ExpectedConditions.visibilityOf(quantity));
                 break;
             case "add to bag":
-                qsElement = wait.until(ExpectedConditions.visibilityOf(addToBagButton));
+                qsElement = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("*//a[contains(@class,'bag')]"))));
                 break;
             case "wishlist":
                 qsElement = wait.until(ExpectedConditions.visibilityOf(wishListButton));

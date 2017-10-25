@@ -39,9 +39,10 @@ public class CheckoutShoppingBag extends Checkout {
 
     public boolean isDisplayed() {
         Util.waitForPageFullyLoaded(driver);
-        String bodyId = getBodyAttribute("id");
+       /* String bodyId = getBodyAttribute("id");
 
-        return bodyId.equals("shoppingBag");
+        return bodyId.equals("shoppingBag");*/
+        return driver.getCurrentUrl().contains("shoppingbag");
     }
 
     public void checkOutNow() {

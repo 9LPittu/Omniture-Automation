@@ -55,7 +55,8 @@ public class SaleLanding {
     }
 
     public void selectRandomSaleCategory() {
-        List<WebElement> categoryListItem = page__sale.findElements(By.className("c-category__list-item"));
+        //List<WebElement> categoryListItem = page__sale.findElements(By.className("c-category__list-item"));
+    	List<WebElement> categoryListItem = driver.findElements(By.xpath("*//div[@class='c-category__list-item accordian__wrap--sale']"));
         WebElement randomItem = Util.randomIndex(categoryListItem);
         WebElement randomItemLink = randomItem.findElement(By.tagName("a"));
 

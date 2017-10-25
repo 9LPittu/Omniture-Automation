@@ -123,8 +123,11 @@ public class ContextChooser {
 	}
 
 	public void clickButtonFromFAQSectionOnContextChooserPage() {
-		WebElement button = internationalContextChooserPage.findElement(By.xpath(".//a[@class='r-international__faq--more']"));
-        button.click();
+		//WebElement button = internationalContextChooserPage.findElement(By.xpath(".//a[@class='r-international__faq--more']"));
+		WebElement button = driver.findElement(By.xpath("*//article[@class='r-international__faq--list']/a[@class='r-international__faq--more']"));
+       // button.click();
+		JavascriptExecutor ex = (JavascriptExecutor)driver;
+		ex.executeScript("arguments[0].click();", button);
 	}
 
 	public void clickLinkFromFAQSectionOnContextChooserPage() {

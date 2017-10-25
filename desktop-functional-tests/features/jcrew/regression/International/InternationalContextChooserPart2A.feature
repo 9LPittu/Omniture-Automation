@@ -20,11 +20,11 @@ Feature: International Country Context - Part 2A
       | country_group | topnav |
       | PRICEBOOK     | Women  |
       | NON-PRICEBOOK | Women  |
-      | PRICEBOOK     | Men    |
-      | NON-PRICEBOOK | Men    |
-      | PRICEBOOK     | Girls  |
-      | NON-PRICEBOOK | Girls  |
-      | PRICEBOOK     | Boys   |
-      | NON-PRICEBOOK | Boys   |
-      | PRICEBOOK     | sale   |
-      | NON-PRICEBOOK | sale   |
+    #  | PRICEBOOK     | Men    |
+    #  | NON-PRICEBOOK | Men    |
+    #  | PRICEBOOK     | Girls  |
+    #  | NON-PRICEBOOK | Girls  |
+    #  | PRICEBOOK     | Boys   |
+    #  | NON-PRICEBOOK | Boys   |
+    #  | PRICEBOOK     | sale   |
+    #  | NON-PRICEBOOK | sale   |

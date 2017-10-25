@@ -16,7 +16,7 @@ Feature: PDP Layout from category page
     Then Verify product detail page is displayed
     And Verify product name on PDP matches with category array
     And Verify Item code displayed in PDP
-    And Verify price matches with category array
+   # And Verify price matches with category array
     And Verify that page contains a selected color
     And Verify size chips are displayed
     And Verify size chart link is displayed

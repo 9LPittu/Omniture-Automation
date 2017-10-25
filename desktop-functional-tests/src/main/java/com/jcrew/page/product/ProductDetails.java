@@ -87,7 +87,7 @@ public class ProductDetails extends PageObject {
             product.setItemNumber(getProductCode());
             product.setIsBackOrder(actions.getIsBackordered());
             product.setIsCrewCut(getIsCrewCut());
-            product.setHasMonogram(personalization.hasMonogram());
+//            product.setHasMonogram(personalization.hasMonogram());
         } else {
             product.setSoldOut(true);
         }
