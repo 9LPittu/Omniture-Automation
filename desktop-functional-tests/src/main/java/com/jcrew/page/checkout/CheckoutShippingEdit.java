@@ -31,7 +31,7 @@ public class CheckoutShippingEdit extends Checkout {
         if(stateHolder.hasKey("isShippingAddressContinueClicked") || stateHolder.hasKey("isShippingDisabled"))
 			return;
 
-        wait.until(ExpectedConditions.visibilityOf(shippingForm));
+//        wait.until(ExpectedConditions.visibilityOf(shippingForm));
     }
 
     public boolean isDisplayed() {

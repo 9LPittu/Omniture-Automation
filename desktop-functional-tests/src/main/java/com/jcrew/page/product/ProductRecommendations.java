@@ -1,7 +1,9 @@
 package com.jcrew.page.product;
 
 import com.jcrew.utils.Util;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -41,10 +43,13 @@ public class ProductRecommendations extends ProductDetails {
     }
 
     private void clickRecommendation(WebElement tile) {
-        WebElement details = tile.findElement(By.className("js-product-recommendations--link"));
-        stateHolder.put("baynote", details.getAttribute("data-baynote-pid"));
+       // WebElement details = tile.findElement(By.className("js-product-recommendations--link"));
+    	List<WebElement> details = driver.findElements(By.xpath("*//a[@class='product-tile__details product-tile__link js-product-recommendations--link']"));
+        //stateHolder.put("baynote", details.getAttribute("data-baynote-pid"));
 
-        tile.click();
+    	JavascriptExecutor ex = (JavascriptExecutor)driver;
+		ex.executeScript("arguments[0].click();", details.get(1));
+       // tile.click();
 
         Util.waitLoadingBar(driver);
 

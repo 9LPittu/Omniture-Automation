@@ -31,7 +31,7 @@ Feature: Sign In
     And User hovers over My Account
     Then Dropdown should welcome user
 
-    And User selects random product from product array
+   # And User selects random product from product array
     And User hovers over My Account
     Then Dropdown should welcome user
 

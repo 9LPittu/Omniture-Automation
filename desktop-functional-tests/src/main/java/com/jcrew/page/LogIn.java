@@ -146,7 +146,7 @@ public class LogIn extends PageObject {
         createAccountFormIsDisplayed();
         //createAnAccount = registerForm.findElement(By.xpath("//button[contains(text(),'create an account')]"));
 
-        createAnAccount = driver.findElement(By.xpath(".//form[@class='register-form']/div[@id='js-intl-email-optin']/following-sibling::button"));
+        createAnAccount = driver.findElement(By.xpath(".//form[@class='register-form']/button[@class='btn--primary btn--signin btn--register js-btn-register']"));
         
         JavascriptExecutor ex = (JavascriptExecutor)driver;
 		ex.executeScript("arguments[0].click();", createAnAccount);

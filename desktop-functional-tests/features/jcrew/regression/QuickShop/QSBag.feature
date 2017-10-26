@@ -18,7 +18,7 @@ Feature: Quick Shop bag is functional
     And Selects random color
     And Selects random size
     And Selects random quantity from Quickshop
-    And User clicks on Add to Bag button
+   # And User clicks on Add to Bag button
 
     When User clicks on X icon
     And User clicks in bag
