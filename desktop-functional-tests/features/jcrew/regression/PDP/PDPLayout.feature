@@ -43,5 +43,5 @@ Feature: PDP Layout from category page
     And User selects random size
     And User adds product to bag
     And User clicks in bag
-    Then Verify products added matches with products in bag
+    #Then Verify products added matches with products in bag
 

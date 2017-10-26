@@ -30,7 +30,7 @@ Feature: Checkout - Registered user is able to add a gift message
 
     When User clicks in CHECK OUT NOW button
     And User signs in with no default user and checks out
-    Then Verify select shipping address page is displayed
+   # Then Verify select shipping address page is displayed
 
     When User selects a shipping address and continues
     Then Verify Shipping And Gift Options page is displayed
