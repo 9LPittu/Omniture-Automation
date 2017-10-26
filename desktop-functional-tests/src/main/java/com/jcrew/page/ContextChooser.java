@@ -166,7 +166,9 @@ public class ContextChooser {
 		WebElement countryElement = internationalContextChooserPage.findElement(
                 By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a[@data-country='" + countryName + "']"));
         wait.until(ExpectedConditions.visibilityOf(countryElement));
-		countryElement.click();
+        JavascriptExecutor ex = (JavascriptExecutor)driver;
+        ex.executeScript("arguments[0].click();", countryElement);
+        //countryElement.click();
 		Util.waitLoadingBar(driver);
 
 		//Update Reader and create context

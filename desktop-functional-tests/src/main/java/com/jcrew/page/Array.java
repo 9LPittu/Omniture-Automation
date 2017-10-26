@@ -20,7 +20,8 @@ import java.util.List;
  */
 public abstract class Array extends PageObject{
 
-    protected final String PRODUCT_TITLE_CLASS = "c-product-tile";
+    //protected final String PRODUCT_TITLE_CLASS = "c-product-tile";
+	protected final String PRODUCT_TITLE_CLASS = "product-tile--content";
     protected final String PRICE_LIST_CLASS = "tile__detail--price--list";
     protected final String PRICE_SALE_CLASS = "tile__detail--price--sale";
     protected final String PRICE_WAS_CLASS = "tile__detail--price--was";
@@ -48,7 +49,8 @@ public abstract class Array extends PageObject{
 
     protected List<WebElement> getProductTiles(WebElement productList) {
     	Util.waitWithStaleRetry(driver, productList);
-        List<WebElement> products= productList.findElements(By.className(PRODUCT_TITLE_CLASS));
+        //List<WebElement> products= productList.findElements(By.className(PRODUCT_TITLE_CLASS));
+    	List<WebElement> products= driver.findElements(By.className(PRODUCT_TITLE_CLASS));
         
         logger.debug("This array has {} products",  products.size());
         return products;

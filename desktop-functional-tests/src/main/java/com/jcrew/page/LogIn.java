@@ -81,7 +81,7 @@ public class LogIn extends PageObject {
         wait = Util.createWebDriverWait(driver);
 
         PageFactory.initElements(driver, this);
-        Util.waitWithStaleRetry(driver, signInHereButton);
+//        Util.waitWithStaleRetry(driver, signInHereButton);
         //wait.until(ExpectedConditions.elementToBeClickable(signInHereButton));
         
         if(driver.getCurrentUrl().contains("/r/login")){

@@ -200,7 +200,7 @@ public class ArrayCategory extends Array {
            // Util.createWebDriverWait(driver).until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
 
             //Verify that you have more than one product in tray. If you only have one, then select other tray
-            List<WebElement> items = trayList.findElements(By.className("js-tray__item"));
+            List<WebElement> items = driver.findElements(By.className("js-tray__item"));
             logger.debug("items in tray: {}", items.size());
             if(items.size() == 1){
                 driver.navigate().back();
