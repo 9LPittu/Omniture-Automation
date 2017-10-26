@@ -1,6 +1,6 @@
 package com.jcrew.page;
 
-import com.google.common.base.Predicate;
+import com.google.common.base.Function;
 import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
@@ -37,9 +37,9 @@ public class EmailCapture extends PageObject {
                 logger.debug("Email capture is visible, closing.");
                 final WebElement close = close_email_capture.get(0);
 
-                wait.until(new Predicate<WebDriver>() {
+                wait.until(new Function<WebDriver, Boolean>() {
                     @Override
-                    public boolean apply(WebDriver driver) {
+                    public Boolean apply(WebDriver driver) {
                         try {
                             close.click();
                         } catch (WebDriverException wde) {

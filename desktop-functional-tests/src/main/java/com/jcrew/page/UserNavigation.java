@@ -1,6 +1,6 @@
 package com.jcrew.page;
 
-import com.google.common.base.Predicate;
+import com.google.common.base.Function;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.WebDriver;
@@ -25,9 +25,9 @@ public class UserNavigation {
 
     public boolean isCurrentUrl(String page) {
     	
-    	Util.createWebDriverWait(driver).until(new Predicate<WebDriver>(){
+    	Util.createWebDriverWait(driver).until(new Function<WebDriver, Boolean>(){
 			@Override
-			public boolean apply(WebDriver driver) {
+			public Boolean apply(WebDriver driver) {
 				ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
 				if(tabs.size()>=2){
 					return true;

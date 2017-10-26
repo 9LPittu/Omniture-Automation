@@ -1,6 +1,6 @@
 package com.jcrew.page.header;
 
-import com.google.common.base.Predicate;
+import com.google.common.base.Function;
 import com.jcrew.utils.Util;
 
 import org.openqa.selenium.By;
@@ -43,9 +43,9 @@ public class HeaderBag extends HeaderWrap {
 
     public void waitUntilNoCheckOutDropdown() {
 
-        wait.until(new Predicate<WebDriver>() {
+        wait.until(new Function<WebDriver, Boolean>() {
             @Override
-            public boolean apply(WebDriver driver) {
+            public Boolean apply(WebDriver driver) {
                 return !minibag.isDisplayed();
             }
         });
@@ -54,9 +54,9 @@ public class HeaderBag extends HeaderWrap {
 
     public void waitUntilCheckOutDropdown() {
 
-        wait.until(new Predicate<WebDriver>() {
+        wait.until(new Function<WebDriver, Boolean>() {
             @Override
-            public boolean apply(WebDriver driver) {
+            public Boolean apply(WebDriver driver) {
                 return minibag.isDisplayed();
             }
         });

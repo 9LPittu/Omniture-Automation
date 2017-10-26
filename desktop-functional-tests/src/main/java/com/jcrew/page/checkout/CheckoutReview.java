@@ -1,6 +1,6 @@
 package com.jcrew.page.checkout;
 
-import com.google.common.base.Predicate;
+import com.google.common.base.Function;
 import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.PropertyReader;
@@ -51,9 +51,9 @@ public class CheckoutReview extends Checkout{
 
         wait.until(ExpectedConditions.visibilityOf(orderListing));
         header = new HeaderWrap(driver);
-        wait.until(new Predicate<WebDriver>() {
+        wait.until(new Function<WebDriver, Boolean>() {
             @Override
-            public boolean apply(WebDriver driver) {
+            public Boolean apply(WebDriver driver) {
                 return isDisplayed();
             }
         });

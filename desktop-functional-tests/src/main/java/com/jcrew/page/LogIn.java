@@ -1,6 +1,6 @@
 package com.jcrew.page;
 
-import com.google.common.base.Predicate;
+import com.google.common.base.Function;
 import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
@@ -85,9 +85,9 @@ public class LogIn extends PageObject {
         //wait.until(ExpectedConditions.elementToBeClickable(signInHereButton));
         
         if(driver.getCurrentUrl().contains("/r/login")){
-	        Util.createWebDriverWait(driver).until(new Predicate<WebDriver>() {
+	        Util.createWebDriverWait(driver).until(new Function<WebDriver, Boolean>() {
 	            @Override
-	            public boolean apply(WebDriver driver) {
+	            public Boolean apply(WebDriver driver) {
 	                WebElement signinbutton = signInForm.findElement(By.className("js-button-submit"));
 	                String enabled = signinbutton.getAttribute("disabled");
 	
@@ -194,9 +194,9 @@ public class LogIn extends PageObject {
         WebElement fieldDiv = getNewUserField(field);
 
         if (fieldDiv != null) {
-            wait.until(new Predicate<WebDriver>() {
+            wait.until(new Function<WebDriver, Boolean>() {
                 @Override
-                public boolean apply(WebDriver driver) {
+                public Boolean apply(WebDriver driver) {
                     return hasErrorMessage(field);
                 }
             });

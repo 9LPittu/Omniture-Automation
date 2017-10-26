@@ -59,8 +59,8 @@ public class Util {
     }
     
     public static void waitForPageFullyLoaded(WebDriver driver) {
-        createWebDriverWait(driver).until(new Predicate<WebDriver>() {
-            public boolean apply(WebDriver driver) {
+        createWebDriverWait(driver).until(new Function<WebDriver, Boolean>() {
+            public Boolean apply(WebDriver driver) {
                 String complete = (String) ((JavascriptExecutor) driver).executeScript("return document.readyState");
                 return complete.equals("complete");
             }
