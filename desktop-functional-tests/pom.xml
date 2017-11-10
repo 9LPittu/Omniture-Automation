@@ -58,6 +58,19 @@
             <artifactId>javafaker</artifactId>
             <version>0.5</version>
         </dependency>
+           <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>3.0.6</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>  
+    <groupId>net.sourceforge.tess4j</groupId>  
+    <artifactId>tess4j</artifactId>  
+    <version>3.2.1</version>  
+   </dependency>
+        
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-core</artifactId>
