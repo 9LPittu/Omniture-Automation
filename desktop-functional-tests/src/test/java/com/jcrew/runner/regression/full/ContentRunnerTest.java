@@ -8,7 +8,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
-import com.jcrew.listeners.Reporter;
+import com.jcrew.listners.Reporter;
 
 
 @RunWith(Cucumber.class)

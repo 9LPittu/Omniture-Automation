@@ -23,7 +23,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import com.jcrew.listeners.Reporter;
+import com.jcrew.listners.Reporter;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
@@ -246,7 +246,7 @@ public class Content_Jcrew {
 	}
 
 	public void readAndWriteResultsIntoExcel() throws Exception {
-		writeIntoExcel();
+		//writeIntoExcel();
 		File src = new File(
 				System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx");
 		FileInputStream fis;
@@ -274,6 +274,9 @@ public class Content_Jcrew {
 			if (!dataValue.isEmpty()) {
 				urlStatus = responseCode(dataValue);
 				totalTime = pageLoadTime(dataValue);
+				sheet1.getRow(i).getCell(1).setCellValue(dataValue);
+				sheet1.getRow(i).getCell(2).setCellValue(totalTime);
+				sheet1.getRow(i).getCell(3).setCellValue(urlStatus);
 				File f = new File(System.getProperty("user.dir") + "\\properties\\contextchooser.properties");
 				Properties prop = new Properties();
 				FileInputStream inputFile = new FileInputStream(f);
@@ -286,9 +289,7 @@ public class Content_Jcrew {
 				Reporter.addStepLog("URL is: " + dataValue + "," + "Response code is: " + urlStatus + ","
 						+ "Total time to page load: " + totalTime);
 			}
-			sheet1.getRow(i).getCell(1).setCellValue(dataValue);
-			sheet1.getRow(i).getCell(2).setCellValue(totalTime);
-			sheet1.getRow(i).getCell(3).setCellValue(urlStatus);
+			
 			if (failedUrl != null) {
 				String failedImageUrl = sheet1.getRow(i).getCell(5).getStringCellValue();
 				sheet1.getRow(i).getCell(5).setCellValue(failedImageUrl + "\n" + failedUrl);
