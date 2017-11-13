@@ -8,9 +8,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -96,7 +94,6 @@ public class Content_Jcrew {
 		driver.get(url);
 		long finish = System.currentTimeMillis();
 		totalTime = finish - start;
-		// Reporter.addStepLog("Total time taken to load page: " + totalTime);
 		return totalTime;
 	}
 
@@ -108,7 +105,6 @@ public class Content_Jcrew {
 			connection.setRequestMethod("GET");
 			connection.connect();
 			code = connection.getResponseCode();
-			// Reporter.addStepLog("Response code for the URL: " + code);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -128,20 +124,11 @@ public class Content_Jcrew {
 			String brokenImage = "A GREAT IMAGE IS ON ITS WAY.PLEASE POP BACK LATER.";
 			try {
 				url = new URL(list.get(j));
-				// driver.navigate().to(url);
-				// Util.waitForPageFullyLoaded(driver);
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
 				connection.connect();
 				code = connection.getResponseCode();
 				Reporter.addStepLog("Image URL: " + list.get(j) + "," + "Response code for the Image URL: " + code);
-				/*
-				 * if (code != 200) { failedUrl = list.get(j); }
-				 */
-				/*
-				 * if (readImageText(list.get(j), j).contains(brokenImage)) { failedUrl =
-				 * list.get(j); Reporter.addStepLog("Broken Image URL is: " + failedUrl); }
-				 */
 				if (readImageText(list.get(j), j).contains(brokenImage)) {
 					failedUrl = list.get(j);
 				}
@@ -160,101 +147,83 @@ public class Content_Jcrew {
 		for (WebElement link : links) {
 			url.add(link.getAttribute("href"));
 		}
-		List<String> urlListTwo = new ArrayList<String>();
-		Iterator<String> itr = linkUrl.iterator();
-		while (itr.hasNext()) {
-			for (int j = 0; j < linkUrl.size(); j++) {
-				String s = itr.next();
-				urlListTwo.add(s);
-			}
-		}
+		List<String> urlListTwo = new ArrayList<String>(url);
+		System.out.println("Second Url size: " + urlListTwo.size());
 		return urlListTwo;
 	}
 
-	public List<String> urlListOne() throws Exception {
-		String country = reader.getProperty("country");
+	public List<String> getHomePageUrl() {
 		String envUrl = reader.getProperty("url");
-		System.out.println("Country is: " + country);
-		System.out.println("Environment url is: " + envUrl);
-		driver.get("hrrps://www.jcrew.com");
+		driver.get(envUrl);
 		Util.waitForPageFullyLoaded(driver);
 		List<WebElement> links = driver.findElements(By.tagName("a"));
 		linkUrl = new HashSet<String>();
 		for (WebElement link : links) {
 			linkUrl.add(link.getAttribute("href"));
 		}
-		List<String> urlListOne = new ArrayList<String>();
-		Iterator<String> itr = linkUrl.iterator();
-		while (itr.hasNext()) {
-			for (int j = 0; j < linkUrl.size(); j++) {
-				String s = itr.next();
-				urlListOne.add(s);
-			}
-		}
+		List<String> urlListOne = new ArrayList<String>(linkUrl);
 		return urlListOne;
 	}
 
-	public List<String> appendUrl(List<String> urlOne, List<String> urlTwo) throws Exception {
-		Collection<String> similar = new HashSet<String>(urlOne);
-		Collection<String> different = new HashSet<String>();
-		different.addAll(urlOne);
-		different.addAll(urlTwo);
-		similar.retainAll(urlTwo);
-		different.removeAll(similar);
-		Iterator<String> iterator = different.iterator();
-		while (iterator.hasNext()) {
-			for (int j = 0; j <= different.size(); j++) {
-				String s = iterator.next();
-				urlOne.add(s);
+	public List<String> getAllLinks() throws Exception {
+		List<String> second = new ArrayList<String>();
+		String envUrl = reader.getProperty("url");
+		driver.get(envUrl);
+		Util.waitForPageFullyLoaded(driver);
+		List<WebElement> links = driver.findElements(By.tagName("a"));
+		linkUrl = new HashSet<String>();
+		for (WebElement link : links) {
+			linkUrl.add(link.getAttribute("href"));
+		}
+		List<String> urlListOne = new ArrayList<String>(linkUrl);
+		List<String> appendUrl = new ArrayList<String>();
+		for (int i = 0; i < urlListOne.size(); i++) {
+			if (urlListOne.get(i) != null && urlListOne.get(i).contains("http")) {
+				second = urlListTwo(urlListOne.get(i));
+				HashSet<String> similar = new HashSet<String>(urlListOne);
+				HashSet<String> different = new HashSet<String>();
+				different.addAll(urlListOne);
+				different.addAll(second);
+				similar.retainAll(second);
+				different.removeAll(similar);
+				appendUrl.addAll(different);
 			}
 		}
-		System.out.println("Size of append:  " + urlOne.size());
-		return urlOne;
-	}
-
-	public List<String> finalUrl() throws Exception {
-		List<String> firstUrl = new ArrayList<String>();
-		List<String> secondUrl = new ArrayList<String>();
-		List<String> finalUrl = new ArrayList<String>();
-		firstUrl = urlListOne();
-		System.out.println("First url list size:  " + firstUrl.size());
-		for (int i = 0; i < firstUrl.size(); i++) {
-			if (firstUrl.get(i) != null && firstUrl.get(i).contains("http")) {
-				secondUrl = urlListTwo(firstUrl.get(i));
-				System.out.println("Second url list size:  " + secondUrl.size());
-				finalUrl = appendUrl(firstUrl, secondUrl);
-			}
-		}
-		return finalUrl;
-	}
-
-	public void writeIntoExcel() throws Exception {
-		File src = new File(
-				System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx");
-		List<String> excelWriting = new ArrayList<String>();
-		excelWriting = finalUrl();
-		FileInputStream fis;
-		fis = new FileInputStream(src);
-		XSSFWorkbook wb = new XSSFWorkbook(fis);
-		XSSFSheet sheet1 = wb.getSheetAt(0);
-		for (int j = 0; j < excelWriting.size(); j++) {
-			sheet1.getRow(j).getCell(1).setCellValue(excelWriting.get(j));
-			FileOutputStream fout = new FileOutputStream(src);
-			wb.write(fout);
-		}
-		wb.close();
+		return appendUrl;
 	}
 
 	public void readAndWriteResultsIntoExcel() throws Exception {
-		//writeIntoExcel();
 		File src = new File(
 				System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx");
 		FileInputStream fis;
 		fis = new FileInputStream(src);
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		XSSFSheet sheet1 = wb.getSheetAt(0);
+		File f = new File(System.getProperty("user.dir") + "\\properties\\contextchooser.properties");
+		Properties prop = new Properties();
+		FileInputStream inputFile = new FileInputStream(f);
+		prop.load(inputFile);
+		List<String> excelWriting = new ArrayList<String>();
+		String getUrls = prop.getProperty("websiteCrolling");
+		String homePageUrl = prop.getProperty("homePageUrl");
+		if (getUrls.equalsIgnoreCase("true")) {
+			excelWriting = getAllLinks();
+			for (int j = 1; j < excelWriting.size(); j++) {
+				sheet1.getRow(j).getCell(1).setCellValue(excelWriting.get(j));
+				FileOutputStream fout = new FileOutputStream(src);
+				wb.write(fout);
+			}
+		}
+		if (homePageUrl.equalsIgnoreCase("true")) {
+			excelWriting = getHomePageUrl();
+			for (int j = 1; j < excelWriting.size(); j++) {
+				sheet1.getRow(j).getCell(1).setCellValue(excelWriting.get(j));
+				FileOutputStream fout = new FileOutputStream(src);
+				wb.write(fout);
+			}
+		}
 		int rowCount = sheet1.getLastRowNum();
-		for (int i = 1; i < rowCount; i++) {
+		for (int i = 2; i < rowCount; i++) {
 			if (util.getEnvironment().equalsIgnoreCase("gold")) {
 				dataValue = sheet1.getRow(i).getCell(1).getStringCellValue().replace("www", "or");
 			} else if (util.getEnvironment().equalsIgnoreCase("production")) {
@@ -277,10 +246,6 @@ public class Content_Jcrew {
 				sheet1.getRow(i).getCell(1).setCellValue(dataValue);
 				sheet1.getRow(i).getCell(2).setCellValue(totalTime);
 				sheet1.getRow(i).getCell(3).setCellValue(urlStatus);
-				File f = new File(System.getProperty("user.dir") + "\\properties\\contextchooser.properties");
-				Properties prop = new Properties();
-				FileInputStream inputFile = new FileInputStream(f);
-				prop.load(inputFile);
 				String imageReading = prop.getProperty("imageReading");
 				if (imageReading.equals("true")) {
 					imageURLStatus = imageResponse();
@@ -289,7 +254,7 @@ public class Content_Jcrew {
 				Reporter.addStepLog("URL is: " + dataValue + "," + "Response code is: " + urlStatus + ","
 						+ "Total time to page load: " + totalTime);
 			}
-			
+
 			if (failedUrl != null) {
 				String failedImageUrl = sheet1.getRow(i).getCell(5).getStringCellValue();
 				sheet1.getRow(i).getCell(5).setCellValue(failedImageUrl + "\n" + failedUrl);
@@ -349,7 +314,6 @@ public class Content_Jcrew {
 				FileUtils.copyURLToFile(myUrl, file);
 			} catch (Exception e) {
 				Reporter.addStepLog("Unable download file from url: " + srcUrl + " so skipping this file comparision");
-				// Assert.fail();
 			}
 		}
 	}
@@ -357,7 +321,9 @@ public class Content_Jcrew {
 	public String readImageText(String imageUrl, int i) throws Exception {
 		String destinationFile = System.getProperty("user.dir") + "\\ImageReading\\savedImage.jpg";
 		// saveImage(imageUrl, destinationFile);
-		downloadFile(imageUrl, destinationFile);
+		if (imageUrl.contains("jpg")) {
+			downloadFile(imageUrl, destinationFile);
+		}
 		String imgPath = destinationFile;
 		Content_Jcrew t = new Content_Jcrew();
 		String res = t.getImgText(imgPath, "eng");
