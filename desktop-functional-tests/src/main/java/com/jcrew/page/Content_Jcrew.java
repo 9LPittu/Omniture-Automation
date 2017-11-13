@@ -91,7 +91,7 @@ public class Content_Jcrew {
 
 	public long pageLoadTime(String url) {
 		long start = System.currentTimeMillis();
-		driver.get(url);
+		driver.navigate().to(url);
 		long finish = System.currentTimeMillis();
 		totalTime = finish - start;
 		return totalTime;
@@ -223,7 +223,7 @@ public class Content_Jcrew {
 			}
 		}
 		int rowCount = sheet1.getLastRowNum();
-		for (int i = 2; i < rowCount; i++) {
+		for (int i = 1; i < rowCount; i++) {
 			if (util.getEnvironment().equalsIgnoreCase("gold")) {
 				dataValue = sheet1.getRow(i).getCell(1).getStringCellValue().replace("www", "or");
 			} else if (util.getEnvironment().equalsIgnoreCase("production")) {
