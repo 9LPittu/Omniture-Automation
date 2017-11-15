@@ -1,10 +1,10 @@
 package com.jcrew.page;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
-import org.apache.commons.io.FileUtils;
+import javax.imageio.ImageIO;
+
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
@@ -26,13 +27,9 @@ import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.Tesseract1;
-import net.sourceforge.tess4j.TesseractException;
 
 @SuppressWarnings("static-access")
 public class Content_Jcrew {
-	private String imgText;
 	private WebDriver driver;
 	private String dataValue;
 	private long totalTime;
@@ -121,7 +118,6 @@ public class Content_Jcrew {
 		System.out.println("Total no.of images:  " + list.size());
 		for (int j = 0; j < list.size(); j++) {
 			URL url;
-			String brokenImage = "A GREAT IMAGE IS ON ITS WAY.PLEASE POP BACK LATER.";
 			try {
 				url = new URL(list.get(j));
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -129,7 +125,8 @@ public class Content_Jcrew {
 				connection.connect();
 				code = connection.getResponseCode();
 				Reporter.addStepLog("Image URL: " + list.get(j) + "," + "Response code for the Image URL: " + code);
-				if (readImageText(list.get(j), j).contains(brokenImage)) {
+				boolean brokenImge = testImageComparison(list.get(j));
+				if (brokenImge) {
 					failedUrl = list.get(j);
 				}
 			} catch (Exception e) {
@@ -265,69 +262,26 @@ public class Content_Jcrew {
 		wb.close();
 	}
 
-	public static void saveImage(String imageUrl, String destinationFile) throws Exception {
-		URL url = new URL(imageUrl);
-		InputStream is = url.openStream();
-		OutputStream os = new FileOutputStream(destinationFile);
-
-		byte[] b = new byte[2048];
-		int length;
-
-		while ((length = is.read(b)) != -1) {
-			os.write(b, 0, length);
-		}
-
-		is.close();
-		os.close();
-	}
-
-	public String getImgText(String imageLocation, String language) {
-		File image = new File(imageLocation);
-		Tesseract1 tessInst = new Tesseract1();
-		try {
-			tessInst.setLanguage(language);
-			imgText = tessInst.doOCR(image);
-			return imgText;
-		} catch (TesseractException e) {
-			System.err.println(e.getMessage());
-			return "Error while reading image";
-		}
-	}
-
-	public String getImgText(String imageLocation) {
-		File image = new File(imageLocation);
-		Tesseract tessInst = new Tesseract();
-		try {
-			imgText = tessInst.doOCR(image);
-			return imgText;
-		} catch (TesseractException e) {
-			System.err.println(e.getMessage());
-			return "Error while reading image";
-		}
-	}
-
-	public void downloadFile(String srcUrl, String destLocFilePath) {
-		if (srcUrl.contains("http")) {
-			try {
-				File file = new File(destLocFilePath);
-				URL myUrl = new URL(srcUrl);
-				FileUtils.copyURLToFile(myUrl, file);
-			} catch (Exception e) {
-				Reporter.addStepLog("Unable download file from url: " + srcUrl + " so skipping this file comparision");
+	public boolean testImageComparison(String webUrl) throws Exception {
+		File fileInput = new File(System.getProperty("user.dir") + "\\ImageReading\\Image.png");
+		URL url = new URL(webUrl);
+		BufferedImage bufileInput = ImageIO.read(fileInput);
+		DataBuffer dafileInput = bufileInput.getData().getDataBuffer();
+		int sizefileInput = dafileInput.getSize();
+		BufferedImage bufileOutPut = ImageIO.read(url);
+		DataBuffer dafileOutPut = bufileOutPut.getData().getDataBuffer();
+		int sizefileOutPut = dafileOutPut.getSize();
+		Boolean matchFlag = true;
+		if (sizefileInput == sizefileOutPut) {
+			for (int j = 0; j < sizefileInput; j++) {
+				if (dafileInput.getElem(j) != dafileOutPut.getElem(j)) {
+					matchFlag = false;
+					break;
+				}
 			}
-		}
-	}
-
-	public String readImageText(String imageUrl, int i) throws Exception {
-		String destinationFile = System.getProperty("user.dir") + "\\ImageReading\\savedImage.jpg";
-		// saveImage(imageUrl, destinationFile);
-		if (imageUrl.contains("jpg")) {
-			downloadFile(imageUrl, destinationFile);
-		}
-		String imgPath = destinationFile;
-		Content_Jcrew t = new Content_Jcrew();
-		String res = t.getImgText(imgPath, "eng");
-		return res;
+		} else
+			matchFlag = false;
+		return matchFlag;
 	}
 
 }
