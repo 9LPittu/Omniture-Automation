@@ -37,6 +37,7 @@ public class Content_Jcrew {
 	private int imageURLStatus;
 	ArrayList<String> list;
 	public int code;
+	String filePath;
 	private final PropertyReader reader = PropertyReader.getPropertyReader();
 	DriverFactory driverFactory = new DriverFactory();
 	Util util = new Util();
@@ -76,12 +77,10 @@ public class Content_Jcrew {
 		try {
 			emailCapture.click();
 		} catch (Exception e) {
-			// System.out.println("Error message: " + e.getMessage());
 		}
 		try {
 			startShopping.click();
 		} catch (Exception e) {
-			// System.out.println("Error message: " + e.getMessage());
 		}
 
 	}
@@ -145,7 +144,6 @@ public class Content_Jcrew {
 			url.add(link.getAttribute("href"));
 		}
 		List<String> urlListTwo = new ArrayList<String>(url);
-		System.out.println("Second Url size: " + urlListTwo.size());
 		return urlListTwo;
 	}
 
@@ -190,16 +188,26 @@ public class Content_Jcrew {
 	}
 
 	public void readAndWriteResultsIntoExcel() throws Exception {
-		File src = new File(
-				System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx");
-		FileInputStream fis;
-		fis = new FileInputStream(src);
-		XSSFWorkbook wb = new XSSFWorkbook(fis);
-		XSSFSheet sheet1 = wb.getSheetAt(0);
+		String jcrew_filePath = System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx";
+		String factory_filePath = System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Factory.xlsx";
+		String madewell_filePath = System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Madewell.xlsx";
 		File f = new File(System.getProperty("user.dir") + "\\properties\\contextchooser.properties");
 		Properties prop = new Properties();
 		FileInputStream inputFile = new FileInputStream(f);
 		prop.load(inputFile);
+		if(prop.getProperty("brand").equalsIgnoreCase("jcrew")) {
+			filePath = jcrew_filePath;
+		}
+		if(prop.getProperty("brand").equalsIgnoreCase("factory")) {
+			filePath = factory_filePath;
+		}
+		if(prop.getProperty("brand").equalsIgnoreCase("madewell")) {
+			filePath = madewell_filePath;
+		}
+		File src = new File(filePath);
+		FileInputStream fis = new FileInputStream(src);
+		XSSFWorkbook wb = new XSSFWorkbook(fis);
+		XSSFSheet sheet1 = wb.getSheetAt(0);
 		List<String> excelWriting = new ArrayList<String>();
 		String getUrls = prop.getProperty("websiteCrolling");
 		String homePageUrl = prop.getProperty("homePageUrl");
@@ -243,18 +251,19 @@ public class Content_Jcrew {
 				sheet1.getRow(i).getCell(1).setCellValue(dataValue);
 				sheet1.getRow(i).getCell(2).setCellValue(totalTime);
 				sheet1.getRow(i).getCell(3).setCellValue(urlStatus);
+				Reporter.addStepLog("URL is: " + dataValue + "," + "Response code is: " + urlStatus + ","
+						+ "Total time for page load: " + totalTime);
 				String imageReading = prop.getProperty("imageReading");
 				if (imageReading.equals("true")) {
 					imageURLStatus = imageResponse();
 					sheet1.getRow(i).getCell(4).setCellValue(imageURLStatus);
 				}
-				Reporter.addStepLog("URL is: " + dataValue + "," + "Response code is: " + urlStatus + ","
-						+ "Total time to page load: " + totalTime);
 			}
 
 			if (failedUrl != null) {
 				String failedImageUrl = sheet1.getRow(i).getCell(5).getStringCellValue();
 				sheet1.getRow(i).getCell(5).setCellValue(failedImageUrl + "\n" + failedUrl);
+				Reporter.addStepLog("Broken image URL is: "+ failedImageUrl);
 			}
 			FileOutputStream fout = new FileOutputStream(src);
 			wb.write(fout);
