@@ -50,7 +50,8 @@ public class Content_Jcrew {
 	private WebElement emailCapture;
 
 	public String contextChooser() throws Exception {
-		File f = new File(System.getProperty("user.dir") + "\\properties\\contextchooser.properties");
+		File f = new File(System.getProperty("user.dir")
+				+ "\\properties\\contextchooser.properties");
 		Properties prop = new Properties();
 		FileInputStream inputFile = new FileInputStream(f);
 		prop.load(inputFile);
@@ -97,7 +98,8 @@ public class Content_Jcrew {
 		try {
 			URL url;
 			url = new URL(responseURL);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			HttpURLConnection connection = (HttpURLConnection) url
+					.openConnection();
 			connection.setRequestMethod("GET");
 			connection.connect();
 			code = connection.getResponseCode();
@@ -109,7 +111,8 @@ public class Content_Jcrew {
 
 	public int imageResponse() {
 		int code = 0;
-		List<WebElement> imgs = driver.findElements(By.xpath("//img[contains(@src,'https')]"));
+		List<WebElement> imgs = driver.findElements(By
+				.xpath("//img[contains(@src,'https')]"));
 		list = new ArrayList<String>();
 		for (WebElement img : imgs) {
 			list.add(img.getAttribute("src"));
@@ -119,11 +122,13 @@ public class Content_Jcrew {
 			URL url;
 			try {
 				url = new URL(list.get(j));
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+				HttpURLConnection connection = (HttpURLConnection) url
+						.openConnection();
 				connection.setRequestMethod("GET");
 				connection.connect();
 				code = connection.getResponseCode();
-				Reporter.addStepLog("Image URL: " + list.get(j) + "," + "Response code for the Image URL: " + code);
+				Reporter.addStepLog("Image URL: " + list.get(j) + ","
+						+ "Response code for the Image URL: " + code);
 				boolean brokenImge = testImageComparison(list.get(j));
 				if (brokenImge) {
 					failedUrl = list.get(j);
@@ -188,9 +193,14 @@ public class Content_Jcrew {
 	}
 
 	public enum Category {
-		HomePage("HomePage"), Women("Women"), Men("Men"), Girls("Girls"), Boys("Boys");
+		HomePage("HomePage"), Women("Women"), Men("Men"), Girls("Girls"), Boys(
+				"Boys");
 
 		private final String name;
+
+		public String getName() {
+			return name;
+		}
 
 		Category(String s) {
 			name = s;
@@ -205,7 +215,8 @@ public class Content_Jcrew {
 				+ "\\ContentTestingSheet\\FactoryContentRegressiontestingSheet.xlsx";
 		String madewell_filePath = System.getProperty("user.dir")
 				+ "\\ContentTestingSheet\\MadewellContentRegressiontestingSheet.xlsx";
-		File f = new File(System.getProperty("user.dir") + "\\properties\\contextchooser.properties");
+		File f = new File(System.getProperty("user.dir")
+				+ "\\properties\\contextchooser.properties");
 		Properties prop = new Properties();
 		FileInputStream inputFile = new FileInputStream(f);
 		prop.load(inputFile);
@@ -219,11 +230,11 @@ public class Content_Jcrew {
 			filePath = madewell_filePath;
 		}
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(Category.HomePage.name);
-		list.add(Category.Women.name);
-		list.add(Category.Men.name);
-		list.add(Category.Girls.name);
-		list.add(Category.Boys.name);
+
+		for (Category cat : Category.values()) {
+			list.add(cat.getName());
+		}
+
 		ArrayList<String> excelReading = new ArrayList<String>();
 		for (int k = 0; k < list.size(); k++) {
 			File src = new File(filePath);
@@ -232,8 +243,10 @@ public class Content_Jcrew {
 			XSSFSheet sheet1 = wb.getSheet(list.get(k));
 			int i = sheet1.getLastRowNum();
 			for (int j = 0; j <= i; j++) {
-				if (sheet1.getRow(j).getCell(6).getStringCellValue().startsWith("https://"))
-					excelReading.add(sheet1.getRow(j).getCell(6).getStringCellValue());
+				if (sheet1.getRow(j).getCell(6).getStringCellValue()
+						.startsWith("https://"))
+					excelReading.add(sheet1.getRow(j).getCell(6)
+							.getStringCellValue());
 			}
 		}
 		return excelReading;
@@ -246,7 +259,8 @@ public class Content_Jcrew {
 				+ "\\ContentTestingSheet\\Content_testing_template_Factory.xlsx";
 		String madewell_filePath = System.getProperty("user.dir")
 				+ "\\ContentTestingSheet\\Content_testing_template_Madewell.xlsx";
-		File f = new File(System.getProperty("user.dir") + "\\properties\\contextchooser.properties");
+		File f = new File(System.getProperty("user.dir")
+				+ "\\properties\\contextchooser.properties");
 		Properties prop = new Properties();
 		FileInputStream inputFile = new FileInputStream(f);
 		prop.load(inputFile);
@@ -293,20 +307,27 @@ public class Content_Jcrew {
 		int rowCount = sheet1.getLastRowNum();
 		for (int i = 1; i < rowCount; i++) {
 			if (util.getEnvironment().equalsIgnoreCase("gold")) {
-				dataValue = sheet1.getRow(i).getCell(1).getStringCellValue().replace("www", "or");
+				dataValue = sheet1.getRow(i).getCell(1).getStringCellValue()
+						.replace("www", "or");
 			} else if (util.getEnvironment().equalsIgnoreCase("production")) {
 				dataValue = sheet1.getRow(i).getCell(1).getStringCellValue();
 			}
 			String country = contextChooser();
-			if (country.equalsIgnoreCase("in") && dataValue.contains(".jcrew.com")) {
+			if (country.equalsIgnoreCase("in")
+					&& dataValue.contains(".jcrew.com")) {
 				String context[] = dataValue.split(".com");
-				dataValue = context[0].concat(".com/").concat("in").concat(context[1]);
-			} else if (country.equalsIgnoreCase("cn") && dataValue.contains(".jcrew.com")) {
+				dataValue = context[0].concat(".com/").concat("in")
+						.concat(context[1]);
+			} else if (country.equalsIgnoreCase("cn")
+					&& dataValue.contains(".jcrew.com")) {
 				String context[] = dataValue.split(".com");
-				dataValue = context[0].concat(".com/").concat("cn").concat(context[1]);
-			} else if (country.equalsIgnoreCase("au") && dataValue.contains(".jcrew.com")) {
+				dataValue = context[0].concat(".com/").concat("cn")
+						.concat(context[1]);
+			} else if (country.equalsIgnoreCase("au")
+					&& dataValue.contains(".jcrew.com")) {
 				String context[] = dataValue.split(".com");
-				dataValue = context[0].concat(".com/").concat("au").concat(context[1]);
+				dataValue = context[0].concat(".com/").concat("au")
+						.concat(context[1]);
 			}
 			if (!dataValue.isEmpty()) {
 				urlStatus = responseCode(dataValue);
@@ -314,7 +335,8 @@ public class Content_Jcrew {
 				sheet1.getRow(i).getCell(1).setCellValue(dataValue);
 				sheet1.getRow(i).getCell(2).setCellValue(totalTime);
 				sheet1.getRow(i).getCell(3).setCellValue(urlStatus);
-				Reporter.addStepLog("URL is: " + dataValue + "," + "Response code is: " + urlStatus + ","
+				Reporter.addStepLog("URL is: " + dataValue + ","
+						+ "Response code is: " + urlStatus + ","
 						+ "Total time for page load: " + totalTime);
 				String imageReading = prop.getProperty("imageReading");
 				if (imageReading.equals("true")) {
@@ -324,8 +346,10 @@ public class Content_Jcrew {
 			}
 
 			if (failedUrl != null) {
-				String failedImageUrl = sheet1.getRow(i).getCell(5).getStringCellValue();
-				sheet1.getRow(i).getCell(5).setCellValue(failedImageUrl + "\n" + failedUrl);
+				String failedImageUrl = sheet1.getRow(i).getCell(5)
+						.getStringCellValue();
+				sheet1.getRow(i).getCell(5)
+						.setCellValue(failedImageUrl + "\n" + failedUrl);
 				Reporter.addStepLog("Broken image URL is: " + failedImageUrl);
 			}
 			FileOutputStream fout = new FileOutputStream(src);
@@ -335,7 +359,8 @@ public class Content_Jcrew {
 	}
 
 	public boolean testImageComparison(String webUrl) throws Exception {
-		File fileInput = new File(System.getProperty("user.dir") + "\\ImageReading\\Image.png");
+		File fileInput = new File(System.getProperty("user.dir")
+				+ "\\ImageReading\\Image.png");
 		URL url = new URL(webUrl);
 		BufferedImage bufileInput = ImageIO.read(fileInput);
 		DataBuffer dafileInput = bufileInput.getData().getDataBuffer();
