@@ -23,10 +23,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.jcrew.listners.Reporter;
+import com.jcrew.page.ExcelReading.Category;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
-
 
 @SuppressWarnings("static-access")
 public class Content_Jcrew {
@@ -187,21 +187,76 @@ public class Content_Jcrew {
 		return appendUrl;
 	}
 
-	public void readAndWriteResultsIntoExcel() throws Exception {
-		String jcrew_filePath = System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx";
-		String factory_filePath = System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Factory.xlsx";
-		String madewell_filePath = System.getProperty("user.dir") + "\\ContentTestingSheet\\Content_testing_template_Madewell.xlsx";
+	public enum Category {
+		HomePage("HomePage"), Women("Women"), Men("Men"), Girls("Girls"), Boys("Boys");
+
+		private final String name;
+
+		Category(String s) {
+			name = s;
+		}
+
+	}
+
+	public List<String> excel() throws Exception {
+		String jcrew_filePath = System.getProperty("user.dir")
+				+ "\\ContentTestingSheet\\JcrewContentRegressiontestingSheet.xlsx";
+		String factory_filePath = System.getProperty("user.dir")
+				+ "\\ContentTestingSheet\\FactoryContentRegressiontestingSheet.xlsx";
+		String madewell_filePath = System.getProperty("user.dir")
+				+ "\\ContentTestingSheet\\MadewellContentRegressiontestingSheet.xlsx";
 		File f = new File(System.getProperty("user.dir") + "\\properties\\contextchooser.properties");
 		Properties prop = new Properties();
 		FileInputStream inputFile = new FileInputStream(f);
 		prop.load(inputFile);
-		if(prop.getProperty("brand").equalsIgnoreCase("jcrew")) {
+		if (prop.getProperty("brand").equalsIgnoreCase("jcrew")) {
 			filePath = jcrew_filePath;
 		}
-		if(prop.getProperty("brand").equalsIgnoreCase("factory")) {
+		if (prop.getProperty("brand").equalsIgnoreCase("factory")) {
 			filePath = factory_filePath;
 		}
-		if(prop.getProperty("brand").equalsIgnoreCase("madewell")) {
+		if (prop.getProperty("brand").equalsIgnoreCase("madewell")) {
+			filePath = madewell_filePath;
+		}
+		ArrayList<String> list = new ArrayList<String>();
+		list.add(Category.HomePage.name);
+		list.add(Category.Women.name);
+		list.add(Category.Men.name);
+		list.add(Category.Girls.name);
+		list.add(Category.Boys.name);
+		ArrayList<String> excelReading = new ArrayList<String>();
+		for (int k = 0; k < list.size(); k++) {
+			File src = new File(filePath);
+			FileInputStream fis = new FileInputStream(src);
+			XSSFWorkbook wb = new XSSFWorkbook(fis);
+			XSSFSheet sheet1 = wb.getSheet(list.get(k));
+			int i = sheet1.getLastRowNum();
+			for (int j = 0; j <= i; j++) {
+				if (sheet1.getRow(j).getCell(6).getStringCellValue().startsWith("https://"))
+					excelReading.add(sheet1.getRow(j).getCell(6).getStringCellValue());
+			}
+		}
+		return excelReading;
+	}
+
+	public void readAndWriteResultsIntoExcel() throws Exception {
+		String jcrew_filePath = System.getProperty("user.dir")
+				+ "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx";
+		String factory_filePath = System.getProperty("user.dir")
+				+ "\\ContentTestingSheet\\Content_testing_template_Factory.xlsx";
+		String madewell_filePath = System.getProperty("user.dir")
+				+ "\\ContentTestingSheet\\Content_testing_template_Madewell.xlsx";
+		File f = new File(System.getProperty("user.dir") + "\\properties\\contextchooser.properties");
+		Properties prop = new Properties();
+		FileInputStream inputFile = new FileInputStream(f);
+		prop.load(inputFile);
+		if (prop.getProperty("brand").equalsIgnoreCase("jcrew")) {
+			filePath = jcrew_filePath;
+		}
+		if (prop.getProperty("brand").equalsIgnoreCase("factory")) {
+			filePath = factory_filePath;
+		}
+		if (prop.getProperty("brand").equalsIgnoreCase("madewell")) {
 			filePath = madewell_filePath;
 		}
 		File src = new File(filePath);
@@ -211,6 +266,7 @@ public class Content_Jcrew {
 		List<String> excelWriting = new ArrayList<String>();
 		String getUrls = prop.getProperty("websiteCrolling");
 		String homePageUrl = prop.getProperty("homePageUrl");
+		String excelReading = prop.getProperty("excelReading");
 		if (getUrls.equalsIgnoreCase("true")) {
 			excelWriting = getAllLinks();
 			for (int j = 1; j < excelWriting.size(); j++) {
@@ -218,15 +274,22 @@ public class Content_Jcrew {
 				FileOutputStream fout = new FileOutputStream(src);
 				wb.write(fout);
 			}
-		}
-		if (homePageUrl.equalsIgnoreCase("true")) {
+		} else if (homePageUrl.equalsIgnoreCase("true")) {
 			excelWriting = getHomePageUrl();
 			for (int j = 1; j < excelWriting.size(); j++) {
 				sheet1.getRow(j).getCell(1).setCellValue(excelWriting.get(j));
 				FileOutputStream fout = new FileOutputStream(src);
 				wb.write(fout);
 			}
+		} else if (excelReading.equalsIgnoreCase("true")) {
+			excelWriting = excel();
+			for (int j = 1; j < excelWriting.size(); j++) {
+				sheet1.getRow(j).getCell(1).setCellValue(excelWriting.get(j));
+				FileOutputStream fout = new FileOutputStream(src);
+				wb.write(fout);
+			}
 		}
+
 		int rowCount = sheet1.getLastRowNum();
 		for (int i = 1; i < rowCount; i++) {
 			if (util.getEnvironment().equalsIgnoreCase("gold")) {
@@ -263,7 +326,7 @@ public class Content_Jcrew {
 			if (failedUrl != null) {
 				String failedImageUrl = sheet1.getRow(i).getCell(5).getStringCellValue();
 				sheet1.getRow(i).getCell(5).setCellValue(failedImageUrl + "\n" + failedUrl);
-				Reporter.addStepLog("Broken image URL is: "+ failedImageUrl);
+				Reporter.addStepLog("Broken image URL is: " + failedImageUrl);
 			}
 			FileOutputStream fout = new FileOutputStream(src);
 			wb.write(fout);
