@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
+import com.jcrew.listners.Reporter;
 
 public class OmnitureSteps extends DriverFactory{
 	private TestDataReader testDataReader = TestDataReader.getTestDataReader();
@@ -33,10 +33,14 @@ public class OmnitureSteps extends DriverFactory{
                 emptyVariables = emptyVariables + omnitureVariable + ";";
                 isblank = true;
             }
+            else
+            	Reporter.addStepLog(" omniture Value for the variable "+omnitureVariable+" is.. "+omnitureValue);
+              
         }
 
         if (isblank)
-            throw new WebDriverException("Omniture variables " + emptyVariables + " does not have a value");
+           // throw new WebDriverException("Omniture variables " + emptyVariables + " does not have a value");
+        	Reporter.addStepLog("Omniture variables " + emptyVariables + " does not have a value");
     }
 	
 	
