@@ -17,8 +17,11 @@ import java.util.List;
  */
 public class ArrayCategory extends Array {
 
-	@FindBy(className = "c-product__list")
+	@FindBy(className = "c-product__list")	
     private WebElement productList;
+	// sorry no items message
+	@FindBy(xpath = "//*[@id=\\\"page__c\\\"]/article/div/p[1]")
+    private WebElement emptyproductList;
 	
     @FindBy(id = "c-category__filters")
     private WebElement categoryFilters;
@@ -78,6 +81,8 @@ public class ArrayCategory extends Array {
     public void selectFirstProduct(){
     	List<WebElement> productTiles = getProductTiles();    	
     	clickProduct(productTiles.get(0));
+    	System.out.println("productTiles size.. "+productTiles);
+    	
         new ProductDetails(driver);
     }
 
@@ -90,13 +95,16 @@ public class ArrayCategory extends Array {
     }
 
     public boolean isRefineDropdownDisplayed() {
-        WebElement dropDown = categoryFilters.findElement(By.xpath(".//*/span[contains(@class,'js-label')]"));
-        return dropDown.isDisplayed();
+        // WebElement dropDown = categoryFilters.findElement(By.xpath(".//*/span[contains(@class,'js-label')]"));
+    	WebElement dropDown = categoryFilters.findElement(By.xpath("//*[@id='c-filters__header-item--toggle']"));
+    	return dropDown.isDisplayed(); 
+        
     }
 
     public String getRefineText() {
-        WebElement dropDown = categoryFilters.findElement(By.xpath(".//*/span[contains(@class,'js-label')]"));
-        return dropDown.getText().toLowerCase();
+        // WebElement dropDown = categoryFilters.findElement(By.xpath(".//*/span[contains(@class,'js-label')]"));
+    	WebElement dropDown = categoryFilters.findElement(By.xpath("//h1[contains(text(),'SWEATERS')]"));    	    	
+     	return dropDown.getText().toLowerCase();
     }
 
     public void openRefineAccordion() {
@@ -104,8 +112,11 @@ public class ArrayCategory extends Array {
         String accordionClass = accordion.getAttribute("class");
 
         if(!accordionClass.contains("is-expanded")) {
-            WebElement accordionHeader = accordion.findElement(By.className("js-accordian__header"));
+            // WebElement accordionHeader = accordion.findElement(By.className("js-accordian__header"));
+            WebElement accordionHeader = accordion.findElement(By.xpath("//*[@class='c-filters--label' and contains(text(),'Category')]"));
+          
             accordionHeader.click();
+            // System.out.println(" Clicked on dropdown.. ");
         } else {
             logger.info("Refine dropdown already open");
         }
@@ -175,13 +186,18 @@ public class ArrayCategory extends Array {
         selectedOption.click();
     }
     public boolean isCategoryArray(){
-        Util.waitForPageFullyLoaded(driver);
-        wait.until(ExpectedConditions.visibilityOf(productList));
+        try {
+			Util.waitForPageFullyLoaded(driver);
+			wait.until(ExpectedConditions.visibilityOf(productList));
+		} catch (Exception e) {
+			e.printStackTrace();			
+		}
         return productList.isDisplayed();
     }
 
     public WebElement getAccordianElement() {
-        WebElement accordian = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.className("js-accordian__wrap"))));
+        // WebElement accordian = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.className("js-accordian__wrap"))));
+        WebElement accordian = wait.until(ExpectedConditions.visibilityOf(categoryFilters.findElement(By.xpath("//*[@id='c-filters__header-item--toggle']"))));
         return accordian;
     }
     

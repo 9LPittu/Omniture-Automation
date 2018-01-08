@@ -1,6 +1,6 @@
 @Account
 Feature: Account Page
-
+	
   Background:
   	Given User goes to homepage
     And User closes email capture
@@ -11,7 +11,7 @@ Feature: Account Page
 
     When User clicks on My Details link in My Account Page
     Then Verify user is in account details page
-    And Verify url is /account/account_detail.jsp
+    And Verify url is /account/details?
 
   Scenario: Header and Footer display validations in non responsive Account page
     Then Verify jcrew logo is visible
@@ -31,5 +31,3 @@ Feature: Account Page
     Then Verify J.Crew link is displayed under Our Brands in footer
     Then Verify Madewell link is displayed under Our Brands in footer
     Then Verify J.Crew Mercantile link is displayed under Our Brands in footer
-
-   

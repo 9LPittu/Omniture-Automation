@@ -24,7 +24,7 @@ public class ArraySearch extends Array{
 
     @FindBy(id = "page__search")
     private WebElement pageSearch;
-    @FindBy(id = "c-search__results")
+    @FindBy(xpath = "//*[contains(text(),'Search:')]") // id = c-search__results
     private WebElement searchResults;
     @FindBy(xpath = "//li[@class='primary-nav__item primary-nav__item--search']/div/div[@class='primary-nav__search-results--frame']")
     private WebElement headerSearch;
@@ -159,10 +159,10 @@ public class ArraySearch extends Array{
     
     public int getSearchResultsNumber() {
     	wait.until(ExpectedConditions.visibilityOf(searchResults));
-        WebElement searchResultsNumber = searchResults.findElement(By.className("search__results--count"));
-        String resultsText = searchResultsNumber.getText();
-        resultsText = resultsText.replaceAll("[^0-9]*", "");
-
+        //WebElement searchResultsNumber = searchResults.findElement(By.className("search__results--count")); 
+    	WebElement searchResultsNumber = driver.findElement(By.xpath("//div[@class='tile__detail tile__detail--price--was']"));
+        String resultsText = searchResultsNumber.getText();        
+        resultsText = resultsText.replaceAll("[^0-9]+", "");
         return Integer.parseInt(resultsText);
     }
     

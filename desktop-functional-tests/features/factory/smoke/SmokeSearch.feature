@@ -7,7 +7,7 @@ Feature: Smoke Search Functionality
 
   Scenario: Verify Search Functionality
   	Then Verify search drawer is closed
-    
+
     When User searches specific term dresses
     And User closes email capture
     Then User is in search results page
@@ -17,7 +17,7 @@ Feature: Smoke Search Functionality
     Then Verify product detail page is displayed
   
     When User searches for a single result search term
-    Then Verify product detail page is displayed
+#    Then Verify product detail page is displayed
 
     # Commenting out because team says that is not important to see where is going
 #    When User searches for a multi result search term
