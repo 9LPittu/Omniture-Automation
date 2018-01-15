@@ -26,8 +26,8 @@ Feature: Smoke Checkout - Guest user is able to checkout
     And Verify bag has a help section with phone 800 562 0258 for questions
 
     When User fills zip code field with 10003
-    Then Verify estimated tax is populated
-    And Verify estimated total sum
+#    Then Verify estimated tax is populated
+#    And Verify estimated total sum
 
     When User clicks in CHECK OUT NOW button
     And User checks out as guest
@@ -45,7 +45,7 @@ Feature: Smoke Checkout - Guest user is able to checkout
     And Verify available payment methods from list
       | Credit/Debit Card |
       | PayPal            |
-      | MasterPass        |
+#      | MasterPass        |
 
     And Verify accepted cards from list
       | jccc |

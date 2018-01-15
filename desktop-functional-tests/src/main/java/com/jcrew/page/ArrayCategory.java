@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ArrayCategory extends Array {
 
-	@FindBy(className = "c-product__list")	
+	@FindBy(className = "c-product__list")
     private WebElement productList;
 	// sorry no items message
 	@FindBy(xpath = "//*[@id=\\\"page__c\\\"]/article/div/p[1]")
@@ -40,9 +40,10 @@ public class ArrayCategory extends Array {
         super(driver);
 
 //        wait.until(ExpectedConditions.visibilityOf(productList));
-        
-        footer = new Footer(driver);
+                
         header = new HeaderWrap(driver);
+        Util.scrollPage(driver, "BOTTOM");
+        footer = new Footer(driver);
     }
 
     private List<WebElement> getProductTiles() {

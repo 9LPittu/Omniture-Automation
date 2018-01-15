@@ -58,7 +58,7 @@ public class Footer {
 
         PageFactory.initElements(driver, this);
         wait.until(ExpectedConditions.visibilityOf(global__footer));
-        wait.until(ExpectedConditions.visibilityOf(footer_social));
+//        wait.until(ExpectedConditions.visibilityOf(footer_social));
         
         HeaderLogo logo = new HeaderLogo(driver);
         logo.hoverLogo();

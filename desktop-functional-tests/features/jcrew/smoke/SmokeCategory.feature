@@ -12,7 +12,7 @@ Feature: Category and Sub Category Page Validations
    	And User closes email capture
     Then Verify user is in category array page
     And Verify refine dropdown displayed in array page
-    And Verify refine dropdown text is All sweaters
+    And Verify refine dropdown text is sweaters
 
     When User expands refine dropdown
     And Verify refine dropdown is open
