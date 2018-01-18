@@ -4,11 +4,7 @@ Feature: Product Detail Page
   Background:
     Given User goes to homepage
     And User closes email capture
-    And User hovers on a random category from list
-      | Women |
-      | Men   |
-      #| Girls | girls sweaters category does not exist
-      #| Boys  | boys sweaters category does not have any product
+    When User hovers on men category from header
     And User selects sweaters subcategory array
 
   Scenario: Product Detail Page Validation

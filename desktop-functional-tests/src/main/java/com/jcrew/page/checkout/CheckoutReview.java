@@ -74,14 +74,7 @@ public class CheckoutReview extends Checkout{
 
         if (!"production".equals(env)) {
             List<WebElement> place_my_order_elements;
-            
-            try{
-            	place_my_order_elements = slidertrack.findElements(By.id("button-submitorder"));
-            	Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(place_my_order_elements.get(0)));
-            }catch(TimeoutException toe){
-            	place_my_order_elements = slidertrack.findElements(By.className("button-submit-bg"));
-            }
-            
+            place_my_order_elements = slidertrack.findElements(By.xpath("//a[@class='item-link-submit button-general button-submit-bg']"));                        
             place_my_order_elements.get(0).click();
             
             wait.until(ExpectedConditions.invisibilityOfAllElements(place_my_order_elements));
@@ -92,10 +85,10 @@ public class CheckoutReview extends Checkout{
 
     public void fillSecurityCode() {
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	if(cardName.getText().equalsIgnoreCase("Mastercard")){
+    	// if(cardName.getText().equalsIgnoreCase("Mastercard")){
     		WebElement securityCode = billing_details.findElement(By.id("securityCode"));
     		securityCode.sendKeys(testDataReader.getData("card.cvv"));
-    	}
+    	
     }
     
     public String getBillingAddress() {

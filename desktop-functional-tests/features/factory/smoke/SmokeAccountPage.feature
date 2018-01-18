@@ -11,7 +11,7 @@ Feature: Account Page
 
     When User clicks on My Details link in My Account Page
     Then Verify user is in account details page
-    And Verify url is /account/details?
+    And Verify url is /account/account_detail.jsp
 
   Scenario: Header and Footer display validations in non responsive Account page
     Then Verify jcrew logo is visible

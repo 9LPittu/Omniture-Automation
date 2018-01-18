@@ -5,7 +5,7 @@ Feature: Category and Sub Category Page Validations
     Given User goes to homepage
     And User closes email capture
     
-    When hovers on women category from header
+    When User hovers on men category from header
     
   Scenario: Subcategory page validations
    	And User selects sweaters subcategory array

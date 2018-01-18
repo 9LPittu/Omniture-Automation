@@ -4,10 +4,8 @@ Feature: Smoke Checkout - Guest user is able to checkout
   Scenario: Smoke Checkout - Guest user is able to checkout
     Given User goes to homepage
     And User closes email capture
-    And User hovers on a random category from list
-      | Women |
-      | Men   |
-    And User selects pants subcategory array
+    When User hovers on men category from header
+    And User selects shorts subcategory array
     And User closes email capture
     And User selects first product from product array
     And Verify product detail page is displayed
@@ -25,8 +23,8 @@ Feature: Smoke Checkout - Guest user is able to checkout
     And Verify bag has a paypal button
 
     When User fills zip code field with 10003
-    Then Verify estimated tax is populated
-    And Verify estimated total sum
+#    Then Verify estimated tax is populated
+#    And Verify estimated total sum
 
     When User clicks in CHECK OUT NOW button
     And User checks out as guest

@@ -9,10 +9,8 @@ Feature: Smoke Checkout - Signed user
     And User fills user data and signs in
     And This script cleans bag for current user
     And User goes to homepage
-    And User hovers on a random category from list
-      | Women |
-      | Men   |
-    And User selects pants subcategory array
+    When User hovers on men category from header
+    And User selects sweaters subcategory array
     And User closes email capture
     And User selects first product from product array
     And Verify product detail page is displayed

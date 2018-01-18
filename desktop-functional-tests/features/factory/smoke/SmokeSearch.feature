@@ -17,7 +17,8 @@ Feature: Smoke Search Functionality
     Then Verify product detail page is displayed
   
     When User searches for a single result search term
-#    Then Verify product detail page is displayed
+    And User selects first product from product array
+    Then Verify product detail page is displayed
 
     # Commenting out because team says that is not important to see where is going
 #    When User searches for a multi result search term
