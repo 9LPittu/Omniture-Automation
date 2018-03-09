@@ -4,7 +4,6 @@ import com.google.common.base.Function;
 import com.jcrew.page.PageObject;
 import com.jcrew.pojo.GiftCard;
 import com.jcrew.pojo.Product;
-import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
@@ -13,10 +12,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
@@ -263,6 +260,11 @@ public abstract class Checkout extends PageObject {
 
         wait.until(ExpectedConditions.stalenessOf(continueButton));
     }
+    
+    public void continueButton(WebElement form) {
+    	WebElement continueButton = form.findElement(By.xpath("//a[@id='order-summary__button-continue']"));
+    	continueButton.click();
+    }
 
     public abstract boolean isDisplayed();
 
@@ -389,11 +391,15 @@ public abstract class Checkout extends PageObject {
     }
     
     public void selectMultipleShippingAddressRadioButton(WebElement checkoutFormElement){
-    	WebElement multipleAddressRadioBtn = checkoutFormElement.findElement(By.id("multiShippingAddresses"));
-    	multipleAddressRadioBtn.click();
-    	
+
+    	//WebElement multipleAddressRadioBtn = checkoutFormElement/*.findElement(By.id("multiShippingAddresses"))*/;
+    	//multipleAddressRadioBtn.click();
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
+    	checkoutFormElement.click();
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    	
     }
     
     public void handleQAS(){

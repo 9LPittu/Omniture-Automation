@@ -189,7 +189,7 @@ public class E2E2Steps extends E2ECommon {
 	@And("^User completes Paypal transaction, if required$")
 	public void user_completes_paypal_transaction() {
 
-		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
+		String paymentMethod = getDataFromTestDataRowMap("Payment Method 1");
 		if (!paymentMethod.equalsIgnoreCase("EXPRESS PAYPAL"))
 			return;
 
@@ -247,17 +247,17 @@ public class E2E2Steps extends E2ECommon {
 	}
 
 	public void enterSecurityCodeForExpressUser() {
-		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
+		String paymentMethod = getDataFromTestDataRowMap("Payment Method 1");
 
 		if (paymentMethod.equalsIgnoreCase("EXPRESS PAYPAL"))
 			return;
-
+		
 		CheckoutReview checkoutReview = new CheckoutReview(getDriver());
 		checkoutReview.enterSecurityCode();
 	}
 	
 	@When("^User enters Shipping Addresses as per testdata$")
-	public void user_enters_shipping_addresses(){
+	public void user_enters_shipping_addresses() throws Exception{
 		
 		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
@@ -291,6 +291,7 @@ public class E2E2Steps extends E2ECommon {
 		stateHolder.addToList("shippingAddresses", firstAddress_AddressLine1);
 		
 		checkoutShippingAdd.continueCheckout();
+		checkoutShippingAdd.useSameAddressLink();
 		stateHolder.put("isShippingAddressContinueClicked", true);		
 		
 		if(isFirstAddressQAS.equalsIgnoreCase("YES")){
@@ -306,12 +307,11 @@ public class E2E2Steps extends E2ECommon {
 			String secondAddress_City = getDataFromTestDataRowMap("SecondAddress_City");
 			String secondAddress_State = getDataFromTestDataRowMap("SecondAddress_State");
 			String secondAddress_ZipCode = getDataFromTestDataRowMap("SecondAddress_ZipCode");
-			
 			Address secondAddress = new Address(secondAddress_AddressLine1, secondAddress_AddressLine2, secondAddress_City, secondAddress_State, secondAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
 			checkoutShippingAdd.addNewShippingAddress(isSecondAddressQAS, secondAddress);
 			stateHolder.addToList("shippingAddresses", secondAddress_AddressLine1);
-			
-			checkoutShippingAdd.continueCheckout();
+			checkoutShippingAdd.useAddressAsEntered();
+			checkoutShippingAdd.continueCheckoutForMulti();
 			
 			CheckoutMultipleShippingAddresses multiShipping = new CheckoutMultipleShippingAddresses(getDriver());
 			List<String> shippingAddressesList = stateHolder.getList("shippingAddresses");

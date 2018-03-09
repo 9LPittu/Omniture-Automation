@@ -7,15 +7,18 @@ import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * Created by nadiapaolagarcia on 4/8/16.
@@ -27,7 +30,8 @@ public class CheckoutReview extends Checkout{
     private WebElement billing_details;
     @FindBy(id = "confirmOrder")
     private WebElement pageMessage;
-
+    @FindBy(xpath = "//ul/li/label/span[@class='wallet-brand wallet-line notranslate']")
+    private static List<WebElement> cardNames;
     @FindBy(xpath = ".//*[@id='orderSummaryContainer']/div/a")
     private WebElement placeYourOrder;
     
@@ -41,9 +45,17 @@ public class CheckoutReview extends Checkout{
     
     @FindBy(xpath ="//*[@class='wallet-brand wallet-line']")
     private WebElement cardName;
-
-    private HeaderWrap header;
+    @FindBy(xpath = "//ul/li/a[contains(text(),'Billing')]")
+	public static WebElement billingPage;
+    @FindBy(xpath = "//a[contains(text(),'pay with two cards?')]")
+	public static WebElement payWithTwoCards;
+    @FindBy(xpath = "//a[contains(text(),' Continue')]")
+	public static WebElement continueButton;
     
+    
+    @SuppressWarnings("unused")
+	private HeaderWrap header;
+  
     public CheckoutReview(WebDriver driver) {
         super(driver);
 
@@ -58,7 +70,61 @@ public class CheckoutReview extends Checkout{
             }
         });
     }
-    
+    public static void clickOnBilling() {
+    	billingPage.click();
+    	List<String> cardNameList = new ArrayList<String>();
+		for(int i=0;i<cardNames.size();i++) {
+			cardNameList.add(cardNames.get(i).getText());
+		}
+		for(int i=0;i<cardNameList.size();i++) {
+			System.out.println("========="+cardNameList.get(i));
+		}
+		payWithTwoCards.click();
+		continueButton.click();
+    }
+    public void splitPayment(String paymentMethod1 , String paymentMethod2) throws InterruptedException{
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	String cardShortName1 = e2ePropertyReader.getProperty(paymentMethod1.toLowerCase() + ".short.name"); 
+    	String cardShortName2 = e2ePropertyReader.getProperty(paymentMethod2.toLowerCase() + ".short.name");
+    	
+    	String cardNumber1 = e2ePropertyReader.getProperty(paymentMethod1.toLowerCase() + ".card.number");
+    	String cardNumber2 = e2ePropertyReader.getProperty(paymentMethod2.toLowerCase() + ".card.number");
+    	
+    	String lastFourDigitsOfCardNum1 = cardNumber1.substring(cardNumber1.length() - 4);
+    	String lastFourDigitsOfCardNum2 = cardNumber2.substring(cardNumber2.length() - 4);
+    	
+    	WebElement splitPaymentForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("modal-multitender")));
+    	
+    	int numberofCardsAvailable = /*stateHolder.get("numberofCardsAvailable")*/3;
+    	String valueToBeSelected;
+    	Select select;
+    	List<WebElement> paymentDropdowns = splitPaymentForm.findElements(By.xpath(".//select[contains(@id, 'distributionCard')]"));
+    	Thread.sleep(10000);
+    	
+    	if(numberofCardsAvailable > 2){    		
+    		valueToBeSelected = cardShortName1.toUpperCase() + " ending in " + lastFourDigitsOfCardNum1;
+    		select = new Select(paymentDropdowns.get(0));
+    		select.selectByVisibleText(valueToBeSelected);
+    	}
+    	
+    	valueToBeSelected = cardShortName2.toUpperCase() + " ending in " + lastFourDigitsOfCardNum2;
+		select = new Select(paymentDropdowns.get(1));
+		select.selectByVisibleText(valueToBeSelected);
+    	
+    	String orderTotal = /*stateHolder.get("total")*/"$100.76";
+    	System.out.println("============"+orderTotal);
+    	Double dblOrderTotal = Double.parseDouble(orderTotal.replaceAll("[^\\d.]*", ""));
+    	dblOrderTotal = dblOrderTotal/2;
+    	
+    	WebElement secondAmountElement = splitPaymentForm.findElement(By.id("secondAmount"));
+    	secondAmountElement.clear();
+    	secondAmountElement.sendKeys(dblOrderTotal.toString());
+    	secondAmountElement.sendKeys(Keys.TAB);
+    	
+    	splitPaymentForm.findElement(By.id("multiTenderDistributionSubmit")).click();    	
+    	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("multiTenderDistributionSubmit")));
+    	System.out.println("split amount entered");
+    }
     public boolean isDisplayed() {
         String bodyId = getBodyAttribute("id");
         logger.debug("Review id: {}", getBodyAttribute("id"));
@@ -74,7 +140,14 @@ public class CheckoutReview extends Checkout{
 
         if (!"production".equals(env)) {
             List<WebElement> place_my_order_elements;
-            place_my_order_elements = slidertrack.findElements(By.xpath("//a[@class='item-link-submit button-general button-submit-bg']"));                        
+            
+            try{
+            	place_my_order_elements = slidertrack.findElements(By.id("button-submitorder"));
+            	Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(place_my_order_elements.get(0)));
+            }catch(TimeoutException toe){
+            	place_my_order_elements = slidertrack.findElements(By.className("button-submit-bg"));
+            }
+            
             place_my_order_elements.get(0).click();
             
             wait.until(ExpectedConditions.invisibilityOfAllElements(place_my_order_elements));
@@ -85,10 +158,10 @@ public class CheckoutReview extends Checkout{
 
     public void fillSecurityCode() {
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();
-    	// if(cardName.getText().equalsIgnoreCase("Mastercard")){
+    	if(cardName.getText().equalsIgnoreCase("Mastercard")){
     		WebElement securityCode = billing_details.findElement(By.id("securityCode"));
     		securityCode.sendKeys(testDataReader.getData("card.cvv"));
-    	
+    	}
     }
     
     public String getBillingAddress() {
@@ -173,8 +246,18 @@ public class CheckoutReview extends Checkout{
     	String[] arrClassName = className.split(" "); 
     	String cardType = arrClassName[arrClassName.length - 1];
     	
-    	String paymentMethodName = "";
-    	switch(cardType.toUpperCase()){
+    	String paymentMethodName1 = "";
+    	String paymentMethodName2 = "";
+    	if(cardType.toUpperCase().equals("VISA")) {
+    		paymentMethodName1 = "visa";
+    		paymentMethodName2 = "master";
+    		E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    		String securityCodeText1 = e2ePropertyReader.getProperty(paymentMethodName1.toLowerCase() + ".security.code");
+    		securityCode.get(0).sendKeys(securityCodeText1);
+        	String securityCodeText2 = e2ePropertyReader.getProperty(paymentMethodName2.toLowerCase() + ".security.code");
+        	securityCode.get(1).sendKeys(securityCodeText2);
+    	}
+    	/*switch(cardType.toUpperCase()){
     		case "VISA":
     			paymentMethodName = "visa";
     			break;
@@ -190,11 +273,11 @@ public class CheckoutReview extends Checkout{
     		case "JCB":
     			paymentMethodName = "jcb";
     			break;
-    	}
+    	}*/
     	
-    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	/*E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
     	String securityCodeText = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code");
-    	securityCode.get(0).sendKeys(securityCodeText);    	
+    	securityCode.get(0).sendKeys(securityCodeText); */   	
     }
     
     public void enterSecurityCode(String paymentMethodName){

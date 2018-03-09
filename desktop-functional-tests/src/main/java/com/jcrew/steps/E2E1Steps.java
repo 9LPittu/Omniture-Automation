@@ -65,8 +65,8 @@ public class E2E1Steps extends E2ECommon {
 	}
 	
 	@When("^User selects country as per testdata$")
-	public void user_selects_country_as_per_testdata() {
-		String countryName = getDataFromTestDataRowMap("Ship To Country");
+	public void user_selects_country_as_per_testdata() throws Exception {
+		String countryName = /*getDataFromTestDataRowMap("Ship To Country")*/"US";
 		
 		if(countryName.equalsIgnoreCase("US"))
 			return;
@@ -84,7 +84,8 @@ public class E2E1Steps extends E2ECommon {
 	}
 
 	@And("^User enters login credentials$")
-	public void user_enter_login_credentials() {
+	public void user_enter_login_credentials() throws Exception {
+		//Thread.sleep(20000);
 		String userType = getDataFromTestDataRowMap("User Type");
 		String countryName = getDataFromTestDataRowMap("Ship To Country");
 
@@ -117,7 +118,6 @@ public class E2E1Steps extends E2ECommon {
 	public void user_adds_products_to_bag() throws Exception {
 		String itemIdentifiers = getDataFromTestDataRowMap("Item Identifiers");
 		String quantities = getDataFromTestDataRowMap("Quantities");
-
 		if (itemIdentifiers.isEmpty()) {
 			isItemDataExist = false;
 			return;
@@ -136,8 +136,8 @@ public class E2E1Steps extends E2ECommon {
 				String size = getColumnValueFromItemMaster(rowNumber, "Size");
 				String quantity = arrQuantities[i];
 				String isMonogramRequired = getColumnValueFromItemMaster(rowNumber, "isMonogramRequired?");
-
 				// search for item
+				Thread.sleep(20000);
 				HeaderSearch headerWrap = new HeaderSearch(getDriver());
 				headerWrap.searchForSpecificTerm(itemCode);
 
@@ -280,7 +280,7 @@ public class E2E1Steps extends E2ECommon {
 
 	@When("^User clicks on CHECK OUT NOW button or Express Paypal button$")
 	public void user_clicks_checkout_express_paypal() {
-		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
+		String paymentMethod = getDataFromTestDataRowMap("Payment Method 1");
 
 		switch (paymentMethod.toUpperCase()) {
 			case "EXPRESS PAYPAL":
@@ -292,7 +292,7 @@ public class E2E1Steps extends E2ECommon {
 				checkoutShoppingBagSteps.check_out_now();
 		}
 	}
-
+	
 	@And("^Apply promos, if required. If applied, verify promos are applied successfully$")
 	public void apply_and_verify_promo() {
 		String userType = getDataFromTestDataRowMap("User Type");

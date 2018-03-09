@@ -6,6 +6,8 @@ import com.jcrew.pojo.User;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
+import junit.framework.Assert;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -43,8 +45,13 @@ public class CheckoutShippingAdd extends Checkout {
     private WebElement state_province;
     @FindBy(id = "shoppingAddressValidate")
     private WebElement addresValidate;
-    
+    @FindBy(xpath = "//a[@class='item-link item-link-submit']")
+    private WebElement useSameAddress;
+    @FindBy(xpath = "//a[@class='button-submit']")
+    private WebElement useAddressAsEntered;
+  
     private WebElement shippingAddressForm;
+    private WebElement orderSummaryForm;
     private WebElement addNewShippingAddressForm;
 
     public CheckoutShippingAdd(WebDriver driver) {
@@ -52,11 +59,45 @@ public class CheckoutShippingAdd extends Checkout {
         isDisplayed();        
     }
     
-    private WebElement getShippingAddressForm(){
+    public void useSameAddressLink(){
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
-    	shippingAddressForm = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//body/article/descendant::form")));
+    	Assert.assertTrue(useSameAddress.isDisplayed());
+    	useSameAddress.click();
+    }
+    public void useAddressAsEntered(){
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    	Assert.assertTrue(useAddressAsEntered.isDisplayed());
+    	useAddressAsEntered.click();
+    }
+    
+	private WebElement getShippingAddressForm(){
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    	shippingAddressForm = driver.findElement(By.id("multiShippingAddresses_checkbox"));
+    	Assert.assertTrue(shippingAddressForm.isDisplayed());
+    	/*wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("multiShippingAddresses")By.xpath("//body/article/descendant::form")))*/;
     	return shippingAddressForm;
+    }
+	private WebElement shippingAddressPage(){
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    	shippingAddressForm = driver.findElement(By.xpath("//div[@id='shipping-address']"));
+    	//driver.findElement(By.id("multiShippingAddresses_checkbox"));
+    	Assert.assertTrue(shippingAddressForm.isDisplayed());
+    	/*wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("multiShippingAddresses")By.xpath("//body/article/descendant::form")))*/;
+    	return shippingAddressForm;
+    }
+	
+	private WebElement multiShippingCheckout(){
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.waitLoadingBar(driver);
+    	orderSummaryForm = driver.findElement(By.xpath("//div[@id='order-summary']"));
+    	//driver.findElement(By.id("multiShippingAddresses_checkbox"));
+    	Assert.assertTrue(orderSummaryForm.isDisplayed());
+    	/*wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("multiShippingAddresses")By.xpath("//body/article/descendant::form")))*/;
+    	return orderSummaryForm;
     }
 
     public boolean isDisplayed() {
@@ -143,7 +184,10 @@ public class CheckoutShippingAdd extends Checkout {
     }
 
     public void continueCheckout() {    	
-        nextStep(getShippingAddressForm());
+        nextStep(shippingAddressPage());
+    }
+    public void continueCheckoutForMulti() {    	
+    	continueButton(multiShippingCheckout());
     }
 
     public void fillAPOShippingData() {

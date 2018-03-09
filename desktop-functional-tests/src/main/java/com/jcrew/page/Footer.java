@@ -46,7 +46,7 @@ public class Footer {
     @FindBy(xpath =".//div[contains(@class,'js-footer__row__wrap--bottom')]")
     private WebElement footerBottom;
 
-    @FindBy(className = "c-footer__social")
+    @FindBy(xpath = "//div[@class='c-footer__social']")
     private WebElement footer_social;
 
     @FindBy(className = "footer__signup__form email__form")
@@ -55,10 +55,11 @@ public class Footer {
     public Footer(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
-
+        Util.waitForPageFullyLoaded(driver);
         PageFactory.initElements(driver, this);
+        Util.waitForPageFullyLoaded(driver);
         wait.until(ExpectedConditions.visibilityOf(global__footer));
-//        wait.until(ExpectedConditions.visibilityOf(footer_social));
+       // wait.until(ExpectedConditions.visibilityOf(footer_social));
         
         HeaderLogo logo = new HeaderLogo(driver);
         logo.hoverLogo();

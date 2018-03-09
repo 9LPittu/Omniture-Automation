@@ -1,5 +1,6 @@
 package com.jcrew.steps.checkout;
 
+import com.jcrew.page.checkout.CheckoutBilling;
 import com.jcrew.page.checkout.CheckoutReview;
 import com.jcrew.pojo.Address;
 import com.jcrew.utils.DriverFactory;
@@ -11,6 +12,14 @@ import cucumber.api.java.en.When;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
 /**
  * Created by nadiapaolagarcia on 5/3/16.
  */
@@ -18,7 +27,15 @@ public class CheckoutReviewSteps extends DriverFactory {
     private CheckoutReview review = new CheckoutReview(getDriver());
     private boolean isProduction = false;
     private StateHolder stateHolder = StateHolder.getInstance();
-
+    protected String getDataFromTestDataRowMap(String columnName) {
+		Map<String, Object> testdataMap = stateHolder.get("testdataRowMap");
+		String columnValue = null;	
+		if (testdataMap.containsKey(columnName)) {
+			columnValue = ((String) testdataMap.get(columnName)).trim();
+		}
+		//logger.debug("Testdata for '{}' = {}", columnName, columnValue);
+		return columnValue;
+	}
     public CheckoutReviewSteps() {
         PropertyReader properties = PropertyReader.getPropertyReader();
         String environment = properties.getProperty("environment");
@@ -29,8 +46,19 @@ public class CheckoutReviewSteps extends DriverFactory {
     }
 
     @Then("Verify user is in review page")
-    public void is_review_page() {
+    public void is_review_page() throws Exception {
         assertTrue("User is in review page", review.isDisplayed());
+		/*String splitPayment = getDataFromTestDataRowMap("Split Payments Required");
+		String paymentmethod1 = getDataFromTestDataRowMap("Payment Method 1");
+		String paymentmethod2 = getDataFromTestDataRowMap("Payment Method 2");
+		if(splitPayment.equalsIgnoreCase("Yes")) {
+			//assertTrue("User is in review page", billingPage.isDisplayed());
+			review.clickOnBilling();
+			review.splitPayment(paymentmethod1, paymentmethod2);
+		}else {           
+			
+		}*/
+
     }
 
     @When("User fills security code")
