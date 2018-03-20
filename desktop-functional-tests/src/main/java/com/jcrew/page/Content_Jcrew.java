@@ -38,12 +38,16 @@ public class Content_Jcrew {
 	ArrayList<String> list;
 	public int code;
 	String filePath;
+	int urlCol = 1;
+	int pageLoadTimeCol = 2;
+	int urlStatusCol = 3;
+	int imageStatusCol = 4;
+	int failedURLCol = 5;
 	private final PropertyReader reader = PropertyReader.getPropertyReader();
 	DriverFactory driverFactory = new DriverFactory();
 	Util util = new Util();
 	String failedUrl = null;
 	HashSet<String> linkUrl;
-
 	@FindBy(xpath = "//div/a[contains(text(),'START SHOPPING')]")
 	private WebElement startShopping;
 	@FindBy(xpath = "//div[@class='email-capture--close modal-capture--close js-email-capture--close']/span[@class='icon-close']")
@@ -104,15 +108,21 @@ public class Content_Jcrew {
 			connection.connect();
 			code = connection.getResponseCode();
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return code;
 	}
 
-	public int imageResponse() {
+	public int imageResponse() throws Exception {
 		int code = 0;
-		List<WebElement> imgs = driver.findElements(By
-				.xpath("//img[contains(@src,'https')]"));
+		
+		try {
+			WebElement view = driver.findElement(By.xpath("(//div/ul/li[4]/span/a[contains(text(),'View')])[1]"));
+			if(view.isDisplayed())
+				view.click();
+		}catch (Exception e) {
+		}
+		Thread.sleep(5000);
+		List<WebElement> imgs = driver.findElements(By.xpath("//img[contains(@src,'https')]"));
 		list = new ArrayList<String>();
 		for (WebElement img : imgs) {
 			list.add(img.getAttribute("src"));
@@ -122,18 +132,19 @@ public class Content_Jcrew {
 			URL url;
 			try {
 				url = new URL(list.get(j));
-				HttpURLConnection connection = (HttpURLConnection) url
-						.openConnection();
+				//driver.navigate().to(url);
+				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
 				connection.connect();
 				code = connection.getResponseCode();
-				Reporter.addStepLog("Image URL: " + list.get(j) + ","
-						+ "Response code for the Image URL: " + code);
+				Reporter.addStepLog("Image URL: " + list.get(j) + "," + "Response code for the Image URL: " + code);
 				boolean brokenImge = testImageComparison(list.get(j));
 				if (brokenImge) {
 					failedUrl = list.get(j);
+					System.out.println("Broken image Url" + failedUrl);
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 		return code;
@@ -208,6 +219,7 @@ public class Content_Jcrew {
 
 	}
 
+	@SuppressWarnings("resource")
 	public List<String> excel() throws Exception {
 		String jcrew_filePath = System.getProperty("user.dir")
 				+ "\\ContentTestingSheet\\JcrewContentRegressiontestingSheet.xlsx";
@@ -243,9 +255,9 @@ public class Content_Jcrew {
 			XSSFSheet sheet1 = wb.getSheet(list.get(k));
 			int i = sheet1.getLastRowNum();
 			for (int j = 0; j <= i; j++) {
-				if (sheet1.getRow(j).getCell(6).getStringCellValue()
+				if (sheet1.getRow(j).getCell(urlCol).getStringCellValue()
 						.startsWith("https://"))
-					excelReading.add(sheet1.getRow(j).getCell(6)
+					excelReading.add(sheet1.getRow(j).getCell(urlCol)
 							.getStringCellValue());
 			}
 		}
@@ -284,33 +296,32 @@ public class Content_Jcrew {
 		if (getUrls.equalsIgnoreCase("true")) {
 			excelWriting = getAllLinks();
 			for (int j = 1; j < excelWriting.size(); j++) {
-				sheet1.getRow(j).getCell(1).setCellValue(excelWriting.get(j));
+				sheet1.getRow(j).getCell(urlCol).setCellValue(excelWriting.get(j));
 				FileOutputStream fout = new FileOutputStream(src);
 				wb.write(fout);
 			}
 		} else if (homePageUrl.equalsIgnoreCase("true")) {
 			excelWriting = getHomePageUrl();
 			for (int j = 1; j < excelWriting.size(); j++) {
-				sheet1.getRow(j).getCell(1).setCellValue(excelWriting.get(j));
+				sheet1.getRow(j).getCell(urlCol).setCellValue(excelWriting.get(j));
 				FileOutputStream fout = new FileOutputStream(src);
 				wb.write(fout);
 			}
 		} else if (excelReading.equalsIgnoreCase("true")) {
 			excelWriting = excel();
 			for (int j = 1; j < excelWriting.size(); j++) {
-				sheet1.getRow(j).getCell(1).setCellValue(excelWriting.get(j));
+				sheet1.getRow(j).getCell(urlCol).setCellValue(excelWriting.get(j));
 				FileOutputStream fout = new FileOutputStream(src);
 				wb.write(fout);
 			}
 		}
-
 		int rowCount = sheet1.getLastRowNum();
 		for (int i = 1; i < rowCount; i++) {
 			if (util.getEnvironment().equalsIgnoreCase("gold")) {
-				dataValue = sheet1.getRow(i).getCell(1).getStringCellValue()
+				dataValue = sheet1.getRow(i).getCell(urlCol).getStringCellValue()
 						.replace("www", "or");
 			} else if (util.getEnvironment().equalsIgnoreCase("production")) {
-				dataValue = sheet1.getRow(i).getCell(1).getStringCellValue();
+				dataValue = sheet1.getRow(i).getCell(urlCol).getStringCellValue();
 			}
 			String country = contextChooser();
 			if (country.equalsIgnoreCase("in")
@@ -332,23 +343,23 @@ public class Content_Jcrew {
 			if (!dataValue.isEmpty()) {
 				urlStatus = responseCode(dataValue);
 				totalTime = pageLoadTime(dataValue);
-				sheet1.getRow(i).getCell(1).setCellValue(dataValue);
-				sheet1.getRow(i).getCell(2).setCellValue(totalTime);
-				sheet1.getRow(i).getCell(3).setCellValue(urlStatus);
+				sheet1.getRow(i).getCell(urlCol).setCellValue(dataValue);
+				sheet1.getRow(i).getCell(pageLoadTimeCol).setCellValue(totalTime);
+				sheet1.getRow(i).getCell(urlStatusCol).setCellValue(urlStatus);
 				Reporter.addStepLog("URL is: " + dataValue + ","
 						+ "Response code is: " + urlStatus + ","
 						+ "Total time for page load: " + totalTime);
 				String imageReading = prop.getProperty("imageReading");
 				if (imageReading.equals("true")) {
 					imageURLStatus = imageResponse();
-					sheet1.getRow(i).getCell(4).setCellValue(imageURLStatus);
+					sheet1.getRow(i).getCell(imageStatusCol).setCellValue(imageURLStatus);
 				}
 			}
 
 			if (failedUrl != null) {
 				String failedImageUrl = sheet1.getRow(i).getCell(5)
 						.getStringCellValue();
-				sheet1.getRow(i).getCell(5)
+				sheet1.getRow(i).getCell(failedURLCol)
 						.setCellValue(failedImageUrl + "\n" + failedUrl);
 				Reporter.addStepLog("Broken image URL is: " + failedImageUrl);
 			}
