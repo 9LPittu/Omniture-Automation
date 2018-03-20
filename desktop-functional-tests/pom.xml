@@ -29,7 +29,7 @@
         <repository>
             <id>jcrew-repoman</id>
             <name>J.Crew Maven Repository</name>
-            <url>http://www.datanucleus.org/downloads/maven2</url>
+            <url>http://nyc-artfc-d01/artifactory/maven</url>
         </repository>
     </repositories>
     <dependencies>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>oracle</groupId>
             <artifactId>ojdbc6</artifactId>
-            <version>11.2.0.3</version>
+            <version>11.2.0.4.0</version>
             <type>jar</type>
         </dependency>
 
