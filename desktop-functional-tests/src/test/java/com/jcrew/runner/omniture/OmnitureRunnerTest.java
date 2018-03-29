@@ -6,8 +6,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
-
 import com.jcrew.listners.Reporter;
 
 
@@ -17,7 +15,11 @@ import com.jcrew.listners.Reporter;
         features = {"features/jcrew/omniture"},
         tags = {"@s_omnitureArray"},
         glue = {"com.jcrew.steps"},
-        plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"}
+        plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"},
+        format = {
+                "json:target/cucumber-SAccount.json",
+                "pretty",
+                "html:target/cucumber/SAccount"}
 )
 
 public class OmnitureRunnerTest {
