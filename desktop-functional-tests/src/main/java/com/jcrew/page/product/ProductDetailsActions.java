@@ -45,7 +45,7 @@ public class ProductDetailsActions extends ProductDetails {
     }
 
     public void addToBag() {
-        stateHolder.addToList("toBag", getProduct());
+        //stateHolder.addToList("toBag", getProduct());
 
         HeaderBag headerBag = new HeaderBag(driver);
         int itemsInBag = headerBag.getItemsInBag();

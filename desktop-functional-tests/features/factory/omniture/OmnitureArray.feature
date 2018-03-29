@@ -1,6 +1,6 @@
 @s_omnitureArray
 Feature: S_Account Verification
- 	
+
   Scenario: Verify Omniture variables for review page
     Given User goes to homepage
     And User closes email capture
@@ -23,29 +23,39 @@ Feature: S_Account Verification
     And Verify checkout breadcrumb is REVIEW
     And Verify omniture variables have values	
 
-  Scenario: Verify Omniture on Home, Category pages
+  Scenario: Verify Omniture on Home page
   	Given User goes to homepage
     And User closes email capture
     Then Verify omniture variables have values
     
+  Scenario: Verify Omniture on Women Category page
+  	Given User goes to homepage
+    And User closes email capture
     When User hovers on a random category and subcategory from list
       |women|sweaters|
     Then Verify user is in category array page
     And Verify omniture variables have values
-        When User hovers on a random category and subcategory from list
-      |men|sweaters|
-
-    Then Verify user is in category array page
-    And Verify omniture variables have values
-        When User hovers on a random category and subcategory from list
-
-      |girls|dresses|
-
-    Then Verify user is in category array page
-    And Verify omniture variables have values
-        When User hovers on a random category and subcategory from list
-
-      |boys|sweaters|
-    Then Verify user is in category array page
-    And Verify omniture variables have values
     
+    Scenario: Verify Omniture on Men Category page
+  	Given User goes to homepage
+    And User closes email capture
+    When User hovers on a random category and subcategory from list
+      |men|sweaters|
+    Then Verify user is in category array page
+    And Verify omniture variables have values
+
+  Scenario: Verify Omniture on Girls Category page
+  	Given User goes to homepage
+    And User closes email capture
+    When User hovers on a random category and subcategory from list
+      |girls|dresses|
+    Then Verify user is in category array page
+    And Verify omniture variables have values
+
+  Scenario: Verify Omniture on Boys Category page
+  	Given User goes to homepage
+    And User closes email capture
+    When User hovers on a random category and subcategory from list
+      |boys|shirts|
+    Then Verify user is in category array page
+    And Verify omniture variables have values

@@ -215,7 +215,7 @@ public class StartSteps {
     
     private void setUpEnvironment() {
         setMonetate();
-    	setCookie();
+    	//setCookie();
     }
 
     private void setMonetate() {
