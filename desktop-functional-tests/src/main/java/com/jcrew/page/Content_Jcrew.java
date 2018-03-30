@@ -265,12 +265,9 @@ public class Content_Jcrew {
 	}
 
 	public void readAndWriteResultsIntoExcel() throws Exception {
-		String jcrew_filePath = System.getProperty("user.dir")
-				+ "\\ContentTestingSheet\\Content_testing_template_Jcrew.xlsx";
-		String factory_filePath = System.getProperty("user.dir")
-				+ "\\ContentTestingSheet\\Content_testing_template_Factory.xlsx";
-		String madewell_filePath = System.getProperty("user.dir")
-				+ "\\ContentTestingSheet\\Content_testing_template_Madewell.xlsx";
+		String jcrew_filePath = "ContentTestingSheet/Content_testing_template_Jcrew.xlsx";
+		String factory_filePath = "ContentTestingSheet/Content_testing_template_Factory.xlsx";
+		String madewell_filePath = "ContentTestingSheet/Content_testing_template_Madewell.xlsx";
 		File f = new File(System.getProperty("user.dir")
 				+ "\\properties\\contextchooser.properties");
 		Properties prop = new Properties();
@@ -370,8 +367,7 @@ public class Content_Jcrew {
 	}
 
 	public boolean testImageComparison(String webUrl) throws Exception {
-		File fileInput = new File(System.getProperty("user.dir")
-				+ "\\ImageReading\\Image.png");
+		File fileInput = new File("\\ImageReading\\Image.png");
 		URL url = new URL(webUrl);
 		BufferedImage bufileInput = ImageIO.read(fileInput);
 		DataBuffer dafileInput = bufileInput.getData().getDataBuffer();
