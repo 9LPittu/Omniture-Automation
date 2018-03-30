@@ -54,8 +54,7 @@ public class Content_Jcrew {
 	private WebElement emailCapture;
 
 	public String contextChooser() throws Exception {
-		File f = new File(System.getProperty("user.dir")
-				+ "\\properties\\contextchooser.properties");
+		File f = new File("properties/contextchooser.properties");
 		Properties prop = new Properties();
 		FileInputStream inputFile = new FileInputStream(f);
 		prop.load(inputFile);
@@ -363,7 +362,7 @@ public class Content_Jcrew {
 	}
 
 	public boolean testImageComparison(String webUrl) throws Exception {
-		File fileInput = new File("\\ImageReading\\Image.png");
+		File fileInput = new File("ImageReading/Image.png");
 		URL url = new URL(webUrl);
 		BufferedImage bufileInput = ImageIO.read(fileInput);
 		DataBuffer dafileInput = bufileInput.getData().getDataBuffer();
