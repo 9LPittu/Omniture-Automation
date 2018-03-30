@@ -221,14 +221,10 @@ public class Content_Jcrew {
 
 	@SuppressWarnings("resource")
 	public List<String> excel() throws Exception {
-		String jcrew_filePath = System.getProperty("user.dir")
-				+ "\\ContentTestingSheet\\JcrewContentRegressiontestingSheet.xlsx";
-		String factory_filePath = System.getProperty("user.dir")
-				+ "\\ContentTestingSheet\\FactoryContentRegressiontestingSheet.xlsx";
-		String madewell_filePath = System.getProperty("user.dir")
-				+ "\\ContentTestingSheet\\MadewellContentRegressiontestingSheet.xlsx";
-		File f = new File(System.getProperty("user.dir")
-				+ "\\properties\\contextchooser.properties");
+		String jcrew_filePath = "ContentTestingSheet/JcrewContentRegressiontestingSheet.xlsx";
+		String factory_filePath = "ContentTestingSheet/FactoryContentRegressiontestingSheet.xlsx";
+		String madewell_filePath = "ContentTestingSheet/MadewellContentRegressiontestingSheet.xlsx";
+		File f = new File("properties/contextchooser.properties");
 		Properties prop = new Properties();
 		FileInputStream inputFile = new FileInputStream(f);
 		prop.load(inputFile);
