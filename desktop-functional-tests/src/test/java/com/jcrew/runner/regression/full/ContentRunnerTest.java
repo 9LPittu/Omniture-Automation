@@ -16,12 +16,12 @@ import com.jcrew.listners.Reporter;
         features = {"features/jcrew/regression/Content"},
         tags = {"@JcrewContentTesting"},
         glue = {"com.jcrew.steps"},
-        		plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"}
-        /*format = {
+        		plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"},
+        format = {
                 "json:target/cucumber-Content_Jcrew.json",
                 "pretty",
                 "html:target/cucumber/Content_Jcrew"
-        }*/
+        }
 )
 
 public class ContentRunnerTest {

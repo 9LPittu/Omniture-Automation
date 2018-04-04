@@ -17,7 +17,11 @@ import com.jcrew.listners.Reporter;
         features = {"features/factory/omniture"},
         tags = {"@s_omnitureArray"},
         glue = {"com.jcrew.steps"},
-        plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"}
+        plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"},
+        format = {
+                "json:target/cucumber-SAccount.json",
+                "pretty",
+                "html:target/cucumber/SAccount"}
 )
 
 public class OmnitureRunnerTest {
