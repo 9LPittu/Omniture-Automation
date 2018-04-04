@@ -266,7 +266,8 @@ public class Content_Jcrew {
 		File f = new File(System.getProperty("user.dir")
 				+ "\\properties\\contextchooser.properties");
 		Properties prop = new Properties();
-		FileInputStream inputFile = new FileInputStream("properties/contextchooser.properties");
+		FileInputStream inputFile = new FileInputStream(System.getProperty("user.dir")
+				+ "\\properties\\contextchooser.properties");
 		prop.load(inputFile);
 		if (prop.getProperty("brand").equalsIgnoreCase("jcrew")) {
 			filePath = jcrew_filePath;
