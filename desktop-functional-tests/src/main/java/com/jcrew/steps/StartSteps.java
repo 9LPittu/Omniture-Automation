@@ -25,6 +25,7 @@ public class StartSteps {
     private final TestDataReader testData = TestDataReader.getTestDataReader();
     private final StateHolder stateHolder = StateHolder.getInstance();
     private WebDriver driver;
+    public static Scenario scenario;
 
     @Before
     public void setupDriver(Scenario scenario){
@@ -33,8 +34,24 @@ public class StartSteps {
 
         DriverFactory driverFactory = new DriverFactory();
         driver = driverFactory.getDriver();
+        StartSteps.scenario = scenario;
     }
+    //WriteReportToExcel
+    @Before("@WriteReportToExcel")
+    public void setupDriverWriteReportToExcel(Scenario scenario){
+        stateHolder.put("scenarioName", scenario.getName());
+        stateHolder.put("deletecookies", false);
 
+        DriverFactory driverFactory = new DriverFactory();
+        driver = driverFactory.getDriver();
+        StartSteps.scenario = scenario;
+    }
+    @Given("User opens browser window")
+    public void openBrowserWindow() {
+    	setUpEnvironment();
+    	
+    }
+    
     @Given("User goes to homepage")
     public void user_is_on_home_page() {
         int retry = 0;

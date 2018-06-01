@@ -179,6 +179,13 @@
         	<artifactId>poi-ooxml</artifactId>
         	<version>3.17-beta1</version>
         </dependency>
+		<dependency>
+           <groupId>info.cukes</groupId>
+           <artifactId>cucumber-jvm-xlsr</artifactId>
+           <version>0.0.1-SNAPSHOT</version>
+           <scope>system</scope>
+           <systemPath>${basedir}/ContentTestingSheet/cucumber-jvm-xls-0.0.2-SNAPSHOT.jar</systemPath>
+       </dependency>
     </dependencies>
 
     <build>
