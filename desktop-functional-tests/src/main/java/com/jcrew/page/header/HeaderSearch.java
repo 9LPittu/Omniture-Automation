@@ -1,6 +1,5 @@
 package com.jcrew.page.header;
 
-import com.jcrew.page.PageObject;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
@@ -14,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by ngarcia on 3/2/17.
  */
+@SuppressWarnings("unused")
 public class HeaderSearch extends HeaderWrap {
 
     @FindBy(className = "js-primary-nav__link--search")

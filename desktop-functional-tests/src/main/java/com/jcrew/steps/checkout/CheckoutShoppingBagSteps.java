@@ -6,22 +6,20 @@ import com.jcrew.page.Footer;
 import com.jcrew.page.checkout.CheckoutSummary;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.Product;
+import com.jcrew.steps.E2ECommon;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.List;
-
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -32,7 +30,9 @@ import static org.junit.Assert.assertFalse;
 public class CheckoutShoppingBagSteps extends DriverFactory {
     private CheckoutShoppingBag bag = new CheckoutShoppingBag(getDriver());
     private StateHolder stateHolder = StateHolder.getInstance();
-
+    E2ECommon e2e = new E2ECommon();
+    protected TestDataReader testdataReader = TestDataReader.getTestDataReader();
+    public WebDriver driver;
     @Then("Verify shopping bag is displayed")
     public void is_displayed() {
     	Util.wait(3000);
@@ -110,13 +110,17 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     @When("User clicks in CHECK OUT NOW button")
     public void check_out_now() {
     	CheckoutSummary summary = new CheckoutSummary(getDriver());
-    	String subTotal = summary.getSubTotal().trim();
-        subTotal=subTotal.replaceAll("[^0-9\\.]", "");
-        stateHolder.put("subtotal",subTotal);
+    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal"))  {
+    			summary.paypalTransaction();
+    	}else {
+        	String subTotal = summary.getSubTotal().trim();
+            subTotal=subTotal.replaceAll("[^0-9\\.]", "");
+            stateHolder.put("subtotal",subTotal);
 
-        stateHolder.put("total", summary.getTotalValue());
+            stateHolder.put("total", summary.getTotalValue());
 
-        bag.checkOutNow();
+            bag.checkOutNow();
+    	}
     }
 
     @Then("Verify that title is Shopping Bag")

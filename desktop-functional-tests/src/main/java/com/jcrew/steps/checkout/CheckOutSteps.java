@@ -6,12 +6,9 @@ import com.jcrew.utils.CurrencyChecker;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 /**
  * Created by nadiapaolagarcia on 4/8/16.
  */

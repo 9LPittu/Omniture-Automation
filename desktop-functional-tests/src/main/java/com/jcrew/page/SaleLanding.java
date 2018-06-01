@@ -21,6 +21,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/7/16.
  */
+@SuppressWarnings("unused")
 public class SaleLanding {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(SaleLanding.class);

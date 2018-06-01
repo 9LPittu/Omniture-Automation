@@ -1,9 +1,12 @@
 package com.jcrew.page.checkout;
 
+import java.io.File;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,9 +35,11 @@ public class CheckoutConfirmation extends Checkout {
         return bodyId.equals("confirmation");
     }
 
-    public String getConfirmationCode() {
+    public String getConfirmationCode() throws Exception {
         WebElement numberElement = confirmation_number.findElement(By.className("order-number"));
-
+        TakesScreenshot ts = (TakesScreenshot)driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(source, new File(".\\Screenshorts\\"+numberElement.getText().trim()+".png"));
         return numberElement.getText().trim();
     }
 

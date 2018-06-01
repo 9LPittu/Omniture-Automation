@@ -14,8 +14,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by nadiapaolagarcia on 3/30/16.
  */
+@SuppressWarnings("unused")
 public class JCrewHomePage extends PageObject implements IHomePage {
-    private HeaderWrap headerWrap;
+	private HeaderWrap headerWrap;
     private Footer footer;
 
     @FindBy(id = "page__home")

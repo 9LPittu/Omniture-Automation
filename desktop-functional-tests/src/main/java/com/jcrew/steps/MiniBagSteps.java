@@ -54,7 +54,8 @@ public class MiniBagSteps extends DriverFactory {
         }
     }
 
-    @Then("Verify subtotal in mini bag matches items")
+    @SuppressWarnings("unchecked")
+	@Then("Verify subtotal in mini bag matches items")
     public void verify_subtotal_in_mini_bag_matches_items() {
         float stackSum = 0;
         Stack<Product> productsStack = holder.get("bag_items");
@@ -87,7 +88,8 @@ public class MiniBagSteps extends DriverFactory {
         bag.waitUntilNoCheckOutDropdown();
     }
 
-    @Then("Verify each item links to product PDP")
+    @SuppressWarnings("unchecked")
+	@Then("Verify each item links to product PDP")
     public void verify_each_item_links_to_product_pdp() {
         HeaderBag bag = new HeaderBag(getDriver());
         if(isBrowser) {

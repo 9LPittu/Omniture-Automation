@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
+@SuppressWarnings("unused")
 public class UserNavigationSteps extends DriverFactory {
     private TestDataReader testDataReader = TestDataReader.getTestDataReader();
     private final UserNavigation navigation = new UserNavigation(getDriver());
@@ -191,7 +192,7 @@ public class UserNavigationSteps extends DriverFactory {
     }
 
     @When("^User navigates to ([^\"]*) product$")
-    public void navigate_to_product(String type) {
+    public void navigate_to_product(String type) throws Exception {
         String item, color, size, key;
 
         switch (type) {

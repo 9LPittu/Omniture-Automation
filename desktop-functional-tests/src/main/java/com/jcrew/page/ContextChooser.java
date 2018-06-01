@@ -34,6 +34,7 @@ public class ContextChooser {
 	@FindBy(id = "page__international")
 	private WebElement internationalContextChooserPage;
 
+	@SuppressWarnings("unused")
 	private HeaderWrap headerWrap;
 
 	public ContextChooser(WebDriver driver) {
@@ -164,7 +165,7 @@ public class ContextChooser {
 		
 		//Click on country
 		WebElement countryElement = internationalContextChooserPage.findElement(
-                By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/a[@data-country='" + countryName + "']"));
+                By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/button[@data-country='" + countryName + "']"));
         wait.until(ExpectedConditions.visibilityOf(countryElement));
         JavascriptExecutor ex = (JavascriptExecutor)driver;
         ex.executeScript("arguments[0].click();", countryElement);

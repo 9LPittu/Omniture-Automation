@@ -11,7 +11,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.jcrew.utils.Util;
-
+@SuppressWarnings("unused")
 public class Feature extends PageObject{
 
     @FindBy(id = "categoryPlus")

@@ -22,7 +22,8 @@ public class FactoryMyAccount extends Account implements IMyAccount {
     @FindBy(xpath = "//ul/li[contains(text(),'Home')]")
     private WebElement leftNavContainer_home;
 
-    public FactoryMyAccount(WebDriver driver) {
+    @SuppressWarnings("unused")
+	public FactoryMyAccount(WebDriver driver) {
         super(driver);
         wait.until(ExpectedConditions.visibilityOf(leftNavContainer_home));
         leftNavContainer_home.click();
@@ -67,7 +68,8 @@ public class FactoryMyAccount extends Account implements IMyAccount {
     }
 
 
-    private WebElement getMenuLink(String link) {
+    @SuppressWarnings("unused")
+	private WebElement getMenuLink(String link) {
         throw new WebDriverException("Method not implemented for Factory");
     }
 

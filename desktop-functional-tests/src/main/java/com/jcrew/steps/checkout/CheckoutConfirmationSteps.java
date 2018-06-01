@@ -6,6 +6,7 @@ import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
 import static org.junit.Assert.*;
@@ -13,10 +14,12 @@ import static org.junit.Assert.*;
 /**
  * Created by nadiapaolagarcia on 5/3/16.
  */
+@SuppressWarnings("static-access")
 public class CheckoutConfirmationSteps extends DriverFactory {
     private CheckoutConfirmation confirmation;
+    public WebDriver driver;
     private boolean isProduction = false;
-
+    
     public CheckoutConfirmationSteps() {
         PropertyReader properties = PropertyReader.getPropertyReader();
         String environment = properties.getProperty("environment");
@@ -29,13 +32,12 @@ public class CheckoutConfirmationSteps extends DriverFactory {
     }
 
     @Then("Verify user gets a confirmation number")
-    public void get_confirmation_number() {
+    public void get_confirmation_number() throws Exception {
         if(!isProduction) {            
             if (confirmation.isOrderConfirmationPage()) {
             	assertTrue("User is in confirmation page", confirmation.isDisplayed());
                 assertFalse("Get confirmation number", confirmation.getConfirmationCode().isEmpty());
                 confirmation.stateHolder.put("orderNumber", confirmation.getConfirmationCode());
-
             } else {
                 CheckoutSummary summary = new CheckoutSummary(getDriver());
 

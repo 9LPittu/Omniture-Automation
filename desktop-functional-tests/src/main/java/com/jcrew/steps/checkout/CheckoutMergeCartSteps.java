@@ -20,6 +20,7 @@ import static org.junit.Assert.fail;
 /**
  * Created by nadiapaolagarcia on 5/17/16.
  */
+@SuppressWarnings("static-access")
 public class CheckoutMergeCartSteps extends DriverFactory {
     private CheckoutMergeCart mergeCart = new CheckoutMergeCart(getDriver());
 

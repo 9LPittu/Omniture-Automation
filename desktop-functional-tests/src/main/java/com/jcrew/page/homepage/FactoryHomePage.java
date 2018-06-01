@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by ngarcia on 3/10/17.
  */
+@SuppressWarnings("unused")
 public class FactoryHomePage extends PageObject implements IHomePage {
     @FindBy(id = "page__home")
     private WebElement pageContent;

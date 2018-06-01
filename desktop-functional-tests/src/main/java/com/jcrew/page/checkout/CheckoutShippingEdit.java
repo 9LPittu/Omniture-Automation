@@ -8,8 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
+import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.Util;
 
 /**
@@ -19,11 +18,19 @@ public class CheckoutShippingEdit extends Checkout {
 
     @FindBy(id = "frmSelectShippingAddress")
     private WebElement shippingForm;
+    @FindBy(id = "addShippingAddress")
+    private WebElement addShoppingForm;
+    @FindBy(id = "order-summary__button-continue")
+    private WebElement continueButton;
     @FindBy(id = "address-book")
     private WebElement address_book;
-    
     @FindBy(id="frmMultiShippingAddress")
     private WebElement multiShippingAddressForm;
+    @FindBy(xpath="//div[@class='form-radio-set ship-to-store']/label/div")
+    private WebElement shipToStore;
+    @FindBy(xpath="//span[@class='zip-code normal-span']/input[@id='zipcode']")
+    private WebElement zipCode;
+    protected E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
 
     public CheckoutShippingEdit(WebDriver driver) {
         super(driver);
@@ -31,8 +38,9 @@ public class CheckoutShippingEdit extends Checkout {
         if(stateHolder.hasKey("isShippingAddressContinueClicked") || stateHolder.hasKey("isShippingDisabled"))
 			return;
 
-//        wait.until(ExpectedConditions.visibilityOf(shippingForm));
+       // wait.until(ExpectedConditions.visibilityOf(shippingForm));
     }
+    
 
     public boolean isDisplayed() {
         String bodyId = getBodyAttribute("id");
@@ -75,4 +83,16 @@ public class CheckoutShippingEdit extends Checkout {
     public void selectMultipleShippingAddressRadioButton(){
     	selectMultipleShippingAddressRadioButton(shippingForm);    	
     }
+    
+    public void selectSTS() {
+    	shipToStore.click();
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.wait(1000);
+    	zipCode.sendKeys(e2ePropertyReader.getProperty("sts.zipcode.fulfillment"));
+    	Util.wait(3000);
+    }
+    public void continueButton() {
+    	continueButton.click();
+    }
+    
 }

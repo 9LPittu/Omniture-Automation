@@ -1,6 +1,7 @@
 package com.jcrew.steps.checkout;
 
 import com.jcrew.page.checkout.CheckoutBilling;
+import com.jcrew.steps.E2ECommon;
 import com.jcrew.utils.DriverFactory;
 
 import cucumber.api.java.en.Then;
@@ -16,31 +17,41 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by nadiapaolagarcia on 5/9/16.
  */
+@SuppressWarnings("static-access")
 public class CheckoutBillingSteps extends DriverFactory {
 
-    private CheckoutBilling billing = new CheckoutBilling(getDriver());
-
+    //private CheckoutBilling billing = new CheckoutBilling(getDriver());
+    E2ECommon e2e = new E2ECommon();
     @When("User fills payment method as guest and continues")
     public void fill_payment_method() {
-        billing.fillPaymentMethod(true);
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	billing.fillPaymentMethod(true);
         billing.continueCheckout();
     }
 
     @When("^User fills payment method as guest with ([^\"]*) and continues$")
     public void fill_payment_method_card_continue(String card) {
-        billing.fillPaymentMethod(card);
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	billing.fillPaymentMethod(card);
         billing.continueCheckout();
     }
     
     @When("User fills payment method as registered user and continues")
     public void fill_payment_method_registered() {
-        billing.fillPaymentMethod(false);
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	billing.fillPaymentMethod(false);
         billing.continueCheckout();
     }
 
     @When("User continues to review page")
     public void continue_to_review() {
-        billing.continueCheckout();
+    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			return;
+		}
+    	if(e2e.getDataFromTestDataRowMap("Split Payments Required?").contains("No")) {
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	billing.continueCheckout();
+    	}
     }
 
     @Then("Verify Billing Page url is ([^\"]*)")
@@ -51,17 +62,23 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     @Then("Verify checkout breadcrumb is BILLING")
     public void verify_progress() {
-        assertEquals("Breadcrumb is BILLING", "BILLING", billing.getBreadCrumb());
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	assertEquals("Breadcrumb is BILLING", "BILLING", billing.getBreadCrumb());
     }
 
     @Then("Verify Billing page is displayed")
     public void is_shipping_options() {
-        assertTrue("Is billing page", billing.isDisplayed());
+    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			return;
+		}
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	assertTrue("Is billing page", billing.isDisplayed());
     }
 
     @Then("Verify available payment methods from list")
     public void available_payment_methods(List<String> expectedMethods) {
-        List<String> actualMethods = billing.getPaymentMethods();
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	List<String> actualMethods = billing.getPaymentMethods();
         actualMethods.remove(2);
         assertEquals("Same number of payment methods", expectedMethods.size(), actualMethods.size());
 
@@ -77,7 +94,8 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     @Then("Verify accepted cards from list")
     public void accepted_cards(List<String> expectedCards) {
-        List<String> actualCards = billing.getAcceptedCards();
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	List<String> actualCards = billing.getAcceptedCards();
 
         for(String card : actualCards)
             System.out.println("accepted card: " + card);
@@ -97,27 +115,33 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     @When("^User adds new billing address$")
     public void add_billing_address() {
-        billing.addNewBillingAddress();
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	billing.addNewBillingAddress();
     }
 
     @When("^User edits recently added card$")
     public void edit_card() {
-        billing.editCard();
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	billing.editCard();
     }
 
     @When("^User adds new card$")
     public void add_new_card() {
-        billing.addNewCard();
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	billing.addNewCard();
     }
 
     @When("^User removes ([^\"]*) card$")
     public void remove_card(String type) {
-        billing.removeCard(type);
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	billing.removeCard(type);
     }
 
-    @Then("^Verify card has been removed$")
+    
+	@Then("^Verify card has been removed$")
     public void card_has_been_removed() {
-        String removedCard = billing.stateHolder.get("removedCard");
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	String removedCard = billing.stateHolder.get("removedCard");
         List<String> cards = billing.getCards();
 
         assertFalse("Removed card is not part of user cards", cards.contains(removedCard));
@@ -125,7 +149,8 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     @Then("^Verify card has been added$")
     public void card_has_been_added() {
-        String addedCard = billing.stateHolder.get("addedCard");
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	String addedCard = billing.stateHolder.get("addedCard");
         List<String> cards = billing.getCards();
         Iterator<String> cardsI = cards.iterator();
 
@@ -142,7 +167,8 @@ public class CheckoutBillingSteps extends DriverFactory {
 
     @Then("^Verify card has been edited")
     public void card_has_been_edited() {
-        List<String> cards = billing.getCards();
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	List<String> cards = billing.getCards();
         String card = cards.get(cards.size() - 1);
 
         assertTrue("Edited card has new info", card.contains("Edited Card Name"));
@@ -150,7 +176,7 @@ public class CheckoutBillingSteps extends DriverFactory {
     
     @Then("^Select different card from the card list$")
     public void select_card_nodefault(){
-    	
+    	CheckoutBilling billing = new CheckoutBilling(getDriver());
     	billing.SelectPaymentMethodNoDefault();
     }
 }

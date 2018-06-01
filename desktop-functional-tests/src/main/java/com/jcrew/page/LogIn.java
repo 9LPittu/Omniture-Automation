@@ -25,6 +25,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 3/28/16.
  */
+@SuppressWarnings("unused")
 public class LogIn extends PageObject {
 
     private final WebDriver driver;

@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class MultiplePdpPage {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(MultiplePdpPage.class);
@@ -362,7 +363,8 @@ public class MultiplePdpPage {
         return drawer.getAttribute("class").contains("is-expanded");
     }
 
-    private boolean openDrawer(WebElement parentDrawer) {
+    
+	private boolean openDrawer(WebElement parentDrawer) {
         boolean result = true;
         WebElement drawer = parentDrawer.findElement(By.className("accordian__wrap"));
 
@@ -598,7 +600,8 @@ public class MultiplePdpPage {
         getModifiedURL("?externalProductCodes=" + items);
     }
 
-    public boolean selectedColorsByDefault() {
+    @SuppressWarnings("unchecked")
+	public boolean selectedColorsByDefault() {
         boolean result = true;
         List<String> colors = (List<String>) stateHolder.get("selectedColors");
 

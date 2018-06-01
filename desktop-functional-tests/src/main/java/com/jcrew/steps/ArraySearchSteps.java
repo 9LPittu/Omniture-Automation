@@ -23,6 +23,7 @@ import static org.junit.Assert.*;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
+@SuppressWarnings({ "static-access" })
 public class ArraySearchSteps extends DriverFactory {
 
     ArraySearch searchArray = new ArraySearch(getDriver());
@@ -39,7 +40,8 @@ public class ArraySearchSteps extends DriverFactory {
         assertTrue("User should be in search page", searchArray.isSearchPage());
     }
 
-    @Then("^Verify proper currency symbol is displayed on search grid list$")
+  
+	@Then("^Verify proper currency symbol is displayed on search grid list$")
     public void verify_currency_on_product_gridlist(){
         String countryName = searchArray.country.getName();
         List<String> listPrice = searchArray.getPrices();

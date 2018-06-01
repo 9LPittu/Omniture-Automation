@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by ngarcia on 4/19/17.
  */
+@SuppressWarnings("static-access")
 public class CheckoutSummarySteps extends DriverFactory {
     private CheckoutSummary summary = new CheckoutSummary(getDriver());
     private StateHolder stateHolder = StateHolder.getInstance();

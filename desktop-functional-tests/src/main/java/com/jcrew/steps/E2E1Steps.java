@@ -3,7 +3,6 @@ package com.jcrew.steps;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,9 +18,7 @@ import com.jcrew.steps.checkout.CheckoutShoppingBagSteps;
 import org.openqa.selenium.WebDriverException;
 
 import com.jcrew.pojo.GiftCard;
-import com.jcrew.pojo.User;
 import com.jcrew.utils.ExcelUtils;
-import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
 
 import cucumber.api.java.Before;
@@ -30,7 +27,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.*;
-
+@SuppressWarnings("unused")
 public class E2E1Steps extends E2ECommon {
 	
 	private boolean isItemDataExist = true;
@@ -47,7 +44,9 @@ public class E2E1Steps extends E2ECommon {
 		ExcelUtils testDataReader;
 
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-			testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + excelFileName, "Testdata", "");
+			testDataReader = new ExcelUtils(
+					System.getProperty("user.dir")+"\\properties\\test_data\\"+excelFileName,
+					"Testdata", "");
 		} else {
 			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");
 		}
@@ -55,7 +54,8 @@ public class E2E1Steps extends E2ECommon {
 		Map<String, Object> testdataRowMap = null;
 		for (int j = testDataReader.getSearchTextFirstRowNum(); j <= testDataReader.getSearchTextLastRowNum(); j++) {
 			testdataRowMap = testDataReader.getDataFromExcel(j);
-			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES") && !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")) {
+			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES")
+					&& !((String) testdataRowMap.get("Execution Completed")).equalsIgnoreCase("YES")) {
 				stateHolder.put("excelObject", testDataReader);
 				stateHolder.put("excelrowno", j);
 				stateHolder.put("testdataRowMap", testdataRowMap);
@@ -66,9 +66,9 @@ public class E2E1Steps extends E2ECommon {
 	
 	@When("^User selects country as per testdata$")
 	public void user_selects_country_as_per_testdata() throws Exception {
-		String countryName = /*getDataFromTestDataRowMap("Ship To Country")*/"US";
-		
-		if(countryName.equalsIgnoreCase("US"))
+		String countryName = getDataFromTestDataRowMap("Ship To Country");
+
+		if (countryName.equalsIgnoreCase("US"))
 			return;
 
 		// click on change link from footer
@@ -85,33 +85,30 @@ public class E2E1Steps extends E2ECommon {
 
 	@And("^User enters login credentials$")
 	public void user_enter_login_credentials() throws Exception {
-		//Thread.sleep(20000);
-		String userType = getDataFromTestDataRowMap("User Type");
-		String countryName = getDataFromTestDataRowMap("Ship To Country");
-
-		String emailAddress = "";
-		String password = "";
-		User user = null;
-
-		try {
-			if (!stateHolder.hasKey("e2eUserObject")) {
-				UsersHub userHub = UsersHub.getInstance();
-				user = userHub.getE2EUser(userType.toLowerCase(), countryName.toLowerCase());
-				stateHolder.put("e2eUserObject", user);
-			} else {
-				user = stateHolder.get("e2eUserObject");
-			}
-
-			emailAddress = user.getEmail();
-			password = user.getPassword();
-		} catch (SQLException e) {
-			String errorMsg = "Failed to retrieve '" + userType + "' type username and password from DB!!!";
-			Util.e2eErrorMessagesBuilder(errorMsg);
-			throw new WebDriverException(errorMsg);
-		}
-
+		// Thread.sleep(20000);
+		/*
+		 * String userType = getDataFromTestDataRowMap("User Type"); String countryName
+		 * = getDataFromTestDataRowMap("Ship To Country");
+		 * 
+		 * String emailAddress = ""; String password = ""; User user = null;
+		 * 
+		 * try { if (!stateHolder.hasKey("e2eUserObject")) { UsersHub userHub =
+		 * UsersHub.getInstance(); user = userHub.getE2EUser(userType.toLowerCase(),
+		 * countryName.toLowerCase()); stateHolder.put("e2eUserObject", user); } else {
+		 * user = stateHolder.get("e2eUserObject"); }
+		 * 
+		 * emailAddress = user.getEmail(); password = user.getPassword(); } catch
+		 * (SQLException e) { String errorMsg = "Failed to retrieve '" + userType +
+		 * "' type username and password from DB!!!";
+		 * Util.e2eErrorMessagesBuilder(errorMsg); throw new
+		 * WebDriverException(errorMsg); }
+		 */
 		LogIn logIn = new LogIn(getDriver());
-		logIn.submitUserCredentials(emailAddress, password);
+		// logIn.submitUserCredentials(emailAddress,password);
+		logIn.submitUserCredentials(
+				/* emailAddress */ "jc.e2e.steel.nonexpress.us.1@outlook.com"/* "eknath.r@hcl.com" */,
+				"jcrew@123" /* password */ /* "7FxPQ89J" *//* "PR3W9mdN" */);
+		Thread.sleep(2000);
 	}
 
 	@When("^User adds the products to bag as per testdata$")
@@ -125,9 +122,8 @@ public class E2E1Steps extends E2ECommon {
 
 		String[] arrItemIdentifiers = itemIdentifiers.split(getE2ETestdataDelimiter());
 		String[] arrQuantities = quantities.split(getE2ETestdataDelimiter());
-
 		stateHolder.put("itemsCount", arrItemIdentifiers.length);
-		
+
 		for (int i = 0; i < arrItemIdentifiers.length; i++) {
 			int rowNumber = getRowNumberFromItemMaster(arrItemIdentifiers[i]);
 			if (rowNumber > 0) {
@@ -137,7 +133,6 @@ public class E2E1Steps extends E2ECommon {
 				String quantity = arrQuantities[i];
 				String isMonogramRequired = getColumnValueFromItemMaster(rowNumber, "isMonogramRequired?");
 				// search for item
-				Thread.sleep(20000);
 				HeaderSearch headerWrap = new HeaderSearch(getDriver());
 				headerWrap.searchForSpecificTerm(itemCode);
 
@@ -186,7 +181,8 @@ public class E2E1Steps extends E2ECommon {
 				ProductDetailsActions pdpAction = new ProductDetailsActions(getDriver());
 				pdpAction.addToBag();
 			} else {
-				String message = "Failed to find item identifier '" + arrItemIdentifiers[i] + "' in E2E item master test data sheet";
+				String message = "Failed to find item identifier '" + arrItemIdentifiers[i]
+						+ "' in E2E item master test data sheet";
 				Util.e2eErrorMessagesBuilder(message);
 				throw new WebDriverException(message);
 			}
@@ -215,8 +211,8 @@ public class E2E1Steps extends E2ECommon {
 
 		for (int i = 0; i < arrGiftCardTypes.length; i++) {
 			Footer footer = new Footer(getDriver());
-			footer.clickFooterLinkFromDrawer("The J.Crew Gift Card", "Let Us Help You");
-
+			footer.goToGiftCardPage();
+			// footer.clickFooterLinkFromDrawer("The J.Crew Gift Card", "Let Us Help You");
 			GiftCards giftCards = new GiftCards(getDriver());
 
 			arrGiftCardTypes[i] = arrGiftCardTypes[i].toLowerCase();
@@ -280,7 +276,7 @@ public class E2E1Steps extends E2ECommon {
 
 	@When("^User clicks on CHECK OUT NOW button or Express Paypal button$")
 	public void user_clicks_checkout_express_paypal() {
-		String paymentMethod = getDataFromTestDataRowMap("Payment Method 1");
+		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
 
 		switch (paymentMethod.toUpperCase()) {
 			case "EXPRESS PAYPAL":
@@ -311,7 +307,8 @@ public class E2E1Steps extends E2ECommon {
 			int maxPromoCodesCount = 0;
 			if (arrPromoCodes.length > 2) {
 				maxPromoCodesCount = 2;
-				Util.e2eErrorMessagesBuilder("More than 2 promos cannot be applied on checkout pages. Only first 2 promos from test data will be applied!!");
+				Util.e2eErrorMessagesBuilder(
+						"More than 2 promos cannot be applied on checkout pages. Only first 2 promos from test data will be applied!!");
 			} else {
 				maxPromoCodesCount = arrPromoCodes.length;
 			}
@@ -341,7 +338,9 @@ public class E2E1Steps extends E2ECommon {
 
 	@And("^Navigate to Shipping Address page, if user is on Review page$")
 	public void navigate_to_shipping_address_page_is_user_on_review_page() {
-
+		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			return;
+		}
 		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
 
@@ -355,46 +354,51 @@ public class E2E1Steps extends E2ECommon {
 
 	@When("^User selects Shipping Addresses as per testdata$")
 	public void user_selects_shipping_addessses() {
-
+		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			return;
+		}
+		CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
 		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
-
-		String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
-		String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
-
-		CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
-
-		if (!multipleShippingAddressRequired.equalsIgnoreCase("YES")) {
-			// single shipping address selection
-			if (shippingAddresses.isEmpty())
-				return;
-
-			checkoutShipping.selectSpecificShippingAddress(shippingAddresses);
+		if (getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("STS")) {
+			checkoutShipping.selectSTS();
+			// checkoutShipping.continueCheckout();
 		} else {
-			// multiple shipping addresses selection
-			String[] arrShippingAddresses = shippingAddresses.split(getE2ETestdataDelimiter());
-			
-			int itemsCount = stateHolder.get("itemsCount");
-			if(itemsCount<2){
-				String message = "Multiple shipping addresses are selected. But only 1 item is added to bag.";
-				Util.e2eErrorMessagesBuilder(message);
-				throw new WebDriverException(message);
+			String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
+			String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
+
+			if (!multipleShippingAddressRequired.equalsIgnoreCase("YES")) {
+				// single shipping address selection
+				if (shippingAddresses.isEmpty())
+					return;
+
+				checkoutShipping.selectSpecificShippingAddress(shippingAddresses);
+			} else {
+				// multiple shipping addresses selection
+				String[] arrShippingAddresses = shippingAddresses.split(getE2ETestdataDelimiter());
+
+				int itemsCount = stateHolder.get("itemsCount");
+				if (itemsCount < 2) {
+					String message = "Multiple shipping addresses are selected. But only 1 item is added to bag.";
+					Util.e2eErrorMessagesBuilder(message);
+					throw new WebDriverException(message);
+				}
+
+				for (int i = 0; i < arrShippingAddresses.length; i++) {
+					stateHolder.addToList("shippingAddresses", arrShippingAddresses[i]);
+				}
+
+				checkoutShipping.selectMultipleShippingAddressRadioButton();
+				checkoutShipping.continueCheckout();
+
+				CheckoutMultipleShippingAddresses multiShipping = new CheckoutMultipleShippingAddresses(getDriver());
+				List<String> shippingAddressesList = stateHolder.getList("shippingAddresses");
+				multiShipping.multiShippingAddressSelection(shippingAddressesList);
+
+				multiShipping.continueCheckout();
+
+				stateHolder.put("isShippingAddressContinueClicked", true);
 			}
-			
-			for(int i =0;i<arrShippingAddresses.length;i++){
-				stateHolder.addToList("shippingAddresses", arrShippingAddresses[i]);
-			}
-			
-			checkoutShipping.selectMultipleShippingAddressRadioButton();
-			checkoutShipping.continueCheckout();
-			
-			CheckoutMultipleShippingAddresses multiShipping = new CheckoutMultipleShippingAddresses(getDriver());
-			List<String> shippingAddressesList = stateHolder.getList("shippingAddresses");
-			multiShipping.multiShippingAddressSelection(shippingAddressesList);
-			
-			multiShipping.continueCheckout();
-			
-			stateHolder.put("isShippingAddressContinueClicked", true);
 		}
 	}
 }

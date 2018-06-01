@@ -82,7 +82,12 @@ public class Footer {
             }
         }
     }
-
+    public void goToGiftCardPage() {
+    	String currentUrl = driver.getCurrentUrl();
+    	String split[] = currentUrl.split(".com/");
+    	driver.get(split[0]+".com/help/gift_card.jsp?sidecar=true");
+    	Util.waitForPageFullyLoaded(driver);
+    }
     public String getCountry() {
         WebElement country = global__footer.findElement(By.className("footer__country-context__country"));
         return country.getText();
@@ -143,7 +148,8 @@ public class Footer {
             "'abcdefghjiklmnopqrstuvwxyz')=\"" + link.toLowerCase() + "\"]";
         } else {
             xpath = ".//a[contains(@class,'footer__item__link') and translate(., 'ABCDEFGHJIKLMNOPQRSTUVWXYZ'," +
-                    "'abcdefghjiklmnopqrstuvwxyz')='" + link.toLowerCase() + "']";
+                    "'abcdefghjiklmnopqrstuvwxyz')='" +link+ "']";
+            		
         }
 
         return drawerElement.findElement(By.xpath(xpath));

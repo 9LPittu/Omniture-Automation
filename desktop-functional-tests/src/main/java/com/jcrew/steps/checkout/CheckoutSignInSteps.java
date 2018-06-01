@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by nadiapaolagarcia on 5/3/16.
  */
+@SuppressWarnings("static-access")
 public class CheckoutSignInSteps extends DriverFactory {
     private CheckoutSignIn signIn = new CheckoutSignIn(getDriver());
 

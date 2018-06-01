@@ -39,7 +39,7 @@ public class SiteMapIndexConverter implements Converter {
     }
 
     @Override
-    public boolean canConvert(Class aClass) {
+    public boolean canConvert(@SuppressWarnings("rawtypes") Class aClass) {
         return aClass.equals(SitemapIndex.class);
     }
 }

@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
+@SuppressWarnings("unused")
 public class MiniBag {
     private final WebDriver driver;
     private final Logger logger = LoggerFactory.getLogger(MiniBag.class);

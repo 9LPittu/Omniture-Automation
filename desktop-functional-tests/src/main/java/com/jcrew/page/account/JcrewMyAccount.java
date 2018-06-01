@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 /**
  * Created by nadiapaolagarcia on 3/29/16.
  */
+@SuppressWarnings("unused")
 public class JcrewMyAccount extends Account implements IMyAccount {
 
     @FindBy(id = "main_cont")

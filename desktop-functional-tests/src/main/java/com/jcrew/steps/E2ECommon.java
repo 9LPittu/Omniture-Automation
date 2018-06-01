@@ -1,6 +1,5 @@
 package com.jcrew.steps;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class E2ECommon extends DriverFactory {
 		if(!stateHolder.hasKey("itemMasterTestdata")){
 			try {
 				if(System.getProperty("os.name").toLowerCase().contains("windows")){			
-					itemMasterReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + itemsMasterExcelFileName , "E2E_ITEMS", "");			
+					itemMasterReader = new ExcelUtils(System.getProperty("user.dir")+"\\properties\\test_data\\"+itemsMasterExcelFileName , "E2E_ITEMS", "");			
 				}
 				else{
 					itemMasterReader = new ExcelUtils(ftpPath + itemsMasterExcelFileName , "E2E_ITEMS", "");
@@ -48,15 +47,15 @@ public class E2ECommon extends DriverFactory {
 		if (itemIdentifier.isEmpty())
 			return rowNumber;
 
-		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
-
-		for (int i = itemMasterTestdata.getSearchTextFirstRowNum(); i <= itemMasterTestdata
-				.getSearchTextLastRowNum(); i++) {
+		ExcelUtils itemMasterTestdata = /*stateHolder.get("itemMasterTestdata");*/new ExcelUtils(System.getProperty("user.dir")+"\\properties\\test_data\\E2E_ITEMS_MASTER_TESTDATA.xls", "E2E_ITEMS", "");
+		for (int i = itemMasterTestdata.getSearchTextFirstRowNum(); i <= itemMasterTestdata.getSearchTextLastRowNum(); i++) {
 			try {
 				Map<String, Object> itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(i);
+				
 				String itemIdentifierFromSheet = (String) itemMasterTestdataMap.get("Item Identifier");
 				if (itemIdentifierFromSheet.equalsIgnoreCase(itemIdentifier)) {
 					rowNumber = i;
+					break;
 				}
 			} catch (FileNotFoundException e) {
 				throw new FileNotFoundException();
@@ -69,7 +68,7 @@ public class E2ECommon extends DriverFactory {
 	}
 
 	protected String getColumnValueFromItemMaster(int rowNumber, String columnName) throws IOException {
-		ExcelUtils itemMasterTestdata = stateHolder.get("itemMasterTestdata");
+		ExcelUtils itemMasterTestdata = /*stateHolder.get("itemMasterTestdata");*/ new ExcelUtils(System.getProperty("user.dir")+"\\properties\\test_data\\E2E_ITEMS_MASTER_TESTDATA.xls", "E2E_ITEMS", "");
 
 		Map<String, Object> itemMasterTestdataMap = null;
 
@@ -88,7 +87,7 @@ public class E2ECommon extends DriverFactory {
 		}
 	}
 	
-	protected String getDataFromTestDataRowMap(String columnName) {
+	public String getDataFromTestDataRowMap(String columnName) {
 		Map<String, Object> testdataMap = stateHolder.get("testdataRowMap");
 		String columnValue = null;
 		if (testdataMap.containsKey(columnName)) {

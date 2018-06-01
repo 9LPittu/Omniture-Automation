@@ -11,6 +11,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by ngarcia on 3/22/17.
  */
+@SuppressWarnings("static-access")
 public class ProductDetailSoldOutSteps extends DriverFactory {
     private ProductDetailSoldOut soldOut = new ProductDetailSoldOut(getDriver());
 

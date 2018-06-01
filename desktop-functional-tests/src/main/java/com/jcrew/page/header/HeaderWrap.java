@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 3/28/16.
  */
+@SuppressWarnings("unused")
 public class HeaderWrap extends PageObject {
 	public final StateHolder stateHolder = StateHolder.getInstance();
 

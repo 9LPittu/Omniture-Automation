@@ -392,13 +392,13 @@ public abstract class Checkout extends PageObject {
     
     public void selectMultipleShippingAddressRadioButton(WebElement checkoutFormElement){
 
-    	//WebElement multipleAddressRadioBtn = checkoutFormElement/*.findElement(By.id("multiShippingAddresses"))*/;
-    	//multipleAddressRadioBtn.click();
+    	WebElement multipleAddressRadioBtn = checkoutFormElement.findElement(By.xpath("//div[@class='multiShippingAddresses_container']/label"));
+    	multipleAddressRadioBtn.click();
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
-    	checkoutFormElement.click();
+    	/*checkoutFormElement.click();
     	Util.waitForPageFullyLoaded(driver);
-    	Util.waitLoadingBar(driver);
+    	Util.waitLoadingBar(driver);*/
     	
     }
     

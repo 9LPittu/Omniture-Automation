@@ -3,6 +3,7 @@ package com.jcrew.steps.checkout;
 import com.jcrew.page.checkout.CheckoutShippingOptions;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.ShippingMethod;
+import com.jcrew.steps.E2ECommon;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.ShippingMethodCalculator;
 import com.jcrew.utils.StateHolder;
@@ -31,14 +32,18 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
     private final StateHolder stateHolder = StateHolder.getInstance();
     private TestDataReader testDataReader = TestDataReader.getTestDataReader();
     private ShippingMethodCalculator methodCalculator = new ShippingMethodCalculator();
-
+    protected E2ECommon e2e = new E2ECommon();
     @Then("Verify Shipping And Gift Options page is displayed")
     public void is_shipping_options() {
-    	
+    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			return;
+		}
     	if(stateHolder.hasKey("isShippingDisabled"))
     		return;
-    	
+    	if (e2e.getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("STS")) {
+    	}else {
         assertTrue("Is shipping and gift options page", shippingOptions.isDisplayed());
+    	}
     }
 
     @Then("^Verify Shipping Options Page url is ([^\"]*)$")
@@ -196,15 +201,24 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
     
     @When("^User selects a random shipping method$")
     public void select_random_shipping_method() {
+    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+		
+			return;
+		}
         shippingOptions.selectShippingMethod();
     }
 
     @When("User continues to Payment Method page")
     public void continue_to_payment_method() {
+    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			return;
+		}
     	if(stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isShippingMethodContinueClicked"))
 			return;
-    	
+    	if (e2e.getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("STS")) {
+    	}else {
         shippingOptions.continueCheckout();
+    	}
     }
 
     @Then("^Verify Shipping Options Page contains gift option section$")

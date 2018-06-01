@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * Created by ngarcia on 3/27/17.
  */
+@SuppressWarnings("unused")
 public class Wishlist extends PageObject {
 
     @FindBy(id = "wishlistName")

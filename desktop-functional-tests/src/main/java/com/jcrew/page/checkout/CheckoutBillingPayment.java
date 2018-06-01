@@ -60,7 +60,8 @@ public class CheckoutBillingPayment extends Checkout {
     @FindBy(name="frm_payment_page")
     private WebElement paymentPageForm;
     
-    private HeaderWrap header;
+    @SuppressWarnings("unused")
+	private HeaderWrap header;
 
     public CheckoutBillingPayment(WebDriver driver) {
         super(driver);

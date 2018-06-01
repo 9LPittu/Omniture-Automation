@@ -3,8 +3,6 @@ package com.jcrew.steps.checkout;
 import com.jcrew.page.checkout.CheckoutPromoCode;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
-import com.jcrew.utils.TestDataReader;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -12,11 +10,6 @@ import cucumber.api.java.en.When;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-
-import org.openqa.selenium.WebDriverException;
 
 /**
  * Created by ravi kumar on 4/5/16.

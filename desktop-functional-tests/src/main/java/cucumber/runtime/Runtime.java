@@ -20,6 +20,7 @@ import java.util.*;
 /**
  * This is the main entry point for running Cucumber features.
  */
+@SuppressWarnings("unused")
 public class Runtime implements UnreportedStepExecutor {
 
     private static final String[] PENDING_EXCEPTIONS = new String[]{

@@ -42,16 +42,15 @@ public class ProductDetailsSizes extends ProductDetails {
         return selectedSize.getAttribute("data-name");
     }
 
-    public void selectSize(String size) {
+    public void selectSize(String size) throws Exception {
         List<WebElement> productSizes = sizes.findElements(
                 By.xpath(".//li[contains(@class,'js-product__size') and @data-name='" + size.toUpperCase() + "']"));
 
         if (productSizes.size() > 0) {
             WebElement selectedSize = productSizes.get(0);
             WebElement selectedSizeLabel = selectedSize.findElement(By.className("btn__label"));
-
-            //Util.scrollAndClick(driver, selectedSizeLabel);
-            selectedSizeLabel.click();
+            Util.scrollAndClick(driver, selectedSizeLabel);
+            //selectedSizeLabel.click();
             logger.info("Selecting specified size {}", size);
         } else {
             logger.info("Size " + size + " not found");

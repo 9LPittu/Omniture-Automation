@@ -172,7 +172,6 @@ public class StartSteps {
         Country context = new Country(envUrl, country);
         stateHolder.put("context", context);
         envUrl = context.getHomeurl();
-
         logger.debug("getting url: " + envUrl);
 
         setUpEnvironment();
@@ -225,7 +224,8 @@ public class StartSteps {
         }
     }
 
-    private void setCookie() {
+    @SuppressWarnings("unused")
+	private void setCookie() {
         boolean setCookie = testData.getBoolean("setSidecarCookie");
 
         if(setCookie) {

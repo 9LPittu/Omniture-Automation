@@ -2,7 +2,6 @@ package com.jcrew.utils;
 
 
 import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.pojo.Country;
 import org.openqa.selenium.*;
@@ -33,7 +32,7 @@ public class Util {
     public static String e2eErrorMessages= "";
     
     public static String getEnvironment(){
-    	return System.getProperty("environment", "ci");
+    	return System.getProperty("environment", "steel");
     }
 
     public static int randomIndex(int size) {

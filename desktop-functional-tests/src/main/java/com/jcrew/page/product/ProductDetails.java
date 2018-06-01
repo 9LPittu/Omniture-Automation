@@ -26,6 +26,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
+@SuppressWarnings("unused")
 public class ProductDetails extends PageObject {
 
     @FindBy(xpath = "//div[@id='c-product__vps']")

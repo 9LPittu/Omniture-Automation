@@ -15,12 +15,13 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 4/1/16.
  */
+@SuppressWarnings("unused")
 public class ArrayCategory extends Array {
 
 	@FindBy(className = "c-product__list")
     private WebElement productList;
 	// sorry no items message
-	@FindBy(xpath = "//*[@id=\\\"page__c\\\"]/article/div/p[1]")
+	@FindBy(xpath = "//*[@id='page__c']/article/div/p[1]")
     private WebElement emptyproductList;
 	
     @FindBy(id = "c-category__filters")

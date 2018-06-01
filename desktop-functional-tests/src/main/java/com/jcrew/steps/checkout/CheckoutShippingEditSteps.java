@@ -1,6 +1,7 @@
 package com.jcrew.steps.checkout;
 
 import com.jcrew.page.checkout.CheckoutShippingEdit;
+import com.jcrew.steps.E2ECommon;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
 
@@ -15,13 +16,19 @@ import static org.junit.Assert.assertTrue;
 public class CheckoutShippingEditSteps extends DriverFactory {
     private CheckoutShippingEdit shipping = new CheckoutShippingEdit(getDriver());
     private final StateHolder stateHolder = StateHolder.getInstance();
-
+    E2ECommon e2e = new E2ECommon();
     @When("^User continues to Shipping and Gift Options page$")
     public void continue_to_shipping_option() {
+    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			return;
+		}
     	if(stateHolder.hasKey("isShippingAddressContinueClicked") || stateHolder.hasKey("isShippingDisabled"))
     		return;
-    	
+    	if (e2e.getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("STS")) {
+    		shipping.continueButton();
+    	}else {
         shipping.continueCheckout();
+    	}
     }
 
     @When("User selects a shipping address and continues")
@@ -38,6 +45,9 @@ public class CheckoutShippingEditSteps extends DriverFactory {
 
     @Then("Verify select shipping address page is displayed")
     public void page_is_displayed() {
+    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			return;
+		}
     	if(stateHolder.hasKey("isShippingDisabled"))
 			return;
     	

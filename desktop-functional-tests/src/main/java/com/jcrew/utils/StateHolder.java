@@ -46,7 +46,8 @@ public class StateHolder {
         return threadMap;
     }
 
-    public <T> T get(String key) {
+    @SuppressWarnings("unchecked")
+	public <T> T get(String key) {
         Map<String, Object> threadMap = getMapForCurrentThread();
         return (T) threadMap.get(key);
     }
@@ -69,7 +70,8 @@ public class StateHolder {
         }
     }
     
-    public <T> List<T> getList(String key) {
+    @SuppressWarnings("unchecked")
+	public <T> List<T> getList(String key) {
         return (List<T>) get(key);
     }
     

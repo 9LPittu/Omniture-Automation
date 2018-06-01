@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * Created by nadiapaolagarcia on 5/3/16.
  */
+@SuppressWarnings("unused")
 public class CheckoutShoppingBag extends Checkout {
 
     @FindBy(id = "giftCardContainer")

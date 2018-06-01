@@ -150,7 +150,7 @@ public class CheckoutReview extends Checkout{
             
             place_my_order_elements.get(0).click();
             
-            wait.until(ExpectedConditions.invisibilityOfAllElements(place_my_order_elements));
+           wait.until(ExpectedConditions.invisibilityOfAllElements(place_my_order_elements));
         } else {
             logger.info("Trying to place an order in production, ignoring");
         }
@@ -245,8 +245,8 @@ public class CheckoutReview extends Checkout{
     	String className = securityCode.get(0).getAttribute("class");
     	String[] arrClassName = className.split(" "); 
     	String cardType = arrClassName[arrClassName.length - 1];
-    	
-    	String paymentMethodName1 = "";
+    	String paymentMethodName = "";
+    	/*String paymentMethodName1 = "";
     	String paymentMethodName2 = "";
     	if(cardType.toUpperCase().equals("VISA")) {
     		paymentMethodName1 = "visa";
@@ -256,8 +256,8 @@ public class CheckoutReview extends Checkout{
     		securityCode.get(0).sendKeys(securityCodeText1);
         	String securityCodeText2 = e2ePropertyReader.getProperty(paymentMethodName2.toLowerCase() + ".security.code");
         	securityCode.get(1).sendKeys(securityCodeText2);
-    	}
-    	/*switch(cardType.toUpperCase()){
+    	}*/
+    	switch(cardType.toUpperCase()){
     		case "VISA":
     			paymentMethodName = "visa";
     			break;
@@ -273,15 +273,17 @@ public class CheckoutReview extends Checkout{
     		case "JCB":
     			paymentMethodName = "jcb";
     			break;
-    	}*/
+    	}
     	
-    	/*E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
     	String securityCodeText = e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code");
-    	securityCode.get(0).sendKeys(securityCodeText); */   	
+    	securityCode.get(0).sendKeys(securityCodeText);
     }
     
     public void enterSecurityCode(String paymentMethodName){
     	if(paymentMethodName.equalsIgnoreCase("JCC"))
+    		return;
+    	if(paymentMethodName.equalsIgnoreCase("Gift Card"))
     		return;
     	
     	E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();

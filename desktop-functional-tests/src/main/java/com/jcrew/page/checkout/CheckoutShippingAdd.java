@@ -3,6 +3,7 @@ package com.jcrew.page.checkout;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 
@@ -19,6 +20,7 @@ import org.openqa.selenium.support.ui.Select;
 /**
  * Created by nadiapaolagarcia on 5/3/16.
  */
+@SuppressWarnings("deprecation")
 public class CheckoutShippingAdd extends Checkout {
 
     @FindBy(id = "firstNameSA")
@@ -49,23 +51,29 @@ public class CheckoutShippingAdd extends Checkout {
     private WebElement useSameAddress;
     @FindBy(xpath = "//a[@class='button-submit']")
     private WebElement useAddressAsEntered;
-  
+    @FindBy(xpath="//div[@class='form-radio-set ship-to-store']/label/div")
+    private WebElement shipToStore;
+    @FindBy(xpath="//span[@class='zip-code normal-span']/input[@id='zipcode']")
+    private WebElement zipCode;
+    protected E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    
     private WebElement shippingAddressForm;
     private WebElement orderSummaryForm;
     private WebElement addNewShippingAddressForm;
+    
 
     public CheckoutShippingAdd(WebDriver driver) {
         super(driver);        
         isDisplayed();        
     }
     
-    public void useSameAddressLink(){
+	public void useSameAddressLink(){
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
     	Assert.assertTrue(useSameAddress.isDisplayed());
     	useSameAddress.click();
     }
-    public void useAddressAsEntered(){
+	public void useAddressAsEntered(){
     	Util.waitForPageFullyLoaded(driver);
     	Util.waitLoadingBar(driver);
     	Assert.assertTrue(useAddressAsEntered.isDisplayed());
@@ -258,5 +266,12 @@ public class CheckoutShippingAdd extends Checkout {
         }else{
         	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("submit-new-shipping-address")));
         }
+    }
+    
+    public void selectSTS() {
+    	shipToStore.click();
+    	Util.waitForPageFullyLoaded(driver);
+    	Util.wait(3000);
+    	zipCode.sendKeys(e2ePropertyReader.getProperty("sts.zipcode.fulfillment"));
     }
 }

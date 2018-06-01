@@ -62,6 +62,7 @@ public class DriverGenerator {
 
         switch (propertyReader.getProperty("browser")) {
             case "chrome":
+            	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\Softwares\\chromedriver.exe");
                 capabilities = getChromeCapabilities();
                 driver = new ChromeDriver(capabilities);
                 break;
