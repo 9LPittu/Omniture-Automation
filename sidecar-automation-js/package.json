@@ -1,0 +1,59 @@
+{
+  "name": "sidecar_automation",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^19.2.3",
+    "jest": "^20.0.4",
+    "jest-each": "0.3.1",
+    "jest-environment-node-debug": "^2.0.0",
+    "jest-html-reporter": "^2.3.0",
+    "jest-junit": "^3.7.0",
+    "jest-screenshot-reporter": "*",
+    "react-scripts": "1.0.7",
+    "selenium-webdriver": "^3.4.0",
+    "webdriver-manager": "^12.0.6"
+  },
+  "scripts": {
+    "tests_jcrew_qa": "jest -c tests/jestJcrewQaConfig.json",
+    "tests_jcrew_qa_mobile": "jest -c tests/jestJcrewQaMobileConfig.json",
+    "tests_factory_qa": "jest -c tests/jestFactoryQaConfig.json",
+    "tests_jcrew_prod": "jest -c tests/jestJcrewProdConfig.json",
+    "tests_factory_prod": "jest -c tests/jestFactoryProdConfig.json",
+    "tests-update": "webdriver-manager update --out_dir ../../tests/selenium",
+    "tests-start": "webdriver-manager start --out_dir ../../tests/selenium",
+    "watch": "jest -u --coverage -c tests/jestConfig.json && jest --watchAll"
+  },
+  "jest": {
+    "testResultsProcessor": "./node_modules/jest-html-reporter",
+    "testEnvironmentOptions": {
+      "browser": "chrome"
+    },
+    "collectCoverage": true,
+    "outputPath": "reports/jcrew-test-report.html",
+    "includeConsoleLog": true,
+    "coverageFormats": [
+      "json",
+      "html"
+    ]
+  },
+  "jest-junit": {
+    "suiteName": "jest tests",
+    "testResultsProcessor": "jest-junit",
+    "output": "reports/junit.xml",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
+  },
+  "jest-html-reporter": {
+    "pageTitle": "JCrew Suite",
+    "outputPath": "reports/jcrew-test-report.html",
+    "includeFailureMsg": true,
+    "includeConsoleLog": true
+  }
+}

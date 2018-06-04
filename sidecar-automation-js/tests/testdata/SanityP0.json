@@ -1,0 +1,14 @@
+{
+  "NonExpressUser":{
+    "username":"goldnonexpress1@example.org",
+    "password":"test1234"
+  },
+  "goToShoppingBag":{
+    "productId":""
+
+  },
+  "ExperssUser":{
+    "username":"testuser1@example.org",
+    "password":"test1234"
+  }
+}

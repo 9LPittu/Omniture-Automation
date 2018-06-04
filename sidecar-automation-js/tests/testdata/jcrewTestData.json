@@ -1,0 +1,31 @@
+
+  {
+  "creditcard": {
+    "number": "4111111111111111",
+    "jcccard": "5856371002514031",
+    "pin": "737",
+    "expirationMonth": "12",
+    "expirationYear": "2020",
+    "nameOnCard": "Perftest ",
+    "emailReceipt": "receipt_mail@example.org"
+
+  },
+  "guestuser": {
+    "firstNameSA": "Perftest12",
+    "lastNameSA": "last name",
+    "address3": "",
+    "address2": "",
+    "address1": "123 street",
+    "zipcode": "94103",
+    "city": "San Francisco",
+    "state": "CA",
+      "phoneNumSA": "123456789"
+  },
+  "logindetails": {
+    "username": "applabs9@gmail.com",
+    "password": "applabs",
+    "username": "sqatree@gmail.com",
+    "password": "123456ab"
+  }
+
+}

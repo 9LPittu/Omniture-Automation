@@ -1,0 +1,24 @@
+{
+  "Billing":{
+    "":"Credit/Debit_Card",
+    "PAYMENT_METHOD":"Paypal",
+    "MultiCardPayment":"Yes",
+    "Credit_Debit_Card":{
+      "Card_Number":"4111111111111111",
+      "Security_Code":"123",
+      "Expiration_Month":"12",
+      "Expiration_Year":"2020",
+      "Name_On_Card":"Perftest"
+    },
+    "Paypal":{
+      "Email":"jcrewus@gmail.com",
+      "password":"M@rtini12"
+    },
+    "":"",
+    "":"",
+    "":"",
+    "":"",
+    "":"",
+    "":""
+  }
+}

@@ -1,0 +1,8 @@
+{
+	"pageTitle": "JCrew Test Suite Report",
+    "outputPath": "reports/jcrew-test-report.html",
+    "includeFailureMsg": true,
+    "includeConsoleLog": true,
+    "useAsReporter": true,
+    "sort": "titleAsc"
+}

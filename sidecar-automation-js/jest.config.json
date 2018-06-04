@@ -1,0 +1,10 @@
+{
+	"collectCoverage": false,
+	"collectCoverageFrom" : [
+		 "**/specs/**/*.js"
+   	],
+	"coverageDirectory": "./coverage",
+  "coverageReporters": ["json", "html", "text", "text-summary"],
+	"testResultsProcessor": "./src/index.js",
+	"testResultsProcessor": "jest-junit"
+}
