@@ -23,8 +23,8 @@ test('title is correct', async () => {
  })
 
     test('Navbar is visible', async () => {
-      expect(await driver.findElement(By.id('c-header__navbar'))).toBeTruthy()
-    })
+        expect(await driver.findElement(By.id('c-header__navbar'))).toBeTruthy()
+     })
 
     test('Global promo is visible and links correctly', async () => {
       const promo = driver.findElement(By.id("global__promo"))
@@ -87,14 +87,14 @@ test('title is correct', async () => {
         await driver.navigate().back()
       })
 
-      each([
+     each([
         ['WOMEN'],
         ['MEN'],
         ['BOYS'],
         ['GIRLS'],
         ['SALE'],
         ['FACTORY'],
-      ]).test('%s links to correct page', async link => {
+  ]).test('%s links to correct page', async link => {
         try {
           const subnav = await driver.findElement(By.className(
             "c-header__department-nav js-header__department-nav"
@@ -112,6 +112,10 @@ test('title is correct', async () => {
 
       test('Blog links to blog page', async () => {
         try {
+          let currentUrl = await driver.getCurrentUrl();
+        if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+          console.log("No blog links for factory")
+          } else {
           const subnav = await driver.findElement(By.className(
             "c-header__department-nav js-header__department-nav"
           ))
@@ -120,6 +124,7 @@ test('title is correct', async () => {
           await driver.getCurrentUrl().then(url => {
             expect(url.match('hello')).toBeTruthy()
           })
+        }
         } catch (err) {
           throw err
         }

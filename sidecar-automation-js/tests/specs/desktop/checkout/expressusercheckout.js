@@ -18,18 +18,19 @@ test('title is correct', async () => {
   		driver.sleep(2000);
          let currentUrl = await driver.getCurrentUrl();
        if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+         console.log(">>>.. inside factory" + currentUrl.indexOf("factory.jcrew.com"))
         await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
       } else {
 		  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
     }
       await driver.sleep(3000)
-      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
+      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[4]")).click()
 
       await driver.sleep(2000)
       await driver.navigate().refresh()
       await driver.sleep(3000)
 
-      await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
+      await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
       await driver.sleep(3000)
@@ -38,8 +39,8 @@ test('title is correct', async () => {
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(6000)
 
-      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username)
-      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password)
+      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username1)
+      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password1)
       await driver.sleep(2000)
       await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
 
@@ -51,16 +52,11 @@ try {
    mergebutton.click()
    driver.sleep(3000)
    driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-})
-} catch (err)
-{
+   })
+ } catch (err)
+{ }
 
-}
-    //   let currentUrl = await driver.getCurrentUrl();
-    //   console.log("current URL > " + currentUrl.indexOf("https://or.jcrew.com"))
-
-       //if (currentUrl == "https://or.jcrew.com/checkout2/billing.jsp") {  // Production review checkout
-       if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
 
  try {
          await driver.findElement(By.xpath("//*[@id='securityCode']")).then(securitycode => {
@@ -69,15 +65,16 @@ try {
            })
 
       } catch (err )
-      {
-
-      }
-         await driver.sleep(3000)
-        // await driver.findElement(By.xpath("//*[@id='securityCode']")).sendKeys(creditcard.pin)
-         await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
-        await driver.sleep(4000)
-        let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
-
-           console.log("order Id  > " + orderNumberLet)
+      { }
+       await driver.sleep(3000)
+          if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+            console.log(">> inside factory")
+            await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
+          } else {
+            await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
+          }
+       await driver.sleep(4000)
+       let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
+      console.log("order Id  > " + orderNumberLet)
       }
    })

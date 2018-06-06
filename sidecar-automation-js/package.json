@@ -26,6 +26,7 @@
     "tests_factory_prod": "jest -c tests/jestFactoryProdConfig.json",
     "tests-update": "webdriver-manager update --out_dir ../../tests/selenium",
     "tests-start": "webdriver-manager start --out_dir ../../tests/selenium",
+    "tests-setup": "yarn install && yarn add -dev jest-html-reporter",
     "watch": "jest -u --coverage -c tests/jestConfig.json && jest --watchAll"
   },
   "jest": {

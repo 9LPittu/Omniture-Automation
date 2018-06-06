@@ -4,13 +4,13 @@
     "coverageDirectory": "./coverage",
       "coverageReporters": ["json", "html", "text", "text-summary"],
   "testMatch": [
-    "**/specs/desktop/*/*.js"
+    "**/specs/desktop/chec*/*.js"
   ],
   "transform": {
     "\\.js$": "react-scripts/config/jest/babelTransform"
   },
   "globals": {
-    "__baseUrl__": "https:/or.jcrew.com",
+    "__baseUrl__": "https://or.jcrew.com",
     "__TRANSFORM_HTML__": true
   }
 }
