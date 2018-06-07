@@ -10,7 +10,7 @@ export const signIn = () => driver.findElement({ xpath: "//*[@id='c-header__user
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`);
   await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
-  await driver.manage().window().maximize();
+//  await driver.manage().window().maximize();
 };
 
 
