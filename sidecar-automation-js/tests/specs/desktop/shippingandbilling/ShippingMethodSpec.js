@@ -1,13 +1,12 @@
 import { driver, defaultTimeout } from '../../../helpers';
+import { globals } from '../../../jestJcrewQaConfig';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import {clickOnContinue} from '../../../pageObjects/shippingAddressObj';
 import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginPageObj';
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
-import {continueOnShippingMethod} from '../../../pageObjects/ShippingMethodObj';
-import {paymentMethod} from '../../../pageObjects/BillingObj';
+import {verifyShippingMethodsPage} from '../../../pageObjects/ShippingMethodObj';
 import { www } from '../../../testdata/Prod';
-import { or,Billing } from '../../../testdata/NonProd';
-
+import { or } from '../../../testdata/NonProd';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
@@ -31,9 +30,8 @@ test('Login with given username and password', async () => {
   console.log('user login succesfully')
   }
 
-
-
 });
+
 test('Clear the bag items if any products were avilable and Add one product', async () => {
   await clearBagItems();
   console.log('after clearing bagItem')
@@ -51,14 +49,7 @@ test('Clear the bag items if any products were avilable and Add one product', as
 
 });
 
-test('Goto Billng page and check verify credit/debit card or paypal process', async () => {
-
-      await continueOnShippingMethod();
-      console.log('---')
-      await paymentMethod('Credit/Debit_Card');
-      console.log('After payment Method')
-
-
-
-
+test('Goto ShippingMethod and verify all shipping methods and Gift Wrappings avilable', async () => {
+    await verifyShippingMethodsPage();
+    console.log('verified shipping Methods')
 });

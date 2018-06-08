@@ -1,5 +1,4 @@
 import { driver, defaultTimeout } from '../helpers';
-import { loginDetails,NonExpressUser} from '../testdata/SanityP0';
 import { globals } from '../jestJcrewQaConfig';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');

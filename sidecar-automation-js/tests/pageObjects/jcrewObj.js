@@ -14,3 +14,11 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
        await   driver.findElement(By.xpath('//*[@class=\'primary-nav__text primary-nav__text--search primary-nav__text--move-right\']')).click();
 
      }
+
+export const clickUsingXpath() = async (xpath)=>{
+  await driver.findElement(By.xpath(xpath)).click();
+}
+
+export const sendKeyUsingXpath() = async (xpath,text)=>{
+  await driver.findElement(By.xpath(xpath)).sendKeys(text);
+}

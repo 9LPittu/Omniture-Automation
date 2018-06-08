@@ -55,7 +55,7 @@ test('Goto Billng page and check verify credit/debit card or paypal process', as
 
       await continueOnShippingMethod();
       console.log('---')
-      await paymentMethod('Credit/Debit_Card');
+      await paymentMethod('Paypal');
       console.log('After payment Method')
 
 
