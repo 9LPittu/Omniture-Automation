@@ -96,7 +96,8 @@ await driver.findElement(By.xpath("//*[@id='main__button-continue-old']")).click
             console.log(">> inside factory")
             await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
           } else {
-            await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
+            await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
+            //await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
           }
 
          await driver.sleep(4000)

@@ -1,7 +1,7 @@
-import { driver, defaultTimeout } from '../../../helpers';
-import { load, categorymen } from '../../../pageObjects/jcrewdesktoppageobj';
-import { globals } from '../../../jestJcrewQaConfig';
-import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
+import { driver, defaultTimeout } from '../../../helpersMobile';
+import { load } from '../../../mobilepageobjects/mhomepageobj';
+import { creditcard, guestuser, logindetails } from '../../../testdata/jcrewTestData';
+import {  } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -31,14 +31,14 @@ test('title is correct', async () => {
   //  await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)["+x+"]")).click()
     await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[2]")).click()
     await driver.sleep(3000)
-    
-      await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
+
+      await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("js-header__cart")).click()
       await driver.sleep(3000)
-      await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+      await driver.findElement(By.className("button-anchored-bottom")).click()
       await driver.sleep(6000)
 
       await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username1)
@@ -69,14 +69,18 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
       } catch (err )
       { }
        await driver.sleep(3000)
-          if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-            console.log(">> inside factory")
-            await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
-          } else {
-            await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
-          }
-       await driver.sleep(4000)
-       let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
-      console.log("order Id  > " + orderNumberLet)
+
+                 if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+                   console.log(">> inside factory")
+                   await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
+                 } else {
+            //       await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
+                     await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
+                 }
+
+                await driver.sleep(4000)
+                let orderNumber = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
+
+                   console.log("order Id  > " + orderNumber)
       }
    })

@@ -1,8 +1,7 @@
-import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { driver } from '../../../helpersMobile';
 import { globals } from '../../../jestJcrewQaConfig';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import { guestuser } from '../../../testdata/jcrewTestData';
+import { load } from '../../../mobilepageobjects/mhomepageobj';
+import { creditcard, guestuser } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -30,54 +29,29 @@ test('title is correct', async () => {
 
         await driver.sleep(10000)
        console.log ("User created >> " + userName)
-/*
-       const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
-       expect(userPannel).toBeTruthy()
-
-       //await driver.navigate().refresh()
-         userPannel.click()
-        //await driver.findElement(By.xpath("//*[@id='c-nav__userpanel']/dl/div/dd[1]/a")).click()
-        await driver.sleep(3000)
-        await driver.findElement(By.xpath("//*[@id='nav__ul']/li[10]")).click()
-
-        await driver.sleep(3000)
-*/
-      await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
     	driver.sleep(2000);
-         let currentUrl = await driver.getCurrentUrl();
-       if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-        await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-      } else {
-		  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
-    }
+      await driver.findElement(By.xpath("//span[text()='menu']")).click()
       await driver.sleep(3000)
-      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
+      await driver.findElement(By.xpath("//a[@data-department='men']")).click()
+        await	driver.sleep(2000);
+          await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[2]")).click()
+
+
+      try {
+      await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
+    } catch (err) {}
       await driver.sleep(2000)
-      await driver.navigate().refresh()
+    //  await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)["+x+"]")).click()
+      await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[2]")).click()
       await driver.sleep(3000)
-    //  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
-      await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
-      await driver.sleep(3000)
+        await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
+        await driver.sleep(3000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("js-header__cart")).click()
       await driver.sleep(3000)
-      await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+      await driver.findElement(By.className("button-anchored-bottom")).click()
       await driver.sleep(6000)
-/*
-      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(email)
-      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys("nft123")
-      await driver.sleep(2000)
-      await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
-
-      await driver.sleep(5000)
-*/
-
-    //   let currentUrl = await driver.getCurrentUrl();
-    //   console.log("current URL > " + currentUrl.indexOf("https://or.jcrew.com"))
-
-       //if (currentUrl == "https://or.jcrew.com/checkout2/billing.jsp") {  // Production review checkout
-
 
        await driver.findElement(By.xpath("//input[@id='firstNameSA']")).sendKeys(userName)
          await driver.findElement(By.xpath("//input[@id='lastNameSA']")).sendKeys(guestuser.lastNameSA)
@@ -98,7 +72,7 @@ test('title is correct', async () => {
 
 try {
 
-await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")).then(function(webElement) {
+  await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")).then(function(webElement) {
         webElement.click();
     }, function(err) {
         if (err.state && err.state === 'no such element') {
@@ -139,7 +113,8 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
            console.log(">> inside factory")
            await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
          } else {
-           await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
+           //await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
+              await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
          }
 
         await driver.sleep(4000)
@@ -148,11 +123,6 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
            console.log("order Id let > " + orderNumberLet + ">> user email : " + email)
 
            await driver.sleep(2000)
-      /*     await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']")).click()
-           //await driver.findElement(By.xpath("//*[@id='c-nav__userpanel']/dl/div/dd[1]/a")).click()
-             await driver.sleep(3000)
-             await driver.findElement(By.xpath("//*[@id='nav__ul']/li[10]")).click()
-             await driver.sleep(3000)*/
            }
     //  } // forloop end
    })

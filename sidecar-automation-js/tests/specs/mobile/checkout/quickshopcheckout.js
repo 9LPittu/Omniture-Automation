@@ -1,6 +1,6 @@
-import { driver, defaultTimeout } from '../../../helpers';
-import { load, closeIcon, categorymen, moduleexports } from '../../../pageObjects/jcrewdesktoppageobj';
+import { driver, defaultTimeout } from '../../../helpersMobile';
 import { globals } from '../../../jestJcrewQaConfig';
+import { load } from '../../../mobilepageobjects/mhomepageobj';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
@@ -67,7 +67,7 @@ test('title is correct', async () => {
 
               } catch (err )
               {
-                
+
               }
               if (currentUrl.indexOf("factory.jcrew.com") > -1) {
                 console.log(">> inside factory")
