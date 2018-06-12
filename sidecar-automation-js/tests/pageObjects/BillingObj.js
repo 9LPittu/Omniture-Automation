@@ -2,7 +2,7 @@ import { driver } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
 import {goToShoppingBag} from '../pageObjects/ShoppingBagObj';
 import {login,loginInAfterCheckoutPage} from '../pageObjects/loginPageObj';
-import { Billing,or } from '../testdata/NonProd';
+import { Billing,or } from '../testdata/gold';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');

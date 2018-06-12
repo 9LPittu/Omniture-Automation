@@ -6,7 +6,7 @@ import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginPageObj
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
 import {verifyShippingMethodsPage} from '../../../pageObjects/ShippingMethodObj';
 import { www } from '../../../testdata/Prod';
-import { or } from '../../../testdata/NonProd';
+import { or } from '../../../testdata/gold';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 

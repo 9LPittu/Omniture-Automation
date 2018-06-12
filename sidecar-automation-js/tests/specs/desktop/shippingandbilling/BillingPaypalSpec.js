@@ -6,7 +6,7 @@ import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../
 import {continueOnShippingMethod} from '../../../pageObjects/ShippingMethodObj';
 import {paymentMethod} from '../../../pageObjects/BillingObj';
 import { www } from '../../../testdata/Prod';
-import { or,Billing } from '../../../testdata/NonProd';
+import { or,Billing } from '../../../testdata/gold';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');

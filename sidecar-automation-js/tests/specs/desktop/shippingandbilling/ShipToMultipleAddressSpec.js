@@ -4,7 +4,7 @@ import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress} from '../
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginPageObj';
 import {goToShoppingBag, loginAsGuestButton, addAddress, clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
 import { www } from '../../../testdata/Prod';
-import { or,Billing } from '../../../testdata/NonProd';
+import { or,Billing } from '../../../testdata/gold';
 import { guestuser } from '../../../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
