@@ -1,7 +1,5 @@
 import { driver } from '../../../helpersMobile';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import {loginFromHomePage,clearBagItems} from '../../../mobilepageobjects/mloginpageobj';
 import { globals } from '../../../jestJcrewQaMobileConfig';
 
 const each = require('jest-each')
@@ -17,12 +15,7 @@ test('title is correct', async () => {
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-
- afterAll(async () => {
-   await driver.quit()
- })
-
-    test('Navbar is visible', async () => {
+  test('Navbar is visible', async () => {
         expect(await driver.findElement(By.id('c-header__navbar'))).toBeTruthy()
      })
 
@@ -90,27 +83,29 @@ test('title is correct', async () => {
 
      each([
         ['WOMEN'],
-        ['MEN'],
-        ['BOYS'],
-        ['GIRLS'],
+//        ['MEN'],
+//        ['BOYS'],
+//        ['GIRLS'],
     //    ['SALE'],
   //      ['FACTORY'],
   ]).test('%s links to correct page', async link => {
         try {
-        await driver.findElement(By.xpath("//span[text()='menu']")).click()
+
+              await driver.findElement(By.xpath("//span[text()='menu']")).click()
         await driver.findElement(By.linkText(link)).click()
-        await driver.sleep(2000)
-        await driver.findElement(By.linkText('')).click()
-          await driver.findElement(By.linkText(link)).click()
+        await driver.sleep(3000)
+        await driver.findElement(By.xpath("//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'new arrivals')]")).click()
+        await	driver.sleep(3000);
           await driver.getCurrentUrl().then(url => {
             const reg = new RegExp(link, 'i')
             expect(url.match(reg)).toBeTruthy()
           })
         } catch (err) {
           throw err
+          driver.navigate().to(globals.__baseUrl__)
         }
       })
-
+/*
       test('Blog links to blog page', async () => {
         try {
           let currentUrl = await driver.getCurrentUrl();
@@ -129,9 +124,5 @@ test('title is correct', async () => {
         } catch (err) {
           throw err
         }
-      })
+      })*/
     })
-
-afterAll(async () => {
-  await driver.quit()
-})

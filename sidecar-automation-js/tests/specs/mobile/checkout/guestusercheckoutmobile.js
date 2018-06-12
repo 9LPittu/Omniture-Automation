@@ -29,12 +29,6 @@ test('title is correct' + orderNumber, async () => {
         await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[2]")).click()
 
          let currentUrl = await driver.getCurrentUrl();
-       if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-    //    await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-      } else {
-	//	  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
-    }
-    //  var x = Math.floor((Math.random() * 10) + 1);
       await driver.sleep(4000)
 
       await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups

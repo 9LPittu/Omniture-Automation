@@ -1,9 +1,5 @@
 import { driver } from '../../../helpersMobile';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import {loginFromHomePage,clearBagItems} from '../../../mobilepageobjects/mloginpageobj';
-import { globals } from '../../../jestJcrewQaMobileConfig';
-import { guestuser } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -78,7 +74,7 @@ test('title is correct', async () => {
 
         await driver.findElement(By.xpath("//h5[text()='UNITED STATES & CANADA']")).click()
 try {
-  await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  
+  await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()
 } catch (err) {
 
 }

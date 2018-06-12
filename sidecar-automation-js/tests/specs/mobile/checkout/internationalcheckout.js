@@ -88,6 +88,22 @@ try {
 
  }
 
+ try {
+   await driver.findElement(By.xpath("//*[@id='main__button-continue-old']")).then(continueshippingbtn => {
+    continueshippingbtn.click()
+  })
+  } catch (err) {
+
+  }
+
+  try {
+    await driver.findElement(By.xpath("//*[@id='billing-options-submit']")).then(billingoptionbtn => {
+     billingoptionbtn.click()
+   })
+   } catch (err) {
+
+   }
+
 try {
   await driver.findElement(By.xpath("//*[@id='order-summary']/a[1]")).then(continuesummary => {
    continuesummary.click()

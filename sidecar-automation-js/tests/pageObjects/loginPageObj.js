@@ -1,10 +1,11 @@
 import { driver, defaultTimeout } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
 
+
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
 
-export const loginFromHomePage = async (username,password) =>{
+export const loginFromHomePage = async (username, password) =>{
   await driver.findElement(By.xpath(".//span[text()='sign in']")).click()
   await driver.findElement(By.id("sidecarUser")).sendKeys(username)
   await driver.findElement(By.id("sidecarPassword")).sendKeys(password)

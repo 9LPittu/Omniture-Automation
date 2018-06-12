@@ -1,11 +1,9 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import { guestuser } from '../../../testdata/jcrewTestData';
+import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
 import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginPageObj';
 
-const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
  test('title is correct', async () => {
@@ -15,7 +13,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
  })
 
   test('Verify User is able to login with valid user credentials', async () => {
-      await loginFromHomePage();
+      await loginFromHomePage(logindetails.username, logindetails.password)
 
       let currentUrl = await driver.getCurrentUrl();
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
@@ -44,5 +42,4 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
        const errorMsg = await driver.findElement(By.className('js-invalid-msg is-important'))
        expect(errorMsg).toBeTruthy()
 
-////*[@id="registered-password"]/span
         })
