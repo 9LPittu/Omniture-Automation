@@ -58,14 +58,15 @@ test('title is correct', async () => {
                   await driver.findElement(By.xpath("//input[@id='phoneNumSA']")).sendKeys(guestuser.phoneNumSA)
                   await driver.sleep(3000)
                   await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
-
+try {
 // address confirmation page :
       await driver.sleep(3000)
       await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")).click()
-
-//shipping & gift pageObjects
       await driver.sleep(3000)
       await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
+ } catch (err) {}
+//shipping & gift pageObjects
+
 
        //credit card details
        await driver.sleep(3000)

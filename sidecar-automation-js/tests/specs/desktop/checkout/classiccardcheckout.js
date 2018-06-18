@@ -19,7 +19,7 @@ test('title is correct', async () => {
          await driver.executeScript('window.scrollTo(0, 50000)')
           await driver.sleep(2000)
           try {
-            await footer.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
+            await driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
              await driver.sleep(5000)
           } catch(err) {}
 

@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load, categorymen } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, amount200 } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
 
@@ -12,28 +12,34 @@ test('title is correct', async () => {
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-  test('Express User Checkout', async () => {
+  test('eGiftCard Checkout - Express User', async () => {
   		driver.sleep(2000);
          let currentUrl = await driver.getCurrentUrl();
 
-                  await driver.executeScript('window.scrollTo(0, 50000)')
-                   await driver.sleep(2000)
-
+        await driver.executeScript('window.scrollTo(0, 50000)')
+       await driver.sleep(2000)
       try {
-        await footer.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
+        await driver.findElement(By.xpath("//*[text()='The J.Crew Gift Card']")).click()
          await driver.sleep(2000)
-         console.log("inside >> ");
-      } catch(err) {}
+      } catch(err) {
+
+      }
 
       await driver.findElement(By.xpath("//*[@id='eGiftCard']/img")).click()
-      await driver.sleep(5000)
-      await driver.findElement(By.xpath("//*[@id='amount50']")).click()
+      await driver.sleep(3000)
+  //    await driver.findElement(By.xpath("//*[@id='amount25']")).click()
+      await driver.actions().mouseMove(await driver.wait(until.elementLocated(amount200), defaultTimeout)).perform();
+      await driver.sleep(3000)
+      await driver.findElement(By.xpath("//*[@id='amount200']")).click()
+
+      var date = new Date()
       await driver.findElement(By.xpath("//*[@id='senderNameEgc']")).sendKeys("test")
       await driver.findElement(By.xpath("//*[@id='RecipientNameEgc']")).sendKeys("recipient test")
-      await driver.findElement(By.xpath("//*[@id='date']")).sendKeys("06/11/2018")
+      await driver.findElement(By.xpath("//*[@id='emailAddressEgc']")).sendKeys("sqatree@gmail.com")
+      await driver.findElement(By.xpath("//*[@id='date']")).sendKeys((date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear())
       await driver.findElement(By.xpath("//*[@id='textAreaMessage']")).sendKeys("test message")
       //*[@id="submitClassic"]
-      await driver.findElement(By.id("submitClassic")).click()
+      await driver.findElement(By.id("submitEgift")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("js-header__cart")).click()
       await driver.sleep(3000)

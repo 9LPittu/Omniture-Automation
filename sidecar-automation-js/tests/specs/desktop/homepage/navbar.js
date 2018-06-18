@@ -7,16 +7,12 @@ import { guestuser } from '../../../testdata/jcrewTestData';
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-//const baseUrl = process.env.BASEURL
-//const isHeadless = false || process.env.HEADLESS
-//const chromeOptions = isHeadless ? new chrome.Options().headless().addArguments("--disable-gpu", "--no-sandbox") : new chrome.Options()
 
 test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
-
 
  afterAll(async () => {
    await driver.quit()
@@ -36,39 +32,17 @@ test('title is correct', async () => {
       })
       await driver.navigate().back()
     })
-/*
-    test('Global promo should have a "details" modal', async () => {
-      const button = driver.findElement(By.xpath(
-        "//button[@class='js-header__promo__btn--details js-has-hover header__promo__btn--details header__promo__btn--details--react']"
-      ))
-      await driver.wait(until.elementIsVisible(button), 10000)
-      expect(button).toBeTruthy()
-      await button.click()
-      const modal = await driver.findElement(By.className(
-        'js-header__promo__details-pushdown header__promo__details-pushdown'
-      ))
-      expect(modal).toBeTruthy()
-      await driver.findElement(By.className(
-        'js-btn--close--global-promo-detail btn--close--global-promo-detail btn--close'
-      )).click()
+
+    test('Stores is visible and url direct to right URL', async () => {
+      const stores = driver.findElement(By.className("primary-nav__text primary-nav__text--stores"))
+      expect(stores).toBeTruthy()
+      await stores.click()
+      await driver.sleep(2000)
+      await driver.getCurrentUrl(url => {
+        expect(url.match('https://stores.jcrew.com')).toBeTruthy()
+      })
+      await driver.navigate().back()
     })
-
-    test('Logo and navbar remain fixed as you scroll', async () => {
-      const { height } = await driver.findElement(By.css('body')).getRect()
-      await driver.executeScript('window.scroll(0, arguments[0])', height)
-      expect(await driver.findElement(By.id("c-header__navbar"))).toBeTruthy()
-      expect(await By.css("c-header__logo")).toBeTruthy()
-      await driver.executeScript('window.scroll(0, 0)')
-    })
-
-    test('Promo bar on top of nav should not be visible on scroll', async () => {
-      const { height } = await driver.findElement(By.className('no-touch')).getRect()
-      await driver.executeScript('window.scroll(0, arguments[0])', height)
-      const promo = driver.findElements(By.id("global__promo")).length > 0
-      expect(promo).toBeFalsy()
-      await driver.executeScript('window.scroll(0, 0)')
-
-    }) */
 
     test('Search allows you to input a search term', async () => {
       const search = await driver.findElement(By.id("inputSearchDesktop"))

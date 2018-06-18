@@ -18,24 +18,6 @@ test('title is correct', async () => {
  })
 
 /*
- test('Close email capture is present or not', async () => {
-
-   let close_email_capture = await driver.findElement(By.xpath("//div[@class='email-capture--close modal-capture--close js-email-capture--close']"))
-
-   await driver.findElement(By.xpath("//div[@class='email-capture--close modal-capture--close js-email-capture--close']")).then(function(webElement) {
-         close_email_capture.click()
-     }, function(err) {
-         if (err.state && err.state === 'no such element') {
-             console.log('Element not found')
-         } else {
-             driver.promise.rejected(err)
-         }
-     })
-
-    })
-*/
-
-/*
     test('Twitter is working', async () => {
       await driver.executeScript('window.scrollTo(0, 20000)')
         await driver.sleep(2000)
@@ -82,9 +64,19 @@ test('title is correct', async () => {
      })
      */
 
+     test('Order Status is visible and url direct to right url', async () => {
+       await driver.executeScript('window.scrollTo(0, 20000)')
+       const orderstatuslink = driver.findElement(By.xpath("//div[text()='Order Status']"))
+       expect(orderstatuslink).toBeTruthy()
+       await orderstatuslink.click()
+       await driver.sleep(2000)
+       await driver.getCurrentUrl(url => {
+         expect(url.match('/help/order_status.jsp?sidecar=true')).toBeTruthy()
+       })
+       await driver.navigate().back()
+     })
 
      test('Location change is visible and links to correct place', async () => {
-       await driver.executeScript('window.scrollTo(0, 20000)')
         await driver.sleep(2000)
         const footer = await driver.findElement(By.id('global__footer'))
         const location = await footer.findElement(By.xpath("//a[@class='footer__country-context__link']"))

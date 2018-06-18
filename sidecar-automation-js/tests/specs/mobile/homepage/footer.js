@@ -61,8 +61,20 @@ test('title is correct', async () => {
      })
 */
 
+test('Order Status is visible and url direct to right url', async () => {
+  await driver.executeScript('window.scrollTo(0, 20000)')
+  const orderstatuslink = driver.findElement(By.xpath("//div[text()='Order Status']"))
+  expect(orderstatuslink).toBeTruthy()
+  await orderstatuslink.click()
+  await driver.sleep(2000)
+  await driver.getCurrentUrl(url => {
+    expect(url.match('/help/order_status.jsp?sidecar=true')).toBeTruthy()
+  })
+  await driver.navigate().back()
+})
+
+
      test('Location change is visible and links to correct place', async () => {
-       await driver.executeScript('window.scrollTo(0, 50000)')
         await driver.sleep(2000)
         const footer = await driver.findElement(By.id('global__footer'))
         const location = await footer.findElement(By.xpath("//a[@class='footer__country-context__link']"))
