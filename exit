@@ -1,0 +1,77 @@
+[1mdiff --git a/sidecar-automation-js/tests/pageObjects/BillingObj.js b/sidecar-automation-js/tests/pageObjects/BillingObj.js[m
+[1mindex d61ab2d1..6a3c8cb8 100644[m
+[1m--- a/sidecar-automation-js/tests/pageObjects/BillingObj.js[m
+[1m+++ b/sidecar-automation-js/tests/pageObjects/BillingObj.js[m
+[36m@@ -2,7 +2,7 @@[m [mimport { driver } from '../helpers';[m
+ import { globals } from '../jestJcrewQaConfig';[m
+ import {goToShoppingBag} from '../pageObjects/ShoppingBagObj';[m
+ import {login,loginInAfterCheckoutPage} from '../pageObjects/loginPageObj';[m
+[31m-import { Billing,or } from '../testdata/gold';[m
+[32m+[m[32mimport { Billing } from '../testdata/usercredentials';[m
+ [m
+ [m
+ const { Builder, By, Key, until } = require('selenium-webdriver');[m
+[36m@@ -28,10 +28,10 @@[m [mexport const paymentMethod = async(paymentType) =>{[m
+       console.log(await driver.findElement(By.css("#creditDebitPayment")).isSelected())[m
+         if(await driver.findElement(By.css("#creditDebitPayment")).isSelected()){[m
+ [m
+[31m-        let url = await driver.getCurrentUrl();  [m
+[31m-        if (url.indexOf("www.jcrew.com") > -1) {[m
+[32m+[m[32m        let url = await driver.getCurrentUrl();[m
+[32m+[m[32m        if ((url.indexOf("www.jcrew.com") > -1) || (url.indexOf("factory.jcrew.com") > -1)) {[m
+           await driver.findElement(By.css("#creditDebitPayment")).isDisplayed();[m
+[31m-        }else{[m
+[32m+[m[32m        }else if ((url.indexOf("or.jcrew.com") > -1 ) || (url.indexOf("or.factory.jcrew.com") > -1 )){[m
+             let card = "//span[text()='"+Billing.Credit_Debit_Card.Name_On_Card+"']/parent::label/input[@class='address-radio']";[m
+             console.log(card);[m
+             await driver.findElement(By.xpath(card)).click();[m
+[1mdiff --git a/sidecar-automation-js/tests/pageObjects/ShoppingBagObj.js b/sidecar-automation-js/tests/pageObjects/ShoppingBagObj.js[m
+[1mindex 4d93432b..707d5036 100644[m
+[1m--- a/sidecar-automation-js/tests/pageObjects/ShoppingBagObj.js[m
+[1m+++ b/sidecar-automation-js/tests/pageObjects/ShoppingBagObj.js[m
+[36m@@ -2,7 +2,6 @@[m [mimport { driver, defaultTimeout } from '../helpers';[m
+ import { globals } from '../jestJcrewQaConfig';[m
+ [m
+ const { Builder, By, Key, until } = require('selenium-webdriver');[m
+[31m-export const checkout = () => driver.findElement(By.id("button-checkout")).isDisplayed();[m
+ /**[m
+ [m
+ **/[m
+[1mdiff --git a/sidecar-automation-js/tests/pageObjects/jcrewdesktoppageobj.js b/sidecar-automation-js/tests/pageObjects/jcrewdesktoppageobj.js[m
+[1mindex 6002bdfc..11abdf62 100644[m
+[1m--- a/sidecar-automation-js/tests/pageObjects/jcrewdesktoppageobj.js[m
+[1m+++ b/sidecar-automation-js/tests/pageObjects/jcrewdesktoppageobj.js[m
+[36m@@ -8,18 +8,12 @@[m [mexport const closeIcon = () => driver.findElement(jcrewCloseicon);[m
+ export const signIn = () => driver.findElement({ xpath: "//*[@id='c-header__userpanel']/a/span[2]" });[m
+ [m
+ export const load = async () => {[m
+[31m-  try {[m
+   await driver.get(`${__baseUrl__}/`);[m
+   await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();[m
+ //  await driver.manage().window().maximize();[m
+[31m-} catch (err)[m
+[31m-{[m
+[31m-  [m
+[31m-}[m
+ };[m
+ [m
+ [m
+[31m-[m
+ // home page Elements:[m
+ [m
+ [m
+[1mdiff --git a/sidecar-automation-js/tests/pageObjects/loginPageObj.js b/sidecar-automation-js/tests/pageObjects/loginPageObj.js[m
+[1mindex ea050ce9..9b68edd8 100644[m
+[1m--- a/sidecar-automation-js/tests/pageObjects/loginPageObj.js[m
+[1m+++ b/sidecar-automation-js/tests/pageObjects/loginPageObj.js[m
+[36m@@ -1,11 +1,10 @@[m
+ import { driver, defaultTimeout } from '../helpers';[m
+ import { globals } from '../jestJcrewQaConfig';[m
+ [m
+[31m-[m
+ const { Builder, By, Key, until } = require('selenium-webdriver')[m
+ [m
+ [m
+[31m-export const loginFromHomePage = async (username, password) =>{[m
+[32m+[m[32mexport const loginFromHomePage = async (username,password) =>{[m
+   await driver.findElement(By.xpath(".//span[

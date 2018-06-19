@@ -5,8 +5,7 @@ import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginPageObj
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
 import {continueOnShippingMethod} from '../../../pageObjects/ShippingMethodObj';
 import {paymentMethod} from '../../../pageObjects/BillingObj';
-import { www } from '../../../testdata/Prod';
-import { or,Billing } from '../../../testdata/gold';
+import { jcrew_gold,jcrew_prod } from '../../../testdata/usercredentials';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
@@ -23,11 +22,11 @@ test('Login with given username and password', async () => {
 
   if (url.indexOf("www.jcrew.com") > -1) {
 
-    await loginFromHomePage(www.username,www.password)
+    await loginFromHomePage(jcrew_prod.username,jcrew_prod.password)
     console.log('user login succesfully')
   }else{
 
-  await loginFromHomePage(or.username,or.password)
+  await loginFromHomePage(jcrew_gold.username,jcrew_gold.password)
   console.log('user login succesfully')
   }
 

@@ -8,16 +8,10 @@ export const closeIcon = () => driver.findElement(jcrewCloseicon);
 export const signIn = () => driver.findElement({ xpath: "//*[@id='c-header__userpanel']/a/span[2]" });
 
 export const load = async () => {
-  try {
   await driver.get(`${__baseUrl__}/`);
   await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
 //  await driver.manage().window().maximize();
-} catch (err)
-{
-  
-}
 };
-
 
 
 // home page Elements:

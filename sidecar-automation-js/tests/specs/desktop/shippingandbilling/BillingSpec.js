@@ -5,8 +5,7 @@ import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginPageObj
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
 import {continueOnShippingMethod} from '../../../pageObjects/ShippingMethodObj';
 import {paymentMethod} from '../../../pageObjects/BillingObj';
-import { www } from '../../../testdata/Prod';
-import { or,Billing } from '../../../testdata/NonProd';
+import { jcrew_gold,jcrew_prod } from '../../../testdata/usercredentials';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
@@ -23,11 +22,11 @@ test('Login with given username and password', async () => {
 
   if (url.indexOf("www.jcrew.com") > -1) {
 
-    await loginFromHomePage(www.username,www.password)
+    await loginFromHomePage(jcrew_prod.username,jcrew_prod.password)
     console.log('user login succesfully')
   }else{
 
-  await loginFromHomePage(or.username,or.password)
+  await loginFromHomePage(jcrew_gold.username,jcrew_gold.password)
   console.log('user login succesfully')
   }
 
@@ -38,10 +37,16 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await clearBagItems();
   console.log('after clearing bagItem')
   await driver.sleep(10000);
-  await goToShoppingBag();
+  //await goToShoppingBag();
+  await addProductTobag();
+  await driver.findElement(By.id("js-header__cart")).click()
+  await driver.sleep(3000)
+  await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+
+
   console.log('after product selection')
   //await verifyShipToMultiAddress();
-  await clickOnCheckout();
+//  await clickOnCheckout();
   console.log('After checkout')
   await driver.findElement(By.css("#nav-shipping")).click();
   await driver.sleep(5000);
@@ -58,7 +63,27 @@ test('Goto Billng page and check verify credit/debit card or paypal process', as
       await paymentMethod('Credit/Debit_Card');
       console.log('After payment Method')
 
-
-
-
 });
+
+export const addProductTobag = async () =>{
+  let currentUrl = await driver.getCurrentUrl();
+  ////FirstProduct
+  await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
+  driver.sleep(2000);
+
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+   await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
+  } else {
+  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
+  }
+  await driver.sleep(3000)
+  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[5]")).click()
+
+  await driver.sleep(2000)
+  await driver.navigate().refresh()
+  await driver.sleep(3000)
+  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
+  await driver.sleep(3000)
+  await driver.findElement(By.id("btn__add-to-bag-wide")).click()
+    await driver.sleep(3000)
+}

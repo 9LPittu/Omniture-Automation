@@ -2,7 +2,7 @@ import { driver } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
 import {goToShoppingBag} from '../pageObjects/ShoppingBagObj';
 import {login,loginInAfterCheckoutPage} from '../pageObjects/loginPageObj';
-import { Billing,or } from '../testdata/gold';
+import { Billing } from '../testdata/usercredentials';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
@@ -28,10 +28,10 @@ export const paymentMethod = async(paymentType) =>{
       console.log(await driver.findElement(By.css("#creditDebitPayment")).isSelected())
         if(await driver.findElement(By.css("#creditDebitPayment")).isSelected()){
 
-        let url = await driver.getCurrentUrl();  
-        if (url.indexOf("www.jcrew.com") > -1) {
+        let url = await driver.getCurrentUrl();
+        if ((url.indexOf("www.jcrew.com") > -1) || (url.indexOf("factory.jcrew.com") > -1)) {
           await driver.findElement(By.css("#creditDebitPayment")).isDisplayed();
-        }else{
+        }else if ((url.indexOf("or.jcrew.com") > -1 ) || (url.indexOf("or.factory.jcrew.com") > -1 )){
             let card = "//span[text()='"+Billing.Credit_Debit_Card.Name_On_Card+"']/parent::label/input[@class='address-radio']";
             console.log(card);
             await driver.findElement(By.xpath(card)).click();

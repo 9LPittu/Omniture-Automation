@@ -26,6 +26,9 @@
     "password": "applabs",
     "username1": "sqatree@gmail.com",
     "password1": "123456ab"
+  },
+  "zipCode":{
+    "zipcode": "10003"
   }
 
 }

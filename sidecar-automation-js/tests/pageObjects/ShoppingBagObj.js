@@ -2,7 +2,6 @@ import { driver, defaultTimeout } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
-export const checkout = () => driver.findElement(By.id("button-checkout")).isDisplayed();
 /**
 
 **/

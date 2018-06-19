@@ -1,11 +1,10 @@
 import { driver, defaultTimeout } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
 
-
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
 
-export const loginFromHomePage = async (username, password) =>{
+export const loginFromHomePage = async (username,password) =>{
   await driver.findElement(By.xpath(".//span[text()='sign in']")).click()
   await driver.findElement(By.id("sidecarUser")).sendKeys(username)
   await driver.findElement(By.id("sidecarPassword")).sendKeys(password)
@@ -35,6 +34,10 @@ export const clearBagItems = async ()=> {
     await driver.get("https://www.jcrew.com/CleanPersistentCart.jsp")
   }else if(url.indexOf("or.jcrew.com") > -1){
     await driver.get("https://or.jcrew.com/CleanPersistentCart.jsp")
+  }else if(url.indexOf("or.factory.jcrew.com") > -1){
+    await driver.get("https://or.factory.jcrew.com/CleanPersistentCart.jsp")
+  }else if(url.indexOf("https://factory.jcrew.com") > -1){
+    await driver.get("https://factory.jcrew.com/CleanPersistentCart.jsp")
   }
 
 }

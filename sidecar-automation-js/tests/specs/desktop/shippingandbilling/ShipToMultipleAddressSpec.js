@@ -3,9 +3,8 @@ import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress} from '../../../pageObjects/shippingAddressObj';
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginPageObj';
 import {goToShoppingBag, loginAsGuestButton, addAddress, clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
-import { www } from '../../../testdata/Prod';
-import { or,Billing } from '../../../testdata/gold';
 import { guestuser } from '../../../testdata/jcrewTestData';
+
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
@@ -34,10 +33,9 @@ test('navigate to home page', async () => {
 
 
 test('verify ship to mutiple Address functionality', async () => {
-await addProductTobag();
 
 
-
+  await addProductTobag();
   await driver.findElement(By.id("js-header__cart")).click()
   await driver.sleep(3000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
