@@ -36,17 +36,11 @@ test('Login with given username and password', async () => {
 
 });
 
-test('click signout button in MyAccout', async () => {
-//id c-header__userpanelrecognized --hover
-  await driver.sleep(7000)
-  await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-//class js-signout__link --button
-await driver.sleep(2000)
-await driver.findElement(By.xpath("//a[@class='js-signout__link']")).click();
-await driver.sleep(5000)
+
+test('verify myDeatils section', async () => {
+
+  expect(await driver.findElement(By.partialLinkText("My Details")).isDisplayed()).toBeTruthy()
+await driver.findElement(By.partialLinkText("My Details")).click();
+await driver.sleep(5000);
 
 });
-
-test('verify signout happened succesfully', async () => {
-expect(await driver.findElement(By.xpath(".//span[text()='sign in']")).isDisplayed()).toBeTruthy();
-  });

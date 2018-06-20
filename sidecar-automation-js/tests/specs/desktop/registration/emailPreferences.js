@@ -36,17 +36,12 @@ test('Login with given username and password', async () => {
 
 });
 
-test('click signout button in MyAccout', async () => {
-//id c-header__userpanelrecognized --hover
-  await driver.sleep(7000)
-  await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-//class js-signout__link --button
-await driver.sleep(2000)
-await driver.findElement(By.xpath("//a[@class='js-signout__link']")).click();
-await driver.sleep(5000)
+//img[@src='https://static.cdn.responsys.net/i5/responsysimages/jcrew/contentlibrary/!forms/jc/prefcenter/images/subscribe_button.gif']
+test('verify the email preferences section', async () => {
+await driver.findElement(By.partialLinkText("Email Preferences")).click();
+await driver.sleep(5000);
+await driver.findElement(By.xpath("//img[@src='https://static.cdn.responsys.net/i5/responsysimages/jcrew/contentlibrary/!forms/jc/prefcenter/images/subscribe_button.gif']")).click();
+await driver.sleep(5000);
+expect(await driver.findElement(By.css(".sign-up-button")).isDisplayed()).toBeTruthy();
 
 });
-
-test('verify signout happened succesfully', async () => {
-expect(await driver.findElement(By.xpath(".//span[text()='sign in']")).isDisplayed()).toBeTruthy();
-  });
