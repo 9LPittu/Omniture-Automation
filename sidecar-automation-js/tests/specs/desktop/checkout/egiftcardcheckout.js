@@ -13,24 +13,26 @@ test('title is correct', async () => {
  })
 
   test('eGiftCard Checkout - Express User', async () => {
-  		driver.sleep(2000);
-         let currentUrl = await driver.getCurrentUrl();
+    driver.sleep(2000);
+       let currentUrl = await driver.getCurrentUrl();
 
-        await driver.executeScript('window.scrollTo(0, 50000)')
-       await driver.sleep(2000)
-      try {
-        await driver.findElement(By.xpath("//*[text()='The J.Crew Gift Card']")).click()
-         await driver.sleep(2000)
-      } catch(err) {
+       await driver.executeScript('window.scrollTo(0, 50000)')
+        await driver.sleep(2000)
+        try {
+          await driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
+           await driver.sleep(5000)
+        } catch(err) {}
 
-      }
+  // driver.navigate().to("https://or.jcrew.com/help/gift_card.jsp?sidecar=true")
+    await driver.findElement(By.xpath("//*[@id='eGiftCard']/img")).click()
+    await driver.sleep(3000)
 
-      await driver.findElement(By.xpath("//*[@id='eGiftCard']/img")).click()
+    await driver.findElement(By.xpath("//*[@id='amount25']")).click()
       await driver.sleep(3000)
   //    await driver.findElement(By.xpath("//*[@id='amount25']")).click()
-      await driver.actions().mouseMove(await driver.wait(until.elementLocated(amount200), defaultTimeout)).perform();
-      await driver.sleep(3000)
-      await driver.findElement(By.xpath("//*[@id='amount200']")).click()
+//      await driver.actions().mouseMove(await driver.wait(until.elementLocated(amount200), defaultTimeout)).perform();
+//      await driver.sleep(3000)
+//      await driver.findElement(By.xpath("//*[@id='amount200']")).click()
 
       var date = new Date()
       await driver.findElement(By.xpath("//*[@id='senderNameEgc']")).sendKeys("test")

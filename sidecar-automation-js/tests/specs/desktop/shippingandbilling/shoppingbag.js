@@ -1,8 +1,8 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
-import {editAdress} from '../../../pageObjects/shippingAddressObj';
+import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/shoppingbagobj';
+import {editAdress} from '../../../pageObjects/shippingaddresspageobj';
 import { guestuser } from '../../../testdata/jcrewTestData';
 
 

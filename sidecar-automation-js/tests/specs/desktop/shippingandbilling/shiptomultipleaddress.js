@@ -1,8 +1,8 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress} from '../../../pageObjects/shippingAddressObj';
-import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginPageObj';
-import {goToShoppingBag, loginAsGuestButton, addAddress, clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
+import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress} from '../../../pageObjects/shippingaddresspageobj';
+import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginpageobj';
+import {goToShoppingBag, loginAsGuestButton, addAddress, clickOnCheckout} from '../../../pageObjects/shoppingbagobj';
 import { guestuser } from '../../../testdata/jcrewTestData';
 
 

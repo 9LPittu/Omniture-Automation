@@ -1,11 +1,14 @@
 import { driver, defaultTimeout } from '../../../helpers';
+import { globals } from '../../../jestJcrewQaConfig';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress} from '../../../pageObjects/shippingAddressObj';
-import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginPageObj';
-import {goToShoppingBag, loginAsGuestButton, addAddress, clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
+import {clickOnContinue} from '../../../pageObjects/shippingaddresspageobj';
+import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginPageObj';
+import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/shoppingbagobj';
+import {verifyShippingMethodsPage} from '../../../pageObjects/shippingpageobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/usercredentials';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
+
 
 test('navigate to home page', async () => {
   await driver.manage().window().maximize()
@@ -20,42 +23,40 @@ test('Login with given username and password', async () => {
 
     await loginFromHomePage(jcrew_prod.username,jcrew_prod.password)
     console.log('user login succesfully')
-  }else if((url.indexOf("or.jcrew.com") > -1 )){
+  }else{
 
   await loginFromHomePage(jcrew_gold.username,jcrew_gold.password)
   console.log('user login succesfully')
-  }else if((url.indexOf("or.factory.jcrew.com") > -1 )){
-
-  await loginFromHomePage(factory_gold.username,factory_gold.password)
-  console.log('user login succesfully')
-  }else if((url.indexOf("https://factory.jcrew.com") > -1 )){
-
-  await loginFromHomePage(factory_prod.username,factory_prod.password)
-  console.log('user login succesfully')
   }
-});
 
+});
 
 test('Clear the bag items if any products were avilable and Add one product', async () => {
   await clearBagItems();
-  console.log('cleared the bag items')
-  driver.sleep(10000);
+  console.log('after clearing bagItem')
+  await driver.sleep(10000);
+//  await goToShoppingBag();
   await addProductTobag();
   await driver.findElement(By.id("js-header__cart")).click()
   await driver.sleep(3000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
 
-  console.log('selected the required product')
-  // await verifyShipToMultiAddress();
-  // console.log('verified multi shipping button')
-  // await clickOnCheckout();
-  console.log('clicked on checkout')
+
+  console.log('after product selection')
+  //await verifyShipToMultiAddress();
+//  await clickOnCheckout();
+  console.log('After checkout')
+  await driver.findElement(By.css("#nav-shipping")).click();
+  await driver.sleep(5000);
+  console.log('After checkout')
+  await clickOnContinue();
+  console.log("after continue")
 
 });
 
-test('Verify Adding/Editing/Removing different addresses', async () => {
-  await addEditRemoveAddress();
-  console.log('verified add/Edit and remove functionalities')
+test('Goto ShippingMethod and verify all shipping methods and Gift Wrappings avilable', async () => {
+    await verifyShippingMethodsPage();
+    console.log('verified shipping Methods')
 });
 
 export const addProductTobag = async () =>{

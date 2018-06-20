@@ -15,7 +15,7 @@ test('title is correct', async () => {
 
  test('Search  is working', async () => {
  //  await driver.executeScript('window.scrollTo(0, 20000)')
-     const currentUrl = await driver.get(`${__baseUrl__}/`);
+     const currentUrl = await driver.get(`${__baseUrl__}/`)
      await driver.sleep(2000)
     const headerSearch = await driver.findElement(By.xpath("//div[contains(@class,'js-primary-nav__link--search')]"))
     expect(headerSearch).toBeTruthy()
@@ -25,9 +25,9 @@ test('title is correct', async () => {
     const searchInput = await driver.findElement(By.xpath("//input[contains(@class,'js-header__search__input header__search__input')]"))
     expect(searchInput).toBeTruthy()
     await searchInput.clear();
-    await searchInput.sendKeys("dress");
-    searchInput.sendKeys(Key.ENTER);
-    let getCurrentUrl = await driver.getCurrentUrl();
+    await searchInput.sendKeys("dress")
+    searchInput.sendKeys(Key.ENTER)
+    let getCurrentUrl = await driver.getCurrentUrl()
     if(getCurrentUrl.indexOf("jcrew.com/r/search/") > -1){
       console.log("Search results page is displayed")
     }

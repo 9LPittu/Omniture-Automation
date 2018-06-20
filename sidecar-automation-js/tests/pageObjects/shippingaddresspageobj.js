@@ -1,7 +1,7 @@
 import { driver } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
-import {goToShoppingBag} from '../pageObjects/ShoppingBagObj';
-import {login,loginInAfterCheckoutPage} from '../pageObjects/loginPageObj';
+import {goToShoppingBag} from '../pageObjects/shoppingbagobj';
+import {login,loginInAfterCheckoutPage} from '../pageObjects/loginpageobj';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 export const zipCode = () => driver.findElement(By.css("input#zipcode"));

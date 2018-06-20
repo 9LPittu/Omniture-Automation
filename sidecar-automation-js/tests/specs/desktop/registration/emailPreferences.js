@@ -1,7 +1,7 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import {clickOnContinue} from '../../../pageObjects/shippingAddressObj';
-import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginPageObj';
+import {clickOnContinue} from '../../../pageObjects/shippingaddresspageobj';
+import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/usercredentials';
 
 

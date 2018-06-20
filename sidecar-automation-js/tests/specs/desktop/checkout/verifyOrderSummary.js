@@ -72,7 +72,8 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
  try {
          await driver.findElement(By.xpath("//*[@id='securityCode']")).then(securitycode => {
     //        console.log("inside securitycode")
-      console.log(securitycode.isDisplayed());
+//      console.log(securitycode.isDisplayed());
+
             if(securitycode.isDisplayed()){
               securitycode.sendKeys(creditcard.pin)
             }

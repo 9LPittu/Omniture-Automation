@@ -2,7 +2,7 @@ import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
-import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginPageObj';
+import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 

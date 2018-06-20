@@ -1,10 +1,10 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import {clickOnContinue} from '../../../pageObjects/shippingAddressObj';
-import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginPageObj';
-import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
-import {continueOnShippingMethod} from '../../../pageObjects/ShippingMethodObj';
-import {paymentMethod} from '../../../pageObjects/BillingObj';
+import {clickOnContinue} from '../../../pageObjects/shippingaddresspageobj';
+import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
+import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/shoppingbagObj';
+import {continueOnShippingMethod} from '../../../pageObjects/Shippingpageobj';
+import {paymentMethod} from '../../../pageObjects/billingobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/usercredentials';
 
 
