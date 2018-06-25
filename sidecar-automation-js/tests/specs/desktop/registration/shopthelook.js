@@ -53,25 +53,10 @@ test('Login with given username and password', async () => {
 
 });
 
-
-test('verify write a review functionality', async () => {
-
+test('verify Shop the look behaviour', async () => {
+//.c-product__styled-with--wrap
 await addProductTobag();
-await driver.findElement(By.xpath("//a[text()='Write a review']")).click();
-await driver.sleep(5000);
-
-await driver.findElement(By.css("#star_link_rating_5")).click();
-await driver.findElement(By.css("#BVFieldRecommendYesID")).click();
-await driver.findElement(By.css("#BVFieldRatingFit4LabelID")).click();
-await driver.findElement(By.css("#star_link_rating_Style_4")).click();
-await driver.findElement(By.css("#star_link_rating_Style_4")).click();
-await driver.findElement(By.css("#star_link_rating_Quality_5")).click();
-await driver.findElement(By.css("#BVFieldTitleID")).sendKeys("Automation review title");
-await driver.findElement(By.css("#BVFieldReviewtextID")).sendKeys("Automation reviewAutomation reviewAutomation reviewAutomation reviewAutomation reviewAutomation reviewAutomation reviewAutomation review");
-await driver.findElement(By.css("#BVFieldUsernicknameID")).sendKeys("nicknamefield");
-await driver.findElement(By.css("#BVFieldUseremailID")).sendKeys("usermailID@example.com");
-await driver.findElement(By.xpath("//button[@class='BVButton']/span[text()='Preview']")).click();
-await driver.findElement(By.css("#BVFieldButtonHiddenInputSubmitID")).isDisplayed();
+await driver.findElement(By.css(".c-product__styled-with--wrap")).click();
 
 });
 
