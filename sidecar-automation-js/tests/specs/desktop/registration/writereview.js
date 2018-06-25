@@ -5,6 +5,7 @@ import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../
 import {editAdress} from '../../../pageObjects/shippingaddresspageobj';
 import { guestuser } from '../../../testdata/jcrewTestData';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/usercredentials';
+import {loginFromHomePage} from '../../../pageObjects/loginpageobj';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
