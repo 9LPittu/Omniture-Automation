@@ -6,7 +6,7 @@ import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTest
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
@@ -26,8 +26,8 @@ test('title is correct', async () => {
     await driver.findElement(By.xpath("//*[@id='eGiftCard']/img")).click()
     await driver.sleep(3000)
 
-    await driver.findElement(By.xpath("//*[@id='amount25']")).click()
-      await driver.sleep(3000)
+      await driver.findElement(By.linkText("$25")).click()
+       await driver.sleep(3000)
 
       var date = new Date()
       await driver.findElement(By.xpath("//*[@id='senderNameEgc']")).sendKeys("test")
@@ -79,4 +79,8 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
 
       console.log("order Id  > " + orderNumberLet)
       }
+   })
+
+   afterAll(async () => {
+     await driver.quit()
    })
