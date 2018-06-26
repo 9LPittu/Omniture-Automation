@@ -24,7 +24,6 @@ test('title is correct', async () => {
 		  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
     }
       await driver.sleep(3000)
-    //  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[5]")).click()
       await driver.actions().mouseMove(await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))).perform();
       await driver.sleep(2000)
       await driver.findElement(By.xpath("(//div[contains(@class,'btn--quickshop')])")).click()

@@ -7,13 +7,6 @@ import { guestuser } from '../../../testdata/jcrewTestData';
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-//describe('index', () => {
-//  it('title is correct', async () => {
-//    await load();
-//    expect(await driver.getTitle()).toMatch('J.Crew');
-//  });
-//});
-
 
 test('title is correct', async () => {
   await load();
@@ -21,29 +14,6 @@ test('title is correct', async () => {
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-/*
- afterAll(async () => {
-   await driver.quit()
- })
-
-
-
- test('Close email capture is present or not', async () => {
-
-   let close_email_capture = await driver.findElement(By.xpath("//div[@class='email-capture--close modal-capture--close js-email-capture--close']"))
-
-   await driver.findElement(By.xpath("//div[@class='email-capture--close modal-capture--close js-email-capture--close']")).then(function(webElement) {
-         close_email_capture.click()
-     }, function(err) {
-         if (err.state && err.state === 'no such element') {
-             console.log('Element not found')
-         } else {
-             driver.promise.rejected(err)
-         }
-     })
-    })
-
-*/
   test('test Guest checkout', async () => {
 
       await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();

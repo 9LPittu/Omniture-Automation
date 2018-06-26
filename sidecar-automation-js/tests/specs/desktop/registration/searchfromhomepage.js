@@ -13,16 +13,9 @@ test('navigate to home page', async () => {
 
 });
 
-<<<<<<< HEAD
-test('verify search functionality is working properly or not',async ()=>{
-  await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
-     await driver.findElement(By.xpath("//*[@id='inputSearchDesktop']")).sendKeys("H9647");
-      await driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
-=======
 test('verify search functionality is working properly or not', async () => {
   await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
      await driver.findElement(By.xpath("//*[@id='inputSearchDesktop']")).sendKeys("H9647");
       await   driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
   expect(await driver.findElement(By.xpath("//title"))).toMatch('J.Crew: Clothes, Shoes & Accessories for Women, Men & Kids')
->>>>>>> ee7784a71adef989ebcdca5883ae5d1bb506c027
-});
+ });

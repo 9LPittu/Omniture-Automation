@@ -13,31 +13,26 @@ test('navigate to home page', async () => {
 
 });
 
-<<<<<<< HEAD
-test('select a product by hovering on menu',async ()=>{
+test('select a product by hovering on menu', async ()=>{
   await selectProduct();
   await driver.sleep(5000);
-  
+
 });
 
-test('verify sort and filter functionality is working properly or not',async ()=>{
-=======
 test('verify search functionality is working properly or not', async () => {
-  await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
+     await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
      await driver.findElement(By.xpath("//*[@id='inputSearchDesktop']")).sendKeys("H9647");
-      await   driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
-  expect(await driver.findElement(By.xpaht("//title"))).toMatch('J.Crew: Clothes, Shoes & Accessories for Women, Men & Kids')
+     await driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
+      expect(await driver.findElement(By.xpaht("//title"))).toMatch('J.Crew: Clothes, Shoes & Accessories for Women, Men & Kids')
 });
 
 test('verify sort and filter functionality is working properly or not', async () => {
->>>>>>> ee7784a71adef989ebcdca5883ae5d1bb506c027
 await driver.findElement(By.css("#c-filters__header-item--toggle")).click();
 await driver.findElement(By.css(".sort-dropdown__header")).click();
 });
 
-export const selectProduct = async () =>{
+export const selectProduct = async () => {
   let currentUrl = await driver.getCurrentUrl();
-  ////FirstProduct
   await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
   driver.sleep(2000);
 
@@ -47,8 +42,4 @@ export const selectProduct = async () =>{
   await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
   }
   await driver.sleep(3000)
-
-
-
-
 }

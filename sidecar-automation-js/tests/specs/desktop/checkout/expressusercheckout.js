@@ -68,7 +68,6 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
       { }
        await driver.sleep(3000)
           if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-            console.log(">> inside factory")
             await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
           } else {
             await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()

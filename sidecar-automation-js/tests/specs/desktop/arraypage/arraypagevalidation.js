@@ -16,42 +16,7 @@ test('title is correct', async () => {
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-/*
- test('Close email capture is present or not', async () => {
-
-   let close_email_capture = await driver.findElement(By.xpath("//div[@class='email-capture--close modal-capture--close js-email-capture--close']"))
-
-   await driver.findElement(By.xpath("//div[@class='email-capture--close modal-capture--close js-email-capture--close']")).then(function(webElement) {
-         close_email_capture.click()
-     }, function(err) {
-         if (err.state && err.state === 'no such element') {
-             console.log('Element not found')
-         } else {
-             driver.promise.rejected(err)
-         }
-     })
-
-    })
-*/
-
-/*
-    test('Twitter is working', async () => {
-      await driver.executeScript('window.scrollTo(0, 20000)')
-        await driver.sleep(2000)
-      const footer = await driver.findElement(By.tagName('footer'))
-      const contact = footer.findElement(By.id('c-footer__twitter'))
-      expect(contact).toBeTruthy()
-      await driver.actions({ bridge: true }).move({origin: contact}).click().perform()
-      await driver.getCurrentUrl( url => {
-        expect(url.match('https://twitter.com/jcrew_help')).toBeTruthy()
-      })
-      await driver.navigate().back()
-    })
-    */
-
-
-
-    test('Product arraypage validation', async () => {
+  test('Product arraypage validation', async () => {
       console.log("Array page is being verified ")
       await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
   		driver.sleep(2000);

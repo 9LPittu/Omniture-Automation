@@ -37,9 +37,7 @@ var x = Math.floor((Math.random() * 1000000) + 1);
    userPannel.click()
 
     await driver.sleep(3000)
-    //await driver.findElement(By.xpath("//*[@id='nav__ul']/li[10]")).click()
     let currentUrl = await driver.getCurrentUrl();
-
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
 
       await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
