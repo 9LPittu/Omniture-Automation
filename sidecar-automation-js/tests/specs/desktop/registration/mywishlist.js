@@ -38,6 +38,7 @@ test('Login with given username and password', async () => {
 
 test('Add product to wishlist', async () => {
 //.c-nav__userpanel-item--wishlist
+await driver.sleep(5000)
 await addProductToWishList();
 
 });

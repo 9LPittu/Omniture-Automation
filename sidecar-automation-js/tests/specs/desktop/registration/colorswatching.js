@@ -26,7 +26,8 @@ test('select product id and goto PAP page ', async () =>{
 });
 
 test('verify color swatch is Displayed in pap page on hovering the product', async () =>{
-  await driver.actions().mouseMove(await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[5]"))).perform();
+  await driver.actions().mouseMove(await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))).perform();
+  await driver.sleep(5000);
    expect(await driver.findElement(By.xpath("//ul[@class='product__colors colors-list']")).isDisplayed()).toBeTruthy();
     console.log('color swatch is Displayed')
 

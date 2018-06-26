@@ -38,9 +38,12 @@ test('Login with given username and password', async () => {
 
 //img[@src='https://static.cdn.responsys.net/i5/responsysimages/jcrew/contentlibrary/!forms/jc/prefcenter/images/subscribe_button.gif']
 test('verify the email preferences section', async () => {
+  await driver.sleep(7000)
 await driver.findElement(By.partialLinkText("Email Preferences")).click();
-await driver.sleep(5000);
-await driver.findElement(By.xpath("//img[@src='https://static.cdn.responsys.net/i5/responsysimages/jcrew/contentlibrary/!forms/jc/prefcenter/images/subscribe_button.gif']")).click();
+await driver.sleep(7000);
+//await driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/following-sibling::section//following-sibling::p/a/img")).click();
+
+await driver.executeScript("arguments[0].click();",driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/following-sibling::section//following-sibling::p/a")));
 await driver.sleep(5000);
 expect(await driver.findElement(By.css(".sign-up-button")).isDisplayed()).toBeTruthy();
 

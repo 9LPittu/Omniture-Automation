@@ -38,8 +38,8 @@ test('Login with given username and password', async () => {
 
 
 test('verify myDeatils section', async () => {
-
-  expect(await driver.findElement(By.partialLinkText("My Details")).isDisplayed()).toBeTruthy()
+await driver.sleep(5000);
+expect(await driver.findElement(By.partialLinkText("My Details")).isDisplayed()).toBeTruthy()
 await driver.findElement(By.partialLinkText("My Details")).click();
 await driver.sleep(5000);
 

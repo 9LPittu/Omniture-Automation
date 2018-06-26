@@ -17,18 +17,18 @@ test('navigate to home page', async () => {
    console.log('Home page loaded proprely')
 
 });
-test('select product id and goto write a review page', async () =>{
-  await addProductTobag();
-  console.log('product selection done')
-
-  await driver.sleep(3000)
-  await driver.findElement(By.xpath("//a[text()='user reviews']")).click()
-////a[text()='write a review']
-
-await driver.findElement(By.xpath("//a[text()='write a review']")).click()
-  console.log('selected the required product')
-
-});
+// test('select product id and goto write a review page', async () =>{
+//   await addProductTobag();
+//   console.log('product selection done')
+//
+//   await driver.sleep(3000)
+//   await driver.findElement(By.xpath("//a[text()='user reviews']")).click()
+// ////a[text()='write a review']
+//
+// await driver.findElement(By.xpath("//a[text()='write a review']")).click()
+//   console.log('selected the required product')
+//
+// });
 
 test('Login with given username and password', async () => {
   let url = await driver.getCurrentUrl();
@@ -55,8 +55,7 @@ test('Login with given username and password', async () => {
 
 
 test('verify write a review functionality', async () => {
-
-await addProductTobag();
+  await addProductTobag();
 await driver.findElement(By.xpath("//a[text()='Write a review']")).click();
 await driver.sleep(5000);
 
