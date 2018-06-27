@@ -29,6 +29,37 @@
   },
   "zipCode":{
     "zipcode": "10003"
+  },
+  "jcrew_gold":{
+    "username": "goldnonexpress1@example.org",
+    "password": "test1234"
+  } ,
+  "jcrew_prod":{
+    "username": "testuser1@example.org",
+    "password": "test1234"
+  } ,
+  "factory_gold":{
+    "username": "autotest1@example.org",
+    "password": "test1234"
+  } ,
+  "factory_prod":{
+    "username": "autotest@example.org",
+    "password": "test1234"
+  } ,
+   "Billing":{
+      "PAYMENT_METHOD":"Paypal",
+      "MultiCardPayment":"Yes",
+      "Credit_Debit_Card":{
+        "Card_Number":"4111111111111111",
+        "Security_Code":"123",
+        "Expiration_Month":"12",
+        "Expiration_Year":"2020",
+        "Name_On_Card":"Perftest"
+    },
+    "Paypal":{
+        "Email":"jcrewus@gmail.com",
+        "Password":"M@rtini12"
+      }
   }
 
 }

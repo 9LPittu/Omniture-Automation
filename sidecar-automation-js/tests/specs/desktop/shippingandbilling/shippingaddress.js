@@ -3,7 +3,7 @@ import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress} from '../../../pageObjects/shippingaddresspageobj';
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginpageobj';
 import {goToShoppingBag, loginAsGuestButton, addAddress, clickOnCheckout} from '../../../pageObjects/shoppingbagObj';
-import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/usercredentials';
+import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 

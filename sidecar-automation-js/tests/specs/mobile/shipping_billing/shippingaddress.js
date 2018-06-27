@@ -6,7 +6,7 @@ import { guestuser } from '../../../testdata/jcrewTestData';
 import element from '../../../util/commonutils';
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginPageObj';
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
-import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/usercredentials';
+import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 import {click,scroll} from "../../../util/MobileMethods"
 
 const { By, Key, until } = require('selenium-webdriver')

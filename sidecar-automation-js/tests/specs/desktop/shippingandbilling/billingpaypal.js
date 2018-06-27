@@ -5,7 +5,7 @@ import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/shoppingbagObj';
 import {continueOnShippingMethod} from '../../../pageObjects/Shippingpageobj';
 import {paymentMethod} from '../../../pageObjects/billingobj';
-import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/usercredentials';
+import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
