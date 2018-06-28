@@ -18,18 +18,18 @@ test('navigate to home page', async () => {
    console.log('Home page loaded proprely')
 
 });
-test('select product id and goto write a review page', async () =>{
-  await addProductTobag();
-  console.log('product selection done')
-
-  await driver.sleep(3000)
-  await driver.findElement(By.xpath("//a[text()='user reviews']")).click()
-////a[text()='write a review']
-
-await driver.findElement(By.xpath("//a[text()='write a review']")).click()
-  console.log('selected the required product')
-
-});
+// test('select the product required', async () =>{
+//   await addProductTobag();
+//   console.log('product selection done')
+// //
+// //   await driver.sleep(3000)
+// //   await driver.findElement(By.xpath("//a[text()='user reviews']")).click()
+// // ////a[text()='write a review']
+// //
+// // await driver.findElement(By.xpath("//a[text()='write a review']")).click()
+// //   console.log('selected the required product')
+//
+// });
 
 test('Login with given username and password', async () => {
   let url = await driver.getCurrentUrl();
@@ -55,13 +55,12 @@ test('Login with given username and password', async () => {
 });
 
 test('verify Shop the look behaviour', async () => {
-//.c-product__styled-with--wrap
+  await driver.sleep(7000)
 await addProductTobag();
+await driver.sleep(2000)
 await driver.findElement(By.css(".c-product__styled-with--wrap")).click();
 
 });
-
-
 
 export const addProductTobag = async () =>{
   let currentUrl = await driver.getCurrentUrl();
@@ -75,7 +74,7 @@ export const addProductTobag = async () =>{
   await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
   }
   await driver.sleep(3000)
-  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[5]")).click()
+  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
 
   await driver.sleep(2000)
   await driver.navigate().refresh()
