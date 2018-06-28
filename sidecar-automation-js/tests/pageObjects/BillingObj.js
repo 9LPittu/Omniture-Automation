@@ -42,8 +42,12 @@ export const paymentMethod = async(paymentType) =>{
             let url = await driver.getCurrentUrl();
             console.log(url);
             await driver.findElement(By.css("#button-submitorder")).click();
+            try {
             await driver.findElement(By.xpath("//img[@src='https://images.bizrateinsights.com/eval/survey/invite_template/custom/jcrew_714.jpg']")).isDisplayed();
             await driver.findElement(By.xpath("//div[@class='brdialog-close']")).click();
+          } catch (err) {
+
+          }
             let orderNumer = await driver.findElement(By.xpath("//span[@id='confirmation-number']/span[2]")).getText();
             console.log("Order Number is : "+orderNumer)
           }
@@ -55,7 +59,10 @@ export const paymentMethod = async(paymentType) =>{
             //paypalPayment
           //  await driver.findElement(By.css("#paypalPayment")).click();
             //const css = { css: "#paypalPayment" };
-
+            //*[@id="nav-billing"]/a
+            await driver.findElement(By.xpath("//*[@id='nav-billing']/a")).click()
+            var parent = driver.getWindowHandle();
+            driver.sleep(6000)
             await driver.wait(until.elementLocated(paypalRadio), 50000).click();
             await driver.switchTo().frame(await driver.findElement(By.xpath("//iframe[@class='xcomponent-component-frame xcomponent-visible']")))
           //  await driver.findElement(By.xpath("//div[@data-funding-source='paypal']")).click();
@@ -66,6 +73,7 @@ export const paymentMethod = async(paymentType) =>{
               await driver.wait(until.elementLocated(paypalButton), 50000).isDisplayed();
           }else{
 
+
             await driver.wait(until.elementLocated(paypalButton), 50000).click();
             await driver.switchTo().defaultContent();
 
@@ -74,11 +82,10 @@ export const paymentMethod = async(paymentType) =>{
             });
 
             console.log("paypal window")
-//            let getWindowHandle = await driver.getWindowHandles();
-            await driver.sleep(30000)
+            await driver.sleep(15000)
             await driver.wait(until.elementLocated(loginButton), 50000).click();
             console.log("clicked login")
-            await driver.sleep(30000)
+            await driver.sleep(15000)
             //await driver.wait(until.elementLocated(driver.findElement(By.id('email'))), 50e3).clear();
             await driver.wait(until.elementLocated(email), 50000).sendKeys(Billing.Paypal.Email);
             console.log("entered uname")
@@ -88,21 +95,28 @@ export const paymentMethod = async(paymentType) =>{
             await driver.sleep(10000)
             await driver.wait(until.elementLocated(password),50000).sendKeys(Billing.Paypal.Password);
             console.log("entered password")
-            await driver.sleep(30000)
+            await driver.sleep(10000)
             await driver.wait(until.elementLocated(btnLogin),2000).click();
-            await driver.sleep(60000)
+            await driver.sleep(10000)
 
             //await driver.findElement(submitButton).click()
             await driver.wait(until.elementLocated(submitButton), 50000).click();
             console.log("clicked continue")
+            await driver.sleep(10000)
 
-            await driver.switchTo().defaultContent();
+            await driver.switchTo().window(parent)
+            await driver.sleep(10000)
             await driver.wait(until.elementLocated(placeMyOrder),5000).click();
-            await driver.sleep(30000)
+            await driver.sleep(10000)
+             try {
             await driver.wait(until.elementLocated(orderPlaced),5000).isDisplayed();
             await driver.wait(until.elementLocated(closeOrderPlaced),5000).click();
+          } catch (err) {
+
+          }
             let orderNumer = await driver.wait(until.elementLocated(verifyOrderNumber),5000).getText();
             console.log("Order Nubmber is: "+orderNumer)
+             expect(orderNumer).toBeTruthy()
           }
 
 

@@ -55,8 +55,11 @@ export const verifyShippingMethodsPage = async () => {
     await driver.findElement(By.css("#giftWrapService0")).click();
   }
   export const continueOnShippingMethod = async ()=>{
-    await driver.findElement(By.css("#order-summary__button-continue")).click();
+    await driver.findElement(By.xpath("//*[@id='order-summary__button-continue']")).click()
   }
 
+  export const checkout = async ()=>{
+    await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+  }
 //
 //#giftWrapService0
