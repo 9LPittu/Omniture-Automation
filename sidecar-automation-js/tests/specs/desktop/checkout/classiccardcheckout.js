@@ -6,7 +6,7 @@ import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTest
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
@@ -41,8 +41,8 @@ test('title is correct', async () => {
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(6000)
 
-      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username1)
-      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password1)
+      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username2)
+      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password2)
       await driver.sleep(2000)
       await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
 
