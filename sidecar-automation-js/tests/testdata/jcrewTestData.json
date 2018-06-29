@@ -2,7 +2,6 @@
   {
   "creditcard": {
     "number": "4111111111111111",
-    "jcccard": "5856371002514031",
     "pin": "737",
     "expirationMonth": "12",
     "expirationYear": "2020",
@@ -25,7 +24,9 @@
     "username": "automationca@gmail.com",
     "password": "nft123",
     "username1": "sqatree@gmail.com",
-    "password1": "123456ab"
+    "password1": "123456ab",
+    "username2": "testuser10@example.org",
+    "password2": "test1234",
   },
   "zipCode":{
     "zipcode": "10003"
