@@ -3,6 +3,7 @@ import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
 import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
+import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
@@ -12,20 +13,37 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-  test('Verify User is able to login with valid user credentials', async () => {
-      await loginFromHomePage(logindetails.username, logindetails.password)
+//new
 
-      let currentUrl = await driver.getCurrentUrl();
-    if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-      await driver.sleep(3000)
-      await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
-      await driver.sleep(3000)
-    } else {
-      await driver.sleep(3000)
+test('Verify User is able to login with valid user credentials', async () => {
+    let url = await driver.getCurrentUrl();
+    if (url.indexOf("www.jcrew.com") > -1) {
+
+      await loginFromHomePage(jcrew_prod.username,jcrew_prod.password)
+      console.log('user login succesfully')
+    }
+    else if((url.indexOf("or.jcrew.com") > -1 )){
+    await loginFromHomePage(jcrew_gold.username,jcrew_gold.password)
+    await driver.sleep(3000)
+    await driver.findElement(By.xpath(".//span[text()='My Account']")).click()
+    await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
+    console.log('user login succesfully')
+    }
+    else if((url.indexOf("or.factory.jcrew.com") > -1 )){
+      await loginFromHomePage(factory_gold.username,factory_gold.password)
+      await driver.sleep(5000)
       await driver.findElement(By.xpath(".//span[text()='My Account']")).click()
       await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
+      await driver.sleep(3000)
+    console.log('user login succesfully')
     }
-   })
+    else if((url.indexOf("https://factory.jcrew.com") > -1 )){
+
+    await loginFromHomePage(factory_prod.username,factory_prod.password)
+    console.log('user login succesfully')
+    }
+
+})
 
    test('Verify User is not able to login with invalid user credentials, display error message', async () => {
        await driver.sleep(3000)
@@ -39,7 +57,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
        await driver.sleep(2000)
        const errorMsg = await driver.findElement(By.className('js-invalid-msg is-important'))
        expect(errorMsg).toBeTruthy()
-
+      console.log('login with Invalid details and display error message');
         })
 
          afterAll(async () => {

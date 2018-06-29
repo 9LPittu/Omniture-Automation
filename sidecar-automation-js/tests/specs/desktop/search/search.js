@@ -25,8 +25,8 @@ test('title is correct', async () => {
       // headerSearch.click();
        const searchInput = headerSearch.findElement(By.xpath(".//input[contains(@class,'js-primary-nav__input--search')]"))
        expect(searchInput).toBeTruthy()
-       await searchInput.clear();
-       await searchInput.sendKeys("dress");
-       searchInput.sendKeys(Key.ENTER);
-       await driver.wait(not (until.urlIs(currentUrl)),defaultTimeout)
+       await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
+       await driver.findElement(By.xpath("//span[@class='primary-nav__text primary-nav__text--search']")).sendKeys("H9135");
+       await driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
+
      })
