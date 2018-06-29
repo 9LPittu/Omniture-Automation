@@ -6,7 +6,9 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testda
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
+const jcrewCloseicon = { xpath: "(//span[@class='icon-close'])[1]" };
 
+export const closeIcon = () => driver.findElement(jcrewCloseicon);
 test('navigate to home page', async () => {
   await driver.manage().window().maximize()
    await load();
@@ -42,9 +44,8 @@ test('verify the email preferences section', async () => {
 await driver.findElement(By.partialLinkText("Email Preferences")).click();
 await driver.sleep(7000);
 //await driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/following-sibling::section//following-sibling::p/a/img")).click();
-
+await driver.switchTo().frame("emailSub");
+expect(await driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/following-sibling::section//following-sibling::p/a")).isDisplayed()).toBeTruthy();
 await driver.executeScript("arguments[0].click();",driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/following-sibling::section//following-sibling::p/a")));
-await driver.sleep(5000);
-expect(await driver.findElement(By.css(".sign-up-button")).isDisplayed()).toBeTruthy();
-
+await driver.sleep(8000)
 });

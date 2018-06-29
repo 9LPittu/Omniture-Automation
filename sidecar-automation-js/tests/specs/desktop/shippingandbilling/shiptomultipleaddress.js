@@ -103,7 +103,7 @@ export const addGuestFirstAddress = async () =>{
         await driver.findElement(By.xpath("//input[@id='address2']")).sendKeys(guestuser.address2)
           await driver.findElement(By.xpath("//input[@id='address1']")).sendKeys(guestuser.address1)
           await driver.findElement(By.xpath("//input[@id='zipcode']")).sendKeys(guestuser.zipcode)
-            await driver.sleep(3000)
+            await driver.sleep(8000);
               await driver.findElement(By.xpath("//input[@id='phoneNumSA']")).sendKeys(guestuser.phoneNumSA)
               await driver.sleep(3000)
               await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
@@ -122,22 +122,23 @@ export const addSecondGuestAddress = async () =>{
          //address2
          await driver.findElement(By.css("#address2")).sendKeys("address test");
            await driver.findElement(By.css("#zipcode")).sendKeys("50009");
+           await driver.sleep(8000);
              await driver.findElement(By.css("#phoneNumAM")).sendKeys("9658742361");
              //.button-submit
 
                 await driver.findElement(By.css("#submit-new-shipping-address")).click();
                 await driver.sleep(5000);
 
-                if(await driver.findElement(By.css("#dropdown-state-province")).isDisplayed()){
-                  await driver.findElement(By.css("#city")).sendKeys("ALTOONA");
-                //  await driver.Select(driver.findElement(By.css("#dropdown-state-province"))).selectByValue("AK");
-                  await driver.wait(
-                      until.elementLocated(By.id("dropdown-state-province")), 20000
-                  ).then(element => {
-                      selectByVisibleText(element, "AK")
-                  });
-                  await driver.findElement(By.css("#submit-new-shipping-address")).click();
-                }
+                // if(await driver.findElement(By.css("#dropdown-state-province")).isDisplayed()){
+                //   await driver.findElement(By.css("#city")).sendKeys("ALTOONA");
+                // //  await driver.Select(driver.findElement(By.css("#dropdown-state-province"))).selectByValue("AK");
+                //   await driver.wait(
+                //       until.elementLocated(By.id("dropdown-state-province")), 20000
+                //   ).then(element => {
+                //       selectByVisibleText(element, "AK")
+                //   });
+                //   await driver.findElement(By.css("#submit-new-shipping-address")).click();
+                // }
                 await driver.findElement(By.xpath("//a[@class='button-submit']")).click();
 
 

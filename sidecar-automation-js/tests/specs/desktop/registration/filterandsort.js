@@ -19,16 +19,12 @@ test('select a product by hovering on menu', async ()=>{
 
 });
 
-// test('verify search functionality is working properly or not', async () => {
-//      await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
-//      await driver.findElement(By.xpath("//*[@id='inputSearchDesktop']")).sendKeys("H9647");
-//      await driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
-//       expect(await driver.findElement(By.xpath("//title"))).toMatch('J.Crew: Clothes, Shoes & Accessories for Women, Men & Kids')
-// });
 
 test('verify sort and filter functionality is working properly or not', async () => {
 await driver.findElement(By.css("#c-filters__header-item--toggle")).click();
+await driver.sleep(3000)
 await driver.findElement(By.css(".sort-dropdown__header")).click();
+await driver.sleep(3000)
 });
 
 export const selectProduct = async () => {
