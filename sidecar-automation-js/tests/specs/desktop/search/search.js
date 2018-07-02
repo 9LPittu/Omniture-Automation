@@ -20,13 +20,15 @@ test('title is correct', async () => {
        const headerSearch = await driver.findElement(By.xpath("//div[contains(@class,'js-primary-nav__link--search')]"))
 
        expect(headerSearch).toBeTruthy()
-       await headerSearch.click()
-       await driver.sleep(2000)
-      // headerSearch.click();
-       const searchInput = headerSearch.findElement(By.xpath(".//input[contains(@class,'js-primary-nav__input--search')]"))
-       expect(searchInput).toBeTruthy()
-       await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
-       await driver.findElement(By.xpath("//span[@class='primary-nav__text primary-nav__text--search']")).sendKeys("H9135");
-       await driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
+       console.log("toBeTruthy() is executed");
+        await headerSearch.click()
+        await driver.sleep(2000)
+       // headerSearch.click();
+        const searchInput = headerSearch.findElement(By.xpath(".//input[contains(@class,'js-primary-nav__input--search')]"))
+        expect(searchInput).toBeTruthy()
+      //  await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
+      // await driver.findElement(By.xpath("//span[@class='primary-nav__text primary-nav__text--search']")).sendKeys("H9135");
+        searchInput.sendKeys("H9135");
+        await driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
 
-     })
+    });

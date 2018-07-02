@@ -7,13 +7,11 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testda
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
- beforeAll(async () => {
-  await load();
-  await driver.sleep(2000)
-   expect(await driver.getTitle()).toMatch('J.Crew')
- })
-
-//new
+ test('title is correct', async () => {
+   await load();
+   await driver.sleep(2000)
+    expect(await driver.getTitle()).toMatch('J.Crew')
+  })
 
 test('Verify User is able to login with valid user credentials', async () => {
     let url = await driver.getCurrentUrl();
@@ -25,16 +23,12 @@ test('Verify User is able to login with valid user credentials', async () => {
     else if((url.indexOf("or.jcrew.com") > -1 )){
     await loginFromHomePage(jcrew_gold.username,jcrew_gold.password)
     await driver.sleep(3000)
-    await driver.findElement(By.xpath(".//span[text()='My Account']")).click()
-    await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
     console.log('user login succesfully')
     }
     else if((url.indexOf("or.factory.jcrew.com") > -1 )){
       await loginFromHomePage(factory_gold.username,factory_gold.password)
       await driver.sleep(5000)
-      await driver.findElement(By.xpath(".//span[text()='My Account']")).click()
-      await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
-      await driver.sleep(3000)
+
     console.log('user login succesfully')
     }
     else if((url.indexOf("https://factory.jcrew.com") > -1 )){
@@ -42,6 +36,11 @@ test('Verify User is able to login with valid user credentials', async () => {
     await loginFromHomePage(factory_prod.username,factory_prod.password)
     console.log('user login succesfully')
     }
+
+  await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
+  //class js-signout__link --button
+  await driver.sleep(2000)
+  await driver.findElement(By.xpath("//a[@class='js-signout__link']")).click();
 
 })
 
