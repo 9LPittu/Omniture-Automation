@@ -70,7 +70,7 @@ test('title is correct', async () => {
       await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
       await driver.sleep(3000)
 try {
-  // console.log("inside merge page")
+  // console.log("inside merge page ") 
   await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[2]")).then(mergebutton => {
    mergebutton.click()
    driver.sleep(3000)
