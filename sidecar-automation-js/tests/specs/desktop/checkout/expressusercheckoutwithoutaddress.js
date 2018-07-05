@@ -10,13 +10,24 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
+  await driver.manage().window().maximize()
+  await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
   test('Non express User Checkout (user without address/credit card details)', async () => {
   //   let x = 1462;
 //     for (x ; x < 2000; x++) {
-
+await driver.navigate().refresh()
+driver.sleep(2000);
+try {
+  await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
+  // console.log("inside merge page")
+   privacyPolicyClose.click()
+   driver.sleep(3000)
+ })
+ } catch (err)
+{ }
     var x = Math.floor((Math.random() * 1000000) + 1);
      let userName = "AutomationTest"+x
      let email = "AutomationTest"+x+"@gmail.com"
@@ -119,12 +130,12 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
 
         //credit card details
         await driver.sleep(3000)
-          await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).sendKeys(creditcard.jcccard)
-      //    await driver.findElement(By.xpath("//input[@id='securityCode']")).sendKeys(creditcard.pin)
-      //    await driver.findElement(By.xpath("//select[@id='expirationMonth']")).sendKeys(creditcard.expirationMonth)
-      //    await driver.findElement(By.xpath("//select[@id='expirationYear']")).sendKeys(creditcard.expirationYear)
+          await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).sendKeys(creditcard.number)
+          await driver.findElement(By.xpath("//input[@id='securityCode']")).sendKeys(creditcard.pin)
+          await driver.findElement(By.xpath("//select[@id='expirationMonth']")).sendKeys(creditcard.expirationMonth)
+          await driver.findElement(By.xpath("//select[@id='expirationYear']")).sendKeys(creditcard.expirationYear)
           await driver.findElement(By.xpath("//input[@id='nameOnCard']")).sendKeys(creditcard.nameOnCard)
-      //    await driver.findElement(By.xpath("//input[@id='emailReceipt']")).sendKeys(creditcard.emailReceipt)
+          //await driver.findElement(By.xpath("//input[@id='emailReceipt']")).sendKeys(creditcard.emailReceipt)
          // await driver.findElement(By.xpath("//a[@id='billing-options-submit']")).click()
          await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
 

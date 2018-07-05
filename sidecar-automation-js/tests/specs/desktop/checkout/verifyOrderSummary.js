@@ -9,12 +9,24 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
+  await driver.manage().window().maximize()
+  await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
   test('Express User Checkout', async () => {
-     await driver.actions().mouseMove(await driver.wait(until.elementLocated(categorymen), defaultTimeout)).perform();
-    //await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
+    await driver.navigate().refresh()
+    driver.sleep(2000);
+    try {
+      await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
+      // console.log("inside merge page")
+       privacyPolicyClose.click()
+       driver.sleep(3000)
+     })
+     } catch (err)
+    { }
+    // await driver.actions().mouseMove(await driver.wait(until.elementLocated(categorymen), defaultTimeout)).perform();
+    await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
   		driver.sleep(2000);
          let currentUrl = await driver.getCurrentUrl();
        if (currentUrl.indexOf("factory.jcrew.com") > -1) {
@@ -46,11 +58,11 @@ test('title is correct', async () => {
       await driver.sleep(3000)
 
 try {
-  await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[1]")).then(mergebutton => {
+  await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[2]")).then(mergebutton => {
   // console.log("inside merge page")
    mergebutton.click()
    driver.sleep(3000)
-   driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+  // driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
    })
  } catch (err)
 { }

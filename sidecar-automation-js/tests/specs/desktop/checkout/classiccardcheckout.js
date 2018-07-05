@@ -6,23 +6,46 @@ import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTest
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-beforeAll(async () => {
+test('title is correct', async () => {
   await load();
+  await driver.sleep(2000)
+  await driver.manage().window().maximize()
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
   test('Classic Card Checkout - Express User', async () => {
   		driver.sleep(2000);
+      await driver.navigate().refresh()
+      driver.sleep(2000);
+      try {
+        await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
+        // console.log("inside merge page")
+         privacyPolicyClose.click()
+         driver.sleep(3000)
+       })
+       } catch (err)
+      { }
          let currentUrl = await driver.getCurrentUrl();
-
          await driver.executeScript('window.scrollTo(0, 50000)')
+          await driver.sleep(2000)
+          await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")));
           await driver.sleep(2000)
           try {
             await driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
              await driver.sleep(5000)
           } catch(err) {}
 
+          driver.sleep(2000);
+
+          try {
+            await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
+            // console.log("inside merge page")
+             privacyPolicyClose.click()
+             driver.sleep(3000)
+           })
+           } catch (err)
+          { }
     // driver.navigate().to("https://or.jcrew.com/help/gift_card.jsp?sidecar=true")
       await driver.findElement(By.xpath("//*[@id='classicGiftCard']/img")).click()
       await driver.sleep(3000)
@@ -41,19 +64,17 @@ beforeAll(async () => {
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(6000)
 
-      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username2)
-      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password2)
+      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username1)
+      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password1)
       await driver.sleep(2000)
       await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
-
       await driver.sleep(3000)
-
 try {
-  await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[1]")).then(mergebutton => {
   // console.log("inside merge page")
+  await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[2]")).then(mergebutton => {
    mergebutton.click()
    driver.sleep(3000)
-   driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+  // driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
    })
  } catch (err)
 { }

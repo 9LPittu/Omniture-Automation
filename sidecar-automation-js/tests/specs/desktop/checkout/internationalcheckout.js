@@ -10,7 +10,9 @@ let sleeptime = 7000;
 
 test('title is correct', async () => {
   await load();
-  await driver.sleep(sleeptime)
+  await driver.sleep(2000)
+  await driver.manage().window().maximize()
+  await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
@@ -19,8 +21,22 @@ test('title is correct', async () => {
 //   ['United Kingdom'],
 //   ['India']
  ]).test('%s - International Checkout', async contextchooser => {
-
+   driver.sleep(2000);
+   await driver.navigate().refresh()
+   driver.sleep(2000);
+   try {
+     await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
+     // console.log("inside merge page")
+      privacyPolicyClose.click()
+      driver.sleep(3000)
+    })
+    } catch (err)
+   { }
    await driver.executeScript('window.scrollTo(0, 20000)')
+   driver.sleep(3000)
+    //const footer = await driver.findElement(By.id('global__footer'))
+    await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@class='footer__country-context__link']")));
+    driver.sleep(3000)
     const footer = await driver.findElement(By.id('global__footer'))
     const location = await footer.findElement(By.xpath("//a[@class='footer__country-context__link']"))
     await expect(location).toBeTruthy()
@@ -29,12 +45,14 @@ test('title is correct', async () => {
       expect(url).toMatch('r/context-chooser')
     })
     await driver.findElement(By.xpath("//span[text()='" + contextchooser +"']" )).click()
-   await driver.actions().mouseMove(await driver.wait(until.elementLocated(categorymen), defaultTimeout)).perform();
+    await driver.sleep(3000)
+   await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
+   await driver.sleep(3000)
    let currentUrl = await driver.getCurrentUrl();
        if (currentUrl.indexOf("factory.jcrew.com") > -1) {
         await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
       } else {
-    await driver.wait(until.elementLocated(caualshirt), defaultTimeout).click();
+    await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
     }
 
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()

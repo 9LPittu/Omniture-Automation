@@ -18,11 +18,22 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
+  await driver.manage().window().maximize()
+  await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
   test('test Guest checkout', async () => {
-
+    await driver.navigate().refresh()
+    driver.sleep(2000);
+    try {
+      await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
+      // console.log("inside merge page")
+       privacyPolicyClose.click()
+       driver.sleep(3000)
+     })
+     } catch (err)
+    { }
       await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
   		driver.sleep(2000);
          let currentUrl = await driver.getCurrentUrl();
@@ -35,8 +46,9 @@ test('title is correct', async () => {
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[5]")).click()
 
       await driver.sleep(2000)
-      await driver.navigate().refresh()
-      await driver.sleep(3000)
+      //await driver.navigate().refresh()
+      //await driver.sleep(3000)
+
       await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
