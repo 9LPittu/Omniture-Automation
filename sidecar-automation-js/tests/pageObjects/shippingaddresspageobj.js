@@ -45,6 +45,7 @@ export const addEditAdress = async () =>{
 
 export const addEditRemoveAddress = async () =>{
   //#address-new
+  await driver.sleep(4000);
     await driver.findElement(By.css("#nav-shipping")).click();
    await driver.findElement(By.css("#address-new")).click();
    await driver.findElement(By.css("#firstNameAM")).sendKeys("Auto Tester1 FN");
@@ -53,33 +54,31 @@ export const addEditRemoveAddress = async () =>{
          await driver.findElement(By.css("#address1")).sendKeys("44 building-lvl 45");
          //address2
          await driver.findElement(By.css("#address2")).sendKeys("address test");
-           await driver.findElement(By.css("#zipcode")).sendKeys("50009");
+           await driver.findElement(By.css("#zipcode")).sendKeys("10012");
+           await driver.sleep(3000);
              await driver.findElement(By.css("#phoneNumAM")).sendKeys("9658742361");
              //.button-submit
 
                 await driver.findElement(By.css("#submit-new-shipping-address")).click();
                 await driver.sleep(5000);
 
-                if(await driver.findElement(By.css("#dropdown-state-province")).isDisplayed()){
-                  await driver.findElement(By.css("#city")).sendKeys("ALTOONA");
-                //  await driver.Select(driver.findElement(By.css("#dropdown-state-province"))).selectByValue("AK");
-                  await driver.wait(
-                      until.elementLocated(By.id("dropdown-state-province")), 20000
-                  ).then(element => {
-                      selectByVisibleText(element, "AK")
-                  });
-                  await driver.findElement(By.css("#submit-new-shipping-address")).click();
-                }
+                // if(await driver.findElement(By.css("#dropdown-state-province")).isDisplayed()){
+                //   await driver.findElement(By.css("#city")).sendKeys("ALTOONA");
+                // //  await driver.Select(driver.findElement(By.css("#dropdown-state-province"))).selectByValue("AK");
+                //   await driver.wait(
+                //       until.elementLocated(By.id("dropdown-state-province")), 20000
+                //   ).then(element => {
+                //       selectByVisibleText(element, "AK")
+                //   });
+                //   await driver.findElement(By.css("#submit-new-shipping-address")).click();
+                // }
                 await driver.findElement(By.xpath("//a[@class='button-submit']")).click();
                 //#nav-shipping
                 await driver.findElement(By.css("#nav-shipping")).click();
                 await driver.findElement(By.xpath("//*[@id='address-2']/parent::label/following-sibling::span/a[2]")).click();
                 driver.sleep(3000)
 
-
-
 }
-
 
 function selectByVisibleText(select, textDesired) {
     select.findElements(By.tagName('option'))
@@ -93,9 +92,6 @@ function selectByVisibleText(select, textDesired) {
     });
 }
 
-  /**
-
-  **/
   export const removeAdress = async () =>{
         let removeLink =   await driver.findElement(By.xpath("//*[@id='address-1']/parent::label/following-sibling::span/a[2]"));
 
@@ -104,9 +100,6 @@ function selectByVisibleText(select, textDesired) {
 
     };
 
-    /**
-
-    **/
       export const clickOnInStorPickup = async ()=>{
         let pickup =   await driver.findElement(By.xpath("//div[@class='form-radio-set hide']/label/input[@name='numberOfShippingAddress']"));
         pickup.click();

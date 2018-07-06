@@ -42,7 +42,7 @@
     "password": "test1234"
   } ,
   "factory_gold":{
-    "username": "autotest1@example.org",
+    "username": "goldnonexpress1@example.org",
     "password": "test1234"
   } ,
   "factory_prod":{
