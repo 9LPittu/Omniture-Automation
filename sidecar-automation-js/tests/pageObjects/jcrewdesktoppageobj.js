@@ -17,10 +17,12 @@ export const load = async () => {
   await driver.sleep(1000)
   await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
   await driver.sleep(3000)
-  console.log("email capture closed")
+  try {
+//  console.log("email capture closed")
     await driver.wait(until.elementLocated(privacyPolicyClose), defaultTimeout).click();
     driver.sleep(1000)
-    console.log("privacy policy icon closed")
+//    console.log("privacy policy icon closed")
+ } catch (err) {}
   };
 
 
