@@ -15,9 +15,9 @@ test('navigate to home page', async () => {
 
 test('verify search functionality is working properly or not', async () => {
   await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
-     await driver.findElement(By.xpath("//*[@id='inputSearchDesktop']")).sendKeys("H9647");
-    await   driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
-    await driver.sleep(7000);
-    expect(await driver.findElement(By.css("#btn__add-to-bag-wide")).isDisplayed()).toBeTruthy();
+  await driver.findElement(By.xpath("//*[@id='inputSearchDesktop']")).sendKeys("shirts");
+  await   driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
+  await driver.sleep(4000);
+  expect(await driver.findElement(By.id("page__search")).isDisplayed()).toBeTruthy();
 
  });
