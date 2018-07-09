@@ -6,10 +6,8 @@ import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTest
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
-  await driver.sleep(2000)
-  await driver.manage().window().maximize()
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
@@ -70,7 +68,7 @@ test('title is correct', async () => {
       await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
       await driver.sleep(3000)
 try {
-  // console.log("inside merge page ") 
+  // console.log("inside merge page ")
   await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[2]")).then(mergebutton => {
    mergebutton.click()
    driver.sleep(3000)

@@ -8,7 +8,6 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testda
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
 test('navigate to home page', async () => {
-  await driver.manage().window().maximize()
    await load();
    console.log('Home page loaded proprely')
 

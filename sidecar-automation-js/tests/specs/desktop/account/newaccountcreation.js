@@ -10,7 +10,6 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 beforeAll(async () => {
   await load();
   await driver.sleep(2000)
-  await driver.manage().window().maximize()
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 

@@ -11,8 +11,6 @@ let sleeptime = 7000;
 test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
-  await driver.manage().window().maximize()
-  await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 

@@ -10,7 +10,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 //const isHeadless = false || process.env.HEADLESS
 //const chromeOptions = isHeadless ? new chrome.Options().headless().addArguments("--disable-gpu", "--no-sandbox") : new chrome.Options()
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
