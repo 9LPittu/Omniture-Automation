@@ -2,16 +2,26 @@ import { until } from 'selenium-webdriver';
 import { driver, defaultTimeout } from '../helpers';
 
 const jcrewCloseicon = { xpath: "(//span[@class='icon-close'])[1]" };
+const privacyPolicy = { xpath: "//div[@class='mt-close-lb-slide privacyPolicyClose']" };
 const signInIcon = { xpath: "//*[@id='c-header__userpanel']/a/span[2]" };
 
 export const closeIcon = () => driver.findElement(jcrewCloseicon);
+export const privacyPolicyClose = () => driver.findElement(privacyPolicy);
 export const signIn = () => driver.findElement({ xpath: "//*[@id='c-header__userpanel']/a/span[2]" });
+//export const privacyPolicyClose = () => driver.findElement({ xpath: "//div[@class='mt-close-lb-slide privacyPolicyClose']" });
 
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`);
+  await driver.sleep(1000)
+  await driver.manage().window().maximize();
+  await driver.sleep(1000)
   await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
-//  await driver.manage().window().maximize();
-};
+  await driver.sleep(3000)
+  console.log("email capture closed")
+    await driver.wait(until.elementLocated(privacyPolicyClose), defaultTimeout).click();
+    driver.sleep(1000)
+    console.log("privacy policy icon closed")
+  };
 
 
 // home page Elements:

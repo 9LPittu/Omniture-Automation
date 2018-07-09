@@ -14,8 +14,8 @@ test('title is correct', async () => {
 
   test('Adding gift card items to bag', async () => {
 
-      await driver.sleep(1000)
-      await driver.executeScript('window.scrollTo(0, 20000)')
+      //await driver.sleep(1000)
+      await driver.executeScript('window.scrollTo(0, 5000)')
       await driver.sleep(1000)
       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h6[text()='Contact Us']")));
       await driver.sleep(1000)

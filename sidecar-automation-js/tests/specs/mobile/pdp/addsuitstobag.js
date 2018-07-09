@@ -41,7 +41,11 @@ test('title is correct', async () => {
          } catch (err)
         { }
       await driver.sleep(1000)
-      await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
+      await driver.findElement(By.xpath("(//div[@class='plus_product  plusGrid3N TheSuitShop Ludlow '])[1]")).click()
+      await driver.sleep(3000)
+      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[@class='product__price']")));
+      await driver.sleep(2000)
+      await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       await driver.sleep(1000)
       await driver.executeScript('window.scrollTo(0, 500)')
       await driver.sleep(1000)
