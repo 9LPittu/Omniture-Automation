@@ -18,16 +18,6 @@ test('title is correct', async () => {
   test('Non express User Checkout (user without address/credit card details)', async () => {
   //   let x = 1462;
 //     for (x ; x < 2000; x++) {
-await driver.navigate().refresh()
-driver.sleep(2000);
-try {
-  await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
-  // console.log("inside merge page")
-   privacyPolicyClose.click()
-   driver.sleep(3000)
- })
- } catch (err)
-{ }
     var x = Math.floor((Math.random() * 1000000) + 1);
      let userName = "AutomationTest"+x
      let email = "AutomationTest"+x+"@gmail.com"

@@ -12,7 +12,7 @@ test('title is correct', async () => {
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
-/*
+
 
   test('Clean Bag', async () => {
     let i =1;
@@ -34,4 +34,4 @@ test('title is correct', async () => {
   //    }
      })
 
-     */
+     

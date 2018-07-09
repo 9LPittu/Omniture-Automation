@@ -11,7 +11,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 
 
 test('navigate to home page', async () => {
-  await driver.manage().window().maximize()
+  //await driver.manage().window().maximize()
    await load();
    console.log('Home page loaded proprely')
 
@@ -48,8 +48,5 @@ export const selectProduct = async () =>{
   await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
   }
   await driver.sleep(3000)
-
-
-
 
 }

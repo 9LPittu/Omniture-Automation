@@ -10,12 +10,21 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 beforeAll(async () => {
   await load();
   await driver.sleep(2000)
+  await driver.manage().window().maximize()
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
 
   test('test creation of new account', async () => {
-
+    driver.sleep(2000);
+    try {
+      await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
+      // console.log("inside merge page")
+       privacyPolicyClose.click()
+       driver.sleep(3000)
+     })
+     } catch (err)
+    { }
 // let i = 0;
 // for (i = 1; i < 100; i++) {
 var x = Math.floor((Math.random() * 1000000) + 1);
@@ -28,7 +37,9 @@ var x = Math.floor((Math.random() * 1000000) + 1);
     await driver.findElement(By.xpath("//*[@id='sidecarRegisterPassword']")).sendKeys("nft123")
     await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[2]/div/form/button")).click()
 
-    await driver.sleep(10000)
+    await driver.sleep(2000)
+    await driver.navigate().refresh()
+    await driver.sleep(2000)
     console.log ("User created >> " + userName)
 
    const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
