@@ -22,9 +22,8 @@ test('title is correct' + orderNumber, async () => {
 
   test('test Guest checkout', async () => {
     await driver.sleep(3000)
-    await driver.findElement(By.xpath("//span[text()='menu']")).click()
-    await driver.sleep(3000)
-    await driver.findElement(By.xpath("//a[@data-department='men']")).click()
+  //  await driver.findElement(By.xpath("//span[text()='menu']")).click()
+//    await driver.findElement(By.xpath("//a[@data-department='men']")).click()
     	await	driver.sleep(2000);
         await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[2]")).click()
 

@@ -6,17 +6,15 @@ import { guestuser } from '../../../testdata/jcrewTestData';
 import element from '../../../util/commonutils';
 import {loginFromHomePage, clearBagItems} from '../../../mobilepageobjects/mloginpageobj';
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
-import { www } from '../../../testdata/prod';
-import { or,Billing } from '../../../testdata/billingTestData';
+import { Billing } from '../../../testdata/jcrewTestData';
 
 const { By, Key, until } = require('selenium-webdriver')
 
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
   await driver.sleep(2000)
-   expect(await driver.getTitle()).toMatch('J.Crew')
- })
+   })
 
  test('Verify User is able to login with valid user credentials', async () => {
    await driver.sleep(3000)

@@ -91,7 +91,7 @@ test('title is correct', async () => {
   ]).test('%s links to correct page', async link => {
         try {
 
-              await driver.findElement(By.xpath("//span[text()='menu']")).click()
+        await driver.findElement(By.xpath("//span[text()='menu']")).click()
         await driver.findElement(By.linkText(link)).click()
         await driver.sleep(3000)
         await driver.findElement(By.xpath("//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'new arrivals')]")).click()

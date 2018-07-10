@@ -21,12 +21,12 @@ export const driver = new Builder()
 //  .withCapabilities(capabilities)
 //  .usingServer('http://jui-ci-p01.jcrew.com:4444/wd/hub')
 .setChromeOptions(
-           new Options().setMobileEmulation({deviceName: 'Nexus 5X'}))
+           new Options().setMobileEmulation({deviceName: 'iPhone 7'}))
   .usingServer('http://localhost:4444/wd/hub')
   .build();
 
 //mobile mode
-driver.manage().window().setSize(360,640)
+driver.manage().window().setSize(375,667)
 
 afterAll(async () => {
   // Cleanup `process.on('exit')` event handlers to prevent a memory leak caused by the combination of `jest` & `tmp`.

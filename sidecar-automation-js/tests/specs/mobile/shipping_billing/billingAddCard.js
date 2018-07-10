@@ -1,13 +1,10 @@
 import { driver } from '../../../helpersMobile';
 import { globals } from '../../../jestJcrewQaConfig';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
-import { creditcard } from '../../../testdata/jcrewTestData';
 import { guestuser } from '../../../testdata/jcrewTestData';
-import element from '../../../util/commonutils';
 import {loginFromHomePage, clearBagItems} from '../../../mobilepageobjects/mloginpageobj';
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
-import { www } from '../../../testdata/prod';
-import { or,Billing } from '../../../testdata/billingTestData';
+import { creditcard } from '../../../testdata/jcrewTestData';
 
 const { By, Key, until } = require('selenium-webdriver')
 
@@ -66,11 +63,11 @@ test('selecting a Shipping methods', async () => {
 test('Verify adding a credirCard', async () => {
 
   await driver.findElement(By.xpath("//span[@class='form-label']")).click();
-  await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).sendKeys("CreditCardBilling.Card_Number");
-  await driver.findElement(By.xpath("//input[@id='securityCode']")).sendKeys("CreditCardBilling.Security_Code");
-  await driver.findElement(By.id('expirationMonth')).sendKeys('CreditCardBilling.Expiration_Month');
-  await driver.findElement(By.id('expirationYear')).sendKeys('CreditCardBilling.Expiration_Year');
-  await driver.findElement(By.xpath("//input[@id='nameOnCard']")).sendKeys("CreditCardBilling.Name_On_Card");
+  await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).sendKeys(creditcard.number);
+  await driver.findElement(By.xpath("//input[@id='securityCode']")).sendKeys(creditcard.pin);
+  await driver.findElement(By.id('expirationMonth')).sendKeys(creditcard.expirationMonth);
+  await driver.findElement(By.id('expirationYear')).sendKeys(creditcard.expirationYear);
+  await driver.findElement(By.xpath("//input[@id='nameOnCard']")).sendKeys(creditcard.nameOnCard);
   await driver.findElement(By.xpath("//a[@class='button-submit']")).click();
   await driver.findElement(By.xpath("//div[@class='payment-method first-card same-billing last']")).click();
 

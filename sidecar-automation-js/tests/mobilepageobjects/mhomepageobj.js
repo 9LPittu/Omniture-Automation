@@ -7,5 +7,5 @@ export const closeIcon = () => driver.findElement(jcrewCloseicon);
 
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`);
-  await driver.wait(until.elementLocated(closeIcon), defaultTimeout);
+//  await driver.wait(until.elementLocated(closeIcon), defaultTimeout);
 };

@@ -13,6 +13,8 @@ export const loginFromHomePage = async (username, password) =>{
   driver.sleep(5000)
 };
 
+//*[@id="c-header__userpanel"]/a/span[1]
+
 export const loginInAfterCheckoutPage = async (username, password)=>{
   let inputEmail =   await driver.findElement(By.id("loginUser"))
   let inputPassword =   await driver.findElement(By.id("loginPassword"))

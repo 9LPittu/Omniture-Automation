@@ -17,6 +17,7 @@ test('navigate to home page', async () => {
 });
 
 test('verify write a review functionality', async () => {
+  //await loginFromHomePage(jcrew_prod.username,jcrew_prod.password)
   await selectProduct();
   await driver.sleep(8000);
   if(await driver.findElement(By.css("#BVRRSecondarySummaryContainer")).isDisplayed()){
@@ -26,8 +27,8 @@ await driver.sleep(2000);
 //await driver.executeScript('window.scrollTo(0, 1000)')
 //await driver.sleep(4000);
 await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//p[@class='intro']"))); 
-await driver.sleep(2000);
-await driver.findElement(By.xpath("(//a[text()='write a review'])[3]")).click();
+await driver.sleep(5000);
+await driver.findElement(By.xpath("//a[@id='BVRRDisplayContentNoReviewsID']/a")).click();
 await driver.sleep(2000);
 await driver.findElement(By.css("#star_link_rating_5")).click();
 await driver.findElement(By.css("#BVFieldRecommendYesID")).click();

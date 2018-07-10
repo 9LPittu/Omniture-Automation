@@ -6,8 +6,6 @@ import { guestuser } from '../../../testdata/jcrewTestData';
 import element from '../../../util/commonutils';
 import {loginFromHomePage, clearBagItems} from '../../../mobilepageobjects/mloginpageobj';
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
-import { www } from '../../../testdata/prod';
-import { or,Billing } from '../../../testdata/billingTestData';
 
 const { By, Key, until } = require('selenium-webdriver')
 

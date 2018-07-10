@@ -8,10 +8,10 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 //const isHeadless = false || process.env.HEADLESS
 //const chromeOptions = isHeadless ? new chrome.Options().headless().addArguments("--disable-gpu", "--no-sandbox") : new chrome.Options()
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
   await driver.sleep(2000)
-   expect(await driver.getTitle()).toMatch('J.Crew')
+  await driver.executeScript('window.scrollTo(0, 17000)')
  })
 
 
@@ -62,7 +62,8 @@ test('title is correct', async () => {
 */
 
 test('Order Status is visible and url direct to right url', async () => {
-  await driver.executeScript('window.scrollTo(0, 20000)')
+  //await driver.executeScript('window.scrollTo(0, 20000)')
+  await driver.sleep(6000)
   const orderstatuslink = driver.findElement(By.xpath("//div[text()='Order Status']"))
   expect(orderstatuslink).toBeTruthy()
   await orderstatuslink.click()
