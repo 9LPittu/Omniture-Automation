@@ -16,16 +16,27 @@ test('title is correct', async () => {
  })
 
   test('Navbar is visible', async () => {
+    console.log("verifying navigation bar ")
+    let currentUrl = await driver.getCurrentUrl();
+    if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+        expect(await driver.findElement(By.xpath("//div[@class='header__primary-nav__inner']"))).toBeTruthy()
+        console.log("verified navigation bar ")
+    }
+    else{
         expect(await driver.findElement(By.id('c-header__navbar'))).toBeTruthy()
+        console.log("verified navigation bar ")
+      }
      })
 
     test('Global promo is visible and links correctly', async () => {
+      console.log("verifying global__promo")
       const promo = driver.findElement(By.id("global__promo"))
       expect(promo).toBeTruthy()
       await promo.click()
       await driver.sleep(2000)
       await driver.getCurrentUrl(url => {
         expect(url.match('womens_feature/newarrivals')).toBeTruthy()
+        console.log("verified global__promo")
       })
       await driver.navigate().back()
     })
@@ -64,14 +75,19 @@ test('title is correct', async () => {
     }) */
 
     test('Search allows you to input a search term', async () => {
-      const search = await driver.findElement(By.id("inputSearchDesktop"))
-      await expect(search).toBeTruthy()
+      console.log("verifying Search")
+      await driver.sleep(2000)
+      const searchIcon = await driver.findElement(By.xpath("//span[@class='icon-header icon-header-search icon-search']"))
+      await expect(searchIcon).toBeTruthy()
+      await driver.sleep(1000)
       await driver.findElement(By.xpath("//span[contains(text(),'search')]")).click()
       const searchinput = await driver.findElement(By.className("js-header__search__input header__search__input"))
+      await driver.sleep(1000)
       await searchinput.sendKeys('shirts', Key.ENTER)
       await driver.sleep(2000)
       await driver.getCurrentUrl().then(url => {
         expect(url).toMatch(new RegExp('/r/search', 'i'))
+        console.log("verified search")
       })
       await driver.navigate().back()
     })
@@ -89,9 +105,11 @@ test('title is correct', async () => {
     //    ['SALE'],
   //      ['FACTORY'],
   ]).test('%s links to correct page', async link => {
+    console.log("verifying links")
         try {
-
+        await driver.sleep(3000)
         await driver.findElement(By.xpath("//span[text()='menu']")).click()
+        await driver.sleep(3000)
         await driver.findElement(By.linkText(link)).click()
         await driver.sleep(3000)
         await driver.findElement(By.xpath("//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'new arrivals')]")).click()

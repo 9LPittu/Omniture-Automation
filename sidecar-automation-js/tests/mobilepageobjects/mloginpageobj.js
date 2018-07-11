@@ -6,14 +6,13 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 
 export const loginFromHomePage = async (username, password) =>{
   await driver.findElement(By.xpath(".//span[text()='sign in']")).click()
+  driver.sleep(2000)
   await driver.findElement(By.id("sidecarUser")).sendKeys(username)
   await driver.findElement(By.id("sidecarPassword")).sendKeys(password)
   await driver.findElement(By.className("btn--primary btn--signin js-button-submit")).click()
   console.log("Login success")
   driver.sleep(5000)
 };
-
-//*[@id="c-header__userpanel"]/a/span[1]
 
 export const loginInAfterCheckoutPage = async (username, password)=>{
   let inputEmail =   await driver.findElement(By.id("loginUser"))

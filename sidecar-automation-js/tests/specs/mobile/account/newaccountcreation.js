@@ -27,30 +27,29 @@ var x = Math.floor((Math.random() * 1000000) + 1);
     await driver.findElement(By.xpath("//*[@id='sidecarRegisterLastName']")).sendKeys("tester")
     await driver.findElement(By.xpath("//*[@id='sidecarRegisterEmail']")).sendKeys(email)
     await driver.findElement(By.xpath("//*[@id='sidecarRegisterPassword']")).sendKeys("nft123")
+    await driver.sleep(1000)
+    await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//label[text()='password (at least six characters)']")));
+    await driver.sleep(1000)
     await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[2]/div/form/button")).click()
-
     await driver.sleep(10000)
     console.log ("User created >> " + userName)
-
-   const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
-   expect(userPannel).toBeTruthy()
-
-   userPannel.click()
-
+    const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
+    expect(userPannel).toBeTruthy()
+    userPannel.click()
     await driver.sleep(3000)
-
     let currentUrl = await driver.getCurrentUrl();
-
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-      await driver.sleep(3000)
-      await driver.findElement(By.xpath(".//span[text()='My Details']")).click()
-      await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
-      await driver.sleep(3000)
+      await driver.sleep(1000)
+      //await driver.findElement(By.xpath(".//span[text()='My Details']")).click()
+      await driver.findElement(By.xpath("//div/a[text()='Sign Out']")).click()
+      await driver.sleep(2000)
     } else {
-      await driver.sleep(3000)
+      await driver.sleep(1000)
       await driver.findElement(By.xpath(".//span[text()='My Account']")).click()
+      await driver.sleep(1000)
       await driver.findElement(By.xpath(".//span[text()='My Details']")).click()
+      await driver.sleep(1000)
       await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
+      await driver.sleep(2000)
     }
-//}
    })
