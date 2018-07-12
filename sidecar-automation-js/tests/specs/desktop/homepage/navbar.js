@@ -67,7 +67,7 @@ test('title is correct', async () => {
         ['BOYS'],
         ['GIRLS'],
         ['SALE'],
-        ['FACTORY'],
+  //      ['FACTORY'],
   ]).test('%s links to correct page', async link => {
         try {
           const subnav = await driver.findElement(By.className(
@@ -83,7 +83,7 @@ test('title is correct', async () => {
           throw err
         }
       })
-
+/*
       test('Blog links to blog page', async () => {
         try {
           let currentUrl = await driver.getCurrentUrl();
@@ -102,7 +102,7 @@ test('title is correct', async () => {
         } catch (err) {
           throw err
         }
-      })
+      }) */
     })
 
 afterAll(async () => {
