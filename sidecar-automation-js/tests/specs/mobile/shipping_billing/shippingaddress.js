@@ -1,8 +1,8 @@
 import { driver } from '../../../helpersMobile';
-import { globals } from '../../../jestJcrewQaConfig';
+import { globals } from '../../../jestJcrewQaMobileConfig';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import { guestuser } from '../../../testdata/jcrewTestData';
+import { creditcard,guestuser,logindetails } from '../../../testdata/jcrewTestData';
+import element from '../../../util/commonutils';
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginPageObj';
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
@@ -35,42 +35,47 @@ if (url.indexOf("www.jcrew.com") > -1) {
   await driver.findElement(By.id("sidecarUser")).sendKeys(jcrew_gold.username);
   await driver.findElement(By.id("sidecarPassword")).sendKeys(jcrew_gold.password);
   await driver.findElement(By.className("btn--primary btn--signin js-button-submit")).click();
+  await driver.sleep(1000)
   console.log('user login succesfully')
 }
-await clearBagItems();
-
-
+await driver.navigate().to(globals.__baseUrl__+"/CleanPersistentCart.jsp")
+await driver.sleep(10000)
  });
 
 test('Go to shoppingBag page and select product', async () => {
-  await driver.findElement(By.xpath("//span[@class='icon-header icon-header-search icon-search']")).click();
-  await driver.findElement(By.xpath("//*[@class='js-header__search__input header__search__input']")).sendKeys('F4212');
-  await driver.findElement(By.xpath("//*[@class='icon-searchtray icon-searchtray-search']")).click();
-  await driver.findElement(By.xpath("//a[@class='product-tile__link']/img")).click();
-  await driver.sleep(7000)
-  //  await driver.findElement(By.id("button-checkout")).click();
-  //li[@data-name='4']
-  //id--btn__add-to-bag-wide
-  //span[@class='primary-nav__text']
-//id--button-checkout
-//a[@class='button-general button-submit']
+  await driver.findElement(By.xpath("//span[text()='menu']")).click()
+  await driver.sleep(1000)
+  await driver.findElement(By.xpath("//a[@data-department='women']")).click()
+    await	driver.sleep(1000);
+      await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[1]")).click()
+      await driver.sleep(1000)
+      try {
+        await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(closeIcon => {
+        closeIcon.click()
+        driver.sleep(1000)
+       })
+       } catch (err)
+      { }
+    await driver.sleep(1000)
+    await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[3]")).click()
+    await driver.sleep(1000)
 
 });
  test('select product id and goto shoppingbag page', async () =>{
 await scroll(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"));
 await click(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"));
 //await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click();
-await driver.sleep(5000)
+await driver.sleep(1000)
 await click(By.id("btn__add-to-bag-wide"));
 //await driver.findElement(By.id("btn__add-to-bag-wide")).click();
-await driver.sleep(5000)
+await driver.sleep(1000)
 await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.css(".js-cart-size")));
-await driver.sleep(5000);
+await driver.sleep(1000);
 await driver.executeScript("arguments[0].click();",driver.findElement(By.css(".js-cart-size")));
-await driver.sleep(7000)
+await driver.sleep(1000)
 await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@id='button-checkout']")));
 await driver.findElement(By.xpath("//a[@id='button-checkout']")).click();
-
+await driver.sleep(1000)
 
  });
 
@@ -86,32 +91,21 @@ await driver.findElement(By.xpath("//a[@id='button-checkout']")).click();
     await driver.findElement(By.css("#firstNameAM")).sendKeys("Auto Tester1 FN");
       await driver.findElement(By.css("#lastNameAM")).sendKeys("Auto Tester1 LN");
         await driver.findElement(By.css("#address3")).sendKeys("Nothing");
-          await driver.findElement(By.css("#address1")).sendKeys("44 building-lvl 45");
+          await driver.findElement(By.css("#address1")).sendKeys("770 broadway");
           //address2
           await driver.findElement(By.css("#address2")).sendKeys("address test");
-            await driver.findElement(By.css("#zipcode")).sendKeys("50009");
+            await driver.findElement(By.css("#zipcode")).sendKeys("10003");
+            await driver.sleep(5000)
               await driver.findElement(By.css("#phoneNumAM")).sendKeys("9658742361");
               //.button-submit
 
                  await driver.findElement(By.css("#submit-new-shipping-address")).click();
-                 await driver.sleep(5000);
+                 await driver.sleep(1000);
 
-                 if(await driver.findElement(By.css("#dropdown-state-province")).isDisplayed()){
-                   await driver.findElement(By.css("#city")).sendKeys("ALTOONA");
-                 //  await driver.Select(driver.findElement(By.css("#dropdown-state-province"))).selectByValue("AK");
-                   await driver.wait(
-                       until.elementLocated(By.id("dropdown-state-province")), 20000
-                   ).then(element => {
-                       selectByVisibleText(element, "AK")
-                   });
-                   await driver.findElement(By.css("#submit-new-shipping-address")).click();
-                 }
+                 await driver.findElement(By.xpath("(//input[@name='SelectedAddIndex'])[2]")).click()
+                 await driver.sleep(1000)
                  await driver.findElement(By.xpath("//a[@class='button-submit']")).click();
                  //#nav-shipping
-                 await driver.findElement(By.css("#nav-shipping")).click();
-                 await driver.findElement(By.xpath("//*[@id='address-2']/parent::label/following-sibling::span/a[2]")).click();
-                 driver.sleep(3000)
+                 await driver.sleep(1000)
 
-
-
- }
+               }

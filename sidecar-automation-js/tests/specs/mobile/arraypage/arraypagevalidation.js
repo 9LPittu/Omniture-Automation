@@ -1,5 +1,6 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
+import { creditcard, guestuser } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -11,6 +12,9 @@ test('title is correct', async () => {
  })
 
     test('Product arraypage validation', async () => {
+      console.log("Array page is being verified ")
+    //  await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
+      //await driver.sleep(3000)
       await driver.findElement(By.xpath("//span[text()='menu']")).click()
       await driver.sleep(3000)
       await driver.findElement(By.xpath("//a[@data-department='men']")).click()
