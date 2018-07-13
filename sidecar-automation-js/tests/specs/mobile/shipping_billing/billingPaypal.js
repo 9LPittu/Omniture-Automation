@@ -126,5 +126,5 @@ test('selecting a Paypal method', async () => {
           await driver.switchTo().defaultContent();
           await driver.findElement(xpath("//*[@id='billing-details']/div/div[1]/div[1]/div/span[2]")).isDisplayed();
           console.log("user is on Review page");*/
-        }
+//        }
 });
