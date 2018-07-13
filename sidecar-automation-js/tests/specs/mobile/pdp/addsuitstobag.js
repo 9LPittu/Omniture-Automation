@@ -47,12 +47,12 @@ test('title is correct', async () => {
       await driver.sleep(2000)
       await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       await driver.sleep(1000)
-      await driver.executeScript('window.scrollTo(0, 500)')
+      await driver.executeScript('window.scrollTo(0, 700)')
       await driver.sleep(1000)
       await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       await driver.sleep(1000)
-      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.id("btn__add-to-bag-wide")));
-      await driver.sleep(1000)
+      //await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.id("btn__add-to-bag-wide")));
+      //await driver.sleep(1000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
       await driver.sleep(1000)
       await driver.executeScript('window.scrollTo(0, -10000)')

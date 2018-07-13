@@ -25,6 +25,7 @@ test('title is correct', async () => {
     const searchInput = await driver.findElement(By.xpath("//input[contains(@class,'js-header__search__input header__search__input')]"))
     expect(searchInput).toBeTruthy()
     await searchInput.clear();
+    await driver.sleep(2000)
     await searchInput.sendKeys("dress")
     searchInput.sendKeys(Key.ENTER)
     let getCurrentUrl = await driver.getCurrentUrl()

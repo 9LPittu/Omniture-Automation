@@ -79,6 +79,7 @@ test('Add product to bag', async () => {
 
 // In Billing page, Remove Card
 test('Verify removing credirCard', async () => {
+  await driver.sleep(1000)
   await driver.findElement(By.xpath("//a[text()='Billing']")).click()
   await driver.sleep(1000)
   await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h3[text()='Choose a Credit or Debit Card:']")));
@@ -89,6 +90,4 @@ test('Verify removing credirCard', async () => {
     await driver.findElement(By.xpath("//span[@class='address-actions radio-checked']/a[@class='item-remove']")).click();
     await driver.sleep(1000)
   }
-
-
 });
