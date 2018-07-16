@@ -25,7 +25,10 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
       await driver.sleep(3000)
       await driver.findElement(By.xpath(".//span[text()='My Account']")).click()
       await driver.findElement(By.xpath(".//span[text()='My Details']")).click()
-      await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
+      const signOut = await driver.findElement(By.xpath(".//li[text()='Sign Out']"))
+      expect(signOut).toBeTruthy()
+      signOut.click()
+      await driver.sleep(3000)
   //    await driver.findElement(By.xpath("//*[@id='nav__ul']/li[10]")).click()
 
     }

@@ -62,12 +62,11 @@ test('title is correct', async () => {
         await driver.findElement(By.xpath("//*[@id='nav__ul']/li[text()='My Wishlist']")).click()
     }
   await driver.sleep(3000)
-  const wishlistitems = driver.findElement(By.id("wishlistName"))
+  const wishlistitems = driver.findElement(By.xpath("(//img[@class='item-image notranslate_alt'])[1]"))
   await driver.wait(until.elementIsVisible(wishlistitems), 5000)
   expect(wishlistitems).toBeTruthy()
-  var elementsCount = wishlistitems.length;
-  console.log("wishlistitems"+ elementsCount)
-  console.log("product name"+ wishlistitems)
+
+
   //  wishlistitems.each(function(e){
   //  e.getText(function(err, result){
   //     elementsCount --;

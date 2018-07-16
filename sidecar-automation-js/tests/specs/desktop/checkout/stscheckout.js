@@ -9,6 +9,8 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
+  //await driver.manage().window().maximize()
+  //await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
@@ -70,6 +72,9 @@ await driver.findElement(By.xpath("//input[@id='shipToStore']")).click()
 await driver.sleep(5000)
 await driver.findElement(By.xpath("//input[@class='textbox-zip']")).sendKeys(zipCode.zipcode)
 await driver.sleep(5000)
+const samedayDelivery = await driver.findElement(By.xpath("(//div[@class='address-container'])[1]"))
+expect(samedayDelivery).toBeTruthy()
+console.log("same day pick up is available")
 await driver.findElement(By.xpath("//a[@id='order-summary__button-continue']")).click()
 await driver.sleep(3000)
 await driver.findElement(By.xpath("//a[@id='order-summary__button-continue']")).click()

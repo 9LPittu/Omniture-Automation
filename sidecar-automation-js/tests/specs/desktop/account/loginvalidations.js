@@ -7,7 +7,7 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testda
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
- beforeAll(async () => {
+ test('title is correct', async () => {
    await load();
    await driver.sleep(2000)
     expect(await driver.getTitle()).toMatch('J.Crew')
@@ -40,7 +40,10 @@ test('Verify User is able to login with valid user credentials', async () => {
   await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
   //class js-signout__link --button
   await driver.sleep(2000)
-  await driver.findElement(By.xpath("//a[@class='js-signout__link']")).click();
+  const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
+  expect(signOut).toBeTruthy()
+  signOut.click()
+  await driver.sleep(3000)
 
 })
 
