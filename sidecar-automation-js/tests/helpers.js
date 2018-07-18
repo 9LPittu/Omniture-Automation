@@ -20,8 +20,8 @@ var capabilities = {
 export const driver = new Builder()
   .forBrowser('chrome')
 //  .withCapabilities(capabilities)
-// .usingServer('http://jui-ci-p01.jcrew.com:4444/wd/hub')
-  .usingServer('http://localhost:4444/wd/hub')
+ .usingServer('http://jui-ci-p02.jcrew.com:4444/wd/hub')
+//  .usingServer('http://localhost:4444/wd/hub')
   .build();
 
 //mobile mode
