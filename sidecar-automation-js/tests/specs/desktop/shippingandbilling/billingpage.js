@@ -92,7 +92,7 @@ export const addProductTobag = async () =>{
   await driver.sleep(3000)
   await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
   await driver.sleep(3000)
-  await driver.executeScript('window.scrollTo(0, 100)')
+  await driver.executeScript('window.scrollTo(0, 300)')
   await driver.sleep(3000)
   await driver.findElement(By.id("btn__add-to-bag-wide")).click()
     await driver.sleep(3000)

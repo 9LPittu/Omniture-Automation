@@ -49,18 +49,19 @@ test('Clear the bag items if any products were avilable and Add one product', as
   //await verifyShipToMultiAddress();
   await clickOnCheckout();
   console.log('After checkout')
-  await driver.findElement(By.css("#nav-shipping")).click();
+  await driver.sleep(2000);
+  await driver.findElement(By.id("nav-billing")).click();
   await driver.sleep(5000);
-  console.log('After checkout')
+/*  console.log('After checkout')
   await clickOnContinue();
-  console.log("after continue")
+  console.log("after continue")*/
 
 });
 
 test('Goto Billng page and check verify credit/debit card or paypal process', async () => {
 
     //  await continueOnShippingMethod();
-    await checkout();
+    //await checkout();
       console.log('---')
       await paymentMethod('Paypal');
       console.log('After payment Method')

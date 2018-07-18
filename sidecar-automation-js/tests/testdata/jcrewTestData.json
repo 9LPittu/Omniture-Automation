@@ -30,7 +30,9 @@
     "username3": "testuser15@example.org",
     "password3": "test1234",
     "username4": "autouser3@example.org",
-    "password4": "test1234"
+    "password4": "test1234",
+    "username5": "autotest@gmail.com",
+    "password5": "123456"
   },
   "zipCode":{
     "zipcode": "10003"
