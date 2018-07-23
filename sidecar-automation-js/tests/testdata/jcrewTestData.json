@@ -7,7 +7,6 @@
     "expirationYear": "2020",
     "nameOnCard": "Perftest ",
     "emailReceipt": "receipt_mail@example.org"
-
   },
   "guestuser": {
     "firstNameSA": "Perftest12",
@@ -31,7 +30,7 @@
     "password3": "test1234",
     "username4": "autouser3@example.org",
     "password4": "test1234",
-    "username5": "autotest@gmail.com",
+    "username5": "abcdef@gmail.com",
     "password5": "123456"
   },
   "zipCode":{
@@ -56,17 +55,16 @@
    "Billing":{
       "PAYMENT_METHOD":"Paypal",
       "MultiCardPayment":"Yes",
+      "Paypal_Email":"jcrewus@gmail.com",
+      "Paypal_Password":"M@rtini12"
+    },
+
       "Credit_Debit_Card":{
         "Card_Number":"4111111111111111",
         "Security_Code":"123",
         "Expiration_Month":"12",
         "Expiration_Year":"2020",
         "Name_On_Card":"Perftest"
-    },
-    "Paypal":{
-        "Email":"jcrewus@gmail.com",
-        "Password":"M@rtini12"
-      }
-  }
 
-}
+    }
+  }

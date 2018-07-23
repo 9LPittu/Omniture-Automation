@@ -65,17 +65,5 @@ test('title is correct', async () => {
   const wishlistitems = driver.findElement(By.xpath("(//img[@class='item-image notranslate_alt'])[1]"))
   await driver.wait(until.elementIsVisible(wishlistitems), 5000)
   expect(wishlistitems).toBeTruthy()
-
-
-  //  wishlistitems.each(function(e){
-  //  e.getText(function(err, result){
-  //     elementsCount --;
-  //     if ( !!err ) { logger.error(err); /** async handles this much better **/  }
-  //   //  if ( isThisTheElement(result) ) { deferred.resolve(result); }
-  //   console.log("product name"+ result)
-  //     if ( elementsCount == 0 ){ // in case we ran through all elements and didn't find any
-  //           deferred.resolve(null); // since deferred is resolved only once, calling this again if we found the item will have no effect
-  //     }
-  //   })
-  // })
+  
    })

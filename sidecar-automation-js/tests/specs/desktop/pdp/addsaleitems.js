@@ -13,7 +13,6 @@ test('title is correct', async () => {
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-
   test('Adding single / multiple items from Sale category', async () => {
 
       await driver.navigate().refresh()

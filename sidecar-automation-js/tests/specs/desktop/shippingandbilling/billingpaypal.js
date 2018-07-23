@@ -47,11 +47,12 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await goToShoppingBag();
   console.log('after product selection')
   //await verifyShipToMultiAddress();
+  await driver.sleep(2000);
   await clickOnCheckout();
   console.log('After checkout')
   await driver.sleep(2000);
   await driver.findElement(By.id("nav-billing")).click();
-  await driver.sleep(5000);
+  await driver.sleep(1000);
 /*  console.log('After checkout')
   await clickOnContinue();
   console.log("after continue")*/
