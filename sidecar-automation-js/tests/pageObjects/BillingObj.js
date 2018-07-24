@@ -2,7 +2,7 @@ import { driver } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
 import {goToShoppingBag} from '../pageObjects/shoppingbagobj';
 import {login,loginInAfterCheckoutPage} from '../pageObjects/loginpageobj';
-import { Billing } from '../testdata/jcrewTestData';
+import { Credit_Debit_Card , Billing} from '../testdata/jcrewTestData';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
@@ -32,12 +32,12 @@ export const paymentMethod = async(paymentType) =>{
         if ((url.indexOf("www.jcrew.com") > -1) || (url.indexOf("factory.jcrew.com") > -1)) {
           await driver.findElement(By.css("#creditDebitPayment")).isDisplayed();
         }else if ((url.indexOf("or.jcrew.com") > -1 ) || (url.indexOf("or.factory.jcrew.com") > -1 )){
-            let card = "//span[text()='"+Billing.Credit_Debit_Card.Name_On_Card+"']/parent::label/input[@class='address-radio']";
+            let card = "//span[text()='"+Credit_Debit_Card.Name_On_Card+"']/parent::label/input[@class='address-radio']";
             console.log(card);
             await driver.findElement(By.xpath(card)).click();
             await driver.findElement(By.css("#order-summary__button-continue")).click();
             //#securityCode
-            await driver.findElement(By.css("#securityCode")).sendKeys(Billing.Credit_Debit_Card.Security_Code);
+            await driver.findElement(By.css("#securityCode")).sendKeys(Credit_Debit_Card.Security_Code);
             //button-submitorder
             let url = await driver.getCurrentUrl();
             console.log(url);

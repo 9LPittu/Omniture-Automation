@@ -22,17 +22,22 @@ test('title is correct', async () => {
       await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
       await driver.sleep(1000)
       await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
-      await driver.sleep(1000)
-      await driver.executeScript('window.scrollTo(0, 300)')
       await driver.sleep(2000)
-      const extendedSizes = await driver.findElement(By.xpath("(//span[@class='product__variation--name'])[2]"))
-      expect(extendedSizes).toBeTruthy()
-      extendedSizes.click()
-      await driver.sleep(3000)
-      await driver.executeScript('window.scrollTo(0, 400)')
+      await driver.executeScript('window.scrollTo(0, 1000)')
       await driver.sleep(1000)
-      const sizechart = await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn')])[1]"))
-      expect(sizechart).toBeTruthy()
-      console.log("Extended sizes are available for product selected")
-
+      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h3[text()='Customers Also Love']")));
+      await driver.sleep(1000)
+      const customersalsolike = await driver.findElement(By.xpath("//h3[text()='Customers Also Love']"))
+      expect(customersalsolike).toBeTruthy()
+      await driver.sleep(1000)
+      let currentUrl = await driver.getCurrentUrl();
+      await driver.sleep(1000)
+      if (currentUrl.includes("factory.jcrew.com")) {
+        const productrecommendationsfactory = await driver.findElement(By.xpath("(//li[@class='c-product-recommendations-tile--grid'])[1]"))
+        expect(productrecommendationsfactory).toBeTruthy()
+      }else{
+      const productrecommendations = await driver.findElement(By.xpath("(//li[@class='c-product-recommendations-tile'])[1]"))
+      expect(productrecommendations).toBeTruthy()
+      }
+      console.log("product recommendations are displayed")
      })

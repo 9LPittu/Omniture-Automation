@@ -28,8 +28,8 @@ let shippingMethod = "Overnight";
 export const verifyShippingMethodsPage = async () => {
    expect(await driver.findElement(By.css("#method0")).isDisplayed()).toBeTruthy();
    expect(await driver.findElement(By.css("#method1")).isDisplayed()).toBeTruthy();
-   expect(await driver.findElement(By.css("#method2")).isDisplayed()).toBeTruthy();
-   expect(await driver.findElement(By.css("#method3")).isDisplayed()).toBeTruthy();
+  // expect(await driver.findElement(By.css("#method2")).isDisplayed()).toBeTruthy();
+  // expect(await driver.findElement(By.css("#method3")).isDisplayed()).toBeTruthy();
   // expect(await driver.findElement(By.css("#method4")).isDisplayed()).toBeTruthy();
    expect(await driver.findElement(By.css("#includesGifts")).isDisplayed()).toBeTruthy();
    await driver.findElement(By.css("#includesGifts")).click();
