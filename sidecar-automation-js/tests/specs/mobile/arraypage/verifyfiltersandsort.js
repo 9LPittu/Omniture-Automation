@@ -19,8 +19,8 @@ test('title is correct', async () => {
       await	driver.sleep(2000);
       await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[1]")).click()
       await	driver.sleep(1000);
-      await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
-      await driver.sleep(1000)
+      //await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
+      //await driver.sleep(1000)
       const filter = await driver.findElement(By.xpath("//button[text()='Filter']"))
       expect(filter).toBeTruthy()
       const sortBy = await driver.findElement(By.xpath("//span[text()='Sort By']"))

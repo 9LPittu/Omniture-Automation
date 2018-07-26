@@ -1,10 +1,8 @@
 import { driver } from '../../../helpersMobile';
-import { globals } from '../../../jestJcrewQaConfig';
+import { globals } from '../../../jestJcrewQaMobileConfig';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import { guestuser } from '../../../testdata/jcrewTestData';
 import element from '../../../util/commonutils';
-import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/ShoppingBagObj';
+
 
 const { By, Key, until } = require('selenium-webdriver')
 

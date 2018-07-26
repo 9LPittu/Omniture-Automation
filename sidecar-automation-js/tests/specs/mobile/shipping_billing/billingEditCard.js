@@ -94,7 +94,7 @@ test('Verify Editing a credirCard', async () => {
   await driver.findElement(By.xpath("//a[@class='item-edit']")).isDisplayed();
   await driver.findElement(By.xpath("//a[@class='item-edit']")).click();
   await driver.sleep(1000)
-  //await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).clear().sendKeys("4111111111111111");
+  await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).clear().sendKeys("4111111111111111");
   await driver.findElement(By.xpath("//input[@id='securityCode']")).sendKeys("123");
   await driver.findElement(By.id('expirationMonth')).sendKeys('06');
   await driver.findElement(By.id('expirationYear')).sendKeys('2028');

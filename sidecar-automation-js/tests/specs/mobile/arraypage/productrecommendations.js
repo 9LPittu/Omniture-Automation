@@ -11,20 +11,27 @@ test('title is correct', async () => {
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-    test('extended sizes validation', async () => {
+    test('product recommendations validation', async () => {
 
       await driver.findElement(By.xpath("//span[text()='menu']")).click()
-      await driver.sleep(3000)
+      await driver.sleep(1000)
       await driver.findElement(By.xpath("//a[@data-department='women']")).click()
-      await	driver.sleep(2000);
+      await	driver.sleep(1000);
       await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[1]")).click()
       await	driver.sleep(1000);
-      await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
+      try {
+        await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(closeIcon => {
+        closeIcon.click()
+        driver.sleep(3000)
+       })
+       } catch (err)
+      { }
+      //await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
       await driver.sleep(1000)
       await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
-      await driver.sleep(2000)
+      await driver.sleep(3000)
       await driver.executeScript('window.scrollTo(0, 1000)')
-      await driver.sleep(1000)
+      await driver.sleep(10000)
       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h3[text()='Customers Also Love']")));
       await driver.sleep(1000)
       const customersalsolike = await driver.findElement(By.xpath("//h3[text()='Customers Also Love']"))
