@@ -14,7 +14,7 @@ test('title is correct', async () => {
 
 
   test('Edit item added to bag', async () => {
-
+    await driver.sleep(1000)
     await driver.findElement(By.xpath("//span[text()='menu']")).click()
     await driver.sleep(1000)
     await driver.findElement(By.xpath("//a[@data-department='women']")).click()
@@ -29,7 +29,12 @@ test('title is correct', async () => {
          } catch (err)
         { }
       await driver.sleep(1000)
-      await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
+      //await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
+      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//span[text()='available in'])[1]")));
+      await	driver.sleep(1000);
+      await driver.executeScript('window.scrollTo(0, 100)')
+      await driver.sleep(1000)
+      await driver.findElement(By.xpath("(//span[text()='available in'])[1]")).click()
       await driver.sleep(1000)
       await driver.executeScript('window.scrollTo(0, 500)')
       await driver.sleep(1000)

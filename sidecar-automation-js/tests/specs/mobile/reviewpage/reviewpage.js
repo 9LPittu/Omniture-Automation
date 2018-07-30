@@ -1,6 +1,6 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
-import { creditcard, guestuser, logindetails } from '../../../testdata/jcrewTestData';
+import { creditcard, guestuser, jcrew_gold } from '../../../testdata/jcrewTestData';
 import {  } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
@@ -60,8 +60,8 @@ test('title is correct', async () => {
       await driver.sleep(3000)
       await driver.findElement(By.className("button-general button-submit-bg")).click()
       await driver.sleep(6000)
-      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username1)
-      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password1)
+      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(jcrew_gold.username)
+      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(jcrew_gold.password)
       await driver.sleep(2000)
       await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
       await driver.sleep(3000)

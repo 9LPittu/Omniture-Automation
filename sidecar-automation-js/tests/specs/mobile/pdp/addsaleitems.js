@@ -21,13 +21,13 @@ test('title is correct', async () => {
         	await	driver.sleep(2000);
           await driver.findElement(By.xpath("//a[text()='men']")).click()
           await driver.sleep(2000)
-          try {
+        /*  try {
             await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(closeIcon => {
             closeIcon.click()
             driver.sleep(3000)
            })
            } catch (err)
-          { }
+          { }*/
           await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
           await driver.sleep(2000)
           await driver.executeScript('window.scrollTo(0, 600)')

@@ -33,7 +33,8 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
        //await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")));
        await driver.executeScript('window.scrollTo(0, 700)')
        await driver.sleep(2000)
-
+       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//p[@class='intro']"))); 
+       await driver.sleep(2000)
        // clicking on write  review exapnding
        await driver.findElement(By.xpath("//*[@id='BVRRRatingSummaryLinkWriteFirstID']/span[1]")).click()
        // clicking on write  review link

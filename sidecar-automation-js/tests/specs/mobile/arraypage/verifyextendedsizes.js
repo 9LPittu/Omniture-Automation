@@ -19,9 +19,13 @@ test('title is correct', async () => {
       await	driver.sleep(2000);
       await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[1]")).click()
       await	driver.sleep(1000);
-      await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
+      //await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
+      //await driver.sleep(1000)
+      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//span[text()='available in'])[1]")));
+      await	driver.sleep(1000);
+      await driver.executeScript('window.scrollTo(0, 100)')
       await driver.sleep(1000)
-      await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
+      await driver.findElement(By.xpath("(//span[text()='available in'])[1]")).click()
       await driver.sleep(1000)
       await driver.executeScript('window.scrollTo(0, 300)')
       await driver.sleep(2000)
