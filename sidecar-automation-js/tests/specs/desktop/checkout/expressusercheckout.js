@@ -40,7 +40,7 @@ beforeAll(async () => {
       //await driver.navigate().refresh()
       //await driver.sleep(3000)
 
-      await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
+      await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       await driver.sleep(1000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
       await driver.sleep(1000)

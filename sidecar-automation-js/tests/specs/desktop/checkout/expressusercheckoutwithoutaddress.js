@@ -55,7 +55,7 @@ test('title is correct', async () => {
       await driver.navigate().refresh()
       await driver.sleep(3000)
     //  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
-      await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
+      await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
       await driver.sleep(3000)
@@ -142,6 +142,10 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
          }
 
         await driver.sleep(4000)
+        const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
+        expect(bizrate).toBeTruthy()
+        bizrate.click()
+        await driver.sleep(2000)
         let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
 
            console.log("order Id let > " + orderNumberLet + ">> user email : " + email)

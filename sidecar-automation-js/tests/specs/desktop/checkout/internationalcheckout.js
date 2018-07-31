@@ -53,7 +53,7 @@ test('title is correct', async () => {
     await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
     }
 
-      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
+      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
       await driver.navigate().refresh()
       await driver.sleep(sleeptime)
     //  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
@@ -115,6 +115,10 @@ try {
           await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
         }
         await driver.sleep(sleeptime)
+        const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
+        expect(bizrate).toBeTruthy()
+        bizrate.click()
+        await driver.sleep(2000)
        let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
 
            console.log("order Id  > " + orderNumberLet)
