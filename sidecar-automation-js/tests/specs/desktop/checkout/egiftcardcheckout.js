@@ -99,6 +99,10 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
             await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
           }
        await driver.sleep(4000)
+       const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
+       expect(bizrate).toBeTruthy()
+       bizrate.click()
+       await driver.sleep(2000)
        let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
       console.log("order Id  > " + orderNumberLet)
       }
