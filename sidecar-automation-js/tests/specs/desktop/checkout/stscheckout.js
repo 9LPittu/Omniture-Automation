@@ -92,6 +92,7 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
       } catch (err )
       { }
        await driver.sleep(3000)
+       if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
           if (currentUrl.indexOf("factory.jcrew.com") > -1) {
             console.log(">> inside factory")
             await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
@@ -107,5 +108,5 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
        let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
       console.log("order Id  > " + orderNumberLet)
       }
-
+    }
    })
