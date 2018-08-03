@@ -52,7 +52,7 @@ test('title is correct', async () => {
       await driver.sleep(3000)
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
       await driver.sleep(2000)
-      await driver.navigate().refresh()
+      //await driver.navigate().refresh()
       await driver.sleep(3000)
     //  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
       await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
@@ -114,6 +114,9 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
 
      //shipping & gift pageObjects
      await driver.sleep(3000)
+     await driver.findElement(By.id("includesGifts")).click()
+     await driver.sleep(1000)
+     expect(await driver.findElement(By.xpath("//div[@class='gift-receipt-tooltip clearfix radio-checked']"))).toBeTruthy()
      await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
 
         //credit card details
@@ -151,11 +154,7 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
            console.log("order Id let > " + orderNumberLet + ">> user email : " + email)
 
            await driver.sleep(2000)
-      /*     await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']")).click()
-           //await driver.findElement(By.xpath("//*[@id='c-nav__userpanel']/dl/div/dd[1]/a")).click()
-             await driver.sleep(3000)
-             await driver.findElement(By.xpath("//*[@id='nav__ul']/li[10]")).click()
-             await driver.sleep(3000)*/
+
            }
-    //  } // forloop end
+    
    })

@@ -44,13 +44,22 @@ test('title is correct', async () => {
       await driver.sleep(2000)
     //  await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)["+x+"]")).click()
       await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[2]")).click()
+      await driver.sleep(2000)
+      try{
+      await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
+    }catch (err){}
+      await driver.sleep(2000)
+    //  await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)["+x+"]")).click()
+      await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
+      await driver.sleep(5000)
+      await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       await driver.sleep(3000)
-        await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
-        await driver.sleep(3000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
       await driver.sleep(3000)
-      await driver.findElement(By.id("js-header__cart")).click()
-      await driver.sleep(3000)
+    await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.css(".js-cart-size")));
+    await driver.sleep(3000)
+    await driver.executeScript("arguments[0].click();",driver.findElement(By.css(".js-cart-size")))
+   await driver.sleep(3000)
       await driver.findElement(By.className("button-anchored-bottom")).click()
       await driver.sleep(6000)
 
@@ -90,6 +99,10 @@ try {
 
      //shipping & gift pageObjects
      await driver.sleep(3000)
+     await driver.sleep(3000)
+     await driver.findElement(By.id("includesGifts")).click()
+     await driver.sleep(1000)
+     expect(await driver.findElement(By.xpath("//div[@class='gift-receipt-tooltip clearfix radio-checked']"))).toBeTruthy()
      await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
 
         //credit card details

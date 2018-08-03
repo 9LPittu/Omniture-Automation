@@ -12,10 +12,9 @@ beforeAll(async () => {
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-    test('Wishlist - Registered User', async () => {
-      await loginFromHomePage(logindetails.username1,logindetails.password1)
+    test('Wishlist - Guest User', async () => {
 
-      driver.sleep(4000);
+      driver.sleep(1000);
 
       await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
       //await driver.actions().mouseMove(await driver.findElement(By.xpath("//*[@id='global__header']/div/div[2]/section/div/div[3]/div/ul/li[3]/a/span"))).perform();
@@ -26,29 +25,15 @@ beforeAll(async () => {
       } else {
       await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
     }
-      await driver.sleep(3000)
+      await driver.sleep(1000)
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
-      await driver.sleep(3000)
+      await driver.sleep(5000)
       await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
     //  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
-      await driver.sleep(3000)
+      await driver.sleep(1000)
       await driver.findElement(By.id("btn__wishlist-wide")).click()
-
-      const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
-      expect(userPannel).toBeTruthy()
-
-      //await driver.navigate().refresh()
-        userPannel.click()
-       //await driver.findElement(By.xpath("//*[@id='c-nav__userpanel']/dl/div/dd[1]/a")).click()
-       await driver.sleep(3000)
-       await driver.findElement(By.xpath("//*[@id='nav__ul']/li[text()='My Wishlist']")).click()
-       await driver.sleep(3000)
-
-
-       const wishlistitems = driver.findElement(By.xpath("(//img[@class='item-image notranslate_alt'])[1]"))
-       await driver.wait(until.elementIsVisible(wishlistitems), 5000)
-       expect(wishlistitems).toBeTruthy()
-  var elementsCount = wishlistitems.length;
-  console.log("wishlistitems"+ elementsCount)
-  console.log("product name"+ wishlistitems)
+      await driver.sleep(1000)
+      if(currentUrl.includes("/r/login")){
+        console.log("User navigates to login page")
+      }
     });
