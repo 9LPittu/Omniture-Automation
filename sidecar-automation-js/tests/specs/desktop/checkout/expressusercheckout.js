@@ -13,7 +13,7 @@ beforeAll(async () => {
  })
 
   test('Express User Checkout and verifying order summary and order history', async () => {
-    await driver.navigate().refresh()
+    //await driver.navigate().refresh()
     driver.sleep(2000);
     try {
       await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {

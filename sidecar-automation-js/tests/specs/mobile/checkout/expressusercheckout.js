@@ -23,7 +23,13 @@ test('title is correct', async () => {
          let currentUrl = await driver.getCurrentUrl();
       await driver.sleep(4000)
 
-      await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
+      try {
+    //  console.log("email capture closed")
+        await driver.wait(until.elementLocated(privacyPolicyClose), defaultTimeout).click();
+        driver.sleep(1000)
+    //    console.log("privacy policy icon closed")
+     } catch (err) {}
+      };  // close the popups
       await driver.sleep(2000)
     //  await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)["+x+"]")).click()
       await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[2]")).click()
