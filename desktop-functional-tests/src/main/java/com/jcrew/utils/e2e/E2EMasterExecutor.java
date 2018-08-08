@@ -24,7 +24,7 @@ public class E2EMasterExecutor {
 		String ftpPath = e2ePropertyReader.getProperty("jenkins.ftp.path");
 		
 		if(System.getProperty("os.name").toLowerCase().contains("windows")){
-			reportsDirectory = new File(e2ePropertyReader.getProperty("windows.e2e.reports.dir"));
+			reportsDirectory = new File(e2ePropertyReader.getProperty(System.getProperty("user.dir")+"windows.e2e.reports.dir"));
 		}
 		else{			
 			reportsDirectory = new File(ftpPath + "e2e_reports");
@@ -38,7 +38,7 @@ public class E2EMasterExecutor {
 		try {
 			String masterSheetName = "E2E_Master.xls"; 
 			if(System.getProperty("os.name").toLowerCase().contains("windows")){				
-				masterReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + masterSheetName, "Master", "");
+				masterReader = new ExcelUtils(e2ePropertyReader.getProperty(System.getProperty("user.dir")+"windows.e2e.testdata.dir") + File.separator + masterSheetName, "Master", "");
 			}
 			else{
 				masterReader = new ExcelUtils(ftpPath + masterSheetName, "Master", "");
@@ -133,7 +133,7 @@ public class E2EMasterExecutor {
 		ExcelUtils testDataReader = null;
 		try {
 			if(System.getProperty("os.name").toLowerCase().contains("windows")){
-				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
+				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty(System.getProperty("user.dir")+"windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
 			}
 			else{				
 				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("jenkins.ftp.path") + testdataFile, "Testdata", "");
@@ -229,7 +229,7 @@ public class E2EMasterExecutor {
 				ExcelUtils testDataReader = null;
 				try {
 					if(System.getProperty("os.name").toLowerCase().contains("windows")){
-						testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
+						testDataReader = new ExcelUtils(e2ePropertyReader.getProperty(System.getProperty("user.dir")+"windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
 					}
 					else{				
 						testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("jenkins.ftp.path") + testdataFile, "Testdata", "");

@@ -105,9 +105,7 @@ public class E2E1Steps extends E2ECommon {
 		 */
 		LogIn logIn = new LogIn(getDriver());
 		// logIn.submitUserCredentials(emailAddress,password);
-		logIn.submitUserCredentials(
-				/* emailAddress */ "jc.e2e.steel.nonexpress.us.1@outlook.com"/* "eknath.r@hcl.com" */,
-				"jcrew@123" /* password */ /* "7FxPQ89J" *//* "PR3W9mdN" */);
+		logIn.submitUserCredentials(e2ePropertyReader.getProperty("nonexpressuser.username"),e2ePropertyReader.getProperty("nonexpressuser.password"));
 		Thread.sleep(2000);
 	}
 
