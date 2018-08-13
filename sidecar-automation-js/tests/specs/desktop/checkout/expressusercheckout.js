@@ -23,6 +23,24 @@ beforeAll(async () => {
      })
      } catch (err)
     { }
+
+    await driver.navigate().to(globals.__baseUrl__+"/r/login")
+    await driver.sleep(2000)
+    await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username1)
+    await driver.findElement(By.xpath("//*[@id='sidecarPassword']")).sendKeys(logindetails.password1)
+    await driver.sleep(2000)
+    await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[1]/div/form/button")).click()
+    await driver.sleep(4000)
+    await driver.navigate().to(globals.__baseUrl__+"/CleanPersistentCart.jsp")
+    await driver.sleep(11000)
+    await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
+    //class js-signout__link --button
+    await driver.sleep(2000)
+    const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
+    expect(signOut).toBeTruthy()
+    signOut.click()
+    await driver.sleep(3000)
+
      //await driver.actions().mouseMove(await driver.wait(until.elementLocated(categorymen), defaultTimeout)).perform();
     await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
   		driver.sleep(2000);
@@ -34,9 +52,9 @@ beforeAll(async () => {
 		  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
     }
       await driver.sleep(3000)
-      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
+      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
 
-      await driver.sleep(2000)
+      await driver.sleep(4000)
       //await driver.navigate().refresh()
       //await driver.sleep(3000)
 
@@ -109,7 +127,7 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
            console.log("Order summary verified");
 
 
-         await driver.sleep(1000)
+         await driver.sleep(2000)
          await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
          //class js-signout__link --button
          await driver.sleep(2000)
@@ -118,10 +136,15 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
          expect(orderHistory).toBeTruthy()
          orderHistory.click()
          await driver.sleep(1000)
-
-         const recentOrder = await driver.findElement(By.xpath("//div[@class='order-history--order recent-order scoh2']"))
-         expect(recentOrder).toBeTruthy()
-
+         if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+           console.log(">> inside factory")
+           const recentOrderF = await driver.findElement(By.xpath("//div[@class='order-history--order recent-order scoh1']"))
+           expect(recentOrderF).toBeTruthy()
+         }
+           else {
+         const recentOrderJ = await driver.findElement(By.xpath("//div[@class='order-history--order recent-order scoh2']"))
+         expect(recentOrderJ).toBeTruthy()
+       }
          const orderNum = await driver.findElement(By.xpath("//div[@class='order-history--overview-item overview--order-number']"))
          expect(orderNum).toBeTruthy()
 

@@ -43,7 +43,8 @@ test('Login with given username and password', async () => {
    await driver.sleep(5000);
      try {
        // click on Add address
-       await driver.findElement(By.xpath("//*[@id='shipAddrList']/form/table/tbody/tr[1]/td/div/table[2]/tbody/tr[1]/td/a/img")).then(addAddress => {
+       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td/table[2]/tbody/tr[1]/td/a")));
+       await driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td/table[2]/tbody/tr[1]/td/a")).then(addAddress => {
         addAddress.click()
         driver.sleep(3000)
       })
@@ -59,15 +60,24 @@ await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[18]/td/input[3
 // City
 await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[24]/td/input[3]")).sendKeys("Chicago");
 // State
-await driver.Select(driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[27]/td/select"))).selectByValue("Illinois");
+await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[27]/td/select")).sendKeys("Illinois");
 // Zip code
 await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[30]/td/input[3]")).sendKeys("60637");
 // Phonenumber
 await driver.findElement(By.xpath("//*[@id='phoneText']")).sendKeys("7737029494");
 // Save button
 await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[35]/td/a")).click()
+driver.sleep(5000)
+// await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
+// driver.switchTo().window(allhandles[allhandles.length - 1]);
+// }
+
+// var winHandle = await driver.getWindowHandle();
+// await driver.switchTo().window(winHandle)
+// console.log("Switched to Window");
+
 // Use this address
-await driver.findElement(By.xpath("/html/body/table/tbody/tr[3]/td/table/tbody/tr/td[1]/a[2]")).click()
+await driver.findElement(By.xpath("//td/table/tbody/tr/td[1]/a[2]")).click();
 // Edit Address
 let editAddress = await driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td[1]/table[1]/tbody/tr[4]/td/a[1]"))
 expect(editAddress).toBeTruthy()
