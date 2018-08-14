@@ -160,6 +160,11 @@ public class ccPage extends Checkout {
 		createrOrder.click();
 		Util.waitForPageFullyLoaded(driver);
 		Util.wait(5000);
+		if (getDataFromTestDataRowMap("MultiLine").equalsIgnoreCase("Yes")) {
+			addMultiLineItems();
+		} else {
+			singleLineItem();
+		}
 		Select selectBrand = new Select(brandType);
 		selectBrand.selectByVisibleText(e2ePropertyReader.getProperty("cc.brandType"));
 		Util.wait(5000);
@@ -361,11 +366,11 @@ public class ccPage extends Checkout {
 			selectOrderType.selectByVisibleText(getDataFromTestDataRowMap("OrderType"));
 			Util.wait(2000);
 			selectShippingInfo();
-			if (getDataFromTestDataRowMap("MultiLine").equalsIgnoreCase("Yes")) {
+			/*if (getDataFromTestDataRowMap("MultiLine").equalsIgnoreCase("Yes")) {
 				addMultiLineItems();
 			} else {
 				singleLineItem();
-			}
+			}*/
 			applyPromo();
 			selectPaymentMethods();
 			applyDiscount();
@@ -381,11 +386,11 @@ public class ccPage extends Checkout {
 			Util.wait(2000);
 			saveStoreAddress.click();
 			Util.wait(6000);
-			if (getDataFromTestDataRowMap("MultiLine").equalsIgnoreCase("Yes")) {
+			/*if (getDataFromTestDataRowMap("MultiLine").equalsIgnoreCase("Yes")) {
 				addMultiLineItems();
 			} else {
 				singleLineItem();
-			}
+			}*/
 			applyPromo();
 			selectPaymentMethods();
 			applyDiscount();

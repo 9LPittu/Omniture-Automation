@@ -13,6 +13,7 @@ import com.jcrew.utils.Util;
 import junit.framework.Assert;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -58,7 +59,7 @@ public class CheckoutBilling extends Checkout {
 	private WebElement frame;
 	@FindBy(xpath = "//div[@id='order-summary']/div[2]/div/div")
 	private WebElement paypalButton;
-	@FindBy(xpath = "//div[@id='summary-gift-card-header']/h3[contains(text(),'Gift or Rewards Card?')]")
+	@FindBy(xpath = "//div[@id='summary-gift-card-header']/h3[contains(text(),'Gift or Credit Card Reward?')]")
 	private WebElement giftCardButton;
 	@FindBy(xpath = "//input[@id='giftCard']")
 	private WebElement cardNumberField;
@@ -273,12 +274,16 @@ public class CheckoutBilling extends Checkout {
 	public void selectSpecificPaymentMethod(String paymentMethodName) {
 		if (paymentMethodName.equalsIgnoreCase("Gift Card")) {
 			E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+			Util.wait(3000);
+			//Util.scrollAndClick(driver, giftCardButton);
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", giftCardButton);
+			Util.wait(1000);
 			giftCardButton.click();
-			Util.wait(3000);
+			Util.wait(1000);
 			cardNumberField.sendKeys(e2ePropertyReader.getProperty("giftcard.card.number"));
-			Util.wait(3000);
+			Util.wait(1000);
 			cardPinField.sendKeys(e2ePropertyReader.getProperty("giftcard.card.pin"));
-			Util.wait(3000);
+			Util.wait(1000);
 			applyButton.click();
 			Util.waitForPageFullyLoaded(driver);
 			Assert.assertTrue(removeButton.isDisplayed());

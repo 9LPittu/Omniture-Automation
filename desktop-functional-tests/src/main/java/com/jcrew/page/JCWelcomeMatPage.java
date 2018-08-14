@@ -14,6 +14,7 @@ import com.jcrew.utils.Xls_Reader;
 
 import junit.framework.Assert;
 
+@SuppressWarnings("deprecation")
 public class JCWelcomeMatPage {
 	
 
@@ -53,7 +54,7 @@ public class JCWelcomeMatPage {
 	 * Method for validating welcome mat functionality
 	 * @param xlsDataMap 
 	 */
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("unused")
 	public void verifyWelcomeMatDetails(Map<String, Map<String, String>> xlsDataMap) {
 		Set<String> countryNames = xlsDataMap.keySet();
 		String[] countryArr = countryNames.toArray(new String[countryNames.size()]);

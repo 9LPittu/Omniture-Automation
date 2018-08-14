@@ -110,6 +110,7 @@ public class ExcelUtils {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void storeRowDataInMap(int dataRowNum){
 		
 		if(headerRowNum==-1){
@@ -193,6 +194,7 @@ public class ExcelUtils {
 		return columnNumber;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public Object getCellValueFromExcel(Cell cell){
 		
 		Object cellValue = "";

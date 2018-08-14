@@ -171,7 +171,7 @@ public class ContextChooser {
         ex.executeScript("arguments[0].click();", countryElement);
         //countryElement.click();
 		Util.waitLoadingBar(driver);
-
+		Util.wait(3000);
 		//Update Reader and create context
 		Country country = new Country(url, countryName);
 		stateHolder.put("context", country);

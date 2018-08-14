@@ -22,7 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-
+@SuppressWarnings("deprecation")
 public class Xls_Reader {
 	private static Logger log = Logger.getLogger(Xls_Reader.class.getName());
 	public  String path;
@@ -60,6 +60,7 @@ public class Xls_Reader {
 	}
 	
 	// returns the data from a cell
+	
 	public String getCellData(String sheetName,String colName,int rowNum){
 		try{
 			if(rowNum <=0)
@@ -127,6 +128,7 @@ public class Xls_Reader {
 	}
 	
 	// returns the data from a cell
+	
 	public String getCellData(String sheetName,int colNum,int rowNum){
 		try{
 			if(rowNum <=0)

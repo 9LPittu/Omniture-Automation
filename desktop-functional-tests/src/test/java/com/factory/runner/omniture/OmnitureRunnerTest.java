@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
+//import org.junit.runner.RunWith;
 
 import com.jcrew.listners.Reporter;
 

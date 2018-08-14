@@ -104,9 +104,10 @@ public class E2E1Steps extends E2ECommon {
 		 * WebDriverException(errorMsg); }
 		 */
 		LogIn logIn = new LogIn(getDriver());
+		E2ECommon e2e = new E2ECommon();
 		// logIn.submitUserCredentials(emailAddress,password);
-		logIn.submitUserCredentials(e2ePropertyReader.getProperty("nonexpressuser.username"),e2ePropertyReader.getProperty("nonexpressuser.password"));
-		Thread.sleep(2000);
+		logIn.submitUserCredentials(e2e.getDataFromTestDataRowMap("Username"),e2e.getDataFromTestDataRowMap("Password"));
+		Thread.sleep(10000);
 	}
 
 	@When("^User adds the products to bag as per testdata$")

@@ -1,11 +1,11 @@
 package com.jcrew.page.header;
 
-import com.jcrew.page.PageObject;
-import com.jcrew.utils.TestDataReader;
+/*import com.jcrew.page.PageObject;
+import com.jcrew.utils.TestDataReader;*/
 import com.jcrew.utils.Util;
 import gherkin.formatter.model.DataTableRow;
 
-import org.apache.maven.model.Build;
+//import org.apache.maven.model.Build;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -52,7 +52,8 @@ public class TopNav extends HeaderWrap {
         return optionsString;
     }
 
-    public void hoverCategory(String dept) {
+    @SuppressWarnings("unused")
+	public void hoverCategory(String dept) {
         WebElement categoryLink = top_nav.findElement(By.xpath(
                 ".//a[@class='department-nav__link']/span[" + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']"));
         hoverAction.moveToElement(categoryLink);

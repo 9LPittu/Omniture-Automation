@@ -3,21 +3,21 @@ package com.jcrew.steps;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.io.FileOutputStream;
+/*import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Date;*/
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.poi.ss.usermodel.Cell;
+/*import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Sheet;*/
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
@@ -27,11 +27,11 @@ import org.openqa.selenium.WebDriver;
 import com.jcrew.page.JCWelcomeMatPage;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
-import com.jcrew.utils.Xls_Reader;
+//import com.jcrew.utils.Xls_Reader;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.en.When;
-
+@SuppressWarnings("unused")
 public class JCWelcomeMatSteps {
 	DriverFactory df = new DriverFactory();
 	WebDriver driver = df.getDriver();
@@ -46,6 +46,8 @@ public class JCWelcomeMatSteps {
 		jcwp.verifyWelcomeMatDetails(temp);
 	}
 
+	
+	@SuppressWarnings("resource")
 	@When("^temp$")
 	public void temp(DataTable coun) {
 		List<List<String>> tab = coun.raw();
