@@ -6,10 +6,11 @@ import { guestuser } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
-
+let currentUrl;
 
 test('title is correct', async () => {
   await load();
+  currentUrl = await driver.getCurrentUrl();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
@@ -23,6 +24,7 @@ test('title is correct', async () => {
      })
 
     test('Global promo is visible and links correctly', async () => {
+      try {
       const promo = driver.findElement(By.id("global__promo"))
       expect(promo).toBeTruthy()
       await promo.click()
@@ -31,9 +33,13 @@ test('title is correct', async () => {
         expect(url.match('womens_feature/newarrivals')).toBeTruthy()
       })
       await driver.navigate().back()
+    } catch(err) {
+      await driver.navigate().to(currentUrl)
+    }
     })
 
     test('Stores is visible and url direct to right URL', async () => {
+      try {
       const stores = driver.findElement(By.className("primary-nav__text primary-nav__text--stores"))
       expect(stores).toBeTruthy()
       await stores.click()
@@ -42,9 +48,13 @@ test('title is correct', async () => {
         expect(url.match('https://stores.jcrew.com')).toBeTruthy()
       })
       await driver.navigate().back()
+    } catch(err) {
+      await driver.navigate().to(currentUrl)
+    }
     })
 
     test('Search allows you to input a search term', async () => {
+      try {
       const search = await driver.findElement(By.id("inputSearchDesktop"))
       await expect(search).toBeTruthy()
       await driver.findElement(By.xpath("//span[contains(text(),'search')]")).click()
@@ -54,6 +64,9 @@ test('title is correct', async () => {
         expect(url).toMatch(new RegExp('/r/search', 'i'))
       })
       await driver.navigate().back()
+    } catch(err) {
+      await driver.navigate().to(currentUrl)
+    }
     })
 
     describe('All main nav links work', () => {

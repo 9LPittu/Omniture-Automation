@@ -145,10 +145,14 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
          }
 
         await driver.sleep(4000)
+        try {
         const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
         expect(bizrate).toBeTruthy()
         bizrate.click()
         await driver.sleep(2000)
+        } catch (err) {
+          
+        }
         let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
 
            console.log("order Id let > " + orderNumberLet + ">> user email : " + email)

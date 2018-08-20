@@ -36,15 +36,17 @@ var x = Math.floor((Math.random() * 1000000) + 1);
     await driver.findElement(By.xpath("//*[@id='sidecarRegisterPassword']")).sendKeys("nft123")
     await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[2]/div/form/button")).click()
 
-    await driver.sleep(2000)
-    await driver.navigate().refresh()
-    await driver.sleep(2000)
-    console.log ("User created >> " + userName)
+    await driver.sleep(10000)
+   // await driver.navigate().refresh()
+   // await driver.sleep(2000)
+    
 
-   const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
-   expect(userPannel).toBeTruthy()
+    await driver.actions().mouseMove(await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))).perform();
+   //const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
+   //expect(userPannel).toBeTruthy()
 
-   userPannel.click()
+   //userPannel.click()
+   console.log ("User created >> " + email)
 
     await driver.sleep(3000)
     let currentUrl = await driver.getCurrentUrl();
@@ -53,8 +55,9 @@ var x = Math.floor((Math.random() * 1000000) + 1);
       await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
       await driver.sleep(3000)
     } else {
-      await driver.findElement(By.xpath(".//span[text()='My Account']")).click()
-      await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
+     // await driver.findElement(By.xpath(".//span[text()='My Account']")).click()
+     // await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
+     await driver.findElement(By.xpath("//*[@id='c-nav__userpanel']/dl/div/dd[1]/a")).click()
     await driver.sleep(3000)
    }
 //}
