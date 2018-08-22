@@ -29,6 +29,12 @@ public class CheckoutShoppingBag extends Checkout {
     @FindBy(className="js-cart-size")
     private WebElement cartSize;
     
+    @FindBy(xpath="//button[contains(text(),'REDEEM')]")
+    private WebElement reedem;
+  
+    @FindBy(xpath="//span[contains(text(),'Rewards Redeemed')]")
+    private WebElement rewardsRedeemed;
+    
     @FindBy(className="item-gc")
     private WebElement giftCardElement;
 
@@ -325,5 +331,16 @@ public class CheckoutShoppingBag extends Checkout {
 
         }
         return result;
+    }
+    
+    public void reedemRewardPoint() {
+    	try {
+    		reedem.isDisplayed();
+    		reedem.click();
+    		Util.waitForPageFullyLoaded(driver);
+    		rewardsRedeemed.isDisplayed();
+    	}catch (Exception e) {
+			// TODO: handle exception
+		}
     }
 }

@@ -110,6 +110,7 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     @When("User clicks in CHECK OUT NOW button")
     public void check_out_now() {
     	CheckoutSummary summary = new CheckoutSummary(getDriver());
+    	//bag.reedemRewardPoint();
     	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal"))  {
     			summary.paypalTransaction();
     	}else {
