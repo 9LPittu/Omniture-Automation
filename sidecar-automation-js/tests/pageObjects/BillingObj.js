@@ -126,7 +126,7 @@ export const paymentMethod = async(paymentType) =>{
           bizrate.click()
           await driver.sleep(2000)
           } catch (err) {
-            
+
           }
           let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
          console.log("order Id  > " + orderNumberLet)

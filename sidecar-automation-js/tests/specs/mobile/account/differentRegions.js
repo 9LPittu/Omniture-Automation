@@ -7,7 +7,7 @@ import { globals } from '../../../jestJcrewQaMobileConfig';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
- test('title is correct', async () => {
+test('title is correct', async () => {
    await load();
    await driver.sleep(2000)
     expect(await driver.getTitle()).toMatch('J.Crew')
@@ -22,6 +22,8 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
        } catch (err)
       { }
       await driver.executeScript('window.scrollTo(0, 20000)')
+      await driver.sleep(2000)
+      await driver.executeScript('window.scrollTo(0, 500)')
       await driver.findElement(By.xpath("//a[@class='footer__country-context__link']")).click()
       await driver.sleep(2000)
       await driver.findElement(By.xpath("//*[@id='page__international']/article/section[1]/div/div[2]/div/div[1]/h5")).click()

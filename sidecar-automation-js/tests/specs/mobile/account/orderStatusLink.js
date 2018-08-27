@@ -12,16 +12,18 @@ test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
- })
+})
 
   test('Verify Order status Link', async () => {
     await driver.sleep(2000)
     //await driver.findElement(By.xpath("//span[text()='menu']")).click()
-    await driver.executeScript('window.scrollTo(0, 1500)')
+    await driver.executeScript('window.scrollTo(0, 500)')
+    await driver.sleep(2000)
+    await driver.executeScript('window.scrollTo(0, 500)')
     await driver.sleep(2000)
     //await driver.executeScript('window.scrollTo(0, 800)')
     try {
-      // click on Order status
+      // click on Let us help you
       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//*[@id='global__footer']/div/div[2]/div/div[1]/div/h6")));
       await driver.findElement(By.xpath("//*[@id='global__footer']/div/div[2]/div/div[1]/div/h6")).then(orderStatus => {
        orderStatus.click()
@@ -29,7 +31,7 @@ test('title is correct', async () => {
      })
      } catch (err)
     { }
-
+      // click on Order status
      await driver.findElement(By.xpath("//*[@id='global__footer']/div/div[2]/div/div[1]/div/ul/li[1]/a")).click()
 
     // Capturing the Current URL

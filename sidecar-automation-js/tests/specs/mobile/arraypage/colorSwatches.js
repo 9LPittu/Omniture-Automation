@@ -27,7 +27,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
         } catch (err)
        { }
        await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
-       await driver.sleep(1000)
+       await driver.sleep(2000)
        await driver.executeScript('window.scrollTo(0, 700)')
        await driver.sleep(1000)
        expect(await driver.findElement(By.xpath("(//img[@class='colors-list__image'])[1]")).isDisplayed()).toBeTruthy();
