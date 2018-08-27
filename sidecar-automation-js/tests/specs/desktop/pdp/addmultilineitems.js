@@ -1,8 +1,7 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import { guestuser } from '../../../testdata/jcrewTestData';
+
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -16,7 +15,7 @@ test('title is correct', async () => {
 
   test('Adding single / multiple items from multiple PDP', async () => {
 
-      await driver.navigate().refresh()
+      //await driver.navigate().refresh()
       driver.sleep(2000);
       try {
         await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
@@ -35,10 +34,11 @@ test('title is correct', async () => {
 		  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
     }
       await driver.sleep(5000)
-      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
-      await driver.sleep(3000)
+      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
+      await driver.sleep(8000)
       const productsize= await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]"))
       productsize.click()
+      await driver.sleep(2000)
       const productaddtobag= await driver.findElement(By.id("btn__add-to-bag-wide"))
       productaddtobag.click()
       await driver.sleep(3000)
@@ -54,14 +54,15 @@ test('title is correct', async () => {
        if (currentUrl.indexOf("factory.jcrew.com") > -1) {
         await driver.findElement(By.xpath("//span[text()='Polos']")).click()
       } else {
-		  await driver.findElement(By.xpath("//span[text()='Shorts']")).click()
+		  await driver.findElement(By.xpath("//span[text()='t-shirts & polos']")).click()
     }
       await driver.sleep(5000)
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
-      await driver.sleep(3000)
+      await driver.sleep(6000)
       //const productsize= await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]"))
       await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       //const productaddtobag= await driver.findElement(By.id("btn__add-to-bag-wide"))
+      await driver.sleep(2000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()

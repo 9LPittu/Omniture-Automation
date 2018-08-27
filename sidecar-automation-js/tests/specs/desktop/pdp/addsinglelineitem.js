@@ -16,7 +16,7 @@ test('title is correct', async () => {
 
   test('Adding single / multiple items from single PDP', async () => {
 
-      await driver.navigate().refresh()
+      //await driver.navigate().refresh()
       driver.sleep(2000);
       try {
         await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
@@ -35,10 +35,11 @@ test('title is correct', async () => {
 		  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
     }
       await driver.sleep(5000)
-      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
-      await driver.sleep(3000)
+      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[4]")).click()
+      await driver.sleep(6000)
       const productsize= await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]"))
       productsize.click()
+      await driver.sleep(3000)
       const productaddtobag= await driver.findElement(By.id("btn__add-to-bag-wide"))
       productaddtobag.click()
       await driver.sleep(3000)

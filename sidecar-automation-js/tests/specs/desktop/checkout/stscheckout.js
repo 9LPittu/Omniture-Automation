@@ -5,7 +5,6 @@ import { guestuser, logindetails, creditcard, zipCode } from '../../../testdata/
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
-const sleeptime = 7000;
 
 test('title is correct', async () => {
   await load();
@@ -27,23 +26,6 @@ test('title is correct', async () => {
       })
       } catch (err)
      { }*/
-     await driver.navigate().to(globals.__baseUrl__+"/r/login")
-     await driver.sleep(2000)
-     await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username1)
-     await driver.findElement(By.xpath("//*[@id='sidecarPassword']")).sendKeys(logindetails.password1)
-     await driver.sleep(2000)
-     await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[1]/div/form/button")).click()
-     await driver.sleep(4000)
-     await driver.navigate().to(globals.__baseUrl__+"/CleanPersistentCart.jsp")
-     await driver.sleep(11000)
-     await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-     //class js-signout__link --button
-     await driver.sleep(2000)
-     const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
-     expect(signOut).toBeTruthy()
-     signOut.click()
-     await driver.sleep(3000)
-
     await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
   		driver.sleep(2000);
          let currentUrl = await driver.getCurrentUrl();
@@ -118,14 +100,11 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
             await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
           }
        await driver.sleep(4000)
-       try {
+       //await driver.sleep(sleeptime)
        const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
        expect(bizrate).toBeTruthy()
        bizrate.click()
        await driver.sleep(2000)
-       } catch (error) {
-         
-       }
        let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
       console.log("order Id  > " + orderNumberLet)
       }

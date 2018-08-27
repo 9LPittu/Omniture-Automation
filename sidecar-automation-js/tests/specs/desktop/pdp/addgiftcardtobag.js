@@ -15,7 +15,7 @@ test('title is correct', async () => {
 
   test('Adding gift card items to bag', async () => {
 
-      await driver.navigate().refresh()
+      //await driver.navigate().refresh()
       driver.sleep(2000);
       try {
         await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
@@ -26,11 +26,13 @@ test('title is correct', async () => {
        } catch (err)
       { }
       await driver.sleep(3000)
-      await driver.executeScript('window.scrollTo(0, 20000)')
+      await driver.executeScript('window.scrollTo(0, 30000)')
       await driver.sleep(2000)
       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[contains(text(),'The J.Crew Gift Card')]")));
       await driver.sleep(2000)
       driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
+      await driver.sleep(2000)
+      await driver.executeScript('window.scrollTo(0, 200)')
       await driver.sleep(2000)
       await driver.findElement(By.xpath("//a[@id='classicGiftCard']")).click()
       await driver.sleep(2000)

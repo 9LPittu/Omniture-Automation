@@ -23,24 +23,6 @@ test('title is correct', async () => {
      })
      } catch (err)
     { }
-
-    await driver.navigate().to(globals.__baseUrl__+"/r/login")
-    await driver.sleep(2000)
-    await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username1)
-    await driver.findElement(By.xpath("//*[@id='sidecarPassword']")).sendKeys(logindetails.password1)
-    await driver.sleep(2000)
-    await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[1]/div/form/button")).click()
-    await driver.sleep(4000)
-    await driver.navigate().to(globals.__baseUrl__+"/CleanPersistentCart.jsp")
-    await driver.sleep(11000)
-    await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-    //class js-signout__link --button
-    await driver.sleep(2000)
-    const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
-    expect(signOut).toBeTruthy()
-    signOut.click()
-    await driver.sleep(3000)
-
     await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
         driver.sleep(2000);
          let currentUrl = await driver.getCurrentUrl();
@@ -59,9 +41,9 @@ test('title is correct', async () => {
       await quickbutton.click()
       await driver.sleep(3000)
 
-        await driver.navigate().refresh()
-        await driver.sleep(3000)
-        await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[4]")).click()
+        //await driver.navigate().refresh()
+        //await driver.sleep(3000)
+      //  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[4]")).click()
   //    await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
       await driver.sleep(3000)
       await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
@@ -69,8 +51,8 @@ test('title is correct', async () => {
     //  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.id("btn__add-to-bag-wide")));
       //await driver.sleep(1000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
-      //await driver.sleep(3000)
-      //await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
+      await driver.sleep(3000)
+      await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
       await driver.sleep(3000)
       await driver.findElement(By.id("js-header__cart")).click()
       await driver.sleep(3000)

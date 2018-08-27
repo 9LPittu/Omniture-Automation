@@ -18,11 +18,13 @@ test('title is correct', async () => {
    driver.sleep(2000);
       let currentUrl = await driver.getCurrentUrl();
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-     await driver.findElement(By.xpath("//span[text()='jewelry']")).click()
+     await driver.findElement(By.xpath("//span[text()='Jewelry']")).click()
    } else {
    await driver.findElement(By.xpath("//span[text()='jewelry']")).click()
    }
-   const productimage =await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
+   await driver.sleep(2000)
+   await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
+   await driver.sleep(5000)
    // expect(productimage).toBeTruthy()
    const oneSize = await driver.findElement(By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and (contains(@class,'is-selected'))]"))
    expect(oneSize).toBeTruthy()

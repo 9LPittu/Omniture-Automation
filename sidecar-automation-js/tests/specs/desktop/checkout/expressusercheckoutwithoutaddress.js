@@ -49,11 +49,11 @@ test('title is correct', async () => {
       } else {
 		  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
     }
-      await driver.sleep(3000)
-      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
-      await driver.sleep(2000)
+      await driver.sleep(8000)
+      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
+
       //await driver.navigate().refresh()
-      await driver.sleep(3000)
+      await driver.sleep(8000)
     //  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
       await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       await driver.sleep(3000)
@@ -62,7 +62,7 @@ test('title is correct', async () => {
       await driver.findElement(By.id("js-header__cart")).click()
       await driver.sleep(3000)
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-      await driver.sleep(6000)
+      await driver.sleep(10000)
 /*
       await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(email)
       await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys("nft123")
@@ -145,14 +145,10 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
          }
 
         await driver.sleep(4000)
-        try {
         const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
         expect(bizrate).toBeTruthy()
         bizrate.click()
         await driver.sleep(2000)
-        } catch (err) {
-          
-        }
         let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
 
            console.log("order Id let > " + orderNumberLet + ">> user email : " + email)
@@ -160,5 +156,5 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
            await driver.sleep(2000)
 
            }
-    
+
    })

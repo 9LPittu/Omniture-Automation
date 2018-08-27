@@ -82,6 +82,7 @@ try {
        await driver.sleep(3000)
          await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).sendKeys(creditcard.number)
          await driver.findElement(By.xpath("//input[@id='securityCode']")).sendKeys(creditcard.pin)
+         await driver.sleep(3000)
          await driver.findElement(By.xpath("//select[@id='expirationMonth']")).sendKeys(creditcard.expirationMonth)
          await driver.findElement(By.xpath("//select[@id='expirationYear']")).sendKeys(creditcard.expirationYear)
          await driver.findElement(By.xpath("//input[@id='nameOnCard']")).sendKeys(creditcard.nameOnCard)
@@ -105,14 +106,10 @@ try {
          }
 
         await driver.sleep(4000)
-        try {
         const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
         expect(bizrate).toBeTruthy()
         bizrate.click()
         await driver.sleep(2000)
-        } catch (err) {
-          
-        }
         let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
         console.log("order Id let > " + orderNumberLet)
         expect(await driver.findElement(By.xpath("//h2[text()='Register Now']"))).toBeTruthy()
@@ -163,14 +160,10 @@ try {
                       await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
                     }
                     await driver.sleep(3000)
-                    try {
                     const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
                     expect(bizrate).toBeTruthy()
                     bizrate.click()
                     await driver.sleep(2000)
-                    } catch (err) {
-
-                    }
                     let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
                    console.log("order Id  > " + orderNumberLet)
                    await driver.sleep(1000)

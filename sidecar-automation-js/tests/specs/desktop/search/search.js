@@ -28,7 +28,12 @@ test('title is correct', async () => {
         expect(searchInput).toBeTruthy()
       //  await driver.findElement(By.xpath("//*[@class='icon-header icon-header-search icon-search']")).click();
       // await driver.findElement(By.xpath("//span[@class='primary-nav__text primary-nav__text--search']")).sendKeys("H9135");
-        searchInput.sendKeys("H9135");
+      let url = await driver.getCurrentUrl();
+      if((url.indexOf("or.factory.jcrew.com") > -1 )){
+        searchInput.sendKeys("H7057"); }
+        else {
+          searchInput.sendKeys("H9135");
+        }
         await driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
 
     });

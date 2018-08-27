@@ -24,29 +24,12 @@ test('title is correct', async () => {
    driver.sleep(2000);
    try {
      await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
+     // console.log("inside merge page")
       privacyPolicyClose.click()
       driver.sleep(3000)
     })
     } catch (err)
    { }
-
-   await driver.navigate().to(globals.__baseUrl__+"/r/login")
-   await driver.sleep(2000)
-   await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username)
-   await driver.findElement(By.xpath("//*[@id='sidecarPassword']")).sendKeys(logindetails.password)
-   await driver.sleep(2000)
-   await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[1]/div/form/button")).click()
-   await driver.sleep(4000)
-   await driver.navigate().to(globals.__baseUrl__+"/CleanPersistentCart.jsp")
-   await driver.sleep(11000)
-  // await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-   //class js-signout__link --button
-   await driver.sleep(2000)
-   //const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
-   //expect(signOut).toBeTruthy()
-   //signOut.click()
-   await driver.sleep(3000)
-
    await driver.executeScript('window.scrollTo(0, 20000)')
    driver.sleep(3000)
     //const footer = await driver.findElement(By.id('global__footer'))
@@ -83,7 +66,6 @@ test('title is correct', async () => {
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(sleeptime)
 
-      try {
       await driver.findElement(By.xpath("//*[@id='loginUser']")).clear()
       await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username)
       await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password)
@@ -91,10 +73,7 @@ test('title is correct', async () => {
       await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
 
       await driver.sleep(sleeptime)
-      } catch (err) 
-      {
 
-      }
 try {
   await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[1]")).then(mergebutton => {
    mergebutton.click()
@@ -115,7 +94,7 @@ try {
 } catch (err)
 { }
 
-       if (new String(currentUrl).valueOf() != ((new String("https://www.jcrew.com/").valueOf()) && new String("https://factory.jcrew.com/").valueOf())) {
+       if (currentUrl.indexOf("https://or.") > -1) {
 
  try {
          await driver.findElement(By.xpath("//*[@id='securityCode']")).then(securitycode => {
@@ -136,14 +115,10 @@ try {
           await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
         }
         await driver.sleep(sleeptime)
-        try {
         const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
         expect(bizrate).toBeTruthy()
         bizrate.click()
         await driver.sleep(2000)
-        } catch (err) {
-          
-        }
        let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
 
            console.log("order Id  > " + orderNumberLet)
