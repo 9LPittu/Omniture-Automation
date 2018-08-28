@@ -48,10 +48,10 @@ beforeAll(async () => {
       driver.sleep(2000);
       await driver.findElement(By.xpath("//span[text()='new arrivals']")).click()
       await driver.sleep(1000)
-      const arraypage = await driver.findElement(By.className('c-product__list'))
-      expect(arraypage).toBeTruthy()
-      const productimage =await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))
-      productimage.click()
+      const arraypage1 = await driver.findElement(By.className('c-product__list'))
+      expect(arraypage1).toBeTruthy()
+      const productimage1 =await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))
+      productimage1.click()
       await driver.sleep(1000)
       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h3[text()='Shop The Look']")));
       await driver.sleep(1000)
