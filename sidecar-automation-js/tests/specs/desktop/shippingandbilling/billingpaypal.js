@@ -44,15 +44,38 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await clearBagItems();
   console.log('after clearing bagItem')
   await driver.sleep(10000);
-  await goToShoppingBag();
+  await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
+    driver.sleep(2000);
+       let currentUrl = await driver.getCurrentUrl();
+     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+       console.log(">>>.. inside factory" + currentUrl.indexOf("factory.jcrew.com"))
+      await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
+    } else {
+    await driver.findElement(By.xpath("//span[text()='shirts']")).click()
+  }
+    await driver.sleep(8000)
+    await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
+
+    await driver.sleep(5000)
+    //await driver.navigate().refresh()
+    //await driver.sleep(3000)
+
+    await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
+    await driver.sleep(1000)
+    await driver.findElement(By.id("btn__add-to-bag-wide")).click()
+    await driver.sleep(1000)
+    await driver.findElement(By.id("js-header__cart")).click()
+    await driver.sleep(1000)
+    await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+    await driver.sleep(1000)
   console.log('after product selection')
   //await verifyShipToMultiAddress();
-  await driver.sleep(2000);
-  await clickOnCheckout();
-  console.log('After checkout')
-  await driver.sleep(2000);
+  //await driver.sleep(30000);
+  //await clickOnCheckout();
+  console.log('clicked on checkout')
+  await driver.sleep(5000);
   await driver.findElement(By.id("nav-billing")).click();
-  await driver.sleep(1000);
+  await driver.sleep(3000);
 /*  console.log('After checkout')
   await clickOnContinue();
   console.log("after continue")*/

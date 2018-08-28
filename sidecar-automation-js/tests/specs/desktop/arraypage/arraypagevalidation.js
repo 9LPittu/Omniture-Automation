@@ -24,7 +24,7 @@ beforeAll(async () => {
        if (currentUrl.indexOf("factory.jcrew.com") > -1) {
         await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
       } else {
-		  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
+		  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
     }
     const arraypage = await driver.findElement(By.className('c-product__list'))
     expect(arraypage).toBeTruthy()

@@ -43,7 +43,10 @@ test('Login with given username and password', async () => {
    await driver.sleep(5000);
      try {
        // click on Add address
+       await driver.executeScript('window.scrollTo(0, 50000)')
+       driver.sleep(1000) 
        await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td/table[2]/tbody/tr[1]/td/a")));
+       driver.sleep(1000)
        await driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td/table[2]/tbody/tr[1]/td/a")).then(addAddress => {
         addAddress.click()
         driver.sleep(3000)

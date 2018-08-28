@@ -12,10 +12,11 @@ export const goToShoppingBag = async () =>{
      await   driver.findElement(By.xpath("//*[@class='primary-nav__text primary-nav__text--search primary-nav__text--move-right']")).click();
     //   await   driver.findElement(By.xpath("//span[@class='btn__label' and text()='SMALL']")).click();
     await driver.sleep(2000)
-    await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
-    await driver.sleep(2000)
-        await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
+    await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
+    await driver.sleep(5000)
+        await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
          //await   driver.findElement(By.xpath("//span[@class='btn__label' and text()='6']")).click();
+            await driver.sleep(2000)
            await   driver.findElement(By.xpath("//button[@id='btn__add-to-bag-wide']")).click();
            await driver.sleep(5000);
            await   driver.findElement(By.xpath("//a[@id='js-header__cart']")).click();

@@ -35,7 +35,7 @@ export const selectProduct = async () => {
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
    await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
   } else {
-  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
+  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
   }
   await driver.sleep(3000)
 }

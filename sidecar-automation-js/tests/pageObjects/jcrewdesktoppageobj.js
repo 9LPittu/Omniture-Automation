@@ -38,6 +38,6 @@ export const password = () => driver.findElement({ xpath: "//*[@id='sidecarRegis
 export const submit = () => driver.findElement({ xpath: "//*[@id='page__signin']/article/section[2]/div/form/button" });
 
 export const categorymen = () => driver.findElement({ xpath: "//li[@data-department='men']" });
-export const caualshirt = () => driver.findElement({ xpath: "//span[text()='casual shirts']" });
+export const caualshirt = () => driver.findElement({ xpath: "//span[text()='shirts']" });
 export const quickshopbutton = () => driver.findElement({ xpath: "//button[@class='c-product-tile__quickshop js-product-tile-quickshop']/div" });
 export const amount200 = () => driver.findElement({ xpath: "//*[@id='amount200']" });

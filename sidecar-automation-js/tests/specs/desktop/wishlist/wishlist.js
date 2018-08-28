@@ -33,7 +33,7 @@ beforeAll(async () => {
     //  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("btn__wishlist-wide")).click()
-
+      await driver.sleep(1000)
       const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
       expect(userPannel).toBeTruthy()
 
@@ -41,10 +41,8 @@ beforeAll(async () => {
         userPannel.click()
        //await driver.findElement(By.xpath("//*[@id='c-nav__userpanel']/dl/div/dd[1]/a")).click()
        await driver.sleep(3000)
-       await driver.findElement(By.xpath("//*[@id='nav__ul']/li[text()='My Wishlist']")).click()
+       await driver.findElement(By.xpath("//ul/li/a[text()='Wishlist']")).click()
        await driver.sleep(3000)
-
-
        const wishlistitems = driver.findElement(By.xpath("(//img[@class='item-image notranslate_alt'])[1]"))
        await driver.wait(until.elementIsVisible(wishlistitems), 5000)
        expect(wishlistitems).toBeTruthy()

@@ -66,9 +66,13 @@ test('title is correct', async () => {
 
      test('Order Status is visible and url direct to right url', async () => {
        await driver.executeScript('window.scrollTo(0, 20000)')
-       const orderstatuslink = driver.findElement(By.xpath("//div[text()='Order Status']"))
-       expect(orderstatuslink).toBeTruthy()
-       await orderstatuslink.click()
+
+       //const orderstatuslink = driver.findElement(By.xpath("//div[text()='Order Status']"))
+       await driver.sleep(2000)
+       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[text()='Order Status']")));
+       await driver.sleep(2000)
+       expect(driver.findElement(By.xpath("//div[text()='Order Status']"))).toBeTruthy()
+       await driver.findElement(By.xpath("//div[text()='Order Status']")).click()
        await driver.sleep(2000)
        await driver.getCurrentUrl(url => {
          expect(url.match('/help/order_status.jsp?sidecar=true')).toBeTruthy()
@@ -87,5 +91,6 @@ test('title is correct', async () => {
         })
 
         await driver.findElement(By.xpath("//span[text()='Canada']")).click()
-        await driver.sleep(10000)
+        await driver.sleep(2000)
+        console.log("user is able to select the country from context chooser")
       })

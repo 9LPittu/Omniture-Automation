@@ -47,7 +47,7 @@ test('title is correct', async () => {
        if (currentUrl.indexOf("factory.jcrew.com") > -1) {
         await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
       } else {
-		  await driver.findElement(By.xpath("//span[text()='casual shirts']")).click()
+		  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
     }
       await driver.sleep(8000)
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
@@ -133,8 +133,7 @@ await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")
          await driver.sleep(2000)
 
 
-         if (new String(currentUrl).valueOf() != ((new String("https://www.jcrew.com/").valueOf()) && new String("https://factory.jcrew.com/").valueOf())) {
-
+         if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
          await driver.sleep(3000)
 
          if (currentUrl.indexOf("factory.jcrew.com") > -1) {
