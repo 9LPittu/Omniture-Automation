@@ -46,14 +46,12 @@ let email = "AutomationTest"+x+"@gmail.com"
       await driver.findElement(By.xpath("//div/a[text()='Sign Out']")).click()
       await driver.sleep(2000)
     } else {
-      await driver.sleep(1000)
-      await driver.findElement(By.xpath(".//span[text()='My Account']")).click()
-      await driver.sleep(1000)
-      const myDetails = await driver.findElement(By.xpath(".//span[text()='My Details']"))
-      expect(myDetails).toBeTruthy()
-      myDetails.click()
-      await driver.sleep(1000)
-      await driver.findElement(By.xpath(".//li[text()='Sign Out']")).click()
+      // Rewards
+      await driver.findElement(By.xpath("//*[@id='page__account']/div/div[2]/nav")).click()
       await driver.sleep(2000)
+      const signOut = await driver.findElement(By.xpath("//*[@id='page__account']/div/div[2]/nav/ul/li[9]/a"))
+      expect(signOut).toBeTruthy()
+      signOut.click()
+      await driver.sleep(1000)
     }
    })

@@ -33,9 +33,12 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
       const myaccount = await driver.findElement(By.xpath("//span[@id='c-header__userpanelrecognized']"))
       expect(myaccount).toBeTruthy()
       await driver.sleep(1000)
-      await driver.actions().mouseMove(await driver.findElement(By.xpath("//span[@id='c-header__userpanelrecognized']"))).perform();
-      await driver.sleep(1000)
-      const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
+      // Rewards
+      await driver.findElement(By.xpath("//*[@id='page__account']/div/div[2]/nav")).click()
+      //await driver.actions().mouseMove(await driver.findElement(By.xpath("//span[@id='c-header__userpanelrecognized']"))).perform();
+      await driver.sleep(2000)
+      const signOut = await driver.findElement(By.xpath("//*[@id='page__account']/div/div[2]/nav/ul/li[9]/a"))
+      //const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
       expect(signOut).toBeTruthy()
       signOut.click()
       await driver.sleep(1000)
@@ -43,7 +46,5 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
       expect(signIn).toBeTruthy()
       console.log("sign out from the application successfully")
       expect(await driver.getTitle()).toMatch('J.Crew')
-  //    await driver.findElement(By.xpath("//*[@id='nav__ul']/li[10]")).click()
-
     //}
    })
