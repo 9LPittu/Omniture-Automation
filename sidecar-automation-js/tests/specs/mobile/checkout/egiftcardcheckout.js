@@ -12,33 +12,35 @@ test('title is correct', async () => {
  })
 
   test('eGiftCard Checkout - Express User', async () => {
-  		driver.sleep(2000);
-         let currentUrl = await driver.getCurrentUrl();
-         await driver.executeScript('window.scrollTo(0, 20000)')
-         await driver.findElement(By.xpath("//h6[text()='Let Us Help You']")).click()
-          await driver.sleep(2000)
-      try {
-        await driver.findElement(By.xpath("//*[text()='The J.Crew Gift Card']")).click()
-         await driver.sleep(2000)
-      } catch(err) {
+    driver.sleep(2000);
+    let currentUrl = await driver.getCurrentUrl();
+    if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+      await driver.executeScript('window.scrollTo(0, 5000)')
+      await driver.sleep(2000)
+    }else{
+     await driver.executeScript('window.scrollTo(0, 16000)')
+     await driver.sleep(2000)
+    }
+   await driver.findElement(By.xpath("//h6[text()='Let Us Help You']")).click()
+   await driver.sleep(2000)
+     try {
+       await driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
+        await driver.sleep(3000)
+     } catch(err) {}
 
-      }
+try {
+//   await driver.sleep(2000)
+ await driver.findElement(By.xpath("(//span[@class='icon-close'])")).click()  // close the popups
+  await driver.sleep(2000)
+} catch (err) {
 
-      try {
-         await driver.sleep(2000)
-        await driver.findElement(By.xpath("(//span[@class='icon-close'])")).click()  // close the popups
-         await driver.sleep(5000)
-      } catch (err) {
-
-      }
+}
 
       await driver.findElement(By.xpath("//*[@id='eGiftCard']/img")).click()
-      await driver.sleep(3000)
-      const amount200 = () => driver.findElement({ xpath: "//*[@id='amount200']" });
-  //    await driver.findElement(By.xpath("//*[@id='amount25']")).click()
-    //  await driver.actions().mouseMove(await driver.wait(until.elementLocated(amount200), defaultTimeout)).perform();
-  //    await driver.sleep(3000)
-      await driver.findElement(By.xpath("//*[@id='amount200']")).click()
+      await driver.sleep(2000)
+      //const amount200 = () => driver.findElement({ xpath: "//*[@id='amount200']" });
+
+      await driver.findElement(By.xpath("(//*[@id='amount200'])[2]")).click()
 
       var date = new Date()
       await driver.findElement(By.xpath("//*[@id='senderNameEgc']")).sendKeys("test")
@@ -51,8 +53,10 @@ test('title is correct', async () => {
       await driver.sleep(3000)
       await driver.findElement(By.id("js-header__cart")).click()
       await driver.sleep(3000)
+      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//*[@id='button-checkout']")))
+      await driver.sleep(2000)
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-      await driver.sleep(6000)
+      await driver.sleep(3000)
 
       await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username1)
       await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password1)

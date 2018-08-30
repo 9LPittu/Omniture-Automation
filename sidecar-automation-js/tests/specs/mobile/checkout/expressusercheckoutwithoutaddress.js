@@ -50,8 +50,11 @@ test('title is correct', async () => {
     }catch (err){}
       await driver.sleep(2000)
     //  await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)["+x+"]")).click()
-      await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
-      await driver.sleep(5000)
+      //await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
+      //await driver.sleep(2000)
+      await driver.executeScript('window.scrollTo(0, 600)')
+      //await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")));
+      await driver.sleep(3000)
       await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       await driver.sleep(3000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
@@ -69,10 +72,12 @@ test('title is correct', async () => {
              await driver.findElement(By.xpath("//input[@id='address2']")).sendKeys(guestuser.address2)
                await driver.findElement(By.xpath("//input[@id='address1']")).sendKeys(guestuser.address1)
                await driver.findElement(By.xpath("//input[@id='zipcode']")).sendKeys(guestuser.zipcode)
-                 await driver.sleep(3000)
+                 await driver.sleep(2000)
                    await driver.findElement(By.xpath("//input[@id='phoneNumSA']")).sendKeys(guestuser.phoneNumSA)
-                   await driver.sleep(3000)
-                   await driver.findElement(By.xpath("//*[@id='order-summary__button-continue']")).click()
+                   await driver.sleep(1000)
+                   await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@id='main__button-continue-old']")));
+                   await driver.sleep(1000)
+                   await driver.findElement(By.xpath("//a[@id='main__button-continue-old']")).click()
 
      // address confirmation page :
      await driver.sleep(5000)
@@ -98,28 +103,35 @@ try {
   }
 
      //shipping & gift pageObjects
-     await driver.sleep(3000)
+     //await driver.sleep(3000)
      await driver.sleep(3000)
      await driver.findElement(By.id("includesGifts")).click()
      await driver.sleep(1000)
      expect(await driver.findElement(By.xpath("//div[@class='gift-receipt-tooltip clearfix radio-checked']"))).toBeTruthy()
-     await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
+     await driver.sleep(1000)
+     await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@id='main__button-continue-old']")));
+     await driver.sleep(1000)
+     await driver.executeScript("arguments[0].click();",driver.findElement(By.xpath("//a[@id='main__button-continue-old']")))
+     //await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
 
         //credit card details
-        await driver.sleep(3000)
-          await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).sendKeys(creditcard.jcccard)
-      //    await driver.findElement(By.xpath("//input[@id='securityCode']")).sendKeys(creditcard.pin)
-      //    await driver.findElement(By.xpath("//select[@id='expirationMonth']")).sendKeys(creditcard.expirationMonth)
-      //    await driver.findElement(By.xpath("//select[@id='expirationYear']")).sendKeys(creditcard.expirationYear)
+        await driver.sleep(90000)
+          await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).sendKeys(creditcard.number)
+          await driver.findElement(By.xpath("//input[@id='securityCode']")).sendKeys(creditcard.pin)
+          await driver.findElement(By.xpath("//select[@id='expirationMonth']")).sendKeys(creditcard.expirationMonth)
+         await driver.findElement(By.xpath("//select[@id='expirationYear']")).sendKeys(creditcard.expirationYear)
           await driver.findElement(By.xpath("//input[@id='nameOnCard']")).sendKeys(creditcard.nameOnCard)
-      //    await driver.findElement(By.xpath("//input[@id='emailReceipt']")).sendKeys(creditcard.emailReceipt)
+         await driver.findElement(By.xpath("//input[@id='emailReceipt']")).sendKeys(creditcard.emailReceipt)
          // await driver.findElement(By.xpath("//a[@id='billing-options-submit']")).click()
-         await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
+         await driver.sleep(1000)
+         await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@id='billing-options-submit']")));
+         await driver.sleep(1000)
+         await driver.executeScript("arguments[0].click();",driver.findElement(By.xpath("//a[@id='billing-options-submit']")))
 
          await driver.sleep(2000)
 
 
-         if (new String(currentUrl).valueOf() != ((new String("https://www.jcrew.com/").valueOf()) && new String("https://factory.jcrew.com/").valueOf())) {
+         if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
 
          await driver.sleep(3000)
 
