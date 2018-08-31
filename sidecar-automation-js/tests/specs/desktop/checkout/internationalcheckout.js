@@ -3,6 +3,8 @@ import { driver, defaultTimeout } from '../../../helpers';
 import { load, categorymen, caualshirt } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
+import {productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage'
+import {loginInAfterCheckoutPage} from '../../../pageObjects/loginPageObj'
 
 const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
@@ -20,16 +22,6 @@ test('title is correct', async () => {
 //   ['India']
  ]).test('%s - International Checkout', async contextchooser => {
    driver.sleep(2000);
-   await driver.navigate().refresh()
-   driver.sleep(2000);
-   try {
-     await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
-     // console.log("inside merge page")
-      privacyPolicyClose.click()
-      driver.sleep(3000)
-    })
-    } catch (err)
-   { }
    await driver.executeScript('window.scrollTo(0, 20000)')
    driver.sleep(3000)
     //const footer = await driver.findElement(By.id('global__footer'))
@@ -44,34 +36,13 @@ test('title is correct', async () => {
     })
     await driver.findElement(By.xpath("//span[text()='" + contextchooser +"']" )).click()
     await driver.sleep(3000)
-   await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-   await driver.sleep(3000)
-   let currentUrl = await driver.getCurrentUrl();
-       if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-        await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-      } else {
-    await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-    }
-
-      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
-      await driver.navigate().refresh()
-      await driver.sleep(sleeptime)
-    //  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
-      await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
-      await driver.sleep(sleeptime)
-      await driver.findElement(By.id("btn__add-to-bag-wide")).click()
-      await driver.sleep(sleeptime)
-      await driver.findElement(By.id("js-header__cart")).click()
+    await productArrayPage();
+    await addProductToBag();
+    await verifyAndClickOnBag();
       await driver.sleep(sleeptime)
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(sleeptime)
-
-      await driver.findElement(By.xpath("//*[@id='loginUser']")).clear()
-      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username)
-      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password)
-      await driver.sleep(sleeptime)
-      await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
-
+      await loginInAfterCheckoutPage(logindetails.username,logindetails.password)
       await driver.sleep(sleeptime)
 
 try {
@@ -93,7 +64,7 @@ try {
   })
 } catch (err)
 { }
-
+      let currentUrl = await driver.getCurrentUrl();
        if (currentUrl.indexOf("https://or.") > -1) {
 
  try {

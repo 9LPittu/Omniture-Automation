@@ -13,7 +13,7 @@ test('title is correct', async () => {
  })
 
     test('extended sizes validation', async () => {
-
+      console.log("Verifying for extended sizes")
       await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
     		driver.sleep(2000);
            let currentUrl = await driver.getCurrentUrl();
@@ -23,9 +23,6 @@ test('title is correct', async () => {
         } else {
   		  await driver.findElement(By.xpath("//span[text()='t-shirts & polos']")).click()
       }
-      await	driver.sleep(1000);
-      //await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
-      //await driver.sleep(1000)
       await driver.sleep(1000)
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
       await driver.sleep(5000)

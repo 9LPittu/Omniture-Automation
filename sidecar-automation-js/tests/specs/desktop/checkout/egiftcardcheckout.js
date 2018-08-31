@@ -13,18 +13,7 @@ beforeAll(async () => {
  })
 
   test('eGiftCard Checkout - Express User', async () => {
-    driver.sleep(2000);
-    await driver.navigate().refresh()
-    driver.sleep(2000);
-    try {
-      await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
-      // console.log("inside merge page")
-       privacyPolicyClose.click()
-       driver.sleep(3000)
-     })
-     } catch (err)
-    { }
-
+    
     await driver.navigate().to(globals.__baseUrl__+"/r/login")
     await driver.sleep(2000)
     await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username1)
@@ -41,7 +30,7 @@ beforeAll(async () => {
     expect(signOut).toBeTruthy()
     signOut.click()
     await driver.sleep(3000)
-    
+
        let currentUrl = await driver.getCurrentUrl();
        await driver.executeScript('window.scrollTo(0, 50000)')
         await driver.sleep(2000)
@@ -121,9 +110,9 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
        const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
        expect(bizrate).toBeTruthy()
        bizrate.click()
-       await driver.sleep(2000) 
+       await driver.sleep(2000)
           } catch (err) {
-            
+
           }
        let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
       console.log("order Id  > " + orderNumberLet)

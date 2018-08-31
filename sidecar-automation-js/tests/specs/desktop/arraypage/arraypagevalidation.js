@@ -1,14 +1,9 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { creditcard, guestuser } from '../../../testdata/jcrewTestData';
-
+import {productArrayPage} from '../../../pageObjects/arraypage';
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
-
-//const baseUrl = process.env.BASEURL
-//const isHeadless = false || process.env.HEADLESS
-//const chromeOptions = isHeadless ? new chrome.Options().headless().addArguments("--disable-gpu", "--no-sandbox") : new chrome.Options()
 
 beforeAll(async () => {
   await load();
@@ -17,15 +12,9 @@ beforeAll(async () => {
  })
 
   test('Product arraypage validation', async () => {
-      console.log("Array page is being verified ")
-      await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-  		driver.sleep(2000);
-         let currentUrl = await driver.getCurrentUrl();
-       if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-        await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-      } else {
-		  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-    }
+    console.log("Array page is being verified ")
+    await productArrayPage();
+
     const arraypage = await driver.findElement(By.className('c-product__list'))
     expect(arraypage).toBeTruthy()
 

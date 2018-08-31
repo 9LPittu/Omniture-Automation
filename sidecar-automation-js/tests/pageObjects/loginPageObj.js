@@ -6,14 +6,14 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 
 export const loginFromHomePage = async (username,password) =>{
   await driver.findElement(By.xpath(".//span[text()='sign in']")).click()
+  await driver.sleep(2000)
   await driver.findElement(By.id("sidecarUser")).sendKeys(username)
   await driver.findElement(By.id("sidecarPassword")).sendKeys(password)
-  await driver.findElement(By.className("btn--primary btn--signin js-button-submit")).click()
+  //await driver.sleep(1000)
+  await driver.findElement(By.xpath("//button[@class='btn--primary btn--signin js-button-submit']")).click()
   console.log("Login success")
-  driver.sleep(5000)
+  driver.sleep(2000)
 };
-
-
 
 export const loginInAfterCheckoutPage = async (username,password)=>{
   let inputEmail =   await driver.findElement(By.id("loginUser"))
@@ -22,7 +22,7 @@ export const loginInAfterCheckoutPage = async (username,password)=>{
   inputEmail.sendKeys(username)//"testuser1@example.org")
   inputPassword.sendKeys(password)//"test1234")
   signInHere.click()
-  expect(await driver.getTitle()).toMatch('J.Crew - Sign In')
+  //expect(await driver.getTitle()).toMatch('J.Crew - Sign In')
   console.log('sign in Done')
 }
 
@@ -40,4 +40,20 @@ export const clearBagItems = async ()=> {
     await driver.get("https://factory.jcrew.com/CleanPersistentCart.jsp")
   }
 
+}
+
+export const createNewAccount = async ()=> {
+var x = Math.floor((Math.random() * 1000000) + 1);
+ let userName = "AutomationTest"+x
+ let email = "AutomationTest"+x+"@gmail.com"
+    await driver.navigate().to(globals.__baseUrl__+"/r/login")
+    await driver.findElement(By.xpath("//*[@id='sidecarRegisterFirstName']")).sendKeys(userName)
+    await driver.findElement(By.xpath("//*[@id='sidecarRegisterLastName']")).sendKeys("tester")
+    await driver.findElement(By.xpath("//*[@id='sidecarRegisterEmail']")).sendKeys(email)
+    await driver.findElement(By.xpath("//*[@id='sidecarRegisterPassword']")).sendKeys("nft123")
+    await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[2]/div/form/button")).click()
+    await driver.sleep(10000)
+    expect(await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))).toBeTruthy()
+    console.log("User is able to create new account")
+    console.log ("User created >> " + email)
 }

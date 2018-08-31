@@ -116,3 +116,15 @@ export const guestUserBillingAddressAlsoCheckbox = async () =>{
   //Check Out as a Guest
   await driver.findElement(By.css("#sameBillShip")).click();
 }
+
+export const mergeButton = async () =>{
+  try {
+    await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[1]")).then(mergebutton => {
+    // console.log("inside merge page")
+     mergebutton.click()
+     driver.sleep(3000)
+     driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+     })
+   } catch (err)
+  { }
+}

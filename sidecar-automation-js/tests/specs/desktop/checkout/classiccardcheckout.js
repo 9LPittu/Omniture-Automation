@@ -13,18 +13,7 @@ beforeAll(async () => {
  })
 
   test('Classic Card Checkout - Express User', async () => {
-  		driver.sleep(2000);
-      await driver.navigate().refresh()
-      driver.sleep(2000);
-      try {
-        await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
-        // console.log("inside merge page")
-         privacyPolicyClose.click()
-         driver.sleep(3000)
-       })
-       } catch (err)
-      { }
-
+  		
       await driver.navigate().to(globals.__baseUrl__+"/r/login")
       await driver.sleep(2000)
       await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username1)

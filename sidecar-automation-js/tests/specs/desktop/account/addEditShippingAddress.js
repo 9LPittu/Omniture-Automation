@@ -39,12 +39,12 @@ test('Login with given username and password', async () => {
    await driver.sleep(8000);
    //click on Address book
    await driver.findElement(By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[6]/a")).click();
-   await driver.manage().window().maximize()
+   //await driver.manage().window().maximize()
    await driver.sleep(5000);
      try {
        // click on Add address
        await driver.executeScript('window.scrollTo(0, 50000)')
-       driver.sleep(1000) 
+       driver.sleep(1000)
        await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td/table[2]/tbody/tr[1]/td/a")));
        driver.sleep(1000)
        await driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td/table[2]/tbody/tr[1]/td/a")).then(addAddress => {
@@ -71,13 +71,7 @@ await driver.findElement(By.xpath("//*[@id='phoneText']")).sendKeys("7737029494"
 // Save button
 await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[35]/td/a")).click()
 driver.sleep(5000)
-// await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
-// driver.switchTo().window(allhandles[allhandles.length - 1]);
-// }
 
-// var winHandle = await driver.getWindowHandle();
-// await driver.switchTo().window(winHandle)
-// console.log("Switched to Window");
 
 // Use this address
 await driver.findElement(By.xpath("//td/table/tbody/tr/td[1]/a[2]")).click();
