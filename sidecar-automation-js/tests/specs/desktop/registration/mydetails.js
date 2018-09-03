@@ -1,5 +1,6 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { globals } from '../../../jestJcrewQaConfig';
 import {clickOnContinue} from '../../../pageObjects/shippingaddresspageobj';
 import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
@@ -35,11 +36,17 @@ test('Login with given username and password', async () => {
 
 });
 
-
 test('verify myDeatils section', async () => {
 await driver.sleep(5000);
-expect(await driver.findElement(By.partialLinkText("My Details")).isDisplayed()).toBeTruthy()
+expect(await driver.findElement(By.xpath("//ul/li[2]/a[text()='My Details']")).isDisplayed()).toBeTruthy()
 await driver.findElement(By.partialLinkText("My Details")).click();
-await driver.sleep(5000);
+await driver.sleep(2000);
+let currentUrl = await driver.getCurrentUrl();
+if(currentUrl.includes("r/account/details")){
+  expect(await driver.findElement(By.xpath("//div/div/div[@class='account__my-details--header']"))).toBeTruthy()
+  console.log("User navigates to My Details page")
+}
+
+
 
 });

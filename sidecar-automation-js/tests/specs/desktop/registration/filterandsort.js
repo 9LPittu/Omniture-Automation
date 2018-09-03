@@ -1,8 +1,7 @@
-import { driver, defaultTimeout } from '../../../helpers';
+import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import {clickOnContinue} from '../../../pageObjects/shippingaddresspageobj';
-import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
-import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
+import { globals } from '../../../jestJcrewQaConfig';
+import { productArrayPage } from '../../../pageObjects/arraypage';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
@@ -13,29 +12,34 @@ test('navigate to home page', async () => {
 
 });
 
-test('select a product by hovering on menu', async ()=>{
-  await selectProduct();
-  await driver.sleep(5000);
-
-});
-
-
-test('verify sort and filter functionality is working properly or not', async () => {
-await driver.findElement(By.css("#c-filters__header-item--toggle")).click();
-await driver.sleep(3000)
-await driver.findElement(By.css(".sort-dropdown__header")).click();
-await driver.sleep(3000)
-});
-
-export const selectProduct = async () => {
-  let currentUrl = await driver.getCurrentUrl();
-  await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-  driver.sleep(2000);
-
-  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-   await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-  } else {
-  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-  }
+test('verifying sort and filter functionality', async () => {
+  await productArrayPage()
+  await driver.sleep(2000)
+  const hidefilters = await driver.findElement(By.css("#c-filters__header-item--toggle"));
+  expect(hidefilters.isDisplayed()).toBeTruthy()
+  console.log("filter header is displaying")
   await driver.sleep(3000)
-}
+  const gender = await driver.findElement(By.xpath("//button[@data-label='Women']"))
+  expect(gender).toBeTruthy()
+  gender.click()
+  console.log("filter header is displaying")
+  await driver.sleep(5000)
+  const filteredCategory = await driver.findElement(By.xpath("(//div[@class='c-filters__breadcrumb btn btn--round is-capitalized']/span)[1]"));
+  expect(filteredCategory.isDisplayed()).toBeTruthy()
+  const clearAll = await driver.findElement(By.xpath("//span[text()='Clear All']"));
+  expect(clearAll.isDisplayed()).toBeTruthy()
+  clearAll.click()
+  await driver.sleep(3000)
+  const sortBy = await driver.findElement(By.xpath("//span[text()='Sort By']"));
+  expect(sortBy.isDisplayed()).toBeTruthy()
+  sortBy.click()
+  await driver.sleep(1000)
+  const lowToHigh = await driver.findElement(By.xpath("//li[text()='Price: Low to High']"));
+  expect(lowToHigh.isDisplayed()).toBeTruthy()
+  lowToHigh.click()
+  await driver.sleep(3000)
+  const sortApplied = await driver.findElement(By.xpath("//span[text()='Price: Low to High']"));
+  expect(sortApplied.isDisplayed()).toBeTruthy()
+  console.log("Sort functionality is working")
+
+});

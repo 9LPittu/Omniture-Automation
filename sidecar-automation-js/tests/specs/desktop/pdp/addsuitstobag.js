@@ -16,16 +16,6 @@ test('title is correct', async () => {
 
   test('Adding single / multiple Suit items to Bag', async () => {
 
-      await driver.navigate().refresh()
-      driver.sleep(2000);
-      try {
-        await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
-        // console.log("inside merge page")
-         privacyPolicyClose.click()
-         driver.sleep(3000)
-       })
-       } catch (err)
-      { }
       await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
   		driver.sleep(2000);
          let currentUrl = await driver.getCurrentUrl();

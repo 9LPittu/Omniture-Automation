@@ -38,39 +38,14 @@ test('Login with given username and password', async () => {
 
 //img[@src='https://static.cdn.responsys.net/i5/responsysimages/jcrew/contentlibrary/!forms/jc/prefcenter/images/subscribe_button.gif']
 test('verify the email preferences section', async () => {
-  await driver.sleep(7000)
-await driver.findElement(By.partialLinkText("Email Preferences")).click();
-await driver.sleep(7000);
+  await driver.sleep(2000)
+await driver.findElement(By.xpath("//a[text()='Email Preferences']")).click();
+await driver.sleep(2000);
 //await driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/following-sibling::section//following-sibling::p/a/img")).click();
-await driver.switchTo().frame("emailSub");
-expect(await driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/following-sibling::section//following-sibling::p/a")).isDisplayed()).toBeTruthy();
-await driver.executeScript("arguments[0].click();",driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/following-sibling::section//following-sibling::p/a")));
-await driver.sleep(8000)
+await driver.switchTo().frame(await driver.findElement(By.id("emailSub")));
+const subscribebutton = await driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/p/a/img"));
+expect(subscribebutton.isDisplayed()).toBeTruthy();
+subscribebutton.click()
+await driver.sleep(2000)
+
 });
-
-/*
-test('verify Email Preferences', async () => {
-    await driver.sleep(10000);
-    // Email preferences
-    await driver.findElement(By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[3]/a")).click()
-    await driver.sleep(6000);
-    // Subscribe button
-    driver.switchTo().window(await driver.findElement(By.xpath("/html/body/section[2]/p/a")).click());
-    // Enter email id
-    await driver.findElement(By.xpath("//*[@id='emailAdd']")).sendKeys("goldnonexpress1@example.org");
-    // Confirm email id
-    await driver.findElement(By.xpath("//*[@id='emailAddConf']")).sendKeys("goldnonexpress1@example.org");
-    // Country
-    await driver.Select(driver.findElement(By.xpath("//*[@id='country']"))).selectByValue("United States");
-    // Zip code
-    await driver.findElement(By.xpath("//*[@id='zipCode']")).sendKeys("60637");
-    // Sign up me button
-    await driver.findElement(By.xpath("//*[@id='signUpSubscribe']/input[9]")).click()
-    // Thank you page
-    const continueShop = await driver.findElement(By.xpath("/html/body/div[2]/div/div/div[3]/div[1]/a"))
-    expect(continueShop).toBeTruthy()
-    console.log("subscription is clicked")
-
-}) 
-
-*/

@@ -1,8 +1,7 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import { guestuser } from '../../../testdata/jcrewTestData';
+import { productArrayPage,addProductToBag} from '../../../pageObjects/arraypage';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -15,21 +14,9 @@ test('title is correct', async () => {
  })
 
   test('verify pdp pageObjects', async () => {
-
-      await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-  		driver.sleep(2000);
-         let currentUrl = await driver.getCurrentUrl();
-       if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-        await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-      } else {
-		  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-    }
-      await driver.sleep(3000)
-      await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[5]")).click()
-
+      await productArrayPage()
+      await addProductToBag()
       await driver.sleep(2000)
-      //await driver.navigate().refresh()
-      await driver.sleep(3000)
       const productcolor = await driver.findElement(By.xpath("//div[@class='c-product__colors']"))
       expect(productcolor).toBeTruthy()
       const productsize= await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]"))

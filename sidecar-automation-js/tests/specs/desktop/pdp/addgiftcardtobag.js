@@ -1,8 +1,7 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import { guestuser } from '../../../testdata/jcrewTestData';
+
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -15,16 +14,6 @@ test('title is correct', async () => {
 
   test('Adding gift card items to bag', async () => {
 
-      //await driver.navigate().refresh()
-      driver.sleep(2000);
-      try {
-        await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
-        // console.log("inside merge page")
-         privacyPolicyClose.click()
-         driver.sleep(3000)
-       })
-       } catch (err)
-      { }
       await driver.sleep(3000)
       await driver.executeScript('window.scrollTo(0, 30000)')
       await driver.sleep(2000)
