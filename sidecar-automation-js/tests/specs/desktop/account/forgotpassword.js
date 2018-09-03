@@ -1,7 +1,7 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import {logindetails}
+import { logindetails } from '../../../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
@@ -32,6 +32,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
          await driver.sleep(1000)
          const newPasswordText = await driver.findElement(By.xpath("//section[@id='registered']/p")).getText()
          expect(newPasswordText).toBeTruthy()
+
          newPasswordText.includes(logindetails.username5)
          console.log("new password sent to user email")
     })

@@ -3,8 +3,8 @@ import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { creditcard } from '../../../testdata/jcrewTestData';
 import { guestuser } from '../../../testdata/jcrewTestData';
-import {createNewAccount} from '../../../pageObjects/loginPageObj'
-import {productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage'
+import { createNewAccount } from '../../../pageObjects/loginPageObj'
+import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -22,7 +22,7 @@ test('title is correct', async () => {
       await verifyAndClickOnBag();
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(2000)
-       await driver.findElement(By.xpath("//input[@id='firstNameSA']")).sendKeys(userName)
+       await driver.findElement(By.xpath("//input[@id='firstNameSA']")).sendKeys(guestuser.firstNameSA)
          await driver.findElement(By.xpath("//input[@id='lastNameSA']")).sendKeys(guestuser.lastNameSA)
            await driver.findElement(By.xpath("//input[@id='address3']")).sendKeys(guestuser.address3)
              await driver.findElement(By.xpath("//input[@id='address2']")).sendKeys(guestuser.address2)
