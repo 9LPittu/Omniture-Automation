@@ -1,8 +1,7 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import {clickOnContinue} from '../../../pageObjects/shippingaddresspageobj';
-import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
+import {loginFromHomePage} from '../../../pageObjects/loginpageobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 
 
@@ -33,7 +32,6 @@ test('Login with given username and password', async () => {
   await loginFromHomePage(factory_prod.username,factory_prod.password)
   console.log('user login succesfully')
   }
-
 });
 
 test('verify myDeatils section', async () => {

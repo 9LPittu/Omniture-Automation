@@ -23,7 +23,7 @@ test('title is correct', async () => {
  })
 
   test('test Guest checkout', async () => {
-    await createNewAccount();
+    //await createNewAccount();
     await productArrayPage();
     await addProductToBag();
     await verifyAndClickOnBag();
@@ -94,7 +94,7 @@ try {
         await driver.sleep(2000)
         expect(await driver.findElement(By.xpath("//h3[@class='register-msg confirmation']"))).toBeTruthy()
         await driver.sleep(2000)
-        await createNewAccount();
+        //await createNewAccount();
         await productArrayPage();
         await addProductToBag();
         await verifyAndClickOnBag();

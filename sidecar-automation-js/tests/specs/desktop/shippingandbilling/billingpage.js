@@ -6,6 +6,7 @@ import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../
 import {continueOnShippingMethod} from '../../../pageObjects/shippingpageobj';
 import {paymentMethod} from '../../../pageObjects/BillingObj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
+import { productArrayPage, addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
@@ -36,25 +37,17 @@ test('Login with given username and password', async () => {
   await loginFromHomePage(factory_prod.username,factory_prod.password)
   console.log('user login succesfully')
   }
-
-
-
 });
 test('Clear the bag items if any products were avilable and Add one product', async () => {
   await clearBagItems();
   console.log('after clearing bagItem')
   await driver.sleep(10000);
-  //await goToShoppingBag();
-  await addProductTobag();
-  console.log('after add product to bag')
-  await driver.findElement(By.id("js-header__cart")).click()
-  await driver.sleep(3000)
+  await productArrayPage();
+  await addProductToBag();
+  await verifyAndClickOnBag();
+  await driver.sleep(2000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-
-
   console.log('after product selection')
-  //await verifyShipToMultiAddress();
-//  await clickOnCheckout();
   console.log('After checkout')
   await driver.findElement(By.css("#nav-shipping")).click();
   await driver.sleep(5000);
@@ -72,28 +65,3 @@ test('Goto Billng page and check verify credit/debit card or paypal process', as
       console.log('After payment Method')
 
 });
-
-export const addProductTobag = async () =>{
-  let currentUrl = await driver.getCurrentUrl();
-  ////FirstProduct
-  await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-  driver.sleep(2000);
-
-  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-   await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-  } else {
-  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-  }
-  await driver.sleep(3000)
-  await driver.findElement(By.xpath("//div[@class='c-product__photos']")).click()
-
-  await driver.sleep(2000)
-  //await driver.navigate().refresh()
-  await driver.sleep(3000)
-  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
-  await driver.sleep(3000)
-  await driver.executeScript('window.scrollTo(0, 300)')
-  await driver.sleep(3000)
-  await driver.findElement(By.id("btn__add-to-bag-wide")).click()
-    await driver.sleep(3000)
-}

@@ -1,7 +1,8 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import {logindetails } from '../../../testdata/jcrewTestData';
-import {loginFromHomePage} from '../../../pageObjects/loginpageobj';
+import {productArrayPage} from '../../../pageObjects/arraypage';
+
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
@@ -15,26 +16,14 @@ beforeAll(async () => {
     test('Wishlist - Guest User', async () => {
 
       driver.sleep(1000);
-
-      await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-      //await driver.actions().mouseMove(await driver.findElement(By.xpath("//*[@id='global__header']/div/div[2]/section/div/div[3]/div/ul/li[3]/a/span"))).perform();
-      driver.sleep(2000);
-         let currentUrl = await driver.getCurrentUrl();
-       if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-        //await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-        await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-      } else {
-      //await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-      await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-    }
-      await driver.sleep(1000)
+      await productArrayPage();
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
-      await driver.sleep(5000)
+      await driver.sleep(2000)
       await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
-    //  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn')]")).click()
       await driver.sleep(1000)
       await driver.findElement(By.id("btn__wishlist-wide")).click()
       await driver.sleep(1000)
+      let currentUrl = await driver.getCurrentUrl(); 
       if(currentUrl.includes("/r/login")){
         console.log("User navigates to login page")
       }

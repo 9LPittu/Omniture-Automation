@@ -2,8 +2,8 @@ import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import {productArrayPage} from '../../../pageObjects/arraypage';
-import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
-
+import {loginFromHomePage} from '../../../pageObjects/loginpageobj';
+import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
@@ -55,14 +55,13 @@ await driver.sleep(2000)
 });
 
 test('verify the product has been added to wishlist or not', async () => {
-////li[contains(@id,'item')]
 expect(await driver.findElement(By.xpath("//li[contains(@id,'item')]")).isDisplayed()).toBeTruthy();
 });
 
 
 export const addProductToWishList = async () =>{
   await  productArrayPage()
-  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
+  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
   await driver.sleep(2000)
   await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
   await driver.sleep(1000)

@@ -1,7 +1,8 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import {clickOnContinue} from '../../../pageObjects/shippingaddresspageobj';
-import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
+import {productArrayPage,addProductToBag} from '../../../pageObjects/arraypage';
+import { globals } from '../../../jestJcrewQaConfig';
+import {loginFromHomePage} from '../../../pageObjects/loginpageobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 
 
@@ -36,48 +37,15 @@ test('Login with given username and password', async () => {
 });
 
 test('Add product to bag', async () => {
-//.c-nav__userpanel-item--wishlist
-await driver.sleep(7000);
-await addProductTobag();
-
+await driver.sleep(2000);
+await productArrayPage()
+await addProductToBag()
 });
 
 test('verify shopping tongue issue was not there', async () => {
-//.c-nav__userpanel-item--wishlist
-await driver.sleep(7000)
-await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-//class js-signout__link --button
-await driver.sleep(2000)
-
-expect(await driver.findElement(By.css(".c-nav__userpanel-item--order-history")).isDisplayed()).toBeTruthy();
-await driver.findElement(By.css(".c-nav__userpanel-item--order-history")).click();
-await driver.sleep(5000)
-
+  await driver.actions().mouseMove(await driver.findElement(By.xpath("//span[text()='bag']"))).perform();
+  await driver.sleep(1000)
+  const shoppingTonge = await driver.findElement(By.xpath("//div[@class='c-header__minibag is-active']"))
+  expect(shoppingTonge).toBeTruthy()
+  console.log("shopping tonge is displayed")
 });
-
-
-
-
-export const addProductTobag = async () =>{
-  let currentUrl = await driver.getCurrentUrl();
-  ////FirstProduct
-  await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-  driver.sleep(2000);
-
-  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-   await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-  } else {
-  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-  }
-  await driver.sleep(3000)
-  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[5]")).click()
-
-  await driver.sleep(2000)
-  await driver.navigate().refresh()
-  await driver.sleep(3000)
-  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
-  await driver.sleep(3000)
-  await driver.findElement(By.id("btn__add-to-bag-wide")).click()
-    await driver.sleep(3000)
-
-}

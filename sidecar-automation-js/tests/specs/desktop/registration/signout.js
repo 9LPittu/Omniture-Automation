@@ -1,7 +1,7 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import {clickOnContinue} from '../../../pageObjects/shippingaddresspageobj';
-import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
+import { globals } from '../../../jestJcrewQaConfig';
+import {loginFromHomePage} from '../../../pageObjects/loginpageobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 
 
@@ -37,10 +37,11 @@ test('Login with given username and password', async () => {
 
 test('click signout button in MyAccout', async () => {
 //id c-header__userpanelrecognized --hover
-  await driver.sleep(7000)
+  await driver.sleep(3000)
   await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
 //class js-signout__link --button
 await driver.sleep(2000)
+expect(await driver.findElement(By.xpath("//a[@class='js-signout__link']"))).toBeTruthy()
 await driver.findElement(By.xpath("//a[@class='js-signout__link']")).click();
 await driver.sleep(5000)
 
