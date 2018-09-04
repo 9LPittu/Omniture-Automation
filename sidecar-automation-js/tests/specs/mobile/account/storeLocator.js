@@ -19,8 +19,7 @@ test('title is correct', async () => {
   await driver.findElement(By.xpath("//span[text()='menu']")).click()
   await driver.sleep(2000)
   // Store locator link
-  await driver.findElement(By.xpath("//*[@id='global__nav']/div/div[1]/div[3]/a[2]")).click()
-  // await driver.findElement(By.xpath("//*[@id='global__footer']/div/div[2]/div/div[2]/div[1]/ul/li/a")).click()
+  await driver.findElement(By.xpath("//a[text()='STORE LOCATOR']")).click()
   await driver.sleep(4000)
   // Capturing the Current URL
   let url = await driver.getCurrentUrl();

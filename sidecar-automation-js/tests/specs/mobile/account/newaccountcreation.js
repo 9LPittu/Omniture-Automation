@@ -30,21 +30,25 @@ let email = "AutomationTest"+x+"@gmail.com"
     await driver.sleep(1000)
     await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[@class='register-form__label--countrySection']")));
     await driver.sleep(2000)
-    //await driver.executeScript('window.scrollTo(0, -100)')
+    //await driver.executeScript('window.scrollTo(100, 0)')
     //await driver.sleep(1000)
     await driver.findElement(By.xpath("(//*[@id='loyaltysignup'])[1]")).click()
     await driver.sleep(12000)
    console.log ("User created >> " + userName)
-    const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
-    expect(userPannel).toBeTruthy()
-    userPannel.click()
-    await driver.sleep(3000)
+    // const userPannel =   await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))
+    // expect(userPannel).toBeTruthy()
+    // userPannel.click()
+    // await driver.sleep(3000)
     let currentUrl = await driver.getCurrentUrl();
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
       await driver.sleep(1000)
-      //await driver.findElement(By.xpath(".//span[text()='My Details']")).click()
-      await driver.findElement(By.xpath("//div/a[text()='Sign Out']")).click()
+      // Rewards
+      await driver.findElement(By.xpath("//*[@id='page__account']/div/div[2]/nav")).click()
       await driver.sleep(2000)
+      const signOut = await driver.findElement(By.xpath("//*[@id='page__account']/div/div[2]/nav/ul/li[9]/a"))
+      expect(signOut).toBeTruthy()
+      signOut.click()
+      await driver.sleep(1000)
     } else {
       // Rewards
       await driver.findElement(By.xpath("//*[@id='page__account']/div/div[2]/nav")).click()

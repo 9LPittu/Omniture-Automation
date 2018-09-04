@@ -21,7 +21,7 @@ test('Gender Navigation Verification', async () => {
    expect(menuw).toBeTruthy()
    menuw.click()
    await driver.sleep(5000)
-   await driver.findElement(By.xpath("//a[@data-department='women']")).click()
+   await driver.findElement(By.xpath("(//a[@data-department='women'])[1]")).click()
    await  driver.sleep(2000);
    await driver.findElement(By.xpath("//*[@id='global__nav']/div/div[2]/div[3]/ul/div[1]/li[2]/a")).click()
    await  driver.sleep(4000);
@@ -36,7 +36,7 @@ test('Gender Navigation Verification', async () => {
    await driver.findElement(By.xpath("//span[text()='menu']")).click()
    //*[@id="global__nav"]/div/div[2]/div[1]/span[2] Back button
    await driver.sleep(3000)
-   await driver.findElement(By.xpath("//a[@data-department='men']")).click()
+   await driver.findElement(By.xpath("(//a[@data-department='men'])[1]")).click()
    await  driver.sleep(2000);
    await driver.findElement(By.xpath("//*[@id='global__nav']/div/div[2]/div[4]/ul/div[1]/li[2]/a")).click()
    await  driver.sleep(4000);
@@ -50,7 +50,7 @@ test('Gender Navigation Verification', async () => {
    expect(menuG).toBeTruthy()
    await driver.findElement(By.xpath("//span[text()='menu']")).click()
    await driver.sleep(3000)
-   await driver.findElement(By.xpath("//a[@data-department='girls']")).click()
+   await driver.findElement(By.xpath("(//a[@data-department='girls'])[1]")).click()
    await  driver.sleep(2000);
    await driver.findElement(By.xpath("//*[@id='global__nav']/div/div[2]/div[5]/ul/div[1]/li[2]/a")).click()
   await driver.sleep(3000)
@@ -64,7 +64,7 @@ test('Gender Navigation Verification', async () => {
    expect(menuB).toBeTruthy()
    await driver.findElement(By.xpath("//span[text()='menu']")).click()
    await driver.sleep(3000)
-   await driver.findElement(By.xpath("//a[@data-department='boys']")).click()
+   await driver.findElement(By.xpath("(//a[@data-department='boys'])[1]")).click()
    await  driver.sleep(2000);
    await driver.findElement(By.xpath("//*[@id='global__nav']/div/div[2]/div[6]/ul/div[1]/li[2]/a")).click()
    await driver.sleep(3000)
