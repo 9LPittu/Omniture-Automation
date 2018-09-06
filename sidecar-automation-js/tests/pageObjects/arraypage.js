@@ -14,23 +14,28 @@ export const productArrayPage = async () =>{
    } catch (err)
   { }
   let url = await driver.getCurrentUrl();
-  await driver.findElement(By.xpath("//span[text()='search']")).click()
-  await driver.sleep(1000)
   if (url.indexOf("factory.jcrew.com") > -1) {
+    await driver.sleep(1000)
+    await driver.findElement(By.xpath("//span[text()='search']")).click()
+    await driver.sleep(1000)
     await driver.findElement(By.xpath("//input[@class='js-primary-nav__input--search']")).sendKeys("shirts")
-  }else{
-    await driver.findElement(By.xpath("//input[@class='js-primary-nav__input--search']")).sendKeys("pants")
-  }
     await driver.sleep(1000)
     await driver.findElement(By.xpath("//span[text()='search']")).click()
     await driver.sleep(2000)
+  }else{
+    var searchText = await driver.findElement(By.xpath("//input[@class='nc-nav__search__input']"));
+    searchText.sendKeys("pants")
+    await driver.sleep(1000)
+    driver.actions().click(searchText).sendKeys(Key.ENTER).perform();
+  }
+    await driver.sleep(1000)
     const productimage =await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))
     expect(productimage).toBeTruthy()
   };
   export const addProductToBag = async () =>{
     driver.sleep(1000)
     await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
-    driver.sleep(1000)
+    driver.sleep(2000)
     const productsize= await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]"))
     productsize.click()
     await driver.sleep(1000)
@@ -38,11 +43,21 @@ export const productArrayPage = async () =>{
     await driver.sleep(1000)
     };
   export const verifyAndClickOnBag = async () =>{
+    let url = await driver.getCurrentUrl();
+    if (url.indexOf("factory.jcrew.com") > -1) {
       await driver.sleep(1000)
       let bagsize = await driver.findElement(By.xpath("//span[@class='js-cart-size']")).getText()
       console.log("=======Bag size "+bagsize)
       await driver.findElement(By.id("js-header__cart")).click()
       await driver.sleep(1000)
+    }else{
+      await driver.sleep(1000)
+      let bagsize = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__count']")).getText()
+      expect(bagsize).toBeTruthy()
+      console.log("=======Bag size "+bagsize)
+      await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__icon']")).click()
+      await driver.sleep(1000)
+    }
     };
 
     export const addMultiLineItems = async () =>{

@@ -36,22 +36,37 @@ test('Verify User is able to login with valid user credentials', async () => {
     await loginFromHomePage(factory_prod.username,factory_prod.password)
     console.log('user login succesfully')
     }
-  await driver.sleep(2000)
-  await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-  //class js-signout__link --button
+  await driver.sleep(3000)
+  if(url.includes("factory")){
+  const loggedInUser = await driver.findElement(By.id("c-header__userpanelrecognized"))
+  expect(loggedInUser).toBeTruthy()
+  await driver.actions().mouseMove(loggedInUser).perform();
   await driver.sleep(2000)
   const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
   expect(signOut).toBeTruthy()
   signOut.click()
-  //await driver.sleep(10000)
+}else{
+  const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
+  expect(loggedInUser).toBeTruthy()
+  await driver.actions().mouseMove(loggedInUser).perform();
+  await driver.sleep(2000)
+  const signOut = await driver.findElement(By.xpath("//li[5]/a[text()='Sign Out']"))
+  expect(signOut).toBeTruthy()
+  signOut.click()
+}
 
 })
 
    test('Verify User is not able to login with invalid user credentials, display error message', async () => {
        await driver.sleep(3000)
-       //await driver.navigate().to(globals.__baseUrl__)
+       let url = await driver.getCurrentUrl();
+       if(url.includes("factory")){
        await driver.findElement(By.xpath(".//*[text()='sign in']")).click()
-       await driver.sleep(4000)
+       await driver.sleep(3000)
+     }else{
+       await driver.findElement(By.xpath(".//*[text()='Sign In']")).click()
+       await driver.sleep(3000)
+     }
        await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys("dummyemail@gmail.com")
        await driver.findElement(By.xpath("//*[@id='sidecarPassword']")).sendKeys("123456ab")
        await driver.sleep(2000)

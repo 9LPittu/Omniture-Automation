@@ -12,13 +12,6 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
   })
 
   test('Verify Context Chooser functionality ', async () => {
-      /*try {
-        await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(closeIcon => {
-        closeIcon.click()
-        driver.sleep(1000)
-       })
-       } catch (err)
-      { }*/
       await driver.executeScript('window.scrollTo(0, 10000)')
       await driver.sleep(1000)
       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@class='footer__country-context__link']")));

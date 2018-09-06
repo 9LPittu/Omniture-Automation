@@ -39,49 +39,103 @@ test('Login with given username and password', async () => {
    await driver.sleep(8000);
    //click on Address book
    await driver.findElement(By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[6]/a")).click();
-   //await driver.manage().window().maximize()
-   await driver.sleep(5000);
-     try {
-       // click on Add address
-       await driver.executeScript('window.scrollTo(0, 50000)')
-       driver.sleep(1000)
-       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td/table[2]/tbody/tr[1]/td/a")));
-       driver.sleep(1000)
-       await driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td/table[2]/tbody/tr[1]/td/a")).then(addAddress => {
-        addAddress.click()
-        driver.sleep(3000)
-      })
-      } catch (err)
-     { }
+   let url = await driver.getCurrentUrl();
+   if(url.includes("factory")){
+     await driver.sleep(3000);
 
+     if(await driver.findElement(By.xpath("(//img[contains(@src,'btn_edit')])[1]")).isDisplayed()){
+       await driver.findElement(By.xpath("(//img[contains(@src,'btn_edit')])[1]")).click()
+       await driver.sleep(1000)
+       await driver.findElement(By.name("ADDRESS<>firstName")).clear()
+       await driver.findElement(By.name("ADDRESS<>firstName")).sendKeys("testing")
+       await driver.sleep(1000)
+       var parent = driver.getWindowHandle();
+       await driver.findElement(By.xpath("//*[text()='EDIT ADDRESS & SAVE CHANGES']")).click()
+       await driver.sleep(5000)
+       await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
+           driver.switchTo().window(allhandles[allhandles.length - 1]);
+       });
+       await driver.findElement(By.xpath("//a[text()='Use This Address']")).click()
+       await driver.sleep(3000)
+       await driver.switchTo().window(parent)
+       await driver.findElement(By.xpath("//*[text()='EDIT ADDRESS & SAVE CHANGES']")).click()
+       await driver.sleep(1000)
+     }
+   }else{
+     if(await driver.findElement(By.xpath("(//*[text()='EDIT'])[1]")).isDisplayed()){
+       await driver.findElement(By.xpath("(//*[text()='EDIT'])[1]")).click()
+       await driver.sleep(1000)
+       await driver.findElement(By.name("ADDRESS<>firstName")).clear()
+       await driver.findElement(By.name("ADDRESS<>firstName")).sendKeys("testing")
+       await driver.sleep(1000)
+       var parent = driver.getWindowHandle();
+       await driver.findElement(By.xpath("//*[text()='EDIT ADDRESS & SAVE CHANGES']")).click()
+       await driver.sleep(5000)
+       await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
+           driver.switchTo().window(allhandles[allhandles.length - 1]);
+       });
+       await driver.findElement(By.xpath("//a[text()='Use This Address']")).click()
+       await driver.sleep(3000)
+       await driver.switchTo().window(parent)
+       await driver.findElement(By.xpath("//*[text()='EDIT ADDRESS & SAVE CHANGES']")).click()
+       await driver.sleep(1000)
+   }
+}
+
+      if(url.includes("factory")){
+        driver.sleep(1000)
+        await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//img[contains(@src,'btn_add_new_address')]")));
+        driver.sleep(1000)
+        await driver.findElement(By.xpath("//img[contains(@src,'btn_add_new_address')]]")).then(addAddress => {
+         addAddress.click()
+         driver.sleep(3000)
+       })
+      }else{
+        driver.sleep(1000)
+        await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[text()='ADD A NEW ADDRESS']")));
+        driver.sleep(1000)
+        await driver.findElement(By.xpath("//a[text()='ADD A NEW ADDRESS']")).then(addAddress => {
+         addAddress.click()
+         driver.sleep(3000)
+       })
+      }
 // First name
-await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[9]/td/input[3]")).sendKeys("Auto Tester1 FN");
+await driver.findElement(By.name("ADDRESS<>firstName")).sendKeys("Auto Tester1 FN");
 // Last name
-await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[12]/td/input[3]")).sendKeys("Auto Tester1 LN");
+await driver.findElement(By.name("ADDRESS<>lastName")).sendKeys("Auto Tester1 LN");
 // Address
-await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[18]/td/input[3]")).sendKeys("1111 East 60th Street");
+await driver.findElement(By.name("ADDRESS<>address1")).sendKeys("1111 East 60th Street");
 // City
-await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[24]/td/input[3]")).sendKeys("Chicago");
+await driver.findElement(By.name("ADDRESS<>city")).sendKeys("Chicago");
 // State
-await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[27]/td/select")).sendKeys("Illinois");
+await driver.findElement(By.name("ADDRESS<>state_cd")).sendKeys("Illinois");
 // Zip code
-await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[30]/td/input[3]")).sendKeys("60637");
+await driver.findElement(By.name("ADDRESS<>postal")).sendKeys("60637");
 // Phonenumber
-await driver.findElement(By.xpath("//*[@id='phoneText']")).sendKeys("7737029494");
+await driver.findElement(By.name("ADDRESS<>phone")).sendKeys("7737029494");
+var parent = driver.getWindowHandle();
 // Save button
 await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[35]/td/a")).click()
 driver.sleep(5000)
-
-
+await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
+    driver.switchTo().window(allhandles[allhandles.length - 1]);
+});
 // Use this address
-await driver.findElement(By.xpath("//td/table/tbody/tr/td[1]/a[2]")).click();
-// Edit Address
-let editAddress = await driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td[1]/table[1]/tbody/tr[4]/td/a[1]"))
-expect(editAddress).toBeTruthy()
-await driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td[1]/table[1]/tbody/tr[4]/td/a[1]")).click()
-// Save button
+await driver.findElement(By.xpath("//a[text()='Use This Address']")).click()
+driver.sleep(2000)
+await driver.switchTo().window(parent)
 await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[35]/td/a")).click()
-// Edit Address
-let verifyEditAddress = await driver.findElement(By.xpath("//*[@id='containerBorderLeft']/form/table/tbody/tr[1]/td[1]/table[1]/tbody/tr[4]/td/a[1]"))
-expect(verifyEditAddress).toBeTruthy()
+driver.sleep(5000)
+if(url.includes("factory")){
+  await driver.findElement(By.xpath("(//img[contains(@src,'btn_delete')])[2]")).click()
+  driver.sleep(2000)
+}else{
+  await driver.findElement(By.xpath("(//a[text()='DELETE'])[2]")).click()
+  driver.sleep(2000)
+  driver.actions().sendKeys(Key.ENTER).perform();
+  /*Robot robot1 = new Robot();
+  robot1.keyPress(KeyEvent.VK_ENTER);
+  robot1.keyRelease(KeyEvent.VK_ENTER);
+  driver.sleep(2000)*/
+}
 });

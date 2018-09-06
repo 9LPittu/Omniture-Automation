@@ -5,14 +5,19 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 
 
 export const loginFromHomePage = async (username,password) =>{
+  let url = await driver.getCurrentUrl()
+  if(url.indexOf("https://factory.jcrew.com") > -1){
   await driver.findElement(By.xpath(".//span[text()='sign in']")).click()
-  await driver.sleep(2000)
-  await driver.findElement(By.id("sidecarUser")).sendKeys(username)
-  await driver.findElement(By.id("sidecarPassword")).sendKeys(password)
-  //await driver.sleep(1000)
-  await driver.findElement(By.xpath("//button[@class='btn--primary btn--signin js-button-submit']")).click()
-  console.log("Login success")
-  driver.sleep(2000)
+}else{
+  await driver.findElement(By.xpath("//a[text()='Sign In']")).click()
+}
+await driver.sleep(2000)
+await driver.findElement(By.id("sidecarUser")).sendKeys(username)
+await driver.findElement(By.id("sidecarPassword")).sendKeys(password)
+//await driver.sleep(1000)
+await driver.findElement(By.xpath("//button[@class='btn--primary btn--signin js-button-submit']")).click()
+console.log("Login success")
+driver.sleep(2000)
 };
 
 export const loginInAfterCheckoutPage = async (username,password)=>{
@@ -53,7 +58,14 @@ var x = Math.floor((Math.random() * 1000000) + 1);
     await driver.findElement(By.xpath("//*[@id='sidecarRegisterPassword']")).sendKeys("nft123")
     await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[2]/div/form/button")).click()
     await driver.sleep(10000)
-    expect(await driver.findElement(By.xpath("//*[@id='c-header__userpanelrecognized']"))).toBeTruthy()
+    let url = await driver.getCurrentUrl()
+    if(url.includes("factory")){
+    const loggedInUser = await driver.findElement(By.id("c-header__userpanelrecognized"))
+    expect(loggedInUser).toBeTruthy()
+  }else{
+    const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
+    expect(loggedInUser).toBeTruthy()
+  }
     console.log("User is able to create new account")
     console.log ("User created >> " + email)
 }

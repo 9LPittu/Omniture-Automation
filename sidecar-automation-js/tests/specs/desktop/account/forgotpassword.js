@@ -12,11 +12,14 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
   })
 
    test('Verify User is not able to login with invalid user credentials, display error message', async () => {
-
+         let url = await driver.getCurrentUrl();
+         if(url.includes("factory")){
          await driver.findElement(By.xpath(".//*[text()='sign in']")).click()
          await driver.sleep(3000)
-         //await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username5)
-         //await driver.sleep(1000)
+       }else{
+         await driver.findElement(By.xpath(".//*[text()='Sign In']")).click()
+         await driver.sleep(3000)
+       }
          const forgotPasswordLink = await driver.findElement(By.xpath("//a[text()='I forgot my password!']"))
          expect(forgotPasswordLink).toBeTruthy()
          console.log('forgot password link is displayed');

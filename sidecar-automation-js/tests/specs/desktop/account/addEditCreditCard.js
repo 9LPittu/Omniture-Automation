@@ -51,12 +51,12 @@ test('Verify Adding and Editing credit card', async () => {
     let addConfirm1 = await driver.findElement(By.xpath("//*[@id='creditCardList']/table[1]/tbody/tr[3]/td/a[1]")).isDisplayed()
     expect(addConfirm1).toBeTruthy()
     console.log("edited the creditcard from payment methods");
-  }else{
+  }
     try {
       // click on Add new card
-      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//*[@id='creditCardList']/table[2]/tbody/tr[2]/td/input[2]")));
+      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//input[@name='addANewCard']")));
       await driver.sleep(1000);
-      await driver.findElement(By.xpath("//*[@id='creditCardList']/table[2]/tbody/tr[2]/td/input[2]")).then(addNewCard => {
+      await driver.findElement(By.xpath("//input[@name='addANewCard']")).then(addNewCard => {
       addNewCard.click()
       driver.sleep(2000)
      })
@@ -65,18 +65,24 @@ test('Verify Adding and Editing credit card', async () => {
     await driver.findElement(By.xpath("//*[@id='ccNumber']")).sendKeys("4111111111111111")
     await driver.findElement(By.xpath("//*[@id='eXmonth']")).sendKeys(creditcard.expirationMonth)
     await driver.findElement(By.xpath("//*[@id='eXyear']")).sendKeys(creditcard.expirationYear)
-    await driver.findElement(By.xpath("//*[@id='cardholderName']")).sendKeys("AutomationUser")
+    await driver.findElement(By.xpath("//*[@id='cardholderName']")).sendKeys("visa")
     await driver.findElement(By.xpath("//*[@id='selectAddressList']")).sendKeys("45,vstreet")
-    await driver.sleep(2000)
+    await driver.sleep(3000)
     let currentUrl = await driver.getCurrentUrl();
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
       await driver.findElement(By.xpath("//input[@value='ADD NEW CARD & SAVE CHANGES']")).click()
       await driver.sleep(2000)
+      console.log("user added new credit card succesfully")
+      let deletebutton = await driver.findElement(By.xpath("(//img[@name='delete'])[2]"))
+      deletebutton.click()
+      await driver.sleep(2000)
     }else{
       await driver.findElement(By.xpath("//input[@value='Save']")).click()
       await driver.sleep(2000)
+      console.log("user added new credit card succesfully")
+      let deletebutton = await driver.findElement(By.xpath("(//*[text()='DELETE'])[2]"))
+      deletebutton.click()
+      await driver.sleep(2000)
     }
-    expect(await driver.findElement(By.xpath("//*[@id='creditCardList']/table[1]/tbody/tr[3]/td/a[1]"))).toBeTruthy()
-    console.log("user added new credit card succesfully")
-  }
+
 });
