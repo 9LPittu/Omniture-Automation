@@ -10,8 +10,7 @@ import {productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pag
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -37,9 +36,8 @@ test('Login with given username and password', async () => {
   console.log('user login succesfully')
   }
 
-
-
 });
+
 test('Clear the bag items if any products were avilable and Add one product', async () => {
   await clearBagItems();
   console.log('after clearing bagItem')
@@ -71,8 +69,8 @@ test('Goto Billng page and check verify credit/debit card or paypal process', as
       console.log('---')
       await paymentMethod('Paypal');
       console.log('After payment Method')
+ });
 
-
-
-
-});
+ afterAll(async () => {
+  await driver.quit()
+})

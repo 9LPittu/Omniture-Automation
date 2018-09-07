@@ -5,7 +5,7 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod,creditcard } from '../.
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
     await load();
     await driver.sleep(2000)
     expect(await driver.getTitle()).toMatch('J.Crew')
@@ -86,3 +86,7 @@ test('Verify Adding and Editing credit card', async () => {
     }
 
 });
+
+afterAll(async () => {
+  await driver.quit()
+})

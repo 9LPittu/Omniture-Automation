@@ -28,3 +28,7 @@ beforeAll(async () => {
         console.log("User navigates to login page")
       }
     });
+
+    afterAll(async () => {
+      await driver.quit()
+    })

@@ -54,3 +54,7 @@ beforeAll(async () => {
        expect(youractivitytab).toBeTruthy()
        console.log("Your Rewards, Your Benefits and Your Activity tabs are displayed on account rewars page");
     })
+
+    afterAll(async () => {
+      await driver.quit()
+    })

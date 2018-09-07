@@ -10,7 +10,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 
 
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -80,3 +80,7 @@ export const addGuestFirstAddress = async () =>{
               await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")).click()
 
 }
+
+afterAll(async () => {
+  await driver.quit()
+})

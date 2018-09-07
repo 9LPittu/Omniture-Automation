@@ -8,7 +8,7 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testda
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -49,3 +49,7 @@ test('verify shopping tongue issue was not there', async () => {
   expect(shoppingTonge).toBeTruthy()
   console.log("shopping tonge is displayed")
 });
+
+afterAll(async () => {
+  await driver.quit()
+})

@@ -28,3 +28,8 @@ beforeAll(async () => {
       expect(productaddtowishlist).toBeTruthy()
       console.log("User is able to navigate to quick shop from arraypage")
    })
+
+   
+   afterAll(async () => {
+    await driver.quit()
+  })

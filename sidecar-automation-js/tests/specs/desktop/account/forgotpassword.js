@@ -5,7 +5,7 @@ import { logindetails } from '../../../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
- test('title is correct', async () => {
+ beforeAll(async () => {
    await load();
    await driver.sleep(2000)
     expect(await driver.getTitle()).toMatch('J.Crew')
@@ -38,4 +38,9 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 
          newPasswordText.includes(logindetails.username5)
          console.log("new password sent to user email")
+    })
+
+    
+    afterAll(async () => {
+      await driver.quit()
     })

@@ -8,7 +8,7 @@ import {productArrayPage} from '../../../pageObjects/arraypage';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -60,3 +60,7 @@ test('verify write a review functionality', async () => {
   }
 
 });
+
+afterAll(async () => {
+  await driver.quit()
+})

@@ -7,7 +7,7 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testda
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
 
    await load();
    console.log('Home page loaded proprely')
@@ -49,3 +49,7 @@ subscribebutton.click()
 await driver.sleep(2000)
 
 });
+
+afterAll(async () => {
+  await driver.quit()
+})

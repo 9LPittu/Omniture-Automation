@@ -38,3 +38,8 @@ beforeAll(async () => {
       console.log("cleared the bag items")
       }
      })
+
+     
+     afterAll(async () => {
+      await driver.quit()
+    })

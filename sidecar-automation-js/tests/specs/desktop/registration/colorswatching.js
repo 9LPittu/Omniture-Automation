@@ -6,9 +6,7 @@ import { productArrayPage } from '../../../pageObjects/arraypage';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-
-
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -23,3 +21,7 @@ test('verify color swatch is Displayed in pdp page on hovering the product', asy
    expect(await driver.findElement(By.xpath("//ul[@class='product__colors colors-list']/li/img")).isDisplayed()).toBeTruthy();
     console.log('color swatch is Displayed')
 });
+
+afterAll(async () => {
+  await driver.quit()
+})

@@ -36,3 +36,7 @@ beforeAll(async () => {
       expect(myaccount).toBeTruthy()
       console.log("Logged in to application using loyalty lightbox successfully")
     })
+
+    afterAll(async () => {
+      await driver.quit()
+    })

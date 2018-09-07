@@ -7,7 +7,7 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testda
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('Go to home page', async () => {
+beforeAll(async () => {
     await load();
     await driver.sleep(2000)
     expect(await driver.getTitle()).toMatch('J.Crew')
@@ -139,3 +139,8 @@ if(url.includes("factory")){
   driver.sleep(2000)*/
 }
 });
+
+
+afterAll(async () => {
+  await driver.quit()
+})

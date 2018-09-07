@@ -33,3 +33,8 @@ beforeAll(async () => {
     expect(await driver.findElement(By.xpath("(//ul[@class='product__colors colors-list'])[2]"))).toBeTruthy()
     expect(await driver.findElement(By.xpath("(//div[@class='c-sizes-list'])[2]"))).toBeTruthy()
   })
+
+  
+  afterAll(async () => {
+    await driver.quit()
+  })

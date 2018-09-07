@@ -3,7 +3,7 @@ import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { creditcard ,guestuser } from '../../../testdata/jcrewTestData';
 import {createNewAccount} from '../../../pageObjects/loginPageObj'
-const each = require('jest-each')
+
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
 

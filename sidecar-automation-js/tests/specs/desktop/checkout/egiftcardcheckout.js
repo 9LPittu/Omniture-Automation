@@ -42,7 +42,7 @@ beforeAll(async () => {
   }
     await driver.sleep(3000)
 
-       let currentUrl = await driver.getCurrentUrl();
+   //    let currentUrl = await driver.getCurrentUrl();
        await driver.executeScript('window.scrollTo(0, 20000)')
         await driver.sleep(2000)
         await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")));
@@ -111,3 +111,8 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
       console.log("order Id  > " + orderNumberLet)
       }
    })
+
+   
+   afterAll(async () => {
+    await driver.quit()
+  })

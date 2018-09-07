@@ -6,7 +6,7 @@ import { productArrayPage } from '../../../pageObjects/arraypage';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -43,3 +43,7 @@ test('verifying sort and filter functionality', async () => {
   console.log("Sort functionality is working")
 
 });
+
+afterAll(async () => {
+  await driver.quit()
+})

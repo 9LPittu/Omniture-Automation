@@ -42,3 +42,7 @@ beforeAll(async () => {
       console.log("user navigated to FAQs page");
       await driver.sleep(2000)
     })
+
+    afterAll(async () => {
+      await driver.quit()
+    })

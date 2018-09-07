@@ -8,27 +8,10 @@ import { guestuser } from '../../../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
-
 });
-// test('Login with given username and password', async () => {
-//   let url = await driver.getCurrentUrl();
-//
-//   if (url.indexOf("www.jcrew.com") > -1) {
-//
-//     await loginFromHomePage(www.username,www.password)
-//     console.log('user login succesfully')
-//   }else{
-//
-//   await loginFromHomePage(or.username,or.password)
-//   console.log('user login succesfully')
-//   }
-//
-//
-//
-// });
 
 
 test('verify ship to mutiple Address functionality', async () => {
@@ -74,7 +57,6 @@ await driver.findElement(By.id("shipAddress0")).isDisplayed();
 
 export const addProductTobag = async () =>{
   let currentUrl = await driver.getCurrentUrl();
-  ////FirstProduct
   await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
   driver.sleep(2000);
 
@@ -157,3 +139,7 @@ function selectByVisibleText(select, textDesired) {
         });
     });
 }
+
+afterAll(async () => {
+  await driver.quit()
+})

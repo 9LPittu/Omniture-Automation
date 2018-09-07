@@ -10,7 +10,7 @@ const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
 let sleeptime = 7000;
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
@@ -98,3 +98,7 @@ try {
 
       }
    })
+
+   afterAll(async () => {
+    await driver.quit()
+  })

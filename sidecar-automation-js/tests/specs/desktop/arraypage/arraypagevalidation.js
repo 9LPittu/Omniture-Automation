@@ -31,3 +31,7 @@ beforeAll(async () => {
     await driver.sleep(2000)
 
      })
+
+     afterAll(async () => {
+      await driver.quit()
+    })

@@ -7,7 +7,7 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testda
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -50,3 +50,7 @@ await driver.sleep(5000)
 test('verify signout happened succesfully', async () => {
 expect(await driver.findElement(By.xpath(".//span[text()='sign in']")).isDisplayed()).toBeTruthy();
   });
+
+  afterAll(async () => {
+    await driver.quit()
+  })

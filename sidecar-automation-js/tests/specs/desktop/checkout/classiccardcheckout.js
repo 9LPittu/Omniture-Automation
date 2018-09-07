@@ -100,3 +100,8 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
       console.log("order Id  > " + orderNumberLet)
       }
    })
+
+   
+   afterAll(async () => {
+    await driver.quit()
+  })

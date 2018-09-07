@@ -12,7 +12,7 @@ import { productArrayPage, addProductToBag,verifyAndClickOnBag} from '../../../p
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -65,3 +65,7 @@ test('Goto Billng page and check verify credit/debit card or paypal process', as
       console.log('After payment Method')
 
 });
+
+afterAll(async () => {
+  await driver.quit()
+})

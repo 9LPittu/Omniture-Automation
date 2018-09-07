@@ -5,7 +5,7 @@ import { globals } from '../../../jestJcrewQaConfig';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -27,3 +27,7 @@ test('verifying search functionality', async () => {
   expect(await driver.findElement(By.id("page__search")).isDisplayed()).toBeTruthy();
   console.log("search functionality is working")
  });
+
+ afterAll(async () => {
+  await driver.quit()
+})

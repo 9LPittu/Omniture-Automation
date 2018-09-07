@@ -7,7 +7,7 @@ import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testda
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-test('navigate to home page', async () => {
+beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 
@@ -40,11 +40,12 @@ expect(await driver.findElement(By.xpath("//ul/li[2]/a[text()='My Details']")).i
 await driver.findElement(By.partialLinkText("My Details")).click();
 await driver.sleep(2000);
 let currentUrl = await driver.getCurrentUrl();
-if(currentUrl.includes("r/account/details")){
+if(currentUrl.includes("r/account/details")) {
   expect(await driver.findElement(By.xpath("//div/div/div[@class='account__my-details--header']"))).toBeTruthy()
   console.log("User navigates to My Details page")
-}
-
-
-
+  }
 });
+
+afterAll(async () => {
+  await driver.quit()
+})
