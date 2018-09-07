@@ -31,8 +31,6 @@ test('title is correct', async () => {
       await driver.sleep(2000)
       driver.findElement(By.id("senderName")).sendKeys("tester1")
       await driver.sleep(2000)
-      //await driver.executeScript("arguments[0].scrollIntoView(true);",await driver.findElement(By.id("RecipientName")));
-      //await driver.sleep(2000)
       driver.findElement(By.id("RecipientName")).sendKeys("tester2")
       await driver.sleep(2000)
       driver.findElement(By.xpath("//input[@id='submitClassic']")).click()

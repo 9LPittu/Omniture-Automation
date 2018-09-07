@@ -8,14 +8,6 @@ import {productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pag
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-//describe('index', () => {
-//  it('title is correct', async () => {
-//    await load();
-//    expect(await driver.getTitle()).toMatch('J.Crew');
-//  });
-//});
-
-
 test('title is correct', async () => {
   await load();
   await driver.sleep(2000)

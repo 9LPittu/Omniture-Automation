@@ -2,6 +2,9 @@ import { driver, defaultTimeout } from '../../../helpers';
 import { load, amount200 } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
+import { loginFromHomePage,loginInAfterCheckoutPage} from '../../../pageObjects/loginPageObj';
+import { verifyAndClickOnBag} from '../../../pageObjects/arraypage';
+
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -13,26 +16,34 @@ beforeAll(async () => {
  })
 
   test('eGiftCard Checkout - Express User', async () => {
-    
-    await driver.navigate().to(globals.__baseUrl__+"/r/login")
+
+    await loginFromHomePage(logindetails.username1,logindetails.password1)
     await driver.sleep(2000)
-    await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username1)
-    await driver.findElement(By.xpath("//*[@id='sidecarPassword']")).sendKeys(logindetails.password1)
-    await driver.sleep(2000)
-    await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[1]/div/form/button")).click()
-    await driver.sleep(4000)
     await driver.navigate().to(globals.__baseUrl__+"/CleanPersistentCart.jsp")
     await driver.sleep(11000)
-    await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-    //class js-signout__link --button
+    let currentUrl = await driver.getCurrentUrl();
+
+    if(currentUrl.includes("factory")){
+    const loggedInUser = await driver.findElement(By.id("c-header__userpanelrecognized"))
+    expect(loggedInUser).toBeTruthy()
+    await driver.actions().mouseMove(loggedInUser).perform();
     await driver.sleep(2000)
     const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
     expect(signOut).toBeTruthy()
     signOut.click()
+  }else{
+    const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
+    expect(loggedInUser).toBeTruthy()
+    await driver.actions().mouseMove(loggedInUser).perform();
+    await driver.sleep(2000)
+    const signOut = await driver.findElement(By.xpath("//li[5]/a[text()='Sign Out']"))
+    expect(signOut).toBeTruthy()
+    signOut.click()
+  }
     await driver.sleep(3000)
 
        let currentUrl = await driver.getCurrentUrl();
-       await driver.executeScript('window.scrollTo(0, 50000)')
+       await driver.executeScript('window.scrollTo(0, 20000)')
         await driver.sleep(2000)
         await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")));
         await driver.sleep(2000)
@@ -40,8 +51,6 @@ beforeAll(async () => {
           await driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
            await driver.sleep(5000)
         } catch(err) {}
-
-  // driver.navigate().to("https://or.jcrew.com/help/gift_card.jsp?sidecar=true")
     await driver.sleep(3000)
     driver.sleep(2000);
     try {
@@ -57,11 +66,6 @@ beforeAll(async () => {
 
     await driver.findElement(By.xpath("(//*[@id='amount25'])[2]")).click()
       await driver.sleep(3000)
-  //    await driver.findElement(By.xpath("//*[@id='amount25']")).click()
-//      await driver.actions().mouseMove(await driver.wait(until.elementLocated(amount200), defaultTimeout)).perform();
-//      await driver.sleep(3000)
-//      await driver.findElement(By.xpath("//*[@id='amount200']")).click()
-
       var date = new Date()
       await driver.findElement(By.xpath("//*[@id='senderNameEgc']")).sendKeys("test")
       await driver.findElement(By.xpath("//*[@id='RecipientNameEgc']")).sendKeys("recipient test")
@@ -71,24 +75,13 @@ beforeAll(async () => {
       //*[@id="submitClassic"]
       await driver.findElement(By.id("submitEgift")).click()
       await driver.sleep(3000)
-      await driver.findElement(By.id("js-header__cart")).click()
-      await driver.sleep(3000)
+      await verifyAndClickOnBag()
+      await driver.sleep(1000)
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-      await driver.sleep(6000)
-      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username1)
-      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password1)
       await driver.sleep(2000)
-      await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
-      await driver.sleep(3000)
-try {
-  await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[2]")).then(mergebutton => {
-  // console.log("inside merge page")
-   mergebutton.click()
-   driver.sleep(3000)
-   driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-   })
- } catch (err)
-{ }
+      await loginInAfterCheckoutPage(logindetails.username1,logindetails.password1)
+      await driver.sleep(2000)
+
 if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
 
  try {

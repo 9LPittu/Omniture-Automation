@@ -96,26 +96,7 @@ test('title is correct', async () => {
           throw err
         }
       })
-/*
-      test('Blog links to blog page', async () => {
-        try {
-          let currentUrl = await driver.getCurrentUrl();
-        if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-          console.log("No blog links for factory")
-          } else {
-          const subnav = await driver.findElement(By.className(
-            "c-header__department-nav js-header__department-nav"
-          ))
-          await subnav.findElement(By.linkText('BLOG')).click()
-          await driver.sleep(2000)
-          await driver.getCurrentUrl().then(url => {
-            expect(url.match('hello')).toBeTruthy()
-          })
-        }
-        } catch (err) {
-          throw err
-        }
-      }) */
+
     })
 
 afterAll(async () => {

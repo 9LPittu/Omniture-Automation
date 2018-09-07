@@ -26,6 +26,7 @@ export const loginInAfterCheckoutPage = async (username,password)=>{
   let signInHere = await driver.findElement(By.xpath("//a[@class='button-general button-submit']"))
   inputEmail.sendKeys(username)//"testuser1@example.org")
   inputPassword.sendKeys(password)//"test1234")
+  driver.sleep(1000)
   signInHere.click()
   //expect(await driver.getTitle()).toMatch('J.Crew - Sign In')
   console.log('sign in Done')

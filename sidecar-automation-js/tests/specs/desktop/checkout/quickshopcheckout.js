@@ -17,7 +17,7 @@ test('title is correct', async () => {
 
   test('Quick shop Checkout - Express User', async () => {
       await productArrayPage();
-      await driver.sleep(3000)
+      await driver.sleep(1000)
       await driver.actions().mouseMove(await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[4]"))).perform();
       const quickbutton = driver.findElement(By.xpath("//button[@class='c-product-tile__quickshop js-product-tile-quickshop']/div"))
       await driver.wait(until.elementIsVisible(quickbutton), defaultTimeout)

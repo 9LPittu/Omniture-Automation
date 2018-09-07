@@ -13,9 +13,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
-  //await driver.manage().window().maximize()
-  //await driver.sleep(2000)
-   expect(await driver.getTitle()).toMatch('J.Crew')
+  expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
   test('sts Checkout', async () => {
@@ -42,7 +40,9 @@ await driver.sleep(3000)
 await driver.findElement(By.xpath("//a[@id='order-summary__button-continue']")).click()
 await driver.sleep(3000)
 let currentUrl = await driver.getCurrentUrl();
-if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+if(currentUrl.includes("factory")){
+  console.log("Ship to store functionality is not available in Factory")
+}else if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
 
  try {
          await driver.findElement(By.xpath("//*[@id='securityCode']")).then(securitycode => {

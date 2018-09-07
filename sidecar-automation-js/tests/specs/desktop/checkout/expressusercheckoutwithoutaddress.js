@@ -20,6 +20,7 @@ test('title is correct', async () => {
       await productArrayPage();
       await addProductToBag();
       await verifyAndClickOnBag();
+      await driver.sleep(1000)
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(2000)
        await driver.findElement(By.xpath("//input[@id='firstNameSA']")).sendKeys(guestuser.firstNameSA)

@@ -1,6 +1,8 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
+import { loginFromHomePage } from '../../../pageObjects/loginPageObj';
+import { productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
 
 
 const each = require('jest-each')
@@ -13,19 +15,26 @@ beforeAll(async () => {
  })
   test('Clean Bag', async () => {
     let i =1;
-  let userName = "PerfTest"+i
-   let email = "Perftest"+i+"@gmail.com"
-      await driver.navigate().to(globals.__baseUrl__+"/r/login")
+    let userName = "PerfTest"+i
+    let email = "Perftest"+i+"@gmail.com"
+    let password = "nft123"
+      await loginFromHomePage(email,password)
+      await driver.sleep(3000)
+      await productArrayPage()
+      await addProductToBag()
+      await verifyAndClickOnBag()
       await driver.sleep(2000)
-      await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(email)
-      await driver.findElement(By.xpath("//*[@id='sidecarPassword']")).sendKeys("nft123")
-      await driver.sleep(2000)
-      await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[1]/div/form/button")).click()
-      await driver.sleep(4000)
       await driver.navigate().to(globals.__baseUrl__+"/CleanPersistentCart.jsp")
       await driver.sleep(12000)
+
       let currentUrl = await driver.getCurrentUrl();
-      if(currentUrl==globals.__baseUrl__+"/"){
-        console.log("cleared the bag")
+      if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+      await driver.sleep(1000)
+      expect(await driver.findElement(By.xpath("//span[@class='js-cart-size']")).isDisplayed()).not.toBeTruthy();
+      console.log("cleared the bag items")
+    }else{
+      await driver.sleep(1000)
+      expect(await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__count']")).isDisplayed()).not.toBeTruthy();
+      console.log("cleared the bag items")
       }
      })

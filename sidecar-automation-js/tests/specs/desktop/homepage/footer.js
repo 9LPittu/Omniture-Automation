@@ -17,57 +17,8 @@ test('title is correct', async () => {
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-/*
-    test('Twitter is working', async () => {
-      await driver.executeScript('window.scrollTo(0, 20000)')
-        await driver.sleep(2000)
-      const footer = await driver.findElement(By.tagName('footer'))
-      const contact = footer.findElement(By.id('c-footer__twitter'))
-      expect(contact).toBeTruthy()
-      await driver.actions({ bridge: true }).move({origin: contact}).click().perform()
-      await driver.getCurrentUrl( url => {
-        expect(url.match('https://twitter.com/jcrew_help')).toBeTruthy()
-      })
-      await driver.navigate().back()
-    })
-    */
-
-/* new code
-
-    test('Phone is working', async () => {
-      await driver.executeScript('window.scrollTo(0, 20000)')
-        await driver.sleep(2000)
-       const footer = await driver.findElement(By.id('global__footer'))
-       const phone = footer.findElement(By.className('footer__help__item footer__help__item--phone'))
-       expect(phone).toBeTruthy()
-       const aTag = await phone.findElement(By.tagName('a'))
-       await aTag.getAttribute('href').then( link => {
-           expect(link.replace(/%20/g, ' ')).toMatch('tel:1 800 562 0258')
-         })
-     })
-
-
-     test('Email is working', async () => {
-      const footer = await driver.findElement(By.id('global__footer'))
-       const email = footer.findElement(By.xpath("//*[@id='c-footer__email']/a"))
-       expect(email).toBeTruthy()
-//       const aTag = email.findElement(By.tagName('a'))
-       await email.getAttribute('href').then( mail => {
-         expect(mail).toMatch('mailto:help@jcrew.com')
-       })
-     })
-
-     test('Twitter is working', async () => {
-       const footer = await driver.findElement(By.id('global__footer'))
-       const twitter = footer.findElement(By.id('footer__help__item footer__help__item--twitter'))
-       expect(twitter).toBeTruthy()
-     })
-     */
-
      test('Order Status is visible and url direct to right url', async () => {
        await driver.executeScript('window.scrollTo(0, 20000)')
-
-       //const orderstatuslink = driver.findElement(By.xpath("//div[text()='Order Status']"))
        await driver.sleep(2000)
        await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[text()='Order Status']")));
        await driver.sleep(2000)

@@ -78,7 +78,7 @@ try {
 
       }
          await driver.sleep(sleeptime)
-        // await driver.findElement(By.xpath("//*[@id='securityCode']")).sendKeys(creditcard.pin)
+        
         if (currentUrl.indexOf("factory.jcrew.com") > -1) {
           console.log(">> inside factory")
           await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
