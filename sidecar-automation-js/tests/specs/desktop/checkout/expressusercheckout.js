@@ -67,10 +67,18 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
 
 
          await driver.sleep(1000)
-         await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-         //class js-signout__link --button
+         let url = await driver.getCurrentUrl();
+         if(url.includes("factory")){
+         const loggedInUser = await driver.findElement(By.id("c-header__userpanelrecognized"))
+         expect(loggedInUser).toBeTruthy()
+         await driver.actions().mouseMove(loggedInUser).perform();
          await driver.sleep(2000)
-
+       }else{
+         const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
+         expect(loggedInUser).toBeTruthy()
+         await driver.actions().mouseMove(loggedInUser).perform();
+         await driver.sleep(2000)
+       }
          const orderHistory = await driver.findElement(By.xpath("(//a[text()='Order History'])[1]"))
          expect(orderHistory).toBeTruthy()
          orderHistory.click()
@@ -122,7 +130,7 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
       }
    })
 
-   
+
    afterAll(async () => {
     await driver.quit()
   })

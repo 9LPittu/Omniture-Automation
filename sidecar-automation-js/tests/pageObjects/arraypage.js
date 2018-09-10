@@ -134,7 +134,14 @@ export const productArrayPage = async () =>{
           await driver.sleep(3000)
           productaddtobag.click()
           await driver.sleep(3000)
-          let bagSize = await driver.findElement(By.xpath("//span[@class='js-cart-size']")).getText()
-          console.log ("Bag Size >> " + bagSize)
-          expect(bagSize).toBeTruthy()
       }
+
+      export const selectSuitsFromCategory = async ()=> {
+      await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
+      let currentUrl = await driver.getCurrentUrl();
+    if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+     await driver.findElement(By.xpath("//span[text()='Thompson Suits & Blazers']")).click()
+   } else {
+   await driver.findElement(By.xpath("//span[text()='suits & tuxedos']")).click()
+ }
+}

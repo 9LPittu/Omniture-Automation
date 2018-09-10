@@ -2,7 +2,7 @@ import { driver, defaultTimeout } from '../../../helpers';
 import { load, closeIcon, categorymen, moduleexports } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
-import { productArrayPage } from '../../../pageObjects/arraypage'
+import { productArrayPage,verifyAndClickOnBag } from '../../../pageObjects/arraypage'
 import { loginInAfterCheckoutPage } from '../../../pageObjects/loginPageObj'
 import { mergeButton } from '../../../pageObjects/ShoppingBagObj'
 
@@ -30,7 +30,9 @@ test('Quick shop Checkout - Express User', async () => {
   await driver.sleep(3000)
   await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
   await driver.sleep(3000)
-  await driver.findElement(By.id("js-header__cart")).click()
+  //let url = await driver.getCurrentUrl()
+  await verifyAndClickOnBag()
+  //await driver.findElement(By.id("js-header__cart")).click()
   await driver.sleep(3000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.sleep(6000)

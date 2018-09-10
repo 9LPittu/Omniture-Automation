@@ -1,7 +1,7 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { addsaleitemsToBag } from '../../../pageObjects/arraypage';
+import { addsaleitemsToBag,verifyAndClickOnBag } from '../../../pageObjects/arraypage';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -14,7 +14,8 @@ beforeAll(async () => {
 
   test('Adding single / multiple items from Sale category', async () => {
     await addsaleitemsToBag()
-
+    await driver.sleep(1000)
+    await verifyAndClickOnBag()
    })
 
    afterAll(async () => {

@@ -17,13 +17,13 @@ beforeAll(async () => {
       await addProductToBag()
       await verifyAndClickOnBag()
       await driver.executeScript('window.scrollTo(0, 200)')
-      await driver.sleep(4000)
+      await driver.sleep(10000)
       expect(await driver.findElement(By.xpath("//h1[contains(text(),'Like the above?')]"))).toBeTruthy()
       expect(await driver.findElement(By.xpath("(//a[@data-qs-location='Shopping Bag - Recommendations']/img)[1]"))).toBeTruthy()
       console.log("baynoterecommendations are displaying in shopping bag page");
    })
 
-   
+
    afterAll(async () => {
     await driver.quit()
   })

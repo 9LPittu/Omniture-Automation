@@ -44,9 +44,8 @@ beforeAll(async () => {
       await driver.sleep(sleeptime)
       await loginInAfterCheckoutPage(logindetails.username,logindetails.password)
       await driver.sleep(sleeptime)
-
 try {
-  await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[1]")).then(mergebutton => {
+  await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[2]")).then(mergebutton => {
    mergebutton.click()
    driver.sleep(sleeptime)
    driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
@@ -78,7 +77,7 @@ try {
 
       }
          await driver.sleep(sleeptime)
-        
+
         if (currentUrl.indexOf("factory.jcrew.com") > -1) {
           console.log(">> inside factory")
           await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()

@@ -35,11 +35,22 @@ beforeAll(async () => {
       await driver.sleep(2000)
       driver.findElement(By.xpath("//input[@id='submitClassic']")).click()
       await driver.sleep(2000)
-      driver.findElement(By.id("js-header__cart")).click()
-      await driver.sleep(2000)
-      let bagSize = await driver.findElement(By.xpath("//span[@class='js-cart-size']")).getText()
-      console.log ("Bag Size >> " + bagSize)
-      expect(bagSize).toBeTruthy()
+      let url = await driver.getCurrentUrl();
+      if (url.indexOf("factory.jcrew.com") > -1) {
+        await driver.findElement(By.id("js-header__cart")).click()
+        await driver.sleep(1000)
+        let bagsize = await driver.findElement(By.xpath("//span[@class='js-cart-size']")).getText()
+        console.log("=======Bag size "+bagsize)
+        expect(bagSize).toBeTruthy()
+      }else{
+        await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__icon']")).click()
+        await driver.sleep(1000)
+        let bagsize = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__count']")).getText()
+        expect(bagsize).toBeTruthy()
+        console.log("=======Bag size "+bagsize)
+        expect(bagSize).toBeTruthy()
+      }
+
    })
 
    afterAll(async () => {

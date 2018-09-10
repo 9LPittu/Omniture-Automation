@@ -28,7 +28,10 @@ beforeAll(async () => {
       await driver.sleep(12000)
 
       let currentUrl = await driver.getCurrentUrl();
-      if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+      if(currentUrl==globals.__baseUrl__){
+        console.log("cleared bag")
+      }
+    /*  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
       await driver.sleep(1000)
       expect(await driver.findElement(By.xpath("//span[@class='js-cart-size']")).isDisplayed()).not.toBeTruthy();
       console.log("cleared the bag items")
@@ -36,10 +39,10 @@ beforeAll(async () => {
       await driver.sleep(1000)
       expect(await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__count']")).isDisplayed()).not.toBeTruthy();
       console.log("cleared the bag items")
-      }
+    } */
      })
 
-     
+
      afterAll(async () => {
       await driver.quit()
     })

@@ -36,7 +36,7 @@ test('Login with given username and password', async () => {
 });
 
  test('Verify Adding Editing Shipping addresses', async () => {
-   await driver.sleep(8000);
+   await driver.sleep(10000);
    //click on Address book
    await driver.findElement(By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[6]/a")).click();
    let url = await driver.getCurrentUrl();
