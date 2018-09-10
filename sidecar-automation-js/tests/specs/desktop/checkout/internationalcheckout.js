@@ -85,10 +85,14 @@ try {
           await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
         }
         await driver.sleep(sleeptime)
+      try {
         const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
         expect(bizrate).toBeTruthy()
         bizrate.click()
         await driver.sleep(2000)
+      } catch (err) {
+        
+      }
        let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
 
            console.log("order Id  > " + orderNumberLet)

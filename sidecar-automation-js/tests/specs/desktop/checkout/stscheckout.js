@@ -16,7 +16,7 @@ beforeAll(async () => {
   expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
-test('sts Checkout', async () => {
+test('ship to store Checkout', async () => {
   await productArrayPage();
   await addProductToBag();
   await verifyAndClickOnBag();
@@ -47,7 +47,7 @@ test('sts Checkout', async () => {
     try {
       await driver.findElement(By.xpath("//*[@id='securityCode']")).then(securitycode => {
         //        console.log("inside securitycode")
-        console.log(securitycode.isDisplayed());
+    //    console.log(securitycode.isDisplayed());
         if (securitycode.isDisplayed()) {
           securitycode.sendKeys(creditcard.pin)
         }
@@ -63,11 +63,13 @@ test('sts Checkout', async () => {
         await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
       }
       await driver.sleep(4000)
+      try {
       //await driver.sleep(sleeptime)
       const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
       expect(bizrate).toBeTruthy()
       bizrate.click()
       await driver.sleep(2000)
+      } catch (err) {}
       let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
       console.log("order Id  > " + orderNumberLet)
     }
