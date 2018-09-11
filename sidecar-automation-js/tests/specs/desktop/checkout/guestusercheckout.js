@@ -73,10 +73,12 @@ try {
          }
 
         await driver.sleep(4000)
+        try {
         const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
         expect(bizrate).toBeTruthy()
         bizrate.click()
         await driver.sleep(2000)
+        } catch (err) { }
         let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
         console.log("order Id let > " + orderNumberLet)
         expect(await driver.findElement(By.xpath("//h2[text()='Register Now']"))).toBeTruthy()
