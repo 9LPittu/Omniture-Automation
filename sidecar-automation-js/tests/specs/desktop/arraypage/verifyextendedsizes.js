@@ -26,7 +26,7 @@ beforeAll(async () => {
       }
       await driver.sleep(1000)
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
-      await driver.sleep(5000)
+      await driver.sleep(3000)
       const extendedSizes = await driver.findElement(By.xpath("(//li[contains(@class,'js-product__variation') and not(contains(@class,'is-selected'))])[1]"))
       expect(extendedSizes).toBeTruthy()
       extendedSizes.click()
@@ -39,7 +39,7 @@ beforeAll(async () => {
 
      })
 
-     
+
      afterAll(async () => {
       await driver.quit()
     })

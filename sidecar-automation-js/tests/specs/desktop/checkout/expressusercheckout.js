@@ -13,6 +13,7 @@ let shippingOnReview ;
 let taxOnReview;
 let totalOnReview;
 let currentUrl;
+let orderNumberLet;
 
 beforeAll(async () => {
   await load();
@@ -58,22 +59,22 @@ test('Express User Checkout and verifying order summary and order history', asyn
     expect(bizrate).toBeTruthy()
     bizrate.click()
     await driver.sleep(2000)
-    } catch (err) 
+    } catch (err)
     {  }
-    let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
+    orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
     console.log("order Id  > " + orderNumberLet)
     await driver.sleep(1000)
-   //* order histroy Verification 
-  
+   //* order histroy Verification
+
 
   }
 })
 
 test('Verify Order Summary', async () => {
-  let subTotalOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-subtotal clearfix']/span[2]")).getText();
-    let shippingOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-shipping clearfix']/span[2]")).getText();
-    let taxOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item clearfix']/span[2]")).getText();
-    let totalOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-total clearfix']/span[2]")).getText();
+   let subTotalOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-subtotal clearfix']/span[2]")).getText();
+   let shippingOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-shipping clearfix']/span[2]")).getText();
+   let taxOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item clearfix']/span[2]")).getText();
+   let totalOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-total clearfix']/span[2]")).getText();
 
     if (subTotalOnReview == subTotalOnOrderComplete && shippingOnReview == shippingOnOrderComplete && taxOnReview == taxOnOrderComplete && totalOnReview == totalOnOrderComplete) {
       console.log("Order summary verified");

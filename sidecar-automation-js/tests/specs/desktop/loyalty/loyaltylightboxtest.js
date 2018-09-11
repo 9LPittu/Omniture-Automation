@@ -30,7 +30,7 @@ beforeAll(async () => {
     }
       driver.sleep(1000)
       await driver.findElement(By.xpath("//*[text()='Join Now']")).click();
-      driver.sleep(10000)
+      driver.sleep(15000)
       console.log ("Loyalty User created from lightbox >> " + email)
       const myaccount = await driver.findElement(By.xpath("//*[text()='My Account']"))
       expect(myaccount).toBeTruthy()

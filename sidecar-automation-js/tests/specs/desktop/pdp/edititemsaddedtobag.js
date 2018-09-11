@@ -23,11 +23,11 @@ beforeAll(async () => {
       await driver.sleep(2000)
       await driver.findElement(By.xpath("//button[contains(text(),'Update Bag')]")).click()
       await driver.sleep(2000)
-      let colorNameAfterEdit = await driver.findElement(By.xpath("//ul[@class='item-description']/li[3]/span")).getText()
+    /*  let colorNameAfterEdit = await driver.findElement(By.xpath("//ul[@class='item-description']/li[3]/span")).getText()
       await driver.sleep(2000)
       if(!(colrNameBeforeEdit==colorNameAfterEdit)){
       console.log ("Color displayed in chip box after edited the item color >> ")
-      }
+    }*/
    })
 
    afterAll(async () => {

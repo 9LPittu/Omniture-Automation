@@ -32,24 +32,33 @@ test('Login with given username and password', async () => {
   await loginFromHomePage(factory_prod.username,factory_prod.password)
   console.log('user login succesfully')
   }
-
 });
 
 test('click signout button in MyAccout', async () => {
-//id c-header__userpanelrecognized --hover
-  await driver.sleep(3000)
-  await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-//class js-signout__link --button
-await driver.sleep(2000)
-expect(await driver.findElement(By.xpath("//a[@class='js-signout__link']"))).toBeTruthy()
-await driver.findElement(By.xpath("//a[@class='js-signout__link']")).click();
-await driver.sleep(5000)
+  let url = await driver.getCurrentUrl()
+  if(url.includes("factory")){
+  const loggedInUser = await driver.findElement(By.id("c-header__userpanelrecognized"))
+  expect(loggedInUser).toBeTruthy()
+  await driver.actions().mouseMove(loggedInUser).perform();
+  await driver.sleep(2000)
+  const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
+  expect(signOut).toBeTruthy()
+  signOut.click()
+  await driver.sleep(5000)
+  expect(await driver.findElement(By.xpath(".//span[text()='sign in']")).isDisplayed()).toBeTruthy();
+  }else{
+  const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
+  expect(loggedInUser).toBeTruthy()
+  await driver.actions().mouseMove(loggedInUser).perform();
+  await driver.sleep(2000)
+  const signOut = await driver.findElement(By.xpath("//li[5]/a[text()='Sign Out']"))
+  expect(signOut).toBeTruthy()
+  signOut.click()
+  await driver.sleep(5000)
+  expect(await driver.findElement(By.xpath(".//a[text()='Sign In']")).isDisplayed()).toBeTruthy();
+  }
 
 });
-
-test('verify signout happened succesfully', async () => {
-expect(await driver.findElement(By.xpath(".//span[text()='sign in']")).isDisplayed()).toBeTruthy();
-  });
 
   afterAll(async () => {
     await driver.quit()

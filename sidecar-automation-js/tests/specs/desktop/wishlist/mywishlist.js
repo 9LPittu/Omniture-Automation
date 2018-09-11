@@ -44,21 +44,29 @@ await addProductToWishList();
 });
 
 test('Go to wish list to after adding the product to wishlist', async () => {
-//.c-nav__userpanel-item--wishlist
-await driver.sleep(2000)
-await driver.actions().mouseMove(await driver.findElement(By.id("c-header__userpanelrecognized"))).perform();
-//class js-signout__link --button
-await driver.sleep(2000)
-await driver.findElement(By.css(".c-nav__userpanel-item--wishlist")).click();
-await driver.sleep(2000)
-
+  let url = await driver.getCurrentUrl();
+  if(url.includes("factory")){
+  const loggedInUser = await driver.findElement(By.id("c-header__userpanelrecognized"))
+  expect(loggedInUser).toBeTruthy()
+  await driver.actions().mouseMove(loggedInUser).perform();
+  await driver.sleep(2000)
+  const wishlist = await driver.findElement(By.xpath("//dd/a[text()='Wishlist']"))
+  expect(wishlist).toBeTruthy()
+  wishlist.click()
+  }else{
+  const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
+  expect(loggedInUser).toBeTruthy()
+  await driver.actions().mouseMove(loggedInUser).perform();
+  await driver.sleep(2000)
+  const wishlist = await driver.findElement(By.xpath("//li/a[text()='Wishlist']"))
+  expect(wishlist).toBeTruthy()
+  wishlist.click()
+  }
 });
 
 test('verify the product has been added to wishlist or not', async () => {
 expect(await driver.findElement(By.xpath("//li[contains(@id,'item')]")).isDisplayed()).toBeTruthy();
 });
-
-
 export const addProductToWishList = async () =>{
   await  productArrayPage()
   await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()
@@ -67,9 +75,7 @@ export const addProductToWishList = async () =>{
   await driver.sleep(1000)
   await driver.findElement(By.id("btn__wishlist-wide")).click()
   await driver.sleep(3000)
-
 }
-
 afterAll(async () => {
   await driver.quit()
 })

@@ -56,16 +56,9 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await driver.sleep(5000);
   await driver.findElement(By.id("nav-billing")).click();
   await driver.sleep(3000);
-/*  console.log('After checkout')
-  await clickOnContinue();
-  console.log("after continue")*/
-
 });
 
 test('Goto Billng page and check verify credit/debit card or paypal process', async () => {
-
-    //  await continueOnShippingMethod();
-    //await checkout();
       console.log('---')
       await paymentMethod('Paypal');
       console.log('After payment Method')

@@ -41,14 +41,14 @@ beforeAll(async () => {
         await driver.sleep(1000)
         let bagsize = await driver.findElement(By.xpath("//span[@class='js-cart-size']")).getText()
         console.log("=======Bag size "+bagsize)
-        expect(bagSize).toBeTruthy()
+        expect(bagsize).toBeTruthy()
       }else{
         await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__icon']")).click()
         await driver.sleep(1000)
         let bagsize = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__count']")).getText()
         expect(bagsize).toBeTruthy()
         console.log("=======Bag size "+bagsize)
-        expect(bagSize).toBeTruthy()
+        expect(bagsize).toBeTruthy()
       }
 
    })

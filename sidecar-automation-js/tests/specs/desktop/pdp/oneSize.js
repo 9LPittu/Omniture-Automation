@@ -1,8 +1,7 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import { guestuser } from '../../../testdata/jcrewTestData';
+
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -14,13 +13,15 @@ beforeAll(async () => {
  })
 
  test('One Size items should have it pre - selected in the size Chip', async () => {
-   await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='women']"))).perform();
-   driver.sleep(2000);
-      let currentUrl = await driver.getCurrentUrl();
+    let currentUrl = await driver.getCurrentUrl();
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-     await driver.findElement(By.xpath("//span[text()='Jewelry']")).click()
+      await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='women']"))).perform();
+      driver.sleep(2000);
+      await driver.findElement(By.xpath("//span[text()='Jewelry']")).click()
    } else {
-   await driver.findElement(By.xpath("//span[text()='jewelry']")).click()
+   await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Women']"))).perform();
+   driver.sleep(2000);
+   await driver.findElement(By.xpath("(//a[text()='jewelry'])[1]")).click()
    }
    await driver.sleep(2000)
    await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()

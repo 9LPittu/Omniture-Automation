@@ -54,11 +54,9 @@ test('Clear the bag items if any products were avilable and Add one product', as
   console.log('After checkout')
   await clickOnContinue();
   console.log("after continue")
-
 });
 
 test('Goto Billng page and check verify credit/debit card or paypal process', async () => {
-
       await continueOnShippingMethod();
       console.log('---')
       await paymentMethod('Credit/Debit_Card');

@@ -43,12 +43,23 @@ await addProductToBag()
 });
 
 test('verify shopping tongue issue was not there', async () => {
-  await driver.actions().mouseMove(await driver.findElement(By.xpath("//span[text()='bag']"))).perform();
-  await driver.sleep(1000)
-  const shoppingTonge = await driver.findElement(By.xpath("//div[@class='c-header__minibag is-active']"))
-  expect(shoppingTonge).toBeTruthy()
-  console.log("shopping tonge is displayed")
+  let url = await driver.getCurrentUrl();
+  if(url.includes("factory")){
+    await driver.actions().mouseMove(await driver.findElement(By.xpath("//span[text()='bag']"))).perform();
+    await driver.sleep(1000)
+    const shoppingTonge = await driver.findElement(By.xpath("//div[@class='c-header__minibag is-active']"))
+    expect(shoppingTonge).toBeTruthy()
+    console.log("shopping tonge is displayed")
+  }else{
+    await driver.actions().mouseMove(await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button']"))).perform();
+    await driver.sleep(1000)
+    const shoppingTonge = await driver.findElement(By.xpath("//div[@class='nc-nav__bag__panel is-open']"))
+    expect(shoppingTonge).toBeTruthy()
+    console.log("shopping tonge is displayed")
+  }
+
 });
+
 
 afterAll(async () => {
   await driver.quit()

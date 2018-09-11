@@ -58,7 +58,7 @@ export const addEditRemoveAddress = async () =>{
            await driver.sleep(3000);
              await driver.findElement(By.css("#phoneNumAM")).sendKeys("9658742361");
              //.button-submit
-
+                driver.sleep(3000)
                 await driver.findElement(By.css("#submit-new-shipping-address")).click();
                 await driver.sleep(5000);
 
@@ -73,8 +73,10 @@ export const addEditRemoveAddress = async () =>{
                 //   await driver.findElement(By.css("#submit-new-shipping-address")).click();
                 // }
                 await driver.findElement(By.xpath("//a[@class='button-submit']")).click();
+                driver.sleep(3000)
                 //#nav-shipping
                 await driver.findElement(By.css("#nav-shipping")).click();
+                driver.sleep(3000)
                 await driver.findElement(By.xpath("//*[@id='address-2']/parent::label/following-sibling::span/a[2]")).click();
                 driver.sleep(3000)
 

@@ -4,7 +4,7 @@ import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress} from '../
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginpageobj';
 import {goToShoppingBag, loginAsGuestButton, addAddress, clickOnCheckout} from '../../../pageObjects/shoppingbagobj';
 import { guestuser } from '../../../testdata/jcrewTestData';
-
+import {productArrayPage, addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
@@ -12,22 +12,24 @@ beforeAll(async () => {
    await load();
    console.log('Home page loaded proprely')
 });
-
-
 test('verify ship to mutiple Address functionality', async () => {
-
-
-  await addProductTobag();
-  await driver.findElement(By.id("js-header__cart")).click()
+  await productArrayPage()
+  await addProductToBag()
+  await verifyAndClickOnBag()
+  await productArrayPage()
+  await addProductToBag()
+  await verifyAndClickOnBag()
   await driver.sleep(3000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.findElement(By.xpath("//a[text()='Check Out as a Guest']")).click()
-
   console.log('selected the required product')
+  await driver.sleep(3000)
    expect(await driver.findElement(By.css("#multiShippingAddresses_checkbox")).isDisplayed()).toBeTruthy();
    await driver.findElement(By.css("#multiShippingAddresses_checkbox")).click();
+   await driver.sleep(1000)
    await addGuestFirstAddress();
    //await driver.findElement(By.id("address-new")).click();
+   await driver.sleep(1000)
    await addSecondGuestAddress();
    await driver.findElement(By.xpath("//*[@id='order-summary__button-continue']")).click()
   // await driver.findElement(By.id("order-summary__button-continue")).click()
@@ -48,35 +50,7 @@ await driver.findElement(By.id("shipAddress0")).isDisplayed();
       });
 
   console.log('verified multi shipping button')
-
-
-
 });
-
-
-
-export const addProductTobag = async () =>{
-  let currentUrl = await driver.getCurrentUrl();
-  await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-  driver.sleep(2000);
-
-  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-   await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-  } else {
-  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-  }
-  await driver.sleep(3000)
-  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[5]")).click()
-
-  await driver.sleep(2000)
-  await driver.navigate().refresh()
-  await driver.sleep(3000)
-  await driver.findElement(By.xpath(".//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))]")).click()
-  await driver.sleep(3000)
-  await driver.findElement(By.id("btn__add-to-bag-wide")).click()
-    await driver.sleep(3000)
-    await driver.findElement(By.id("btn__add-to-bag-wide")).click()
-}
 export const addGuestFirstAddress = async () =>{
   await driver.findElement(By.xpath("//input[@id='firstNameSA']")).sendKeys(guestuser.firstNameSA)
     await driver.findElement(By.xpath("//input[@id='lastNameSA']")).sendKeys(guestuser.lastNameSA)
@@ -106,28 +80,10 @@ export const addSecondGuestAddress = async () =>{
            await driver.sleep(8000);
              await driver.findElement(By.css("#phoneNumAM")).sendKeys("9658742361");
              //.button-submit
-
                 await driver.findElement(By.css("#submit-new-shipping-address")).click();
                 await driver.sleep(5000);
-
-                // if(await driver.findElement(By.css("#dropdown-state-province")).isDisplayed()){
-                //   await driver.findElement(By.css("#city")).sendKeys("ALTOONA");
-                // //  await driver.Select(driver.findElement(By.css("#dropdown-state-province"))).selectByValue("AK");
-                //   await driver.wait(
-                //       until.elementLocated(By.id("dropdown-state-province")), 20000
-                //   ).then(element => {
-                //       selectByVisibleText(element, "AK")
-                //   });
-                //   await driver.findElement(By.css("#submit-new-shipping-address")).click();
-                // }
                 await driver.findElement(By.xpath("//a[@class='button-submit']")).click();
-
-
-
-
 }
-
-
 function selectByVisibleText(select, textDesired) {
     select.findElements(By.tagName('option'))
     .then(options => {

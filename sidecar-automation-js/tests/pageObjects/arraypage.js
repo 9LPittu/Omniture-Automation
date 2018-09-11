@@ -64,20 +64,12 @@ export const productArrayPage = async () =>{
 
     export const addMultiLineItems = async () =>{
       let url = await driver.getCurrentUrl();
-      await driver.findElement(By.xpath("//span[text()='search']")).click()
-      await driver.sleep(1000)
-      if (url.indexOf("factory.jcrew.com") > -1) {
-        await driver.findElement(By.xpath("//input[@class='js-primary-nav__input--search']")).sendKeys("shirts")
-      }else{
-        await driver.findElement(By.xpath("//input[@class='js-primary-nav__input--search']")).sendKeys("pants")
-      }
+        await productArrayPage()
         await driver.sleep(1000)
-        await driver.findElement(By.xpath("//span[text()='search']")).click()
-        await driver.sleep(2000)
         const productimage =await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))
         expect(productimage).toBeTruthy()
-        driver.sleep(1000)
-        await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
+        //driver.sleep(1000)
+        productimage.click()
         driver.sleep(1000)
         const productsize= await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]"))
         productsize.click()
@@ -86,16 +78,8 @@ export const productArrayPage = async () =>{
         await driver.sleep(1000)
         await driver.findElement(By.id("btn__add-to-bag-wide")).click()
         await driver.sleep(1000)
-        await driver.findElement(By.xpath("//span[text()='search']")).click()
-        await driver.sleep(1000)
-        if (url.indexOf("factory.jcrew.com") > -1) {
-          await driver.findElement(By.xpath("//input[@class='js-primary-nav__input--search']")).sendKeys("shirts")
-        }else{
-          await driver.findElement(By.xpath("//input[@class='js-primary-nav__input--search']")).sendKeys("pants")
-        }
-          await driver.sleep(1000)
-          await driver.findElement(By.xpath("//span[text()='search']")).click()
-          await driver.sleep(2000)
+        await productArrayPage()
+        await driver.sleep(2000)
           const productimage2 = await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]"))
           expect(productimage2).toBeTruthy()
           driver.sleep(1000)
@@ -119,7 +103,7 @@ export const productArrayPage = async () =>{
            await driver.findElement(By.xpath("//span[text()='women']")).click()
            driver.sleep(2000);
         } else {
-        await driver.findElement(By.xpath("//span[text()='sale']")).click()
+        await driver.findElement(By.xpath("//a[text()='sale']")).click()
         driver.sleep(2000);
         await driver.findElement(By.xpath("(//div[@class='c-sale-recommendation-item'])[1]")).click()
       }
@@ -137,11 +121,14 @@ export const productArrayPage = async () =>{
       }
 
       export const selectSuitsFromCategory = async ()=> {
-      await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
       let currentUrl = await driver.getCurrentUrl();
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+      await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
+      await driver.sleep(1000)
      await driver.findElement(By.xpath("//span[text()='Thompson Suits & Blazers']")).click()
    } else {
-   await driver.findElement(By.xpath("//span[text()='suits & tuxedos']")).click()
+     await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Men']"))).perform();
+     await driver.sleep(1000)
+   await driver.findElement(By.xpath("//a[text()='suits & tuxedos']")).click()
  }
 }

@@ -20,7 +20,15 @@ test('title is correct', async () => {
  })
 
     test('Navbar is visible', async () => {
-        expect(await driver.findElement(By.id('c-header__navbar'))).toBeTruthy()
+        currentUrl = await driver.getCurrentUrl();
+        if(currentUrl.includes("factory")){
+          expect(await driver.findElement(By.xpath("//ul[@class='department-nav__list']"))).toBeTruthy()
+          console.log("nav nar is displaying")
+        }else{
+          expect(await driver.findElement(By.xpath("//ul[@class='nc-nav__departments']"))).toBeTruthy()
+          console.log("nav nar is displaying")
+        }
+
      })
 
     test('Global promo is visible and links correctly', async () => {
@@ -82,6 +90,8 @@ test('title is correct', async () => {
         ['SALE'],
   //      ['FACTORY'],
   ]).test('%s links to correct page', async link => {
+    currentUrl = await driver.getCurrentUrl();
+    if(currentUrl.includes("factory")){
         try {
           const subnav = await driver.findElement(By.className(
             "c-header__department-nav js-header__department-nav"
@@ -95,6 +105,19 @@ test('title is correct', async () => {
         } catch (err) {
           throw err
         }
+      }else{
+        try {
+          const subnav = await driver.findElement(By.xpath("//ul[@class='nc-nav__departments']"))
+          await subnav.findElement(By.linkText(link)).click()
+          await driver.sleep(2000)
+          await driver.getCurrentUrl().then(url => {
+            const reg = new RegExp(link, 'i')
+            expect(url.match(reg)).toBeTruthy()
+          })
+        } catch (err) {
+          throw err
+        }
+      }
       })
 
     })
