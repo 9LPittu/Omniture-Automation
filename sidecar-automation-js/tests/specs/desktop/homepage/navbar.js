@@ -90,7 +90,7 @@ test('title is correct', async () => {
       await driver.navigate().back()
       await driver.navigate().to(currentUrl)
       console.log("User is able to search for items")
-    }else{
+    } else {
       var searchText = await driver.findElement(By.xpath("//input[@class='nc-nav__search__input']"));
       searchText.sendKeys("pants")
       await driver.sleep(1000)
@@ -104,94 +104,37 @@ test('title is correct', async () => {
       console.log("User is able to search for items")
     }
     })
-    test('All main nav links', async () => {
-      currentUrl = await driver.getCurrentUrl();
-      if(currentUrl.includes("factory")){
-        await driver.findElement(By.xpath("//span[text()='Women']")).click()
-        await driver.sleep(1000)
-        let womenCategory = driver.getCurrentUrl()
-        if(womenCategory.includes("womens")){
 
-        }
-        await driver.navigate().to(currentUrl)
-        await driver.sleep(1000)
-        await driver.findElement(By.xpath("//span[text()='Men']")).click()
-        await driver.sleep(1000)
-        let menCategory = driver.getCurrentUrl()
-        if(menCategory.includes("mens")){
-        }
-        await driver.navigate().to(currentUrl)
-        await driver.sleep(1000)
-        await driver.findElement(By.xpath("//span[text()='Girls']")).click()
-        await driver.sleep(1000)
-        let girlCategory = driver.getCurrentUrl()
-        if(girlCategory.includes("girls")){
-
-        }
-        await driver.navigate().to(currentUrl)
-        await driver.sleep(1000)
-        await driver.findElement(By.xpath("//span[text()='Boys']")).click()
-        await driver.sleep(1000)
-        let boysCategory = driver.getCurrentUrl()
-        if(boysCategory.includes("boys")){
-
-        }
-        await driver.navigate().to(currentUrl)
-        await driver.sleep(1000)
-        await driver.findElement(By.xpath("//span[text()='Clearance']")).click()
-        await driver.sleep(1000)
-        let saleCategory = driver.getCurrentUrl()
-        if(saleCategory.includes("sale")){
-
-        }
-        await driver.navigate().to(currentUrl)
-        await driver.sleep(1000)
-      }else{
-        await driver.findElement(By.xpath("//a[text()='Women']")).click()
-        await driver.sleep(1000)
-        let womenCategory = await driver.getCurrentUrl();
-        if(womenCategory.includes("womens")){
-        }
-        await driver.navigate().to(currentUrl)
-        await driver.sleep(1000)
-        await driver.findElement(By.xpath("//a[text()='Men']")).click()
-        await driver.sleep(1000)
-        let menCategory = await driver.getCurrentUrl();
-        if(menCategory.includes("mens")){
-        }
-        await driver.navigate().to(currentUrl)
-        await driver.sleep(1000)
-        await driver.findElement(By.xpath("//a[text()='kids']")).click()
-        await driver.sleep(1000)
-        let girlsCategory = await driver.getCurrentUrl();
-        if(girlsCategory.includes("Girls")){
-
-        }
-        await driver.navigate().to(currentUrl)
-        await driver.sleep(1000)
-        await driver.findElement(By.xpath("//a[text()='sale']")).click()
-        await driver.sleep(1000)
-        let saleCategory = await driver.getCurrentUrl();
-        if(saleCategory.includes("sale")){
-
-        }
-        await driver.navigate().to(currentUrl)
-        console.log("Navigated to all main nav")
-      }
+   describe('Verify Nav mouse over shows the sub-category items', () => {
+    
+     each([
+        ['New'], 
+        ['Women'],
+        ['Men'],
+        ['kids'],
+        ['Brands We Love'],
+        ['sale'],
+  ]).test('%s mouse over shows the sub category items  ', async () => {
+    if(currentUrl.includes("factory")){ 
+    } else {
+    await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Men']"))).perform();
+      const ele = await driver.findElements(By.xpath("//li[@class='nc-nav__flyout-link__wrapper nc-nav__list-item']"))
+      console.log(ele.length)
+     }
     })
+  })
 
-  /* describe('All main nav links work', () => {
+
+   describe('All main nav links work', () => {
       afterEach(async () => {
         await driver.navigate().back()
       })
 
      each([
-        ['WOMEN'],
-        ['MEN'],
-        ['BOYS'],
-        ['GIRLS'],
-        ['SALE'],
-  //      ['FACTORY'],
+        ['Women'],
+        ['Men'],
+        ['kids'],
+        ['sale'],
   ]).test('%s links to correct page', async link => {
     currentUrl = await driver.getCurrentUrl();
     if(currentUrl.includes("factory")){
@@ -209,17 +152,19 @@ test('title is correct', async () => {
           throw err
         }
       }else{
-          const subnav = await driver.findElement(By.xpath("//ul[@class='nc-nav__departments']"))
-          await subnav.findElement(By.linkText(link)).click()
+        await driver.findElement(By.xpath("//a[text()='" +link+"']")).click()
           await driver.sleep(2000)
           await driver.getCurrentUrl().then(url => {
+            if (link == 'kids') {
+              link = 'Girls';
+            }
             const reg = new RegExp(link, 'i')
             expect(url.match(reg)).toBeTruthy()
           })
       }
       })
 
-    }) */
+    }) 
 
 afterAll(async () => {
   await driver.quit()
