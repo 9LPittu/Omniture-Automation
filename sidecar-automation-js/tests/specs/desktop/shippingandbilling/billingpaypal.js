@@ -45,19 +45,15 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await productArrayPage()
   await addProductToBag()
   await verifyAndClickOnBag()
-    await driver.sleep(1000)
-    await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-    await driver.sleep(1000)
+  await driver.sleep(1000)
+  await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+  await driver.sleep(1000)
   console.log('after product selection')
-  //await verifyShipToMultiAddress();
-  //await driver.sleep(30000);
-  //await clickOnCheckout();
   console.log('clicked on checkout')
   await driver.sleep(5000);
   await driver.findElement(By.id("nav-billing")).click();
   await driver.sleep(3000);
 });
-
 test('Goto Billng page and check verify credit/debit card or paypal process', async () => {
       console.log('---')
       await paymentMethod('Paypal');

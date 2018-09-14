@@ -59,10 +59,6 @@ export const paymentMethod = async(paymentType) =>{
           await driver.findElement(By.css("#creditDebitPayment")).click();
         }
     }else if(paymentType == "Paypal"){
-            //paypalPayment
-          //  await driver.findElement(By.css("#paypalPayment")).click();
-            //const css = { css: "#paypalPayment" };
-            //*[@id="nav-billing"]/a
             driver.sleep(1000)
             await driver.findElement(By.id("paypalPayment")).click()
             driver.sleep(5000)
@@ -87,8 +83,6 @@ export const paymentMethod = async(paymentType) =>{
             await driver.findElement(By.xpath("//a[text()='Log In']")).click()
             console.log("clicked login")
             await driver.sleep(10000)
-            //await driver.wait(until.elementLocated(driver.findElement(By.id('email'))), 50e3).clear();
-            //await driver.wait(until.elementLocated(email), 50000).sendKeys(Paypal.Email);
             await driver.findElement(By.id("email")).sendKeys(Billing.Paypal_Email)
             console.log("entered uname")
             await driver.sleep(1000)
