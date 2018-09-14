@@ -1,0 +1,46 @@
+import { driver } from '../../../helpers';
+import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { logindetails } from '../../../testdata/jcrewTestData';
+import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
+import { loginFromHomePage } from '../../../pageObjects/loginPageObj'
+import { mergeButton } from '../../../pageObjects/ShoppingBagObj'
+
+const { By } = require('selenium-webdriver')
+
+let subTotalOnReview ;
+let shippingOnReview ;
+let taxOnReview;
+let totalOnReview;
+let currentUrl;
+let orderNumberLet;
+
+beforeAll(async () => {
+  await load();
+  await driver.sleep(2000)
+  expect(await driver.getTitle()).toMatch('J.Crew')
+})
+
+test('verifying loyalty redeemtion', async () => {
+  await loginFromHomePage(logindetails.loyaltyuser, logindetails.password);
+  await productArrayPage();
+  await addProductToBag();
+  await verifyAndClickOnBag();
+  await driver.sleep(1000)
+ // await driver.navigate().to("https://or.jcrew.com/checkout2/shoppingbag.jsp?sidecar=true")
+  await driver.findElement(By.xpath("//*[@id='btn-redeem-points']")).click()
+  await driver.sleep(2000)
+  await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+  //TODO - need to add the redeem assertion logic
+    await driver.sleep(5000)
+  await mergeButton();
+  await driver.sleep(2000)
+   subTotalOnReview = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-subtotal clearfix']/span[2]")).getText();
+   shippingOnReview = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-shipping clearfix']/span[2]")).getText();
+   taxOnReview = await driver.findElement(By.xpath("//ul/li[@class='summary-item clearfix']/span[2]")).getText();
+   totalOnReview = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-total clearfix']/span[2]")).getText();
+ 
+})
+
+afterAll(async () => {
+  await driver.quit()
+})
