@@ -20,7 +20,7 @@ export const load = async () => {
 export const selectCategory = async () => {
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-    await driver.sleep(5000)
+    await driver.sleep(6000)
     await driver.findElement(By.xpath("//span[text()='menu']")).click()
     await driver.sleep(3000)
     await driver.findElement(By.xpath("(//a[@data-department='men'])[1]")).click()

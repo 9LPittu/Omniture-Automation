@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
-import { load } from '../../../mobilepageobjects/mhomepageobj';
+import { load, selectCategory } from '../../../mobilepageobjects/mhomepageobj';
 import { creditcard, guestuser } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
@@ -11,24 +11,12 @@ test('title is correct', async () => {
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-    test('Product arraypage validation', async () => {
-      console.log("Array page is being verified ")
-    //  await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
-      await driver.sleep(2000)
-      await driver.findElement(By.xpath("//span[text()='menu']")).click()
-      await driver.sleep(2000)
-      await driver.findElement(By.xpath("//a[@data-department='men']")).click()
-        await	driver.sleep(2000);
-          await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[2]")).click()
+  test('Product arraypage validation', async () => {
+    console.log("Array page is being verified ")
+    await driver.sleep(2000)
+    await selectCategory();
+    await driver.sleep(2000)
 
-           let currentUrl = await driver.getCurrentUrl();
-         if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-      //    await driver.findElement(By.xpath("//span[text()='Shirts']")).click()
-        } else {
-      //	  await driver.findElement(By.xpath("//span[text()='shirts']")).click()
-      }
-      //await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
-      await driver.sleep(2000)
     const arraypage = await driver.findElement(By.xpath("//div[@class='product__list']"))
     expect(arraypage).toBeTruthy()
 

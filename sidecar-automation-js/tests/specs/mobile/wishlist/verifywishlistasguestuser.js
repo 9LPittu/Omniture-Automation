@@ -25,6 +25,7 @@ test('title is correct', async () => {
      await driver.sleep(1000)
      await driver.findElement(By.id("btn__wishlist-wide")).click()
      await driver.sleep(6000)
+     let currentUrl = await driver.getCurrentUrl();
       if(currentUrl.includes("/r/login")){
         console.log("User navigates to login page")
       }
