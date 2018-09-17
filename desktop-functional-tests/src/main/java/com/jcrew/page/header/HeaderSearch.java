@@ -16,8 +16,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 @SuppressWarnings("unused")
 public class HeaderSearch extends HeaderWrap {
 
-    @FindBy(className = "js-primary-nav__link--search")
+    @FindBy(className = "nc-nav__search__input")
     private WebElement headerSearch;
+    
+    @FindBy(xpath = ".//span[contains(@class,'icon-close js-primary-nav__search__button--clear')]")
+    private WebElement closeIcon;
+    
+    
 
     private TestDataReader testdataReader = TestDataReader.getTestDataReader();
 
@@ -27,22 +32,20 @@ public class HeaderSearch extends HeaderWrap {
 
     public void searchForSpecificTerm(String searchTerm) {
         String currentUrl = driver.getCurrentUrl();
+        try {
+        	if (closeIcon.isDisplayed()) {
+                closeIcon.click();
+            } else {
+                headerSearch.click();
+            }
 
-        WebElement closeIcon = headerSearch.findElement(
-                By.xpath(".//span[contains(@class,'icon-close js-primary-nav__search__button--clear')]"));
+        }catch (Exception e) {}
+        
+        //WebElement searchInput = headerSearch.findElement(By.xpath(".//input[contains(@class,'js-primary-nav__input--search')]"));
 
-        if (closeIcon.isDisplayed()) {
-            closeIcon.click();
-        } else {
-            headerSearch.click();
-        }
-
-        WebElement searchInput = headerSearch.findElement(
-                By.xpath(".//input[contains(@class,'js-primary-nav__input--search')]"));
-
-        searchInput.clear();
-        searchInput.sendKeys(searchTerm);
-        searchInput.sendKeys(Keys.ENTER);
+        headerSearch.clear();
+        headerSearch.sendKeys(searchTerm);
+        headerSearch.sendKeys(Keys.ENTER);
 
         logger.info("Searching for {}", searchTerm);
         wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));

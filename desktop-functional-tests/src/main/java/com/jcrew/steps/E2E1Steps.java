@@ -105,7 +105,6 @@ public class E2E1Steps extends E2ECommon {
 		 */
 		LogIn logIn = new LogIn(getDriver());
 		E2ECommon e2e = new E2ECommon();
-		// logIn.submitUserCredentials(emailAddress,password);
 		logIn.submitUserCredentials(e2e.getDataFromTestDataRowMap("Username"),e2e.getDataFromTestDataRowMap("Password"));
 		Thread.sleep(10000);
 	}
@@ -175,7 +174,7 @@ public class E2E1Steps extends E2ECommon {
 					monogram.selectThreadColor(threadColor);
 					monogram.saveMonogram();
 				}
-
+				Util.wait(2000);
 				// Add item to bag
 				ProductDetailsActions pdpAction = new ProductDetailsActions(getDriver());
 				pdpAction.addToBag();

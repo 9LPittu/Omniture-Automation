@@ -15,6 +15,8 @@ public class ProductDetailsActions extends ProductDetails {
 
     @FindBy(id = "c-product__actions")
     private WebElement product_actions;
+    @FindBy(xpath="//button[text()='Add to Bag']")
+    private WebElement addToBagButton;
 
     public ProductDetailsActions(WebDriver driver) {
         super(driver);
@@ -27,7 +29,7 @@ public class ProductDetailsActions extends ProductDetails {
     }
 
     private WebElement getAddToBagButton() {
-    	List<WebElement> testList = product_actions.findElements(By.id("btn__add-to-bag-wide"));
+    	/*List<WebElement> testList = product_actions.findElements(By.xpath("//button[text()='Add to Bag']"));
     	WebElement addToBagButton;
 
     	if (testList.size() > 0) {
@@ -35,20 +37,22 @@ public class ProductDetailsActions extends ProductDetails {
     		try{
     			Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(addToBagButton));
     		}catch(TimeoutException toe){
-    			addToBagButton = product_actions.findElement(By.id("btn__add-to-bag"));
+    			addToBagButton = product_actions.findElement(By.xpath("//button[text()='Add to Bag']"));
     		}    			
     	}else {
-    		addToBagButton = product_actions.findElement(By.id("btn__add-to-bag"));
-    	}
+    		addToBagButton = product_actions.findElement(By.xpath("//button[text()='Add to Bag']"));
+    	}*/
+    	WebElement addToBag = addToBagButton;
+    	Util.createWebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(addToBag));
     	
-        return addToBagButton;
+        return addToBag;
     }
 
     public void addToBag() {
         //stateHolder.addToList("toBag", getProduct());
 
         HeaderBag headerBag = new HeaderBag(driver);
-        int itemsInBag = headerBag.getItemsInBag();
+        int itemsInBag = 0/*headerBag.getItemsInBag()*/;
 
         logger.info("Adding to bag {}", getProductName());
 
@@ -61,17 +65,19 @@ public class ProductDetailsActions extends ProductDetails {
         } else {
             logger.info("Ship restriction message not displayed");
         }
+        
+        //WebElement miniBag = driver.findElement(By.xpath("//div[@class='nc-nav__bag__panel is-open']"));
 
         //Verify minibag is displayed
-        if(headerBag.isMiniBagDisplayed()) {
-            logger.info("Mini cart is not displayed. Hence, checking item count in bag has increased");
+       // if(miniBag.isDisplayed()) {
+          //  logger.info("Mini cart is not displayed. Hence, checking item count in bag has increased");
 
             int itemCount = headerBag.getItemsInBag();
             if (itemCount <= itemsInBag) {
                 Util.e2eErrorMessagesBuilder("Item " + getProductCode() + " is not added to bag");
                 throw new WebDriverException("product not added to bag");
             }
-        }
+     //   }
 
     }
 

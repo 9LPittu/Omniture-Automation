@@ -61,8 +61,8 @@ public class Footer {
         wait.until(ExpectedConditions.visibilityOf(global__footer));
        // wait.until(ExpectedConditions.visibilityOf(footer_social));
         
-        HeaderLogo logo = new HeaderLogo(driver);
-        logo.hoverLogo();
+        /*HeaderLogo logo = new HeaderLogo(driver);
+        logo.hoverLogo();*/
     }
 
     private void waitForFooter() {

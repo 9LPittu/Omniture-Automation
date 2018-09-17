@@ -179,7 +179,7 @@ public class StartSteps {
     }
 
     private void waitForHeaderPromo() {
-        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.id("global__promo")));
+        Util.createWebDriverWait(driver).until(ExpectedConditions.visibilityOfElementLocated(By.className("nc-nav__promo-header")));
     }
 
     private void getHomePage() {

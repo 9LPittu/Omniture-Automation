@@ -53,24 +53,10 @@ public class CheckoutConfirmation extends Checkout {
 
 	public String getConfirmationCode() throws Exception {
 		WebElement numberElement = confirmation_number.findElement(By.className("order-number"));
-		File folder = new File(".\\Screenshorts\\" + numberElement.getText().trim());
-		//folder.mkdir();
-		
-		AShot shot = new AShot();
-        shot = shot.shootingStrategy(ShootingStrategies.viewportPasting(1000));
-
-        Screenshot screen = shot.takeScreenshot(driver);
-        BufferedImage originalImage = screen.getImage();
-
-        try {
-            //ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(originalImage, "png", folder);
-        }catch (Exception e) {
-			
-		}
-		
+		String orderNum = numberElement.getText().trim();
+		Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver);
+		ImageIO.write(screenshot.getImage(),"PNG",new File(System.getProperty("user.dir")+"\\Screenshots\\"+orderNum+".png"));
 		return numberElement.getText().trim();
-		
 	}
 
     public String getGitfMessage() {

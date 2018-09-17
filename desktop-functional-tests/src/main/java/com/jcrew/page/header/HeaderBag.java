@@ -14,9 +14,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  */
 public class HeaderBag extends HeaderWrap {
 
-    @FindBy(id = "js-header__cart")
+    @FindBy(className = "nc-nav__bag-button")
     private WebElement bag;
-    @FindBy(id = "c-header__minibag")
+    @FindBy(xpath = "//div[@class='nc-nav__bag__panel is-open']")
     private WebElement minibag;
 
     public HeaderBag(WebDriver driver) {
@@ -38,7 +38,7 @@ public class HeaderBag extends HeaderWrap {
 
     public boolean isMiniBagDisplayed() {
         String miniBagClass = minibag.getAttribute("class");
-        return miniBagClass.contains("is-active");
+        return miniBagClass.contains("is-open");
     }
 
     public void waitUntilNoCheckOutDropdown() {
@@ -64,15 +64,15 @@ public class HeaderBag extends HeaderWrap {
     }
 
     public int getItemsInBag() {
-        wait.until(ExpectedConditions.visibilityOf(bag));
-        WebElement cart_size = bag.findElement(By.className("js-cart-size"));
-        String cartSizeText = cart_size.getText().trim();
-
-        if (cartSizeText.isEmpty())
-            cartSizeText = "0";
-
+    	String cartSizeText = null;
+    	wait.until(ExpectedConditions.visibilityOf(bag));
+        WebElement cart_size = driver.findElement(By.className("nc-nav__bag-button__count"));
+        cartSizeText = cart_size.getText().trim();
+        System.out.println("bagsize ==========="+cartSizeText);
+        if (cartSizeText.isEmpty()) {
+        	cartSizeText = "0";
+        }
         cartSizeText = cartSizeText.replaceAll("[^0-9]", "");
-
         return Integer.parseInt(cartSizeText);
     }
 }

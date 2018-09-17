@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
  */
 public class HeaderLogo extends HeaderWrap {
 
-    @FindBy(id = "js-header__logo")
+    @FindBy(id = "nc-nav__logo")
     private WebElement header_logo;
 
     public HeaderLogo(WebDriver driver) {

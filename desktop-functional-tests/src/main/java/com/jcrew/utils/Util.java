@@ -194,8 +194,8 @@ public class Util {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("arguments[0].scrollIntoView();", element);
 
-        HeaderLogo logo = new HeaderLogo(driver);
-        logo.hoverLogo();
+        //HeaderLogo logo = new HeaderLogo(driver);
+        //logo.hoverLogo();
 
         scrollPage(driver, UP);
 

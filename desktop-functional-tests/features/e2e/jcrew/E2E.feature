@@ -5,7 +5,7 @@ Feature: Registered User E2E order placing
 	Given Test data is read from excel file "JC_E2E_WebTest_Testdata_Sheet.xls"	
  	
  	And User goes to homepage
-  	And User closes email capture
+  And User closes email capture
   	
   	When User clicks on sign in using header
   	And User enters login credentials  	
@@ -62,7 +62,7 @@ Feature: Registered User E2E order placing
   	When User closes the Bizrate Popup
   	Then Verify user gets a confirmation number
   	
-  	   	
+  	  	   	
   #	Scenario: Registered User order placing E2E Scenario
 #	Given Test data is read from excel file "JC_E2E_WebTest_Testdata_Sheet.xls"	
  #	

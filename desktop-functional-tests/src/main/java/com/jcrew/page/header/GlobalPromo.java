@@ -11,12 +11,20 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  */
 public class GlobalPromo extends PageObject {
 
-    @FindBy(id = "global__promo")
+    @FindBy(className = "nc-promo")
     private WebElement global_promo;
+    
+    @FindBy(id = "global__promo")
+    private WebElement global_promo1;
 
     public GlobalPromo(WebDriver driver) {
         super(driver);
-        wait.until(ExpectedConditions.visibilityOf(global_promo));
+        try {
+        	 wait.until(ExpectedConditions.visibilityOf(global_promo));
+        }catch (Exception e) {
+        	 wait.until(ExpectedConditions.visibilityOf(global_promo1));
+		}
+       
     }
 
 

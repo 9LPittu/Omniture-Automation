@@ -398,7 +398,7 @@ public class LogIn extends PageObject {
         passwordElement.sendKeys(password);
 
         String currentPage = driver.getCurrentUrl();
-        
+        Util.wait(2000);
         WebElement submit = signInForm.findElement(By.className("js-button-submit"));
         wait.until(ExpectedConditions.elementToBeClickable(submit));
         Util.scrollAndClick(driver, submit);

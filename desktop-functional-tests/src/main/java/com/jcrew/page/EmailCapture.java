@@ -58,7 +58,7 @@ public class EmailCapture extends PageObject {
             logger.error("No email capture was found. Ignoring Error.");
         }
 
-        HeaderLogo logo = new HeaderLogo(driver);
-        logo.hoverLogo();
+        //HeaderLogo logo = new HeaderLogo(driver);
+        //logo.hoverLogo();
     }
 }

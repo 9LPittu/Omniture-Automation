@@ -20,7 +20,7 @@ public class ProductDetailColors extends ProductDetails {
 
     public ProductDetailColors(WebDriver driver) {
         super(driver);
-//        wait.until(ExpectedConditions.visibilityOf(price_colors));
+        wait.until(ExpectedConditions.visibilityOf(price_colors));
     }
 
     public void selectRandomColor() {

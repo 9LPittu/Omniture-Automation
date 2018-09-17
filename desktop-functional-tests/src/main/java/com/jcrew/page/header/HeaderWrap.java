@@ -17,11 +17,11 @@ import java.util.List;
 public class HeaderWrap extends PageObject {
 	public final StateHolder stateHolder = StateHolder.getInstance();
 
-	@FindBy(id = "c-header__userpanel")
+	@FindBy(xpath = "//li[@class='nc-nav__account nc-nav__menu-tab nc-nav__list-item']")
 	private WebElement sign_in;
-	@FindBy(id = "c-header__userpanelrecognized")
+	@FindBy(className = "nc-nav__account_button")
 	private WebElement myAccount;
-	@FindBy(id = "c-header__userpanel")
+	@FindBy(className = "nc-nav__account__drop-down")
 	private WebElement userPanel;
 
 	private WebElement dropdown;
@@ -66,12 +66,12 @@ public class HeaderWrap extends PageObject {
     }
     
     public boolean isMyAccountDropdownDisplayed(){
-        dropdown = userPanel.findElement(By.tagName("dl"));
+        dropdown = userPanel.findElement(By.tagName("a"));
         return dropdown.isDisplayed();
     }
 
 	public void hoverOverIcon(String icon) {
-		if ("my account".equalsIgnoreCase(icon)) {
+		if ("Hi,".equalsIgnoreCase(icon)) {
 			wait.until(ExpectedConditions.visibilityOf(myAccount));
 			hoverAction.moveToElement(myAccount);
 			hoverAction.perform();
@@ -109,12 +109,12 @@ public class HeaderWrap extends PageObject {
 	public void goToMyDetailsDropDownMenu(String option) {
 		String url = driver.getCurrentUrl();
 
-		hoverOverIcon("my account");
+		hoverOverIcon("Hi,");
 		Util.wait(1000);
-		dropdown = wait.until(ExpectedConditions.visibilityOf(userPanel.findElement(By.tagName("dl"))));
+		dropdown = wait.until(ExpectedConditions.visibilityOf(userPanel));
 
 		WebElement optionElement = dropdown.findElement(
-				By.xpath(".//a[" + Util.xpathGetTextLower + "='" + option.toLowerCase() + "']"));
+				By.xpath("//ul/li/a[text()='"+option+"']"));
 		optionElement.click();
 
 		Util.waitLoadingBar(driver);
