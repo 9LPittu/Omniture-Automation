@@ -6,7 +6,7 @@ import { globals } from '../../../jestJcrewQaMobileConfig';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
- test('title is correct', async () => {
+ beforeAll(async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
@@ -66,4 +66,8 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
        const errorMsg = await driver.findElement(By.className('js-invalid-msg is-important'))
        expect(errorMsg).toBeTruthy()
 
+        })
+
+        afterAll(async () => {
+          await driver.quit()
         })

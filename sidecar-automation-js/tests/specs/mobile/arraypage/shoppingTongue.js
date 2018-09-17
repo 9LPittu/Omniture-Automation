@@ -5,7 +5,7 @@ import element from '../../../util/commonutils';
 
 const { By, Key, until } = require('selenium-webdriver')
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
@@ -19,3 +19,7 @@ test('Go to shoppingBag page and verify Shopping tongue', async () => {
       expect(checkout).toBeTruthy()
 
 });
+
+afterAll(async () => {
+  await driver.quit()
+})

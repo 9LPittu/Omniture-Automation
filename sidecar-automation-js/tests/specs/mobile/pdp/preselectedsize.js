@@ -6,7 +6,7 @@ import { guestuser, logindetails, creditcard, zipCode } from '../../../testdata/
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
   await driver.sleep(2000)
   expect(await driver.getTitle()).toMatch('J.Crew')
@@ -41,3 +41,7 @@ test('title is correct', async () => {
       console.log("pre selected size chip is displayed")
 
    })
+
+   afterAll(async () => {
+    await driver.quit()
+  })

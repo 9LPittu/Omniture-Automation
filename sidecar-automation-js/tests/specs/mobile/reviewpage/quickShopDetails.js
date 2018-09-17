@@ -6,7 +6,7 @@ import { globals } from '../../../jestJcrewQaMobileConfig';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
- test('title is correct', async () => {
+ beforeAll(async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
@@ -220,3 +220,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
        console.log('color swatch is Displayed')
 
  })
+
+ afterAll(async () => {
+  await driver.quit()
+})

@@ -68,3 +68,7 @@ beforeAll(async () => {
     expect(await driver.findElement(By.xpath("//span[text()='Add To Wishlist']"))).toBeTruthy()
 
      })
+
+     afterAll(async () => {
+      await driver.quit()
+    })

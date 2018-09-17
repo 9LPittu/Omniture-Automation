@@ -8,7 +8,7 @@ const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
 
-test('title is correct', async () => {
+beforeAll(async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
@@ -59,3 +59,7 @@ let email = "AutomationTest"+x+"@gmail.com"
       await driver.sleep(1000)
     }
    })
+
+   afterAll(async () => {
+    await driver.quit()
+  })
