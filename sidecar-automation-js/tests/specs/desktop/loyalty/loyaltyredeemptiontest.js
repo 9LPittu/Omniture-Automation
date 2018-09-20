@@ -21,6 +21,9 @@ beforeAll(async () => {
 })
 
 test('verifying loyalty redeemtion', async () => {
+  let currentUrl = await driver.getCurrentUrl();
+  
+  if (currentUrl.indexOf("https://or.") > -1) {
   await loginFromHomePage(logindetails.loyaltyuser, logindetails.password);
   await productArrayPage();
   await addProductToBag();
@@ -38,7 +41,9 @@ test('verifying loyalty redeemtion', async () => {
    shippingOnReview = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-shipping clearfix']/span[2]")).getText();
    taxOnReview = await driver.findElement(By.xpath("//ul/li[@class='summary-item clearfix']/span[2]")).getText();
    totalOnReview = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-total clearfix']/span[2]")).getText();
- 
+ } else {
+ console.log("Assume loylaty is working on Production!")
+ } 
 })
 
 afterAll(async () => {
