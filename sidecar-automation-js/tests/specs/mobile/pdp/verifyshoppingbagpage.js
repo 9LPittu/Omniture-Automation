@@ -13,7 +13,7 @@ beforeAll(async () => {
  })
 
 
-  test('Adding single / multiple items from single PDP', async () => {
+  test('Verify shopping Bag page', async () => {
 
       await selectCategory()
       await selectItemAddToBag()

@@ -21,6 +21,8 @@ beforeAll(async () => {
        })
        } catch (err)
       { }
+    let currentUrl = await driver.getCurrentUrl();
+    if(currentUrl.includes("factory")){
       await driver.executeScript('window.scrollTo(0, 20000)')
       await driver.sleep(2000)
       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@class='footer__country-context__link']")));
@@ -35,9 +37,23 @@ beforeAll(async () => {
        } catch (err)
       { }
       // Us and Canada option
-      await driver.findElement(By.xpath("//*[text()='UNITED STATES & CANADA']")).click()
-      // Select Canada
-      await driver.findElement(By.xpath("//span[text()='Canada']")).click()
+    }else{
+      await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+      await driver.sleep(5000)
+      await driver.executeScript('window.scrollTo(0, 5000)')
+      await driver.sleep(3000)
+      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//span[text()='Ship to']")));
+      await driver.sleep(1000)
+      let countryName = await driver.findElement(By.xpath("//a[@aria-label='Change country for shipping']")).getText()
+      if(countryName=="United States"){
+        await driver.findElement(By.xpath("//a[@aria-label='Change country for shipping']")).click()
+      }
+
+    }
+    await driver.sleep(1000)
+    await driver.findElement(By.xpath("//*[text()='UNITED STATES & CANADA']")).click()
+    // Select Canada
+    await driver.findElement(By.xpath("//span[text()='Canada']")).click()
       await driver.sleep(5000)
       let url = await driver.getCurrentUrl();
       if (url.indexOf("ca") > -1) {

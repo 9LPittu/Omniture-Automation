@@ -1,6 +1,6 @@
 import { driver } from '../../../helpersMobile';
 import { globals } from '../../../jestJcrewQaMobileConfig';
-import { load } from '../../../mobilepageobjects/mhomepageobj';
+import { load,selectCategory,selectItemAddToBag,verifyBag } from '../../../mobilepageobjects/mhomepageobj';
 import { creditcard,logindetails,guestuser } from '../../../testdata/jcrewTestData';
 import element from '../../../util/commonutils';
 import {loginFromHomePage, clearBagItems} from '../../../mobilepageobjects/mloginpageobj';
@@ -17,8 +17,16 @@ test('title is correct', async () => {
 
  test('Verify User is able to login with valid user credentials', async () => {
    await driver.sleep(1000)
+   let currentUrl = await driver.getCurrentUrl()
+   if(currentUrl.includes("factory")){
    await driver.findElement(By.xpath("//span[@class='primary-nav__text' and contains(text(), 'sign in')]")).click()
    await driver.sleep(1000)
+ }else{
+   await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+   await driver.sleep(2000)
+   await driver.findElement(By.xpath("//h3[text()='Sign in']")).click()
+ }
+   await driver.sleep(2000)
    await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username4)
    await driver.findElement(By.xpath("//*[@id='sidecarPassword']")).sendKeys(logindetails.password4)
    await driver.sleep(1000)
@@ -29,30 +37,18 @@ test('title is correct', async () => {
    await driver.sleep(10000)
   });
 
-test('Go to shoppingBag page and select product', async () => {
-  await driver.findElement(By.xpath("//span[text()='menu']")).click()
+test('Go to shoppingBag page,select product and add to bag', async () => {
+  await selectCategory()
+  await selectItemAddToBag()
+  await verifyBag()
   await driver.sleep(1000)
-  await driver.findElement(By.xpath("//a[@data-department='women']")).click()
-    await	driver.sleep(1000);
-      await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[1]")).click()
-      await driver.sleep(1000)
-      try {
-        await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(closeIcon => {
-        closeIcon.click()
-        driver.sleep(1000)
-       })
-       } catch (err)
-      { }
-    await driver.sleep(1000)
-    await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[3]")).click()
-    await driver.sleep(1000)
-  await driver.executeScript('window.scrollTo(0, 700)')
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h2[text()='Summary']")));
   await driver.sleep(1000)
-  await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click();
+  await driver.findElement(By.xpath("//a[@id='button-checkout']")).click();
   await driver.sleep(1000)
 });
 
-test('Add product to bag', async () => {
+/*test('Add product to bag', async () => {
   await driver.findElement(By.xpath("//button[@id='btn__add-to-bag-wide']")).click();
   await driver.sleep(3000)
   await driver.executeScript('window.scrollTo(0, -700)')
@@ -66,8 +62,8 @@ test('Add product to bag', async () => {
   /*await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@id='main__button-continue-old']")));
   await driver.sleep(1000)
   await driver.findElement(By.xpath("//a[@id='main__button-continue-old']")).click();
-  await driver.sleep(1000)*/
-});
+  await driver.sleep(1000)
+});*/
 
 // In Shipping page, Verify Shipping methods
 

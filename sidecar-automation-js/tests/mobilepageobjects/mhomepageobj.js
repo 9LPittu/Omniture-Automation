@@ -29,7 +29,9 @@ export const selectCategory = async () => {
   await driver.sleep(2000)
   // Category link
   await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
-  await	driver.sleep(2000);
+  await	driver.sleep(5000);
+  await driver.executeScript('window.scrollTo(0, 200)')
+
   // New arrivals
   await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()
   }
@@ -172,12 +174,11 @@ export const selectSuits = async () => {
      await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
      await driver.sleep(2000)
      // Category link
-     await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
-     await	driver.sleep(2000);
-     const suits = await driver.findElement(By.xpath("//li[text()='suits & tuxedos']"));
-     await driver.executeScript("arguments[0].scrollIntoView(true);",suits);
+     await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[2]")).click()
+     await	driver.sleep(4000);
+     await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//li[text()='suits & tuxedos']")));
      await	driver.sleep(1000);
-     suits.click()
+     driver.findElement(By.xpath("//li[text()='suits & tuxedos']")).click()
      await driver.sleep(1000)
  }
   try {

@@ -13,13 +13,20 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
     expect(await driver.getTitle()).toMatch('J.Crew')
   })
 
-   test('Verify User is not able to login with invalid user credentials, display error message', async () => {
+   test('Verifying forgot password functionality', async () => {
        await driver.sleep(1000)
-       await driver.findElement(By.xpath(".//*[text()='sign in']")).click()
+       let currentUrl = await driver.getCurrentUrl();
+       if(currentUrl.includes("factory")){
+         await driver.sleep(1000)
+         await driver.findElement(By.xpath(".//span[text()='sign in']")).click()
+       }else{
+         await driver.sleep(1000)
+         await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+         driver.sleep(4000)
+         await driver.findElement(By.xpath("//h3[text()='Sign in']")).click()
+         driver.sleep(2000)
+       }
        await driver.sleep(3000)
-       await driver.findElement(By.xpath("//*[@id='sidecarUser']")).sendKeys(logindetails.username5)
-       await driver.sleep(1000)
-       //await driver.findElement(By.xpath("//*[@id='sidecarPassword']")).sendKeys(logindetails.password5)
        const forgotPasswordLink = await driver.findElement(By.xpath("//a[text()='I forgot my password!']"))
        expect(forgotPasswordLink).toBeTruthy()
        console.log('forgot password link is displayed');

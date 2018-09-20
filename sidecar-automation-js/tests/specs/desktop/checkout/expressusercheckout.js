@@ -71,6 +71,8 @@ test('Express User Checkout and verifying order summary and order history', asyn
 })
 
 test('Verify Order Summary', async () => {
+   let currentUrl = await driver.getCurrentUrl();
+   if (currentUrl.indexOf("https://or.") > -1) {
    let subTotalOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-subtotal clearfix']/span[2]")).getText();
    let shippingOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-shipping clearfix']/span[2]")).getText();
    let taxOnOrderComplete = await driver.findElement(By.xpath("//ul/li[@class='summary-item clearfix']/span[2]")).getText();
@@ -140,6 +142,9 @@ test('Verify Order Summary', async () => {
       await driver.sleep(1000)
 
     }
+  }else{
+    
+  }
 })
 
 afterAll(async () => {

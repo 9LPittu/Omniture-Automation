@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
-import { load,selectSuits } from '../../../mobilepageobjects/mhomepageobj';
+import { load,selectSuits,verifyBag } from '../../../mobilepageobjects/mhomepageobj';
 import { globals } from '../../../jestJcrewQaMobileConfig';
 
 const each = require('jest-each')
@@ -26,12 +26,7 @@ beforeAll(async () => {
       await driver.sleep(1000)
       await driver.findElement(By.id("btn__add-to-bag-wide")).click()
       await driver.sleep(1000)
-      await driver.executeScript('window.scrollTo(0, -10000)')
-      await driver.sleep(1000)
-
-  let bagSize = await driver.findElement(By.xpath("//span[@class='js-cart-size']")).getText()
-  console.log ("Bag Size >> " + bagSize)
-  expect(bagSize).toBeTruthy()
+      await verifyBag()
 
    })
 

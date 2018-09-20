@@ -16,31 +16,33 @@ beforeAll(async () => {
 
   test('Verify Order status Link', async () => {
     await driver.sleep(2000)
-    //await driver.findElement(By.xpath("//span[text()='menu']")).click()
-    await driver.executeScript('window.scrollTo(0, 15000)')
-    await driver.sleep(3000)
-    // await driver.executeScript('window.scrollTo(300, 0)')
-    // console.log("1st execute script is done");
-    try {
-      // click on Let us help you
+    let url = null;
+    url = await driver.getCurrentUrl();
+    if(url.includes("factory")){
+      await driver.executeScript('window.scrollTo(0, 15000)')
+      await driver.sleep(3000)
       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h6[text()='Let Us Help You']")));
        driver.sleep(3000)
       await driver.findElement(By.xpath("//h6[text()='Let Us Help You']")).then(letushelp => {
        letushelp.click()
        driver.sleep(3000)
      })
-     } catch (err)
-    { }
-      // click on Order status
-     await driver.findElement(By.xpath("//div[text()='Order Status']")).click()
+     // click on Order status
+    await driver.findElement(By.xpath("//div[text()='Order Status']")).click()
+  }else{
+    await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+    await driver.sleep(2000)
+    await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h4[text()='How can we help?']")));
+    await driver.sleep(1000)
+    await driver.findElement(By.xpath("//li[text()='Order Status?']")).click()
+    await driver.sleep(1000)
+
+  }
+    await driver.sleep(1000)
     // Capturing the Current URL
-    let url = await driver.getCurrentUrl();
-    if (url.indexOf("factory.jcrew.com") > -1) {
-      console.log("We are in Factory Order Status page")
-    }
-      else
-    {
-      console.log("We are in Jcrew Order Status page")
+    let currentUrl = await driver.getCurrentUrl();
+    if (currentUrl.includes("order_status")) {
+      console.log("We are in Order Status page")
     }
 
   })

@@ -15,7 +15,9 @@ beforeAll(async () => {
 })
 
 test('Gender Navigation Verification', async () => {
-   await driver.sleep(6000)
+   let currentUrl = await driver.getCurrentUrl();
+   if(currentUrl.includes("factory")){
+   await driver.sleep(1000)
    // Women
    let menuw = await driver.findElement(By.xpath("//span[text()='menu']"))
    expect(menuw).toBeTruthy()
@@ -70,8 +72,63 @@ test('Gender Navigation Verification', async () => {
    await driver.sleep(3000)
    let boysNewArrivals = await driver.findElement(By.xpath("//*[@id='c-category__page-title']"))
    expect(boysNewArrivals).toBeTruthy()
+ }else{
+   let url = null;
+   //women
+   await driver.sleep(1000)
+   await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+   await driver.sleep(2000)
+   await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
+   await	driver.sleep(2000);
+   await driver.executeScript('window.scrollTo(0, 200)')
+   await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()
+   url = await driver.getCurrentUrl();
+   if(url.includes("womens_feature/newarrivals")){
+     console.log("User navigated to women category")
+   }
+   await driver.navigate().to(globals.__baseUrl__)
+   await driver.sleep(1000)
+   //men
+   await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+   await driver.sleep(2000)
+   await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[2]")).click()
+   await	driver.sleep(2000);
+   await driver.executeScript('window.scrollTo(0, 200)')
+   await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()
+   url = await driver.getCurrentUrl();
+   if(url.includes("mens_feature/newarrivals")){
+     console.log("User navigated to men category")
+   }
+   await driver.navigate().to(globals.__baseUrl__)
+   await driver.sleep(1000)
+   //Girls
+   await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+   await driver.sleep(2000)
+   await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[3]")).click()
+   await	driver.sleep(2000);
+   await driver.executeScript('window.scrollTo(0, 200)')
+   await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()
+   url = await driver.getCurrentUrl();
+   if(url.includes("girls_feature/newarrivals")){
+     console.log("User navigated to Girls category")
+   }
+   await driver.navigate().to(globals.__baseUrl__)
+   await driver.sleep(1000)
+   //Boys
+   await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+   await driver.sleep(2000)
+   await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[4]")).click()
+   await	driver.sleep(2000);
+   await driver.executeScript('window.scrollTo(0, 200)')
+   await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()
+   currentUrl = await driver.getCurrentUrl();
+   if(currentUrl.includes("boys_feature/newarrivals")){
+     console.log("User navigated to Boys category")
+   }
+ }
 
 })
+
 
 afterAll(async () => {
   await driver.quit()

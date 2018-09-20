@@ -42,9 +42,10 @@ beforeAll(async () => {
       await driver.sleep(2000)
       await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
       await	driver.sleep(2000);
-      const accessories = await driver.findElement(By.xpath("//li[text()='All Shoes & Accessories']"))
-      await driver.executeScript("arguments[0].scrollIntoView(true);",accessories);
-      accessories.click()
+      //const accessories = await driver.findElement(By.xpath("//li[text()='All Shoes & Accessories']"))
+      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//li[text()='All Shoes & Accessories']")));
+      await	driver.sleep(1000);
+      driver.findElement(By.xpath("//li[text()='All Shoes & Accessories']")).click()
       await	driver.sleep(1000);
     }
          try {

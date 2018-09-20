@@ -47,12 +47,13 @@ beforeAll(async () => {
      const itemsF = await driver.findElement(By.xpath("//*[@id='js-header__cart']/span[2]/span")).getText();
      expect(itemsF).toBeTruthy()
    }else{
+     await driver.get(globals.__baseUrl__);
      await driver.sleep(1000)
-     let bagIcon = await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button bag']"))
+  /*   let bagIcon = await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button bag']"))
      await driver.executeScript("arguments[0].scrollIntoView(true);",bagIcon);
      await driver.sleep(1000)
      bagIcon.click()
-     await driver.sleep(1000)
+     await driver.sleep(1000)*/
      const items = await driver.findElement(By.xpath("//span[@class='cart-badge']")).getText();
      expect(items).toBeTruthy()
      console.log("numbers of items in the Bag are.. "+items)
