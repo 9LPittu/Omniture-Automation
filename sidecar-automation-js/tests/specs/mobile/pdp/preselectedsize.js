@@ -1,7 +1,7 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
 import { globals } from '../../../jestJcrewQaMobileConfig';
-import { guestuser, logindetails, creditcard, zipCode } from '../../../testdata/jcrewTestData';
+
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -12,24 +12,8 @@ beforeAll(async () => {
   expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-
-  test('Adding single / multiple items from single PDP', async () => {
-
-    await driver.findElement(By.xpath("//span[text()='menu']")).click()
-    await driver.sleep(1000)
-    await driver.findElement(By.xpath("//a[@data-department='women']")).click()
-      await	driver.sleep(1000);
-        await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//a[@data-department='accessories'])[1]")));
-        await driver.sleep(1000)
-        await driver.findElement(By.xpath("(//a[@data-department='accessories'])[1]")).click()
-        await driver.sleep(1000)
-        try {
-          await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(closeIcon => {
-          closeIcon.click()
-          driver.sleep(1000)
-         })
-         } catch (err)
-        { }
+  test('Verifying preselectedsize', async () => {
+      await selectAccessories()
       await driver.sleep(1000)
       await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
       await driver.sleep(1000)
@@ -41,6 +25,36 @@ beforeAll(async () => {
       console.log("pre selected size chip is displayed")
 
    })
+
+   export const selectAccessories = async () => {
+     let currentUrl = await driver.getCurrentUrl();
+     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+     await driver.findElement(By.xpath("//span[text()='menu']")).click()
+     await driver.sleep(1000)
+     await driver.findElement(By.xpath("//a[@data-department='women']")).click()
+     await	driver.sleep(1000);
+     await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//a[@data-department='accessories'])[1]")));
+     await driver.sleep(1000)
+     await driver.findElement(By.xpath("(//a[@data-department='accessories'])[1]")).click()
+     await driver.sleep(1000)
+    }else{
+      await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+      await driver.sleep(2000)
+      await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
+      await	driver.sleep(2000);
+      const accessories = await driver.findElement(By.xpath("//li[text()='All Shoes & Accessories']"))
+      await driver.executeScript("arguments[0].scrollIntoView(true);",accessories);
+      accessories.click()
+      await	driver.sleep(1000);
+    }
+         try {
+           await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(closeIcon => {
+           closeIcon.click()
+           driver.sleep(1000)
+          })
+          } catch (err)
+         { }
+   };
 
    afterAll(async () => {
     await driver.quit()

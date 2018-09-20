@@ -10,10 +10,6 @@ export const closeIcon = () => driver.findElement(jcrewCloseicon);
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`)
   await driver.sleep(1000)
-//  await driver.navigate().refresh()
-  //await driver.sleep(2000)
-//  await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()
-//  driver.sleep(3000)
 };
 
 // for selecting the Category
@@ -74,6 +70,7 @@ export const verifyBag = async () => {
     console.log("numbers of items in the Bag are.. "+itemsF)
     await driver.executeScript("arguments[0].click();",driver.findElement(By.css(".js-cart-size")))
     await driver.sleep(2000)
+    await driver.findElement(By.css(".js-cart-size")).click()
 } else {
   // clicking on Bag icon
   await driver.sleep(1000)
@@ -89,3 +86,105 @@ export const verifyBag = async () => {
   await driver.sleep(2000)
   }
 };
+
+export const goToGiftCardPage = async () => {
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+  await driver.executeScript('window.scrollTo(0, 5000)')
+  await driver.sleep(1000)
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h6[text()='Contact Us']")));
+  await driver.sleep(1000)
+  await driver.findElement(By.xpath("//h6[text()='Let Us Help You']")).click()
+  await driver.sleep(1000)
+  await driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
+  await driver.sleep(1000)
+}else{
+  // Menu icon
+  await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+  await driver.sleep(1000)
+  await driver.executeScript('window.scrollTo(0, 5000)')
+  await driver.sleep(1000)
+  const seeAllTopics = await driver.findElement(By.xpath("//li[text()='See all help topics']"))
+  await driver.executeScript("arguments[0].scrollIntoView(true);",seeAllTopics);
+  await driver.sleep(1000)
+  seeAllTopics.click()
+  await driver.sleep(1000)
+  const giftCard = await driver.findElement(By.xpath("//a[text()='J.CREW GIFT CARD']"));
+  expect(giftCard).toBeTruthy()
+  giftCard.click()
+  await driver.sleep(1000)
+}
+  try {
+    await driver.findElement(By.xpath("//div[@class='email-capture--close modal-capture--close js-email-capture--close']")).then(emailCapture => {
+    emailCapture.click()
+    driver.sleep(1000)
+   })
+ } catch (err)   { }
+
+};
+
+export const selectSaleItems = async () => {
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+   driver.sleep(2000);
+   await driver.findElement(By.xpath("//span[text()='menu']")).click()
+   await driver.sleep(1000)
+   await driver.findElement(By.xpath("//a[@data-department='clearance']")).click()
+   await	driver.sleep(2000);
+   await driver.findElement(By.xpath("//a[text()='men']")).click()
+   await driver.sleep(2000)
+  } else {
+  await driver.sleep(5000)
+  // Menu icon
+  await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+  await driver.sleep(2000)
+  // Category link
+  await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[6]")).click()
+  await	driver.sleep(1000);
+  await driver.findElement(By.xpath("(//div[@class='c-sale-recommendation-image'])[2]")).click()
+  await	driver.sleep(1000);
+  // New arrival  await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()
+  }
+  try {
+  await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(emailCapture => {
+  console.log("Email capture page")
+  emailCapture.click()
+  driver.sleep(3000)
+   })
+   } catch (err)
+     { }
+  await driver.sleep(2000)
+};
+
+export const selectSuits = async () => {
+    let currentUrl = await driver.getCurrentUrl();
+    if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+      console.log(">>>.. inside factory" + currentUrl.indexOf("factory.jcrew.com"))
+      await driver.findElement(By.xpath("//span[text()='menu']")).click()
+      await driver.sleep(1000)
+      await driver.findElement(By.xpath("//a[@data-department='men']")).click()
+        await	driver.sleep(1000);
+      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@data-department='thompson suits & blazers']")));
+      await	driver.sleep(1000);
+        await driver.findElement(By.xpath("//a[@data-department='thompson suits & blazers']")).click()
+        await driver.sleep(1000)
+   } else {
+     await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+     await driver.sleep(2000)
+     // Category link
+     await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
+     await	driver.sleep(2000);
+     const suits = await driver.findElement(By.xpath("//li[text()='suits & tuxedos']"));
+     await driver.executeScript("arguments[0].scrollIntoView(true);",suits);
+     await	driver.sleep(1000);
+     suits.click()
+     await driver.sleep(1000)
+ }
+  try {
+          await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(closeIcon => {
+          closeIcon.click()
+          driver.sleep(1000)
+         })
+         } catch (err)
+        { }
+  };
