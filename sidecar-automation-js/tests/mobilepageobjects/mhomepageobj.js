@@ -29,8 +29,8 @@ export const selectCategory = async () => {
   await driver.sleep(2000)
   // Category link
   await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
-  await	driver.sleep(5000);
-  await driver.executeScript('window.scrollTo(0, 200)')
+  await	driver.sleep(2000);
+  //await driver.executeScript('window.scrollTo(0, 200)')
 
   // New arrivals
   await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()

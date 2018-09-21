@@ -1,23 +1,18 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
-import { load } from '../../../mobilepageobjects/mhomepageobj';
+import { load, selectCategory } from '../../../mobilepageobjects/mhomepageobj';
 import { creditcard, guestuser } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-beforeAll(async () => {
+test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
     test('extended sizes validation', async () => {
-
-      await driver.findElement(By.xpath("//span[text()='menu']")).click()
-      await driver.sleep(3000)
-      await driver.findElement(By.xpath("//a[@data-department='women']")).click()
-      await	driver.sleep(2000);
-      await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[1]")).click()
+      await selectCategory();
       await	driver.sleep(1000);
       //await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
       //await driver.sleep(1000)
@@ -40,7 +35,3 @@ beforeAll(async () => {
       console.log("Extended sizes are available for product selected")
 
      })
-
-     afterAll(async () => {
-      await driver.quit()
-    })
