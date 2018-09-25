@@ -324,7 +324,7 @@ public class CheckoutBilling extends Checkout {
 		}
 		User user = User.getNewFakeUser();
 		nameOnCard.sendKeys(user.getFirstName() + " " + user.getLastName());
-		emailReceipt.sendKeys(user.getEmail());
+		//emailReceipt.sendKeys(user.getEmail());
 		E2ECommon e2e = new E2ECommon();
 		Country countryPojo = stateHolder.get("context");
 		Address address = new Address(countryPojo.getCountry());

@@ -9,17 +9,17 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/e2e/jcrew"},
-        tags = {/*"@e2e-expressuser"*/"@e2e-e2ewebtest"},
+        tags = {"@e2e-nonexpressuser"},
         glue = {"com.jcrew.steps"},
         		//plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"}
         format = {
                 "json:target/JC_E2E_WebTest_Testdata_Sheet.json",
                 "pretty",
-                "html:target/cucumber/JC_E2E_WebTest_Testdata_Sheet"
+                "html:target/cucumber/JC_E2E_NonExpressUser_Testdata_Sheet"
         }
 )
 
-public class E2EWebRunnerTest {
+public class E2ENonExpressUserRunnerTest {
 	/*@BeforeClass
     public static void setup() {
         Reporter.setReportsConfig("JCFAR");

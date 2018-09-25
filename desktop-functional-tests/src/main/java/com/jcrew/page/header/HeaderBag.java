@@ -68,7 +68,6 @@ public class HeaderBag extends HeaderWrap {
     	wait.until(ExpectedConditions.visibilityOf(bag));
         WebElement cart_size = driver.findElement(By.className("nc-nav__bag-button__count"));
         cartSizeText = cart_size.getText().trim();
-        System.out.println("bagsize ==========="+cartSizeText);
         if (cartSizeText.isEmpty()) {
         	cartSizeText = "0";
         }
