@@ -73,7 +73,7 @@ public class CheckoutPromoCode extends Checkout {
             stateHolder.put("promocode", code);
 
             WebElement apply = promoContainer.findElement(By.id("promoApply"));
-            Util.scrollPage(driver, "down");
+           // Util.scrollPage(driver, "down");
             apply.click();
 
             wait.until(ExpectedConditions.stalenessOf(promoCodeField));

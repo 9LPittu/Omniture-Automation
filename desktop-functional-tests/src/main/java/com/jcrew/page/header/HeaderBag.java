@@ -27,6 +27,9 @@ public class HeaderBag extends HeaderWrap {
         Util.scrollPage(driver, "UP");
     	Util.wait(2000);
         bag.click();
+        Util.wait(2000);
+        driver.get("https://aka-int-www.jcrew.com/checkout2/shoppingbag.jsp?sidecar=true");
+        Util.wait(2000);
     }
 
     public void hoverBag() {

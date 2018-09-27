@@ -255,7 +255,7 @@ public abstract class Checkout extends PageObject {
     	}
     	
         wait.until(ExpectedConditions.elementToBeClickable(continueButton));
-        Util.scrollPage(driver, "down");
+       // Util.scrollPage(driver, "down");
         continueButton.click();
 
         wait.until(ExpectedConditions.stalenessOf(continueButton));
