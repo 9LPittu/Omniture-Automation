@@ -62,13 +62,15 @@ test('title is correct', async () => {
 */
 
 test('Order Status is visible and url direct to right url', async () => {
+  await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+  await driver.sleep(2000)
   await driver.executeScript('window.scrollTo(0, 5000)')
   await driver.sleep(1000)
-  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h6[text()='Contact Us']")));
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h4[text()='How can we help?']")));
   await driver.sleep(1000)
-  await driver.findElement(By.xpath("//h6[text()='Let Us Help You']")).click()
-  await driver.sleep(1000)
-  const orderstatuslink = driver.findElement(By.xpath("//a/div[text()='Order Status']"))
+  // await driver.findElement(By.xpath("//h6[text()='Let Us Help You']")).click()
+  // await driver.sleep(1000)
+  const orderstatuslink = driver.findElement(By.xpath("//li[text()='Order Status?']"))
   expect(orderstatuslink).toBeTruthy()
   await orderstatuslink.click()
   await driver.sleep(2000)
@@ -97,11 +99,13 @@ test('Order Status is visible and url direct to right url', async () => {
          //await driver.sleep(1000)
       } else {
         await driver.sleep(2000)
+        await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+        await driver.sleep(2000)
         await driver.executeScript('window.scrollTo(0, 10000)')
         await driver.sleep(1000)
-        await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[text()='change']")));
+        await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[@class='footer__country-context__link']")));
         await driver.sleep(1000)
-        const change = await driver.findElement(By.xpath("//a[text()='change']"))
+        const change = await driver.findElement(By.xpath("//a[@class='footer__country-context__link']"))
         await expect(change).toBeTruthy()
         change.click()
         await driver.sleep(1000)

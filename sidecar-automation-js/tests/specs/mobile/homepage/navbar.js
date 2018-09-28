@@ -23,14 +23,15 @@ beforeAll(async () => {
         console.log("verified navigation bar ")
     }
     else{
-        expect(await driver.findElement(By.id('c-header__navbar'))).toBeTruthy()
+        expect(await driver.findElement(By.xpath("(//*[@class='mobile-spacer']/div)[1]"))).toBeTruthy()
         console.log("verified navigation bar ")
       }
      })
 
     test('Global promo is visible and links correctly', async () => {
       console.log("verifying global__promo")
-      const promo = driver.findElement(By.id("global__promo"))
+      console.log("Global__promo is removed from Jcrew brand")
+      /*const promo = driver.findElement(By.id("global__promo"))
       expect(promo).toBeTruthy()
       await promo.click()
       await driver.sleep(2000)
@@ -38,7 +39,7 @@ beforeAll(async () => {
         expect(url.match('womens_feature/newarrivals')).toBeTruthy()
         console.log("verified global__promo")
       })
-      await driver.navigate().back()
+      await driver.navigate().back()*/
     })
 /*
     test('Global promo should have a "details" modal', async () => {
@@ -77,11 +78,11 @@ beforeAll(async () => {
     test('Search allows you to input a search term', async () => {
       console.log("verifying Search")
       await driver.sleep(2000)
-      const searchIcon = await driver.findElement(By.xpath("//span[@class='icon-header icon-header-search icon-search']"))
+      const searchIcon = await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button search']"))
       await expect(searchIcon).toBeTruthy()
       await driver.sleep(1000)
-      await driver.findElement(By.xpath("//span[contains(text(),'search')]")).click()
-      const searchinput = await driver.findElement(By.className("js-header__search__input header__search__input"))
+      searchIcon.click()
+      const searchinput = await driver.findElement(By.xpath("//input[@placeholder='Search J.Crew']"))
       await driver.sleep(1000)
       await searchinput.sendKeys('shirts', Key.ENTER)
       await driver.sleep(2000)
@@ -98,7 +99,7 @@ beforeAll(async () => {
       })
 
      each([
-        ['WOMEN'],
+        ['Women'],
 //        ['MEN'],
 //        ['BOYS'],
 //        ['GIRLS'],
@@ -108,11 +109,13 @@ beforeAll(async () => {
     console.log("verifying links")
         try {
         await driver.sleep(3000)
-        await driver.findElement(By.xpath("//span[text()='menu']")).click()
+        await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
         await driver.sleep(3000)
-        await driver.findElement(By.linkText(link)).click()
+        //await driver.findElement(By.linkText(link)).click()
+        await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]/h2[text()='"+link+"']")).click()
         await driver.sleep(3000)
-        await driver.findElement(By.xpath("//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'new arrivals')]")).click()
+        //await driver.findElement(By.xpath("//a[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'new arrivals')]")).click()
+        await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()
         await	driver.sleep(3000);
           await driver.getCurrentUrl().then(url => {
             const reg = new RegExp(link, 'i')
