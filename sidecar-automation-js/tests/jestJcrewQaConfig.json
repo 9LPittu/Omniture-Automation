@@ -4,7 +4,7 @@
     "coverageDirectory": "./coverage",
       "coverageReporters": ["json", "html", "text", "text-summary"],
   "testMatch": [
-    "**/specs/desktop/*/loginvalidations*.js"
+    "**/specs/desktop/homepage/*.js"
   ],
   "transform": {
     "\\.js$": "react-scripts/config/jest/babelTransform"
