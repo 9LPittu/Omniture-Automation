@@ -4,7 +4,7 @@
     "coverageDirectory": "./coverage",
       "coverageReporters": ["json", "html", "text", "text-summary"],
   "testMatch": [
-    "**/specs/desktop/homepage/*.js"
+    "**/specs/desktop//*.js"
   ],
   "transform": {
     "\\.js$": "react-scripts/config/jest/babelTransform"
