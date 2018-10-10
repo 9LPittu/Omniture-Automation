@@ -29,12 +29,9 @@ beforeAll(async () => {
     const productprice = await driver.findElement(By.xpath("(//span[contains(@class,'tile__detail--price')])[1]"))
     expect(productprice).toBeTruthy()
 
-    await driver.executeScript('window.scrollTo(0, 2000)')
-    await driver.sleep(2000)
 
      })
 
      afterAll(async () => {
       await driver.quit()
     })
-    

@@ -189,3 +189,26 @@ export const selectSuits = async () => {
          } catch (err)
         { }
   };
+
+export const selectExtendSizeCategory = async () => {
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    await driver.sleep(6000)
+    await driver.findElement(By.xpath("//span[text()='menu']")).click()
+    await driver.sleep(3000)
+    await driver.findElement(By.xpath("(//a[@data-department='men'])[1]")).click()
+    await	driver.sleep(3000);
+    await driver.findElement(By.xpath("(//a[@data-department='new arrivals'])[2]")).click()
+  } else {
+  await driver.sleep(5000)
+  // Menu icon
+  await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+  await driver.sleep(2000)
+  // Category link
+  await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
+  await	driver.sleep(2000);
+  await driver.findElement(By.xpath("//li[text()='All Clothing']")).click()
+  await	driver.sleep(2000);
+  await driver.findElement(By.xpath("(//span[@class='tile__detail--alsoin'])[1]")).click()
+}
+};

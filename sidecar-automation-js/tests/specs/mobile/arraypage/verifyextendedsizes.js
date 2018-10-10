@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
-import { load, selectCategory } from '../../../mobilepageobjects/mhomepageobj';
+import { load, selectExtendSizeCategory } from '../../../mobilepageobjects/mhomepageobj';
 import { creditcard, guestuser } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
@@ -12,17 +12,16 @@ test('title is correct', async () => {
  })
 
     test('extended sizes validation', async () => {
-      await selectCategory();
+      await selectExtendSizeCategory();
       await	driver.sleep(1000);
-      //await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).click()  // close the popups
-      //await driver.sleep(1000)
-      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//span[text()='available in'])[1]")));
+      await driver.executeScript('window.scrollTo(0, 400)')
+      /*await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//span[text()='available in'])[1]")));
       await	driver.sleep(1000);
       await driver.executeScript('window.scrollTo(0, 100)')
       await driver.sleep(1000)
       await driver.findElement(By.xpath("(//span[text()='available in'])[1]")).click()
       await driver.sleep(1000)
-      await driver.executeScript('window.scrollTo(0, 300)')
+      await driver.executeScript('window.scrollTo(0, 300)')*/
       await driver.sleep(2000)
       const extendedSizes = await driver.findElement(By.xpath("(//span[@class='product__variation--name'])[2]"))
       expect(extendedSizes).toBeTruthy()

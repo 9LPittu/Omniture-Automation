@@ -15,9 +15,9 @@ beforeAll(async () => {
       await selectCategory();
       await driver.sleep(2000)
       await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
-      await driver.sleep(3000)
-      await driver.executeScript('window.scrollTo(0, 800)')
-      await driver.sleep(10000)
+      await driver.sleep(1000)
+      await driver.executeScript('window.scrollTo(0, 1500)')
+      await driver.sleep(1000)
       await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//h3[text()='Customers Also Love']")));
       await driver.sleep(1000)
       const customersalsolike = await driver.findElement(By.xpath("//h3[text()='Customers Also Love']"))
