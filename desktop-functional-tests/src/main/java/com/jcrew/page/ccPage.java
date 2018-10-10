@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -53,16 +54,12 @@ public class ccPage extends Checkout {
 	private WebElement discountPercentage;
 	@FindBy(xpath = "//button[@name='apply_discount']")
 	private WebElement applyDiscountButton;
-
 	@FindBy(xpath = "//select[@name='e4xShippingMethodList']")
 	private WebElement shippingMethodList;
-
 	@FindBy(xpath = "//select[@name='shippingMethodList']")
 	private WebElement shippingMethod;
-
 	@FindBy(xpath = "//select[@name='shippingMethodList']/option")
 	private List<WebElement> shippingMethods;
-
 	@FindBy(xpath = "(//button[@name='submit_order'])[2]")
 	private WebElement submitOrder;
 	@FindBy(xpath = "//input[@name='CART_ITEM_ARRAY<>quantity']")
@@ -107,6 +104,12 @@ public class ccPage extends Checkout {
 	private WebElement giftCard;
 	@FindBy(xpath = "//input[@name='ACCOUNT_ARRAY<>pinNumber']")
 	private WebElement giftCardPin;
+	@FindBy(xpath="(//*[@name='redeem_points'])[2]")
+	private WebElement redeemButton;
+	@FindBy(xpath="//input[@value='REDEEMED']")
+	private WebElement redeemedButton;
+	@FindBy(xpath="//td[text()='Rewards Redeemed']")
+	private WebElement redeemedAmt;
 	
 	
 	public String orderNumber = null;
@@ -151,7 +154,14 @@ public class ccPage extends Checkout {
 		searchButton.click();
 		Util.waitForPageFullyLoaded(driver);
 		Util.wait(2000);
-		customer.click();
+		try {
+			if (customer.isDisplayed()) {
+				customer.click();
+			}
+		}catch (Exception e) {
+		
+		}
+		
 		Util.waitForPageFullyLoaded(driver);
 		Util.wait(2000);
 	}
@@ -172,7 +182,9 @@ public class ccPage extends Checkout {
 
 	public void addMultiLineItems() {
 		addVariant.sendKeys(getDataFromTestDataRowMap("Item Identifier1"));
-		addButton.click();
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].click();", addButton);
+		//addButton.click();
 		Util.waitForPageFullyLoaded(driver);
 		Util.wait(8000);
 		qty.get(0).clear();
@@ -182,7 +194,8 @@ public class ccPage extends Checkout {
 		selectShippingMethod();
 		addVariant.sendKeys(getDataFromTestDataRowMap("Item Identifier2"));
 		Util.wait(2000);
-		addButton.click();
+		executor.executeScript("arguments[0].click();", addButton);
+		//addButton.click();
 		Util.wait(8000);
 		qty.get(1).clear();
 		Util.wait(2000);
@@ -194,7 +207,9 @@ public class ccPage extends Checkout {
 
 	public void singleLineItem() {
 		addVariant.sendKeys(getDataFromTestDataRowMap("Item Identifier1"));
-		addButton.click();
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].click();", addButton);
+		//addButton.click();
 		Util.waitForPageFullyLoaded(driver);
 		Util.wait(8000);
 		qty.get(0).clear();
@@ -207,7 +222,9 @@ public class ccPage extends Checkout {
 			shippingMethod.selectByIndex(1);
 		}*/
 		Util.wait(2000);
-		reCalTotals.click();
+		//JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].click();", reCalTotals);
+		//reCalTotals.click();
 		Util.wait(8000);
 	}
 
@@ -217,7 +234,9 @@ public class ccPage extends Checkout {
 			Util.wait(3000);
 			applyDiscountButton.click();
 			Util.wait(5000);
-			reCalTotals.click();
+			JavascriptExecutor executor = (JavascriptExecutor)driver;
+			executor.executeScript("arguments[0].click();", reCalTotals);
+			//reCalTotals.click();
 			Util.wait(8000);
 		}
 	}
@@ -245,6 +264,10 @@ public class ccPage extends Checkout {
 			paymentMethod = e2ePropertyReader.getProperty("GiftCard");
 		} else if (paymentMethodName.equalsIgnoreCase("JCC")) {
 			paymentMethod = e2ePropertyReader.getProperty("JCC");
+		} else if (paymentMethodName.equalsIgnoreCase("Loyalty.Visa")) {
+			paymentMethod = e2ePropertyReader.getProperty("Loyalty.Visa");
+		}else if (paymentMethodName.equalsIgnoreCase("JCB")) {
+			paymentMethod = e2ePropertyReader.getProperty("JCB");
 		}
 		return paymentMethod;
 	}
@@ -314,28 +337,28 @@ public class ccPage extends Checkout {
 
 	public void selectShippingMethod() {
 		try {
-			WebElement selectShipping = driver.findElement(By.xpath("(//select/option[contains(text(),'Select a shipping method')])[1]"));
-		if (!getDataFromTestDataRowMap("Ship To Country").equalsIgnoreCase("US")||selectShipping.isDisplayed()) {
-			Select shippingMethod = new Select(shippingMethodList);
-			shippingMethod.selectByIndex(1);
-			Util.wait(5000);
-		}else {
-			if (!getDataFromTestDataRowMap("Shipping Methods").isEmpty()) {
-				Select selectShippingMethod = new Select(shippingMethod);
-				for (int i = 0; i < shippingMethods.size(); i++) {
-					String getShippingMethod = getDataFromTestDataRowMap("Shipping Methods");
-					if (shippingMethods.get(i).getText().contains(getShippingMethod)) {
-						selectShippingMethod.selectByVisibleText(shippingMethods.get(i).getText());
-						Util.wait(5000);
-						return;
+			WebElement selectShipping = driver
+					.findElement(By.xpath("(//select/option[contains(text(),'Select a shipping method')])[1]"));
+			if (!getDataFromTestDataRowMap("Ship To Country").equalsIgnoreCase("US") || selectShipping.isDisplayed()) {
+				Select shippingMethod = new Select(shippingMethodList);
+				shippingMethod.selectByIndex(1);
+				Util.wait(5000);
+			} else {
+				if (!getDataFromTestDataRowMap("Shipping Methods").isEmpty()) {
+					Select selectShippingMethod = new Select(shippingMethod);
+					for (int i = 0; i < shippingMethods.size(); i++) {
+						String getShippingMethod = getDataFromTestDataRowMap("Shipping Methods");
+						if (shippingMethods.get(i).getText().contains(getShippingMethod)) {
+							selectShippingMethod.selectByVisibleText(shippingMethods.get(i).getText());
+							Util.wait(5000);
+							return;
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
 		}
-		}
-		catch (Exception e) {
-		} 
-		
+
 	}
 
 	public void selectShippingInfo() {
@@ -359,18 +382,23 @@ public class ccPage extends Checkout {
 		stateHolder.put("orderNumber", orderNumber);
 		return orderNumber;
 	}
+	public void redeemRewardPoints() {
+		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("redeem reward points")) {
+		redeemButton.isDisplayed();
+		redeemButton.click();
+		Util.wait(5000);
+		redeemedButton.isDisplayed();
+		redeemedAmt.isDisplayed();
+		}
+	}
 
 	public void createNewOrder() throws Exception {
 		if (getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("Regular")) {
 			Select selectOrderType = new Select(orderType);
 			selectOrderType.selectByVisibleText(getDataFromTestDataRowMap("OrderType"));
 			Util.wait(2000);
+			redeemRewardPoints();
 			selectShippingInfo();
-			/*if (getDataFromTestDataRowMap("MultiLine").equalsIgnoreCase("Yes")) {
-				addMultiLineItems();
-			} else {
-				singleLineItem();
-			}*/
 			applyPromo();
 			selectPaymentMethods();
 			applyDiscount();
@@ -378,6 +406,7 @@ public class ccPage extends Checkout {
 		} else if (getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("STS")) {
 			shipToStore.click();
 			Util.wait(5000);
+			redeemRewardPoints();
 			Select selectBillToInfo = new Select(billToInfo);
 			selectBillToInfo.selectByVisibleText(getDataFromTestDataRowMap("Shipping Addresses1"));
 			Util.wait(5000);
@@ -386,15 +415,9 @@ public class ccPage extends Checkout {
 			Util.wait(2000);
 			saveStoreAddress.click();
 			Util.wait(6000);
-			/*if (getDataFromTestDataRowMap("MultiLine").equalsIgnoreCase("Yes")) {
-				addMultiLineItems();
-			} else {
-				singleLineItem();
-			}*/
 			applyPromo();
 			selectPaymentMethods();
 			applyDiscount();
-
 		}
 	}
 

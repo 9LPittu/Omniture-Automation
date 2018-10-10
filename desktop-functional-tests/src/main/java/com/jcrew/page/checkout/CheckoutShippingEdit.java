@@ -8,6 +8,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import com.jcrew.steps.E2ECommon;
 import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.Util;
 
@@ -31,6 +33,7 @@ public class CheckoutShippingEdit extends Checkout {
     @FindBy(xpath="//span[@class='zip-code normal-span']/input[@id='zipcode']")
     private WebElement zipCode;
     protected E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
+    E2ECommon e2eReader = new E2ECommon();
 
     public CheckoutShippingEdit(WebDriver driver) {
         super(driver);
@@ -88,7 +91,7 @@ public class CheckoutShippingEdit extends Checkout {
     	shipToStore.click();
     	Util.waitForPageFullyLoaded(driver);
     	Util.wait(1000);
-    	zipCode.sendKeys(e2ePropertyReader.getProperty("sts.zipcode.fulfillment"));
+    	zipCode.sendKeys(e2eReader.getDataFromTestDataRowMap("Store Zip Code"));
     	Util.wait(3000);
     }
     public void continueButton() {

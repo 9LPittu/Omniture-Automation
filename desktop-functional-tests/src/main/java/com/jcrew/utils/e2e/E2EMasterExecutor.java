@@ -38,7 +38,7 @@ public class E2EMasterExecutor {
 		try {
 			String masterSheetName = "E2E_Master.xls"; 
 			if(System.getProperty("os.name").toLowerCase().contains("windows")){
-				masterReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testsdata.mastersheet") + File.separator + masterSheetName, "Master", "");
+				masterReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + masterSheetName, "Master", "");
 			}
 			else{
 				masterReader = new ExcelUtils(ftpPath + masterSheetName, "Master", "");
@@ -48,7 +48,7 @@ public class E2EMasterExecutor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println("========================="+masterReader);
 		checkRunnerSelection(masterReader);
 		
 		scrubTestDataSheets(masterReader);
@@ -133,7 +133,7 @@ public class E2EMasterExecutor {
 		ExcelUtils testDataReader = null;
 		try {
 			if(System.getProperty("os.name").toLowerCase().contains("windows")){
-				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testsdata.mastersheet") + File.separator + testdataFile, "Testdata", "");
+				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
 			}
 			else{				
 				testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("jenkins.ftp.path") + testdataFile, "Testdata", "");
@@ -229,7 +229,7 @@ public class E2EMasterExecutor {
 				ExcelUtils testDataReader = null;
 				try {
 					if(System.getProperty("os.name").toLowerCase().contains("windows")){
-						testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testsdata.mastersheet") + File.separator + testdataFile, "Testdata", "");
+						testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("windows.e2e.testdata.dir") + File.separator + testdataFile, "Testdata", "");
 					}
 					else{				
 						testDataReader = new ExcelUtils(e2ePropertyReader.getProperty("jenkins.ftp.path") + testdataFile, "Testdata", "");

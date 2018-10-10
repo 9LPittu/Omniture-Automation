@@ -1,7 +1,6 @@
 package com.jcrew.page;
 
 import com.google.common.base.Function;
-import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;

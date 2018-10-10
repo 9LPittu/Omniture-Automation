@@ -2,7 +2,6 @@ package com.jcrew.utils;
 
 
 import com.google.common.base.Function;
-import com.jcrew.page.header.HeaderLogo;
 import com.jcrew.pojo.Country;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;

@@ -168,12 +168,16 @@ public class E2E2Steps extends E2ECommon {
 				checkoutBillingPayment.addNewCreditDebitCard(paymentMethod2);
 				checkoutBilling.clickOnChangeButton();
 			}
-
+			if(paymentMethod1.equalsIgnoreCase("Gift Card")) {
+				singlePaymentMethod(userType, paymentMethod2);
+				checkoutBilling.continueCheckout();
+			}else {
 			// second payment selection
 			checkoutBilling.clickTwoCardsPayment();
 			checkoutBilling.continueCheckout();
 			checkoutBilling.splitPayment(paymentMethod1, paymentMethod2);
 			stateHolder.put("isBillingContinueClicked", true);
+			}
 		}
 	}
 
@@ -292,7 +296,7 @@ public class E2E2Steps extends E2ECommon {
 
 				checkoutShippingAdd.selectMultipleAddressesRadioButton();
 			}
-
+			
 			String isFirstAddressQAS = getDataFromTestDataRowMap("is First Address QAS?");
 			String firstAddress_AddressLine1 = getDataFromTestDataRowMap("FirstAddress_AddressLine1");
 			String firstAddress_AddressLine2 = getDataFromTestDataRowMap("FirstAddress_AddressLine2");

@@ -4,6 +4,8 @@ import com.google.common.collect.Lists;
 import com.jcrew.page.Footer;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
+
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -37,6 +39,15 @@ public class CheckoutShoppingBag extends Checkout {
     
     @FindBy(className="item-gc")
     private WebElement giftCardElement;
+    
+   /* @FindBy(xpath=".//span[@class='summary-label' and contains(text(), 'SUBTOTAL')]/following-sibling::*")
+    private WebElement subTotal;
+    
+    @FindBy(xpath=".//span[@class='summary-label' and contains(text(), 'Rewards Redeemed')]/following-sibling::*")
+    private WebElement redeemedAmount;*/
+    
+    @FindBy(xpath=".//span[@class='summary-label' and contains(text(), 'Total')]/following-sibling::*")
+    private WebElement total;
 
     public CheckoutShoppingBag(WebDriver driver) {
         super(driver);
@@ -335,12 +346,18 @@ public class CheckoutShoppingBag extends Checkout {
     
     public void reedemRewardPoint() {
     	try {
-    		reedem.isDisplayed();
+    		String totalBeforRedeem = total.getText();
+    		totalBeforRedeem = totalBeforRedeem.replaceAll("[^0-9\\.]", "");
+    		Util.scrollToElement(driver, reedem);
+    		Assert.assertTrue(reedem.isDisplayed());
     		reedem.click();
     		Util.waitForPageFullyLoaded(driver);
-    		rewardsRedeemed.isDisplayed();
+    		Assert.assertTrue(rewardsRedeemed.isDisplayed());
+    		String totalAfterRedeem = total.getText();
+    		totalAfterRedeem=totalAfterRedeem.replaceAll("[^0-9\\.]", "");
+    		Assert.assertNotEquals(totalBeforRedeem, totalAfterRedeem);
     	}catch (Exception e) {
-			// TODO: handle exception
+			
 		}
     }
 }
