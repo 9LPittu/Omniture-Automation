@@ -101,7 +101,7 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
       }
    })
 
-   
+
    afterAll(async () => {
     await driver.quit()
   })

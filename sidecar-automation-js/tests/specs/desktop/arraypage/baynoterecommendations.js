@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import {productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
 
@@ -14,6 +14,7 @@ beforeAll(async () => {
 
   test('verifying baynoterecommendations in shopping bag page', async () => {
       await productArrayPage()
+      await closeIconInPAP()
       await addProductToBag()
       await verifyAndClickOnBag()
       await driver.executeScript('window.scrollTo(0, 200)')

@@ -1,6 +1,7 @@
 import { until } from 'selenium-webdriver';
 import { driver, defaultTimeout } from '../helpers';
 
+const { Builder, By, Key } = require('selenium-webdriver')
 const jcrewCloseicon = { xpath: "(//span[@class='icon-close'])[1]" };
 const privacyPolicy = { xpath: "//div[@class='mt-close-lb-slide privacyPolicyClose']" };
 const signInIcon = { xpath: "//*[@id='c-header__userpanel']/a/span[2]" };
@@ -18,7 +19,7 @@ export const load = async () => {
   try {
   await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
   } catch (err) {
-    
+
   }
   await driver.sleep(3000)
   try {
@@ -29,6 +30,14 @@ export const load = async () => {
  } catch (err) {}
   };
 
+  export const closeIconInPAP = async () => {
+    try {
+    await driver.findElement(By.xpath("(//span[@class='icon-close'])[1]")).click()
+  }
+  catch (err) {
+    console.log("closings pop up is not present ")
+  }
+};
 
 // home page Elements:
 

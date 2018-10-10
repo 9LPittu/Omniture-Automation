@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import {productArrayPage} from '../../../pageObjects/arraypage';
 
@@ -15,6 +15,7 @@ beforeAll(async () => {
   test('quickshop validation', async () => {
       console.log("verifying Quick shop")
       await productArrayPage()
+      await closeIconInPAP()
       await driver.sleep(1000)
       await driver.actions().mouseMove(await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))).perform();
       await driver.sleep(2000)
@@ -29,7 +30,7 @@ beforeAll(async () => {
       console.log("User is able to navigate to quick shop from arraypage")
    })
 
-   
+
    afterAll(async () => {
     await driver.quit()
   })

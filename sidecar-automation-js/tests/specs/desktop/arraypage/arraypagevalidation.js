@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import {productArrayPage} from '../../../pageObjects/arraypage';
 const each = require('jest-each')
@@ -14,7 +14,7 @@ beforeAll(async () => {
   test('Product arraypage validation', async () => {
     console.log("Array page is being verified ")
     await productArrayPage();
-
+    await closeIconInPAP()
     const arraypage = await driver.findElement(By.className('c-product__list'))
     expect(arraypage).toBeTruthy()
 
@@ -29,6 +29,7 @@ beforeAll(async () => {
 
     await driver.executeScript('window.scrollTo(0, 2000)')
     await driver.sleep(2000)
+
 
      })
 

@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 
 
@@ -23,6 +23,8 @@ beforeAll(async () => {
           await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Men']"))).perform();
           driver.sleep(2000);
   		    await driver.findElement(By.xpath("//a[text()='t-shirts & polos']")).click()
+          await driver.sleep(3000)
+          await closeIconInPAP()
       }
       await driver.sleep(1000)
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]")).click()

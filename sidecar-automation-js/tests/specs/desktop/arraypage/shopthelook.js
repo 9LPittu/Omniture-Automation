@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import {productArrayPage} from '../../../pageObjects/arraypage';
 
@@ -16,6 +16,7 @@ beforeAll(async () => {
   test('shop the look validation', async () => {
     console.log("verifying shop the look")
     await productArrayPage()
+    await closeIconInPAP()
     const productimage =await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))
     productimage.click()
     await driver.sleep(3000)
@@ -34,7 +35,7 @@ beforeAll(async () => {
     expect(await driver.findElement(By.xpath("(//div[@class='c-sizes-list'])[2]"))).toBeTruthy()
   })
 
-  
+
   afterAll(async () => {
     await driver.quit()
   })
