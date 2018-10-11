@@ -33,7 +33,7 @@ export const loginInAfterCheckoutPage = async (username, password)=>{
 }
 
 export const clearBagItems = async ()=> {
-  await driver.sleep(5000)
+  await driver.sleep(2000)
   await driver.get(globals.__baseUrl__+"/CleanPersistentCart.jsp")
 }
 

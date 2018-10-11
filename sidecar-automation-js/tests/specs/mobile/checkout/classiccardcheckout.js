@@ -12,64 +12,16 @@ test('title is correct', async () => {
  })
 
   test('Classic Card Checkout - Express User', async () => {
+
+         await loginFromHomePage(jcrew_gold_express.username,jcrew_gold_express.password)
   		   driver.sleep(2000);
-         let currentUrl = await driver.getCurrentUrl();
-         if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-           await driver.executeScript('window.scrollTo(0, 5000)')
-           await driver.sleep(2000)
-         }else{
-          await driver.executeScript('window.scrollTo(0, 16000)')
-          await driver.sleep(2000)
-         }
-        await driver.findElement(By.xpath("//h6[text()='Let Us Help You']")).click()
-        await driver.sleep(2000)
-          try {
-            await driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
-             await driver.sleep(3000)
-          } catch(err) {}
+         await clearBagItems()
+         driver.sleep(12000);
+         addGiftCardToBag("classicGiftCard")
+         driver.sleep(8000);
 
-    try {
-    //   await driver.sleep(2000)
-      await driver.findElement(By.xpath("(//span[@class='icon-close'])")).click()  // close the popups
-       await driver.sleep(2000)
-    } catch (err) {
 
-    }
-      await driver.findElement(By.xpath("//*[@id='classicGiftCard']/img")).click()
-      await driver.sleep(3000)
 
-      await driver.findElement(By.xpath("//*[@id='amount25']")).click()
-      await driver.findElement(By.xpath("//*[@id='senderName']")).sendKeys("test")
-      await driver.findElement(By.xpath("//*[@id='RecipientName']")).sendKeys("recipient test")
-      await driver.findElement(By.xpath("//*[@id='text1Message']")).sendKeys("line 1")
-      await driver.findElement(By.xpath("//*[@id='text2Message']")).sendKeys("line 2")
-      //*[@id="submitClassic"]
-      await driver.findElement(By.id("submitClassic")).click()
-
-      await driver.sleep(3000)
-      await driver.findElement(By.id("js-header__cart")).click()
-      await driver.sleep(3000)
-      await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//*[@id='button-checkout']")))
-      await driver.sleep(2000)
-      await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-      await driver.sleep(3000)
-
-      await driver.findElement(By.xpath("//*[@id='loginUser']")).sendKeys(logindetails.username1)
-      await driver.findElement(By.xpath("//*[@id='loginPassword']")).sendKeys(logindetails.password1)
-      await driver.sleep(2000)
-      await driver.findElement(By.xpath("//a[text()='Sign In & Check Out']")).click()
-
-      await driver.sleep(3000)
-
-try {
-  await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[1]")).then(mergebutton => {
-  // console.log("inside merge page")
-   mergebutton.click()
-   driver.sleep(3000)
-   driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-   })
- } catch (err)
-{ }
 
 if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
 

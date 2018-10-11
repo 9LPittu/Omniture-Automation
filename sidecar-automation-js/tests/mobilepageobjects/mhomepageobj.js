@@ -2,10 +2,22 @@ import { until } from 'selenium-webdriver';
 import { driver, defaultTimeout } from '../helpersMobile';
 import { globals } from '../jestJcrewQaMobileConfig';
 
-const jcrewCloseicon = { xpath: "(//span[@class='icon-close'])[1]" };
+const jcrewCloseicon = driver.findElement(By.xpath("(//span[@class='icon-close'])[1]"));
+const buyGiftCard = driver.findElement(By.xpath("//li[text()='Buy a Gift Card']"));
+const classicCard = driver.findElement(By.xpath("//a[@id='classicGiftCard']/img"));
+const eCard = driver.findElement(By.xpath("//a[@id='eGiftCard']/img"));
+
+
 const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
-export const closeIcon = () => driver.findElement(jcrewCloseicon);
+
+export const closeIcon = () => {
+  try {
+  await driver.sleep(1000)
+  jcrewCloseicon.click()  // close the popups
+  await driver.sleep(2000)
+  } catch (err){}
+}
 
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`)
@@ -210,5 +222,40 @@ export const selectExtendSizeCategory = async () => {
   await driver.findElement(By.xpath("//li[text()='All Clothing']")).click()
   await	driver.sleep(2000);
   await driver.findElement(By.xpath("(//span[@class='tile__detail--alsoin'])[1]")).click()
+}
+};
+
+export const addGiftCardToBag = async (giftcardName) => {
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    //Footer links are not displaying
+  } else {
+  await driver.sleep(2000)
+  // Menu icon
+  await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+  await driver.sleep(2000)
+  await driver.executeScript("arguments[0].scrollIntoView(true);",buyGiftCard);
+  await driver.sleep(1000)
+  buyGiftCard.click()
+  await driver.sleep(1000)
+  await closeIcon()
+  await driver.sleep(1000)
+  if(giftcardName=="classicGiftCard"){
+    classicCard.click()
+  }else if(giftcardName=="eGiftCard"){
+    eCard.click()
+  }
+  await driver.sleep(2000)
+  await driver.findElement(By.xpath("//*[@id='amount25']")).click()
+  await driver.findElement(By.xpath("//*[@id='senderName']")).sendKeys("test")
+  await driver.findElement(By.xpath("//*[@id='RecipientName']")).sendKeys("recipient test")
+  await driver.findElement(By.xpath("//*[@id='text1Message']")).sendKeys("line 1")
+  await driver.findElement(By.xpath("//*[@id='text2Message']")).sendKeys("line 2")
+  //*[@id="submitClassic"]
+  await driver.findElement(By.id("submitClassic")).click()
+  await driver.sleep(1000)
+  await driver.findElement(By.className("nc-mobile-nav__button bag")).click()
+  await driver.sleep(1000)
+
 }
 };
