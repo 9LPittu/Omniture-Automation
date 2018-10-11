@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { addEditRemoveAddress} from '../../../pageObjects/shippingaddresspageobj';
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginpageobj';
 import {productArrayPage, addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
@@ -39,6 +39,7 @@ test('Clear the bag items if any products were avilable and Add one product', as
   console.log('cleared the bag items')
   driver.sleep(10000);
   await productArrayPage()
+  await closeIconInPAP()
   await addProductToBag()
   await verifyAndClickOnBag()
   await driver.sleep(3000)

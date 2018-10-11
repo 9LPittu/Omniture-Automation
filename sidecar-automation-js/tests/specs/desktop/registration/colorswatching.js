@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { productArrayPage } from '../../../pageObjects/arraypage';
 
@@ -13,6 +13,7 @@ beforeAll(async () => {
 });
 test('select product id and goto array page ', async () =>{
   await productArrayPage()
+  await closeIconInPAP()
 });
 
 test('verify color swatch is Displayed in pdp page on hovering the product', async () =>{

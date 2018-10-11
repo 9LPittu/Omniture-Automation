@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load, categorymen } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, categorymen, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard, zipCode } from '../../../testdata/jcrewTestData';
 import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
@@ -18,6 +18,7 @@ beforeAll(async () => {
 
 test('ship to store Checkout', async () => {
   await productArrayPage();
+  await closeIconInPAP()
   await addProductToBag();
   await verifyAndClickOnBag();
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()

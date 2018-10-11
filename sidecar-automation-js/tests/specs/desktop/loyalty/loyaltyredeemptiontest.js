@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { logindetails } from '../../../testdata/jcrewTestData';
 import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
 import { loginFromHomePage } from '../../../pageObjects/loginPageObj'
@@ -22,10 +22,11 @@ beforeAll(async () => {
 
 test('verifying loyalty redeemtion', async () => {
   let currentUrl = await driver.getCurrentUrl();
-  
+
   if (currentUrl.indexOf("https://or.") > -1) {
   await loginFromHomePage(logindetails.loyaltyuser, logindetails.password);
   await productArrayPage();
+  await closeIconInPAP()
   await addProductToBag();
   await verifyAndClickOnBag();
   await driver.sleep(1000)
@@ -43,7 +44,7 @@ test('verifying loyalty redeemtion', async () => {
    totalOnReview = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-total clearfix']/span[2]")).getText();
  } else {
  console.log("Assume loylaty is working on Production!")
- } 
+ }
 })
 
 afterAll(async () => {

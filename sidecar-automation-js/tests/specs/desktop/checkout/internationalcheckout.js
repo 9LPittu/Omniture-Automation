@@ -1,6 +1,6 @@
 import { until } from 'selenium-webdriver';
 import { driver, defaultTimeout } from '../../../helpers';
-import { load, categorymen, caualshirt } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, categorymen, caualshirt, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
 import {productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage'
@@ -37,6 +37,7 @@ beforeAll(async () => {
     await driver.findElement(By.xpath("//span[text()='" + contextchooser +"']" )).click()
     await driver.sleep(3000)
     await productArrayPage();
+    await closeIconInPAP()
     await addProductToBag();
     await verifyAndClickOnBag();
       await driver.sleep(sleeptime)
@@ -91,7 +92,7 @@ try {
         bizrate.click()
         await driver.sleep(2000)
       } catch (err) {
-        
+
       }
        let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
 

@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { createNewAccount } from '../../../pageObjects/loginpageObj';
 import { productArrayPage } from '../../../pageObjects/arraypage';
 import { logindetails } from '../../../testdata/jcrewTestData';
@@ -19,6 +19,7 @@ beforeAll(async () => {
 test('verify write a review functionality', async () => {
   await loginFromHomePage(logindetails.loyaltyuser, logindetails.password);
   await productArrayPage()
+  await closeIconInPAP()
   await driver.sleep(4000)
   await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
   await driver.sleep(3000)
@@ -49,9 +50,9 @@ test('verify write a review functionality', async () => {
     const previewHeader = await driver.findElement(By.xpath("//span[text()='Preview Your Review']"));
     expect(previewHeader).toBeTruthy()
     console.log("Preview your review header is displaying")
-    
+
     let currentUrl = await driver.getCurrentUrl();
-  
+
     if (currentUrl.indexOf("https://or.") > -1) {
     const submit = await driver.findElement(By.xpath("(//span[text()='Submit'])[2]"));
     expect(submit).toBeTruthy()
@@ -64,7 +65,7 @@ test('verify write a review functionality', async () => {
     console.log("Reviews are displaying")
     await driver.findElement(By.xpath("(//a[text()='write a review'])[3]")).click();
     await driver.sleep(2000)
-    
+
   }
 
 });

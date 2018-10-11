@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load, categorymen } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, categorymen, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
 import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
@@ -23,6 +23,7 @@ beforeAll(async () => {
 
 test('Express User Checkout and verifying order summary and order history', async () => {
   await productArrayPage();
+  await closeIconInPAP()
   await addProductToBag();
   await verifyAndClickOnBag();
   await driver.sleep(1000)
@@ -143,7 +144,7 @@ test('Verify Order Summary', async () => {
 
     }
   }else{
-    
+
   }
 })
 

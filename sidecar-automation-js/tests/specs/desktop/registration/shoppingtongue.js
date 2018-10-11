@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import {productArrayPage,addProductToBag} from '../../../pageObjects/arraypage';
 import { globals } from '../../../jestJcrewQaConfig';
 import {loginFromHomePage} from '../../../pageObjects/loginpageobj';
@@ -39,6 +39,7 @@ test('Login with given username and password', async () => {
 test('Add product to bag', async () => {
 await driver.sleep(2000);
 await productArrayPage()
+await closeIconInPAP()
 await addProductToBag()
 });
 

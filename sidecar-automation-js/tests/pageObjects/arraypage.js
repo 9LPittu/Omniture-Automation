@@ -1,6 +1,6 @@
 import { driver, defaultTimeout } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
-
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
@@ -65,6 +65,7 @@ export const productArrayPage = async () =>{
     export const addMultiLineItems = async () =>{
       let url = await driver.getCurrentUrl();
         await productArrayPage()
+        await closeIconInPAP()
         await driver.sleep(1000)
         const productimage =await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))
         expect(productimage).toBeTruthy()

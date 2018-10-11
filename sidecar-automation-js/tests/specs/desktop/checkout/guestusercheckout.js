@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { creditcard } from '../../../testdata/jcrewTestData';
 import { guestuser } from '../../../testdata/jcrewTestData';
@@ -17,6 +17,7 @@ beforeAll(async () => {
   test('test Guest checkout', async () => {
     //await createNewAccount();
     await productArrayPage();
+    await closeIconInPAP()
     await addProductToBag();
     await verifyAndClickOnBag();
 

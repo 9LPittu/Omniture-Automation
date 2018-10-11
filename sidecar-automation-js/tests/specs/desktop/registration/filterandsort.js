@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { productArrayPage } from '../../../pageObjects/arraypage';
 
@@ -14,6 +14,7 @@ beforeAll(async () => {
 
 test('verifying sort and filter functionality', async () => {
   await productArrayPage()
+  await closeIconInPAP()
   await driver.sleep(2000)
   const hidefilters = await driver.findElement(By.css("#c-filters__header-item--toggle"));
   expect(hidefilters.isDisplayed()).toBeTruthy()

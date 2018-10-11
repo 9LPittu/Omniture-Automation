@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress} from '../../../pageObjects/shippingaddresspageobj';
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginpageobj';
 import {goToShoppingBag, loginAsGuestButton, addAddress, clickOnCheckout} from '../../../pageObjects/shoppingbagobj';
@@ -14,6 +14,7 @@ beforeAll(async () => {
 });
 test('verify ship to mutiple Address functionality', async () => {
   await productArrayPage()
+  await closeIconInPAP()
   await addProductToBag()
   await verifyAndClickOnBag()
   await productArrayPage()

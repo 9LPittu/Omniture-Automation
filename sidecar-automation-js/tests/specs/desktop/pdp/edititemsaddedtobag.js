@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { productArrayPage,addProductToBag, verifyAndClickOnBag} from '../../../pageObjects/arraypage';
 
@@ -13,6 +13,7 @@ beforeAll(async () => {
  })
   test('Editing item added to bag', async () => {
       await productArrayPage()
+      await closeIconInPAP()
       await addProductToBag()
       await verifyAndClickOnBag()
       await driver.sleep(3000)

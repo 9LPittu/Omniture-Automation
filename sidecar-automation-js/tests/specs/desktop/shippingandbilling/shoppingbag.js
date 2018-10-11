@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/shoppingbagobj';
 import {editAdress} from '../../../pageObjects/shippingaddresspageobj';
@@ -16,6 +16,7 @@ beforeAll(async () => {
 });
 test('select product id and goto shoppingbag page', async () =>{
   await productArrayPage()
+  await closeIconInPAP()
   await addProductToBag()
   await verifyAndClickOnBag()
   await driver.sleep(3000)

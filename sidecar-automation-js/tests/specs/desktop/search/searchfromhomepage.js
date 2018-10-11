@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { productArrayPage } from '../../../pageObjects/arraypage';
 
@@ -13,6 +13,7 @@ beforeAll(async () => {
 
 test('verifying search functionality', async () => {
   await productArrayPage()
+  await closeIconInPAP()
   await driver.sleep(2000)
   expect(await driver.findElement(By.id("page__search")).isDisplayed()).toBeTruthy();
   console.log("search functionality is working")

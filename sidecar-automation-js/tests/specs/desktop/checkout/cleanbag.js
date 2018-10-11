@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { loginFromHomePage } from '../../../pageObjects/loginPageObj';
 import { productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
@@ -21,6 +21,7 @@ beforeAll(async () => {
       await loginFromHomePage(email,password)
       await driver.sleep(3000)
       await productArrayPage()
+      await closeIconInPAP()
       await addProductToBag()
       await verifyAndClickOnBag()
       await driver.sleep(2000)

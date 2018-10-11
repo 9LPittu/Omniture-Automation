@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import {logindetails } from '../../../testdata/jcrewTestData';
 import {productArrayPage} from '../../../pageObjects/arraypage';
 
@@ -17,13 +17,14 @@ beforeAll(async () => {
 
       driver.sleep(1000);
       await productArrayPage();
+      await closeIconInPAP()
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
       await driver.sleep(2000)
       await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
       await driver.sleep(1000)
       await driver.findElement(By.id("btn__wishlist-wide")).click()
       await driver.sleep(1000)
-      let currentUrl = await driver.getCurrentUrl(); 
+      let currentUrl = await driver.getCurrentUrl();
       if(currentUrl.includes("/r/login")){
         console.log("User navigates to login page")
       }

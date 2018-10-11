@@ -1,5 +1,5 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load, closeIcon, categorymen, moduleexports } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIcon, categorymen, moduleexports, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
 import { productArrayPage,verifyAndClickOnBag } from '../../../pageObjects/arraypage'
@@ -17,6 +17,7 @@ beforeAll(async () => {
 
 test('Quick shop Checkout - Express User', async () => {
   await productArrayPage();
+  await closeIconInPAP()
   await driver.sleep(1000)
   await driver.actions().mouseMove(await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[4]"))).perform();
   const quickbutton = driver.findElement(By.xpath("//button[@class='c-product-tile__quickshop js-product-tile-quickshop']/div"))
