@@ -47,6 +47,7 @@ test('click signout button in MyAccout', async () => {
   await driver.sleep(5000)
   expect(await driver.findElement(By.xpath(".//span[text()='sign in']")).isDisplayed()).toBeTruthy();
   }else{
+  await driver.sleep(8000)
   const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
   expect(loggedInUser).toBeTruthy()
   await driver.actions().mouseMove(loggedInUser).perform();

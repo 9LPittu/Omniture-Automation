@@ -35,7 +35,7 @@ test('Login with given username and password', async () => {
 });
 
 test('verify myDeatils section', async () => {
-await driver.sleep(5000);
+await driver.sleep(10000);
 expect(await driver.findElement(By.xpath("//ul/li[2]/a[text()='My Details']")).isDisplayed()).toBeTruthy()
 await driver.findElement(By.partialLinkText("My Details")).click();
 await driver.sleep(2000);

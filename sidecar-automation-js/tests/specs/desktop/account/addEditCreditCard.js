@@ -19,7 +19,6 @@ test('Login with given username and password', async () => {
     await loginFromHomePage(jcrew_prod.username,jcrew_prod.password)
     console.log('user login succesfully')
   }else if((url.indexOf("or.jcrew.com") > -1 )){
-
   await loginFromHomePage(jcrew_gold.username,jcrew_gold.password)
   console.log('user login succesfully')
   }else if((url.indexOf("or.factory.jcrew.com") > -1 )){
@@ -34,7 +33,7 @@ test('Login with given username and password', async () => {
 });
 
 test('Verify Adding and Editing credit card', async () => {
-  await driver.sleep(8000);
+  await driver.sleep(10000);
   await driver.findElement(By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[5]/a")).click();
   await driver.sleep(2000);
   if(await driver.findElement(By.xpath("//*[@id='creditCardList']/table[1]/tbody/tr[3]/td/a[1]")).isDisplayed()){

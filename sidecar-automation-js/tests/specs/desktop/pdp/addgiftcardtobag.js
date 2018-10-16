@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load,closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 
 
@@ -21,6 +21,8 @@ beforeAll(async () => {
       await driver.sleep(2000)
       driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
       await driver.sleep(2000)
+      await closeIconInPAP()
+      await driver.sleep(1000)
       await driver.executeScript('window.scrollTo(0, 200)')
       await driver.sleep(2000)
       await driver.findElement(By.xpath("//a[@id='classicGiftCard']")).click()
@@ -44,6 +46,8 @@ beforeAll(async () => {
         expect(bagsize).toBeTruthy()
       }else{
         await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__icon']")).click()
+        await driver.sleep(1000)
+        await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
         await driver.sleep(1000)
         let bagsize = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button__count']")).getText()
         expect(bagsize).toBeTruthy()

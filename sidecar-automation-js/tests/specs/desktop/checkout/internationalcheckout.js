@@ -34,6 +34,8 @@ beforeAll(async () => {
     await driver.getCurrentUrl( url => {
       expect(url).toMatch('r/context-chooser')
     })
+    await closeIconInPAP()
+    await driver.sleep(2000)
     await driver.findElement(By.xpath("//span[text()='" + contextchooser +"']" )).click()
     await driver.sleep(3000)
     await productArrayPage();
@@ -41,6 +43,8 @@ beforeAll(async () => {
     await addProductToBag();
     await verifyAndClickOnBag();
       await driver.sleep(sleeptime)
+      await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
+      await driver.sleep(1000)
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(sleeptime)
       await loginInAfterCheckoutPage(logindetails.username,logindetails.password)

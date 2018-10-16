@@ -2,16 +2,15 @@ import { until } from 'selenium-webdriver';
 import { driver, defaultTimeout } from '../helpersMobile';
 import { globals } from '../jestJcrewQaMobileConfig';
 
+const each = require('jest-each')
+const { Builder, By, Key } = require('selenium-webdriver')
+
 const jcrewCloseicon = driver.findElement(By.xpath("(//span[@class='icon-close'])[1]"));
 const buyGiftCard = driver.findElement(By.xpath("//li[text()='Buy a Gift Card']"));
 const classicCard = driver.findElement(By.xpath("//a[@id='classicGiftCard']/img"));
 const eCard = driver.findElement(By.xpath("//a[@id='eGiftCard']/img"));
 
-
-const each = require('jest-each')
-const { Builder, By, Key } = require('selenium-webdriver')
-
-export const closeIcon = () => {
+export const closeIcon = async() => {
   try {
   await driver.sleep(1000)
   jcrewCloseicon.click()  // close the popups
@@ -20,7 +19,9 @@ export const closeIcon = () => {
 }
 
 export const load = async () => {
-  await driver.get(`${__baseUrl__}/`)
+  await driver.sleep(1000)
+  console.log("enter global URL")
+  await driver.get('${__baseUrl__}/')
   await driver.sleep(1000)
 };
 
@@ -256,6 +257,6 @@ export const addGiftCardToBag = async (giftcardName) => {
   await driver.sleep(1000)
   await driver.findElement(By.className("nc-mobile-nav__button bag")).click()
   await driver.sleep(1000)
-
 }
+
 };

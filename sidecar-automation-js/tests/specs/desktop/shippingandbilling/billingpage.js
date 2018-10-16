@@ -1,5 +1,6 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
+import { globals } from '../../../jestJcrewQaConfig';
 import {clickOnContinue} from '../../../pageObjects/shippingaddresspageobj';
 import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
 import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../../../pageObjects/shoppingbagobj';
@@ -47,6 +48,8 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await addProductToBag();
   await verifyAndClickOnBag();
   await driver.sleep(2000)
+  await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
+  await driver.sleep(1000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   console.log('after product selection')
   console.log('After checkout')

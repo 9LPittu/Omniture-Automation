@@ -20,9 +20,11 @@ beforeAll(async () => {
     await closeIconInPAP()
     await addProductToBag();
     await verifyAndClickOnBag();
-
+    await driver.sleep(2000)
+    await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
+    await driver.sleep(1000)
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-      await driver.sleep(2000)
+      await driver.sleep(1000)
       await driver.findElement(By.xpath("//a[text()='Check Out as a Guest']")).click()
       await driver.sleep(2000)
       // address detaiils
@@ -93,6 +95,8 @@ try {
         await productArrayPage();
         await addProductToBag();
         await verifyAndClickOnBag();
+          await driver.sleep(1000)
+          await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
           await driver.sleep(1000)
           await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
           await driver.sleep(1000)

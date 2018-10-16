@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 
 
@@ -24,6 +24,7 @@ beforeAll(async () => {
    await driver.findElement(By.xpath("(//a[text()='jewelry'])[1]")).click()
    }
    await driver.sleep(2000)
+   await closeIconInPAP()
    await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
    await driver.sleep(5000)
    // expect(productimage).toBeTruthy()

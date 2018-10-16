@@ -27,6 +27,8 @@ test('Express User Checkout and verifying order summary and order history', asyn
   await addProductToBag();
   await verifyAndClickOnBag();
   await driver.sleep(1000)
+  await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
+  await driver.sleep(1000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.sleep(1000)
   await loginInAfterCheckoutPage(logindetails.username1, logindetails.password1);
@@ -118,7 +120,7 @@ test('Verify Order Summary', async () => {
 
       await driver.sleep(1000)
 
-      const hideOrderDetails = await driver.findElement(By.xpath("//a[text()='Hide Order Details']"))
+      const hideOrderDetails = await driver.findElement(By.xpath("(//a[text()='Hide Order Details'])[1]"))
       expect(hideOrderDetails).toBeTruthy()
 
       const shippingSummary = await driver.findElement(By.xpath("//div[@class='order-history--details-summary']/div[text()='Shipping Summary']"))

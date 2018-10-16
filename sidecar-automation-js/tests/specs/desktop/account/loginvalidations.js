@@ -45,6 +45,7 @@ test('Verify User is able to login with valid user credentials', async () => {
   expect(signOut).toBeTruthy()
   signOut.click()
 }else{
+  await driver.sleep(10000)
   const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
   expect(loggedInUser).toBeTruthy()
   await driver.actions().mouseMove(loggedInUser).perform();

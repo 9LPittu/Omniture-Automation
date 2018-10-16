@@ -18,9 +18,11 @@ beforeAll(async () => {
   test('Non express User Checkout (user without address/credit card details)', async () => {
       await createNewAccount();
       await productArrayPage();
-      await closeIconInPAP()
+      await closeIconInPAP();
       await addProductToBag();
       await verifyAndClickOnBag();
+      await driver.sleep(1000)
+      await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
       await driver.sleep(1000)
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(2000)

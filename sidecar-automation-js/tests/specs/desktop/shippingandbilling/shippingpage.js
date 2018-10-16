@@ -39,6 +39,8 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await addProductToBag()
   await verifyAndClickOnBag()
   await driver.sleep(3000)
+  await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
+  await driver.sleep(1000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   console.log('after product selection')
   console.log('After checkout')

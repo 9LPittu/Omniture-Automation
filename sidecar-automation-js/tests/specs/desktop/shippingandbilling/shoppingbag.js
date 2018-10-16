@@ -20,6 +20,8 @@ test('select product id and goto shoppingbag page', async () =>{
   await addProductToBag()
   await verifyAndClickOnBag()
   await driver.sleep(3000)
+  await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
+  await driver.sleep(1000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   console.log('selected the required product')
 

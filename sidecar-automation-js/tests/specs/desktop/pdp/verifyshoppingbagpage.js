@@ -19,7 +19,8 @@ beforeAll(async () => {
      await addProductToBag()
      await verifyAndClickOnBag()
      await driver.sleep(3000)
-
+     await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
+     await driver.sleep(1000)
       expect(await driver.findElement(By.id("zipcode"))).toBeTruthy()
 
       console.log("Zip code text box is displaying")

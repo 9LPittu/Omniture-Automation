@@ -1,6 +1,6 @@
 import { driver, defaultTimeout } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
-import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../pageObjects/jcrewdesktoppageobj';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
@@ -34,7 +34,9 @@ export const productArrayPage = async () =>{
   };
   export const addProductToBag = async () =>{
     driver.sleep(1000)
-    await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
+    await closeIconInPAP()
+    driver.sleep(1000)
+    await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
     driver.sleep(2000)
     const productsize= await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]"))
     productsize.click()
@@ -106,7 +108,9 @@ export const productArrayPage = async () =>{
         } else {
         await driver.findElement(By.xpath("//a[text()='sale']")).click()
         driver.sleep(2000);
-        await driver.findElement(By.xpath("(//div[@class='c-sale-recommendation-item'])[1]")).click()
+        await closeIconInPAP()
+        //driver.sleep(1000);
+        //await driver.findElement(By.xpath("(//div[@class='c-sale-recommendation-item'])[1]")).click()
       }
           await driver.sleep(2000)
           await driver.findElement(By.xpath("(//div[@class='product-tile--info'])[2]")).click()
@@ -130,6 +134,9 @@ export const productArrayPage = async () =>{
    } else {
      await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Men']"))).perform();
      await driver.sleep(1000)
-   await driver.findElement(By.xpath("//a[text()='suits & tuxedos']")).click()
+     await driver.findElement(By.xpath("//a[text()='suits & tuxedos']")).click()
+     await driver.sleep(1000)
+     await closeIconInPAP()
+     await driver.sleep(1000)
  }
 }

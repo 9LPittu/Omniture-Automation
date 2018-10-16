@@ -77,6 +77,8 @@ beforeAll(async () => {
       await driver.sleep(3000)
       await verifyAndClickOnBag()
       await driver.sleep(1000)
+      await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
+      await driver.sleep(1000)
       await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
       await driver.sleep(2000)
       await loginInAfterCheckoutPage(logindetails.username1,logindetails.password1)
@@ -112,7 +114,7 @@ if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
       }
    })
 
-   
+
    afterAll(async () => {
     await driver.quit()
   })

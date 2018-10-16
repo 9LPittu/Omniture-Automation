@@ -2,7 +2,7 @@ import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
-import {loginFromHomePage} from '../../../pageObjects/loginpageobj';
+import {loginFromHomePage} from '../../../pageObjects/loginPageobj';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')

@@ -2,7 +2,7 @@ import { driver, defaultTimeout } from '../../../helpers';
 import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import {productArrayPage,addProductToBag} from '../../../pageObjects/arraypage';
 import { globals } from '../../../jestJcrewQaConfig';
-import {loginFromHomePage} from '../../../pageObjects/loginpageobj';
+import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 
 
@@ -37,9 +37,10 @@ test('Login with given username and password', async () => {
 });
 
 test('Add product to bag', async () => {
-await driver.sleep(2000);
+  await driver.sleep(10000);
+await clearBagItems()
+await driver.sleep(12000);
 await productArrayPage()
-await closeIconInPAP()
 await addProductToBag()
 });
 
@@ -52,9 +53,10 @@ test('verify shopping tongue issue was not there', async () => {
     expect(shoppingTonge).toBeTruthy()
     console.log("shopping tonge is displayed")
   }else{
+    await driver.sleep(3000)
     await driver.actions().mouseMove(await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button']"))).perform();
     await driver.sleep(1000)
-    const shoppingTonge = await driver.findElement(By.xpath("//div[@class='nc-nav__bag__panel is-open']"))
+    const shoppingTonge = await driver.findElement(By.xpath("//*[@class='nc-nav__bag__panel is-open']"))
     expect(shoppingTonge).toBeTruthy()
     console.log("shopping tonge is displayed")
   }

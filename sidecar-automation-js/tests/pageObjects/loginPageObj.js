@@ -9,6 +9,7 @@ export const loginFromHomePage = async (username,password) =>{
   if(url.indexOf("https://factory.jcrew.com") > -1){
   await driver.findElement(By.xpath(".//span[text()='sign in']")).click()
 }else{
+  await driver.sleep(2000)
   await driver.findElement(By.xpath("//a[text()='Sign In']")).click()
 }
 await driver.sleep(2000)

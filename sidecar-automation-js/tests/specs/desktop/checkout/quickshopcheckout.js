@@ -28,13 +28,12 @@ test('Quick shop Checkout - Express User', async () => {
   await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]")).click()
   await driver.sleep(3000)
   await driver.findElement(By.id("btn__add-to-bag-wide")).click()
-  await driver.sleep(3000)
-  await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
-  await driver.sleep(3000)
-  //let url = await driver.getCurrentUrl()
-  await verifyAndClickOnBag()
-  //await driver.findElement(By.id("js-header__cart")).click()
-  await driver.sleep(3000)
+  await driver.sleep(2000)
+  //await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[text()='shopping bag']")));
+  await driver.executeScript("arguments[0].click();", driver.findElement(By.xpath("//a[text()='shopping bag']")));
+  await driver.sleep(1000)
+  await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
+  await driver.sleep(1000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.sleep(6000)
   await loginInAfterCheckoutPage(logindetails.username1, logindetails.password1);
