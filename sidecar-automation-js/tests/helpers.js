@@ -20,6 +20,7 @@ var capabilities = {
 export const driver = new Builder()
   .forBrowser('chrome')
 //  .withCapabilities(capabilities)
+//.withCapabilities({'browserName': 'firefox', acceptSslCerts: true, acceptInsecureCerts: false})
  .usingServer('http://jui-ci-p02.jcrew.com:4444/wd/hub')
  // .usingServer('http://localhost:4444/wd/hub')
   .build();
