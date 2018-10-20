@@ -38,7 +38,7 @@ test('Login with given username and password', async () => {
 
 //img[@src='https://static.cdn.responsys.net/i5/responsysimages/jcrew/contentlibrary/!forms/jc/prefcenter/images/subscribe_button.gif']
 test('verify the email preferences section', async () => {
-  await driver.sleep(5000)
+  await driver.sleep(10000)
 await driver.findElement(By.xpath("//a[text()='Email Preferences']")).click();
 await driver.sleep(2000);
 //await driver.findElement(By.xpath("//section[@class='glb-long-grey-line']/following-sibling::section//following-sibling::p/a/img")).click();

@@ -1,5 +1,5 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 
 
@@ -18,6 +18,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
       await driver.sleep(1000)
       await driver.findElement(By.xpath("//a[@class='footer__country-context__link']")).click()
       await driver.sleep(2000)
+	  await closeIconInPAP()
       await driver.findElement(By.xpath("//*[@id='page__international']/article/section[1]/div/div[2]/div/div[1]/ul/li[2]/button")).click()
       let url = await driver.getCurrentUrl();
       if (url.indexOf("ca") > -1) {

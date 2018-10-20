@@ -26,9 +26,10 @@ export const productArrayPage = async () =>{
     var searchText = await driver.findElement(By.xpath("//input[@class='nc-nav__search__input']"));
     searchText.sendKeys("pants")
     await driver.sleep(1000)
-    driver.actions().click(searchText).sendKeys(Key.ENTER).perform();
+    //driver.actions().click(searchText).sendKeys(Key.ENTER).perform();
+	searchText.sendKeys("\uE007")
   }
-    await driver.sleep(1000)
+    await driver.sleep(7000)
     const productimage =await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]"))
     expect(productimage).toBeTruthy()
   };
@@ -109,11 +110,11 @@ export const productArrayPage = async () =>{
         await driver.findElement(By.xpath("//a[text()='sale']")).click()
         driver.sleep(2000);
         await closeIconInPAP()
-        //driver.sleep(1000);
-        //await driver.findElement(By.xpath("(//div[@class='c-sale-recommendation-item'])[1]")).click()
+        driver.sleep(1000);
+        await driver.findElement(By.xpath("(//div[@class='c-sale-recommendation-item'])[1]")).click()
       }
           await driver.sleep(2000)
-          await driver.findElement(By.xpath("(//div[@class='product-tile--info'])[2]")).click()
+          await driver.findElement(By.xpath("(//div[@class='product-tile--info'])[1]")).click()
           driver.sleep(6000)
           const productsize= await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]"))
           productsize.click()

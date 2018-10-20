@@ -14,7 +14,7 @@ export const signIn = () => driver.findElement({ xpath: "//*[@id='c-header__user
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`);
   await driver.sleep(1000)
-  //await driver.manage().window().maximizemaximize();
+  await driver.manage().window().maximize();
   await driver.sleep(1000)
   try {
   await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
@@ -31,12 +31,18 @@ export const load = async () => {
   };
 
   export const closeIconInPAP = async () => {
-    try {
-    await driver.findElement(By.xpath("(//span[@class='icon-close'])[1]")).click()
+ try {
+  await driver.wait(until.elementLocated(closeIcon), defaultTimeout).click();
+  } catch (err) {
+
   }
-  catch (err) {
-    console.log("closings pop up is not present ")
-  }
+  await driver.sleep(3000)
+  try {
+//  console.log("email capture closed")
+    await driver.wait(until.elementLocated(privacyPolicyClose), defaultTimeout).click();
+    driver.sleep(1000)
+//    console.log("privacy policy icon closed")
+ } catch (err) {}
 };
 
 // home page Elements:

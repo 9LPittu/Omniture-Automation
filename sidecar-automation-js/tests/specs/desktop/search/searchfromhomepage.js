@@ -12,6 +12,7 @@ beforeAll(async () => {
 });
 
 test('verifying search functionality', async () => {
+	await driver.sleep(3000)
   await productArrayPage()
   await closeIconInPAP()
   await driver.sleep(2000)

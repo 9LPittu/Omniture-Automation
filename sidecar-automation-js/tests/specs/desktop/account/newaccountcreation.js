@@ -32,7 +32,7 @@ beforeAll(async () => {
         const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
         expect(loggedInUser).toBeTruthy()
         await driver.actions().mouseMove(loggedInUser).perform();
-        await driver.sleep(2000)
+        await driver.sleep(3000)
         const signOut = await driver.findElement(By.xpath("//li[5]/a[text()='Sign Out']"))
         expect(signOut).toBeTruthy()
         signOut.click()

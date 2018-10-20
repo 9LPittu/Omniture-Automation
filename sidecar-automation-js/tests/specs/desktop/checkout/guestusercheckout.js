@@ -132,3 +132,6 @@ try {
                  }
       }
    })
+afterAll(async () => {
+  await driver.quit()
+})

@@ -15,7 +15,7 @@ beforeAll(async () => {
 
     test('Wishlist - Guest User', async () => {
 
-      driver.sleep(1000);
+      driver.sleep(3000);
       await productArrayPage();
       await closeIconInPAP()
       await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
