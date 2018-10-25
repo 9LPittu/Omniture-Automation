@@ -2,7 +2,7 @@ import { driver } from '../../../helpersMobile';
 import { load,addGiftCardToBag } from '../../../mobilepageobjects/mhomepageobj';
 import { loginFromHomePage,clearBagItems } from '../../../mobilepageobjects/mloginpageobj';
 import { verifyShoppingBagPage,clickOnCheckOutNow,verifySecureCheckoutPage,placeOrder } from '../../../mobilepageobjects/singlePageCheckout';
-import { jcrew_gold_express} from '../../../testdata/jcrewTestData';
+import { jcrew_gold} from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -15,7 +15,7 @@ test('title is correct', async () => {
 
   test('Classic Card Checkout - Express User', async () => {
 
-         await loginFromHomePage(jcrew_gold_express.username,jcrew_gold_express.password)
+         await loginFromHomePage(jcrew_gold.username,jcrew_gold.password)
   		   driver.sleep(2000);
          await clearBagItems()
          driver.sleep(12000);

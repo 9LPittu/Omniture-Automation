@@ -37,6 +37,28 @@ export const clearBagItems = async ()=> {
   await driver.get(globals.__baseUrl__+"/CleanPersistentCart.jsp")
 }
 
+export const createNewAccount() = async ()=>{
+  let currentUrl = await driver.getCurrentUrl();
+  if(currentUrl.includes("factory")){
+    await driver.findElement(By.xpath(".//span[text()='sign in']")).click()
+  }else{
+    await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+    driver.sleep(1000)
+    await driver.findElement(By.xpath("//h3[text()='Sign in']")).click()
+  }
+  var x = Math.floor((Math.random() * 1000000) + 1);
+  let userName = "AutomationTest"+x
+  let email = "AutomationTest"+x+"@gmail.com"
+  //await driver.findElement(By.xpath("//*[@id='c-header__userpanel']/a/span[2]")).click()
+  await driver.findElement(By.xpath("//*[@id='sidecarRegisterFirstName']")).sendKeys(userName)
+  await driver.findElement(By.xpath("//*[@id='sidecarRegisterLastName']")).sendKeys("tester")
+  await driver.findElement(By.xpath("//*[@id='sidecarRegisterEmail']")).sendKeys(email)
+  await driver.findElement(By.xpath("//*[@id='sidecarRegisterPassword']")).sendKeys("nft123")
+  await driver.sleep(2000)
+  await driver.findElement(By.xpath("//*[@id='page__signin']/article/section[2]/div/form/button")).click()
+  await driver.sleep(10000)
+  console.log ("User created >> " + userName)
+}
 
 
 export const signOutFromApplication = async ()=> {

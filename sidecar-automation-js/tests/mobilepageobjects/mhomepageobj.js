@@ -5,6 +5,10 @@ import { globals } from '../jestJcrewQaMobileConfig';
 const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
 
+const shipTo = await driver.findElement(By.xpath("//div[@class='country-info']/span"))
+const shipToCountry = await driver.findElement(By.xpath("//div[@class='country-info']/span/../a"))
+const countries = await driver.findElement(By.xpath("//*[contains(@class,'accordian__header')]/text()"))
+
 const jcrewCloseicon = driver.findElement(By.xpath("(//span[@class='icon-close'])[1]"));
 const buyGiftCard = driver.findElement(By.xpath("//li[text()='Buy a Gift Card']"));
 const classicCard = driver.findElement(By.xpath("//a[@id='classicGiftCard']/img"));
@@ -21,7 +25,7 @@ export const closeIcon = async() => {
 export const load = async () => {
   await driver.sleep(1000)
   console.log("enter global URL")
-  await driver.get('${__baseUrl__}/')
+  await driver.get(`${__baseUrl__}/`)
   await driver.sleep(1000)
 };
 
@@ -259,4 +263,13 @@ export const addGiftCardToBag = async (giftcardName) => {
   await driver.sleep(1000)
 }
 
+};
+
+export const selectCountry = async (contextchooser) => {
+  await driver.sleep(1000)
+  await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
+  await driver.sleep(2000)
+  await driver.executeScript('window.scrollTo(0, 5000)')
+  await driver.sleep(1000)
+  await driver.executeScript("arguments[0].scrollIntoView(true);",seeAllTopics);
 };
