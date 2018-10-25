@@ -10,12 +10,12 @@ test('title is correct', async () => {
   await load();
   await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
+   
  })
-/*
 
   test('Clean Bag', async () => {
-    let i =1;
 
+    let i =1;
  //for (i = 1450; i < 1500; i++) {
   let userName = "PerfTest"+i
    let email = "Perftest"+i+"@gmail.com"
@@ -32,5 +32,3 @@ test('title is correct', async () => {
            console.log("Bag cleaned user > " + email )
   //    }
      })
-
-     */

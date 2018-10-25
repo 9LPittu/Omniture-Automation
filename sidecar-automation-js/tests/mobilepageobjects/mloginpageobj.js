@@ -37,7 +37,7 @@ export const clearBagItems = async ()=> {
   await driver.get(globals.__baseUrl__+"/CleanPersistentCart.jsp")
 }
 
-export const createNewAccount() = async ()=>{
+export const createNewAccount = async ()=>{
   let currentUrl = await driver.getCurrentUrl();
   if(currentUrl.includes("factory")){
     await driver.findElement(By.xpath(".//span[text()='sign in']")).click()

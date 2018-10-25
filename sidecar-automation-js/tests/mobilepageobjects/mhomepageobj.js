@@ -5,9 +5,9 @@ import { globals } from '../jestJcrewQaMobileConfig';
 const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
 
-const shipTo = await driver.findElement(By.xpath("//div[@class='country-info']/span"))
-const shipToCountry = await driver.findElement(By.xpath("//div[@class='country-info']/span/../a"))
-const countries = await driver.findElement(By.xpath("//*[contains(@class,'accordian__header')]/text()"))
+const shipTo =  driver.findElement(By.xpath("//div[@class='country-info']/span"))
+const shipToCountry =  driver.findElement(By.xpath("//div[@class='country-info']/span/../a"))
+const countries =  driver.findElement(By.xpath("//*[contains(@class,'accordian__header')]/text()"))
 
 const jcrewCloseicon = driver.findElement(By.xpath("(//span[@class='icon-close'])[1]"));
 const buyGiftCard = driver.findElement(By.xpath("//li[text()='Buy a Gift Card']"));
@@ -23,10 +23,9 @@ export const closeIcon = async() => {
 }
 
 export const load = async () => {
-  await driver.sleep(1000)
-  console.log("enter global URL")
   await driver.get(`${__baseUrl__}/`)
   await driver.sleep(1000)
+  
 };
 
 // for selecting the Category
