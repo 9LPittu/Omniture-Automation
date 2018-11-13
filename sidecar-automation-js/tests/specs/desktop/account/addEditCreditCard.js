@@ -7,7 +7,6 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 
 beforeAll(async () => {
     await load();
-    await driver.sleep(2000)
     expect(await driver.getTitle()).toMatch('J.Crew')
 });
 
@@ -15,7 +14,6 @@ test('Login with given username and password', async () => {
   let url = await driver.getCurrentUrl();
 
   if (url.indexOf("www.jcrew.com") > -1) {
-
     await loginFromHomePage(jcrew_prod.username,jcrew_prod.password)
     console.log('user login succesfully')
   }else if((url.indexOf("or.jcrew.com") > -1 )){

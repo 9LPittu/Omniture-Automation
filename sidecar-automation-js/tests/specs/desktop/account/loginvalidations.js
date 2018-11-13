@@ -7,6 +7,7 @@ import { jcrew_gold, jcrew_prod, factory_gold, factory_prod } from '../../../tes
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
 beforeAll(async () => {
+  driver.manage().timeouts().implicitlyWait(30000);
   await load();
   expect(await driver.getTitle()).toMatch('J.Crew')
 })

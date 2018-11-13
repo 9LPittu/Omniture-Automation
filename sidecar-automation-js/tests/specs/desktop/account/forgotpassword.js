@@ -3,6 +3,7 @@ import { load } from '../../../pageObjects/jcrewdesktoppageobj';
 import { forgotPassword } from '../../../pageObjects/loginpageobj';
 
 beforeAll(async () => {
+  await driver.manage().timeouts().implicitlyWait(30000);
   await load();
   expect(await driver.getTitle()).toMatch('J.Crew')
 })

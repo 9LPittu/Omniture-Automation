@@ -1,8 +1,5 @@
 import { driver, defaultTimeout, defaultTimeout_short } from '../helpers';
-import { globals } from '../jestJcrewQaConfig';
-import { isRegExp } from 'util';
 import { logindetails } from '../testdata/jcrewTestData';
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from 'constants';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 //Login Elements
@@ -80,6 +77,7 @@ export const createNewAccount = async () => {
   await driver.findElement(emailId).sendKeys(email)
   await driver.findElement(password_register).sendKeys("nft123")
   await driver.findElement(registerBtn).click()
+  await driver.sleep(5000)
   let url = await driver.getCurrentUrl()
   if (url.includes("factory")) {
     const loggedInUser = await driver.findElement(navPanel_factory)
@@ -164,6 +162,7 @@ export const forgotPassword = async (url) => {
 
 export const newAccountCreateValidation = async (url) => {
   let result = false;
+  console.log("in test case account function")
   if(url.includes("factory")){
     const loggedInUser = await driver.findElement(navPanel_factory)
     expect(loggedInUser).toBeTruthy()
@@ -177,9 +176,10 @@ export const newAccountCreateValidation = async (url) => {
     result = true;
     console.log("sign out from the application successfully")
   }else{
+    console.log("in test case create validation")
     const loggedInUser = await driver.findElement(navPanel_jcrew)
     expect(loggedInUser).toBeTruthy()
-    await driver.actions().mouseMove(loggedInUser).perform();
+    await driver.actions().mouseMove(loggedInUser).perform()
     await driver.sleep(3000)
     const signOut = await driver.findElement(signOut_jcrew)
     expect(signOut).toBeTruthy()
