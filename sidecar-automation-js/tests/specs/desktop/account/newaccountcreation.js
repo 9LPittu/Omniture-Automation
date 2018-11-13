@@ -1,22 +1,19 @@
 import { driver } from '../../../helpers';
-import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import { globals } from '../../../jestJcrewQaConfig';
-import { creditcard ,guestuser } from '../../../testdata/jcrewTestData';
-import {createNewAccount} from '../../../pageObjects/loginPageObj'
+import { load, loadLoginUrl } from '../../../pageObjects/jcrewdesktoppageobj';
+import {createNewAccount, newAccountCreateValidation} from '../../../pageObjects/loginPageObj';
 
-const { Builder, By, Key, until } = require('selenium-webdriver')
-
-
-beforeAll(async () => {
-  await load();
-  await driver.sleep(2000)
-   expect(await driver.getTitle()).toMatch('J.Crew')
+beforeEach(async () => {
+  await loadLoginUrl()
+  expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
   test('test creation of new account', async () => {
         await createNewAccount()
         let url = await driver.getCurrentUrl()
-        if(url.includes("factory")){
+        console.log("in test url is::"+url)
+        let result = await newAccountCreateValidation(url)
+        expect(result).toBeTruthy()
+        /*if(url.includes("factory")){
         const loggedInUser = await driver.findElement(By.id("c-header__userpanelrecognized"))
         expect(loggedInUser).toBeTruthy()
         await driver.actions().mouseMove(loggedInUser).perform();
@@ -39,11 +36,11 @@ beforeAll(async () => {
         await driver.sleep(5000)
         expect(await driver.findElement(By.xpath(".//*[text()='Sign In']"))).toBeTruthy()
         console.log("sign out from the application successfully")
-        await driver.sleep(1000)
+        await driver.sleep(1000)*/
       }
 
    })
 
    afterAll(async () => {
-     await driver.quit()
+    // await driver.quit()
    })
