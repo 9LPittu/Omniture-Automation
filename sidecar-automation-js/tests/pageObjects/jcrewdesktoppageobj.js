@@ -19,6 +19,22 @@ const signUpNow = By.xpath("//div[text()='Sign Up Now']");
 const FAQLink = By.xpath("//div[text()='FAQs']");
 const globalEmail = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/input[1]");
 const globalEmailSendBtn = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/button/span[2]");
+const createPassword = By.xpath("//input[@placeholder='Create Your Password']");
+const joinNowLink = By.xpath("//*[text()='Join Now']");
+const myAccountLink = By.xpath("//*[text()='My Account']");
+const myAccountText = By.xpath("//h2/span[text()='My Account']");
+const myRewardsLink = By.xpath("//li/a[text()='My Rewards']");
+const yourJcrewRewards = By.xpath("//div[text()='Your J.Crew Rewards']");
+const yourBenifits = By.xpath("//div[text()='Your Benefits']");
+const yourActivity = By.xpath("//div[text()='Your Activity']");
+const redeemPoints = By.xpath("//*[@id='btn-redeem-points']");
+const buttonCheckout = By.xpath("//*[@id='button-checkout']");
+const summary_subtotal_clearfix = By.xpath("//ul/li[@class='summary-item summary-subtotal clearfix']/span[2]");
+const summary_shipping_clearfix = By.xpath("//ul/li[@class='summary-item summary-shipping clearfix']/span[2]");
+const summary_item_clearfix = By.xpath("//ul/li[@class='summary-item clearfix']/span[2]"); 
+const summary_total_clearfix = By.xpath("//ul/li[@class='summary-item summary-total clearfix']/span[2]");
+const mergeButton = By.xpath("//*[@id='mergedCartActionTop']/a[1]");
+const pageSearch = By.id("page__search");
 
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`);
@@ -48,7 +64,7 @@ export const differentRegionsValidation = async () => {
   await driver.executeScript('window.scrollTo(0, 10000)')
   await driver.sleep(1000)
   let footerElement = await driver.findElement(footer_country_link);
-  await driver.executeScript("arguments[0].scrollIntoView(true);", footerElement );
+  await driver.executeScript("arguments[0].scrollIntoView(true);", footerElement);
   await driver.sleep(1000)
   await footerElement.click()
   await closeIconInPAP()
@@ -64,13 +80,13 @@ export const differentRegionsValidation = async () => {
 export const orderStatusValidation = async () => {
   await driver.executeScript('window.scrollTo(0, 20000)')
   await driver.sleep(2000)
-  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(orderStatus));
+  await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(orderStatus));
   await driver.sleep(2000)
   expect(driver.findElement(orderStatus)).toBeTruthy()
   await driver.findElement(orderStatus).click()
   await driver.sleep(2000)
   await driver.getCurrentUrl(url => {
-  expect(url.match('/help/order_status.jsp?sidecar=true')).toBeTruthy()
+    expect(url.match('/help/order_status.jsp?sidecar=true')).toBeTruthy()
   })
 }
 
@@ -79,7 +95,7 @@ export const locationUrlsValidation = async () => {
   const location = await footer.findElement(footer_country_link)
   await expect(location).toBeTruthy()
   await location.click()
-  await driver.getCurrentUrl( url => {
+  await driver.getCurrentUrl(url => {
     expect(url).toMatch('r/context-chooser')
   })
 
@@ -91,7 +107,7 @@ export const loyaltyFQAValidation = async () => {
   await driver.executeScript('window.scrollTo(0, 50000)')
   await driver.sleep(2000)
   const rewardsLink = await driver.findElement(rewards)
-  await driver.executeScript("arguments[0].scrollIntoView(true);",rewardsLink);
+  await driver.executeScript("arguments[0].scrollIntoView(true);", rewardsLink);
   await driver.sleep(2000)
   expect(rewardsLink).toBeTruthy()
   //verify sign up now link
@@ -113,25 +129,80 @@ export const loyaltyFQAValidation = async () => {
   console.log("user navigated to FAQs page");
 }
 
-export const loyaltyLightBoxValidation = async() => {
+export const loyaltyLightBoxValidation = async () => {
   var x = Math.floor((Math.random() * 99900000) + 1);
-  let userName = "LoyaltyTest"+x
-  let email = userName+x+"@gmail.com"
-  await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/input[1]")).sendKeys(email)
-  driver.sleep(1000)
-  await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/button/span[2]")).click();
-  driver.sleep(3000)
+  let userName = "LoyaltyTest" + x
+  let email = userName + x + "@gmail.com"
+  await driver.findElement(globalEmail).sendKeys(email)
+  //driver.sleep(1000)
+  await driver.findElement(globalEmailSendBtn).click();
+  driver.sleep(2000)
   let currentUrl = await driver.getCurrentUrl();
-if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-  await driver.findElement(By.xpath("//input[@placeholder='CREATE YOUR PASSWORD']")).sendKeys("123456ab");
-}else {
-    await driver.findElement(By.xpath("//input[@placeholder='Create Your Password']")).sendKeys("123456ab");
-}
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    await driver.findElement(createPassword).sendKeys("123456ab");
+  } else {
+    await driver.findElement(createPassword).sendKeys("123456ab");
+  }
   driver.sleep(1000)
-  await driver.findElement(By.xpath("//*[text()='Join Now']")).click();
+  await driver.findElement(joinNowLink).click();
   driver.sleep(15000)
-  console.log ("Loyalty User created from lightbox >> " + email)
-  const myaccount = await driver.findElement(By.xpath("//*[text()='My Account']"))
+  console.log("Loyalty User created from lightbox >> " + email)
+  const myaccount = await driver.findElement(myAccountLink)
   expect(myaccount).toBeTruthy()
-  console.log("Logged in to application using loyalty lightbox successfully")
 }
+
+export const loyaltyMyAccountPageValidation = async () => {
+  await driver.sleep(10000)
+  let url = await driver.getCurrentUrl();
+  if (url.includes("l/account/rewards")) {
+    expect(url.includes("l/account/rewards")).toBeTruthy()
+    console.log("User navigated to my account page")
+  }
+  //verify my account link
+  const myaccount = await driver.findElement(myAccountText)
+  expect(myaccount).toBeTruthy()
+  const myrewards = await driver.findElement(myRewardsLink)
+  expect(myrewards).toBeTruthy()
+  const yourrewardstab = await driver.findElement(yourJcrewRewards)
+  expect(yourrewardstab).toBeTruthy()
+  const yourbenefitstab = await driver.findElement(yourBenifits)
+  expect(yourbenefitstab).toBeTruthy()
+  const youractivitytab = await driver.findElement(yourActivity)
+  expect(youractivitytab).toBeTruthy()
+}
+
+export const loyaltyPointsRedeemValidation = async (currentUrl) => {
+  await driver.sleep(1000)
+  await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
+  await driver.sleep(1000)
+  try {
+    await driver.findElement(redeemPoints).click()
+    await driver.sleep(2000)
+  } catch (err) { }
+  await driver.findElement(buttonCheckout).click()
+  //TODO - need to add the redeem assertion logic
+  await driver.sleep(5000)
+  await mergeButton();
+  await driver.sleep(2000)
+  let subTotalOnReview = await driver.findElement(summary_subtotal_clearfix).getText();
+  let shippingOnReview = await driver.findElement(summary_shipping_clearfix).getText();
+  let taxOnReview = await driver.findElement(summary_item_clearfix).getText();
+  let totalOnReview = await driver.findElement(summary_total_clearfix).getText();
+}
+
+export const mergeButton = async () =>{
+  try {
+    await driver.findElement(mergeButton).then(mergebtn => {
+    // console.log("inside merge page")
+     mergebtn.click()
+     driver.sleep(3000)
+     driver.findElement(buttonCheckout).click()
+     })
+   } catch (err)
+  { }
+}
+
+export const searchBoxValidation = async () =>{
+  expect(await driver.findElement(pageSearch).isDisplayed()).toBeTruthy();
+}
+ 

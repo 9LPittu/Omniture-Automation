@@ -163,7 +163,7 @@ export const forgotPassword = async (url) => {
 export const newAccountCreateValidation = async (url) => {
   let result = false;
   console.log("in test case account function")
-  if(url.includes("factory")){
+  if (url.includes("factory")) {
     const loggedInUser = await driver.findElement(navPanel_factory)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
@@ -175,7 +175,7 @@ export const newAccountCreateValidation = async (url) => {
     expect(await driver.findElement(signIn_factory)).toBeTruthy()
     result = true;
     console.log("sign out from the application successfully")
-  }else{
+  } else {
     console.log("in test case create validation")
     const loggedInUser = await driver.findElement(navPanel_jcrew)
     expect(loggedInUser).toBeTruthy()
@@ -192,3 +192,160 @@ export const newAccountCreateValidation = async (url) => {
   return result;
 }
 
+export const validateAddEditCreditCard = async () => {
+  await driver.sleep(10000);
+  await driver.findElement(By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[5]/a")).click();
+  await driver.sleep(2000);
+  if (await driver.findElement(By.xpath("//*[@id='creditCardList']/table[1]/tbody/tr[3]/td/a[1]")).isDisplayed()) {
+    await driver.findElement(By.xpath("//*[@id='creditCardList']/table[1]/tbody/tr[3]/td/a[1]")).click()
+    await driver.sleep(3000);
+    await driver.findElement(By.xpath("//*[@id='ccNumber']")).clear()
+    await driver.findElement(By.xpath("//*[@id='ccNumber']")).sendKeys("4111111111111111")
+    await driver.findElement(By.xpath("//*[@id='eXmonth']")).sendKeys(creditcard.expirationMonth)
+    await driver.findElement(By.xpath("//*[@id='eXyear']")).sendKeys(creditcard.expirationYear)
+    await driver.findElement(By.xpath("//*[@id='cardholderName']")).clear()
+    await driver.findElement(By.xpath("//*[@id='cardholderName']")).sendKeys("AutomationUser")
+    await driver.sleep(2000)
+    await driver.findElement(By.xpath("//*[@id='AddCreditCard']/table/tbody[4]/tr/td[4]/input[2]")).click()
+    let addConfirm1 = await driver.findElement(By.xpath("//*[@id='creditCardList']/table[1]/tbody/tr[3]/td/a[1]")).isDisplayed()
+    expect(addConfirm1).toBeTruthy()
+    console.log("edited the creditcard from payment methods");
+  }
+  try {
+    // click on Add new card
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//input[@name='addANewCard']")));
+    await driver.sleep(1000);
+    await driver.findElement(By.xpath("//input[@name='addANewCard']")).then(addNewCard => {
+      addNewCard.click()
+      driver.sleep(2000)
+    })
+  } catch (err) { }
+  await driver.findElement(By.xpath("//*[@id='ccNumber']")).sendKeys("4111111111111111")
+  await driver.findElement(By.xpath("//*[@id='eXmonth']")).sendKeys(creditcard.expirationMonth)
+  await driver.findElement(By.xpath("//*[@id='eXyear']")).sendKeys(creditcard.expirationYear)
+  await driver.findElement(By.xpath("//*[@id='cardholderName']")).sendKeys("visa")
+  await driver.findElement(By.xpath("//*[@id='selectAddressList']")).sendKeys("45,vstreet")
+  await driver.sleep(3000)
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    await driver.findElement(By.xpath("//input[@value='ADD NEW CARD & SAVE CHANGES']")).click()
+    await driver.sleep(2000)
+    console.log("user added new credit card succesfully")
+    let deletebutton = await driver.findElement(By.xpath("(//img[@name='delete'])[2]"))
+    deletebutton.click()
+    await driver.sleep(2000)
+  } else {
+    await driver.findElement(By.xpath("//input[@value='Save']")).click()
+    await driver.sleep(2000)
+    console.log("user added new credit card succesfully")
+    let deletebutton = await driver.findElement(By.xpath("(//*[text()='DELETE'])[2]"))
+    deletebutton.click()
+    await driver.sleep(2000)
+  }
+
+}
+
+export const validateEditShippingAddress = async () => {
+  await driver.sleep(10000);
+  //click on Address book
+  await driver.findElement(By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[6]/a")).click();
+  let url = await driver.getCurrentUrl();
+  if (url.includes("factory")) {
+    await driver.sleep(3000);
+
+    if (await driver.findElement(By.xpath("(//img[contains(@src,'btn_edit')])[1]")).isDisplayed()) {
+      await driver.findElement(By.xpath("(//img[contains(@src,'btn_edit')])[1]")).click()
+      await driver.sleep(1000)
+      await driver.findElement(By.name("ADDRESS<>firstName")).clear()
+      await driver.findElement(By.name("ADDRESS<>firstName")).sendKeys("testing")
+      await driver.sleep(1000)
+      var parent = driver.getWindowHandle();
+      await driver.findElement(By.xpath("//*[text()='EDIT ADDRESS & SAVE CHANGES']")).click()
+      await driver.sleep(5000)
+      await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
+        driver.switchTo().window(allhandles[allhandles.length - 1]);
+      });
+      await driver.findElement(By.xpath("//a[text()='Use This Address']")).click()
+      await driver.sleep(3000)
+      await driver.switchTo().window(parent)
+      await driver.findElement(By.xpath("//*[text()='EDIT ADDRESS & SAVE CHANGES']")).click()
+      await driver.sleep(1000)
+    }
+  } else {
+    if (await driver.findElement(By.xpath("(//*[text()='EDIT'])[1]")).isDisplayed()) {
+      await driver.findElement(By.xpath("(//*[text()='EDIT'])[1]")).click()
+      await driver.sleep(1000)
+      await driver.findElement(By.name("ADDRESS<>firstName")).clear()
+      await driver.findElement(By.name("ADDRESS<>firstName")).sendKeys("testing")
+      await driver.sleep(1000)
+      var parent = driver.getWindowHandle();
+      await driver.findElement(By.xpath("//*[text()='EDIT ADDRESS & SAVE CHANGES']")).click()
+      await driver.sleep(5000)
+      await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
+        driver.switchTo().window(allhandles[allhandles.length - 1]);
+      });
+      await driver.findElement(By.xpath("//a[text()='Use This Address']")).click()
+      await driver.sleep(3000)
+      await driver.switchTo().window(parent)
+      await driver.findElement(By.xpath("//*[text()='EDIT ADDRESS & SAVE CHANGES']")).click()
+      await driver.sleep(1000)
+    }
+  }
+
+  if (url.includes("factory")) {
+    driver.sleep(1000)
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//img[contains(@src,'btn_add_new_address')]")));
+    driver.sleep(1000)
+    await driver.findElement(By.xpath("//img[contains(@src,'btn_add_new_address')]]")).then(addAddress => {
+      addAddress.click()
+      driver.sleep(3000)
+    })
+  } else {
+    driver.sleep(1000)
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//a[text()='ADD A NEW ADDRESS']")));
+    driver.sleep(1000)
+    await driver.findElement(By.xpath("//a[text()='ADD A NEW ADDRESS']")).then(addAddress => {
+      addAddress.click()
+      driver.sleep(3000)
+    })
+  }
+  // First name
+  await driver.findElement(By.name("ADDRESS<>firstName")).sendKeys("Auto Tester1 FN");
+  // Last name
+  await driver.findElement(By.name("ADDRESS<>lastName")).sendKeys("Auto Tester1 LN");
+  // Address
+  await driver.findElement(By.name("ADDRESS<>address1")).sendKeys("1111 East 60th Street");
+  // City
+  await driver.findElement(By.name("ADDRESS<>city")).sendKeys("Chicago");
+  // State
+  await driver.findElement(By.name("ADDRESS<>state_cd")).sendKeys("Illinois");
+  // Zip code
+  await driver.findElement(By.name("ADDRESS<>postal")).sendKeys("60637");
+  // Phonenumber
+  await driver.findElement(By.name("ADDRESS<>phone")).sendKeys("7737029494");
+  var parent = driver.getWindowHandle();
+  // Save button
+  await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[35]/td/a")).click()
+  driver.sleep(5000)
+  await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
+    driver.switchTo().window(allhandles[allhandles.length - 1]);
+  });
+  // Use this address
+  await driver.findElement(By.xpath("//a[text()='Use This Address']")).click()
+  driver.sleep(2000)
+  await driver.switchTo().window(parent)
+  await driver.findElement(By.xpath("//*[@id='clearTable']/tbody/tr[35]/td/a")).click()
+  driver.sleep(5000)
+  if (url.includes("factory")) {
+    await driver.findElement(By.xpath("(//img[contains(@src,'btn_delete')])[2]")).click()
+    driver.sleep(2000)
+  } else {
+    await driver.findElement(By.xpath("(//a[text()='DELETE'])[2]")).click()
+    driver.sleep(2000)
+    driver.actions().sendKeys(Key.ENTER).perform();
+    /*Robot robot1 = new Robot();
+    robot1.keyPress(KeyEvent.VK_ENTER);
+    robot1.keyRelease(KeyEvent.VK_ENTER);
+    driver.sleep(2000)*/
+  }
+}

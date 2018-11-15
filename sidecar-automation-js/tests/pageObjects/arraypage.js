@@ -43,6 +43,8 @@ const dept_mens_jcrew = By.xpath("//a[text()='Men']");
 const dept_tshirts_jcrew = By.xpath("//a[text()='t-shirts & polos']");
 const dept_product_variation = By.xpath("(//li[contains(@class,'js-product__variation') and not(contains(@class,'is-selected'))])[1]")
 const dept_product_sizelist = By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn')])[1]");
+const product_sizesList_Item_btn = By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]");
+const wishlist = By.id("btn__wishlist-wide");
 
 //Add Sales items
 const clearance_txt = By.xpath("//span[text()='Clearance']");
@@ -51,9 +53,30 @@ const saleTxt = By.xpath("//a[text()='sale']");
 const sale_recommendation_item = By.xpath("(//div[@class='c-sale-recommendation-item'])[1]");
 const product_title_info = By.xpath("(//div[@class='product-tile--info'])[1]");
 
+const userPanel_factory = By.id("c-header__userpanelrecognized");
+const wishListLink_factory = By.xpath("//dd/a[text()='Wishlist']");
+const navAccountBtn = By.xpath("//a[@class='nc-nav__account_button']");
+const wishListCart = By.xpath("//li/a[text()='Wishlist']");
+const wishListItems = By.xpath("//li[contains(@id,'item')]");
 //Registration elements
 const colorsList = By.xpath("//ul[@class='product__colors colors-list']/li/img");
 
+//Email preferences
+const emailPrefs = By.xpath("//a[text()='Email Preferences']");
+const emailText = By.id("emailSub");
+const glbLongGreyLine = By.xpath("//section[@class='glb-long-grey-line']/p/a/img");
+
+//Filters 
+const filterHeader = By.css("#c-filters__header-item--toggle");
+const womenLabel = By.xpath("//button[@data-label='Women']");
+const filteredCategory = By.xpath("(//div[@class='c-filters__breadcrumb btn btn--round is-capitalized']/span)[1]");
+const clearAll = By.xpath("//span[text()='Clear All']");
+const sortBy = By.xpath("//span[text()='Sort By']");
+const lowToHigh = By.xpath("//li[text()='Price: Low to High']");
+const lowToHighTxt = By.xpath("//span[text()='Price: Low to High']");
+const myDetailsTxt = By.xpath("//ul/li[2]/a[text()='My Details']");
+const myDetailsPartialTxt = By.partialLinkText("My Details");
+const accountMyDetails = By.xpath("//div/div/div[@class='account__my-details--header']");
 
 export const productArrayPage = async () => {
   try {
@@ -291,9 +314,190 @@ export const verifyExtendedSizesValidation = async (currentUrl) => {
   return result;
 };
 
-export const colorswatchingValidation = async () =>{
+export const colorswatchingValidation = async () => {
   await driver.actions().mouseMove(await driver.findElement(product_image3)).perform();
   await driver.sleep(2000);
   expect(await driver.findElement(colorsList).isDisplayed()).toBeTruthy();
+}
 
+export const myWishListValidation = async () => {
+  await driver.findElement(product_image2).click()
+  await driver.sleep(2000)
+  await driver.findElement(product_sizesList_Item_btn).click()
+  await driver.sleep(1000)
+  await driver.findElement(wishlist).click()
+  await driver.sleep(3000)
+}
+
+export const goToWishList = async (url) => {
+  if (url.includes("factory")) {
+    const loggedInUser = await driver.findElement(userPanel_factory)
+    expect(loggedInUser).toBeTruthy()
+    await driver.actions().mouseMove(loggedInUser).perform();
+    await driver.sleep(2000)
+    const wishlst = await driver.findElement(wishListLink_factory)
+    expect(wishlst).toBeTruthy()
+    wishlst.click()
+  } else {
+    const loggedInUser = await driver.findElement(navAccountBtn)
+    expect(loggedInUser).toBeTruthy()
+    await driver.actions().mouseMove(loggedInUser).perform();
+    await driver.sleep(2000)
+    const wishlst = await driver.findElement(wishListCart)
+    expect(wishlst).toBeTruthy()
+    wishlst.click()
+  }
+}
+
+export const validateWishListBag = async () => {
+  expect(await driver.findElement(wishListItems).isDisplayed()).toBeTruthy();
+}
+
+export const validateWishListAsGuest = async () => {
+  await driver.findElement(product_image).click()
+  await driver.sleep(2000)
+  await driver.findElement(product_sizesList_Item_btn).click()
+  await driver.sleep(1000)
+  await driver.findElement(wishlist).click()
+  await driver.sleep(1000)
+}
+
+export const validateEmailPreferences = async () => {
+  await driver.sleep(10000)
+  await driver.findElement(emailPrefs).click();
+  await driver.sleep(2000);
+  await driver.switchTo().frame(await driver.findElement(emailText));
+  const subscribebutton = await driver.findElement(glbLongGreyLine);
+  expect(subscribebutton.isDisplayed()).toBeTruthy();
+  await subscribebutton.click()
+  await driver.sleep(2000)
+}
+
+export const validateFilterAndSort = async () => {
+  const hidefilters = await driver.findElement(filterHeader);
+  expect(hidefilters.isDisplayed()).toBeTruthy()
+  console.log("filter header is displaying")
+  await driver.sleep(3000)
+  const gender = await driver.findElement(womenLabel)
+  expect(gender).toBeTruthy()
+  await gender.click()
+  console.log("filter header is displaying")
+  await driver.sleep(5000)
+  const filteredCategoryItem = await driver.findElement(filteredCategory);
+  expect(filteredCategoryItem.isDisplayed()).toBeTruthy()
+  const clearAllLink = await driver.findElement(clearAll);
+  expect(clearAllLink.isDisplayed()).toBeTruthy()
+  await clearAllLink.click()
+  await driver.sleep(3000)
+  const sortByOpt = await driver.findElement(sortBy);
+  expect(sortByOpt.isDisplayed()).toBeTruthy()
+  await sortByOpt.click()
+  await driver.sleep(1000)
+  const lowToHighOpt = await driver.findElement(lowToHigh);
+  expect(lowToHighOpt.isDisplayed()).toBeTruthy()
+  await lowToHigh.click()
+  await driver.sleep(3000)
+  const sortApplied = await driver.findElement(lowToHighTxt);
+  expect(sortApplied.isDisplayed()).toBeTruthy()
+  console.log("Sort functionality is working")
+}
+
+export const myDetailsValidation = async () => {
+  expect(await driver.findElement(myDetailsTxt).isDisplayed()).toBeTruthy()
+  await driver.findElement(myDetailsPartialTxt).click();
+  await driver.sleep(2000);
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.includes("r/account/details")) {
+    expect(await driver.findElement(accountMyDetails)).toBeTruthy()
+    console.log("User navigates to My Details page")
+  }
+}
+
+export const validateShoppingTongue = async (url) => {
+  if (url.includes("factory")) {
+    await driver.actions().mouseMove(await driver.findElement(By.xpath("//span[text()='bag']"))).perform();
+    await driver.sleep(1000)
+    const shoppingTonge = await driver.findElement(By.xpath("//div[@class='c-header__minibag is-active']"))
+    expect(shoppingTonge).toBeTruthy()
+  } else {
+    await driver.sleep(3000)
+    await driver.actions().mouseMove(await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button']"))).perform();
+    await driver.sleep(1000)
+    const shoppingTonge = await driver.findElement(By.xpath("//*[@class='nc-nav__bag__panel is-open']"))
+    expect(shoppingTonge).toBeTruthy()
+  }
+}
+
+export const validateSignOut = async (url) => {
+  if (url.includes("factory")) {
+    const loggedInUser = await driver.findElement(By.id("c-header__userpanelrecognized"))
+    expect(loggedInUser).toBeTruthy()
+    await driver.actions().mouseMove(loggedInUser).perform();
+    await driver.sleep(2000)
+    const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
+    expect(signOut).toBeTruthy()
+    signOut.click()
+    await driver.sleep(5000)
+    expect(await driver.findElement(By.xpath(".//span[text()='sign in']")).isDisplayed()).toBeTruthy();
+  } else {
+    await driver.sleep(8000)
+    const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
+    expect(loggedInUser).toBeTruthy()
+    await driver.actions().mouseMove(loggedInUser).perform();
+    await driver.sleep(2000)
+    const signOut = await driver.findElement(By.xpath("//li[5]/a[text()='Sign Out']"))
+    expect(signOut).toBeTruthy()
+    signOut.click()
+    await driver.sleep(5000)
+    expect(await driver.findElement(By.xpath(".//a[text()='Sign In']")).isDisplayed()).toBeTruthy();
+  }
+}
+
+export const validateWritingReviews = async () => {
+  await driver.sleep(4000)
+  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
+  await driver.sleep(3000)
+  if (await driver.findElement(By.xpath("//*[@id='BVRRRatingOverall_Rating_Summary_1']/div[2]")).isDisplayed()) {
+    console.log("Reviews are displaying")
+    await driver.sleep(3000)
+    await driver.executeScript('window.scrollTo(0, 800)')
+    await driver.sleep(5000)
+    await driver.findElement(By.xpath("//*[@id='BVRRRatingSummaryLinkWriteID']/a")).click();
+    await driver.sleep(2000)
+    console.log("writing the review")
+    await driver.findElement(By.xpath("//a[@id='star_link_rating_5']")).click()
+    await driver.sleep(1000);
+    await driver.findElement(By.xpath("//a[@id='star_link_rating_Quality_5']")).click()
+    await driver.sleep(1000);
+    await driver.findElement(By.xpath("(//label[text()='True to Size'])[1]")).click()
+    await driver.sleep(1000);
+    await driver.findElement(By.xpath("//input[@id='BVFieldTitleID']")).sendKeys("Automation testing")
+    await driver.sleep(1000);
+    await driver.findElement(By.xpath("//textarea[@id='BVFieldReviewtextID']")).sendKeys("hi this is automation tester testing write review functionality")
+    await driver.sleep(1000);
+    await driver.findElement(By.xpath("//input[@id='BVFieldAdditionalfieldSizePurchasedID']")).sendKeys("small")
+    await driver.sleep(1000);
+    await driver.findElement(By.xpath("//button/span[text()='Preview']")).click()
+    await driver.sleep(3000);
+    await driver.executeScript('window.scrollTo(0, -100)')
+    await driver.sleep(1000);
+    const previewHeader = await driver.findElement(By.xpath("//span[text()='Preview Your Review']"));
+    expect(previewHeader).toBeTruthy()
+    console.log("Preview your review header is displaying")
+
+    let currentUrl = await driver.getCurrentUrl();
+
+    if (currentUrl.indexOf("https://or.") > -1) {
+      const submit = await driver.findElement(By.xpath("(//span[text()='Submit'])[2]"));
+      expect(submit).toBeTruthy()
+      submit.click()
+      await driver.sleep(3000);
+      const thankyouText = await driver.findElement(By.xpath("//span[text()='Thank you!']"))
+      expect(thankyouText).toBeTruthy()
+    }
+  } else {
+    console.log("Reviews are displaying")
+    await driver.findElement(By.xpath("(//a[text()='write a review'])[3]")).click();
+    await driver.sleep(2000)
+  }
 }
