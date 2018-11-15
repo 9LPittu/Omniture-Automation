@@ -12,7 +12,7 @@ beforeAll(async () => {
       await driver.manage().timeouts().implicitlyWait(30000)
       await productArrayPage()
       await closeIconInPAP()
-      let result = quickShopValidations()
+      let result = await quickShopValidations()
       expect(result).toBeTruthy()
    })
 

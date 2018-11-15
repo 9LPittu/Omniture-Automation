@@ -1,23 +1,19 @@
 import { driver } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import { globals } from '../../../jestJcrewQaConfig';
-import {addMultiLineItems,verifyAndClickOnBag} from '../../../pageObjects/arraypage'
-
-const each = require('jest-each')
-const { Builder, By, Key, until } = require('selenium-webdriver')
+import { addMultiLineItems, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
 
 beforeAll(async () => {
   await load();
-  await driver.sleep(2000)
-   expect(await driver.getTitle()).toMatch('J.Crew')
- })
+  expect(await driver.getTitle()).toMatch('J.Crew')
+})
 
-  test('Adding single / multiple items from multiple PDP', async () => {
-      await addMultiLineItems()
-      await driver.sleep(1000)
-      await verifyAndClickOnBag()
-   })
+test('Adding single / multiple items from multiple PDP', async () => {
+  console.log("Adding single/multiple items from multiple PDP test case")
+  await driver.manage().timeouts().implicitlyWait(20000)
+  await addMultiLineItems()
+  await verifyAndClickOnBag()
+})
 
-   afterAll(async () => {
-    await driver.quit()
-  })
+afterAll(async () => {
+  //await driver.quit()
+})

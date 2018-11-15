@@ -1,25 +1,22 @@
 import { driver } from '../../../helpers';
 import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
-import { globals } from '../../../jestJcrewQaConfig';
-import { productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
-
-const each = require('jest-each')
-const { Builder, By, Key, until } = require('selenium-webdriver')
+import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage';
 
 beforeAll(async () => {
   await load();
-  await driver.sleep(2000)
-   expect(await driver.getTitle()).toMatch('J.Crew')
- })
+  expect(await driver.getTitle()).toMatch('J.Crew')
+})
 
-  test('Adding single / multiple items from single PDP', async () => {
-      await productArrayPage()
-      await closeIconInPAP()
-      await addProductToBag()
-      await driver.sleep(1000)
-      await verifyAndClickOnBag()
-   })
+test('Adding single / multiple items from single PDP', async () => {
+  console.log("Adding single / multiple items from single PDP")
+  await driver.manage().timeouts().implicitlyWait(20000)
+  await productArrayPage()
+  await closeIconInPAP()
+  await addProductToBag()
+  await driver.sleep(1000)
+  await verifyAndClickOnBag()
+})
 
-   afterAll(async () => {
-    await driver.quit()
-  })
+afterAll(async () => {
+  await driver.quit()
+})

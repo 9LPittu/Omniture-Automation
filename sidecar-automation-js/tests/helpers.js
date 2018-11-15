@@ -31,12 +31,12 @@ export const driver = new Builder()
 
 afterAll(async () => {
   // Cleanup `process.on('exit')` event handlers to prevent a memory leak caused by the combination of `jest` & `tmp`.
-  for (const listener of process.listeners('exit')) {
+ /* for (const listener of process.listeners('exit')) {
     listener();
     process.removeListener('exit', listener);
   }
   setTimeout(() => process.exit(), 1000)
-  await driver.quit();
+  await driver.quit();*/
   });
 
 export const defaultTimeout = 50e3;
