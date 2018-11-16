@@ -5,27 +5,27 @@ import { globals } from '../jestJcrewQaMobileConfig';
 const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
 
-const shipTo =  driver.findElement(By.xpath("//div[@class='country-info']/span"))
-const shipToCountry =  driver.findElement(By.xpath("//div[@class='country-info']/span/../a"))
-const countries =  driver.findElement(By.xpath("//*[contains(@class,'accordian__header')]/text()"))
+//const shipTo =  driver.findElement(By.xpath("//div[@class='country-info']/span"))
+//const shipToCountry =  driver.findElement(By.xpath("//div[@class='country-info']/span/../a"))
+//const countries =  driver.findElement(By.xpath("//*[contains(@class,'accordian__header')]/text()"))
 
-const jcrewCloseicon = driver.findElement(By.xpath("(//span[@class='icon-close'])[1]"));
-const buyGiftCard = driver.findElement(By.xpath("//li[text()='Buy a Gift Card']"));
-const classicCard = driver.findElement(By.xpath("//a[@id='classicGiftCard']/img"));
-const eCard = driver.findElement(By.xpath("//a[@id='eGiftCard']/img"));
+//const jcrewCloseicon = ;
+//const buyGiftCard = driver.findElement(By.xpath("//li[text()='Buy a Gift Card']"));
+//const classicCard = driver.findElement(By.xpath("//a[@id='classicGiftCard']/img"));
+//const eCard = driver.findElement(By.xpath("//a[@id='eGiftCard']/img"));
 
 export const closeIcon = async() => {
   try {
   await driver.sleep(1000)
-  jcrewCloseicon.click()  // close the popups
+  driver.findElement(By.xpath("(//span[@class='icon-close'])[1]")).click();  // close the popups
   await driver.sleep(2000)
   } catch (err){}
 }
 
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`)
-  await driver.sleep(1000)
-  
+  //await driver.sleep(1000)
+
 };
 
 // for selecting the Category
@@ -44,7 +44,7 @@ export const selectCategory = async () => {
   await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
   await driver.sleep(2000)
   // Category link
-  await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
+  await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[2]")).click()
   await	driver.sleep(2000);
   //await driver.executeScript('window.scrollTo(0, 200)')
 
@@ -221,7 +221,7 @@ export const selectExtendSizeCategory = async () => {
   await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
   await driver.sleep(2000)
   // Category link
-  await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
+  await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[2]")).click()
   await	driver.sleep(2000);
   await driver.findElement(By.xpath("//li[text()='All Clothing']")).click()
   await	driver.sleep(2000);
@@ -238,16 +238,16 @@ export const addGiftCardToBag = async (giftcardName) => {
   // Menu icon
   await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
   await driver.sleep(2000)
-  await driver.executeScript("arguments[0].scrollIntoView(true);",buyGiftCard);
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//li[text()='Buy a Gift Card']")));
   await driver.sleep(1000)
-  buyGiftCard.click()
+  await driver.findElement(By.xpath("//li[text()='Buy a Gift Card']")).click();
   await driver.sleep(1000)
   await closeIcon()
   await driver.sleep(1000)
   if(giftcardName=="classicGiftCard"){
-    classicCard.click()
+    await driver.findElement(By.xpath("//a[@id='classicGiftCard']/img")).click();
   }else if(giftcardName=="eGiftCard"){
-    eCard.click()
+    await driver.findElement(By.xpath("//a[@id='eGiftCard']/img")).click();
   }
   await driver.sleep(2000)
   await driver.findElement(By.xpath("//*[@id='amount25']")).click()

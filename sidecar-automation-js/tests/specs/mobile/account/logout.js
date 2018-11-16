@@ -7,7 +7,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 
  beforeAll(async () => {
   await load();
-  await driver.sleep(2000)
+  //await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
@@ -15,7 +15,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
       await loginFromHomePage(logindetails.username, logindetails.password);
       await signOutFromApplication()
       console.log("sign out from the application successfully")
-      expect(await driver.getTitle()).toMatch('J.Crew')
+      //expect(await driver.getTitle()).toMatch('J.Crew')
    })
 
    afterAll(async () => {

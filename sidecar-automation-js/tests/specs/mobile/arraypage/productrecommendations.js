@@ -7,14 +7,14 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 
 beforeAll(async () => {
   await load();
-  await driver.sleep(2000)
+  //await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
     test('product recommendations validation', async () => {
       await selectCategory();
       await driver.sleep(2000)
-      await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[1]")).click()
+      await driver.findElement(By.xpath("(//span[@class='tile__detail tile__detail--name'])[1]")).click()
       await driver.sleep(1000)
       await driver.executeScript('window.scrollTo(0, 1500)')
       await driver.sleep(1000)

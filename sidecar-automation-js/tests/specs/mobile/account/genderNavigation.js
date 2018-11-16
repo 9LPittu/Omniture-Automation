@@ -78,9 +78,10 @@ test('Gender Navigation Verification', async () => {
    await driver.sleep(1000)
    await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button hamburger']")).click()
    await driver.sleep(2000)
-   await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]")).click()
+   await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[2]")).click()
    await	driver.sleep(2000);
-   await driver.executeScript('window.scrollTo(0, 200)')
+  // await driver.executeScript('window.scrollTo(0, 200)')
+   //await	driver.sleep(1000);
    await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()
    url = await driver.getCurrentUrl();
    if(url.includes("womens_feature/newarrivals")){

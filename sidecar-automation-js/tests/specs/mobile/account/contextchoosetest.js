@@ -7,20 +7,20 @@ import { globals } from '../../../jestJcrewQaMobileConfig';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
+
+const closeIcon = By.xpath("//*[@id='global__email-capture']/section/div[3]/span");
 beforeAll(async () => {
    await load();
-   await driver.sleep(2000)
-    expect(await driver.getTitle()).toMatch('J.Crew')
+  // await driver.sleep(2000)
+   expect(await driver.getTitle()).toMatch('J.Crew')
   })
 
   test('Verify Context Chooser functionality ', async () => {
+    
       try {
-        await driver.findElement(By.xpath("//*[@id='global__email-capture']/section/div[3]/span")).then(closeIcon => {
-        closeIcon.click()
+        await driver.findElement(closeIcon).click();
         driver.sleep(1000)
-       })
-       } catch (err)
-      { }
+       } catch (err){ }
     let currentUrl = await driver.getCurrentUrl();
     if(currentUrl.includes("factory")){
       await driver.executeScript('window.scrollTo(0, 20000)')

@@ -1,0 +1,188 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+@types/jest	package.json	/^    "@types\/jest": "^19.2.3",$/;"	f
+Billing	tests/testdata/jcrewTestData.json	/^   "Billing":{$/;"	f
+Card_Number	tests/testdata/jcrewTestData.json	/^        "Card_Number":"4111111111111111",$/;"	f
+Credit_Debit_Card	tests/testdata/jcrewTestData.json	/^      "Credit_Debit_Card":{$/;"	f
+Expiration_Month	tests/testdata/jcrewTestData.json	/^        "Expiration_Month":"12",$/;"	f
+Expiration_Year	tests/testdata/jcrewTestData.json	/^        "Expiration_Year":"2020",$/;"	f
+MultiCardPayment	tests/testdata/jcrewTestData.json	/^      "MultiCardPayment":"Yes",$/;"	f
+Name_On_Card	tests/testdata/jcrewTestData.json	/^        "Name_On_Card":"Perftest"$/;"	f
+PAYMENT_METHOD	tests/testdata/jcrewTestData.json	/^      "PAYMENT_METHOD":"Paypal",$/;"	f
+Paypal_Email	tests/testdata/jcrewTestData.json	/^      "Paypal_Email":"jcrewus@gmail.com",$/;"	f
+Paypal_Password	tests/testdata/jcrewTestData.json	/^      "Paypal_Password":"M@rtini12"$/;"	f
+Security_Code	tests/testdata/jcrewTestData.json	/^        "Security_Code":"123",$/;"	f
+\\.js$	tests/jestJcrewQaConfig.json	/^    "\\\\.js$": "react-scripts\/config\/jest\/babelTransform"$/;"	f
+\\.js$	tests/jestJcrewQaMobileConfig.json	/^    "\\\\.js$": "react-scripts\/config\/jest\/babelTransform"$/;"	f
+__TRANSFORM_HTML__	tests/jestJcrewQaConfig.json	/^    "__TRANSFORM_HTML__": true$/;"	f
+__TRANSFORM_HTML__	tests/jestJcrewQaMobileConfig.json	/^    "__TRANSFORM_HTML__": true$/;"	f
+__baseUrl__	tests/jestJcrewQaConfig.json	/^    "__baseUrl__": "https:\/\/www.jcrew.com",$/;"	f
+__baseUrl__	tests/jestJcrewQaMobileConfig.json	/^    "__baseUrl__": "https:\/\/www.jcrew.com",$/;"	f
+address1	tests/testdata/jcrewTestData.json	/^    "address1": "123 street",$/;"	f
+address2	tests/testdata/jcrewTestData.json	/^    "address2": "",$/;"	f
+address3	tests/testdata/jcrewTestData.json	/^    "address3": "",$/;"	f
+ancestorSeparator	package.json	/^    "ancestorSeparator": " › ",$/;"	f
+ansi-regex	package-lock.json	/^        "ansi-regex": "2.1.1"$/;"	f
+ansi-regex	package-lock.json	/^    "ansi-regex": {$/;"	f
+browser	package.json	/^      "browser": "chrome"$/;"	f
+city	tests/testdata/jcrewTestData.json	/^    "city": "San Francisco",$/;"	f
+classNameTemplate	package.json	/^    "classNameTemplate": "{classname}-{title}",$/;"	f
+collectCoverage	jest.config.json	/^	"collectCoverage": false,$/;"	f
+collectCoverage	package.json	/^    "collectCoverage": true,$/;"	f
+collectCoverage	tests/jestJcrewQaConfig.json	/^  	"collectCoverage": false,$/;"	f
+collectCoverage	tests/jestJcrewQaMobileConfig.json	/^  	"collectCoverage": false,$/;"	f
+collectCoverageFrom	jest.config.json	/^	"collectCoverageFrom" : [$/;"	f
+const.default	src/methods.js	/^	const types = { default: '\\x1b[37m', success: '\\x1b[32m', error: '\\x1b[31m' };$/;"	p
+const.error	src/methods.js	/^	const types = { default: '\\x1b[37m', success: '\\x1b[32m', error: '\\x1b[31m' };$/;"	p
+const.success	src/methods.js	/^	const types = { default: '\\x1b[37m', success: '\\x1b[32m', error: '\\x1b[31m' };$/;"	p
+const.xpath	tests/pageObjects/jcrewdesktoppageobj.js	/^const privacyPolicyClose = { xpath: "\/\/div[@class='mt-close-lb-slide privacyPolicyClose']" };$/;"	p
+const.xpath	tests/pageObjects/jcrewdesktoppageobj.js	/^const signInIcon = { xpath: "\/\/*[@id='c-header__userpanel']\/a\/span[2]" };$/;"	p
+const.xpath	tests/pageObjects/signpageobj.js	/^const jcrewCloseicon = { xpath: "(\/\/span[@class='icon-close'])[1]" };$/;"	p
+const.xpath	tests/pageObjects/signpageobj.js	/^const signInIcon = { xpath: "\/\/*[@id='c-header__userpanel']\/a\/span[2]" };$/;"	p
+coverageDirectory	jest.config.json	/^	"coverageDirectory": ".\/coverage",$/;"	f
+coverageDirectory	tests/jestJcrewQaConfig.json	/^    "coverageDirectory": ".\/coverage",$/;"	f
+coverageDirectory	tests/jestJcrewQaMobileConfig.json	/^    "coverageDirectory": ".\/coverage",$/;"	f
+coverageFormats	package.json	/^    "coverageFormats": [$/;"	f
+coverageReporters	jest.config.json	/^  "coverageReporters": ["json", "html", "text", "text-summary"],$/;"	f
+coverageReporters	tests/jestJcrewQaConfig.json	/^      "coverageReporters": ["json", "html", "text", "text-summary"],$/;"	f
+coverageReporters	tests/jestJcrewQaMobileConfig.json	/^      "coverageReporters": ["json", "html", "text", "text-summary"],$/;"	f
+creditcard	tests/testdata/jcrewTestData.json	/^  "creditcard": {$/;"	f
+dateformat	package-lock.json	/^        "dateformat": "3.0.2",$/;"	f
+dateformat	package-lock.json	/^    "dateformat": {$/;"	f
+dependencies	package-lock.json	/^  "dependencies": {$/;"	f
+dependencies	package.json	/^  "dependencies": {$/;"	f
+dev	package-lock.json	/^      "dev": true$/;"	f
+dev	package-lock.json	/^      "dev": true,$/;"	f
+devDependencies	package.json	/^  "devDependencies": {$/;"	f
+emailReceipt	tests/testdata/jcrewTestData.json	/^    "emailReceipt": "receipt_mail@example.org"$/;"	f
+expirationMonth	tests/testdata/jcrewTestData.json	/^    "expirationMonth": "12",$/;"	f
+expirationYear	tests/testdata/jcrewTestData.json	/^    "expirationYear": "2020",$/;"	f
+factory_gold	tests/testdata/jcrewTestData.json	/^  "factory_gold":{$/;"	f
+factory_prod	tests/testdata/jcrewTestData.json	/^  "factory_prod":{$/;"	f
+firstNameSA	tests/testdata/jcrewTestData.json	/^    "firstNameSA": "Perftest12",$/;"	f
+globals	tests/jestJcrewQaConfig.json	/^  "globals": {$/;"	f
+globals	tests/jestJcrewQaMobileConfig.json	/^  "globals": {$/;"	f
+guestuser	tests/testdata/jcrewTestData.json	/^  "guestuser": {$/;"	f
+includeConsoleLog	jesthtmlreporter.config.json	/^    "includeConsoleLog": true,$/;"	f
+includeConsoleLog	package.json	/^    "includeConsoleLog": true$/;"	f
+includeConsoleLog	package.json	/^    "includeConsoleLog": true,$/;"	f
+includeFailureMsg	jesthtmlreporter.config.json	/^    "includeFailureMsg": true,$/;"	f
+includeFailureMsg	package.json	/^    "includeFailureMsg": true,$/;"	f
+integrity	package-lock.json	/^      "integrity": "sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=",$/;"	f
+integrity	package-lock.json	/^      "integrity": "sha1-aSSGc0ELS6QuGmE2VR0pIjNap3M=",$/;"	f
+integrity	package-lock.json	/^      "integrity": "sha1-ajhfuIU9lS1f8F0Oiq+UJ43GPc8=",$/;"	f
+integrity	package-lock.json	/^      "integrity": "sha1-hX\/Kv8M5fSYluCKCYuhqp6ARsF0=",$/;"	f
+integrity	package-lock.json	/^      "integrity": "sha1-mk30v\/FYrC80vGN6vbFUcWB+Flk=",$/;"	f
+integrity	package-lock.json	/^      "integrity": "sha1-w7M6te42DYbg5ijwRorn7yfWVN8=",$/;"	f
+integrity	package-lock.json	/^      "integrity": "sha512-GQNlwD60cihcPLOZmLtC1DeTaUA7GBDGBCNYpBMl8EbYUZmJOnYrB5mUtzdnZx3RJJEg6F\/QBXIsy1v\/91k8UA==",$/;"	f
+jcrew_gold	tests/testdata/jcrewTestData.json	/^  "jcrew_gold":{$/;"	f
+jcrew_prod	tests/testdata/jcrewTestData.json	/^  "jcrew_prod":{$/;"	f
+jest	package.json	/^    "jest": "^20.0.4",$/;"	f
+jest	package.json	/^  "jest": {$/;"	f
+jest-each	package.json	/^    "jest-each": "0.3.1",$/;"	f
+jest-environment-node-debug	package.json	/^    "jest-environment-node-debug": "^2.0.0",$/;"	f
+jest-html-reporter	package-lock.json	/^    "jest-html-reporter": {$/;"	f
+jest-html-reporter	package.json	/^    "jest-html-reporter": "^2.3.0",$/;"	f
+jest-html-reporter	package.json	/^  "jest-html-reporter": {$/;"	f
+jest-junit	package.json	/^    "jest-junit": "^3.7.0",$/;"	f
+jest-junit	package.json	/^  "jest-junit": {$/;"	f
+lastNameSA	tests/testdata/jcrewTestData.json	/^    "lastNameSA": "last name",$/;"	f
+lockfileVersion	package-lock.json	/^  "lockfileVersion": 1,$/;"	f
+logindetails	tests/testdata/jcrewTestData.json	/^  "logindetails": {$/;"	f
+loyaltyuser	tests/testdata/jcrewTestData.json	/^    "loyaltyuser": "autoredeem@gmail.com"$/;"	f
+minimist	package-lock.json	/^        "minimist": "0.0.8"$/;"	f
+minimist	package-lock.json	/^    "minimist": {$/;"	f
+mkdirp	package-lock.json	/^        "mkdirp": "0.5.1",$/;"	f
+mkdirp	package-lock.json	/^    "mkdirp": {$/;"	f
+name	package-lock.json	/^  "name": "sidecar_automation",$/;"	f
+name	package.json	/^  "name": "sidecar_automation",$/;"	f
+nameOnCard	tests/testdata/jcrewTestData.json	/^    "nameOnCard": "Perftest ",$/;"	f
+number	tests/testdata/jcrewTestData.json	/^    "number": "4111111111111111",$/;"	f
+output	package.json	/^    "output": "reports\/junit.xml",$/;"	f
+outputPath	jesthtmlreporter.config.json	/^    "outputPath": "reports\/jcrew-test-report.html",$/;"	f
+outputPath	package.json	/^    "outputPath": "reports\/jcrew-test-report.html",$/;"	f
+pageTitle	jesthtmlreporter.config.json	/^	"pageTitle": "JCrew Test Suite Report",$/;"	f
+pageTitle	package.json	/^    "pageTitle": "JCrew Suite",$/;"	f
+password	tests/testdata/jcrewTestData.json	/^    "password": "nft123",$/;"	f
+password	tests/testdata/jcrewTestData.json	/^    "password": "test1234"$/;"	f
+password1	tests/testdata/jcrewTestData.json	/^    "password1": "123456ab",$/;"	f
+password2	tests/testdata/jcrewTestData.json	/^    "password2": "test1234",$/;"	f
+password3	tests/testdata/jcrewTestData.json	/^    "password3": "test1234",$/;"	f
+password4	tests/testdata/jcrewTestData.json	/^    "password4": "test1234",$/;"	f
+password5	tests/testdata/jcrewTestData.json	/^    "password5": "123456",$/;"	f
+phoneNumSA	tests/testdata/jcrewTestData.json	/^      "phoneNumSA": "123456789"$/;"	f
+pin	tests/testdata/jcrewTestData.json	/^    "pin": "737",$/;"	f
+private	package.json	/^  "private": true,$/;"	f
+react	package.json	/^    "react": "^15.6.1",$/;"	f
+react-dom	package.json	/^    "react-dom": "^15.6.1"$/;"	f
+react-scripts	package.json	/^    "react-scripts": "1.0.7",$/;"	f
+requires	package-lock.json	/^      "requires": {$/;"	f
+requires	package-lock.json	/^  "requires": true,$/;"	f
+resolved	package-lock.json	/^      "resolved": "https:\/\/registry.npmjs.org\/ansi-regex\/-\/ansi-regex-2.1.1.tgz",$/;"	f
+resolved	package-lock.json	/^      "resolved": "https:\/\/registry.npmjs.org\/dateformat\/-\/dateformat-3.0.2.tgz",$/;"	f
+resolved	package-lock.json	/^      "resolved": "https:\/\/registry.npmjs.org\/jest-html-reporter\/-\/jest-html-reporter-2.3.0.tgz",$/;"	f
+resolved	package-lock.json	/^      "resolved": "https:\/\/registry.npmjs.org\/minimist\/-\/minimist-0.0.8.tgz",$/;"	f
+resolved	package-lock.json	/^      "resolved": "https:\/\/registry.npmjs.org\/mkdirp\/-\/mkdirp-0.5.1.tgz",$/;"	f
+resolved	package-lock.json	/^      "resolved": "https:\/\/registry.npmjs.org\/strip-ansi\/-\/strip-ansi-3.0.1.tgz",$/;"	f
+resolved	package-lock.json	/^      "resolved": "https:\/\/registry.npmjs.org\/xmlbuilder\/-\/xmlbuilder-8.2.2.tgz",$/;"	f
+scripts	package.json	/^  "scripts": {$/;"	f
+selectByVisibleText	tests/pageObjects/shippingaddresspageobj.js	/^function selectByVisibleText(select, textDesired) {$/;"	f
+selectByVisibleText	tests/specs/desktop/shippingandbilling/shiptomultipleaddress.js	/^function selectByVisibleText(select, textDesired) {$/;"	f
+selenium-webdriver	package.json	/^    "selenium-webdriver": "^3.4.0",$/;"	f
+setupTestFrameworkScriptFile	tests/jestJcrewQaConfig.json	/^  "setupTestFrameworkScriptFile": ".\/setupTests.js",$/;"	f
+setupTestFrameworkScriptFile	tests/jestJcrewQaMobileConfig.json	/^  "setupTestFrameworkScriptFile": ".\/setupTests.js",$/;"	f
+sort	jesthtmlreporter.config.json	/^    "sort": "titleAsc"$/;"	f
+state	tests/testdata/jcrewTestData.json	/^    "state": "CA",$/;"	f
+strip-ansi	package-lock.json	/^        "strip-ansi": "3.0.1",$/;"	f
+strip-ansi	package-lock.json	/^    "strip-ansi": {$/;"	f
+suiteName	package.json	/^    "suiteName": "jest tests",$/;"	f
+testEnvironmentOptions	package.json	/^    "testEnvironmentOptions": {$/;"	f
+testMatch	tests/jestJcrewQaConfig.json	/^  "testMatch": [$/;"	f
+testMatch	tests/jestJcrewQaMobileConfig.json	/^  "testMatch": [$/;"	f
+testMethod	tests/pageObjects/BillingObj.js	/^function testMethod(a,b){$/;"	f
+testResultsProcessor	jest.config.json	/^	"testResultsProcessor": ".\/src\/index.js",$/;"	f
+testResultsProcessor	jest.config.json	/^	"testResultsProcessor": "jest-junit"$/;"	f
+testResultsProcessor	package.json	/^    "testResultsProcessor": ".\/node_modules\/jest-html-reporter",$/;"	f
+testResultsProcessor	package.json	/^    "testResultsProcessor": "jest-junit",$/;"	f
+tests-setup	package.json	/^    "tests-setup": "yarn install && yarn add -dev jest-html-reporter",$/;"	f
+tests-start	package.json	/^    "tests-start": "webdriver-manager start --out_dir ..\/..\/tests\/selenium",$/;"	f
+tests-update	package.json	/^    "tests-update": "webdriver-manager update --out_dir ..\/..\/tests\/selenium",$/;"	f
+tests_factory_prod	package.json	/^    "tests_factory_prod": "jest -c tests\/jestFactoryProdConfig.json",$/;"	f
+tests_factory_qa	package.json	/^    "tests_factory_qa": "jest -c tests\/jestFactoryQaConfig.json",$/;"	f
+tests_jcrew_prod	package.json	/^    "tests_jcrew_prod": "jest -c tests\/jestJcrewProdConfig.json",$/;"	f
+tests_jcrew_qa	package.json	/^    "tests_jcrew_qa": "jest -c tests\/jestJcrewQaConfig.json",$/;"	f
+tests_jcrew_qa_mobile	package.json	/^    "tests_jcrew_qa_mobile": "jest -c tests\/jestJcrewQaMobileConfig.json",$/;"	f
+titleTemplate	package.json	/^    "titleTemplate": "{classname}-{title}",$/;"	f
+transform	tests/jestJcrewQaConfig.json	/^  "transform": {$/;"	f
+transform	tests/jestJcrewQaMobileConfig.json	/^  "transform": {$/;"	f
+useAsReporter	jesthtmlreporter.config.json	/^    "useAsReporter": true,$/;"	f
+usePathForSuiteName	package.json	/^    "usePathForSuiteName": "true"$/;"	f
+username	tests/testdata/jcrewTestData.json	/^    "username": "automationca@gmail.com",$/;"	f
+username	tests/testdata/jcrewTestData.json	/^    "username": "autotest@example.org",$/;"	f
+username	tests/testdata/jcrewTestData.json	/^    "username": "goldnonexpress1@example.org",$/;"	f
+username	tests/testdata/jcrewTestData.json	/^    "username": "testuser1@example.org",$/;"	f
+username1	tests/testdata/jcrewTestData.json	/^    "username1": "sqatree@gmail.com",$/;"	f
+username2	tests/testdata/jcrewTestData.json	/^    "username2": "testuser10@example.org",$/;"	f
+username3	tests/testdata/jcrewTestData.json	/^    "username3": "testuser15@example.org",$/;"	f
+username4	tests/testdata/jcrewTestData.json	/^    "username4": "autouser3@example.org",$/;"	f
+username5	tests/testdata/jcrewTestData.json	/^    "username5": "AutomationTest@gmail.com",$/;"	f
+version	package-lock.json	/^      "version": "0.0.8",$/;"	f
+version	package-lock.json	/^      "version": "0.5.1",$/;"	f
+version	package-lock.json	/^      "version": "2.1.1",$/;"	f
+version	package-lock.json	/^      "version": "2.3.0",$/;"	f
+version	package-lock.json	/^      "version": "3.0.1",$/;"	f
+version	package-lock.json	/^      "version": "3.0.2",$/;"	f
+version	package-lock.json	/^      "version": "8.2.2",$/;"	f
+version	package-lock.json	/^  "version": "0.0.0",$/;"	f
+version	package.json	/^  "version": "0.0.0",$/;"	f
+watch	package.json	/^    "watch": "jest -u --coverage -c tests\/jestConfig.json && jest --watchAll"$/;"	f
+webdriver-manager	package.json	/^    "webdriver-manager": "^12.0.6"$/;"	f
+xmlbuilder	package-lock.json	/^        "xmlbuilder": "8.2.2"$/;"	f
+xmlbuilder	package-lock.json	/^    "xmlbuilder": {$/;"	f
+zipCode	tests/testdata/jcrewTestData.json	/^  "zipCode":{$/;"	f
+zipcode	tests/testdata/jcrewTestData.json	/^    "zipcode": "10003"$/;"	f
+zipcode	tests/testdata/jcrewTestData.json	/^    "zipcode": "94103",$/;"	f

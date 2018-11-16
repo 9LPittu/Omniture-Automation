@@ -7,14 +7,13 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 
 beforeAll(async () => {
   await load();
-  await driver.sleep(2000)
+  //await driver.sleep(2000)
    expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
   test('shop the look validation', async () => {
     await selectCategory();
-
-    await driver.sleep(2000)
+    await driver.sleep(3000);
     let currentUrl = await driver.getCurrentUrl();
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
       const arraypage = await driver.findElement(By.className('c-product__list'))
@@ -27,7 +26,7 @@ beforeAll(async () => {
     else {
     const arraypage = await driver.findElement(By.className('c-product__list'))
     expect(arraypage).toBeTruthy()
-    const productimage =await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[2]"))
+    const productimage =await driver.findElement(By.xpath("(//span[@class='tile__detail tile__detail--name'])[1]"))
     productimage.click()
     await driver.sleep(3000)
     await driver.executeScript('window.scrollTo(0, 1000)')
