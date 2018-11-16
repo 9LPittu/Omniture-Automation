@@ -1,7 +1,8 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load } from '../../../pageObjects/jcrewdesktoppageobj';
-import {loginFromHomePage, clearBagItems, validateAddEditCreditCard} from '../../../pageObjects/loginpageobj';
+import { loginFromHomePage, clearBagItems } from '../../../pageObjects/loginpageobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod,creditcard } from '../../../testdata/jcrewTestData';
+import { validateAddEditCreditCard } from '../../../pageObjects/shippingaddresspageobj';
 
 beforeAll(async () => {
     await load();

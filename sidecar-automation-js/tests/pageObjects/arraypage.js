@@ -17,8 +17,10 @@ const product_size = By.xpath("(//li[contains(@class,'js-product__size sizes-lis
 const addToBag = By.id("btn__add-to-bag-wide");
 const cartSize = By.xpath("//span[@class='js-cart-size']");
 const productCart = By.id("js-header__cart");
-const cart_count = By.xpath("//div[@class='nc-nav__bag-button__count']");
-const cartIcon = By.xpath("//div[@class='nc-nav__bag-button__icon']");
+//const cart_count = By.xpath("//div[@class='nc-nav__bag-button__count']"); //old xpath
+const cart_count = By.xpath("//div[@class='nc-nav__bag-tab__count']");
+//const cartIcon = By.xpath("//div[@class='nc-nav__bag-button__icon']"); //old xpath
+const cartIcon = By.xpath("//div[@class='nc-nav__bag-tab__icon']");
 const wishList_btn = By.id("btn__wishlist");
 
 //Baynote elements

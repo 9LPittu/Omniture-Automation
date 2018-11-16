@@ -15,8 +15,10 @@ const recipientName = By.id("RecipientName");
 const submitClassicGiftCard = By.xpath("//input[@id='submitClassic']");
 const header_cart_factory = By.id("js-header__cart");
 const cartSize_factory = By.xpath("//span[@class='js-cart-size']");
-const bagButtonIcon = By.xpath("//div[@class='nc-nav__bag-button__icon']");
-const bagSize = By.xpath("//div[@class='nc-nav__bag-button__count']");
+//const bagButtonIcon = By.xpath("//div[@class='nc-nav__bag-button__icon']"); //old xpath
+const bagButtonIcon = By.xpath("//div[@class='nc-nav__bag-tab__icon']");
+//const bagSize = By.xpath("//div[@class='nc-nav__bag-button__count']"); //old xpath
+const bagSize = By.xpath("//div[@class='nc-nav__bag-tab__count'] ");
 const plusProductGrid3N = By.xpath("(//div[@class='plus_product  plusGrid3N TheSuitShop Ludlow '])[1]");
 const productPrice = By.xpath("//div[@class='product__price']");
 const productSizeListBtn = By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]");

@@ -33,7 +33,7 @@ const summary_subtotal_clearfix = By.xpath("//ul/li[@class='summary-item summary
 const summary_shipping_clearfix = By.xpath("//ul/li[@class='summary-item summary-shipping clearfix']/span[2]");
 const summary_item_clearfix = By.xpath("//ul/li[@class='summary-item clearfix']/span[2]"); 
 const summary_total_clearfix = By.xpath("//ul/li[@class='summary-item summary-total clearfix']/span[2]");
-const mergeButton = By.xpath("//*[@id='mergedCartActionTop']/a[1]");
+const mergeBtnEle = By.xpath("//*[@id='mergedCartActionTop']/a[1]");
 const pageSearch = By.id("page__search");
 
 export const load = async () => {
@@ -192,7 +192,7 @@ export const loyaltyPointsRedeemValidation = async (currentUrl) => {
 
 export const mergeButton = async () =>{
   try {
-    await driver.findElement(mergeButton).then(mergebtn => {
+    await driver.findElement(mergeBtnEle).then(mergebtn => {
     // console.log("inside merge page")
      mergebtn.click()
      driver.sleep(3000)
