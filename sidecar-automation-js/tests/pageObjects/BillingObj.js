@@ -1,152 +1,143 @@
 import { driver } from '../helpers';
-import { globals } from '../jestJcrewQaConfig';
-import {goToShoppingBag} from '../pageObjects/shoppingbagobj';
-import {login,loginInAfterCheckoutPage} from '../pageObjects/loginpageobj';
-import { Credit_Debit_Card , Billing} from '../testdata/jcrewTestData';
-
+import { Credit_Debit_Card, Billing } from '../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
-const paypalRadio = () => driver.findElement({ css: "#paypalPayment" });
-const paypalButton = () => driver.findElement({ xpath: "//div[@data-funding-source='paypal']" });
-const loginButton = () => driver.findElement({ xpath: "//a[text()='Log In']" });
-const email = () => driver.findElement({ css: "#email" });
-const next = () => driver.findElement({ css: "#btnNext" });
-const password = () => driver.findElement({ css: "#password" });
-const btnLogin =() => driver.findElement({css:"#btnLogin" });
-const continueButton = () => driver.findElement({ css: "#confirmButtonTop" });
-const placeMyOrder = () => driver.findElement({css:"#button-submitorder"});
-const orderPlaced = () => driver.findElement({xpath:"//img[@src='https://images.bizrateinsights.com/eval/survey/invite_template/custom/jcrew_714.jpg']"})
-const closeOrderPlaced = () => driver.findElement({xpath : "//div[@class='brdialog-close']"});
-const verifyOrderNumber = () => driver.findElement({xpath: "//span[@id='confirmation-number']/span[2]"})
+const paypalRadio = By.css("#paypalPayment");
+const paypalButton = By.xpath("//div[@data-funding-source='paypal']");
+const loginButton = By.xpath("//a[text()='Log In']");
+const email = By.css("#email");
+const next = By.css("#btnNext");
+const password = By.css("#password");
+const btnLogin = By.css("#btnLogin");
+const continueButton = By.css("#confirmButtonTop");
+const placeMyOrder = By.css("#button-submitorder");
+const orderPlaced = By.xpath("//img[@src='https://images.bizrateinsights.com/eval/survey/invite_template/custom/jcrew_714.jpg']");
+const closeOrderPlaced = By.xpath("//div[@class='brdialog-close']");
+const verifyOrderNumber = By.xpath("//span[@id='confirmation-number']/span[2]");
+const submitButton = By.xpath("//input[@type='submit']");
 let Name_On_Card = "Visa"
-////input[@type='submit']
-const submitButton = () => driver.findElement({xpath: "//input[@type='submit']"})
 
-export const paymentMethod = async(paymentType) =>{
+//Payment method elements
+const creditPaymentRadioBtn = By.xpath("//label[@class='form-label radio-checked']/input[@id='creditDebitPayment']");
+const creditDebitPaymentBtn = By.css("#creditDebitPayment");
+const orderSummaryBtn = By.css("#order-summary__button-continue");
+const securityCodeCSS = By.css("#securityCode");
+const imgBizrateinSights = By.xpath("//img[@src='https://images.bizrateinsights.com/eval/survey/invite_template/custom/jcrew_714.jpg']");
+const paypalBtn = By.id("paypalPayment");
+const xcomponent = By.xpath("//iframe[@class='xcomponent-component-frame xcomponent-visible']");
+const emailPaypal = By.id("email");
+const buttonNext = By.id("btnNext");
+const passwordTxt = By.id("password");
+const loginBtn = By.id("btnLogin");
+const confirmBtnTop = By.id("confirmButtonTop");
+const orderNoTranslate = By.xpath("//span[@class='order-number notranslate']");
 
-    if(paymentType == "Credit/Debit_Card"){
-      console.log(await driver.findElement(By.xpath("//label[@class='form-label radio-checked']/input[@id='creditDebitPayment']")).isDisplayed())
-        if(await driver.findElement(By.xpath("//label[@class='form-label radio-checked']/input[@id='creditDebitPayment']")).isDisplayed()){
-
+export const paymentMethod = async (paymentType) => {
+  if (paymentType == "Credit/Debit_Card") {
+    console.log(await driver.findElement(creditPaymentRadioBtn).isDisplayed())
+    if (await driver.findElement(creditPaymentRadioBtn).isDisplayed()) {
+      let url = await driver.getCurrentUrl();
+      if ((url.indexOf("www.jcrew.com") > -1) || (url.indexOf("factory.jcrew.com") > -1)) {
+        await driver.findElement(creditDebitPaymentBtn).isDisplayed();
+      } else if ((url.indexOf("or.jcrew.com") > -1) || (url.indexOf("or.factory.jcrew.com") > -1)) {
+        let card = "(//span[text()='" + Name_On_Card + "']/parent::label/input[@class='address-radio'])[1]";
+        console.log(card);
+        await driver.findElement(By.xpath(card)).click();
+        await driver.sleep(1000)
+        await driver.findElement(orderSummaryBtn).click();
+        await driver.sleep(1000)
+        //#securityCode
+        await driver.findElement(securityCodeCSS).sendKeys(Credit_Debit_Card.Security_Code);
+        //button-submitorder
         let url = await driver.getCurrentUrl();
-        if ((url.indexOf("www.jcrew.com") > -1) || (url.indexOf("factory.jcrew.com") > -1)) {
-          await driver.findElement(By.css("#creditDebitPayment")).isDisplayed();
-        }else if ((url.indexOf("or.jcrew.com") > -1 ) || (url.indexOf("or.factory.jcrew.com") > -1 )){
-            let card = "(//span[text()='"+Name_On_Card+"']/parent::label/input[@class='address-radio'])[1]";
-            console.log(card);
-            await driver.findElement(By.xpath(card)).click();
-            await driver.sleep(1000)
-            await driver.findElement(By.css("#order-summary__button-continue")).click();
-            await driver.sleep(1000)
-            //#securityCode
-            await driver.findElement(By.css("#securityCode")).sendKeys(Credit_Debit_Card.Security_Code);
-            //button-submitorder
-            let url = await driver.getCurrentUrl();
-            console.log(url);
-            await driver.findElement(By.css("#button-submitorder")).click();
-            await driver.sleep(1000)
-            try {
-            await driver.findElement(By.xpath("//img[@src='https://images.bizrateinsights.com/eval/survey/invite_template/custom/jcrew_714.jpg']")).isDisplayed();
-            await driver.findElement(By.xpath("//div[@class='brdialog-close']")).click();
-          } catch (err) {
-          }
-            let orderNumer = await driver.findElement(By.xpath("//span[@id='confirmation-number']/span[2]")).getText();
-            console.log("Order Number is : "+orderNumer)
-          }
-
-        }else{
-          await driver.findElement(By.css("#creditDebitPayment")).click();
+        console.log(url);
+        await driver.findElement(placeMyOrder).click();
+        await driver.sleep(1000)
+        try {
+          await driver.findElement(imgBizrateinSights).isDisplayed();
+          await driver.findElement(closeOrderPlaced).click();
+        } catch (err) {
         }
-    }else if(paymentType == "Paypal"){
-            driver.sleep(1000)
-            await driver.findElement(By.id("paypalPayment")).click()
-            driver.sleep(5000)
-            var parent = driver.getWindowHandle();
-            driver.sleep(1000)
-            //await driver.wait(until.elementLocated(paypalRadio), 50000).click();
-            await driver.switchTo().frame(await driver.findElement(By.xpath("//iframe[@class='xcomponent-component-frame xcomponent-visible']")))
-            driver.sleep(1000)
-            //await driver.findElement(By.xpath("//div[@data-funding-source='paypal']")).click();
-          let url = await driver.getCurrentUrl();
-          console.log(url);
-          if (url.indexOf("www.jcrew.com") > -1) {
-              await driver.wait(until.elementLocated(paypalButton), 50000).isDisplayed();
-          }else{
-            await driver.wait(until.elementLocated(paypalButton), 50000).click();
-            await driver.switchTo().defaultContent();
-            await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
-            driver.switchTo().window(allhandles[allhandles.length - 1]);
-            });
-            console.log("paypal window")
-            await driver.sleep(40000)
-            await driver.findElement(By.xpath("//a[text()='Log In']")).click()
-            console.log("clicked login")
-            await driver.sleep(10000)
-            await driver.findElement(By.id("email")).sendKeys(Billing.Paypal_Email)
-            console.log("entered uname")
-            await driver.sleep(1000)
-            await driver.findElement(By.id("btnNext")).click()
-            await driver.sleep(1000)
-            //await driver.wait(until.elementLocated(next), 50000).click();
-            console.log("clicked next")
-            await driver.sleep(10000)
-            await driver.findElement(By.id("password")).sendKeys(Billing.Paypal_Password)
-            //await driver.wait(until.elementLocated(password),50000).sendKeys(Paypal.Password);
-            console.log("entered password")
-            await driver.sleep(1000)
-            await driver.findElement(By.id("btnLogin")).click()
-            //await driver.wait(until.elementLocated(btnLogin),2000).click();
-            await driver.sleep(25000)
-            //await driver.findElement(submitButton).click()
-            await driver.findElement(By.id("confirmButtonTop")).click()
-            //await driver.wait(until.elementLocated(submitButton), 50000).click();
-            console.log("clicked continue")
-            await driver.sleep(10000)
-
-            await driver.switchTo().window(parent)
-            await driver.sleep(10000)
-            await driver.wait(until.elementLocated(placeMyOrder),5000).click();
-            await driver.sleep(10000)
-             /*try {
-            await driver.wait(until.elementLocated(orderPlaced),5000).isDisplayed();
-            await driver.wait(until.elementLocated(closeOrderPlaced),5000).click();
-          } catch (err) {
-
-          }*/
-
-          await driver.sleep(4000)
-          try {
-          const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
-          expect(bizrate).toBeTruthy()
-          bizrate.click()
-          await driver.sleep(2000)
-          } catch (err) {
-
-          }
-          let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
-         console.log("order Id  > " + orderNumberLet)
-         await driver.sleep(1000)
-          }
-
-
-    }else{
-
+        let orderNumer = await driver.findElement(verifyOrderNumber).getText();
+        console.log("Order Number is : " + orderNumer)
+      }
+    } else {
+      await driver.findElement(creditDebitPaymentBtn).click();
     }
+  } else if (paymentType == "Paypal") {
+    await driver.sleep(1000)
+    await driver.findElement(paypalBtn).click()
+    await driver.sleep(5000)
+    var parent = await driver.getWindowHandle();
+    await driver.sleep(1000)
+    await driver.switchTo().frame(await driver.findElement(xcomponent))
+    await driver.sleep(1000)
+    let url = await driver.getCurrentUrl();
+    console.log(url);
+    if (url.indexOf("www.jcrew.com") > -1) {
+      await driver.wait(until.elementLocated(paypalButton), 50000).isDisplayed();
+    } else {
+      await driver.wait(until.elementLocated(paypalButton), 50000).click();
+      await driver.switchTo().defaultContent();
+      await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
+        driver.switchTo().window(allhandles[allhandles.length - 1]);
+      });
+      console.log("paypal window")
+      await driver.sleep(40000)
+      await driver.findElement(loginButton).click()
+      console.log("clicked login")
+      await driver.sleep(10000)
+      await driver.findElement(emailPaypal).sendKeys(Billing.Paypal_Email)
+      console.log("entered uname")
+      await driver.sleep(1000)
+      await driver.findElement(buttonNext).click()
+      await driver.sleep(1000)
+      console.log("clicked next")
+      await driver.sleep(10000)
+      await driver.findElement(passwordTxt).sendKeys(Billing.Paypal_Password)
+      console.log("entered password")
+      await driver.sleep(1000)
+      await driver.findElement(loginBtn).click()
+      await driver.sleep(25000)
+      await driver.findElement(confirmBtnTop).click()
+      console.log("clicked continue")
+      await driver.sleep(10000)
+      await driver.switchTo().window(parent)
+      await driver.sleep(10000)
+      await driver.wait(until.elementLocated(placeMyOrder), 5000).click();
+      await driver.sleep(10000)
+      try {
+        const bizrate = await driver.findElement(closeOrderPlaced)
+        expect(bizrate).toBeTruthy()
+        await bizrate.click()
+        await driver.sleep(2000)
+      } catch (err) {
+        console.log("bizrate ::"+err)
+      }
+      let orderNumberLet = await driver.findElement(orderNoTranslate).getText()
+      console.log("order Id  > " + orderNumberLet)
+      await driver.sleep(1000)
+    }
+  } else {
+
+  }
 }
-export const addNewCard = async() =>{
+
+export const addNewCard = async () => {
   await driver.findElement(By.css("#address-entry-new")).click();
 }
 
-
-export const clickOnCreditOrDebitCard = async() =>{
-  await driver.findElement(By.css("#creditDebitPayment")).click();
+export const clickOnCreditOrDebitCard = async () => {
+  await driver.findElement(creditDebitPaymentBtn).click();
 }
 
-export const clikOnPayPal = async() =>{
+export const clikOnPayPal = async () => {
   await driver.findElement(By.css("#paypalPayment")).click();
 }
-function testMethod(a,b){
-  console.log(a+b);
+
+function testMethod(a, b) {
+  console.log(a + b);
 }
-exports.testMethod= testMethod;
+
+exports.testMethod = testMethod;

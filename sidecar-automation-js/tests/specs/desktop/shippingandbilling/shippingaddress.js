@@ -1,23 +1,21 @@
-import { driver, defaultTimeout } from '../../../helpers';
+import { driver } from '../../../helpers';
 import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { addEditRemoveAddress} from '../../../pageObjects/shippingaddresspageobj';
+import {checkout} from '../../../pageObjects/Shippingpageobj';
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginpageobj';
 import {productArrayPage, addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 
-const { Builder, By, Key, until } = require('selenium-webdriver');
-
 beforeAll(async () => {
    await load();
+   await driver.manage().timeouts().implicitlyWait(20000)
    console.log('Home page loaded proprely')
-
 });
+
 test('Login with given username and password', async () => {
   let url = await driver.getCurrentUrl();
-
   if (url.indexOf("www.jcrew.com") > -1) {
-
     await loginFromHomePage(jcrew_prod.username,jcrew_prod.password)
     console.log('user login succesfully')
   }else if((url.indexOf("or.jcrew.com") > -1 )){
@@ -46,7 +44,7 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await driver.sleep(3000)
   await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
   await driver.sleep(1000)
-  await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+  await checkout()
   console.log('selected the required product')
   console.log('clicked on checkout')
 });
