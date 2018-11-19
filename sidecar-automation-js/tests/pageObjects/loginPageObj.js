@@ -43,6 +43,7 @@ export const loginFromHomePage = async (username, password) => {
   await driver.findElement(sidecar_user).sendKeys(username)
   await driver.findElement(sidecar_password).sendKeys(password)
   await driver.findElement(signIn_submitBtn).click()
+  await driver.sleep(2000)
   console.log("Login success")
 };
 

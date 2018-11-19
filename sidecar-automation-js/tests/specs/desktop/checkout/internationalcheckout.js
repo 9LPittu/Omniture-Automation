@@ -8,7 +8,7 @@ import {loginInAfterCheckoutPage} from '../../../pageObjects/loginPageObj'
 
 const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
-let sleeptime = 7000;
+let sleeptime = 2000;
 
 beforeAll(async () => {
   await load();

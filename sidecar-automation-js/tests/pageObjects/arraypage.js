@@ -1,5 +1,6 @@
 import { driver, defaultTimeout } from '../helpers';
 import { load, closeIconInPAP } from '../pageObjects/jcrewdesktoppageobj';
+//import { logindetails } from '../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 //array Elements
@@ -64,7 +65,7 @@ const wishListItems = By.xpath("//li[contains(@id,'item')]");
 const colorsList = By.xpath("//ul[@class='product__colors colors-list']/li/img");
 
 //Email preferences
-const emailPrefs = By.xpath("//a[text()='Email Preferences']");
+const emailPrefs = By.xpath("(//a[@href='/account/email_preferences.jsp'][contains(.,'Email Preferences')])[2]");
 const emailText = By.id("emailSub");
 const glbLongGreyLine = By.xpath("//section[@class='glb-long-grey-line']/p/a/img");
 
@@ -76,9 +77,40 @@ const clearAll = By.xpath("//span[text()='Clear All']");
 const sortBy = By.xpath("//span[text()='Sort By']");
 const lowToHigh = By.xpath("//li[text()='Price: Low to High']");
 const lowToHighTxt = By.xpath("//span[text()='Price: Low to High']");
-const myDetailsTxt = By.xpath("//ul/li[2]/a[text()='My Details']");
-const myDetailsPartialTxt = By.partialLinkText("My Details");
+//const myDetailsTxt = By.xpath("//ul/li[2]/a[text()='My Details']");
+const myDetailsTxt = By.xpath("(//a[@href='/r/account/details'][contains(.,'My Details')])[2]");
+//const myDetailsPartialTxt = By.partialLinkText("My Details");
+const myDetailsPartialTxt = By.xpath("(//a[@href='/r/account/details'][contains(.,'My Details')])[2]");
 const accountMyDetails = By.xpath("//div/div/div[@class='account__my-details--header']");
+
+//Bag cart elements
+const cartBag_factory = By.xpath("//span[text()='bag']");
+const bagPanel_factory = By.xpath("//div[@class='c-header__minibag is-active']");
+const cartBag_jcrew = By.xpath("//div[@class='nc-nav__bag-tab__icon']");
+const bagPanel_jcrew = By.xpath("//*[@class='nc-nav__bag__panel is-open']");
+
+//Validate Signout
+const signout_factory = By.xpath("//a[@class='js-signout__link']");
+const signIn_factroy = By.xpath(".//span[text()='sign in']");
+const signout_jcrew = By.xpath("//li[5]/a[text()='Sign Out']");
+const signIn_jcrew = By.xpath(".//a[text()='Sign In']");
+
+//Writing Review Elements
+const ratingsSection = By.xpath("//*[@id='BVRRRatingOverall_Rating_Summary_1']/div[2]");
+const ratingSummary = By.xpath("(//a[@title='Write a review'])[5]");
+const fiveStarRating = By.xpath("//a[@id='star_link_rating_5']");
+const ratingQuality = By.xpath("//a[@id='star_link_rating_Quality_5']");
+const fitToSize = By.xpath("(//label[text()='True to Size'])[1]");
+const ratingFieldTitle = By.xpath("//input[@id='BVFieldTitleID']");
+const ratingFieldReview = By.xpath("//textarea[@id='BVFieldReviewtextID']");
+const ratingFieldPurchaseId = By.xpath("//input[@id='BVFieldAdditionalfieldSizePurchasedID']");
+const ratingFieldPreview = By.xpath("//button/span[text()='Preview']");
+const ratingFieldPreviewHeader = By.xpath("//span[text()='Preview Your Review']");
+const submitReview_gold = By.xpath("(//span[text()='Submit'])[2]");
+const submitReview_thanku = By.xpath("//span[text()='Thank you!']");
+const reviewsDisplay = By.xpath("(//a[text()='write a review'])[3]");
+const userNickName = By.xpath("//input[@name='usernickname']");
+const userEmailId = By.xpath("//input[@name='useremail']");
 
 export const productArrayPage = async () => {
   try {
@@ -317,9 +349,13 @@ export const verifyExtendedSizesValidation = async (currentUrl) => {
 };
 
 export const colorswatchingValidation = async () => {
+  await driver.executeScript('window.scrollTo(0, 2000)')
+  await driver.sleep(3000)
   await driver.actions().mouseMove(await driver.findElement(product_image3)).perform();
+  await driver.sleep(5000)
   await driver.sleep(2000);
-  expect(await driver.findElement(colorsList).isDisplayed()).toBeTruthy();
+  const color = await driver.findElement(colorsList)
+  expect(color.isDisplayed()).toBeTruthy();
 }
 
 export const myWishListValidation = async () => {
@@ -365,8 +401,7 @@ export const validateWishListAsGuest = async () => {
 }
 
 export const validateEmailPreferences = async () => {
-  await driver.sleep(10000)
-  await driver.findElement(emailPrefs).click();
+  await driver.findElement(emailPrefs).click()
   await driver.sleep(2000);
   await driver.switchTo().frame(await driver.findElement(emailText));
   const subscribebutton = await driver.findElement(glbLongGreyLine);
@@ -397,7 +432,7 @@ export const validateFilterAndSort = async () => {
   await driver.sleep(1000)
   const lowToHighOpt = await driver.findElement(lowToHigh);
   expect(lowToHighOpt.isDisplayed()).toBeTruthy()
-  await lowToHigh.click()
+  await lowToHighOpt.click()
   await driver.sleep(3000)
   const sortApplied = await driver.findElement(lowToHighTxt);
   expect(sortApplied.isDisplayed()).toBeTruthy()
@@ -417,89 +452,91 @@ export const myDetailsValidation = async () => {
 
 export const validateShoppingTongue = async (url) => {
   if (url.includes("factory")) {
-    await driver.actions().mouseMove(await driver.findElement(By.xpath("//span[text()='bag']"))).perform();
-    await driver.sleep(1000)
-    const shoppingTonge = await driver.findElement(By.xpath("//div[@class='c-header__minibag is-active']"))
+    await driver.actions().mouseMove(await driver.findElement(cartBag_factory)).perform();
+    await driver.sleep(2000)
+    const shoppingTonge = await driver.findElement(bagPanel_factory)
     expect(shoppingTonge).toBeTruthy()
   } else {
-    await driver.sleep(3000)
-    await driver.actions().mouseMove(await driver.findElement(By.xpath("//div[@class='nc-nav__bag-button']"))).perform();
     await driver.sleep(1000)
-    const shoppingTonge = await driver.findElement(By.xpath("//*[@class='nc-nav__bag__panel is-open']"))
+    await driver.actions().mouseMove(await driver.findElement(cartBag_jcrew)).perform();
+    await driver.sleep(2000)
+    const shoppingTonge = await driver.findElement(bagPanel_jcrew)
     expect(shoppingTonge).toBeTruthy()
   }
 }
 
 export const validateSignOut = async (url) => {
   if (url.includes("factory")) {
-    const loggedInUser = await driver.findElement(By.id("c-header__userpanelrecognized"))
+    const loggedInUser = await driver.findElement(userPanel_factory)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
     await driver.sleep(2000)
-    const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
+    const signOut = await driver.findElement(signout_factory)
     expect(signOut).toBeTruthy()
     signOut.click()
     await driver.sleep(5000)
-    expect(await driver.findElement(By.xpath(".//span[text()='sign in']")).isDisplayed()).toBeTruthy();
+    expect(await driver.findElement(signIn_factroy).isDisplayed()).toBeTruthy();
   } else {
     await driver.sleep(8000)
-    const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
+    const loggedInUser = await driver.findElement(navAccountBtn)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
     await driver.sleep(2000)
-    const signOut = await driver.findElement(By.xpath("//li[5]/a[text()='Sign Out']"))
+    const signOut = await driver.findElement(signout_jcrew)
     expect(signOut).toBeTruthy()
     signOut.click()
     await driver.sleep(5000)
-    expect(await driver.findElement(By.xpath(".//a[text()='Sign In']")).isDisplayed()).toBeTruthy();
+    expect(await driver.findElement(signIn_jcrew).isDisplayed()).toBeTruthy();
   }
 }
 
 export const validateWritingReviews = async () => {
-  await driver.sleep(4000)
-  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[3]")).click()
+  await driver.sleep(1000)
+  await driver.findElement(product_image3).click()
   await driver.sleep(3000)
-  if (await driver.findElement(By.xpath("//*[@id='BVRRRatingOverall_Rating_Summary_1']/div[2]")).isDisplayed()) {
+  if (await driver.findElement(ratingsSection).isDisplayed()) {
     console.log("Reviews are displaying")
-    await driver.sleep(3000)
+    // await driver.sleep(3000)
     await driver.executeScript('window.scrollTo(0, 800)')
-    await driver.sleep(5000)
-    await driver.findElement(By.xpath("//*[@id='BVRRRatingSummaryLinkWriteID']/a")).click();
+    await driver.sleep(2000)
+    await driver.findElement(ratingSummary).click();
     await driver.sleep(2000)
     console.log("writing the review")
-    await driver.findElement(By.xpath("//a[@id='star_link_rating_5']")).click()
+    await driver.findElement(fiveStarRating).click()
     await driver.sleep(1000);
-    await driver.findElement(By.xpath("//a[@id='star_link_rating_Quality_5']")).click()
+    await driver.findElement(ratingQuality).click()
     await driver.sleep(1000);
-    await driver.findElement(By.xpath("(//label[text()='True to Size'])[1]")).click()
+    await driver.findElement(fitToSize).click()
     await driver.sleep(1000);
-    await driver.findElement(By.xpath("//input[@id='BVFieldTitleID']")).sendKeys("Automation testing")
+    await driver.findElement(ratingFieldTitle).sendKeys("Automation testing")
     await driver.sleep(1000);
-    await driver.findElement(By.xpath("//textarea[@id='BVFieldReviewtextID']")).sendKeys("hi this is automation tester testing write review functionality")
+    await driver.findElement(ratingFieldReview).sendKeys("hi this is automation tester testing write review functionality")
     await driver.sleep(1000);
-    await driver.findElement(By.xpath("//input[@id='BVFieldAdditionalfieldSizePurchasedID']")).sendKeys("small")
+    await driver.findElement(ratingFieldPurchaseId).sendKeys("small")
     await driver.sleep(1000);
-    await driver.findElement(By.xpath("//button/span[text()='Preview']")).click()
+    await driver.findElement(userNickName).sendKeys("Automation")
+    await driver.findElement(userEmailId).sendKeys("autoredeem@gmail.com")
+    await driver.findElement(ratingFieldPreview).click()
     await driver.sleep(3000);
     await driver.executeScript('window.scrollTo(0, -100)')
     await driver.sleep(1000);
-    const previewHeader = await driver.findElement(By.xpath("//span[text()='Preview Your Review']"));
+    const previewHeader = await driver.findElement(ratingFieldPreviewHeader);
     expect(previewHeader).toBeTruthy()
     console.log("Preview your review header is displaying")
 
     let currentUrl = await driver.getCurrentUrl();
 
     if (currentUrl.indexOf("https://or.") > -1) {
-      const submit = await driver.findElement(By.xpath("(//span[text()='Submit'])[2]"));
+      const submit = await driver.findElement(submitReview_gold);
       expect(submit).toBeTruthy()
       submit.click()
       await driver.sleep(3000);
-      const thankyouText = await driver.findElement(By.xpath("//span[text()='Thank you!']"))
+      const thankyouText = await driver.findElement(submitReview_thanku)
       expect(thankyouText).toBeTruthy()
     }
   } else {
     console.log("Reviews are displaying")
-    await driver.findElement(By.xpath("(//a[text()='write a review'])[3]")).click();
+    await driver.findElement(reviewsDisplay).click();
     await driver.sleep(2000)
   }
 }

@@ -6,6 +6,7 @@ import { jcrew_gold, jcrew_prod, factory_gold, factory_prod } from '../../../tes
 
 beforeAll(async () => {
   await load();
+  await driver.manage().timeouts().implicitlyWait(20000)
   console.log('Home page loaded proprely')
 
 });
@@ -32,8 +33,6 @@ test('Login with given username and password', async () => {
 });
 
 test('verify myDeatils section', async () => {
-  await driver.sleep(10000);
-  await driver.manage().timeouts().implicitlyWait(20000)
   await myDetailsValidation();
   console.log("verify myDeatils section")
 });

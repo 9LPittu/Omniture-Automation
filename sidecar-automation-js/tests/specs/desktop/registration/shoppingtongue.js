@@ -43,7 +43,7 @@ test('Add product to bag', async () => {
 
 test('verify shopping tongue issue was not there', async () => {
   let url = await driver.getCurrentUrl();
-  await validateShoppingTongue();
+  await validateShoppingTongue(url);
   console.log("shopping tonge is displayed")
 });
 
