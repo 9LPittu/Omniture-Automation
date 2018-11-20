@@ -351,7 +351,7 @@ export const verifyExtendedSizesValidation = async (currentUrl) => {
 export const colorswatchingValidation = async () => {
   await driver.executeScript('window.scrollTo(0, 2000)')
   await driver.sleep(3000)
-  await driver.actions().mouseMove(await driver.findElement(product_image3)).perform();
+  await driver.actions().mouseMove(await driver.findElement(product_image2)).perform();
   await driver.sleep(5000)
   await driver.sleep(2000);
   const color = await driver.findElement(colorsList)
@@ -474,10 +474,10 @@ export const validateSignOut = async (url) => {
     const signOut = await driver.findElement(signout_factory)
     expect(signOut).toBeTruthy()
     signOut.click()
-    await driver.sleep(5000)
+    await driver.sleep(2000)
     expect(await driver.findElement(signIn_factroy).isDisplayed()).toBeTruthy();
   } else {
-    await driver.sleep(8000)
+    await driver.sleep(2000)
     const loggedInUser = await driver.findElement(navAccountBtn)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
@@ -485,7 +485,7 @@ export const validateSignOut = async (url) => {
     const signOut = await driver.findElement(signout_jcrew)
     expect(signOut).toBeTruthy()
     signOut.click()
-    await driver.sleep(5000)
+    await driver.sleep(2000)
     expect(await driver.findElement(signIn_jcrew).isDisplayed()).toBeTruthy();
   }
 }

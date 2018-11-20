@@ -76,7 +76,7 @@ export const createNewAccount = async () => {
   await driver.findElement(firstName).sendKeys(userName)
   await driver.findElement(lastName).sendKeys("tester")
   await driver.findElement(emailId).sendKeys(email)
-  await driver.findElement(password_register).sendKeys("nft123")
+  await driver.findElement(password_register).sendKeys("Nft123456")
   await driver.findElement(registerBtn).click()
   await driver.sleep(5000)
   let url = await driver.getCurrentUrl()

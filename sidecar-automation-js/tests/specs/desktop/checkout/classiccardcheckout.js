@@ -100,5 +100,5 @@ test('Classic Card Checkout - Express User', async () => {
 
 
 afterAll(async () => {
-  await driver.quit()
+    await driver.quit()
 })

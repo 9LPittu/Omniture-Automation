@@ -17,7 +17,7 @@ let orderNumberLet;
 
 beforeAll(async () => {
   await load();
-  await driver.sleep(2000)
+  await driver.manage().timeouts().implicitlyWait(20000)
   expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
@@ -32,7 +32,7 @@ test('Express User Checkout and verifying order summary and order history', asyn
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.sleep(1000)
   await loginInAfterCheckoutPage(logindetails.username1, logindetails.password1);
-  await driver.sleep(5000)
+  await driver.sleep(2000)
   await mergeButton();
   await driver.sleep(2000)
    subTotalOnReview = await driver.findElement(By.xpath("//ul/li[@class='summary-item summary-subtotal clearfix']/span[2]")).getText();
@@ -101,7 +101,7 @@ test('Verify Order Summary', async () => {
       const orderHistory = await driver.findElement(By.xpath("(//a[text()='Order History'])[1]"))
       expect(orderHistory).toBeTruthy()
       orderHistory.click()
-      await driver.sleep(5000)
+      await driver.sleep(2000)
 
      // const recentOrder = await driver.findElement(By.xpath("//div[@class='order-history--order-group-header recent-order scoh2-only']"))
      // expect(recentOrder).toBeTruthy()
