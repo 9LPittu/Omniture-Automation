@@ -1,1 +1,0 @@
-mvn clean test -Dtest=cucumber.com.jcrew.testrunners.EmailMarketingTest
