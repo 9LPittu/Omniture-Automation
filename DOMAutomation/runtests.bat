@@ -1,0 +1,1 @@
+mvn clean test -Dtest=cucumber.com.jcrew.testrunners.DomTest
