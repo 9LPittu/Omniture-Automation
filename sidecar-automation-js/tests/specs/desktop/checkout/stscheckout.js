@@ -22,12 +22,12 @@ test('ship to store Checkout', async () => {
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
   await driver.sleep(1000)
   await clickCheckoutBtn()
-  await loginInAfterCheckoutPage(logindetails.username1, logindetails.password1);
-  await driver.sleep(5000)
+  await loginInAfterCheckoutPage(logindetails.username, logindetails.password);
+  await driver.sleep(1000)
   await mergeButton();
   await driver.sleep(2000)
-  await STSSameDayDelivery(zipCode.zipcode)
   let currentUrl = await driver.getCurrentUrl();
+  await STSSameDayDelivery(currentUrl,zipCode.zipcode)
   await STSReviewCheckout(currentUrl, creditcard.pin)
 })
 

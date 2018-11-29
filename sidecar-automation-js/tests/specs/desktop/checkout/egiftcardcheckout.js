@@ -16,7 +16,7 @@ beforeAll(async () => {
 
 test('eGiftCard Checkout - Express User', async () => {
   await driver.manage().timeouts().implicitlyWait(20000)
-  await loginFromHomePage(logindetails.username1, logindetails.password1)
+  await loginFromHomePage(logindetails.username, logindetails.password)
   await driver.sleep(2000)
   await driver.navigate().to(globals.__baseUrl__ + "/CleanPersistentCart.jsp")
   await driver.sleep(2000)
@@ -26,9 +26,9 @@ test('eGiftCard Checkout - Express User', async () => {
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
     await driver.sleep(2000)
-    const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
+    const signOut = await driver.findElement(By.xpath("(//a[contains(text(),'Sign Out')])[1]"))
     expect(signOut).toBeTruthy()
-    signOut.click()
+    await signOut.click()
   } else {
     const loggedInUser = await driver.findElement(By.xpath("//a[@class='nc-nav__account_button']"))
     expect(loggedInUser).toBeTruthy()
@@ -53,7 +53,6 @@ test('eGiftCard Checkout - Express User', async () => {
   driver.sleep(2000);
   try {
     await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
-      // console.log("inside merge page")
       privacyPolicyClose.click()
       driver.sleep(3000)
     })
@@ -66,10 +65,9 @@ test('eGiftCard Checkout - Express User', async () => {
   var date = new Date()
   await driver.findElement(By.xpath("//*[@id='senderNameEgc']")).sendKeys("test")
   await driver.findElement(By.xpath("//*[@id='RecipientNameEgc']")).sendKeys("recipient test")
-  await driver.findElement(By.xpath("//*[@id='emailAddressEgc']")).sendKeys("sqatree@gmail.com")
+  await driver.findElement(By.xpath("//*[@id='emailAddressEgc']")).sendKeys("automationca@gmail.com")
   await driver.findElement(By.xpath("//*[@id='date']")).sendKeys((date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear())
   await driver.findElement(By.xpath("//*[@id='textAreaMessage']")).sendKeys("test message")
-  //*[@id="submitClassic"]
   await driver.findElement(By.id("submitEgift")).click()
   await driver.sleep(3000)
   await verifyAndClickOnBag()
@@ -78,7 +76,7 @@ test('eGiftCard Checkout - Express User', async () => {
   await driver.sleep(1000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.sleep(2000)
-  await loginInAfterCheckoutPage(logindetails.username1, logindetails.password1)
+  await loginInAfterCheckoutPage(logindetails.username, logindetails.password)
   await driver.sleep(2000)
 
   if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout

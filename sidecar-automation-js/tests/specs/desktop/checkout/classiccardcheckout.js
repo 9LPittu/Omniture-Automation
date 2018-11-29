@@ -15,7 +15,7 @@ beforeAll(async () => {
 
 test('Classic Card Checkout - Express User', async () => {
   await driver.manage().timeouts().implicitlyWait(20000)
-  await loginFromHomePage(logindetails.username1, logindetails.password1)
+  await loginFromHomePage(logindetails.username, logindetails.password)
   await driver.sleep(2000)
   await driver.navigate().to(globals.__baseUrl__ + "/CleanPersistentCart.jsp")
   await driver.sleep(2000)
@@ -26,7 +26,7 @@ test('Classic Card Checkout - Express User', async () => {
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
     await driver.sleep(2000)
-    const signOut = await driver.findElement(By.xpath("//a[@class='js-signout__link']"))
+    const signOut = await driver.findElement(By.xpath("(//a[contains(.,'Sign Out')])[1]"))
     expect(signOut).toBeTruthy()
     signOut.click()
   } else {
@@ -38,21 +38,20 @@ test('Classic Card Checkout - Express User', async () => {
     expect(signOut).toBeTruthy()
     signOut.click()
   }
-  await driver.sleep(3000)
+  await driver.sleep(2000)
   await driver.executeScript('window.scrollTo(0, 20000)')
   await driver.sleep(2000)
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")));
   await driver.sleep(2000)
   try {
     await driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
-    await driver.sleep(5000)
+    await driver.sleep(2000)
   } catch (err) { }
 
   driver.sleep(2000);
 
   try {
     await driver.findElement(By.xpath("//div[@class='mt-close-lb-slide privacyPolicyClose']")).then(privacyPolicyClose => {
-      // console.log("inside merge page")
       privacyPolicyClose.click()
       driver.sleep(3000)
     })
@@ -64,7 +63,6 @@ test('Classic Card Checkout - Express User', async () => {
   await driver.findElement(By.xpath("//*[@id='RecipientName']")).sendKeys("recipient test")
   await driver.findElement(By.xpath("//*[@id='text1Message']")).sendKeys("line 1")
   await driver.findElement(By.xpath("//*[@id='text2Message']")).sendKeys("line 2")
-  //*[@id="submitClassic"]
   await driver.findElement(By.id("submitClassic")).click()
   await driver.sleep(3000)
   await verifyAndClickOnBag()
@@ -73,14 +71,13 @@ test('Classic Card Checkout - Express User', async () => {
   await driver.sleep(1000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.sleep(2000)
-  await loginInAfterCheckoutPage(logindetails.username1, logindetails.password1)
+  await loginInAfterCheckoutPage(logindetails.username, logindetails.password)
   await driver.sleep(2000)
 
   if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
 
     try {
       await driver.findElement(By.xpath("//*[@id='securityCode']")).then(securitycode => {
-        //        console.log("inside securitycode")
         securitycode.sendKeys(creditcard.pin)
       })
 
@@ -100,5 +97,5 @@ test('Classic Card Checkout - Express User', async () => {
 
 
 afterAll(async () => {
-    await driver.quit()
+  await driver.quit()
 })

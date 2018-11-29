@@ -120,10 +120,13 @@ export const guestUserBillingAddressAlsoCheckbox = async () => {
 export const mergeButton = async () => {
   try {
     await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[1]")).then(mergebutton => {
-      // console.log("inside merge page")
+      console.log("inside merge page")
       mergebutton.click()
-      driver.sleep(3000)
+      driver.sleep(1000)
       driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+      console.log("inside merge page2")
     })
-  } catch (err) { }
+  } catch (err) {
+     console.log("in merge button error::::::::"+err)
+   }
 }

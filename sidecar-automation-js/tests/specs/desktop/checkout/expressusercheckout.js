@@ -31,7 +31,7 @@ test('Express User Checkout and verifying order summary and order history', asyn
   await driver.sleep(1000)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.sleep(1000)
-  await loginInAfterCheckoutPage(logindetails.username1, logindetails.password1);
+  await loginInAfterCheckoutPage(logindetails.username, logindetails.password);
   await driver.sleep(2000)
   await mergeButton();
   await driver.sleep(2000)

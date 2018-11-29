@@ -72,22 +72,26 @@ export const checkoutAsGuest = async () => {
     } catch (err) { }
 }
 
-export const STSSameDayDelivery = async (zipcode) => {
-    await driver.findElement(shippingAddress).click()
-    await driver.sleep(2000)
-    await driver.findElement(shipToStoreRadioBtn).click()
-    await driver.sleep(2000)
-    await driver.findElement(zipCodeTxt).sendKeys(zipcode)
-    await driver.sleep(2000)
-    const samedayDelivery = await driver.findElement(address1)
-    expect(samedayDelivery).toBeTruthy()
-    console.log("same day pick up is available")
-    let contBtn = await driver.findElement(continueBtn)
-    expect(contBtn).toBeTruthy()
-    await contBtn.click()
-    await driver.sleep(2000)
-    await driver.findElement(continueBtn).click()
-    await driver.sleep(2000)
+export const STSSameDayDelivery = async (currentUrl, zipcode) => {
+    if (currentUrl.includes("factory")) {
+        console.log("Ship to store functionality is not available in Factory")
+    } else{  // Production review checkout
+        await driver.findElement(shippingAddress).click()
+        await driver.sleep(2000)
+        await driver.findElement(shipToStoreRadioBtn).click()
+        await driver.sleep(2000)
+        await driver.findElement(zipCodeTxt).sendKeys(zipcode)
+        await driver.sleep(2000)
+        const samedayDelivery = await driver.findElement(address1)
+        expect(samedayDelivery).toBeTruthy()
+        console.log("same day pick up is available")
+        let contBtn = await driver.findElement(continueBtn)
+        expect(contBtn).toBeTruthy()
+        await contBtn.click()
+        await driver.sleep(2000)
+        await driver.findElement(continueBtn).click()
+        await driver.sleep(2000)
+    }
 }
 
 export const STSReviewCheckout = async (currentUrl, creditPin) => {

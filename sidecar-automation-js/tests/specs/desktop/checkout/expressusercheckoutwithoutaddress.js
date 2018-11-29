@@ -32,13 +32,13 @@ test('Non express User Checkout (user without address/credit card details)', asy
   await driver.findElement(By.xpath("//input[@id='address2']")).sendKeys(guestuser.address2)
   await driver.findElement(By.xpath("//input[@id='address1']")).sendKeys(guestuser.address1)
   await driver.findElement(By.xpath("//input[@id='zipcode']")).sendKeys(guestuser.zipcode)
-  await driver.sleep(3000)
+  await driver.sleep(1000)
   await driver.findElement(By.xpath("//input[@id='phoneNumSA']")).sendKeys(guestuser.phoneNumSA)
-  await driver.sleep(3000)
+  await driver.sleep(1000)
   await driver.findElement(By.xpath("//*[@id='order-summary__button-continue']")).click()
 
   // address confirmation page :
-  await driver.sleep(5000)
+  await driver.sleep(2000)
   try {
 
     await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")).then(function (webElement) {
@@ -57,14 +57,14 @@ test('Non express User Checkout (user without address/credit card details)', asy
   }
 
   //shipping & gift pageObjects
-  await driver.sleep(3000)
+  await driver.sleep(2000)
   await driver.findElement(By.id("includesGifts")).click()
   await driver.sleep(1000)
   expect(await driver.findElement(By.xpath("//div[@class='gift-receipt-tooltip clearfix radio-checked']"))).toBeTruthy()
   await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
 
   //credit card details
-  await driver.sleep(3000)
+  await driver.sleep(2000)
   await driver.findElement(By.xpath("//input[@id='creditCardNumber']")).sendKeys(creditcard.number)
   await driver.findElement(By.xpath("//input[@id='securityCode']")).sendKeys(creditcard.pin)
   await driver.findElement(By.xpath("//select[@id='expirationMonth']")).sendKeys(creditcard.expirationMonth)
@@ -72,10 +72,10 @@ test('Non express User Checkout (user without address/credit card details)', asy
   await driver.findElement(By.xpath("//input[@id='nameOnCard']")).sendKeys(creditcard.nameOnCard)
   await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
 
-  await driver.sleep(2000)
+  await driver.sleep(1000)
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
-    await driver.sleep(3000)
+    await driver.sleep(1000)
 
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
       console.log(">> inside factory")
@@ -84,7 +84,7 @@ test('Non express User Checkout (user without address/credit card details)', asy
       await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
     }
 
-    await driver.sleep(4000)
+    await driver.sleep(2000)
     try {
       const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
       expect(bizrate).toBeTruthy()

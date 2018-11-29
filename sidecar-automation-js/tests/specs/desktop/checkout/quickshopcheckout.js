@@ -21,7 +21,7 @@ test('Quick shop Checkout - Express User', async () => {
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
   await driver.sleep(1000)
   await clickCheckoutBtn()
-  await loginInAfterCheckoutPage(logindetails.username1, logindetails.password1);
+  await loginInAfterCheckoutPage(logindetails.username, logindetails.password);
   await mergeButton()
   let currentUrl = await driver.getCurrentUrl();
   await quickShopReview(currentUrl,creditcard.pin)

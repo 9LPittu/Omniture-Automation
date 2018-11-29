@@ -19,10 +19,10 @@ const signUpNow = By.xpath("//div[text()='Sign Up Now']");
 const FAQLink = By.xpath("//div[text()='FAQs']");
 const globalEmail = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/input[1]");
 const globalEmailSendBtn = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/button/span[2]");
-const createPassword = By.xpath("//input[@placeholder='Create Your Password']");
+const createPassword = By.xpath("//input[@placeholder='CREATE YOUR PASSWORD']");
 const joinNowLink = By.xpath("//*[text()='Join Now']");
-const myAccountLink = By.xpath("//*[text()='My Account']");
-const myAccountText = By.xpath("//h2/span[text()='My Account']");
+const myAccountLink = By.xpath("//*[contains(text(),'My Account')][1]");
+const myAccountText = By.xpath("//span[text()='My Account']");
 const myRewardsLink = By.xpath("//li/a[text()='My Rewards']");
 const yourJcrewRewards = By.xpath("//div[text()='Your J.Crew Rewards']");
 const yourBenifits = By.xpath("//div[text()='Your Benefits']");
@@ -134,14 +134,13 @@ export const loyaltyLightBoxValidation = async () => {
   let userName = "LoyaltyTest" + x
   let email = userName + x + "@gmail.com"
   await driver.findElement(globalEmail).sendKeys(email)
-  //driver.sleep(1000)
   await driver.findElement(globalEmailSendBtn).click();
   driver.sleep(2000)
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-    await driver.findElement(createPassword).sendKeys("123456ab");
+    await driver.findElement(createPassword).sendKeys("123456Ab");
   } else {
-    await driver.findElement(createPassword).sendKeys("123456ab");
+    await driver.findElement(createPassword).sendKeys("123456Ab");
   }
   driver.sleep(1000)
   await driver.findElement(joinNowLink).click();
@@ -195,7 +194,7 @@ export const mergeButton = async () =>{
     await driver.findElement(mergeBtnEle).then(mergebtn => {
     // console.log("inside merge page")
      mergebtn.click()
-     driver.sleep(3000)
+     driver.sleep(2000)
      driver.findElement(buttonCheckout).click()
      })
    } catch (err)
