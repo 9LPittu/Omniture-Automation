@@ -16,6 +16,7 @@ public class DomStepDef extends E2ECommon{
 	int orderNum = 3;
 	int execute = 2;
 	int executionCompleted = 14;
+	String stsFulfilment=null;
 	public String orderNumber;
 	@Given("^I am on the DOM application login page$")
     public void I_m_on_the_Jira_login_page() throws Throwable {
@@ -115,7 +116,7 @@ public class DomStepDef extends E2ECommon{
     @When("^I copy DO numbers$")
     public void copyDo() {
         //BrowserDriver.getCurrentDriver().get("http://bwi-esdom-q12.jcrew.com:30000/ucl/auth/jsp/home.jsp");
-        DomView.copyDoNum();
+    	stsFulfilment = DomView.copyDoNum();
     }
 
     @When("^I select distribution orders from menu$")
@@ -150,9 +151,13 @@ public class DomStepDef extends E2ECommon{
     @And("^I fullfil ship to store order-ship from different store$")
     public void iFulfilShipToStoreOrder() throws Throwable {
         DomView.getorderNumber(orderNumber);
-    	//DomView.fullfilStsOrder_shipFromDifferentStore(orderNumber);
-    	DomView.fullfilStsOrder_shipFromSameStore(orderNumber);
-    	//DomView.configPutty();
+        if(stsFulfilment.equalsIgnoreCase("shipFromSameStore")) {
+        	DomView.fullfilStsOrder_shipFromSameStore(orderNumber);
+        	System.out.println("working fine ==================================");
+        }else {
+        	DomView.fullfilStsOrder_shipFromDifferentStore(orderNumber);
+        }
+    	
     }
     @Given("^Test data is read from excel file \"([^\"]*)\"$")
 	public void read_test_data_from_excel(String excelFileName) throws Exception {

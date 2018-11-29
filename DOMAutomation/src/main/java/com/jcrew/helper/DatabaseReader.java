@@ -110,7 +110,7 @@ public class DatabaseReader {
                 Statement stmt = createTheStatement(conn);
                 //Retrieve Min and Max Days
                 ResultSet resultSet = executeQuery(stmt, "exec JC_ATP_STS_LOAD_SHIP_ORDER");
-                resultSet.next();
+                //resultSet.next();
                 closeConnection(conn);
                 return shipId;
             }

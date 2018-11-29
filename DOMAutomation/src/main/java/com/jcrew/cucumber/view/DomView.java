@@ -1,6 +1,5 @@
 package com.jcrew.cucumber.view;
 
-import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
@@ -10,8 +9,8 @@ import com.jcrew.cucumber.util.E2EPropertyReader;
 import com.jcrew.cucumber.util.e2e.E2ECommon;
 import com.jcrew.helper.BrowserDriver;
 import com.jcrew.helper.DatabaseReader;
-import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebElement;
@@ -23,8 +22,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Set;
@@ -41,6 +38,7 @@ public class DomView extends E2ECommon {
 	static String actualWeight = "1.05";
 	static ArrayList<String> items = null;
 	public static String orderNum = null;
+	static ChannelExec channel;
 
 	// static String
 	public static void loginUser(String username, String password) throws InterruptedException {
@@ -67,7 +65,7 @@ public class DomView extends E2ECommon {
 	}
 
 	public static void selectMenu() {
-		// BrowserDriver.waitForElementToBeClickable(domContainer.menu, 30);
+		BrowserDriver.waitForElementToBeClickable(domContainer.menu, 30);
 		BrowserDriver.waitForSec(5);
 		domContainer.menu.click();
 		domContainer.orderLifeCycle.click();
@@ -199,26 +197,31 @@ public class DomView extends E2ECommon {
 		Assert.assertTrue(domContainer.doFulfillStatus.getText().equalsIgnoreCase(doFilStatus));
 	}
 
-	public static void copyDoNum() {
+	public static String copyDoNum() {
 		// DomPOJO.getStoreDos().put("3070025200", "0306");
 		// Set ldcSet= new HashSet();
 		BrowserDriver.waitForSec(5);
 		BrowserDriver.waitForPageToBestable();
 		getItemsList();
+		String fulfillmentFacility;
+		String destinationFacility;
+		String doId;
+		String itemId;
+		String stsFulfilment = null;
 		for (int i = 1; i <= domContainer.doDetails.size(); i++) {
-			String fulfillmentFacility = BrowserDriver.getCurrentDriver().findElement(By.xpath(
+			fulfillmentFacility = BrowserDriver.getCurrentDriver().findElement(By.xpath(
 					"//table[@id='dataForm:dolinelistview_id:DOLineList_MainListTable_body']/tbody/tr[@class='advtbl_row']["
 							+ i + "]/td[7]/a"))
 					.getText().trim();
-			String destinationFacility = BrowserDriver.getCurrentDriver().findElement(By.xpath(
+			destinationFacility = BrowserDriver.getCurrentDriver().findElement(By.xpath(
 					"//table[@id='dataForm:dolinelistview_id:DOLineList_MainListTable_body']/tbody/tr[@class='advtbl_row']["
 							+ i + "]/td[8]/a"))
 					.getText().trim();
-			String doId = BrowserDriver.getCurrentDriver().findElement(By.xpath(
+			doId = BrowserDriver.getCurrentDriver().findElement(By.xpath(
 					"//table[@id='dataForm:dolinelistview_id:DOLineList_MainListTable_body']/tbody/tr[@class='advtbl_row']["
 							+ i + "]/td[1]/span[1]"))
 					.getText().trim();
-			String itemId = BrowserDriver.getCurrentDriver().findElement(By.xpath(
+			itemId = BrowserDriver.getCurrentDriver().findElement(By.xpath(
 					"//table[@id='dataForm:dolinelistview_id:DOLineList_MainListTable_body']/tbody/tr[@class='advtbl_row']["
 							+ i + "]/td[9]/a[1]"))
 					.getText().trim();
@@ -226,15 +229,18 @@ public class DomView extends E2ECommon {
 			if (fulfillmentFacility.equalsIgnoreCase("LDC")) {
 				DomPOJO.getLdcDos().put(doId, fulfillmentFacility);
 			} else {
+				if (fulfillmentFacility.equals(destinationFacility)) {
+					stsFulfilment = "shipFromSameStore";
+				} else {
+					stsFulfilment = "shipFromDiffStore";
+				}
 				DomPOJO.getStoreDos().put(doId, fulfillmentFacility);
 				DomPOJO.getDestinationFacilities().put(doId, destinationFacility);
 			}
 			DomPOJO.getItemsInOrder().put(doId, itemId);
+
 		}
-		/*
-		 * String doNum = domContainer.doNum.getText(); DomPOJO.setDoNum(doNum);
-		 * System.out.println("Do: " + doNum);
-		 */
+		return stsFulfilment;
 	}
 
 	public static void clickOnDisOrdersMenu() {
@@ -269,8 +275,10 @@ public class DomView extends E2ECommon {
 		if (!DomPOJO.getLdcDos().isEmpty()) {
 			for (String doId : DomPOJO.getLdcDos().keySet()) {
 				clickOnDisOrdersMenu();
+				BrowserDriver.waitForSec(2);
 				domContainer.dcOrderId.sendKeys(doId);
 				clickOnApplyInDisOrders();
+				BrowserDriver.waitForSec(2);
 				doubleClickOnDoOrder();
 				BrowserDriver.waitForSec(5);
 				clickOnReleaseBtn();
@@ -541,7 +549,8 @@ public class DomView extends E2ECommon {
 
 	public static void fullfilStsOrder_shipFromSameStore(String orderNumber) throws Exception {
 		getEnvUrl();
-		/*if (!DomPOJO.getLdcDos().isEmpty()) {
+
+		if (!DomPOJO.getLdcDos().isEmpty()) {
 			for (String doId : DomPOJO.getLdcDos().keySet()) {
 				clickOnDisOrdersMenu();
 				domContainer.dcOrderId.sendKeys(doId);
@@ -583,9 +592,9 @@ public class DomView extends E2ECommon {
 						BrowserDriver.waitForSec(2);
 					}
 					BrowserDriver.getCurrentDriver().switchTo().window(parentWindow);
-				}
-				// waitAllDoToBecomeToStatus("Accepted");
-				// BrowserDriver.waitForElementToEnabled(domContainer.packListBtn, 100);
+				} //
+					// waitAllDoToBecomeToStatus("Accepted");
+				BrowserDriver.waitForElementToEnabled(domContainer.packListBtn, 100);
 				BrowserDriver.waitForSec(5);
 				domContainer.packListBtn.click();
 				String itemId = DomPOJO.getItemsInOrder().get(doID);
@@ -630,13 +639,13 @@ public class DomView extends E2ECommon {
 					}
 					BrowserDriver.getCurrentDriver().switchTo().window(shipParentWindow);
 				}
-				//waitAllDoToBecomeToStatus("Pending pick up");
+				// waitAllDoToBecomeToStatus("Pending pick up");
 				DatabaseReader.loadToCustomPeople();
 				String trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
 				Reporter.log("tracking shipment order: " + trackStatus);
-			}*/
+			}
 			configPutty_sameStore();
-		//}
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -648,7 +657,6 @@ public class DomView extends E2ECommon {
 		}
 		loginUser("esdomqa1", "esdomqa1");
 		selectMenu();
-		String orderNum = "3050054879";
 		enterOrderNum(orderNum);
 		BrowserDriver.waitForSec(2);
 		clickOnApply();
@@ -681,35 +689,24 @@ public class DomView extends E2ECommon {
 		for (String doStatus : DomPOJO.getNewDo().keySet()) {
 			String newDoNum = DomPOJO.getNewDo().get(doStatus);
 		}
-		// DatabaseReader.loadToCustomPeople();
-		String trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
-		Reporter.log("tracking shipment order: " + trackStatus);
-		// Assert.assertEquals("null", trackStatus);
-	}
-
-	static String getStatusAsBL = "/ES_DOM_SHARE/documents/scripts/JC_STS_OLS/JC_STS_OLS.sh /ES_DOM_SHARE/documents/scripts/JC_STS_OLS /ES_DOM_SHARE/documents/scripts/SetEnv_Q4.env >> /ES_DOM_SHARE/documents/scripts/JC_STS_OLS/JC_STS_OLS.log 2>/ES_DOM_SHARE/documents/scripts/JC_STS_OLS/JC_STS_OLS.err";
-	static String manualReceving = "/ES_DOM_SHARE/documents/scripts/JC_STS_MANUAL_RECV/JC_STS_MANUAL_RECV.sh /ES_DOM_SHARE/documents/scripts/JC_STS_MANUAL_RECV /ES_DOM_SHARE/documents/scripts/SetEnv.env>> /ES_DOM_SHARE/documents/scripts/JC_STS_MANUAL_RECV/JC_STS_MANUAL_RECV.log 2>/ES_DOM_SHARE/documents/scripts/JC_STS_MANUAL_RECV/JC_STS_MANUAL_RECV.err";
-	static String getStatusRP = "/ES_DOM_SHARE/documents/scripts/JC_STS_OLS/JC_STS_OLS.sh /ES_DOM_SHARE/documents/scripts/JC_STS_OLS /ES_DOM_SHARE/documents/scripts/SetEnv_Q4.env >> /ES_DOM_SHARE/documents/scripts/JC_STS_OLS/JC_STS_OLS.log 2>/ES_DOM_SHARE/documents/scripts/JC_STS_OLS/JC_STS_OLS.err";
-	static String getConfirmPickUp = "/ES_DOM_SHARE/documents/scripts/JC_STS_PickupConfirm_OLS/JC_STS_PickupConfirm_OLS.sh /ES_DOM_SHARE/documents/scripts/JC_STS_PickupConfirm_OLS /ES_DOM_SHARE/documents/scripts/SetEnv_Q4.env >> /ES_DOM_SHARE/documents/scripts/JC_STS_PickupConfirm_OLS/JC_STS_PickupConfirm_OLS.log 2>/ES_DOM_SHARE/documents/scripts/JC_STS_PickupConfirm_OLS/JC_STS_PickupConfirm_OLS.err";
+		DatabaseReader.loadToCustomPeople();
+		/*
+		 * String trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
+		 * Reporter.log("tracking shipment order: " + trackStatus); //
+		 * Assert.assertEquals("null", trackStatus);
+		 */ }
 
 	@SuppressWarnings({ "unused", "static-access" })
 	public static void configPutty_diffStore() throws Exception {
-
-		Session session = new JSch().getSession("esadmq1", "bwi-esdom-q12.jcrew.com", 22);
-		session.setPassword("changeme");
-		java.util.Properties config = new java.util.Properties();
-		config.put("StrictHostKeyChecking", "no");
-		session.setConfig(config);
-		session.connect();
-		Channel channel = session.openChannel("exec");
-		((ChannelExec) channel).setCommand(getStatusAsBL);
-		String result = IOUtils.toString(channel.getInputStream());
-		String trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
+		String trackStatus;
+		Session session = connectToPutty();
+		do {
+			runPuttyJob(e2ePropertyReader.getProperty("getStatusAsBL"), session);
+			trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
+		} while (trackStatus.equalsIgnoreCase("BL"));
 		Reporter.log("tracking shipment order: " + trackStatus);
-		Assert.assertTrue(trackStatus.equalsIgnoreCase("BL") || trackStatus.equalsIgnoreCase("BP")
-				|| trackStatus.equalsIgnoreCase("BB"));
-
-		BrowserDriver.getCurrentDriver().get("http://bwi-esmsf-q11/Manual_receiving/T_R_drop_down.php");
+		Assert.assertTrue(trackStatus.equalsIgnoreCase("BL"));
+		BrowserDriver.getCurrentDriver().get(e2ePropertyReader.getProperty("manual_receving"));
 		BrowserDriver.waitForElementToVisible(DomContainer.manualTrack, 30);
 		for (String doID : DomPOJO.getDestinationFacilities().keySet()) {
 			String dFacility = DomPOJO.getDestinationFacilities().get(doID);
@@ -728,12 +725,14 @@ public class DomView extends E2ECommon {
 			DomContainer.submitButton.click();
 			BrowserDriver.waitForSec(4);
 			Assert.assertTrue(DomContainer.submitionSuccess.isDisplayed());
-			((ChannelExec) channel).setCommand(getStatusAsBL);
-			String result_RP = IOUtils.toString(channel.getInputStream());
-			Reporter.log("Ready for pickup status: " + result_RP);
-			String trackStatus_RP = DatabaseReader.trackShipmentOrder(orderNum);
-			Assert.assertTrue(trackStatus_RP.equalsIgnoreCase("RP"));
-			BrowserDriver.getCurrentDriver().get("http://bwi-esmsf-q11/saving-signature-SPU_5/index_jcrew.php?");
+			runPuttyJob(e2ePropertyReader.getProperty("manualReceving"), session);
+			do {
+				runPuttyJob(e2ePropertyReader.getProperty("getStatusRP"), session);
+				trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
+			} while (trackStatus.equalsIgnoreCase("RP"));
+			Reporter.log("tracking shipment order: " + trackStatus);
+			Assert.assertTrue(trackStatus.equalsIgnoreCase("RP"));
+			BrowserDriver.getCurrentDriver().get(e2ePropertyReader.getProperty("sign_URL"));
 			DomContainer.enterOrderNum_sign.sendKeys(orderNum);
 			DomContainer.submit_sign.click();
 			BrowserDriver driver = new BrowserDriver();
@@ -742,44 +741,49 @@ public class DomView extends E2ECommon {
 					.moveByOffset(330, 130).moveByOffset(340, 140).release().build();
 			drawAction.perform();
 			DomContainer.doneSigning.click();
-			BrowserDriver.waitForSec(4);
-			Robot r = new Robot();
-			r.keyPress(KeyEvent.VK_ENTER);
-			r.keyRelease(KeyEvent.VK_ENTER);
+			BrowserDriver.waitForSec(2);
+			Alert a = BrowserDriver.getCurrentDriver().switchTo().alert();
+			a.accept();
+			BrowserDriver.waitForSec(3);
 			Assert.assertTrue(DomContainer.pickedUp.isDisplayed());
-			((ChannelExec) channel).setCommand(getStatusAsBL);
-			String result_CP = IOUtils.toString(channel.getInputStream());
-			Reporter.log("Picked up status: " + result_CP);
+			runPuttyJob(e2ePropertyReader.getProperty("getConfirmPickUp"), session);
 			String trackStatus_CP = DatabaseReader.trackShipmentOrder(orderNum);
 			Assert.assertTrue(trackStatus_CP.equalsIgnoreCase("CP"));
 		}
 		channel.disconnect();
 		session.disconnect();
-
 	}
 
-	static String status_RP = "/ES_DOM_SHARE/documents/scripts/JC_STS_OLS/JC_STS_OLS.sh /ES_DOM_SHARE/documents/scripts/JC_STS_OLS /ES_DOM_SHARE/documents/scripts/SetEnv_Q4.env >> /ES_DOM_SHARE/documents/scripts/JC_STS_OLS/JC_STS_OLS.log 2>/ES_DOM_SHARE/documents/scripts/JC_STS_OLS/JC_STS_OLS.err";
-	static String status_CP = "/ES_DOM_SHARE/documents/scripts/JC_STS_PickupConfirm_OLS/JC_STS_PickupConfirm_OLS.sh /ES_DOM_SHARE/documents/scripts/JC_STS_PickupConfirm_OLS /ES_DOM_SHARE/documents/scripts/SetEnv_Q4.env >> /ES_DOM_SHARE/documents/scripts/JC_STS_PickupConfirm_OLS/JC_STS_PickupConfirm_OLS.log 2>/ES_DOM_SHARE/documents/scripts/JC_STS_PickupConfirm_OLS/JC_STS_PickupConfirm_OLS.err";
-	@SuppressWarnings({ "unused", "static-access" })
-	public static void configPutty_sameStore() throws Exception {
-		String orderNum = "3050054967";
+	public static Session connectToPutty() throws Exception {
 		Session session = new JSch().getSession("esadmq1", "bwi-esdom-q12.jcrew.com", 22);
 		session.setPassword("changeme");
 		java.util.Properties config = new java.util.Properties();
 		config.put("StrictHostKeyChecking", "no");
 		session.setConfig(config);
 		session.connect();
-		//Channel channel = session.openChannel("shell");
-		 ChannelExec channel = (ChannelExec) session.openChannel("exec");
-		((ChannelExec) channel).setCommand(status_RP);
-		((ChannelExec)channel).setErrStream(System.err);
-		//String result = IOUtils.toString(channel.getInputStream());
-		InputStream ins=channel.getInputStream();
+		return session;
+	}
+
+	@SuppressWarnings("unused")
+	public static void runPuttyJob(String puttyJob, Session session) throws Exception {
+		channel = (ChannelExec) session.openChannel("exec");
+		((ChannelExec) channel).setCommand(puttyJob);
+		((ChannelExec) channel).setErrStream(System.err);
+		InputStream ins = channel.getInputStream();
 		channel.connect();
-		String trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
+	}
+
+	@SuppressWarnings("static-access")
+	public static void configPutty_sameStore() throws Exception {
+		String trackStatus;
+		Session session = connectToPutty();
+		do {
+			runPuttyJob(e2ePropertyReader.getProperty("status_RP"), session);
+			trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
+		} while (trackStatus.equalsIgnoreCase("RP"));
 		Reporter.log("tracking shipment order: " + trackStatus);
-		Assert.assertTrue(trackStatus.equalsIgnoreCase("RP") || trackStatus.equalsIgnoreCase("BP"));
-		BrowserDriver.getCurrentDriver().get("http://bwi-esmsf-q11/saving-signature-SPU_5/index_jcrew.php?");
+		Assert.assertTrue(trackStatus.equalsIgnoreCase("RP"));
+		BrowserDriver.getCurrentDriver().get(e2ePropertyReader.getProperty("sign_URL"));
 		DomContainer.enterOrderNum_sign.sendKeys(orderNum);
 		DomContainer.submit_sign.click();
 		BrowserDriver driver = new BrowserDriver();
@@ -787,18 +791,14 @@ public class DomView extends E2ECommon {
 		Action drawAction = builder.moveToElement(DomContainer.signature, 300, 100).clickAndHold()
 				.moveByOffset(330, 130).moveByOffset(340, 140).release().build();
 		drawAction.perform();
+		BrowserDriver.waitForSec(2);
 		DomContainer.doneSigning.click();
-		BrowserDriver.waitForSec(4);
-		Robot r = new Robot();
-
-		r.keyPress(KeyEvent.VK_ENTER);
-		r.keyRelease(KeyEvent.VK_ENTER);
+		BrowserDriver.waitForSec(2);
+		Alert a = BrowserDriver.getCurrentDriver().switchTo().alert();
+		a.accept();
+		BrowserDriver.waitForSec(3);
 		Assert.assertTrue(DomContainer.pickedUp.isDisplayed());
-		((ChannelExec) channel).setCommand(status_CP);
-		//String result_CP = IOUtils.toString(channel.getInputStream());
-		ins=channel.getInputStream();
-		//channel.connect();
-		//Reporter.log("Picked up status : " + result_CP);
+		runPuttyJob(e2ePropertyReader.getProperty("status_CP"), session);
 		String trackStatus_CP = DatabaseReader.trackShipmentOrder(orderNum);
 		Assert.assertTrue(trackStatus_CP.equalsIgnoreCase("CP"));
 		channel.disconnect();

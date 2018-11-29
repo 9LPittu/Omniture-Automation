@@ -88,14 +88,14 @@ public static String captureE2EDetails() throws Exception{
 			} catch (Exception e) {
 				throw new Exception("Failed to set value in excel for the column 'Additional Error Details'");
 			}
-        	try {
+        	/*try {
         		
 				DomView orderStatus = stateHolder.get("orderStatus");
         		String finalStatus = stateHolder.get("orderStatus");
         		testdataReader.setCellValueInExcel(rowNumber, "Status", finalStatus);
 			} catch (Exception e) {
 				throw new Exception("Failed to set value in excel for the column 'Status'");
-			}
+			}*/
         	try {
 				testdataReader.writeAndSaveExcel();
 			} catch (IOException e) {
