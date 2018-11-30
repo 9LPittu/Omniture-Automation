@@ -151,12 +151,11 @@ public class DomStepDef extends E2ECommon{
     @And("^I fullfil ship to store order-ship from different store$")
     public void iFulfilShipToStoreOrder() throws Throwable {
         DomView.getorderNumber(orderNumber);
-        if(stsFulfilment.equalsIgnoreCase("shipFromSameStore")) {
+       /* if(stsFulfilment.equalsIgnoreCase("shipFromSameStore")) {
         	DomView.fullfilStsOrder_shipFromSameStore(orderNumber);
-        	System.out.println("working fine ==================================");
-        }else {
+        }else {*/
         	DomView.fullfilStsOrder_shipFromDifferentStore(orderNumber);
-        }
+       // }
     	
     }
     @Given("^Test data is read from excel file \"([^\"]*)\"$")

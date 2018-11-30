@@ -286,7 +286,7 @@ public class DomView extends E2ECommon {
 				enterOrderNum(orderNum);
 				orderStatus = getOrderStatus();
 			}
-		}
+		} 
 		if (!DomPOJO.getStoreDos().isEmpty()) {
 			for (String doID : DomPOJO.getStoreDos().keySet()) {
 				String fFacility = DomPOJO.getStoreDos().get(doID);
@@ -699,37 +699,36 @@ public class DomView extends E2ECommon {
 	@SuppressWarnings({ "unused", "static-access" })
 	public static void configPutty_diffStore() throws Exception {
 		String trackStatus;
+		boolean flag = true;
 		Session session = connectToPutty();
 		do {
 			runPuttyJob(e2ePropertyReader.getProperty("getStatusAsBL"), session);
 			trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
-		} while (trackStatus.equalsIgnoreCase("BL"));
+			if(trackStatus.equals("BL"))
+				flag=false;
+		} while(flag);
 		Reporter.log("tracking shipment order: " + trackStatus);
 		Assert.assertTrue(trackStatus.equalsIgnoreCase("BL"));
-		BrowserDriver.getCurrentDriver().get(e2ePropertyReader.getProperty("manual_receving"));
+			BrowserDriver.getCurrentDriver().get(e2ePropertyReader.getProperty("manual_receving"));
 		BrowserDriver.waitForElementToVisible(DomContainer.manualTrack, 30);
 		for (String doID : DomPOJO.getDestinationFacilities().keySet()) {
 			String dFacility = DomPOJO.getDestinationFacilities().get(doID);
-			BrowserDriver.waitForSec(2);
 			DomContainer.enterStoreId.sendKeys(dFacility);
-			BrowserDriver.waitForSec(2);
 			DomContainer.enterUserId.sendKeys("123");
-			BrowserDriver.waitForSec(2);
 			DomContainer.enterOrderNum.sendKeys(orderNum);
-			BrowserDriver.waitForSec(2);
 			DomContainer.sendButton.click();
-			BrowserDriver.waitForSec(2);
 			Select trackList = new Select(DomContainer.trackNumList);
 			trackList.selectByIndex(0);
-			BrowserDriver.waitForSec(2);
 			DomContainer.submitButton.click();
-			BrowserDriver.waitForSec(4);
+			BrowserDriver.waitForSec(2);
 			Assert.assertTrue(DomContainer.submitionSuccess.isDisplayed());
 			runPuttyJob(e2ePropertyReader.getProperty("manualReceving"), session);
 			do {
 				runPuttyJob(e2ePropertyReader.getProperty("getStatusRP"), session);
 				trackStatus = DatabaseReader.trackShipmentOrder(orderNum);
-			} while (trackStatus.equalsIgnoreCase("RP"));
+				if(trackStatus.equals("RP"))
+					flag=false;
+			} while (flag);
 			Reporter.log("tracking shipment order: " + trackStatus);
 			Assert.assertTrue(trackStatus.equalsIgnoreCase("RP"));
 			BrowserDriver.getCurrentDriver().get(e2ePropertyReader.getProperty("sign_URL"));
@@ -745,7 +744,7 @@ public class DomView extends E2ECommon {
 			Alert a = BrowserDriver.getCurrentDriver().switchTo().alert();
 			a.accept();
 			BrowserDriver.waitForSec(3);
-			Assert.assertTrue(DomContainer.pickedUp.isDisplayed());
+			Assert.assertTrue(DomContainer.pickedUp.isDisplayed()||DomContainer.partialPickedUp.isDisplayed());
 			runPuttyJob(e2ePropertyReader.getProperty("getConfirmPickUp"), session);
 			String trackStatus_CP = DatabaseReader.trackShipmentOrder(orderNum);
 			Assert.assertTrue(trackStatus_CP.equalsIgnoreCase("CP"));

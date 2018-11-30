@@ -190,7 +190,7 @@ public class DomContainer {
     public static WebElement trackNumList;
     @FindBy(how = How.XPATH, using = "//input[@name='UpdateTR']")
     public static WebElement submitButton;
-    @FindBy(how = How.XPATH, using = "//div[contains(text(),'Submission Successful.)]")
+    @FindBy(how = How.XPATH, using = "//div[@class='alert alert-success']")
     public static WebElement submitionSuccess;
     @FindBy(how = How.ID, using = "order")
     public static WebElement enterOrderNum_sign;
@@ -202,7 +202,9 @@ public class DomContainer {
     public static WebElement doneSigning;
     @FindBy(how = How.XPATH, using = "//span[text()='ORDER PICKED UP']")
     public static WebElement pickedUp;
-  
+    @FindBy(how = How.XPATH, using = "//span[text()='PARTIAL ORDER PICKUP']")
+    public static WebElement partialPickedUp;
+    
   
   
     
