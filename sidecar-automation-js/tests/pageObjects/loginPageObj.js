@@ -24,7 +24,8 @@ const registerBtn = By.xpath("//button[@id='loyaltysignup']");
 const navPanel_factory = By.id("c-header__userpanelrecognized");
 const navPanel_jcrew = By.xpath("//a[@class='nc-nav__account_button']");
 
-const signOut_factory = By.xpath("//a[@class='js-signout__link']");
+//const signOut_factory = By.xpath("//a[@class='js-signout__link']");
+const signOut_factory = By.xpath("(//A[@href='/account/logout.jsp?sidecar=true'][text()='Sign Out'][text()='Sign Out'])[1]");
 const signOut_jcrew = By.xpath("//li[5]/a[text()='Sign Out']");
 
 //Forgot Password
@@ -43,6 +44,7 @@ export const loginFromHomePage = async (username, password) => {
   }
   await driver.findElement(sidecar_user).sendKeys(username)
   await driver.findElement(sidecar_password).sendKeys(password)
+   await waitSeconds(1)
   await driver.findElement(signIn_submitBtn).click()
   await waitSeconds(3)
   console.log("Login success")
@@ -99,6 +101,7 @@ export const loggedInUserValidation = async (url) => {
     const loggedInUser = await driver.findElement(navPanel_factory)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
+    await waitSeconds(5)
     const signOut = await driver.findElement(signOut_factory)
     expect(signOut).toBeTruthy()
     result = true;
@@ -107,6 +110,7 @@ export const loggedInUserValidation = async (url) => {
     const loggedInUser = await driver.wait(until.elementLocated(navPanel_jcrew), defaultTimeout_short);
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform()
+    await waitSeconds(3)
     const signOut = await driver.findElement(signOut_jcrew)
     expect(signOut).toBeTruthy()
     result = true;

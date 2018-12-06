@@ -65,6 +65,12 @@ export const checkout = async () => {
 
 export const shippingNav = async () => {
   await driver.findElement(shippingNavBtn).click();
+  await driver.findElement(orderSummaryBtn).click()
+  await driver.findElement(orderSummaryBtn).click()
   await driver.sleep(5000);
+}
+export const shippingNavigation = async () => {
+  await driver.findElement(shippingNavBtn).click();
+  await driver.findElement(orderSummaryBtn).click()
 }
 

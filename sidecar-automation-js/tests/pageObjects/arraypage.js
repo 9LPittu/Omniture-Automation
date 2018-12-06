@@ -15,13 +15,14 @@ const product_title = By.xpath("(//span[contains(@class,'tile__detail--name')])[
 const product_price = By.xpath("(//span[contains(@class,'tile__detail--price--list')])[1]");
 const product_image3 = By.xpath("(//div[@class='c-product__photos'])[3]");
 const product_image2 = By.xpath("(//div[@class='c-product__photos'])[2]");
+const product_image_shop = By.xpath("(//div[@class='c-product__photos'])[1]")
 const product_size = By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]");
 const addToBag = By.id("btn__add-to-bag-wide");
 const cartSize = By.xpath("//span[@class='js-cart-size']");
 const productCart = By.id("js-header__cart");
 const cart_count = By.xpath("//div[@class='nc-nav__bag-tab__count']");
 const cartIcon = By.xpath("//div[@class='nc-nav__bag-tab__icon']");
-const wishList_btn = By.id("btn__wishlist");
+const wishList_btn = By.xpath("//button[contains(.,'Add To Wishlist')]");
 
 //Baynote elements
 const likeTheAbove_link = By.xpath("//h1[contains(text(),'Like the above?')]");
@@ -42,10 +43,11 @@ const dept_mens_factory = By.xpath("//li[@data-department='men']");
 const dept_tshirts_factory = By.xpath("//span[text()='T-shirts & Henleys']");
 const dept_mens_jcrew = By.xpath("//a[text()='Men']");
 const dept_tshirts_jcrew = By.xpath("//a[text()='t-shirts & polos']");
-const dept_product_variation = By.xpath("(//li[contains(@class,'js-product__variation') and not(contains(@class,'is-selected'))])[1]")
+//const dept_product_variation = By.xpath("(//li[contains(@class,'js-product__variation') and not(contains(@class,'is-selected'))])[1]")
+const dept_product_variation = By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn')])")
 const dept_product_sizelist = By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn')])[1]");
 const product_sizesList_Item_btn = By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]");
-const wishlist = By.id("btn__wishlist-wide");
+const wishlist = By.id("btn__wishlist");
 
 //Add Sales items
 const clearance_txt = By.xpath("//span[text()='Clearance']");
@@ -55,7 +57,8 @@ const sale_recommendation_item = By.xpath("(//div[@class='c-sale-recommendation-
 const product_title_info = By.xpath("(//div[@class='product-tile--info'])[1]");
 
 const userPanel_factory = By.id("c-header__userpanelrecognized");
-const wishListLink_factory = By.xpath("//dd/a[text()='Wishlist']");
+//const wishListLink_factory = By.xpath("//dd/a[text()='Wishlist']");
+const wishListLink_factory = By.xpath("(//a[@href='/wishlist/?sidecar=true'][contains(.,'Wishlist')])[1]");
 const navAccountBtn = By.xpath("//a[@class='nc-nav__account_button']");
 const wishListCart = By.xpath("//li/a[text()='Wishlist']");
 const wishListItems = By.xpath("//li[contains(@id,'item')]");
@@ -127,6 +130,8 @@ export const productArrayPage = async () => {
     await driver.findElement(searchTxt_factory1).sendKeys("shirts")
     await driver.findElement(searchLink).click()
     await waitSeconds(2)
+await driver.findElement(By.xpath("//SPAN[@class='icon-close js-primary-nav__search__button--clear']")).click()
+  await driver.findElement(searchLink).click()
   } else {
     var searchText = await driver.findElement(searchTxt_jcrew);
     await searchText.sendKeys("pants")
@@ -182,6 +187,7 @@ export const addMultiLineItems = async () => {
   await driver.findElement(addToBag).click()
   await waitSeconds(1)
   await driver.findElement(addToBag).click()
+await driver.findElement(By.id("js-header__cart")).click()
   await waitSeconds(1)
   await productArrayPage()
   await waitSeconds(2)
@@ -281,7 +287,7 @@ export const quickShopValidations = async () => {
     await waitSeconds(6)
     expect(await driver.findElement(product_size)).toBeTruthy()
     expect(await driver.findElement(addToBag)).toBeTruthy()
-    expect(await driver.findElement(wishList_btn)).toBeTruthy()
+    expect(await driver.findElement(wishListBtnText)).toBeTruthy()
     result = true;
     console.log("User is able to navigate to quick shop from arraypage")
   } catch (err) {
@@ -293,18 +299,42 @@ export const quickShopValidations = async () => {
 export const shopTheLookValidations = async () => {
   let result = false;
   try {
+    let currentUrl = await driver.getCurrentUrl();
+    if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Women']"))).perform();
+    await waitSeconds(1);
+    await driver.findElement(By.xpath("//a[text()='sweaters']")).click()
+    await waitSeconds(1);
+    await closeIconInPAP()
+    await waitSeconds(1);
     const productimage = await driver.findElement(product_image3)
     await productimage.click()
-    await waitSeconds(3)
+    await waitSeconds(3);
+    }
+    else
+    {
+    await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Women']"))).perform();
+    await waitSeconds(1);
+    await driver.findElement(By.xpath("//a[text()='sweaters']")).click()
+    await waitSeconds(1);
+    await closeIconInPAP()
+    await waitSeconds(1);
+    const productimage_s = await driver.findElement(product_image_shop)
+    await productimage_s.click()
+
+   // const productimage = await driver.findElement(product_image3)
+    //await productimage.click()
+    //await waitSeconds(3);
+    }
     await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(shopTheLook_Link));
-    await waitSeconds(1)
+    await waitSeconds(1);
     await driver.executeScript('window.scrollTo(0, 200)')
-    await waitSeconds(1)
+    await waitSeconds(1);
     expect(await driver.findElement(shopImage1)).toBeTruthy()
     await driver.findElement(shopImage1).click()
-    await waitSeconds(4)
+    await waitSeconds(4);
     expect(await driver.findElement(shopProduct)).toBeTruthy()
-    await waitSeconds(1)
+    await waitSeconds(1);
     expect(await driver.findElement(addtoBag2)).toBeTruthy()
     expect(await driver.findElement(wishListBtnText)).toBeTruthy()
     expect(await driver.findElement(productColorsList)).toBeTruthy()
@@ -369,6 +399,7 @@ export const myWishListValidation = async () => {
 
 export const goToWishList = async (url) => {
   if (url.includes("factory")) {
+    await waitSeconds(3);
     const loggedInUser = await driver.findElement(userPanel_factory)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
@@ -396,7 +427,7 @@ export const validateWishListAsGuest = async () => {
   await waitSeconds(2)
   await driver.findElement(product_sizesList_Item_btn).click()
   await waitSeconds(1)
-  await driver.findElement(wishlist).click()
+  await driver.findElement(wishList_btn).click()
   await waitSeconds(1)
 }
 

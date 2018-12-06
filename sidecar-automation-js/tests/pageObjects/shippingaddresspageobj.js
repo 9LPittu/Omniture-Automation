@@ -1,5 +1,9 @@
 import { driver } from '../helpers';
 import { waitSeconds } from '../util/commonutils';
+import { globals } from '../jestJcrewQaConfig';
+import { goToShoppingBag } from '../pageObjects/shoppingbagobj';
+import { login, loginInAfterCheckoutPage } from '../pageObjects/loginpageobj';
+import { creditcard } from '../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 export const zipCode = () => driver.findElement(By.css("input#zipcode"));
@@ -15,7 +19,8 @@ export const just_a_Gift_Receipt = () => driver.findElement(By.css("#giftReceipt
 export const gift_Wrapping_Service = () => driver.findElement(By.css("#giftWrapService0"));
 
 //Edit and save address changes 
-const pageActCreditCard = By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[6]/a");
+//const pageActCreditCard = By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[6]/a");
+const pageActCreditCard = By.xpath("(//a[@href='/account/address_book.jsp'][contains(.,'Address Book')])[2]");
 const editBtn = By.xpath("(//img[contains(@src,'btn_edit')])[1]");
 const address_firstname = By.name("ADDRESS<>firstName");
 const address_lastname = By.name("ADDRESS<>lastName");
@@ -34,7 +39,8 @@ const deleteBtn = By.xpath("(//img[contains(@src,'btn_delete')])[2]");
 const deleteTxt2 = By.xpath("(//a[text()='DELETE'])[2]");
 
 //Credit Card Elements 
-const pageAccount = By.xpath("//*[@id='page__account']/div/div[1]/nav[2]/ul/li[5]/a");
+//const pageAccount = By.xpath("//*[@id='page__accounta']/div/div[1]/nav[2]/ul/li[5]/a");
+const pageAccount = By.xpath("(//a[@href='/account/payment_info.jsp'][contains(.,'Payment Methods')])[2]");
 const creditCardList = By.xpath("//*[@id='creditCardList']/table[1]/tbody/tr[3]/td/a[1]");
 const CCNumber = By.xpath("//*[@id='ccNumber']");
 const exmonth = By.xpath("//*[@id='eXmonth']");

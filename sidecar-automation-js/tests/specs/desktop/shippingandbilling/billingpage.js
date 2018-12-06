@@ -38,12 +38,12 @@ test('Login with given username and password', async () => {
 test('Clear the bag items if any products were avilable and Add one product', async () => {
   await clearBagItems();
   console.log('after clearing bagItem')
-  await driver.sleep(10000);
+  await driver.sleep(1000);
   await productArrayPage();
   await closeIconInPAP()
   await addProductToBag();
   await verifyAndClickOnBag();
-  await driver.sleep(2000)
+  await driver.sleep(1000)
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
   await driver.sleep(1000)
   await checkout()
@@ -51,12 +51,12 @@ test('Clear the bag items if any products were avilable and Add one product', as
   console.log('After checkout')
   await shippingNav()
   console.log('After checkout')
-  await clickOnContinue();
+  //await clickOnContinue();
   console.log("after continue")
 });
 
 test('Goto Billng page and check verify credit/debit card or paypal process', async () => {
-  await continueOnShippingMethod();
+  //await continueOnShippingMethod();
   console.log('---')
   await paymentMethod('Credit/Debit_Card');
   console.log('After payment Method')

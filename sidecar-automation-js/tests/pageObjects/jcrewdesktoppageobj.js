@@ -20,6 +20,9 @@ const signUpNow = By.xpath("//div[text()='Sign Up Now']");
 const FAQLink = By.xpath("//div[text()='FAQs']");
 const globalEmail = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/input[1]");
 const globalEmailSendBtn = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/button/span[2]");
+//const shopNowLink = By.xpath("(//BUTTON[@type='button'][text()='Shop now'][text()='Shop now'])[1]");
+const shopNowLink = By.xpath("//BUTTON[@type='button'][text()='Shop sale']");
+//const createPassword = By.xpath("//input[@placeholder='Create Your Password']");
 const createPassword = By.xpath("//input[@placeholder='CREATE YOUR PASSWORD']");
 const joinNowLink = By.xpath("//*[text()='Join Now']");
 const myAccountLink = By.xpath("//*[contains(text(),'My Account')][1]");
@@ -134,13 +137,18 @@ export const loyaltyLightBoxValidation = async () => {
   var x = Math.floor((Math.random() * 99900000) + 1);
   let userName = "LoyaltyTest" + x
   let email = userName + x + "@gmail.com"
-  await driver.findElement(globalEmail).sendKeys(email)
-  await driver.findElement(globalEmailSendBtn).click();
+ // await driver.findElement(globalEmail).sendKeys(email)
+  //await driver.findElement(globalEmailSendBtn).click();
   await waitSeconds(2)
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    await driver.findElement(globalEmail).sendKeys(email)
+    await driver.findElement(globalEmailSendBtn).click();
     await driver.findElement(createPassword).sendKeys("123456Ab");
   } else {
+    await driver.findElement(By.xpath(shopNowLink)).click();
+    await driver.findElement(globalEmail).sendKeys(email)
+    await driver.findElement(globalEmailSendBtn).click();
     await driver.findElement(createPassword).sendKeys("123456Ab");
   }
   await waitSeconds(1)

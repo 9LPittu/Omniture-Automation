@@ -4,9 +4,9 @@ import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { clickOnContinue } from '../../../pageObjects/shippingaddresspageobj';
 import { loginFromHomePage, clearBagItems } from '../../../pageObjects/loginPageObj';
 import { verifyShippingMethodsPage } from '../../../pageObjects/shippingpageobj';
-import { jcrew_gold, jcrew_prod } from '../../../testdata/jcrewTestData';
+import { jcrew_gold, jcrew_prod,factory_prod } from '../../../testdata/jcrewTestData';
 import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage';
-import { checkout, shippingNav } from '../../../pageObjects/Shippingpageobj';
+import { checkout, shippingNavBtn,shippingNavigation } from '../../../pageObjects/Shippingpageobj';
 
 beforeAll(async () => {
   await load();
@@ -19,7 +19,12 @@ test('Login with given username and password', async () => {
   if (url.indexOf("www.jcrew.com") > -1) {
     await loginFromHomePage(jcrew_prod.username, jcrew_prod.password)
     console.log('user login succesfully')
-  } else {
+  } else if((url.indexOf("https://factory.jcrew.com") > -1 )){
+
+    await loginFromHomePage(factory_prod.username,factory_prod.password)
+    console.log('user login succesfully')
+}
+  else {
     await loginFromHomePage(jcrew_gold.username, jcrew_gold.password)
     console.log('user login succesfully')
   }
@@ -40,10 +45,11 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await checkout()
   console.log('after product selection')
   console.log('After checkout')
-  await shippingNav()
+  //await shippingNavBtn()
+  await shippingNavigation()
   await driver.sleep(5000);
   console.log('After checkout')
-  await clickOnContinue();
+  //await clickOnContinue();
   console.log("after continue")
 });
 

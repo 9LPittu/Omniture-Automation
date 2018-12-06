@@ -133,8 +133,9 @@ test('title is correct', async () => {
      each([
         ['Women'],
         ['Men'],
-        ['kids'],
-        ['sale'],
+       // ['kids']
+      //  ['Girls'],
+      //  ['Boys'],
   ]).test('%s links to correct page', async link => {
     currentUrl = await driver.getCurrentUrl();
     if(currentUrl.includes("factory")){
@@ -142,7 +143,11 @@ test('title is correct', async () => {
           const subnav = await driver.findElement(By.className(
             "c-header__department-nav js-header__department-nav"
           ))
-          await subnav.findElement(By.linkText(link)).click()
+
+          await subnav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '"+link+"']")).click()
+         
+         // await subnav.findElement(By.linkText(link)).click()
+        //await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[1]/h2[text()='"+link+"']")).click()
           await driver.sleep(2000)
           await driver.getCurrentUrl().then(url => {
             const reg = new RegExp(link, 'i')
