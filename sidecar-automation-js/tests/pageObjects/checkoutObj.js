@@ -2,6 +2,7 @@ import { until } from 'selenium-webdriver';
 import { driver, defaultTimeout_short } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
 import { guestuser, creditcard } from '../testdata/jcrewTestData';
+import { waitSeconds } from '../util/commonutils';
 
 const { Builder, By, Key } = require('selenium-webdriver')
 
@@ -46,12 +47,12 @@ const emailTxt = By.xpath("//input[@id='emailReceipt']");
 
 export const clickCheckoutBtn = async () => {
     await driver.findElement(checkoutBtn).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
 }
 
 export const checkoutAsGuest = async () => {
     await driver.findElement(guestCheckoutOption).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     // address detaiils
     await driver.findElement(firstName).sendKeys(guestuser.firstNameSA)
     await driver.findElement(lastName).sendKeys(guestuser.lastNameSA)
@@ -59,15 +60,15 @@ export const checkoutAsGuest = async () => {
     await driver.findElement(addressline2).sendKeys(guestuser.address2)
     await driver.findElement(addressline1).sendKeys(guestuser.address1)
     await driver.findElement(zipcode_guest).sendKeys(guestuser.zipcode)
-    await driver.sleep(3000)
+    await waitSeconds(3)
     await driver.findElement(phoneNumberSA).sendKeys(guestuser.phoneNumSA)
-    await driver.sleep(3000)
+    await waitSeconds(3)
     await driver.findElement(mainBtn_continue).click()
     try {
         // address confirmation page :
-        await driver.sleep(3000)
+        await waitSeconds(3)
         await driver.findElement(addressGuest).click()
-        await driver.sleep(3000)
+        await waitSeconds(3)
         await driver.findElement(mainBtn_continue).click()
     } catch (err) { }
 }
@@ -77,20 +78,20 @@ export const STSSameDayDelivery = async (currentUrl, zipcode) => {
         console.log("Ship to store functionality is not available in Factory")
     } else{  // Production review checkout
         await driver.findElement(shippingAddress).click()
-        await driver.sleep(2000)
+        await waitSeconds(2)
         await driver.findElement(shipToStoreRadioBtn).click()
-        await driver.sleep(2000)
+        await waitSeconds(2)
         await driver.findElement(zipCodeTxt).sendKeys(zipcode)
-        await driver.sleep(2000)
+        await waitSeconds(2)
         const samedayDelivery = await driver.findElement(address1)
         expect(samedayDelivery).toBeTruthy()
         console.log("same day pick up is available")
         let contBtn = await driver.findElement(continueBtn)
         expect(contBtn).toBeTruthy()
         await contBtn.click()
-        await driver.sleep(2000)
+        await waitSeconds(2)
         await driver.findElement(continueBtn).click()
-        await driver.sleep(2000)
+        await waitSeconds(2)
     }
 }
 
@@ -106,7 +107,7 @@ export const STSReviewCheckout = async (currentUrl, creditPin) => {
                 }
             })
         } catch (err) { }
-        await driver.sleep(3000)
+        await waitSeconds(3)
         if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
             if (currentUrl.indexOf("factory.jcrew.com") > -1) {
                 console.log(">> inside factory")
@@ -114,12 +115,12 @@ export const STSReviewCheckout = async (currentUrl, creditPin) => {
             } else {
                 await driver.findElement(submitOrderBtn).click()
             }
-            await driver.sleep(4000)
+            await waitSeconds(4)
             try {
                 const bizrate = await driver.findElement(brizatePopupClose)
                 expect(bizrate).toBeTruthy()
                 await bizrate.click()
-                await driver.sleep(2000)
+                await waitSeconds(2)
             } catch (err) { }
             let orderNumberLet = await driver.findElement(orderNumberTranslate).getText()
             console.log("order Id  > " + orderNumberLet)
@@ -129,24 +130,24 @@ export const STSReviewCheckout = async (currentUrl, creditPin) => {
 
 export const quickShopCheckoutValidation = async () => {
     await driver.actions().mouseMove(await driver.findElement(product_image2)).perform();
-    await driver.sleep(2000)
+    await waitSeconds(2)
     const quickbutton = driver.findElement(quickBtn)
     await driver.wait(until.elementIsVisible(quickbutton), defaultTimeout_short)
     expect(quickbutton).toBeTruthy()
     await quickbutton.click()
-    await driver.sleep(3000)
+    await waitSeconds(3)
     await driver.findElement(productSizeList).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     //await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//a[text()='shopping bag']")));
     await driver.executeScript("arguments[0].click();", driver.findElement(addToBag));
-    await driver.sleep(2000)
+    await waitSeconds(2)
     await driver.executeScript("arguments[0].click();", driver.findElement(shoppingBagLink));
-    await driver.sleep(1000)
+    await waitSeconds(1)
 }
 
 export const quickShopReview = async (currentUrl, creditPin) => {
     if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
-        await driver.sleep(3000)
+        await waitSeconds(3)
         try {
             await driver.findElement(secuirtyCode).then(securitycodeTxt => {
                 console.log("inside securitycode")
@@ -161,7 +162,7 @@ export const quickShopReview = async (currentUrl, creditPin) => {
         } else {
             await driver.findElement(submitOrderBtn).click()
         }
-        await driver.sleep(3000)
+        await waitSeconds(3)
         let orderNumberLet = await driver.findElement(orderNumberTranslate).getText()
         console.log("order Id  > " + orderNumberLet)
     }
@@ -170,7 +171,7 @@ export const quickShopReview = async (currentUrl, creditPin) => {
 export const enterCreditCardDetails = async () => { 
     await driver.findElement(creditCardNo).sendKeys(creditcard.number)
     await driver.findElement(creditCardSecurityCode).sendKeys(creditcard.pin)
-    await driver.sleep(3000)
+    await waitSeconds(3)
     await driver.findElement(creditCardExpiryMonth).sendKeys(creditcard.expirationMonth)
     await driver.findElement(creditCardExpiryYear).sendKeys(creditcard.expirationYear)
     await driver.findElement(creditCardName).sendKeys(creditcard.nameOnCard)
@@ -180,5 +181,5 @@ export const enterCreditCardDetails = async () => {
     await driver.findElement(emailTxt).sendKeys(email)
     // await driver.findElement(By.xpath("//a[@id='billing-options-submit']")).click()
     await driver.findElement(mainBtn_continue).click()
-    await driver.sleep(3000)
+    await waitSeconds(3)
 }

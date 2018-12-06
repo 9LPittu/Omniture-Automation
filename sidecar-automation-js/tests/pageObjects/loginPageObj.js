@@ -1,5 +1,6 @@
 import { driver, defaultTimeout, defaultTimeout_short } from '../helpers';
 import { logindetails } from '../testdata/jcrewTestData';
+import { waitSeconds } from '../util/commonutils';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 //Login Elements
@@ -43,7 +44,7 @@ export const loginFromHomePage = async (username, password) => {
   await driver.findElement(sidecar_user).sendKeys(username)
   await driver.findElement(sidecar_password).sendKeys(password)
   await driver.findElement(signIn_submitBtn).click()
-  await driver.sleep(2000)
+  await waitSeconds(3)
   console.log("Login success")
 };
 
@@ -78,7 +79,7 @@ export const createNewAccount = async () => {
   await driver.findElement(emailId).sendKeys(email)
   await driver.findElement(password_register).sendKeys("Nft123456")
   await driver.findElement(registerBtn).click()
-  await driver.sleep(5000)
+  await waitSeconds(5)
   let url = await driver.getCurrentUrl()
   if (url.includes("factory")) {
     const loggedInUser = await driver.findElement(navPanel_factory)
@@ -93,7 +94,7 @@ export const createNewAccount = async () => {
 
 export const loggedInUserValidation = async (url) => {
   let result = false;
-  await driver.sleep(5000)
+  await waitSeconds(5)
   if (url.includes("factory")) {
     const loggedInUser = await driver.findElement(navPanel_factory)
     expect(loggedInUser).toBeTruthy()
@@ -111,7 +112,7 @@ export const loggedInUserValidation = async (url) => {
     result = true;
     signOut.click();
   }
-  await driver.sleep(5000)
+  await waitSeconds(5)
   return result;
 }
 
@@ -125,7 +126,7 @@ export const invalidUserValidation = async (url) => {
   await driver.findElement(sidecar_user).sendKeys("dummyemail@gmail.com")
   await driver.findElement(sidecar_password).sendKeys("123456ab")
   await driver.findElement(signIn_submitBtn).click()
-  await driver.sleep(2000)
+  await waitSeconds(3)
   const errorMsg = await driver.findElement(By.className('js-invalid-msg is-important'))
   expect(errorMsg).toBeTruthy()
   result = true;
@@ -140,20 +141,20 @@ export const forgotPassword = async (url) => {
   } else {
     await driver.findElement(signIn_jcrew).click()
   }
-  await driver.sleep(3000)
+  await waitSeconds(3)
   let forgotPassword_Link = await driver.findElement(forgotPasswordLink)
   expect(forgotPassword_Link).toBeTruthy()
   console.log('forgot password link is displayed');
   forgotPassword_Link.click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(forgot_userName).sendKeys(logindetails.username5)
-  await driver.sleep(1000)
+  await waitSeconds(1)
   const sendNewPassword = await driver.findElement(forgot_sendNewPassword)
   sendNewPassword.click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   const forgotPassword = await driver.findElement(forgot_forgotPassword)
   expect(forgotPassword).toBeTruthy()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   const newPasswordText = await driver.findElement(forgot_newPasswordTxt).getText()
   expect(newPasswordText).toBeTruthy()
   result = true;
@@ -168,11 +169,11 @@ export const newAccountCreateValidation = async (url) => {
     const loggedInUser = await driver.findElement(navPanel_factory)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
-    await driver.sleep(2000)
+    await waitSeconds(3)
     const signOut = await driver.findElement(signOut_factory)
     expect(signOut).toBeTruthy()
     signOut.click()
-    await driver.sleep(5000)
+    await waitSeconds(5)
     expect(await driver.findElement(signIn_factory)).toBeTruthy()
     result = true;
     console.log("sign out from the application successfully")
@@ -181,11 +182,11 @@ export const newAccountCreateValidation = async (url) => {
     const loggedInUser = await driver.findElement(navPanel_jcrew)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform()
-    await driver.sleep(3000)
+    await waitSeconds(3)
     const signOut = await driver.findElement(signOut_jcrew)
     expect(signOut).toBeTruthy()
     signOut.click()
-    await driver.sleep(5000)
+    await waitSeconds(5)
     expect(await driver.findElement(signIn_jcrew)).toBeTruthy()
     result = true;
     console.log("sign out from the application successfully")

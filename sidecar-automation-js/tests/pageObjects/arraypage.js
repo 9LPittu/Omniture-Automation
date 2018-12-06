@@ -1,6 +1,6 @@
 import { driver, defaultTimeout } from '../helpers';
 import { load, closeIconInPAP } from '../pageObjects/jcrewdesktoppageobj';
-//import { logindetails } from '../testdata/jcrewTestData';
+import { waitSeconds } from '../util/commonutils';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 //array Elements
@@ -121,18 +121,18 @@ export const productArrayPage = async () => {
   }
   let url = await driver.getCurrentUrl();
   if (url.indexOf("factory.jcrew.com") > -1) {
-    await driver.sleep(2000)
+    await waitSeconds(2)
     await driver.findElement(searchTxt_factory).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     await driver.findElement(searchTxt_factory1).sendKeys("shirts")
     await driver.findElement(searchLink).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
   } else {
     var searchText = await driver.findElement(searchTxt_jcrew);
     await searchText.sendKeys("pants")
     await driver.actions().click(searchText).sendKeys(Key.ENTER).perform();
   }
-  await driver.sleep(2000)
+  await waitSeconds(2)
   const productimage = await driver.findElement(product_image)
   expect(productimage).toBeTruthy()
 };
@@ -140,31 +140,31 @@ export const productArrayPage = async () => {
 export const addProductToBag = async () => {
   await closeIconInPAP()
   await driver.findElement(product_image3).click()
-  driver.sleep(2000)
+  await waitSeconds(2)
   const productsize = await driver.findElement(product_size)
   await productsize.click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(addToBag).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
 };
 
 export const verifyAndClickOnBag = async () => {
   let url = await driver.getCurrentUrl();
   if (url.indexOf("factory.jcrew.com") > -1) {
-    await driver.sleep(1000)
+    await waitSeconds(1)
     let bagsize = await driver.findElement(cartSize).getText()
     console.log("=======Bag size " + bagsize)
     await driver.findElement(By.xpath("//span[@class='primary-nav__text'][contains(.,'bag')]")).click()
-    await driver.sleep(1000)
+    await waitSeconds(1)
   } else {
-    await driver.sleep(1000)
+    await waitSeconds(1)
     try {
       let bagsize = await driver.findElement(cart_count).getText()
       expect(bagsize).toBeTruthy()
       console.log("=======Bag size " + bagsize)
     } catch (err) { }
     await driver.findElement(cartIcon).click()
-    await driver.sleep(1000)
+    await waitSeconds(1)
   }
 };
 
@@ -175,69 +175,69 @@ export const addMultiLineItems = async () => {
   const productimage = await driver.findElement(product_image)
   expect(productimage).toBeTruthy()
   await productimage.click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   const productsize = await driver.findElement(product_size)
   await productsize.click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(addToBag).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(addToBag).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await productArrayPage()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   const productimage2 = await driver.findElement(product_image2)
   expect(productimage2).toBeTruthy()
   await driver.findElement(product_image2).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   const productsize2 = await driver.findElement(product_size)
   await productsize2.click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(addToBag).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   expect(addToBag).toBeTruthy()
   await driver.findElement(addToBag).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
 };
 
 export const addsaleitemsToBag = async () => {
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     await driver.actions().mouseMove(await driver.findElement(clearance_txt)).perform();
-    driver.sleep(2000);
+    await waitSeconds(2);
     await driver.findElement(category_women).click()
-    driver.sleep(2000);
+    await waitSeconds(2);
   } else {
     await driver.findElement(saleTxt).click()
-    driver.sleep(2000);
+    await waitSeconds(2);
     await closeIconInPAP()
     await driver.findElement(sale_recommendation_item).click()
   }
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.findElement(product_title_info).click()
-  driver.sleep(2000)
+  await waitSeconds(2)
   const productsize = await driver.findElement(product_size)
   productsize.click()
-  driver.sleep(2000)
+  await waitSeconds(2)
   const productaddtobag = await driver.findElement(addToBag)
   productaddtobag.click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   productaddtobag.click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
 }
 
 export const selectSuitsFromCategory = async () => {
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-    await driver.sleep(1000)
+    await waitSeconds(1)
     await driver.findElement(By.xpath("//span[text()='Thompson Suits & Blazers']")).click()
   } else {
     await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Men']"))).perform();
-    await driver.sleep(1000)
+    await waitSeconds(1)
     await driver.findElement(By.xpath("//a[text()='suits & tuxedos']")).click()
-    await driver.sleep(1000)
+    await waitSeconds(1)
     await closeIconInPAP()
-    await driver.sleep(1000)
+    await waitSeconds(1)
   }
 };
 
@@ -274,11 +274,11 @@ export const quickShopValidations = async () => {
   console.log("quick shop validations:::::::::::::::::::")
   let result = false;
   try {
-    await driver.sleep(1000)
+    await waitSeconds(1)
     await driver.actions().mouseMove(await driver.findElement(product_image)).perform();
-    await driver.sleep(2000)
+    await waitSeconds(2)
     await driver.findElement(quickShop).click()
-    await driver.sleep(6000)
+    await waitSeconds(6)
     expect(await driver.findElement(product_size)).toBeTruthy()
     expect(await driver.findElement(addToBag)).toBeTruthy()
     expect(await driver.findElement(wishList_btn)).toBeTruthy()
@@ -295,16 +295,16 @@ export const shopTheLookValidations = async () => {
   try {
     const productimage = await driver.findElement(product_image3)
     await productimage.click()
-    await driver.sleep(3000)
+    await waitSeconds(3)
     await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(shopTheLook_Link));
-    await driver.sleep(1000)
+    await waitSeconds(1)
     await driver.executeScript('window.scrollTo(0, 200)')
-    await driver.sleep(1000)
+    await waitSeconds(1)
     expect(await driver.findElement(shopImage1)).toBeTruthy()
     await driver.findElement(shopImage1).click()
-    await driver.sleep(4000)
+    await waitSeconds(4)
     expect(await driver.findElement(shopProduct)).toBeTruthy()
-    await driver.sleep(1000)
+    await waitSeconds(1)
     expect(await driver.findElement(addtoBag2)).toBeTruthy()
     expect(await driver.findElement(wishListBtnText)).toBeTruthy()
     expect(await driver.findElement(productColorsList)).toBeTruthy()
@@ -321,24 +321,24 @@ export const verifyExtendedSizesValidation = async (currentUrl) => {
   try {
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
       await driver.actions().mouseMove(await driver.findElement(dept_mens_factory)).perform();
-      await driver.sleep(2000);
+      await waitSeconds(2);
       await driver.findElement(dept_tshirts_factory).click()
     } else {
       await driver.actions().mouseMove(await driver.findElement(dept_mens_jcrew)).perform();
-      driver.sleep(2000);
+      await waitSeconds(2);
       await driver.findElement(dept_tshirts_jcrew).click()
-      await driver.sleep(3000)
+      await waitSeconds(3)
       await closeIconInPAP()
     }
-    await driver.sleep(1000)
+    await waitSeconds(1)
     await driver.findElement(product_image2).click()
-    await driver.sleep(3000)
+    await waitSeconds(3)
     const extendedSizes = await driver.findElement(dept_product_variation)
     expect(extendedSizes).toBeTruthy()
     await extendedSizes.click()
-    await driver.sleep(3000)
+    await waitSeconds(3)
     await driver.executeScript('window.scrollTo(0, 100)')
-    await driver.sleep(1000)
+    await waitSeconds(1)
     const sizechart = await driver.findElement(dept_product_sizelist)
     expect(sizechart).toBeTruthy()
     result = true;
@@ -351,20 +351,20 @@ export const verifyExtendedSizesValidation = async (currentUrl) => {
 
 export const colorswatchingValidation = async () => {
   await driver.executeScript('window.scrollTo(0, 2000)')
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.actions().mouseMove(await driver.findElement(product_image2)).perform();
-  await driver.sleep(2000);
+  await waitSeconds(2);
   const color = await driver.findElement(colorsList)
   expect(color.isDisplayed()).toBeTruthy();
 }
 
 export const myWishListValidation = async () => {
   await driver.findElement(product_image2).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.findElement(product_sizesList_Item_btn).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(wishlist).click()
-  await driver.sleep(3000)
+  await waitSeconds(3)
 }
 
 export const goToWishList = async (url) => {
@@ -372,7 +372,7 @@ export const goToWishList = async (url) => {
     const loggedInUser = await driver.findElement(userPanel_factory)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
-    await driver.sleep(2000)
+    await waitSeconds(2)
     const wishlst = await driver.findElement(wishListLink_factory)
     expect(wishlst).toBeTruthy()
     wishlst.click()
@@ -380,7 +380,7 @@ export const goToWishList = async (url) => {
     const loggedInUser = await driver.findElement(navAccountBtn)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
-    await driver.sleep(2000)
+    await waitSeconds(2)
     const wishlst = await driver.findElement(wishListCart)
     expect(wishlst).toBeTruthy()
     wishlst.click()
@@ -393,54 +393,54 @@ export const validateWishListBag = async () => {
 
 export const validateWishListAsGuest = async () => {
   await driver.findElement(product_image).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.findElement(product_sizesList_Item_btn).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(wishlist).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
 }
 
 export const validateEmailPreferences = async () => {
   await driver.findElement(emailPrefs).click()
-  await driver.sleep(2000);
+  await waitSeconds(2);
   await driver.switchTo().frame(await driver.findElement(emailText));
   let subscribebutton = null;
   try {
     subscribebutton = await driver.findElement(glbLongGreyLine)
   } catch (err) {
     await driver.findElement(glbblackLine).click()
-    await driver.sleep(1000)
+    await waitSeconds(1)
     subscribebutton = await driver.findElement(glbblackLine)
   }
   expect(subscribebutton.isDisplayed()).toBeTruthy();
   await subscribebutton.click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
 }
 
 export const validateFilterAndSort = async () => {
   const hidefilters = await driver.findElement(filterHeader);
   expect(hidefilters.isDisplayed()).toBeTruthy()
   console.log("filter header is displaying")
-  await driver.sleep(3000)
+  await waitSeconds(3)
   const gender = await driver.findElement(womenLabel)
   expect(gender).toBeTruthy()
   await gender.click()
   console.log("filter header is displaying")
-  await driver.sleep(1000)
+  await waitSeconds(1)
   const filteredCategoryItem = await driver.findElement(filteredCategory);
   expect(filteredCategoryItem.isDisplayed()).toBeTruthy()
   const clearAllLink = await driver.findElement(clearAll);
   expect(clearAllLink.isDisplayed()).toBeTruthy()
   await clearAllLink.click()
-  await driver.sleep(3000)
+  await waitSeconds(3)
   const sortByOpt = await driver.findElement(sortBy);
   expect(sortByOpt.isDisplayed()).toBeTruthy()
   await sortByOpt.click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   const lowToHighOpt = await driver.findElement(lowToHigh);
   expect(lowToHighOpt.isDisplayed()).toBeTruthy()
   await lowToHighOpt.click()
-  await driver.sleep(3000)
+  await waitSeconds(3)
   const sortApplied = await driver.findElement(lowToHighTxt);
   expect(sortApplied.isDisplayed()).toBeTruthy()
   console.log("Sort functionality is working")
@@ -449,7 +449,7 @@ export const validateFilterAndSort = async () => {
 export const myDetailsValidation = async () => {
   expect(await driver.findElement(myDetailsTxt).isDisplayed()).toBeTruthy()
   await driver.findElement(myDetailsPartialTxt).click();
-  await driver.sleep(2000);
+  await waitSeconds(2);
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.includes("r/account/details")) {
     expect(await driver.findElement(accountMyDetails)).toBeTruthy()
@@ -460,13 +460,13 @@ export const myDetailsValidation = async () => {
 export const validateShoppingTongue = async (url) => {
   if (url.includes("factory")) {
     await driver.actions().mouseMove(await driver.findElement(cartBag_factory)).perform();
-    await driver.sleep(2000)
+    await waitSeconds(2)
     const shoppingTonge = await driver.findElement(bagPanel_factory)
     expect(shoppingTonge).toBeTruthy()
   } else {
     const carticonbag = await driver.findElement(cartBag_jcrew)
     await driver.actions().mouseMove(await driver.findElement(carticonbag)).perform();
-    await driver.sleep(2000)
+    await waitSeconds(2)
     const shoppingTonge = await driver.findElement(bagPanel_jcrew)
     expect(shoppingTonge).toBeTruthy()
   }
@@ -477,35 +477,35 @@ export const validateSignOut = async (url) => {
     const loggedInUser = await driver.findElement(userPanel_factory)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
-    await driver.sleep(2000)
+    await waitSeconds(2)
     const signOut = await driver.findElement(signout_factory)
     expect(signOut).toBeTruthy()
     await signOut.click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     expect(await driver.findElement(signIn_factroy).isDisplayed()).toBeTruthy();
   } else {
-    await driver.sleep(2000)
+    await waitSeconds(2)
     const loggedInUser = await driver.findElement(navAccountBtn)
     expect(loggedInUser).toBeTruthy()
     await driver.actions().mouseMove(loggedInUser).perform();
-    await driver.sleep(2000)
+    await waitSeconds(2)
     const signOut = await driver.findElement(signout_jcrew)
     expect(signOut).toBeTruthy()
     signOut.click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     expect(await driver.findElement(signIn_jcrew).isDisplayed()).toBeTruthy();
   }
 }
 
 export const validateWritingReviews = async () => {
   let currentUrl = await driver.getCurrentUrl();
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(product_image3).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   try {
     const firstReviewer = await driver.findElement(writeTheFirstReview)
     await firstReviewer.click()
-    await driver.sleep(1000)
+    await waitSeconds(1)
     if ((currentUrl.indexOf("https://www.") > -1) || (currentUrl.indexOf("https://factory.") > -1)) {
       console.log("Production Urls , not supposed to submit reviews as part of automation")
       expect(await driver.findElement(fiveStarRating).isDisplayed()).toBeTruthy();
@@ -518,9 +518,9 @@ export const validateWritingReviews = async () => {
     if (await driver.findElement(ratingsSection).isDisplayed()) {
       console.log("Reviews are displaying")
       await driver.executeScript('window.scrollTo(0, 800)')
-      await driver.sleep(2000)
+      await waitSeconds(2)
       await driver.findElement(ratingSummary).click();
-      await driver.sleep(2000)
+      await waitSeconds(2)
       await writeNewReview(currentUrl)
     }
   }
@@ -529,23 +529,23 @@ export const validateWritingReviews = async () => {
 export const writeNewReview = async (currentUrl) => {
   console.log("writing the review")
   await driver.findElement(fiveStarRating).click()
-  await driver.sleep(1000);
+  await waitSeconds(1);
   await driver.findElement(ratingQuality).click()
-  await driver.sleep(1000);
+  await waitSeconds(1);
   await driver.findElement(fitToSize).click()
-  await driver.sleep(1000);
+  await waitSeconds(1);
   await driver.findElement(ratingFieldTitle).sendKeys("Automation testing")
-  await driver.sleep(1000);
+  await waitSeconds(1);
   await driver.findElement(ratingFieldReview).sendKeys("hi this is automation tester testing write review functionality")
-  await driver.sleep(1000);
+  await waitSeconds(1);
   await driver.findElement(ratingFieldPurchaseId).sendKeys("small")
-  await driver.sleep(1000);
+  await waitSeconds(1);
   await driver.findElement(userNickName).sendKeys("Automation")
   await driver.findElement(userEmailId).sendKeys("autoredeem@gmail.com")
   await driver.findElement(ratingFieldPreview).click()
-  await driver.sleep(3000);
+  await waitSeconds(3);
   await driver.executeScript('window.scrollTo(0, -100)')
-  await driver.sleep(1000);
+  await waitSeconds(1);
   const previewHeader = await driver.findElement(ratingFieldPreviewHeader);
   expect(previewHeader).toBeTruthy()
   console.log("Preview your review header is displaying")
@@ -553,13 +553,13 @@ export const writeNewReview = async (currentUrl) => {
     const submit = await driver.findElement(submitReview_gold);
     expect(submit).toBeTruthy()
     submit.click()
-    await driver.sleep(3000);
+    await waitSeconds(3);
     const thankyouText = await driver.findElement(submitReview_thanku)
     expect(thankyouText).toBeTruthy()
   }
   else {
     console.log("Reviews are displaying")
    /* await driver.findElement(reviewsDisplay).click();
-    await driver.sleep(2000)*/
+    await waitSeconds(2)*/
   }
 }

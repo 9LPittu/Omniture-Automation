@@ -1,10 +1,10 @@
-import { until } from 'selenium-webdriver';
 import { driver, defaultTimeout } from '../../../helpers';
-import { load, categorymen, caualshirt, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
-import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
-import { loginInAfterCheckoutPage } from '../../../pageObjects/loginPageObj'
+import { logindetails, creditcard } from '../../../testdata/jcrewTestData';
+import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage';
+import { loginInAfterCheckoutPage } from '../../../pageObjects/loginPageObj';
+import { waitSeconds } from '../../../util/commonutils';
 
 const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
@@ -21,12 +21,12 @@ each([
   //   ['United Kingdom'],
   //   ['India']
 ]).test('%s - International Checkout', async contextchooser => {
-  driver.sleep(2000);
+  await waitSeconds(2)
   await driver.executeScript('window.scrollTo(0, 20000)')
-  driver.sleep(3000)
+  await waitSeconds(3)
   //const footer = await driver.findElement(By.id('global__footer'))
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//a[@class='footer__country-context__link']")));
-  driver.sleep(3000)
+  await waitSeconds(3)
   const footer = await driver.findElement(By.id('global__footer'))
   const location = await footer.findElement(By.xpath("//a[@class='footer__country-context__link']"))
   await expect(location).toBeTruthy()
@@ -35,20 +35,20 @@ each([
     expect(url).toMatch('r/context-chooser')
   })
   await closeIconInPAP()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.findElement(By.xpath("//span[text()='" + contextchooser + "']")).click()
-  await driver.sleep(3000)
+  await waitSeconds(3)
   await productArrayPage();
   await closeIconInPAP()
   await addProductToBag();
   await verifyAndClickOnBag();
-  await driver.sleep(sleeptime)
+  await waitSeconds(3)
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-  await driver.sleep(sleeptime)
+  await waitSeconds(2)
   await loginInAfterCheckoutPage(logindetails.username, logindetails.password)
-  await driver.sleep(sleeptime)
+  await waitSeconds(2)
   try {
     await driver.findElement(By.xpath("//*[@id='mergedCartActionTop']/a[2]")).then(mergebutton => {
       mergebutton.click()
@@ -74,11 +74,10 @@ each([
         console.log("inside securitycode")
         securitycode.sendKeys(creditcard.pin)
       })
-
     } catch (err) {
 
     }
-    await driver.sleep(sleeptime)
+    await waitSeconds(2)
 
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
       console.log(">> inside factory")
@@ -86,21 +85,18 @@ each([
     } else {
       await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
     }
-    await driver.sleep(sleeptime)
+    await waitSeconds(2)
     try {
       const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
       expect(bizrate).toBeTruthy()
       bizrate.click()
-      await driver.sleep(2000)
+      await waitSeconds(2)
     } catch (err) {
 
     }
     let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
-
     console.log("order Id  > " + orderNumberLet)
-
     driver.navigate().to(globals.__baseUrl__);
-
   }
 })
 

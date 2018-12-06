@@ -1,6 +1,7 @@
 import { driver, defaultTimeout } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
 import { load, closeIconInPAP } from '../pageObjects/jcrewdesktoppageobj';
+import { waitSeconds } from '../util/commonutils';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
@@ -51,38 +52,38 @@ const canIExpectOrder = By.xpath("//a[text()='When can I expect my order?']");
 
 export const addGiftCardToBag = async () => {
   await driver.executeScript('window.scrollTo(0, 30000)')
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(giftCard));
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.findElement(giftCard).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await closeIconInPAP()
   await driver.executeScript('window.scrollTo(0, 200)')
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.findElement(classicGiftCard).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.findElement(amountList).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(giftFromText));
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.findElement(senderName).sendKeys("tester1")
-  // await driver.sleep(2000)
+  // await waitSeconds(2)
   await driver.findElement(recipientName).sendKeys("tester2")
-  //await driver.sleep(2000)
+  //await waitSeconds(2)
   driver.findElement(submitClassicGiftCard).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   let url = await driver.getCurrentUrl();
   if (url.indexOf("factory.jcrew.com") > -1) {
     await driver.findElement(header_cart_factory).click()
-    await driver.sleep(1000)
+    await waitSeconds(1)
     let bagsize = await driver.findElement(cartSize_factory).getText()
     console.log("=======Bag size " + bagsize)
     expect(bagsize).toBeTruthy()
   } else {
     await driver.findElement(bagButtonIcon).click()
-    await driver.sleep(1000)
+    await waitSeconds(1)
     await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-    await driver.sleep(1000)
+    await waitSeconds(1)
     let bagsize = await driver.findElement(bagSize).getText()
     expect(bagsize).toBeTruthy()
     console.log("=======Bag size " + bagsize)
@@ -91,15 +92,15 @@ export const addGiftCardToBag = async () => {
 };
 
 export const addSuitToBag = async () => {
-  await driver.sleep(3000)
+  await waitSeconds(3)
   await driver.executeScript("arguments[0].scrollIntoView(true);", plusProductGrid3N);
-  await driver.sleep(3000)
+  await waitSeconds(3)
   await driver.findElement(plusProductGrid3N).click()
-  await driver.sleep(3000)
+  await waitSeconds(3)
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(productPrice));
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.findElement(productSizeListBtn).click()
-  await driver.sleep(3000)
+  await waitSeconds(3)
   await driver.findElement(addToBag).click()
 }
 
@@ -107,18 +108,18 @@ export const editItemAddedToBag = async () => {
   let result = false;
   try {
     await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-    await driver.sleep(1000)
+    await waitSeconds(1)
     let colrNameBeforeEdit = await driver.findElement(productColorName).getText()
     await driver.findElement(productEditItem).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     await driver.findElement(productColorList).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     await driver.findElement(updateBag).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-    await driver.sleep(1000)
+    await waitSeconds(1)
     let colorNameAfterEdit = await driver.findElement(productColorName).getText()
-    //await driver.sleep(2000)
+    //await waitSeconds(2)
     if (!(colrNameBeforeEdit == colorNameAfterEdit)) {
       result = true;
       console.log("Color displayed in chip box after edited the item color >> ")
@@ -132,31 +133,31 @@ export const editItemAddedToBag = async () => {
 export const oneSizeValidation = async (currentUrl) => {
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     await driver.actions().mouseMove(await driver.findElement(department_women)).perform();
-    driver.sleep(2000);
+    await waitSeconds(2)
     await driver.findElement(women_jewellery).click()
   } else {
     await driver.actions().mouseMove(await driver.findElement(category_women)).perform();
-    driver.sleep(2000);
+    await waitSeconds(2)
     await driver.findElement(jewellery_item1).click()
   }
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await closeIconInPAP()
   await driver.findElement(product_pics).click()
-  await driver.sleep(5000)
+  await waitSeconds(5)
   // expect(productimage).toBeTruthy()
   const oneSize = await driver.findElement(product_size_listBtn)
   expect(oneSize).toBeTruthy()
-  // await driver.sleep(1000)
+  // await waitSeconds(1)
 }
 
 export const validatePDPPageObjects = async () => {
   await driver.findElement(product_pics).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   const productcolor = await driver.findElement(productColorsListItems)
   expect(productcolor).toBeTruthy()
   const productsize = await driver.findElement(product_size_unavailable)
   expect(productsize).toBeTruthy()
-  //await driver.sleep(1000)
+  //await waitSeconds(1)
   const productaddtobag = await driver.findElement(addToBag)
   expect(productaddtobag).toBeTruthy()
   const productaddtowishlist = await driver.findElement(wishListBag)
@@ -165,19 +166,19 @@ export const validatePDPPageObjects = async () => {
 
 export const validateShoppingBagPage = async () => {
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-  await driver.sleep(1000)
+  await waitSeconds(1)
   expect(await driver.findElement(zipcode)).toBeTruthy()
   console.log("Zip code text box is displaying")
   expect(await driver.findElement(paypalBtn)).toBeTruthy()
   console.log("Paypal payment method is displaying")
   expect(await driver.findElement(summaryPromo)).toBeTruthy()
   await driver.findElement(summaryPromo).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   expect(await driver.findElement(promocodeTxt)).toBeTruthy()
   console.log("Promo code text box is displaying")
   expect(await driver.findElement(summaryGiftCard)).toBeTruthy()
   await driver.findElement(summaryGiftCard).click()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   expect(await driver.findElement(giftCardTxt)).toBeTruthy()
   console.log("Gift card payment method is displaying")
   expect(await driver.findElement(yourReturnPolicy)).toBeTruthy()

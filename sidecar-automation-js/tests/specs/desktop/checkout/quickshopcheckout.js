@@ -1,12 +1,12 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load, closeIcon, categorymen, moduleexports, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { guestuser, logindetails, creditcard } from '../../../testdata/jcrewTestData';
-import { productArrayPage, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
-import { loginInAfterCheckoutPage } from '../../../pageObjects/loginPageObj'
-import { mergeButton } from '../../../pageObjects/ShoppingBagObj'
-import { quickShopCheckoutValidation,clickCheckoutBtn,quickShopReview } from '../../../pageObjects/checkoutObj'
-import { waitSeconds } from '../../../util/commonutils'
+import { logindetails, creditcard } from '../../../testdata/jcrewTestData';
+import { productArrayPage } from '../../../pageObjects/arraypage'
+import { loginInAfterCheckoutPage } from '../../../pageObjects/loginPageObj';
+import { mergeButton } from '../../../pageObjects/ShoppingBagObj';
+import { quickShopCheckoutValidation,clickCheckoutBtn,quickShopReview } from '../../../pageObjects/checkoutObj';
+import { waitSeconds } from '../../../util/commonutils';
 
 beforeAll(async () => {
   await load();

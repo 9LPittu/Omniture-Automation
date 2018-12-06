@@ -3,6 +3,7 @@ import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { productArrayPage, addProductToBag, validateShoppingTongue } from '../../../pageObjects/arraypage';
 import { loginFromHomePage, clearBagItems } from '../../../pageObjects/loginpageobj';
 import { jcrew_gold, jcrew_prod, factory_gold, factory_prod } from '../../../testdata/jcrewTestData';
+import { waitSeconds } from '../../../util/commonutils';
 
 beforeAll(async () => {
   await load();
@@ -34,9 +35,9 @@ test('Login with given username and password', async () => {
 });
 
 test('Add product to bag', async () => {
-  await driver.sleep(10000);
+  await waitSeconds(10)
   await clearBagItems()
-  await driver.sleep(12000);
+  await waitSeconds(12)
   await productArrayPage()
   await addProductToBag()
 });

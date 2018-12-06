@@ -1,4 +1,5 @@
 import { driver } from '../helpers';
+import { waitSeconds } from '../util/commonutils';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 export const zipCode = () => driver.findElement(By.css("input#zipcode"));
@@ -63,7 +64,7 @@ export const addEditAdress = async () => {
 
 export const addEditRemoveAddress = async () => {
   //#address-new
-  await driver.sleep(4000);
+  await waitSeconds(4);
   await driver.findElement(By.css("#nav-shipping")).click();
   await driver.findElement(By.css("#address-new")).click();
   await driver.findElement(By.css("#firstNameAM")).sendKeys("Auto Tester1 FN");
@@ -73,12 +74,12 @@ export const addEditRemoveAddress = async () => {
   //address2
   await driver.findElement(By.css("#address2")).sendKeys("address test");
   await driver.findElement(By.css("#zipcode")).sendKeys("10012");
-  await driver.sleep(3000);
+  await waitSeconds(3);
   await driver.findElement(By.css("#phoneNumAM")).sendKeys("9658742361");
   //.button-submit
   driver.sleep(3000)
   await driver.findElement(By.css("#submit-new-shipping-address")).click();
-  await driver.sleep(5000);
+  await waitSeconds(5);
   await driver.findElement(By.xpath("//a[@class='button-submit']")).click();
   driver.sleep(3000)
   //#nav-shipping
@@ -130,19 +131,19 @@ export const verifyShipToMultiAddress = async () => {
 }
 
 export const validateAddEditCreditCard = async () => {
-  await driver.sleep(10000);
+  await waitSeconds(10)
   await driver.findElement(pageAccount).click();
-  await driver.sleep(2000);
+  await waitSeconds(2);
   if (await driver.findElement(creditCardList).isDisplayed()) {
     await driver.findElement(creditCardList).click()
-    await driver.sleep(3000);
+    await waitSeconds(3);
     await driver.findElement(CCNumber).clear()
     await driver.findElement(CCNumber).sendKeys("4111111111111111")
     await driver.findElement(exmonth).sendKeys(creditcard.expirationMonth)
     await driver.findElement(exyear).sendKeys(creditcard.expirationYear)
     await driver.findElement(cardHolderName).clear()
     await driver.findElement(cardHolderName).sendKeys("AutomationUser")
-    await driver.sleep(2000)
+    await waitSeconds(2)
     await driver.findElement(addCreditCard).click()
     let addConfirm1 = await driver.findElement(creditCardList).isDisplayed()
     expect(addConfirm1).toBeTruthy()
@@ -151,7 +152,7 @@ export const validateAddEditCreditCard = async () => {
   try {
     // click on Add new card
     await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(addNewCard));
-    await driver.sleep(1000);
+    await waitSeconds(1);
     await driver.findElement(addNewCard).then(addNewCard => {
       addNewCard.click()
       driver.sleep(2000)
@@ -162,70 +163,70 @@ export const validateAddEditCreditCard = async () => {
   await driver.findElement(exyear).sendKeys(creditcard.expirationYear)
   await driver.findElement(cardHolderName).sendKeys("visa")
   await driver.findElement(selectAddress).sendKeys("45,vstreet")
-  await driver.sleep(3000)
+  await waitSeconds(3)
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     await driver.findElement(addCardAndSave).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     console.log("user added new credit card succesfully")
     let deletebutton = await driver.findElement(deleteCard)
     deletebutton.click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
   } else {
     await driver.findElement(saveCard).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     console.log("user added new credit card succesfully")
     let deletebutton = await driver.findElement(deleteTxt)
     deletebutton.click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
   }
 
 }
 
 export const validateEditShippingAddress = async () => {
-  await driver.sleep(10000);
+  await waitSeconds(10)
   //click on Address book
   await driver.findElement(pageActCreditCard).click();
   let url = await driver.getCurrentUrl();
   if (url.includes("factory")) {
-    await driver.sleep(3000);
+    await waitSeconds(3);
 
     if (await driver.findElement(editBtn).isDisplayed()) {
       await driver.findElement(editBtn).click()
-      await driver.sleep(1000)
+      await waitSeconds(1)
       await driver.findElement(address_firstname).clear()
       await driver.findElement(address_firstname).sendKeys("testing")
-      await driver.sleep(1000)
+      await waitSeconds(1)
       var parent = driver.getWindowHandle();
       await driver.findElement(editSaveChangesTxt).click()
-      await driver.sleep(5000)
+      await waitSeconds(5)
       await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
         driver.switchTo().window(allhandles[allhandles.length - 1]);
       });
       await driver.findElement(useThisAddress).click()
-      await driver.sleep(3000)
+      await waitSeconds(3)
       await driver.switchTo().window(parent)
       await driver.findElement(editSaveChangesTxt).click()
-      await driver.sleep(1000)
+      await waitSeconds(1)
     }
   } else {
     if (await driver.findElement(editTxt).isDisplayed()) {
       await driver.findElement(editTxt).click()
-      await driver.sleep(1000)
+      await waitSeconds(1)
       await driver.findElement(address_firstname).clear()
       await driver.findElement(address_firstname).sendKeys("testing")
-      await driver.sleep(1000)
+      await waitSeconds(1)
       var parent = driver.getWindowHandle();
       await driver.findElement(editSaveChangesTxt).click()
-      await driver.sleep(5000)
+      await waitSeconds(5)
       await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
         driver.switchTo().window(allhandles[allhandles.length - 1]);
       });
       await driver.findElement(useThisAddress).click()
-      await driver.sleep(3000)
+      await waitSeconds(3)
       await driver.switchTo().window(parent)
       await driver.findElement(editSaveChangesTxt).click()
-      await driver.sleep(1000)
+      await waitSeconds(1)
     }
   }
 

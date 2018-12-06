@@ -1,6 +1,7 @@
 import { until } from 'selenium-webdriver';
 import { driver, defaultTimeout_short } from '../helpers';
 import { globals } from '../jestJcrewQaConfig';
+import { waitSeconds } from '../util/commonutils';
 
 const { Builder, By, Key } = require('selenium-webdriver')
 const closeIcon = { xpath: "(//span[@class='icon-close'])[1]" };
@@ -62,10 +63,10 @@ export const closeIconInPAP = async () => {
 export const differentRegionsValidation = async () => {
   let result = false;
   await driver.executeScript('window.scrollTo(0, 10000)')
-  await driver.sleep(1000)
+  await waitSeconds(1)
   let footerElement = await driver.findElement(footer_country_link);
   await driver.executeScript("arguments[0].scrollIntoView(true);", footerElement);
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await footerElement.click()
   await closeIconInPAP()
   await driver.findElement(footer_page_international).click()
@@ -79,12 +80,12 @@ export const differentRegionsValidation = async () => {
 
 export const orderStatusValidation = async () => {
   await driver.executeScript('window.scrollTo(0, 20000)')
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(orderStatus));
-  await driver.sleep(2000)
+  await waitSeconds(2)
   expect(driver.findElement(orderStatus)).toBeTruthy()
   await driver.findElement(orderStatus).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.getCurrentUrl(url => {
     expect(url.match('/help/order_status.jsp?sidecar=true')).toBeTruthy()
   })
@@ -100,30 +101,30 @@ export const locationUrlsValidation = async () => {
   })
 
   await driver.findElement(countryCanada).click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
 }
 
 export const loyaltyFQAValidation = async () => {
   await driver.executeScript('window.scrollTo(0, 50000)')
-  await driver.sleep(2000)
+  await waitSeconds(2)
   const rewardsLink = await driver.findElement(rewards)
   await driver.executeScript("arguments[0].scrollIntoView(true);", rewardsLink);
-  await driver.sleep(2000)
+  await waitSeconds(2)
   expect(rewardsLink).toBeTruthy()
   //verify sign up now link
   const signUpNowLink = await driver.findElement(signUpNow);
   expect(signUpNowLink).toBeTruthy()
   await signUpNowLink.click()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   let loginurl = await driver.getCurrentUrl();
   expect(loginurl.includes("/r/login")).toBeTruthy()
   console.log("user navigated to login page");
   await driver.navigate().back()
-  await driver.sleep(2000)
+  await waitSeconds(2)
   const FAQs = await driver.findElement(FAQLink);
   expect(FAQs).toBeTruthy()
   FAQs.click()
-  await driver.sleep(4000)
+  await waitSeconds(4)
   let faqurl = await driver.getCurrentUrl();
   expect(faqurl.includes("/l/rewards")).toBeTruthy()
   console.log("user navigated to FAQs page");
@@ -135,23 +136,23 @@ export const loyaltyLightBoxValidation = async () => {
   let email = userName + x + "@gmail.com"
   await driver.findElement(globalEmail).sendKeys(email)
   await driver.findElement(globalEmailSendBtn).click();
-  driver.sleep(2000)
+  await waitSeconds(2)
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     await driver.findElement(createPassword).sendKeys("123456Ab");
   } else {
     await driver.findElement(createPassword).sendKeys("123456Ab");
   }
-  driver.sleep(1000)
+  await waitSeconds(1)
   await driver.findElement(joinNowLink).click();
-  driver.sleep(15000)
+  await waitSeconds(15)
   console.log("Loyalty User created from lightbox >> " + email)
   const myaccount = await driver.findElement(myAccountLink)
   expect(myaccount).toBeTruthy()
 }
 
 export const loyaltyMyAccountPageValidation = async () => {
-  await driver.sleep(10000)
+  await waitSeconds(10)
   let url = await driver.getCurrentUrl();
   if (url.includes("l/account/rewards")) {
     expect(url.includes("l/account/rewards")).toBeTruthy()
@@ -171,18 +172,18 @@ export const loyaltyMyAccountPageValidation = async () => {
 }
 
 export const loyaltyPointsRedeemValidation = async (currentUrl) => {
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-  await driver.sleep(1000)
+  await waitSeconds(1)
   try {
     await driver.findElement(redeemPoints).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
   } catch (err) { }
   await driver.findElement(buttonCheckout).click()
   //TODO - need to add the redeem assertion logic
-  await driver.sleep(5000)
+  await waitSeconds(5)
   await mergeButton();
-  await driver.sleep(2000)
+  await waitSeconds(2)
   let subTotalOnReview = await driver.findElement(summary_subtotal_clearfix).getText();
   let shippingOnReview = await driver.findElement(summary_shipping_clearfix).getText();
   let taxOnReview = await driver.findElement(summary_item_clearfix).getText();

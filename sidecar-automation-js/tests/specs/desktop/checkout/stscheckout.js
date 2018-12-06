@@ -1,11 +1,12 @@
 import { driver, defaultTimeout } from '../../../helpers';
-import { load, categorymen, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
+import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import { guestuser, logindetails, creditcard, zipCode } from '../../../testdata/jcrewTestData';
+import { logindetails, creditcard, zipCode } from '../../../testdata/jcrewTestData';
 import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
 import { loginInAfterCheckoutPage } from '../../../pageObjects/loginPageObj'
 import { mergeButton } from '../../../pageObjects/ShoppingBagObj'
 import { clickCheckoutBtn,STSSameDayDelivery,STSReviewCheckout } from '../../../pageObjects/checkoutObj'
+import { waitSeconds } from '../../../util/commonutils'
 
 beforeAll(async () => {
   await load();
@@ -18,19 +19,18 @@ test('ship to store Checkout', async () => {
   await closeIconInPAP()
   await addProductToBag();
   await verifyAndClickOnBag();
-  await driver.sleep(1000);
+  await waitSeconds(1)
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await clickCheckoutBtn()
   await loginInAfterCheckoutPage(logindetails.username, logindetails.password);
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await mergeButton();
-  await driver.sleep(2000)
+  await waitSeconds(2)
   let currentUrl = await driver.getCurrentUrl();
   await STSSameDayDelivery(currentUrl,zipCode.zipcode)
   await STSReviewCheckout(currentUrl, creditcard.pin)
 })
-
 
 afterAll(async () => {
   await driver.quit()

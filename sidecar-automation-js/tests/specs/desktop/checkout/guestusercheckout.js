@@ -2,9 +2,9 @@ import { driver } from '../../../helpers';
 import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import { creditcard } from '../../../testdata/jcrewTestData';
-import { guestuser } from '../../../testdata/jcrewTestData';
-import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage'
-import { clickCheckoutBtn, checkoutAsGuest, enterCreditCardDetails } from '../../../pageObjects/checkoutObj'
+import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage';
+import { clickCheckoutBtn, checkoutAsGuest, enterCreditCardDetails } from '../../../pageObjects/checkoutObj';
+import { waitSeconds } from '../../../util/commonutils';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -20,18 +20,18 @@ test('test Guest checkout', async () => {
   await closeIconInPAP()
   await addProductToBag();
   await verifyAndClickOnBag();
-  await driver.sleep(2000)
+  await waitSeconds(2)
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await clickCheckoutBtn()
   await checkoutAsGuest()
- 
+
   //credit card details
   await enterCreditCardDetails()
 
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
-    await driver.sleep(3000)
+    await waitSeconds(3)
     let getUrl = await driver.getCurrentUrl();
     if (getUrl.includes("factory.jcrew.com")) {
       console.log(">> inside factory")
@@ -40,12 +40,12 @@ test('test Guest checkout', async () => {
       await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
     }
 
-    await driver.sleep(4000)
+    await waitSeconds(4)
     try {
       const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
       expect(bizrate).toBeTruthy()
       bizrate.click()
-      await driver.sleep(2000)
+      await waitSeconds(2)
     } catch (err) { }
     let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
     console.log("order Id let > " + orderNumberLet)
@@ -53,18 +53,18 @@ test('test Guest checkout', async () => {
     await driver.findElement(By.id("password")).sendKeys("123tgb")
     await driver.findElement(By.id("passwordConf")).sendKeys("123tgb")
     await driver.findElement(By.id("register-submit")).click()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     expect(await driver.findElement(By.xpath("//h3[@class='register-msg confirmation']"))).toBeTruthy()
-    await driver.sleep(2000)
+    await waitSeconds(2)
     //await createNewAccount();
     await productArrayPage();
     await addProductToBag();
     await verifyAndClickOnBag();
-    await driver.sleep(1000)
+    await waitSeconds(1)
     await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-    await driver.sleep(1000)
+    await waitSeconds(1)
     await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
-    await driver.sleep(1000)
+    await waitSeconds(1)
     let currentUrl = await driver.getCurrentUrl();
     if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
 
@@ -75,7 +75,7 @@ test('test Guest checkout', async () => {
         })
 
       } catch (err) { }
-      await driver.sleep(3000)
+      await waitSeconds(3)
       let getUrl = await driver.getCurrentUrl();
       if (getUrl.indexOf("factory.jcrew.com") > -1) {
         console.log(">> inside factory")
@@ -83,16 +83,16 @@ test('test Guest checkout', async () => {
       } else {
         await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
       }
-      await driver.sleep(3000)
+      await waitSeconds(3)
       try {
         const bizrate = await driver.findElement(By.xpath("//div[@class='brdialog-close']"))
         expect(bizrate).toBeTruthy()
         bizrate.click()
-        await driver.sleep(2000)
+        await waitSeconds(2)
       } catch (err) { }
       let orderNumberLet = await driver.findElement(By.xpath("//span[@class='order-number notranslate']")).getText()
       console.log("order Id  > " + orderNumberLet)
-      await driver.sleep(1000)
+      await waitSeconds(1)
     }
   }
 })
