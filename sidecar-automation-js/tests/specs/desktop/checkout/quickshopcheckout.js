@@ -6,6 +6,7 @@ import { productArrayPage, verifyAndClickOnBag } from '../../../pageObjects/arra
 import { loginInAfterCheckoutPage } from '../../../pageObjects/loginPageObj'
 import { mergeButton } from '../../../pageObjects/ShoppingBagObj'
 import { quickShopCheckoutValidation,clickCheckoutBtn,quickShopReview } from '../../../pageObjects/checkoutObj'
+import { waitSeconds } from '../../../util/commonutils'
 
 beforeAll(async () => {
   await load();
@@ -16,10 +17,10 @@ beforeAll(async () => {
 test('Quick shop Checkout - Express User', async () => {
   await productArrayPage();
   await closeIconInPAP()
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await quickShopCheckoutValidation()
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
-  await driver.sleep(1000)
+  await waitSeconds(1)
   await clickCheckoutBtn()
   await loginInAfterCheckoutPage(logindetails.username, logindetails.password);
   await mergeButton()
