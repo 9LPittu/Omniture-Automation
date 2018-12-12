@@ -4,6 +4,7 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
 
 //Gift and shipping related elements
 const checkoutBtn = By.xpath("//*[@id='button-checkout']");
+const billingButton = By.id("nav-billing");
 const shippingNavBtn = By.css("#nav-shipping");
 const orderSummaryBtn = By.xpath("//*[@id='order-summary__button-continue']");
 const giftWrapService = By.css("#giftWrapService0");
@@ -68,6 +69,9 @@ export const shippingNav = async () => {
   await driver.findElement(orderSummaryBtn).click()
   await driver.findElement(orderSummaryBtn).click()
   await driver.sleep(5000);
+}
+export const clickOnBilling = async () => {
+  await driver.findElement(billingButton).click();
 }
 export const shippingNavigation = async () => {
   await driver.findElement(shippingNavBtn).click();

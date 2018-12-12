@@ -2,7 +2,7 @@ import { driver, defaultTimeout } from '../../../helpers';
 import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
 import {loginFromHomePage,clearBagItems} from '../../../pageObjects/loginpageobj';
-import {checkout, shippingNav} from '../../../pageObjects/Shippingpageobj';
+import {checkout, clickOnBilling} from '../../../pageObjects/Shippingpageobj';
 import {paymentMethod} from '../../../pageObjects/billingobj';
 import { jcrew_gold,jcrew_prod,factory_gold,factory_prod } from '../../../testdata/jcrewTestData';
 import {productArrayPage,addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
@@ -51,11 +51,9 @@ test('Clear the bag items if any products were avilable and Add one product', as
   await driver.sleep(1000)
   console.log('after product selection')
   console.log('clicked on checkout')
-  await driver.sleep(5000);
   //await shippingNavBtn()
-  await shippingNav()
-  //await driver.findElement(By.id("nav-billing")).click();
-  await driver.sleep(3000);
+  await clickOnBilling()
+  console.log('clicked on billing')
 });
 
 test('Goto Billng page and check verify credit/debit card or paypal process', async () => {
