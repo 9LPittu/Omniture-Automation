@@ -34,7 +34,7 @@ test('Login with given username and password', async () => {
 
 test('Verify Adding Editing Shipping addresses', async () => {
   await validateEditShippingAddress()
-  console("Test Case: Verify Adding Editing Shipping addresses , validated")
+  console.log("Test Case: Verify Adding Editing Shipping addresses , validated")
 });
 
 afterAll(async () => {

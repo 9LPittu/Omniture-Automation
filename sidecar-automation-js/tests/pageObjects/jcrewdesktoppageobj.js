@@ -83,7 +83,7 @@ export const differentRegionsValidation = async () => {
 };
 
 export const orderStatusValidation = async () => {
-  await driver.executeScript('window.scrollTo(0, 20000)')
+  await driver.executeScript('window.scrollTo(0, 15000)')
   await waitSeconds(2)
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(orderStatus));
   await waitSeconds(2)

@@ -150,7 +150,8 @@ export const validateAddEditCreditCard = async () => {
     await driver.findElement(cardHolderName).clear()
     await driver.findElement(cardHolderName).sendKeys("AutomationUser")
     await waitSeconds(2)
-    await driver.findElement(addCreditCard).click()
+    //await driver.findElement(addCreditCard).click()
+    await driver.findElement(addNewCard).click() 
     let addConfirm1 = await driver.findElement(creditCardList).isDisplayed()
     expect(addConfirm1).toBeTruthy()
     console.log("edited the creditcard from payment methods");
