@@ -155,7 +155,10 @@ public class DomContainer {
 
     @FindBy(how = How.XPATH, using = "//*[@id='container']/table[3]/tbody/tr/td/a/img")
     public WebElement devToolsSubmit;
-
+    
+    @FindBy(how = How.XPATH, using = "//button[text()='Continue']")
+    public WebElement devToolContinue;
+  
     @FindBy(how = How.XPATH, using = "//*[@id='maincon']/form/table/tbody/tr/td[2]/input")
     public WebElement devToolsShipmentId;
 

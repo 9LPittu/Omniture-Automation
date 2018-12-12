@@ -89,7 +89,6 @@ public static String captureE2EDetails() throws Exception{
 				throw new Exception("Failed to set value in excel for the column 'Additional Error Details'");
 			}
         	/*try {
-        		
 				DomView orderStatus = stateHolder.get("orderStatus");
         		String finalStatus = stateHolder.get("orderStatus");
         		testdataReader.setCellValueInExcel(rowNumber, "Status", finalStatus);

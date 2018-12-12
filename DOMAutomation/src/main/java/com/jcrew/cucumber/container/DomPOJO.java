@@ -10,7 +10,8 @@ public class DomPOJO {
     private static String orderType = "";
     private static Map <String, String> storeDos = new HashMap<>();
     private static Map <String, String> ldcDos =new HashMap<>();
-    private static Map <String, String> itemsInOrder =new HashMap<>();
+    private static Map <String, String> itemsRTLInOrder =new HashMap<>();
+    private static Map <String, String> itemsLDCInOrder =new HashMap<>();
     private static Map <String, String> destinationFacilities =new HashMap<>();
     private static Map <String, String> newDo =new HashMap<>();
 
@@ -63,8 +64,11 @@ public class DomPOJO {
         DomPOJO.itemId = itemId;
     }
 
-    public static Map<String, String> getItemsInOrder() {
-        return itemsInOrder;
+    public static Map<String, String> getItemsLDCInOrder() {
+        return itemsLDCInOrder;
+    }
+    public static Map<String, String> getItemsRTLInOrder() {
+        return itemsRTLInOrder;
     }
 
     public static String getOrderType() {
@@ -75,8 +79,11 @@ public class DomPOJO {
         DomPOJO.orderType = orderType;
     }
 
-    public static void setItemsInOrder(Map<String, String> itemsInOrder) {
-        DomPOJO.itemsInOrder = itemsInOrder;
+    public static void setLDCItemsInOrder(Map<String, String> itemsLDCInOrder) {
+        DomPOJO.itemsLDCInOrder = itemsLDCInOrder;
+    }
+    public static void setRTLItemsInOrder(Map<String, String> itemsRTLInOrder) {
+        DomPOJO.itemsRTLInOrder = itemsRTLInOrder;
     }
 
     public static void cleanPojo(){
@@ -85,6 +92,7 @@ public class DomPOJO {
         itemId="";
         getStoreDos().clear();
         getLdcDos().clear();
-        itemsInOrder.clear();
+        itemsLDCInOrder.clear();
+        itemsRTLInOrder.clear();
     }
 }
