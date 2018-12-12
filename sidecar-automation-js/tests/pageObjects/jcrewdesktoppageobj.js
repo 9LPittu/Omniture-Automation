@@ -20,13 +20,14 @@ const signUpNow = By.xpath("//div[text()='Sign Up Now']");
 const FAQLink = By.xpath("//div[text()='FAQs']");
 const globalEmail = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/input[1]");
 const globalEmailSendBtn = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/button/span[2]");
-//const shopNowLink = By.xpath("(//BUTTON[@type='button'][text()='Shop now'][text()='Shop now'])[1]");
-const shopNowLink = By.xpath("//BUTTON[@type='button'][text()='Shop sale']");
+const shopNowLink = By.xpath("(//BUTTON[@type='button'][text()='Shop now'])[1]");
+//const shopNowLink = By.xpath("//BUTTON[@type='button'][text()='Shop sale']");
 //const createPassword = By.xpath("//input[@placeholder='Create Your Password']");
 const createPassword = By.xpath("//input[@placeholder='CREATE YOUR PASSWORD']");
 const joinNowLink = By.xpath("//*[text()='Join Now']");
 const myAccountLink = By.xpath("//*[contains(text(),'My Account')][1]");
-const myAccountText = By.xpath("//span[text()='My Account']");
+const myAccountFactoryText = By.xpath("//span[text()='My Account']");
+const myAccountJcrewText = By.xpath("//*[@class='nc-nav__account_button']");
 const myRewardsLink = By.xpath("//li/a[text()='My Rewards']");
 const yourJcrewRewards = By.xpath("//div[text()='Your J.Crew Rewards']");
 const yourBenifits = By.xpath("//div[text()='Your Benefits']");
@@ -145,8 +146,8 @@ export const loyaltyLightBoxValidation = async () => {
     await driver.findElement(globalEmail).sendKeys(email)
     await driver.findElement(globalEmailSendBtn).click();
     await driver.findElement(createPassword).sendKeys("123456Ab");
-  } else {
-    await driver.findElement(By.xpath(shopNowLink)).click();
+  } else if(currentUrl.indexOf("jcrew.com") > -1){
+    await driver.findElement(shopNowLink).click();
     await driver.findElement(globalEmail).sendKeys(email)
     await driver.findElement(globalEmailSendBtn).click();
     await driver.findElement(createPassword).sendKeys("123456Ab");
@@ -167,7 +168,9 @@ export const loyaltyMyAccountPageValidation = async () => {
     console.log("User navigated to my account page")
   }
   //verify my account link
-  const myaccount = await driver.findElement(myAccountText)
+
+  if (url.indexOf("factory.jcrew.com") > -1) {
+ const myaccount = await driver.findElement(myAccountFactoryText)
   expect(myaccount).toBeTruthy()
   const myrewards = await driver.findElement(myRewardsLink)
   expect(myrewards).toBeTruthy()
@@ -178,7 +181,19 @@ export const loyaltyMyAccountPageValidation = async () => {
   const youractivitytab = await driver.findElement(yourActivity)
   expect(youractivitytab).toBeTruthy()
 }
-
+else if(url.indexOf("jcrew.com") > -1){
+  const myaccount = await driver.findElement(myAccountJcrewText)
+  expect(myaccount).toBeTruthy()
+  const myrewards = await driver.findElement(myRewardsLink)
+  expect(myrewards).toBeTruthy()
+  const yourrewardstab = await driver.findElement(yourJcrewRewards)
+  expect(yourrewardstab).toBeTruthy()
+  const yourbenefitstab = await driver.findElement(yourBenifits)
+  expect(yourbenefitstab).toBeTruthy()
+  const youractivitytab = await driver.findElement(yourActivity)
+  expect(youractivitytab).toBeTruthy()
+}
+}
 export const loyaltyPointsRedeemValidation = async (currentUrl) => {
   await waitSeconds(1)
   await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
@@ -203,7 +218,7 @@ export const mergeButton = async () =>{
     await driver.findElement(mergeBtnEle).then(mergebtn => {
     // console.log("inside merge page")
      mergebtn.click()
-     driver.sleep(2000)
+     driver.sleep(3000)
      driver.findElement(buttonCheckout).click()
      })
    } catch (err)

@@ -75,24 +75,21 @@ export const paymentMethod = async (paymentType) => {
      await waitSeconds(1)
     await driver.findElement(paypalBtn).click()
      await waitSeconds(1)
-    await driver.findElement(paypalbutton).click()
-     await waitSeconds(5)
-    //var parent = await driver.getWindowHandle();
-    var parent = driver.getWindowHandle();
-    var windows = driver.getWindowHandles();
-    driver.switchTo().window(windows[1]);
-     await waitSeconds(5)
+    //await driver.findElement(paypalbutton).click()
+     await waitSeconds(15)
+    var parent = await driver.getWindowHandle();
+         await waitSeconds(5)
     //await driver.switchTo().frame(await driver.findElement(xcomponent))
     //await driver.switchTo().window(1);
      await waitSeconds(5)
     let url = await driver.getCurrentUrl();
     console.log(url);
     if (url.indexOf("www.jcrew.com") > -1) {
-      await driver.wait(until.elementLocated(paypalButton), 50000).isDisplayed();
+      await driver.wait(until.elementLocated(paypalbutton), 5000).isDisplayed();
     } else {
-      //await driver.wait(until.elementLocated(paypalButton), 50000).click();
-      //await driver.wait(until.elementLocated(paypalbutton), 50000).click();
-      //await driver.switchTo().defaultContent();
+      await driver.wait(until.elementLocated(paypalButton), 50000).click();
+      await driver.wait(until.elementLocated(paypalbutton), 50000).click();
+      await driver.switchTo().defaultContent();
       await driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
         driver.switchTo().window(allhandles[allhandles.length - 1]);
       });

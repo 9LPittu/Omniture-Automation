@@ -53,7 +53,9 @@ const wishlist = By.id("btn__wishlist");
 const clearance_txt = By.xpath("//span[text()='Clearance']");
 const category_women = By.xpath("//span[text()='women']");
 const saleTxt = By.xpath("//a[text()='sale']");
-const sale_recommendation_item = By.xpath("(//div[@class='c-sale-recommendation-item'])[1]");
+//const sale_recommendation_item = By.xpath("(//div[@class='c-sale-recommendation-item'])[1]");
+const sale_recommendation_item = By.xpath("(//div[@class='c-product__photos'])[1]");
+
 const product_title_info = By.xpath("(//div[@class='product-tile--info'])[1]");
 
 const userPanel_factory = By.id("c-header__userpanelrecognized");
@@ -89,7 +91,7 @@ const accountMyDetails = By.xpath("//div/div/div[@class='account__my-details--he
 const cartBag_factory = By.xpath("//span[text()='bag']");
 const bagPanel_factory = By.xpath("//div[@class='c-header__minibag is-active']");
 const cartBag_jcrew = By.xpath("//div[@class='nc-nav__bag-tab__icon']");
-const bagPanel_jcrew = By.xpath("//*[@class='nc-nav__bag__panel is-open']");
+const bagPanel_jcrew = By.xpath("(//li[contains(@class,'nc-nav__bag__item nc-nav__list-item')])[1]");
 
 //Validate Signout
 const signout_factory = By.xpath("//a[text()='Sign Out'][1]");
@@ -187,7 +189,7 @@ export const addMultiLineItems = async () => {
   await driver.findElement(addToBag).click()
   await waitSeconds(1)
   await driver.findElement(addToBag).click()
-await driver.findElement(By.id("js-header__cart")).click()
+//await driver.findElement(By.id("js-header__cart")).click()
   await waitSeconds(1)
   await productArrayPage()
   await waitSeconds(2)
@@ -216,7 +218,7 @@ export const addsaleitemsToBag = async () => {
     await driver.findElement(saleTxt).click()
     await waitSeconds(2);
     await closeIconInPAP()
-    await driver.findElement(sale_recommendation_item).click()
+    //await driver.findElement(sale_recommendation_item).click()
   }
   await waitSeconds(2)
   await driver.findElement(product_title_info).click()
@@ -496,8 +498,9 @@ export const validateShoppingTongue = async (url) => {
     expect(shoppingTonge).toBeTruthy()
   } else {
     const carticonbag = await driver.findElement(cartBag_jcrew)
-    await driver.actions().mouseMove(await driver.findElement(carticonbag)).perform();
-    await waitSeconds(2)
+    console.log("in shopping tounge move")
+    await driver.actions().mouseMove(carticonbag).perform();
+    await waitSeconds(3)
     const shoppingTonge = await driver.findElement(bagPanel_jcrew)
     expect(shoppingTonge).toBeTruthy()
   }

@@ -93,7 +93,7 @@ export const addGiftCardToBag = async () => {
 
 export const addSuitToBag = async () => {
   await waitSeconds(3)
-  await driver.executeScript("arguments[0].scrollIntoView(true);", plusProductGrid3N);
+  await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(plusProductGrid3N));
   await waitSeconds(3)
   await driver.findElement(plusProductGrid3N).click()
   await waitSeconds(3)

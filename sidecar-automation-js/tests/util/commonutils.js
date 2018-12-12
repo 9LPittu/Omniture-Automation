@@ -19,9 +19,10 @@ export default class element {
 }
 
 export const waitSeconds = async (sec) => {
-  var start = new Date().getTime()
+  /*var start = new Date().getTime()
   while (new Date().getTime() < (start + (sec * 1000))) {
-  }
+  }*/
+  await driver.sleep(sec*1000)
 }
 
 export const waitForPageToBeStable = async () => {
