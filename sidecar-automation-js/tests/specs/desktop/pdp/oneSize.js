@@ -33,5 +33,5 @@ test('One Size items should have it pre - selected in the size Chip', async () =
 })
 
 afterAll(async () => {
- // await driver.quit()
+ await driver.quit()
 })

@@ -31,5 +31,5 @@ test('verify pdp pageObjects', async () => {
 })
 
 afterAll(async () => {
-  //await driver.quit()
+  await driver.quit()
 })

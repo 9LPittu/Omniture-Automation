@@ -36,5 +36,5 @@ test('Editing item added to bag', async () => {
 })
 
 afterAll(async () => {
-  //await driver.quit()
+  await driver.quit()
 })

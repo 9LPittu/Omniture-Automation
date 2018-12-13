@@ -1,7 +1,7 @@
 import { driver, defaultTimeout } from '../../../helpers';
 import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
 import { globals } from '../../../jestJcrewQaConfig';
-import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress} from '../../../pageObjects/shippingaddresspageobj';
+import {addEditAdress, addEditRemoveAddress, verifyShipToMultiAddress ,shipToMultipleAddress} from '../../../pageObjects/shippingaddresspageobj';
 import {loginFromHomePage, clearBagItems} from '../../../pageObjects/loginpageobj';
 import {goToShoppingBag, loginAsGuestButton, addAddress, clickOnCheckout} from '../../../pageObjects/shoppingbagobj';
 import { guestuser } from '../../../testdata/jcrewTestData';
@@ -26,7 +26,10 @@ test('verify ship to mutiple Address functionality', async () => {
   await driver.sleep(3000)
   await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
   await driver.sleep(1000)
-  await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+
+  shipToMultipleAddress()
+})
+  /*await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.findElement(By.xpath("//a[text()='Check Out as a Guest']")).click()
   console.log('selected the required product')
   await driver.sleep(3000)
@@ -100,7 +103,7 @@ function selectByVisibleText(select, textDesired) {
             });
         });
     });
-}
+}*/
 
 afterAll(async () => {
   await driver.quit()

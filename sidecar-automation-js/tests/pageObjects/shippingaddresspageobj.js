@@ -3,8 +3,7 @@ import { waitSeconds } from '../util/commonutils';
 import { globals } from '../jestJcrewQaConfig';
 import { goToShoppingBag } from '../pageObjects/shoppingbagobj';
 import { login, loginInAfterCheckoutPage } from '../pageObjects/loginpageobj';
-import { creditcard } from '../testdata/jcrewTestData';
-
+import { creditcard , guestuser} from '../testdata/jcrewTestData';
 const { Builder, By, Key, until } = require('selenium-webdriver');
 export const zipCode = () => driver.findElement(By.css("input#zipcode"));
 export const multiShipAddr = () => driver.findElement(By.xpath("//input[@type='checkbox' and @name='multiShippingAddresses']"));
@@ -54,6 +53,40 @@ const deleteCard = By.xpath("(//img[@name='delete'])[2]");
 const saveCard = By.xpath("//input[@value='Save']");
 const deleteTxt = By.xpath("(//*[text()='DELETE'])[2]");
 
+//shipToMultipleAddress
+
+const button_checkout = By.xpath("//*[@id='button-checkout']");
+const button_guest = By.xpath("//a[text()='Check Out as a Guest']");
+const checkbox = By.css("#multiShippingAddresses_checkbox");
+const button_continue = By.xpath("//*[@id='order-summary__button-continue']");
+const shipAddress1 = By.id("shipAddress1");
+const shipAddress0 = By.id("shipAddress0");
+const firstNameSA = By.xpath("//input[@id='firstNameSA']");
+const lastNameSA = By.xpath("//input[@id='lastNameSA']");
+const address3 = By.xpath("//input[@id='address3']");
+const address2 = By.xpath("//input[@id='address2']");
+const address1 = By.xpath("//input[@id='address1']");
+const zipcode = By.xpath("//input[@id='zipcode']");
+const phoneNumSA = By.xpath("//input[@id='phoneNumSA']");
+const button_continue = By.xpath("//*[@id='main__button-continue']");
+const shoppingAddressValidate = By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a");
+
+
+const address_new = By.css("#address-new");
+const firstName = By.css("#firstNameAM");
+const lastName = By.css("#lastNameAM");
+const address4 = By.css("#address3");
+const address5 = By.css("#address1");
+const address6 = By.css("#address2");
+const zipcode3 = By.css("#zipcode");
+const phoneNumAM1 = By.css("#phoneNumAM");
+const shipping_address = By.css("#submit-new-shipping-address");
+const button_submit = By.xpath("//a[@class='button-submit']");
+
+
+
+
+  
 export const addEditAdress = async () => {
   let editLink = await driver.findElement(By.xpath("//*[@id='address-1']/parent::label/following-sibling::span/a[1]"));
   editLink.click();
@@ -289,4 +322,81 @@ export const validateEditShippingAddress = async () => {
     driver.sleep(2000)
     driver.actions().sendKeys(Key.ENTER).perform();
   }
+}
+export const shipToMultipleAddress = async () => {
+  await driver.findElement(button_checkout).click()
+  await driver.findElement(button_guest).click()
+  console.log('selected the required product')
+  await driver.sleep(3000)
+   expect(await driver.findElement().isDisplayed()).toBeTruthy();
+   await driver.findElement(checkbox).click();
+   await driver.sleep(1000)
+   await addGuestFirstAddress();
+   //await driver.findElement(By.id("address-new")).click();
+   await driver.sleep(1000)
+   await addSecondGuestAddress();
+   await driver.findElement(button_continue).click()
+  // await driver.findElement(By.id("order-summary__button-continue")).click()
+   //shipAddress1
+await driver.findElement(shipAddress1).isDisplayed();
+
+await driver.findElement(shipAddress0).isDisplayed();
+   await driver.wait(
+       until.elementLocated(shipAddress1), 20000
+   ).then(element => {
+      // selectByVisibleText(element, 0)
+   });
+
+      await driver.wait(
+          until.elementLocated(shipAddress0), 20000
+      ).then(element => {
+          //selectByVisibleText(element, 1)
+      });
+
+  console.log('verified multi shipping button')
+};
+
+export const addGuestFirstAddress = async () =>{
+  await driver.findElement(firstNameSA).sendKeys(guestuser.firstNameSA)
+    await driver.findElement(lastNameSA).sendKeys(guestuser.lastNameSA)
+      await driver.findElement(address3).sendKeys(guestuser.address3)
+        await driver.findElement(address2).sendKeys(guestuser.address2)
+          await driver.findElement(address1).sendKeys(guestuser.address1)
+          await driver.findElement(zipcode).sendKeys(guestuser.zipcode)
+            await driver.sleep(8000);
+              await driver.findElement(phoneNumSA).sendKeys(guestuser.phoneNumSA)
+              await driver.sleep(3000)
+              await driver.findElement(button_continue).click()
+              await driver.sleep(3000)
+              await driver.findElement(shoppingAddressValidate).click()
+
+}
+export const addSecondGuestAddress = async () =>{
+  //#address-new
+
+  await driver.findElement(address_new).click();
+  await driver.findElement(firstName).sendKeys("Auto Tester1 FN");
+    await driver.findElement(lastName).sendKeys("Auto Tester1 LN");
+      await driver.findElement(address4).sendKeys("Nothing");
+        await driver.findElement(address5).sendKeys("44 building-lvl 45");
+        //address2
+        await driver.findElement(address6).sendKeys("address test");
+          await driver.findElement(zipcode3).sendKeys("50009");
+          await driver.sleep(8000);
+            await driver.findElement(phoneNumAM1).sendKeys("9658742361");
+            //.button-submit
+               await driver.findElement(shipping_address).click();
+               await driver.sleep(5000);
+               await driver.findElement(button_submit).click();
+}
+function selectByVisibleText(select, textDesired) {
+  select.findElements(By.tagName('option'))
+  .then(options => {
+      options.map(option => {
+          option.getText().then(text => {
+              if (text == textDesired)
+                  option.click();
+          });
+      });
+  });
 }

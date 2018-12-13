@@ -15,5 +15,5 @@ test('Adding single / multiple items from multiple PDP', async () => {
 })
 
 afterAll(async () => {
-  //await driver.quit()
+  await driver.quit()
 })

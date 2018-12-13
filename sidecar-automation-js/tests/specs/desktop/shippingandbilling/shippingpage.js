@@ -8,6 +8,7 @@ import { jcrew_gold, jcrew_prod,factory_prod } from '../../../testdata/jcrewTest
 import { productArrayPage, addProductToBag, verifyAndClickOnBag } from '../../../pageObjects/arraypage';
 import { checkout, shippingNavBtn,shippingNavigation } from '../../../pageObjects/Shippingpageobj';
 
+
 beforeAll(async () => {
   await load();
   await driver.manage().timeouts().implicitlyWait(20000)

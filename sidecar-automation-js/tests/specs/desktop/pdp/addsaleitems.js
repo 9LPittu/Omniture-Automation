@@ -16,5 +16,5 @@ test('Adding single / multiple items from Sale category', async () => {
 })
 
 afterAll(async () => {
-  //await driver.quit()
+  await driver.quit()
 })

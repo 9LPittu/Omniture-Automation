@@ -29,5 +29,5 @@ test('Adding single / multiple Suit items to Bag', async () => {
 })
 
 afterAll(async () => {
-  //await driver.quit()
+  await driver.quit()
 })

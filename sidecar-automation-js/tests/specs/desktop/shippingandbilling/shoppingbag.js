@@ -5,6 +5,8 @@ import {goToShoppingBag,loginAsGuestButton,addAddress,clickOnCheckout} from '../
 import {editAdress} from '../../../pageObjects/shippingaddresspageobj';
 import { guestuser } from '../../../testdata/jcrewTestData';
 import {productArrayPage, addProductToBag,verifyAndClickOnBag} from '../../../pageObjects/arraypage';
+import {addGuestFirstAddress} from '../../../pageObjects/shippingaddresspageobj';
+import {clickCheckoutBtn} from '../../../pageObjects/checkoutObj';
 
 const { Builder, By, Key, until } = require('selenium-webdriver');
 
@@ -22,7 +24,9 @@ test('select product id and goto shoppingbag page', async () =>{
   await driver.sleep(3000)
   await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
   await driver.sleep(1000)
-  await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+  //await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
+  clickCheckoutBtn()
+
   console.log('selected the required product')
 
 });
@@ -36,7 +40,8 @@ test('Add the address information', async () =>{
 await addGuestFirstAddress();
 console.log('Added the address and clicked on continue')
 });
-export const addGuestFirstAddress = async () =>{
+addGuestFirstAddress()
+/*export const addGuestFirstAddress = async () =>{
   await driver.findElement(By.xpath("//input[@id='firstNameSA']")).sendKeys(guestuser.firstNameSA)
     await driver.findElement(By.xpath("//input[@id='lastNameSA']")).sendKeys(guestuser.lastNameSA)
       await driver.findElement(By.xpath("//input[@id='address3']")).sendKeys(guestuser.address3)
@@ -49,7 +54,7 @@ export const addGuestFirstAddress = async () =>{
               await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
               await driver.sleep(5000)
               await driver.findElement(By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a")).click()
-}
+}*/
 
 afterAll(async () => {
   await driver.quit()
