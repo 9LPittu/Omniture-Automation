@@ -193,17 +193,25 @@ public class DomView extends E2ECommon {
 		BrowserDriver.waitForElementToVisible(domContainer.doFulfillStatus, 60);
 		Assert.assertTrue(domContainer.doFulfillStatus.getText().equalsIgnoreCase(doFilStatus));
 	}
-
+	
+	public static ArrayList<String> getRTLItemsList() {
+		items = new ArrayList<String>();
+		String itemName = null;
+		for (int i = 0; i < domContainer.itemsList.size(); i++) {
+			if(!domContainer.rtlItem.get(i).getText().equalsIgnoreCase("LDC")){
+				itemName = domContainer.itemsList.get(i).getText();
+				items.add(itemName);
+			}
+		}
+		return items;
+	}
 	public static String copyDoNum() {
-		// DomPOJO.getStoreDos().put("3070025200", "0306");
-		// Set ldcSet= new HashSet();
 		BrowserDriver.waitForSec(5);
 		BrowserDriver.waitForPageToBestable();
-		getItemsList();
 		String fulfillmentFacility;
 		String destinationFacility;
 		String doId;
-		String itemId;
+		//String itemId;
 		String stsFulfilment = null;
 		for (int i = 1; i <= domContainer.doDetails.size(); i++) {
 			fulfillmentFacility = BrowserDriver.getCurrentDriver().findElement(By.xpath(
@@ -218,15 +226,14 @@ public class DomView extends E2ECommon {
 					"//table[@id='dataForm:dolinelistview_id:DOLineList_MainListTable_body']/tbody/tr[@class='advtbl_row']["
 							+ i + "]/td[1]/span[1]"))
 					.getText().trim();
-			itemId = BrowserDriver.getCurrentDriver().findElement(By.xpath(
+			/*itemId = BrowserDriver.getCurrentDriver().findElement(By.xpath(
 					"//table[@id='dataForm:dolinelistview_id:DOLineList_MainListTable_body']/tbody/tr[@class='advtbl_row']["
 							+ i + "]/td[9]/a[1]"))
-					.getText().trim();
+					.getText().trim();*/
 			if (fulfillmentFacility.equalsIgnoreCase("LDC")) {
 				DomPOJO.getLdcDos().put(doId, fulfillmentFacility);
-				DomPOJO.getItemsLDCInOrder().put(doId, itemId);
 			} else {
-				DomPOJO.getItemsRTLInOrder().put(doId, itemId);
+				getRTLItemsList();
 				if (fulfillmentFacility.equals(destinationFacility)) {
 					stsFulfilment = "shipFromSameStore";
 				} else {
@@ -316,7 +323,7 @@ public class DomView extends E2ECommon {
 				}
 				BrowserDriver.waitForSec(5);
 				domContainer.packListBtn.click();
-				DomPOJO.getItemsRTLInOrder().get(doID);
+				//DomPOJO.getItemsRTLInOrder().get(doID);
 				if (items.size() > 1) {
 					for (int i = 0; i < items.size(); i++) {
 						domContainer.upc.sendKeys(items.get(i));
@@ -396,15 +403,6 @@ public class DomView extends E2ECommon {
 		return orderStatus;
 	}
 
-	public static ArrayList<String> getItemsList() {
-		items = new ArrayList<String>();
-		String itemName = null;
-		for (int i = 0; i < domContainer.itemsList.size(); i++) {
-			itemName = domContainer.itemsList.get(i).getText();
-			items.add(itemName);
-		}
-		return items;
-	}
 
 	public static void loginToStore(String username, String password) throws InterruptedException {
 		loginUser(username, password);
@@ -459,11 +457,9 @@ public class DomView extends E2ECommon {
 					}
 					BrowserDriver.getCurrentDriver().switchTo().window(parentWindow);
 				}
-				// waitAllDoToBecomeToStatus("Accepted");
-				// BrowserDriver.waitForElementToEnabled(domContainer.packListBtn, 100);
 				BrowserDriver.waitForSec(5);
 				domContainer.packListBtn.click();
-				DomPOJO.getItemsRTLInOrder().get(doID);
+				//DomPOJO.getItemsRTLInOrder().get(doID);
 				if (items.size() > 1) {
 					for (int i = 0; i < items.size(); i++) {
 						domContainer.upc.clear();
@@ -504,27 +500,20 @@ public class DomView extends E2ECommon {
 					}
 					BrowserDriver.getCurrentDriver().switchTo().window(shipParentWindow);
 				}
-				// waitAllDoToBecomeToStatus("Manifested");
 				BrowserDriver.getCurrentDriver().get(devToolsUrl);
 				domContainer.devToolsPwd.sendKeys(devToolsPwd);
 				domContainer.devToolsSubmit.click();
-				// Thread.sleep(5000);
 				try {
-					if (domContainer.devToolsShipmentId.isDisplayed()) {
-						domContainer.devToolsShipmentId.sendKeys(DatabaseReader.getShippingId(doID));
-					} else {
-						BrowserDriver.getCurrentDriver().get(devToolsUrl);
-						init();
-						domContainer.devToolsShipmentId.sendKeys(DatabaseReader.getShippingId(doID));
-					}
-
-				} catch (Exception e) {
-					BrowserDriver.getCurrentDriver().get(devToolsUrl);
-					init();
-					domContainer.devToolsShipmentId.sendKeys(DatabaseReader.getShippingId(doID));
+					BrowserDriver.waitForSec(2);
+					domContainer.devToolContinue.isDisplayed();
+					domContainer.devToolContinue.click();
+				}catch (Exception e) {
+					e.printStackTrace();
 				}
+				BrowserDriver.getCurrentDriver().get(devToolsUrl);
+				domContainer.devToolsShipmentId.sendKeys(DatabaseReader.getShippingId(doID));
 				domContainer.devToolsUpdateShipmentId.click();
-				BrowserDriver.waitForSec(4);
+				BrowserDriver.waitForSec(2);
 				Assert.assertTrue(domContainer.shipmentUpdated.isDisplayed());
 				BrowserDriver.getCurrentDriver().get(domUrl);
 				BrowserDriver.waitForSec(4);
@@ -585,7 +574,7 @@ public class DomView extends E2ECommon {
 				BrowserDriver.waitForElementToEnabled(domContainer.packListBtn, 100);
 				BrowserDriver.waitForSec(5);
 				domContainer.packListBtn.click();
-				DomPOJO.getItemsRTLInOrder().get(doID);
+				//DomPOJO.getItemsRTLInOrder().get(doID);
 				if (items.size() > 1) {
 					for (int i = 0; i < items.size(); i++) {
 						domContainer.upc.clear();
@@ -683,7 +672,7 @@ public class DomView extends E2ECommon {
 		 * Assert.assertEquals("null", trackStatus);
 		 */ }
 
-	@SuppressWarnings({ "unused", "static-access" })
+	@SuppressWarnings({ "static-access" })
 	public static void configPutty_diffStore() throws Exception {
 		String trackStatus;
 		boolean flag = true;

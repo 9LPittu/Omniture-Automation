@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class DomStepDef extends E2ECommon {
 	int orderNum = 3;
 	int execute = 2;
-	int executionCompleted = 14;
+	int executionCompleted = 6;
 	String stsFulfilment = null;
 	public String orderNumber;
 	public String doStatus = null;
@@ -175,7 +175,7 @@ public class DomStepDef extends E2ECommon {
 		DomView.releaseOrders(orderNumber);
 	}
 
-	@And("^I fullfil ship to store order-ship from different store$")
+	@And("^I fullfil ship to store order$")
 	public void iFulfilShipToStoreOrder() throws Throwable {
 		DomView.getorderNumber(orderNumber);
 		if (stsFulfilment.equalsIgnoreCase("shipFromSameStore")) {

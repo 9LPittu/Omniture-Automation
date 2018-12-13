@@ -178,9 +178,10 @@ public class DomContainer {
     public WebElement selectButton;
     @FindBy(how = How.XPATH, using = "//table[@id='dataForm:dolinelistview_id:DOLineList_MainListTable_body']/tbody/tr/td[9]/a")
     public List<WebElement> itemsList;
+    @FindBy(how = How.XPATH, using = "//table[@id='dataForm:dolinelistview_id:DOLineList_MainListTable_body']/tbody/tr/td[9]/a/../../td[7]")
+    public List<WebElement> rtlItem;
     @FindBy(how = How.XPATH, using = "//h2[contains(text(),'Tracking & Receiving')]")
     public static WebElement manualTrack;
-    
     @FindBy(how = How.XPATH, using = "//input[@name='store']")
     public static WebElement enterStoreId;
     @FindBy(how = How.XPATH, using = "//input[@name='userid']")

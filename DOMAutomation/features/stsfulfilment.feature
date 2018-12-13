@@ -2,7 +2,7 @@
 @stsDom
 Feature: Test Marketing Emails
 
-  Scenario: Test DOM sth flow
+  Scenario: Test DOM STS flow
   	Given Test data is read from excel file "JC_E2E_WebTest_Testdata_Sheet.xls"
     When I am on the DOM application login page
     Given I login DOM application as "esdomqa1" and "esdomqa1"
@@ -19,7 +19,7 @@ Feature: Test Marketing Emails
     And I click on create DO
     When I select "distributionOrderDetails" option
     And I copy DO numbers
-    And I fullfil ship to store order-ship from different store
+    And I fullfil ship to store order
     
     
     
