@@ -6,6 +6,17 @@ import { guestuser } from '../../../testdata/jcrewTestData';
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
+const dep_nav_list = By.xpath("//ul[@class='department-nav__list']");
+const nav_dep = By.xpath("//ul[@class='nc-nav__departments']");
+const global_promo = By.id("global__promo");
+const nc_promo = By.className("nc-promo");
+const primary_nav = By.className("primary-nav__text primary-nav__text--stores");
+const store_locator = By.xpath("//div[text()='Store Locator']");
+const search = By.xpath("//span[contains(text(),'search')]");
+const search_input = By.xpath("//input[@class='nc-nav__search__input']");
+const men = By.xpath("//a[text()='Men']");
+const  nav_fliyout_list =By.xpath("//li[@class='nc-nav__flyout-link__wrapper nc-nav__list-item']");
+
 let currentUrl;
 
 test('title is correct', async () => {
@@ -22,10 +33,10 @@ test('title is correct', async () => {
     test('Navbar is visible', async () => {
         currentUrl = await driver.getCurrentUrl();
         if(currentUrl.includes("factory")){
-          expect(await driver.findElement(By.xpath("//ul[@class='department-nav__list']"))).toBeTruthy()
+          expect(await driver.findElement(dep_nav_list)).toBeTruthy()
           console.log("nav bar is displaying")
         }else{
-          expect(await driver.findElement(By.xpath("//ul[@class='nc-nav__departments']"))).toBeTruthy()
+          expect(await driver.findElement(nav_dep)).toBeTruthy()
           console.log("nav bar is displaying")
         }
      })
@@ -34,13 +45,13 @@ test('title is correct', async () => {
       currentUrl = await driver.getCurrentUrl();
       if(currentUrl.includes("factory")){
         try{
-      const promo = driver.findElement(By.id("global__promo"))
+      const promo = driver.findElement(global_promo)
       expect(promo).toBeTruthy()
       console.log("Global promo is displaying")
     }catch(err){}
     }else{
       try{
-      const promo = driver.findElement(By.className("nc-promo"))
+      const promo = driver.findElement(nc_promo)
       expect(promo).toBeTruthy()
       console.log("Global promo is displaying")
     }catch(err){}
@@ -50,7 +61,7 @@ test('title is correct', async () => {
     test('Stores is visible and url direct to right URL', async () => {
       currentUrl = await driver.getCurrentUrl();
       if(currentUrl.includes("factory")){
-      const stores = driver.findElement(By.className("primary-nav__text primary-nav__text--stores"))
+      const stores = driver.findElement(primary_nav)
       expect(stores).toBeTruthy()
       await stores.click()
       await driver.sleep(2000)
@@ -63,9 +74,9 @@ test('title is correct', async () => {
   }else{
     await driver.executeScript('window.scrollTo(0, 20000)')
     await driver.sleep(2000)
-    await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[text()='Store Locator']")));
+    await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(store_locator));
     await driver.sleep(1000)
-    driver.findElement(By.xpath("//div[text()='Store Locator']")).click()
+    driver.findElement(store_locator).click()
     await driver.sleep(1000)
     await driver.getCurrentUrl(url => {
       expect(url.match('https://stores.jcrew.com')).toBeTruthy()
@@ -81,7 +92,7 @@ test('title is correct', async () => {
       if(currentUrl.includes("factory")){
       const search = await driver.findElement(By.id("inputSearchDesktop"))
       await expect(search).toBeTruthy()
-      await driver.findElement(By.xpath("//span[contains(text(),'search')]")).click()
+      await driver.findElement(search).click()
       await search.sendKeys('shirts', Key.ENTER)
       await driver.sleep(2000)
       await driver.getCurrentUrl().then(url => {
@@ -91,7 +102,7 @@ test('title is correct', async () => {
       await driver.navigate().to(currentUrl)
       console.log("User is able to search for items")
     } else {
-      var searchText = await driver.findElement(By.xpath("//input[@class='nc-nav__search__input']"));
+      var searchText = await driver.findElement(search_input);
       searchText.sendKeys("pants")
       await driver.sleep(1000)
       driver.actions().click(searchText).sendKeys(Key.ENTER).perform();
@@ -117,8 +128,8 @@ test('title is correct', async () => {
   ]).test('%s mouse over shows the sub category items  ', async () => {
     if(currentUrl.includes("factory")){ 
     } else {
-    await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Men']"))).perform();
-      const ele = await driver.findElements(By.xpath("//li[@class='nc-nav__flyout-link__wrapper nc-nav__list-item']"))
+    await driver.actions().mouseMove(await driver.findElement(men)).perform();
+      const ele = await driver.findElements(nav_fliyout_list)
       console.log(ele.length)
      }
     })

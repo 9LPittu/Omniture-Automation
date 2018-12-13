@@ -37,6 +37,8 @@ const addtoBag2 = By.xpath("(//button[text()='Add to Bag'])[2]");
 const wishListBtnText = By.xpath("//button[text()='Wishlist']");
 const productColorsList = By.xpath("(//ul[@class='product__colors colors-list'])[2]");
 const productSizesList = By.xpath("(//div[@class='c-sizes-list'])[2]");
+const shop_Women = By.xpath("//a[text()='Women']")
+const shop_sweaters = By.xpath("//a[text()='sweaters']")
 
 //Department , product sizes elements
 const dept_mens_factory = By.xpath("//li[@data-department='men']");
@@ -303,9 +305,9 @@ export const shopTheLookValidations = async () => {
   try {
     let currentUrl = await driver.getCurrentUrl();
     if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-    await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Women']"))).perform();
+    await driver.actions().mouseMove(await driver.findElement(shop_Women)).perform();
     await waitSeconds(1);
-    await driver.findElement(By.xpath("//a[text()='sweaters']")).click()
+    await driver.findElement(shop_sweaters).click()
     await waitSeconds(1);
     await closeIconInPAP()
     await waitSeconds(1);
@@ -315,9 +317,9 @@ export const shopTheLookValidations = async () => {
     }
     else
     {
-    await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Women']"))).perform();
+    await driver.actions().mouseMove(await driver.findElement(shop_Women)).perform();
     await waitSeconds(1);
-    await driver.findElement(By.xpath("//a[text()='sweaters']")).click()
+    await driver.findElement(shop_sweaters).click()
     await waitSeconds(1);
     await closeIconInPAP()
     await waitSeconds(1);
