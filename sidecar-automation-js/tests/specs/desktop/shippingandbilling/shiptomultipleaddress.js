@@ -27,7 +27,7 @@ test('verify ship to mutiple Address functionality', async () => {
   await driver.navigate().to(globals.__baseUrl__+"/checkout2/shoppingbag.jsp?sidecar=true")
   await driver.sleep(1000)
 
-  shipToMultipleAddress()
+  await shipToMultipleAddress()
 })
   /*await driver.findElement(By.xpath("//*[@id='button-checkout']")).click()
   await driver.findElement(By.xpath("//a[text()='Check Out as a Guest']")).click()

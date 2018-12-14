@@ -30,7 +30,7 @@ test('verifying loyalty redeemtion', async () => {
     await addProductToBag();
     await verifyAndClickOnBag();
     await driver.sleep(1000)
-    loyaltyPointsRedeemValidation(currentUrl)
+    await loyaltyPointsRedeemValidation(currentUrl)
     //await driver.navigate().to(globals.__baseUrl__ + "/checkout2/shoppingbag.jsp?sidecar=true")
    // await driver.sleep(1000)
     //try {

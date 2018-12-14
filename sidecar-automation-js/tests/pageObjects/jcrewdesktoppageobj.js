@@ -21,8 +21,6 @@ const FAQLink = By.xpath("//div[text()='FAQs']");
 const globalEmail = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/input[1]");
 const globalEmailSendBtn = By.xpath("//*[@id='global__email-capture']/section/div[1]/form/fieldset/button/span[2]");
 const shopNowLink = By.xpath("(//BUTTON[@type='button'][text()='Shop now'])[1]");
-//const shopNowLink = By.xpath("//BUTTON[@type='button'][text()='Shop sale']");
-//const createPassword = By.xpath("//input[@placeholder='Create Your Password']");
 const createPassword = By.xpath("//input[@placeholder='CREATE YOUR PASSWORD']");
 const joinNowLink = By.xpath("//*[text()='Join Now']");
 const myAccountLink = By.xpath("//*[contains(text(),'My Account')][1]");
@@ -36,10 +34,23 @@ const redeemPoints = By.xpath("//*[@id='btn-redeem-points']");
 const buttonCheckout = By.xpath("//*[@id='button-checkout']");
 const summary_subtotal_clearfix = By.xpath("//ul/li[@class='summary-item summary-subtotal clearfix']/span[2]");
 const summary_shipping_clearfix = By.xpath("//ul/li[@class='summary-item summary-shipping clearfix']/span[2]");
-const summary_item_clearfix = By.xpath("//ul/li[@class='summary-item clearfix']/span[2]"); 
+const summary_item_clearfix = By.xpath("//ul/li[@class='summary-item clearfix']/span[2]");
 const summary_total_clearfix = By.xpath("//ul/li[@class='summary-item summary-total clearfix']/span[2]");
 const mergeBtnEle = By.xpath("//*[@id='mergedCartActionTop']/a[1]");
 const pageSearch = By.id("page__search");
+
+//Nav bar elements
+const dep_nav_list = By.xpath("//ul[@class='department-nav__list']");
+const nav_dep = By.xpath("//ul[@class='nc-nav__departments']");
+const global_promo = By.id("global__promo");
+const nc_promo = By.className("nc-promo");
+const primary_nav = By.className("primary-nav__text primary-nav__text--stores");
+const store_locator = By.xpath("//div[text()='Store Locator']");
+const searchInput = By.id("inputSearchDesktop");
+const search_input = By.xpath("//input[@class='nc-nav__search__input']");
+const men = By.xpath("//a[text()='Men']");
+const nav_fliyout_list = By.xpath("//li[@class='nc-nav__flyout-link__wrapper nc-nav__list-item']");
+const navDeptHeader = By.className("c-header__department-nav js-header__department-nav")
 
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`);
@@ -138,7 +149,7 @@ export const loyaltyLightBoxValidation = async () => {
   var x = Math.floor((Math.random() * 99900000) + 1);
   let userName = "LoyaltyTest" + x
   let email = userName + x + "@gmail.com"
- // await driver.findElement(globalEmail).sendKeys(email)
+  // await driver.findElement(globalEmail).sendKeys(email)
   //await driver.findElement(globalEmailSendBtn).click();
   await waitSeconds(2)
   let currentUrl = await driver.getCurrentUrl();
@@ -146,7 +157,7 @@ export const loyaltyLightBoxValidation = async () => {
     await driver.findElement(globalEmail).sendKeys(email)
     await driver.findElement(globalEmailSendBtn).click();
     await driver.findElement(createPassword).sendKeys("123456Ab");
-  } else if(currentUrl.indexOf("jcrew.com") > -1){
+  } else if (currentUrl.indexOf("jcrew.com") > -1) {
     await driver.findElement(shopNowLink).click();
     await driver.findElement(globalEmail).sendKeys(email)
     await driver.findElement(globalEmailSendBtn).click();
@@ -170,29 +181,29 @@ export const loyaltyMyAccountPageValidation = async () => {
   //verify my account link
 
   if (url.indexOf("factory.jcrew.com") > -1) {
- const myaccount = await driver.findElement(myAccountFactoryText)
-  expect(myaccount).toBeTruthy()
-  const myrewards = await driver.findElement(myRewardsLink)
-  expect(myrewards).toBeTruthy()
-  const yourrewardstab = await driver.findElement(yourJcrewRewards)
-  expect(yourrewardstab).toBeTruthy()
-  const yourbenefitstab = await driver.findElement(yourBenifits)
-  expect(yourbenefitstab).toBeTruthy()
-  const youractivitytab = await driver.findElement(yourActivity)
-  expect(youractivitytab).toBeTruthy()
-}
-else if(url.indexOf("jcrew.com") > -1){
-  const myaccount = await driver.findElement(myAccountJcrewText)
-  expect(myaccount).toBeTruthy()
-  const myrewards = await driver.findElement(myRewardsLink)
-  expect(myrewards).toBeTruthy()
-  const yourrewardstab = await driver.findElement(yourJcrewRewards)
-  expect(yourrewardstab).toBeTruthy()
-  const yourbenefitstab = await driver.findElement(yourBenifits)
-  expect(yourbenefitstab).toBeTruthy()
-  const youractivitytab = await driver.findElement(yourActivity)
-  expect(youractivitytab).toBeTruthy()
-}
+    const myaccount = await driver.findElement(myAccountFactoryText)
+    expect(myaccount).toBeTruthy()
+    const myrewards = await driver.findElement(myRewardsLink)
+    expect(myrewards).toBeTruthy()
+    const yourrewardstab = await driver.findElement(yourJcrewRewards)
+    expect(yourrewardstab).toBeTruthy()
+    const yourbenefitstab = await driver.findElement(yourBenifits)
+    expect(yourbenefitstab).toBeTruthy()
+    const youractivitytab = await driver.findElement(yourActivity)
+    expect(youractivitytab).toBeTruthy()
+  }
+  else if (url.indexOf("jcrew.com") > -1) {
+    const myaccount = await driver.findElement(myAccountJcrewText)
+    expect(myaccount).toBeTruthy()
+    const myrewards = await driver.findElement(myRewardsLink)
+    expect(myrewards).toBeTruthy()
+    const yourrewardstab = await driver.findElement(yourJcrewRewards)
+    expect(yourrewardstab).toBeTruthy()
+    const yourbenefitstab = await driver.findElement(yourBenifits)
+    expect(yourbenefitstab).toBeTruthy()
+    const youractivitytab = await driver.findElement(yourActivity)
+    expect(youractivitytab).toBeTruthy()
+  }
 }
 export const loyaltyPointsRedeemValidation = async (currentUrl) => {
   await waitSeconds(1)
@@ -213,19 +224,134 @@ export const loyaltyPointsRedeemValidation = async (currentUrl) => {
   let totalOnReview = await driver.findElement(summary_total_clearfix).getText();
 }
 
-export const mergeButton = async () =>{
+export const mergeButton = async () => {
   try {
     await driver.findElement(mergeBtnEle).then(mergebtn => {
-    // console.log("inside merge page")
-     mergebtn.click()
-     driver.sleep(3000)
-     driver.findElement(buttonCheckout).click()
-     })
-   } catch (err)
-  { }
+      // console.log("inside merge page")
+      mergebtn.click()
+      driver.sleep(3000)
+      driver.findElement(buttonCheckout).click()
+    })
+  } catch (err) { }
 }
 
-export const searchBoxValidation = async () =>{
+export const searchBoxValidation = async () => {
   expect(await driver.findElement(pageSearch).isDisplayed()).toBeTruthy();
 }
- 
+
+export const navBarVisible = async (currentUrl) => {
+  if (currentUrl.includes("factory")) {
+    expect(await driver.findElement(dep_nav_list)).toBeTruthy()
+    console.log("nav bar is displaying")
+  } else {
+    expect(await driver.findElement(nav_dep)).toBeTruthy()
+    console.log("nav bar is displaying")
+  }
+}
+
+export const globalPromoVisibleValidation = async (currentUrl) => {
+  if (currentUrl.includes("factory")) {
+    try {
+      const promo = driver.findElement(global_promo)
+      expect(promo).toBeTruthy()
+      console.log("Global promo is displaying")
+    } catch (err) { }
+  } else {
+    try {
+      const promo = driver.findElement(nc_promo)
+      expect(promo).toBeTruthy()
+      console.log("Global promo is displaying")
+    } catch (err) { }
+  }
+}
+
+export const storeVisibilityValidation = async (currentUrl) => {
+  if (currentUrl.includes("factory")) {
+    const stores = driver.findElement(primary_nav)
+    expect(stores).toBeTruthy()
+    await stores.click()
+    await driver.sleep(2000)
+    await driver.getCurrentUrl(url => {
+      expect(url.match('https://stores.jcrew.com')).toBeTruthy()
+    })
+    await driver.navigate().back()
+    await driver.navigate().to(currentUrl)
+    console.log("User navigated to stores page")
+  } else {
+    await driver.executeScript('window.scrollTo(0, 20000)')
+    await driver.sleep(2000)
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(store_locator));
+    await driver.sleep(1000)
+    await driver.findElement(store_locator).click()
+    await driver.sleep(1000)
+    await driver.getCurrentUrl(url => {
+      expect(url.match('https://stores.jcrew.com')).toBeTruthy()
+    })
+    await driver.navigate().back()
+    await driver.navigate().to(currentUrl)
+    console.log("User navigated to stores page")
+  }
+}
+
+export const searchInputValidation = async (currentUrl) => {
+  if (currentUrl.includes("factory")) {
+    const search = await driver.findElement(searchInput)
+    await expect(search).toBeTruthy()
+    await driver.findElement(search).click()
+    await search.sendKeys('shirts', Key.ENTER)
+    await driver.sleep(2000)
+    await driver.getCurrentUrl().then(url => {
+      expect(url).toMatch(new RegExp('/r/search', 'i'))
+    })
+    await driver.navigate().back()
+    await driver.navigate().to(currentUrl)
+    console.log("User is able to search for items")
+  } else {
+    var searchText = await driver.findElement(search_input);
+    await searchText.sendKeys("pants")
+    await driver.sleep(1000)
+    await driver.actions().click(searchText).sendKeys(Key.ENTER).perform();
+    await driver.sleep(2000)
+    await driver.getCurrentUrl().then(url => {
+      expect(url).toMatch(new RegExp('/r/search', 'i'))
+    })
+    await driver.navigate().back()
+    await driver.navigate().to(currentUrl)
+    console.log("User is able to search for items")
+  }
+}
+
+export const mouseHoverSubCategory = async (currentUrl) => {
+  if (currentUrl.includes("factory")) {
+  } else {
+    await driver.actions().mouseMove(await driver.findElement(men)).perform();
+    const ele = await driver.findElements(nav_fliyout_list)
+    console.log(ele.length)
+  }
+}
+
+export const allNavLinksValidation = async (currentUrl, link) => {
+  if (currentUrl.includes("factory")) {
+    try {
+      const subnav = await driver.findElement(navDeptHeader)
+      await subnav.findElement(By.xpath("//span[contains(@class, 'department-nav__text') and text() = '" + link + "']")).click()
+      await driver.sleep(2000)
+      await driver.getCurrentUrl().then(url => {
+        const reg = new RegExp(link, 'i')
+        expect(url.match(reg)).toBeTruthy()
+      })
+    } catch (err) {
+      throw err
+    }
+  } else {
+    await driver.findElement(By.xpath("//a[text()='" + link + "']")).click()
+    await driver.sleep(2000)
+    await driver.getCurrentUrl().then(url => {
+      if (link == 'kids') {
+        link = 'Girls';
+      }
+      const reg = new RegExp(link, 'i')
+      expect(url.match(reg)).toBeTruthy()
+    })
+  }
+}
