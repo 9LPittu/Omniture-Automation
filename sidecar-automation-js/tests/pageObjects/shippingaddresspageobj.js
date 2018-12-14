@@ -58,14 +58,14 @@ const deleteTxt = By.xpath("(//*[text()='DELETE'])[2]");
 const button_checkout = By.xpath("//*[@id='button-checkout']");
 const button_guest = By.xpath("//a[text()='Check Out as a Guest']");
 const checkbox = By.css("#multiShippingAddresses_checkbox");
-const button_continue = By.xpath("//*[@id='order-summary__button-continue']");
+const summary_button_continue = By.xpath("//*[@id='order-summary__button-continue']");
 const shipAddress1 = By.id("shipAddress1");
 const shipAddress0 = By.id("shipAddress0");
 const firstNameSA = By.xpath("//input[@id='firstNameSA']");
 const lastNameSA = By.xpath("//input[@id='lastNameSA']");
 const address3 = By.xpath("//input[@id='address3']");
 const address2 = By.xpath("//input[@id='address2']");
-const address1 = By.xpath("//input[@id='address1']");
+const address_1 = By.xpath("//input[@id='address1']");
 const zipcode = By.xpath("//input[@id='zipcode']");
 const phoneNumSA = By.xpath("//input[@id='phoneNumSA']");
 const button_continue = By.xpath("//*[@id='main__button-continue']");
@@ -361,12 +361,12 @@ export const addGuestFirstAddress = async () =>{
     await driver.findElement(lastNameSA).sendKeys(guestuser.lastNameSA)
       await driver.findElement(address3).sendKeys(guestuser.address3)
         await driver.findElement(address2).sendKeys(guestuser.address2)
-          await driver.findElement(address1).sendKeys(guestuser.address1)
+          await driver.findElement(address_1).sendKeys(guestuser.address1)
           await driver.findElement(zipcode).sendKeys(guestuser.zipcode)
             await driver.sleep(8000);
               await driver.findElement(phoneNumSA).sendKeys(guestuser.phoneNumSA)
               await driver.sleep(3000)
-              await driver.findElement(button_continue).click()
+              await driver.findElement(summary_button_continue).click()
               await driver.sleep(3000)
               await driver.findElement(shoppingAddressValidate).click()
 

@@ -40,7 +40,7 @@ test('Add the address information', async () =>{
 await addGuestFirstAddress();
 console.log('Added the address and clicked on continue')
 });
-addGuestFirstAddress()
+//addGuestFirstAddress()
 /*export const addGuestFirstAddress = async () =>{
   await driver.findElement(By.xpath("//input[@id='firstNameSA']")).sendKeys(guestuser.firstNameSA)
     await driver.findElement(By.xpath("//input[@id='lastNameSA']")).sendKeys(guestuser.lastNameSA)
