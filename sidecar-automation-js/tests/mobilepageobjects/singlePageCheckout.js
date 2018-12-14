@@ -4,33 +4,33 @@ import {creditcard,guestuser } from '../testdata/jcrewTestData';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-const shoppingBagHeader =  driver.findElement(By.xpath("//*[contains(@class,'shopping_bag')]"));
-const shoppingBagItems =  driver.findElement(By.xpath("//*[contains(@class,'shopping_bag')]/p/span[2]"))
-const checkoutNowButton =  driver.findElement(By.xpath("//span[text()='Check Out Now']"))
-const secureCheckOutHeader =  driver.findElement(By.xpath("//*[contains(@class,'secure_checkout_title_container')]"))
-const shippingAddressModule =  driver.findElement(By.xpath("//div[contains(@class,'address-module')]"))
-const paymentModule =  driver.findElement(By.xpath("//div[contains(@class,'card-module')]"))
-const shippingMethodModule =  driver.findElement(By.xpath("//div[contains(@class,'method-module')]"))
-const cvv =  driver.findElement(By.name("cvc"))
-const placeMyOrder =  driver.findElement(By.xpath("//button[text()='Place My Order']"))
-const orderNumber =  driver.findElement(By.xpath("//span[contains(@class,'_order_number')]"))
+const shoppingBagHeader = By.xpath("//*[contains(@class,'shopping_bag')]");
+const shoppingBagItems =  By.xpath("//*[contains(@class,'shopping_bag')]/p/span[2]")
+const checkoutNowButton =  By.xpath("//span[text()='Check Out Now']")
+const secureCheckOutHeader =  By.xpath("//*[contains(@class,'secure_checkout_title_container')]")
+const shippingAddressModule =  By.xpath("//div[contains(@class,'address-module')]")
+const paymentModule =  By.xpath("//div[contains(@class,'card-module')]")
+const shippingMethodModule =  By.xpath("//div[contains(@class,'method-module')]")
+const cvv =  By.name("cvc")
+const placeMyOrder =  By.xpath("//button[text()='Place My Order']")
+const orderNumber =  By.xpath("//span[contains(@class,'_order_number')]")
 //Shipping address
-const newShippingAddress = driver.findElement(By.xpath("//div[text()='Enter a new shipping address']"))
-const firstName = driver.findElement(By.name("firstName"))
-const lastName = driver.findElement(By.name("lastName"))
-const address1 = driver.findElement(By.name("address1"))
-const zipcode = driver.findElement(By.name("zip"))
-const phoneNum = driver.findElement(By.name("phone"))
-const saveAddress = driver.findElement(By.xpath("//button[text()='Save Address']"))
+const newShippingAddress = By.xpath("//div[text()='Enter a new shipping address']")
+const firstName = By.name("firstName")
+const lastName = By.name("lastName")
+const address1 = By.name("address1")
+const zipcode = By.name("zip")
+const phoneNum = By.name("phone")
+const saveAddress = By.xpath("//button[text()='Save Address']")
 //Paymentmethod
-const newPaymentMethod = driver.findElement(By.xpath("//div[text()='Enter a new payment method']"))
-const ccNum = driver.findElement(By.name("cc-number"))
-const ccExp = driver.findElement(By.name("cc-exp"))
-const cvv = driver.findElement(By.name("cvc"))
-const savePaymentMethod = driver.findElement(By.xpath("//*[text()='Save']"))
+const newPaymentMethod = By.xpath("//div[text()='Enter a new payment method']")
+const ccNum = By.name("cc-number")
+const ccExp = By.name("cc-exp")
+const cvv = By.name("cvc")
+const savePaymentMethod = By.xpath("//*[text()='Save']")
 //Guest user details
-const checkoutAsGuest = driver.findElement(By.xpath("//*[text()='Continue as Guest']"))
-const emailAddress = driver.findElement(By.xpath("//div[text()='Email Address']"))
+const checkoutAsGuest = By.xpath("//*[text()='Continue as Guest']")
+const emailAddress = By.xpath("//div[text()='Email Address']")
 
 
 
@@ -38,70 +38,70 @@ const emailAddress = driver.findElement(By.xpath("//div[text()='Email Address']"
 
 
 export const verifyShoppingBagPage = async()=>{
-  expect(shoppingBagHeader).toBeTruthy()
-  expect(shoppingBagItems).toBeTruthy()
+  expect(driver.findElement(shoppingBagHeader)).toBeTruthy()
+  expect(driver.findElement(shoppingBagItems)).toBeTruthy()
   console.log("Bag items are: "+shoppingBagItems.getText())
-  expect(checkoutNowButton).toBeTruthy()
+  expect(driver.findElement(checkoutNowButton)).toBeTruthy()
 }
 
 export const clickOnCheckOutNow = async()=>{
   await driver.sleep(1000)
-  expect(checkoutNowButton).toBeTruthy()
-  checkoutNowButton.click()
+  expect(driver.findElement(checkoutNowButton)).toBeTruthy()
+  driver.findElement(checkoutNowButton).click()
   console.log("Clicked on checkout now button")
 }
 
 export const verifySecureCheckoutPage = async()=>{
   await driver.sleep(1000)
-  expect(secureCheckOutHeader).toBeTruthy()
-  expect(shippingAddressModule).toBeTruthy()
-  expect(paymentModule).toBeTruthy()
-  expect(shippingMethodModule).toBeTruthy()
-  expect(placeMyOrder).toBeTruthy()
+  expect(driver.findElement(secureCheckOutHeader)).toBeTruthy()
+  expect(driver.findElement(shippingAddressModule)).toBeTruthy()
+  expect(driver.findElement(paymentModule)).toBeTruthy()
+  expect(driver.findElement(shippingMethodModule)).toBeTruthy()
+  expect(driver.findElement(placeMyOrder)).toBeTruthy()
 }
 
 export const addShippingAddress = async()=>{
   await driver.sleep(1000)
-  expect(newShippingAddress).toBeTruthy()
-  await newShippingAddress.click()
+  expect(driver.findElement(newShippingAddress)).toBeTruthy()
+  await driver.findElement(newShippingAddress).click()
   await driver.sleep(1000)
-  firstName.sendKeys(guestuser.firstNameSA)
-  lastName.sendKeys(guestuser.lastNameSA)
-  address1.sendKeys(guestuser.address1)
+  driver.findElement(firstName).sendKeys(driver.findElement(guestuser.firstNameSA))
+  driver.findElement(lastName).sendKeys(driver.findElement(guestuser.lastNameSA))
+  driver.findElement(address1).sendKeys(driver.findElement(guestuser.address1))
   await driver.sleep(2000)
-  zipcode.sendKeys(guestuser.zipcode)
-  phoneNum.sendKeys(guestuser.phoneNumSA)
+  driver.findElement(zipcode).sendKeys(driver.findElement(guestuser.zipcode))
+  driver.findElement(phoneNum).sendKeys(driver.findElement(guestuser.phoneNumSA))
   await driver.sleep(1000)
-  saveAddress.click()
+  driver.findElement(saveAddress).click()
 }
 
 export const addPaymentMethod() = async()=>{
   await driver.sleep(1000)
-  expect(newPaymentMethod).toBeTruthy()
-  newPaymentMethod.click()
+  expect(driver.findElement(newPaymentMethod)).toBeTruthy()
+  driver.findElement(newPaymentMethod).click()
   await driver.sleep(1000)
-  ccNum.sendKeys(creditcard.number)
-  ccExp.sendKeys(creditcard.monyear)
-  cvv.sendKeys(creditcard.pin)
+  driver.findElement(ccNum).sendKeys(driver.findElement(creditcard.number))
+  driver.findElement(ccExp).sendKeys(driver.findElement(creditcard.monyear))
+  driver.findElement(cvv).sendKeys(driver.findElement(creditcard.pin))
   await driver.sleep(1000)
-  savePaymentMethod.click()
+  driver.findElement(savePaymentMethod).click()
 }
 export const guestUserCheckout() = async()=>{
-  expect(checkoutAsGuest).toBeTruthy()
-  checkoutAsGuest.click()
+  expect(driver.findElement(checkoutAsGuest)).toBeTruthy()
+  driver.findElement(checkoutAsGuest).click()
   await driver.sleep(1000)
   var x = Math.floor((Math.random() * 1000000) + 1);
   let userName = "AutomationTest"+x
   let email = "AutomationTest"+x+"@gmail.com"
-  emailAddress.sendKeys(email)
-  firstName.sendKeys(guestuser.firstNameSA)
-  lastName.sendKeys(guestuser.lastNameSA)
-  address1.sendKeys(guestuser.address1)
+  driver.findElement(emailAddress).sendKeys(email)
+  driver.findElement(firstName).sendKeys(driver.findElement(guestuser.firstNameSA))
+  driver.findElement(lastName).sendKeys(driver.findElement(guestuser.lastNameSA))
+  driver.findElement(address1).sendKeys(driver.findElement(guestuser.address1))
   await driver.sleep(2000)
-  zipcode.sendKeys(guestuser.zipcode)
-  phoneNum.sendKeys(guestuser.phoneNumSA)
-  ccNum.sendKeys(creditcard.number)
-  ccExp.sendKeys(creditcard.monyear)
+  driver.findElement(zipcode).sendKeys(driver.findElement(guestuser.zipcode))
+  driver.findElement(phoneNum).sendKeys(driver.findElement(guestuser.phoneNumSA))
+  driver.findElement(ccNum).sendKeys(driver.findElement(creditcard.number))
+  driver.findElement(ccExp).sendKeys(driver.findElement(creditcard.monyear))
   cvv.sendKeys(creditcard.pin)
   await driver.sleep(5000)
 }
@@ -111,17 +111,17 @@ export const placeOrder = async()=>{
   if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
    try {
       //      console.log("inside securitycode")
-              cvv.sendKeys(creditcard.pin)
+      driver.findElement(cvv).sendKeys(driver.findElement(creditcard.pin))
         } catch (err ){ }
          await driver.sleep(3000)
             if (currentUrl.indexOf("factory.jcrew.com") > -1) {
               console.log(">> inside factory")
             //  await driver.findElement(By.xpath("//*[@id='orderSummaryContainer']/div/a")).click()
             } else {
-              placeMyOrder.click()
+              driver.findElement(placeMyOrder).click()
             }//spinner_container__2sg18
          await driver.sleep(10000)
-         let getOrderNumber = orderNumber.getText()
+         let getOrderNumber = driver.findElement(orderNumber).getText()
         console.log("order Id  > " + getOrderNumber)
         }
 
