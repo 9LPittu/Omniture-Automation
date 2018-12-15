@@ -20,7 +20,7 @@ import java.util.Calendar;
 @CucumberOptions(tags = {"@stsDom"},
         monochrome = true, plugin = {"com.cucumber.listener.ExtentCucumberFormatter:"}, features = "features", glue = {"classpath:cucumber.com.jcrew.stepdefs"})
 
-public class DomTest_STS {
+public class Fulfilment_STS {
     @BeforeClass
     public static void setup() {
         ExtentProperties extentProperties = ExtentProperties.INSTANCE;

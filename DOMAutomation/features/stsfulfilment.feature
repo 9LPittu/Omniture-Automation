@@ -1,13 +1,13 @@
 @Initialize
 @stsDom
-Feature: Test Marketing Emails
+Feature: Test DOM-STS fulfilment
 
   Scenario: Test DOM STS flow
-  	Given Test data is read from excel file "JC_E2E_WebTest_Testdata_Sheet.xls"
+  	Given Test data is read from excel file "JC_DOM_Orderfulfilment_STS.xls"
     When I am on the DOM application login page
     Given I login DOM application as "esdomqa1" and "esdomqa1"
     When I select "sales orders" from menu
-    And I enter order number "JC_E2E_WebTest_Testdata_Sheet.xls"
+    And I enter order number "JC_DOM_Orderfulfilment_STS.xls"
     And I click on apply button
     Then I should see the requested order in search results page
     And the order should be in "Allocated" status in search results page
@@ -21,33 +21,3 @@ Feature: Test Marketing Emails
     And I copy DO numbers
     And I fullfil ship to store order
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-#    And I select distribution orders from menu
-#    And I enter copied distribution id
-#    And I click on apply button in distribution orders page
-#    And I double click DO in distribution orders page
-#    And I click on release DO button
-#    Then order status should change to "Released" in Distribution orders page
-#    When I select "sales orders" from menu
-#    And the order should be in "Released" status in search results page

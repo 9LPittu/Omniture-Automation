@@ -17,10 +17,10 @@ import java.util.Calendar;
  */
 
 @RunWith(Cucumber.class)
-@CucumberOptions(tags = {"@dom"},
+@CucumberOptions(tags = {"@sthdom"},
         monochrome = true, plugin = {"com.cucumber.listener.ExtentCucumberFormatter:"}, features = "features", glue = {"classpath:cucumber.com.jcrew.stepdefs"})
 
-public class DomTest {
+public class Fulfilment_STH {
     @BeforeClass
     public static void setup() {
         ExtentProperties extentProperties = ExtentProperties.INSTANCE;

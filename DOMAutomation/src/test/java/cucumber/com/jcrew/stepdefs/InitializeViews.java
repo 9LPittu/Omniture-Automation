@@ -52,14 +52,14 @@ public class InitializeViews {
         List<String> errors = new ArrayList<>();
         GenericMethods.setAssertFails(errors);
         String orderTestData = "";
-        orderTestData = captureE2EDetails();        
+        orderTestData = captureDOMDetails();        
         if(!orderTestData.isEmpty()){
         	//System.out.println("E2E scenario details:\n" + orderTestData);
         	scenario.embed(orderTestData.getBytes(), "text/plain");
         }
         stateHolder.clear();
     }
-public static String captureE2EDetails() throws Exception{
+public static String captureDOMDetails() throws Exception{
     	
     	String orderTestData = "";
     	
@@ -72,7 +72,7 @@ public static String captureE2EDetails() throws Exception{
 				throw new Exception("Failed to set value in excel for the column 'Execution Completed'");
 			}
         	
-        	String orderNumber = "";
+        	//String orderNumber = "";
         	
     		try {
     			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
@@ -88,19 +88,19 @@ public static String captureE2EDetails() throws Exception{
 			} catch (Exception e) {
 				throw new Exception("Failed to set value in excel for the column 'Additional Error Details'");
 			}
-        	/*try {
+        	try {
 				DomView orderStatus = stateHolder.get("orderStatus");
         		String finalStatus = stateHolder.get("orderStatus");
         		testdataReader.setCellValueInExcel(rowNumber, "Status", finalStatus);
 			} catch (Exception e) {
 				throw new Exception("Failed to set value in excel for the column 'Status'");
-			}*/
+			}
         	try {
 				testdataReader.writeAndSaveExcel();
 			} catch (IOException e) {
 				throw new Exception("Failed to save the excel file!!");
 			}
-        	orderTestData +=  "Order Number = " + orderNumber + "\n";
+        	//orderTestData +=  "Order Number = " + orderNumber + "\n";
         	Map<String, Object> testdataRowMap = stateHolder.get("testdataRowMap");
         	//testdataRowMap.remove("Order Number");
         	testdataRowMap.remove("Execute");
