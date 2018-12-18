@@ -23,6 +23,7 @@ const productCart = By.id("js-header__cart");
 const cart_count = By.xpath("//div[@class='nc-nav__bag-tab__count']");
 const cartIcon = By.xpath("//div[@class='nc-nav__bag-tab__icon']");
 const wishList_btn = By.xpath("//button[contains(.,'Add To Wishlist')]");
+const dept_suits_tuxedos_jcrew = By.xpath("//a[text()='suits & tuxedos']");
 
 //Baynote elements
 const likeTheAbove_link = By.xpath("//h1[contains(text(),'Like the above?')]");
@@ -45,23 +46,21 @@ const dept_mens_factory = By.xpath("//li[@data-department='men']");
 const dept_tshirts_factory = By.xpath("//span[text()='T-shirts & Henleys']");
 const dept_mens_jcrew = By.xpath("//a[text()='Men']");
 const dept_tshirts_jcrew = By.xpath("//a[text()='t-shirts & polos']");
-//const dept_product_variation = By.xpath("(//li[contains(@class,'js-product__variation') and not(contains(@class,'is-selected'))])[1]")
 const dept_product_variation = By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn')])")
 const dept_product_sizelist = By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn')])[1]");
 const product_sizesList_Item_btn = By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]");
 const wishlist = By.id("btn__wishlist");
+const Thompson_Suits_factory = By.xpath("//span[text()='Thompson Suits & Blazers']");
 
 //Add Sales items
 const clearance_txt = By.xpath("//span[text()='Clearance']");
 const category_women = By.xpath("//span[text()='women']");
 const saleTxt = By.xpath("//a[text()='sale']");
-//const sale_recommendation_item = By.xpath("(//div[@class='c-sale-recommendation-item'])[1]");
 const sale_recommendation_item = By.xpath("(//div[@class='c-product__photos'])[1]");
 
 const product_title_info = By.xpath("(//div[@class='product-tile--info'])[1]");
 
 const userPanel_factory = By.id("c-header__userpanelrecognized");
-//const wishListLink_factory = By.xpath("//dd/a[text()='Wishlist']");
 const wishListLink_factory = By.xpath("(//a[@href='/wishlist/?sidecar=true'][contains(.,'Wishlist')])[1]");
 const navAccountBtn = By.xpath("//a[@class='nc-nav__account_button']");
 const wishListCart = By.xpath("//li/a[text()='Wishlist']");
@@ -83,9 +82,7 @@ const clearAll = By.xpath("//span[text()='Clear All']");
 const sortBy = By.xpath("//span[text()='Sort By']");
 const lowToHigh = By.xpath("//li[text()='Price: Low to High']");
 const lowToHighTxt = By.xpath("//span[text()='Price: Low to High']");
-//const myDetailsTxt = By.xpath("//ul/li[2]/a[text()='My Details']");
 const myDetailsTxt = By.xpath("(//a[@href='/r/account/details'][contains(.,'My Details')])[2]");
-//const myDetailsPartialTxt = By.partialLinkText("My Details");
 const myDetailsPartialTxt = By.xpath("(//a[@href='/r/account/details'][contains(.,'My Details')])[2]");
 const accountMyDetails = By.xpath("//div/div/div[@class='account__my-details--header']");
 
@@ -238,16 +235,15 @@ export const addsaleitemsToBag = async () => {
 export const selectSuitsFromCategory = async () => {
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-    await driver.actions().mouseMove(await driver.findElement(By.xpath("//li[@data-department='men']"))).perform();
-    await waitSeconds(1)
-    await driver.findElement(By.xpath("//span[text()='Thompson Suits & Blazers']")).click()
+    await driver.actions().mouseMove(await driver.findElement(dept_mens_factory)).perform();
+    await waitSeconds(5)
+    await driver.findElement(Thompson_Suits_factory).click()
   } else {
-    await driver.actions().mouseMove(await driver.findElement(By.xpath("//a[text()='Men']"))).perform();
-    await waitSeconds(1)
-    await driver.findElement(By.xpath("//a[text()='suits & tuxedos']")).click()
-    await waitSeconds(1)
+    await driver.actions().mouseMove(await driver.findElement(dept_mens_jcrew)).perform();
+    await driver.findElement(dept_suits_tuxedos_jcrew).click()
+    await waitSeconds(5)
     await closeIconInPAP()
-    await waitSeconds(1)
+    await waitSeconds(5)
   }
 };
 

@@ -286,8 +286,8 @@ export const saveOrderDetails = async () => {
     shippingOnReview = await driver.findElement(shipping_review).getText();
     taxOnReview = await driver.findElement(taxOnReviewPage).getText();
     totalOnReview = await driver.findElement(totalOnReviewPage).getText();
-    orderNumberLetExpressuser = await driver.findElement(orderNumberTranslate).getText()
-    console.log("order Id  > " + orderNumberLetExpressuser)
+   /* orderNumberLetExpressuser = await driver.findElement(orderNumberTranslate).getText()
+    console.log("order Id  > " + orderNumberLetExpressuser) */
 }
 
 export const expressUserCheckoutValidation = async (currentUrl) => {
@@ -416,8 +416,8 @@ export const validateExpressUserCheckoutOrder = async (currentUrl) => {
 
 export const registerNowValidation = async () => {
     expect(await driver.findElement(registerNowTxt)).toBeTruthy()
-    await driver.findElement(passwordTxt).sendKeys("123tgb")
-    await driver.findElement(passwordConfTxt).sendKeys("123tgb")
+    await driver.findElement(passwordTxt).sendKeys("Guc@123")
+    await driver.findElement(passwordConfTxt).sendKeys("Guc@123")
     await driver.findElement(registerSubmit).click()
     await waitSeconds(2)
     expect(await driver.findElement(registerMsgConf)).toBeTruthy()
