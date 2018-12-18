@@ -328,7 +328,7 @@ export const shipToMultipleAddress = async () => {
   await driver.findElement(button_guest).click()
   console.log('selected the required product')
   await driver.sleep(3000)
-   expect(await driver.findElement().isDisplayed()).toBeTruthy();
+   expect(await driver.findElement(checkbox).isDisplayed()).toBeTruthy();
    await driver.findElement(checkbox).click();
    await driver.sleep(1000)
    await addGuestFirstAddress();
