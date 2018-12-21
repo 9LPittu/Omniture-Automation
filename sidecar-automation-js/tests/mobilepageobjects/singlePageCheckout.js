@@ -11,7 +11,7 @@ const secureCheckOutHeader =  By.xpath("//*[contains(@class,'secure_checkout_tit
 const shippingAddressModule =  By.xpath("//div[contains(@class,'address-module')]")
 const paymentModule =  By.xpath("//div[contains(@class,'card-module')]")
 const shippingMethodModule =  By.xpath("//div[contains(@class,'method-module')]")
-const cvv =  By.name("cvc")
+//const cvv =  By.name("cvc")
 const placeMyOrder =  By.xpath("//button[text()='Place My Order']")
 const orderNumber =  By.xpath("//span[contains(@class,'_order_number')]")
 //Shipping address
@@ -32,10 +32,8 @@ const savePaymentMethod = By.xpath("//*[text()='Save']")
 const checkoutAsGuest = By.xpath("//*[text()='Continue as Guest']")
 const emailAddress = By.xpath("//div[text()='Email Address']")
 
-
-
-
-
+//New elements
+const paypalBtn = By.xpath("//div[@id='paypal-animation-container']")
 
 export const verifyShoppingBagPage = async()=>{
   expect(driver.findElement(shoppingBagHeader)).toBeTruthy()
@@ -49,6 +47,18 @@ export const clickOnCheckOutNow = async()=>{
   expect(driver.findElement(checkoutNowButton)).toBeTruthy()
   driver.findElement(checkoutNowButton).click()
   console.log("Clicked on checkout now button")
+}
+
+export const clickOnPaypalPayment = async () => {
+ /* await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(paypalBtn));
+  await driver.sleep(1000)
+  expect(driver.findElement(paypalBtn)).toBeTruthy()
+  await driver.findElement(paypalBtn).click()
+  console.log("Clicked on paypal payment option")*/
+  await driver.executeScript('window.scrollTo(0, 5000)')
+  await driver.sleep(3000)
+ // await driver.executeScript("arguments[0].click();", driver.findElement(paypalBtn));
+ await driver.findElement(paypalBtn).click()
 }
 
 export const verifySecureCheckoutPage = async()=>{
@@ -75,7 +85,7 @@ export const addShippingAddress = async()=>{
   driver.findElement(saveAddress).click()
 }
 
-export const addPaymentMethod() = async()=>{
+export const addPaymentMethod = async () => {
   await driver.sleep(1000)
   expect(driver.findElement(newPaymentMethod)).toBeTruthy()
   driver.findElement(newPaymentMethod).click()
@@ -86,7 +96,7 @@ export const addPaymentMethod() = async()=>{
   await driver.sleep(1000)
   driver.findElement(savePaymentMethod).click()
 }
-export const guestUserCheckout() = async()=>{
+export const guestUserCheckout = async () => {
   expect(driver.findElement(checkoutAsGuest)).toBeTruthy()
   driver.findElement(checkoutAsGuest).click()
   await driver.sleep(1000)

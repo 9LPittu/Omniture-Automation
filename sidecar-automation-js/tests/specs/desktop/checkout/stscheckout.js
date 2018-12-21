@@ -33,5 +33,5 @@ test('ship to store Checkout', async () => {
 })
 
 afterAll(async () => {
-  await driver.quit()
+  //await driver.quit()
 })

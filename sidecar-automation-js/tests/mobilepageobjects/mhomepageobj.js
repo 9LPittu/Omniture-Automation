@@ -65,7 +65,7 @@ export const selectCategory = async () => {
 // Select Item and add it to Bag
 export const selectItemAddToBag = async () => {
   await driver.sleep(2000)
-  await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[2]")).click()
+  await driver.findElement(By.xpath("(//div[@class='c-product__photos'])[1]")).click()
   await driver.sleep(1000)
   await driver.executeScript('window.scrollTo(0, 700)')
   await driver.sleep(3000)
@@ -92,11 +92,11 @@ export const verifyBag = async () => {
 } else {
   // clicking on Bag icon
   await driver.sleep(1000)
-  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button bag']")));
-  let bagIcon = await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button bag']"))
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("//div[@class='nc-nav__bag-tab__icon']")));
+  let bagIcon = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-tab__icon']"))
   expect(bagIcon).toBeTruthy()
   // item count on shopping bag
-  const items = await driver.findElement(By.xpath("//span[@class='cart-badge']")).getText();
+  const items = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-tab__count']")).getText();
   expect(items).toBeTruthy()
   //let bagCount = items.get ()
   console.log("numbers of items in the Bag are.. "+items)
