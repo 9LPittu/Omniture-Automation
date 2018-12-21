@@ -24,6 +24,7 @@ const plusProductGrid3N = By.xpath("(//div[@class='plus_product  plusGrid3N TheS
 const productPrice = By.xpath("//div[@class='product__price']");
 const productSizeListBtn = By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]");
 const addToBag = By.id("btn__add-to-bag-wide");
+const plusProductGrid = By.xpath("(//div[@class='c-product__photos'])[1]");
 const productColorName = By.xpath("//ul[@class='item-description']/li[3]/span");
 const productEditItem = By.xpath("//a[@class='item-edit']");
 const productColorList = By.xpath("(//li[contains(@class,'js-product__color colors-list__item') and not(contains(@class,'is-unavailable'))])[2]");
@@ -93,6 +94,16 @@ export const addGiftCardToBag = async () => {
 
 export const addSuitToBag = async () => {
   await waitSeconds(3)
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    await waitSeconds(5)
+    await driver.findElement(plusProductGrid).click()
+    await waitSeconds(3)
+    await driver.findElement(productSizeListBtn).click()
+    await waitSeconds(2)
+    await driver.findElement(addToBag).click()
+  } 
+  else{
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(plusProductGrid3N));
   await waitSeconds(3)
   await driver.findElement(plusProductGrid3N).click()
@@ -102,6 +113,7 @@ export const addSuitToBag = async () => {
   await driver.findElement(productSizeListBtn).click()
   await waitSeconds(3)
   await driver.findElement(addToBag).click()
+  }
 }
 
 export const editItemAddedToBag = async () => {
