@@ -32,8 +32,10 @@
     "password4": "test1234",
     "username5": "AutomationTest@gmail.com",
     "password5": "123456",
-    "loyaltyuser": "autoredeem@gmail.com"
-
+    "loyaltyuser": "autoredeem@gmail.com",
+    "forgotPwdUser": "autotest1234@gmail.com",
+    "mobile_username": "autotest123@gmail.com",
+    "mobile_password": "Password@123"
   },
   "zipCode":{
     "zipcode": "10003"

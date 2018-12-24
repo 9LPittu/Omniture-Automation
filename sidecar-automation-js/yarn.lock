@@ -3468,12 +3468,6 @@ jest-runtime@^20.0.4:
     strip-bom "3.0.0"
     yargs "^7.0.2"
 
-jest-screenshot-reporter@*:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/jest-screenshot-reporter/-/jest-screenshot-reporter-0.1.0.tgz#41d2d58b2540134aedb8dded071eefb229d37454"
-  dependencies:
-    mkdirp "~0.5.1"
-
 jest-snapshot@^20.0.3:
   version "20.0.3"
   resolved "https://registry.yarnpkg.com/jest-snapshot/-/jest-snapshot-20.0.3.tgz#5b847e1adb1a4d90852a7f9f125086e187c76566"

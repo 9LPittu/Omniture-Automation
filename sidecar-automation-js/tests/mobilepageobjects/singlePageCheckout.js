@@ -11,7 +11,7 @@ const secureCheckOutHeader =  By.xpath("//*[contains(@class,'secure_checkout_tit
 const shippingAddressModule =  By.xpath("//div[contains(@class,'address-module')]")
 const paymentModule =  By.xpath("//div[contains(@class,'card-module')]")
 const shippingMethodModule =  By.xpath("//div[contains(@class,'method-module')]")
-const cvv =  By.name("cvc")
+//const cvv =  By.name("cvc")
 const placeMyOrder =  By.xpath("//button[text()='Place My Order']")
 const orderNumber =  By.xpath("//span[contains(@class,'_order_number')]")
 //Shipping address
@@ -75,7 +75,7 @@ export const addShippingAddress = async()=>{
   driver.findElement(saveAddress).click()
 }
 
-export const addPaymentMethod() = async()=>{
+export const addPaymentMethod = async()=>{
   await driver.sleep(1000)
   expect(driver.findElement(newPaymentMethod)).toBeTruthy()
   driver.findElement(newPaymentMethod).click()
@@ -86,7 +86,7 @@ export const addPaymentMethod() = async()=>{
   await driver.sleep(1000)
   driver.findElement(savePaymentMethod).click()
 }
-export const guestUserCheckout() = async()=>{
+export const guestUserCheckout = async()=>{
   expect(driver.findElement(checkoutAsGuest)).toBeTruthy()
   driver.findElement(checkoutAsGuest).click()
   await driver.sleep(1000)

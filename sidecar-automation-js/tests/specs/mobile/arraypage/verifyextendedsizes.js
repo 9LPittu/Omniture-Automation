@@ -1,36 +1,23 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
-import { load, selectExtendSizeCategory } from '../../../mobilepageobjects/mhomepageobj';
-import { creditcard, guestuser } from '../../../testdata/jcrewTestData';
+import { load } from '../../../mobilepageobjects/mhomepageobj';
+import { selectCategory,verifyExtendedSize } from '../../../mobilepageobjects/marraypageobj';
+
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
 test('title is correct', async () => {
   await load();
-  //await driver.sleep(2000)
-   expect(await driver.getTitle()).toMatch('J.Crew')
+  expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
-    test('extended sizes validation', async () => {
-      await selectExtendSizeCategory();
-      await	driver.sleep(1000);
-      await driver.executeScript('window.scrollTo(0, 400)')
-      /*await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(By.xpath("(//span[text()='available in'])[1]")));
-      await	driver.sleep(1000);
-      await driver.executeScript('window.scrollTo(0, 100)')
-      await driver.sleep(1000)
-      await driver.findElement(By.xpath("(//span[text()='available in'])[1]")).click()
-      await driver.sleep(1000)
-      await driver.executeScript('window.scrollTo(0, 300)')*/
-      await driver.sleep(2000)
-      const extendedSizes = await driver.findElement(By.xpath("(//span[@class='product__variation--name'])[2]"))
-      expect(extendedSizes).toBeTruthy()
-      extendedSizes.click()
-      await driver.sleep(3000)
-      await driver.executeScript('window.scrollTo(0, 400)')
-      await driver.sleep(1000)
-      const sizechart = await driver.findElement(By.xpath("(.//li[contains(@class,'js-product__size sizes-list__item btn')])[1]"))
-      expect(sizechart).toBeTruthy()
-      console.log("Extended sizes are available for product selected")
+test('extended sizes validation', async () => {
+    await selectCategory();
+    await verifyExtendedSize();
+    console.log("Extended sizes are available for product selected")
+ })
 
-     })
+afterAll(async () => {
+  await driver.quit();
+})
+
