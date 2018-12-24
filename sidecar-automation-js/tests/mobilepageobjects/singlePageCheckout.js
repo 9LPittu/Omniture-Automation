@@ -32,10 +32,8 @@ const savePaymentMethod = By.xpath("//*[text()='Save']")
 const checkoutAsGuest = By.xpath("//*[text()='Continue as Guest']")
 const emailAddress = By.xpath("//div[text()='Email Address']")
 
-
-
-
-
+//New elements
+const paypalBtn = By.xpath("//div[@id='paypal-animation-container']")
 
 export const verifyShoppingBagPage = async()=>{
   expect(driver.findElement(shoppingBagHeader)).toBeTruthy()
@@ -49,6 +47,18 @@ export const clickOnCheckOutNow = async()=>{
   expect(driver.findElement(checkoutNowButton)).toBeTruthy()
   driver.findElement(checkoutNowButton).click()
   console.log("Clicked on checkout now button")
+}
+
+export const clickOnPaypalPayment = async () => {
+ /* await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(paypalBtn));
+  await driver.sleep(1000)
+  expect(driver.findElement(paypalBtn)).toBeTruthy()
+  await driver.findElement(paypalBtn).click()
+  console.log("Clicked on paypal payment option")*/
+  await driver.executeScript('window.scrollTo(0, 5000)')
+  await driver.sleep(3000)
+ // await driver.executeScript("arguments[0].click();", driver.findElement(paypalBtn));
+ await driver.findElement(paypalBtn).click()
 }
 
 export const verifySecureCheckoutPage = async()=>{

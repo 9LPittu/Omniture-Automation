@@ -68,7 +68,7 @@ const address2 = By.xpath("//input[@id='address2']");
 const address_1 = By.xpath("//input[@id='address1']");
 const zipcode = By.xpath("//input[@id='zipcode']");
 const phoneNumSA = By.xpath("//input[@id='phoneNumSA']");
-const button_continue = By.xpath("//*[@id='main__button-continue']");
+const button_continue = By.xpath("//*[@id='order-summary__button-continue']");
 const shoppingAddressValidate = By.xpath("//*[@id='shoppingAddressValidate']/div[2]/a");
 
 
@@ -328,15 +328,13 @@ export const shipToMultipleAddress = async () => {
   await driver.findElement(button_guest).click()
   console.log('selected the required product')
   await driver.sleep(3000)
-   expect(await driver.findElement().isDisplayed()).toBeTruthy();
+   expect(await driver.findElement(checkbox).isDisplayed()).toBeTruthy();
    await driver.findElement(checkbox).click();
    await driver.sleep(1000)
    await addGuestFirstAddress();
-   //await driver.findElement(By.id("address-new")).click();
    await driver.sleep(1000)
    await addSecondGuestAddress();
    await driver.findElement(button_continue).click()
-  // await driver.findElement(By.id("order-summary__button-continue")).click()
    //shipAddress1
 await driver.findElement(shipAddress1).isDisplayed();
 
