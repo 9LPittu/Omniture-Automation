@@ -129,7 +129,7 @@ export const productArrayPage = async () => {
     console.log("error in privacyPolicyCloseBtn")
   }
   let url = await driver.getCurrentUrl();
-  if (url.indexOf("factory.jcrew.com") > -1) {
+  if ((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("https://or.factory") > -1)) {
     await waitSeconds(2)
     await driver.findElement(searchTxt_factory).click()
     await waitSeconds(2)
@@ -152,8 +152,8 @@ export const addProductToBag = async () => {
 
   await waitSeconds(3)
   await closeIconInPAP()
-  let currentUrl = await driver.getCurrentUrl();
-  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+  let url = await driver.getCurrentUrl();
+  if ((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("https://or.factory") > -1)) {
   await driver.findElement(product_image).click()
   await waitSeconds(2)
   const productsize = await driver.findElement(product_size)
@@ -175,7 +175,7 @@ export const addProductToBag = async () => {
 
 export const verifyAndClickOnBag = async () => {
   let url = await driver.getCurrentUrl();
-  if (url.indexOf("factory.jcrew.com") > -1) {
+  if ((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("https://or.factory") > -1)) {
     await waitSeconds(1)
     let bagsize = await driver.findElement(cartSize).getText()
     console.log("=======Bag size " + bagsize)
@@ -206,8 +206,7 @@ export const addMultiLineItems = async () => {
   await waitSeconds(1)
   await driver.findElement(addToBag).click()
   await waitSeconds(5)
-  await driver.findElement(addToBag).click()
-  await driver.findElement(clickBag).click()
+  //await driver.findElement(addToBag).click()
 //await driver.findElement(By.id("js-header__cart")).click()
   await waitSeconds(4)
   await productArrayPage()
@@ -223,14 +222,13 @@ export const addMultiLineItems = async () => {
   await waitSeconds(4)
   expect(addToBag).toBeTruthy()
   await waitSeconds(4)
-  await driver.findElement(addToBag).click()
-  await waitSeconds(2)
-  await driver.findElement(clickBag).click()
+  //await driver.findElement(addToBag).click()
+
 };
 
 export const addsaleitemsToBag = async () => {
   let currentUrl = await driver.getCurrentUrl();
-  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+  if ((currentUrl.indexOf("factory.jcrew.com") > -1) || (currentUrl.indexOf("https://or.factory") > -1)) {
     await driver.actions().mouseMove(await driver.findElement(clearance_txt)).perform();
     await waitSeconds(2);
     await driver.findElement(category_women).click()
@@ -256,7 +254,7 @@ export const addsaleitemsToBag = async () => {
 
 export const selectSuitsFromCategory = async () => {
   let currentUrl = await driver.getCurrentUrl();
-  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+  if ((currentUrl.indexOf("factory.jcrew.com") > -1) || (currentUrl.indexOf("https://or.factory") > -1)) {
     await waitSeconds(5)
     await driver.actions().mouseMove(await driver.findElement(dept_mens_factory)).perform();
     await driver.findElement(Thompson_Suits_factory).click()

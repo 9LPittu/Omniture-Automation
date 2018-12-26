@@ -74,7 +74,7 @@ export const addGiftCardToBag = async () => {
   driver.findElement(submitClassicGiftCard).click()
   await waitSeconds(2)
   let url = await driver.getCurrentUrl();
-  if (url.indexOf("factory.jcrew.com") > -1) {
+  if ((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("https://or.factory") > -1)) {
     await driver.findElement(header_cart_factory).click()
     await waitSeconds(1)
     let bagsize = await driver.findElement(cartSize_factory).getText()
@@ -95,7 +95,7 @@ export const addGiftCardToBag = async () => {
 export const addSuitToBag = async () => {
   await waitSeconds(3)
   let currentUrl = await driver.getCurrentUrl();
-  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+  if ((currentUrl.indexOf("factory.jcrew.com") > -1) || (currentUrl.indexOf("https://or.factory") > -1)) {
     await waitSeconds(5)
     await driver.findElement(plusProductGrid).click()
     await waitSeconds(3)
@@ -143,7 +143,7 @@ export const editItemAddedToBag = async () => {
 }
 
 export const oneSizeValidation = async (currentUrl) => {
-  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+  if ((currentUrl.indexOf("factory.jcrew.com") > -1) || (currentUrl.indexOf("https://or.factory") > -1)) {
     await driver.actions().mouseMove(await driver.findElement(department_women)).perform();
     await waitSeconds(2)
     await driver.findElement(women_jewellery).click()

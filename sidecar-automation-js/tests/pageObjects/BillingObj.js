@@ -84,7 +84,7 @@ export const paymentMethod = async (paymentType) => {
      await waitSeconds(5)
     let url = await driver.getCurrentUrl();
     console.log(url);
-    if (url.indexOf("www.jcrew.com") > -1) {
+    if ((url.indexOf("www.jcrew.com") > -1) || (url.indexOf("https://or.jcrew.com") > -1)) {
       await driver.wait(until.elementLocated(paypalbutton), 5000).isDisplayed();
     } else if ((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("or.factory.jcrew.com") > -1)){
       await driver.wait(until.elementLocated(paypalbutton), 5000).isDisplayed();

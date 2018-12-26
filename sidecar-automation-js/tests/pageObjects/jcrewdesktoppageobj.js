@@ -179,8 +179,7 @@ export const loyaltyMyAccountPageValidation = async () => {
     console.log("User navigated to my account page")
   }
   //verify my account link
-
-  if (url.indexOf("factory.jcrew.com") > -1) {
+  if ((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("https://or.factory") > -1)){
     const myaccount = await driver.findElement(myAccountFactoryText)
     expect(myaccount).toBeTruthy()
     const myrewards = await driver.findElement(myRewardsLink)
@@ -192,7 +191,7 @@ export const loyaltyMyAccountPageValidation = async () => {
     const youractivitytab = await driver.findElement(yourActivity)
     expect(youractivitytab).toBeTruthy()
   }
-  else if (url.indexOf("jcrew.com") > -1) {
+  else if ((url.indexOf("www.jcrew.com") > -1) || (url.indexOf("https://or.jcrew.com") > -1)) {
     const myaccount = await driver.findElement(myAccountJcrewText)
     expect(myaccount).toBeTruthy()
     const myrewards = await driver.findElement(myRewardsLink)

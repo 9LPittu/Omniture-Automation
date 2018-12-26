@@ -17,10 +17,10 @@ beforeAll(async () => {
 
 test('Login with given username and password', async () => {
   let url = await driver.getCurrentUrl();
-  if (url.indexOf("www.jcrew.com") > -1) {
+  if ((url.indexOf("www.jcrew.com") > -1) || (url.indexOf("https://or.jcrew.com") > -1)) {
     await loginFromHomePage(jcrew_prod.username, jcrew_prod.password)
     console.log('user login succesfully')
-  } else if((url.indexOf("https://factory.jcrew.com") > -1 )){
+  } else if((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("https://or.factory") > -1)){
 
     await loginFromHomePage(factory_prod.username,factory_prod.password)
     console.log('user login succesfully')
