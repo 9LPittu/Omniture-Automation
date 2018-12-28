@@ -1,15 +1,12 @@
 import { driver } from '../../../helpersMobile';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
-import { creditcard } from '../../../testdata/jcrewTestData';
-import {loginFromHomePage,clearBagItems} from '../../../mobilepageobjects/mloginpageobj';
 import { globals } from '../../../jestJcrewQaMobileConfig';
 
-const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
-
 
 beforeAll(async () => {
   await load();
+  await driver.manage().timeouts().implicitlyWait(20000)
   await driver.sleep(2000)
   expect(await driver.getTitle()).toMatch('J.Crew')
 })

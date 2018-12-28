@@ -1,9 +1,7 @@
 import { driver, defaultTimeout } from '../helpersMobile';
-import { waitSeconds } from '../util/commonutils';
+import { waitSeconds } from '../util/MobileMethods';
 
-const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
-
 
 //Factory
 const contextMenu_Factory = By.xpath("//span[text()='menu']");

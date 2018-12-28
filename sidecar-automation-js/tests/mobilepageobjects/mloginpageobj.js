@@ -1,7 +1,7 @@
 import { driver, defaultTimeout } from '../helpersMobile';
 import { globals } from '../jestJcrewQaMobileConfig';
-import { waitSeconds } from '../util/commonutils';
-import {logindetails} from '../testdata/jcrewTestData';
+import { waitSeconds } from '../util/MobileMethods';
+import { logindetails } from '../testdata/jcrewTestData';
 
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
@@ -32,22 +32,23 @@ const signOut_Factory = By.xpath("//dd[contains(@class,'c-my-account-menu-item')
 const signInIcon_Factory = By.xpath("//span[text()='sign in']");
 
 //Jcrew
-const contextMenu_Jcrew = By.className("nc-mobile-nav__button hamburger");
+//const contextMenu_Jcrew = By.className("nc-mobile-nav__button hamburger");
+const contextMenu_Jcrew = By.xpath("//button[@class='nc-mobile-nav__button hamburger']")
 const loggedInUserName_Jcrew = By.xpath("//button[@class='hamburger-item']/h3");
 const signOut_Jcrew = By.xpath("//li[text()='Sign Out']");
 const signInLink_Jcrew = By.xpath("//h3[text()='Sign in']");
 
 
 
-export const loginFromHomePage = async (username, password) =>{
-  await driver.navigate().to(globals.__baseUrl__+"/r/login");
+export const loginFromHomePage = async (username, password) => {
+  await driver.navigate().to(globals.__baseUrl__ + "/r/login");
   await driver.findElement(nav_userName).sendKeys(username);
   await driver.findElement(nav_password).sendKeys(password);
   await driver.findElement(nav_signInButton).click();
   console.log("Login success")
 };
 
-export const loginInAfterCheckoutPage = async (username, password)=>{
+export const loginInAfterCheckoutPage = async (username, password) => {
   await driver.findElement(sidecar_userName).sendKeys(username);
   await driver.findElement(sidecar_password).sendKeys(password);
   await driver.findElement(sidecar_signInButton).click();
@@ -55,16 +56,16 @@ export const loginInAfterCheckoutPage = async (username, password)=>{
   console.log('sign in Done')
 };
 
-export const clearBagItems = async ()=> {
+export const clearBagItems = async () => {
   await waitSeconds(2);
-  await driver.get(globals.__baseUrl__+"/CleanPersistentCart.jsp")
+  await driver.get(globals.__baseUrl__ + "/CleanPersistentCart.jsp")
 };
 
-export const createNewAccount = async ()=>{
-  await driver.navigate().to(globals.__baseUrl__+"/r/login");
+export const createNewAccount = async () => {
+  await driver.navigate().to(globals.__baseUrl__ + "/r/login");
   var x = Math.floor((Math.random() * 1000000) + 1);
-  let userName = "AutomationTest"+x
-  let email = "AutomationTest"+x+"@gmail.com"
+  let userName = "AutomationTest" + x
+  let email = "AutomationTest" + x + "@gmail.com"
   await driver.findElement(createNewAccount_firstName).sendKeys(userName);
   await driver.findElement(createNewAccount_lastName).sendKeys("tester");
   await driver.findElement(createNewAccount_email).sendKeys(email);
@@ -73,44 +74,49 @@ export const createNewAccount = async ()=>{
   await driver.findElement(createNewAccount_signMeUp).click()
   await waitSeconds(15);
   let currentUrl = await driver.getCurrentUrl();
-if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-expect(driver.findElement(loggedInUser_Factory)).toBeTruthy();
-}else{
-  await driver.findElement(contextMenu_Jcrew).click();
-  expect(driver.findElement(loggedInUserName_Jcrew)).toBeTruthy();
-}
-console.log ("User created >> " + userName)
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    expect(driver.findElement(loggedInUser_Factory)).toBeTruthy();
+  } else {
+    await driver.findElement(contextMenu_Jcrew).click();
+    expect(driver.findElement(loggedInUserName_Jcrew)).toBeTruthy();
+  }
+  console.log("User created >> " + userName)
 };
 
-export const signOutFromApplication = async ()=> {
-let currentUrl = await driver.getCurrentUrl();
-if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-expect(driver.findElement(loggedInUser_Factory)).toBeTruthy();
-await driver.findElement(contextMenu_Factory).click();
-await driver.executeScript('window.scrollTo(0, 500)');
-await waitSeconds(1);
-await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(signOut_Factory));
-expect(driver.findElement(signOut_Factory)).toBeTruthy();
-await driver.findElement(signOut_Factory).click();
-await waitSeconds(1);
-expect(driver.findElement(signInIcon_Factory_Factory)).toBeTruthy();
-console.log("user sign out from application successfully")
-} else {
-await driver.findElement(contextMenu_Jcrew).click();
-expect(driver.findElement(loggedInUserName_Jcrew)).toBeTruthy();
-await driver.findElement(loggedInUserName_Jcrew).click();
-expect(driver.findElement(signOut_Jcrew)).toBeTruthy();
-await driver.findElement(signOut_Jcrew).click();
-await waitSeconds(1);
-await driver.findElement(contextMenu_Jcrew).click()
-await waitSeconds(1);
-expect(driver.findElement(signInLink_Jcrew)).toBeTruthy();
-console.log("user sign out from application successfully")
-}
+export const signOutFromApplication = async () => {
+  let currentUrl = await driver.getCurrentUrl();
+  console.log("current url::"+currentUrl)
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    expect(driver.findElement(loggedInUser_Factory)).toBeTruthy();
+    await driver.findElement(contextMenu_Factory).click();
+    await driver.executeScript('window.scrollTo(0, 500)');
+    await waitSeconds(1);
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(signOut_Factory));
+    expect(driver.findElement(signOut_Factory)).toBeTruthy();
+    await driver.findElement(signOut_Factory).click();
+    await waitSeconds(1);
+    expect(driver.findElement(signInIcon_Factory_Factory)).toBeTruthy();
+    console.log("user sign out from application successfully")
+  } else {
+    await waitSeconds(2)
+    let contextMenu = await driver.findElement(contextMenu_Jcrew)
+    await contextMenu.click();
+    await waitSeconds(2)
+    expect(await driver.findElement(loggedInUserName_Jcrew)).toBeTruthy();
+    await driver.findElement(loggedInUserName_Jcrew).click();
+    await waitSeconds(2)
+    expect(driver.findElement(signOut_Jcrew)).toBeTruthy();
+    await driver.findElement(signOut_Jcrew).click();
+    await waitSeconds(2);
+    await driver.findElement(contextMenu_Jcrew).click()
+    await waitSeconds(1);
+    expect(driver.findElement(signInLink_Jcrew)).toBeTruthy();
+    console.log("user sign out from application successfully")
+  }
 };
 
 export const clickOnForgotPasswordLink = async () => {
-  await driver.navigate().to(globals.__baseUrl__+"/r/login");
+  await driver.navigate().to(globals.__baseUrl__ + "/r/login");
   await driver.findElement(forgotPasswordLink).click();
 };
 
@@ -119,28 +125,17 @@ export const clickSendMeNewPasswordButton = async () => {
   await driver.findElement(sendMeNewPasswordButton).click();
   await waitSeconds(1);
   expect(driver.findElement(confirmationText)).toBeTruthy();
-  let getConfText = driver.findElement(confirmationText).getText();
-  if(getConfText.includes(logindetails.forgotPwdUser)){
-    console.log("new password has been sent to user entered email id")
-  }
-};
-
-export const clickSendMeNewPasswordButton = async () => {
-  await driver.findElement(sidecar_userName).sendKeys(logindetails.forgotPwdUser);
-  await driver.findElement(sendMeNewPasswordButton).click();
-  await waitSeconds(1);
-  expect(driver.findElement(confirmationText)).toBeTruthy();
-  let getConfText = driver.findElement(confirmationText).getText();
-  if(getConfText.includes(logindetails.forgotPwdUser)){
+  let getConfText = await driver.findElement(confirmationText).getText();
+  if (getConfText.includes(logindetails.forgotPwdUser)) {
     console.log("new password has been sent to user entered email id")
   }
 };
 
 export const loginUsingInvalidCredentials = async () => {
-    await driver.navigate().to(globals.__baseUrl__+"/r/login");
-    await driver.findElement(nav_userName).sendKeys("dummyuser@gmail.com");
-    await driver.findElement(nav_password).sendKeys("12345678");
-    await driver.findElement(nav_signInButton).click();
-    await waitSeconds(1);
-    expect(driver.findElement(invalidUser_errorMsg)).toBeTruthy();
+  await driver.navigate().to(globals.__baseUrl__ + "/r/login");
+  await driver.findElement(nav_userName).sendKeys("dummyuser@gmail.com");
+  await driver.findElement(nav_password).sendKeys("12345678");
+  await driver.findElement(nav_signInButton).click();
+  await waitSeconds(2);
+  expect(driver.findElement(invalidUser_errorMsg)).toBeTruthy();
 };

@@ -1,6 +1,6 @@
 import { driver, defaultTimeout } from '../helpersMobile';
 import {creditcard,guestuser,zipCode } from '../testdata/jcrewTestData';
-import {waitSeconds} from '../util/commonutils';
+import {waitSeconds} from '../util/MobileMethods';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 

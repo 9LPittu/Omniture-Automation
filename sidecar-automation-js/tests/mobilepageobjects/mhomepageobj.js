@@ -1,16 +1,14 @@
 import { until } from 'selenium-webdriver';
 import { driver, defaultTimeout } from '../helpersMobile';
-import { waitSeconds } from '../util/commonutils';
+import { waitSeconds } from '../util/MobileMethods';
 
-const each = require('jest-each')
 const { Builder, By, Key } = require('selenium-webdriver')
-
 
 const contextMenu = By.className("nc-mobile-nav__button hamburger");
 const closeIcon = By.xpath("//*[@id='global__email-capture']/section/div[3]/span");
 const shipToCountry = By.xpath("//span[text()='Ship to']/../a");
 const usAndCanadaLink = By.xpath("//*[text()='UNITED STATES & CANADA']");
-const canadaLink = By.xpath("//span[text()='" + contextchooser +"']");
+//const canadaLink = By.xpath("//span[text()='" + contextchooser +"']");
 const buyAGiftCard = By.xpath("//li[text()='Buy a Gift Card']");
 const orderStatus = By.xpath("//li[text()='Order Status?']");
 const ordNumSearch = By.name("ORDER_SEARCH<>orderNum_search");
@@ -38,9 +36,7 @@ export const scrollAndClickOnContextChooser = async () => {
   await driver.findElement(shipToCountry).click();
   };
 
-  each([
-    ['Canada'],
-  ]);export const selectAndVerifyCountry = async contextchooser => {
+  export const selectAndVerifyCountry = async(contextchooser) => {
   expect(driver.findElement(usAndCanadaLink)).toBeTruthy();
   await driver.findElement(usAndCanadaLink).click();
   await driver.findElement(By.xpath("//span[text()='" + contextchooser +"']")).click();
