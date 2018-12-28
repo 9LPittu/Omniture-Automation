@@ -38,24 +38,15 @@ const clearAll = By.id("btn__c-filters--clear");
 const done = By.xpath("//button[text()='Done']");
 const justIn = By.xpath("//div[@class='c-filters__breadcrumb btn btn--round is-capitalized']/span[1]");
 const clearFilteredOption = By.xpath("//span[text()='Clear All']");
+const topRated = By.xpath("//span[text()='TOP RATED']");
+const shopTheLookHeader = By.xpath("//h3[text()='Shop The Look']");
+const shopTheLookItems = By.xpath("(//li/figure/img)[1]");
+const productColor = By.xpath("//ul[@class='product__colors colors-list']//li[1]");
+const productSize = By.xpath("//div[@class='c-sizes-list']");
+const addToBag = By.xpath("//button[text()='Add to Bag']");
+const addToWhishlist = By.xpath("//span[text()='Add To Wishlist']");
 
 
-// for selecting the Category
-export const selectCategory = async () => {
-  let currentUrl = await driver.getCurrentUrl();
-  if (currentUrl.indexOf("factory.jcrew.com")) {
-    // Menu icon
-    await driver.findElement(contextMenu_Factory).click();
-    await driver.findElement(menCat_Factory).click();
-    await driver.findElement(newArrivals_Factory).click();
-  } else {
-    // Menu icon
-    await driver.findElement(contextMenu_Jcrew).click();
-    // Category link
-    await driver.findElement(womenCat_Jcrew).click();
-    // New arrivals
-    await driver.findElement(newArrivals_Jcrew).click();
-};
 export const validateAyyayPage = async () => {
     expect(driver.findElement(arraypage)).toBeTruthy();
     expect(driver.findElement(productimage)).toBeTruthy();
@@ -86,7 +77,7 @@ export const verifyExtendedSize = async () => {
     expect(driver.findElement(variationsList)).toBeTruthy();
 };
 
-export const verifyFilterAndSortFunction = async => {
+export const verifyFilterAndSortFunction = async () => {
       expect(driver.findElement(filter)).toBeTruthy();
       expect(driver.findElement(sortBy)).toBeTruthy();
       console.log("Verifying sort by functionality")
@@ -109,7 +100,47 @@ export const verifyFilterAndSortFunction = async => {
       expect(driver.findElement(clearFilteredOption)).toBeTruthy()
 };
 
+export const verifyShopTheLook = async () => {
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+    console.log("for Factory, Shop the look is unavailable")
+  }
+  else {
+  expect(driver.findElement(topRated)).toBeTruthy();
+  driver.findElement(topRated).click();
+  await driver.executeScript('window.scrollTo(0, 1000)');
+  await waitSeconds(1);
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(shopTheLookHeader));
+  await waitSeconds(1);
+  await driver.executeScript('window.scrollTo(0, 200)');
+  expect(await driver.findElement(shopTheLookItems)).toBeTruthy();
+  await driver.findElement(shopTheLookItems).click();
+  await waitSeconds(1);
+  await driver.executeScript('window.scrollTo(0, 300)');
+  expect(await driver.findElement(productColor)).toBeTruthy();
+  expect(await driver.findElement(productSize)).toBeTruthy();
+  await driver.executeScript('window.scrollTo(0, 300)');
+  expect(await driver.findElement(addToBag)).toBeTruthy();
+  expect(await driver.findElement(addToWhishlist)).toBeTruthy();
+  }
+};
 
+// for selecting the Category
+export const selectCategory = async () => {
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.indexOf("factory.jcrew.com")) {
+    // Menu icon
+    await driver.findElement(contextMenu_Factory).click();
+    await driver.findElement(menCat_Factory).click();
+    await driver.findElement(newArrivals_Factory).click();
+  } else {
+    // Menu icon
+    await driver.findElement(contextMenu_Jcrew).click();
+    // Category link
+    await driver.findElement(womenCat_Jcrew).click();
+    // New arrivals
+    await driver.findElement(newArrivals_Jcrew).click();
+};
 
 
 

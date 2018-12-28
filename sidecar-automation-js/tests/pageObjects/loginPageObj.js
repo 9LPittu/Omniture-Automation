@@ -37,7 +37,7 @@ const forgot_newPasswordTxt = By.xpath("//section[@id='registered']/p");
 
 export const loginFromHomePage = async (username, password) => {
   let url = await driver.getCurrentUrl()
-  if ((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("https://or.factory") > -1)) {
+  if (url.indexOf("https://factory.jcrew.com") > -1) {
     await driver.findElement(signIn_factory).click()
   } else {
     await driver.findElement(signIn_jcrew).click()

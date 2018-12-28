@@ -43,7 +43,7 @@ export const loginFromHomePage = async (username, password) =>{
   await driver.navigate().to(globals.__baseUrl__+"/r/login");
   await driver.findElement(nav_userName).sendKeys(username);
   await driver.findElement(nav_password).sendKeys(password);
-  await driver.findElement(nav_signInButton).click()
+  await driver.findElement(nav_signInButton).click();
   console.log("Login success")
 };
 
@@ -56,7 +56,7 @@ export const loginInAfterCheckoutPage = async (username, password)=>{
 };
 
 export const clearBagItems = async ()=> {
-  await driver.sleep(2000)
+  await waitSeconds(2);
   await driver.get(globals.__baseUrl__+"/CleanPersistentCart.jsp")
 };
 

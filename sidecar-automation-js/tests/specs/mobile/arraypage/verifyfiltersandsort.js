@@ -17,6 +17,7 @@ test('title is correct', async () => {
       await verifyFilterAndSortFunction();
       console.log("Filter functionality verifyed")
      })
+
     afterAll(async () => {
       await driver.quit();
     })

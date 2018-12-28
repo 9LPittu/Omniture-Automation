@@ -13,7 +13,7 @@ test('title is correct', async () => {
   test('test Guest checkout', async () => {
     await selectCategory()
     await selectItemAddToBag()
-    await verifyBag()
+    await verifyBag() 
     await clickOnPaypalPayment()
     await doPaypalPayment()
   })

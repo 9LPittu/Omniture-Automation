@@ -1,29 +1,32 @@
 import { driver } from '../../../helpersMobile';
-import { load,addGiftCardToBag } from '../../../mobilepageobjects/mhomepageobj';
-import { loginFromHomePage,clearBagItems } from '../../../mobilepageobjects/mloginpageobj';
-import { verifyShoppingBagPage,clickOnCheckOutNow,verifySecureCheckoutPage,placeOrder } from '../../../mobilepageobjects/singlePageCheckout';
+import { load,clearBagItems, goToGiftCardsPage } from '../../../mobilepageobjects/mhomepageobj';
 import { jcrew_gold} from '../../../testdata/jcrewTestData';
+import { waitSeconds } from '../../../util/commonutils';
+import { addGiftCardToBag, clickOnBagIcon } from '../../../mobilepageobjects/mpdppage';
+import { verifyShoppingBagPage, clickOnCheckOutNow, verifySecureCheckout_ExpressUser, placeOrder } from '../../../mobilepageobjects/singlePageCheckout';
+
 
 const each = require('jest-each')
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
 test('title is correct', async () => {
   await load();
-  await driver.sleep(2000)
-   expect(await driver.getTitle()).toMatch('J.Crew')
+  expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
   test('Classic Card Checkout - Express User', async () => {
-
          await loginFromHomePage(jcrew_gold.username,jcrew_gold.password)
-  		   driver.sleep(2000);
-         await clearBagItems()
-         driver.sleep(12000);
-         await addGiftCardToBag("classicGiftCard")
-         driver.sleep(8000);
-         await verifyShoppingBagPage()
-         await clickOnCheckOutNow()
-         await verifySecureCheckoutPage()
-         await placeOrder()
-
+  		   await clearBagItems();
+         await waitSeconds(12);
+         await goToGiftCardsPage();
+         await addGiftCardToBag("classicGiftCard");
+         await clickOnBagIcon();
+         await verifyShoppingBagPage();
+         await clickOnCheckOutNow();
+         await verifySecureCheckout_ExpressUser();
+         await placeOrder();
    })
+
+   afterAll(async () => {
+    await driver.quit()
+  })

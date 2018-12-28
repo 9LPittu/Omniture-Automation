@@ -1,6 +1,7 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
-import { load,selectCategory,selectItemAddToBag,verifyBag} from '../../../mobilepageobjects/mhomepageobj';
-import { globals } from '../../../jestJcrewQaMobileConfig';
+import { load } from '../../../mobilepageobjects/mhomepageobj';
+import {selectCategory} from '../../../mobilepageobjects/marraypageobj';
+import { addSingleLineItemToBag } from '../../../mobilepageobjects/mpdppage';
 
 
 const each = require('jest-each')
@@ -8,15 +9,13 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 
 beforeAll(async () => {
   await load();
-  await driver.sleep(2000)
   expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
 
   test('Adding single / multiple items from single PDP', async () => {
-    await selectCategory()
-    await selectItemAddToBag()
-    await verifyBag()
+    await selectCategory();
+    await addSingleLineItemToBag();
    })
 
    afterAll(async () => {
