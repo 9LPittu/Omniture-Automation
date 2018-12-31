@@ -32,7 +32,8 @@ const checkoutAsGuest = By.xpath("//*[text()='Continue as Guest']");
 const emailAddress = By.xpath("//div[text()='Email Address']");
 
 //New elements
-const paypalBtn = By.xpath("//div[@id='paypal-animation-container']");
+const paypalBtn = By.xpath("//div[@class='button-actions']/div[@class='c-paypal-button']");
+const frame = By.xpath("(//iframe[@class='zoid-component-frame zoid-visible'])[1]");
 //STS
 const shipToStoreLink = By.xpath("//a[contains(@class,'ship_to_store')]");
 const searchTextBox = By.xpath("//div[contains(@class,'store_search')]//label/div");
@@ -141,10 +142,15 @@ export const clickOnPaypalPayment = async () => {
    expect(driver.findElement(paypalBtn)).toBeTruthy()
    await driver.findElement(paypalBtn).click()
    console.log("Clicked on paypal payment option")*/
-   await driver.executeScript('window.scrollTo(0, 5000)')
+   await driver.executeScript('window.scrollTo(0, 1500)')
    await driver.sleep(3000)
-  // await driver.executeScript("arguments[0].click();", driver.findElement(paypalBtn));
-  await driver.findElement(paypalBtn).click()
+   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(paypalBtn));
+   await driver.switchTo().frame(await driver.findElement(frame));
+   //await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(frame));
+   await driver.sleep(3000)
+   expect(driver.findElement(frame)).toBeTruthy();
+   await driver.sleep(3000)
+   await driver.findElement(paypalBtn).click();
  };
  
  

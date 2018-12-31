@@ -24,6 +24,7 @@ const selectSuitProduct = By.xpath("(//div[@class='plus_detail_wrap'])[1]");
 const accessories = By.xpath("//li[text()='accessories']");
 const preSelectedSize = By.xpath("//li[contains(@class,'js-product__size sizes-list__item btn') and (contains(@class,'is-selected'))]");
 const shoppingTongue = By.className("nc-nav__bag__checkout-button");
+const colorElement = By.xpath("(//dt[@class='product__label'])[1]");
 //Jcrew
 const bagIcon_Jcrew = By.className("nc-nav__bag-tab__icon");
 //Factory
@@ -56,7 +57,7 @@ export const addGiftCardToBag = async (giftcardName) => {
 
 export const addSingleLineItemToBag = async () => {
   await driver.findElement(firstProduct).click();
-  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(selectSize));
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(colorElement));
   await driver.findElement(selectSize).click();
   await waitSeconds(1);
   await driver.findElement(addToBagButton).click();
@@ -68,13 +69,13 @@ export const addSingleLineItemToBag = async () => {
 
 export const addMultiLineItemToBag = async () => {
   await driver.findElement(firstProduct).click();
-  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(selectSize));
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(colorElement));
   await driver.findElement(selectSize).click();
   await waitSeconds(1);
   await driver.findElement(addToBagButton).click();
   await waitSeconds(2);
   await driver.findElement(secondProduct).click();
-  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(selectSize));
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(colorElement));
   await driver.findElement(selectSize).click();
   await waitSeconds(1);
   await driver.findElement(addToBagButton).click();
@@ -125,7 +126,9 @@ export const verifyPreSelectedSize = async () =>{
 
 export const verifyShoppingTongue = async () => {
   await driver.findElement(firstProduct).click();
-  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(selectSize));
+  await waitSeconds(2);
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(colorElement));
+  await waitSeconds(2);
   await driver.findElement(selectSize).click();
   await waitSeconds(1);
   await driver.findElement(addToBagButton).click();

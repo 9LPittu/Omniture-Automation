@@ -2,10 +2,6 @@ import { driver, defaultTimeout } from '../../../helpersMobile';
 import { load } from '../../../mobilepageobjects/mhomepageobj';
 import { selectCategory,verifyExtendedSize } from '../../../mobilepageobjects/marraypageobj';
 
-
-const each = require('jest-each')
-const { Builder, By, Key, until } = require('selenium-webdriver')
-
 test('title is correct', async () => {
   await load();
   expect(await driver.getTitle()).toMatch('J.Crew')
