@@ -14,6 +14,6 @@ test('extended sizes validation', async () => {
  })
 
 afterAll(async () => {
-  await driver.quit();
+   await driver.quit();
 })
 

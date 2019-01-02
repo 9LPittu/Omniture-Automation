@@ -207,7 +207,7 @@ export const addMultiLineItems = async () => {
   await driver.findElement(addToBag).click()
   await waitSeconds(5)
   await driver.findElement(addToBag).click()
-  await driver.findElement(clickBag).click()
+  //await driver.findElement(clickBag).click()
 //await driver.findElement(By.id("js-header__cart")).click()
   await waitSeconds(4)
   await productArrayPage()
@@ -225,7 +225,7 @@ export const addMultiLineItems = async () => {
   await waitSeconds(4)
   await driver.findElement(addToBag).click()
   await waitSeconds(2)
-  await driver.findElement(clickBag).click()
+  //await driver.findElement(clickBag).click()
 };
 
 export const addsaleitemsToBag = async () => {

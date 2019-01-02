@@ -22,7 +22,7 @@ const colorSwatchProduct = By.xpath("//span[text()='available in']/../span[@clas
 const colorSwatch = By.xpath("(//img[@class='colors-list__image'])[2]");
 const customersAlsoLove = By.xpath("//h3[text()='Customers Also Love']");
 const productRecommendations = By.xpath("//li[contains(@class,'c-product-recommendations-tile')]");
-const alsoIn = By.xpath("(//span[@class='tile__detail--alsoin'])[1]");
+const alsoIn = By.xpath("(//span[@class='tile__detail--alsoin']/../../a)[1]");
 const variationsList = By.className("variations-list-wrap");
 const filter = By.xpath("//button[text()='Filter']");
 const sortBy = By.xpath("//span[text()='Sort By']");
@@ -36,7 +36,7 @@ const clearAll = By.id("btn__c-filters--clear");
 const done = By.xpath("//button[text()='Done']");
 const justIn = By.xpath("//div[@class='c-filters__breadcrumb btn btn--round is-capitalized']/span[1]");
 const clearFilteredOption = By.xpath("//span[text()='Clear All']");
-const topRated = By.xpath("//span[text()='TOP RATED']");
+const topRated = By.xpath("//span[text()='TOP RATED']/../../../a");
 const shopTheLookHeader = By.xpath("//h3[text()='Shop The Look']");
 const shopTheLookItems = By.xpath("(//li/figure/img)[1]");
 const productColor = By.xpath("//ul[@class='product__colors colors-list']//li[1]");
@@ -64,7 +64,7 @@ export const verifyColorSwatch = async () => {
 
 export const verifyProductRecommendations = async () => {
   await driver.findElement(producttitle).click();
-  await driver.executeScript('window.scrollTo(0, 1000)');
+  await driver.executeScript('window.scrollTo(0, 5000)');
   await waitSeconds(3)
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(customersAlsoLove));
   await waitSeconds(3)
@@ -73,34 +73,45 @@ export const verifyProductRecommendations = async () => {
 };
 
 export const verifyExtendedSize = async () => {
+ // await driver.actions().mouseMove(await driver.findElement(dept_mens_factory)).perform();
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(alsoIn));
+  await waitSeconds(1);
   expect(await driver.findElement(alsoIn)).toBeTruthy();
   await driver.findElement(alsoIn).click();
+  await waitSeconds(1);
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(variationsList));
   expect(await driver.findElement(variationsList)).toBeTruthy();
 };
 
 export const verifyFilterAndSortFunction = async () => {
-  expect(driver.findElement(filter)).toBeTruthy();
-  expect(driver.findElement(sortBy)).toBeTruthy();
+  expect(await driver.findElement(filter)).toBeTruthy();
+  expect(await driver.findElement(sortBy)).toBeTruthy();
   console.log("Verifying sort by functionality")
   await driver.findElement(sortBy).click();
-  expect(driver.findElement(lowToHigh)).toBeTruthy();
+  await waitSeconds(2)
+  expect(await driver.findElement(lowToHigh)).toBeTruthy();
   await driver.findElement(lowToHigh).click();
-  expect(driver.findElement(sortResult)).toBeTruthy();
+  await waitSeconds(2)
+  expect(await driver.findElement(sortResult)).toBeTruthy();
   console.log("User is able to sort the items")
   await driver.findElement(filter).click();
-  expect(driver.findElement(filterBy)).toBeTruthy();
-  expect(driver.findElement(category)).toBeTruthy();
+  await waitSeconds(2)
+  expect(await driver.findElement(filterBy)).toBeTruthy();
+  expect(await driver.findElement(category)).toBeTruthy();
+  await driver.findElement(category).click();
+  await waitSeconds(2);
   await driver.findElement(categoryOption).click();
   await waitSeconds(5);
-  expect(driver.findElement(selectedOption)).toBeTruthy();
-  expect(driver.findElement(clearAll)).toBeTruthy();
+  expect(await driver.findElement(selectedOption)).toBeTruthy();
+  expect(await driver.findElement(clearAll)).toBeTruthy();
   await driver.findElement(clearAll).click();
+  await waitSeconds(2)
   await driver.findElement(categoryOption).click();
+  await waitSeconds(2)
   await driver.findElement(done).click();
-  expect(driver.findElement(justIn)).toBeTruthy();
-  expect(driver.findElement(clearFilteredOption)).toBeTruthy()
+  await waitSeconds(2)
+  expect(await driver.findElement(justIn)).toBeTruthy();
+  expect(await driver.findElement(clearFilteredOption)).toBeTruthy()
 };
 
 export const verifyShopTheLook = async () => {
@@ -109,10 +120,13 @@ export const verifyShopTheLook = async () => {
     console.log("for Factory, Shop the look is unavailable")
   }
   else {
-    expect(await driver.findElement(topRated)).toBeTruthy();
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(topRated));
+    await waitSeconds(2);
+    expect( await driver.findElement(topRated)).toBeTruthy();
     await driver.findElement(topRated).click();
+    await waitSeconds(2);
     await driver.executeScript('window.scrollTo(0, 1000)');
-    await waitSeconds(1);
+    await waitSeconds(2);
     await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(shopTheLookHeader));
     await waitSeconds(2);
     await driver.executeScript('window.scrollTo(0, 200)');
@@ -125,6 +139,7 @@ export const verifyShopTheLook = async () => {
     expect(await driver.findElement(productColor)).toBeTruthy();
     expect(await driver.findElement(productSize)).toBeTruthy();
     await driver.executeScript('window.scrollTo(0, 300)');
+    await waitSeconds(2);
     expect(await driver.findElement(addToBag)).toBeTruthy();
     expect(await driver.findElement(addToWhishlist)).toBeTruthy();
   }
