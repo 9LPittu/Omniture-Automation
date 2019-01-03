@@ -45,6 +45,7 @@ export const loginFromHomePage = async (username, password) => {
   await driver.findElement(nav_userName).sendKeys(username);
   await driver.findElement(nav_password).sendKeys(password);
   await driver.findElement(nav_signInButton).click();
+  await waitSeconds(3)
   console.log("Login success")
 };
 
@@ -52,6 +53,7 @@ export const loginInAfterCheckoutPage = async (username, password) => {
   await driver.findElement(sidecar_userName).sendKeys(username);
   await driver.findElement(sidecar_password).sendKeys(password);
   await driver.findElement(sidecar_signInButton).click();
+  await waitSeconds(3)
   expect(await driver.getTitle()).toMatch('J.Crew - Sign In')
   console.log('sign in Done')
 };

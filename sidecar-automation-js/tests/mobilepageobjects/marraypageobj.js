@@ -44,6 +44,7 @@ const productSize = By.xpath("//div[@class='c-sizes-list']");
 const addToBag = By.xpath("//button[text()='Add to Bag']");
 const addToWhishlist = By.xpath("//span[text()='Add To Wishlist']");
 const productImage1 = By.xpath("(//div[@class='c-product-tile__details js-product-tile__details'])[1]");
+const colorElement = By.xpath("(//dt[@class='product__label'])[1]");
 
 
 export const validateAyyayPage = async () => {
@@ -175,7 +176,7 @@ export const selectItemAddToBag = async () => {
   await driver.findElement(By.xpath("(//div[@class='c-product-tile__details js-product-tile__details'])[1]")).click()
   //await driver.findElement(By.xpath("(//a[@class='product-tile__link']/img)[2]")).click()
   await waitSeconds(1)
-  await driver.executeScript('window.scrollTo(0, 700)')
+  await driver.executeScript("arguments[0].scrollIntoView(true);",driver.findElement(colorElement));
   await waitSeconds(3)
   const size = await driver.findElement(By.xpath("(//li[contains(@class,'js-product__size sizes-list__item btn') and not(contains(@class,'is-unavailable'))])[1]"));
   await size.click()
@@ -199,17 +200,18 @@ export const verifyBag = async () => {
     await driver.findElement(By.css(".js-cart-size")).click()
   } else {
     // clicking on Bag icon
-    await driver.sleep(1000)
-    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button bag']")));
-    let bagIcon = await driver.findElement(By.xpath("//button[@class='nc-mobile-nav__button bag']"))
+    await waitSeconds(3)
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//h1[@id='product-name__p']")));
+    await waitSeconds(3)
+    let bagIcon = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-tab__icon']"))
     expect(bagIcon).toBeTruthy()
     // item count on shopping bag
-    const items = await driver.findElement(By.xpath("//span[@class='cart-badge']")).getText();
+    const items = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-tab__count']")).getText();
     expect(items).toBeTruthy()
     //let bagCount = items.get ()
     console.log("numbers of items in the Bag are.. " + items)
-    bagIcon.click()
-    await driver.sleep(2000)
+    await bagIcon.click()
+    await waitSeconds(2)
   }
 };
 

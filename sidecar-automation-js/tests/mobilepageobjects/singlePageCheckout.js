@@ -4,9 +4,9 @@ import {waitSeconds} from '../util/MobileMethods';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
-const shoppingBagHeader = By.xpath("//*[contains(@class,'shopping_bag')]");
-const shoppingBagItems =  By.xpath("//*[contains(@class,'shopping_bag')]/p/span[2]");
-const checkoutNowButton =  By.xpath("//span[text()='Check Out Now']");
+const shoppingBagHeader = By.xpath("//h1[text()='Shopping Bag']");
+const shoppingBagItems =  By.xpath("//div[@id='order-listing']/h2[@class='page-subtitle']");//By.xpath("//*[contains(@class,'shopping_bag')]/p/span[2]");
+const checkoutNowButton =  By.xpath("(//a[text()='Check Out Now'])[1]");
 const secureCheckOutHeader =  By.xpath("//*[contains(@class,'secure_checkout_title_container')]");
 const shippingAddressAdded = By.xpath("//div[text()='Ship to']/../div[contains(@class,'details')]");
 const paymentMethodadded = By.xpath("//div[text()='Pay with']/../div[contains(@class,'details')]"); 
@@ -49,13 +49,15 @@ const closeBizrate_int = By.xpath("//img[@alt='Close']");
 const orderNumber_int = By.className("order-number notranslate");
 
 export const verifyShoppingBagPage = async()=>{
-  expect(driver.findElement(shoppingBagHeader)).toBeTruthy();
-  expect(driver.findElement(shoppingBagItems)).toBeTruthy();
-  console.log("Bag items are: "+shoppingBagItems.getText());
-  expect(driver.findElement(checkoutNowButton)).toBeTruthy();
+  expect(await driver.findElement(shoppingBagHeader)).toBeTruthy();
+  let bagItems = await driver.findElement(shoppingBagItems)
+  expect(bagItems).toBeTruthy();
+  console.log("Bag items are: "+await bagItems.getText());
+  expect(await driver.findElement(checkoutNowButton)).toBeTruthy();
 };
 
 export const clickOnCheckOutNow = async()=>{
+  await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(checkoutNowButton));
   expect(driver.findElement(checkoutNowButton)).toBeTruthy();
   await driver.findElement(checkoutNowButton).click();
   console.log("Clicked on checkout now button")

@@ -1,22 +1,21 @@
 import { driver, defaultTimeout } from '../../../helpersMobile';
-import { load,selectCategory,selectItemAddToBag,verifyBag } from '../../../mobilepageobjects/mhomepageobj';
-import { globals } from '../../../jestJcrewQaMobileConfig';
-
-
-const each = require('jest-each')
-const { Builder, By, Key, until } = require('selenium-webdriver')
+import { load } from '../../../mobilepageobjects/mhomepageobj';
+import { selectCategory,selectItemAddToBag, verifyBag } from '../../../mobilepageobjects/marraypageobj';
+import { editItemAddedToBag } from '../../../mobilepageobjects/mpdppage';
 
 beforeAll(async () => {
   await load();
   expect(await driver.getTitle()).toMatch('J.Crew')
- })
+})
 
-  test('Edit item added to bag', async () => {
-        if(!(colrNameBeforeEdit==colorNameAfterEdit)){
-        console.log ("Color displayed in chip box after edited the item color >> ")
-      }
-   })
+test('Edit item added to bag', async () => {
+  await selectCategory()
+  await selectItemAddToBag()
+  await verifyBag()
+  let result = await editItemAddedToBag()
+  expect(result).toBeTruthy()
+})
 
-   afterAll(async () => {
-    await driver.quit()
-  })
+afterAll(async () => {
+  await driver.quit()
+})
