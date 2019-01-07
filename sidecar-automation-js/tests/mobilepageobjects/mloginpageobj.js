@@ -3,7 +3,6 @@ import { globals } from '../jestJcrewQaMobileConfig';
 import { waitSeconds } from '../util/MobileMethods';
 import { logindetails } from '../testdata/jcrewTestData';
 
-
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
 const nav_userName = By.id("sidecarUser");

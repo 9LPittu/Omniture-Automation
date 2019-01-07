@@ -91,4 +91,29 @@ export const goToGiftCardsPage = async () => {
   }
 };
 
+export const goToMyDetailsAndValidate = async () =>{
+  await driver.findElement(contextMenu).click();
+  await driver.findElement(By.xpath("//div[@class='hamburger-account']/li")).click()
+  await waitSeconds(2)
+  await driver.findElement(By.xpath("//li[text()='Account']")).click()
+  await waitSeconds(2)
+  let url = await driver.getCurrentUrl()
+  expect(url.indexOf("rewards")).toBeGreaterThan(-1)
+  await driver.findElement(By.xpath("//nav[@class='rewards--select']")).click()
+  await waitSeconds(2)
+  await driver.findElement(By.xpath("(//a[text()='My Details'])[1]")).click()
+  await waitSeconds(2)
+  url = await driver.getCurrentUrl()
+  expect(url.indexOf("details")).toBeGreaterThan(-1)
+  let firstNameTxt = await driver.findElement(By.id('my-details-form__first-name'))
+  expect(firstNameTxt).toBeTruthy()
+  console.log("Logged in user first name is::"+await firstNameTxt.getAttribute("value"))
+  let lastNameTxt = await driver.findElement(By.id('my-details-form__last-name'))
+  expect(lastNameTxt).toBeTruthy()
+  console.log("Logged in user Last name is::"+await lastNameTxt.getAttribute("value"))
+  let emailTxt = await driver.findElement(By.xpath("(//input[@type='email'])[1]"))
+  expect(emailTxt).toBeTruthy()
+  console.log("Logged in email is::"+await emailTxt.getAttribute("value"))
+}
+
 
