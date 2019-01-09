@@ -127,7 +127,6 @@ test('Gender Navigation Verification', async () => {
 
 })
 
-
 afterAll(async () => {
   await driver.quit()
 })
