@@ -102,6 +102,36 @@ const ratingSumbission = By.xpath("//*[@id='BVSubmissionContainer']/div[1]/div[1
 const signInPageLink = By.xpath("(//*[@id='page__signin']//button)[2]");
 const myDetailsLink = By.xpath("//span[text()='My Details']");
 const myWishListLink = By.xpath("//*[@id='nav__ul']/li[text()='My Wishlist']");
+const cartItems = By.xpath("//*[@id='js-header__cart']/span[2]/span");
+const cartProduct1 = By.xpath("//h1[@id='product-name__p']");
+const bagIconElement = By.xpath("//div[@class='nc-nav__bag-tab__icon']");
+const bagCountElement = By.xpath("//div[@class='nc-nav__bag-tab__count']");
+const contactUsLink_factory = By.xpath("//h6[text()='Contact Us']");
+const letushelp_factory = By.xpath("//h6[text()='Let Us Help You']");
+const giftCardJcrew_factory = By.xpath("//div[text()='The J.Crew Gift Card']");
+const helpTopics_jcrew = By.xpath("//li[text()='See all help topics']");
+const giftCardJcrew_prod = By.xpath("//a[text()='J.CREW GIFT CARD']");
+const emailPopupClose = By.xpath("//div[@class='email-capture--close modal-capture--close js-email-capture--close']");
+const clearance_dept = By.xpath("//a[@data-department='clearance']");
+const mensLink_factory = By.xpath("//a[text()='men']");
+const menuClearance_jcrew = By.xpath("(//li[@class='hamburger-item'])[6]");
+const saleRecommendationImg = By.xpath("(//div[@class='c-sale-recommendation-image'])[2]");
+const suitsBlazers_dept = By.xpath("//a[@data-department='thompson suits & blazers']");
+const mensDept_jcrew = By.xpath("(//li[@class='hamburger-item'])[2]");
+const suitsBlazers_jcrew = By.xpath("//li[text()='suits & tuxedos']");
+const allClothingDept = By.xpath("//li[text()='All Clothing']");
+const alsoInLink = By.xpath("(//span[@class='tile__detail--alsoin'])[1]");
+
+const buyAGiftCard = By.xpath("//li[text()='Buy a Gift Card']");
+const classicCardImg = By.xpath("//a[@id='classicGiftCard']/img");
+const egiftCardImg = By.xpath("//a[@id='eGiftCard']/img");
+const giftCard_25Dollar = By.xpath("//*[@id='amount25']");
+const senderName_jcrew = By.xpath("//*[@id='senderName']");
+const recipientName_jcrew = By.xpath("//*[@id='RecipientName']");
+const msg1 = By.xpath("//*[@id='text1Message']");
+const msg2 = By.xpath("//*[@id='text2Message']");
+const classicSubmitBtn = By.id("submitClassic");
+const bagButton = By.className("nc-mobile-nav__button bag");
 
 export const validateAyyayPage = async () => {
   expect(driver.findElement(arraypage)).toBeTruthy();
@@ -130,7 +160,6 @@ export const verifyProductRecommendations = async () => {
 };
 
 export const verifyExtendedSize = async () => {
-  // await driver.actions().mouseMove(await driver.findElement(dept_mens_factory)).perform();
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(alsoIn));
   await waitSeconds(1);
   expect(await driver.findElement(alsoIn)).toBeTruthy();
@@ -245,23 +274,23 @@ export const verifyBag = async () => {
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     await waitSeconds(1)
-    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.css(".js-cart-size")));
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(cartSize));
     await waitSeconds(3)
-    const itemsF = await driver.findElement(By.xpath("//*[@id='js-header__cart']/span[2]/span")).getText();
+    const itemsF = await driver.findElement(cartItems).getText();
     expect(itemsF).toBeTruthy()
     console.log("numbers of items in the Bag are.. " + itemsF)
-    await driver.executeScript("arguments[0].click();", driver.findElement(By.css(".js-cart-size")))
+    await driver.executeScript("arguments[0].click();", driver.findElement(cartSize))
     await waitSeconds(2)
-    await driver.findElement(By.css(".js-cart-size")).click()
+    await driver.findElement(cartSize).click()
   } else {
     // clicking on Bag icon
     await waitSeconds(3)
-    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//h1[@id='product-name__p']")));
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(cartProduct1));
     await waitSeconds(3)
-    let bagIcon = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-tab__icon']"))
+    let bagIcon = await driver.findElement(bagIconElement)
     expect(bagIcon).toBeTruthy()
     // item count on shopping bag
-    const items = await driver.findElement(By.xpath("//div[@class='nc-nav__bag-tab__count']")).getText();
+    const items = await driver.findElement(bagCountElement).getText();
     expect(items).toBeTruthy()
     //let bagCount = items.get ()
     console.log("numbers of items in the Bag are.. " + items)
@@ -275,11 +304,11 @@ export const goToGiftCardPage = async () => {
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     await driver.executeScript('window.scrollTo(0, 5000)')
     await waitSeconds(1)
-    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//h6[text()='Contact Us']")));
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(contactUsLink_factory));
     await waitSeconds(1)
-    await driver.findElement(By.xpath("//h6[text()='Let Us Help You']")).click()
+    await driver.findElement(letushelp_factory).click()
     await waitSeconds(1)
-    await driver.findElement(By.xpath("//div[text()='The J.Crew Gift Card']")).click()
+    await driver.findElement(giftCardJcrew_factory).click()
     await waitSeconds(1)
   } else {
     // Menu icon
@@ -287,18 +316,18 @@ export const goToGiftCardPage = async () => {
     await waitSeconds(1)
     await driver.executeScript('window.scrollTo(0, 5000)')
     await waitSeconds(1)
-    const seeAllTopics = await driver.findElement(By.xpath("//li[text()='See all help topics']"))
+    const seeAllTopics = await driver.findElement(helpTopics_jcrew)
     await driver.executeScript("arguments[0].scrollIntoView(true);", seeAllTopics);
     await waitSeconds(1)
     seeAllTopics.click()
     await waitSeconds(1)
-    const giftCard = await driver.findElement(By.xpath("//a[text()='J.CREW GIFT CARD']"));
+    const giftCard = await driver.findElement(giftCardJcrew_prod);
     expect(giftCard).toBeTruthy()
     giftCard.click()
     await waitSeconds(1)
   }
   try {
-    await driver.findElement(By.xpath("//div[@class='email-capture--close modal-capture--close js-email-capture--close']")).then(emailCapture => {
+    await driver.findElement(emailPopupClose).then(emailCapture => {
       emailCapture.click()
       driver.sleep(1000)
     })
@@ -310,11 +339,11 @@ export const selectSaleItems = async () => {
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     await waitSeconds(2)
-    await driver.findElement(By.xpath("//span[text()='menu']")).click()
+    await driver.findElement(contextMenu_Factory).click()
     await waitSeconds(1)
-    await driver.findElement(By.xpath("//a[@data-department='clearance']")).click()
+    await driver.findElement(clearance_dept).click()
     await waitSeconds(2)
-    await driver.findElement(By.xpath("//a[text()='men']")).click()
+    await driver.findElement(mensLink_factory).click()
     await waitSeconds(2)
   } else {
     await waitSeconds(5)
@@ -322,11 +351,10 @@ export const selectSaleItems = async () => {
     await driver.findElement(contextMenu_Jcrew).click()
     await waitSeconds(2)
     // Category link
-    await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[6]")).click()
+    await driver.findElement(menuClearance_jcrew).click()
     await waitSeconds(1)
-    await driver.findElement(By.xpath("(//div[@class='c-sale-recommendation-image'])[2]")).click()
+    await driver.findElement(saleRecommendationImg).click()
     await waitSeconds(1)
-    // New arrival  await driver.findElement(By.xpath("//li[text()='New Arrivals']")).click()
   }
   try {
     await driver.findElement(emailPopup).then(emailCapture => {
@@ -342,23 +370,23 @@ export const selectSuits = async () => {
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     console.log(">>>.. inside factory" + currentUrl.indexOf("factory.jcrew.com"))
-    await driver.findElement(By.xpath("//span[text()='menu']")).click()
+    await driver.findElement(contextMenu_Factory).click()
     await waitSeconds(1)
     await driver.findElement(mensDept).click()
     await waitSeconds(1)
-    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//a[@data-department='thompson suits & blazers']")));
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(suitsBlazers_dept));
     await waitSeconds(1)
-    await driver.findElement(By.xpath("//a[@data-department='thompson suits & blazers']")).click()
+    await driver.findElement(suitsBlazers_dept).click()
     await waitSeconds(1)
   } else {
     await driver.findElement(contextMenu_Jcrew).click()
     await waitSeconds(2)
     // Category link
-    await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[2]")).click()
+    await driver.findElement(mensDept_jcrew).click()
     await waitSeconds(4)
-    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//li[text()='suits & tuxedos']")));
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(suitsBlazers_jcrew));
     await waitSeconds(1)
-    driver.findElement(By.xpath("//li[text()='suits & tuxedos']")).click()
+    driver.findElement(suitsBlazers_jcrew).click()
     await waitSeconds(1)
   }
   try {
@@ -373,9 +401,9 @@ export const selectExtendSizeCategory = async () => {
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
     await waitSeconds(6)
-    await driver.findElement(By.xpath("//span[text()='menu']")).click()
+    await driver.findElement(contextMenu_Factory).click()
     await waitSeconds(3)
-    await driver.findElement(By.xpath("(//a[@data-department='men'])[1]")).click()
+    await driver.findElement(menCat_Factory).click()
     await waitSeconds(3)
     await driver.findElement(newArrivals_Factory).click()
   } else {
@@ -384,11 +412,11 @@ export const selectExtendSizeCategory = async () => {
     await driver.findElement(contextMenu_Jcrew).click()
     await waitSeconds(2)
     // Category link
-    await driver.findElement(By.xpath("(//li[@class='hamburger-item'])[2]")).click()
+    await driver.findElement(mensDept_jcrew).click()
     await waitSeconds(2)
-    await driver.findElement(By.xpath("//li[text()='All Clothing']")).click()
+    await driver.findElement(allClothingDept).click()
     await waitSeconds(2)
-    await driver.findElement(By.xpath("(//span[@class='tile__detail--alsoin'])[1]")).click()
+    await driver.findElement(alsoInLink).click()
   }
 };
 
@@ -401,27 +429,27 @@ export const addGiftCardToBag = async (giftcardName) => {
     // Menu icon
     await driver.findElement(contextMenu_Jcrew).click()
     await waitSeconds(2)
-    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath("//li[text()='Buy a Gift Card']")));
+    await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(buyAGiftCard));
     await waitSeconds(1)
-    await driver.findElement(By.xpath("//li[text()='Buy a Gift Card']")).click();
+    await driver.findElement(buyAGiftCard).click();
     await waitSeconds(1)
     await closeIcon()
     await waitSeconds(1)
     if (giftcardName == "classicGiftCard") {
-      await driver.findElement(By.xpath("//a[@id='classicGiftCard']/img")).click();
+      await driver.findElement(classicCardImg).click();
     } else if (giftcardName == "eGiftCard") {
-      await driver.findElement(By.xpath("//a[@id='eGiftCard']/img")).click();
+      await driver.findElement(egiftCardImg).click();
     }
     await waitSeconds(2)
-    await driver.findElement(By.xpath("//*[@id='amount25']")).click()
-    await driver.findElement(By.xpath("//*[@id='senderName']")).sendKeys("test")
-    await driver.findElement(By.xpath("//*[@id='RecipientName']")).sendKeys("recipient test")
-    await driver.findElement(By.xpath("//*[@id='text1Message']")).sendKeys("line 1")
-    await driver.findElement(By.xpath("//*[@id='text2Message']")).sendKeys("line 2")
+    await driver.findElement(giftCard_25Dollar).click()
+    await driver.findElement(senderName_jcrew).sendKeys("test")
+    await driver.findElement(recipientName_jcrew).sendKeys("recipient test")
+    await driver.findElement(msg1).sendKeys("line 1")
+    await driver.findElement(msg2).sendKeys("line 2")
     //*[@id="submitClassic"]
-    await driver.findElement(By.id("submitClassic")).click()
+    await driver.findElement(classicSubmitBtn).click()
     await waitSeconds(1)
-    await driver.findElement(By.className("nc-mobile-nav__button bag")).click()
+    await driver.findElement(bagButton).click()
     await waitSeconds(1)
   }
 };
