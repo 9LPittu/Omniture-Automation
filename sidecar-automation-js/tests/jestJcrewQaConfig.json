@@ -10,7 +10,7 @@
     "\\.js$": "react-scripts/config/jest/babelTransform"
   },
   "globals": {
-    "__baseUrl__": "https://or.jcrew.com",
+    "__baseUrl__": "https://www.jcrew.com",
     "__TRANSFORM_HTML__": true
   }
 }
