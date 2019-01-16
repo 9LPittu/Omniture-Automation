@@ -1,18 +1,18 @@
 import { driver, defaultTimeout } from '../helpersMobile';
-import {creditcard,guestuser,zipCode } from '../testdata/jcrewTestData';
-import {waitSeconds} from '../util/MobileMethods';
+import { creditcard, guestuser, zipCode } from '../testdata/jcrewTestData';
+import { waitSeconds } from '../util/MobileMethods';
 
 const { Builder, By, Key, until } = require('selenium-webdriver')
 
 const shoppingBagHeader = By.xpath("//h1[text()='Shopping Bag']");
-const shoppingBagItems =  By.xpath("//div[@id='order-listing']/h2[@class='page-subtitle']");//By.xpath("//*[contains(@class,'shopping_bag')]/p/span[2]");
-const checkoutNowButton =  By.xpath("(//a[text()='Check Out Now'])[1]");
-const secureCheckOutHeader =  By.xpath("//*[contains(@class,'secure_checkout_title_container')]");
+const shoppingBagItems = By.xpath("//div[@id='order-listing']/h2[@class='page-subtitle']");//By.xpath("//*[contains(@class,'shopping_bag')]/p/span[2]");
+const checkoutNowButton = By.xpath("(//a[text()='Check Out Now'])[1]");
+const secureCheckOutHeader = By.xpath("//*[contains(@class,'secure_checkout_title_container')]");
 const shippingAddressAdded = By.xpath("//div[text()='Ship to']/../div[contains(@class,'details')]");
-const paymentMethodadded = By.xpath("//div[text()='Pay with']/../div[contains(@class,'details')]"); 
+const paymentMethodadded = By.xpath("//div[text()='Pay with']/../div[contains(@class,'details')]");
 const defaultShippingMethod = By.xpath("//div[text()='Deliver by']/../div[contains(@class,'details')]");
-const placeMyOrder =  By.xpath("//button[text()='Place My Order']");
-const orderNumber =  By.xpath("//span[contains(@class,'_order_number')]");
+const placeMyOrder = By.xpath("//button[text()='Place My Order']");
+const orderNumber = By.xpath("//span[contains(@class,'_order_number')]");
 //Shipping address
 const newShippingAddress = By.xpath("//div[text()='Enter a new shipping address']");
 const firstName = By.name("firstName");
@@ -48,15 +48,15 @@ const placeMyOrder_int = By.xpath("//a[text()='Place My Order']");
 const closeBizrate_int = By.xpath("//img[@alt='Close']");
 const orderNumber_int = By.className("order-number notranslate");
 
-export const verifyShoppingBagPage = async()=>{
+export const verifyShoppingBagPage = async () => {
   expect(await driver.findElement(shoppingBagHeader)).toBeTruthy();
   let bagItems = await driver.findElement(shoppingBagItems)
   expect(bagItems).toBeTruthy();
-  console.log("Bag items are: "+await bagItems.getText());
+  console.log("Bag items are: " + await bagItems.getText());
   expect(await driver.findElement(checkoutNowButton)).toBeTruthy();
 };
 
-export const clickOnCheckOutNow = async()=>{
+export const clickOnCheckOutNow = async () => {
   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(checkoutNowButton));
   expect(driver.findElement(checkoutNowButton)).toBeTruthy();
   await driver.findElement(checkoutNowButton).click();
@@ -78,7 +78,7 @@ export const verifySecureCheckout_NonExpressUser = async () => {
   expect(await driver.findElement(placeMyOrder)).toBeTruthy();
 };
 
-export const addShippingAddress = async()=>{
+export const addShippingAddress = async () => {
   expect(driver.findElement(newShippingAddress)).toBeTruthy();
   await driver.findElement(newShippingAddress).click();
   await waitSeconds(1);
@@ -93,7 +93,7 @@ export const addShippingAddress = async()=>{
   console.log("Added shipping address");
 }
 
-export const addPaymentMethod = async()=>{
+export const addPaymentMethod = async () => {
   expect(driver.findElement(newPaymentMethod)).toBeTruthy();
   await driver.findElement(newPaymentMethod).click();
   await waitSeconds(1);
@@ -105,13 +105,13 @@ export const addPaymentMethod = async()=>{
   console.log("Added Payment method");
 }
 
-export const guestUserCheckout = async()=>{
+export const guestUserCheckout = async () => {
   expect(driver.findElement(checkoutAsGuest)).toBeTruthy()
   driver.findElement(checkoutAsGuest).click()
   await driver.sleep(1000)
   var x = Math.floor((Math.random() * 1000000) + 1);
-  let userName = "AutomationTest"+x
-  let email = "AutomationTest"+x+"@gmail.com"
+  let userName = "AutomationTest" + x
+  let email = "AutomationTest" + x + "@gmail.com"
   driver.findElement(emailAddress).sendKeys(email)
   driver.findElement(firstName).sendKeys(driver.findElement(guestuser.firstNameSA))
   driver.findElement(lastName).sendKeys(driver.findElement(guestuser.lastNameSA))
@@ -144,47 +144,47 @@ export const clickOnPaypalPayment = async () => {
    expect(driver.findElement(paypalBtn)).toBeTruthy()
    await driver.findElement(paypalBtn).click()
    console.log("Clicked on paypal payment option")*/
-   await driver.executeScript('window.scrollTo(0, 1500)')
-   await driver.sleep(3000)
-   await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(paypalBtn));
-   await driver.switchTo().frame(await driver.findElement(frame));
-   //await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(frame));
-   await driver.sleep(3000)
-   expect(driver.findElement(frame)).toBeTruthy();
-   await driver.sleep(3000)
-   await driver.findElement(paypalBtn).click();
- };
- 
- 
- export const clickOnCheckOutNow_int = async() =>{
-   await driver.findElement(checkoutNow_int).click();
- }
- export const placeOrder_int = async()=>{
+  await driver.executeScript('window.scrollTo(0, 1500)')
+  await driver.sleep(3000)
+  await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(paypalBtn));
+  await driver.switchTo().frame(await driver.findElement(frame));
+  //await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(frame));
+  await driver.sleep(3000)
+  expect(driver.findElement(frame)).toBeTruthy();
+  await driver.sleep(3000)
+  await driver.findElement(paypalBtn).click();
+};
+
+export const clickOnCheckOutNow_int = async () => {
+  await driver.findElement(checkoutNow_int).click();
+}
+
+export const placeOrder_int = async () => {
   let currentUrl = driver.getCurrentUrl()
   if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
-   try {
+    try {
       //      console.log("inside securitycode")
       await driver.findElement(cvv_int).sendKeys(creditcard.pin);
-        } catch (err ){ }
-         await driver.findElement(placeMyOrder_int).click();
-         await waitSeconds(10);
-         await driver.findElement(closeBizrate_int).click();
-         let getOrderNumber = driver.findElement(orderNumber_int).getText()
-        console.log("order Id  > " + getOrderNumber)
-        }
- };
+    } catch (err) { }
+    await driver.findElement(placeMyOrder_int).click();
+    await waitSeconds(10);
+    await driver.findElement(closeBizrate_int).click();
+    let getOrderNumber = driver.findElement(orderNumber_int).getText()
+    console.log("order Id  > " + getOrderNumber)
+  }
+};
 
- export const placeOrder = async()=>{
+export const placeOrder = async () => {
   let currentUrl = driver.getCurrentUrl()
   if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
-   try {
+    try {
       //      console.log("inside securitycode")
       await driver.findElement(cvv).sendKeys(creditcard.pin);
-        } catch (err ){ }
-         await driver.findElement(placeMyOrder).click();
-         await waitSeconds(10);
-         let getOrderNumber = driver.findElement(orderNumber).getText()
-        console.log("order Id  > " + getOrderNumber)
-        }
+    } catch (err) { }
+    await driver.findElement(placeMyOrder).click();
+    await waitSeconds(10);
+    let getOrderNumber = driver.findElement(orderNumber).getText()
+    console.log("order Id  > " + getOrderNumber)
+  }
 
 };
