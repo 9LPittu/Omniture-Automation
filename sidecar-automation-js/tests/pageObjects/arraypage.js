@@ -173,6 +173,31 @@ export const addProductToBag = async () => {
   }
 };
 
+//Temporary fix for edititemsaddedtobag- must remove it later
+export const addProductToBagForEdit = async () => {
+  await waitSeconds(3)
+  await closeIconInPAP()
+  let currentUrl = await driver.getCurrentUrl();
+  if (currentUrl.indexOf("factory.jcrew.com") > -1) {
+  await driver.findElement(product_image3).click()
+  await waitSeconds(2)
+  const productsize = await driver.findElement(product_size)
+  await productsize.click()
+  await waitSeconds(1)
+  await driver.findElement(addToBag).click()
+  await waitSeconds(1)
+  } 
+  else{
+  await driver.findElement(product_image3).click()
+  await waitSeconds(2)
+  const productsize = await driver.findElement(product_size)
+  await productsize.click()
+  await waitSeconds(1)
+  await driver.findElement(addToBag).click()
+  await waitSeconds(1)
+  }
+};
+
 export const verifyAndClickOnBag = async () => {
   let url = await driver.getCurrentUrl();
   if (url.indexOf("factory.jcrew.com") > -1) {
