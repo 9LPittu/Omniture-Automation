@@ -76,7 +76,7 @@ const emailText = By.id("emailSub");
 const glbLongGreyLine = By.xpath("//section[@class='glb-long-grey-line']/p/a/img");
 const glbblackLine = By.xpath("//section[@class='glb-blackline']/p/a/img")
 
-//Filters 
+//Filters
 const filterHeader = By.css("#c-filters__header-item--toggle");
 const womenLabel = By.xpath("//button[@data-label='Women']");
 const filteredCategory = By.xpath("(//div[@class='c-filters__breadcrumb btn btn--round is-capitalized']/span)[1]");
@@ -161,7 +161,7 @@ export const addProductToBag = async () => {
   await waitSeconds(1)
   await driver.findElement(addToBag).click()
   await waitSeconds(1)
-  } 
+  }
   else{
   await driver.findElement(product_image).click()
   await waitSeconds(2)
@@ -179,16 +179,16 @@ export const addProductToBagForEdit = async () => {
   await closeIconInPAP()
   let currentUrl = await driver.getCurrentUrl();
   if (currentUrl.indexOf("factory.jcrew.com") > -1) {
-  await driver.findElement(product_image3).click()
+  await driver.findElement(product_image).click()
   await waitSeconds(2)
   const productsize = await driver.findElement(product_size)
   await productsize.click()
   await waitSeconds(1)
   await driver.findElement(addToBag).click()
   await waitSeconds(1)
-  } 
+  }
   else{
-  await driver.findElement(product_image3).click()
+  await driver.findElement(product_image).click()
   await waitSeconds(2)
   const productsize = await driver.findElement(product_size)
   await productsize.click()
@@ -360,18 +360,13 @@ export const shopTheLookValidations = async () => {
     }
     else
     {
-    await driver.actions().mouseMove(await driver.findElement(shop_Women)).perform();
-    await waitSeconds(1);
-    await driver.findElement(shop_sweaters).click()
-    await waitSeconds(1);
+    var searchText = await driver.findElement(searchTxt_jcrew);
+    await searchText.sendKeys("suits")
+    await driver.actions().click(searchText).sendKeys(Key.ENTER).perform();
     await closeIconInPAP()
     await waitSeconds(1);
     const productimage_s = await driver.findElement(product_image_shop)
     await productimage_s.click()
-
-   // const productimage = await driver.findElement(product_image3)
-    //await productimage.click()
-    //await waitSeconds(3);
     }
     await driver.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(shopTheLook_Link));
     await waitSeconds(1);

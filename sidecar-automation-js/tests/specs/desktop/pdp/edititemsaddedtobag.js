@@ -1,5 +1,6 @@
 import { driver } from '../../../helpers';
 import { load, closeIconInPAP } from '../../../pageObjects/jcrewdesktoppageobj';
+import { globals } from '../../../jestJcrewQaConfig';
 import { productArrayPage, addProductToBagForEdit, verifyAndClickOnBag } from '../../../pageObjects/arraypage';
 import { editItemAddedToBag } from '../../../pageObjects/pdpPageObj';
 
@@ -11,6 +12,8 @@ beforeAll(async () => {
 test('Editing item added to bag', async () => {
   console.log("Editing item added to bag")
   await driver.manage().timeouts().implicitlyWait(20000)
+  await driver.navigate().to(globals.__baseUrl__ + "/CleanPersistentCart.jsp")
+  await driver.sleep(3000)
   await productArrayPage()
   await closeIconInPAP()
   await addProductToBagForEdit()
