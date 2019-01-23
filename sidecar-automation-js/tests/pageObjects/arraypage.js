@@ -149,7 +149,6 @@ export const productArrayPage = async () => {
 };
 
 export const addProductToBag = async () => {
-
   await waitSeconds(3)
   await closeIconInPAP()
   let currentUrl = await driver.getCurrentUrl();
