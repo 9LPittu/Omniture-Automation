@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  */
 public class HeaderBag extends HeaderWrap {
 
-    @FindBy(className = "nc-nav__bag-button")
+    @FindBy(className = "nc-nav__bag-tab__icon")
     private WebElement bag;
     @FindBy(xpath = "//div[@class='nc-nav__bag__panel is-open']")
     private WebElement minibag;
@@ -27,9 +27,9 @@ public class HeaderBag extends HeaderWrap {
         Util.scrollPage(driver, "UP");
     	Util.wait(2000);
         bag.click();
-        Util.wait(2000);
+        /*Util.wait(2000);
         driver.get("https://aka-int-www.jcrew.com/checkout2/shoppingbag.jsp?sidecar=true");
-        Util.wait(2000);
+        Util.wait(2000);*/
     }
 
     public void hoverBag() {
@@ -69,7 +69,7 @@ public class HeaderBag extends HeaderWrap {
     public int getItemsInBag() {
     	String cartSizeText = null;
     	wait.until(ExpectedConditions.visibilityOf(bag));
-        WebElement cart_size = driver.findElement(By.className("nc-nav__bag-button__count"));
+        WebElement cart_size = driver.findElement(By.className("nc-nav__bag-tab__count"));
         cartSizeText = cart_size.getText().trim();
         if (cartSizeText.isEmpty()) {
         	cartSizeText = "0";

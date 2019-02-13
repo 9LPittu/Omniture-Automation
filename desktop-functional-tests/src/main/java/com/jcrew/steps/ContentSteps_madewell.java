@@ -15,7 +15,7 @@ public class ContentSteps_madewell extends DriverFactory {
     }
 	
 	@Then("Get the page load time for the madewell url") 
-	public void getPageLoadTime() throws Exception{
-		madewell.readAndWriteResultsIntoExcel();
+	public void getPageLoadTime(String x) throws Exception{
+		//madewell.readAndWriteResultsIntoExcel();
 	}
 }

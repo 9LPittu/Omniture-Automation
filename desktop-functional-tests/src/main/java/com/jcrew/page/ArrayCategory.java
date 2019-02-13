@@ -40,7 +40,7 @@ public class ArrayCategory extends Array {
     public ArrayCategory(WebDriver driver) {
         super(driver);
 
-//        wait.until(ExpectedConditions.visibilityOf(productList));
+       //wait.until(ExpectedConditions.visibilityOf(productList));
                 
         header = new HeaderWrap(driver);
         Util.scrollPage(driver, "BOTTOM");

@@ -35,9 +35,9 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
     protected E2ECommon e2e = new E2ECommon();
     @Then("Verify Shipping And Gift Options page is displayed")
     public void is_shipping_options() {
-    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+    	/*if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
 			return;
-		}
+		}*/
     	if(stateHolder.hasKey("isShippingDisabled"))
     		return;
     	if (e2e.getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("STS")) {
@@ -210,9 +210,9 @@ public class CheckoutShippingOptionsSteps extends DriverFactory {
 
     @When("User continues to Payment Method page")
     public void continue_to_payment_method() {
-    	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+    	/*if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
 			return;
-		}
+		}*/
     	if(stateHolder.hasKey("isShippingDisabled") || stateHolder.hasKey("isShippingMethodContinueClicked"))
 			return;
     	if (e2e.getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("STS")) {

@@ -19,11 +19,11 @@ public class PaypalLogin extends PageObject {
 	public void submitPaypalCredentials(String email, String password) {
 		Util.wait(4000);
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
-		Util.wait(2000);
+		/*Util.wait(2000);
 		WebElement login = driver.findElement(By.xpath("//a[@class='btn full ng-binding']"));
 		login.click();
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
-		Util.wait(2000);
+		Util.wait(2000);*/
 		WebElement emailElement = driver.findElement(By.id("email"));
 		emailElement.clear();
 		emailElement.sendKeys(email);

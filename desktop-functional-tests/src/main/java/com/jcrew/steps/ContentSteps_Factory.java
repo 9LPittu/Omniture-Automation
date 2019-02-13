@@ -15,7 +15,7 @@ public class ContentSteps_Factory extends DriverFactory {
     }
 	
 	@Then("Get the page load time for the factory url") 
-	public void getPageLoadTime() throws Exception{
-		factory.readAndWriteResultsIntoExcel();
+	public void getPageLoadTime(String x) throws Exception{
+		//factory.readAndWriteResultsIntoExcel();
 	}
 }

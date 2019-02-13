@@ -65,7 +65,7 @@ public class DriverFactory {
     public void destroyDriver() {
         String identifier = Thread.currentThread().getName();
         WebDriver driver = driverMap.get(identifier);
-
+        driver.manage().deleteAllCookies();
         driver.quit();
 
         driverMap.remove(identifier);

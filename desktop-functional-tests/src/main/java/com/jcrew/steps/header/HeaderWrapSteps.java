@@ -22,6 +22,7 @@ public class HeaderWrapSteps extends DriverFactory {
 
     @When("User clicks on sign in using header")
     public void click_sign_in() {
+    	Util.wait(5000);
         header.clickSignIn();
     }
 

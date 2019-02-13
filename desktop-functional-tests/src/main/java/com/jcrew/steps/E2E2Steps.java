@@ -23,9 +23,9 @@ public class E2E2Steps extends E2ECommon {
 
 	@When("^User selects Shipping Methods as per testdata$")
 	public void user_selects_shipping_methods() throws InterruptedException {
-		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+		/*if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
 			return;
-		}
+		}*/
 		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
 
@@ -63,9 +63,9 @@ public class E2E2Steps extends E2ECommon {
 
 	@And("^User select Gift Options as per testdata, if required$")
 	public void select_gift_options() {
-		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+		/*if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
 			return;
-		}
+		}*/
 		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
 
@@ -112,9 +112,9 @@ public class E2E2Steps extends E2ECommon {
 
 	@And("^Navigate to Billing page, if user is on review page and only e-gift card is added to bag$")
 	public void navigate_billing_page_when_only_egift_card_is_added() {
-		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+		/*if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
 			return;
-		}
+		}*/
 		String currentPageTitle = getDriver().getTitle().toLowerCase();
 		if (currentPageTitle.contains("review") && stateHolder.hasKey("isShippingDisabled")) {
 			CheckoutReview review = new CheckoutReview(getDriver());
@@ -196,7 +196,7 @@ public class E2E2Steps extends E2ECommon {
 			// enterPaypalDetails();
 			break;
 		default:
-			if (userType.equalsIgnoreCase("NONEXPRESS") && !userType.equalsIgnoreCase("EXPRESS")) {
+			if (/*!userType.equalsIgnoreCase("NONEXPRESS") &&*/ userType.equalsIgnoreCase("EXPRESS")) {
 				checkoutBilling.selectSpecificPaymentMethod(paymentMethodName);
 			} else if (userType.equalsIgnoreCase("GUEST")) {
 				checkoutBilling.fillPaymentCardDetails(paymentMethodName);
@@ -228,7 +228,9 @@ public class E2E2Steps extends E2ECommon {
 
 	@And("^User enters security code as per payment method, if required$")
 	public void user_enters_security_code() {
-
+		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			return;
+		}
 		String userType = getDataFromTestDataRowMap("User Type");
 
 		switch (userType.toUpperCase()) {
@@ -242,11 +244,12 @@ public class E2E2Steps extends E2ECommon {
 	}
 
 	public void enterSecurityCodeForNonExpressUser() {
+		
 		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
 		String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
 		String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
 		CheckoutReview checkoutReview = new CheckoutReview(getDriver());
-
+		
 		if (!splitPaymentsRequired.equalsIgnoreCase("YES")) {
 			switch (paymentMethod1.toUpperCase()) {
 			case "PAYPAL":
@@ -265,13 +268,34 @@ public class E2E2Steps extends E2ECommon {
 	}
 
 	public void enterSecurityCodeForExpressUser() {
-		String paymentMethod = getDataFromTestDataRowMap("Payment Method");
+		/*String paymentMethod = getDataFromTestDataRowMap("Payment Method");
 
 		if (paymentMethod.equalsIgnoreCase("EXPRESS PAYPAL"))
 			return;
 
 		CheckoutReview checkoutReview = new CheckoutReview(getDriver());
-		checkoutReview.enterSecurityCode();
+		checkoutReview.enterSecurityCode();*/
+		
+		String splitPaymentsRequired = getDataFromTestDataRowMap("Split Payments Required?");
+		String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
+		String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
+		CheckoutReview checkoutReview = new CheckoutReview(getDriver());
+		
+		if (!splitPaymentsRequired.equalsIgnoreCase("YES")) {
+			switch (paymentMethod1.toUpperCase()) {
+			case "PAYPAL":
+			case "JCC":
+			case "Gift Card":
+				return;
+			default:
+				// entering security code when single payment method is used
+				checkoutReview.enterSecurityCode(paymentMethod1);
+			}
+		} else {
+			// entering security code when split payment is done
+			checkoutReview.enterSecurityCode(paymentMethod1);
+			checkoutReview.enterSecurityCode(paymentMethod2);
+		}
 	}
 
 	@When("^User enters Shipping Addresses as per testdata$")

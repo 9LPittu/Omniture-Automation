@@ -48,7 +48,6 @@ public class E2EMasterExecutor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("========================="+masterReader);
 		checkRunnerSelection(masterReader);
 		
 		scrubTestDataSheets(masterReader);

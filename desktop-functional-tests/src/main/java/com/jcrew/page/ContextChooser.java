@@ -165,13 +165,19 @@ public class ContextChooser {
 		
 		//Click on country
 		WebElement countryElement = internationalContextChooserPage.findElement(
-                By.xpath(".//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li/button[@data-country='" + countryName + "']"));
+                By.xpath("//button[@data-country='" + countryName + "']"));//.//div[contains(@class,'accordian__wrap--context-chooser')]/ul/li
         wait.until(ExpectedConditions.visibilityOf(countryElement));
         JavascriptExecutor ex = (JavascriptExecutor)driver;
         ex.executeScript("arguments[0].click();", countryElement);
         //countryElement.click();
 		Util.waitLoadingBar(driver);
 		Util.wait(3000);
+		try {
+		WebElement startShopping = driver.findElement(By.xpath("//button[text()='START SHOPPING']"));
+		startShopping.click();
+		}catch (Exception e) {
+			logger.info("Start shopping pop up is not displaying");
+		}
 		//Update Reader and create context
 		Country country = new Country(url, countryName);
 		stateHolder.put("context", country);

@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.steps.E2ECommon;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.StateHolder;
 import com.jcrew.utils.TestDataReader;
@@ -51,6 +52,8 @@ public class LogIn extends PageObject {
     public final String MULTIPLE = User.MULTIPLE;
     public final String NO_DEFAULT_MULTIPLE = User.NO_DEFAULT_MULTIPLE;
 
+    E2ECommon e2e = new E2ECommon();
+    
     @FindBy(id = "sidecarUser")
     private WebElement sidecarUser;
     @FindBy(id = "sidecarPassword")
@@ -388,9 +391,16 @@ public class LogIn extends PageObject {
     
     public boolean submitUserCredentials(String emailAddress, String password){
     	boolean isLoginSuccessful = false;
-    	WebElement emailElement = signInForm.findElement(By.id("sidecarUser"));
-        WebElement passwordElement = signInForm.findElement(By.id("sidecarPassword"));
-        
+    	//String countryCode = e2e.getDataFromTestDataRowMap("Ship To Country");
+    	WebElement emailElement = null;
+    	WebElement passwordElement =null;
+    	try {
+    		emailElement = signInForm.findElement(By.id("loginEmail"));
+    		passwordElement = signInForm.findElement(By.id("loginPassword"));
+    	}catch (Exception e) {
+    		emailElement = signInForm.findElement(By.id("sidecarUser"));
+    		passwordElement = signInForm.findElement(By.id("sidecarPassword"));
+		} 
         emailElement.clear();
         emailElement.sendKeys(emailAddress);
         
@@ -399,7 +409,7 @@ public class LogIn extends PageObject {
 
         String currentPage = driver.getCurrentUrl();
         Util.wait(2000);
-        WebElement submit = signInForm.findElement(By.className("js-button-submit"));
+        WebElement submit = signInForm.findElement(By.xpath("//form/button[text()='Sign In']"));//js-button-submit
         wait.until(ExpectedConditions.elementToBeClickable(submit));
         Util.scrollAndClick(driver, submit);
 
@@ -410,4 +420,6 @@ public class LogIn extends PageObject {
         
         return isLoginSuccessful;
     }
+
+
 }

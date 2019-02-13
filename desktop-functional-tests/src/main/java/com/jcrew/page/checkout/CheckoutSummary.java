@@ -31,7 +31,7 @@ public class CheckoutSummary extends Checkout {
 	private WebElement zipCode;
 	@FindBy(xpath = "//div[@data-funding-source='paypal']")
 	private WebElement paypalButton;
-	@FindBy(xpath = "//iframe[@class='xcomponent-component-frame xcomponent-visible']")
+	@FindBy(xpath = "//iframe[@class='zoid-component-frame zoid-visible']")
 	private WebElement frame;
 
     public CheckoutSummary(WebDriver driver) {

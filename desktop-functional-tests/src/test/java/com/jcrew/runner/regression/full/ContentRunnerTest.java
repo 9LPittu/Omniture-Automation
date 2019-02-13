@@ -18,9 +18,9 @@ import com.jcrew.listners.Reporter;
         glue = {"com.jcrew.steps"},
         		plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"},
         format = {
-                "json:target/cucumber-Content_Jcrew.json",
+                /*"json:target/cucumber-Content_Jcrew.json",
                 "pretty",
-                "html:target/cucumber/Content_Jcrew"
+                "html:target/cucumber/Content_Jcrew"*/
         }
 )
 

@@ -299,9 +299,9 @@ public class CheckoutBilling extends Checkout {
 							+ "='" + cardDisplayName.toLowerCase()
 							+ "']/following-sibling::span[contains(@class,'wallet-line')"
 							+ " and contains(normalize-space(.),'" + lastFourDigitsOfCardNum + "')]"));
-
-			WebElement paymentRadioButton = paymentMethodElements.get(0)
-					.findElement(By.xpath("preceding-sibling::input[@class='address-radio']"));
+			//WebElement paymentRadioButton = paymentMethodElements.get(0);
+			System.out.println(paymentMethodElements.get(0));
+			WebElement paymentRadioButton = paymentMethodElements.get(0).findElement(By.xpath("preceding-sibling::input[@class='address-radio']"));
 			paymentRadioButton.click();
 		}
 	}
@@ -324,7 +324,7 @@ public class CheckoutBilling extends Checkout {
 		}
 		User user = User.getNewFakeUser();
 		nameOnCard.sendKeys(user.getFirstName() + " " + user.getLastName());
-		//emailReceipt.sendKeys(user.getEmail());
+		enterEmailAddress();
 		E2ECommon e2e = new E2ECommon();
 		Country countryPojo = stateHolder.get("context");
 		Address address = new Address(countryPojo.getCountry());
@@ -343,9 +343,10 @@ public class CheckoutBilling extends Checkout {
 
 			WebElement zipcode = driver.findElement(By.name("ADDRESS<>postal"));
 			zipcode.sendKeys(address.getZipcode());
-			Util.wait(2000);
+			Util.wait(3000);
 			WebElement phone = driver.findElement(By.name("ADDRESS<>phone"));
 			phone.sendKeys(address.getPhone());
+			
 		}
 	}
 

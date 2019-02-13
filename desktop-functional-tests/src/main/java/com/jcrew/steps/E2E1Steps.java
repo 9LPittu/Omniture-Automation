@@ -66,11 +66,12 @@ public class E2E1Steps extends E2ECommon {
 	
 	@When("^User selects country as per testdata$")
 	public void user_selects_country_as_per_testdata() throws Exception {
+		Util.wait(3000);
 		String countryName = getDataFromTestDataRowMap("Ship To Country");
 
 		if (countryName.equalsIgnoreCase("US"))
 			return;
-
+		
 		// click on change link from footer
 		Footer footer = new Footer(getDriver());
 		footer.clickChangeLinkInFooter();
@@ -106,7 +107,7 @@ public class E2E1Steps extends E2ECommon {
 		LogIn logIn = new LogIn(getDriver());
 		E2ECommon e2e = new E2ECommon();
 		logIn.submitUserCredentials(e2e.getDataFromTestDataRowMap("Username"),e2e.getDataFromTestDataRowMap("Password"));
-		Thread.sleep(10000);
+		Util.wait(10000);
 	}
 
 	@When("^User adds the products to bag as per testdata$")
@@ -336,9 +337,9 @@ public class E2E1Steps extends E2ECommon {
 
 	@And("^Navigate to Shipping Address page, if user is on Review page$")
 	public void navigate_to_shipping_address_page_is_user_on_review_page() {
-		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+		/*if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
 			return;
-		}
+		}*/
 		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
 
@@ -352,9 +353,9 @@ public class E2E1Steps extends E2ECommon {
 
 	@When("^User selects Shipping Addresses as per testdata$")
 	public void user_selects_shipping_addessses() {
-		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+		/*if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
 			return;
-		}
+		}*/
 		CheckoutShippingEdit checkoutShipping = new CheckoutShippingEdit(getDriver());
 		if (stateHolder.hasKey("isShippingDisabled"))
 			return;

@@ -18,8 +18,8 @@ public class ContentSteps_Jcrew extends DriverFactory {
 	
 	@Then("Get the page load time for the url") 
 	public void getPageLoadTime() throws Exception{
-		//contentTest.readAndWriteResultsIntoExcel();
-		order.getPromoOrder();
+		contentTest.readAndWriteResultsIntoExcel();
+		//order.getPromoOrder();
 		
 	}
 }

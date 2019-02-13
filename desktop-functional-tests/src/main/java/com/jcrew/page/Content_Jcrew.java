@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,6 +28,11 @@ import com.jcrew.listners.Reporter;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
+
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.Screenshot;
+import ru.yandex.qatools.ashot.comparison.ImageDiff;
+import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 
 @SuppressWarnings({"static-access","unused"}) 
 public class Content_Jcrew {
@@ -362,6 +368,7 @@ public class Content_Jcrew {
 	}
 
 	public boolean testImageComparison(String webUrl) throws Exception {
+				
 		File fileInput = new File("ImageReading/Image.png");
 		URL url = new URL(webUrl);
 		BufferedImage bufileInput = ImageIO.read(fileInput);

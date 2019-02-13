@@ -39,9 +39,10 @@ public class HeaderWrap extends PageObject {
 				Util.waitForPageFullyLoaded(driver);
 				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sign_in)));
 				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.visibilityOf(sign_in));
-				WebElement signInLink = sign_in.findElement(By.tagName("a"));
-				signInLink.click();
-				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.urlContains("/r/login"));
+				//WebElement signInLink = sign_in.findElement(By.tagName("a"));
+				sign_in.click();
+				//driver.navigate().to(url);
+				//Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.urlContains("/r/login"));
 				break;
 			}
 			catch(StaleElementReferenceException sere){
