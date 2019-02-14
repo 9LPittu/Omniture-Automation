@@ -4,7 +4,6 @@ import {productArrayPage,quickShopValidations} from '../../../pageObjects/arrayp
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
   test('quickshop validation', async () => {

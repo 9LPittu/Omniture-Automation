@@ -3,7 +3,6 @@ import { load , loyaltyFQAValidation} from '../../../pageObjects/jcrewdesktoppag
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Verify Loyalty footer Faq links', async () => {

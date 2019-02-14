@@ -4,7 +4,6 @@ import { addMultiLineItems, verifyAndClickOnBag } from '../../../pageObjects/arr
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Adding single / multiple items from multiple PDP', async () => {

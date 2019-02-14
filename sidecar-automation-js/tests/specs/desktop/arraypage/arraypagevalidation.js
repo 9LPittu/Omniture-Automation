@@ -4,7 +4,6 @@ import { productArrayPage, validateProductArrayPage } from '../../../pageObjects
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Product arraypage validation', async () => {

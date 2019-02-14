@@ -9,7 +9,6 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 beforeAll(async () => {
   driver.manage().timeouts().implicitlyWait(30000);
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Verify User is able to login with valid user credentials', async () => {

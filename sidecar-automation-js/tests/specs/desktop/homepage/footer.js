@@ -4,7 +4,6 @@ import { load , orderStatusValidation, locationUrlsValidation} from '../../../pa
 beforeAll(async () => {
   await load();
   await driver.manage().timeouts().implicitlyWait(20000)
-  expect(await driver.getTitle()).toMatch('J.Crew')
  })
 
 test('Order Status is visible and url direct to right url', async () => {

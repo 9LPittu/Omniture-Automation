@@ -11,7 +11,6 @@ import { waitSeconds } from '../../../util/commonutils'
 beforeAll(async () => {
   await load();
   await driver.manage().timeouts().implicitlyWait(20000)
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('ship to store Checkout', async () => {

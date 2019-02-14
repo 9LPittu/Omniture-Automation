@@ -8,7 +8,6 @@ import { clickCheckoutBtn,expressUserWithoutAddressValidation,validateExpressUse
 
 beforeAll(async () => {
   await loadLoginUrl();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Non express User Checkout (user without address/credit card details)', async () => {

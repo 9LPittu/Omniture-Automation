@@ -5,7 +5,6 @@ import { createNewAccount, newAccountCreateValidation } from '../../../pageObjec
 beforeEach(async () => {
   await driver.manage().timeouts().implicitlyWait(30000);
   await loadLoginUrl()
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('test creation of new account', async () => {

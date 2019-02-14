@@ -4,7 +4,6 @@ import { addGiftCardToBag } from '../../../pageObjects/pdpPageObj';
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Adding gift card items to bag', async () => {

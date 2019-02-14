@@ -5,7 +5,6 @@ import { validatePDPPageObjects } from '../../../pageObjects/pdpPageObj';
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('verify pdp pageObjects', async () => {

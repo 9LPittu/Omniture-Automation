@@ -12,7 +12,6 @@ const each = require('jest-each')
 beforeAll(async () => {
   await load();
   await driver.manage().timeouts().implicitlyWait(20000)
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 each([

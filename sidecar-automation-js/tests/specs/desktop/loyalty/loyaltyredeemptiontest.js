@@ -18,7 +18,6 @@ let orderNumberLet;
 beforeAll(async () => {
   await load();
   await driver.sleep(2000)
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('verifying loyalty redeemtion', async () => {

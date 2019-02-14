@@ -13,7 +13,6 @@ let currentUrl;
 beforeAll(async () => {
   await load();
   await driver.manage().timeouts().implicitlyWait(20000)
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Express User Checkout and verifying order summary and order history', async () => {

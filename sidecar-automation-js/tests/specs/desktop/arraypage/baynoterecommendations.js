@@ -5,7 +5,6 @@ import { productArrayPage, addProductToBag, verifyAndClickOnBag, bayNoteRecommon
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('verifying baynoterecommendations in shopping bag page', async () => {

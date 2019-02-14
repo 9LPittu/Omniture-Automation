@@ -5,7 +5,6 @@ import { addSuitToBag } from '../../../pageObjects/pdpPageObj';
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 

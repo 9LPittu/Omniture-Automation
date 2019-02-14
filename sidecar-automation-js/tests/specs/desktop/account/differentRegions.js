@@ -8,7 +8,6 @@ const { Builder, By, Key, until } = require('selenium-webdriver')
 beforeAll(async () => {
   await driver.manage().timeouts().implicitlyWait(10000)
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Verify Context Chooser functionality ', async () => {

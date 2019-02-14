@@ -7,7 +7,6 @@ import { waitSeconds } from '../../../util/commonutils';
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Clean Bag', async () => {

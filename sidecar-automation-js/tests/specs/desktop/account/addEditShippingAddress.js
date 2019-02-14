@@ -7,7 +7,6 @@ import { validateEditShippingAddress } from '../../../pageObjects/shippingaddres
 beforeAll(async () => {
   await load();
   await driver.manage().timeouts().implicitlyWait(20000)
-  expect(await driver.getTitle()).toMatch('J.Crew')
 });
 
 test('Login with given username and password', async () => {

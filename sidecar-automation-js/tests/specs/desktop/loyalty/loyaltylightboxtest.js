@@ -4,7 +4,6 @@ import { load, loyaltyLightBoxValidation } from '../../../pageObjects/jcrewdeskt
 beforeAll(async () => {
   // await load();
   await driver.get(`${__baseUrl__}/`);
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('Verify Loyalty Lightbox is comming every time and able to login via loyalty Light Box', async () => {

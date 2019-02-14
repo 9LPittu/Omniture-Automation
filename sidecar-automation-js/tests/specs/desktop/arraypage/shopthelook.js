@@ -5,7 +5,6 @@ import { productArrayPage, shopTheLookValidations } from '../../../pageObjects/a
 beforeAll(async () => {
   await load();
   await driver.sleep(2000)
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('shop the look validation', async () => {

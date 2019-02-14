@@ -4,7 +4,6 @@ import { oneSizeValidation } from '../../../pageObjects/pdpPageObj'
 
 beforeAll(async () => {
   await load();
-  expect(await driver.getTitle()).toMatch('J.Crew')
 })
 
 test('One Size items should have it pre - selected in the size Chip', async () => {

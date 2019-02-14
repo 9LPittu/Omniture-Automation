@@ -54,6 +54,7 @@ const navDeptHeader = By.className("c-header__department-nav js-header__departme
 
 export const load = async () => {
   await driver.get(`${__baseUrl__}/`);
+  expect(await driver.getTitle()).toMatch('JCrew')
   await closeIconInPAP();
 };
 
