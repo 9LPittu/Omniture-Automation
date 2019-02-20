@@ -44,7 +44,7 @@ public class ProductDetailsSizes extends ProductDetails {
 
     public void selectSize(String size) throws Exception {
         List<WebElement> productSizes = sizes.findElements(
-                By.xpath(".//li[contains(@class,'js-product__size') and @data-name='" + size.toUpperCase() + "']"));
+                By.xpath(".//div[contains(@class,'js-product__size') and @data-name='" + size.toUpperCase() + "']"));
 
         if (productSizes.size() > 0) {
             WebElement selectedSize = productSizes.get(0);

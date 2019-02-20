@@ -28,7 +28,7 @@ public class PaypalLogin extends PageObject {
 		emailElement.clear();
 		emailElement.sendKeys(email);
 		logger.info("Entered paypal email address: {}", email);
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
+		//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
 		Util.wait(1000);
 		driver.findElement(By.xpath("//button[@id='btnNext']")).click();
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
@@ -37,7 +37,7 @@ public class PaypalLogin extends PageObject {
 		passwordElement.clear();
 		passwordElement.sendKeys(password);
 		logger.info("Entered paypal password: {}", password);
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
+		//wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
 		Util.wait(1000);
 		WebElement loginButton = driver.findElement(By.xpath("//button[@id='btnLogin']"));
 		loginButton.click();

@@ -24,8 +24,10 @@ public class EmailCapture extends PageObject {
     private WebElement global__email_capture;
     
     @FindBy(xpath = "(//*[@class='bx-close-xstroke bx-close-x-adaptive'])[1]")
-    private WebElement closeIcon;
-    
+    private WebElement closeIcon_jcrew;
+    @FindBy(xpath = "(//*[@class='bx-close-xstroke bx-close-x-adaptive'])[2]")
+    private WebElement closeIcon_factory;
+    String currentUrl = driver.getCurrentUrl();
     public EmailCapture(WebDriver driver) {
         super(driver);
         this.shortWait = Util.createWebDriverWait(driver, 30);
@@ -36,9 +38,15 @@ public class EmailCapture extends PageObject {
     public void closeEmailCapture() {
     	Util.wait(20000);
     	try {
-    		closeIcon.isDisplayed();
-    		logger.debug("Email capture is visible, closing.");
-    		closeIcon.click();
+    		if(currentUrl.contains("factory")) {
+    			closeIcon_factory.isDisplayed();
+        		logger.debug("Email capture is visible, closing.");
+        		closeIcon_factory.click();
+    		}else {
+    			closeIcon_jcrew.isDisplayed();
+        		logger.debug("Email capture is visible, closing.");
+        		closeIcon_jcrew.click();
+    		}
     	}catch (Exception e) {
             logger.error("No email capture was found. Ignoring Error.");
         }

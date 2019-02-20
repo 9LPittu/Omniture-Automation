@@ -110,6 +110,9 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     @When("User clicks in CHECK OUT NOW button")
     public void check_out_now() {
     	CheckoutSummary summary = new CheckoutSummary(getDriver());
+    	Util env = new Util();
+    	String environment = Util.getEnvironment();
+    	if(environment.equalsIgnoreCase("Steel")) {
     	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("redeem reward points"))  {
     		bag.reedemRewardPoint();
     	}
@@ -125,8 +128,17 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
 
             bag.checkOutNow();
     	}
-    }
+    	}else {
+        	String subTotal = summary.getSubTotal().trim();
+            subTotal=subTotal.replaceAll("[^0-9\\.]", "");
+            stateHolder.put("subtotal",subTotal);
 
+            stateHolder.put("total", summary.getTotalValue());
+
+            bag.checkOutNow();
+    	}
+    }
+    
     @Then("Verify that title is Shopping Bag")
     public void verify_title() {
         String title = bag.getTitle();

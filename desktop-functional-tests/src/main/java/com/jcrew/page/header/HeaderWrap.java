@@ -19,13 +19,17 @@ public class HeaderWrap extends PageObject {
 
 	@FindBy(xpath = "//li[@class='nc-nav__account nc-nav__menu-tab nc-nav__list-item']")
 	private WebElement sign_in;
+	
+	@FindBy(xpath = "//span[text()='sign in']")
+	private WebElement sign_in_factory;
+	
 	@FindBy(className = "nc-nav__account_button")
 	private WebElement myAccount;
 	@FindBy(className = "nc-nav__account__drop-down")
 	private WebElement userPanel;
 
 	private WebElement dropdown;
-
+	String currentUrl = driver.getCurrentUrl();
 	public HeaderWrap(WebDriver driver) {
         super(driver);
         GlobalPromo promo = new GlobalPromo(driver);
@@ -37,6 +41,11 @@ public class HeaderWrap extends PageObject {
 			try{
 				Util.waitLoadingBar(driver);
 				Util.waitForPageFullyLoaded(driver);
+				if(currentUrl.contains("factory")) {
+					Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sign_in_factory)));
+					Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.visibilityOf(sign_in_factory));
+					sign_in_factory.click();
+				}else {
 				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.not(ExpectedConditions.stalenessOf(sign_in)));
 				Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.visibilityOf(sign_in));
 				//WebElement signInLink = sign_in.findElement(By.tagName("a"));
@@ -44,6 +53,7 @@ public class HeaderWrap extends PageObject {
 				//driver.navigate().to(url);
 				//Util.createWebDriverWait(driver, Util.DEFAULT_TIMEOUT/3).until(ExpectedConditions.urlContains("/r/login"));
 				break;
+				}
 			}
 			catch(StaleElementReferenceException sere){
 				cntr++;

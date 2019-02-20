@@ -19,15 +19,21 @@ import java.util.List;
  * Created by ngarcia on 3/2/17.
  */
 public class TopNav extends HeaderWrap {
-
-    @FindBy(className = "js-header__department-nav")
-    protected WebElement top_nav;
-
+	
+	String currentUrl = driver.getCurrentUrl();
+    /*@FindBy(className = "js-header__department-nav")
+    protected WebElement top_nav;*/
+	@FindBy(className = "nc-nav_nav-bar--inner")
+	protected WebElement top_nav;
+    @FindBy(xpath = "//div[@class='c-header__department-nav js-header__department-nav']")
+    protected WebElement top_nav_factory;
+    
+    
     public TopNav(WebDriver driver) {
         super(driver);
-        wait.until(ExpectedConditions.visibilityOf(top_nav));
+        //wait.until(ExpectedConditions.visibilityOf(top_nav));
     }
-
+    
     public boolean isDisplayed(){
         return top_nav.isDisplayed();
     }
@@ -54,14 +60,22 @@ public class TopNav extends HeaderWrap {
 
     @SuppressWarnings("unused")
 	public void hoverCategory(String dept) {
-        WebElement categoryLink = top_nav.findElement(By.xpath(
-                ".//a[@class='department-nav__link']/span[" + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']"));
+    	WebElement categoryLink;
+    	if(currentUrl.contains("factory.jcrew.com")) {
+    		categoryLink = top_nav_factory.findElement(By.xpath(
+                    "//div[@class='c-header__department-nav js-header__department-nav']//ul//li//a//span[text()='"+dept+"']"));
+    	}else {
+        /*categoryLink = top_nav.findElement(By.xpath(
+                ".//a[@class='department-nav__link']/span[" + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']"));*/
+    	categoryLink = top_nav.findElement(By.xpath(
+                    "//span[@class='nc-nav__dept-link-wrap']/a[text()='"+dept+"']"));	
+    	}
         hoverAction.moveToElement(categoryLink);
         hoverAction.build().perform();
 
         logger.info("Hovering over category {} in top nav", dept);
         stateHolder.put("category", dept);
-
+       // categoryLink.click();
         SubCategory subCategory = new SubCategory(driver);
     }
 

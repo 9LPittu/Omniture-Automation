@@ -2,6 +2,8 @@ package com.jcrew.page.header;
 
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
+
+import org.apache.tools.ant.SubBuildListener;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,8 +22,8 @@ public class SubCategory extends TopNav {
     public SubCategory(WebDriver driver) {
         super(driver);
 
-        subcat_nav = wait.until(ExpectedConditions.visibilityOf(top_nav.findElement(
-                By.xpath(".//div[contains(@class,'js-department-subcat-nav__wrap') and contains(@class,'is-visible')]"))));
+        /*subcat_nav = wait.until(ExpectedConditions.visibilityOf(top_nav.findElement(
+                By.xpath(".//div[contains(@class,'js-department-subcat-nav__wrap') and contains(@class,'is-visible')]"))));*/
     }
 
     public void selectSubCategory() {
@@ -44,20 +46,25 @@ public class SubCategory extends TopNav {
 
     public void selectSubCategory(String subCategory) {
         WebElement subCategoryElement;
-        subcat_nav = wait.until(ExpectedConditions.visibilityOf(top_nav.findElement(
-                By.xpath(".//div[contains(@class,'js-department-subcat-nav__wrap') and contains(@class,'is-visible')]"))));
+       /* subcat_nav = wait.until(ExpectedConditions.visibilityOf(top_nav.findElement(
+                By.xpath(".//div[contains(@class,'js-department-subcat-nav__wrap') and contains(@class,'is-visible')]"))));*/
 
         if (subCategory.equalsIgnoreCase("looks we love")) {
 
             subCategoryElement = subcat_nav.findElement(By.xpath(".//ul/li/a[contains(@name,'lookswelove')]"));
 
-        } else {
-            subCategoryElement = subcat_nav.findElement(
+        }else if(currentUrl.contains("factory.jcrew.com")){
+        	subCategoryElement = driver.findElement(By.xpath("(//span[@class='nav-page__link-label' and contains(text(),'"+subCategory+"')])[1]"));
+        }
+        else {
+        	/*subCategoryElement = subcat_nav.findElement(
+        
                     By.xpath(".//div[@class='nav-page__group' and not(@style='display: none;')]/" +
                             ".//a[contains(@class,'js-menu__link--has-href') and " +
-                            Util.embedGetTextLower + "='" + subCategory.toLowerCase() + "']"));
+                            Util.embedGetTextLower + "='" + subCategory.toLowerCase() + "']"));*/
+        	subCategoryElement = driver.findElement(By.xpath("(//a[@class='nc-nav__flyout-link is-capitalized nc-nav__link--underline' and contains(text(),'"+subCategory.toLowerCase()+"')])[1]"));
         }
-
+        Util.wait(3000);
         clickAndHideFlyout(subCategoryElement);
     }
 
@@ -95,7 +102,7 @@ public class SubCategory extends TopNav {
         link.click();
 
         Util.waitLoadingBar(driver);
-        HeaderWrap header = new HeaderWrap(driver);
-        header.hoverOverIcon("logo");
+        /*HeaderWrap header = new HeaderWrap(driver);
+        header.hoverOverIcon("logo");*/
     }
 }

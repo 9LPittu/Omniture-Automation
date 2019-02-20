@@ -3,6 +3,7 @@ package com.jcrew.page.checkout;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -92,7 +93,10 @@ public class CheckoutShippingEdit extends Checkout {
     	Util.waitForPageFullyLoaded(driver);
     	Util.wait(1000);
     	zipCode.sendKeys(e2eReader.getDataFromTestDataRowMap("Store Zip Code"));
-    	Util.wait(3000);
+    	Util.wait(1000);
+    	zipCode.sendKeys(Keys.ENTER);
+    	Util.wait(1000);
+    	
     }
     public void continueButton() {
     	continueButton.click();

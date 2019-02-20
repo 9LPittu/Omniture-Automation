@@ -4,6 +4,7 @@ import com.jcrew.page.LogIn;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.StateHolder;
+import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.UsersHub;
 import com.jcrew.utils.Util;
 import cucumber.api.java.en.Then;
@@ -138,7 +139,8 @@ public class LogInSteps extends DriverFactory {
     
     @When("^User fills form and signs in$")
     public void sign_in(){    	
-		login("express", "single", logIn.DEFAULT);
+		//login("express", "single", logIn.DEFAULT);
+		login();
 		Util.wait(5000);
     }
     
@@ -157,6 +159,12 @@ public class LogInSteps extends DriverFactory {
     	login("nonexpress", "multiple", logIn.NO_DEFAULT_MULTIPLE);
     }
     
+    public void login() {
+    	TestDataReader testDataReader =  TestDataReader.getTestDataReader();
+    	String email = testDataReader.getData("user.1.email");
+    	String password = testDataReader.getData("user.1.password");
+    	logIn.submitUserCredentials(email,password);
+    }
     public void login(String userType, String addressType, String userClassUserType){
 		UsersHub userHub = UsersHub.getInstance();
 		User user = null;

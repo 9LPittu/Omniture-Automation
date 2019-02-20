@@ -125,7 +125,9 @@ public class E2E2Steps extends E2ECommon {
 
 	@When("^User selects/enters Payment Methods as per testdata$")
 	public void user_selects_payment_methods() {
+		CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
 		if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
+			checkoutBilling.clickOnPaypalGoldLogo();
 			return;
 		}
 		String userType = getDataFromTestDataRowMap("User Type");
@@ -154,7 +156,7 @@ public class E2E2Steps extends E2ECommon {
 			if (paymentMethod2.isEmpty())
 				return;
 
-			CheckoutBilling checkoutBilling = new CheckoutBilling(getDriver());
+			
 			CheckoutBillingPayment checkoutBillingPayment = new CheckoutBillingPayment(getDriver());
 
 			if (userType.equalsIgnoreCase("GUEST")) {

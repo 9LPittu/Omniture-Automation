@@ -58,11 +58,16 @@ public class CheckoutConfirmation extends Checkout {
     }
     
     public void handleBizratePopup(){
-    	List<WebElement> bizratePopupClose = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("brdialog-close")));
-    	if(bizratePopupClose.size()>0){
-    		bizratePopupClose.get(0).click();
-    		logger.debug("Bizrate popup is closed...");
-    	}
+    	try {
+    		List<WebElement> bizratePopupClose = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("brdialog-close")));
+        	if(bizratePopupClose.size()>0){
+        		bizratePopupClose.get(0).click();
+        		logger.debug("Bizrate popup is closed...");
+        	}
+    	}catch (Exception e) {
+			
+		}
+    	
     }
 
     public boolean isOrderConfirmationPage() {

@@ -75,10 +75,13 @@ public class CheckoutBilling extends Checkout {
 	private WebElement addressRadioButton;
 	@FindBy(xpath = "//div[@id='billing-details']/h2/a")
 	private WebElement changeButton;
+	@FindBy(xpath = "//*[@class='zoid-component-frame zoid-visible']")
+	private WebElement iframe;
+	@FindBy(xpath = "//*[@alt='paypal']")
+	private WebElement paypalGoldLogo;
 	
-
+	PaypalReview paypalReview = new PaypalReview(driver);
 	protected TestDataReader testdataReader = TestDataReader.getTestDataReader();
-
 	public CheckoutBilling(WebDriver driver) {
 		super(driver);
 		wait.until(ExpectedConditions.visibilityOf(payment_page));
@@ -105,9 +108,7 @@ public class CheckoutBilling extends Checkout {
 				String paypalEmail = testdataReader.getData("paypal.email");
 				String paypalPassword = testdataReader.getData("paypal.password");
 				paypalLogin.submitPaypalCredentials(paypalEmail, paypalPassword);
-				PaypalReview paypalReview = new PaypalReview(driver);
 				paypalReview.clickContinue();
-
 				stateHolder.put("isBillingContinueClicked", true);
 			}
 			driver.switchTo().window(parentWindow);
@@ -284,6 +285,7 @@ public class CheckoutBilling extends Checkout {
 			Util.wait(1000);
 			cardPinField.sendKeys(e2ePropertyReader.getProperty("giftcard.card.pin"));
 			Util.wait(1000);
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", applyButton);
 			applyButton.click();
 			Util.waitForPageFullyLoaded(driver);
 			Assert.assertTrue(removeButton.isDisplayed());
@@ -471,5 +473,25 @@ public class CheckoutBilling extends Checkout {
 	public void clickOnChangeButton() {
 		changeButton.click();
 		Util.waitForPageFullyLoaded(driver);
+	}
+	
+	public void clickOnPaypalGoldLogo() {
+		driver.switchTo().frame(iframe);
+		paypalGoldLogo.isDisplayed();
+		paypalGoldLogo.click();
+		driver.switchTo().defaultContent();
+		Util.waitForPageFullyLoaded(driver);
+		String parentWindow = driver.getWindowHandle();
+		Set<String> allWindows = driver.getWindowHandles();
+		allWindows.remove(parentWindow);
+		if (allWindows.size() > 0) {
+			for (String curWindow : allWindows) {
+				driver.switchTo().window(curWindow);
+				Util.waitForPageFullyLoaded(driver);
+				wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
+				paypalReview.clickContinue();
+			}
+			driver.switchTo().window(parentWindow);
+		}
 	}
 }
