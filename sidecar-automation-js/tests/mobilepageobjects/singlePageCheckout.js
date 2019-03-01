@@ -161,7 +161,7 @@ export const clickOnCheckOutNow_int = async () => {
 
 export const placeOrder_int = async () => {
   let currentUrl = driver.getCurrentUrl()
-  if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+  if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
     try {
       //      console.log("inside securitycode")
       await driver.findElement(cvv_int).sendKeys(creditcard.pin);
@@ -176,7 +176,7 @@ export const placeOrder_int = async () => {
 
 export const placeOrder = async () => {
   let currentUrl = driver.getCurrentUrl()
-  if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+  if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
     try {
       //      console.log("inside securitycode")
       await driver.findElement(cvv).sendKeys(creditcard.pin);

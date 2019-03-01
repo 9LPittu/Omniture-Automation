@@ -22,7 +22,7 @@ beforeAll(async () => {
 
 test('verifying loyalty redeemtion', async () => {
   let currentUrl = await driver.getCurrentUrl();
-  if (currentUrl.indexOf("https://or.") > -1) {
+  if (currentUrl.indexOf("https://uat.") > -1) {
     await loginFromHomePage(logindetails.loyaltyuser, logindetails.password);
     await productArrayPage();
     await closeIconInPAP()

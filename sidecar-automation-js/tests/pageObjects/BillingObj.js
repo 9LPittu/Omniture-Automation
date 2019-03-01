@@ -46,7 +46,7 @@ export const paymentMethod = async (paymentType) => {
       if ((url.indexOf("www.jcrew.com") > -1) || (url.indexOf("factory.jcrew.com") > -1)) {
          await waitSeconds(1)
         await driver.findElement(creditDebitPaymentBtn).isDisplayed();
-      } else if ((url.indexOf("or.jcrew.com") > -1) || (url.indexOf("or.factory.jcrew.com") > -1)) {
+      } else if ((url.indexOf("uat.jcrew.com") > -1) || (url.indexOf("uat.factory.jcrew.com") > -1)) {
         let card = "(//span[text()='" + Name_On_Card + "']/parent::label/input[@class='address-radio'])[1]";
         console.log(card);
         await driver.findElement(By.xpath(card)).click();
@@ -86,7 +86,7 @@ export const paymentMethod = async (paymentType) => {
     console.log(url);
     if (url.indexOf("www.jcrew.com") > -1) {
       await driver.wait(until.elementLocated(paypalbutton), 5000).isDisplayed();
-    } else if ((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("or.factory.jcrew.com") > -1)){
+    } else if ((url.indexOf("factory.jcrew.com") > -1) || (url.indexOf("uat.factory.jcrew.com") > -1)){
       await driver.wait(until.elementLocated(paypalbutton), 5000).isDisplayed();
     }
     else {

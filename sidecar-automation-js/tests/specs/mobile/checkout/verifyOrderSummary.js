@@ -72,7 +72,7 @@ await driver.findElement(By.xpath("//a[@id='main__button-continue-old']")).click
 await driver.sleep(3000)
 await driver.findElement(By.xpath("//a[@id='billing-options-submit']")).click()
 await driver.sleep(3000)
-if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
 
  try {
          await driver.findElement(By.xpath("//*[@id='securityCode']")).then(securitycode => {

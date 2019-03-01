@@ -21,11 +21,11 @@ test('Login with given username and password', async () => {
 
     await loginFromHomePage(jcrew_prod.username, jcrew_prod.password)
     console.log('user login succesfully')
-  } else if ((url.indexOf("or.jcrew.com") > -1)) {
+  } else if ((url.indexOf("uat.jcrew.com") > -1)) {
 
     await loginFromHomePage(jcrew_gold.username, jcrew_gold.password)
     console.log('user login succesfully')
-  } else if ((url.indexOf("or.factory.jcrew.com") > -1)) {
+  } else if ((url.indexOf("uat.factory.jcrew.com") > -1)) {
 
     await loginFromHomePage(factory_gold.username, factory_gold.password)
     console.log('user login succesfully')

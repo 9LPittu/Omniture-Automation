@@ -78,7 +78,7 @@ export const doPaypalPayment = async () => {
     await waitSeconds(3)
     let placeorderBtn = await driver.findElement(placeMyOrderBtn)
     expect(placeorderBtn).toBeTruthy()
-    if (currentUrl.indexOf("https://or.") > -1) {
+    if (currentUrl.indexOf("https://uat.") > -1) {
         //Place order 
         await placeorderBtn.click()
         //Placed order validation

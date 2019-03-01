@@ -62,10 +62,10 @@ export const clearBagItems = async () => {
   let url = await driver.getCurrentUrl();
   if (url.indexOf("www.jcrew.com") > -1) {
     await driver.get("https://www.jcrew.com/CleanPersistentCart.jsp")
-  } else if (url.indexOf("or.jcrew.com") > -1) {
-    await driver.get("https://or.jcrew.com/CleanPersistentCart.jsp")
-  } else if (url.indexOf("or.factory.jcrew.com") > -1) {
-    await driver.get("https://or.factory.jcrew.com/CleanPersistentCart.jsp")
+  } else if (url.indexOf("uat.jcrew.com") > -1) {
+    await driver.get("https://uat.jcrew.com/CleanPersistentCart.jsp")
+  } else if (url.indexOf("uat.factory.jcrew.com") > -1) {
+    await driver.get("https://uat.factory.jcrew.com/CleanPersistentCart.jsp")
   } else if (url.indexOf("https://factory.jcrew.com") > -1) {
     await driver.get("https://factory.jcrew.com/CleanPersistentCart.jsp")
   }

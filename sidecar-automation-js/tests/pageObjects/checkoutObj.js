@@ -149,13 +149,13 @@ export const STSSameDayDelivery = async (currentUrl, zipcode) => {
 export const STSReviewCheckout = async (currentUrl, creditPin) => {
     if (currentUrl.includes("factory")) {
         console.log("Ship to store functionality is not available in Factory")
-    } else if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+    } else if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
         await brizateValidationForGold(currentUrl, creditPin)
     }
 }
 
 export const brizateValidationForGold = async (currentUrl, creditPin) => {
-    if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+    if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
         try {
             await driver.findElement(secuirtyCode).then(securitycodeTxt => {
                 console.log("inside securitycode")
@@ -165,7 +165,7 @@ export const brizateValidationForGold = async (currentUrl, creditPin) => {
             })
         } catch (err) { }
         await waitSeconds(3)
-        if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+        if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
             if (currentUrl.indexOf("factory.jcrew.com") > -1) {
                 console.log(">> inside factory")
                 await driver.findElement(orderSummary).click()
@@ -203,7 +203,7 @@ export const quickShopCheckoutValidation = async () => {
 }
 
 export const quickShopReview = async (currentUrl, creditPin) => {
-    if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+    if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
         await waitSeconds(3)
         try {
             await driver.findElement(secuirtyCode).then(securitycodeTxt => {
@@ -291,7 +291,7 @@ export const saveOrderDetails = async () => {
 }
 
 export const expressUserCheckoutValidation = async (currentUrl) => {
-    if (currentUrl.indexOf("https://or.") > -1) {
+    if (currentUrl.indexOf("https://uat.") > -1) {
         let subTotalOnOrderComplete = await driver.findElement(summary_subtotal).getText();
         let shippingOnOrderComplete = await driver.findElement(shipping_review).getText();
         let taxOnOrderComplete = await driver.findElement(taxOnReviewPage).getText();
@@ -393,7 +393,7 @@ export const expressUserWithoutAddressValidation = async () => {
 }
 
 export const validateExpressUserCheckoutOrder = async (currentUrl) => {
-    if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+    if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
         await waitSeconds(1)
         if (currentUrl.indexOf("factory.jcrew.com") > -1) {
             console.log(">> inside factory")

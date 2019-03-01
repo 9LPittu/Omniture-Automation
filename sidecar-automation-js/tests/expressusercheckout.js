@@ -79,7 +79,7 @@ await driver.findElement(By.xpath("//*[@id='main__button-continue']")).click()
     //   console.log("current URL > " + currentUrl.indexOf("https://or.jcrew.com"))
 
        //if (currentUrl == "https://or.jcrew.com/checkout2/billing.jsp") {  // Production review checkout
-       if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+       if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
          await driver.sleep(3000)
          await driver.findElement(By.xpath("//*[@id='button-submitorder']")).click()
         await driver.sleep(4000)

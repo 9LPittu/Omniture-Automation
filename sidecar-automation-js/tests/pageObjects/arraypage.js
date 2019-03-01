@@ -582,7 +582,7 @@ export const validateWritingReviews = async () => {
     if ((currentUrl.indexOf("https://www.") > -1) || (currentUrl.indexOf("https://factory.") > -1)) {
       console.log("Production Urls , not supposed to submit reviews as part of automation")
       expect(await driver.findElement(fiveStarRating).isDisplayed()).toBeTruthy();
-    } else if (currentUrl.indexOf("https://or.") > -1) {
+    } else if (currentUrl.indexOf("https://uat.") > -1) {
       console.log("gold environment")
       await writeNewReview(currentUrl)
     }
@@ -622,7 +622,7 @@ export const writeNewReview = async (currentUrl) => {
   const previewHeader = await driver.findElement(ratingFieldPreviewHeader);
   expect(previewHeader).toBeTruthy()
   console.log("Preview your review header is displaying")
-  if (currentUrl.indexOf("https://or.") > -1) {
+  if (currentUrl.indexOf("https://uat.") > -1) {
     const submit = await driver.findElement(submitReview_gold);
     expect(submit).toBeTruthy()
     submit.click()

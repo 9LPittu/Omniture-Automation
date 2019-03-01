@@ -26,7 +26,7 @@ test('test Guest checkout', async () => {
   await enterCreditCardDetails()
 
   let currentUrl = await driver.getCurrentUrl();
-  if (currentUrl.indexOf("https://or.") > -1) {  // Production review checkout
+  if (currentUrl.indexOf("https://uat.") > -1) {  // Production review checkout
     await waitSeconds(3)
     let getUrl = await driver.getCurrentUrl();
     await validateExpressUserCheckoutOrder(getUrl)
