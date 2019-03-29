@@ -1,22 +1,37 @@
 package com.jcrew.steps;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import com.jcrew.page.*;
 import com.jcrew.page.checkout.*;
 import com.jcrew.page.header.HeaderSearch;
 import com.jcrew.page.product.*;
 import com.jcrew.steps.checkout.CheckoutShoppingBagSteps;
-import org.openqa.selenium.WebDriverException;
 
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.jcrew.pojo.Address;
 import com.jcrew.pojo.GiftCard;
 import com.jcrew.utils.ExcelUtils;
 import com.jcrew.utils.Util;
@@ -24,14 +39,23 @@ import com.jcrew.utils.Util;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.*;
 @SuppressWarnings("unused")
 public class E2E1Steps extends E2ECommon {
-	
+	E2ECommon e2e = new E2ECommon();
+	private final Properties properties = new Properties();
 	private boolean isItemDataExist = true;
-	
+	String forgotPasswordText;
+	String updatePasswordText;
+	@FindBy(xpath = "(//A[@href='//www.jcrew.com/index.jsp?srcCode=EMOP00015&utm_source=email&utm_medium=email&utm_campaign=email-password-update'])[2]")
+	private WebElement updatePassword;
+	Map<String, Object> testdataRowMap = null;
+	String itemCode;
+	String shippingAddresses;
+	String ord;
 	@Before("@e2e")
 	public void read_item_master_testdata() throws IOException{
 		stateHolder.put("e2e_error_messages", "");
@@ -51,7 +75,7 @@ public class E2E1Steps extends E2ECommon {
 			testDataReader = new ExcelUtils(ftpPath + excelFileName, "Testdata", "");
 		}
 
-		Map<String, Object> testdataRowMap = null;
+		//Map<String, Object> testdataRowMap = null;
 		for (int j = testDataReader.getSearchTextFirstRowNum(); j <= testDataReader.getSearchTextLastRowNum(); j++) {
 			testdataRowMap = testDataReader.getDataFromExcel(j);
 			if (((String) testdataRowMap.get("Execute")).equalsIgnoreCase("YES")
@@ -108,6 +132,8 @@ public class E2E1Steps extends E2ECommon {
 		E2ECommon e2e = new E2ECommon();
 		logIn.submitUserCredentials(e2e.getDataFromTestDataRowMap("Username"),e2e.getDataFromTestDataRowMap("Password"));
 		Util.wait(10000);
+		
+    	 
 	}
 
 	@When("^User adds the products to bag as per testdata$")
@@ -126,7 +152,7 @@ public class E2E1Steps extends E2ECommon {
 		for (int i = 0; i < arrItemIdentifiers.length; i++) {
 			int rowNumber = getRowNumberFromItemMaster(arrItemIdentifiers[i]);
 			if (rowNumber > 0) {
-				String itemCode = getColumnValueFromItemMaster(rowNumber, "Item Code");
+				 itemCode = getColumnValueFromItemMaster(rowNumber, "Item Code");
 				String color = getColumnValueFromItemMaster(rowNumber, "Color");
 				String size = getColumnValueFromItemMaster(rowNumber, "Size");
 				String quantity = arrQuantities[i];
@@ -364,7 +390,7 @@ public class E2E1Steps extends E2ECommon {
 			// checkoutShipping.continueCheckout();
 		} else {
 			String multipleShippingAddressRequired = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
-			String shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
+			 shippingAddresses = getDataFromTestDataRowMap("Shipping Addresses");
 
 			if (!multipleShippingAddressRequired.equalsIgnoreCase("YES")) {
 				// single shipping address selection
@@ -400,4 +426,163 @@ public class E2E1Steps extends E2ECommon {
 			}
 		}
 	}
+	
+	@SuppressWarnings({ "deprecation", "deprecation" })
+	@And("^I validate Order Number In Email$")
+	public void validate_Order_Number_In_Gmail()throws Exception{
+		Thread.sleep(5000);
+		String currentUrl=getDriver().getCurrentUrl();
+		if(currentUrl.contains("https://mail.google.com")) {
+			Thread.sleep(5000);
+		WebElement search= getDriver().findElement(By.xpath("//*[@id='aso_search_form_anchor']/div/input"));
+		Thread.sleep(5000);
+		ord=CheckoutConfirmation.getOrderNum();
+        search.sendKeys(ord);
+        Thread.sleep(500);
+        search.sendKeys(Keys.ENTER);
+        Thread.sleep(5000);
+		}
+		else {
+			WebElement search= getDriver().findElement(By.xpath("//INPUT[@id='txtS']"));
+			Thread.sleep(5000);
+			ord=CheckoutConfirmation.getOrderNum();
+	        search.sendKeys(ord);
+	        Thread.sleep(5000);
+	        search.sendKeys(Keys.ENTER);
+	        Thread.sleep(5000);
+	        String orderConfirmTxt=   getDriver().findElement(By.xpath("//*[@id='divSubject']")).getText();
+	        assertEquals(orderConfirmTxt,"Thanks for your J.Crew order");
+		}
+	}
+	@Then("Verify_user_is_in_UpdatePassword_mail_Confirmation_Page")
+    public void verify_user_is_in_UpdatePassword_mail_Confirmation_Page() throws IOException, InterruptedException { 
+		 FileInputStream inputFile = new FileInputStream("properties/e2e.properties");
+	       properties.load(inputFile);
+          
+	     //WebMail
+	       String webUrl=  properties.getProperty("webmailURL");
+	       if(getDriver().getCurrentUrl().contains(webUrl)) {
+	           updatePasswordText=   getDriver().findElement(By.xpath("(//span[contains(text(),'Your password has been updated')])[2]")).getText();
+	           assertEquals(updatePasswordText,"Your password has been updated");
+	       }
+	       else {
+	    	   List<WebElement>  updateUserIDText=  getDriver().findElements(By.xpath("//table/tbody/tr[1]/td[5]/div/span/span/following::span[contains(text(),'Your password has been updated')]/parent::span[1]"));
+		  		 int size=updateUserIDText.size();
+		  		 System.out.println(size);
+		  		 for(WebElement userIDText:updateUserIDText) {
+		  			 String updatedText=userIDText.getText();
+		  			 if(updatedText.equalsIgnoreCase("Your password has been updated")) {
+		  				userIDText.click();
+		  				 break;
+		  			 }
+		  			 else {
+		  				 System.out.println("Your password updated Text is not match in Gmail");
+		  			 }
+		  			
+		  	
+		       }
+		  		WebElement	updatedUserIDText=   getDriver().findElement(By.xpath("//h2[contains(text(),'Your password has been updated')]"));
+		  		Assert.assertTrue("updated password  Text is displayed", updatedUserIDText.isDisplayed());
+        }
+	}
+	@Then("Verify_user_is_in_ForgotPassword_mail_Confirmation_Page")
+    public void verify_user_is_in_ForgotPassword_mail_Confirmation_Page() throws IOException, InterruptedException { 
+		 FileInputStream inputFile = new FileInputStream("properties/e2e.properties");
+	       properties.load(inputFile);
+	       Thread.sleep(5000);
+	     //WebMail
+	       String webUrl=  properties.getProperty("webmailURL");
+	       if(getDriver().getCurrentUrl().contains(webUrl)) {
+	    	   forgotPasswordText=   getDriver().findElement(By.xpath("(//span[contains(text(),'Your password has been updated')])[2]")).getText();
+	           assertEquals(forgotPasswordText,"Your password has been updated");
+	       }
+	       else {
+	    	   List<WebElement>  passwordText=  getDriver().findElements(By.xpath("//table/tbody/tr[1]/td[5]/div/span/span/following::span[contains(text(),'Your jcrew.com password...')]/parent::span[1]"));
+		  		 int size=passwordText.size();
+		  		 System.out.println(size);
+		  		 for(WebElement ForgotpasswordText:passwordText) {
+		  			 String updatedText=ForgotpasswordText.getText();
+		  			 if(updatedText.equalsIgnoreCase("Your jcrew.com password...")) {
+		  				ForgotpasswordText.click();
+		  				 break;
+		  			 }
+		  			 else {
+		  				 System.out.println("Your jcrew.com password Text is not match in Gmail");
+		  			 }
+		  			
+		  	
+		       }
+		  		Thread.sleep(5000);
+		  		WebElement	ForgotPasswordText=   getDriver().findElement(By.xpath("(//span[contains(text(),'Forgot your password?')])[3]"));
+		  		Assert.assertTrue("Forgot Password Text is displayed", ForgotPasswordText.isDisplayed());
+        }
+	}
+	
+	@Then("Verify_user_is_in_Update UserID_mail_Confirmation_Page")
+    public void verify_user_is_in_Update_UserID_mail_Confirmation_Page() throws IOException, InterruptedException { 
+		 FileInputStream inputFile = new FileInputStream("properties/e2e.properties");
+	       properties.load(inputFile);
+          
+	     //WebMail
+	       String webUrl=  properties.getProperty("webmailURL");
+	       if(getDriver().getCurrentUrl().contains(webUrl)) {
+	    	String   updateUseridText=   getDriver().findElement(By.xpath("//span[contains(text(),'Your user ID has been updated.')]")).getText();
+	           assertEquals(updateUseridText,"Your user ID has been updated.");
+	     
+	    	 }
+	       List<WebElement>  updateUserIDText=  getDriver().findElements(By.xpath("//table/tbody/tr[1]/td[5]/div/span/span/following::span[contains(text(),'Your user ID has been updated')]/parent::span[1]"));
+	  		 int size=updateUserIDText.size();
+	  		 System.out.println(size);
+	  		 for(WebElement userIDText:updateUserIDText) {
+	  			 String updatedText=userIDText.getText();
+	  			 if(updatedText.equalsIgnoreCase("Your user ID has been updated...")) {
+	  				userIDText.click();
+	  				 break;
+	  			 }
+	  			 else {
+	  				 System.out.println("Your Updated user ID Text is not match in Gmail");
+	  			 }
+	  			
+	  	
+	       }
+	  		Thread.sleep(5000);
+	  		WebElement	updatedUserIDText=   getDriver().findElement(By.xpath("//h2[contains(text(),'Your user ID has been updated...')]"));
+	  		Assert.assertTrue("updated UserID Text is displayed", updatedUserIDText.isDisplayed());
+	  		/*WebElement	forwardText=   getDriver().findElement(By.xpath("//table/tbody/tr/td/div/div/span[contains(text(),'Forward')]"));
+	  		//WebElement scrollw = getDriver().findElement(By.xpath("//table/tbody/tr/td/div/div/span[contains(text(),'Forward')]"));
+	  		//scroll.sendKeys(Keys.PAGE_DOWN); 
+	  		((JavascriptExecutor) getDriver()).executeScript("arguments[0].scrollIntoView();", forwardText); 
+	  		forwardText.sendKeys(Keys.PAGE_DOWN);*/
+	}
+	@SuppressWarnings("deprecation")
+	@Then("Verify user is in mail confirmation page")
+    public void verify_user_is_in_mail_confirmation_page() {
+		
+		Date date = new Date();
+		 
+		Address add1=E2E2Steps.getFirstAddress();
+		String addQas=E2E2Steps.getIsFirstAddressQAS();
+		String addLine1=E2E2Steps.getFirstAddress_AddressLine1();
+		String addLine2=E2E2Steps.getFirstAddress_AddressLine2();
+		String addCity=E2E2Steps.getFirstAddress_City();
+		String addState=E2E2Steps.getFirstAddress_State();
+		String addZipe=E2E2Steps.getFirstAddress_ZipCode();
+		 System.out.println(testdataRowMap);
+	     System.out.println(itemCode);
+	     System.out.println(shippingAddresses);
+	     
+	     WebElement element =	getDriver().findElement(By.xpath("//*[@class='Cp']/div/table/tbody/tr"));
+	     element.click();
+	     
+	    
+        assertTrue("Order Confirmation message is displayed", getDriver().findElement(By.xpath("//H1[text()='Thank you for shopping at J.Crew']")).isDisplayed());
+        String orderTxt=  getDriver().findElement(By.xpath("(//*[contains(text(),'Order Number')])[2]")).getText();
+        String billingAdd=  getDriver().findElement(By.xpath("//*[@id=\":gh\"]/div[1]/table/tbody/tr/td/center/table/tbody/tr/td/table[5]/tbody/tr/th[1]")).getText();
+        assertTrue("Order displayed in email confirmation page..", orderTxt.contains(ord));
+        
+        /*String dateTxt=  getDriver().findElement(By.xpath("//FONT[@face='Soleil,Helvetica,Arial,sans-serif'][contains(text(),'Placed on')]")).getText();
+       String output = String.format("%1$s %2$tB %2$td, %2$tY", "", date).toString();
+       System.out.println(output);*/
+       //assertTrue("Verify Order Placed On Date",dateTxt.contains(output));
+    }
 }

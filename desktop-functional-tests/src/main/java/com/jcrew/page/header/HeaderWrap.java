@@ -8,7 +8,10 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -19,7 +22,8 @@ public class HeaderWrap extends PageObject {
 
 	@FindBy(xpath = "//li[@class='nc-nav__account nc-nav__menu-tab nc-nav__list-item']")
 	private WebElement sign_in;
-	
+	@FindBy(xpath = "//BUTTON[@type='button'][text()='Forgot Password?']")
+	private WebElement forgotPassword;
 	@FindBy(xpath = "//span[text()='sign in']")
 	private WebElement sign_in_factory;
 	
@@ -27,7 +31,12 @@ public class HeaderWrap extends PageObject {
 	private WebElement myAccount;
 	@FindBy(className = "nc-nav__account__drop-down")
 	private WebElement userPanel;
-
+	
+	String webmailid;
+	String emailID;
+	String mailProperty;
+	String password;
+	private final Properties properties = new Properties();
 	private WebElement dropdown;
 	String currentUrl = driver.getCurrentUrl();
 	public HeaderWrap(WebDriver driver) {
@@ -70,7 +79,19 @@ public class HeaderWrap extends PageObject {
         Util.wait(2000);
         myAccount.click();
     }
-    
+    public void enterLoginCredentials() throws IOException {
+		FileInputStream inputFile = new FileInputStream("properties/e2e.properties");
+	     properties.load(inputFile);
+	     emailID=  properties.getProperty("emailID");
+	     password=  properties.getProperty("password");
+		Util.wait(2000);
+    	driver.findElement(By.xpath("//INPUT[@id='loginEmail']")).sendKeys(emailID);
+    	 Util.wait(2000);
+    	driver.findElement(By.xpath("//INPUT[@id='loginPassword']")).sendKeys(password);
+    	 Util.wait(2000);
+    	driver.findElement(By.xpath("//BUTTON[@class='btn--signin js-button-submit'][text()='Sign In']")).click();
+    	 Util.wait(2000);
+	}
     public boolean isMyAccountDisplayed(){
         wait.until(ExpectedConditions.visibilityOf(myAccount));
         return myAccount.isDisplayed();
@@ -149,5 +170,42 @@ public class HeaderWrap extends PageObject {
 
 		return result;
 	}
-
+	public void enterEmail() throws IOException {
+		 FileInputStream inputFile = new FileInputStream("properties/e2e.properties");
+	     properties.load(inputFile);
+		 webmailid=  properties.getProperty("webemailID");
+		 emailID=  properties.getProperty("emailID");
+		 mailProperty=  properties.getProperty("email");
+		if(mailProperty.equalsIgnoreCase("outlook")) {
+			Util.wait(2000);
+		    driver.findElement(By.xpath("//INPUT[@id='loginEmail']")).sendKeys(webmailid);
+		}
+		else {
+		Util.wait(2000);
+	    driver.findElement(By.xpath("//INPUT[@id='loginEmail']")).sendKeys(emailID);
+	}
+	}
+	public void clickForgotPassword() throws IOException {
+		 FileInputStream inputFile = new FileInputStream("properties/e2e.properties");
+	     properties.load(inputFile);
+		String webmailid=  properties.getProperty("webemailID");
+		forgotPassword.click();
+		Util.wait(2000);
+		if(mailProperty.equalsIgnoreCase("outlook")) {
+		driver.findElement(By.xpath("//INPUT[@id='forgot-password-email']")).sendKeys(webmailid);
+		Util.wait(2000);
+	    driver.findElement(By.xpath("//BUTTON[@class='btn--submit btn--signin js-button-submit'][text()='Email Me A New Password']")).click();
+	    Util.wait(5000);
+	    driver.findElement(By.xpath("//BUTTON[@class='icon-close-X js-icon-close js-signin-close icon-X']")).click();
+	    Util.wait(2000);
+	}
+		else {
+			driver.findElement(By.xpath("//INPUT[@id='forgot-password-email']")).sendKeys(emailID);
+			Util.wait(2000);
+		    driver.findElement(By.xpath("//BUTTON[@class='btn--submit btn--signin js-button-submit'][text()='Email Me A New Password']")).click();
+		    Util.wait(2000);
+		    driver.findElement(By.xpath("//BUTTON[@class='icon-close-X js-icon-close js-signin-close icon-X']")).click();
+		    Util.wait(2000);
+		}
+	}
 }

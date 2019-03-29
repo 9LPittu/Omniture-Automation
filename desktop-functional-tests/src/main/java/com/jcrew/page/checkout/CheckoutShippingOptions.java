@@ -274,8 +274,11 @@ public class CheckoutShippingOptions extends Checkout {
 		/*List<WebElement> giftWrappingServiceRadioElements = shippingMethodContainer
 				.findElements(By.xpath(".//input[contains(@id,'giftWrapService')]"));
 		for (WebElement giftWrappingServiceRadioElement : giftWrappingServiceRadioElements) {*/
-			 WebElement giftWrappingServiceRadioElement =
-			 shippingMethodContainer.findElement(By.xpath("(.//input[contains(@id,'giftWrapService')])[2]"));
+		
+			/* WebElement giftWrappingServiceRadioElement =
+			 shippingMethodContainer.findElement(By.xpath("(.//input[contains(@id,'giftWrapService')])[2]"));*/
+		WebElement giftWrappingServiceRadioElement =
+				 shippingMethodContainer.findElement(By.xpath(".//input[contains(@id,'giftWrapService')]"));
 			try {
 				giftWrappingServiceRadioElement.click();
 				logger.debug("Gift Wrapping Service radio button is selected...");

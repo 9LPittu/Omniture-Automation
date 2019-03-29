@@ -40,7 +40,9 @@ public abstract class Checkout extends PageObject {
     private WebElement checkout;
     @FindBy(id = "breadCrumbs")
     private WebElement breadCrumbs;
-
+    public Checkout() {
+        
+    }
     public Checkout(WebDriver driver) {
         super(driver);
         Util.waitForPageFullyLoaded(driver);

@@ -71,8 +71,8 @@ public class CheckoutBillingSteps extends DriverFactory {
     	/*if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
 			return;
 		}*/
-    	CheckoutBilling billing = new CheckoutBilling(getDriver());
-    	assertTrue("Is billing page", billing.isDisplayed());
+    	//CheckoutBilling billing = new CheckoutBilling(getDriver());
+    	//assertTrue("Is billing page", billing.isDisplayed());
     }
 
     @Then("Verify available payment methods from list")

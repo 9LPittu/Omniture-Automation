@@ -11,6 +11,8 @@ import cucumber.api.java.en.And;
 
 import static org.junit.Assert.*;
 
+import org.openqa.selenium.By;
+
 /**
  * Created by nadiapaolagarcia on 3/29/16.
  */
@@ -22,13 +24,33 @@ public class MyAccountSteps extends DriverFactory {
     public void user_goes_to_option_using_my_account_menu(String option){
         myAccount.clickInMenuOption(option);
     }
-
+    @When("User Reset new password")
+    public void UserResetpassword(){
+        myAccount.scrollIntoElement();;
+    }
+    @When("User Update User ID")
+    public void User_Update_User_ID(){
+        myAccount.updateUserID();
+    }
+    @Then("Verify Update Password Success Message")
+    public void Verify_Update_Password_Success_Message(){
+    	 boolean isDisplayed = myAccount.verifySuccessMessage();
+         assertTrue("Verify Update Password Success Message", isDisplayed);
+    }
+    @Then("Verify Updated UserID Success Message")
+    public void Verify_Updated_UserID_Success_Message(){
+    	 boolean isDisplayed = myAccount.verifySuccessMessage();
+         assertTrue("Verify Updated UserID Success Message", isDisplayed);
+    }
     @Then("Verify user is in My Account main page")
     public void user_is_in_my_account_page(){
         assertTrue("User is in My Account page", myAccount.isMyAccountMainPage());
     }
 
-
+    @Then("Verify user is in Account Details page")
+    public void user_is_in_account_details_page(){
+        assertTrue("User is in Account Details page",getDriver().findElement(By.xpath("(//div[@class='account__my-details--header'])[1]")).isDisplayed());
+    }
     @Then("Verify user is in Order History page")
     public void user_is_in_order_history_page() {
         assertTrue("User is in order history page",myAccount.isOrderHistoryPage());

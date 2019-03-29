@@ -81,4 +81,25 @@ public class FactoryMyAccount extends Account implements IMyAccount {
         throw new WebDriverException("Method not implemented for Factory");
     }
 
+
+	@Override
+	public void scrollIntoElement() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public boolean verifySuccessMessage() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public void updateUserID() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -11,7 +11,7 @@ Feature: Non Express User E2E order placing
   	And User enters login credentials  	
   	And This script cleans bag for current user
   	And User signs out using header
-  	
+#  	
   	When User selects country as per testdata
   	
   	When User clicks on sign in using header
@@ -58,5 +58,41 @@ Feature: Non Express User E2E order placing
   	Then Verify user is in order confirmation page
   	When User closes the Bizrate Popup
   	Then Verify user gets a confirmation number
+  	When I opened email in browser
+ 	And I validate Order Number In Email
+ 	Then Verify user is in mail confirmation page
+ 	
+ 	
+  	Scenario: Non Express User Forgot Password scenario
+	And User goes to homepage
+  	And User closes email capture
+  	When User clicks on sign in using header
+  	And Enter Email credentials
+  	And Click on Forgot Password
+  	When I opened email in browser
+ 	Then Verify_user_is_in_ForgotPassword_mail_Confirmation_Page
   	
   	
+  	Scenario: Non Express User Update Password scenario
+	And User goes to homepage
+  	And User closes email capture
+  	When User clicks on sign in using header  	
+  	And User enters credentials
+  	When User goes to My Details from header
+  	Then Verify user is in Account Details page
+  	When User Reset new password
+  	Then Verify Update Password Success Message
+  	When I opened email in browser
+ 	Then Verify_user_is_in_UpdatePassword_mail_Confirmation_Page
+
+Scenario: Non Express User Update User ID scenario
+	And User goes to homepage
+  	And User closes email capture
+  	When User clicks on sign in using header
+  	And User enters credentials
+  	When User goes to My Details from header
+  	Then Verify user is in Account Details page
+    When User Update User ID
+    Then Verify Updated UserID Success Message
+  	When I opened email in browser
+ 	Then Verify_user_is_in_Update UserID_mail_Confirmation_Page

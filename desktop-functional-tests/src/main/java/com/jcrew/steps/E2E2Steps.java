@@ -20,12 +20,84 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.When;
 
 public class E2E2Steps extends E2ECommon {
+	static Address billingAddress=null;
+	static Address firstAddress =null;
+	static String isFirstAddressQAS =null;
+	static String firstAddress_AddressLine1 =null;
+    static String firstAddress_AddressLine2 =null;
+	public static String getIsFirstAddressQAS() {
+		return isFirstAddressQAS;
+	}
+
+	public static void setIsFirstAddressQAS(String isFirstAddressQAS) {
+		E2E2Steps.isFirstAddressQAS = isFirstAddressQAS;
+	}
+
+	public static String getFirstAddress_AddressLine1() {
+		return firstAddress_AddressLine1;
+	}
+
+	public static void setFirstAddress_AddressLine1(String firstAddress_AddressLine1) {
+		E2E2Steps.firstAddress_AddressLine1 = firstAddress_AddressLine1;
+	}
+
+	public static String getFirstAddress_AddressLine2() {
+		return firstAddress_AddressLine2;
+	}
+
+	public static void setFirstAddress_AddressLine2(String firstAddress_AddressLine2) {
+		E2E2Steps.firstAddress_AddressLine2 = firstAddress_AddressLine2;
+	}
+
+	public static String getFirstAddress_City() {
+		return firstAddress_City;
+	}
+
+	public static void setFirstAddress_City(String firstAddress_City) {
+		E2E2Steps.firstAddress_City = firstAddress_City;
+	}
+
+	public static String getFirstAddress_State() {
+		return firstAddress_State;
+	}
+
+	public static void setFirstAddress_State(String firstAddress_State) {
+		E2E2Steps.firstAddress_State = firstAddress_State;
+	}
+
+	public static String getFirstAddress_ZipCode() {
+		return firstAddress_ZipCode;
+	}
+
+	public static void setFirstAddress_ZipCode(String firstAddress_ZipCode) {
+		E2E2Steps.firstAddress_ZipCode = firstAddress_ZipCode;
+	}
+
+	static String firstAddress_City =null;
+	static String firstAddress_State =null;
+	static String firstAddress_ZipCode =null;
+	public static Address getFirstAddress() {
+		return firstAddress;
+	}
+
+	public static void setFirstAddress(Address firstAddress) {
+		E2E2Steps.firstAddress = firstAddress;
+	}
+
+	public static Address getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
+	}
 
 	@When("^User selects Shipping Methods as per testdata$")
 	public void user_selects_shipping_methods() throws InterruptedException {
 		/*if(getDataFromTestDataRowMap("E2E Scenario Description").contains("Express paypal")) {
 			return;
 		}*/
+		
 		if (stateHolder.hasKey("isShippingDisabled"))
 			return;
 
@@ -323,14 +395,17 @@ public class E2E2Steps extends E2ECommon {
 				checkoutShippingAdd.selectMultipleAddressesRadioButton();
 			}
 			
-			String isFirstAddressQAS = getDataFromTestDataRowMap("is First Address QAS?");
-			String firstAddress_AddressLine1 = getDataFromTestDataRowMap("FirstAddress_AddressLine1");
-			String firstAddress_AddressLine2 = getDataFromTestDataRowMap("FirstAddress_AddressLine2");
-			String firstAddress_City = getDataFromTestDataRowMap("FirstAddress_City");
-			String firstAddress_State = getDataFromTestDataRowMap("FirstAddress_State");
-			String firstAddress_ZipCode = getDataFromTestDataRowMap("FirstAddress_ZipCode");
+			 isFirstAddressQAS = getDataFromTestDataRowMap("is First Address QAS?");
+			 firstAddress_AddressLine1 = getDataFromTestDataRowMap("FirstAddress_AddressLine1");
+			 firstAddress_AddressLine2 = getDataFromTestDataRowMap("FirstAddress_AddressLine2");
+			 firstAddress_City = getDataFromTestDataRowMap("FirstAddress_City");
+			 firstAddress_State = getDataFromTestDataRowMap("FirstAddress_State");
+			 firstAddress_ZipCode = getDataFromTestDataRowMap("FirstAddress_ZipCode");
 
-			Address firstAddress = new Address(firstAddress_AddressLine1, firstAddress_AddressLine2, firstAddress_City,
+			/*Address firstAddress = new Address(firstAddress_AddressLine1, firstAddress_AddressLine2, firstAddress_City,
+					firstAddress_State, firstAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
+			checkoutShippingAdd.fillShippingData(firstAddress);*/
+			 firstAddress = new Address(firstAddress_AddressLine1, firstAddress_AddressLine2, firstAddress_City,
 					firstAddress_State, firstAddress_ZipCode, new Faker().phoneNumber().phoneNumber());
 			checkoutShippingAdd.fillShippingData(firstAddress);
 
@@ -394,7 +469,10 @@ public class E2E2Steps extends E2ECommon {
 		String billingAddress_State = getDataFromTestDataRowMap("BillingAddress_State");
 		String billingAddress_ZipCode = getDataFromTestDataRowMap("BillingAddress_ZipCode");
 
-		Address billingAddress = new Address(billingAddress_FirstName, billingAddress_LastName,
+		/*Address billingAddress = new Address(billingAddress_FirstName, billingAddress_LastName,
+				billingAddress_AddressLine1, billingAddress_AddressLine2, billingAddress_City, billingAddress_State,
+				billingAddress_ZipCode, new Faker().phoneNumber().phoneNumber(), billingAddress_Country);*/
+		  billingAddress = new Address(billingAddress_FirstName, billingAddress_LastName,
 				billingAddress_AddressLine1, billingAddress_AddressLine2, billingAddress_City, billingAddress_State,
 				billingAddress_ZipCode, new Faker().phoneNumber().phoneNumber(), billingAddress_Country);
 

@@ -1,5 +1,6 @@
 package com.jcrew.page.checkout;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 
@@ -21,20 +22,24 @@ import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
  * Created by nadiapaolagarcia on 5/3/16.
  */
 public class CheckoutConfirmation extends Checkout {
-
+	static String orderNum =null;
     @FindBy(id = "confirmation-number")
     private WebElement confirmation_number;
     @FindBy(xpath = "//div[@class='footer__country-context']")
     private WebElement footer;
     @FindBy(id = "gifting-details")
     private WebElement giftDetails;
-
+    public CheckoutConfirmation() {
+        this.orderNum=orderNum;
+     }
     public CheckoutConfirmation(WebDriver driver) {
         super(driver);
 
         wait.until(ExpectedConditions.visibilityOf(confirmation_number));
     }
-
+    public static String getOrderNum() {
+		return orderNum;
+	}
     public boolean isDisplayed() {
         String bodyId = getBodyAttribute("id");
         logger.debug("class: {}", getBodyAttribute("class"));
@@ -44,9 +49,10 @@ public class CheckoutConfirmation extends Checkout {
 
 	public String getConfirmationCode() throws Exception {
 		WebElement numberElement = confirmation_number.findElement(By.className("order-number"));
-		String orderNum = numberElement.getText().trim();
+		 orderNum = numberElement.getText().trim();
 		Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(driver);
 		ImageIO.write(screenshot.getImage(),"PNG",new File(System.getProperty("user.dir")+"\\Screenshots\\"+orderNum+".png"));
+		
 		return numberElement.getText().trim();
 	}
 

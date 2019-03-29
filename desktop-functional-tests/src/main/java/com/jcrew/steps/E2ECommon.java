@@ -50,6 +50,7 @@ public class E2ECommon extends DriverFactory {
 		ExcelUtils itemMasterTestdata = /*stateHolder.get("itemMasterTestdata");*/new ExcelUtils(System.getProperty("user.dir")+"\\properties\\test_data\\E2E_ITEMS_MASTER_TESTDATA.xls", "E2E_ITEMS", "");
 		for (int i = itemMasterTestdata.getSearchTextFirstRowNum(); i <= itemMasterTestdata.getSearchTextLastRowNum(); i++) {
 			try {
+				System.out.println(i);
 				Map<String, Object> itemMasterTestdataMap = itemMasterTestdata.getDataFromExcel(i);
 				
 				String itemIdentifierFromSheet = (String) itemMasterTestdataMap.get("Item Identifier");

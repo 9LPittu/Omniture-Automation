@@ -282,7 +282,8 @@ public class ProductDetails extends PageObject {
         WebElement productCodeElement = null;
         try {
             productCodeElement = Util.createWebDriverWait(driver).until(
-                    ExpectedConditions.visibilityOf(productOverview.findElement(By.className("c-product__code"))));
+                    ExpectedConditions.visibilityOf(driver.findElement(By.className("product__code"))));
+            //productOverview.findElement(By.className("c-product__code"))
         } catch (TimeoutException toe) {
             throw new WebDriverException("Product/item code is not found on the PDP!");
         }

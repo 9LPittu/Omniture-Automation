@@ -4,7 +4,12 @@ import com.jcrew.page.header.HeaderWrap;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
 import com.jcrew.utils.Util;
+
+import java.io.FileInputStream;
+import java.util.Properties;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,14 +26,22 @@ public class JcrewMyAccount extends Account implements IMyAccount {
     private WebElement main_content;
     @FindBy(id = "main_inside")
     private WebElement main_inside;
+    @FindBy(xpath = "//DIV[@class='account__my-details--header'][text()='Change Password']")
+   	private WebElement changePassword;
+  
+    @FindBy(xpath = "//BUTTON[text()='save details']")
+   	private WebElement SaveDetails;
     @FindBy(id = "containerBorderLeft")
     private WebElement leftContainer;
     @FindBy(id = "main_cont_hist")
     private WebElement main_content_history;
-
+    @FindBy(xpath = "//span[contains(text(),'Your information has been updated.')]")
+    private WebElement successMessage;
+    String password;
+    String emailID;
     public JcrewMyAccount(WebDriver driver) {
         super(driver);
-        wait.until(ExpectedConditions.visibilityOf(main_content));
+       // wait.until(ExpectedConditions.visibilityOf(main_content));
 
         HeaderWrap header = new HeaderWrap(driver);
     }
@@ -116,8 +129,9 @@ public class JcrewMyAccount extends Account implements IMyAccount {
         Util.waitForPageFullyLoaded(driver);
         Country c = stateHolder.get("context");
         logger.debug(c.getCountry());
-        wait.until(ExpectedConditions.visibilityOf(main_inside));
-        return main_inside.findElement(By.linkText(link));
+       // wait.until(ExpectedConditions.visibilityOf(main_inside));
+       // return main_inside.findElement(By.linkText(link));
+		return null;
     }
 
     public boolean isInMenuLinkPage(String page) {
@@ -154,5 +168,68 @@ public class JcrewMyAccount extends Account implements IMyAccount {
             return false;
         }
     }
+    public boolean verifySuccessMessage() {
+    	successMessage = wait.until(ExpectedConditions.visibilityOf(successMessage));
+        return successMessage.isDisplayed();
+    }
+    @Override
+	public void scrollIntoElement() {
+		FileInputStream inputFile = null;
+		try {
+			inputFile = new FileInputStream("properties/e2e.properties");
+			 Properties properties = new Properties();
+			 properties.load(inputFile);
+			 password=  properties.getProperty("password");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", changePassword);
+			 WebElement currentPasswordTxt = driver.findElement(By.xpath("//INPUT[@id='my-details-form__old-password']"));
+			 currentPasswordTxt.clear();
+			 currentPasswordTxt.sendKeys(password);
+			 WebElement newPasswordTxt = driver.findElement(By.xpath("//INPUT[@id='my-details-form__new-password']"));
+			 newPasswordTxt.clear();
+			 newPasswordTxt.sendKeys(password);
+			 WebElement confirmPasswordTxt = driver.findElement(By.xpath("//INPUT[@id='my-details-form__confirm-password']"));
+			 confirmPasswordTxt.clear();
+			 confirmPasswordTxt.sendKeys(password);
+			 try {
+				Thread.sleep(5000);
+				WebElement saveDetailsbtn = driver.findElement(By.xpath("//BUTTON[@class='my-details-form__btn-submit'][text()='save details']"));
+				 saveDetailsbtn.click();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+	}
 
+    @Override
+	public void updateUserID() {
+		/*FileInputStream inputFile = null;
+		try {
+			inputFile = new FileInputStream("properties/e2e.properties");
+			 Properties properties = new Properties();
+			 properties.load(inputFile);
+			 emailID=  properties.getProperty("emailID");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+		int x = (int) Math.floor((Math.random() * 99));
+		String userName = "testautousera" + x+"@gmail.com";
+		System.out.println(userName);
+		WebElement updateUserdIDTxt = driver.findElement(By.xpath("//INPUT[@id='my-details-form__email']"));
+		updateUserdIDTxt.clear();
+		updateUserdIDTxt.sendKeys(userName);
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", changePassword);
+			 try {
+				Thread.sleep(5000);
+				WebElement saveDetailsbtn = driver.findElement(By.xpath("//BUTTON[text()='save details']"));
+				 saveDetailsbtn.click();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+	}
 }

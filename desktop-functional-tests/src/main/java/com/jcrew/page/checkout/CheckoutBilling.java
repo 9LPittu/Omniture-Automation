@@ -84,7 +84,7 @@ public class CheckoutBilling extends Checkout {
 	protected TestDataReader testdataReader = TestDataReader.getTestDataReader();
 	public CheckoutBilling(WebDriver driver) {
 		super(driver);
-		wait.until(ExpectedConditions.visibilityOf(payment_page));
+		//wait.until(ExpectedConditions.visibilityOf(payment_page));
 	}
 
 	@Override
@@ -326,7 +326,7 @@ public class CheckoutBilling extends Checkout {
 		}
 		User user = User.getNewFakeUser();
 		nameOnCard.sendKeys(user.getFirstName() + " " + user.getLastName());
-		enterEmailAddress();
+		//enterEmailAddress();
 		E2ECommon e2e = new E2ECommon();
 		Country countryPojo = stateHolder.get("context");
 		Address address = new Address(countryPojo.getCountry());

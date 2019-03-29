@@ -33,6 +33,9 @@ public class CheckoutShippingEdit extends Checkout {
     private WebElement shipToStore;
     @FindBy(xpath="//span[@class='zip-code normal-span']/input[@id='zipcode']")
     private WebElement zipCode;
+    @FindBy(xpath=".//span[contains(@class,'address-line')]")
+    private List<WebElement> addres;
+    
     protected E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
     E2ECommon e2eReader = new E2ECommon();
 
@@ -71,8 +74,20 @@ public class CheckoutShippingEdit extends Checkout {
     }
     
     public void selectSpecificShippingAddress(String addressLine1){
-    	List<WebElement> radioButtons = address_book.findElements(By.xpath(".//span[contains(@class,'address-line') and contains(normalize-space(.),'" + addressLine1 + 
-    												"')]/preceding-sibling::input[@class='address-radio']"));
+    	String addText = null;
+    	List<WebElement> radioButtons = null;
+    	String add[]=null;
+    	for(int i=0;i<addres.size();i++) {
+    		addText = addres.get(i).getText();
+    		add = addText.split("\n");
+    		if(add[1].equalsIgnoreCase(addressLine1)) {
+        		String addressLine=add[1];
+                radioButtons = address_book.findElements(By.xpath(".//span[contains(@class,'address-line') and contains(normalize-space(.),'" + addressLine + 
+            												"')]/preceding-sibling::input[@class='address-radio']"));
+            break;
+        	}
+    		
+    	}
     	
     	if(radioButtons.size()==0){
     		String errorMessage = "'" + addressLine1 + "' address is not found on the Shipping Address page";

@@ -82,7 +82,7 @@ public class FinalSteps {
             }
         }
 
-        driverFactory.destroyDriver();
+        //driverFactory.destroyDriver();
         
         UsersHub userHub = UsersHub.getInstance();
         userHub.releaseUserCredentials();        

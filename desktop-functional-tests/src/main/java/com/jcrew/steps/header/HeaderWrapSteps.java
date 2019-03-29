@@ -14,6 +14,8 @@ import com.jcrew.utils.Util;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 /**
  * Created by nadiapaolagarcia on 3/28/16.
  */
@@ -24,6 +26,22 @@ public class HeaderWrapSteps extends DriverFactory {
     public void click_sign_in() {
     	Util.wait(5000);
         header.clickSignIn();
+    }
+/*    @When("User clicks on sign in")
+    public void sign_in() {
+        header.clickSignIn();
+    }
+*/    @And("User enters credentials")
+    public void enterLoginCredentials() throws IOException{
+    	 header.enterLoginCredentials();
+    }
+    @And("Enter Email credentials")
+    public void enterEmail() throws IOException{
+    	 header.enterEmail();
+    }
+    @And("Click on Forgot Password")
+    public void clickForgotpassword() throws IOException{
+    	 header.clickForgotPassword();
     }
 
     @When("User hovers over ([^\"]*)")
@@ -43,7 +61,7 @@ public class HeaderWrapSteps extends DriverFactory {
 
     @When("User goes to My Details from header")
     public void my_details_from_header() {
-        header.goToMyDetailsDropDownMenu("My Account");
+        header.goToMyDetailsDropDownMenu("Account");
 
         IMyAccount myAccount = MyAccount.getAccountMain(getDriver());
         myAccount.click_menu_link("My Details");

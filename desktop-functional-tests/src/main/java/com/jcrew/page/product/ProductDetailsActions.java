@@ -15,7 +15,7 @@ public class ProductDetailsActions extends ProductDetails {
 
     @FindBy(id = "c-product__actions")
     private WebElement product_actions;
-    @FindBy(xpath="//button[text()='Add to Bag']")
+    @FindBy(xpath="//span[text()='Add to Bag']")
     private WebElement addToBagButton;
 
     public ProductDetailsActions(WebDriver driver) {

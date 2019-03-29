@@ -8,6 +8,9 @@ public interface IMyAccount {
     void clickInMenuOption(String menuOption);
     boolean isMyAccountMainPage();
     boolean isOrderHistoryPage();
+    void scrollIntoElement();
+    void updateUserID();
+    boolean verifySuccessMessage();
     boolean shouldRewardDisplayed(String category);
     boolean isMenuLinkPresent(String link);
     void click_reward_link(String link);

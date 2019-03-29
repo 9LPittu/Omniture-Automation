@@ -26,7 +26,11 @@ public abstract class PageObject implements IPageObject {
     public final Logger logger = LoggerFactory.getLogger(PageObject.class);
     protected final WebDriverWait wait;
     protected final Actions hoverAction;
-
+    public PageObject() {
+  	  this.wait=null;
+  	  this.hoverAction=null;
+  	  this.driver=null;
+  }
     public PageObject(WebDriver driver) {
         this.driver = driver;
         this.wait = Util.createWebDriverWait(driver);
