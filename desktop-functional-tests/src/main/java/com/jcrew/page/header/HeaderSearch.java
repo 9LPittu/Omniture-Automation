@@ -30,27 +30,26 @@ public class HeaderSearch extends HeaderWrap {
         super(driver);
     }
 
-    public void searchForSpecificTerm(String searchTerm) {
-        String currentUrl = driver.getCurrentUrl();
-        try {
-        	if (closeIcon.isDisplayed()) {
-                closeIcon.click();
-            } else {
-                headerSearch.click();
-            }
+	public void searchForSpecificTerm(String searchTerm) {
+		String currentUrl = driver.getCurrentUrl();
+		try {
+			if (closeIcon.isDisplayed()) {
+				closeIcon.click();
+			} else {
+				headerSearch.click();
+			}
 
-        }catch (Exception e) {}
-        
-        //WebElement searchInput = headerSearch.findElement(By.xpath(".//input[contains(@class,'js-primary-nav__input--search')]"));
+		} catch (Exception e) {
+		}
 
-        headerSearch.clear();
-        headerSearch.sendKeys(searchTerm);
-        headerSearch.sendKeys(Keys.ENTER);
+		headerSearch.clear();
+		headerSearch.sendKeys(searchTerm);
+		headerSearch.sendKeys(Keys.ENTER);
 
-        logger.info("Searching for {}", searchTerm);
-        wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
-        Util.waitLoadingBar(driver);
-    }
+		logger.info("Searching for {}", searchTerm);
+		wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+		Util.waitLoadingBar(driver);
+	}
 
     public void searchFor(String searchItem) {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();

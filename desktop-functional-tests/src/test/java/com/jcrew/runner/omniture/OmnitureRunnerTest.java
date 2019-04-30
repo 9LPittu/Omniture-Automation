@@ -13,7 +13,7 @@ import com.jcrew.listners.Reporter;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"features/jcrew/omniture"},
-        tags = {"@s_omnitureArray"},
+        tags = {"@s_omnitureJcrew"},
         glue = {"com.jcrew.steps"},
         plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"},
         format = {

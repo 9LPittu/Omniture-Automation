@@ -31,7 +31,7 @@ public class Util {
     public static String e2eErrorMessages= "";
     
     public static String getEnvironment(){
-    	return System.getProperty("environment", "gold");
+    	return System.getProperty("environment", "production");
     }
 
     public static int randomIndex(int size) {

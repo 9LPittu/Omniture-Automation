@@ -1,30 +1,30 @@
-package com.factory.runner.omniture;
-
+package com.e2e.jcrew.runner;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
-import org.junit.runner.RunWith;
+
 import java.io.File;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-//import org.junit.runner.RunWith;
+import org.junit.runner.RunWith;
 
 import com.jcrew.listners.Reporter;
 
 
-
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/factory/omniture"},
-        tags = {"@s_omnitureFactory"},
+        features = {"features/jcrew/regression/Content"},
+        tags = {"@JcrewContentTesting"},
         glue = {"com.jcrew.steps"},
-        plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"},
+        		plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"},
         format = {
-                "json:target/cucumber-SAccount.json",
+                "json:target/cucumber-Content_Jcrew.json",
                 "pretty",
-                "html:target/cucumber/SAccount"}
+                "html:target/cucumber/Content_Jcrew"
+        }
 )
 
-public class OmnitureRunnerTest {
+public class ContentRunnerTest {
 	@BeforeClass
     public static void setup() {
         Reporter.setReportsConfig("JCFAR");
@@ -35,6 +35,13 @@ public class OmnitureRunnerTest {
         Reporter.loadXMLConfig(new File(System.getProperty("user.dir") + "/properties/reports-config.xml"));
         Reporter.setSystemInfo("user", System.getProperty("user.name"));
     }
-
-
+	
 }
+
+
+
+
+
+
+
+

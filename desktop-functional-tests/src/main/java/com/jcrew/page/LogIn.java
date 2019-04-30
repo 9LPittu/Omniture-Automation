@@ -409,7 +409,7 @@ public class LogIn extends PageObject {
 
         String currentPage = driver.getCurrentUrl();
         Util.wait(2000);
-        WebElement submit = signInForm.findElement(By.xpath("//form/button[text()='Sign In']"));//js-button-submit
+        WebElement submit = signInForm.findElement(By.xpath("//button[@class='btn--signin js-button-submit']"));//js-button-submit
         wait.until(ExpectedConditions.elementToBeClickable(submit));
         Util.scrollAndClick(driver, submit);
 

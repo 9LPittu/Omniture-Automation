@@ -59,7 +59,7 @@ public class StartSteps {
         while (retry < 2 && !successfulLoad) {
             try {
                 getHomePage();
-                waitForHeaderPromo();
+                //waitForHeaderPromo();
                 successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);

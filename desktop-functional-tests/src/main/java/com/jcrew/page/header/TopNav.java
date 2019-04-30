@@ -65,17 +65,13 @@ public class TopNav extends HeaderWrap {
     		categoryLink = top_nav_factory.findElement(By.xpath(
                     "//div[@class='c-header__department-nav js-header__department-nav']//ul//li//a//span[text()='"+dept+"']"));
     	}else {
-        /*categoryLink = top_nav.findElement(By.xpath(
-                ".//a[@class='department-nav__link']/span[" + Util.xpathGetTextLower + " = '" + dept.toLowerCase() + "']"));*/
-    	categoryLink = top_nav.findElement(By.xpath(
-                    "//span[@class='nc-nav__dept-link-wrap']/a[text()='"+dept+"']"));	
+        categoryLink = top_nav.findElement(By.xpath("//span[contains(@class,'nc-nav__dept-link-wrap')]/*[text()='"+dept+"']"));
     	}
         hoverAction.moveToElement(categoryLink);
         hoverAction.build().perform();
 
         logger.info("Hovering over category {} in top nav", dept);
         stateHolder.put("category", dept);
-       // categoryLink.click();
         SubCategory subCategory = new SubCategory(driver);
     }
 
@@ -89,11 +85,11 @@ public class TopNav extends HeaderWrap {
     public void hoverCategory(DataTableRow categories) {
         String category = categories.getCells().get(0);
         String subcategory = categories.getCells().get(1);
-
+        
         hoverCategory(category);
 
         SubCategory subCategoryWrap = new SubCategory(driver);
-        subCategoryWrap.selectSubCategory(subcategory);
+        subCategoryWrap.selectSubCategoryForCategory(category,subcategory);
     }
 
     public void hoverCategory(String category, String subcategory) {

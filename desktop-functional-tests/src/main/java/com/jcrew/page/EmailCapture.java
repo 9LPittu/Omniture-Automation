@@ -1,36 +1,27 @@
 package com.jcrew.page;
 
-import com.google.common.base.Function;
 import com.jcrew.utils.Util;
 
-import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.List;
 
 /**
  * Created by nadiapaolagarcia on 7/19/16.
  */
 public class EmailCapture extends PageObject {
 
-    private final WebDriverWait shortWait;
-
     @FindBy(xpath = "//div[contains(@class,'bx-creative bx-creative')]")
     private WebElement global__email_capture;
     
     @FindBy(xpath = "(//*[@class='bx-close-xstroke bx-close-x-adaptive'])[1]")
     private WebElement closeIcon_jcrew;
-    @FindBy(xpath = "(//*[@class='bx-close-xstroke bx-close-x-adaptive'])[2]")
+    @FindBy(xpath = "(//*[@class='bx-close-xstroke bx-close-x-adaptive'])[1]")
     private WebElement closeIcon_factory;
     String currentUrl = driver.getCurrentUrl();
     public EmailCapture(WebDriver driver) {
         super(driver);
-        this.shortWait = Util.createWebDriverWait(driver, 30);
+        Util.createWebDriverWait(driver, 30);
 
         PageFactory.initElements(driver, this);
     }

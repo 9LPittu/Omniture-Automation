@@ -24,7 +24,7 @@ public class ProductDetailsSizes extends ProductDetails {
 
     public void selectRandomSize() {
         wait.until(ExpectedConditions.visibilityOf(sizes));
-        String availableSizesSelector = ".//li[contains(@class,'js-product__size sizes-list__item') " +
+        String availableSizesSelector = ".//*[contains(@class,'js-product__size sizes-list__item') " +
                 "and not(contains(@class,'is-unavailable')) " +
                 "and not(contains(@class,'is-selected'))]";
 
