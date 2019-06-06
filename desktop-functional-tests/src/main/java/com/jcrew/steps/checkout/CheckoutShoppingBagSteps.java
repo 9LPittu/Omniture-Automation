@@ -110,7 +110,8 @@ public class CheckoutShoppingBagSteps extends DriverFactory {
     @When("User clicks in CHECK OUT NOW button")
     public void check_out_now() {
     	CheckoutSummary summary = new CheckoutSummary(getDriver());
-    	Util env = new Util();
+    	@SuppressWarnings("unused")
+		Util env = new Util();
     	String environment = Util.getEnvironment();
     	if(environment.equalsIgnoreCase("Steel")) {
     	if(e2e.getDataFromTestDataRowMap("E2E Scenario Description").contains("redeem reward points"))  {

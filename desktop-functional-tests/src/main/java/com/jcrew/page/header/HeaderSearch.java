@@ -22,6 +22,12 @@ public class HeaderSearch extends HeaderWrap {
     @FindBy(xpath = ".//span[contains(@class,'icon-close js-primary-nav__search__button--clear')]")
     private WebElement closeIcon;
     
+    @FindBy(xpath = "//span[contains(@class,'primary-nav__text primary-nav__text--search')]")
+    private WebElement headerSearchFactory;
+    
+    @FindBy(className = "js-primary-nav__input--search")
+    private WebElement searchTextFactory;
+    
     
 
     private TestDataReader testdataReader = TestDataReader.getTestDataReader();
@@ -32,20 +38,17 @@ public class HeaderSearch extends HeaderWrap {
 
 	public void searchForSpecificTerm(String searchTerm) {
 		String currentUrl = driver.getCurrentUrl();
-		try {
-			if (closeIcon.isDisplayed()) {
-				closeIcon.click();
-			} else {
-				headerSearch.click();
-			}
-
-		} catch (Exception e) {
-		}
-
-		headerSearch.clear();
-		headerSearch.sendKeys(searchTerm);
-		headerSearch.sendKeys(Keys.ENTER);
-
+		if(currentUrl.contains("factory")) {
+        	headerSearchFactory.click();
+        	//headerSearchFactory.clear();
+        	searchTextFactory.sendKeys(searchTerm);
+        	searchTextFactory.sendKeys(Keys.ENTER);
+        }else {
+        	headerSearch.click();
+        	headerSearch.clear();
+            headerSearch.sendKeys(searchTerm);
+            headerSearch.sendKeys(Keys.ENTER);
+        }
 		logger.info("Searching for {}", searchTerm);
 		wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
 		Util.waitLoadingBar(driver);

@@ -98,4 +98,52 @@ public class TopNav extends HeaderWrap {
         SubCategory subCategoryWrap = new SubCategory(driver);
         subCategoryWrap.selectSubCategory(subcategory);
     }
+    
+    
+    
+    
+    public void hoverCatAndSubCat() {
+        List<WebElement> cats = top_nav.findElements(By.xpath("//span[contains(@class,'nc-nav__dept-link-wrap')]/*"));
+        for(int i=0;i<cats.size();i++) {
+        	String catName = cats.get(i).getText();
+        	hoverAction.moveToElement(cats.get(i));
+        	hoverAction.build().perform();
+        	List<WebElement> subCat = driver.findElements(By.xpath("//*[text()='"+catName+"']/parent::span//following-sibling::div[2]//div/ul//li/a"));
+        	for(int j=0;j<subCat.size();j++) {
+        		System.out.println(subCat.get(j).getText());
+        		subCat.get(j).click();
+        		//WebElement viewAll = driver.findElement(By.xpath(""));
+        	}
+        }
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

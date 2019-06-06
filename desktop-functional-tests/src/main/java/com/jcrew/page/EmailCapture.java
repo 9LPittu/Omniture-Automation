@@ -1,10 +1,12 @@
 package com.jcrew.page;
 
-import com.jcrew.utils.Util;
-
-import org.openqa.selenium.*;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.jcrew.utils.Util;
 
 /**
  * Created by nadiapaolagarcia on 7/19/16.
@@ -18,6 +20,8 @@ public class EmailCapture extends PageObject {
     private WebElement closeIcon_jcrew;
     @FindBy(xpath = "(//*[@class='bx-close-xstroke bx-close-x-adaptive'])[1]")
     private WebElement closeIcon_factory;
+    @FindBy(xpath = "//*[text()='Continue to site ']")
+    private WebElement continueToSite;
     String currentUrl = driver.getCurrentUrl();
     public EmailCapture(WebDriver driver) {
         super(driver);
@@ -27,14 +31,15 @@ public class EmailCapture extends PageObject {
     }
     
     public void closeEmailCapture() {
-    	Util.wait(20000);
     	try {
     		if(currentUrl.contains("factory")) {
-    			closeIcon_factory.isDisplayed();
-        		logger.debug("Email capture is visible, closing.");
-        		closeIcon_factory.click();
+    			wait.until(ExpectedConditions.elementToBeClickable(continueToSite));
+				continueToSite.click();
+				wait.until(ExpectedConditions.elementToBeClickable(closeIcon_factory));
+				logger.debug("Email capture is visible, closing.");
+				closeIcon_factory.click();
     		}else {
-    			closeIcon_jcrew.isDisplayed();
+    			wait.until(ExpectedConditions.elementToBeClickable(closeIcon_jcrew));
         		logger.debug("Email capture is visible, closing.");
         		closeIcon_jcrew.click();
     		}

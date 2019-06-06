@@ -26,6 +26,7 @@ public class OmnitureRunnerTest {
 	@BeforeClass
     public static void setup() {
         Reporter.setReportsConfig("JCFAR");
+        
     }
 
     @AfterClass
@@ -33,6 +34,5 @@ public class OmnitureRunnerTest {
         Reporter.loadXMLConfig(new File(System.getProperty("user.dir") + "/properties/reports-config.xml"));
         Reporter.setSystemInfo("user", System.getProperty("user.name"));
     }
-
 
 }

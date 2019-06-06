@@ -18,7 +18,7 @@ Scenario: Registered User order placing E2E scenario
  		And User Select Brand type
  		Then User Creates New Order
  		Then get The Order Number
- 		
+ #		
  #		Scenario: Registered User order placing E2E scenario
 #	  Given Test data is read from excel file "JC_E2E_ContactCenter_Testdata_Sheet.xls"	
  #		And User goes to cc homepage
@@ -27,7 +27,6 @@ Scenario: Registered User order placing E2E scenario
  #		And User Select Brand type
  #		Then User Creates New Order
  #		Then get The Order Number
- #		
  #		Scenario: Registered User order placing E2E scenario
 #	  Given Test data is read from excel file "JC_E2E_ContactCenter_Testdata_Sheet.xls"	
  #		And User goes to cc homepage

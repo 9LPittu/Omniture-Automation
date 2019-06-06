@@ -20,6 +20,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.openqa.selenium.Keys;
 
 import java.util.List;
 
@@ -402,14 +403,15 @@ public class LogIn extends PageObject {
     		passwordElement = signInForm.findElement(By.id("sidecarPassword"));
 		} 
         emailElement.clear();
-        emailElement.sendKeys(emailAddress);
+        emailElement.sendKeys(Keys.chord(Keys.SHIFT, Keys.UP), Keys.DELETE, emailAddress);
         
         passwordElement.clear();
-        passwordElement.sendKeys(password);
+        passwordElement.sendKeys(Keys.chord(Keys.SHIFT, Keys.UP), Keys.DELETE, password);
 
         String currentPage = driver.getCurrentUrl();
         Util.wait(2000);
-        WebElement submit = signInForm.findElement(By.xpath("//button[@class='btn--signin js-button-submit']"));//js-button-submit
+        WebElement submit = signInForm
+				.findElement(By.xpath("//button[contains(@class,'btn--signin js-button-submit')]/*[text()='Sign In']"));// js-button-submit
         wait.until(ExpectedConditions.elementToBeClickable(submit));
         Util.scrollAndClick(driver, submit);
 

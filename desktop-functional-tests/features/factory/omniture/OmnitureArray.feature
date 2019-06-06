@@ -2,12 +2,14 @@
 Feature: Omniture Verification
 
   Scenario: Verify Omniture on Home page 
-  	Given User goes to homepage
+  #	Given User goes to homepage
+  	Given User goes to international homepage for factory
     And User closes email capture
     Then Verify omniture variables have values 
   
   Scenario: Verify Omniture on Array page
-  	Given User goes to homepage
+  #	Given User goes to homepage
+  Given User goes to international homepage for factory
     And User closes email capture            
     When User hovers on a random category and subcategory from list
       |Women|Sweaters|
@@ -15,7 +17,8 @@ Feature: Omniture Verification
     And Verify omniture variables have values
     
     Scenario: Verify Omniture on PDP page 
-    Given User goes to homepage
+    #Given User goes to homepage
+    Given User goes to international homepage for factory
     And User closes email capture
     When User hovers on a random category and subcategory from list
       |Men|Shirts|
@@ -25,7 +28,8 @@ Feature: Omniture Verification
     And Verify omniture variables have values
 
   Scenario: Verify Omniture variables for Checkout / Shopping bag page - Registered user
-    Given User goes to homepage
+    #Given User goes to homepage
+    Given User goes to international homepage for factory
     And User closes email capture
     When User clicks on sign in using header
     And User fills form and signs in
@@ -42,7 +46,8 @@ Feature: Omniture Verification
 	  And Verify omniture variables have values
 
  Scenario: Verify Omniture variables for Checkout / Shopping bag page - Guest User
-    Given User goes to homepage
+    #Given User goes to homepage
+    Given User goes to international homepage for factory
     And User closes email capture
     When User hovers on a random category and subcategory from list
       |Women|Sweaters|
@@ -55,13 +60,15 @@ Feature: Omniture Verification
 	  And Verify omniture variables have values
 
 	Scenario: Verify Omniture variables for Search array page
-    Given User goes to homepage
+    #Given User goes to homepage
+    Given User goes to international homepage for factory
     And User closes email capture
 		When User searches for the item Shirts
   	And Verify omniture variables have values
   
   Scenario: Verify Omniture variables for Sale category
-    Given User goes to homepage
+    #Given User goes to homepage
+    Given User goes to international homepage for factory
     And User closes email capture
     When User hovers on a random category and subcategory from list
       |sale|Shop All|
@@ -69,7 +76,8 @@ Feature: Omniture Verification
     And Verify omniture variables have values
   
   Scenario: Verify Omniture variables for Crewcuts
-    Given User goes to homepage
+    #Given User goes to homepage
+    Given User goes to international homepage for factory
     And User closes email capture
     When User hovers on a random category and subcategory from list
       |new|for Girls|

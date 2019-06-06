@@ -61,9 +61,10 @@ public class TopNavSteps extends DriverFactory {
 
     @When("User hovers on a random category and subcategory from list")
     public void user_hovers_on_random_category_from_list(DataTable categories) {
-        List<DataTableRow> row = categories.getGherkinRows();
+    	List<DataTableRow> row = categories.getGherkinRows();
         DataTableRow selectedRow = row.get(Util.randomIndex(row.size()));
         topNav.hoverCategory(selectedRow);
+    	//topNav.hoverCatAndSubCat();
     }
 
     @When("User hovers on any random category")

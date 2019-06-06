@@ -30,7 +30,7 @@ public class PropertyReader {
         String execViewport = System.getProperty("viewport", "chrome");
         String execUser = System.getProperty("user", "user.1");
         String country = System.getProperty("country", "us");
-        String brand = System.getProperty("brand", "factory");
+        String brand = System.getProperty("brand", "jcrew");
 
         FileInputStream inputFile = new FileInputStream("properties/environment.properties");
         properties.load(inputFile);

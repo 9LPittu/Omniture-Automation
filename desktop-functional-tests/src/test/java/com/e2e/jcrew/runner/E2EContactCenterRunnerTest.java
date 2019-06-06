@@ -3,7 +3,13 @@ package com.e2e.jcrew.runner;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
+import java.io.File;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+
+import com.jcrew.listners.Reporter;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
@@ -19,7 +25,7 @@ import org.junit.runner.RunWith;
 )
 
 public class E2EContactCenterRunnerTest {
-	/*@BeforeClass
+	@BeforeClass
     public static void setup() {
         Reporter.setReportsConfig("JCFAR");
     }
@@ -28,6 +34,6 @@ public class E2EContactCenterRunnerTest {
     public static void teardown() {
         Reporter.loadXMLConfig(new File(System.getProperty("user.dir") + "/properties/reports-config.xml"));
         Reporter.setSystemInfo("user", System.getProperty("user.name"));
-    }*/
+    }
 	
 }
