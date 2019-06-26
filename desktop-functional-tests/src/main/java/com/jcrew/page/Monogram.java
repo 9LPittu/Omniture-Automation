@@ -31,8 +31,7 @@ public class Monogram extends PageObject{
     	
     	WebElement placementElement = null;
     	if(!placement.isEmpty()){
-    	    placementElement = monogramModalWindow.findElement(By.xpath(".//div[contains(@class,'js-monogram__location')]/span["
-    	    															+ Util.xpathGetTextLower + "='" +	placement.toLowerCase() + "']"));   	
+    	    placementElement = monogramModalWindow.findElement(By.xpath("//div[contains(@class,'js-monogram__location')]/span[text()='"+placement+"']"));   	
     	}
     	else{
     		List<WebElement>  placementElements = monogramModalWindow.findElements(By.xpath(".//div[contains(@class,'js-monogram__location')]/span"));
@@ -60,11 +59,12 @@ public class Monogram extends PageObject{
     public void selectStyle(String style){
     	WebElement styleElement = null;
     	if(!style.isEmpty()){
-    		styleElement = monogramModalWindow.findElement(By.xpath(".//div[contains(@class,'js-p-monogram--stamp')]/span[" 
-    															    + Util.xpathGetTextLower + "='" +	style.toLowerCase() + "']"));   	
+    		/*styleElement = monogramModalWindow.findElement(By.xpath(".//div[contains(@class,'js-p-monogram--stamp')]/span[" 
+    															    + Util.xpathGetTextLower + "='" +	style.toLowerCase() + "']"));*/
+    		styleElement = monogramModalWindow.findElement(By.xpath("//div[@data-name='"+style+"']"));
     	}
     	else{
-    		List<WebElement>  styleElements = monogramModalWindow.findElements(By.xpath(".//div[contains(@class,'js-p-monogram--stamp')]/span"));
+    		List<WebElement>  styleElements = monogramModalWindow.findElements(By.xpath("//div[contains(@class,'p-monogram--stamp js-p-monogram--stamp')]"));
     		styleElement = styleElements.get(Util.randomIndex(styleElements.size()));
     	}
     	

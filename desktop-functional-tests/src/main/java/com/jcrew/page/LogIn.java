@@ -11,6 +11,7 @@ import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,9 +21,11 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.openqa.selenium.Keys;
 
+import java.awt.RenderingHints.Key;
+import java.sql.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by nadiapaolagarcia on 3/28/16.
@@ -36,22 +39,22 @@ public class LogIn extends PageObject {
     private final HeaderWrap header;
     public final StateHolder stateHolder = StateHolder.getInstance();
 
-    private final User fakeUser = User.getNewFakeUser();
-    private User knownUser=null;
-    private final String signupForEmails_HK_Text = "J.Crew would like to use your contact details to send you " +
-            "information about our fashion apparel, accessories, shoes, bags, jewelry, electronics, health and " +
-            "beauty products and decoration and home goods, as well as upcoming collections, sales, promotions and " +
-            "special events. We may also, for the same purpose, share your personal data with our group of companies " +
-            "and affiliates. Your consent is required for us to do so.";
-    private final String signupForEmails_ZZ_Text = "I want to receive marketing communications, including emails, " +
-            "from J.Crew and its family of brands.";
-    private final String signupForEmails_ZZ1_Text = "I want to receive marketing communications, including emails, " +
-            "from J.Crew Factory and its family of brands.";
-    
-    public final String DEFAULT = User.DEFAULT;
-    public final String NO_DEFAULT = User.NO_DEFAULT;
-    public final String MULTIPLE = User.MULTIPLE;
-    public final String NO_DEFAULT_MULTIPLE = User.NO_DEFAULT_MULTIPLE;
+	private final User fakeUser = User.getNewFakeUser();
+	private User knownUser = null;
+	private final String signupForEmails_HK_Text = "J.Crew would like to use your contact details to send you "
+			+ "information about our fashion apparel, accessories, shoes, bags, jewelry, electronics, health and "
+			+ "beauty products and decoration and home goods, as well as upcoming collections, sales, promotions and "
+			+ "special events. We may also, for the same purpose, share your personal data with our group of companies "
+			+ "and affiliates. Your consent is required for us to do so.";
+	private final String signupForEmails_ZZ_Text = "I want to receive marketing communications, including emails, "
+			+ "from J.Crew and its family of brands.";
+	private final String signupForEmails_ZZ1_Text = "I want to receive marketing communications, including emails, "
+			+ "from J.Crew Factory and its family of brands.";
+
+	public final String DEFAULT = User.DEFAULT;
+	public final String NO_DEFAULT = User.NO_DEFAULT;
+	public final String MULTIPLE = User.MULTIPLE;
+	public final String NO_DEFAULT_MULTIPLE = User.NO_DEFAULT_MULTIPLE;
 
     E2ECommon e2e = new E2ECommon();
     
@@ -68,15 +71,30 @@ public class LogIn extends PageObject {
     @FindBy(xpath = ".//form[@class='register-form']")
     private WebElement registerForm;
 
-    @FindBy(className = "signin-form")
-    private WebElement signInForm;
-    
-    private final String firstNameId = "unregistered-firstName";
-    private final String lastNameId = "unregistered-lastName";
-    private final String emailId = "unregistered-email";
-    private final String passwordId = "registered-password";
-    private final String countryId = "countryList";
-    private WebElement createAnAccount;
+	@FindBy(className = "signin-form")
+	private WebElement signInForm;
+
+	@FindBy(id = "registerEmail")
+	private WebElement email;
+
+	@FindBy(id = "registerPassword")
+	private WebElement password;
+
+	@FindBy(xpath = "//button/*[text()='SIGN UP NOW']")
+	private WebElement signUpButton;
+
+	@FindBy(xpath = "//button[text()='Back to Shopping']")
+	private WebElement backToShopping;
+
+	@FindBy(xpath = "//div[@class='c-signup-title']/button[text()='Sign Up Now']")
+	private WebElement signUpNow;
+
+	private final String firstNameId = "unregistered-firstName";
+	private final String lastNameId = "unregistered-lastName";
+	private final String emailId = "unregistered-email";
+	private final String passwordId = "registered-password";
+	private final String countryId = "countryList";
+	private WebElement createAnAccount;
 
     public LogIn(WebDriver driver) {
         super(driver);
@@ -148,18 +166,21 @@ public class LogIn extends PageObject {
         fakeUser.setCountryCode(getSelectedCountryValue());
         stateHolder.put("signedUser", fakeUser);
 
-        createAccountFormIsDisplayed();
-        //createAnAccount = registerForm.findElement(By.xpath("//button[contains(text(),'create an account')]"));
+		createAccountFormIsDisplayed();
+		// createAnAccount =
+		// registerForm.findElement(By.xpath("//button[contains(text(),'create an
+		// account')]"));
 
-        createAnAccount = driver.findElement(By.xpath(".//form[@class='register-form']/button[@class='btn--primary btn--signin btn--register js-btn-register']"));
-        
-        JavascriptExecutor ex = (JavascriptExecutor)driver;
+		createAnAccount = driver.findElement(By.xpath(
+				".//form[@class='register-form']/button[@class='btn--primary btn--signin btn--register js-btn-register']"));
+
+		JavascriptExecutor ex = (JavascriptExecutor) driver;
 		ex.executeScript("arguments[0].click();", createAnAccount);
-		
-        String url = driver.getCurrentUrl();
-        //wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
-        //Util.scrollPage(driver, Util.BOTTOM);
-        //createAnAccount.click();
+
+		String url = driver.getCurrentUrl();
+		// wait.until(ExpectedConditions.elementToBeClickable(createAnAccount));
+		// Util.scrollPage(driver, Util.BOTTOM);
+		// createAnAccount.click();
 
         if (stateHolder.getBoolean("waitHomepage")) {
             wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(url)));
@@ -198,16 +219,17 @@ public class LogIn extends PageObject {
         String errorMessage = "";
         WebElement fieldDiv = getNewUserField(field);
 
-        if (fieldDiv != null) {
-            wait.until(new Function<WebDriver, Boolean>() {
-                @Override
-                public Boolean apply(WebDriver driver) {
-                    return hasErrorMessage(field);
-                }
-            });
-            WebElement spanErrorMessage = fieldDiv.findElement(By.xpath(".//span[@class='js-invalid-msg is-important']"));
-            errorMessage = spanErrorMessage.getText();
-        }
+		if (fieldDiv != null) {
+			wait.until(new Function<WebDriver, Boolean>() {
+				@Override
+				public Boolean apply(WebDriver driver) {
+					return hasErrorMessage(field);
+				}
+			});
+			WebElement spanErrorMessage = fieldDiv
+					.findElement(By.xpath(".//span[@class='js-invalid-msg is-important']"));
+			errorMessage = spanErrorMessage.getText();
+		}
 
         return errorMessage;
     }
@@ -274,35 +296,34 @@ public class LogIn extends PageObject {
         String value = "";
         User user;
 
-        if (useFakeUser){
-            user = fakeUser;
-        }
-        else{
-        	knownUser = User.getUserFromHub("noUserCategory");
-            user = knownUser;
-        }
-        switch (field) {
-            case "first name":
-                value = user.getFirstName();
-                break;
-            case "last name":
-                value = user.getLastName();
-                break;
-            case "email":
-                value = user.getEmail();
-                stateHolder.put("fakenewuserID",value);
-                break;
-            case "password":
-                value = user.getPassword();
-                stateHolder.put("fakenewuserPassword",value);
-                break;
-            case "country":
-                value = user.getCountry();
-                break;
-            default:
-                logger.error("The field is not recognized in the new account form in the log in page");
-                break;
-        }
+		if (useFakeUser) {
+			user = fakeUser;
+		} else {
+			knownUser = User.getUserFromHub("noUserCategory");
+			user = knownUser;
+		}
+		switch (field) {
+		case "first name":
+			value = user.getFirstName();
+			break;
+		case "last name":
+			value = user.getLastName();
+			break;
+		case "email":
+			value = user.getEmail();
+			stateHolder.put("fakenewuserID", value);
+			break;
+		case "password":
+			value = user.getPassword();
+			stateHolder.put("fakenewuserPassword", value);
+			break;
+		case "country":
+			value = user.getCountry();
+			break;
+		default:
+			logger.error("The field is not recognized in the new account form in the log in page");
+			break;
+		}
 
         fillField(field, value);
     }
@@ -418,11 +439,20 @@ public class LogIn extends PageObject {
         //wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentPage)));
         isLoginSuccessful = true;
 
-        stateHolder.put("isSignedIn", true);
-        
-        return isLoginSuccessful;
-    }
-    
-    
+		stateHolder.put("isSignedIn", true);
+
+		return isLoginSuccessful;
+	}
+
+	public void createNewAccount() {
+		signUpNow.click();
+		wait.until(ExpectedConditions.visibilityOf(email));
+		User user = User.getNewFakeUser();
+		email.sendKeys(Keys.chord(Keys.SHIFT, Keys.UP), Keys.DELETE, user.getEmail());
+		password.sendKeys(Keys.chord(Keys.SHIFT, Keys.UP), Keys.DELETE, "Welcome@12");
+		signUpButton.click();
+		wait.until(ExpectedConditions.visibilityOf(backToShopping));
+		backToShopping.click();
+	}
 
 }

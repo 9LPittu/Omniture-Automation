@@ -19,14 +19,15 @@ public class HeaderSearch extends HeaderWrap {
     @FindBy(className = "nc-nav__search__input")
     private WebElement headerSearch;
     
-    @FindBy(xpath = ".//span[contains(@class,'icon-close js-primary-nav__search__button--clear')]")
-    private WebElement closeIcon;
-    
     @FindBy(xpath = "//span[contains(@class,'primary-nav__text primary-nav__text--search')]")
     private WebElement headerSearchFactory;
     
     @FindBy(className = "js-primary-nav__input--search")
     private WebElement searchTextFactory;
+    
+    
+    @FindBy(xpath = ".//span[contains(@class,'icon-close js-primary-nav__search__button--clear')]")
+    private WebElement closeIcon;
     
     
 
@@ -49,10 +50,10 @@ public class HeaderSearch extends HeaderWrap {
             headerSearch.sendKeys(searchTerm);
             headerSearch.sendKeys(Keys.ENTER);
         }
-		logger.info("Searching for {}", searchTerm);
-		wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
-		Util.waitLoadingBar(driver);
-	}
+        logger.info("Searching for {}", searchTerm);
+        //wait.until(ExpectedConditions.not(ExpectedConditions.urlToBe(currentUrl)));
+        Util.waitLoadingBar(driver);
+    }
 
     public void searchFor(String searchItem) {
         PropertyReader propertyReader = PropertyReader.getPropertyReader();

@@ -5,6 +5,8 @@ import com.jcrew.utils.*;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
@@ -13,7 +15,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.Properties;
+
 import cucumber.api.Scenario;
 
 /**
@@ -26,7 +31,7 @@ public class StartSteps {
     private final StateHolder stateHolder = StateHolder.getInstance();
     private WebDriver driver;
     public static Scenario scenario;
-
+    private final Properties properties = new Properties();
     @Before
     public void setupDriver(Scenario scenario){
         stateHolder.put("scenarioName", scenario.getName());
@@ -54,18 +59,20 @@ public class StartSteps {
     
     @Given("User goes to homepage")
     public void user_is_on_home_page() {
-        int retry = 0;
+    	getHomePage();
+        waitForHeaderPromo();
+        /*int retry = 0;
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {
             try {
                 getHomePage();
-                //waitForHeaderPromo();
+                waitForHeaderPromo();
                 successfulLoad = true;
             } catch (TimeoutException te) {
                 logger.debug("Page did not load retry: {}", retry + 1);
                 retry++;
             }
-        }
+        }*/
     }
     
     @Given("^User is on homepage with siteid$")
@@ -283,4 +290,44 @@ public class StartSteps {
         driver.get(env + extensionUrl);
         Util.waitLoadingBar(driver);
     }
+
+    @When("^I opened email in browser$") 
+    public void openGmail() throws Exception {
+       FileInputStream inputFile = new FileInputStream("properties/e2e.properties");
+       properties.load(inputFile);
+       //Gmail
+       String url=  properties.getProperty("gmailURL");
+       String mailid=  properties.getProperty("emailID");
+       String password=  properties.getProperty("password");
+       System.out.println(driver.getCurrentUrl());
+       //WebMail
+       String webUrl=  properties.getProperty("webmailURL");
+       String webmailid=  properties.getProperty("webemailID");
+       String webpassword=  properties.getProperty("webpassword");
+       String email=  properties.getProperty("email");
+       if(email.equalsIgnoreCase("outlook")) {
+    	   driver.get(webUrl);
+    	   driver.findElement(By.xpath("//INPUT[@id='username']")).sendKeys(webmailid);
+           Thread.sleep(5000);
+           driver.findElement(By.xpath("//INPUT[@id='password']")).sendKeys(webpassword);
+           Thread.sleep(5000);
+           driver.findElement(By.xpath("//INPUT[@type='submit']")).click();
+           Thread.sleep(5000);
+       }
+     
+       else {
+       driver.get(url);
+       driver.findElement(By.xpath("//input[@type='email']")).sendKeys(mailid);
+       driver.findElement(By.xpath("//span[text()='Next']")).click();
+       Thread.sleep(5000);
+       driver.findElement(By.xpath("//input[@type='password' and @name='password']")).sendKeys(password);
+       Thread.sleep(5000);
+       driver.findElement(By.xpath("//span[text()='Next']")).click();
+       Thread.sleep(5000);
+       }
+      
+    }
+    
+
 }
+

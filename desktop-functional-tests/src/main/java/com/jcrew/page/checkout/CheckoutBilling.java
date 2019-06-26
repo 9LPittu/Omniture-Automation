@@ -69,7 +69,7 @@ public class CheckoutBilling extends Checkout {
 	private WebElement applyButton;
 	@FindBy(xpath = "//div[@id='summary-gift-card-form']/a[@class='item-remove']")
 	private WebElement removeButton;
-	@FindBy(xpath = "//a[@data-bma='continue_selected_address']")
+	@FindBy(xpath = "//*[text()='Use Address as Entered']")
 	private WebElement selectedAddress;
 	@FindBy(xpath = "//div[@class='address-suggested']/div/ul/li/label/input[2]")
 	private WebElement addressRadioButton;
@@ -84,7 +84,7 @@ public class CheckoutBilling extends Checkout {
 	protected TestDataReader testdataReader = TestDataReader.getTestDataReader();
 	public CheckoutBilling(WebDriver driver) {
 		super(driver);
-		wait.until(ExpectedConditions.visibilityOf(payment_page));
+		//wait.until(ExpectedConditions.visibilityOf(payment_page));
 	}
 
 	@Override
@@ -275,16 +275,10 @@ public class CheckoutBilling extends Checkout {
 	public void selectSpecificPaymentMethod(String paymentMethodName) {
 		if (paymentMethodName.equalsIgnoreCase("Gift Card")) {
 			E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
-			Util.wait(3000);
-			//Util.scrollAndClick(driver, giftCardButton);
 			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", giftCardButton);
-			Util.wait(1000);
 			giftCardButton.click();
-			Util.wait(1000);
 			cardNumberField.sendKeys(e2ePropertyReader.getProperty("giftcard.card.number"));
-			Util.wait(1000);
 			cardPinField.sendKeys(e2ePropertyReader.getProperty("giftcard.card.pin"));
-			Util.wait(1000);
 			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", applyButton);
 			applyButton.click();
 			Util.waitForPageFullyLoaded(driver);
@@ -302,7 +296,6 @@ public class CheckoutBilling extends Checkout {
 							+ "']/following-sibling::span[contains(@class,'wallet-line')"
 							+ " and contains(normalize-space(.),'" + lastFourDigitsOfCardNum + "')]"));
 			//WebElement paymentRadioButton = paymentMethodElements.get(0);
-			System.out.println(paymentMethodElements.get(0));
 			WebElement paymentRadioButton = paymentMethodElements.get(0).findElement(By.xpath("preceding-sibling::input[@class='address-radio']"));
 			paymentRadioButton.click();
 		}
@@ -310,9 +303,27 @@ public class CheckoutBilling extends Checkout {
 
 	public void fillPaymentCardDetails(String paymentMethodName) {
 		E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
-
+		E2ECommon e2e = new E2ECommon();
+		User user = User.getNewFakeUser();
+		Country countryPojo = stateHolder.get("context");
+		Address address = new Address(countryPojo.getCountry());
+		if (paymentMethodName.equalsIgnoreCase("Gift Card")) {
+			Util.wait(3000);
+			//Util.scrollAndClick(driver, giftCardButton);
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", giftCardButton);
+			Util.wait(1000);
+			giftCardButton.click();
+			Util.wait(1000);
+			cardNumberField.sendKeys(e2ePropertyReader.getProperty("giftcard.card.number"));
+			Util.wait(1000);
+			cardPinField.sendKeys(e2ePropertyReader.getProperty("giftcard.card.pin"));
+			Util.wait(1000);
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", applyButton);
+			applyButton.click();
+			Util.waitForPageFullyLoaded(driver);
+			Assert.assertTrue(removeButton.isDisplayed());
+		}else {
 		creditCardNumber.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".card.number"));
-
 		if (!paymentMethodName.equalsIgnoreCase("JCC")) {
 			securityCode.sendKeys(e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".security.code"));
 
@@ -324,12 +335,10 @@ public class CheckoutBilling extends Checkout {
 			year.selectByVisibleText(
 					e2ePropertyReader.getProperty(paymentMethodName.toLowerCase() + ".expiration.year"));
 		}
-		User user = User.getNewFakeUser();
 		nameOnCard.sendKeys(user.getFirstName() + " " + user.getLastName());
+		if(e2e.getDataFromTestDataRowMap("User Type").equalsIgnoreCase("Guest"))
 		enterEmailAddress();
-		E2ECommon e2e = new E2ECommon();
-		Country countryPojo = stateHolder.get("context");
-		Address address = new Address(countryPojo.getCountry());
+		}
 		if (e2e.getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("STS")) {
 			WebElement firstName = driver.findElement(By.name("ADDRESS<>firstName"));
 			firstName.sendKeys(user.getFirstName());
@@ -355,10 +364,9 @@ public class CheckoutBilling extends Checkout {
 	public void clickTwoCardsPayment() {
 		WebElement payWithTwoCardsElement = payment_page.findElement(
 				By.xpath(".//a[contains(@class,'item-link-submit') and contains(text(),'pay with two cards')]"));
-		payWithTwoCardsElement.click();
+		Util.scrollAndClick(driver, payWithTwoCardsElement);
 		wait.until(ExpectedConditions.visibilityOf(payment_page.findElement(
 				By.xpath(".//a[contains(@class,'item-link-submit') and contains(text(),'pay with one card')]"))));
-
 		List<WebElement> numberofCardsAvailable = payment_page.findElements(By.xpath(".//li[contains(@id, 'cardId')]"));
 		stateHolder.put("numberofCardsAvailable", numberofCardsAvailable.size());
 	}

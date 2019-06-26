@@ -16,12 +16,12 @@ import com.jcrew.listners.Reporter;
         features = {"features/e2e/jcrew"},
         tags = {"@e2e-contactCenter"},
         glue = {"com.jcrew.steps"},
-        		//plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"}
-        format = {
+        		plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"}
+       /* format = {
                 "json:target/JC_E2E_ContactCenter_Testdata_Sheet.json",
                 "pretty",
                 "html:target/cucumber/JC_E2E_ContactCenter_Testdata_Sheet"
-        }
+        }*/
 )
 
 public class E2EContactCenterRunnerTest {

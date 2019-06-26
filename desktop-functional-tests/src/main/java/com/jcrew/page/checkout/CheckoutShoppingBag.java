@@ -4,15 +4,20 @@ import com.google.common.collect.Lists;
 import com.jcrew.page.Footer;
 import com.jcrew.pojo.Product;
 import com.jcrew.utils.Util;
+import com.thoughtworks.selenium.webdriven.commands.KeyEvent;
 
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,9 +68,17 @@ public class CheckoutShoppingBag extends Checkout {
         return driver.getCurrentUrl().contains("shoppingbag");
     }
 
-    public void checkOutNow() {
+    public void checkOutNow()  {
         checkoutNow.click();
         Util.waitLoadingBar(driver);
+        Util.wait(1000);
+        try {
+			Robot r = new Robot();
+			r.keyPress(java.awt.event.KeyEvent.VK_ENTER);
+			r.keyRelease(java.awt.event.KeyEvent.VK_ENTER);
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
     }
 
     public List<Product> getProducts() {

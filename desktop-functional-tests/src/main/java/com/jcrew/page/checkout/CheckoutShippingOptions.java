@@ -24,7 +24,10 @@ public class CheckoutShippingOptions extends Checkout {
 
 	@FindBy(className = "shippingmethod-container")
 	private WebElement shippingMethodContainer;
-
+	
+	@FindBy(xpath = "//label[contains(@for,'giftWrapService0')]/input[2]")
+	private WebElement wrappingService;
+	
 	@FindBy(xpath = "//div[@id='shipping-details']")
 	private WebElement shippingDetails;
 	@FindBy(id = "method0")
@@ -270,18 +273,12 @@ public class CheckoutShippingOptions extends Checkout {
 	}
 
 	public void selectGiftWrappingServiceRadioButtons() {
-
-		/*List<WebElement> giftWrappingServiceRadioElements = shippingMethodContainer
-				.findElements(By.xpath(".//input[contains(@id,'giftWrapService')]"));
-		for (WebElement giftWrappingServiceRadioElement : giftWrappingServiceRadioElements) {*/
-			 WebElement giftWrappingServiceRadioElement =
-			 shippingMethodContainer.findElement(By.xpath("(.//input[contains(@id,'giftWrapService')])[2]"));
 			try {
-				giftWrappingServiceRadioElement.click();
+				Util.scrollAndClick(driver, wrappingService);
+				//wrappingService.click();
 				logger.debug("Gift Wrapping Service radio button is selected...");
 			} catch (ElementNotVisibleException enve) {
 				logger.debug("Gift Wrapping Service radio button is not visible");
 			}
-		//}
-	}
+		}
 }

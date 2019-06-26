@@ -2,6 +2,7 @@ package com.jcrew.page;
 
 import com.jcrew.utils.Util;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,9 +25,11 @@ public class PaypalReview extends PageObject {
 
 	public void clickContinue() {
 		try {
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
 			wait.until(ExpectedConditions.elementToBeClickable(confirmButton));
 			Util.wait(1000);
 			confirmButton.click();
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("spinner")));
 			wait.until(ExpectedConditions.elementToBeClickable(continueButton));
 			Util.wait(1000);
 			continueButton.click();

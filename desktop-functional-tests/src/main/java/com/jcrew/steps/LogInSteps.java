@@ -46,8 +46,9 @@ public class LogInSteps extends DriverFactory {
 
     @Then("^User get create account form$")
     public void user_get_create_account_form() {
-        boolean isDisplayed = logIn.createAccountFormIsDisplayed();
-        assertTrue("The create user form is displayed in log in page", isDisplayed);
+        /*boolean isDisplayed = logIn.createAccountFormIsDisplayed();
+        assertTrue("The create user form is displayed in log in page", isDisplayed);*/
+    	logIn.createNewAccount();
     }
 
     @When("^User clicks Create An Account button$")

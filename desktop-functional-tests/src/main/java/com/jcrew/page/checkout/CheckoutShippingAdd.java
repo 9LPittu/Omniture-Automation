@@ -3,6 +3,7 @@ package com.jcrew.page.checkout;
 import com.jcrew.pojo.Address;
 import com.jcrew.pojo.Country;
 import com.jcrew.pojo.User;
+import com.jcrew.steps.E2ECommon;
 import com.jcrew.utils.E2EPropertyReader;
 import com.jcrew.utils.TestDataReader;
 import com.jcrew.utils.Util;
@@ -56,7 +57,7 @@ public class CheckoutShippingAdd extends Checkout {
     @FindBy(xpath="//span[@class='zip-code normal-span']/input[@id='zipcode']")
     private WebElement zipCode;
     protected E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
-    
+    E2ECommon e2e = new E2ECommon();
     private WebElement shippingAddressForm;
     private WebElement orderSummaryForm;
     private WebElement addNewShippingAddressForm;
@@ -270,8 +271,8 @@ public class CheckoutShippingAdd extends Checkout {
     
     public void selectSTS() {
     	shipToStore.click();
-    	Util.waitForPageFullyLoaded(driver);
+    	wait.until(ExpectedConditions.visibilityOf(zipCode));
+    	zipCode.sendKeys(e2e.getDataFromTestDataRowMap("Store Zip Code"));
     	Util.wait(3000);
-    	zipCode.sendKeys(e2ePropertyReader.getProperty("sts.zipcode.fulfillment"));
     }
 }

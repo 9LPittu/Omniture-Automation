@@ -84,15 +84,6 @@ public class Content_Jcrew {
 		Reporter.addStepLog("Country is: " + country);
 		Reporter.addStepLog("Environment url is: " + envUrl);
 		driver.get(envUrl);
-		try {
-			emailCapture.click();
-		} catch (Exception e) {
-		}
-		try {
-			startShopping.click();
-		} catch (Exception e) {
-		}
-
 	}
 
 	public long pageLoadTime(String url) {
@@ -317,7 +308,7 @@ public class Content_Jcrew {
 		for (int i = 1; i < rowCount; i++) {
 			if (util.getEnvironment().equalsIgnoreCase("gold")) {
 				dataValue = sheet1.getRow(i).getCell(urlCol).getStringCellValue()
-						.replace("www", "or");
+						.replace("www", "uat");
 			} else if (util.getEnvironment().equalsIgnoreCase("production")) {
 				dataValue = sheet1.getRow(i).getCell(urlCol).getStringCellValue();
 			}

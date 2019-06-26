@@ -27,7 +27,8 @@ public class E2ECommon extends DriverFactory {
 		
 		if(!stateHolder.hasKey("itemMasterTestdata")){
 			try {
-				if(System.getProperty("os.name").toLowerCase().contains("windows")){			
+				if(System.getProperty("os.name").toLowerCase().contains("windows")){	
+
 					itemMasterReader = new ExcelUtils(System.getProperty("user.dir")+"\\properties\\test_data\\"+itemsMasterExcelFileName , "E2E_ITEMS", "");			
 				}
 				else{

@@ -13,7 +13,6 @@ public class HeaderBagSteps extends DriverFactory {
     @When("User clicks in bag")
     public void user_clicks_in_bag() {
         headerBag.clickBag();
-        
     }
 
 }

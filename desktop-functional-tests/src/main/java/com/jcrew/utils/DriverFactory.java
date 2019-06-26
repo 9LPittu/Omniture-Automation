@@ -42,7 +42,8 @@ public class DriverFactory {
         width = Integer.parseInt(propertyReader.getProperty("desktop.window.width"));
         height = Integer.parseInt(propertyReader.getProperty("desktop.window.height"));
 
-        driver.manage().window().setSize(new Dimension(width, height));
+        driver.manage().window().maximize();
+        //setSize(new Dimension(width, height));
     }
 
     public WebDriver getDriver() {

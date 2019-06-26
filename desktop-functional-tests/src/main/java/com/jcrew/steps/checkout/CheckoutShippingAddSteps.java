@@ -22,7 +22,6 @@ public class CheckoutShippingAddSteps extends DriverFactory {
     public void shipping_page_displayed() {
     	if (stateHolder.hasKey("isShippingDisabled"))
 			return;
-    	
         assertTrue("Is shipping address", shipping.isDisplayed());
     }
     

@@ -24,7 +24,7 @@ public class ProductDetailsSizes extends ProductDetails {
 
     public void selectRandomSize() {
         wait.until(ExpectedConditions.visibilityOf(sizes));
-        String availableSizesSelector = ".//*[contains(@class,'js-product__size sizes-list__item') " +
+        String availableSizesSelector = ".//li[contains(@class,'js-product__size sizes-list__item') " +
                 "and not(contains(@class,'is-unavailable')) " +
                 "and not(contains(@class,'is-selected'))]";
 
@@ -44,7 +44,7 @@ public class ProductDetailsSizes extends ProductDetails {
 
     public void selectSize(String size) throws Exception {
         List<WebElement> productSizes = sizes.findElements(
-                By.xpath(".//div[contains(@class,'js-product__size') and @data-name='" + size.toUpperCase() + "']"));
+                By.xpath(".//*[contains(@class,'js-product__size') and @data-name='" + size.toUpperCase() + "']"));
 
         if (productSizes.size() > 0) {
             WebElement selectedSize = productSizes.get(0);

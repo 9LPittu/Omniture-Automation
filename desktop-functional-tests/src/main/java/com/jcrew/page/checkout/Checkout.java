@@ -40,7 +40,9 @@ public abstract class Checkout extends PageObject {
     private WebElement checkout;
     @FindBy(id = "breadCrumbs")
     private WebElement breadCrumbs;
-
+    public Checkout() {
+        
+    }
     public Checkout(WebDriver driver) {
         super(driver);
         Util.waitForPageFullyLoaded(driver);
@@ -249,7 +251,8 @@ public abstract class Checkout extends PageObject {
     	TestDataReader testDataReader = TestDataReader.getTestDataReader();
     	
     	if(testDataReader.getBoolean("dual.continue.buttons.toggle")){
-    		continueButton = form.findElement(By.xpath(".//a[@id='main__button-continue']"));
+    		continueButton = form.findElement(By.xpath("//a[@id='order-summary__button-continue']"));
+    		//.//a[@id='main__button-continue']
     	}else{
     		continueButton = form.findElement(By.className("button-submit"));
     	}

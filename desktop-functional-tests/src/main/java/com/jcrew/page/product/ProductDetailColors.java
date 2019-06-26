@@ -38,7 +38,7 @@ public class ProductDetailColors extends ProductDetails {
 
     public void selectSpecifiedColor(String colorName){
         wait.until(ExpectedConditions.visibilityOf(price_colors));
-        WebElement colorElement = price_colors.findElement(By.xpath(".//div[contains(@class, 'js-product__color colors-list__item')"
+        WebElement colorElement = price_colors.findElement(By.xpath(".//*[contains(@class, 'js-product__color colors-list__item')"
                 + " and @data-name='" + colorName.toUpperCase() + "']"));//.//li[contains(@class, 'js-product__color colors-list__item')"
         colorElement.click();
         logger.debug("Selected color: {}", colorName);

@@ -3,7 +3,6 @@ package com.jcrew.page.header;
 import com.google.common.base.Function;
 import com.jcrew.utils.Util;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,34 +13,30 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  */
 public class HeaderBag extends HeaderWrap {
 
-    @FindBy(xpath = "//ul[@class='nc-nav__secondary-nav desktop-only--nav']//li/a/div/div[@class='nc-nav__bag-tab__icon']")
+    @FindBy(xpath = "(//div[@class='nc-nav__bag-tab__icon'])[2]")
     private WebElement bag;
-    @FindBy(xpath = "//a[@id='js-header__cart']")
-    private WebElement bagFactory;
-  
     @FindBy(xpath = "//div[@class='nc-nav__bag__panel is-open']")
     private WebElement minibag;
+    @FindBy(xpath = "//span[text()='bag']")
+    private WebElement bagFactory;
+    @FindBy(xpath="(//div[@class='nc-nav__bag-tab__count'])[2]")
+    private WebElement bagCount;
+    @FindBy(className="js-cart-size")
+    private WebElement bagCountFactory;
 
     public HeaderBag(WebDriver driver) {
         super(driver);
     }
 
 	public void clickBag() {
-		if (currentUrl.contains("factory.jcrew.com")) {
-			Util.scrollPage(driver, "UP");
-			Util.wait(2000);
+		Util.scrollPage(driver, "UP");
+		Util.wait(2000);
+		if (driver.getCurrentUrl().contains("factory")) {
 			bagFactory.click();
 		} else {
-			Util.scrollPage(driver, "UP");
-			Util.wait(2000);
 			bag.click();
 		}
 
-		/*
-		 * Util.wait(2000); driver.get(
-		 * "https://aka-int-www.jcrew.com/checkout2/shoppingbag.jsp?sidecar=true");
-		 * Util.wait(2000);
-		 */
 	}
 
     public void hoverBag() {
@@ -78,22 +73,20 @@ public class HeaderBag extends HeaderWrap {
 
     }
 
-	public int getItemsInBag() {
-		String cartSizeText = null;
-		if (currentUrl.contains("factory.jcrew.com")) {
-			wait.until(ExpectedConditions.visibilityOf(bagFactory));
-			WebElement cart_size = driver.findElement(By.xpath("//span[@class='js-cart-size']"));
-			cartSizeText = cart_size.getText().trim();
-		} else {
-			wait.until(ExpectedConditions.visibilityOf(bag));
-			WebElement cart_size = driver.findElement(By.xpath(
-					"//ul[@class='nc-nav__secondary-nav desktop-only--nav']//li/a/div/div[@class='nc-nav__bag-tab__count']"));
-			cartSizeText = cart_size.getText().trim();
-		}
-		if (cartSizeText.isEmpty()) {
-			cartSizeText = "0";
-		}
-		cartSizeText = cartSizeText.replaceAll("[^0-9]", "");
-		return Integer.parseInt(cartSizeText);
-	}
+    public int getItemsInBag() {
+    	String cartSizeText = null;
+    	
+    	if(driver.getCurrentUrl().contains("factory")) {
+    		cartSizeText = bagCountFactory.getText().trim();
+    	}else {
+    		wait.until(ExpectedConditions.visibilityOf(bag));
+            cartSizeText = bagCount.getText().trim();
+    	}
+    	
+        if (cartSizeText.isEmpty()) {
+        	cartSizeText = "0";
+        }
+        cartSizeText = cartSizeText.replaceAll("[^0-9]", "");
+        return Integer.parseInt(cartSizeText);
+    }
 }
