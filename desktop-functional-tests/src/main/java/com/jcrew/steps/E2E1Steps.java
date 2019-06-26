@@ -437,7 +437,7 @@ public class E2E1Steps extends E2ECommon {
 		}
 	}
 	
-	@And("^I validate Order Number In Email$")
+	/*@And("^I validate Order Number In Email$")
 	public void validate_Order_Number_In_Gmail()throws Exception{
 		Thread.sleep(5000);
 		String currentUrl=getDriver().getCurrentUrl();
@@ -462,7 +462,7 @@ public class E2E1Steps extends E2ECommon {
 	        String orderConfirmTxt=   getDriver().findElement(By.xpath("//*[@id='divSubject']")).getText();
 	        assertEquals(orderConfirmTxt,"Thanks for your J.Crew order");
 		}
-	}
+	}*/
 	@Then("Verify_user_is_in_UpdatePassword_mail_Confirmation_Page")
     public void verify_user_is_in_UpdatePassword_mail_Confirmation_Page() throws IOException, InterruptedException { 
 		 FileInputStream inputFile = new FileInputStream("properties/e2e.properties");

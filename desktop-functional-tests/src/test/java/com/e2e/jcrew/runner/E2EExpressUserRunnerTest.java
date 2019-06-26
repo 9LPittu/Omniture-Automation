@@ -17,7 +17,7 @@ import com.jcrew.listners.Reporter;
         features = {"features/e2e/jcrew"},
         tags = {"@e2e-expressuser"},
         glue = {"com.jcrew.steps"},
-        		plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"},
+        		plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"}
       /*  format = {
                 "json:target/JC_E2E_ExpressUser_Testdata_Sheet.json",
                 "pretty",
