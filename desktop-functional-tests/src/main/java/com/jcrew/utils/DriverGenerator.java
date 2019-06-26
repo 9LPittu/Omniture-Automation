@@ -6,7 +6,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.Logger;
@@ -70,6 +72,11 @@ public class DriverGenerator {
                 capabilities = getFireFoxCapabilites();
                 driver = new FirefoxDriver(capabilities);
                 break;
+            case "IE":
+            	System.setProperty("webdriver.ie.driver", System.getProperty("user.dir")+"\\Softwares\\IEDriverServer.exe");
+                capabilities = getIECapabilities();
+                driver = new InternetExplorerDriver(capabilities);
+                break;
             default:
                 capabilities = getPhantomJSCapabilities();
                 driver = new PhantomJSDriver(capabilities);
@@ -89,6 +96,19 @@ public class DriverGenerator {
 
         return desiredCapabilities;
     }
+    
+    private static DesiredCapabilities getIECapabilities() {
+    	
+    	
+    	DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
+    	 
+    	 // Settings to Accept the SSL Certificate in the Capability object
+    	 capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+    	 
+    	 //InternetExplorerDriver driver = new InternetExplorerDriver(capabilities); 
+        return capabilities;
+    }
+
 
     private static DesiredCapabilities getFireFoxCapabilites() {
         DesiredCapabilities desiredCapabilities = DesiredCapabilities.firefox();

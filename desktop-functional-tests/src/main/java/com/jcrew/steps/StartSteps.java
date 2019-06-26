@@ -60,7 +60,7 @@ public class StartSteps {
     @Given("User goes to homepage")
     public void user_is_on_home_page() {
     	getHomePage();
-        waitForHeaderPromo();
+        //waitForHeaderPromo();
         /*int retry = 0;
         boolean successfulLoad = false;
         while (retry < 2 && !successfulLoad) {

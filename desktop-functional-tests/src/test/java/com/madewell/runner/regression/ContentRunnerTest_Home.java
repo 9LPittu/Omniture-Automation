@@ -1,5 +1,4 @@
-package com.e2e.jcrew.runner;
-
+package com.madewell.runner.regression;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
@@ -14,18 +13,18 @@ import com.jcrew.listners.Reporter;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"features/e2e/jcrew"},
-        tags = {"@e2e-expressuser"},
+        features = {"features/jcrew/regression/Content"},
+        tags = {"@ContentRegression_HomePageAndNew"},
         glue = {"com.jcrew.steps"},
-        		plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"},
-      /*  format = {
-                "json:target/JC_E2E_ExpressUser_Testdata_Sheet.json",
+        		plugin = {"com.jcrew.listners.ExtentCucumberFormatter:"}
+       /* format = {
+                "json:target/cucumber-Content.json",
                 "pretty",
-                "html:target/cucumber/JC_E2E_ExpressUser_Testdata_Sheet"
+                "html:target/cucumber/Content"
         }*/
 )
 
-public class E2EExpressUserRunnerTest {
+public class ContentRunnerTest_Home {
 	@BeforeClass
     public static void setup() {
         Reporter.setReportsConfig("JCFAR");
@@ -38,3 +37,11 @@ public class E2EExpressUserRunnerTest {
     }
 	
 }
+
+
+
+
+
+
+
+

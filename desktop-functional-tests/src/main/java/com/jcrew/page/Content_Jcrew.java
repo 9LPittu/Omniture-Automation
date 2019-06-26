@@ -29,6 +29,8 @@ import com.jcrew.utils.DriverFactory;
 import com.jcrew.utils.PropertyReader;
 import com.jcrew.utils.Util;
 
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
@@ -87,9 +89,9 @@ public class Content_Jcrew {
 	}
 
 	public long pageLoadTime(String url) {
-		long start = System.currentTimeMillis();
+		long start = System.currentTimeMillis()/1000;
 		driver.navigate().to(url);
-		long finish = System.currentTimeMillis();
+		long finish = System.currentTimeMillis()/1000;
 		totalTime = finish - start;
 		return totalTime;
 	}
@@ -117,7 +119,6 @@ public class Content_Jcrew {
 				view.click();
 		}catch (Exception e) {
 		}
-		Thread.sleep(5000);
 		List<WebElement> imgs = driver.findElements(By.xpath("//img[contains(@src,'https')]"));
 		list = new ArrayList<String>();
 		for (WebElement img : imgs) {
@@ -128,16 +129,16 @@ public class Content_Jcrew {
 			URL url;
 			try {
 				url = new URL(list.get(j));
-				//driver.navigate().to(url);
+				driver.navigate().to(url);
 				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 				connection.setRequestMethod("GET");
 				connection.connect();
 				code = connection.getResponseCode();
-				Reporter.addStepLog("Image URL: " + list.get(j) + "," + "Response code for the Image URL: " + code);
+				//Reporter.addStepLog("Image URL: " + list.get(j) + "," + "Response code for the Image URL: " + code);
 				boolean brokenImge = testImageComparison(list.get(j));
 				if (brokenImge) {
 					failedUrl = list.get(j);
-					System.out.println("Broken image Url" + failedUrl);
+					Reporter.addStepLog("Image URL: " + list.get(j) + "," + "Broken image Url::::: " + failedUrl);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -380,5 +381,6 @@ public class Content_Jcrew {
 			matchFlag = false;
 		return matchFlag;
 	}
+	
 
 }

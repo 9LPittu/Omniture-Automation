@@ -1,6 +1,5 @@
 package com.jcrew.utils;
 
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +17,10 @@ public class DriverFactory {
     private final Logger logger = LoggerFactory.getLogger(DriverFactory.class);
     private final PropertyReader propertyReader = PropertyReader.getPropertyReader();
 
-    private int width = DEFAULT_WINDOW_WIDTH;
-    private int height = DEFAULT_WINDOW_HEIGHT;
+    @SuppressWarnings("unused")
+	private int width = DEFAULT_WINDOW_WIDTH;
+	@SuppressWarnings("unused")
+	private int height = DEFAULT_WINDOW_HEIGHT;
 
     private WebDriver createNewDriverInstance() throws IOException {
 

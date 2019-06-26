@@ -8,6 +8,7 @@ import com.jcrew.utils.Util;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class ccPage extends Checkout {
 	private WebElement emailSearch;
 	@FindBy(xpath = "//input[@name='cc_home_contacts_search']")
 	private WebElement searchButton;
-	@FindBy(xpath = "//*[@id='idContentContainer']/table[3]/tbody/tr[2]/td[2]/a[2]")
+	@FindBy(xpath = "//*[@id='idContentContainer']/table[3]/tbody/tr[3]/td[2]/a[2]")
 	private WebElement customer;
 	@FindBy(xpath = "//a[contains(text(),'Create an order')]")
 	private WebElement createrOrder;
@@ -53,9 +54,9 @@ public class ccPage extends Checkout {
 	private WebElement applyDiscountButton;
 	@FindBy(xpath = "//select[@name='e4xShippingMethodList']")
 	private WebElement shippingMethodList;
-	@FindBy(xpath = "//select[@name='shippingMethodList']")
+	@FindBy(xpath = "//span[text()='*']/../select[contains(@name,'hippingMethodList')]")
 	private WebElement shippingMethod;
-	@FindBy(xpath = "//select[@name='shippingMethodList']/option")
+	@FindBy(xpath = "//span[text()='*']/../select[contains(@name,'hippingMethodList')]/option")
 	private List<WebElement> shippingMethods;
 	@FindBy(xpath = "(//button[@name='submit_order'])[2]")
 	private WebElement submitOrder;
@@ -133,8 +134,19 @@ public class ccPage extends Checkout {
 	private List<WebElement> selectBox;
 	@FindBy(xpath = "(//img[contains(@src,'finishedwithgiftoptions.gif')])[1]")
 	private WebElement finishedWithGiftOptions;
+	@FindBy(xpath = "//input/../input[@name='CREDIT_CARD_ARRAY<>cardVerifyNum']")
+	private WebElement cvv;
 
 	public String orderNumber = null;
+	Select shippingInfo;
+	Select selectShippingAdd1;
+	Select selectShippingAdd2;
+	Select selectShippingMethod1;
+	Select selectShippingMethod2;
+	String shippingAdd1;
+	String shippingAdd2;
+	String shippingMethod1;
+	String shippingMethod2;
 	protected E2EPropertyReader e2ePropertyReader = E2EPropertyReader.getPropertyReader();
 	private final StateHolder stateHolder = StateHolder.getInstance();
 	JavascriptExecutor executor = (JavascriptExecutor) driver;
@@ -190,31 +202,22 @@ public class ccPage extends Checkout {
 
 	public void selectBrand() {
 		createrOrder.click();
-		Util.waitForPageFullyLoaded(driver);
-		Select selectBrand = new Select(brandType);
-		selectBrand.selectByVisibleText(e2ePropertyReader.getProperty("cc.brandType"));
+//		Util.waitForPageFullyLoaded(driver);
+//		Select selectBrand = new Select(brandType);
+//		selectBrand.selectByVisibleText(e2ePropertyReader.getProperty("cc.brandType"));
 	}
 
 	public void addMultiLineItems() {
-		addVariant.sendKeys(getDataFromTestDataRowMap("Item Identifier1"));
-		executor.executeScript("arguments[0].click();", addButton);
-		Util.waitForPageFullyLoaded(driver);
-		qty.get(0).clear();
-		qty.get(0).sendKeys(getDataFromTestDataRowMap("Quantity1"));
-		addVariant.sendKeys(getDataFromTestDataRowMap("Item Identifier2"));
-		executor.executeScript("arguments[0].click();", addButton);
-		qty.get(1).clear();
-		qty.get(1).sendKeys(getDataFromTestDataRowMap("Quantity2"));
-		reCalTotals.click();
-	}
-
-	public void singleLineItem() {
-		addVariant.sendKeys(getDataFromTestDataRowMap("Item Identifier1"));
-		executor.executeScript("arguments[0].click();", addButton);
-		Util.waitForPageFullyLoaded(driver);
-		qty.get(0).clear();
-		qty.get(0).sendKeys(getDataFromTestDataRowMap("Quantity1"));
-		executor.executeScript("arguments[0].click();", reCalTotals);
+		for (int i = 1; i <= 5; i++) {
+			String sku = getDataFromTestDataRowMap("Item Identifier" + i);
+			if (!sku.isEmpty()) {
+				addVariant.sendKeys(getDataFromTestDataRowMap("Item Identifier" + i));
+				executor.executeScript("arguments[0].click();", addButton);
+				Util.waitForPageFullyLoaded(driver);
+				qty.get(0).clear();
+				qty.get(0).sendKeys(getDataFromTestDataRowMap("Quantity" + i));
+			}
+		}
 	}
 
 	public void applyDiscount() {
@@ -254,6 +257,12 @@ public class ccPage extends Checkout {
 			paymentMethod = e2ePropertyReader.getProperty("Loyalty.Visa");
 		} else if (paymentMethodName.equalsIgnoreCase("JCB")) {
 			paymentMethod = e2ePropertyReader.getProperty("JCB");
+		} else if (paymentMethodName.equalsIgnoreCase("Intl_Visa")) {
+			paymentMethod = e2ePropertyReader.getProperty("Intl_Visa");
+		} else if (paymentMethodName.equalsIgnoreCase("Intl_Master")) {
+			paymentMethod = e2ePropertyReader.getProperty("Intl_Master");
+		} else if (paymentMethodName.equalsIgnoreCase("Intl_AMEX")) {
+			paymentMethod = e2ePropertyReader.getProperty("Intl_AMEX");
 		}
 		return paymentMethod;
 	}
@@ -269,11 +278,10 @@ public class ccPage extends Checkout {
 			}
 			String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
 			String paymentMethod2 = getDataFromTestDataRowMap("Payment Method 2");
-			Select paymentMethods = new Select(selectPaymentMethod);
-			paymentMethods.selectByVisibleText(getPaymentMethod(paymentMethod1));
+			selectPaymentMethod.sendKeys(getPaymentMethod(paymentMethod1));
 			addPayment.click();
 			updatePayment.click();
-			paymentMethods.selectByVisibleText(getPaymentMethod(paymentMethod2));
+			selectPaymentMethod.sendKeys(getPaymentMethod(paymentMethod2));
 			addPayment.click();
 			if (paymentMethod1.equalsIgnoreCase("GiftCard") || paymentMethod2.equalsIgnoreCase("GiftCard")) {
 				giftCard.sendKeys(e2ePropertyReader.getProperty("giftcard.card.number"));
@@ -281,13 +289,14 @@ public class ccPage extends Checkout {
 			}
 			String total = orderTotal.getText();
 			Double dblOrderTotal = Double.parseDouble(total.replaceAll("[^\\d.]*", ""));
-			dblOrderTotal = dblOrderTotal / 2;
+			Double dblOrderTotal1 = dblOrderTotal - 10.00;
 			amount1.clear();
-			amount1.sendKeys(dblOrderTotal.toString());
+			amount1.sendKeys(dblOrderTotal1.toString());
 			amount2.clear();
-			amount2.sendKeys(dblOrderTotal.toString());
+			amount2.sendKeys("10.00");
 			reCalTotals.click();
 		} else {
+			selectShippingMethod();
 			if (removeCheckBox.isDisplayed()) {
 				removeCheckBox.click();
 				updatePayment.click();
@@ -295,14 +304,22 @@ public class ccPage extends Checkout {
 				updatePayment.click();
 			}
 			String paymentMethod1 = getDataFromTestDataRowMap("Payment Method 1");
-			Select paymentMethods = new Select(selectPaymentMethod);
-			paymentMethods.selectByVisibleText(getPaymentMethod(paymentMethod1));
+			selectPaymentMethod.sendKeys(getPaymentMethod(paymentMethod1));
 			addPayment.click();
 			if (paymentMethod1.equalsIgnoreCase("Gift Card")) {
 				giftCard.sendKeys(e2ePropertyReader.getProperty("giftcard.card.number"));
 				giftCardPin.sendKeys(e2ePropertyReader.getProperty("giftcard.card.pin"));
 			}
 			reCalTotals.click();
+			if (!getDataFromTestDataRowMap("Ship To Country").equalsIgnoreCase("US")) {
+				selectShippingMethod();
+				reCalTotals.click();
+				if (paymentMethod1.equalsIgnoreCase("Intl_AMEX")) {
+					cvv.sendKeys(e2ePropertyReader.getProperty("amex.security.code"));
+				} else {
+					cvv.sendKeys(e2ePropertyReader.getProperty("master.security.code"));
+				}
+			}
 		}
 
 	}
@@ -318,6 +335,7 @@ public class ccPage extends Checkout {
 	}
 
 	public void selectShippingMethod() {
+		Util.wait(2000);
 		if (!getDataFromTestDataRowMap("Shipping Method1").isEmpty()) {
 			Select selectShippingMethod = new Select(shippingMethod);
 			for (int i = 0; i < shippingMethods.size(); i++) {
@@ -332,15 +350,21 @@ public class ccPage extends Checkout {
 	}
 
 	public void selectShippingInfo() {
-		Select shippingInfo = new Select(shippingAddress);
-		Select selectShippingAdd1 = new Select(overRideShippingAdd1);
-		Select selectShippingAdd2 = new Select(overRideShippingAdd2);
-		Select selectShippingMethod1 = new Select(overRideShippingMethod1);
-		Select selectShippingMethod2 = new Select(overRideShippingMethod2);
-		String shippingAdd1 = getDataFromTestDataRowMap("Shipping Addresses1");
-		String shippingAdd2 = getDataFromTestDataRowMap("Shipping Addresses2");
-		String shippingMethod1 = getDataFromTestDataRowMap("Shipping Method1");
-		String shippingMethod2 = getDataFromTestDataRowMap("Shipping Method2");
+	
+		try {
+			shippingInfo = new Select(shippingAddress);
+			selectShippingAdd1 = new Select(overRideShippingAdd1);
+			selectShippingAdd2 = new Select(overRideShippingAdd2);
+			selectShippingMethod1 = new Select(overRideShippingMethod1);
+			selectShippingMethod2 = new Select(overRideShippingMethod2);
+			shippingAdd1 = getDataFromTestDataRowMap("Shipping Addresses1");
+			shippingAdd2 = getDataFromTestDataRowMap("Shipping Addresses2");
+			shippingMethod1 = getDataFromTestDataRowMap("Shipping Method1");
+			shippingMethod2 = getDataFromTestDataRowMap("Shipping Method2");
+		} catch (Exception e) {
+
+		}
+
 		String isMultipleShiipingAddress = getDataFromTestDataRowMap("Multiple Shipping Address Required?");
 		if (isMultipleShiipingAddress.equalsIgnoreCase("Yes")) {
 			shipToNewAdd1.click();
@@ -364,7 +388,7 @@ public class ccPage extends Checkout {
 		robot.keyRelease(KeyEvent.VK_ENTER);
 		Util.wait(3000);
 		Assert.assertTrue(orderNum.isDisplayed());
-		orderNumber = orderNum.getText().replaceAll("[^0-9]", "");
+		orderNumber = orderNum.getText().replaceAll("[^0-9]", "").substring(0,10);
 		stateHolder.put("orderNumber", orderNumber);
 		return orderNumber;
 	}
@@ -382,11 +406,7 @@ public class ccPage extends Checkout {
 		if (getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("Regular")) {
 			Select selectOrderType = new Select(orderType);
 			selectOrderType.selectByVisibleText(getDataFromTestDataRowMap("OrderType"));
-			if (getDataFromTestDataRowMap("MultiLine").equalsIgnoreCase("Yes")) {
-				addMultiLineItems();
-			} else {
-				singleLineItem();
-			}
+			addMultiLineItems();
 			selectGiftOptions();
 			selectShippingInfo();
 			applyDiscount();
@@ -395,14 +415,9 @@ public class ccPage extends Checkout {
 			selectPaymentMethods();
 		} else if (getDataFromTestDataRowMap("OrderType").equalsIgnoreCase("STS")) {
 			shipToStore.click();
-			Select stores = new Select(selectStore);
-			stores.selectByVisibleText(getDataFromTestDataRowMap("Store Zip Code"));
+			selectStore.sendKeys(getDataFromTestDataRowMap("Store Name"));
 			saveStoreAddress.click();
-			if (getDataFromTestDataRowMap("MultiLine").equalsIgnoreCase("Yes")) {
-				addMultiLineItems();
-			} else {
-				singleLineItem();
-			}
+			addMultiLineItems();
 			selectGiftOptions();
 			selectShippingMethod();
 			applyDiscount();
@@ -416,28 +431,28 @@ public class ccPage extends Checkout {
 		String giftOption = getDataFromTestDataRowMap("Gift Option Selection");
 		String giftService = getDataFromTestDataRowMap("Gift Wrapping Service");
 		if (!giftOption.equalsIgnoreCase("None") || !giftService.equalsIgnoreCase("None")) {
-			giftOptions.click();
 			String parentWindow = driver.getWindowHandle();
+			giftOptions.click();
 			Set<String> allWindows = driver.getWindowHandles();
 			allWindows.remove(parentWindow);
 			if (allWindows.size() > 0) {
-				for (String curWindow : allWindows) {
-					driver.switchTo().window(curWindow);
-					Util.waitForPageFullyLoaded(driver);
-					for (int i = 0; i <= selectBox.size(); i++) {
-						if (giftService.equalsIgnoreCase("All Items In One Box")) {
-							Select giftBoxList = new Select(selectBox.get(0));
-							giftBoxList.selectByIndex(i + 1);
-						} else if (giftService.equalsIgnoreCase("Each Item In New Box")) {
-							selectBox.get(0).sendKeys(giftOption);
-						}
+				ArrayList<String> windows = new ArrayList<>();
+				windows.addAll(allWindows);
+				String curWindow = windows.get(allWindows.size() - 1);
+				driver.switchTo().window(curWindow);
+				Util.waitForPageFullyLoaded(driver);
+				for (int i = 0; i <= selectBox.size(); i++) {
+					if (giftService.equalsIgnoreCase("All Items In One Box")) {
+						Select giftBoxList = new Select(selectBox.get(0));
+						giftBoxList.selectByIndex(i + 1);
+					} else if (giftService.equalsIgnoreCase("Each Item In New Box")) {
+						selectBox.get(0).sendKeys(giftOption);
 					}
-					finishedWithGiftOptions.click();
-					Util.wait(2000);
 				}
-				System.out.println(driver.getTitle());
-				driver.switchTo().window(parentWindow);
+				finishedWithGiftOptions.click();
 			}
+			driver.switchTo().window(parentWindow);
+			driver.switchTo().frame(iframe);
 		}
 	}
 
